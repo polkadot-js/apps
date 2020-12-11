@@ -6,8 +6,8 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
-import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
+import { useLedger } from '@polkadot/react-hooks';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate';
@@ -21,6 +21,7 @@ const ledgerConnOptions = uiSettings.availableLedgerConn;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isLedgerCapable } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState((): SettingsStruct => {
@@ -107,7 +108,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={iconOptions}
         />
       </div>
-      {isLedgerCapable() && (
+      {isLedgerCapable && (
         <div className='ui--row'>
           <Dropdown
             defaultValue={ledgerConn}

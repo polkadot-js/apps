@@ -15,9 +15,8 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
@@ -83,6 +82,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
+  const { getLedger } = useLedger();
   const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
@@ -197,7 +197,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           console.error(`ledger: ${(error as Error).message}`);
         });
     },
-    [meta]
+    [getLedger, meta]
   );
 
   if (!isVisible) {
