@@ -3,6 +3,8 @@
 
 import { Code } from '@canvas-ui/apps/types';
 import { AccountId } from '@polkadot/types/interfaces';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { BlueprintPromise as Blueprint } from '@polkadot/api-contract';
 import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
@@ -10,7 +12,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { SubmittableResult } from '@polkadot/api';
-import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
+import { Button, ContractParams, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useGasWeight, useNonEmptyString, useNonZeroBn, useApi } from '@canvas-ui/react-hooks';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
@@ -18,6 +20,7 @@ import keyring from '@polkadot/ui-keyring';
 import { truncate } from '@canvas-ui/react-util';
 import { useTxParams } from '@canvas-ui/react-params';
 import { extractValues } from '@canvas-ui/react-params/values';
+import { randomAsHex } from '@polkadot/util-crypto';
 
 // import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
 import { useTranslation } from './translate';
@@ -41,13 +44,23 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
     [allCodes, id]
   );
   const useWeightHook = useGasWeight();
-  const { isValid: isWeightValid, weight } = useWeightHook;
+  const { isValid: isWeightValid, weight, weightToString } = useWeightHook;
   const [accountId, setAccountId] = useAccountId();
   const [endowment, setEndowment, isEndowmentValid] = useNonZeroBn(ENDOWMENT);
   const [constructorIndex, setConstructorIndex] = useState(parseInt(index, 10) || 0);
   const [name, setName, isNameValid, isNameError] = useNonEmptyString(t(defaultContractName(code?.name)));
-  const { abi } = useAbi(code);
+  const { abi, isAbiValid } = useAbi(code);
+  const [salt, setSalt] = useState(randomAsHex());
+  const [withSalt, setWithSalt] = useState(false);
+  const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const pendingTx = usePendingTx('contracts.instantiate');
+
+  const blueprint = useMemo(
+    () => isAbiValid && code?.codeHash && abi
+      ? new Blueprint(api, abi, code.codeHash)
+      : null,
+    [api, code?.codeHash, abi, isAbiValid]
+  );
 
   const constructOptions = useMemo(
     (): ConstructOptions => {
@@ -79,28 +92,29 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   );
 
   const [params, values = [], setValues] = useTxParams(abi?.constructors[constructorIndex].args || []);
-  const encoder = useCallback((): Uint8Array | null => {
-    return abi?.constructors[constructorIndex]
-      ? abi.constructors[constructorIndex].toU8a(extractValues(values || [])) as unknown as Uint8Array
-      : null;
-  }, [abi?.constructors, constructorIndex, values]);
+
+  useEffect((): void => {
+    endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
+      if (blueprint) {
+        try {
+          const identifier = abi?.constructors[constructorIndex].identifier;
+
+          return blueprint.tx[identifier]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...extractValues(values));
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
+      }
+
+      return null;
+    });
+  }, [abi, blueprint, constructorIndex, endowment, values, weightToString, salt, withSalt]);
 
   useEffect(
     (): void => {
       setName(t(defaultContractName(code?.name)));
     },
     [code, setName, t]
-  );
-
-  const _constructCall = useCallback(
-    (): any[] => {
-      if (!abi || constructorIndex < 0) {
-        return [];
-      }
-
-      return [endowment, weight, code?.codeHash || null, encoder()];
-    },
-    [code, constructorIndex, abi, encoder, endowment, weight]
   );
 
   const _onSuccess = useCallback(
@@ -156,10 +170,6 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
     },
     [abi, navigateTo]
   );
-
-  // if (!contractAbi) {
-  //   return null;
-  // }
 
   return (
     <PendingTx
@@ -220,33 +230,39 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
           <InputBalance
             help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
             isError={!isEndowmentValid}
-            label={t<string>('endowment')}
+            label={t<string>('Endowment')}
             onChange={setEndowment}
             value={endowment}
           />
+          <Input
+            help={t<string>('A hex or string value that acts as a salt for this deployment.')}
+            isDisabled={!withSalt}
+            label={t<string>('Unique Deployment Salt')}
+            onChange={setSalt}
+            placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
+            value={withSalt ? salt : t<string>('<none>')}
+          >
+            <Toggle
+              className='toggle'
+              isOverlay
+              label={t<string>('use deployment salt')}
+              onChange={setWithSalt}
+              value={withSalt}
+            />
+          </Input>
           <InputMegaGas
             help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-            label={t<string>('maximum gas allowed')}
-            {...useWeightHook}
+            weight={useWeightHook}
           />
           <Button.Group>
             <TxButton
               accountId={accountId}
+              extrinsic={initTx}
               icon='cloud upload'
               isDisabled={!isValid}
               isPrimary
               label={t<string>('Deploy')}
               onSuccess={_onSuccess}
-              params={_constructCall}
-              tx={
-                api.tx.contracts
-                  ? (
-                    !api.tx.contracts.instantiate
-                      ? 'contracts.create' // V2 (new)
-                      : 'contracts.instantiate' // V2 (old)
-                  )
-                  : 'contract.create' // V1
-              }
               withSpinner
             />
           </Button.Group>
@@ -257,6 +273,10 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
 }
 
 export default React.memo(styled(New)`
+  .toggle {
+    margin-left: 0.5rem;
+  }
+
   .code-bundle {
     ${ELEV_2_CSS}
     display: block;
