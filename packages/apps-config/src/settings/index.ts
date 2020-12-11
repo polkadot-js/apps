@@ -5,4 +5,5 @@ export * from './constants';
 export * from './endpoints';
 export * from './ethereumNetworks';
 export * from './languages';
+export * from './ledgerChains';
 export * from './ss58';
