@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import CurrentSection from './CurrentSection';
 import Tab from './Tab';
 
 export const SectionContext = React.createContext<SectionType>({});
@@ -49,9 +50,8 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
   return (
     <div className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
-        {text && icon && <Section icon={icon}
+        {text && icon && <CurrentSection icon={icon}
           text={text}/>}
-        <div>{text}</div>
         {filtered.map((tab, index) => (
           <Tab
             {...tab}

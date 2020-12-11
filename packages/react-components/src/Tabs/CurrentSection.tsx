@@ -12,7 +12,7 @@ interface Props {
   text: string;
 }
 
-function Section ({ icon, text }: Props): React.ReactElement<Props> {
+function CurrentSection ({ icon, text }: Props): React.ReactElement<Props> {
   return (
     <div className='active-tab highlight--color'>
       <Icon icon={icon} />
@@ -21,4 +21,4 @@ function Section ({ icon, text }: Props): React.ReactElement<Props> {
   );
 }
 
-export default Section;
+export default CurrentSection;
