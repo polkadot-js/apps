@@ -15,6 +15,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import NotFound from './NotFound';
+import PathContext from './routingContext';
 import Status from './Status';
 
 interface Props {
@@ -62,23 +63,25 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           <>
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
-                {missingApis.length
-                  ? (
-                    <NotFound
-                      basePath={`/${name}`}
-                      location={location}
-                      missingApis={missingApis}
-                      onStatusChange={queueAction}
-                    />
-                  )
-                  : (
-                    <Component
-                      basePath={`/${name}`}
-                      location={location}
-                      onStatusChange={queueAction}
-                    />
-                  )
-                }
+                <PathContext.Provider value={name}>
+                  {missingApis.length
+                    ? (
+                      <NotFound
+                        basePath={`/${name}`}
+                        location={location}
+                        missingApis={missingApis}
+                        onStatusChange={queueAction}
+                      />
+                    )
+                    : (
+                      <Component
+                        basePath={`/${name}`}
+                        location={location}
+                        onStatusChange={queueAction}
+                      />
+                    )
+                  }
+                </PathContext.Provider>
               </ErrorBoundary>
             </Suspense>
             <Status />

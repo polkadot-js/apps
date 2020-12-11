@@ -8,6 +8,8 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import PathContext from '@polkadot/apps/Content/routingContext';
+
 import Tab from './Tab';
 
 interface Props {
@@ -42,9 +44,12 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
     ? items.filter(({ name }) => !hidden.includes(name))
     : items;
 
+  const path = React.useContext(PathContext);
+
   return (
     <div className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
+        <div>{path}</div>
         {filtered.map((tab, index) => (
           <Tab
             {...tab}
