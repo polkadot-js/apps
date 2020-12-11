@@ -9,13 +9,12 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
+import { ErrorBoundary, SectionContext, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import NotFound from './NotFound';
-import PathContext from './routingContext';
 import Status from './Status';
 
 interface Props {
@@ -40,7 +39,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiConnected, isApiReady } = useApi();
   const { queueAction } = useContext(StatusContext);
 
-  const { Component, display: { needsApi }, name } = useMemo(
+  const { Component, display: { needsApi }, icon, name, text } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
 
@@ -63,7 +62,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           <>
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
-                <PathContext.Provider value={name}>
+                <SectionContext.Provider value={{ icon, text }}>
                   {missingApis.length
                     ? (
                       <NotFound
@@ -81,7 +80,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                       />
                     )
                   }
-                </PathContext.Provider>
+                </SectionContext.Provider>
               </ErrorBoundary>
             </Suspense>
             <Status />

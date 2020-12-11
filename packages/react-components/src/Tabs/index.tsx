@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '../types';
-import type { TabItem } from './types';
+import type { SectionType, TabItem } from './types';
 
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import PathContext from '@polkadot/apps/Content/routingContext';
-
 import Tab from './Tab';
+
+export const SectionContext = React.createContext<SectionType>({});
 
 interface Props {
   className?: string;
@@ -44,12 +44,14 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
     ? items.filter(({ name }) => !hidden.includes(name))
     : items;
 
-  const path = React.useContext(PathContext);
+  const { icon, text } = React.useContext(SectionContext);
 
   return (
     <div className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
-        <div>{path}</div>
+        {text && icon && <Section icon={icon}
+          text={text}/>}
+        <div>{text}</div>
         {filtered.map((tab, index) => (
           <Tab
             {...tab}
