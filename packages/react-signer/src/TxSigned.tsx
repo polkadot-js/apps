@@ -79,7 +79,7 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
     }));
   } catch (error) {
     console.error('signAndSend: error:', error);
-    queueSetTxStatus(currentItem.id, 'error', undefined, error);
+    queueSetTxStatus(currentItem.id, 'error', {}, error);
 
     currentItem.txFailedCb && currentItem.txFailedCb(error);
   }
