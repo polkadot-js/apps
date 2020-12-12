@@ -81,7 +81,7 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
     console.error('signAndSend: error:', error);
     queueSetTxStatus(currentItem.id, 'error', {}, error);
 
-    currentItem.txFailedCb && currentItem.txFailedCb(null);
+    currentItem.txFailedCb && currentItem.txFailedCb(error);
   }
 }
 
@@ -93,6 +93,7 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
 
     return tx.toJSON();
   } catch (error) {
+    console.error('signAsync: error:', error);
     queueSetTxStatus(id, 'error', undefined, error);
 
     txFailedCb(error);
