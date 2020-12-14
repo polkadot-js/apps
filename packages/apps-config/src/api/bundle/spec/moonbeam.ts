@@ -3,7 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import rpcGen from './moonbeam-rpc';
+import rpcGen from './frontier-rpc';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
