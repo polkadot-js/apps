@@ -1293,7 +1293,7 @@
   "role": "ruolo",
   "rotation": "rotazione",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, ospitato da Commonwealth Labs)",
-  "rpc.bifrost": "Bifrost",
+  "rpc.bifrost": "Bifrost Asgard",
   "rpc.custom": "Ambiente personalizzato",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, ospitato da Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Substrate Testnet, ospitato da Parity)",
