@@ -1248,7 +1248,7 @@
   "role": "wewenang",
   "rotation": "rotasi",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)",
-  "rpc.bifrost": "Bifrost",
+  "rpc.bifrost": "Bifrost Asgard",
   "rpc.custom": "Kustom environment",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, dihosting oleh Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Substrate Testnet, dihosting oleh Parity)",
