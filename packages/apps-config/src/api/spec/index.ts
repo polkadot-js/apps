@@ -15,6 +15,7 @@ import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import equilibrium from './equilibrium';
+import galois from './galois';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
@@ -26,7 +27,6 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
-import galois from './galois';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
