@@ -3,7 +3,7 @@
 
 import type { DefinitionRpc, DefinitionRpcParam } from '@polkadot/types/types';
 
-export default function (): Record<string, Record<string, DefinitionRpc>> {
+export default function createFrontier (): Record<string, Record<string, DefinitionRpc>> {
   function generateDescription (description:string, returnType:string, params:DefinitionRpcParam[] = []): DefinitionRpc {
     return {
       description,
