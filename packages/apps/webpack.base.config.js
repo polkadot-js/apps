@@ -5,9 +5,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const findPackages = require('../../scripts/findPackages');
 
@@ -31,15 +32,15 @@ function createWebpack (ENV, context) {
     ? [new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })]
     : [];
 
-  // !isProd && plugins.push(
-  //   new WebpackPluginServe({
-  //     hmr: false, // switch off, Chrome WASM memory leak
-  //     liveReload: false, // explict off, overrides hmr
-  //     port: 3000,
-  //     progress: false, // since we have hmr off, disable
-  //     static: path.join(process.cwd(), '/build')
-  //   })
-  // );
+  !isProd && plugins.push(
+    new WebpackPluginServe({
+      hmr: false, // switch off, Chrome WASM memory leak
+      liveReload: false, // explict off, overrides hmr
+      port: 3000,
+      progress: false, // since we have hmr off, disable
+      static: path.join(process.cwd(), '/build')
+    })
+  );
 
   const alias = findPackages().reduce((alias, { dir, name }) => {
     alias[name] = path.resolve(context, `../${dir}/src`);

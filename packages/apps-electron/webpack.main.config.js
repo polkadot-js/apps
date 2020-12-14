@@ -6,8 +6,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
-const ENV = process.env.NODE_ENV || 'production';
-
 function createWebpack () {
   return [
     {
@@ -15,7 +13,6 @@ function createWebpack () {
         electron: './src/electron',
         preload: './src/preload.ts'
       },
-      mode: ENV,
       module: {
         rules: [
           {
