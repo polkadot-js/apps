@@ -3,12 +3,10 @@
 
 /* eslint-disable camelcase */
 
-const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 const ENV = process.env.NODE_ENV || 'production';
-const isProd = ENV === 'production';
 
 function createWebpack () {
   return [
@@ -32,18 +30,15 @@ function createWebpack () {
               require.resolve('thread-loader'),
               {
                 loader: require.resolve('babel-loader'),
-                options: require('@polkadot/dev/config/babel-config-cjs.cjs')
+                options: require('@polkadot/dev/config/babel-config-webpack.cjs')
               }
             ]
           }
         ]
       },
       node: {
-        __dirname: false
-      },
-      optimization: {
-        minimize: !!isProd,
-        minimizer: [new TerserPlugin()]
+        __dirname: false,
+        __filename: false
       },
       output: {
         filename: '[name].js',
