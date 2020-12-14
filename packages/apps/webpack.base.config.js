@@ -172,8 +172,10 @@ function createWebpack (ENV, context) {
       hints: false
     },
     plugins: plugins.concat([
-      new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
-      new webpack.ProvidePlugin({ process: ['process'] }),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: ['process/browser.js']
+      }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
