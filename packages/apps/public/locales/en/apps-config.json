@@ -20,6 +20,7 @@
   "rpc.equilibriumr": "Equilibrium",
   "rpc.equilibriumtestnet": "Equilibrium Testnet",
   "rpc.flamingfir": "Flaming Fir",
+  "rpc.galois": "Galois",
   "rpc.hanonycash": "hanonycash",
   "rpc.header.dev": "Development",
   "rpc.header.live": "Live networks",
