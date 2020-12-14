@@ -372,7 +372,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       dnslink: 'galois',
       info: 'galois',
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'MathWallet ' }}),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'MathWallet ' } }),
       value: 'wss://galois.maiziqianbao.net/ws'
     }
   ];
