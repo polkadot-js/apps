@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
+import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { InputAddress } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 

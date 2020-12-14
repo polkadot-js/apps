@@ -3,6 +3,7 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
+
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

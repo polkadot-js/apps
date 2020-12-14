@@ -1,15 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { HeadData } from '@polkadot/types/interfaces';
-import { DeriveParachain } from '@polkadot/api-derive/types';
+import type { DeriveParachain } from '@polkadot/api-derive/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Option } from '@polkadot/types';
+import type { HeadData } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { Badge, Button, Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -88,7 +90,7 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
   );
 }
 
-export default React.memo(styled(Parachain)`
+export default React.memo(styled(Parachain)(({ theme }: ThemeProps) => `
   & {
     cursor: pointer !important;
   }
@@ -115,10 +117,10 @@ export default React.memo(styled(Parachain)`
   }
 
   td.headhex {
-    font-family: monospace;
+    font: ${theme.fontMono};
   }
 
   .did-update {
     margin-bottom: 0;
   }
-`);
+`));

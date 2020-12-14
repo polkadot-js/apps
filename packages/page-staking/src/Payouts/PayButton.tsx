@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { PayoutValidator } from './types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { EraIndex, Weight } from '@polkadot/types/interfaces';
+import type { PayoutValidator } from './types';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { ApiPromise } from '@polkadot/api';
-import { AddressMini, Button, Modal, InputAddress, Static, TxButton } from '@polkadot/react-components';
-import { useApi, useAccounts, useToggle } from '@polkadot/react-hooks';
+import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -40,7 +41,11 @@ function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayo
 
       return batches;
     }, [[]])
-    .map((batch) => api.tx.utility.batch(batch));
+    .map((batch) =>
+      batch.length === 1
+        ? batch[0]
+        : api.tx.utility.batch(batch)
+    );
 }
 
 function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {
@@ -84,8 +89,15 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         .payoutStakers(validatorId, eras[0].era)
         .paymentInfo(allAccounts[0])
         .then((info) => setMaxPayouts(Math.floor(
-          // 65% of the block weight on a single extrinsic (64 for safety)
-          api.consts.system.maximumBlockWeight.muln(64).div(info.weight).toNumber() / 100
+          api.consts.system.blockWeights
+            ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic
+              .sub(api.consts.system.blockWeights.perClass.normal.baseExtrinsic)
+              .div(info.weight)
+              .toNumber()
+            : (api.consts.system.maximumBlockWeight as Weight)
+              .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
+              .div(info.weight)
+              .toNumber() / 100
         )))
         .catch(console.error);
     } else {

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakerReward } from '@polkadot/api-derive/types';
-import { Balance, EraIndex } from '@polkadot/types/interfaces';
+import type { DeriveStakerReward } from '@polkadot/api-derive/types';
+import type { Balance, EraIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 

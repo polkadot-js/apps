@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
-import { classes } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -37,22 +36,16 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
       labelExtra={labelExtra}
       withLabel={withLabel}
     >
-      <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
+      <div className={`ui--output${isError ? ' error' : ''}${isMonospace ? ' monospace' : ''}`}>
         {isTrimmed && value && (value.length > 256)
           ? `${value.substr(0, 96)}…${value.substr(-96)}`
           : value
         }
         {children}
-        {withCopy
-          ? (
-            <CopyButton
-              className='ui--output-button'
-              value={value}
-            />
-          )
-          : null
-        }
       </div>
+      {withCopy && (
+        <CopyButton value={value} />
+      )}
     </Labelled>
   );
 }

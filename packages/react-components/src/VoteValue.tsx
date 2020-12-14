@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
-import { isBn } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import InputBalance from './InputBalance';
 import { useTranslation } from './translate';
@@ -20,37 +21,53 @@ interface Props {
 }
 
 interface ValueState {
+  maxValue: BN;
   selectedId?: string | null;
-  value?: BN;
+  value: BN;
+}
+
+function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
+  const value = allBalances.lockedBalance;
+  const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
+
+  return {
+    maxValue,
+    selectedId,
+    value: value.isZero()
+      ? maxValue.gt(existential)
+        ? maxValue.sub(existential)
+        : BN_ZERO
+      : value
+  };
 }
 
 function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const [{ selectedId, value }, setValue] = useState<ValueState>({});
-  const maxVotingBalance = useMemo(() =>
-    isCouncil
-      ? allBalances?.votingBalance.add(allBalances?.reservedBalance)
-      : allBalances?.votingBalance
-  , [allBalances, isCouncil]);
+  const [{ maxValue, selectedId, value }, setValue] = useState<ValueState>({ maxValue: BN_ZERO, value: BN_ZERO });
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
-    (accountId !== selectedId) && allBalances && allBalances.accountId.eq(accountId) && setValue({
-      selectedId: accountId,
-      value: allBalances.lockedBalance
-    });
-  }, [allBalances, accountId, maxVotingBalance, selectedId]);
+    allBalances && allBalances.accountId.eq(accountId) && setValue((state) =>
+      state.selectedId !== accountId
+        ? getValues(accountId, isCouncil, allBalances, api.consts.balances.existentialDeposit)
+        : state
+    );
+  }, [allBalances, accountId, api, isCouncil]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
-    isBn(value) && onChange(value);
+    onChange(value);
   }, [onChange, value]);
 
   const _setValue = useCallback(
-    (value?: BN) => setValue(({ selectedId }) => ({ selectedId, value })),
-    []
+    (value?: BN) => setValue((state) =>
+      state.selectedId === accountId && value && !value.eq(state.value)
+        ? ({ ...state, value })
+        : state
+    ),
+    [accountId]
   );
 
   const isDisabled = accountId !== selectedId;
@@ -58,9 +75,10 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
   return (
     <InputBalance
       autoFocus={autoFocus}
-      defaultValue={accountId !== selectedId
-        ? undefined
-        : allBalances?.lockedBalance
+      defaultValue={
+        isDisabled
+          ? undefined
+          : value
       }
       help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
@@ -73,7 +91,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
           params={accountId}
         />
       }
-      maxValue={maxVotingBalance}
+      maxValue={maxValue}
       onChange={_setValue}
     />
   );

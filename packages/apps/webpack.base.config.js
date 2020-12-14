@@ -55,6 +55,11 @@ function createWebpack (ENV, context) {
     module: {
       rules: [
         {
+          include: /node_modules/,
+          test: /\.mjs$/,
+          type: 'javascript/auto'
+        },
+        {
           exclude: /(node_modules)/,
           test: /\.css$/,
           use: [
@@ -81,12 +86,12 @@ function createWebpack (ENV, context) {
         },
         {
           exclude: /(node_modules)/,
-          test: /\.(js|ts|tsx)$/,
+          test: /\.(js|mjs|ts|tsx)$/,
           use: [
             require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev/config/babel')
+              options: require('@polkadot/dev/config/babel-config-cjs.cjs')
             }
           ]
         },

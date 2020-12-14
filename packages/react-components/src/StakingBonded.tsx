@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React from 'react';
+
 import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {

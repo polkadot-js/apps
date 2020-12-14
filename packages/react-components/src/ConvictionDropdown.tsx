@@ -1,9 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
+
 import BN from 'bn.js';
-import { TFunction } from 'i18next';
 import React, { useRef } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { useApi, useBlockTime } from '@polkadot/react-hooks';
 

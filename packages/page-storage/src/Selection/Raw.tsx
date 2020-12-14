@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Input } from '@polkadot/react-components';
+import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { u8aToU8a } from '@polkadot/util';
-import { Compact } from '@polkadot/types';
 
 function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
 
       setValue({
         isValid: u8a.length !== 0,
-        key: Compact.addLengthPrefix(u8a)
+        key: compactAddLength(u8a)
       });
     },
     []

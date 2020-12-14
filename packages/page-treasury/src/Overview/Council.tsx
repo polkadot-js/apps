@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { ProposalIndex } from '@polkadot/types/interfaces';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { getTreasuryThreshold } from '@polkadot/app-council/thresholds';
+
+import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
@@ -30,7 +31,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const [councilType, setCouncilType] = useState('accept');
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
 
-  const threshold = Math.ceil((members?.length || 0) * getTreasuryThreshold(api));
+  const threshold = Math.ceil((members?.length || 0) * getTreasuryProposalThreshold(api));
 
   const councilTypeOptRef = useRef([
     { text: t<string>('Acceptance proposal to council'), value: 'accept' },

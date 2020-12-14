@@ -3,18 +3,18 @@
 
 // Automatically generated, do not edit
 
-import b000 from './bg1/011-final1.png';
-import b001 from './bg1/008-final10.png';
-import b002 from './bg1/003-final2.png';
-import b003 from './bg1/002-final3.png';
-import b004 from './bg1/004-final4.png';
-import b005 from './bg1/005-final5.png';
-import b006 from './bg1/009-final6.png';
-import b007 from './bg1/007-final7.png';
-import b008 from './bg1/010-final8.png';
-import b009 from './bg1/006-final9.png';
 import b010 from './bg1/000-robotBG-11.png';
 import b011 from './bg1/001-robotBG-12.png';
+import b003 from './bg1/002-final3.png';
+import b002 from './bg1/003-final2.png';
+import b004 from './bg1/004-final4.png';
+import b005 from './bg1/005-final5.png';
+import b009 from './bg1/006-final9.png';
+import b007 from './bg1/007-final7.png';
+import b001 from './bg1/008-final10.png';
+import b006 from './bg1/009-final6.png';
+import b008 from './bg1/010-final8.png';
+import b000 from './bg1/011-final1.png';
 import b012 from './bg1/012-robotBG-10.png';
 import b013 from './bg2/000-robotBG-06.png';
 import b014 from './bg2/001-robotBG-08.png';

@@ -1,16 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ParaInfo } from '@polkadot/types/interfaces';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
-import { useApi, useFormField, useModal } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
-import { BN_THOUSAND, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Button, Dropdown, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useFormField, useModal } from '@polkadot/react-hooks';
+import { BN_THOUSAND, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -43,15 +41,13 @@ function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): Re
   );
   const [code, isCodeValid, setCode] = useFormField<Uint8Array>(
     null,
-    (code): boolean => !!code && isWasmValidRef.current
+    (code) => !!code && isWasmValidRef.current
   );
   const [initialHeadState, isInitialHeadStateValid, setInitialHeadState] = useFormField<Uint8Array>(null);
   const [scheduling, , setScheduling] = useFormField<Scheduling>('Always');
 
   const info = useMemo(
-    (): ParaInfo => {
-      return createType(api.registry, 'ParaInfo', { scheduling });
-    },
+    () => api.registry.createType('ParaInfo', { scheduling }),
     [api, scheduling]
   );
   const extrinsic = useMemo(

@@ -1,11 +1,14 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { FileStore } from '@polkadot/ui-keyring/stores';
-import { accountStoreIpcHandler } from './account-store';
-import { KeyringJson } from '@polkadot/ui-keyring/types';
-import { IpcMainHandler } from './ipc-main-handler';
+import type { KeyringJson } from '@polkadot/ui-keyring/types';
+
 import * as tmp from 'tmp';
+
+import { FileStore } from '@polkadot/ui-keyring/stores';
+
+import { accountStoreIpcHandler } from './account-store';
+import { IpcMainHandler } from './ipc-main-handler';
 
 const exampleAccount = (address: string): KeyringJson => ({
   address,

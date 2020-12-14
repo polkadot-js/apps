@@ -50,6 +50,12 @@ export default React.memo(styled(Labelled)`
     display: block;
     position: relative;
 
+    .ui--CopyButton {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.5rem;
+    }
+
     .withEllipsis {
       display: inline;
       overflow: hidden;
@@ -95,7 +101,7 @@ export default React.memo(styled(Labelled)`
 
       .labelExtra {
         color: rgba(78, 78, 78, .85);
-        font-weight: 100;
+        font-weight: 400;
         right: 1.75rem;
         text-align: right;
       }

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Address, AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -42,8 +42,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
 export default React.memo(styled(AddressSmall)`
   white-space: nowrap;
 
-  .ui--IdentityIcon,
-  .ui--AccountName {
+  .ui--IdentityIcon{
     vertical-align: middle;
   }
 
@@ -52,7 +51,6 @@ export default React.memo(styled(AddressSmall)`
   }
 
   .ui--AccountName {
-    display: inline-block;
     max-width: 26rem;
     overflow: hidden;
 

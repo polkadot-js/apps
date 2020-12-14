@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance } from '@polkadot/types/interfaces';
+import type { NominatorValue } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
+
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -12,69 +13,73 @@ import { BN_ZERO } from '@polkadot/util';
 
 interface Props {
   stakeOther?: BN;
-  nominators: [string, Balance][];
+  nominators: NominatorValue[];
+}
+
+function extractFunction (all: NominatorValue[]): null | [number, () => React.ReactNode[]] {
+  return all.length
+    ? [
+      all.length,
+      () => all.map(({ nominatorId, value }): React.ReactNode =>
+        <AddressMini
+          bonded={value}
+          key={nominatorId}
+          value={nominatorId}
+          withBonded
+        />
+      )
+    ]
+    : null;
+}
+
+function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+  const sorted = nominators.sort((a, b) => b.value.cmp(a.value));
+
+  if (!maxPaid || maxPaid.gtn(sorted.length)) {
+    return [extractFunction(sorted), stakeOther || BN_ZERO, null, BN_ZERO];
+  }
+
+  const max = maxPaid.toNumber();
+  const rewarded = sorted.slice(0, max);
+  const rewardedTotal = rewarded.reduce((total, { value }) => total.iadd(value), new BN(0));
+  const unrewarded = sorted.slice(max);
+  const unrewardedTotal = unrewarded.reduce((total, { value }) => total.iadd(value), new BN(0));
+
+  return [extractFunction(rewarded), rewardedTotal, extractFunction(unrewarded), unrewardedTotal];
 }
 
 function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Props> {
   const { api } = useApi();
 
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
-    (): [[string, Balance][], BN, [string, Balance][], BN] => {
-      const sorted = nominators.sort((a, b) => b[1].cmp(a[1]));
-      const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toNumber();
-
-      if (!max || sorted.length <= max) {
-        return [sorted, stakeOther || BN_ZERO, [], BN_ZERO];
-      }
-
-      const rewarded = sorted.slice(0, max);
-      const rewardedTotal = rewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
-      const unrewarded = sorted.slice(max);
-      const unrewardedTotal = unrewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
-
-      return [rewarded, rewardedTotal, unrewarded, unrewardedTotal];
-    },
+    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator, nominators, stakeOther),
     [api, nominators, stakeOther]
   );
 
   return (
     <td className='expand all'>
-      {!!rewarded.length && (
+      {rewarded && (
         <>
-          <Expander summary={
-            <FormatBalance
-              labelPost={` (${rewarded.length})`}
-              value={rewardedTotal}
-            />
-          }>
-            {rewarded.map(([who, bonded]): React.ReactNode =>
-              <AddressMini
-                bonded={bonded}
-                key={who}
-                value={who}
-                withBonded
+          <Expander
+            renderChildren={rewarded[1]}
+            summary={
+              <FormatBalance
+                labelPost={` (${rewarded[0]})`}
+                value={rewardedTotal}
               />
-            )}
-          </Expander>
-          {!!unrewarded.length && (
+            }
+          />
+          {unrewarded && (
             <Expander
               className='stakeOver'
+              renderChildren={unrewarded[1]}
               summary={
                 <FormatBalance
-                  labelPost={` (${unrewarded.length})`}
+                  labelPost={` (${unrewarded[0]})`}
                   value={unrewardedTotal}
                 />
               }
-            >
-              {unrewarded.map(([who, bonded]): React.ReactNode =>
-                <AddressMini
-                  bonded={bonded}
-                  key={who}
-                  value={who}
-                  withBonded
-                />
-              )}
-            </Expander>
+            />
           )}
         </>
       )}

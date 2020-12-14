@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { I18nProps } from '@polkadot/react-components/types';
+import type { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+
 import { InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 export interface TxModalProps extends I18nProps {

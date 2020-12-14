@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from '@polkadot/react-components/types';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import { Button, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -90,7 +91,7 @@ export default React.memo(styled(BaseOverlay)(({ theme }: ThemeProps) => `
     display: flex;
     margin: 0 auto;
     max-width: 50rem;
-    padding: 1em;
+    padding: 1em 3rem 1em;
     position: relative;
 
     .contentIcon {

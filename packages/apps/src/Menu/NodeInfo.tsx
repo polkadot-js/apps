@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps as Props } from '@polkadot/react-components/types';
+import type { BareProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 

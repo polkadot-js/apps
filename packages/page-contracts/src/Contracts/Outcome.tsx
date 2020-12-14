@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CallResult } from './types';
+import type { CallResult } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { Button, IdentityIcon, Output } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
@@ -22,7 +23,7 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
       <IdentityIcon value={from} />
       <Output
         className='output'
-        isError={!result.isSuccess}
+        isError={!result.isOk}
         isFull
         label={
           <MessageSignature
@@ -37,7 +38,7 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
             {when.toLocaleTimeString()}
           </span>
         }
-        value={valueToText('Text', output)}
+        value={valueToText('Text', result.isOk ? output : result)}
       />
       <Button
         icon='times'

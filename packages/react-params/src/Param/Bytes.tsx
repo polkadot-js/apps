@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
+import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Compact } from '@polkadot/types';
+
 import { Toggle } from '@polkadot/react-components';
+import { compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import BaseBytes from './BaseBytes';
@@ -23,7 +24,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
 
       onChange && onChange({
         isValid,
-        value: Compact.addLengthPrefix(value)
+        value: compactAddLength(value)
       });
 
       setIsValid(isValid);

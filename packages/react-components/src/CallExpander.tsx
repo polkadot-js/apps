@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Call } from '@polkadot/types/interfaces';
+import type { Call } from '@polkadot/types/interfaces';
 
 import React from 'react';
 

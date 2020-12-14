@@ -1,11 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from '../types';
+import type { ThemeDef } from '../types';
 
-import { css } from 'styled-components';
-
-export default css`
+export default (theme: ThemeDef): string => `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }
@@ -22,13 +20,16 @@ export default css`
   }
 
   .ui.selection.dropdown,
-  .ui.input > input {
-    background: ${({ theme }: ThemeProps) => theme.bgInput};
-    color: ${({ theme }: ThemeProps) => theme.color};
+  .ui.input > input,
+  .ui.selection.dropdown > input {
+    background: ${theme.bgInput};
+    color: ${theme.color};
+    font: ${theme.fontSans};
+    font-size: 1rem;
 
     &:focus {
-      background: ${({ theme }: ThemeProps) => theme.bgInput};
-      color: ${({ theme }: ThemeProps) => theme.color};
+      background: ${theme.bgInput};
+      color: ${theme.color};
     }
   }
 
@@ -48,17 +49,17 @@ export default css`
     }
 
     &.selection.visible {
-      background: ${({ theme }: ThemeProps) => theme.bgInput};
-      color: ${({ theme }: ThemeProps) => theme.color};
+      background: ${theme.bgInput};
+      color: ${theme.color};
     }
 
     .menu {
-      background: ${({ theme }: ThemeProps) => theme.bgInput};
-      color: ${({ theme }: ThemeProps) => theme.color};
+      background: ${theme.bgInput};
+      color: ${theme.color};
 
       > .item {
         border-color: transparent !important;
-        color: ${({ theme }: ThemeProps) => theme.color} !important;
+        color: ${theme.color} !important;
 
         &.header.disabled {
           margin: 1em 0 0 0;
@@ -66,7 +67,7 @@ export default css`
 
           &:hover,
           &.selected {
-            background: ${({ theme }: ThemeProps) => theme.bgInput};
+            background: ${theme.bgInput};
           }
         }
       }
@@ -76,7 +77,7 @@ export default css`
       min-height: 1em;
 
       &:not(.default) {
-        color: ${({ theme }: ThemeProps) => theme.color} !important;
+        color: ${theme.color} !important;
       }
     }
   }
@@ -95,7 +96,6 @@ export default css`
       .ui.primary.buttons .ui.button {
         background-color: #666;
         border-color: transparent;
-        border-left-color: transparent;
         color: #f9f8f7;
         opacity: 0.5;
 
@@ -106,7 +106,7 @@ export default css`
     }
 
     &.error input {
-      background-color: ${({ theme }: ThemeProps) => theme.bgInputError};
+      background-color: ${theme.bgInputError};
       border-color: #e0b4b4;
     }
 
@@ -117,16 +117,16 @@ export default css`
 
   .ui.label {
     background: transparent;
-    font-weight: normal;
+    font-weight: 400;
     position: relative;
     z-index: 1;
   }
 
   .ui.modal {
-    background: ${({ theme }: ThemeProps) => theme.bgPage};
+    background: ${theme.bgPage};
     box-shadow: none;
-    color: ${({ theme }: ThemeProps) => theme.color};
-    font-family: sans-serif;
+    color: ${theme.color};
+    font: ${theme.fontSans};
 
     > .actions,
     > .content {
@@ -143,10 +143,10 @@ export default css`
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: ${({ theme }: ThemeProps) => theme.colorSummary};
-      font-family: sans-serif;
+      color: ${theme.colorSummary};
+      font: ${theme.fontSans};
       font-size: 1.75rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -158,7 +158,7 @@ export default css`
 
     .description {
       margin: 1.5em 0;
-      font-weight: 700;
+      font-weight: 400;
     }
   }
 
@@ -167,11 +167,11 @@ export default css`
   }
 
   .ui.popup {
-    background: ${({ theme }: ThemeProps) => theme.bgMenu};
-    color: ${({ theme }: ThemeProps) => theme.color};
+    background: ${theme.bgMenu};
+    color: ${theme.color};
 
     .ui.text.menu .item {
-      color: ${({ theme }: ThemeProps) => theme.color};
+      color: ${theme.color};
     }
   }
 

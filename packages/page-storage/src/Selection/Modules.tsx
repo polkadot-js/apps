@@ -1,18 +1,20 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueryableStorageEntry } from '@polkadot/api/types';
-import { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { RawParams } from '@polkadot/react-params/types';
-import { ComponentProps as Props } from '../types';
+import type { QueryableStorageEntry } from '@polkadot/api/types';
+import type { RawParams } from '@polkadot/react-params/types';
+import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
+import type { TypeDef } from '@polkadot/types/types';
+import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import ApiPromise from '@polkadot/api/promise';
+
+import { ApiPromise } from '@polkadot/api';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
+import { TypeDefInfo } from '@polkadot/types/types';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

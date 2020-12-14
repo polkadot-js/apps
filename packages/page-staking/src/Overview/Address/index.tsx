@@ -1,23 +1,25 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { ValidatorInfo } from '../../types';
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
+import type { NominatorValue } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { Option } from '@polkadot/types';
 
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
-import Status from './Status';
 import StakeOther from './StakeOther';
+import Status from './Status';
 
 interface Props {
   address: string;
@@ -28,7 +30,7 @@ interface Props {
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
-  nominatedBy?: [string, EraIndex, number][];
+  nominatedBy?: NominatedByType[];
   onlineCount?: false | BN;
   onlineMessage?: boolean;
   points?: string;
@@ -39,20 +41,20 @@ interface Props {
 
 interface StakingState {
   commission?: string;
-  nominators: [string, Balance][];
+  nominators: NominatorValue[];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
 function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState {
-  let nominators: [string, Balance][] = [];
+  let nominators: NominatorValue[] = [];
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
   if (exposure) {
-    nominators = exposure.others.map(({ value, who }): [string, Balance] => [who.toString(), value.unwrap()]);
+    nominators = exposure.others.map(({ value, who }) => ({ nominatorId: who.toString(), value: value.unwrap() }));
     stakeTotal = exposure.total.unwrap();
     stakeOwn = exposure.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
@@ -86,7 +88,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
   const { commission, nominators, stakeOther, stakeOwn } = useMemo(
-    () => validatorInfo ? expandInfo(validatorInfo) : { nominators: [] },
+    () => validatorInfo
+      ? expandInfo(validatorInfo)
+      : { nominators: [] },
     [validatorInfo]
   );
 
@@ -117,7 +121,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <Status
           isElected={isElected}
           isMain={isMain}
-          nominators={nominatedBy || nominators}
+          nominators={isMain ? nominators : nominatedBy}
           onlineCount={onlineCount}
           onlineMessage={onlineMessage}
         />

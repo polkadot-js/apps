@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from './types';
+import type { ThemeProps } from './types';
 
-import React, { useCallback, useState, createRef } from 'react';
+import React, { createRef, useCallback, useState } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
-import { formatNumber, isHex, u8aToString, hexToU8a } from '@polkadot/util';
+
+import { formatNumber, hexToU8a, isHex, u8aToString } from '@polkadot/util';
 
 import Labelled from './Labelled';
 import { useTranslation } from './translate';

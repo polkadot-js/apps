@@ -1,38 +1,50 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from '@polkadot/react-components/types';
-import { Network } from './types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Network } from './types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
+
 import { ChainImg } from '@polkadot/react-components';
 
 import Url from './Url';
 
 interface Props {
+  affinity?: string;
   apiUrl: string;
   className?: string;
-  setApiUrl: (apiUrl: string) => void;
+  setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
 
-  const _selectFirst = useCallback(
-    () => setApiUrl(providers[0].url),
-    [providers, setApiUrl]
+  const _selectUrl = useCallback(
+    () => setApiUrl(
+      name,
+      affinity && providers.find(({ url }) => url === affinity)
+        ? affinity
+        : providers[0].url
+    ),
+    [affinity, name, providers, setApiUrl]
+  );
+
+  const _setApiUrl = useCallback(
+    (apiUrl: string) => setApiUrl(name, apiUrl),
+    [name, setApiUrl]
   );
 
   return (
     <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={_selectFirst}
+        onClick={_selectUrl}
       >
         <ChainImg
           className='endpointIcon'
@@ -45,7 +57,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
           apiUrl={apiUrl}
           key={url}
           label={name}
-          setApiUrl={setApiUrl}
+          setApiUrl={_setApiUrl}
           url={url}
         />
       ))}

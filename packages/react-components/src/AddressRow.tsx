@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { useAccountInfo } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 
-import { toShortAddress } from './util';
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps } from './Row';
+import { toShortAddress } from './util';
 
 export interface Props extends RowProps {
   isContract?: boolean;

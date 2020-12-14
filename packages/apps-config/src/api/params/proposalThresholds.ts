@@ -1,8 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2020 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { POLKADOT_GENESIS, KULUPU_GENESIS, KUSAMA_GENESIS } from '@polkadot/apps-config/api/constants';
+import type { ApiPromise } from '@polkadot/api';
+
+import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
 
 const PROPOSE_THRESHOLDS: Record<string, number> = {
   [KULUPU_GENESIS]: 1,
@@ -24,14 +25,14 @@ const TREASURY_THRESHOLDS: Record<string, number> = {
   default: 0.6
 };
 
-export function getThreshold (api: ApiPromise): number {
+export function getProposalThreshold (api: ApiPromise): number {
   return PROPOSE_THRESHOLDS[api.genesisHash.toHex()] || PROPOSE_THRESHOLDS.default;
 }
 
-export function getSlashThreshold (api: ApiPromise): number {
+export function getSlashProposalThreshold (api: ApiPromise): number {
   return SLASH_THRESHOLDS[api.genesisHash.toHex()] || SLASH_THRESHOLDS.default;
 }
 
-export function getTreasuryThreshold (api: ApiPromise): number {
+export function getTreasuryProposalThreshold (api: ApiPromise): number {
   return TREASURY_THRESHOLDS[api.genesisHash.toHex()] || TREASURY_THRESHOLDS.default;
 }

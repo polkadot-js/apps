@@ -1,16 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import AccountsApp from '@polkadot/app-accounts';
-import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
-import { lightTheme } from '@polkadot/apps/themes';
-import { Api } from '@polkadot/react-api';
 import '@polkadot/react-components/i18n';
-import { useApi } from '@polkadot/react-hooks';
+
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
 import React, { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+
+import AccountsApp from '@polkadot/app-accounts';
+import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
+import { lightTheme } from '@polkadot/apps/themes';
+import { Api } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 
 const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 
@@ -78,7 +80,7 @@ describe.only('--SLOW--: Account Create', () => {
 
     fireEvent.click(createAnAccountButton);
 
-    await waitForElementToBeRemoved(() => queryByText('Add an account via seed'));
+    await waitForElementToBeRemoved(() => queryByText('Add an account via seed 3/3'));
 
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });

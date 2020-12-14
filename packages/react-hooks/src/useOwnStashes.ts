@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import { useMemo } from 'react';
-import { Option } from '@polkadot/types';
 
-import useAccounts from './useAccounts';
-import useApi from './useApi';
-import useCall from './useCall';
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 type IsInKeyring = boolean;
 
@@ -30,7 +30,7 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
   return result;
 }
 
-export default function useOwnStashes (): [string, IsInKeyring][] | undefined {
+export function useOwnStashes (): [string, IsInKeyring][] | undefined {
   const { allAccounts, hasAccounts } = useAccounts();
   const { api } = useApi();
   const ownBonded = useCall<Option<AccountId>[]>(hasAccounts && api.query.staking?.bonded.multi, [allAccounts]);

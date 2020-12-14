@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
-import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { IExtrinsic } from '@polkadot/types/types';
-import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
+import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { IExtrinsic } from '@polkadot/types/types';
+import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export type CallParam = any;
 
@@ -14,10 +14,10 @@ export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
-  isSingle?: boolean;
   paramMap?: (params: any) => CallParams;
   transform?: (value: any) => T;
   withParams?: boolean;
+  withParamsTransform?: boolean;
 }
 
 export type TxDef = [string, any[] | ConstructTxFn];
@@ -30,6 +30,11 @@ export interface ModalState {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+}
+
+export interface Inflation {
+  inflation: number;
+  stakedReturn: number;
 }
 
 export interface Slash {

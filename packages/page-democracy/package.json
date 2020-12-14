@@ -1,18 +1,16 @@
 {
   "name": "@polkadot/app-democracy",
   "private": true,
-  "version": "0.63.2-20",
+  "version": "0.71.3-0",
   "description": "A referendum & proposal app",
   "main": "index.js",
   "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.12.1",
-    "@polkadot/react-components": "0.63.2-20",
-    "@polkadot/react-query": "0.63.2-20"
+    "@babel/runtime": "^7.12.5",
+    "@polkadot/react-components": "^0.71.3-0",
+    "@polkadot/react-query": "^0.71.3-0"
   }
 }

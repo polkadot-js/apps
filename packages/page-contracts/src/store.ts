@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash } from '@polkadot/types/interfaces';
-import { CodeJson, CodeStored } from './types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
 import store from 'store';
+
 import { Abi } from '@polkadot/api-contract';
 import { api, registry } from '@polkadot/react-api';
-import { createType } from '@polkadot/types';
 
 const KEY_CODE = 'code:';
 
@@ -29,7 +29,7 @@ class Store extends EventEmitter {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
-    const hex = (typeof codeHash === 'string' ? createType(registry, 'Hash', codeHash) : codeHash).toHex();
+    const hex = (typeof codeHash === 'string' ? registry.createType('Hash', codeHash) : codeHash).toHex();
     const existing = this.getCode(hex);
     const json = {
       ...(existing ? existing.json : {}),

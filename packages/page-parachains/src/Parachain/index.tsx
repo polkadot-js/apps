@@ -1,21 +1,21 @@
 // Copyright 2017-2020 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveParachainInfo, DeriveParachainFull } from '@polkadot/api-derive/types';
+import type { DeriveParachainFull, DeriveParachainInfo } from '@polkadot/api-derive/types';
 
 import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { Button, CardSummary, Columar, Column, Icon, Menu, Popup, Spinner, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall, useModal, useToggle } from '@polkadot/react-hooks';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import ParachainInfo from '../ParachainInfo';
-import Deregister from './Deregister';
-import DispatchQueue from './DispatchQueue';
-import Details from './Details';
-
 import { useTranslation } from '../translate';
+import Deregister from './Deregister';
+import Details from './Details';
+import DispatchQueue from './DispatchQueue';
 
 interface Props {
   basePath: string;

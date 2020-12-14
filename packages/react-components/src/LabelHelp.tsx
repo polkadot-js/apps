@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
-import { classes } from './util';
 import Tooltip from './Tooltip';
 
 interface Props {
@@ -21,7 +21,7 @@ function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): 
   const [trigger] = useState(`label-help-${++id}`);
 
   return (
-    <div className={classes('ui--LabelHelp', className)}>
+    <div className={`ui--LabelHelp ${className}`}>
       <Icon
         icon={icon}
         tooltip={trigger}

@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Signer } from '@polkadot/api/types';
-import { KeyringPair } from '@polkadot/keyring/types';
+import type { Signer } from '@polkadot/api/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';

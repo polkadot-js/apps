@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const config = require('@polkadot/dev/config/jest');
+const config = require('@polkadot/dev/config/jest.cjs');
 
 const findPackages = require('./scripts/findPackages');
 

@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
+
+import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { getSlashThreshold } from '../thresholds';
 
 interface Props {
   className?: string;
@@ -35,7 +36,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposal: null, proposalLength: 0 });
   const [selectedEra, setSelectedEra] = useState(0);
 
-  const threshold = Math.ceil((members.length || 0) * getSlashThreshold(api));
+  const threshold = Math.ceil((members.length || 0) * getSlashProposalThreshold(api));
 
   const eras = useMemo(
     () => (slashes || []).map(([era, slashes]): Option => ({

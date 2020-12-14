@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
+
 import { BN_ZERO, isBn, isFunction } from '@polkadot/util';
 
 interface ToBN {

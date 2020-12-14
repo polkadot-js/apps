@@ -1,32 +1,32 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
 
-import { registry } from '@polkadot/react-api';
-import { Raw, createType, getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types';
+import { TypeDefInfo } from '@polkadot/types/types';
 import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
 
-export default function getInitValue (def: TypeDef): unknown {
+export default function getInitValue (registry: Registry, def: TypeDef): unknown {
   if (def.info === TypeDefInfo.Vec) {
-    return [getInitValue(def.sub as TypeDef)];
+    return [getInitValue(registry, def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
     return Array.isArray(def.sub)
-      ? def.sub.map((def) => getInitValue(def))
+      ? def.sub.map((def) => getInitValue(registry, def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
       ? def.sub.reduce((result: Record<string, unknown>, def): Record<string, unknown> => {
-        result[def.name as string] = getInitValue(def);
+        result[def.name as string] = getInitValue(registry, def);
 
         return result;
       }, {})
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
-      ? { [def.sub[0].name as string]: getInitValue(def.sub[0]) }
+      ? { [def.sub[0].name as string]: getInitValue(registry, def.sub[0]) }
       : {};
   }
 
@@ -83,10 +83,13 @@ export default function getInitValue (def: TypeDef): unknown {
     case 'CodeHash':
     case 'Hash':
     case 'H256':
-      return createType(registry, 'H256');
+      return registry.createType('H256');
 
     case 'H512':
-      return createType(registry, 'H512');
+      return registry.createType('H512');
+
+    case 'H160':
+      return registry.createType('H160');
 
     case 'Raw':
     case 'Keys':
@@ -100,6 +103,7 @@ export default function getInitValue (def: TypeDef): unknown {
     case 'Digest':
     case 'Header':
     case 'KeyValue':
+    case 'LookupSource':
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':
@@ -109,7 +113,7 @@ export default function getInitValue (def: TypeDef): unknown {
       return undefined;
 
     case 'Extrinsic':
-      return new Raw(registry);
+      return registry.createType('Raw');
 
     case 'Null':
       return null;
@@ -118,7 +122,7 @@ export default function getInitValue (def: TypeDef): unknown {
       let error: string | null = null;
 
       try {
-        const instance = createType(registry, type as 'u32');
+        const instance = registry.createType(type as 'u32');
         const raw = getTypeDef(instance.toRawType());
 
         if (isBn(instance)) {
@@ -126,7 +130,7 @@ export default function getInitValue (def: TypeDef): unknown {
         } else if ([TypeDefInfo.Struct].includes(raw.info)) {
           return undefined;
         } else if ([TypeDefInfo.Enum, TypeDefInfo.Tuple].includes(raw.info)) {
-          return getInitValue(raw);
+          return getInitValue(registry, raw);
         }
       } catch (e) {
         error = (e as Error).message;

@@ -1,19 +1,21 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
-import { ContractInfo } from '@polkadot/types/interfaces';
-import { ThemeProps } from '@polkadot/react-components/types';
+import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Option } from '@polkadot/types';
+import type { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { Abi, ContractPromise } from '@polkadot/api-contract';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
-import Message from './Message';
 import { useTranslation } from '../translate';
+import Message from './Message';
 
 export interface Props {
   className?: string;
@@ -25,6 +27,7 @@ export interface Props {
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
   withMessages?: boolean;
+  withWasm?: boolean;
 }
 
 const READ_ADDR = '0x'.padEnd(66, '0');
@@ -41,7 +44,7 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
     );
 }
 
-function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
@@ -109,6 +112,9 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
             />
           ))}
         </Expander>
+      )}
+      {withWasm && source.wasm.length !== 0 && (
+        <div>{t<string>('{{size}} WASM bytes', { replace: { size: formatNumber(source.wasm.length) } })}</div>
       )}
     </div>
   );

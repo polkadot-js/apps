@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
+
+import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 interface Props {
   isMember: boolean;

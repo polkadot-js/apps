@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
 import useProxies from '../Accounts/useProxies';
+import { useTranslation } from '../translate';
 
 interface Props extends ModalProps {
   className?: string;

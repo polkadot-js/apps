@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveProposal } from '@polkadot/api-derive/types';
+import type { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import ProposalDisplay from './Proposal';
 import { useTranslation } from '../translate';
+import ProposalDisplay from './Proposal';
 
 interface Props {
   className?: string;

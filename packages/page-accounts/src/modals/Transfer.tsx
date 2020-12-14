@@ -1,11 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { AccountInfo } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
@@ -31,6 +33,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
+  const accountInfo = useCall<AccountInfo>(api.query.system.account, [senderId]);
 
   useEffect((): void => {
     if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
@@ -58,8 +61,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     }
   }, [api, balances, recipientId, senderId]);
 
-  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
-  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer;
+  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && (!accountInfo || !accountInfo.refcount || accountInfo.refcount.isZero());
 
   return (
     <Modal
@@ -78,7 +80,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 label={t<string>('send from account')}
                 labelExtra={
                   <Available
-                    label={transferrable}
+                    label={t<string>('transferrable')}
                     params={senderId}
                   />
                 }
@@ -99,7 +101,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 label={t<string>('send to address')}
                 labelExtra={
                   <Available
-                    label={transferrable}
+                    label={t<string>('transferrable')}
                     params={recipientId}
                   />
                 }

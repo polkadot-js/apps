@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { ParamDef } from '../types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { ParamDef } from '../types';
 
 import { useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
-import { getTypeDef } from '@polkadot/types';
 
-function expandDef (td: TypeDef): TypeDef {
+import { getTypeDef } from '@polkadot/types/create';
+
+function expandDef (registry: Registry, td: TypeDef): TypeDef {
   try {
     return getTypeDef(
       registry.createType(td.type as 'u32').toRawType()
@@ -18,11 +18,11 @@ function expandDef (td: TypeDef): TypeDef {
   }
 }
 
-export default function useParamDefs (type: TypeDef): ParamDef[] {
+export default function useParamDefs (registry: Registry, type: TypeDef): ParamDef[] {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
-    const typeDef = expandDef(type);
+    const typeDef = expandDef(registry, type);
 
     if (!typeDef.sub) {
       return setParams([]);
@@ -35,7 +35,7 @@ export default function useParamDefs (type: TypeDef): ParamDef[] {
         type: td // expandDef(td)
       }))
     );
-  }, [type]);
+  }, [registry, type]);
 
   return params;
 }

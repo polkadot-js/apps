@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber, Votes } from '@polkadot/types/interfaces';
+import type { BlockNumber, Votes } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { isFunction } from '@polkadot/util';
 
-import useApi from './useApi';
-import useCall from './useCall';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 interface State {
   hasFailed: boolean;
@@ -51,7 +52,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
+export function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 

@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
+
 import { Bonded } from '@polkadot/react-query';
 
 import { renderProvided } from './Balance';
-import { classes } from './util';
 
 export interface Props {
   bonded?: BN | BN[];
@@ -29,7 +29,7 @@ function BondedDisplay (props: Props): React.ReactElement<Props> | null {
     ? <>{renderProvided({ className, label, value: bonded })}</>
     : (
       <Bonded
-        className={classes('ui--Bonded', className)}
+        className={`ui--Bonded ${className}`}
         label={label}
         params={params}
       />

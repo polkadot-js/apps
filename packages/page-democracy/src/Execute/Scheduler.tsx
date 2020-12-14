@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber, Scheduled } from '@polkadot/types/interfaces';
-import { ScheduledExt } from './types';
+import type { Option } from '@polkadot/types';
+import type { BlockNumber, Scheduled } from '@polkadot/types/interfaces';
+import type { ScheduledExt } from './types';
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 import ScheduledView from './Scheduled';
@@ -38,7 +39,7 @@ const transformEntries = {
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, undefined, transformEntries);
+  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, transformEntries);
 
   const headerRef = useRef([
     [t('scheduled'), 'start'],

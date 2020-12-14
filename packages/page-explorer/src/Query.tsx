@@ -3,6 +3,7 @@
 
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+
 import { Button, FilterOverlay, Input } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
@@ -44,7 +45,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   );
 
   return (
-    <FilterOverlay className={className}>
+    <FilterOverlay className={`ui--FilterOverlay ${className}`}>
       <Input
         className='explorer--query'
         defaultValue={propsValue}

@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
+import type { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
+
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { getSystemChainColor } from '@polkadot/apps-config/ui';
+import { getSystemChainColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';

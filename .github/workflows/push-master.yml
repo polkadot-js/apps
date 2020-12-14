@@ -14,7 +14,7 @@ jobs:
     if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         token: ${{ secrets.GH_PAT }}
     - name: ${{ matrix.step }}
@@ -37,7 +37,7 @@ jobs:
     if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'polkadot-js/apps'"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: docker
       env:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
@@ -53,7 +53,7 @@ jobs:
     if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'polkadot-js/apps'"
     name: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_PAT }}
       - name: Prepare for app notarization (macOS)

@@ -1,32 +1,33 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import { ElectionStatus } from '@polkadot/types/interfaces';
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { ElectionStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
+import Summary from './Overview/Summary';
 import Actions from './Actions';
+import { STORE_FAVS_BASE } from './constants';
 import Overview from './Overview';
 import Payouts from './Payouts';
 import Query from './Query';
-import Summary from './Overview/Summary';
 import Slashes from './Slashes';
 import Targets from './Targets';
-import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
-const HIDDEN_ACC = ['actions', 'payouts'];
+const HIDDEN_ACC = ['actions', 'payout'];
 
 const transformElection = {
   transform: (status: ElectionStatus) => status.isOpen
@@ -38,7 +39,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
@@ -48,13 +48,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
     [api, hasAccounts]
-  );
-
-  const next = useMemo(
-    () => (allStashes && stakingOverview)
-      ? allStashes.filter((address) => !stakingOverview.validators.includes(address as any))
-      : undefined,
-    [allStashes, stakingOverview]
   );
 
   const ownValidators = useMemo(
@@ -115,9 +108,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       </header>
       <Summary
         isVisible={pathname === basePath}
-        next={next}
-        nominators={targets.nominators}
         stakingOverview={stakingOverview}
+        targets={targets}
       />
       <Switch>
         <Route path={`${basePath}/payout`}>
@@ -149,7 +141,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             favorites={favorites}
             hasQueries={hasQueries}
             isIntentions
-            next={next}
             stakingOverview={stakingOverview}
             targets={targets}
             toggleFavorite={toggleFavorite}
@@ -166,7 +157,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
-        next={next}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
@@ -193,7 +183,9 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   }
 
   .staking--optionsBar {
-    text-align: right;
+    margin: 0.5rem 0 1rem;
+    text-align: center;
+    white-space: normal;
 
     .staking--buttonToggle {
       display: inline-block;

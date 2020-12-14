@@ -1,30 +1,31 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
-import { Delegation, SortedAccount } from '../types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
+import type { Delegation, SortedAccount } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { isLedger } from '@polkadot/react-api';
-import { useApi, useAccounts, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import CreateModal from '../modals/Create';
 import ImportModal from '../modals/Import';
 import Ledger from '../modals/Ledger';
 import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
+import { useTranslation } from '../translate';
+import { sortAccounts } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
-import { sortAccounts } from '../util';
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -218,13 +219,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         )}
         <Button
           icon='plus'
-          isDisabled={!(api.tx.multisig || api.tx.utility)}
+          isDisabled={!(api.tx.multisig || api.tx.utility) || !hasAccounts}
           label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
         <Button
           icon='plus'
-          isDisabled={!api.tx.proxy}
+          isDisabled={!api.tx.proxy || !hasAccounts}
           label={t<string>('Proxied')}
           onClick={toggleProxy}
         />

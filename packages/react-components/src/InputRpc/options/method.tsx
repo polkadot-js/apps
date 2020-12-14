@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOption, DropdownOptions } from '../../util/types';
+import type { DefinitionRpcExt } from '@polkadot/types/types';
+import type { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
-import ApiPromise from '@polkadot/api/promise';
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
-export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
-  const section = jsonrpc[sectionName];
+import { ApiPromise } from '@polkadot/api';
+
+export default function createOptions (api: ApiPromise, rpcs: Record<string, Record<string, DefinitionRpcExt>>, sectionName: string): DropdownOptions {
+  const section = rpcs[sectionName];
 
   if (!section || Object.keys((api.rpc as Record<string, Record<string, unknown>>)[sectionName]).length === 0) {
     return [];
@@ -20,9 +20,9 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .sort()
     .map((methodName) => section[methodName])
     .filter((ext): ext is DefinitionRpcExt => !!ext)
-    .filter(({ isSubscription }): boolean => !isSubscription)
+    .filter(({ isSubscription }) => !isSubscription)
     .map(({ description, method, params }): DropdownOption => {
-      const inputs = params.map(({ name }): string => name).join(', ');
+      const inputs = params.map(({ name }) => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',

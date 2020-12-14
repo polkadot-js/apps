@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StakerState } from '@polkadot/react-hooks/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
 import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -27,7 +28,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
   const [ids, setIds] = useState<IdState | null>(null);
   const [isOpen, toggleOpen] = useToggle();
 
-  const filter = useMemo(
+  const stashes = useMemo(
     () => (ownNominators || []).map(({ stashId }) => stashId),
     [ownNominators]
   );
@@ -49,7 +50,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
     <>
       <Button
         icon='hand-paper'
-        isDisabled={isDisabled || !filter.length || !targets.length}
+        isDisabled={isDisabled || !stashes.length || !targets.length}
         label={t<string>('Nominate selected')}
         onClick={toggleOpen}
       />
@@ -63,7 +64,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
-                  filter={filter}
+                  filter={stashes}
                   help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
                   label={t<string>('the stash account to nominate with')}
                   onChange={_onChangeStash}

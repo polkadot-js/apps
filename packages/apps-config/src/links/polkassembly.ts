@@ -16,6 +16,7 @@ export default {
   isActive: true,
   logo: externalLogos.polkassembly as string,
   paths: {
+    bounty: 'bounty',
     council: 'motion',
     proposal: 'proposal',
     referendum: 'referendum',

@@ -1,21 +1,22 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Call } from '@polkadot/types/interfaces';
+import type { Call } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
+
 import { BN_ZERO } from '@polkadot/util';
 
-import useApi from './useApi';
-import useIsMountedRef from './useIsMountedRef';
+import { useApi } from './useApi';
+import { useIsMountedRef } from './useIsMountedRef';
 
 // a random address that we are using for our queries
 const ZERO_ACCOUNT = '5CAUdnwecHGxxyr5vABevAfZ34Fi4AaraDRMwfDQXQ52PXqg';
 const EMPTY_STATE: [BN, number] = [BN_ZERO, 0];
 
 // for a given call, calculate the weight
-export default function useWeight (call?: Call | null): [BN, number] {
+export function useWeight (call?: Call | null): [BN, number] {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState(EMPTY_STATE);

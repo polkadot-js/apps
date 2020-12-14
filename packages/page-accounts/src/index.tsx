@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
-import { useAccounts, useIpfs } from '@polkadot/react-hooks';
+
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
+import Accounts from './Accounts';
 import { useTranslation } from './translate';
 import useCounter from './useCounter';
-import Accounts from './Accounts';
 import Vanity from './Vanity';
 
 export { useCounter };

@@ -1,18 +1,20 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
+
 import { registry } from '@polkadot/react-api';
-import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import styled from 'styled-components';
 
 type PrevProxy = [AccountId, ProxyType];
 
@@ -46,7 +48,9 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
       : batchAdded[0];
   }
 
-  return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
+  return isFunction(api.tx.utility.batchAll)
+    ? api.tx.utility.batchAll([...batchPrevious, ...batchAdded])
+    : api.tx.utility.batch([...batchPrevious, ...batchAdded]);
 }
 
 function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {

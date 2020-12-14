@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Signer, SignerResult } from '@polkadot/api/types';
-import { SignerPayloadJSON } from '@polkadot/types/types';
-import { QrState } from '../types';
+import type { Signer, SignerResult } from '@polkadot/api/types';
+import type { SignerPayloadJSON } from '@polkadot/types/types';
+import type { QrState } from '../types';
 
 import { registry } from '@polkadot/react-api';
 import { blake2AsU8a } from '@polkadot/util-crypto';

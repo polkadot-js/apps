@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { SlashEra } from './types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SlashEra } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
+
 import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -64,20 +65,24 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       <Summary slash={slash} />
       <Button.Group>
         {buttons}
-        <TxButton
-          accountId={councilId}
-          extrinsic={txSome}
-          isDisabled={!txSome}
-          isToplevel
-          label={t('Cancel selected')}
-        />
-        <TxButton
-          accountId={councilId}
-          extrinsic={txAll}
-          isDisabled={!txAll}
-          isToplevel
-          label={t('Cancel all')}
-        />
+        {api.tx.council?.propose && (
+          <>
+            <TxButton
+              accountId={councilId}
+              extrinsic={txSome}
+              isDisabled={!txSome}
+              isToplevel
+              label={t('Cancel selected')}
+            />
+            <TxButton
+              accountId={councilId}
+              extrinsic={txAll}
+              isDisabled={!txAll}
+              isToplevel
+              label={t('Cancel all')}
+            />
+          </>
+        )}
       </Button.Group>
       <Table header={headerRef.current}>
         {slash.slashes.map((slash, index): React.ReactNode => (

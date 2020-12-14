@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from '../types';
+import type { ThemeProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -27,8 +27,8 @@ function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<P
 export default React.memo(styled(Foot)(({ theme }: ThemeProps) => `
   td {
     color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
-    font-family: sans-serif;
-    font-weight: 100;
+    font: ${theme.fontSans};
+    font-weight: 400;
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;

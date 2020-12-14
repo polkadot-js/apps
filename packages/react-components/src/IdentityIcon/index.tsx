@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IdentityProps } from '@polkadot/react-identicon/types';
+import type { IdentityProps } from '@polkadot/react-identicon/types';
 
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
-import { getSystemIcon } from '@polkadot/apps-config/ui';
+
+import { getSystemIcon } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
@@ -27,7 +28,7 @@ export function getIdentityTheme (systemName: string): 'substrate' {
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
-  const { systemName } = useApi();
+  const { isEthereum, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const thisTheme = theme || getIdentityTheme(systemName);
@@ -52,7 +53,7 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
       onCopy={_onCopy}
       prefix={prefix}
       size={size}
-      theme={thisTheme as 'substrate'}
+      theme={isEthereum ? 'ethereum' : thisTheme as 'substrate'}
       value={value}
     />
   );
@@ -62,4 +63,5 @@ export default React.memo(styled(IdentityIcon)`
   border: 1px solid #ddd;
   border-radius: 50%;
   display: inline-block;
+  overflow: hidden;
 `);

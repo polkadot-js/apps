@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { AmountValidateState, DestinationType } from '../types';
-import { BondInfo } from './types';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { AmountValidateState, DestinationType } from '../types';
+import type { BondInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
-import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -31,6 +32,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const [controllerError, setControllerError] = useState<boolean>(false);
   const [controllerId, setControllerId] = useState<string | null>(null);
   const [destination, setDestination] = useState<DestinationType>('Staked');
+  const [destAccount, setDestAccount] = useState<string | null>(null);
   const [stashId, setStashId] = useState<string | null>(null);
   const [startBalance, setStartBalance] = useState<BN | null>(null);
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
@@ -59,11 +61,15 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   }, [stashId]);
 
   useEffect((): void => {
+    const bondDest = destination === 'Account'
+      ? { Account: destAccount }
+      : destination;
+
     onChange(
       (amount && amount.gtn(0) && !amountError?.error && !controllerError && controllerId && stashId)
         ? {
-          bondOwnTx: api.tx.staking.bond(stashId, amount, destination),
-          bondTx: api.tx.staking.bond(controllerId, amount, destination),
+          bondOwnTx: api.tx.staking.bond(stashId, amount, bondDest),
+          bondTx: api.tx.staking.bond(controllerId, amount, bondDest),
           controllerId,
           controllerTx: api.tx.staking.setController(controllerId),
           stashId
@@ -76,9 +82,10 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
           stashId: null
         }
     );
-  }, [api, amount, amountError, controllerError, controllerId, destination, stashId, onChange]);
+  }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, stashId, onChange]);
 
   const hasValue = !!amount?.gtn(0);
+  const isAccount = destination === 'Account';
 
   return (
     <div className={className}>
@@ -156,6 +163,15 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
             options={options}
             value={destination}
           />
+          {isAccount && (
+            <InputAddress
+              help={t('An account that is to receive the rewards')}
+              label={t('the payment account')}
+              onChange={setDestAccount}
+              type='account'
+              value={destAccount}
+            />
+          )}
         </Modal.Column>
         <Modal.Column>
           <p>{t<string>('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}</p>

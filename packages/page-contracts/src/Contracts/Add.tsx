@@ -1,18 +1,19 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull } from '@polkadot/react-components/types';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { StringOrNull } from '@polkadot/react-components/types';
 
 import React, { useCallback, useState } from 'react';
+
 import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
 import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import ValidateAddr from './ValidateAddr';
 import { ABI, InputName } from '../shared';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
+import ValidateAddr from './ValidateAddr';
 
 interface Props {
   onClose: () => void;

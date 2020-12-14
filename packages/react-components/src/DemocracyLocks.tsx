@@ -1,19 +1,20 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { TFunction } from 'i18next';
+import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from './translate';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

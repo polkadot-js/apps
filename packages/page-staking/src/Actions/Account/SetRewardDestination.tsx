@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { RewardDestination } from '@polkadot/types/interfaces';
-import { DestinationType } from '../types';
+import type { RewardDestination } from '@polkadot/types/interfaces';
+import type { DestinationType } from '../types';
 
 import React, { useMemo, useState } from 'react';
+
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';

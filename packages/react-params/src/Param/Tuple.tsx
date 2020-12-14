@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props, RawParam } from '../types';
+import type { Props, RawParam } from '../types';
 
 import React, { useCallback } from 'react';
 
@@ -11,7 +11,7 @@ import Static from './Static';
 import useParamDefs from './useParamDefs';
 
 function Tuple (props: Props): React.ReactElement<Props> {
-  const params = useParamDefs(props.type);
+  const params = useParamDefs(props.registry, props.type);
   const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
 
   const _onChangeParams = useCallback(
@@ -39,6 +39,7 @@ function Tuple (props: Props): React.ReactElement<Props> {
         onChange={_onChangeParams}
         overrides={overrides}
         params={params}
+        registry={props.registry}
       />
     </div>
   );

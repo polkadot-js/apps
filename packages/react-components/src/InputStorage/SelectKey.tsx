@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueryableStorageEntry } from '@polkadot/api/types';
-import { DropdownOptions } from '../util/types';
+import type { QueryableStorageEntry } from '@polkadot/api/types';
+import type { DropdownOptions } from '../util/types';
 
 import React from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
 
 interface Props {
   className?: string;
@@ -38,7 +38,7 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
+      className={`ui--DropdownLinked-Items ${className}`}
       isError={isError}
       onChange={onChange}
       options={options}

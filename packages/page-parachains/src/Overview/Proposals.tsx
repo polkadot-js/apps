@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ProposalExt } from './types';
+import type { ProposalExt } from './types';
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

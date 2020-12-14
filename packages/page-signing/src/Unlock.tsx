@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { KeyringPair } from '@polkadot/keyring/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';

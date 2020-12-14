@@ -1,6 +1,7 @@
 {
   "nav.accounts": "Accounts",
   "nav.addresses": "Address book",
+  "nav.bounties": "Bounties",
   "nav.calendar": "Event calendar",
   "nav.claims": "Claim Tokens",
   "nav.contracts": "Contracts",

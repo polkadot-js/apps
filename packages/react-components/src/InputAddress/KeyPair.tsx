@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '@polkadot/react-components/types';
+
 import React from 'react';
 import styled from 'styled-components';
 
@@ -32,7 +34,7 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(styled(KeyPair)`
+export default React.memo(styled(KeyPair)(({ theme }: ThemeProps) => `
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -42,7 +44,7 @@ export default React.memo(styled(KeyPair)`
   > .address {
     display: inline-block;
     flex: 1;
-    font-family: monospace;
+    font: ${theme.fontMono};
     margin-left: 1rem;
     opacity: 0.5;
     overflow: hidden;
@@ -67,4 +69,4 @@ export default React.memo(styled(KeyPair)`
       text-transform: uppercase;
     }
   }
-`);
+`));

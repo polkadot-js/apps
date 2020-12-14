@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AddressFlags } from '@polkadot/react-hooks/types';
+import type { AddressFlags } from '@polkadot/react-hooks/types';
 
 import React from 'react';
+
 import { Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
+import type { TypeDef } from '@polkadot/types/types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import { Compact } from '@polkadot/types';
-import { Input } from '@polkadot/react-components';
-import { hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+
+import { CopyButton, Input } from '@polkadot/react-components';
+import { compactAddLength, hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -29,6 +29,7 @@ interface Props {
   size?: Size;
   type: TypeDef & { withOptionActive?: boolean };
   validate?: (u8a: Uint8Array) => boolean;
+  withCopy?: boolean;
   withLabel?: boolean;
   withLength?: boolean;
 }
@@ -59,7 +60,7 @@ function convertInput (value: string): [boolean, Uint8Array] {
     : [value === '0x', new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
     value
@@ -83,7 +84,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
       );
 
       if (withLength && isValid) {
-        value = Compact.addLengthPrefix(value);
+        value = compactAddLength(value);
       }
 
       onChange && onChange({
@@ -116,6 +117,9 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         withLabel={withLabel}
       >
         {children}
+        {withCopy && (
+          <CopyButton value={defaultValue} />
+        )}
       </Input>
     </Bare>
   );

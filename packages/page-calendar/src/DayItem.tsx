@@ -1,17 +1,20 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EntryInfo } from './types';
+import type { EntryInfoTyped } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
+import { Button } from '@polkadot/react-components';
 import { formatNumber, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+import { dateCalendarFormat } from './util';
 
 interface Props {
   className?: string;
-  item: EntryInfo;
+  item: EntryInfoTyped;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,8 +22,45 @@ function assertUnreachable (x: never): never {
   throw new Error('We cannot get here');
 }
 
+function exportCalendar (date: Date, description: string): void {
+  const startDate = dateCalendarFormat(date);
+  // For now just add 1 hour for each event
+  const endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
+  const calData =
+    'BEGIN:VCALENDAR\n' +
+    'CALSCALE:GREGORIAN\n' +
+    'METHOD:PUBLISH\n' +
+    'PRODID:-//Test Cal//EN\n' +
+    'VERSION:2.0\n' +
+    'BEGIN:VEVENT\n' +
+    'UID:test-1\n' +
+    'DTSTART;VALUE=DATE:' + startDate + '\n' +
+    'DTEND;VALUE=DATE:' + endDate + '\n' +
+    'SUMMARY:' + description + '\n' +
+    'DESCRIPTION:' + description + '\n' +
+    'END:VEVENT\n' +
+    'END:VCALENDAR';
+  const fileNameIcs = encodeURI(description) + '.ics';
+  const data = new File([calData], fileNameIcs, { type: 'text/plain' });
+  const anchor = window.document.createElement('a');
+
+  anchor.href = window.URL.createObjectURL(data);
+  anchor.download = fileNameIcs;
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+  window.URL.revokeObjectURL(anchor.href);
+}
+
 function DayItem ({ className, item: { date, info, type } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const [description, setDescription] = useState<string>('');
+
+  const _exportCal = useCallback(
+    () => exportCalendar(date, description),
+    [description, date]
+  );
 
   const desc = useMemo(
     (): React.ReactNode => {
@@ -46,54 +86,70 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
                     : ['treasurySpend'].includes(type)
                       ? <div className='itemLink'><a href='#/treasury'>{t<string>('via Treasury')}</a></div>
                       : undefined;
+      let s = '';
 
       switch (type) {
         case 'councilElection':
-          return <><div className='itemDesc'>{t<string>('Election of new council candidates')}</div>{typeLink}</>;
+          s = t<string>('Election of new council candidates');
+          break;
 
         case 'councilMotion':
-          return <><div className='itemDesc'>{t<string>('Voting ends on council motion {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Voting ends on council motion {{id}}', { replace: { id } });
+          break;
 
         case 'democracyDispatch':
-          return <><div className='itemDesc'>{t<string>('Enactment of the result of referendum {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Enactment of the result of referendum {{id}}', { replace: { id } });
+          break;
 
         case 'democracyLaunch':
-          return <><div className='itemDesc'>{t<string>('Start of the next referendum voting period')}</div>{typeLink}</>;
+          s = t<string>('Start of the next referendum voting period');
+          break;
 
         case 'referendumDispatch':
-          return <><div className='itemDesc'>{t<string>('Potential dispatch of referendum {{id}} (if passed)', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Potential dispatch of referendum {{id}} (if passed)', { replace: { id } });
+          break;
 
         case 'referendumVote':
-          return <><div className='itemDesc'>{t<string>('Voting ends for referendum {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Voting ends for referendum {{id}}', { replace: { id } });
+          break;
 
         case 'scheduler':
-          return <><div className='itemDesc'>{
-            id
-              ? t<string>('Execute named scheduled task {{id}}', { replace: { id } })
-              : t<string>('Execute anonymous scheduled task')
-          }</div>{typeLink}</>;
+          s = id
+            ? t<string>('Execute named scheduled task {{id}}', { replace: { id } })
+            : t<string>('Execute anonymous scheduled task');
+          break;
 
         case 'stakingEpoch':
-          return <><div className='itemDesc'>{t<string>('Start of a new staking session {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Start of a new staking session {{id}}', { replace: { id } });
+          break;
 
         case 'stakingEra':
-          return <><div className='itemDesc'>{t<string>('Start of a new staking era {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Start of a new staking era {{id}}', { replace: { id } });
+          break;
 
         case 'stakingSlash':
-          return <><div className='itemDesc'>{t<string>('Application of slashes from era {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = t<string>('Application of slashes from era {{id}}', { replace: { id } });
+          break;
 
         case 'treasurySpend':
-          return <><div className='itemDesc'>{t<string>('Start of next spending period')}</div>{typeLink}</>;
+          s = t<string>('Start of next spending period');
+          break;
 
         case 'societyChallenge':
-          return <><div className='itemDesc'>{t<string>('Start of next membership challenge period')}</div>{typeLink}</>;
+          s = t<string>('Start of next membership challenge period');
+          break;
 
         case 'societyRotate':
-          return <><div className='itemDesc'>{t<string>('Acceptance of new members and bids')}</div>{typeLink}</>;
+          s = t<string>('Acceptance of new members and bids');
+          break;
 
         default:
           return assertUnreachable(type);
       }
+
+      setDescription(s);
+
+      return (<><div className='itemDesc'>{s}</div>{typeLink}</>);
     },
     [info, t, type]
   );
@@ -102,6 +158,13 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
     <div className={className}>
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
       {desc}
+      {date && (
+        <Button
+          className='exportCal'
+          icon='calendar-plus'
+          onClick={_exportCal}
+        />
+      )}
     </div>
   );
 }
@@ -114,6 +177,17 @@ export default React.memo(styled(DayItem)`
 
   > div+div {
     margin-left: 0.5rem;
+  }
+
+  .exportCal {
+    padding: 0;
+    position: absolute;
+    right: 1.5rem;
+
+    .ui--Icon {
+      width: 0.7rem;
+      height: 0.7rem;
+    }
   }
 
   .itemTime {

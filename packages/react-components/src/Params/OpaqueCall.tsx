@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { Props, RawParam } from '@polkadot/react-params/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Props, RawParam } from '@polkadot/react-params/types';
 
 import React, { useCallback } from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 
 import ExtrinsicDisplay from './Extrinsic';

@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
 import { registry } from '@polkadot/react-api';
-import { Dropdown, InputAddress, Modal, Toggle, TxButton, Input } from '@polkadot/react-components';
+import { Dropdown, Input, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
@@ -140,6 +141,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     [hash]
   );
 
+  const isAye = type === 'aye';
+
   return (
     <Modal
       className={className}
@@ -234,9 +237,9 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         <TxButton
           accountId={signatory}
           extrinsic={tx}
-          icon={type === 'aye' ? 'check' : 'times'}
-          isDisabled={!tx || !whoFilter.length}
-          label={type === 'aye' ? 'Approve' : 'Reject'}
+          icon={isAye ? 'check' : 'times'}
+          isDisabled={!tx || (isAye && !whoFilter.length)}
+          label={isAye ? 'Approve' : 'Reject'}
           onStart={onClose}
         />
       </Modal.Actions>

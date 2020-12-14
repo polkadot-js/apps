@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiMessage } from '@polkadot/api-contract/types';
-import { StringOrNull } from '@polkadot/react-components/types';
+import type { AbiMessage } from '@polkadot/api-contract/types';
+import type { StringOrNull } from '@polkadot/react-components/types';
 
 import React from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { getContractAbi } from '@polkadot/react-components/util';

@@ -4,8 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from './translate';
 import spinnerSrc from './Spinner.png';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
@@ -59,5 +59,9 @@ export default React.memo(styled(Spinner)`
     color: inherit !important;
     margin: 0.25rem auto 1.5rem auto;
     opacity: 0.6;
+
+    div+div {
+      margin-top: 0.25rem;
+    }
   }
 `);

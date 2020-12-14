@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
+import type { Compact } from '@polkadot/types';
+import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { CallExpander } from '@polkadot/react-components';
-import { Compact } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 import ExternalCell from './ExternalCell';

@@ -1,20 +1,19 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueStatus, QueueTx, QueueTxStatus } from './types';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
-import { classes } from '../util';
-import StatusContext from './Context';
 import { STATUS_COMPLETE } from './constants';
+import StatusContext from './Context';
 
 export { StatusContext };
 
@@ -70,7 +69,7 @@ function signerIconName (status: QueueTxStatus): IconName {
 function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
   return (
     <div
-      className={classes('item', status)}
+      className={`item ${status}`}
       key={id}
     >
       <div className='wrapper'>
@@ -117,7 +116,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
 
   return (
     <div
-      className={classes('item', status)}
+      className={`item ${status}`}
       key={id}
     >
       <div className='wrapper'>
@@ -139,7 +138,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
               {section}.{method}
             </div>
             <div className='status'>
-              {error ? error.message : status}
+              {error ? (error.message || error) : status}
             </div>
           </div>
         </div>
@@ -240,7 +239,7 @@ export default React.memo(styled(Status)`
         padding: 0.5rem 1rem;
 
         .status {
-          font-weight: 700;
+          font-weight: 400;
         }
 
         .ui--AddressMini {

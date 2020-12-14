@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Proposal } from '@polkadot/types/interfaces';
+import type { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+
 import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';

@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveDispatch } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import type { DeriveDispatch } from '@polkadot/api-derive/types';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import ProposalCell from '../Overview/ProposalCell';
 import PreImageButton from '../Overview/PreImageButton';
+import ProposalCell from '../Overview/ProposalCell';
 
 interface Props {
   value: DeriveDispatch;

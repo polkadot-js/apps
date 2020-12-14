@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueTx } from '@polkadot/react-components/Status/types';
-import { Codec } from '@polkadot/types/types';
+import type { QueueTx } from '@polkadot/react-components/Status/types';
+import type { Codec } from '@polkadot/types/types';
 
 import React from 'react';
+
 import { Output } from '@polkadot/react-components';
 import { isUndefined } from '@polkadot/util';
 

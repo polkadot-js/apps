@@ -1,13 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveSociety } from '@polkadot/api-derive/types';
+import type { DeriveSociety } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate';
 import useMembers from '../useMembers';
 import BidNew from './BidNew';
 import Bids from './Bids';
@@ -15,8 +17,6 @@ import Candidates from './Candidates';
 import Defender from './Defender';
 import Members from './Members';
 import Summary from './Summary';
-
-import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;

@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
+
 import { Icon, Tabs } from '@polkadot/react-components';
 import { useSudo } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
-
 import { useTranslation } from './translate';
 
 function SudoApp ({ basePath }: Props): React.ReactElement<Props> {

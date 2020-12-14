@@ -1,31 +1,32 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { SignerOptions } from '@polkadot/api/submittable/types';
-import { KeyringPair } from '@polkadot/keyring/types';
-import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
-import { Multisig, Timepoint } from '@polkadot/types/interfaces';
-import { AddressProxy, QrState } from './types';
+import type { SignerOptions } from '@polkadot/api/submittable/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
+import type { Option } from '@polkadot/types';
+import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { registry } from '@polkadot/react-api';
 import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
-import { BN_ZERO, assert } from '@polkadot/util';
+import { assert, BN_ZERO } from '@polkadot/util';
 
-import { AccountSigner, LedgerSigner, QrSigner } from './signers';
-import { useTranslation } from './translate';
 import Address from './Address';
 import Qr from './Qr';
+import { AccountSigner, LedgerSigner, QrSigner } from './signers';
 import SignFields from './SignFields';
 import Tip from './Tip';
 import Transaction from './Transaction';
+import { useTranslation } from './translate';
 import { cacheUnlock, extractExternal, handleTxResults } from './util';
 
 interface Props {
@@ -69,6 +70,8 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
   try {
     await tx.signAsync(pairOrAddress, options);
 
+    console.info('sending', tx.toHex());
+
     queueSetTxStatus(currentItem.id, 'sending');
 
     const unsubscribe = await tx.send(handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {
@@ -78,7 +81,7 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
     console.error('signAndSend: error:', error);
     queueSetTxStatus(currentItem.id, 'error', {}, error);
 
-    currentItem.txFailedCb && currentItem.txFailedCb(null);
+    currentItem.txFailedCb && currentItem.txFailedCb(error);
   }
 }
 
@@ -90,6 +93,7 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
 
     return tx.toJSON();
   } catch (error) {
+    console.error('signAsync: error:', error);
     queueSetTxStatus(id, 'error', undefined, error);
 
     txFailedCb(error);

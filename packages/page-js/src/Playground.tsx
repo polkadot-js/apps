@@ -1,28 +1,28 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { KeyringInstance } from '@polkadot/keyring/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { AppProps as Props } from '@polkadot/react-components/types';
-import { Log, LogType, Snippet } from './types';
+import type { ApiPromise } from '@polkadot/api';
+import type { KeyringInstance } from '@polkadot/keyring/types';
+import type { ApiProps } from '@polkadot/react-api/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { Log, LogType, Snippet } from './types';
 
-import React, { useCallback, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { Button, Dropdown, Editor } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import uiKeyring from '@polkadot/ui-keyring';
 import * as types from '@polkadot/types';
+import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
-import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 import makeWrapper from './snippets/wrapping';
+import ActionButtons from './ActionButtons';
+import { CUSTOM_LABEL, STORE_EXAMPLES, STORE_SELECTED } from './constants';
+import Output from './Output';
 import allSnippets from './snippets';
 import { useTranslation } from './translate';
-
-import Output from './Output';
-import ActionButtons from './ActionButtons';
 
 interface Injected {
   api: ApiPromise;

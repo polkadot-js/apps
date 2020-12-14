@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
+import type { Bytes } from '@polkadot/types';
+import type { Props } from '../types';
 
 import React from 'react';
-import { registry } from '@polkadot/react-api';
-import { Bytes } from '@polkadot/types';
 
 import CallDisplay from './Call';
 import Unknown from './Unknown';
@@ -17,7 +16,7 @@ function OpaqueCall (props: Props): React.ReactElement<Props> {
     );
   }
 
-  const value = registry.createType('Call', (props.defaultValue.value as Bytes).toHex());
+  const value = props.registry.createType('Call', (props.defaultValue.value as Bytes).toHex());
 
   return (
     <CallDisplay

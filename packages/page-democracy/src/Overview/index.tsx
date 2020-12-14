@@ -1,19 +1,20 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveReferendumExt } from '@polkadot/api-derive/types';
+import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
 import React from 'react';
+
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Externals from './Externals';
+import PreImage from './PreImage';
 import Proposals from './Proposals';
+import Propose from './Propose';
 import Referendums from './Referendums';
 import Summary from './Summary';
-import PreImage from './PreImage';
-import Propose from './Propose';
 
 interface Props {
   className?: string;

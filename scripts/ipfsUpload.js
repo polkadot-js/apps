@@ -4,9 +4,9 @@
 const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
 const cloudflare = require('dnslink-cloudflare');
-const execSync = require('@polkadot/dev/scripts/execSync');
+const execSync = require('@polkadot/dev/scripts/execSync.cjs');
 
-const createEndpoints = require('../packages/apps-config/build/settings/endpoints').default;
+const { createWsEndpoints } = require('../packages/apps-config/build/endpoints');
 const pkgJson = require('../package.json');
 
 // https://gateway.pinata.cloud/ipfs/
@@ -44,7 +44,7 @@ async function pin () {
     <title>Redirecting to ipfs gateway</title>
     <meta http-equiv="refresh" content="0; url=${url}" />
     <style>
-      body { font-family: sans-serif; line-height: 1.5rem; padding: 2rem; text-align: center }
+      body { font-family: 'Nunito Sans',sans-serif; line-height: 1.5rem; padding: 2rem; text-align: center }
       p { margin: 0 }
     </style>
   </head>
@@ -85,7 +85,7 @@ async function unpin (exclude) {
 }
 
 async function dnslink (hash) {
-  const records = createEndpoints(() => '')
+  const records = createWsEndpoints(() => '')
     .map((e) => e.dnslink)
     .reduce((all, dnslink) => {
       if (dnslink && !all.includes(dnslink)) {

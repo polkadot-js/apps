@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
-import useIsMountedRef from './useIsMountedRef';
 
-export default function useLoadingDelay (delay = 100): boolean {
+import { useIsMountedRef } from './useIsMountedRef';
+
+export function useLoadingDelay (delay = 100): boolean {
   const mountedRef = useIsMountedRef();
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SortedAccount } from './types';
+import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { SortedAccount } from './types';
 
 import React from 'react';
+
 import { Menu } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 export function createMenuGroup (items: (React.ReactNode | false | undefined | null)[]): React.ReactNode | null {
   const filtered = items.filter((item): item is React.ReactNode => !!item);

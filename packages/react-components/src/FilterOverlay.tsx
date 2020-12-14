@@ -5,6 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import media from './media';
+import { ThemeProps } from './types';
 
 interface Props {
   children: React.ReactNode;
@@ -25,12 +26,12 @@ export default React.memo(styled(FilterOverlay)`
   .ui--Labelled label {
     display: none;
   }
-
+  right: calc(50% - ${({ theme }: ThemeProps) => theme.contentHalfWidth} + 1.5rem);
+  
   ${media.DESKTOP`
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    right: 1.5rem;
     top: 0.525rem;
 
     > div {
@@ -44,5 +45,10 @@ export default React.memo(styled(FilterOverlay)`
     .ui.selection.dropdown {
       white-space: nowrap;
     }
+    
   `}
+
+  @media (max-width: ${({ theme }: ThemeProps) => theme.contentMaxWidth}) {
+    right: 1.5rem;
+  }
 `);

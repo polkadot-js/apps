@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ValidateInfo } from '../partials/types';
+import type { ValidateInfo } from '../partials/types';
 
 import React, { useState } from 'react';
+
 import { Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';

@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { Props, ComponentMap } from '../types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { ComponentMap, Props } from '../types';
 
-import { registry } from '@polkadot/react-api';
 import { getTypeDef } from '@polkadot/types';
+import { TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
 import Account from './Account';
@@ -17,6 +17,7 @@ import Call from './Call';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import Enum from './Enum';
+import Hash160 from './Hash160';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
 import KeyValue from './KeyValue';
@@ -43,9 +44,9 @@ interface TypeToComponent {
 const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },
-  { c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
-  { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
+  { c: Account, t: ['AccountId', 'Address', 'LookupSource'] },
+  { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
+  { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Call, t: ['Call', 'Proposal'] },
@@ -53,8 +54,9 @@ const componentDef: TypeToComponent[] = [
   { c: DispatchError, t: ['DispatchError'] },
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
-  { c: Hash512, t: ['H512', 'Signature'] },
+  { c: Hash256, t: ['Hash', 'H256'] },
+  { c: Hash160, t: ['H160'] },
+  { c: Hash512, t: ['H512'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
@@ -127,7 +129,7 @@ function fromDef ({ displayName, info, sub, type }: TypeDef): string {
   }
 }
 
-export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+export default function findComponent (registry: Registry, def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
   const type = fromDef(def);
@@ -147,9 +149,9 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       } else if (isBn(instance)) {
         return Amount;
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
-        return findComponent(raw, overrides);
+        return findComponent(registry, raw, overrides);
       } else if (raw.info === TypeDefInfo.VecFixed && (raw.sub as TypeDef).type !== 'u8') {
-        return findComponent(raw, overrides);
+        return findComponent(registry, raw, overrides);
       }
     } catch (e) {
       error = (e as Error).message;

@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+
 import { Button, Output } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
-import MessageSignature from './MessageSignature';
 import { useTranslation } from '../translate';
+import MessageSignature from './MessageSignature';
 
 export interface Props {
   className?: string;
@@ -65,7 +66,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             <Button
               className='accessory'
               icon='play'
-              isDisabled={message.isMutating ? false : (!message.args.length && lastResult?.result.isSuccess)}
+              isDisabled={message.isMutating ? false : (!message.args.length && lastResult?.result.isOk)}
               label={message.isMutating ? t<string>('exec') : t<string>('read')}
               onClick={_onSelect}
             />
@@ -86,7 +87,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
           }
         </div>
       </div>
-      {lastResult && lastResult.result.isSuccess && lastResult.output && (
+      {lastResult && lastResult.result.isOk && lastResult.output && (
         <Output
           className='result'
           isFull
@@ -117,7 +118,7 @@ export default React.memo(styled(Message)`
 
     .docs {
       font-size: 0.9rem;
-      font-weight: normal;
+      font-weight: 400;
     }
   }
 

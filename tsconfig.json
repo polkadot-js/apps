@@ -1,5 +1,5 @@
 {
-  "extends": "@polkadot/dev/config/tsconfig",
+  "extends": "@polkadot/dev/config/tsconfig.json",
   "exclude": [
     "build/**/*",
     "**/build/**/*"
@@ -10,6 +10,7 @@
     "paths": {
       "@polkadot/apps/*": ["packages/apps/src/*"],
       "@polkadot/apps": ["packages/apps/src"],
+      "@polkadot/apps-config": [ "packages/apps-config/src" ],
       "@polkadot/apps-config/*": [ "packages/apps-config/src/*" ],
       "@polkadot/apps-routing": [ "packages/apps-routing/src" ],
       "@polkadot/apps-routing/*": [ "packages/apps-routing/src/*" ],
@@ -17,6 +18,8 @@
       "@polkadot/app-accounts/*": [ "packages/page-accounts/src/*" ],
       "@polkadot/app-addresses": [ "packages/page-addresses/src" ],
       "@polkadot/app-addresses/*": [ "packages/page-addresses/src/*" ],
+      "@polkadot/app-bounties": [ "packages/page-bounties/src" ],
+      "@polkadot/app-bounties/*": [ "packages/page-bounties/src/*" ],
       "@polkadot/app-calendar": [ "packages/page-calendar/src" ],
       "@polkadot/app-calendar/*": [ "packages/page-calendar/src/*" ],
       "@polkadot/app-claims": [ "packages/page-claims/src" ],

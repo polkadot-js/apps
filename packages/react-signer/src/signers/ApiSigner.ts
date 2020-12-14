@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Signer, SignerResult } from '@polkadot/api/types';
-import { SubmittableResult } from '@polkadot/api';
-import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
-import { Hash } from '@polkadot/types/interfaces';
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import type { SubmittableResult } from '@polkadot/api';
+import type { Signer, SignerResult } from '@polkadot/api/types';
+import type { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { SignerPayloadJSON } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
-import { ClassOf } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types/create';
 
 export default class ApiSigner implements Signer {
   readonly #queuePayload: QueueTxPayloadAdd;

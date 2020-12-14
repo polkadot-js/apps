@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { SlashingSpans } from '@polkadot/types/interfaces';
+import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { SlashingSpans } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { Option } from '@polkadot/types';
 
-import TxButton from './TxButton';
 import { useTranslation } from './translate';
+import TxButton from './TxButton';
 
 interface Props {
   className?: string;

@@ -1,22 +1,23 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { Button, HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useContracts, useToggle } from '@polkadot/react-hooks';
 
-import introMd from './md/intro.md';
-import store from './store';
-import Contracts from './Contracts';
-import ContractAdd from './Contracts/Add';
-import Codes from './Codes';
 import CodeAdd from './Codes/Add';
 import CodeUpload from './Codes/Upload';
+import ContractAdd from './Contracts/Add';
+import introMd from './md/intro.md';
+import Banner from './Banner';
+import Codes from './Codes';
+import Contracts from './Contracts';
 import Deploy from './Deploy';
-import Ink3Banner from './Ink3Banner';
+import store from './store';
 import Summary from './Summary';
 import { useTranslation } from './translate';
 
@@ -100,7 +101,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           onClick={toggleAdd}
         />
       </Button.Group>
-      <Ink3Banner />
+      <Banner />
       <Contracts
         contracts={allContracts}
         updated={updated}
