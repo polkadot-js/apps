@@ -41,6 +41,7 @@ import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
+import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
@@ -60,6 +61,7 @@ import emptyLogo from './empty.svg';
 export const chainLogos: Record<string, unknown> = [
   ['darwinia crab', nodeCrab],
   ['Dusty', chainDusty],
+  ['Galois', nodeMath],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -92,6 +94,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
@@ -133,6 +136,7 @@ export const namedLogos: Record<string, unknown> = {
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   equilibrium: nodeEquilibrium,
+  galois: nodeMath,
   hanonycash: nodeHanonycash,
   kilt: nodeKilt,
   kulupu: nodeKulupu,

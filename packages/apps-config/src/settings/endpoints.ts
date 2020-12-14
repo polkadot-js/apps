@@ -367,6 +367,13 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      dnslink: 'galois',
+      info: 'galois',
+      text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'MathWallet ' } }),
+      value: 'wss://galois.maiziqianbao.net/ws'
     }
   ];
 }

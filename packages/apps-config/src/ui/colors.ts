@@ -26,6 +26,7 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
+const chainGalois = '#000000';
 
 // based on node name
 // alphabetical
@@ -67,7 +68,8 @@ export const chainColors: Record<string, any> = [
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
-  ['Westend', chainWestend]
+  ['Westend', chainWestend],
+  ['Galois', chainGalois]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
