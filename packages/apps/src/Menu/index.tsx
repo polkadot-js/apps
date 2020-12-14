@@ -118,25 +118,22 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const activeRoute = useMemo(
-    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
+    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || undefined,
     [location]
   );
 
+  console.log(activeRoute);
+  console.log('visibleRoutes:', visibleGroups);
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
     <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuSection'>
         <ChainInfo />
-        {activeRoute && (
-          <div className='menuActive'>
-            <Icon icon={activeRoute.icon} />
-            <span>{activeRoute.text}</span>
-          </div>
-        )}
         <ul className='menuItems'>
           {visibleGroups.map(({ name, routes }): React.ReactNode => (
             <Grouping
+              isActive={ activeRoute && activeRoute.group === name.toLowerCase()}
               key={name}
               name={name}
               routes={routes}

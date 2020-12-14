@@ -60,6 +60,10 @@ export default React.memo(styled(Item)`
     .ui--Badge {
       top: 0.95rem;
     }
+    &.isActive.highlight--color-contrast {
+      background-color: #fff;
+      color: #000;
+    }
   }
 
   &.withCounter a {
