@@ -5,7 +5,7 @@
 /* eslint-disable sort-keys */
 
 export default {
-    Address: 'MultiAddress',
-    LookupSource: 'MultiAddress',
-    RefCount: 'u8'
-  };
+  Address: 'MultiAddress',
+  LookupSource: 'MultiAddress',
+  RefCount: 'u8'
+};
