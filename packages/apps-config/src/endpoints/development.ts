@@ -39,7 +39,8 @@ export function createCustom (t: TFunction): LinkOption[] {
 
 export function createOwn (t: TFunction): LinkOption[] {
   try {
-    const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
+    // this may not be available, e.g. when running via script
+    const storedItems = localStorage?.getItem(CUSTOM_ENDPOINT_KEY);
 
     if (storedItems) {
       const items = JSON.parse(storedItems) as string[];
