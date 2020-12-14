@@ -8,6 +8,8 @@ import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
 import { createTesting } from './testing';
 
+export { CUSTOM_ENDPOINT_KEY } from './development';
+
 export function createWsEndpoints (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
