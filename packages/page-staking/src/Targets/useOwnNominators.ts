@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 export default function useOwnNominators (ownStashes?: StakerState[]): StakerState[] | undefined {
   return useMemo(
-    () => ownStashes ? ownStashes.filter(({ isOwnController, isStashValidating }) => isOwnController && !isStashValidating) : undefined,
+    () => ownStashes && ownStashes.filter(({ isOwnController, isStashValidating }) => isOwnController && !isStashValidating),
     [ownStashes]
   );
 }

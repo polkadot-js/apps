@@ -28,7 +28,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
   const [ids, setIds] = useState<IdState | null>(null);
   const [isOpen, toggleOpen] = useToggle();
 
-  const filter = useMemo(
+  const stashes = useMemo(
     () => (ownNominators || []).map(({ stashId }) => stashId),
     [ownNominators]
   );
@@ -50,7 +50,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
     <>
       <Button
         icon='hand-paper'
-        isDisabled={isDisabled || !filter.length || !targets.length}
+        isDisabled={isDisabled || !stashes.length || !targets.length}
         label={t<string>('Nominate selected')}
         onClick={toggleOpen}
       />
@@ -64,7 +64,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
-                  filter={filter}
+                  filter={stashes}
                   help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
                   label={t<string>('the stash account to nominate with')}
                   onChange={_onChangeStash}
