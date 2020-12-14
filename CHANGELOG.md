@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.71.1 Dec 14, 2020
+## 0.71.2 Dec 14, 2020
 
 Contributed:
 
