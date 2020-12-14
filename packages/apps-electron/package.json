@@ -15,12 +15,12 @@
     "@types/react-dom": "^17.0.0",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.2.2",
-    "copy-webpack-plugin": "^6.3.2",
+    "copy-webpack-plugin": "^7.0.0",
     "html-webpack-plugin": "^4.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "thread-loader": "^3.0.1",
     "tmp": "^0.2.1",
-    "webpack": "^4.44.2"
+    "webpack": "^5.10.1"
   }
 }
