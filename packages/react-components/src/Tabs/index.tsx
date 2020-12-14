@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import CurrentSection from './CurrentSection';
 import Tab from './Tab';
+import TabsSectionDelimiter from './TabsSectionDelimiter';
 
 export const SectionContext = React.createContext<SectionType>({});
 
@@ -50,41 +51,62 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
   return (
     <div className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
-        {text && icon && <CurrentSection icon={icon}
-          text={text}/>}
-        {filtered.map((tab, index) => (
-          <Tab
-            {...tab}
-            basePath={basePath}
-            index={index}
-            isSequence={isSequence}
-            key={tab.name}
-            num={filtered.length}
-          />
-        ))}
+        {
+          text && icon && <CurrentSection icon={icon}
+            text={text}/>
+        }
+        <TabsSectionDelimiter />
+        <ul className='ui--TabsList'>
+          {filtered.map((tab, index) => (
+            <li key={index}>
+              <Tab
+                {...tab}
+                basePath={basePath}
+                index={index}
+                isSequence={isSequence}
+                key={tab.name}
+                num={filtered.length}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
 export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
-  align-items: flex-end;
   background: ${theme.bgTabs};
   border-bottom: 1px solid ${theme.borderTabs};
-
   text-align: left;
   z-index: 1;
   
   & .tabs-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
     max-width: ${theme.contentMaxWidth};
     margin: 0 auto;
-    width: 100%;
-    display: flex;
-    padding: 1.5rem 1.5rem 0;
+    padding: 0 1.5rem;
+    height: 3.286rem;
   }
 
   &::-webkit-scrollbar {
     display: none;
     width: 0px;
+  }
+
+  .ui--TabsList {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    margin: 0 1.72rem;
+    overflow: auto;
+    white-space: nowrap;
+    padding: 0;
+
+    @media only screen and (max-width: 900px) {
+      margin: 0 2.72rem 0 2.35rem;
+    }
   }
 `));

@@ -182,8 +182,13 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   .theme--dark,
   .theme--light {
     .ui--Tabs {
-      .ui--Tab.tabLinkActive {
-        border-bottom-color: ${getHighlight(uiHighlight)};
+      & .ui--Tab:not(.tabLinkActive){
+        &:hover, &:focus {
+          color: ${getHighlight(uiHighlight)}; 
+        }
+      }
+      & .tabLinkActive::after {
+        background: ${getHighlight(uiHighlight)};
       }
     }
 

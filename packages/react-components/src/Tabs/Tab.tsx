@@ -55,21 +55,29 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 }
 
 export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
-  border-bottom: 2px solid transparent;
-  color: ${theme.color} !important;
-  margin-bottom: -3px;
-  padding: 0.5rem 1.5rem 0.75rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #8B8B8B;
+  padding: 0 1.5rem;
+  height: 100%;
+  font-size: 1.14rem;
 
   &.tabLinkActive {
-    border-bottom-color: #e6e6e6;
+    color: #000;
+    &:hover {
+      cursor: default;
+    }
   }
 
-  &:hover {
-    filter: highlight(120%);
-
-    &:not(.tabLinkActive) {
-      border-bottom-color: #e6e6e6;
-    }
+  &.tabLinkActive::after {
+    content: '';
+    position: absolute;
+    width: 3.14rem;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .tabCounter {
