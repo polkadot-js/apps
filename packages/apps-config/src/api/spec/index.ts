@@ -26,6 +26,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import galois from './galois';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -45,6 +46,7 @@ export default {
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
+  galois: galois,
   hanonycash,
   kulupu,
   'mashnet-node': kilt,
