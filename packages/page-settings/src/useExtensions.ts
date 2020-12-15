@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@polkadot/extension-inject/types';
 
 import { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 interface ExtensionKnown {
