@@ -9,7 +9,7 @@ import store from 'store';
 import styled from 'styled-components';
 
 import { registry } from '@polkadot/react-api';
-import { encodeUrlTypes } from '@polkadot/react-api/urlTypes';
+import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
 import { Button, Editor, InputFile } from '@polkadot/react-components';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
@@ -41,7 +41,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
   const [, setEncodedUrl] = useState<string | null>(null);
 
   useEffect((): void => {
-    const types = store.get('types') as Record<string, unknown> || {};
+    const types = decodeUrlTypes() || store.get('types') as Record<string, unknown> || {};
 
     if (Object.keys(types).length) {
       setCode(JSON.stringify(types, null, 2));

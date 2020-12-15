@@ -15,7 +15,8 @@ export function decodeUrlTypes (): Record<string, any> | null {
     try {
       assert(!Array.isArray(urlOptions.types), 'Expected a single type specification');
 
-      const compressed = base64Decode(urlOptions.types);
+      const parts = urlOptions.types.split('#');
+      const compressed = base64Decode(decodeURIComponent(parts[0]));
       const uncompressed = unzlibSync(compressed);
 
       return JSON.parse(u8aToString(uncompressed)) as Record<string, any>;
@@ -32,5 +33,5 @@ export function encodeUrlTypes (types: Record<string, any>): string {
   const compressed = zlibSync(jsonU8a, { level: 9 });
   const encoded = base64Encode(compressed);
 
-  return `${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(uiSettings.apiUrl)}&types=${encoded}`;
+  return `${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(uiSettings.apiUrl)}&types=${encodeURIComponent(encoded)}`;
 }
