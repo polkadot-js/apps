@@ -2504,6 +2504,7 @@ __metadata:
     "@babel/runtime": ^7.12.5
     "@polkadot/api": ^3.0.1
     "@polkadot/extension-dapp": ^0.35.2-12
+    fflate: ^0.4.2
     rxjs-compat: ^6.6.3
   languageName: unknown
   linkType: soft
