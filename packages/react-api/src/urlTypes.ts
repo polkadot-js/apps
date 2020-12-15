@@ -5,7 +5,7 @@ import { unzlibSync, zlibSync } from 'fflate';
 import queryString from 'query-string';
 
 import uiSettings from '@polkadot/ui-settings';
-import { stringToU8a, u8aToString } from '@polkadot/util';
+import { assert, stringToU8a, u8aToString } from '@polkadot/util';
 import { base64Decode, base64Encode } from '@polkadot/util-crypto';
 
 export function decodeUrlTypes (): Record<string, any> | null {
@@ -13,7 +13,9 @@ export function decodeUrlTypes (): Record<string, any> | null {
 
   if (urlOptions.types) {
     try {
-      const compressed = base64Decode(urlOptions.types as string);
+      assert(!Array.isArray(urlOptions.types), 'Expected a single type specification');
+
+      const compressed = base64Decode(urlOptions.types);
       const uncompressed = unzlibSync(compressed);
 
       return JSON.parse(u8aToString(uncompressed)) as Record<string, any>;
