@@ -6,7 +6,7 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { BareProps } from '../types';
 
 import React, { useCallback } from 'react';
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '@canvas-ui/react-util';

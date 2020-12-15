@@ -4,7 +4,6 @@
 import { Code, ComponentProps } from '@canvas-ui/apps/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
-import { Raw } from '@polkadot/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -70,7 +69,7 @@ function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onFor
       </CodeInfo>
       <div className='footer'>
         <Button.Group>
-          {abi?.project.source.wasm && (abi.project.source.wasm as Raw).length === 0 && (
+          {abi?.project.source.wasm && abi.project.source.wasm.length === 0 && (
             <CodeUploadABI
               codeHash={code.codeHash}
               label={t(isAbiSupplied ? 'Edit ABI' : 'Add ABI')}

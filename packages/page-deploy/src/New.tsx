@@ -99,9 +99,10 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
         try {
           const identifier = abi?.constructors[constructorIndex].identifier;
 
-          return blueprint.tx[identifier]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...extractValues(values));
+          return identifier ? blueprint.tx[identifier]({ gasLimit: weightToString, salt: withSalt ? salt : null, value: endowment }, ...extractValues(values)) : null;
         } catch (error) {
           console.error(error);
+
           return null;
         }
       }

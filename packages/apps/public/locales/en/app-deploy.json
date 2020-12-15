@@ -1,4 +1,7 @@
 {
+  "0x prefixed hex, e.g. 0x1234 or ascii data": "0x prefixed hex, e.g. 0x1234 or ascii data",
+  "<none>": "<none>",
+  "A hex or string value that acts as a salt for this deployment.": "A hex or string value that acts as a salt for this deployment.",
   "Add Existing Code Hash": "Add Existing Code Hash",
   "Add an existing code hash": "Add an existing code hash",
   "Choose an account to deploy the contract from, give it a descriptive name and set the endowment amount.": "Choose an account to deploy the contract from, give it a descriptive name and set the endowment amount.",
@@ -10,6 +13,7 @@
   "Deploy Another Contract": "Deploy Another Contract",
   "Deploy {{contractName}}": "Deploy {{contractName}}",
   "Deployment Constructor": "Deployment Constructor",
+  "Endowment": "Endowment",
   "Execute Contract": "Execute Contract",
   "Sign and submit to instantiate this contract derived from the code hash.": "Sign and submit to instantiate this contract derived from the code hash.",
   "Sign and submite to instantiate this contract derived from the code hash.": "Sign and submite to instantiate this contract derived from the code hash.",
@@ -17,6 +21,7 @@
   "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.": "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.",
   "The deployment constructor information for this contract, as provided by the ABI.": "The deployment constructor information for this contract, as provided by the ABI.",
   "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.": "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.",
+  "Unique Deployment Salt": "Unique Deployment Salt",
   "Upload New Wasm Blob": "Upload New Wasm Blob",
   "You can add an existing code bundle by": "You can add an existing code bundle by",
   "Your contract has been successfully deployed on chain.": "Your contract has been successfully deployed on chain.",
@@ -27,5 +32,6 @@
   "or by": "or by",
   "upload a new Wasm blob": "upload a new Wasm blob",
   "uploading a new Wasm blob": "uploading a new Wasm blob",
+  "use deployment salt": "use deployment salt",
   "using its code hash": "using its code hash"
 }

@@ -25,7 +25,7 @@ interface Props extends BareProps {
 
 const MEGA = new BN(1_000_000);
 
-function InputMegaGas ({ className, estimatedWeight, help, isCall, label, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas, weight } }: Props): React.ReactElement<Props> {
+function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [withEstimate, setWithEstimate] = useState(true);

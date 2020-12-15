@@ -5,9 +5,8 @@ import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { registry } from '@canvas-ui/react-api';
 import { Dropdown } from '@canvas-ui/react-components';
-import { Enum, createType, getTypeDef } from '@polkadot/types';
+import { Enum } from '@polkadot/types';
 
 import Params from '../';
 import Bare from './Bare';

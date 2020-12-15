@@ -55,12 +55,14 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
       }
 
       if (type.type === 'AccountId') {
-        return (
-          <AddressSmall
-            className='account-id'
-            value={value.toString()}
-          />
-        );
+        return value
+          ? (
+            <AddressSmall
+              className='account-id'
+              value={value.toString()}
+            />
+          )
+          : null;
       }
 
       if (type.info === TypeDefInfo.Option && value instanceof Option) {
@@ -92,7 +94,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
       }
 
       if (type.info === TypeDefInfo.Plain) {
-        return truncate(value.toString(), TRUNCATE_TO);
+        return truncate(value?.toString() || '()', TRUNCATE_TO);
       }
 
       if (type.info === TypeDefInfo.Enum) {
