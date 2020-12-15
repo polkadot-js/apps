@@ -7,14 +7,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dropdown, Icon, Tooltip } from '@canvas-ui/react-components';
-import { useEndpointOptions } from '@canvas-ui/react-util';
+import { classes, useEndpointOptions } from '@canvas-ui/react-util';
 import { ELEV_4_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useEndpoints, useSettings } from '@canvas-ui/react-hooks';
+import { useApi, useEndpoints, useSettings } from '@canvas-ui/react-hooks';
 
 import { useTranslation } from '../translate';
 
 function Settings ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isApiConnected } = useApi();
   const { onChangeKey } = useSettings(true);
   const endpointState = useEndpoints(onChangeKey('apiUrl'));
   const endpointOptions = useEndpointOptions(endpointState, t, true);
@@ -24,7 +25,7 @@ function Settings ({ className }: Props): React.ReactElement<Props> {
   return (
     <div className={`apps--SideBar-settings ${className || ''}`}>
       <Dropdown
-        className='chain-dropdown'
+        className={classes('chain-dropdown', !isApiConnected && 'isDisconnected')}
         defaultValue={url}
         onChange={onChangeUrl}
         options={endpointOptions}

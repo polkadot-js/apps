@@ -180,6 +180,12 @@ const Dropdown = React.memo(styled(BaseDropdown)`
           height: 0.5rem;
           margin-right: 0.5rem;
         }
+
+        &.isDisconnected {
+          :before {
+            background: var(--red-primary);
+          }
+        }
       }
     }
   }
