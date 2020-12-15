@@ -13,7 +13,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { Icon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -128,41 +127,53 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
-      <div className='menuSection'>
-        <ChainInfo />
-        <ul className='menuItems'>
-          {visibleGroups.map(({ name, routes }): React.ReactNode => (
-            <Grouping
-              isActive={ activeRoute && activeRoute.group === name.toLowerCase()}
-              key={name}
-              name={name}
-              routes={routes}
-            />
-          ))}
-        </ul>
+      <div className='menuContainer'>
+        <div className='menuSection'>
+          <ChainInfo />
+          <ul className='menuItems'>
+            {visibleGroups.map(({ name, routes }): React.ReactNode => (
+              <Grouping
+                isActive={ activeRoute && activeRoute.group === name.toLowerCase()}
+                key={name}
+                name={name}
+                routes={routes}
+              />
+            ))}
+          </ul>
+        </div>
+        <div className='menuSection media--1200'>
+          <ul className='menuItems'>
+            {externalRef.current.map((route): React.ReactNode => (
+              <Item
+                isToplevel
+                key={route.name}
+                route={route}
+              />
+            ))}
+          </ul>
+        </div>
       </div>
-      <div className='menuSection media--1200'>
-        <ul className='menuItems'>
-          {externalRef.current.map((route): React.ReactNode => (
-            <Item
-              isToplevel
-              key={route.name}
-              route={route}
-            />
-          ))}
-        </ul>
-      </div>
-      <NodeInfo />
+      <NodeInfo className='media--2000' />
     </div>
   );
 }
 
 export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
   padding: 0;
   z-index: 220;
+  position: relative;
+
+  & .menuContainer {
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    width: 100%;
+    max-width: 1750px;
+    margin: 0 auto;
+  }
 
   &.isLoading {
     background: #999 !important;
@@ -182,7 +193,6 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
 
   .menuSection {
     align-items: flex-end;
-    align-self: flex-end;
     display: flex;
   }
 
@@ -210,4 +220,11 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
       display: inline-block;
     }
   }
+  .ui--NodeInfo {
+    position: absolute;
+    z-index: 299;
+    right: 0;
+    top: 0.8rem;;
+  }
+
 `));

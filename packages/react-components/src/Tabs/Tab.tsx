@@ -62,10 +62,11 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   padding: 0 1.5rem;
   height: 100%;
   font-size: 1.14rem;
-  font-weight:700;
+  font-weight: 600;
 
   &.tabLinkActive {
     color: #000;
+  font-weight: 700;
     &:hover {
       cursor: default;
     }

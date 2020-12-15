@@ -47,7 +47,7 @@ describe('Account store', () => {
     await accountStore['account-store-set']('1', exampleAccount('a'));
     expect(await accountStore['account-store-get']('1')).toEqual(exampleAccount('a'));
   });
-
+r
   it('get returns null if account does not exist', async () => {
     expect(await accountStore['account-store-get']('1')).toEqual(null);
   });

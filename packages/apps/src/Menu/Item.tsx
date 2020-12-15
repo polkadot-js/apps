@@ -51,11 +51,19 @@ export default React.memo(styled(Item)`
   white-space: nowrap;
 
   &.topLevel {
-    padding: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    border-radius: 0.15rem 0.15rem 0 0;
 
-    a {
-      padding: 1rem 1.5rem;
+    &:hover {
+      background-color: white;
     }
+
+    & a  {
+    padding: 1.2rem 1.25rem 1.2rem 1.5rem;
+
+   }
 
     .ui--Badge {
       top: 0.95rem;
@@ -63,6 +71,7 @@ export default React.memo(styled(Item)`
     &.isActive.highlight--color-contrast {
       background-color: #fff;
       color: #000;
+      margin-bottom: -3px;
     }
   }
 
