@@ -145,7 +145,6 @@ function createWebpack (ENV, context) {
       __filename: false
     },
     optimization: {
-      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           ...mapChunks('robohash', [
