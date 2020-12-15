@@ -162,7 +162,8 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  zero: nodeZero
 };
 
 // extension logos

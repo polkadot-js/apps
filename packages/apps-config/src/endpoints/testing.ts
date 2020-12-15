@@ -129,6 +129,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      dnslink: 'zero',
+      info: 'zero',
+      text: t('rpc.zero', 'zero', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'ZERO' } }),
+      value: 'wss://alphaville-0.zero.io'
     }
   ];
 }
