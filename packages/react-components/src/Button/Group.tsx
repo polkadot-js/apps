@@ -30,4 +30,8 @@ export default React.memo(styled(ButtonGroup)`
   .ui--Button {
     margin: 0 0.25rem;
   }
+
+  .ui--CopyButton {
+    display: inline-block;
+  }
 `);

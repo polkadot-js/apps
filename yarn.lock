@@ -2505,6 +2505,7 @@ __metadata:
     "@polkadot/api": ^3.0.1
     "@polkadot/extension-dapp": ^0.35.2-12
     fflate: ^0.4.2
+    rxjs-compat: ^6.6.3
   languageName: unknown
   linkType: soft
 
@@ -16218,6 +16219,13 @@ fsevents@~2.1.2:
   version: 1.1.10
   resolution: "run-parallel@npm:1.1.10"
   checksum: 5c851a6bb74b6561002c53a68b896a4bfb7d6368c281fb9144098bdfd60188e4cb550ed88587ade3c60e3e961364a0d74c3c5f4fbffafe6842f0d2908d79e104
+  languageName: node
+  linkType: hard
+
+"rxjs-compat@npm:^6.6.3":
+  version: 6.6.3
+  resolution: "rxjs-compat@npm:6.6.3"
+  checksum: 487a948df603706a165642f97d0554924461d5cd35d2a7c390cb74c2acbab18d63b319579c7d8a6cd7bf8dbb79daebbbc0ee737f693fc9796ba85c6ef247d5de
   languageName: node
   linkType: hard
 
