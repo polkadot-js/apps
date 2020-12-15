@@ -3,18 +3,10 @@
   "version": "0.71.3-3",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
-  "keywords": [
-    "Polkadot",
-    "React",
-    "RxJs"
-  ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">=8.0"
-  },
   "repository": "github:polkadot-js/apps",
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-query#readme",

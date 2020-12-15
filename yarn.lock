@@ -2504,8 +2504,8 @@ __metadata:
     "@babel/runtime": ^7.12.5
     "@polkadot/api": ^3.0.1
     "@polkadot/extension-dapp": ^0.35.2-12
+    "@polkadot/x-rxjs": ^3.0.1
     fflate: ^0.4.2
-    rxjs-compat: ^6.6.3
   languageName: unknown
   linkType: soft
 
@@ -2557,8 +2557,6 @@ __metadata:
   resolution: "@polkadot/react-hooks@workspace:packages/react-hooks"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@types/memoizee": ^0.4.5
-    memoizee: ^0.4.14
   languageName: unknown
   linkType: soft
 
@@ -2860,7 +2858,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-rxjs@npm:3.0.1, @polkadot/x-rxjs@npm:^3.0.1":
+"@polkadot/x-rxjs@npm:^3.0.1":
   version: 3.0.1
   resolution: "@polkadot/x-rxjs@npm:3.0.1"
   dependencies:
@@ -3393,13 +3391,6 @@ __metadata:
   dependencies:
     "@types/unist": "*"
   checksum: d271df999e2b7144ef96a79bff75f22573d06d6c26ead8e190f59d4578da0b10af7c707f1453449bae6ba5c2dccfae8becf9f7a84a4bb30bc2a43fbc49607754
-  languageName: node
-  linkType: hard
-
-"@types/memoizee@npm:^0.4.5":
-  version: 0.4.5
-  resolution: "@types/memoizee@npm:0.4.5"
-  checksum: 8e5891a0ef7bc485751312ded849a0439c62551fb62e1440e358bcf78ea79db2f578b63591b828269bac8b34d0f5a24663ce9c58703be1bcafe9467fe8ce0483
   languageName: node
   linkType: hard
 
@@ -7932,7 +7923,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es5-ext@npm:^0.10.35, es5-ext@npm:^0.10.45, es5-ext@npm:^0.10.46, es5-ext@npm:^0.10.50, es5-ext@npm:~0.10.14, es5-ext@npm:~0.10.2, es5-ext@npm:~0.10.46":
+"es5-ext@npm:^0.10.35, es5-ext@npm:^0.10.50":
   version: 0.10.53
   resolution: "es5-ext@npm:0.10.53"
   dependencies:
@@ -7950,7 +7941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es6-iterator@npm:^2.0.3, es6-iterator@npm:~2.0.3":
+"es6-iterator@npm:~2.0.3":
   version: 2.0.3
   resolution: "es6-iterator@npm:2.0.3"
   dependencies:
@@ -7968,18 +7959,6 @@ __metadata:
     d: ^1.0.1
     ext: ^1.1.2
   checksum: 0915d72de8760b56b69ca4360276123a4f61de5a3172fe340ce9288271cf48bcebe3ee46ca8ee0f2fd73206bbbefa7c4a40a6673d278a87c97d3a155de778931
-  languageName: node
-  linkType: hard
-
-"es6-weak-map@npm:^2.0.2":
-  version: 2.0.3
-  resolution: "es6-weak-map@npm:2.0.3"
-  dependencies:
-    d: 1
-    es5-ext: ^0.10.46
-    es6-iterator: ^2.0.3
-    es6-symbol: ^3.1.1
-  checksum: 8dfd50b2919e16cf246ea9d5f9271eef466924248bc98a48a718cc149d0f67b708628c8e4bd32fa945a813c7780f94270f21ac16fff33c854a348db7e19f084d
   languageName: node
   linkType: hard
 
@@ -8366,16 +8345,6 @@ __metadata:
   dependencies:
     pnglib: 0.0.1
   checksum: 7a02af1c7a4ee2781bbcecae8605985340eb2ba1b030997a7982b349c1d2c180f836bb50488184a1ff38420b60f5437b97f52d30e550fff13835c47009111f23
-  languageName: node
-  linkType: hard
-
-"event-emitter@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "event-emitter@npm:0.3.5"
-  dependencies:
-    d: 1
-    es5-ext: ~0.10.14
-  checksum: 92107b89703222355070b8c49208baf9426ce015d54b646a80f6652d348ab6064c5e13f1756ae20c750d8368f4b3cde48bafc56484667ba0e12d07c50b645f21
   languageName: node
   linkType: hard
 
@@ -11002,13 +10971,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"is-promise@npm:^2.1":
-  version: 2.2.2
-  resolution: "is-promise@npm:2.2.2"
-  checksum: 6fe84293b8750d3604a909979a7517a38b1618817f1fbbfdaf4d6138642117c85fbee12927b4d51349a5bcd9bdf8d1bf181f09145ede2d7eb41f4b394ab2ce7d
-  languageName: node
-  linkType: hard
-
 "is-promise@npm:^4.0.0":
   version: 4.0.0
   resolution: "is-promise@npm:4.0.0"
@@ -12527,15 +12489,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"lru-queue@npm:0.1":
-  version: 0.1.0
-  resolution: "lru-queue@npm:0.1.0"
-  dependencies:
-    es5-ext: ~0.10.2
-  checksum: 2eab98cdfb3101dab91ef6b8b50fce616440fa29d27ef1a1b99aa6be13422d03d6ebee15c1eb4873971c34baee27d64376aebc64560aecb37a328c82e3f40169
-  languageName: node
-  linkType: hard
-
 "lunr@npm:^2.3.9":
   version: 2.3.9
   resolution: "lunr@npm:2.3.9"
@@ -12773,22 +12726,6 @@ fsevents@~2.1.2:
   version: 5.1.1
   resolution: "memoize-one@npm:5.1.1"
   checksum: e7c4a9cceca71334bf09c38818c375a280dc6e8ec03a92701c16199763269ce756b7b0b370f4b464c071045349fb7b3e4a3cc7460a3f46a277f394d8634a6eb5
-  languageName: node
-  linkType: hard
-
-"memoizee@npm:^0.4.14":
-  version: 0.4.14
-  resolution: "memoizee@npm:0.4.14"
-  dependencies:
-    d: 1
-    es5-ext: ^0.10.45
-    es6-weak-map: ^2.0.2
-    event-emitter: ^0.3.5
-    is-promise: ^2.1
-    lru-queue: 0.1
-    next-tick: 1
-    timers-ext: ^0.1.5
-  checksum: 89530bbed2a59f20dd115d743f17159e0f857bd83186e5ffcfa6a4b88f47a6173472f351c7ae2219c4993c2888103e3ac348959356a104b74aba195c2db47ee6
   languageName: node
   linkType: hard
 
@@ -13366,13 +13303,6 @@ fsevents@~2.1.2:
   version: 2.6.2
   resolution: "neo-async@npm:2.6.2"
   checksum: 34a8f5309135be258a97082af810ea43700a3e0121e7b1ea31b3e22e2663d7c0d502cd949abb6d1ab8c11abfd04500ee61721ec5408b2d4bef8105241fd8a4c2
-  languageName: node
-  linkType: hard
-
-"next-tick@npm:1":
-  version: 1.1.0
-  resolution: "next-tick@npm:1.1.0"
-  checksum: 586cc85dcd8ec759b03269b39c8e3d899a27dbe49c472e7fb2b6a98b14a5b46d8c3b1b9a5fae29eb22881d9efa6d882d44617c51268b49d92e98ba8f20d42000
   languageName: node
   linkType: hard
 
@@ -16222,13 +16152,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"rxjs-compat@npm:^6.6.3":
-  version: 6.6.3
-  resolution: "rxjs-compat@npm:6.6.3"
-  checksum: 487a948df603706a165642f97d0554924461d5cd35d2a7c390cb74c2acbab18d63b319579c7d8a6cd7bf8dbb79daebbbc0ee737f693fc9796ba85c6ef247d5de
-  languageName: node
-  linkType: hard
-
 "rxjs@npm:^6.5.2, rxjs@npm:^6.6.0, rxjs@npm:^6.6.3":
   version: 6.6.3
   resolution: "rxjs@npm:6.6.3"
@@ -17966,16 +17889,6 @@ fsevents@~2.1.2:
   version: 1.1.0
   resolution: "thunky@npm:1.1.0"
   checksum: eceb856b6412ecd02c24731a2441698aa57622e03b0a4d6d1dea47d7b173aca54980fd2fba5b3a2e11ccec48373c46483f7f55a46717bfc07645395fa57267a6
-  languageName: node
-  linkType: hard
-
-"timers-ext@npm:^0.1.5":
-  version: 0.1.7
-  resolution: "timers-ext@npm:0.1.7"
-  dependencies:
-    es5-ext: ~0.10.46
-    next-tick: 1
-  checksum: 4593b57c397934fc7ddf7b240a8ff8468cdd7006407a442ec48c291bd85dcb7268858b72d1132bc55309e29d8eeae796f9edf378b0b45feff56b51f350e723b6
   languageName: node
   linkType: hard
 
