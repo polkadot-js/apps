@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Ledger } from '@polkadot/ui-keyring';
 
 import { useCallback, useMemo } from 'react';
 
 import { ledgerChains } from '@polkadot/apps-config';
+import { Ledger } from '@polkadot/ledger';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
