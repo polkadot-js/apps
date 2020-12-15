@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
-import type { Codec } from '@polkadot/types/types';
 
 export interface BountyStatusType {
   beneficiary: string | undefined;
@@ -10,9 +9,4 @@ export interface BountyStatusType {
   curator: AccountId | undefined;
   unlockAt: number | undefined;
   updateDue: BlockNumber | undefined;
-}
-
-export interface BountyDescription {
-  id: Codec;
-  description: string;
 }

@@ -973,7 +973,7 @@
   "role": "роль",
   "rotation": "ротация",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)",
-  "rpc.bifrost": "Bifrost",
+  "rpc.bifrost": "Bifrost Asgard",
   "rpc.custom": "Пользовательская среда",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Substrate Testnet, hosted by Parity)",

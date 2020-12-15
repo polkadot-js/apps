@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## 0.71.2 Dec 14, 2020
+
+Contributed:
+
+- Update it i18n (Thanks to https://github.com/fomod-in)
+- Add endpoint & types for MatchChain Galois (Thanks to https://github.com/hging)
+- Change endpoint for Sora (Thanks to https://github.com/stefashkaa)
+- Adjust Centrifuge types after upgrade (Thanks to https://github.com/mikiquantum)
+- Adjust Moonbeam types for future upgrades (Thanks to https://github.com/joelamouche)
+- Adjust Equilibrium types for balances (Thanks to https://github.com/pr0fedt)
+- Adjust bounties layout & add counter (Thanks to https://github.com/MiZiet)
+- Add max-width for content layouts (Thanks to https://github.com/MiZiet)
+- Use API derives for bounties (Thanks to https://github.com/krzysztof-jelski & https://github.com/MiZiet)
+- Extra type-only imports into seperate groups (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Multisig/Proxy add is only active when accounts are available
+- Adjust error popups to cater for strings as thrown (in addition to Error object)
+- Ensure that bad/erroneous judgements has the highest display priority
+- Detect new weight definitions for max batch-size calculations (with old fallback)
+- Move Sora & Moonbean type definitions to bundle-only
+- Allow for custom chain RPC definitions via typesBundle
+- Split endpoint definitions into folder (dev/prod/test)
+- Adjust Tooltip formatting with consistency between balances/locks
+
+
 ## 0.70.1 Dec 7, 2020
 
 Contributed:

@@ -25,6 +25,7 @@ import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defau
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import { decodeUrlTypes } from './urlTypes';
 
 interface Props {
   children: React.ReactNode;
@@ -66,7 +67,7 @@ function isKeyringLoaded () {
 }
 
 function getDevTypes (): Record<string, Record<string, string>> {
-  const types = store.get('types', {}) as Record<string, Record<string, string>>;
+  const types = decodeUrlTypes() || store.get('types', {}) as Record<string, Record<string, string>>;
   const names = Object.keys(types);
 
   names.length && console.log('Injected types:', names.join(', '));
