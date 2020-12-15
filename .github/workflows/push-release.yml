@@ -1,8 +1,8 @@
-name: Master
+name: release
 on:
   push:
     branches:
-      - master
+      - release
 
 jobs:
   # publish to gh-pages (& IPFS when a release is detected)
@@ -27,10 +27,9 @@ jobs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.STAGING_DEPLOY_KEY }}
-        external_repository: docknetwork/polkadot-fe-staging
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./packages/apps/build
-        cname: fe-staging.dock.io
+        cname: fe.dock.io
 
   # dummy, GH actions fails outright when all steps are skipped (like it can be above)
   dummy:
