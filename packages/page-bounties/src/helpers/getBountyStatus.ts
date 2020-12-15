@@ -3,7 +3,7 @@
 
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-import { BountyStatusType } from './types';
+import { BountyStatusType } from '../types';
 
 export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
   const statusAsString = status.type;
@@ -28,6 +28,15 @@ export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
       ...result,
       curator: status.asActive.curator,
       updateDue: status.asActive.updateDue
+    };
+  }
+
+  if (status.isPendingPayout) {
+    result = {
+      ...result,
+      beneficiary: status.asPendingPayout.beneficiary,
+      curator: status.asPendingPayout.curator,
+      unlockAt: status.asPendingPayout.unlockAt
     };
   }
 

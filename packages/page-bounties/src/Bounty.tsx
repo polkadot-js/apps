@@ -3,6 +3,7 @@
 
 import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -10,7 +11,7 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { getBountyStatus } from './helpers';
+import { getBountyStatus } from './helpers/getBountyStatus';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -22,18 +23,19 @@ interface Props {
 }
 
 const EMPTY_CELL = '-';
+const COMPLETED = 'completed';
 
-function Bounty ({ bestNumber, bounty, className = '', description, index }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function Bounty({ bestNumber, bounty, className = '', description, index }: Props): React.ReactElement<Props> {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value }: BountyType = bounty;
 
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);
 
-  const { bountyStatus, curator, updateDue } = updateStatus();
+  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = updateStatus();
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
+  const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
   const handleOnIconClick = () => {
     setIsExpanded(!isExpanded);
@@ -44,14 +46,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
       <tr className={className}>
         <td>{bountyStatus}</td>
         <td>{description}</td>
-        <td className='column-with-label'/>
         <td><FormatBalance value={value} /></td>
-        <td className='column-with-label'/>
-        <td>{curator ? <AddressSmall value={curator}/> : EMPTY_CELL}</td>
-        <td>
-          {updateDue ? <BlockToTime blocks={blocksUntilUpdate} /> : EMPTY_CELL}
-          {updateDue && t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocksUntilUpdate) } })}
-        </td>
+        <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
+        <td className='due-blocks'><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
+        <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
+        <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
         <td className='table-column-icon'>
           <LinkExternal
             data={index}
@@ -91,8 +90,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
           <div className='label'>Curators deposit</div>
         </td>
         <td>
-          <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL }</div>
-          <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL }</div>
+          <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
+          <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
         </td>
         <td />
         <td />
@@ -102,11 +101,32 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
   );
 }
 
+const DueBlocks = ({ dueBlocks }: { dueBlocks: BN | undefined }) => {
+  return <RenderDueBlocks dueBlocks={dueBlocks} />;
+};
+
+const RenderDueBlocks = ({ dueBlocks }: { dueBlocks: BN | undefined }) => {
+  const { t } = useTranslation();
+
+  if (dueBlocks) {
+    if (dueBlocks.gtn(0)) {
+      return (
+        <>
+          <BlockToTime blocks={dueBlocks} />
+          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
+        </>
+      );
+    } else return <>{COMPLETED}</>;
+  }
+
+  return <>{EMPTY_CELL}</>;
+};
+
 export default React.memo(styled(Bounty)`
   & .links {
     display: inline-flex;
   }
-  
+
   & .table-column-icon {
     width: 52px;
     padding: 0;
@@ -155,5 +175,9 @@ export default React.memo(styled(Bounty)`
       text-transform: uppercase;
       color: #4D4D4D;
     }
+  }
+
+  & .due-blocks {
+    min-width: 150px;
   }
 `);

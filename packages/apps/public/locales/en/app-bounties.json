@@ -1,8 +1,10 @@
 {
   "Bounties": "Bounties",
   "No open bounties": "No open bounties",
+  "beneficiary": "beneficiary",
   "bounties": "bounties",
   "curator": "curator",
+  "payment due": "payment due",
   "title": "title",
   "update due": "update due",
   "value": "value",
