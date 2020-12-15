@@ -9,7 +9,8 @@ import store from 'store';
 import styled from 'styled-components';
 
 import { registry } from '@polkadot/react-api';
-import { Button, Editor, InputFile } from '@polkadot/react-components';
+import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
+import { Button, CopyButton, Editor, InputFile } from '@polkadot/react-components';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -37,14 +38,16 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
   const [isTypesValid, setIsTypesValid] = useState(true);
   const [types, setTypes] = useState<Record<string, any>>(EMPTY_TYPES);
   const [typesPlaceholder, setTypesPlaceholder] = useState<string | null>(null);
+  const [sharedUrl, setSharedUrl] = useState<string | null>(null);
 
   useEffect((): void => {
-    const types = store.get('types') as Record<string, unknown> || {};
+    const types = decodeUrlTypes() || store.get('types') as Record<string, unknown> || {};
 
     if (Object.keys(types).length) {
       setCode(JSON.stringify(types, null, 2));
       setTypes({});
       setTypesPlaceholder(Object.keys(types).join(', '));
+      setSharedUrl(encodeUrlTypes(types));
     }
   }, []);
 
@@ -125,6 +128,8 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
 
   const _saveDeveloper = useCallback(
     (): void => {
+      let url = null;
+
       try {
         registry.register(types);
         store.set('types', types);
@@ -133,6 +138,12 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           action: t<string>('Your custom types have been added'),
           status: 'success'
         });
+
+        if (Object.keys(types).length) {
+          url = encodeUrlTypes(types);
+
+          console.log(url);
+        }
       } catch (error) {
         console.error(error);
         setIsTypesValid(false);
@@ -141,6 +152,8 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           status: 'error'
         });
       }
+
+      setSharedUrl(url);
     },
     [onStatusChange, t, types]
   );
@@ -180,6 +193,11 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         </div>
       </div>
       <Button.Group>
+        <CopyButton
+          label={t<string>('Share')}
+          type={t<string>('url')}
+          value={sharedUrl}
+        />
         <Button
           icon='sync'
           label={t<string>('Reset')}

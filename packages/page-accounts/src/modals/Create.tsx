@@ -321,7 +321,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   onChange={_selectSeedType}
                   options={seedOpt}
                 />
-                < CopyButton
+                <CopyButton
                   className='copyMoved'
                   type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
                   value={seed}
