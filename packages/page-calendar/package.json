@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-calendar",
   "private": true,
-  "version": "0.71.3-3",
+  "version": "0.71.3-4",
   "description": "A on-chain events calendar",
   "main": "index.js",
   "scripts": {},
@@ -10,6 +10,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/react-components": "^0.71.3-3"
+    "@polkadot/react-components": "^0.71.3-4"
   }
 }
