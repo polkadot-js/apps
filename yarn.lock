@@ -14471,6 +14471,8 @@ fsevents@~2.1.2:
     stylelint: ^13.8.0
     stylelint-config-recommended: ^3.0.0
     stylelint-config-styled-components: ^0.1.1
+    webpack: ^5.10.2
+    webpack-cli: ^4.2.0
   languageName: unknown
   linkType: soft
 
@@ -19333,6 +19335,43 @@ fsevents@~2.1.2:
   bin:
     webpack: bin/webpack.js
   checksum: 964ac4fa21bb55fb3d45c036fa646a4947a969148470b838c347a79be5857aaaa18596a981999414602ddd4fe19be9673e1d8f421c5882ea3c477491665ea983
+  languageName: node
+  linkType: hard
+
+"webpack@npm:^5.10.2":
+  version: 5.10.2
+  resolution: "webpack@npm:5.10.2"
+  dependencies:
+    "@types/eslint-scope": ^3.7.0
+    "@types/estree": ^0.0.45
+    "@webassemblyjs/ast": 1.9.1
+    "@webassemblyjs/helper-module-context": 1.9.1
+    "@webassemblyjs/wasm-edit": 1.9.1
+    "@webassemblyjs/wasm-parser": 1.9.1
+    acorn: ^8.0.4
+    browserslist: ^4.14.5
+    chrome-trace-event: ^1.0.2
+    enhanced-resolve: ^5.3.1
+    eslint-scope: ^5.1.1
+    events: ^3.2.0
+    glob-to-regexp: ^0.4.1
+    graceful-fs: ^4.2.4
+    json-parse-better-errors: ^1.0.2
+    loader-runner: ^4.1.0
+    mime-types: ^2.1.27
+    neo-async: ^2.6.2
+    pkg-dir: ^5.0.0
+    schema-utils: ^3.0.0
+    tapable: ^2.1.1
+    terser-webpack-plugin: ^5.0.3
+    watchpack: ^2.0.0
+    webpack-sources: ^2.1.1
+  peerDependenciesMeta:
+    webpack-cli:
+      optional: true
+  bin:
+    webpack: bin/webpack.js
+  checksum: e013f34c049556628998ce68b336e4d9559007947ee0cc1e264fbee272c75c9b6e879ef3773c2f8e53f9866c0540b1248d7cfb3bc71b8d7568d69401ee2c860a
   languageName: node
   linkType: hard
 
