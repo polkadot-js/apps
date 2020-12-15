@@ -108,6 +108,10 @@ export default {
     vote_requirement: 'u64'
   },
   PMAuth: 'BTreeMap<Did, DidSignature>',
+  Bonus: {
+    swap_bonuses: 'Vec<(Balance, BlockNumber)>',
+    vesting_bonuses: 'Vec<(Balance, Balance, BlockNumber)>'
+  },
   StateChange: {
     _enum: {
       KeyUpdate: 'KeyUpdate',
