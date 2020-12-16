@@ -47,6 +47,8 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeZero from './nodes/zero.svg';
+// last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
 // Alphabetical overrides based on the actual matched chain name
@@ -104,7 +106,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium]
+  ['Equilibrium', nodeEquilibrium],
+  ['SUBZΞRO', nodeZero]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -153,7 +156,8 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  zero: nodeZero
 };
 
 // extension logos
