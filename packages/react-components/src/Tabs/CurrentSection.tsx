@@ -17,7 +17,7 @@ interface Props {
 
 function CurrentSection ({ className = '', icon, text }: Props): React.ReactElement<Props> {
   return (
-    <div className={`${className} active-tab highlight--color`}>
+    <div className={`${className} active-tab`}>
       <Icon icon={icon} />
       <span>{text}</span>
     </div>
@@ -33,7 +33,7 @@ export default React.memo(styled(CurrentSection)(({ theme }: ThemeProps) => `
   height: 100%;
   display: flex;
   align-items: center;
-
+  color: ${theme.color};
 
   .ui--Icon {
     margin-right: 0.85rem;

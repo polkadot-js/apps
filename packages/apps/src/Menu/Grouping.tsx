@@ -68,8 +68,8 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   }
 
   &.isActive .groupHdr {
-    background-color: #fff;
-    color: #000;
+    background-color: ${theme.bgTabs};
+    color: ${theme.color};
   }
 
   .groupMenu {

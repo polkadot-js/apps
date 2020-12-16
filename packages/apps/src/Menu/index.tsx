@@ -166,7 +166,7 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
 
   & .menuContainer {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     justify-content: space-between;
     padding: 0 1.5rem;
