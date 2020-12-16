@@ -19,6 +19,7 @@ export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
   if (status.isCuratorProposed) {
     result = {
       ...result,
+      bountyStatus: 'Curator Proposed',
       curator: status.asCuratorProposed.curator
     };
   }
@@ -35,6 +36,7 @@ export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
     result = {
       ...result,
       beneficiary: status.asPendingPayout.beneficiary,
+      bountyStatus: 'Pending Payout',
       curator: status.asPendingPayout.curator,
       unlockAt: status.asPendingPayout.unlockAt
     };

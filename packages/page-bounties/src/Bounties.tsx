@@ -27,7 +27,7 @@ function Bounties (): React.ReactElement {
     [t('curator'), 'start'],
     [t('update due'), 'start'],
     [t('beneficiary'), 'start'],
-    [t('payment due'), 'start'],
+    [t('payout due'), 'start'],
     [],
     []
   ]);

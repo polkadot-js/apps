@@ -23,9 +23,8 @@ interface Props {
 }
 
 const EMPTY_CELL = '-';
-const COMPLETED = 'completed';
 
-function Bounty({ bestNumber, bounty, className = '', description, index }: Props): React.ReactElement<Props> {
+function Bounty ({ bestNumber, bounty, className = '', description, index }: Props): React.ReactElement<Props> {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value }: BountyType = bounty;
@@ -48,7 +47,7 @@ function Bounty({ bestNumber, bounty, className = '', description, index }: Prop
         <td>{description}</td>
         <td><FormatBalance value={value} /></td>
         <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
-        <td className='due-blocks'><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
+        <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
         <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
         <td className='table-column-icon'>
@@ -101,26 +100,20 @@ function Bounty({ bestNumber, bounty, className = '', description, index }: Prop
   );
 }
 
-const DueBlocks = ({ dueBlocks }: { dueBlocks: BN | undefined }) => {
-  return <RenderDueBlocks dueBlocks={dueBlocks} />;
-};
-
-const RenderDueBlocks = ({ dueBlocks }: { dueBlocks: BN | undefined }) => {
+function DueBlocks ({ dueBlocks }: { dueBlocks: BN | undefined }): JSX.Element {
   const { t } = useTranslation();
 
-  if (dueBlocks) {
-    if (dueBlocks.gtn(0)) {
-      return (
-        <>
-          <BlockToTime blocks={dueBlocks} />
-          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-        </>
-      );
-    } else return <>{COMPLETED}</>;
+  if (!dueBlocks) {
+    return <>{EMPTY_CELL}</>;
   }
 
-  return <>{EMPTY_CELL}</>;
-};
+  return dueBlocks.gtn(0)
+    ? <>
+      <BlockToTime blocks={dueBlocks} />
+      {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
+    </>
+    : <>{t('Claimable')}</>;
+}
 
 export default React.memo(styled(Bounty)`
   & .links {
@@ -146,7 +139,6 @@ export default React.memo(styled(Bounty)`
   }
 
   & .column-with-label {
-    width: 110px;
     vertical-align: middle;
     padding: 0;
     div {
@@ -175,9 +167,5 @@ export default React.memo(styled(Bounty)`
       text-transform: uppercase;
       color: #4D4D4D;
     }
-  }
-
-  & .due-blocks {
-    min-width: 150px;
   }
 `);

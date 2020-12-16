@@ -15,24 +15,24 @@ describe('get bounty status', () => {
   it('for CuratorProposed state it has curator defined', () => {
     const bountyStatus = getBountyStatus(registry.createType('BountyStatus', 'CuratorProposed'));
 
-    expect(bountyStatus.bountyStatus).toEqual('CuratorProposed');
-    expect(bountyStatus.curator).not.toBeUndefined();
+    expect(bountyStatus.bountyStatus).toEqual('Curator Proposed');
+    expect(bountyStatus.curator).toBeDefined();
   });
 
   it('for Active state it has curator and update due defined', () => {
     const bountyStatus = getBountyStatus(registry.createType('BountyStatus', 'Active'));
 
     expect(bountyStatus.bountyStatus).toEqual('Active');
-    expect(bountyStatus.curator).not.toBeUndefined();
-    expect(bountyStatus.updateDue).not.toBeUndefined();
+    expect(bountyStatus.curator).toBeDefined();
+    expect(bountyStatus.updateDue).toBeDefined();
   });
 
   it('for PendingPayout state it has curator, beneficiary and unlock_at defined', () => {
     const bountyStatus = getBountyStatus(registry.createType('BountyStatus', 'PendingPayout'));
 
-    expect(bountyStatus.bountyStatus).toEqual('PendingPayout');
-    expect(bountyStatus.curator).not.toBeUndefined();
-    expect(bountyStatus.beneficiary).not.toBeUndefined();
-    expect(bountyStatus.unlockAt).not.toBeUndefined();
+    expect(bountyStatus.bountyStatus).toEqual('Pending Payout');
+    expect(bountyStatus.curator).toBeDefined();
+    expect(bountyStatus.beneficiary).toBeDefined();
+    expect(bountyStatus.unlockAt).toBeDefined();
   });
 });
