@@ -4,9 +4,9 @@
 import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime';
 
 export interface BountyStatusType {
-  beneficiary: string | undefined;
+  beneficiary: AccountId | undefined;
   bountyStatus: string;
   curator: AccountId | undefined;
-  unlockAt: number | undefined;
+  unlockAt: BlockNumber | undefined;
   updateDue: BlockNumber | undefined;
 }
