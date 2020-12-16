@@ -52,8 +52,8 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
   white-space: nowrap;
 
   &.topLevel {
-    font-size: 1.15rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     line-height: 1.5rem;
     border-radius: 0.15rem 0.15rem 0 0;
 
@@ -72,7 +72,9 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     &.isActive.highlight--color-contrast {
       background-color: ${theme.bgTabs};
       color: ${theme.color};
-      margin-bottom: -3px;
+      margin-bottom: -5px;
+       font-size: 1.15rem;
+    font-weight: 600;
     }
   }
 

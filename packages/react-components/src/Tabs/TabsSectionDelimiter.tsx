@@ -4,8 +4,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ThemeProps } from '@polkadot/react-components/types';
-
 interface TabsSectionDelimiterProps {
   className?: string;
 }
