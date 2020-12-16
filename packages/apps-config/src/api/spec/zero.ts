@@ -6,6 +6,7 @@
 
 export default {
   Address: 'AccountId',
+  LookupSource: 'AccountId',
   Campaign: {
     id: 'Hash',
     manager: 'AccountId',
