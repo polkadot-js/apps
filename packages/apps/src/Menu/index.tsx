@@ -117,12 +117,10 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const activeRoute = useMemo(
-    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || undefined,
+    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
     [location]
   );
 
-  console.log(activeRoute);
-  console.log('visibleRoutes:', visibleGroups);
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
