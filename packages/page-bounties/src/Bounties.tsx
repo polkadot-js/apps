@@ -5,23 +5,17 @@ import type { DeriveBounties } from '@polkadot/api-derive/types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
-import AddBountyModal from '@polkadot/app-bounties/AddBountyModal';
+import BountyCreate from '@polkadot/app-bounties/BountyCreate';
 import { Button, Table } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Bounty from './Bounty';
 import { useTranslation } from './translate';
 
-interface Props {
-  className: string;
-}
-
-function Bounties ({ className = '' }: Props): React.ReactElement {
+function Bounties (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [addBountyModal, toggleAddBountyModal] = useToggle();
 
   const deriveBounties = useCall<DeriveBounties>(api.derive.treasury.bounties);
 
@@ -39,23 +33,11 @@ function Bounties ({ className = '' }: Props): React.ReactElement {
     []
   ]);
 
-  console.log(addBountyModal);
-
   return (
-    <div className={className}>
-      {addBountyModal && (
-        <AddBountyModal
-          onClose={toggleAddBountyModal}
-        />
-      )}
-      <div className='bountiesHeader'>
-        <Button
-          icon='plus'
-          isDisabled={false}
-          label={t<string>('Add Bounty')}
-          onClick={toggleAddBountyModal}
-        />
-      </div>
+    <>
+      <Button.Group>
+        <BountyCreate />
+      </Button.Group>
       <Table
         empty={deriveBounties && t<string>('No open bounties')}
         header={headerRef.current}
@@ -70,16 +52,8 @@ function Bounties ({ className = '' }: Props): React.ReactElement {
           />
         ))}
       </Table>
-    </div>
+    </>
   );
 }
 
-export default React.memo(styled(Bounties)`
-  .bountiesHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin: 1rem 0;
-  }
-`
-);
+export default React.memo(Bounties);
