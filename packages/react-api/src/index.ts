@@ -4,7 +4,6 @@
 import Api, { api, DEFAULT_DECIMALS, DEFAULT_SS58 } from './Api';
 import ApiContext from './ApiContext';
 import { withApi, withCallDiv, withCalls, withMulti, withObservable } from './hoc';
-import registry from './typeRegistry';
 
 export {
   api,
@@ -12,7 +11,6 @@ export {
   ApiContext,
   DEFAULT_DECIMALS,
   DEFAULT_SS58,
-  registry,
   withApi,
   withCalls,
   withCallDiv,

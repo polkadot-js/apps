@@ -75,7 +75,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   }, [currentPair]);
 
   const _onChangeAccount = useCallback(
-    (accountId: string | null) => setCurrentPair(keyring.getPair(accountId || '')),
+    (accountId: string | null) => accountId && setCurrentPair(keyring.getPair(accountId)),
     []
   );
 

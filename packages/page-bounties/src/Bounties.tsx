@@ -23,11 +23,11 @@ function Bounties (): React.ReactElement {
   const headerRef = useRef([
     [t('bounties'), 'start'],
     [t('title'), 'start'],
-    [],
     [t('value'), 'start'],
-    [],
     [t('curator'), 'start'],
     [t('update due'), 'start'],
+    [t('beneficiary'), 'start'],
+    [t('payout due'), 'start'],
     [],
     []
   ]);

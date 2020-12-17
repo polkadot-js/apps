@@ -27,6 +27,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -58,5 +59,6 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
-  subsocial
+  subsocial,
+  subzero: zero
 };

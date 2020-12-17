@@ -58,5 +58,6 @@
   "rpc.subsocial": "Subsocial",
   "rpc.turbulence": "Turbulence",
   "rpc.westend": "Westend",
+  "rpc.zero": "zero",
   "ss58.default": "Default for the connected node"
 }

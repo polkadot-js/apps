@@ -12,18 +12,12 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
-// extensions
-// alphabetical
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
-// external links
-// alphabetical
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalSubscan from './external/subscan.svg';
-// defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
-// alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeCanvas from './nodes/canvas-2.png';
@@ -53,6 +47,7 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeZero from './nodes/zero.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -111,7 +106,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium]
+  ['Equilibrium', nodeEquilibrium],
+  ['SUBZΞRO', nodeZero]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -160,7 +156,8 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  zero: nodeZero
 };
 
 // extension logos
