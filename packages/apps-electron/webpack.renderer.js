@@ -8,13 +8,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { merge } = require('webpack-merge');
 
-const baseConfig = require('../apps/webpack.base.config');
+const baseConfig = require('../apps/webpack.base.js');
 
-const ENV = process.env.NODE_ENV || 'production';
 const context = __dirname;
 
 module.exports = merge(
-  baseConfig(ENV, context),
+  baseConfig(context),
   {
     plugins: [
       // It must be placed before HtmlWebpackPlugin

@@ -6,14 +6,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { merge } = require('webpack-merge');
 
-const baseConfig = require('./webpack.base.config');
+const baseConfig = require('./webpack.base.js');
 
-const ENV = process.env.NODE_ENV || 'development';
 const context = __dirname;
 const hasPublic = fs.existsSync(path.join(context, 'public'));
 
 module.exports = merge(
-  baseConfig(ENV, context),
+  baseConfig(context),
   {
     devtool: process.env.BUILD_ANALYZE ? 'source-map' : false,
     plugins: [
