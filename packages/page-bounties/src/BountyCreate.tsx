@@ -40,7 +40,7 @@ function BountyCreate () {
       {isOpen && (
         <Modal
           className='ui--AddBountyModal'
-          header={t<string>('Add bounty')}
+          header={t<string>('Add Bounty')}
         >
           <Modal.Content>
             <Input
