@@ -7,8 +7,10 @@ import styled from 'styled-components';
 
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { ModalProps } from '@polkadot/app-accounts/types';
-import { Button, Input, InputBalance, Modal } from '@polkadot/react-components';
+import { countBountyBond } from '@polkadot/app-bounties/helpers/countBountyBond';
+import { Button, Input, InputBalance, Modal, Static } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
@@ -22,9 +24,19 @@ interface Props extends ModalProps {
 
 function AddBountyModal ({ className = '', onClose }: Props) {
   const { t } = useTranslation();
+  const { api } = useApi();
+
+  const bountyDepositBase = api.consts.treasury.bountyDepositBase;
+  const bountyDepositPerByte = api.consts.treasury.dataDepositPerByte;
 
   const [title, setTitle] = useState('');
+  const [bond, setBond] = useState(bountyDepositBase.toBn());
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
+
+  const onInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value);
+    setBond(countBountyBond(title, bountyDepositBase, bountyDepositPerByte));
+  };
 
   console.log(amount);
 
@@ -41,10 +53,16 @@ function AddBountyModal ({ className = '', onClose }: Props) {
           autoFocus
           help={t<string>('')}
           label={t<string>('bounty title')}
-          onChange={setTitle}
+          onChange={(e) => onInputChange(e)}
           placeholder={t<string>('bounty title')}
           value={title}
         />
+        <Static
+          help={t<string>('Calculated bond for bounty')}
+          label={t<string>('bounty bond')}
+        >
+          {bond}
+        </Static>
         <InputBalance
           help={t<string>('')}
           isZeroable
