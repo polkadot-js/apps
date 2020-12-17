@@ -146,10 +146,12 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         />
       </Column>
       <Column>
-        <QrNetworkSpecs
-          className='settings--networkSpecs-qr'
-          networkSpecs={debouncedQrData}
-        />
+        {qrData.genesisHash && (
+          <QrNetworkSpecs
+            className='settings--networkSpecs-qr'
+            networkSpecs={debouncedQrData}
+          />
+        )}
       </Column>
     </Columar>
   );

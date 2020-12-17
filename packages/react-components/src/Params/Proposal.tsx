@@ -5,20 +5,19 @@ import type { Props, RawParam } from '@polkadot/react-params/types';
 
 import React, { useCallback } from 'react';
 
-import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 import ExtrinsicDisplay from './Extrinsic';
 
 function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
-  const { apiDefaultTxSudo } = useApi();
+  const { api, apiDefaultTxSudo } = useApi();
 
   const _onChange = useCallback(
     ({ isValid, value }: RawParam): void => {
       let proposal = null;
 
       if (isValid && value) {
-        proposal = registry.createType('Proposal', value);
+        proposal = api.createType('Proposal', value);
       }
 
       onChange && onChange({
@@ -26,7 +25,7 @@ function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange
         value: proposal
       });
     },
-    [onChange]
+    [api, onChange]
   );
 
   return (

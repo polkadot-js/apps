@@ -192,7 +192,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   // initial initialization
   useEffect((): void => {
     const provider = new WsProvider(url);
-    const signer = new ApiSigner(queuePayload, queueSetTxStatus);
+    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
     api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
