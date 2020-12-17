@@ -25,8 +25,6 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
   );
 
   if (!Component) {
-    console.error(`No component rendered for name=${name || 'undefined'}, type=${JSON.stringify(type)}`);
-
     return null;
   }
 
