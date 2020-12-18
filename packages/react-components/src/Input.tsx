@@ -4,7 +4,7 @@
 import type { VoidFn } from './types';
 
 import React, { useCallback, useState } from 'react';
-import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
+import { Input as SUIInput } from 'semantic-ui-react';
 
 import { isFunction, isUndefined } from '@polkadot/util';
 
