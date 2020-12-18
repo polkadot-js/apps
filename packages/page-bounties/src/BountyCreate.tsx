@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { calculateBountyBond } from '@polkadot/app-bounties/helpers/calculateBountyBond';
@@ -14,20 +14,20 @@ function BountyCreate () {
   const { t } = useTranslation();
   const { api } = useApi();
 
-  const bountyDepositBase = api.consts.treasury.bountyDepositBase;
-  const bountyDepositPerByte = api.consts.treasury.dataDepositPerByte;
-
   const [accountId, setAccountId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
-  const [bond, setBond] = useState(bountyDepositBase.toBn());
+  const [bond, setBond] = useState(api.consts.treasury.bountyDepositBase.toBn());
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [isValid] = useState(true);
   const [isOpen, toggleIsOpen] = useToggle();
 
-  const onTitleChange = (value: string) => {
+  const onTitleChange = useCallback((value: string) => {
+    const bountyDepositBase = api.consts.treasury.bountyDepositBase;
+    const bountyDepositPerByte = api.consts.treasury.dataDepositPerByte;
+
     setTitle(value);
     setBond(calculateBountyBond(value, bountyDepositBase, bountyDepositPerByte));
-  };
+  }, [api]);
 
   return (
     <>
