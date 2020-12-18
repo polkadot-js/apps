@@ -6,7 +6,8 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import BountyCreate from '@polkadot/app-bounties/BountyCreate';
+import { Button, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Bounty from './Bounty';
@@ -33,20 +34,25 @@ function Bounties (): React.ReactElement {
   ]);
 
   return (
-    <Table
-      empty={deriveBounties && t<string>('No open bounties')}
-      header={headerRef.current}
-    >
-      {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description }, index) => (
-        <Bounty
-          bestNumber={bestNumber}
-          bounty={bounty}
-          description={description}
-          index={index}
-          key={index}
-        />
-      ))}
-    </Table>
+    <>
+      <Button.Group>
+        <BountyCreate />
+      </Button.Group>
+      <Table
+        empty={deriveBounties && t<string>('No open bounties')}
+        header={headerRef.current}
+      >
+        {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description }, index) => (
+          <Bounty
+            bestNumber={bestNumber}
+            bounty={bounty}
+            description={description}
+            index={index}
+            key={index}
+          />
+        ))}
+      </Table>
+    </>
   );
 }
 
