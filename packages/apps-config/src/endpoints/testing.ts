@@ -4,6 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
 
+import { createRococo } from './testingRococo';
+
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
@@ -12,6 +14,8 @@ import type { LinkOption } from '../settings/types';
 
 export function createTesting (t: TFunction): LinkOption[] {
   return [
+    // polkadot test relays
+    createRococo(t),
     // alphabetical based on chain name
     {
       info: 'centrifuge',

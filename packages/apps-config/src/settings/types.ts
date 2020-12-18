@@ -13,5 +13,6 @@ export interface LinkOption extends Option {
   dnslink?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
+  linked?: LinkOption[];
   textBy: string;
 }
