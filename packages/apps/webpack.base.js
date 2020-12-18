@@ -3,6 +3,7 @@
 
 /* eslint-disable camelcase */
 
+const fs = require('fs');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -29,6 +30,9 @@ function createWebpack (context) {
 
     return alias;
   }, {});
+  const plugins = fs.existsSync(path.join(context, 'public'))
+    ? new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })
+    : [];
 
   return {
     context,
@@ -172,9 +176,8 @@ function createWebpack (context) {
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash:8].css'
-      }),
-      new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })
-    ],
+      })
+    ].concat(plugins),
     resolve: {
       alias: {
         ...alias,
