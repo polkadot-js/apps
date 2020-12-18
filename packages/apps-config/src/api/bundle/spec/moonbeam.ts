@@ -148,13 +148,45 @@ export default {
           logs_bloom: 'H2048',
           status_code: 'Option<U64>'
         },
-        ExitReason: {
-          _enum: {
-            ExitSucceed: 'bool',
-            ExitError: 'bool',
-            ExitRevert: 'bool',
-            ExitFatal: 'bool'
+        "ExitReason": {
+          "_enum": {
+            "Succeed": "ExitSucceed",
+            "Error": "ExitError",
+            "Revert": "ExitRevert",
+            "verFatal": "ExitFatal"
           }
+        },
+        "ExitSucceed": {
+          "_enum": ["Stopped", "Returned", "Suicided"]
+        },
+        "ExitError": {
+          "_enum": [
+            "StackUnderflow",
+            "StackOverflow",
+            "InvalidJump",
+            "InvalidRange",
+            "DesignatedInvalid",
+            "CallTooDeep",
+            "CreateCollision",
+            "CreateContractLimit",
+            "OutOfOffset",
+            "OutOfGas",
+            "OutOfFund",
+            "PCUnderflow",
+            "CreateEmpty",
+            "Other(Cow<'static, str>)"
+          ]
+        },
+        "ExitRevert": {
+          "_enum": ["Reverted"]
+        },
+        "ExitFatal": {
+          "_enum": [
+            "NotSupported",
+            "UnhandledInterrupt",
+            "CallErrorAsFatal(ExitError)",
+            "Other(Cow<'static, str>)"
+          ]
         }
       }
     },
@@ -223,13 +255,45 @@ export default {
           logs_bloom: 'H2048',
           status_code: 'Option<U64>'
         },
-        ExitReason: {
-          _enum: {
-            ExitSucceed: 'bool',
-            ExitError: 'bool',
-            ExitRevert: 'bool',
-            ExitFatal: 'bool'
+        "ExitReason": {
+          "_enum": {
+            "Succeed": "ExitSucceed",
+            "Error": "ExitError",
+            "Revert": "ExitRevert",
+            "verFatal": "ExitFatal"
           }
+        },
+        "ExitSucceed": {
+          "_enum": ["Stopped", "Returned", "Suicided"]
+        },
+        "ExitError": {
+          "_enum": [
+            "StackUnderflow",
+            "StackOverflow",
+            "InvalidJump",
+            "InvalidRange",
+            "DesignatedInvalid",
+            "CallTooDeep",
+            "CreateCollision",
+            "CreateContractLimit",
+            "OutOfOffset",
+            "OutOfGas",
+            "OutOfFund",
+            "PCUnderflow",
+            "CreateEmpty",
+            "Other(Cow<'static, str>)"
+          ]
+        },
+        "ExitRevert": {
+          "_enum": ["Reverted"]
+        },
+        "ExitFatal": {
+          "_enum": [
+            "NotSupported",
+            "UnhandledInterrupt",
+            "CallErrorAsFatal(ExitError)",
+            "Other(Cow<'static, str>)"
+          ]
         }
       }
     }
