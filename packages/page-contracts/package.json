@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-contracts",
   "private": true,
-  "version": "0.71.3-20",
+  "version": "0.71.3-21",
   "description": "Deployment and management of substrate contracts",
   "main": "index.js",
   "scripts": {},
