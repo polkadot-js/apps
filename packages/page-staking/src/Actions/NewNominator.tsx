@@ -6,7 +6,7 @@ import type { BondInfo, NominateInfo } from './partials/types';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -83,6 +83,11 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                 targets={targets}
               />
             )}
+            <Modal.Columns>
+              <Modal.Column>
+                <BatchWarning />
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
             <Button

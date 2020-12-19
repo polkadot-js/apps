@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -309,6 +309,11 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
           </Modal.Column>
           <Modal.Column>
             <p>{t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <BatchWarning />
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>

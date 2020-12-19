@@ -5,7 +5,7 @@ import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -88,6 +88,11 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                 />
               </>
             )}
+            <Modal.Columns>
+              <Modal.Column>
+                <BatchWarning />
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
             <Button
