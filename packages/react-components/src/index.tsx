@@ -15,6 +15,7 @@ export { default as Available } from './Available';
 export { default as AvatarItem } from './AvatarItem';
 export { default as Badge } from './Badge';
 export { default as Balance } from './Balance';
+export { default as BatchWarning } from './BatchWarning';
 export { default as Bonded } from './Bonded';
 export { default as Button } from './Button';
 export { default as ButtonCancel } from './ButtonCancel';

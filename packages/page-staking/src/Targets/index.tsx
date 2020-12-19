@@ -264,7 +264,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
-    [t('payout'), 'media--1500'],
+    [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
