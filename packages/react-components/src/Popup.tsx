@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import SUIPopup, { PopupProps } from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
+import { Popup as SUIPopup, PopupProps } from 'semantic-ui-react';
 
 interface Props {
   children: React.ReactNode;
