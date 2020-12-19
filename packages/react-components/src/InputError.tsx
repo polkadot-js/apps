@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
+import { Label } from 'semantic-ui-react';
 
 interface Props {
   className?: string;
