@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxCallback } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
@@ -29,18 +31,18 @@ interface Props {
 
 interface ConstructTx {
   params?: any[];
-  tx?: string;
+  tx?: (...args: any[]) => SubmittableExtrinsic<'promise'>;
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.
-function constructTx (systemChain: string, accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
+function constructTx (api: ApiPromise, systemChain: string, accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
   if (!ethereumSignature) {
     return {};
   }
 
   return isOldClaimProcess || !kind
-    ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
-    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
+    ? { params: [accountId, ethereumSignature], tx: api.tx.claims.claim }
+    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: api.tx.claims.claimAttest };
 }
 
 function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
@@ -90,7 +92,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
                   isUnsigned
                   label={t('Claim')}
                   onSuccess={onSuccess}
-                  {...constructTx(systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
+                  {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
               </Button.Group>
             </>
