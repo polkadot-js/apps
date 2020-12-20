@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.71.3-22",
+  "version": "0.71.3-23",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
