@@ -73,16 +73,16 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://rpc.dusty.plasmnet.io/'
     },
     {
-      info: 'encointer_gesell',
-      text: t('rpc.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
-      value: 'wss://gesell.encointer.org'
-    },
-    {
       info: 'encointer_cantillon',
       text: t('rpc.encointer.cantillon', 'Encointer Cantillon', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
       value: 'wss://cantillon.encointer.org'
+    },
+    {
+      info: 'encointer_gesell',
+      text: t('rpc.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
+      value: 'wss://gesell.encointer.org'
     },
     {
       info: 'equilibrium',
