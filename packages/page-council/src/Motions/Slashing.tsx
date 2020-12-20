@@ -131,7 +131,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx='council.propose'
+              tx={api.tx.council.propose}
             />
           </Modal.Actions>
         </Modal>

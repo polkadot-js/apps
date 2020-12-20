@@ -83,11 +83,7 @@ function BountyCreate () {
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
               params={[amount, title]}
-              tx={
-                api.tx.bounties
-                  ? 'bounties.proposeBounty'
-                  : 'treasury.proposeBounty'
-              }
+              tx={(api.tx.bounties || api.tx.treasury).proposeBounty}
             />
           </Modal.Actions>
         </Modal>

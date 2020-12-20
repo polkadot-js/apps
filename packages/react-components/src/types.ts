@@ -3,7 +3,7 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { WithTranslation } from 'react-i18next';
-import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { TxState } from '@polkadot/react-hooks/types';
@@ -39,8 +39,8 @@ export interface TxTriggerProps {
 export type TxTrigger = React.ComponentType<TxTriggerProps>;
 
 export interface TxProps {
-  extrinsic?: SubmittableExtrinsic | SubmittableExtrinsic[] | null;
-  tx?: string;
+  extrinsic?: SubmittableExtrinsic<'promise'> | SubmittableExtrinsic<'promise'>[] | null;
+  tx?: (...args: any[]) => SubmittableExtrinsic<'promise'>;
   params?: any[] | ConstructTxFn;
 }
 
