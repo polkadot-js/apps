@@ -3,18 +3,16 @@
 
 import type { BountyIndex } from '@polkadot/types/interfaces';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const bounties = useCall<BountyIndex>(isApiReady && api.query.treasury?.bountyCount);
-  const [counter, setCounter] = useState(0);
+  const bounties = useCall<BountyIndex>(isApiReady && (api.query.bounties || api.query.treasury)?.bountyCount);
 
-  useEffect((): void => {
-    setCounter(bounties?.toNumber() || 0);
-  }, [bounties]);
-
-  return counter;
+  return useMemo(
+    () => bounties?.toNumber() || 0,
+    [bounties]
+  );
 }
