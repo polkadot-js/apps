@@ -6,19 +6,17 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 
-import BountyCreate from '@polkadot/app-bounties/BountyCreate';
 import { Button, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Bounty from './Bounty';
+import BountyCreate from './BountyCreate';
 import { useTranslation } from './translate';
 
 function Bounties (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
-
-  const deriveBounties = useCall<DeriveBounties>(api.derive.treasury.bounties);
-
+  const deriveBounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
   const headerRef = useRef([

@@ -13,7 +13,7 @@
     "@babel/runtime": "^7.12.5",
     "@edgeware/node-types": "^3.0.11",
     "@laminar/type-definitions": "^0.2.0-beta.141",
-    "@polkadot/networks": "^5.0.2-9",
+    "@polkadot/networks": "^5.1.1",
     "@sora-substrate/type-definitions": "^0.1.8",
     "@subsocial/types": "^0.4.26"
   },
