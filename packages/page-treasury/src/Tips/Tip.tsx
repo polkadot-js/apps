@@ -156,8 +156,8 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               onSuccess={onRefresh}
               params={[hash]}
               tx={
-                api.tx.bounties
-                  ? 'bounties.retractTip'
+                api.tx.tips
+                  ? 'tips.retractTip'
                   : 'treasury.retractTip'
               }
             />
@@ -182,8 +182,8 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               onSuccess={onRefresh}
               params={[hash]}
               tx={
-                api.tx.bounties
-                  ? 'bounties.closeTip'
+                api.tx.tips
+                  ? 'tips.closeTip'
                   : 'treasury.closeTip'
               }
             />
