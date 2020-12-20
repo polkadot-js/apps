@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
-import type { StringOrNull } from '@polkadot/react-components/types';
 
 import React from 'react';
 
@@ -24,7 +23,7 @@ export function getContractMethodFn (callContract: Contract | null, callMethodIn
   return fn || null;
 }
 
-export function getContractForAddress (api: ApiPromise, address: StringOrNull): Contract | null {
+export function getContractForAddress (api: ApiPromise, address: string | null): Contract | null {
   if (!address) {
     return null;
   } else {
