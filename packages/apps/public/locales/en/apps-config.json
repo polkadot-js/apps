@@ -16,6 +16,8 @@
   "rpc.dock-testnet": "Dock Testnet",
   "rpc.dusty": "Dusty",
   "rpc.edgeware": "Edgeware",
+  "rpc.encointer.cantillon": "Encointer Cantillon",
+  "rpc.encointer.gesell": "Encointer Gesell",
   "rpc.equilibrium": "Equilibrium Mainnet",
   "rpc.equilibriumr": "Equilibrium",
   "rpc.equilibriumtestnet": "Equilibrium Testnet",

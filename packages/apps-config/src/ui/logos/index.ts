@@ -131,6 +131,8 @@ export const namedLogos: Record<string, unknown> = {
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  encointer_cantillon: nodeEncointerTeeproxy,
+  encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
