@@ -26,7 +26,6 @@ interface Props {
   isOldClaimProcess: boolean;
   onSuccess?: TxCallback;
   statementKind?: StatementKind;
-  systemChain: string;
 }
 
 interface ConstructTx {
@@ -45,9 +44,9 @@ function constructTx (api: ApiPromise, systemChain: string, accountId: string, e
     : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: api.tx.claims.claimAttest };
 }
 
-function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, systemChain } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 

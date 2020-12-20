@@ -314,7 +314,6 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
                 isOldClaimProcess={isOldClaimProcess}
                 onSuccess={goToStepAccount}
                 statementKind={statementKind}
-                systemChain={systemChain}
               />
           )}
         </Column>
