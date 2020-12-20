@@ -67,5 +67,5 @@ export default {
     attendee_signature: 'Signature'
   },
   ShopIdentifier: 'Text',
-  ArticleIdentifier: 'Text',
+  ArticleIdentifier: 'Text'
 };

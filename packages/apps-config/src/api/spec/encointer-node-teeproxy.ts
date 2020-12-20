@@ -39,5 +39,5 @@ export default {
     mrenclave: 'Hash',
     timestamp: 'u64',
     url: 'Text'
-  },
+  }
 };
