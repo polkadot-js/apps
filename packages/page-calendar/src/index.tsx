@@ -111,10 +111,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   const _setAllEventsView = useCallback(
-    (v) => {
-      console.log('v', v);
-      setAllEventsView(v);
-    },
+    (v) => setAllEventsView(v),
     []
   );
 
