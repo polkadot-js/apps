@@ -21,6 +21,7 @@ interface Props {
   scheduled: EntryInfo[];
   setNextDay: () => void;
   setPrevDay: () => void;
+  setView: (v: boolean) => void;
 }
 
 const HOURS = ((): number[] => {
@@ -33,7 +34,7 @@ const HOURS = ((): number[] => {
   return hours;
 })();
 
-function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay }: Props): React.ReactElement<Props> {
+function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay, setView }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const monthRef = useRef(MONTHS.map((m) => t(m)));
@@ -50,7 +51,14 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
+        <div className='highlight--color'>
+          <Button
+            className='all-events-button'
+            icon={'list'}
+            onClick={() => setView(true)}
+          />
+          {date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}
+        </div>
         <Button.Group>
           <Button
             icon='chevron-left'

@@ -14,8 +14,11 @@ import { dateCalendarFormat } from './util';
 
 interface Props {
   className?: string;
+  showAllEvents?: boolean;
   item: EntryInfoTyped;
 }
+
+const options = { day: 'numeric', month: 'long', weekday: 'long', year: 'numeric' };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function assertUnreachable (x: never): never {
@@ -52,7 +55,7 @@ function exportCalendar (date: Date, description: string): void {
   window.URL.revokeObjectURL(anchor.href);
 }
 
-function DayItem ({ className, item: { date, info, type } }: Props): React.ReactElement<Props> {
+function DayItem ({ className, item: { date, info, type }, showAllEvents }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [description, setDescription] = useState<string>('');
@@ -154,13 +157,18 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
     [info, t, type]
   );
 
+  const exportCalClassNames = showAllEvents ? 'exportCal exportCal-allEvents' : 'exportCal';
+
   return (
     <div className={className}>
+      {showAllEvents &&
+        <div className='itemDate'>{date.toLocaleString('en-EN', options)}</div>
+      }
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
       {desc}
       {date && (
         <Button
-          className='exportCal'
+          className={exportCalClassNames}
           icon='calendar-plus'
           onClick={_exportCal}
         />
@@ -188,6 +196,18 @@ export default React.memo(styled(DayItem)`
       width: 0.7rem;
       height: 0.7rem;
     }
+  }
+
+  .exportCal-allEvents {
+    right: 3.5rem;
+  }
+
+  .itemDate {
+    background: #999;
+    padding: 0 0.375rem;
+    border-radius: 0.25rem;
+    color: #eee;
+    width: 17rem;
   }
 
   .itemTime {
