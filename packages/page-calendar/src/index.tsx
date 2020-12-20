@@ -134,7 +134,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           setPrevMonth={_prevMonth}
           state={dateState}
         />
-        <div style={{ flex: '1' }}>
+        <div className='wrapper-style'>
           {allEventsView
             ? <UpcomingEvents
               scheduled={scheduled}
@@ -161,6 +161,10 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
     align-items: flex-start;
     display: flex;
     flex-wrap: nowrap;
+
+    .wrapper-style {
+      flex: 1;
+    }
 
     > div {
       background-color: ${theme.bgTable};
