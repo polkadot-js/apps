@@ -78,11 +78,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
                 ? [method, weight]
                 : [method]
             }
-            tx={
-              withWeight
-                ? 'sudo.sudoUncheckedWeight'
-                : 'sudo.sudo'
-            }
+            tx={(withWeight && api.tx.sudo.sudoUncheckedWeight) || api.tx.sudo.sudo}
           />
         </Button.Group>
       </section>

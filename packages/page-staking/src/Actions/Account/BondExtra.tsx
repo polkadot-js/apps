@@ -111,7 +111,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
           label={t<string>('Bond more')}
           onStart={onClose}
           params={[maxAdditional]}
-          tx='staking.bondExtra'
+          tx={api.tx.staking.bondExtra}
         />
       </Modal.Actions>
     </Modal>
