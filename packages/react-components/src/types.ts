@@ -9,10 +9,6 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
 import type { TxCallback, TxFailedCallback } from './Status/types';
 
-export type StringOrNull = string | null;
-
-export type VoidFn = () => void;
-
 export interface BareProps {
   children?: React.ReactNode;
   className?: string;
@@ -28,7 +24,7 @@ export interface AppProps {
 export type I18nProps = BareProps & WithTranslation;
 
 export interface TxButtonProps {
-  accountId?: AccountId | StringOrNull;
+  accountId?: AccountId | string | null;
   accountNonce?: Index;
   className?: string;
   extrinsic?: SubmittableExtrinsic | SubmittableExtrinsic[] | null;
@@ -40,10 +36,10 @@ export interface TxButtonProps {
   isToplevel?: boolean;
   isUnsigned?: boolean;
   label?: React.ReactNode;
-  onClick?: VoidFn;
+  onClick?: () => void;
   onFailed?: TxFailedCallback;
-  onSendRef?: React.MutableRefObject<VoidFn | undefined>;
-  onStart?: VoidFn;
+  onSendRef?: React.MutableRefObject<(() => void) | undefined>;
+  onStart?: () => void;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
   params?: any[] | (() => any[]);

@@ -3,7 +3,6 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
-import type { StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -36,7 +35,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const weight = useWeight();
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>([]);
-  const [accountId, isAccountIdValid, setAccountId] = useFormField<StringOrNull>(null);
+  const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(new BN(ENDOWMENT));
   const [salt, setSalt] = useState(randomAsHex());
   const [withSalt, setWithSalt] = useState(false);

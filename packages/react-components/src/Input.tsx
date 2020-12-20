@@ -1,8 +1,6 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { VoidFn } from './types';
-
 import React, { useCallback, useState } from 'react';
 import { Input as SUIInput } from 'semantic-ui-react';
 
@@ -37,7 +35,7 @@ interface Props {
   maxLength?: number;
   min?: number;
   name?: string;
-  onEnter?: boolean | VoidFn;
+  onEnter?: boolean | (() => void);
   onEscape?: () => void;
   onChange?: (value: string) => void;
   onBlur?: () => void;
