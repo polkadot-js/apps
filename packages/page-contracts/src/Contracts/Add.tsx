@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { StringOrNull } from '@polkadot/react-components/types';
 
 import React, { useCallback, useState } from 'react';
 
@@ -22,7 +21,7 @@ interface Props {
 function Add ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [address, setAddress] = useState<StringOrNull>(null);
+  const [address, setAddress] = useState<string | null>(null);
   const [isAddressValid, setIsAddressValid] = useState(false);
   const [name, isNameValid, setName] = useNonEmptyString('New Contract');
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([null, null], null, true);

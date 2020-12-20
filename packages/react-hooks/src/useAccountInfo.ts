@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
-import type { StringOrNull } from '@polkadot/react-components/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
@@ -42,7 +41,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
-  const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
+  const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
