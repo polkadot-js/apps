@@ -2303,8 +2303,6 @@ __metadata:
     punycode: ^2.1.1
     query-string: ^6.13.7
     stream-browserify: ^3.0.0
-    style-loader: ^2.0.0
-    thread-loader: ^3.0.1
     url-loader: ^4.1.1
     webpack: ^5.10.1
     webpack-cli: ^4.2.0
@@ -17373,18 +17371,6 @@ fsevents@~2.1.2:
   version: 1.0.1
   resolution: "strip-url-auth@npm:1.0.1"
   checksum: 3b0b45e942e692e62bbfd0767ba28a9a85befb95e90de3cf202d08d4f7a070d5c8de69e74885fde30a89f3ce6b2f1c93fd1eb26774d06c0a29feccd9ca879953
-  languageName: node
-  linkType: hard
-
-"style-loader@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "style-loader@npm:2.0.0"
-  dependencies:
-    loader-utils: ^2.0.0
-    schema-utils: ^3.0.0
-  peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: ffc305488244ab499f91b05a1c94dd199b8b106d69e260ce38bd599819bbb352357e107bef3c319b775b9fb0eaed571cb68f8c7940e457553f85a980f4b630d8
   languageName: node
   linkType: hard
 
