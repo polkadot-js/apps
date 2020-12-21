@@ -14,9 +14,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { calculateBountyBond } from './helpers/calculateBountyBond';
 import { useTranslation } from './translate';
 
-const MAX_TITLE_LEN = 128;
-const MIN_TITLE_LEN = 5;
-
+const MIN_TITLE_LEN = 1;
 const TITLE_DEFAULT_VALUE = '';
 const AMOUNT_DEFAULT_VALUE = BN_ZERO;
 
@@ -31,9 +29,10 @@ function BountyCreate () {
   const [isOpen, toggleIsOpen] = useToggle();
 
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const bountyMinValue = new BN(api.consts.treasury.bountyValueMinimum.toString());
+  const bountyMinValue = new BN((api.consts.bounties || api.consts.treasury).bountyValueMinimum.toString());
+  const bountyTitleMaxLength = +(api.consts.bounties || api.consts.treasury).maximumReasonLength.toString();
 
-  const hasTitle = title?.length >= MIN_TITLE_LEN && title?.length <= MAX_TITLE_LEN;
+  const hasTitle = title?.length >= MIN_TITLE_LEN && title?.length <= bountyTitleMaxLength;
   const isMinValue = amount?.gte(bountyMinValue);
   const hasFunds = balances?.availableBalance.gte(bond);
 
