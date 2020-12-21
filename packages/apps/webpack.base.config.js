@@ -55,11 +55,6 @@ function createWebpack (ENV, context) {
     module: {
       rules: [
         {
-          include: /node_modules/,
-          test: /\.mjs$/,
-          type: 'javascript/auto'
-        },
-        {
           exclude: /(node_modules)/,
           test: /\.css$/,
           use: [
