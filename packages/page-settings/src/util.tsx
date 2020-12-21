@@ -7,7 +7,7 @@ import type { SettingsStruct } from '@polkadot/ui-settings/types';
 import React from 'react';
 
 import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 export function createOption ({ info, isHeader, text, value }: Option, overrides: string[] = [], override = 'empty'): Option | React.ReactNode {
   if (isHeader) {
@@ -74,7 +74,7 @@ export function createIdenticon ({ info, text, value }: Option, overrides: strin
 }
 
 export function save (settings: SettingsStruct): void {
-  uiSettings.set(settings);
+  settings.set(settings);
 }
 
 export function saveAndReload (settings: SettingsStruct): void {

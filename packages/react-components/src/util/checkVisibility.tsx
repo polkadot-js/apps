@@ -4,7 +4,7 @@
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 
 import { ApiPromise } from '@polkadot/api';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 export default function checkVisibility (api: ApiPromise, address: string, accountInfo: DeriveAccountInfo, filterName = '', onlyNamed = false): boolean {
   let isVisible = false;

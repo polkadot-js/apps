@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Button, Input, InputAddressMulti, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 import useKnownAddresses from '../Accounts/useKnownAddresses';
 import { useTranslation } from '../translate';

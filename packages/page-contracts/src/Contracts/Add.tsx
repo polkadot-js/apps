@@ -7,7 +7,7 @@ import React, { useCallback, useState } from 'react';
 
 import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
 import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 import { ABI, InputName } from '../shared';
 import { useTranslation } from '../translate';

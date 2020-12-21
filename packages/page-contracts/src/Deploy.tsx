@@ -11,7 +11,7 @@ import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 import { isHex } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
