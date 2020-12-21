@@ -1,6 +1,7 @@
 {
   "Add Bounty": "Add Bounty",
   "Bond": "Bond",
+  "Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.": "Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.",
   "Bounties": "Bounties",
   "Calculated bond for bounty": "Calculated bond for bounty",
   "Claimable": "Claimable",
@@ -12,6 +13,7 @@
   "The description of this bounty": "The description of this bounty",
   "The total payment amount of this bounty, curators fee included.": "The total payment amount of this bounty, curators fee included.",
   "This amount will be reserved from origin account and returned on approval or slashed upon rejection.": "This amount will be reserved from origin account and returned on approval or slashed upon rejection.",
+  "Use this account to propose bounty from. This can be a normal or council account.": "Use this account to propose bounty from. This can be a normal or council account.",
   "Value": "Value",
   "beneficiary": "beneficiary",
   "bounties": "bounties",
