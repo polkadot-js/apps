@@ -73,12 +73,12 @@ export function createIdenticon ({ info, text, value }: Option, overrides: strin
   };
 }
 
-export function save (settings: SettingsStruct): void {
-  settings.set(settings);
+export function save (state: SettingsStruct): void {
+  settings.set(state);
 }
 
-export function saveAndReload (settings: SettingsStruct): void {
-  save(settings);
+export function saveAndReload (state: SettingsStruct): void {
+  save(state);
 
   // HACK This is terrible, but since the API needs to re-connect and
   // the API does not yet handle re-connections properly, it is what it is
