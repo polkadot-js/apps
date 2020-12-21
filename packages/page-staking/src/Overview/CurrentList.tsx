@@ -9,7 +9,7 @@ import type { SortedTargets, ValidatorInfo } from '../types';
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
+import { useApi, useCall, useLoadingDelay, useSavedFlags } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import Filtering from '../Filtering';
@@ -78,7 +78,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
   const nominatedBy = useNominations(isIntentions);
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [withIdentity, setWithIdentity] = useState(false);
+  const [toggles, setToggle] = useSavedFlags('staking:overview', { withIdentity: false });
 
   // we have a very large list, so we use a loading delay
   const isLoading = useLoadingDelay();
@@ -134,10 +134,10 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
           validatorInfo={infoMap?.[address]}
-          withIdentity={withIdentity}
+          withIdentity={toggles.withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, toggles]
   );
 
   return isIntentions
@@ -155,8 +155,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           <Filtering
             nameFilter={nameFilter}
             setNameFilter={setNameFilter}
-            setWithIdentity={setWithIdentity}
-            withIdentity={withIdentity}
+            setWithIdentity={setToggle.withIdentity}
+            withIdentity={toggles.withIdentity}
           />
         }
         header={headerWaitingRef.current}
@@ -179,8 +179,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           <Filtering
             nameFilter={nameFilter}
             setNameFilter={setNameFilter}
-            setWithIdentity={setWithIdentity}
-            withIdentity={withIdentity}
+            setWithIdentity={setToggle.withIdentity}
+            withIdentity={toggles.withIdentity}
           />
         }
         header={headerActiveRef.current}

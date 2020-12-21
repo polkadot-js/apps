@@ -35,6 +35,8 @@ const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
+const nodeEncointerNotee = '#cc0000';
+const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
@@ -86,6 +88,9 @@ export const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
+  ['Encointer Node noTEE', nodeEncointerNotee],
+  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],

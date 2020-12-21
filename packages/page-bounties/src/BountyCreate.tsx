@@ -1,14 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BalanceOf } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
-import { useTranslation } from '@polkadot/app-accounts/translate';
-import { calculateBountyBond } from '@polkadot/app-bounties/helpers/calculateBountyBond';
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
+
+import { calculateBountyBond } from './helpers/calculateBountyBond';
+import { useTranslation } from './translate';
 
 function BountyCreate () {
   const { t } = useTranslation();
@@ -16,17 +19,18 @@ function BountyCreate () {
 
   const [accountId, setAccountId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
-  const [bond, setBond] = useState(api.consts.treasury.bountyDepositBase.toBn());
+  const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [isValid] = useState(true);
   const [isOpen, toggleIsOpen] = useToggle();
 
   const onTitleChange = useCallback((value: string) => {
-    const bountyDepositBase = api.consts.treasury.bountyDepositBase;
-    const bountyDepositPerByte = api.consts.treasury.dataDepositPerByte;
+    const bountyBase = api.consts.bounties || api.consts.treasury;
+    const bountyDepositBase = bountyBase.bountyDepositBase;
+    const bountyDepositPerByte = bountyBase.dataDepositPerByte;
 
     setTitle(value);
-    setBond(calculateBountyBond(value, bountyDepositBase, bountyDepositPerByte));
+    setBond(calculateBountyBond(value, bountyDepositBase as BalanceOf, bountyDepositPerByte as BalanceOf));
   }, [api]);
 
   return (
@@ -79,7 +83,11 @@ function BountyCreate () {
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
               params={[amount, title]}
-              tx='treasury.proposeBounty'
+              tx={
+                api.tx.bounties
+                  ? 'bounties.proposeBounty'
+                  : 'treasury.proposeBounty'
+              }
             />
           </Modal.Actions>
         </Modal>

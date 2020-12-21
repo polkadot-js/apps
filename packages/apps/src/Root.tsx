@@ -11,7 +11,7 @@ import { ThemeProvider } from 'styled-components';
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
-import settings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps';
 import { darkTheme, lightTheme } from './themes';

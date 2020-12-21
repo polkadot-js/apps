@@ -45,19 +45,6 @@ function createWebpack (context) {
           type: 'javascript/auto'
         },
         {
-          exclude: /(node_modules)/,
-          test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                importLoaders: 1
-              }
-            }
-          ]
-        },
-        {
           include: /node_modules/,
           test: /\.css$/,
           use: [
@@ -69,7 +56,6 @@ function createWebpack (context) {
           exclude: /(node_modules)/,
           test: /\.(js|mjs|ts|tsx)$/,
           use: [
-            require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
               options: require('@polkadot/dev/config/babel-config-webpack.cjs')

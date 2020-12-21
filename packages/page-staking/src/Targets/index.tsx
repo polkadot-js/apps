@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components';
 
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes, useBlocksPerDays } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
@@ -33,16 +33,19 @@ interface Props {
   toggleFavorite: (address: string) => void;
 }
 
-interface Flags {
-  daysPayout: BN;
-  isBabe: boolean;
-  maxPaid: BN | undefined;
+interface SavedFlags {
   withElected: boolean;
   withGroup: boolean;
   withIdentity: boolean;
   withPayout: boolean;
   withoutComm: boolean;
   withoutOver: boolean;
+}
+
+interface Flags extends SavedFlags {
+  daysPayout: BN;
+  isBabe: boolean;
+  maxPaid: BN | undefined;
 }
 
 interface SortState {
@@ -180,12 +183,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const allIdentity = useIdentities(validatorIds);
   const [selected, setSelected] = useState<string[]>([]);
   const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
-  const [withElected, setWithElected] = useState(false);
-  const [withGroup, setWithGroup] = useState(true);
-  const [withIdentity, setWithIdentity] = useState(false);
-  const [withPayout, setWithPayout] = useState(false);
-  const [withoutComm, setWithoutComm] = useState(true);
-  const [withoutOver, setWithoutOver] = useState(true);
+  const [toggles, setToggle] = useSavedFlags('staking:targets', {
+    withElected: false,
+    withGroup: true,
+    withIdentity: false,
+    withPayout: false,
+    withoutComm: true,
+    withoutOver: true
+  });
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
 
@@ -198,18 +203,13 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const flags = useMemo(
     () => ({
+      ...toggles,
       daysPayout,
       isBabe: !!api.consts.babe,
       isQueryFiltered,
-      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator,
-      withElected,
-      withGroup,
-      withIdentity,
-      withPayout,
-      withoutComm,
-      withoutOver
+      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator
     }),
-    [api, daysPayout, isQueryFiltered, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver]
+    [api, daysPayout, isQueryFiltered, toggles]
   );
 
   const filtered = useMemo(
@@ -282,14 +282,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <Filtering
         nameFilter={nameFilter}
         setNameFilter={_setNameFilter}
-        setWithIdentity={setWithIdentity}
-        withIdentity={withIdentity}
+        setWithIdentity={setToggle.withIdentity}
+        withIdentity={toggles.withIdentity}
       >
         <Toggle
           className='staking--buttonToggle'
           label={t<string>('single from operator')}
-          onChange={setWithGroup}
-          value={withGroup}
+          onChange={setToggle.withGroup}
+          value={toggles.withGroup}
         />
         <Toggle
           className='staking--buttonToggle'
@@ -298,8 +298,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
               ? t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })
               : t<string>('no median+ comm')
           }
-          onChange={setWithoutComm}
-          value={withoutComm}
+          onChange={setToggle.withoutComm}
+          value={toggles.withoutComm}
         />
         <Toggle
           className='staking--buttonToggle'
@@ -308,27 +308,27 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
               ? t<string>('no {{maxCap}}%+ capacity', { replace: { maxCap: MAX_CAP_PERCENT } })
               : t<string>('no at capacity')
           }
-          onChange={setWithoutOver}
-          value={withoutOver}
+          onChange={setToggle.withoutOver}
+          value={toggles.withoutOver}
         />
         {api.consts.babe && (
           // FIXME have some sane era defaults for Aura
           <Toggle
             className='staking--buttonToggle'
             label={t<string>('recent payouts')}
-            onChange={setWithPayout}
-            value={withPayout}
+            onChange={setToggle.withPayout}
+            value={toggles.withPayout}
           />
         )}
         <Toggle
           className='staking--buttonToggle'
           label={t<string>('only elected')}
-          onChange={setWithElected}
-          value={withElected}
+          onChange={setToggle.withElected}
+          value={toggles.withElected}
         />
       </Filtering>
     </div>
-  ), [api, nameFilter, _setNameFilter, t, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver]);
+  ), [api, nameFilter, _setNameFilter, setToggle, t, toggles]);
 
   const displayList = isQueryFiltered
     ? validators
