@@ -12,7 +12,7 @@ export default {
   rpc: rpcGen(),
   types: [
     {
-      minmax: [0, undefined],
+      minmax: [0, 4],
       types: {
         AccountId: 'EthereumAccountId',
         Address: 'AccountId',
