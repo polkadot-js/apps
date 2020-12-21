@@ -6,12 +6,19 @@ import type { BalanceOf } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { calculateBountyBond } from './helpers/calculateBountyBond';
 import { useTranslation } from './translate';
+
+const MAX_TITLE_LEN = 128;
+const MIN_TITLE_LEN = 5;
+
+const TITLE_DEFAULT_VALUE = '';
+const AMOUNT_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
@@ -20,9 +27,17 @@ function BountyCreate () {
   const [accountId, setAccountId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
-  const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
-  const [isValid] = useState(true);
+  const [amount, setAmount] = useState<BN | undefined>(AMOUNT_DEFAULT_VALUE);
   const [isOpen, toggleIsOpen] = useToggle();
+
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
+  const bountyMinValue = new BN(api.consts.treasury.bountyValueMinimum.toString());
+
+  const hasTitle = title?.length >= MIN_TITLE_LEN && title?.length <= MAX_TITLE_LEN;
+  const isMinValue = amount?.gte(bountyMinValue);
+  const hasFunds = balances?.availableBalance.gte(bond);
+
+  const isValid = hasFunds && hasTitle && isMinValue;
 
   const onTitleChange = useCallback((value: string) => {
     const bountyBase = api.consts.bounties || api.consts.treasury;
@@ -49,18 +64,31 @@ function BountyCreate () {
           <Modal.Content>
             <Input
               autoFocus
+              defaultValue={TITLE_DEFAULT_VALUE}
               help={t<string>('The description of this bounty')}
+              isError={!hasTitle}
               label={t<string>('bounty title')}
               onChange={onTitleChange}
               value={title}
             />
+            {!hasTitle && (title !== TITLE_DEFAULT_VALUE) && (
+              <article className='error'>
+                {t<string>('Inappropriate title length.')}
+              </article>
+            )}
             <InputBalance
               help={t<string>('The total payment amount of this bounty, curators fee included.')}
+              isError={!isMinValue}
               isZeroable
               label={t<string>('bounty requested allocation')}
               onChange={setAmount}
               value={ amount }
             />
+            {!isMinValue && !amount?.eq(AMOUNT_DEFAULT_VALUE) && (
+              <article className='error'>
+                {t<string>('Allocation value is smaller than the minimum bounty value.')}
+              </article>
+            )}
             <InputBalance
               defaultValue={bond.toString()}
               help={t<string>('This amount will be reserved from origin account and returned on approval or slashed upon rejection.')}
@@ -69,11 +97,17 @@ function BountyCreate () {
             />
             <InputAddress
               help={t<string>('Select the account you wish to propose the bounty from.')}
+              isError={!hasFunds}
               label={t<string>('submit with account')}
               onChange={setAccountId}
               type='account'
               withLabel
             />
+            {!hasFunds && (
+              <article className='error'>
+                {t<string>('Account does not have enough funds.')}
+              </article>
+            )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleIsOpen}>
             <TxButton
