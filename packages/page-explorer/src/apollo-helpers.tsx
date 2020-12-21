@@ -1,5 +1,4 @@
 import { useQuery, useSubscription } from 'react-apollo';
-import { registry } from '@polkadot/react-api';
 
 export function getSub(query) {
   const { loading, error, data } = useSubscription(query);
@@ -11,8 +10,9 @@ export function getQuery(query) {
   return [data, error, loading];
 }
 
-export function accountToPolkadot(account) {
-  const accountId = registry.createType('AccountId', account.account_id);
+// XXX: Why is this called `toPolkadot`?
+export function accountToPolkadot(account, api) {
+  const accountId = api.createType('AccountId', account.account_id);
   return {
     account: accountId,
     // HACK: polkadotjs assertion fails if balance > 0x20000000000000
@@ -24,12 +24,13 @@ export function accountToPolkadot(account) {
   };
 }
 
+// XXX: Why is this called `toPolkadot`?
 export async function transferToPolkadot(event, api) {
   const args = event.args ? JSON.parse(event.args) : [null, null];
-  const number = registry.createType('BlockNumber', event.block_number);
-  const from = registry.createType('AccountId', event.signer);
-  const to = registry.createType('AccountId', args[0]);
-  // const hash = registry.createType('Hash', event.hash);
+  const number = api.createType('BlockNumber', event.block_number);
+  const from = api.createType('AccountId', event.signer);
+  const to = api.createType('AccountId', args[0]);
+  // const hash = api.createType('Hash', event.hash);
   const hash = await api.rpc.chain.getBlockHash(number.toNumber());
   const amount = args[1];
   return {
@@ -41,13 +42,13 @@ export async function transferToPolkadot(event, api) {
   };
 }
 
-export function blockToPolkadotBlock(block) {
-  const author = registry.createType('AccountId', block.block_author);
-  const hash = registry.createType('Hash', block.block_hash);
-  const parentHash = registry.createType('Hash', block.parent_hash);
-  const stateRoot = registry.createType('Hash', block.state_root);
-  const extrinsicsRoot = registry.createType('Hash', block.extrinsics_root);
-  const number = registry.createType('BlockNumber', block.block_number);
+export function blockToPolkadotBlock(block, api) {
+  const author = api.createType('AccountId', block.block_author);
+  const hash = api.createType('Hash', block.block_hash);
+  const parentHash = api.createType('Hash', block.parent_hash);
+  const stateRoot = api.createType('Hash', block.state_root);
+  const extrinsicsRoot = api.createType('Hash', block.extrinsics_root);
+  const number = api.createType('BlockNumber', block.block_number);
   return {
     hash,
     parentHash,
@@ -60,7 +61,7 @@ export function blockToPolkadotBlock(block) {
 }
 
 export async function extrinsicToPolkadot(extrinsic, api) {
-  const blockNumber = registry.createType('BlockNumber', extrinsic.block_number);
+  const blockNumber = api.createType('BlockNumber', extrinsic.block_number);
   const blockHash = await api.rpc.chain.getBlockHash(blockNumber.toNumber());
   const indexes = [extrinsic.extrinsic_index];
   const args = JSON.parse(extrinsic.args);
@@ -85,7 +86,7 @@ export async function extrinsicToPolkadot(extrinsic, api) {
 }
 
 export async function eventToPolkadot(event, api) {
-  const blockNumber = registry.createType('BlockNumber', event.block_number);
+  const blockNumber = api.createType('BlockNumber', event.block_number);
   const blockHash = await api.rpc.chain.getBlockHash(blockNumber.toNumber());
   // var eveants = await api.query.system.events.at(blockHash);
   // console.log('blockHashevents', eveants)

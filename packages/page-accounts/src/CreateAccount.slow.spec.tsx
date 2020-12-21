@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/react-components/i18n';
+
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
 import React, { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';

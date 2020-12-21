@@ -39,7 +39,7 @@ function ValidatorsList (): React.ReactElement<Props> {
 
   useEffect(() => {
     if (accountsData) {
-      const accounts = accountsData.validator.map(accountToPolkadot);
+      const accounts = accountsData.validator.map((d) => accountToPolkadot(d, api));
       setAccounts(accounts);
     }
   }, [accountsData]);

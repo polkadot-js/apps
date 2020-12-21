@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
+
 import BN from 'bn.js';
 import React, { useRef } from 'react';
 

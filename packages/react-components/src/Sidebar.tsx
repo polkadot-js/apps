@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-import type { ThemeProps } from './types';
 import Button from './Button';
 
 interface Props {

@@ -1,5 +1,6 @@
 import { createBLAKE2b } from 'hash-wasm';
-import assert from 'assert';
+// import assert from 'assert';
+import { assert } from '@polkadot/util';
 
 // hash a file using blake2b-256
 export async function blake2b256File(f: Blob): Promise<Uint8Array> {
@@ -8,7 +9,7 @@ export async function blake2b256File(f: Blob): Promise<Uint8Array> {
     // too big.
     return blake2b256(new Uint8Array(await f.arrayBuffer()));
   } catch (e) {
-    assert(e instanceof DOMException); // file was too large, fall back to streaming hasher
+    assert(e instanceof DOMException, 'error should be an instance of DOMException'); // file was too large, fall back to streaming hasher
     return await blake2b256Streaming(f);
   }
 }
@@ -26,7 +27,7 @@ async function processStream(rs: ReadableStream<Uint8Array>, f: (_: Uint8Array) 
   const reader = rs.getReader();
   while (true) {
     const { done, value } = await reader.read();
-    assert((value === undefined) === done);
+    assert((value === undefined) === done, '`done` and `value` were inconsistent');
     if (done) { break; }
     f(value as Uint8Array);
   }

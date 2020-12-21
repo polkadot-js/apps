@@ -1,15 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DefinitionRpcExt } from '@polkadot/types/types';
+import type { DropdownOption, DropdownOptions } from '../../util/types';
+
 import React from 'react';
 
-import type { DefinitionRpcExt } from '@polkadot/types/types';
 import { ApiPromise } from '@polkadot/api';
 
-import type { DropdownOption, DropdownOptions } from '../../util/types';
-import rpcs from '../rpcs';
-
-export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
+export default function createOptions (api: ApiPromise, rpcs: Record<string, Record<string, DefinitionRpcExt>>, sectionName: string): DropdownOptions {
   const section = rpcs[sectionName];
 
   if (!section || Object.keys((api.rpc as Record<string, Record<string, unknown>>)[sectionName]).length === 0) {

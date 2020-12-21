@@ -1,19 +1,20 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { AddressFlags, AddressProxy } from './types';
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import type { AddressFlags, AddressProxy } from './types';
 import Password from './Password';
 import { useTranslation } from './translate';
 import { extractExternal } from './util';

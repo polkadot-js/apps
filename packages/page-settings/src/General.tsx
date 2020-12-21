@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polkadot/apps-config/settings/types';
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { Option } from '@polkadot/apps-config/settings/types';
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';

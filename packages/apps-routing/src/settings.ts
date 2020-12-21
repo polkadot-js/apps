@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
+import type { Route } from './types';
 
 import Component, { useCounter } from '@polkadot/app-settings';
-
-import type { Route } from './types';
 
 export default function create (t: TFunction): Route {
   return {

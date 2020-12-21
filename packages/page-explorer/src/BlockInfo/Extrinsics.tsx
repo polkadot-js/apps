@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
-
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+
+import React, { useMemo } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -16,10 +17,9 @@ interface Props {
   events?: KeyedEvent[];
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
-  extrinsicIndex?: number | null;
 }
 
-function Extrinsics ({ blockNumber, className = '', events, label, value, extrinsicIndex }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
@@ -35,24 +35,14 @@ function Extrinsics ({ blockNumber, className = '', events, label, value, extrin
       header={header}
       isFixed
     >
-      {(!isNaN(extrinsicIndex) && value) ? (
+      {value?.map((extrinsic, index): React.ReactNode =>
         <ExtrinsicDisplay
           blockNumber={blockNumber}
           events={events}
-          index={extrinsicIndex}
-          key={`extrinsic:${extrinsicIndex}`}
-          value={value[extrinsicIndex]}
+          index={index}
+          key={`extrinsic:${index}`}
+          value={extrinsic}
         />
-      ) : (
-        value?.map((extrinsic, index): React.ReactNode =>
-          <ExtrinsicDisplay
-            blockNumber={blockNumber}
-            events={events}
-            index={index}
-            key={`extrinsic:${index}`}
-            value={extrinsic}
-          />
-        )
       )}
     </Table>
   );

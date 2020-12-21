@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import assert from 'assert';
+// import assert from 'assert';
 import Download from './Download';
 import { hex, hexproof, ProofElement } from './hrproof';
-import { u8aToHex } from '@polkadot/util';
+import { u8aToHex, assert } from '@polkadot/util';
 import { blake2b256File } from './hash';
 import { CSSProperties } from 'styled-components';
 import _ from 'lodash';
@@ -26,7 +26,7 @@ type OutputProof = {
 }
 
 function toOutput(p: Proof, root: Uint8Array): OutputProof {
-  assert(p.proof !== undefined && p.blake2b256 !== undefined);
+  assert(p.proof !== undefined && p.blake2b256 !== undefined, 'Proof not in proper format');
   return {
     filename: p.filename,
     proof: hexproof(p.proof),
@@ -65,7 +65,7 @@ function Batch(): React.ReactElement {
 
     const pl = pack32(proofs.map(p => p.blake2b256 as Uint8Array));
     const [root, merkleproofs] = construct(pl);
-    assert(merkleproofs.length === proofs.length);
+    assert(merkleproofs.length === proofs.length, 'Number of proof hashes differ');
     for (let i = 0; i < proofs.length; i++) {
       proofs[i].proof = merkleproofs[i];
     }

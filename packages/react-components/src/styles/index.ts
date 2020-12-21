@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '../types';
+
 import { createGlobalStyle } from 'styled-components';
 
-import type { ThemeProps } from '../types';
 import cssComponents from './components';
 import cssForm from './form';
 import cssMedia from './media';
@@ -15,11 +16,11 @@ interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#222222'; // #999
-
 const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
+
+const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
 function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);

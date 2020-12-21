@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { VoidFn } from './types';
+
 import React, { useCallback, useState } from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 
 import { isFunction, isUndefined } from '@polkadot/util';
 
-import type { VoidFn } from './types';
 import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';

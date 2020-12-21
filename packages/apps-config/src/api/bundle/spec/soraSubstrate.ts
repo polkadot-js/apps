@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { slimOverrideBundle } from '@sora-substrate/type-definitions';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { OverrideBundleDefinition } from '@polkadot/types/types';
+import { fullOverrideBundle } from '@sora-substrate/type-definitions';
 
-export default slimOverrideBundle.spec.sora as OverrideBundleDefinition;
+export default fullOverrideBundle.spec.sora as OverrideBundleDefinition;

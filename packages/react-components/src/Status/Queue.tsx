@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useRef, useState } from 'react';
-
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { Bytes } from '@polkadot/types';
 import type { DispatchError } from '@polkadot/types/interfaces';
 import type { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
+import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
+
+import React, { useCallback, useRef, useState } from 'react';
+
 import { SubmittableResult } from '@polkadot/api';
-import { registry } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
-import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 import { getContractAbi } from '../util';
 import { STATUS_COMPLETE } from './constants';
 import { QueueProvider } from './Context';
@@ -144,6 +145,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
 }
 
 function Queue ({ children }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
   const [stqueue, _setStQueue] = useState<QueueStatus[]>([]);
   const [txqueue, _setTxQueue] = useState<QueueTx[]>([]);
   const stRef = useRef(stqueue);
@@ -217,14 +219,14 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
       addToTxQueue({
         accountId: payload.address,
         // this is not great, but the Extrinsic we don't need a submittable
-        extrinsic: registry.createType('Extrinsic',
-          { method: registry.createType('Call', payload.method) },
+        extrinsic: api.createType('Extrinsic',
+          { method: api.createType('Call', payload.method) },
           { version: payload.version }
         ) as unknown as SubmittableExtrinsic,
         payload,
         signerCb
       }),
-    [addToTxQueue]
+    [api, addToTxQueue]
   );
   const queueRpc = useCallback(
     (value: PartialQueueTxRpc): void =>

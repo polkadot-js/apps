@@ -11,13 +11,11 @@ const { merge } = require('webpack-merge');
 const baseConfig = require('../apps/webpack.base.config');
 
 const ENV = process.env.NODE_ENV || 'production';
-const isProd = ENV === 'production';
 const context = __dirname;
 
 module.exports = merge(
   baseConfig(ENV, context),
   {
-    devtool: isProd ? 'none' : 'source-map',
     plugins: [
       // It must be placed before HtmlWebpackPlugin
       new CopyWebpackPlugin({ patterns: [{ from: '../apps/public' }] }),

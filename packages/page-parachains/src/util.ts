@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-
 import type { DeriveParachainInfo } from '@polkadot/api-derive/types';
 
 export function parachainName (t: TFunction, info: DeriveParachainInfo | null): string {

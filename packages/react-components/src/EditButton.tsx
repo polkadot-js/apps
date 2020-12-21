@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { VoidFn } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-import type { VoidFn } from './types';
-import Icon from './Icon';
 import { colorLink } from './styles/theme';
+import Icon from './Icon';
 
 interface Props {
   children?: React.ReactNode;

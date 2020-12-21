@@ -35,7 +35,7 @@ function AccountsList (): React.ReactElement<Props> {
 
   useEffect(() => {
     if (accountsData) {
-      const accounts = accountsData.account.map(accountToPolkadot);
+      const accounts = accountsData.account.map((d) => accountToPolkadot(d, api));
       setAccounts(accounts);
     }
   }, [accountsData]);

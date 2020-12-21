@@ -7,7 +7,6 @@ import { KeyedEvent } from '@polkadot/react-query/types';
 import React, { useState, useEffect } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { Columar, Column } from '@polkadot/react-components';
-import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 import BlockHeaders from './BlockHeaders';
@@ -102,14 +101,14 @@ function DBMain (): React.ReactElement<Props> {
 
   useEffect(() => {
     if (richAccountsData) {
-      const richAccounts = richAccountsData.account.map(accountToPolkadot);
+      const richAccounts = richAccountsData.account.map((d) => accountToPolkadot(d, api));
       setRichAccounts(richAccounts);
     }
   }, [richAccountsData]);
 
   useEffect(() => {
     if (data) {
-      const blocks = data.block.map(blockToPolkadotBlock);
+      const blocks = data.block.map((b) => blockToPolkadotBlock(b, api));
       setLastBlocks(blocks);
     }
   }, [data]);

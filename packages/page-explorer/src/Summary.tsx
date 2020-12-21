@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
-import { useApi } from '@polkadot/react-hooks';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance, FormatBalance } from '@polkadot/react-query';
 
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance, FormatBalance } from '@polkadot/react-query';
 import { BN_ONE } from '@polkadot/util';
 
-import SummarySession from './SummarySession';
 import { useTranslation } from './translate';
 
 function Summary (): React.ReactElement {

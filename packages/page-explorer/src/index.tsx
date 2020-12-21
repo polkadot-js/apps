@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import type { KeyedEvent } from '@polkadot/react-query/types';
 
 import React, { useContext, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
@@ -99,7 +99,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     }] : []));
 
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client}>@polkadot/react-params
       <main className={className}>
         <header>
           <Tabs

@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useEffect, useState } from 'react';
-
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { RawParam } from '@polkadot/react-params/types';
 import type { TypeDef } from '@polkadot/types/types';
+
+import React, { useCallback, useEffect, useState } from 'react';
+
 import Params from '@polkadot/react-params';
 import { GenericCall } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
@@ -43,27 +44,15 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
   }));
 }
 
-function ExtrinsicDisplay ({ defaultValue, defaultParams, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
-  const [values, setValues] = useState<RawParam[]>(defaultParams || []);
-
-  useEffect((): void => {
-    setCall({ fn: defaultValue, params: getParams(defaultValue) });
-  }, [defaultValue]);
-
-  useEffect((): void => {
-    setValues(defaultParams || []);
-  }, [defaultParams]);
+  const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {
     setValues([]);
   }, [extrinsic]);
 
   useEffect((): void => {
-    if (isDisabled) {
-      return;
-    }
-
     const isValid = values.reduce((isValid, value): boolean =>
       isValid &&
       !isUndefined(value) &&
@@ -107,8 +96,6 @@ function ExtrinsicDisplay ({ defaultValue, defaultParams, isDisabled, isError, i
       />
       <Params
         key={`${section}.${method}:params` /* force re-render on change */}
-        defaultParams={values}
-        isDisabled={isDisabled}
         onChange={setValues}
         onEnter={onEnter}
         onEscape={onEscape}

@@ -9,7 +9,6 @@ import { useTranslation } from './translate';
 import React, { useState, useEffect, useRef } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { Columar, Column, Table } from '@polkadot/react-components';
-import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 import BlockHeaders from './BlockHeaders';

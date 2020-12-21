@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
+
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
@@ -137,7 +138,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
               {section}.{method}
             </div>
             <div className='status'>
-              {error ? error.message : status}
+              {error ? (error.message || error) : status}
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useApi } from '@polkadot/react-hooks';
 import BlockHeaders from '../BlockHeaders';
 
 import { getSub, getQuery, blockToPolkadotBlock } from '../apollo-helpers';
@@ -21,11 +22,12 @@ const BLOCK_QUERY = gql`
 
 function BlocksList (): React.ReactElement<Props> {
   const [blocks, setBlocks] = useState([]);
+  const { api } = useApi();
   const [ data, error, loading ] = getSub(BLOCK_QUERY);
 
   useEffect(() => {
     if (data) {
-      const blocks = data.block.map(blockToPolkadotBlock);
+      const blocks = data.block.map((b) => blockToPolkadotBlock(b, api));
       setBlocks(blocks);
     }
   }, [data]);

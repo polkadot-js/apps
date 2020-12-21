@@ -47,7 +47,7 @@ function Query ({ className = '', value: propsValue, redirectPath = '/explorer/q
   );
 
   return (
-    <FilterOverlay className={className}>
+    <FilterOverlay className={`ui--FilterOverlay ${className}`}>
       <Input
         className='explorer--query'
         defaultValue={propsValue}

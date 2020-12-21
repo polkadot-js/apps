@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Codec } from '@polkadot/types/types';
+import type { Props } from '../types';
+
 import React, { useCallback, useState } from 'react';
 
-import type { Codec } from '@polkadot/types/types';
 import { Input } from '@polkadot/react-components';
 
-import type { Props } from '../types';
 import Bare from './Bare';
 
 function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {

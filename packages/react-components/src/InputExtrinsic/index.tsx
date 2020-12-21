@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { DropdownOptions } from '../util/types';
+
 import React, { useCallback, useState } from 'react';
 
-import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { useApi } from '@polkadot/react-hooks';
 
-import type { DropdownOptions } from '../util/types';
-import LinkedWrapper from './LinkedWrapper';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
+import LinkedWrapper from './LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
 
@@ -25,7 +26,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', isDisabled, defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -69,7 +70,6 @@ function InputExtrinsic ({ className = '', isDisabled, defaultValue, help, label
         className='small'
         onChange={_onSectionChange}
         options={optionsSection}
-        isDisabled={isDisabled}
         value={value}
       />
       <SelectMethod
@@ -77,7 +77,6 @@ function InputExtrinsic ({ className = '', isDisabled, defaultValue, help, label
         className='large'
         onChange={_onKeyChange}
         options={optionsMethod}
-        isDisabled={isDisabled}
         value={value}
       />
     </LinkedWrapper>

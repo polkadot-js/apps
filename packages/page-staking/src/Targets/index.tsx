@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
+import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { StakerState } from '@polkadot/react-hooks/types';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays } from '@polkadot/react-hooks';
 
-import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
@@ -263,7 +264,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
-    [t('payout'), 'media--1500'],
+    [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [

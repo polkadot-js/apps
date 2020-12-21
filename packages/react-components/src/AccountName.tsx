@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-
 import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -117,12 +118,12 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
       : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
   );
   const elem = createIdElem(
-    <span className={`name${isGood ? ' isGood' : ''}`}>
+    <span className={`name${isGood && !isBad ? ' isGood' : ''}`}>
       <span className='top'>{displayParent || displayName}</span>
       {displayParent && <span className='sub'>{`/${displayName || ''}`}</span>}
     </span>,
-    isGood ? 'green' : (isBad ? 'red' : 'gray'),
-    identity.parent ? 'link' : (isGood ? 'check' : 'minus')
+    (isBad ? 'red' : (isGood ? 'green' : 'gray')),
+    identity.parent ? 'link' : (isGood && !isBad ? 'check' : 'minus')
   );
 
   displayCache.set(address, elem);

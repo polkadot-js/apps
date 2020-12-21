@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import type { ApiPromise } from '@polkadot/api';
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
-import { registry } from '@polkadot/react-api';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -168,14 +168,14 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
   }, [api, batchStackPrevious, batchStackAdded]);
 
   const typeOpts = useMemo(
-    () => registry.createType('ProxyType').defKeys.map((text, value) => ({ text, value })),
-    []
+    () => api.createType('ProxyType').defKeys.map((text, value) => ({ text, value })),
+    [api]
   );
 
   const _addProxy = useCallback(
     () => {
-      const newAccount = registry.createType('AccountId', proxiedAccount);
-      const newType = registry.createType('ProxyType', 0);
+      const newAccount = api.createType('AccountId', proxiedAccount);
+      const newType = api.createType('ProxyType', 0);
 
       setAddedProxies((prevState) => {
         const newProxy: [AccountId, ProxyType] = [newAccount, newType];
@@ -208,7 +208,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
 
   const _changeProxyAccount = useCallback(
     (index: number, address: string | null) => {
-      const accountId = registry.createType('AccountId', address);
+      const accountId = api.createType('AccountId', address);
       const oldType = addedProxies[index][1];
 
       // update the UI with the new selected account
@@ -234,7 +234,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
 
   const _changeProxyType = useCallback(
     (index: number, newTypeNumber: number | undefined) => {
-      const newType = registry.createType('ProxyType', newTypeNumber);
+      const newType = api.createType('ProxyType', newTypeNumber);
       const oldAccount = addedProxies[index][0];
 
       // update the UI with the new selected type

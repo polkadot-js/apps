@@ -1,15 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import store from 'store';
-
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import type { ApiProps, ApiState } from './types';
+
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import store from 'store';
+
 import { ApiPromise } from '@polkadot/api/promise';
-import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesRpc, typesSpec } from '@polkadot/apps-config';
+import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -21,10 +23,9 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import { rpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
-import type { ApiProps, ApiState } from './types';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import { decodeUrlTypes } from './urlTypes';
 
 interface Props {
   children: React.ReactNode;
@@ -50,10 +51,8 @@ interface ChainData {
   systemVersion: string;
 }
 
-// XXX: Temporarily setting decimal places since testnet genesis does not have it.
-export const DEFAULT_DECIMALS = registry.createType('u32', 7);
+export const DEFAULT_DECIMALS = registry.createType('u32', 15);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
-const injectedPromise = web3Enable('polkadot-js/apps');
 
 let api: ApiPromise;
 
@@ -68,7 +67,7 @@ function isKeyringLoaded () {
 }
 
 function getDevTypes (): Record<string, Record<string, string>> {
-  const types = store.get('types', {}) as Record<string, Record<string, string>>;
+  const types = decodeUrlTypes() || store.get('types', {}) as Record<string, Record<string, string>>;
   const names = Object.keys(types);
 
   names.length && console.log('Injected types:', names.join(', '));
@@ -193,11 +192,10 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   // initial initialization
   useEffect((): void => {
     const provider = new WsProvider(url);
-    const signer = new ApiSigner(queuePayload, queueSetTxStatus);
+    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    // api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
-    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

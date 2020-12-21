@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
+import type { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 
-import type { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
@@ -247,7 +248,7 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
       )}
       {balancesAll && balanceDisplay.available && (
         <>
-          <Label label={t<string>('available')} />
+          <Label label={t<string>('transferrable')} />
           <FormatBalance
             className='result'
             value={balancesAll.availableBalance}
@@ -269,18 +270,24 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
           >
             <Tooltip
               text={
-                <div>
-                  {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
-                  <div className='faded'>{t('available to be unlocked')}</div>
+                <>
+                  <div>
+                    {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
+                    <div className='faded'>{t('available to be unlocked')}</div>
+                  </div>
                   {bestNumber.lt(balancesAll.vestingEndBlock) && (
                     <>
-                      <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
-                      <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
-                      {formatBalance(balancesAll.vestingPerBlock)}
-                      <div className='faded'>{t('per block')}</div>
+                      <div>
+                        <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
+                        <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
+                      </div>
+                      <div>
+                        {formatBalance(balancesAll.vestingPerBlock)}
+                        <div className='faded'>{t('per block')}</div>
+                      </div>
                     </>
                   )}
-                </div>
+                </>
               }
               trigger={`${address}-vested-trigger`}
             />

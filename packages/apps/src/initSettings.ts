@@ -24,7 +24,7 @@ function setDefaultContacts (apiUrl): null {
         const hardcodedAddresses = response.data;
         for (let address in hardcodedAddresses) {
           const name = hardcodedAddresses[address];
-          console.log('saving address', address, name.trim())
+          console.log('saving address', address, name.trim());
           keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
         }
       });
@@ -73,7 +73,6 @@ function getApiUrl (): string {
 }
 
 const apiUrl = getApiUrl();
-// const defaultContactCount = getDefaultContacts();
 setDefaultContacts(apiUrl);
 
 // set the default as retrieved here

@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-
 import type { AddressIdentity } from '@polkadot/react-hooks/types';
 import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+
+import React from 'react';
+
 import { AddressMini, AvatarItem, Expander, Icon, IconLink, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
@@ -39,10 +40,10 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
           </div>
           <Tag
             color={
-              identity.isGood
-                ? 'green'
-                : identity.isBad
-                  ? 'red'
+              identity.isBad
+                ? 'red'
+                : identity.isGood
+                  ? 'green'
                   : 'yellow'
             }
             isTag={false}
@@ -51,10 +52,13 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 <b>{identity.judgements.length}&nbsp;</b>
                 {
                   identity.judgements.length
-                    ? (identity.isGood
-                      ? (identity.isKnownGood ? t<string>('Known good') : t<string>('Reasonable'))
-                      : (identity.isErroneous ? t<string>('Erroneous') : t<string>('Low quality'))
-                    )
+                    ? identity.isBad
+                      ? identity.isErroneous
+                        ? t<string>('Erroneous')
+                        : t<string>('Low quality')
+                      : identity.isKnownGood
+                        ? t<string>('Known good')
+                        : t<string>('Reasonable')
                     : t<string>('No judgments')
                 }
               </>

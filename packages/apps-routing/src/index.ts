@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-
 import type { Routes } from './types';
+
 import accounts from './accounts';
 import addresses from './addresses';
+import bounties from './bounties';
 import calendar from './calendar';
 import claims from './claims';
 import contracts from './contracts';
@@ -44,6 +45,7 @@ export default function create (t: TFunction): Routes {
     democracy(t),
     council(t),
     treasury(t),
+    bounties(t),
     techcomm(t),
     parachains(t),
     society(t),

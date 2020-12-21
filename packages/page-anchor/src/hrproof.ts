@@ -1,8 +1,8 @@
 // this module converts proofs to and from hex strings to make them easy to read when serialized as
 // json
 
-import assert from 'assert';
-import { u8aToHex, hexToU8a } from '@polkadot/util';
+// import assert from 'assert';
+import { u8aToHex, hexToU8a, assert } from '@polkadot/util';
 
 export function hex(bs: Uint8Array): string {
   return u8aToHex(bs, undefined, false);
@@ -25,7 +25,7 @@ export type Right<T> = { Right: T };
 export type ProofElement<Hash> = Left<Hash> | Right<Hash>;
 
 function map<A, B>(pe: ProofElement<A>, f: (_: A) => B): ProofElement<B> {
-  assert(('Left' in pe) !== ('Right' in pe));
+  assert(('Left' in pe) !== ('Right' in pe), 'Either both Left and Right present or both absent');
   return mapDict(pe, f) as ProofElement<B>;
 }
 

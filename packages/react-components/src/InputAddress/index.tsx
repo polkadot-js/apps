@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
+import type { Option } from './types';
+
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
 
-import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import createKeyringItem from '@polkadot/ui-keyring/options/item';
+import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import type { Option } from './types';
 import Dropdown from '../Dropdown';
 import { getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
@@ -95,7 +96,7 @@ function createOption (address: string): Option {
     }
   }
 
-  return createItem(createKeyringItem(address, name), !isRecent);
+  return createItem(createOptionItem(address, name), !isRecent);
 }
 
 function readOptions (): Record<string, Record<string, string>> {
@@ -132,14 +133,8 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel, isFull } = this.props;
+    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, placeholder, withEllipsis, withLabel } = this.props;
     const { lastValue, value } = this.state;
-    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
-
-    if (!hasOptions && !isDisabled) {
-      return null;
-    }
-
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
@@ -162,7 +157,6 @@ class InputAddress extends React.PureComponent<Props, State> {
         className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
         defaultValue={_defaultValue}
         help={help}
-        isFull={isFull}
         isDisabled={isDisabled}
         isError={isError}
         isMultiple={isMultiple}
