@@ -1,5 +1,4 @@
 import { createBLAKE2b } from 'hash-wasm';
-// import assert from 'assert';
 import { assert } from '@polkadot/util';
 
 // hash a file using blake2b-256

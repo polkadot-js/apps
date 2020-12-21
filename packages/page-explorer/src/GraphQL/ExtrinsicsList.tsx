@@ -5,7 +5,6 @@ import Events from '../Events';
 import Query from '../Query';
 
 import { getSub, getQuery, extrinsicToPolkadot } from '../apollo-helpers';
-import { ApolloProvider } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const EXTRINSIC_QUERY = gql`

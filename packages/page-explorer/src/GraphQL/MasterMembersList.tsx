@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import DIDs from '../DIDs';
 
-import { u8aToHex, u8aToString } from '@polkadot/util';
+import { u8aToHex } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 function MasterMembersList (): React.ReactElement<Props> {

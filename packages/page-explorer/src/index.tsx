@@ -99,7 +99,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     }] : []));
 
   return (
-    <ApolloProvider client={client}>@polkadot/react-params
+    <ApolloProvider client={client}>
       <main className={className}>
         <header>
           <Tabs

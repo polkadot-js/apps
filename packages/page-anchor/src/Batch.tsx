@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import assert from 'assert';
 import Download from './Download';
 import { hex, hexproof, ProofElement } from './hrproof';
 import { u8aToHex, assert } from '@polkadot/util';

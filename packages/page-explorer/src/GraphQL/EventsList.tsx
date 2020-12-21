@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import Events from '../Events';
 
-import { getSub, getQuery, blockToPolkadotBlock, eventToPolkadot } from '../apollo-helpers';
-import { ApolloProvider, Query } from 'react-apollo';
+import { getSub, eventToPolkadot } from '../apollo-helpers';
 import gql from 'graphql-tag';
 
 const EVENT_QUERY = gql`

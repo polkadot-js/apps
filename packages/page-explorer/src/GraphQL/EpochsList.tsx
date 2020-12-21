@@ -3,33 +3,10 @@ import { useApi } from '@polkadot/react-hooks';
 import Epoch from '../Epoch';
 import { useTranslation } from '../translate';
 
-import { HeaderExtended } from '@polkadot/api-derive';
 import { Table, Button } from '@polkadot/react-components';
-
-import { getSub, getQuery, accountToPolkadot } from '../apollo-helpers';
-import { ApolloProvider, Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
 const epochsPerPage = 16;
 const startPage = 1;
-
-const VALIDATORS_QUERY = gql`
-  query validator {
-    validator(
-      order_by: { rank: asc }
-    ) {
-      account_id
-      stash_id
-      commission
-      next_elected
-      exposure_others
-      exposure_own
-      exposure_total
-      produced_blocks
-      rank
-    }
-  }
-`;
 
 function Pagination ({ page, maxPages, maxIndex, onPageChange }): React.ReactElement<Props> {
   const [ currentPage, setCurrentPage ] = useState(page || 0);

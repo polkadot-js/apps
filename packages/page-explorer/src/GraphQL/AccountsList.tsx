@@ -3,8 +3,7 @@ import { useApi } from '@polkadot/react-hooks';
 import Accounts from '../Accounts';
 import { useTranslation } from '../translate';
 
-import { getSub, getQuery, accountToPolkadot } from '../apollo-helpers';
-import { ApolloProvider, Query } from 'react-apollo';
+import { getQuery, accountToPolkadot } from '../apollo-helpers';
 import gql from 'graphql-tag';
 
 const ACCOUNTS_QUERY = gql`

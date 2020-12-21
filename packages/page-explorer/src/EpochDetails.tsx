@@ -2,45 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyedEvent } from '@polkadot/react-query/types';
 import styled from 'styled-components';
 import { useTranslation } from './translate';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { HeaderExtended } from '@polkadot/api-derive';
-import { Columar, Column, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import BlockHeaders from './BlockHeaders';
-import Events from './Events';
-import Transfers from './Transfers';
 import Accounts from './Accounts';
 import Epoch from './Epoch';
-
-import { getSub, getQuery, blockToPolkadotBlock, eventToPolkadot, transferToPolkadot, accountToPolkadot } from './apollo-helpers';
-import { ApolloProvider, Query } from 'react-apollo';
-import gql from 'graphql-tag';
-
-import { asDockAddress } from '@docknetwork/sdk/utils/codec';
-
-
-const VALIDATORS_QUERY = gql`
-  query validator {
-    validator(
-      order_by: { rank: asc }
-    ) {
-      account_id
-      stash_id
-      commission
-      next_elected
-      exposure_others
-      exposure_own
-      exposure_total
-      produced_blocks
-      rank
-    }
-  }
-`;
 
 function EpochDetails (props: Props): React.ReactElement<Props> {
   const epochId = props.match ? props.match.params.value : 1;

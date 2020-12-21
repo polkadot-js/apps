@@ -51,6 +51,9 @@ function createWebpack (ENV, context) {
   return {
     context,
     entry: ['@babel/polyfill', './src/index.tsx', '@polkadot/app-anchor'],
+    experiments: {
+      asyncWebAssembly: true,
+    },
     mode: ENV,
     module: {
       rules: [
@@ -212,7 +215,7 @@ function createWebpack (ENV, context) {
     },
     watchOptions: {
       ignored: ['.yarn', 'build', 'node_modules']
-    }
+    },
   };
 }
 

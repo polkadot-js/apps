@@ -1,7 +1,6 @@
 // this module converts proofs to and from hex strings to make them easy to read when serialized as
 // json
 
-// import assert from 'assert';
 import { u8aToHex, hexToU8a, assert } from '@polkadot/util';
 
 export function hex(bs: Uint8Array): string {

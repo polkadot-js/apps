@@ -2,10 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyedEvent } from '@polkadot/react-query/types';
-
 import React, { useState, useEffect } from 'react';
-import { HeaderExtended } from '@polkadot/api-derive';
 import { Columar, Column } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -14,8 +11,7 @@ import Events from './Events';
 import Transfers from './Transfers';
 import Accounts from './Accounts';
 
-import { getSub, getQuery, blockToPolkadotBlock, eventToPolkadot, transferToPolkadot, accountToPolkadot } from './apollo-helpers';
-import { ApolloProvider, Query } from 'react-apollo';
+import { getQuery, blockToPolkadotBlock, eventToPolkadot, transferToPolkadot, accountToPolkadot } from './apollo-helpers';
 import gql from 'graphql-tag';
 
 const BLOCK_QUERY = gql`
