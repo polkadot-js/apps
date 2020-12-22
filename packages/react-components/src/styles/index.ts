@@ -20,7 +20,7 @@ const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
 
-const defaultHighlight = '#f19135'; // '#f19135'; // #999
+const defaultHighlight = '#222222';
 
 function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
