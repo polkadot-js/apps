@@ -136,19 +136,23 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
         />
         <div className='wrapper-style'>
           {allEventsView
-            ? <UpcomingEvents
-              scheduled={scheduled}
-              setView={_setAllEventsView}
-            />
-            : <Day
-              date={dateState.dateSelected}
-              hasNextDay={hasNextDay}
-              now={now}
-              scheduled={scheduled}
-              setNextDay={_nextDay}
-              setPrevDay={_prevDay}
-              setView={_setAllEventsView}
-            />
+            ? (
+              <UpcomingEvents
+                scheduled={scheduled}
+                setView={_setAllEventsView}
+              />
+            )
+            : (
+              <Day
+                date={dateState.dateSelected}
+                hasNextDay={hasNextDay}
+                now={now}
+                scheduled={scheduled}
+                setNextDay={_nextDay}
+                setPrevDay={_prevDay}
+                setView={_setAllEventsView}
+              />
+            )
           }
         </div>
       </div>

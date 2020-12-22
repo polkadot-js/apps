@@ -3,7 +3,7 @@
 
 import type { EntryInfo } from './types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components';
@@ -48,15 +48,19 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
     [date, now]
   );
 
+  const viewSetter = useCallback(() => (
+    <Button
+      className='all-events-button'
+      icon={'list'}
+      onClick={() => setView(true)}
+    />
+  ), [setView]);
+
   return (
     <div className={className}>
       <h1>
         <div className='highlight--color'>
-          <Button
-            className='all-events-button'
-            icon={'list'}
-            onClick={() => setView(true)}
-          />
+          {viewSetter()}
           {date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}
         </div>
         <Button.Group>

@@ -3,7 +3,7 @@
 
 import type { EntryInfo } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components';
@@ -22,15 +22,19 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
     [scheduled]
   );
 
+  const viewSetter = useCallback(() => (
+    <Button
+      className='all-events-button'
+      icon={'calendar'}
+      onClick={() => setView(false)}
+    />
+  ), [setView]);
+
   return (
     <div className={className}>
       <h1>
         <div className='highlight--color'>
-          <Button
-            className='all-events-button'
-            icon={'calendar'}
-            onClick={() => setView(false)}
-          />
+          {viewSetter()}
           Upcoming Events
         </div>
       </h1>

@@ -162,7 +162,7 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
   return (
     <div className={className}>
       {showAllEvents &&
-        <div className='itemDate'>{date.toLocaleString('en-EN', options)}</div>
+        <div className='itemDate'>{date.toLocaleString(undefined, options)}</div>
       }
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
       {desc}
