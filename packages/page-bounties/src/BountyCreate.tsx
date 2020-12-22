@@ -57,6 +57,9 @@ function BountyCreate () {
                   value={title}
                 />
               </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('Description of the Bounty (to be stored on-chain)')}</p>
+              </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
@@ -67,6 +70,9 @@ function BountyCreate () {
                   onChange={setAmount}
                   value={amount}
                 />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -79,7 +85,7 @@ function BountyCreate () {
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>('Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.')}</p>
+                <p>{t<string>('Proposer bond depends on bounty title length.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -93,7 +99,7 @@ function BountyCreate () {
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>('Use this account to propose bounty from. This can be a normal or council account.')}</p>
+                <p>{t<string>('This account will propose the bounty. Bond amount will be reserved on its balance.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
