@@ -138,6 +138,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           {allEventsView
             ? (
               <UpcomingEvents
+                className='upcoming-events'
                 scheduled={scheduled}
                 setView={_setAllEventsView}
               />
@@ -168,6 +169,11 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
 
     .wrapper-style {
       flex: 1;
+
+      .upcoming-events {
+        position: relative;
+        max-width: 100%;
+      }
     }
 
     > div {

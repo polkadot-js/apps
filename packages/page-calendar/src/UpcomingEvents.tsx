@@ -59,11 +59,13 @@ export default React.memo(styled(UpcomingEvents)`
   max-width: max-content;
 
   .all-events-rows {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding: 10px 0;
   }
 
   .allEventsWrapper {
     padding-inline-start: 10px;
+
+    .all-events-rows { background: #FFF9FC; }
+    .all-events-rows:nth-child(odd) { background: none; }
   }
 `);
