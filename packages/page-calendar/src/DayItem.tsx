@@ -157,8 +157,6 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
     [info, t, type]
   );
 
-  const exportCalClassNames = showAllEvents ? 'exportCal exportCal-allEvents' : 'exportCal';
-
   return (
     <div className={className}>
       {showAllEvents &&
@@ -168,7 +166,7 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
       {desc}
       {date && (
         <Button
-          className={exportCalClassNames}
+          className={showAllEvents ? 'exportCal exportCal-allEvents' : 'exportCal'}
           icon='calendar-plus'
           onClick={_exportCal}
         />
