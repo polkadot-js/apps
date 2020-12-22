@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { getSystemIcon } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import StatusContext from '../Status/Context';
 import { useTranslation } from '../translate';
@@ -24,7 +24,7 @@ interface Props {
 }
 
 export function getIdentityTheme (systemName: string): 'substrate' {
-  return ((uiSettings.icon === 'default' && getSystemIcon(systemName)) || uiSettings.icon) as 'substrate';
+  return ((settings.icon === 'default' && getSystemIcon(systemName)) || settings.icon) as 'substrate';
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {

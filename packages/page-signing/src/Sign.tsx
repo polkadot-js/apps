@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';

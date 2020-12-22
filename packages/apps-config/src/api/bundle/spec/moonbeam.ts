@@ -12,7 +12,7 @@ export default {
   rpc: rpcGen(),
   types: [
     {
-      minmax: [0, undefined],
+      minmax: [0, 4],
       types: {
         AccountId: 'EthereumAccountId',
         Address: 'AccountId',
@@ -150,11 +150,43 @@ export default {
         },
         ExitReason: {
           _enum: {
-            ExitSucceed: 'bool',
-            ExitError: 'bool',
-            ExitRevert: 'bool',
-            ExitFatal: 'bool'
+            Succeed: 'ExitSucceed',
+            Error: 'ExitError',
+            Revert: 'ExitRevert',
+            verFatal: 'ExitFatal'
           }
+        },
+        ExitSucceed: {
+          _enum: ['Stopped', 'Returned', 'Suicided']
+        },
+        ExitError: {
+          _enum: [
+            'StackUnderflow',
+            'StackOverflow',
+            'InvalidJump',
+            'InvalidRange',
+            'DesignatedInvalid',
+            'CallTooDeep',
+            'CreateCollision',
+            'CreateContractLimit',
+            'OutOfOffset',
+            'OutOfGas',
+            'OutOfFund',
+            'PCUnderflow',
+            'CreateEmpty',
+            "Other(Cow<'static, str>)"
+          ]
+        },
+        ExitRevert: {
+          _enum: ['Reverted']
+        },
+        ExitFatal: {
+          _enum: [
+            'NotSupported',
+            'UnhandledInterrupt',
+            'CallErrorAsFatal(ExitError)',
+            "Other(Cow<'static, str>)"
+          ]
         }
       }
     },
@@ -225,11 +257,43 @@ export default {
         },
         ExitReason: {
           _enum: {
-            ExitSucceed: 'bool',
-            ExitError: 'bool',
-            ExitRevert: 'bool',
-            ExitFatal: 'bool'
+            Succeed: 'ExitSucceed',
+            Error: 'ExitError',
+            Revert: 'ExitRevert',
+            verFatal: 'ExitFatal'
           }
+        },
+        ExitSucceed: {
+          _enum: ['Stopped', 'Returned', 'Suicided']
+        },
+        ExitError: {
+          _enum: [
+            'StackUnderflow',
+            'StackOverflow',
+            'InvalidJump',
+            'InvalidRange',
+            'DesignatedInvalid',
+            'CallTooDeep',
+            'CreateCollision',
+            'CreateContractLimit',
+            'OutOfOffset',
+            'OutOfGas',
+            'OutOfFund',
+            'PCUnderflow',
+            'CreateEmpty',
+            "Other(Cow<'static, str>)"
+          ]
+        },
+        ExitRevert: {
+          _enum: ['Reverted']
+        },
+        ExitFatal: {
+          _enum: [
+            'NotSupported',
+            'UnhandledInterrupt',
+            'CallErrorAsFatal(ExitError)',
+            "Other(Cow<'static, str>)"
+          ]
         }
       }
     }

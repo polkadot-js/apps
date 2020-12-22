@@ -61,52 +61,74 @@ function BountyCreate () {
           header={t<string>('Add Bounty')}
         >
           <Modal.Content>
-            <Input
-              autoFocus
-              defaultValue={TITLE_DEFAULT_VALUE}
-              help={t<string>('The description of this bounty')}
-              isError={!hasTitle}
-              label={t<string>('bounty title')}
-              onChange={onTitleChange}
-              value={title}
-            />
-            {!hasTitle && (title !== TITLE_DEFAULT_VALUE) && (
-              <article className='error'>
-                {t<string>('Inappropriate title length.')}
-              </article>
-            )}
-            <InputBalance
-              help={t<string>('The total payment amount of this bounty, curators fee included.')}
-              isError={!isMinValue}
-              isZeroable
-              label={t<string>('bounty requested allocation')}
-              onChange={setAmount}
-              value={ amount }
-            />
-            {!isMinValue && !amount?.eq(AMOUNT_DEFAULT_VALUE) && (
-              <article className='error'>
-                {t<string>('Allocation value is smaller than the minimum bounty value.')}
-              </article>
-            )}
-            <InputBalance
-              defaultValue={bond.toString()}
-              help={t<string>('This amount will be reserved from origin account and returned on approval or slashed upon rejection.')}
-              isDisabled
-              label={t<string>('bounty bond')}
-            />
-            <InputAddress
-              help={t<string>('Select the account you wish to propose the bounty from.')}
-              isError={!hasFunds}
-              label={t<string>('submit with account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
-            {!hasFunds && (
-              <article className='error'>
-                {t<string>('Account does not have enough funds.')}
-              </article>
-            )}
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  autoFocus
+                  defaultValue={TITLE_DEFAULT_VALUE}
+                  help={t<string>('The description of this bounty')}
+                  isError={!hasTitle}
+                  label={t<string>('bounty title')}
+                  onChange={onTitleChange}
+                  value={title}
+                />
+                {!hasTitle && (title !== TITLE_DEFAULT_VALUE) && (
+                  <article className='error'>
+                    {t<string>('Inappropriate title length.')}
+                  </article>
+                )}
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputBalance
+                  help={t<string>('The total payment amount of this bounty, curators fee included.')}
+                  isError={!isMinValue}
+                  isZeroable
+                  label={t<string>('bounty requested allocation')}
+                  onChange={setAmount}
+                  value={amount}
+                />
+                {!isMinValue && !amount?.eq(AMOUNT_DEFAULT_VALUE) && (
+                  <article className='error'>
+                    {t<string>('Allocation value is smaller than the minimum bounty value.')}
+                  </article>
+                )}
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputBalance
+                  defaultValue={bond.toString()}
+                  help={t<string>('This amount will be reserved from origin account and returned on approval or slashed upon rejection.')}
+                  isDisabled
+                  label={t<string>('bounty bond')}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  help={t<string>('Select the account you wish to propose the bounty from.')}
+                  isError={!hasFunds}
+                  label={t<string>('submit with account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
+                {!hasFunds && (
+                  <article className='error'>
+                    {t<string>('Account does not have enough funds.')}
+                  </article>
+                )}
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('Use this account to propose bounty from. This can be a normal or council account.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleIsOpen}>
             <TxButton
