@@ -11,7 +11,7 @@ import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@pol
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond } from './helpers/calculateBountyBond';
+import { calculateBountyBond, countUtf8Bytes } from './helpers/calculateBountyBond';
 import { useTranslation } from './translate';
 
 const MIN_TITLE_LEN = 1;
@@ -32,7 +32,7 @@ function BountyCreate () {
   const bountyMinValue = new BN((api.consts.bounties || api.consts.treasury).bountyValueMinimum.toString());
   const bountyTitleMaxLength = +(api.consts.bounties || api.consts.treasury).maximumReasonLength.toString();
 
-  const hasTitle = title?.length >= MIN_TITLE_LEN && title?.length <= bountyTitleMaxLength;
+  const hasTitle = title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength;
   const isMinValue = amount?.gte(bountyMinValue);
   const hasFunds = balances?.availableBalance.gte(bond);
 
