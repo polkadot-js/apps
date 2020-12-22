@@ -6,7 +6,7 @@ import type { BalanceOf } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 
 export function calculateBountyBond (description: string, depositBase: BalanceOf, depositPerByte: BalanceOf): BN {
-  return depositBase.toBn().add(depositPerByte.toBn().muln(countUtf8Bytes(description)));
+  return depositBase.add(depositPerByte.muln(countUtf8Bytes(description)));
 }
 
 export function countUtf8Bytes (str: string): number {

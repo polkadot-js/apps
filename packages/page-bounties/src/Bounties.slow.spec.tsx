@@ -21,8 +21,7 @@ const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333
 async function createApi (): Promise<ApiPromise> {
   process.env.NODE_ENV = 'test';
 
-  // const provider = new WsProvider(`ws://127.0.0.1:${SUBSTRATE_PORT}`);
-  const provider = new WsProvider('wss://kusama-rpc.polkadot.io');
+  const provider = new WsProvider(`ws://127.0.0.1:${SUBSTRATE_PORT}`);
 
   const api = await ApiPromise.create({ provider });
 
@@ -46,26 +45,21 @@ describe('--SLOW--: Bounties list', () => {
 
   it('list bounties', async () => {
     const api = await createApi();
-    const base = api.consts.treasury.bountyDepositBase;
-    const perByte = api.consts.treasury.dataDepositPerByte;
-    const entries: DeriveBounties = await api.derive.treasury.bounties()
-    const bond = entries[0].bounty.bond
-    console.log(`base = ${base.toBn().toString()}, perByte=${perByte.toBn().toString()}, bond=${bond.toBn().toString()}`);
 
     const keyring = new Keyring({ type: 'sr25519' });
     const aliceSigner = keyring.addFromUri('//Alice');
 
-    await execute(api.tx.treasury.proposeBounty(new BN(500_000_000_000_000), 'new bounty hello hello more bytes'), aliceSigner);
+    await execute(api.tx.bounties.proposeBounty(new BN(500_000_000_000_000), 'new bounty hello hello more bytes'), aliceSigner);
 
     await waitFor(async () => {
-      const bounties = await api.query.treasury.bounties.entries();
+      const bounties = await api.query.bounties.bounties.entries();
 
       const length = bounties.length;
 
       if (length === 0) throw new Error();
     }, { onTimeout: (error) => fail(error), timeout: 10000 });
 
-    const bounties: DeriveBounties = await api.derive.treasury.bounties();
+    const bounties: DeriveBounties = await api.derive.bounties.bounties();
 
     expect(bounties[0].description).toEqual('new bounty hello hello more bytes');
   });
