@@ -8,9 +8,10 @@ import { assert } from '@polkadot/util';
 
 import { api } from './Api';
 
-const ALLOWED_CHAINS: [string, 'kusama' | 'polkadot'][] = [
+const ALLOWED_CHAINS: [string, 'kusama' | 'polkadot' | 'dock-main'][] = [
   [KUSAMA_GENESIS, 'kusama'],
-  [POLKADOT_GENESIS, 'polkadot']
+  [POLKADOT_GENESIS, 'polkadot'],
+  ['0xf73467c6544aa68df2ee546b135f955c46b90fa627e9b5d7935f41061bb8a5a9', 'dock-main']
 ];
 
 let ledger: Ledger | null = null;

@@ -23,6 +23,7 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
+import { rpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
@@ -51,7 +52,7 @@ interface ChainData {
   systemVersion: string;
 }
 
-export const DEFAULT_DECIMALS = registry.createType('u32', 15);
+export const DEFAULT_DECIMALS = registry.createType('u32', 6);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 
 let api: ApiPromise;
@@ -195,7 +196,8 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
+    // api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

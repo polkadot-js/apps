@@ -1,6 +1,7 @@
 [
   "app-accounts.json",
   "app-addresses.json",
+  "app-anchor.json",
   "app-bounties.json",
   "app-calendar.json",
   "app-claims.json",
@@ -11,6 +12,7 @@
   "app-extrinsics.json",
   "app-generic-asset.json",
   "app-js.json",
+  "app-master-proposals.json",
   "app-parachains.json",
   "app-poll.json",
   "app-rpc.json",
@@ -21,6 +23,7 @@
   "app-storage.json",
   "app-sudo.json",
   "app-tech-comm.json",
+  "app-token-swap.json",
   "app-treasury.json",
   "apps-config.json",
   "apps-routing.json",
