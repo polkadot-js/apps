@@ -8,7 +8,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -43,8 +42,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
-  const { allAccounts, hasAccounts } = useAccounts();
-
   const handleOnIconClick = useCallback(
     () => setIsExpanded((isExpanded) => !isExpanded),
     []
@@ -61,10 +58,9 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
         <td>
-          {hasAccounts && beneficiary && blocksUntilPayout &&
+          {beneficiary && blocksUntilPayout &&
           <BountyClaim
-            accounts={allAccounts}
-            beneficiaryId={beneficiary.toString()}
+            beneficiaryId={beneficiary}
             index={index}
             payoutDue={blocksUntilPayout}
           />}
