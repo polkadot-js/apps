@@ -16,6 +16,7 @@ const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
 const chainPlasm = '#2096F3';
+const chainPolkabtc = '#510101';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
@@ -35,6 +36,8 @@ const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
+const nodeEncointerNotee = '#cc0000';
+const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
@@ -64,6 +67,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
+  ['PolkaBTC', chainPolkabtc],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],
@@ -86,6 +90,9 @@ export const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
+  ['Encointer Node noTEE', nodeEncointerNotee],
+  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],

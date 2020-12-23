@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
 import type { ChainInfo } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
@@ -8,7 +9,6 @@ import styled from 'styled-components';
 
 import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
-import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
 import ChainColorIndicator from './ChainColorIndicator';
