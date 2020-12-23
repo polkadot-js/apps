@@ -4,6 +4,7 @@
   "Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.": "Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.",
   "Bounties": "Bounties",
   "Calculated bond for bounty": "Calculated bond for bounty",
+  "Claim Bounty": "Claim Bounty",
   "Claimable": "Claimable",
   "Curators deposit": "Curators deposit",
   "Curators fee": "Curators fee",
