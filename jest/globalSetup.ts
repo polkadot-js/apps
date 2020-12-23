@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AlwaysPullPolicy,GenericContainer, Wait } from 'testcontainers';
+import { AlwaysPullPolicy, GenericContainer, Wait } from 'testcontainers';
 
 import { SubstrateTestsGlobal } from './substrateTestsGlobal';
 
