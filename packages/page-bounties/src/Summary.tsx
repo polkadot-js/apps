@@ -47,13 +47,15 @@ function Summary ({ activeBounties, className }: Props): React.ReactElement<Prop
         <CardSummary label={t<string>('past')}>
           {bountyIndex?.toHuman()}
         </CardSummary>
-        {bestNumber && (
-          <CardSummary label={t<string>('next bounty founding in')}>
-            <BlockToTime
-              blocks={bestNumber.mod(spendPeriod)}
-              className='timer'
-            />
-          </CardSummary>
+        {bestNumber && spendPeriod?.gtn(0) && (
+          <>
+            <CardSummary label={t<string>('next bounty founding in')}>
+              <BlockToTime
+                blocks={bestNumber.mod(spendPeriod)}
+                className='timer'
+              />
+            </CardSummary>
+          </>
         )}
       </section>
       <section>
@@ -76,16 +78,15 @@ function Summary ({ activeBounties, className }: Props): React.ReactElement<Prop
             />
           </CardSummary>
         )}
-        {bestNumber && spendPeriod?.gtn(0) && (
+        {spendPeriod?.gtn(0) && (
           <CardSummary
             label={t<string>('spend period')}
-            progress={{
-              total: spendPeriod,
-              value: bestNumber.mod(spendPeriod),
-              withTime: true
-            }}
-          />
-
+          >
+            <BlockToTime
+              blocks={spendPeriod}
+              className='timer'
+            />
+          </CardSummary>
         )}
       </section>
     </SummaryBox>
