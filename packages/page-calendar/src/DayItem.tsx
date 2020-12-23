@@ -203,7 +203,6 @@ export default React.memo(styled(DayItem)`
   .itemDate {
     padding: 0 0.375rem;
     border-radius: 0.25rem;
-    color: #000;
     width: 17rem;
   }
 
