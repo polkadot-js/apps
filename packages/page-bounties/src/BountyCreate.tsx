@@ -4,7 +4,7 @@
 import type { BalanceOf } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
@@ -27,14 +27,20 @@ function BountyCreate () {
   const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
   const [value, setValue] = useState<BN | undefined>(BOUNTY_DEFAULT_VALUE);
   const [isOpen, toggleIsOpen] = useToggle();
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isValueValid, setIsValueValid] = useState(false);
+  const [hasFunds, setHasFunds] = useState(false);
 
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
-  const bountyTitleMaxLength = ((api.consts.bounties || api.consts.treasury).maximumReasonLength as BalanceOf).toNumber();
 
-  const isTitleValid = title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength;
-  const isValueValid = value?.gte(bountyMinValue);
-  const hasFunds = balances?.availableBalance.gte(bond);
+  useEffect(() => {
+    const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
+    const bountyTitleMaxLength = ((api.consts.bounties || api.consts.treasury).maximumReasonLength as BalanceOf).toNumber();
+
+    setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength);
+    setIsValueValid(!!value?.gte(bountyMinValue));
+    setHasFunds(!!balances?.availableBalance.gte(bond));
+  }, [api, balances, bond, title, value]);
 
   const isValid = hasFunds && isTitleValid && isValueValid;
 
