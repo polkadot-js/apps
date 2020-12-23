@@ -1,7 +1,7 @@
 // Copyright 2019 @polkadot/app-generic-asset authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from '@polkadot/x-rxjs';
 
 const ASSETS_KEY = 'polkadot-app-generic-asset-assets';
 

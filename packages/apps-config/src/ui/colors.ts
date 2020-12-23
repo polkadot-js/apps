@@ -26,6 +26,8 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
+const chainGalois = '#000000';
+const chainZero = '#000000';
 
 // based on node name
 // alphabetical
@@ -33,6 +35,8 @@ const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
+const nodeEncointerNotee = '#cc0000';
+const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
@@ -40,6 +44,7 @@ const nodeKilt = '#eb5b2a';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
+const nodeZero = '#0099cc';
 
 export { emptyColor };
 
@@ -67,7 +72,9 @@ export const chainColors: Record<string, any> = [
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
-  ['Westend', chainWestend]
+  ['Westend', chainWestend],
+  ['Galois', chainGalois],
+  ['ZΞRO Alphaville', chainZero]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -81,12 +88,16 @@ export const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
+  ['Encointer Node noTEE', nodeEncointerNotee],
+  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
   ['SORA-Substrate Node', nodeSora],
   ['Stafi node', nodeStafi],
-  ['subsocial node', nodeSubsocial]
+  ['subsocial node', nodeSubsocial],
+  ['SUBZΞRO', nodeZero]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]

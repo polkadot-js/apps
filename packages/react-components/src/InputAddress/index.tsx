@@ -9,7 +9,7 @@ import store from 'store';
 import styled from 'styled-components';
 
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
@@ -133,14 +133,8 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
+    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, placeholder, withEllipsis, withLabel } = this.props;
     const { lastValue, value } = this.state;
-    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
-
-    if (!hasOptions && !isDisabled) {
-      return null;
-    }
-
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))

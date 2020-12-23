@@ -75,7 +75,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
         // swap to acive mode
         tracker.current.isActive = true;
 
-        tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<() => void>)(...params, (value: Codec): void => {
+        tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<VoidFn>)(...params, (value: Codec): void => {
           // we use the isActive flag here since .subscriber may not be set on immediate callback)
           if (mountedRef.current && tracker.current.isActive) {
             mountedRef.current && tracker.current.isActive && setValue(

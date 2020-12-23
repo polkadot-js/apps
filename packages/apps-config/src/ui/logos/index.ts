@@ -12,18 +12,12 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
-// extensions
-// alphabetical
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
-// external links
-// alphabetical
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalSubscan from './external/subscan.svg';
-// defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
-// alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeCanvas from './nodes/canvas-2.png';
@@ -41,6 +35,7 @@ import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
+import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
@@ -52,6 +47,7 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeZero from './nodes/zero.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -60,6 +56,7 @@ import emptyLogo from './empty.svg';
 export const chainLogos: Record<string, unknown> = [
   ['darwinia crab', nodeCrab],
   ['Dusty', chainDusty],
+  ['Galois', nodeMath],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -92,6 +89,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
@@ -108,7 +106,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium]
+  ['Equilibrium', nodeEquilibrium],
+  ['SUBZΞRO', nodeZero]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -132,7 +131,10 @@ export const namedLogos: Record<string, unknown> = {
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  encointer_cantillon: nodeEncointerTeeproxy,
+  encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
+  galois: nodeMath,
   hanonycash: nodeHanonycash,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
@@ -156,7 +158,8 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  zero: nodeZero
 };
 
 // extension logos

@@ -8,7 +8,6 @@ import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { registry } from '@polkadot/react-api';
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -78,9 +77,9 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
-  const emptyExposure = registry.createType('Exposure');
+  const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).addn(1);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
@@ -149,8 +148,8 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
 }
 
 function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
-  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, lastEraInfo, historyDepth);
-  const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, lastEraInfo);
+  const [elected, nominators] = extractSingle(api, allAccounts, electedDerive, favorites, lastEraInfo, historyDepth);
+  const [waiting] = extractSingle(api, allAccounts, waitingDerive, favorites, lastEraInfo);
   const activeTotals = elected
     .filter(({ isActive }) => isActive)
     .map(({ bondTotal }) => bondTotal)

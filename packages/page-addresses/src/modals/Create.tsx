@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 import { hexToU8a } from '@polkadot/util';
 import { ethereumEncode } from '@polkadot/util-crypto';
 

@@ -27,6 +27,7 @@
   "Save": "Save",
   "Save & Reload": "Save & Reload",
   "Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.": "Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.",
+  "Share": "Share",
   "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"",
   "This is not a valid JSON object.": "This is not a valid JSON object.",
   "Translate": "Translate",
@@ -44,5 +45,6 @@
   "the language to display translations for": "the language to display translations for",
   "the module to display strings for": "the module to display strings for",
   "upgradable extensions": "upgradable extensions",
+  "url": "url",
   "{{done}}/{{total}}, {{progress}}% done": "{{done}}/{{total}}, {{progress}}% done"
 }

@@ -59,6 +59,10 @@ export default React.memo(styled(Tooltip)`
     overflow: hidden;
   }
 
+  &.ui--Tooltip {
+    z-index: 1002;
+  }
+
   &.address div {
     overflow: hidden;
     text-overflow: ellipsis;

@@ -5,7 +5,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -19,6 +19,7 @@ const MIN_REASON_LEN = 5;
 
 function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
@@ -117,8 +118,12 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
               }
               tx={
                 isMember
-                  ? 'treasury.tipNew'
-                  : 'treasury.reportAwesome'
+                  ? api.tx.tips
+                    ? 'tips.tipNew'
+                    : 'treasury.tipNew'
+                  : api.tx.tips
+                    ? 'tips.reportAwesome'
+                    : 'treasury.reportAwesome'
               }
             />
           </Modal.Actions>

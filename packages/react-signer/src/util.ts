@@ -6,7 +6,7 @@ import type { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/
 import type { AddressFlags } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
 

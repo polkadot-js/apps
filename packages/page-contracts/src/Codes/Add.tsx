@@ -1,8 +1,6 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StringOrNull } from '@polkadot/react-components/types';
-
 import React, { useCallback, useState } from 'react';
 
 import { Button, Input, Modal } from '@polkadot/react-components';
@@ -22,7 +20,7 @@ function Add ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [codeHash, setCodeHash] = useState('');
   const [isCodeHashValid, setIsCodeHashValid] = useState(false);
-  const [name, setName] = useState<StringOrNull>(null);
+  const [name, setName] = useState<string | null>(null);
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
   const _onSave = useCallback(

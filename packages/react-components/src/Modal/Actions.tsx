@@ -4,7 +4,7 @@
 import type { ActionsProps } from './types';
 
 import React from 'react';
-import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
+import { Modal as SUIModal } from 'semantic-ui-react';
 
 import Button from '../Button';
 import ButtonCancel from '../ButtonCancel';
