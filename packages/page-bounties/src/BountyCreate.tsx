@@ -16,7 +16,7 @@ import { useTranslation } from './translate';
 
 const MIN_TITLE_LEN = 1;
 const TITLE_DEFAULT_VALUE = '';
-const AMOUNT_DEFAULT_VALUE = BN_ZERO;
+const BOUNTY_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
@@ -25,18 +25,18 @@ function BountyCreate () {
   const [accountId, setAccountId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
-  const [amount, setAmount] = useState<BN | undefined>(AMOUNT_DEFAULT_VALUE);
+  const [value, setValue] = useState<BN | undefined>(BOUNTY_DEFAULT_VALUE);
   const [isOpen, toggleIsOpen] = useToggle();
 
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const bountyMinValue = new BN((api.consts.bounties || api.consts.treasury).bountyValueMinimum.toString());
-  const bountyTitleMaxLength = +(api.consts.bounties || api.consts.treasury).maximumReasonLength.toString();
+  const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
+  const bountyTitleMaxLength = ((api.consts.bounties || api.consts.treasury).maximumReasonLength as BalanceOf).toNumber();
 
-  const hasTitle = title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength;
-  const isMinValue = amount?.gte(bountyMinValue);
-  const hasFunds = balances?.availableBalance.gte(bond);
+  const isTitleValid = title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength;
+  const isValueValid = value?.gte(bountyMinValue);
+  const hasFunds = accountId ? balances?.availableBalance.gte(bond) : true;
 
-  const isValid = hasFunds && hasTitle && isMinValue;
+  const isValid = hasFunds && isTitleValid && isValueValid;
 
   const onTitleChange = useCallback((value: string) => {
     const bountyBase = api.consts.bounties || api.consts.treasury;
@@ -67,14 +67,14 @@ function BountyCreate () {
                   autoFocus
                   defaultValue={TITLE_DEFAULT_VALUE}
                   help={t<string>('The description of this bounty')}
-                  isError={!hasTitle}
+                  isError={!isTitleValid}
                   label={t<string>('bounty title')}
                   onChange={onTitleChange}
                   value={title}
                 />
-                {!hasTitle && (title !== TITLE_DEFAULT_VALUE) && (
+                {!isTitleValid && (title !== TITLE_DEFAULT_VALUE) && (
                   <article className='error'>
-                    {t<string>('Inappropriate title length.')}
+                    {t<string>('Title too long')}
                   </article>
                 )}
               </Modal.Column>
@@ -83,13 +83,13 @@ function BountyCreate () {
               <Modal.Column>
                 <InputBalance
                   help={t<string>('The total payment amount of this bounty, curators fee included.')}
-                  isError={!isMinValue}
+                  isError={!isValueValid}
                   isZeroable
                   label={t<string>('bounty requested allocation')}
-                  onChange={setAmount}
-                  value={amount}
+                  onChange={setValue}
+                  value={value}
                 />
-                {!isMinValue && !amount?.eq(AMOUNT_DEFAULT_VALUE) && (
+                {!isValueValid && !value?.eq(BOUNTY_DEFAULT_VALUE) && (
                   <article className='error'>
                     {t<string>('Allocation value is smaller than the minimum bounty value.')}
                   </article>
@@ -137,7 +137,7 @@ function BountyCreate () {
               isDisabled={!accountId || !isValid}
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
-              params={[amount, title]}
+              params={[value, title]}
               tx={
                 api.tx.bounties
                   ? 'bounties.proposeBounty'
