@@ -34,7 +34,7 @@ function BountyCreate () {
 
   const isTitleValid = title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength;
   const isValueValid = value?.gte(bountyMinValue);
-  const hasFunds = accountId ? balances?.availableBalance.gte(bond) : true;
+  const hasFunds = balances?.availableBalance.gte(bond);
 
   const isValid = hasFunds && isTitleValid && isValueValid;
 
