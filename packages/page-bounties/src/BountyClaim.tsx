@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { isClaimable } from './helpers/isClaimable';
+import { isClaimable } from './helpers';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -21,15 +21,12 @@ function BountyClaim ({ accounts, beneficiaryId, index, payoutDue }: Props) {
   const { t } = useTranslation();
   const { api } = useApi();
 
-  const [isValid] = useState(true);
-
   const isBountyClaimable = useCallback(() => isClaimable(accounts, beneficiaryId, payoutDue), [accounts, beneficiaryId, payoutDue]);
 
   return isBountyClaimable()
     ? <TxButton
       accountId={beneficiaryId}
       icon='plus'
-      isDisabled={!isValid}
       label={t<string>('Claim Bounty')}
       params={[index]}
       tx={

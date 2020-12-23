@@ -12,8 +12,8 @@ import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { getBountyStatus } from './helpers/getBountyStatus';
 import BountyClaim from './BountyClaim';
+import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
 interface Props {
