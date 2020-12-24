@@ -51,7 +51,7 @@ function Summary ({ activeBounties, className }: Props): React.ReactElement<Prop
           <>
             <CardSummary label={t<string>('next bounty founding in')}>
               <BlockToTime
-                blocks={bestNumber.mod(spendPeriod)}
+                blocks={spendPeriod.sub(bestNumber.mod(spendPeriod))}
                 className='timer'
               />
             </CardSummary>
