@@ -31,6 +31,7 @@ interface Props {
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
+  toggleLedger: () => void;
 }
 
 interface SavedFlags {
@@ -173,7 +174,7 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -225,6 +226,10 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       sort(sortBy, sortFromMax, filtered)
     );
   }, [filtered, sortBy, sortFromMax]);
+
+  useEffect((): void => {
+    toggleLedger();
+  }, [toggleLedger]);
 
   const myNominees = useMemo(
     () => extractNominees(ownNominators),

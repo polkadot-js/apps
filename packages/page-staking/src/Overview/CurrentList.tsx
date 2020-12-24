@@ -90,7 +90,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
 
   const infoMap = useMemo(
     () => targets.validators?.reduce((result: Record<string, ValidatorInfo>, info): Record<string, ValidatorInfo> => {
-      result[info.accountId.toString()] = info;
+      result[info.key] = info;
 
       return result;
     }, {}),
@@ -129,9 +129,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           key={address}
           lastBlock={byAuthor[address]}
           nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
-          onlineCount={recentlyOnline?.[address]?.blockCount}
-          onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
+          recentlyOnline={recentlyOnline?.[address]}
           toggleFavorite={toggleFavorite}
           validatorInfo={infoMap?.[address]}
           withIdentity={toggles.withIdentity}
