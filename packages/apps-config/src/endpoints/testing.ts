@@ -73,6 +73,18 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://rpc.dusty.plasmnet.io/'
     },
     {
+      info: 'encointer_cantillon',
+      text: t('rpc.encointer.cantillon', 'Encointer Cantillon', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
+      value: 'wss://cantillon.encointer.org'
+    },
+    {
+      info: 'encointer_gesell',
+      text: t('rpc.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
+      value: 'wss://gesell.encointer.org'
+    },
+    {
       info: 'equilibrium',
       text: t('rpc.equilibriumtestnet', 'Equilibrium Testnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Equilibrium' } }),
@@ -114,6 +126,12 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Phala Network' } }),
       value: 'wss://poc3a.phala.network/ws'
+    },
+    {
+      info: 'polkabtc',
+      text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Interlay' } }),
+      value: 'wss://alpha.polkabtc.io/api/parachain'
     },
     {
       info: 'laminar',

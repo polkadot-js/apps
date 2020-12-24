@@ -60,27 +60,10 @@ function createWebpack (ENV, context) {
           type: 'javascript/auto'
         },
         {
-          exclude: /(node_modules)/,
-          test: /\.css$/,
-          use: [
-            isProd
-              ? MiniCssExtractPlugin.loader
-              : require.resolve('style-loader'),
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                importLoaders: 1
-              }
-            }
-          ]
-        },
-        {
           include: /node_modules/,
           test: /\.css$/,
           use: [
-            isProd
-              ? MiniCssExtractPlugin.loader
-              : require.resolve('style-loader'),
+            MiniCssExtractPlugin.loader,
             require.resolve('css-loader')
           ]
         },
@@ -88,7 +71,6 @@ function createWebpack (ENV, context) {
           exclude: /(node_modules)/,
           test: /\.(js|mjs|ts|tsx)$/,
           use: [
-            require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
               options: require('@polkadot/dev/config/babel-config-webpack.cjs')

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
-import settings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
 import BaseOverlay from './Base';

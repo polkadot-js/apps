@@ -1,5 +1,37 @@
 # CHANGELOG
 
+## 0.72.1 Dec 21, 2020
+
+Contributed:
+
+- Fix tooltip z-index on modals (Thanks to https://github.com/ii-ii-ii)
+- Align media queries on staking targets (Thanks to https://github.com/ii-ii-ii)
+- Handle pending bounty payouts (Thanks to https://github.com/ekowalsk)
+- Bounty create modal (Thanks to https://github.com/MiZiet, https://github.com/ekowalsk, https://github.com/krzysztof-jelski)
+- it i18n updates (Thanks to https://github.com/fomod-in)
+- Add Zero testnet (Thanks to https://github.com/2075)
+- Update encointer types & testnets (Thanks to https://github.com/brenzi)
+- Additional types for Dock network (Thanks to https://github.com/lovesh)
+- Update Phala endpoint (Thanks to https://github.com/h4x3rotab)
+
+Changes:
+
+- Add Rococo v1 testnet (with Tick, Trick & Track)
+- saving of toggle options on staking pages
+- Adjust bounties & tips with current Substrate endpoints
+- Add warning for older chains without atomic batches (where used)
+- Allow InputAddress display when no optional are available
+- Cleanup last-block-received countdowns (fixed character spacing)
+- Add sharing button for type definitions
+- Typo on society pages (with i18n key adjustments)
+- Adjust semantic-ui imports to non-cjs
+- Use RxJs & memoize from `@polkadot/util`
+- Cleanup global registry usage, only use registry from API
+- Cleanup info console logs for redirect (show APIs only as applicable)
+- Remove unused TxModal components
+- Swap to Webpack 5
+
+
 ## 0.71.2 Dec 14, 2020
 
 Contributed:

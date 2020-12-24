@@ -52,7 +52,6 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   commissionPer: number;
   exposure: Exposure;
   isActive: boolean;
-  isCommission: boolean;
   isElected: boolean;
   isFavorite: boolean;
   isNominating: boolean;
