@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO } from '@polkadot/util';
+import { arrayFlatten, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -19,6 +19,8 @@ interface LastEra {
 }
 
 const EMPTY_PARTIAL = {};
+const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withPrefs: true };
+const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
   return (info, index): ValidatorInfo => {
@@ -47,7 +49,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 
       return false;
     })
-    .filter((a) => a.bondTotal.gtn(0))
+    // .filter((a) => a.bondTotal.gtn(0))
     // ignored, not used atm
     // .sort((a, b) => b.commissionPer - a.commissionPer)
     // .map(mapIndex('rankComm'))
@@ -111,10 +113,9 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       bondOwn,
       bondShare: 0,
       bondTotal,
-      commissionPer: ((validatorPrefs.commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
+      commissionPer: validatorPrefs.commission.unwrap().toNumber() / 10_000_000,
       exposure,
       isActive: !skipRewards,
-      isCommission: !!validatorPrefs.commission,
       isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),
       isFavorite: favorites.includes(key),
       isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
@@ -167,7 +168,7 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   });
 
   // all validators, calc median commission
-  const validators = sortValidators(elected.concat(waiting));
+  const validators = sortValidators(arrayFlatten([elected, waiting]));
   const commValues = validators.map(({ commissionPer }) => commissionPer).sort((a, b) => a - b);
   const midIndex = Math.floor(commValues.length / 2);
   const medianComm = commValues.length
@@ -177,9 +178,11 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     : 0;
 
   // ids
-  const electedIds = elected.map(({ accountId }) => accountId.toString());
-  const waitingIds = waiting.map(({ accountId }) => accountId.toString());
-  const validatorIds = electedIds.concat(waitingIds);
+  const electedIds = elected.map(({ key }) => key);
+  const waitingIds = waiting.map(({ key }) => key);
+  const validatorIds = arrayFlatten([electedIds, waitingIds]);
+
+  console.log(JSON.stringify(validators.filter(({ isElected }) => !isElected), null, 2));
 
   return {
     avgStaked,
@@ -204,13 +207,13 @@ const transformEra = {
   })
 };
 
-export default function useSortedTargets (favorites: string[]): SortedTargets {
+export default function useSortedTargets (favorites: string[], withLedger: boolean): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
   const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
-  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo);
-  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo);
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
+  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
 
   const partial = useMemo(
