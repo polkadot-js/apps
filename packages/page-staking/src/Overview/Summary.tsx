@@ -49,7 +49,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
             {nominators.length}
           </CardSummary>
         )}
-        {(inflation > 0) && (
+        {(inflation > 0) && Number.isFinite(inflation) && (
           <CardSummary
             className='media--1200'
             label={t<string>('inflation')}
