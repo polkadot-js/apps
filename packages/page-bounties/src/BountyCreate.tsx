@@ -34,13 +34,20 @@ function BountyCreate () {
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
 
   useEffect(() => {
-    const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
     const bountyTitleMaxLength = ((api.consts.bounties || api.consts.treasury).maximumReasonLength as BalanceOf).toNumber();
 
     setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength);
+  }, [api, title]);
+
+  useEffect(() => {
+    const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
+
     setIsValueValid(!!value?.gte(bountyMinValue));
+  }, [api, value]);
+
+  useEffect(() => {
     setHasFunds(!!balances?.availableBalance.gte(bond));
-  }, [api, balances, bond, title, value]);
+  }, [balances, bond]);
 
   const isValid = hasFunds && isTitleValid && isValueValid;
 
