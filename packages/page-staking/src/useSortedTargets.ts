@@ -84,9 +84,10 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).addn(1);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
-    let bondOwn = exposure.own?.unwrap() || BN_ZERO;
-    let bondTotal = exposure.total?.unwrap() || BN_ZERO;
+    // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
+    let [bondOwn, bondTotal] = exposure.total
+      ? [exposure.own.unwrap(), exposure.total.unwrap()]
+      : [BN_ZERO, BN_ZERO];
     const skipRewards = bondTotal.isZero();
 
     if (bondTotal.isZero()) {
@@ -181,8 +182,6 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   const electedIds = elected.map(({ key }) => key);
   const waitingIds = waiting.map(({ key }) => key);
   const validatorIds = arrayFlatten([electedIds, waitingIds]);
-
-  console.log(JSON.stringify(validators.filter(({ isElected }) => !isElected), null, 2));
 
   return {
     avgStaked,
