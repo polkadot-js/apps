@@ -109,8 +109,6 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     return null;
   }
 
-  !isMain && console.log(JSON.stringify(validatorInfo));
-
   return (
     <tr className={className}>
       <td className='badge together'>
