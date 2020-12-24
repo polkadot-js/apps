@@ -58,12 +58,13 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
         <td>
-          {beneficiary && blocksUntilPayout &&
-          <BountyClaim
-            beneficiaryId={beneficiary}
-            index={index}
-            payoutDue={blocksUntilPayout}
-          />}
+          {beneficiary && blocksUntilPayout && (
+            <BountyClaim
+              beneficiaryId={beneficiary}
+              index={index}
+              payoutDue={blocksUntilPayout}
+            />
+          )}
         </td>
         <td className='table-column-icon'>
           <LinkExternal

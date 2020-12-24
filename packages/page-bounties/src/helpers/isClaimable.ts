@@ -5,6 +5,6 @@ import type { AccountId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
-export const isClaimable = (accounts: string[], beneficiary: AccountId, payoutDue: BN): boolean => {
+export function isClaimable (accounts: string[], beneficiary: AccountId, payoutDue: BN): boolean {
   return payoutDue.ltn(0) && accounts.includes(beneficiary.toString());
-};
+}
