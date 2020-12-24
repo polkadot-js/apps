@@ -34,6 +34,7 @@ interface ConstructTx {
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.
+// FIXME We actually want to return the constructed extrinsic here (probably in useMemo)
 function constructTx (api: ApiPromise, systemChain: string, accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
   if (!ethereumSignature) {
     return {};
