@@ -23,7 +23,10 @@ function BountyClaim ({ beneficiaryId, index, payoutDue }: Props) {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
 
-  const isBountyClaimable = useMemo(() => isClaimable(allAccounts, beneficiaryId, payoutDue), [allAccounts, beneficiaryId, payoutDue]);
+  const isBountyClaimable = useMemo(
+    () => isClaimable(allAccounts, beneficiaryId, payoutDue),
+    [allAccounts, beneficiaryId, payoutDue]
+  );
 
   return hasAccounts && isBountyClaimable
     ? (
@@ -32,11 +35,7 @@ function BountyClaim ({ beneficiaryId, index, payoutDue }: Props) {
         icon='plus'
         label={t<string>('Claim Bounty')}
         params={[index]}
-        tx={
-          api.tx.bounties
-            ? 'bounties.claimBounty'
-            : 'treasury.claimBounty'
-        }
+        tx={(api.tx.bounties || api.tx.treasury).claimBounty}
       />
     )
     : null;
