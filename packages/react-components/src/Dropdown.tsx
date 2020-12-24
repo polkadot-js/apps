@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
-import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
+import { Button as SUIButton, Dropdown as SUIDropdown, DropdownProps } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import { isUndefined } from '@polkadot/util';

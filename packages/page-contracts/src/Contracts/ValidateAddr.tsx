@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { InfoForInput } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
 

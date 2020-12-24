@@ -5,11 +5,13 @@ import acala from './acala';
 import equilibrium from './equilibrium';
 import laminar from './laminar';
 import moonbeam from './moonbeam';
+import polkabtc from './polkabtc';
 import soraSubstrate from './soraSubstrate';
 
 export default {
   Equilibrium: equilibrium,
   acala,
+  'btc-parachain': polkabtc,
   laminar,
   mandala: acala,
   'moonbase-alphanet': moonbeam,

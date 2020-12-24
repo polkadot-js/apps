@@ -9,7 +9,7 @@ import { Button, Columar, Column, Dropdown, Progress, Spinner, Toggle } from '@p
 import i18n from '@polkadot/react-components/i18n';
 import languageCache from '@polkadot/react-components/i18n/cache';
 import { useToggle } from '@polkadot/react-hooks';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
 import StringInput from './StringInput';
@@ -165,8 +165,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     setLng(
-      keys.some(({ value }) => value === uiSettings.i18nLang)
-        ? uiSettings.i18nLang
+      keys.some(({ value }) => value === settings.i18nLang)
+        ? settings.i18nLang
         : 'zh'
     );
   }, [keys]);

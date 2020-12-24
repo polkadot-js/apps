@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { AddressRow, Button, Modal, Password, PasswordStrength } from '@polkadot/react-components';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
 

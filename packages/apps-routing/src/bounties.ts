@@ -11,7 +11,7 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'tx.treasury.proposeBounty'
+        ['tx.bounties.proposeBounty', 'tx.treasury.proposeBounty']
       ]
     },
     group: 'governance',

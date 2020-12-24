@@ -33,7 +33,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('Your canidate/bid account. Once accepted this account will become a member.')}</p>
+            <p>{t<string>('Your candidate/bid account. Once accepted this account will become a member.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>

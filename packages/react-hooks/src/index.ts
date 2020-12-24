@@ -30,6 +30,7 @@ export { useOwnStashes, useOwnStashIds } from './useOwnStashes';
 export { useOwnStashInfos } from './useOwnStashInfos';
 export { usePassword } from './usePassword';
 export { useRegistrars } from './useRegistrars';
+export { useSavedFlags } from './useSavedFlags';
 export { useSudo } from './useSudo';
 export { useToggle } from './useToggle';
 export { useVotingStatus } from './useVotingStatus';

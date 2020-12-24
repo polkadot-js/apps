@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 import { useIsMountedRef } from './useIsMountedRef';
 
