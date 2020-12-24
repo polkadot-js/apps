@@ -11,8 +11,7 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import AcceptCurator from './AcceptCurator';
-import BountyClaim from './BountyClaim';
+import { BountiesActionButton } from './helpers/BountiesActionButton';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
@@ -59,19 +58,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
         <td>
-          {beneficiary && blocksUntilPayout && (
-            <BountyClaim
-              beneficiaryId={beneficiary}
-              index={index}
-              payoutDue={blocksUntilPayout}
-            />
-          )}
-          {bountyStatus === 'Curator Proposed' && curator && (
-            <AcceptCurator
-              curatorId={curator}
-              index={index}
-            />
-          )}
+          <BountiesActionButton
+            bestNumber={bestNumber}
+            index={index}
+            status={status}
+          />
         </td>
         <td className='table-column-icon'>
           <LinkExternal
@@ -124,7 +115,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
   );
 }
 
-function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
+function DueBlocks({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
   const { t } = useTranslation();
 
   if (!dueBlocks) {
