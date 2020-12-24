@@ -11,7 +11,7 @@ import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@pol
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond, countUtf8Bytes } from './helpers/calculateBountyBond';
+import { calculateBountyBond, countUtf8Bytes } from './helpers';
 import { useTranslation } from './translate';
 
 const MIN_TITLE_LEN = 1;
@@ -157,11 +157,7 @@ function BountyCreate () {
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
               params={[value, title]}
-              tx={
-                api.tx.bounties
-                  ? 'bounties.proposeBounty'
-                  : 'treasury.proposeBounty'
-              }
+              tx={(api.tx.bounties || api.tx.treasury).proposeBounty}
             />
           </Modal.Actions>
         </Modal>

@@ -54,7 +54,6 @@ function Selection (): React.ReactElement {
         <TxButton
           extrinsic={extrinsic}
           icon='sign-in-alt'
-          isDisabled={!extrinsic}
           isUnsigned
           label={t<string>('Submit Unsigned')}
           withSpinner
@@ -63,7 +62,6 @@ function Selection (): React.ReactElement {
           accountId={accountId}
           extrinsic={extrinsic}
           icon='sign-in-alt'
-          isDisabled={!extrinsic || !accountId}
           label={t<string>('Submit Transaction')}
         />
       </Button.Group>

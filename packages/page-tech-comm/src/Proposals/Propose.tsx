@@ -91,7 +91,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx='technicalCommittee.propose'
+              tx={api.tx.technicalCommittee.propose}
             />
           </Modal.Actions>
         </Modal>

@@ -97,7 +97,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                   ? [referendumId, { Standard: { balance, vote: { aye: false, conviction } } }]
                   : [referendumId, { aye: false, conviction }]
               }
-              tx='democracy.vote'
+              tx={api.tx.democracy.vote}
             />
             <TxButton
               accountId={accountId}
@@ -110,7 +110,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                   ? [referendumId, { Standard: { balance, vote: { aye: true, conviction } } }]
                   : [referendumId, { aye: true, conviction }]
               }
-              tx='democracy.vote'
+              tx={api.tx.democracy.vote}
             />
           </Modal.Actions>
         </Modal>

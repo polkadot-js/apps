@@ -109,7 +109,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
               ? [hash, balance, publicProps?.length]
               : [hash, balance]
           }
-          tx='democracy.propose'
+          tx={api.tx.democracy.propose}
         />
       </Modal.Actions>
     </Modal>
