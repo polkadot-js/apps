@@ -85,8 +85,11 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
   a {
     color: inherit !important;
     display: block;
-    padding: 0.75rem 1.5rem;
+    padding: 1rem 1.15rem 1.25rem;
     text-decoration: none;
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.5rem;
   }
 
   .ui--Badge {

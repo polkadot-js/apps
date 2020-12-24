@@ -57,9 +57,9 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
 
   .groupHdr {
     border-radius: 0.15rem 0.15rem 0 0;
-    padding: 1.2rem 1.25rem 1.2rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
+    padding: 1rem 1.15rem 1.25rem;
+    font-size: 1.15rem;
+    font-weight: 600;
     line-height: 1.6rem;
 
     > .ui--Icon {

@@ -100,7 +100,7 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     display: flex;
     list-style: none;
     height: 100%;
-    margin: 0 1.72rem;
+    margin: 0 1.4rem;
     overflow: auto;
     white-space: nowrap;
     padding: 0;
