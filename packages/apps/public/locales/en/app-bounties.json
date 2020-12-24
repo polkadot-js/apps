@@ -1,5 +1,7 @@
 {
+  "Account does not have enough funds.": "Account does not have enough funds.",
   "Add Bounty": "Add Bounty",
+  "Allocation value is smaller than the minimum bounty value.": "Allocation value is smaller than the minimum bounty value.",
   "Bond": "Bond",
   "Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.": "Bond is estimated based on bountyDepositBase and dataDepositPerByte constants.",
   "Bounties": "Bounties",
@@ -18,6 +20,7 @@
   "The total payment amount of this bounty, curators fee included.": "The total payment amount of this bounty, curators fee included.",
   "This account will propose the bounty. Bond amount will be reserved on its balance.": "This account will propose the bounty. Bond amount will be reserved on its balance.",
   "This amount will be reserved from origin account and returned on approval or slashed upon rejection.": "This amount will be reserved from origin account and returned on approval or slashed upon rejection.",
+  "Title too long": "Title too long",
   "Use this account to propose bounty from. This can be a normal or council account.": "Use this account to propose bounty from. This can be a normal or council account.",
   "Value": "Value",
   "beneficiary": "beneficiary",
