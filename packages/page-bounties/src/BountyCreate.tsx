@@ -10,7 +10,7 @@ import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@pol
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond } from './helpers/calculateBountyBond';
+import { calculateBountyBond } from './helpers';
 import { useTranslation } from './translate';
 
 function BountyCreate () {
