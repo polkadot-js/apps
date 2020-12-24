@@ -324,8 +324,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
             icon='trash-alt'
             label={t<string>('Clear all')}
             onStart={onClose}
-            params={[]}
-            tx='proxy.removeProxies'
+            tx={api.tx.proxy.removeProxies}
           />
         )}
         <TxButton

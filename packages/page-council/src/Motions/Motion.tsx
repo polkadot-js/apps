@@ -133,7 +133,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
                       : [hash, index, proposalWeight, proposalLength]
                     : [hash, index]
                 }
-                tx='council.close'
+                tx={api.tx.council.close}
               />
             )
         )}

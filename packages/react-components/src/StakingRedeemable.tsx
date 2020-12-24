@@ -50,7 +50,7 @@ function StakingRedeemable ({ className = '', stakingInfo }: Props): React.React
                 : []
             }
             tooltip={t<string>('Withdraw these unbonded funds')}
-            tx='staking.withdrawUnbonded'
+            tx={api.tx.staking.withdrawUnbonded}
           />
         )}
       </FormatBalance>

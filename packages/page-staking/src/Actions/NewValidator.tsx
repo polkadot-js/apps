@@ -114,11 +114,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                       ? [bondTx, sessionTx, validateTx]
                       : [bondOwnTx, sessionTx, validateTx, controllerTx]
                   ]}
-                  tx={
-                    isFunction(api.tx.utility.batchAll)
-                      ? 'utility.batchAll'
-                      : 'utility.batch'
-                  }
+                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
               )
               : (

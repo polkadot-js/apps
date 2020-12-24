@@ -116,7 +116,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx='council.propose'
+              tx={api.tx.council.propose}
             />
           </Modal.Actions>
         </Modal>

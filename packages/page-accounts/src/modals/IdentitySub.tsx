@@ -173,7 +173,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
             params={[
               infos.map(([address, raw]) => [address, { raw }])
             ]}
-            tx='identity.setSubs'
+            tx={api.tx.identity.setSubs}
           />
         )}
       </Modal.Actions>

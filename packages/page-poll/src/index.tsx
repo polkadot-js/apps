@@ -179,7 +179,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
                   isDisabled={!hasValue}
                   label={t('Vote')}
                   params={[[opt10m, opt100m, opt1b, opt10b]]}
-                  tx='poll.vote'
+                  tx={api.tx.poll.vote}
                 />
               </Button.Group>
             </>

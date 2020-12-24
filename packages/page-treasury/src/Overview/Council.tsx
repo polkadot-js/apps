@@ -96,7 +96,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx='council.propose'
+              tx={api.tx.council.propose}
             />
           </Modal.Actions>
         </Modal>
