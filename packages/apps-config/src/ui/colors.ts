@@ -96,7 +96,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
-  ['SORA-Substrate Node', nodeSora],
+  ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero]

@@ -2240,7 +2240,7 @@ __metadata:
     "@interlay/polkabtc-types": ^0.2.9
     "@laminar/type-definitions": ^0.2.0-beta.141
     "@polkadot/networks": ^5.1.2-2
-    "@sora-substrate/type-definitions": ^0.1.8
+    "@sora-substrate/type-definitions": ^0.2.5
     "@subsocial/types": ^0.4.26
     i18next: ^19.8.4
   languageName: unknown
@@ -2954,12 +2954,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:^0.1.8":
-  version: 0.1.8
-  resolution: "@sora-substrate/type-definitions@npm:0.1.8"
+"@sora-substrate/type-definitions@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@sora-substrate/type-definitions@npm:0.2.5"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: 299aaec0514ab81ec4d37184d46e22e7e5e4c245fe76432fe76eb9088412c2c737ce21926fd24ef084b6f52cd25ad713541c933c17dda42f6f183b246eb00ed0
+  checksum: d614bc94bc0e275a4f3498bbd48791b6f574f1aebad1c86a15d279aed6154dd03fec7caeb2845a430e23a307030fe09dc0f19f0b8c44e12396178e58e96a3b4a
   languageName: node
   linkType: hard
 
