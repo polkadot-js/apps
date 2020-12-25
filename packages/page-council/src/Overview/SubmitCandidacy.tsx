@@ -63,7 +63,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
                   ? [electionsInfo?.candidates.length]
                   : []
               }
-              tx={`${modLocation}.submitCandidacy`}
+              tx={(api.tx.electionsPhragmen || api.tx.elections).submitCandidacy}
             />
           </Modal.Actions>
         </Modal>

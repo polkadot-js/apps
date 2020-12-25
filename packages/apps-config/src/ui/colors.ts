@@ -16,6 +16,7 @@ const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
 const chainPlasm = '#2096F3';
+const chainPolkabtc = '#510101';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
@@ -66,6 +67,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
+  ['PolkaBTC', chainPolkabtc],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],

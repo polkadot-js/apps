@@ -46,13 +46,12 @@ interface ValidatorInfoRank {
 export interface ValidatorInfo extends ValidatorInfoRank {
   accountId: AccountId;
   bondOther: BN;
-  bondOwn: Balance;
+  bondOwn: BN;
   bondShare: number;
-  bondTotal: Balance;
+  bondTotal: BN;
   commissionPer: number;
   exposure: Exposure;
   isActive: boolean;
-  isCommission: boolean;
   isElected: boolean;
   isFavorite: boolean;
   isNominating: boolean;

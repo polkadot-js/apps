@@ -101,7 +101,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
                   ? [memberThreshold, proposal, proposalLength]
                   : [memberThreshold, proposal]
               }
-              tx='technicalCommittee.propose'
+              tx={api.tx.technicalCommittee.propose}
             />
           </Modal.Actions>
         </Modal>

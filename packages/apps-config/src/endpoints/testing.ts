@@ -128,6 +128,12 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://poc3a.phala.network/ws'
     },
     {
+      info: 'polkabtc',
+      text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Interlay' } }),
+      value: 'wss://alpha.polkabtc.io/api/parachain'
+    },
+    {
       info: 'laminar',
       text: t('rpc.turbulence', 'Turbulence', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Laminar' } }),

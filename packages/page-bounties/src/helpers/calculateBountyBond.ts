@@ -9,6 +9,6 @@ export function calculateBountyBond (description: string, depositBase: BalanceOf
   return depositBase.toBn().add(depositPerByte.toBn().muln(countUtf8Bytes(description)));
 }
 
-function countUtf8Bytes (str: string) {
+export function countUtf8Bytes (str: string): number {
   return new Blob([str]).size;
 }

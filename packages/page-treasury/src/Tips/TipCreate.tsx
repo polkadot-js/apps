@@ -118,12 +118,8 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
               }
               tx={
                 isMember
-                  ? api.tx.tips
-                    ? 'tips.tipNew'
-                    : 'treasury.tipNew'
-                  : api.tx.tips
-                    ? 'tips.reportAwesome'
-                    : 'treasury.reportAwesome'
+                  ? (api.tx.tips || api.tx.treasury).tipNew
+                  : (api.tx.tips || api.tx.treasury).reportAwesome
               }
             />
           </Modal.Actions>
