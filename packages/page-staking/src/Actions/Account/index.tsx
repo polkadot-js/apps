@@ -277,7 +277,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                 vertical
               >
                 <Menu.Item
-                  disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}
+                  disabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
                   onClick={toggleBondExtra}
                 >
                   {t<string>('Bond more funds')}
