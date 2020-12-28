@@ -28,14 +28,14 @@ function CuratorProposedAction ({ curatorId, index }: Props) {
         <TxButton
           accountId={curatorId}
           icon='check'
-          label={t<string>('Accept Curator')}
+          label={t<string>('Accept')}
           params={[index]}
           tx={(api.tx.bounties || api.tx.treasury).acceptCurator}
         />
         <TxButton
           accountId={curatorId}
-          icon='check'
-          label={t<string>('Unassign Curator')}
+          icon='times'
+          label={t<string>('Reject')}
           params={[index]}
           tx={(api.tx.bounties || api.tx.treasury).unassignCurator}
         />
