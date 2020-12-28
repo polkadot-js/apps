@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 0.73.1 Dec 28, 2020
+
+Contributed:
+
+- Add PolkaBTC network & types (Thanks to https://github.com/savudani8)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Sora testnet naming (Thanks to https://github.com/stefashkaa)
+- Bounty crate validation (Thanks to https://github.com/MiZiet, https://github.com/krzysztof-jelski)
+- Bounty crate help text (Thanks to https://github.com/MiZiet, https://github.com/krzysztof-jelski)
+- Claim bounty payouts (Thanks to (Thanks to https://github.com/MiZiet)
+- All upcoming calendar view (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Optimize staking data retrieval (18s -> 10s on Kusama test for staking overview load)
+- Pass explicit function (no strings) to TxButton props
+- Adjust calendar rows for dark theme
+- Update Frontier types (now included in API)
+- Webpack dev environment cleanups
+
+
 ## 0.72.1 Dec 21, 2020
 
 Contributed:
