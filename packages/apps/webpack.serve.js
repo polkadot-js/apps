@@ -2,21 +2,31 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 
-const baseConfig = require('./webpack.config.js');
+const baseConfig = require('./webpack.base.js');
 
 module.exports = merge(
-  baseConfig,
+  baseConfig(__dirname),
   {
     devServer: {
       open: true,
       static: path.resolve(__dirname, 'build')
     },
+    devtool: false,
     mode: 'development',
     plugins: [
+      new HtmlWebpackPlugin({
+        PAGE_TITLE: 'Polkadot/Substrate Portal',
+        inject: true,
+        template: path.join(__dirname, 'public/index.html')
+      }),
       new webpack.HotModuleReplacementPlugin()
-    ]
+    ],
+    watchOptions: {
+      ignored: ['.yarn', 'build', 'node_modules']
+    }
   }
 );
