@@ -70,7 +70,7 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
         <TxButton
           accountId={sudoKey}
           extrinsic={extrinsic}
-          isDisabled={!id || !extrinsic}
+          isDisabled={!id}
           onClick={onClose}
           onSendRef={onSendRef}
           onStart={onStart}

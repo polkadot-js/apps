@@ -74,7 +74,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
                     : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
-              tx='technicalCommittee.close'
+              tx={api.tx.technicalCommittee.close}
             />
           </Modal.Actions>
         </Modal>

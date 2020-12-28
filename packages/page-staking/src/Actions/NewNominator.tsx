@@ -109,11 +109,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                       ? [bondTx, nominateTx]
                       : [bondOwnTx, nominateTx, controllerTx]
                   ]}
-                  tx={
-                    isFunction(api.tx.utility.batchAll)
-                      ? 'utility.batchAll'
-                      : 'utility.batch'
-                  }
+                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
               )
               : (

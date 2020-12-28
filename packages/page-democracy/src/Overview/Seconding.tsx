@@ -76,7 +76,7 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
                   ? [proposalId, depositors.length]
                   : [proposalId]
               }
-              tx='democracy.second'
+              tx={api.tx.democracy.second}
             />
           </Modal.Actions>
         </Modal>

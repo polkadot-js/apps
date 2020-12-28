@@ -5,6 +5,7 @@ import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -14,6 +15,7 @@ interface Props {
 
 function BidNew ({ onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
   const [accountId, setAccount] = useState<string | null | undefined>();
 
@@ -58,7 +60,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
           label={t<string>('Bid')}
           onStart={onClose}
           params={[amount]}
-          tx='society.bid'
+          tx={api.tx.society.bid}
         />
       </Modal.Actions>
     </Modal>

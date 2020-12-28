@@ -123,7 +123,11 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           label={t<string>('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}
-          tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
+          tx={
+            isImminent
+              ? api.tx.democracy.noteImminentPreimage
+              : api.tx.democracy.notePreimage
+          }
         />
       </Modal.Actions>
     </Modal>

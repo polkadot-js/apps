@@ -94,7 +94,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
             label={t<string>('I agree')}
             onSuccess={onSuccess}
             params={[statementSentence]}
-            tx='claims.attest'
+            tx={api.tx.claims.attest}
           />
         </Button.Group>
       </div>
