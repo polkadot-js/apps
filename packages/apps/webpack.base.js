@@ -8,7 +8,6 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const findPackages = require('../../scripts/findPackages');
 
@@ -24,34 +23,20 @@ function mapChunks (name, regs, inc) {
   }), {});
 }
 
-function createWebpack (ENV, context) {
+function createWebpack (context) {
   const pkgJson = require(path.join(context, 'package.json'));
-  const isProd = ENV === 'production';
-  const hasPublic = fs.existsSync(path.join(context, 'public'));
-  const plugins = hasPublic
-    ? [new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })]
-    : [];
-
-  !isProd && plugins.push(
-    new WebpackPluginServe({
-      hmr: false, // switch off, Chrome WASM memory leak
-      liveReload: false, // explict off, overrides hmr
-      port: 3000,
-      progress: false, // since we have hmr off, disable
-      static: path.join(process.cwd(), '/build')
-    })
-  );
-
   const alias = findPackages().reduce((alias, { dir, name }) => {
     alias[name] = path.resolve(context, `../${dir}/src`);
 
     return alias;
   }, {});
+  const plugins = fs.existsSync(path.join(context, 'public'))
+    ? new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })
+    : [];
 
   return {
     context,
     entry: ['@babel/polyfill', './src/index.tsx'],
-    mode: ENV,
     module: {
       rules: [
         {
@@ -161,7 +146,7 @@ function createWebpack (ENV, context) {
     performance: {
       hints: false
     },
-    plugins: plugins.concat([
+    plugins: [
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser.js'
@@ -169,7 +154,7 @@ function createWebpack (ENV, context) {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(ENV),
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           VERSION: JSON.stringify(pkgJson.version),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
@@ -178,7 +163,7 @@ function createWebpack (ENV, context) {
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash:8].css'
       })
-    ]).filter((plugin) => plugin),
+    ].concat(plugins),
     resolve: {
       alias: {
         ...alias,
