@@ -22,7 +22,7 @@ function Ink3Banner ({ className = '' }: Props): React.ReactElement<Props> | nul
   }
 
   return (
-    <article className={`${className} warning centered`}>
+    <article className={`${className} warning centered hasOwnMaxWidth`}>
       <div className='box'>
         <p>{t<string>('This contracts interface only supports Substrate 2.0+ with contracts using Ink! 3.0+ or Solang 0.1.5+ with the ability to generate the latest metadata formats.')}</p>
         <p>{t<string>('Older versions of the contracts ABI cannot be used and will display an error indicating an invalid ABI when uploaded. Ensure you follow the Ink! or solang upgrade instructions if you are using an older version.')}</p>
