@@ -54,7 +54,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
   useEffect((): void => {
     if (newBlock) {
       const exts = newBlock.block.extrinsics
-        .filter(({ method: { method, section } }) => section === 'contracts' && method === 'call')
+        .filter(({ method }) => api.tx.contracts.call.is(method))
         .map(({ args }): ContractLink | null => {
           const contractId = keyringContracts.find((a) => args[0].eq(a));
 
@@ -78,7 +78,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
         return { ...links };
       });
     }
-  }, [keyringContracts, newBlock]);
+  }, [api, keyringContracts, newBlock]);
 
   const contracts = useMemo(
     () => filterContracts(api, keyringContracts),
