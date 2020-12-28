@@ -9,16 +9,16 @@ import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 import { useContracts, useToggle } from '@polkadot/react-hooks';
 
-import Banner from '../Banner';
 import Codes from '../Codes';
 import CodeAdd from '../Codes/Add';
 import CodeUpload from '../Codes/Upload';
 import ContractAdd from '../Contracts/Add';
 import ContractsTable from '../Contracts/ContractsTable';
-import Deploy from '../Deploy';
 import store from '../store';
-import Summary from '../Summary';
 import { useTranslation } from '../translate';
+import Banner from './Banner';
+import Deploy from './Deploy';
+import Summary from './Summary';
 
 function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -66,7 +66,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`Contracts-${className}`}>
+    <div className={className}>
       <Summary trigger={updated} />
       <Button.Group>
         <Button
