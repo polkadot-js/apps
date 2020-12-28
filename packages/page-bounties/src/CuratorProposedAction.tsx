@@ -3,7 +3,6 @@
 
 import type { AccountId } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { TxButton } from '@polkadot/react-components';
@@ -16,7 +15,7 @@ interface Props {
   index: number;
 }
 
-function AcceptCurator ({ curatorId, index }: Props) {
+function CuratorProposedAction ({ curatorId, index }: Props) {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -25,15 +24,24 @@ function AcceptCurator ({ curatorId, index }: Props) {
 
   return hasAccounts && isCurator
     ? (
-      <TxButton
-        accountId={curatorId}
-        icon='check'
-        label={t<string>('Accept Curator')}
-        params={[index]}
-        tx={(api.tx.bounties || api.tx.treasury).acceptCurator}
-      />
+      <>
+        <TxButton
+          accountId={curatorId}
+          icon='check'
+          label={t<string>('Accept Curator')}
+          params={[index]}
+          tx={(api.tx.bounties || api.tx.treasury).acceptCurator}
+        />
+        <TxButton
+          accountId={curatorId}
+          icon='check'
+          label={t<string>('Unassign Curator')}
+          params={[index]}
+          tx={(api.tx.bounties || api.tx.treasury).unassignCurator}
+        />
+      </>
     )
     : null;
 }
 
-export default React.memo(AcceptCurator);
+export default React.memo(CuratorProposedAction);

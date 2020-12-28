@@ -5,8 +5,8 @@ import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
 
-import AcceptCurator from '../AcceptCurator';
 import BountyClaim from '../BountyClaim';
+import CuratorProposedAction from '../CuratorProposedAction';
 import { getBountyStatus } from '.';
 
 interface Props {
@@ -26,7 +26,7 @@ export function BountiesActionButton ({ bestNumber, index, status }: Props): JSX
     case ('Curator Proposed'):
       return curator
         ? (
-          <AcceptCurator
+          <CuratorProposedAction
             curatorId={curator}
             index={index}
           />

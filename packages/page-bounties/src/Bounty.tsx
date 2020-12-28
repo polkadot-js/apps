@@ -115,7 +115,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
   );
 }
 
-function DueBlocks({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
+function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
   const { t } = useTranslation();
 
   if (!dueBlocks) {
