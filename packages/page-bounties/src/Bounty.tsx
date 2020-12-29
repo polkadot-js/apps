@@ -11,7 +11,7 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { BountiesActionButton } from './BountiesActionButton';
+import { BountiesActionButton } from './helpers/BountiesActionButton';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
