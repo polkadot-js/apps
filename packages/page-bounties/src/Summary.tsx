@@ -25,9 +25,8 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
 
   const bountyIndex = useCall<BountyIndex>((api.query.bounties || api.query.treasury).bountyCount);
   const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
-  const spendPeriod = api.consts.treasury.spendPeriod;
 
-  const { burn, value } = useTreasury();
+  const { burn, spendPeriod, value } = useTreasury();
 
   return (
     <SummaryBox className={`ui--BountySummary ${className}`}>

@@ -24,9 +24,8 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { api } = useApi();
   const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
   const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
-  const spendPeriod = api.consts.treasury.spendPeriod;
 
-  const { burn, value } = useTreasury();
+  const { burn, spendPeriod, value } = useTreasury();
 
   return (
     <SummaryBox>

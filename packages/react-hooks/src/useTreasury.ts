@@ -17,6 +17,7 @@ const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
 interface Treasury {
   value: Balance | undefined;
   burn: BN | undefined;
+  spendPeriod: BN;
 }
 
 export function useTreasury (): Treasury {
@@ -26,6 +27,7 @@ export function useTreasury (): Treasury {
   const [burn, setBurn] = useState<BN>();
 
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
+  const spendPeriod = api.consts.treasury.spendPeriod;
 
   useEffect(() => {
     setValue(treasuryBalance?.freeBalance.gtn(0)
@@ -34,10 +36,11 @@ export function useTreasury (): Treasury {
     setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
       ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
       : BN_ZERO);
-  }, [api, treasuryBalance]);
+  }, [api, treasuryBalance, spendPeriod]);
 
   return {
     burn,
+    spendPeriod,
     value
   };
 }
