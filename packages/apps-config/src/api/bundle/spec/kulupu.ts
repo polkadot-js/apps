@@ -36,7 +36,7 @@ const definitions: OverrideBundleDefinition = {
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress'
       }
-    },
+    }
   ]
 };
 
