@@ -9,14 +9,12 @@ const { merge } = require('webpack-merge');
 const baseConfig = require('./webpack.base.js');
 
 module.exports = merge(
-  baseConfig(__dirname),
+  baseConfig(__dirname, 'development'),
   {
     devServer: {
-      open: true,
+      open: false,
       static: path.resolve(__dirname, 'build')
     },
-    devtool: false,
-    mode: 'development',
     plugins: [
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
