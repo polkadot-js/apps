@@ -3,6 +3,7 @@
 
 import acala from './acala';
 import equilibrium from './equilibrium';
+import kulupu from './kulupu';
 import laminar from './laminar';
 import moonbeam from './moonbeam';
 import polkabtc from './polkabtc';
@@ -12,6 +13,7 @@ export default {
   Equilibrium: equilibrium,
   acala,
   'btc-parachain': polkabtc,
+  kulupu,
   laminar,
   mandala: acala,
   'moonbase-alphanet': moonbeam,

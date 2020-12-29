@@ -18,7 +18,6 @@ import equilibrium from './equilibrium';
 import galois from './galois';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
-import kulupu from './kulupu';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import phala from './phala';
@@ -49,7 +48,6 @@ export default {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   galois: galois,
   hanonycash,
-  kulupu,
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
