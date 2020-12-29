@@ -34,11 +34,13 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
         <CardSummary label={t<string>('active')}>
           {activeBounties}
         </CardSummary>
-        <CardSummary label={t<string>('past')}>
-          {bountyIndex?.toHuman()}
-        </CardSummary>
+        {activeBounties && (
+          <CardSummary label={t<string>('past')}>
+            {bountyIndex?.subn(activeBounties).toString()}
+          </CardSummary>
+        )}
         {bestNumber && spendPeriod?.gtn(0) && (
-          <CardSummary label={t<string>('next bounty founding in')}>
+          <CardSummary label={t<string>('next bounty funding in')}>
             <BlockToTime
               blocks={spendPeriod.sub(bestNumber.mod(spendPeriod))}
               className='timer'
@@ -67,7 +69,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
               />
             </CardSummary>
           )}
-          {bestNumber && spendPeriod?.gtn(0) && (
+          {spendPeriod?.gtn(0) && (
             <CardSummary
               label={t<string>('spend period')}
             >
@@ -77,10 +79,10 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
               />
             </CardSummary>
           )}
-          {bestNumber && spendPeriod?.gtn(0) && (
+          {bestNumber && spendPeriod.gtn(0) && (
             <Progress
               className='media--1000'
-              size='mediumSmall'
+              size='medium'
               total={spendPeriod}
               value={bestNumber.mod(spendPeriod)} />
           )}

@@ -13,7 +13,7 @@ import { bnToBn } from '@polkadot/util';
 interface Props {
   className?: string;
   isDisabled?: boolean;
-  size?: 'normal' | 'mediumSmall' | 'small'
+  size?: 'normal' | 'medium' | 'small'
   total?: UInt | BN | number | null;
   value?: UInt | BN | number | null;
 }
@@ -146,7 +146,7 @@ export default React.memo(styled(Progress)(({ theme }: ThemeProps) => `
     }
   }
 
-  &.mediumSmallSize {
+  &.mediumSize {
     height: 2.93rem;
     width: 2.93rem;
 

@@ -15,8 +15,8 @@ const PM_DIV = new BN(1000000);
 const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
 
 interface Treasury {
-  value: Balance | undefined;
-  burn: BN | undefined;
+  value?: Balance;
+  burn?: BN;
   spendPeriod: BN;
 }
 
