@@ -18,7 +18,7 @@ interface Props {
   payoutDue: BN;
 }
 
-function BountyClaim ({ beneficiaryId, index, payoutDue }: Props) {
+function BountyClaimAction ({ beneficiaryId, index, payoutDue }: Props) {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -33,7 +33,7 @@ function BountyClaim ({ beneficiaryId, index, payoutDue }: Props) {
       <TxButton
         accountId={beneficiaryId}
         icon='plus'
-        label={t<string>('Claim Bounty')}
+        label={t<string>('Claim')}
         params={[index]}
         tx={(api.tx.bounties || api.tx.treasury).claimBounty}
       />
@@ -41,4 +41,4 @@ function BountyClaim ({ beneficiaryId, index, payoutDue }: Props) {
     : null;
 }
 
-export default React.memo(BountyClaim);
+export default React.memo(BountyClaimAction);

@@ -15,7 +15,7 @@ interface Props {
   index: number;
 }
 
-function CuratorProposedAction ({ curatorId, index }: Props) {
+function BountyCuratorProposedActions ({ curatorId, index }: Props) {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -44,4 +44,4 @@ function CuratorProposedAction ({ curatorId, index }: Props) {
     : null;
 }
 
-export default React.memo(CuratorProposedAction);
+export default React.memo(BountyCuratorProposedActions);
