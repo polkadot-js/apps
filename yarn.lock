@@ -2005,7 +2005,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.73.2-2
-    "@polkadot/test-support": 0.72.2-5
+    "@polkadot/test-support": 0.73.2-2
     "@polkadot/vanitygen": ^0.25.2-0
     detect-browser: ^5.2.0
     file-saver: ^2.0.5
@@ -2030,8 +2030,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.73.2-2
-    "@testing-library/react": ^11.2.2
-    testcontainers: ^6.4.0
+    "@polkadot/test-support": 0.73.2-2
   languageName: unknown
   linkType: soft
 
@@ -2667,7 +2666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/test-support@0.72.2-5, @polkadot/test-support@workspace:packages/test-support":
+"@polkadot/test-support@0.73.2-2, @polkadot/test-support@workspace:packages/test-support":
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
