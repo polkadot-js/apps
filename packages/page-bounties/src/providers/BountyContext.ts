@@ -13,12 +13,12 @@ export type BountyApi = {
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
   bountyDepositBase: BN,
-  bountyDepositPerByte: BN,
   bountyValueMinimum: BN,
+  dataDepositPerByte: BN,
   maximumReasonLength: number,
   proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
-
 };
+
 export const BountyContext = createContext<BountyApi>({} as BountyApi);
 
 export function useBountyContext (): BountyApi {

@@ -17,14 +17,14 @@ export function BountyProvider ({ children }: { children: ReactNode }): ReactEle
   const bountyDepositBase = (constsBase.bountyDepositBase as BalanceOf).toBn();
   const bountyValueMinimum = (constsBase.bountyValueMinimum as BalanceOf).toBn();
   const maximumReasonLength = constsBase.maximumReasonLength.toNumber();
-  const bountyDepositPerByte = (constsBase.bountyDepositPerByte as BalanceOf).toBn();
+  const dataDepositPerByte = (constsBase.dataDepositPerByte as BalanceOf).toBn();
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
   const bountiesApi: BountyApi = {
     bestNumber,
     bounties,
     bountyDepositBase,
-    bountyDepositPerByte,
     bountyValueMinimum,
+    dataDepositPerByte,
     maximumReasonLength,
     proposeBounty
   };

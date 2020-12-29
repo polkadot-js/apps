@@ -19,7 +19,7 @@ const BOUNTY_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
-  const { bountyDepositBase, bountyDepositPerByte, bountyValueMinimum, maximumReasonLength, proposeBounty } = useBountyContext();
+  const { bountyDepositBase, bountyValueMinimum, dataDepositPerByte, maximumReasonLength, proposeBounty } = useBountyContext();
   const { accountId, balance, setAccountId } = useBalanceContext();
 
   const [title, setTitle] = useState('');
@@ -46,8 +46,8 @@ function BountyCreate () {
 
   const onTitleChange = useCallback((value: string) => {
     setTitle(value);
-    setBond(calculateBountyBond(value, bountyDepositBase, bountyDepositPerByte));
-  }, [bountyDepositBase, bountyDepositPerByte]);
+    setBond(calculateBountyBond(value, bountyDepositBase, dataDepositPerByte));
+  }, [bountyDepositBase, dataDepositPerByte]);
 
   return (
     <>

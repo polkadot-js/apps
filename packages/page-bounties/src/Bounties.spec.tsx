@@ -10,7 +10,6 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
 import Bounties from '@polkadot/app-bounties/Bounties';
 import { BountyApi, BountyContext } from '@polkadot/app-bounties/providers/BountyContext';
 import { lightTheme } from '@polkadot/apps/themes';
@@ -35,8 +34,8 @@ describe('Bounties', () => {
       bestNumber: new BN(1) as BlockNumber,
       bounties: [] as DeriveBounties,
       bountyDepositBase: new BN(1),
-      bountyDepositPerByte: new BN(1),
       bountyValueMinimum: new BN(1),
+      dataDepositPerByte: new BN(1),
       maximumReasonLength: 100,
       proposeBounty: jest.fn()
     };
@@ -51,7 +50,7 @@ describe('Bounties', () => {
       derive: { accounts: { info: () => Promise.resolve(() => { /**/ }) } },
       query: {},
       registry: { chainDecimals: 12 }
-    } as ApiPromise,
+    },
     systemName: 'substrate' } as ApiProps;
 
     return render(
