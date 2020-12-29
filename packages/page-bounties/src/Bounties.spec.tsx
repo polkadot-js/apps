@@ -4,7 +4,7 @@
 import type { DeriveBounties } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty } from '@polkadot/types/interfaces';
 
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -47,8 +47,12 @@ describe('Bounties', () => {
       setAccountId: () => { /**/ }
     };
 
-    const mockApi: ApiProps = { api: { derive: { accounts: { info: () => Promise.resolve(() => { /**/ }) } }, query: {} } as ApiPromise,
-      systemName: 'substrate' } as ApiProps;
+    const mockApi: ApiProps = { api: {
+      derive: { accounts: { info: () => Promise.resolve(() => { /**/ }) } },
+      query: {},
+      registry: { chainDecimals: 12 }
+    } as ApiPromise,
+    systemName: 'substrate' } as ApiProps;
 
     return render(
       <Suspense fallback='...'>
@@ -67,7 +71,7 @@ describe('Bounties', () => {
     );
   };
 
-  it('shows empty list on startup', async () => {
+  it('shows empty list when no bounties', async () => {
     const { findByText } = renderBounties();
 
     expect(await findByText('No open bounties')).toBeTruthy();
@@ -78,5 +82,21 @@ describe('Bounties', () => {
 
     expect(await findByText('kusama comic book')).toBeTruthy();
     expect(queryAllByText('No open bounties')).toHaveLength(0);
+  });
+
+  describe('create bounty modal', () => {
+    it('validates bounty length', async () => {
+      const { findByTestId, findByText } = renderBounties({ maximumReasonLength: 5 });
+
+      const addBountyButton = await findByText('Add Bounty');
+
+      fireEvent.click(addBountyButton);
+
+      const titleInput = await findByTestId('bounty title');
+
+      fireEvent.change(titleInput, { target: { value: 'longer than 5' } });
+
+      expect(await findByText('Title too long')).toBeTruthy();
+    });
   });
 });
