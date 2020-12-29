@@ -19,7 +19,6 @@ import galois from './galois';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
-import nodeTemplate from './node-template';
 import nodle from './nodle';
 import phala from './phala';
 import plasm from './plasm';
@@ -51,7 +50,6 @@ export default {
   hanonycash,
   kulupu,
   'mashnet-node': kilt,
-  'node-template': nodeTemplate,
   'nodle-chain': nodle,
   'phala-node': phala,
   plasm,

@@ -6,7 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-export default {
+const definitions: OverrideBundleDefinition = {
   types: [
     {
       minmax: [0, 4],
@@ -138,4 +138,6 @@ export default {
       }
     }
   ]
-} as OverrideBundleDefinition;
+};
+
+export default definitions;
