@@ -14,5 +14,7 @@ export default {
     genesisBlockHash: 'H256',
     finalBlockHash: 'H256',
     finalStateRoot: 'H256'
-  }
+  },
+  "Address": "MultiAddress",
+  "LookupSource": "MultiAddress"
 };
