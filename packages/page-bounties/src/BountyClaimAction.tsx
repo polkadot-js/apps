@@ -21,14 +21,14 @@ interface Props {
 function BountyClaimAction ({ beneficiaryId, index, payoutDue }: Props) {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
+  const { allAccounts } = useAccounts();
 
   const isBountyClaimable = useMemo(
     () => isClaimable(allAccounts, beneficiaryId, payoutDue),
     [allAccounts, beneficiaryId, payoutDue]
   );
 
-  return hasAccounts && isBountyClaimable
+  return isBountyClaimable
     ? (
       <TxButton
         accountId={beneficiaryId}

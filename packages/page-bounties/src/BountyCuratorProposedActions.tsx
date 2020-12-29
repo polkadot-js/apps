@@ -18,11 +18,11 @@ interface Props {
 function BountyCuratorProposedActions ({ curatorId, index }: Props) {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
+  const { allAccounts } = useAccounts();
 
   const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
 
-  return hasAccounts && isCurator
+  return isCurator
     ? (
       <>
         <TxButton
