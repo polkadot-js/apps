@@ -308,8 +308,8 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
                   />
                 </div>
               ) : (
-                <Modal.Columns>
-                  <Modal.Column>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                  <div>
                     {success ? (
                       <p style={{color: 'green'}}>
                         Success! Your token migration request has been submitted and is being processed. Check the status with the other form on this page.
@@ -319,9 +319,8 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
                         {error}
                       </p>
                     )}
-                  </Modal.Column>
-                  <Modal.Column>
-                  <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
+                  </div>
+                  <div style={{marginLeft: 'auto'}}>
                     <Button
                       accountId={address}
                       icon='sign-in-alt'
@@ -331,8 +330,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
                       onClick={handleSubmitSwap}
                     />
                   </div>
-                  </Modal.Column>
-                </Modal.Columns>
+                </div>
               )}
             </>
           )}
