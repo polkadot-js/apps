@@ -15,12 +15,12 @@ import { keyring } from '@polkadot/ui-keyring';
 import { isHex } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ENDOWMENT } from './constants';
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
-import store from './store';
-import { useTranslation } from './translate';
-import useAbi from './useAbi';
-import useWeight from './useWeight';
+import { ENDOWMENT } from '../constants';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
+import store from '../store';
+import { useTranslation } from '../translate';
+import useAbi from '../useAbi';
+import useWeight from '../useWeight';
 
 interface Props {
   codeHash: string;
