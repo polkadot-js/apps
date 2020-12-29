@@ -4,12 +4,12 @@
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useBalanceContext } from '@polkadot/app-bounties/providers/BalanceContext';
-import { useBountyContext } from '@polkadot/app-bounties/providers/BountyContext';
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
+import { useBalanceContext } from './providers/BalanceContext';
+import { useBountyContext } from './providers/BountyContext';
 import { calculateBountyBond, countUtf8Bytes } from './helpers';
 import { useTranslation } from './translate';
 
