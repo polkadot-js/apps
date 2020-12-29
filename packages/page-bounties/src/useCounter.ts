@@ -8,7 +8,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const bounties = useCall<DeriveBounties>(isApiReady && (api.derive.bounties || api.derive.treasury)?.bounties);
+  const bounties = useCall<DeriveBounties>(isApiReady && api.derive.bounties?.bounties);
 
   return useMemo(
     () => bounties?.length || 0,
