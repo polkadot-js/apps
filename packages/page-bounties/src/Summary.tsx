@@ -39,7 +39,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
             {bountyIndex?.subn(activeBounties).toString()}
           </CardSummary>
         )}
-        {bestNumber && spendPeriod?.gtn(0) && (
+        {bestNumber && spendPeriod.gtn(0) && (
           <CardSummary label={t<string>('next bounty funding in')}>
             <BlockToTime
               blocks={spendPeriod.sub(bestNumber.mod(spendPeriod))}
@@ -69,7 +69,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
               />
             </CardSummary>
           )}
-          {spendPeriod?.gtn(0) && (
+          {spendPeriod.gtn(0) && (
             <CardSummary
               label={t<string>('spend period')}
             >
