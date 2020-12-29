@@ -23,7 +23,7 @@ function mapChunks (name, regs, inc) {
   }), {});
 }
 
-function createWebpack (context) {
+function createWebpack (context, mode = 'production') {
   const pkgJson = require(path.join(context, 'package.json'));
   const alias = findPackages().reduce((alias, { dir, name }) => {
     alias[name] = path.resolve(context, `../${dir}/src`);
@@ -37,6 +37,7 @@ function createWebpack (context) {
   return {
     context,
     entry: ['@babel/polyfill', './src/index.tsx'],
+    mode,
     module: {
       rules: [
         {
@@ -56,6 +57,7 @@ function createWebpack (context) {
           exclude: /(node_modules)/,
           test: /\.(js|mjs|ts|tsx)$/,
           use: [
+            require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
               options: require('@polkadot/dev/config/babel-config-webpack.cjs')
@@ -112,6 +114,7 @@ function createWebpack (context) {
       __filename: false
     },
     optimization: {
+      minimize: mode === 'production',
       splitChunks: {
         cacheGroups: {
           ...mapChunks('robohash', [
@@ -175,9 +178,6 @@ function createWebpack (context) {
         path: require.resolve('path-browserify'),
         stream: require.resolve('stream-browserify')
       }
-    },
-    watchOptions: {
-      ignored: ['.yarn', 'build', 'node_modules']
     }
   };
 }
