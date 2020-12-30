@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useTranslation } from '@polkadot/app-treasury/translate';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import Progress from '@polkadot/react-components/Progress';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTreasury } from '@polkadot/react-hooks/useTreasury';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -92,7 +93,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
   );
 }
 
-export default React.memo(styled(Summary)`
+export default React.memo(styled(Summary)(({ theme }: ThemeProps) => `
   && label, && header {
     font-size: 0.714rem;
     font-weight: 600;
@@ -142,16 +143,16 @@ export default React.memo(styled(Summary)`
       z-index: 20;
       width: 100%;
       height: 100%;
-      opacity: 0.1;
+      opacity: ${theme.opacityOfHighlightedSection};
     }
   }
   .ui--Labelled-content {
     font-size: 1rem;
     font-weight: 500;
-    color: black;
+    color: ${theme.color};
     .ui--FormatBalance-postfix {
       font-weight: 500;
-      color: black;
+      color: ${theme.color};
       opacity: 1;
     }
     .timeUnits, .ui--FormatBalance-unit {
@@ -160,4 +161,4 @@ export default React.memo(styled(Summary)`
       font-size: 1rem;
     }
   }
-`);
+`));

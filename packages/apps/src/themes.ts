@@ -33,6 +33,7 @@ export const darkTheme: ThemeDef = {
   colorSummary: 'rgba(244, 242, 240, 0.75)',
   contentHalfWidth: `${MAX_WIDTH / 2}px`,
   contentMaxWidth: `${MAX_WIDTH}px`,
+  opacityOfHighlightedSection: 0.5,
   theme: 'dark'
 };
 
@@ -56,5 +57,6 @@ export const lightTheme: ThemeDef = {
   colorSummary: 'rgba(0, 0, 0, 0.6)',
   contentHalfWidth: `${MAX_WIDTH / 2}px`,
   contentMaxWidth: `${MAX_WIDTH}px`,
+  opacityOfHighlightedSection: 0.15,
   theme: 'light'
 };
