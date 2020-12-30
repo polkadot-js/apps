@@ -5,6 +5,8 @@
 /* eslint-disable sort-keys */
 
 export default {
+  Address: 'MultiAddress',
+  LookupSource: 'MultiAddress',
   Difficulty: 'U256',
   DifficultyAndTimestamp: {
     difficulty: 'Difficulty',

@@ -3,8 +3,8 @@
 
 import typesChain from './chain';
 import typesSpec from './spec';
+import specVersioned from './specVersioned';
 
-export { default as typesBundle } from './bundle';
 export * from './constants';
 export * from './params';
 
@@ -15,7 +15,6 @@ export function getChainTypes (specName: string, chainName: string): Record<stri
   };
 }
 
-export {
-  typesChain,
-  typesSpec
-};
+export const typesBundle = { spec: specVersioned };
+
+export { typesChain, typesSpec };

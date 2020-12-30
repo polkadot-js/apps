@@ -13,6 +13,7 @@ function createWebpack () {
         electron: './src/electron',
         preload: './src/preload.ts'
       },
+      mode: 'production',
       module: {
         rules: [
           {

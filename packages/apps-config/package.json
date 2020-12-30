@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.73.2-1",
+  "version": "0.73.2-16",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
@@ -16,7 +16,8 @@
     "@laminar/type-definitions": "^0.2.0-beta.141",
     "@polkadot/networks": "^5.2.2",
     "@sora-substrate/type-definitions": "^0.2.5",
-    "@subsocial/types": "^0.4.26"
+    "@subsocial/types": "^0.4.26",
+    "moonbeam-types-bundle": "^1.0.1"
   },
   "devDependencies": {
     "i18next": "^19.8.4"
