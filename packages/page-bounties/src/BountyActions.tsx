@@ -5,8 +5,11 @@ import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
 
+import { useMembers } from '@polkadot/react-hooks';
+
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
+import BountyInitiateVoting from './BountyInitiateVoting';
 import { getBountyStatus } from './helpers';
 
 interface Props {
@@ -16,6 +19,8 @@ interface Props {
 }
 
 export function BountyActions ({ bestNumber, index, status }: Props): JSX.Element {
+  const { isMember, members } = useMembers();
+
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);
 
   const { beneficiary, curator, unlockAt } = updateStatus();
@@ -24,6 +29,12 @@ export function BountyActions ({ bestNumber, index, status }: Props): JSX.Elemen
 
   return (
     <>
+      {status.isProposed &&
+        <BountyInitiateVoting
+          index={index}
+          isMember={isMember}
+          members={members}
+        />}
       {status.isCuratorProposed && curator &&
         <BountyCuratorProposedActions
           curatorId={curator}
