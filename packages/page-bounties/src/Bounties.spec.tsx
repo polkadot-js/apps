@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBounties } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty } from '@polkadot/types/interfaces';
+import type { BlockNumber, Bounty, BountyIndex } from '@polkadot/types/interfaces';
 
 import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
@@ -22,6 +22,10 @@ import { BalanceApi, BalanceContext } from './providers/BalanceContext';
 
 function aBounty (): Bounty {
   return new TypeRegistry().createType('Bounty');
+}
+
+function anIndex (): BountyIndex {
+  return new TypeRegistry().createType('BountyIndex');
 }
 
 describe('Bounties', () => {
@@ -77,7 +81,7 @@ describe('Bounties', () => {
   });
 
   it('renders a bounty', async () => {
-    const { findByText, queryAllByText } = renderBounties({ bounties: [{ bounty: aBounty(), description: 'kusama comic book' }] });
+    const { findByText, queryAllByText } = renderBounties({ bounties: [{ bounty: aBounty(), description: 'kusama comic book', index: anIndex() }] });
 
     expect(await findByText('kusama comic book')).toBeTruthy();
     expect(queryAllByText('No open bounties')).toHaveLength(0);
