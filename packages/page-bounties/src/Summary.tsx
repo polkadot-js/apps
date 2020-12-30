@@ -34,7 +34,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
         <CardSummary label={t<string>('active')}>
           {activeBounties}
         </CardSummary>
-        {activeBounties && (
+        {activeBounties !== undefined && (
           <CardSummary label={t<string>('past')}>
             {bountyIndex?.subn(activeBounties).toString()}
           </CardSummary>
