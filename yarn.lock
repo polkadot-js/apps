@@ -1958,11 +1958,10 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.73.2-16
+    "@polkadot/test-support": 0.73.2-2
     "@polkadot/vanitygen": ^0.25.2-0
-    "@testing-library/react": ^11.2.2
     detect-browser: ^5.2.0
     file-saver: ^2.0.5
-    testcontainers: ^4.7.0
   languageName: unknown
   linkType: soft
 
@@ -1974,7 +1973,7 @@ __metadata:
     "@polkadot/react-components": ^0.73.2-16
     "@testing-library/react": ^11.2.2
     file-saver: ^2.0.5
-    testcontainers: ^4.7.0
+    testcontainers: ^6.4.0
   languageName: unknown
   linkType: soft
 
@@ -1984,8 +1983,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.73.2-16
-    "@testing-library/react": ^11.2.2
-    testcontainers: ^4.7.0
+    "@polkadot/test-support": 0.73.2-2
   languageName: unknown
   linkType: soft
 
@@ -2620,6 +2618,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/test-support@0.73.2-2, @polkadot/test-support@workspace:packages/test-support":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/test-support@workspace:packages/test-support"
+  dependencies:
+    "@testing-library/react": ^11.2.2
+    testcontainers: ^6.4.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/ts@npm:^0.3.58":
   version: 0.3.58
   resolution: "@polkadot/ts@npm:0.3.58"
@@ -3149,12 +3156,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dockerode@npm:^2.5.34":
-  version: 2.5.34
-  resolution: "@types/dockerode@npm:2.5.34"
+"@types/dockerode@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "@types/dockerode@npm:3.2.1"
   dependencies:
     "@types/node": "*"
-  checksum: ae3893a618b3cc43569b4face73196d82065a82b28fafc379dd75eb812097e33c8ec5151d608f3dd28cf5f60e313f3ea1b88e4f11954c46aaad371346709ad56
+  checksum: 3e4d1bfe2056bb14959715216583c7f10b4da7660592e676d9e5d1a556cd006c3ad517a96e9468d6bdff4884f434806e5c567476e6add1eb00ced5b9b50ee278
   languageName: node
   linkType: hard
 
@@ -3514,6 +3521,25 @@ __metadata:
   version: 0.1.2
   resolution: "@types/source-list-map@npm:0.1.2"
   checksum: 191f0e3b056b481e7a0bbb38f3d5b54b015556e38075726ca2637a35d3694df85cd16761b1b188729ac687a55aec3cbc2b07033ac090bcc13efe09ad10a3e935
+  languageName: node
+  linkType: hard
+
+"@types/ssh2-streams@npm:*":
+  version: 0.1.8
+  resolution: "@types/ssh2-streams@npm:0.1.8"
+  dependencies:
+    "@types/node": "*"
+  checksum: 32adc38f70e525225571525959fa3ac7920400fe53032003af021281424f61dd43a727a2f4ee54d3c395656ed814dcac7e09cdc11edf8878d7acb13934ce3914
+  languageName: node
+  linkType: hard
+
+"@types/ssh2@npm:^0.5.45":
+  version: 0.5.46
+  resolution: "@types/ssh2@npm:0.5.46"
+  dependencies:
+    "@types/node": "*"
+    "@types/ssh2-streams": "*"
+  checksum: b22aea80fa2f37b1d0bde6d704ffd2ca539a453f50d895834460c6f1408fc39d8917983f5af54dddfdfab9073dff10aeacc8e299fa6c66ee5bba7d7ebdd08562
   languageName: node
   linkType: hard
 
@@ -6673,7 +6699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.2.1, debug@npm:^4.3.0":
+"debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.2.1, debug@npm:^4.3.0, debug@npm:^4.3.1":
   version: 4.3.2
   resolution: "debug@npm:4.3.2"
   dependencies:
@@ -13062,13 +13088,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"node-duration@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "node-duration@npm:1.0.4"
-  checksum: 28e395acc52d294b3970e06081047cfb7ca1226fe0ccbd8f9988e02fee0b8c057117775a318c781f9e2536ecfe1277dcb337722502f5c26d1b52b9af5e691403
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1":
   version: 2.6.1
   resolution: "node-fetch@npm:2.6.1"
@@ -16699,6 +16718,16 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"ssh-remote-port-forward@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "ssh-remote-port-forward@npm:1.0.3"
+  dependencies:
+    "@types/ssh2": ^0.5.45
+    ssh2: ^0.8.9
+  checksum: ef77606569ecd08a3d1fb1e497528e90a662ce9695fa3384371a5fa7a393d8585b60b8e1e24f2f71a33b8e59c11f042e90350dfe8bfd74292449d4f4716df659
+  languageName: node
+  linkType: hard
+
 "ssh2-streams@npm:~0.4.10":
   version: 0.4.10
   resolution: "ssh2-streams@npm:0.4.10"
@@ -16710,7 +16739,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"ssh2@npm:^0.8.7":
+"ssh2@npm:^0.8.7, ssh2@npm:^0.8.9":
   version: 0.8.9
   resolution: "ssh2@npm:0.8.9"
   dependencies:
@@ -17297,7 +17326,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"tar-fs@npm:^2.0.0, tar-fs@npm:^2.1.0":
+"tar-fs@npm:^2.0.0, tar-fs@npm:^2.1.1":
   version: 2.1.1
   resolution: "tar-fs@npm:2.1.1"
   dependencies:
@@ -17445,22 +17474,22 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^4.7.0":
-  version: 4.7.0
-  resolution: "testcontainers@npm:4.7.0"
+"testcontainers@npm:^6.4.0":
+  version: 6.4.1
+  resolution: "testcontainers@npm:6.4.1"
   dependencies:
-    "@types/dockerode": ^2.5.34
+    "@types/dockerode": ^3.2.1
     byline: ^5.0.0
-    debug: ^4.1.1
+    debug: ^4.3.1
     docker-compose: ^0.23.5
     dockerode: ^3.2.1
     get-port: ^5.1.1
     glob: ^7.1.6
-    node-duration: ^1.0.4
     slash: ^3.0.0
+    ssh-remote-port-forward: ^1.0.3
     stream-to-array: ^2.3.0
-    tar-fs: ^2.1.0
-  checksum: 185d072665aab469c61767c9b74f95e0f33680a786817f9ab499c40520e07b78f77a166c22666273fae87697d871249f96d63e0772da5858ddab0648d152b56b
+    tar-fs: ^2.1.1
+  checksum: 7ce872319fe15ec6a56b000ed0e9fb9955e98937945d6a8234c1368d34601dce150553c819eda71730d21892ab4b8157f1383fc42890355376da769ca8b946ba
   languageName: node
   linkType: hard
 
