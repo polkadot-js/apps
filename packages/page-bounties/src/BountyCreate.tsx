@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BalanceOf } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useBalanceContext } from './providers/BalanceContext';
-import { useBountyContext } from './providers/BountyContext';
 import { calculateBountyBond, countUtf8Bytes } from './helpers';
 import { useTranslation } from './translate';
 
@@ -19,35 +20,45 @@ const BOUNTY_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
-  const { bountyDepositBase, bountyValueMinimum, dataDepositPerByte, maximumReasonLength, proposeBounty } = useBountyContext();
-  const { accountId, balance, setAccountId } = useBalanceContext();
+  const { api } = useApi();
 
+  const [accountId, setAccountId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
-  const [bond, setBond] = useState(bountyDepositBase);
+  const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
   const [value, setValue] = useState<BN | undefined>(BOUNTY_DEFAULT_VALUE);
   const [isOpen, toggleIsOpen] = useToggle();
   const [isTitleValid, setIsTitleValid] = useState(false);
   const [isValueValid, setIsValueValid] = useState(false);
   const [hasFunds, setHasFunds] = useState(false);
 
-  useEffect(() => {
-    setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= maximumReasonLength);
-  }, [maximumReasonLength, title]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
 
   useEffect(() => {
-    setIsValueValid(!!value?.gte(bountyValueMinimum));
-  }, [bountyValueMinimum, value]);
+    const bountyTitleMaxLength = ((api.consts.bounties || api.consts.treasury).maximumReasonLength as BalanceOf).toNumber();
+
+    setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength);
+  }, [api, title]);
 
   useEffect(() => {
-    setHasFunds(!!balance?.gte(bond));
-  }, [balance, bond]);
+    const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
+
+    setIsValueValid(!!value?.gte(bountyMinValue));
+  }, [api, value]);
+
+  useEffect(() => {
+    setHasFunds(!!balances?.availableBalance.gte(bond));
+  }, [balances, bond]);
 
   const isValid = hasFunds && isTitleValid && isValueValid;
 
   const onTitleChange = useCallback((value: string) => {
+    const bountyBase = api.consts.bounties || api.consts.treasury;
+    const bountyDepositBase = bountyBase.bountyDepositBase;
+    const bountyDepositPerByte = bountyBase.dataDepositPerByte;
+
     setTitle(value);
-    setBond(calculateBountyBond(value, bountyDepositBase, dataDepositPerByte));
-  }, [bountyDepositBase, dataDepositPerByte]);
+    setBond(calculateBountyBond(value, bountyDepositBase as BalanceOf, bountyDepositPerByte as BalanceOf));
+  }, [api]);
 
   return (
     <>
@@ -146,7 +157,7 @@ function BountyCreate () {
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
               params={[value, title]}
-              tx={proposeBounty}
+              tx={(api.tx.bounties || api.tx.treasury).proposeBounty}
             />
           </Modal.Actions>
         </Modal>
