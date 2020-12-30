@@ -2062,15 +2062,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-generic-asset@workspace:packages/page-generic-asset":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-generic-asset@workspace:packages/page-generic-asset"
-  dependencies:
-    "@babel/runtime": ^7.12.5
-    "@polkadot/react-components": ^0.73.2-18
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/app-js@workspace:packages/page-js":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-js@workspace:packages/page-js"

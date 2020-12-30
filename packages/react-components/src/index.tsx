@@ -22,7 +22,6 @@ export { default as ButtonCancel } from './ButtonCancel';
 export { default as Call } from './Call';
 export { default as CallExpander } from './CallExpander';
 export { default as Card } from './Card';
-export { default as CardGrid } from './CardGrid';
 export { default as CardSummary } from './CardSummary';
 export { default as ChainImg } from './ChainImg';
 export { default as ChainLock } from './ChainLock';
