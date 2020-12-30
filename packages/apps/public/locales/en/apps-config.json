@@ -10,6 +10,7 @@
   "rpc.crust.network": "Crust Maxwell CC2",
   "rpc.custom": "Custom environment",
   "rpc.custom.entry": "Custom {{WS_URL}}",
+  "rpc.custom.own": "Custom",
   "rpc.darwinia": "Darwinia",
   "rpc.datahighway.harbour": "Harbour",
   "rpc.dock-mainnet": "Dock Mainnet",

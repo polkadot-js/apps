@@ -47,7 +47,7 @@ export function createOwn (t: TFunction): LinkOption[] {
 
       return items.map((textBy) => ({
         info: 'local',
-        text: t('rpc.custom.entry', 'Custom', { ns: 'apps-config' }),
+        text: t('rpc.custom.own', 'Custom', { ns: 'apps-config' }),
         textBy,
         value: textBy
       }));

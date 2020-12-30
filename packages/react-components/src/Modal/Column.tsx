@@ -8,7 +8,9 @@ import styled from 'styled-components';
 
 function Column ({ children, className = '' }: ColumnProps): React.ReactElement<ColumnProps> {
   return (
-    <div className={`ui--Modal-Column ${className}`}>{children}</div>
+    <div className={`ui--Modal-Column ${className}`}>
+      {children}
+    </div>
   );
 }
 

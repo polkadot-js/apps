@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, CardSummary, Columar, Column, Icon, Menu, Popup, Spinner, SummaryBox } from '@polkadot/react-components';
+import { Button, CardSummary, Columar, Icon, Menu, Popup, Spinner, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall, useModal, useToggle } from '@polkadot/react-hooks';
 import { isNull, isUndefined } from '@polkadot/util';
 
@@ -113,12 +113,12 @@ function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: 
         </section>
       </SummaryBox>
       <Columar>
-        <Column>
+        <Columar.Column>
           <Details parachain={parachain} />
-        </Column>
-        <Column>
+        </Columar.Column>
+        <Columar.Column>
           <DispatchQueue dispatchQueue={parachain.relayDispatchQueue} />
-        </Column>
+        </Columar.Column>
       </Columar>
       {(sudoKey && isMine) && (
         <Deregister

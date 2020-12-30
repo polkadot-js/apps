@@ -1,8 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropdownProps } from 'semantic-ui-react';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button as SUIButton, Dropdown as SUIDropdown, DropdownProps } from 'semantic-ui-react';
+import { Button as SUIButton, Dropdown as SUIDropdown } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import { isUndefined } from '@polkadot/util';

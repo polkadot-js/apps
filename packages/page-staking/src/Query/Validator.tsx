@@ -6,7 +6,7 @@ import type { Props } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Columar, Column } from '@polkadot/react-components';
+import { Columar } from '@polkadot/react-components';
 
 import ChartPoints from './ChartPoints';
 import ChartPrefs from './ChartPrefs';
@@ -16,14 +16,14 @@ import ChartStake from './ChartStake';
 function Validator ({ className = '', validatorId }: Props): React.ReactElement<Props> {
   return (
     <Columar className={className}>
-      <Column>
+      <Columar.Column>
         <ChartPoints validatorId={validatorId} />
         <ChartRewards validatorId={validatorId} />
-      </Column>
-      <Column>
+      </Columar.Column>
+      <Columar.Column>
         <ChartStake validatorId={validatorId} />
         <ChartPrefs validatorId={validatorId} />
-      </Column>
+      </Columar.Column>
     </Columar>
   );
 }
