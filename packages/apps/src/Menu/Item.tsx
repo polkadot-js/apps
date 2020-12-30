@@ -62,10 +62,6 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
       color: ${theme.color};
     }
 
-    & a  {
-    padding: 1.2rem 1.25rem 1.2rem 1.5rem;
-   }
-
     .ui--Badge {
       top: 0.95rem;
     }
