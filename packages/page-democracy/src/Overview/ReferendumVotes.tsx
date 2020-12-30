@@ -57,7 +57,8 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
             ? t<string>('Aye {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
             : t<string>('Nay {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
           }
-          <div><FormatBalance value={total} /></div>
+          {/*SD: Commeented component below*/}
+          {/*<div><FormatBalance value={total} /></div>*/}
         </>
       }
     >

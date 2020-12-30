@@ -22,7 +22,8 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
     [t('referenda'), 'start', 2],
     [t('remaining'), 'media--1200'],
     [t('activate'), 'media--1400'],
-    [t('turnout'), 'media--1400'],
+    // SD: Commented line below
+    // [t('turnout'), 'media--1400'],
     [undefined, 'badge'],
     [t('votes'), 'expand'],
     [undefined, undefined, 2],

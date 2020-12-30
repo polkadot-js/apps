@@ -99,7 +99,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
-      <td className='number together media--1400'>
+      {/*<td className='number together media--1400'>
         {percentages && (
           <>
             <div>{percentages.turnout}</div>
@@ -108,7 +108,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             )}
           </>
         )}
-      </td>
+      </td>*/}
       <td className='badge'>
         {isBoolean(isPassing) && (
           <Badge
