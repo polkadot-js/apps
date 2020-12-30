@@ -1,7 +1,6 @@
 {
-  "name": "@polkadot/app-addresses",
-  "private": true,
-  "version": "0.73.2-16",
+  "name": "@polkadot/test-support",
+  "version": "0.73.2-2",
   "main": "index.js",
   "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -9,11 +8,6 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/react-components": "^0.73.2-16",
-    "file-saver": "^2.0.5"
-  },
-  "devDependencies": {
     "@testing-library/react": "^11.2.2",
     "testcontainers": "^6.4.0"
   }

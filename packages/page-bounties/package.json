@@ -13,7 +13,6 @@
     "@polkadot/react-components": "^0.73.2-16"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.2",
-    "testcontainers": "^4.7.0"
+    "@polkadot/test-support": "0.73.2-2"
   }
 }
