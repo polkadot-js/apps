@@ -32,7 +32,7 @@ export default {
     validators_len: 'u32',
     block_num: 'BlockNumber'
   },
-  PricePayload: "Data",
+  PricePayload: 'Data',
   PricePeriod: {
     _enum: ['Min', 'TenMin', 'Hour', 'FourHour', 'Day']
   },
@@ -43,7 +43,7 @@ export default {
     data_points: 'Vec<DataPoint>'
   },
   ProposalStatus: {
-    _enum:[
+    _enum: [
       'Initiated',
       'Approved',
       'Rejected'
@@ -69,7 +69,7 @@ export default {
     }
   },
   SubAccType: {
-    _enum: ["Bailsman", "Borrower", "Lender"]
+    _enum: ['Bailsman', 'Borrower', 'Lender']
   },
   TotalAggregates: {
     collateral: 'Balance',
