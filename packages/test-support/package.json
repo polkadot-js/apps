@@ -9,6 +9,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@testing-library/react": "^11.2.2",
-    "testcontainers": "^6.4.0"
+    "testcontainers": "^6.4.1"
   }
 }

@@ -5,7 +5,7 @@ import type { UseTranslationResponse } from 'react-i18next';
 
 import { useTranslation as useTranslationBase, withTranslation } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse<string> {
+export function useTranslation (): UseTranslationResponse<'react-query'> {
   return useTranslationBase('react-query');
 }
 

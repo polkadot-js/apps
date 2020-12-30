@@ -5,7 +5,7 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Columar, Column, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
+import { Button, Columar, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
 import i18n from '@polkadot/react-components/i18n';
 import languageCache from '@polkadot/react-components/i18n/cache';
 import { useToggle } from '@polkadot/react-hooks';
@@ -217,7 +217,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
     <main className={className}>
       <header>
         <Columar>
-          <Column>
+          <Columar.Column>
             <div>
               <Dropdown
                 isFull
@@ -233,8 +233,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={modProgress[1]}
               value={modProgress[0]}
             />
-          </Column>
-          <Column>
+          </Columar.Column>
+          <Columar.Column>
             <div>
               <Dropdown
                 isFull
@@ -250,7 +250,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
-          </Column>
+          </Columar.Column>
         </Columar>
       </header>
       <div className='toggleWrapper'>
