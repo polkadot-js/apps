@@ -59,7 +59,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     border-radius: 0.15rem 0.15rem 0 0;
     padding: 1rem 1.15rem 1.25rem;
     font-size: 1.15rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.6rem;
 
     > .ui--Icon {
@@ -71,7 +71,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     background-color: ${theme.bgTabs};
     color: ${theme.color};
     font-size: 1.15rem;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .groupMenu {
