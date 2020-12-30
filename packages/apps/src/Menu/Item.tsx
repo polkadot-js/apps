@@ -68,9 +68,8 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     &.isActive.highlight--color-contrast {
       background-color: ${theme.bgTabs};
       color: ${theme.color};
-      margin-bottom: -5px;
-       font-size: 1.15rem;
-    font-weight: 600;
+      font-size: 1.15rem;
+      font-weight: 600;
     }
   }
 
