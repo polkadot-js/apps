@@ -72,11 +72,15 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
               label={t<string>('Second')}
               onStart={toggleSeconding}
               params={
-                api.tx.democracy.second.meta.args.length === 2
+                api.tx.simpleDemocracy.second.meta.args.length === 2
+                  // SD: Commented line below
+                  // api.tx.democracy.second.meta.args.length === 2
                   ? [proposalId, depositors.length]
                   : [proposalId]
               }
-              tx='democracy.second'
+              tx='simpleDemocracy.second'
+              // SD: Commented line below
+              // tx='democracy.second'
             />
           </Modal.Actions>
         </Modal>

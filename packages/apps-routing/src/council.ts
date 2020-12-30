@@ -12,8 +12,9 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         [
-          'query.electionsPhragmen.candidates',
-          'query.elections.candidates'
+          // 'query.electionsPhragmen.candidates',
+          // 'query.elections.candidates'
+          'query.council.members'
         ]
       ]
     },

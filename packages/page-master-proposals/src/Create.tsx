@@ -5,19 +5,20 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useCallback, useState, useEffect } from 'react';
-import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import { Button, Extrinsic, InputAddress, Output } from '@polkadot/react-components';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
+import { Extrinsic, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BalanceFree } from '@polkadot/react-query';
 
 import { useTranslation } from './translate';
 
 function Create (): React.ReactElement {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
-  const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalJSON, setProposalJSON] = useState<string>('');
   const [proposalURL, setProposalUrl] = useState<string>('');
+  const [proposalHex, setProposalproposalHex] = useState<string>('');
+  const [proposalHash, setProposalproposalHash] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
@@ -33,6 +34,9 @@ function Create (): React.ReactElement {
 
   useEffect(() => {
     if (extrinsic) {
+      // const proposalBytes = extrinsic.toU8a();
+      const proposalHex = (extrinsic as SubmittableExtrinsic)?.method.toHex() || '';
+      const proposalHash = blake2AsHex(proposalHex);
       const jprop = extrinsic.method.toJSON();
 
       // Bug in polkadot-js makes hex-encoded call index unparsable so we convert to an array.
@@ -42,6 +46,8 @@ function Create (): React.ReactElement {
 
       setProposalJSON(propJSON);
       setProposalUrl(window.location.origin + '/#/master-proposals?proposal=' + encodeURIComponent(btoa(propJSON)));
+      setProposalproposalHex(proposalHex);
+      setProposalproposalHash(proposalHash);
     }
   }, [extrinsic]);
 
@@ -80,6 +86,30 @@ function Create (): React.ReactElement {
           help={t<string>('Share this URL for people to vote on your proposal')}
           label={t<string>('Proposal URL')}
           value={proposalURL}
+          isMonospace
+          withCopy
+        />
+      )}
+
+      {proposalHex && (
+        <Output
+          autoFocus
+          className='medium'
+          help={t<string>('This is the proposal bytes as hex and can be used when submitting in democracy')}
+          label={t<string>('Proposal bytes as hex')}
+          value={proposalHex}
+          isMonospace
+          withCopy
+        />
+      )}
+
+      {proposalHash && (
+        <Output
+          autoFocus
+          className='medium'
+          help={t<string>('This is the hash of proposal and can be used when submitting in democracy')}
+          label={t<string>('Proposal hash')}
+          value={proposalHash}
           isMonospace
           withCopy
         />

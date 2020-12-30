@@ -51,7 +51,8 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
-                  filter={members}
+                  // SD: Commented filter below
+                  // filter={members}
                   help={t<string>('Select the account you wish close the proposal with.')}
                   label={t<string>('sending account')}
                   onChange={setAccountId}

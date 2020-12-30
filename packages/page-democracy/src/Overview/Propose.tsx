@@ -105,11 +105,15 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           label={t<string>('Submit proposal')}
           onStart={onClose}
           params={
-            api.tx.democracy.propose.meta.args.length === 3
+            api.tx.simpleDemocracy.propose.meta.args.length === 3
+              // SD: Commented line below
+              // api.tx.democracy.propose.meta.args.length === 3
               ? [hash, balance, publicProps?.length]
               : [hash, balance]
           }
-          tx='democracy.propose'
+          tx='simpleDemocracy.propose'
+          // SD: Commented line below
+          // tx='democracy.propose'
         />
       </Modal.Actions>
     </Modal>
