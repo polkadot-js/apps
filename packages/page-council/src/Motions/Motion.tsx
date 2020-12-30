@@ -117,7 +117,6 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
                 hasFailed={hasFailed}
                 hash={hash}
                 idNumber={index}
-                members={members}
                 proposal={proposal}
               />
             )
