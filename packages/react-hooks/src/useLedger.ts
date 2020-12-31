@@ -18,7 +18,7 @@ interface StateBase {
 }
 
 interface State extends StateBase {
-  getLedger: () => Promise<Ledger>;
+  getLedger: () => Ledger;
 }
 
 const EMPTY_STATE: StateBase = {
@@ -29,22 +29,16 @@ const EMPTY_STATE: StateBase = {
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 let ledger: Ledger | null = null;
 
-function retrieveLedger (api: ApiPromise): Promise<Ledger> {
-  return new Promise<Ledger>((resolve, reject): void => {
-    try {
-      if (!ledger) {
-        const def = ledgerChains.find(([g]) => g === api.genesisHash.toHex());
+function retrieveLedger (api: ApiPromise): Ledger {
+  if (!ledger) {
+    const def = ledgerChains.find(([g]) => g === api.genesisHash.toHex());
 
-        assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
+    assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
 
-        ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def[1]);
-      }
+    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def[1]);
+  }
 
-      resolve(ledger);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return ledger;
 }
 
 function getState (api: ApiPromise): StateBase {
