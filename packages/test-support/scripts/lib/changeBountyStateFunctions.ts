@@ -17,10 +17,11 @@ export async function acceptCurator (api: ApiPromise, id: number) {
 }
 
 export async function acceptMotion (api: ApiPromise, hash: Hash, index: number) {
-  await execute(api.tx.council.vote(hash, index, true), bobSigner());
-  await execute(api.tx.council.vote(hash, index, true), charlieSigner());
-  await execute(api.tx.council.vote(hash, index, true), daveSigner());
+  const bobVote = execute(api.tx.council.vote(hash, index, true), bobSigner());
+  const charlieVote = execute(api.tx.council.vote(hash, index, true), charlieSigner());
+  const daveVote = execute(api.tx.council.vote(hash, index, true), daveSigner());
 
+  await Promise.all([bobVote, charlieVote, daveVote]);
   await execute(api.tx.council.close(hash, index, WEIGHT_BOUND, LENGTH_BOUND), charlieSigner());
 }
 
