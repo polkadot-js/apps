@@ -14236,6 +14236,7 @@ fsevents@~2.1.2:
     stylelint: ^13.8.0
     stylelint-config-recommended: ^3.0.0
     stylelint-config-styled-components: ^0.1.1
+    tsconfig-paths: ^3.9.0
     webpack: ^5.11.1
     webpack-cli: ^4.3.0
   languageName: unknown
