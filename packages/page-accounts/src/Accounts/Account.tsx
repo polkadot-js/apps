@@ -3,11 +3,12 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { Ledger } from '@polkadot/ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
-import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { Delegation } from '../types';
 
 import BN from 'bn.js';
@@ -71,6 +72,12 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
       .map((id) => api.tx.democracy.removeVote(id))
       .concat(api.tx.democracy.unlock(address))
   );
+}
+
+async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
+  const ledger = getLedger();
+
+  await ledger.getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0);
 }
 
 const transformRecovery = {
@@ -191,11 +198,9 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // TODO: we should check the hardwareType from metadata here as well,
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
-      getLedger()
-        .then((ledger) => ledger.getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0))
-        .catch((error): void => {
-          console.error(`ledger: ${(error as Error).message}`);
-        });
+      showLedgerAddress(getLedger, meta).catch((error): void => {
+        console.error(`ledger: ${(error as Error).message}`);
+      });
     },
     [getLedger, meta]
   );
