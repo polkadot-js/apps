@@ -212,7 +212,7 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     flex: 1 1;
     list-style: none;
     margin: 0 1rem 0 0;
-    padding: 0;
+    padding: 0.5rem 0 0;
 
     > li {
       display: inline-block;
