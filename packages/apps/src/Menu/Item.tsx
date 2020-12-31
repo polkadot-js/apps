@@ -83,7 +83,7 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     padding: 1rem 1.15rem 1.25rem;
     text-decoration: none;
     font-weight: 500;
-    font-size: 1.15rem;
+    font-size: 1rem;
     line-height: 1.5rem;
   }
 
