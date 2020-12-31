@@ -13,7 +13,8 @@ export default {
     'Kusama CC3': 'kusama',
     Polkadot: 'polkadot',
     'Polkadot CC1': 'polkadot-cc1',
-    Westend: 'westend'
+    Westend: 'westend',
+    'Centrifuge Mainnet': 'centrifuge'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
