@@ -138,7 +138,7 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Promise<Ledger>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 

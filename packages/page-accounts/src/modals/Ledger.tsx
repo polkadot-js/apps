@@ -24,17 +24,10 @@ interface Props {
 const AVAIL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 // query the ledger for the address, adding it to the keyring
-async function queryLedger (getLedger: () => Ledger, accountOffset: number, addressOffset: number): Promise<void> {
-  try {
-    const ledger = getLedger();
-    const { address } = await ledger.getAddress(false, accountOffset, addressOffset);
+async function queryLedger (ledger: Ledger, accountOffset: number, addressOffset: number): Promise<void> {
+  const { address } = await ledger.getAddress(false, accountOffset, addressOffset);
 
-    keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: `ledger ${accountOffset}/${addressOffset}` });
-  } catch (error) {
-    console.error(error);
-
-    throw error;
-  }
+  keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: `ledger ${accountOffset}/${addressOffset}` });
 }
 
 function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> {
@@ -60,9 +53,12 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       setError(null);
       setIsBusy(true);
 
-      queryLedger(getLedger, accIndex, addIndex)
+      getLedger()
+        .then((ledger) => queryLedger(ledger, accIndex, addIndex))
         .then(() => onClose())
         .catch((error): void => {
+          console.error(error);
+
           setIsBusy(false);
           setError(error);
         });

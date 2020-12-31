@@ -10,10 +10,10 @@ let id = 0;
 export default class LedgerSigner implements Signer {
   readonly #accountOffset: number;
   readonly #addressOffset: number;
-  readonly #getLedger: () => Ledger;
+  readonly #getLedger: () => Promise<Ledger>;
   readonly #registry: Registry;
 
-  constructor (registry: Registry, getLedger: () => Ledger, accountOffset: number, addressOffset: number) {
+  constructor (registry: Registry, getLedger: () => Promise<Ledger>, accountOffset: number, addressOffset: number) {
     this.#accountOffset = accountOffset;
     this.#addressOffset = addressOffset;
     this.#getLedger = getLedger;
@@ -22,7 +22,8 @@ export default class LedgerSigner implements Signer {
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     const raw = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-    const { signature } = await this.#getLedger().sign(raw.toU8a(true), this.#accountOffset, this.#addressOffset);
+    const ledger = await this.#getLedger();
+    const { signature } = await ledger.sign(raw.toU8a(true), this.#accountOffset, this.#addressOffset);
 
     return { id: ++id, signature };
   }
