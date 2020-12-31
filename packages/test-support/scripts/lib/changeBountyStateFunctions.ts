@@ -25,12 +25,12 @@ export async function acceptMotion (api: ApiPromise, hash: Hash, index: number) 
   await execute(api.tx.council.close(hash, index, WEIGHT_BOUND, LENGTH_BOUND), charlieSigner());
 }
 
-export async function awardBounty (api: ApiPromise, id: number) {
-  await execute(api.tx.bounties.awardBounty(id, daveSigner().address), aliceSigner());
+export async function awardBounty (api: ApiPromise, index: number) {
+  await execute(api.tx.bounties.awardBounty(index, daveSigner().address), aliceSigner());
 }
 
-export async function claimBounty (api: ApiPromise, id: number) {
-  await execute(api.tx.bounties.claimBounty(id), daveSigner());
+export async function claimBounty (api: ApiPromise, index: number) {
+  await execute(api.tx.bounties.claimBounty(index), daveSigner());
 }
 
 export async function proposeBounty (api: ApiPromise, value: BN, title: string) {
@@ -43,4 +43,20 @@ export async function proposeMotion (api: ApiPromise, submittableExtrinsic: Subm
 
 export async function fillTreasury (api: ApiPromise) {
   await execute(api.tx.balances.transfer(TREASURY_ADDRESS, new BN(5_000_000_000_000_000)), aliceSigner());
+}
+
+export async function proposeCurator (api: ApiPromise, index: number) {
+  await proposeMotion(api, api.tx.bounties.proposeCurator(index, aliceSigner().address, 10));
+
+  const hashes = await api.query.council.proposals();
+
+  await acceptMotion(api, hashes[0], 1);
+}
+
+export async function approveBounty (api: ApiPromise, index: number) {
+  await proposeMotion(api, api.tx.bounties.approveBounty(index));
+
+  const hashes = await api.query.council.proposals();
+
+  await acceptMotion(api, hashes[0], index);
 }
