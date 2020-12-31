@@ -7,14 +7,14 @@ import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    'Centrifuge Mainnet': 'centrifuge',
     Edgeware: 'edgeware',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
     'Kusama CC3': 'kusama',
     Polkadot: 'polkadot',
     'Polkadot CC1': 'polkadot-cc1',
-    Westend: 'westend',
-    'Centrifuge Mainnet': 'centrifuge'
+    Westend: 'westend'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
