@@ -224,7 +224,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   isDisabled={!isOwnController || isDisabled}
                   key='stop'
                   label={t<string>('Stop')}
-                  tx='staking.chill'
+                  tx={api.tx.staking.chill}
                 />
               )
               : (
@@ -277,7 +277,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                 vertical
               >
                 <Menu.Item
-                  disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}
+                  disabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
                   onClick={toggleBondExtra}
                 >
                   {t<string>('Bond more funds')}

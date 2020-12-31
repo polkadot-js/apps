@@ -52,7 +52,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState 
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
-  if (exposure) {
+  if (exposure && exposure.total) {
     nominators = exposure.others.map(({ value, who }) => ({ nominatorId: who.toString(), value: value.unwrap() }));
     stakeTotal = exposure.total.unwrap();
     stakeOwn = exposure.own.unwrap();

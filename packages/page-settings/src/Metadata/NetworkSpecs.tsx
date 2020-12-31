@@ -7,7 +7,7 @@ import type { ChainInfo } from '../types';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
+import { Button, ChainImg, Columar, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -87,7 +87,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
   return (
     <Columar className={className}>
-      <Column>
+      <Columar.Column>
         <div className='settings--networkSpecs-name'>
           <Input
             className='full'
@@ -144,15 +144,15 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           label={t<string>('Decimals')}
           value={networkSpecs.decimals.toString()}
         />
-      </Column>
-      <Column>
+      </Columar.Column>
+      <Columar.Column>
         {qrData.genesisHash && (
           <QrNetworkSpecs
             className='settings--networkSpecs-qr'
             networkSpecs={debouncedQrData}
           />
         )}
-      </Column>
+      </Columar.Column>
     </Columar>
   );
 }

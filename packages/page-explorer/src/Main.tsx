@@ -6,7 +6,7 @@ import type { KeyedEvent } from '@polkadot/react-query/types';
 import React from 'react';
 
 import { HeaderExtended } from '@polkadot/api-derive';
-import { Columar, Column } from '@polkadot/react-components';
+import { Columar } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
@@ -24,12 +24,12 @@ function Main ({ events, headers }: Props): React.ReactElement<Props> {
       <Query />
       <Summary />
       <Columar>
-        <Column>
+        <Columar.Column>
           <BlockHeaders headers={headers} />
-        </Column>
-        <Column>
+        </Columar.Column>
+        <Columar.Column>
           <Events events={events} />
-        </Column>
+        </Columar.Column>
       </Columar>
     </>
   );

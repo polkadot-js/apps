@@ -185,11 +185,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? [recipientId, maxTransfer]
               : [recipientId, amount]
           }
-          tx={
-            isProtected && api.tx.balances.transferKeepAlive
-              ? 'balances.transferKeepAlive'
-              : 'balances.transfer'
-          }
+          tx={(isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer}
         />
       </Modal.Actions>
     </Modal>
