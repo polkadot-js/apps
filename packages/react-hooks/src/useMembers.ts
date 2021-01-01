@@ -17,10 +17,17 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
-export function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
+// SD: Modified function below to take default boolean argument
+/**
+ * Return members of a collective
+ * @param collective
+ * @param dontRequireAccount - If passed true, returns collective members regardless of app user has any accounts or not.
+ * If false, return members only when user has an account
+ */
+export function useMembers (collective: 'council' | 'technicalCommittee' = 'council', dontRequireAccount = false): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);
+  const retrieved = useCall<string[]>((dontRequireAccount || hasAccounts) && api.query[collective]?.members, undefined, transformMembers);
 
   return useMemo(
     () => ({

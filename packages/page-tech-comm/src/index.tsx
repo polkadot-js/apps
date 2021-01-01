@@ -28,7 +28,8 @@ const transformPrime = {
 function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers('technicalCommittee');
+  // SD: Added true parameter
+  const { isMember, members } = useMembers('technicalCommittee', true);
   const prime = useCall<AccountId | null>(api.query.technicalCommittee.prime, undefined, transformPrime) || null;
   const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals);
 

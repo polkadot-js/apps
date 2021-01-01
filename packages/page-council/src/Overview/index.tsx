@@ -12,7 +12,7 @@ import {useApi, useCall, useMembers} from '@polkadot/react-hooks';
 import Candidates from './Candidates';
 import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';
-// import Summary from './Summary';
+import Summary from './Summary';
 import Vote from './Vote';
 
 import SimpleSummary from './SimpleSummary';
@@ -23,7 +23,8 @@ interface Props {
   prime: AccountId | null;
 }
 
-const transformVotes = {
+// SD: Commented below
+/*const transformVotes = {
   transform: (entries: DeriveCouncilVotes): Record<string, AccountId[]> => {
     return entries.reduce((result: Record<string, AccountId[]>, [voter, { votes }]): Record<string, AccountId[]> => {
       votes.forEach((candidate): void => {
@@ -39,7 +40,7 @@ const transformVotes = {
       return result;
     }, {});
   }
-};
+};*/
 
 function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
   // SD: Commented lines below
@@ -48,7 +49,8 @@ function Overview ({ className = '', prime }: Props): React.ReactElement<Props> 
   // const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
   // const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, undefined, transformVotes);
 
-  const { isMember, members } = useMembers('council');
+  // SD: Added true parameter
+  const { isMember, members } = useMembers('council', true);
 
   return (
     <div className={className}>

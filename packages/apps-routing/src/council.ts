@@ -12,6 +12,7 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         [
+          // SD: Commented lines below
           // 'query.electionsPhragmen.candidates',
           // 'query.elections.candidates'
           'query.council.members'
