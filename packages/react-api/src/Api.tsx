@@ -11,7 +11,7 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
+import { ethereumChains, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -75,9 +75,29 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
+async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
+  try {
+    await injectedPromise;
+
+    const accounts = await web3Accounts();
+
+    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+      address,
+      meta: {
+        ...meta,
+        name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
+        whenCreated
+      }
+    }));
+  } catch (error) {
+    console.error('web3Enable', error);
+
+    return [];
+  }
+}
+
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
-    api.rpc.chain.getHeader(),
+  const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
     api.rpc.system.chainType
@@ -85,29 +105,16 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    injectedPromise
-      .then(() => web3Accounts())
-      .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
-        address,
-        meta: {
-          ...meta,
-          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
-          whenCreated
-        }
-      })))
-      .catch((error): InjectedAccountExt[] => {
-        console.error('web3Enable', error);
-
-        return [];
-      })
+    getInjectedAccounts(injectedPromise)
   ]);
 
   // HACK Horrible hack to try and give some window to the DOT denomination
-  const properties = api.genesisHash.eq(POLKADOT_GENESIS)
-    ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
-      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'DOT' })
-      : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
-    : chainProperties;
+  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
+  const properties = registry.createType('ChainProperties',
+    api.genesisHash.eq(POLKADOT_GENESIS)
+      ? { ...chainProperties, ss58Format, tokenDecimals: 10, tokenSymbol: 'DOT' }
+      : { ...chainProperties, ss58Format }
+  );
 
   return {
     injectedAccounts,

@@ -14,7 +14,7 @@
     "@edgeware/node-types": "^3.0.11",
     "@interlay/polkabtc-types": "^0.2.9",
     "@laminar/type-definitions": "^0.2.0-beta.141",
-    "@polkadot/networks": "^5.2.2",
+    "@polkadot/networks": "^5.2.3",
     "@sora-substrate/type-definitions": "^0.3.1",
     "@subsocial/types": "^0.4.27",
     "moonbeam-types-bundle": "^1.0.1"
