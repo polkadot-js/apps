@@ -11,7 +11,8 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        ['query.parachains.code', 'query.parachainUpgrade.didUpdateVFPs']
+        // children - parachainInfo.arachainId / parachainUpgrade.didSetValidationCode
+        ['query.paras.parachains']
       ]
     },
     group: 'network',
