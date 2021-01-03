@@ -9,37 +9,35 @@ import styled from 'styled-components';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import Parachain from './Parachain';
 
 interface Props {
   ids?: ParaId[];
 }
 
-function Parachains ({ ids }: Props): React.ReactElement<Props> {
+function Upcoming ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('parachains'), 'start', 2],
-    [t('heads'), 'start'],
-    [t('watermark')]
+    [t('upcoming'), 'start']
   ]);
 
   return (
     <Table
-      empty={ids && t<string>('There are no registered parachains')}
+      empty={ids && t<string>('There are no upcoming parachains')}
       header={headerRef.current}
     >
       {ids?.map((id): React.ReactNode => (
-        <Parachain
-          id={id}
-          key={id.toString()}
-        />
+        <tr key={id.toString()}>
+          <td className='number'>
+            <h1>{id.toString()}</h1>
+          </td>
+        </tr>
       ))}
     </Table>
   );
 }
 
-export default React.memo(styled(Parachains)`
+export default React.memo(styled(Upcoming)`
   tbody tr {
     cursor: pointer;
   }
