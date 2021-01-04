@@ -180,10 +180,9 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
 
   .ui--AddressMenu-addr {
     font: ${theme.fontMono};
-    margin: 0.5rem 0;
-    overflow: hidden;
+    margin: 1rem 0;
     text-align: center;
-    text-overflow: ellipsis;
+    word-break: break-all;
     width: 100%;
   }
 
@@ -244,7 +243,7 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
 
   .ui--AddressMenu-tags,
   .ui--AddressMenu-flags {
-    margin-bottom: 0.75rem;
+    margin: 0.75rem 0 0;
   }
 
   .ui--AddressMenu-flags {
