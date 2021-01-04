@@ -56,15 +56,14 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     font-weight: 500;
     line-height: 1.5rem;
     border-radius: 0.15rem 0.15rem 0 0;
-
+    a {
+      padding: 1rem 1.15rem 1.25rem;
+    }
     &:hover {
       background-color: ${theme.bgMenu};
       color: ${theme.color};
     }
 
-    .ui--Badge {
-      top: 0.95rem;
-    }
     &.isActive.highlight--color-contrast {
       background-color: ${theme.bgTabs};
       color: ${theme.color};
@@ -80,7 +79,7 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
   a {
     color: inherit !important;
     display: block;
-    padding: 1rem 1.15rem 1.25rem;
+    padding: 0.5rem 1.15rem 0.57rem;
     text-decoration: none;
     font-weight: 500;
     font-size: 1rem;
@@ -90,7 +89,6 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
   .ui--Badge {
     position: absolute;
     right: 0.25rem;
-    top: 0.7rem;
   }
 
   .ui--Icon {
