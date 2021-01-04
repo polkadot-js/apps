@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
@@ -16,9 +17,10 @@ interface Props {
   index: number;
   isMember: boolean;
   members: string[]
+  proposals?: DeriveCollectiveProposal[];
 }
 
-function BountyInitiateVoting ({ index, isMember, members }: Props): React.ReactElement<Props> | null {
+function BountyInitiateVoting ({ index, isMember, members, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -34,7 +36,10 @@ function BountyInitiateVoting ({ index, isMember, members }: Props): React.React
   const approveBountyProposal: SubmittableExtrinsic<'promise'> = (api.tx.bounties || api.tx.treasury).approveBounty(index);
   const closeBountyProposal: SubmittableExtrinsic<'promise'> = (api.tx.bounties || api.tx.treasury).closeBounty(index);
 
-  return isMember
+  const isVotingInitiated = useMemo(() => proposals?.filter((deriveProposal) => deriveProposal.proposal.method === 'approveBounty' || deriveProposal.proposal.method === 'closeBounty')
+    .length !== 0, [proposals]);
+
+  return isMember && !isVotingInitiated
     ? (
       <>
         <Button

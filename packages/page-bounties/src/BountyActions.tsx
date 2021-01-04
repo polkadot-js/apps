@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
@@ -15,10 +16,11 @@ import { getBountyStatus } from './helpers';
 interface Props {
   bestNumber: BlockNumber;
   index: number;
+  proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-export function BountyActions ({ bestNumber, index, status }: Props): JSX.Element {
+export function BountyActions ({ bestNumber, index, proposals, status }: Props): JSX.Element {
   const { isMember, members } = useMembers();
 
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);
@@ -34,6 +36,7 @@ export function BountyActions ({ bestNumber, index, status }: Props): JSX.Elemen
           index={index}
           isMember={isMember}
           members={members}
+          proposals={proposals}
         />}
       {status.isCuratorProposed && curator &&
         <BountyCuratorProposedActions
