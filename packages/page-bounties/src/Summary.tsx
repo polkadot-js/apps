@@ -119,6 +119,7 @@ export default React.memo(styled(Summary)(({ theme }: ThemeProps) => `
     position: relative;
     display: flex;
     flex-direction: column;
+    border-radius: 4px;
     header {
       position: relative;
       z-index: 30;
@@ -141,6 +142,7 @@ export default React.memo(styled(Summary)(({ theme }: ThemeProps) => `
       top: 0;
       left: 0;
       z-index: 20;
+      border-radius: 4px;
       width: 100%;
       height: 100%;
       opacity: ${theme.opacityOfHighlightedSection};
