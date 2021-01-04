@@ -2189,10 +2189,10 @@ __metadata:
     "@interlay/polkabtc-types": ^0.2.9
     "@laminar/type-definitions": ^0.2.0-beta.141
     "@polkadot/networks": ^5.2.3
-    "@sora-substrate/type-definitions": ^0.3.1
+    "@sora-substrate/type-definitions": ^0.3.2
     "@subsocial/types": ^0.4.27
     i18next: ^19.8.4
-    moonbeam-types-bundle: ^1.0.1
+    moonbeam-types-bundle: ^1.0.5
   languageName: unknown
   linkType: soft
 
@@ -2202,7 +2202,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.61.22
+    "@polkadot/dev": ^0.61.23
     "@polkadot/react-components": ^0.74.2-1
     "@types/react-dom": ^17.0.0
     "@types/tmp": ^0.2.0
@@ -2210,7 +2210,7 @@ __metadata:
     copy-webpack-plugin: ^7.0.0
     electron-log: ^4.3.1
     electron-updater: ^4.3.7
-    html-webpack-plugin: ^4.5.0
+    html-webpack-plugin: ^4.5.1
     react: ^17.0.1
     react-dom: ^17.0.1
     thread-loader: ^3.0.1
@@ -2236,7 +2236,7 @@ __metadata:
     "@babel/runtime": ^7.12.5
     "@polkadot/apps-config": ^0.74.2-1
     "@polkadot/apps-routing": ^0.74.2-1
-    "@polkadot/dev": ^0.61.22
+    "@polkadot/dev": ^0.61.23
     "@polkadot/react-api": ^0.74.2-1
     "@polkadot/react-components": ^0.74.2-1
     "@polkadot/react-hooks": ^0.74.2-1
@@ -2252,7 +2252,7 @@ __metadata:
     empty: ^0.10.1
     file-loader: ^6.2.0
     html-loader: ^1.3.2
-    html-webpack-plugin: ^4.5.0
+    html-webpack-plugin: ^4.5.1
     markdown-loader: ^6.0.0
     mini-css-extract-plugin: ^1.3.3
     null-loader: ^4.0.1
@@ -2263,15 +2263,15 @@ __metadata:
     stream-browserify: ^3.0.0
     url-loader: ^4.1.1
     webpack: ^5.11.1
-    webpack-cli: ^4.3.0
+    webpack-cli: ^4.3.1
     webpack-dev-server: ^4.0.0-beta.0
     webpack-merge: ^5.7.3
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.61.22":
-  version: 0.61.22
-  resolution: "@polkadot/dev@npm:0.61.22"
+"@polkadot/dev@npm:^0.61.23":
+  version: 0.61.23
+  resolution: "@polkadot/dev@npm:0.61.23"
   dependencies:
     "@babel/cli": ^7.12.10
     "@babel/core": ^7.12.10
@@ -2356,7 +2356,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.cjs
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: d10fa0be1f4a8d76d7ae1158ef4ef71093f7a036329d9432d693e156f55910a5d5a021aeb0d78462af69a93b62e2cfc5ed9aa524d0f84e30b796f032a24165d8
+  checksum: 7823aa2c9b77d00dcb7fbb07a57320266b7bcf8d7f011fa2024b31c82dc986fe8dc8e1365911a4f247abc92ab6e90d65320a4c334e667c07842b1022cf5875f7
   languageName: node
   linkType: hard
 
@@ -2458,7 +2458,7 @@ __metadata:
     "@polkadot/api": ^3.3.1
     "@polkadot/extension-dapp": ^0.35.2-27
     "@polkadot/x-rxjs": ^3.3.1
-    fflate: ^0.4.7
+    fflate: ^0.4.8
   languageName: unknown
   linkType: soft
 
@@ -2910,12 +2910,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@sora-substrate/type-definitions@npm:0.3.1"
+"@sora-substrate/type-definitions@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@sora-substrate/type-definitions@npm:0.3.2"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: 68c678ed5c43515373babe3705f8becc3ec9c54dd4dfc1b0c4e1a912c8d8ea0793bed4f40a488c895e32600b25404ed5f2f279ee656c1946f8cf89cfca6caad0
+  checksum: c898b89bc11ec3e1a0a70d2378162016e07b5241e6f63708761665237d74ee555973d6b5fdce01fa0bd4caeb8d6540c701590bc012742cf3625cd455373a4f47
   languageName: node
   linkType: hard
 
@@ -3479,14 +3479,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-router-dom@npm:^5.1.6":
-  version: 5.1.6
-  resolution: "@types/react-router-dom@npm:5.1.6"
+"@types/react-router-dom@npm:^5.1.7":
+  version: 5.1.7
+  resolution: "@types/react-router-dom@npm:5.1.7"
   dependencies:
     "@types/history": "*"
     "@types/react": "*"
     "@types/react-router": "*"
-  checksum: dcff1d613899af1cbfb003eb3994f7ebce5f2633e0018588008be39af8e15971041644b7c99e6448122d661d509ee7cafce7bb5972598e8bb6701e77c9431def
+  checksum: c5afe043f99cbe8e05e85db5b95b5fd724e7b00e0314b8bbc081e36c113e22fd102cd0c7a957c7ad55a55d2def91c17b07ffba45c2ac4a00cc56c5c927c93d4c
   languageName: node
   linkType: hard
 
@@ -4000,26 +4000,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@webpack-cli/info@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@webpack-cli/info@npm:1.2.0"
+"@webpack-cli/info@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@webpack-cli/info@npm:1.2.1"
   dependencies:
     envinfo: ^7.7.3
   peerDependencies:
     webpack-cli: 4.x.x
-  checksum: f58002259ffe9d6592b868b61df1a77d90a060926656bda379a06e44b1f4f3419f44337dcdac3c5a7f7b2beb6890b146acc7c959d5c57c9837fba8622972ba0e
+  checksum: 5d7533ed5a2b3cf5429730661b1dba47f96a3ee9a4f87fc4bbf889fac28a603bc73d4ee143df4cf5cd3e4e91d91ad6bfdfb76a786d346265f7a193c3612582e6
   languageName: node
   linkType: hard
 
-"@webpack-cli/serve@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@webpack-cli/serve@npm:1.2.0"
+"@webpack-cli/serve@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@webpack-cli/serve@npm:1.2.1"
   peerDependencies:
     webpack-cli: 4.x.x
   peerDependenciesMeta:
     webpack-dev-server:
       optional: true
-  checksum: be9a5199a921c4be8bb0c51b42e2a65647a9bcfaa0b05b6f6d44c37de6604c8a01832bb396a7cf936f06d545bef0e5a23bdaa18a1a53dc29e0b1030d3d1da6fd
+  checksum: b82245b17af0ca956cfb6bd153a98d69c89dfdbf795c2c9c17d1c51726428a77c6ce937a58716db94c44688d2bc7efed05b146b9e72376b0c88f7c390b91f0f2
   languageName: node
   linkType: hard
 
@@ -6467,7 +6467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2":
+"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -8329,7 +8329,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:^4.0.0, execa@npm:^4.0.3, execa@npm:^4.1.0":
+"execa@npm:^4.0.0, execa@npm:^4.0.3":
   version: 4.1.0
   resolution: "execa@npm:4.1.0"
   dependencies:
@@ -8343,6 +8343,23 @@ __metadata:
     signal-exit: ^3.0.2
     strip-final-newline: ^2.0.0
   checksum: 79bd736acd63aa7c0afb32cc99af21cfd70db696580686c7cd56c177857b93b78bc0b9bb2b4410f377f46c71c566c8e723987e71ef0bc9b23791bfbced02f75c
+  languageName: node
+  linkType: hard
+
+"execa@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "execa@npm:5.0.0"
+  dependencies:
+    cross-spawn: ^7.0.3
+    get-stream: ^6.0.0
+    human-signals: ^2.1.0
+    is-stream: ^2.0.0
+    merge-stream: ^2.0.0
+    npm-run-path: ^4.0.1
+    onetime: ^5.1.2
+    signal-exit: ^3.0.3
+    strip-final-newline: ^2.0.0
+  checksum: bf9664702c981ae922ce465bc60d9bfd583e9ad47ab1a89168665e1fb330cc72f7080fda606bac85454bdc341198f454072018e616f0d03aa1e4b671ef04b94e
   languageName: node
   linkType: hard
 
@@ -8611,10 +8628,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fflate@npm:^0.4.7":
-  version: 0.4.7
-  resolution: "fflate@npm:0.4.7"
-  checksum: 5c3565f788d1d5fd02ee6678274314e6051ef8d5fb72e9f0428562667f66bd7a298ff3b2eea7c42968c3d9cae04b29685735d097a3b822990e47577882846a04
+"fflate@npm:^0.4.8":
+  version: 0.4.8
+  resolution: "fflate@npm:0.4.8"
+  checksum: 2c1ea525228c7a92e65fbc6e9e079b7d8d03a3065e0bc4f8eee97f9ff9268bf904938ddc5d1fdd887f23a4ccba80213774ff4809615a9f11b6c22592b4ff5ca5
   languageName: node
   linkType: hard
 
@@ -9204,6 +9221,13 @@ fsevents@~2.1.2:
   dependencies:
     pump: ^3.0.0
   checksum: c71c5625f4573a33823371da253b4183df6bdb28cb678d03bab9b5f91626d92d6f3f5ae2404c5efdc1248fbb82204e4dae4283c7ff3cc14e505754f9f748f217
+  languageName: node
+  linkType: hard
+
+"get-stream@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "get-stream@npm:6.0.0"
+  checksum: 4354a4de78ebfd4340db6c7a3956ad1db7e67dbf718bcc576481697188442156f88d0d79d94b8af2615dad9920d41df85227e0c6b0fe5764d26e0df25f4035f8
   languageName: node
   linkType: hard
 
@@ -9935,22 +9959,22 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "html-webpack-plugin@npm:4.5.0"
+"html-webpack-plugin@npm:^4.5.1":
+  version: 4.5.1
+  resolution: "html-webpack-plugin@npm:4.5.1"
   dependencies:
     "@types/html-minifier-terser": ^5.0.0
     "@types/tapable": ^1.0.5
     "@types/webpack": ^4.41.8
     html-minifier-terser: ^5.0.1
     loader-utils: ^1.2.3
-    lodash: ^4.17.15
+    lodash: ^4.17.20
     pretty-error: ^2.1.1
     tapable: ^1.1.3
     util.promisify: 1.0.0
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
-  checksum: df4dd38bd886aaac4cdcfa40f80fd35eb310810c8cad5bf1f7b8ca91550ad7d9f277c80dd4015fd2b0ef235d0384e9708b92a9c39f33d1b09090ca6fd8fdb53b
+  checksum: 58979a6adb605bb0d0eb489d587eb3b980724dcbe5fb2fdccce7033a13dd46e75d12062bc0ca8943d3598d012717c84df9f250549b728bd07fae244f9d1ecefd
   languageName: node
   linkType: hard
 
@@ -10100,6 +10124,13 @@ fsevents@~2.1.2:
   version: 1.1.1
   resolution: "human-signals@npm:1.1.1"
   checksum: cac115f635090055427bbd9d066781b17de3a2d8bbf839d920ae2fa52c3eab4efc63b4c8abc10e9a8b979233fa932c43a83a48864003a8c684ed9fb78135dd45
+  languageName: node
+  linkType: hard
+
+"human-signals@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "human-signals@npm:2.1.0"
+  checksum: 70bfd94d27b8ca94f76f92f56d294694860c15264393a8ffee83f49535a08da02e477064d91e2b511cc642ec5c7922675d2babcca2b6bf6f45e4d037b632759d
   languageName: node
   linkType: hard
 
@@ -12837,13 +12868,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "moonbeam-types-bundle@npm:1.0.1"
+"moonbeam-types-bundle@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "moonbeam-types-bundle@npm:1.0.5"
   dependencies:
-    "@polkadot/types": ^3.2.3
+    "@polkadot/api": ^3.2.3
     typescript: ^4.1.3
-  checksum: bf87dfe7ced6b4559afa6ab3473fa9da5d98f06104dc900ccf54f63a2bceff286e9e5ab44894502e50347a98fd3d19f4426e918d031b51039bcae290baffe291
+  checksum: 3ca550d5822e16faf3dd63d4318ce64da4a7dec25b4e0591bb33aa6a5c5d8fa28675f703028d7a6d86959ccb22da0db3d13713e2b1f0aed0baf0eee7499655d8
   languageName: node
   linkType: hard
 
@@ -13322,7 +13353,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"npm-run-path@npm:^4.0.0":
+"npm-run-path@npm:^4.0.0, npm-run-path@npm:^4.0.1":
   version: 4.0.1
   resolution: "npm-run-path@npm:4.0.1"
   dependencies:
@@ -13550,7 +13581,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"onetime@npm:^5.1.0":
+"onetime@npm:^5.1.0, onetime@npm:^5.1.2":
   version: 5.1.2
   resolution: "onetime@npm:5.1.2"
   dependencies:
@@ -14199,7 +14230,7 @@ fsevents@~2.1.2:
     "@babel/register": ^7.12.10
     "@babel/runtime": ^7.12.5
     "@pinata/sdk": ^1.1.11
-    "@polkadot/dev": ^0.61.22
+    "@polkadot/dev": ^0.61.23
     "@polkadot/ts": ^0.3.59
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.29
@@ -14208,7 +14239,7 @@ fsevents@~2.1.2:
     "@types/react-beautiful-dnd": ^13.0.0
     "@types/react-copy-to-clipboard": ^5.0.0
     "@types/react-dom": ^17.0.0
-    "@types/react-router-dom": ^5.1.6
+    "@types/react-router-dom": ^5.1.7
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.7
     "@types/styled-theming": ^2.2.5
@@ -14228,7 +14259,7 @@ fsevents@~2.1.2:
     stylelint-config-recommended: ^3.0.0
     stylelint-config-styled-components: ^0.1.1
     webpack: ^5.11.1
-    webpack-cli: ^4.3.0
+    webpack-cli: ^4.3.1
   languageName: unknown
   linkType: soft
 
@@ -16325,7 +16356,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"signal-exit@npm:^3.0.0, signal-exit@npm:^3.0.2":
+"signal-exit@npm:^3.0.0, signal-exit@npm:^3.0.2, signal-exit@npm:^3.0.3":
   version: 3.0.3
   resolution: "signal-exit@npm:3.0.3"
   checksum: f8f3fec95c8d1f9ad7e3cce07e1195f84e7a85cdcb4e825e8a2b76aa5406a039083d2bc9662b3cf40e6948262f41277047d20e6fbd58c77edced0b18fab647d8
@@ -18651,17 +18682,17 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "webpack-cli@npm:4.3.0"
+"webpack-cli@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "webpack-cli@npm:4.3.1"
   dependencies:
     "@discoveryjs/json-ext": ^0.5.0
-    "@webpack-cli/info": ^1.2.0
-    "@webpack-cli/serve": ^1.2.0
+    "@webpack-cli/info": ^1.2.1
+    "@webpack-cli/serve": ^1.2.1
     colorette: ^1.2.1
     commander: ^6.2.0
     enquirer: ^2.3.6
-    execa: ^4.1.0
+    execa: ^5.0.0
     fastest-levenshtein: ^1.0.12
     import-local: ^3.0.2
     interpret: ^2.2.0
@@ -18671,9 +18702,7 @@ fsevents@~2.1.2:
   peerDependencies:
     webpack: 4.x.x || 5.x.x
   peerDependenciesMeta:
-    "@webpack-cli/generate-loader":
-      optional: true
-    "@webpack-cli/generate-plugin":
+    "@webpack-cli/generators":
       optional: true
     "@webpack-cli/init":
       optional: true
@@ -18685,7 +18714,7 @@ fsevents@~2.1.2:
       optional: true
   bin:
     webpack-cli: bin/cli.js
-  checksum: d2d4987ef7cf035babefe8c18a11ebb20b45bd6b8e59e1de56d9528773f661a684b1a732c35d5a0032dac1b02308a37f6132129668f9351ab41de173fad963d4
+  checksum: 5765fc1fd2c98cc11288dc466f3c003c5f7e764fe656b25ac1d6a9eb95131c9529e2c65dd0f9c06cef6a928ced691c945eab90603c69b85c823049ebce4c239f
   languageName: node
   linkType: hard
 
