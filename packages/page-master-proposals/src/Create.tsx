@@ -108,7 +108,7 @@ function Create (): React.ReactElement {
           autoFocus
           className='medium'
           help={t<string>('This is the hash of proposal and can be used when submitting in democracy')}
-          label={t<string>('Proposal hash')}
+          label={t<string>('Proposal image (hash)')}
           value={proposalHash}
           isMonospace
           withCopy

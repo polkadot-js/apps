@@ -76,7 +76,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('This account will pay the fees for the preimage, based on the size thereof.')}</p>
+            <p>{t<string>('This account will pay the fees for the preimage (the proposal), based on the size thereof.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -95,7 +95,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t<string>('The preimage (proposal) will be stored on-chain against the hash of the contents.')}</p>
             <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
           </Modal.Column>
         </Modal.Columns>
