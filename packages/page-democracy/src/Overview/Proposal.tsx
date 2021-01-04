@@ -55,6 +55,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       <td className='button'>
         <Button.Group>
           <Seconding
+            deposit={balance}
             depositors={seconds || []}
             image={image}
             proposalId={index}
