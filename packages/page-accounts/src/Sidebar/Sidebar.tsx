@@ -104,7 +104,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
           />
         </div>
         <Flags flags={flags} />
-        <div className='ui-AddressMenu--button'>
+        <div className='ui--AddressMenu-buttons'>
           <Button.Group>
             <Button
               icon='paper-plane'
@@ -127,7 +127,6 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
             )}
             {!flags.isOwned && flags.isInContacts && (
               <Button
-                className='ui--AddressMenu-button'
                 icon='ban'
                 label={t<string>('Remove')}
                 onClick={_onForgetAddress}
@@ -180,10 +179,10 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
 
   .ui--AddressMenu-addr {
     font: ${theme.fontMono};
-    margin: 1rem 0;
+    margin: 0.75rem 0;
     text-align: center;
     word-break: break-all;
-    width: 100%;
+    width: 26ch;
   }
 
   .ui--AddressMenu-addr+.ui--AddressMenu-addr {
@@ -238,6 +237,12 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
 
     .parent, .subs {
       padding: 0 !important;
+    }
+  }
+
+  .ui--AddressMenu-buttons {
+    .ui--Button-Group {
+      margin-bottom: 0;
     }
   }
 
