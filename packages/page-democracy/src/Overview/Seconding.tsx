@@ -2,24 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 
-import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  deposit?: Balance;
   depositors: AccountId[];
   image?: DeriveProposalImage;
   proposalId: BN | number;
 }
 
-function Seconding ({ depositors, image, proposalId }: Props): React.ReactElement<Props> | null {
+function Seconding ({ deposit, depositors, image, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { api } = useApi();
@@ -61,6 +62,18 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputBalance
+                  isDisabled
+                  label={t<string>('deposit required')}
+                  value={deposit || api.consts.democracy.minimumDeposit}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The deposit will be locked for the lifetime of the proposal.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
