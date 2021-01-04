@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -7,7 +7,6 @@ import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { registry } from '@polkadot/react-api';
 import { Dropdown, Input, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
@@ -74,10 +73,10 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   useEffect((): void => {
     setOthers(
       who
-        .map((w) => registry.createType('AccountId', w))
+        .map((w) => api.createType('AccountId', w))
         .filter((w) => !w.eq(signatory))
     );
-  }, [signatory, who]);
+  }, [api, signatory, who]);
 
   // Filter the who by those not approved yet that is an actual account we own. In the case of
   // rejections, we defer to the the first approver, since he is the only one to send the cancel
@@ -87,14 +86,14 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
 
     setWhoFilter(
       who
-        .map((w) => registry.createType('AccountId', w).toString())
+        .map((w) => api.createType('AccountId', w).toString())
         .filter((w) => allAccounts.some((a) => a === w) && multisig && (
           type === 'nay'
             ? multisig.approvals[0].eq(w)
             : hasThreshold || !multisig.approvals.some((a) => a.eq(w))
         ))
     );
-  }, [allAccounts, multisig, threshold, type, who]);
+  }, [api, allAccounts, multisig, threshold, type, who]);
 
   // based on the type, multisig, others create the tx. This can be either an approval or final call
   useEffect((): void => {
@@ -127,7 +126,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       try {
         assert(isHex(callHex), 'Hex call data required');
 
-        const callData = registry.createType('Call', callHex);
+        const callData = api.createType('Call', callHex);
 
         setCallData(
           callData.hash.eq(hash)
@@ -138,7 +137,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         setCallData(null);
       }
     },
-    [hash]
+    [api, hash]
   );
 
   const isAye = type === 'aye';

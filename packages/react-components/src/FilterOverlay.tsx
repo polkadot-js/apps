@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -27,7 +27,7 @@ export default React.memo(styled(FilterOverlay)`
     display: none;
   }
   right: calc(50% - ${({ theme }: ThemeProps) => theme.contentHalfWidth} + 1.5rem);
-  
+
   ${media.DESKTOP`
     display: flex;
     justify-content: flex-end;
@@ -45,7 +45,7 @@ export default React.memo(styled(FilterOverlay)`
     .ui.selection.dropdown {
       white-space: nowrap;
     }
-    
+
   `}
 
   @media (max-width: ${({ theme }: ThemeProps) => theme.contentMaxWidth}) {

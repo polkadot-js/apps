@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -6,7 +6,7 @@ import type { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/
 import type { AddressFlags } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
 

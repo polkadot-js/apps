@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -49,7 +49,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
             {nominators.length}
           </CardSummary>
         )}
-        {(inflation > 0) && (
+        {(inflation > 0) && Number.isFinite(inflation) && (
           <CardSummary
             className='media--1200'
             label={t<string>('inflation')}

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import bifrost from './bifrost';
@@ -18,8 +18,6 @@ import equilibrium from './equilibrium';
 import galois from './galois';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
-import kulupu from './kulupu';
-import nodeTemplate from './node-template';
 import nodle from './nodle';
 import phala from './phala';
 import plasm from './plasm';
@@ -27,6 +25,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -48,9 +47,7 @@ export default {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   galois: galois,
   hanonycash,
-  kulupu,
   'mashnet-node': kilt,
-  'node-template': nodeTemplate,
   'nodle-chain': nodle,
   'phala-node': phala,
   plasm,
@@ -58,5 +55,6 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
-  subsocial
+  subsocial,
+  subzero: zero
 };

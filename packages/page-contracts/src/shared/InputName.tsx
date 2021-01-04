@@ -1,7 +1,5 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { VoidFn } from '@polkadot/react-components/types';
 
 import React from 'react';
 
@@ -16,7 +14,7 @@ interface Props {
   isError?: boolean;
   isDisabled?: boolean;
   onChange: (_: string) => void;
-  onEnter?: VoidFn;
+  onEnter?: () => void;
   value?: string;
 }
 

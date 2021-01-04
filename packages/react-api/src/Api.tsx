@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
@@ -11,14 +11,14 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
+import { ethereumChains, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { WsProvider } from '@polkadot/rpc-provider';
-import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import { keyring } from '@polkadot/ui-keyring';
+import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
@@ -75,9 +75,29 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
+async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
+  try {
+    await injectedPromise;
+
+    const accounts = await web3Accounts();
+
+    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+      address,
+      meta: {
+        ...meta,
+        name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
+        whenCreated
+      }
+    }));
+  } catch (error) {
+    console.error('web3Enable', error);
+
+    return [];
+  }
+}
+
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
-    api.rpc.chain.getHeader(),
+  const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
     api.rpc.system.chainType
@@ -85,29 +105,16 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    injectedPromise
-      .then(() => web3Accounts())
-      .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
-        address,
-        meta: {
-          ...meta,
-          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
-          whenCreated
-        }
-      })))
-      .catch((error): InjectedAccountExt[] => {
-        console.error('web3Enable', error);
-
-        return [];
-      })
+    getInjectedAccounts(injectedPromise)
   ]);
 
   // HACK Horrible hack to try and give some window to the DOT denomination
-  const properties = api.genesisHash.eq(POLKADOT_GENESIS)
-    ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
-      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'DOT' })
-      : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
-    : chainProperties;
+  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
+  const properties = registry.createType('ChainProperties',
+    api.genesisHash.eq(POLKADOT_GENESIS)
+      ? { ...chainProperties, ss58Format, tokenDecimals: 10, tokenSymbol: 'DOT' }
+      : { ...chainProperties, ss58Format }
+  );
 
   return {
     injectedAccounts,
@@ -122,12 +129,12 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
-  const ss58Format = uiSettings.prefix === -1
+  const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
-    : uiSettings.prefix;
+    : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-  const isEthereum = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
+  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = !isEthereum && (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
@@ -192,7 +199,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   // initial initialization
   useEffect((): void => {
     const provider = new WsProvider(url);
-    const signer = new ApiSigner(queuePayload, queueSetTxStatus);
+    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
     api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });

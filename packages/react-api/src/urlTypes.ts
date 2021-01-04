@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { unzlibSync, zlibSync } from 'fflate';
 import queryString from 'query-string';
 
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 import { assert, stringToU8a, u8aToString } from '@polkadot/util';
 import { base64Decode, base64Encode } from '@polkadot/util-crypto';
 
@@ -33,5 +33,5 @@ export function encodeUrlTypes (types: Record<string, any>): string {
   const compressed = zlibSync(jsonU8a, { level: 9 });
   const encoded = base64Encode(compressed);
 
-  return `${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(uiSettings.apiUrl)}&types=${encodeURIComponent(encoded)}`;
+  return `${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(settings.apiUrl)}&types=${encodeURIComponent(encoded)}`;
 }

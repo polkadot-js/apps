@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -131,7 +131,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx='council.propose'
+              tx={api.tx.council.propose}
             />
           </Modal.Actions>
         </Modal>

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -40,6 +40,7 @@ import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
+import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -47,6 +48,8 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeZero from './nodes/zero.svg';
+// last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
 // Alphabetical overrides based on the actual matched chain name
@@ -60,6 +63,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Moonbase Alpha', moonbeam],
+  ['PolkaBTC', nodePolkaBTC],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -98,13 +102,14 @@ export const nodeLogos: Record<string, unknown> = [
   ['Plasm Node', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
-  ['SORA-Substrate Node', nodeSora],
+  ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium]
+  ['Equilibrium', nodeEquilibrium],
+  ['SUBZΞRO', nodeZero]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -128,6 +133,8 @@ export const namedLogos: Record<string, unknown> = {
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  encointer_cantillon: nodeEncointerTeeproxy,
+  encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
@@ -139,6 +146,7 @@ export const namedLogos: Record<string, unknown> = {
   nodle: nodeNodle,
   phala: nodePhala,
   plasm: nodePlasm,
+  polkabtc: nodePolkaBTC,
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
@@ -153,7 +161,8 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  zero: nodeZero
 };
 
 // extension logos

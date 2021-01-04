@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -28,7 +28,7 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     if (tipHashTrigger && mountedRef.current) {
-      api.query.treasury.tips.keys().then((keys) =>
+      (api.query.tips || api.query.treasury).tips.keys().then((keys) =>
         mountedRef.current && setTipHashes(
           keys.map((key) => key.args[0].toHex())
         )

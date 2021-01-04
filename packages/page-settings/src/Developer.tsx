@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -8,9 +8,9 @@ import { Trans } from 'react-i18next';
 import store from 'store';
 import styled from 'styled-components';
 
-import { registry } from '@polkadot/react-api';
 import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
 import { Button, CopyButton, Editor, InputFile } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -33,6 +33,7 @@ interface Props {
 
 function Developer ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [code, setCode] = useState(EMPTY_CODE);
   const [isJsonValid, setIsJsonValid] = useState(true);
   const [isTypesValid, setIsTypesValid] = useState(true);
@@ -131,7 +132,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
       let url = null;
 
       try {
-        registry.register(types);
+        api.registerTypes(types);
         store.set('types', types);
         setIsTypesValid(true);
         onStatusChange({
@@ -155,7 +156,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
 
       setSharedUrl(url);
     },
-    [onStatusChange, t, types]
+    [api, onStatusChange, t, types]
   );
 
   const typesHasNoEntries = Object.keys(types).length === 0;

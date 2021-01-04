@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { Button, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -20,6 +20,7 @@ interface Props {
 
 function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, toggleVoting] = useToggle();
@@ -53,7 +54,7 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, proposalId, false]}
-              tx='technicalCommittee.vote'
+              tx={api.tx.technicalCommittee.vote}
             />
             <TxButton
               accountId={accountId}
@@ -61,7 +62,7 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, proposalId, true]}
-              tx='technicalCommittee.vote'
+              tx={api.tx.technicalCommittee.vote}
             />
           </Modal.Actions>
         </Modal>

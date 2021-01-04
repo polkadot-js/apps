@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Columar, Column, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
+import { Button, Columar, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
 import i18n from '@polkadot/react-components/i18n';
 import languageCache from '@polkadot/react-components/i18n/cache';
 import { useToggle } from '@polkadot/react-hooks';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
 import StringInput from './StringInput';
@@ -165,8 +165,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     setLng(
-      keys.some(({ value }) => value === uiSettings.i18nLang)
-        ? uiSettings.i18nLang
+      keys.some(({ value }) => value === settings.i18nLang)
+        ? settings.i18nLang
         : 'zh'
     );
   }, [keys]);
@@ -217,7 +217,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
     <main className={className}>
       <header>
         <Columar>
-          <Column>
+          <Columar.Column>
             <div>
               <Dropdown
                 isFull
@@ -233,8 +233,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={modProgress[1]}
               value={modProgress[0]}
             />
-          </Column>
-          <Column>
+          </Columar.Column>
+          <Columar.Column>
             <div>
               <Dropdown
                 isFull
@@ -250,7 +250,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
-          </Column>
+          </Columar.Column>
         </Columar>
       </header>
       <div className='toggleWrapper'>

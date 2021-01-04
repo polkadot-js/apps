@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
 
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -16,6 +16,7 @@ interface Props {
 
 function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -51,7 +52,7 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
               label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[candidateId, vote]}
-              tx='society.vote'
+              tx={api.tx.society.vote}
             />
           </Modal.Actions>
         </Modal>

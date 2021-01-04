@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Conviction } from '@polkadot/types/interfaces';
@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { ConvictionDropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -24,6 +25,7 @@ interface Props {
 
 function Delegate ({ onClose, previousAmount, previousConviction, previousDelegatedAccount, previousDelegatingAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [maxBalance] = useState<BN | undefined>();
   const [amount, setAmount] = useState<BN | undefined>(previousAmount);
@@ -111,8 +113,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
             icon='trash-alt'
             label={t<string>('Undelegate')}
             onStart={onClose}
-            params={[]}
-            tx='democracy.undelegate'
+            tx={api.tx.democracy.undelegate}
           />
         )}
         <TxButton
@@ -125,7 +126,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           }
           onStart={onClose}
           params={[delegatedAccount, conviction, amount]}
-          tx='democracy.delegate'
+          tx={api.tx.democracy.delegate}
         />
       </Modal.Actions>
     </Modal>

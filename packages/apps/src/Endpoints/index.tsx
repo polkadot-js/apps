@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
@@ -14,7 +14,7 @@ import styled from 'styled-components';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -97,7 +97,7 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
   return {
     apiUrl,
     groupIndex,
-    hasUrlChanged: uiSettings.get().apiUrl !== apiUrl,
+    hasUrlChanged: settings.get().apiUrl !== apiUrl,
     isUrlValid: isValidUrl(apiUrl)
   };
 }
@@ -122,7 +122,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
   const [groups, setGroups] = useState(combineEndpoints(linkOptions));
-  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
+  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(settings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
   const [affinities, setAffinities] = useState(loadAffinities(groups));
 
@@ -215,7 +215,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _onApply = useCallback(
     (): void => {
-      uiSettings.set({ ...(uiSettings.get()), apiUrl });
+      settings.set({ ...(settings.get()), apiUrl });
 
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();

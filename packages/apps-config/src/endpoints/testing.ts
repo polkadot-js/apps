@@ -1,8 +1,10 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
+
+import { createRococo } from './testingRococo';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -12,6 +14,8 @@ import type { LinkOption } from '../settings/types';
 
 export function createTesting (t: TFunction): LinkOption[] {
   return [
+    // polkadot test relays
+    createRococo(t),
     // alphabetical based on chain name
     {
       info: 'centrifuge',
@@ -69,6 +73,18 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://rpc.dusty.plasmnet.io/'
     },
     {
+      info: 'encointer_cantillon',
+      text: t('rpc.encointer.cantillon', 'Encointer Cantillon', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
+      value: 'wss://cantillon.encointer.org'
+    },
+    {
+      info: 'encointer_gesell',
+      text: t('rpc.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Encointer Association' } }),
+      value: 'wss://gesell.encointer.org'
+    },
+    {
       info: 'equilibrium',
       text: t('rpc.equilibriumtestnet', 'Equilibrium Testnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Equilibrium' } }),
@@ -109,7 +125,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'phala',
       text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Phala Network' } }),
-      value: 'wss://poc3.phala.network/ws'
+      value: 'wss://poc3a.phala.network/ws'
+    },
+    {
+      info: 'polkabtc',
+      text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Interlay' } }),
+      value: 'wss://alpha.polkabtc.io/api/parachain'
     },
     {
       info: 'laminar',
@@ -119,7 +141,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA-Substrate', { ns: 'apps-config' }),
+      text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Soramitsu' } }),
       value: 'wss://ws.stage.sora2.soramitsu.co.jp'
     },
@@ -129,6 +151,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      dnslink: 'zero',
+      info: 'zero',
+      text: t('rpc.zero', 'zero', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'ZERO' } }),
+      value: 'wss://alphaville-0.zero.io'
     }
   ];
 }

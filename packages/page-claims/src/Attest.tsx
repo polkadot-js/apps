@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-claims authors & contributors
+// Copyright 2017-2021 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TxCallback } from '@polkadot/react-components/Status/types';
@@ -94,7 +94,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
             label={t<string>('I agree')}
             onSuccess={onSuccess}
             params={[statementSentence]}
-            tx='claims.attest'
+            tx={api.tx.claims.attest}
           />
         </Button.Group>
       </div>

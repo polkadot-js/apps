@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
@@ -14,10 +14,9 @@ import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { registry } from '@polkadot/react-api';
 import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
 
 import Address from './Address';
@@ -138,14 +137,14 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(accountOffset as number || 0, addressOffset as number || 0) }];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, accountOffset as number || 0, addressOffset as number || 0) }];
   } else if (isExternal) {
-    return ['qr', address, { ...options, signer: new QrSigner(setQrState) }];
+    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
   } else if (isInjected) {
     const injected = await web3FromSource(source as string);
 
@@ -154,7 +153,7 @@ async function extractParams (address: string, options: Partial<SignerOptions>, 
     return ['signing', address, { ...options, signer: injected.signer }];
   }
 
-  return ['signing', pair.address, { ...options, signer: new AccountSigner(pair) }];
+  return ['signing', pair.address, { ...options, signer: new AccountSigner(api.registry, pair) }];
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -227,13 +226,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress && currentItem.payload) {
         const { id, payload, signerCb = NOOP } = currentItem;
         const pair = keyring.getPair(senderInfo.signAddress);
-        const result = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
+        const result = api.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
 
         signerCb(id, { id, ...result });
         queueSetTxStatus(id, 'completed');
       }
     },
-    []
+    [api]
   );
 
   const _onSend = useCallback(
@@ -241,7 +240,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(senderInfo.signAddress, { nonce: -1, tip }, setQrState)
+          extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
@@ -257,7 +256,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress) {
         const [tx, [, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(senderInfo.signAddress, { ...signedOptions, tip }, setQrState)
+          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, setQrState)
         ]);
 
         setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
