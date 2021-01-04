@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## 0.74.1 Jan 4, 2021
+
+Contributed:
+
+- Update Kulupu Address types (Thanks to https://github.com/sorpaas)
+- Swap Moonbeam to use types from npm (Thanks to https://github.com/joelamouche)
+- Update to latest Equilibrium types (Thanks to https://github.com/pr0fedt)
+- Add Subscan support for Centrifuge (Thanks to https://github.com/vedhavyas)
+- Adjust contract app layout padding (Thanks to https://github.com/MiZiet)
+- Update bounties app to extended derives (Thanks to https://github.com/MiZiet)
+- Allow curator accept from bounties page (Thanks to https://github.com/MiZiet)
+- Add UI tests for bounties (Thanks to https://github.com/krzysztof-jelski)
+- Adjust sidebar address display (Thanks to https://github.com/eddiemachado)
+
+Changes:
+
+- Update parachains app for Rococo V1 support (basics-only)
+- Block self-proxies from proxy setup dialog
+- Display locked amount on seconding modal
+- Use `blockWeights.maxBlock` value (as available) for max-fit calculations
+- Adjust multi-address input for dark-theme
+- Workaround for contract RPC value serialization
+- Fix InputAddress as used on sub-identity setups
+- Fix disabled check on bond more (proper check against stash)
+- Move `apps-config/bundled` -> `specVersion` (usage clarity)
+- Move Kulupu to spec versioned types
+- Remove generic asset support (to be replaced with asset)
+- Swap to webpack-dev-server for development environment
+
+
 ## 0.73.1 Dec 28, 2020
 
 Contributed:

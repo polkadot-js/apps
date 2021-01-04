@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -36,13 +36,13 @@ function Bounties (): React.ReactElement {
         empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
       >
-        {bounties && bestNumber && bounties.map(({ bounty, description }, index) => (
+        {bounties && bestNumber && bounties.map(({ bounty, description, index }) => (
           <Bounty
             bestNumber={bestNumber}
             bounty={bounty}
             description={description}
             index={index}
-            key={index}
+            key={index.toNumber()}
           />
         ))}
       </Table>
