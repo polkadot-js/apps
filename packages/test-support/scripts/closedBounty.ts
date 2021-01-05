@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { createApi } from '@polkadot/test-support/api';
-import { sleep, waitForBountyState, waitForClaim } from '@polkadot/test-support/utils/waitFor';
+import { waitForBountyState, waitForClaim } from '@polkadot/test-support/utils/waitFor';
 
 import { acceptCurator,
   approveBounty,
