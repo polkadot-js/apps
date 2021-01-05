@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveBounty } from '@polkadot/api-derive/types';
+
 import { ApiPromise } from '@polkadot/api';
 
 type bStatus = 'isFunded' | 'isActive';
@@ -25,36 +27,40 @@ export const sleep = (ms: number) =>
 
 export async function waitForBountyState (api: ApiPromise, expectedState: bStatus, index: number, { interval = 500, timeout = 10000 } = {}): Promise<boolean> {
   let elapsed = 0;
-  let bounties = await api.derive.bounties.bounties();
-  const bountyIndex = bounties.findIndex((bounty) => (bounty.index.toNumber() === index));
+  let bounty = await getBounty(api, index);
 
-  while (!bounties[bountyIndex].bounty.status[expectedState]) {
-    if (elapsed > timeout) {
-      throw Error('Timeout');
-    }
-
-    await sleep(interval);
-
-    bounties = await api.derive.bounties.bounties();
+  while (!bounty.bounty.status[expectedState]) {
+    await checkTimeoutAndSleep(elapsed, timeout, interval);
+    bounty = await getBounty(api, index);
     elapsed += interval;
   }
 
   return true;
 }
 
-export async function waitForClaim (api: ApiPromise, index: number, { interval = 500, timeout = 10000 }) {
+async function checkTimeoutAndSleep (elapsed: number, timeout: number, interval: number): Promise<void> {
+  if (elapsed > timeout) {
+    throw Error('Timeout');
+  }
+
+  await sleep(interval);
+}
+
+async function getBounty (api: ApiPromise, bountyIndex: number): Promise<DeriveBounty> {
+  const bounties = await api.derive.bounties.bounties();
+
+  return bounties.find((bounty) => (bounty.index.toNumber() === bountyIndex)) as DeriveBounty;
+}
+
+export async function waitForClaim (api: ApiPromise, index: number, { interval = 500, timeout = 10000 }): Promise<boolean> {
+  const bounty = await getBounty(api, index);
+  const unlockAt = bounty.bounty.status.asPendingPayout.unlockAt;
+
+  let bestNumber = await api.derive.chain.bestNumber();
   let elapsed = 0;
 
-  const bounties = await api.derive.bounties.bounties();
-  const unlockAt = bounties[0].bounty.status.asPendingPayout.unlockAt;
-  let bestNumber = await api.derive.chain.bestNumber();
-
   while (unlockAt.gte(bestNumber)) {
-    if (elapsed > timeout) {
-      throw Error('Timeout');
-    }
-
-    await sleep(interval);
+    await checkTimeoutAndSleep(elapsed, timeout, interval);
     bestNumber = await api.derive.chain.bestNumber();
     elapsed += interval;
   }
