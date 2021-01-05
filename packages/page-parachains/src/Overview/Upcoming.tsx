@@ -15,7 +15,6 @@ interface Props {
   id: ParaId;
 }
 
-// parasSudoWrapper.sudoScheduleParaInitialize
 const transformGenesis = {
   transform: (opt: Option<ParaGenesisArgs>) => opt.unwrapOr(null)
 };
