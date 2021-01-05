@@ -28,7 +28,7 @@ function Upcoming ({ ids }: Props): React.ReactElement<Props> {
     >
       {ids?.map((id): React.ReactNode => (
         <tr key={id.toString()}>
-          <td className='number'>
+          <td className='start'>
             <h1>{id.toString()}</h1>
           </td>
         </tr>
