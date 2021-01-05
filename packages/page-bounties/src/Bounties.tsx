@@ -3,16 +3,16 @@
 
 import React, { useRef } from 'react';
 
+import { useBounties } from '@polkadot/app-bounties/hooks';
 import { Button, Table } from '@polkadot/react-components';
 
-import { useBountyContext } from './providers/BountyContext';
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
 import { useTranslation } from './translate';
 
 function Bounties (): React.ReactElement {
   const { t } = useTranslation();
-  const { bestNumber, bounties } = useBountyContext();
+  const { bestNumber, bounties } = useBounties();
 
   const headerRef = useRef([
     [t('bounties'), 'start'],

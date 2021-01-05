@@ -4,12 +4,11 @@
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useBountyContext } from './providers/BountyContext';
 import { calculateBountyBond, countUtf8Bytes } from './helpers';
 import { useTranslation } from './translate';
 
@@ -19,10 +18,9 @@ const BOUNTY_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const { bountyDepositBase, bountyValueMinimum, dataDepositPerByte, maximumReasonLength, proposeBounty } = useBountyContext();
+  const { bountyDepositBase, bountyValueMinimum, dataDepositPerByte, maximumReasonLength, proposeBounty } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const balance = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
+  const balance = useBalance(accountId);
 
   const [title, setTitle] = useState('');
   const [bond, setBond] = useState(bountyDepositBase);
@@ -41,7 +39,7 @@ function BountyCreate () {
   }, [bountyValueMinimum, value]);
 
   useEffect(() => {
-    setHasFunds(!!balance?.availableBalance?.gte(bond));
+    setHasFunds(!!balance?.gte(bond));
   }, [balance, bond]);
 
   const isValid = hasFunds && isTitleValid && isValueValid;

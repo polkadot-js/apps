@@ -11,7 +11,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import Bounties from '@polkadot/app-bounties/Bounties';
-import { BountyApi, BountyContext } from '@polkadot/app-bounties/providers/BountyContext';
+import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { lightTheme } from '@polkadot/apps/themes';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -26,26 +26,40 @@ function anIndex (): BountyIndex {
   return new TypeRegistry().createType('BountyIndex');
 }
 
+function balanceOf (number: number) {
+  return new TypeRegistry().createType('Balance', new BN(number));
+}
+
+let mockBountyApi: BountyApi = {
+  bestNumber: new BN(1) as BlockNumber,
+  bounties: [] as DeriveBounties,
+  bountyDepositBase: new BN(1),
+  bountyValueMinimum: new BN(1),
+  dataDepositPerByte: new BN(1),
+  maximumReasonLength: 100,
+  proposeBounty: jest.fn()
+};
+
+let mockBalance = balanceOf(1);
+
+jest.mock('./hooks', () => {
+  return {
+    useBalance: () => mockBalance,
+    useBounties: () => mockBountyApi
+  };
+});
+
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
   });
 
-  const renderBounties = (bountyApi: Partial<BountyApi> = {}) => {
-    const bountyApiDefault: BountyApi = {
-      bestNumber: new BN(1) as BlockNumber,
-      bounties: [] as DeriveBounties,
-      bountyDepositBase: new BN(1),
-      bountyValueMinimum: new BN(1),
-      dataDepositPerByte: new BN(1),
-      maximumReasonLength: 100,
-      proposeBounty: jest.fn()
-    };
-
+  const renderBounties = (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) => {
+    mockBountyApi = { ...mockBountyApi, ...bountyApi };
+    mockBalance = balanceOf(balance);
     const mockApi: ApiProps = { api: {
       derive: {
-        accounts: { info: () => Promise.resolve(() => { /**/ }) },
-        balances: { all: () => Promise.resolve(() => { /**/ }) }
+        accounts: { info: () => Promise.resolve(() => { /**/ }) }
       },
       query: {},
       registry: { chainDecimals: 12 }
@@ -57,9 +71,7 @@ describe('Bounties', () => {
         <MemoryRouter>
           <ThemeProvider theme={lightTheme}>
             <ApiContext.Provider value={mockApi}>
-              <BountyContext.Provider value={{ ...bountyApiDefault, ...bountyApi }} >
-                <Bounties/>
-              </BountyContext.Provider>
+              <Bounties/>
             </ApiContext.Provider>
           </ThemeProvider>
         </MemoryRouter>
@@ -93,6 +105,26 @@ describe('Bounties', () => {
       fireEvent.change(titleInput, { target: { value: 'longer than 5' } });
 
       expect(await findByText('Title too long')).toBeTruthy();
+    });
+
+    it('validates balance is enough for bond', async () => {
+      const { findByTestId, findByText, queryByText } = renderBounties(
+        { bountyDepositBase: new BN(10), dataDepositPerByte: new BN(1) },
+        { balance: 10 }
+      );
+
+      const addBountyButton = await findByText('Add Bounty');
+
+      fireEvent.click(addBountyButton);
+      expect(await findByText('Description of the Bounty (to be stored on-chain)')).toBeTruthy(); // wait for load
+
+      expect(queryByText('Account does not have enough funds.')).toBeFalsy();
+
+      const titleInput = await findByTestId('bounty title');
+
+      fireEvent.change(titleInput, { target: { value: 'add bytes' } });
+
+      expect(await findByText('Account does not have enough funds.')).toBeTruthy();
     });
   });
 });

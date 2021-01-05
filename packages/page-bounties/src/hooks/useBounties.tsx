@@ -1,15 +1,25 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { ReactElement, ReactNode } from 'react';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+
+import BN from 'bn.js';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceOf, BlockNumber } from '@polkadot/types/interfaces';
 
-import { BountyApi, BountyContext } from './BountyContext';
+export type BountyApi = {
+  bestNumber?: BlockNumber,
+  bounties?: DeriveBounties,
+  bountyDepositBase: BN,
+  bountyValueMinimum: BN,
+  dataDepositPerByte: BN,
+  maximumReasonLength: number,
+  proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+};
 
-export function BountyProvider ({ children }: { children: ReactNode }): ReactElement {
+export function useBounties (): BountyApi {
   const { api } = useApi();
   const bounties = useCall<DeriveBounties>((api.derive.bounties || api.derive.treasury).bounties);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
@@ -19,7 +29,8 @@ export function BountyProvider ({ children }: { children: ReactNode }): ReactEle
   const maximumReasonLength = constsBase.maximumReasonLength.toNumber();
   const dataDepositPerByte = (constsBase.dataDepositPerByte as BalanceOf).toBn();
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
-  const bountiesApi: BountyApi = {
+
+  return {
     bestNumber,
     bounties,
     bountyDepositBase,
@@ -28,8 +39,4 @@ export function BountyProvider ({ children }: { children: ReactNode }): ReactEle
     maximumReasonLength,
     proposeBounty
   };
-
-  return <BountyContext.Provider value={bountiesApi} >
-    {children}
-  </BountyContext.Provider>;
 }
