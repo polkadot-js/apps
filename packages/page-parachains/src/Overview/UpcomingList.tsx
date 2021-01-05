@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
+import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 import styled from 'styled-components';
@@ -12,17 +12,13 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
-  ids: ParaId;
+  ids?: ParaId[];
 }
 
 // parasSudoWrapper.sudoScheduleParaInitialize
 
-
-
-function Upcoming ({ ids }: Props): React.ReactElement<Props> {
+function UpcomingList ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const info = useCall<ParaGenesisArgs>(api.query.paras.upcomingParasGenesis, [id], transformGenesis);
 
   const headerRef = useRef([
     [t('upcoming'), 'start']
@@ -44,7 +40,7 @@ function Upcoming ({ ids }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Upcoming)`
+export default React.memo(styled(UpcomingList)`
   tbody tr {
     cursor: pointer;
   }

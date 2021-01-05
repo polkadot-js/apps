@@ -4,7 +4,6 @@
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
 import { Table } from '@polkadot/react-components';
 
@@ -16,7 +15,7 @@ interface Props {
   ids?: ParaId[];
 }
 
-function Parachains ({ ids }: Props): React.ReactElement<Props> {
+function ParachainList ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -40,8 +39,4 @@ function Parachains ({ ids }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Parachains)`
-  tbody tr {
-    cursor: pointer;
-  }
-`);
+export default React.memo(ParachainList);
