@@ -1,51 +1,53 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polakdot/types';
 import type { ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { sliceHex } from './util';
 
 interface Props {
-  ids: ParaId;
+  id: ParaId;
 }
 
 // parasSudoWrapper.sudoScheduleParaInitialize
+const transformGenesis = {
+  transform: (opt: Option<ParaGenesisArgs>) => opt.unwrapOr(null)
+};
 
-
-
-function Upcoming ({ ids }: Props): React.ReactElement<Props> {
+function Upcoming ({ id }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const info = useCall<ParaGenesisArgs>(api.query.paras.upcomingParasGenesis, [id], transformGenesis);
+  const info = useCall<ParaGenesisArgs | null>(api.query.paras.upcomingParasGenesis, [id], transformGenesis);
 
   const headerRef = useRef([
-    [t('upcoming'), 'start']
+    [t('upcoming'), 'start'],
+    [undefined, 'all'],
+    [t('parachain'), 'start']
   ]);
 
   return (
-    <Table
-      empty={ids && t<string>('There are no upcoming parachains')}
-      header={headerRef.current}
-    >
-      {ids?.map((id): React.ReactNode => (
-        <tr key={id.toString()}>
-          <td className='number'>
-            <h1>{id.toString()}</h1>
-          </td>
-        </tr>
-      ))}
-    </Table>
+    <tr key={id.toString()}>
+      <td className='number'>
+        <h1>{id.toString()}</h1>
+      </td>
+      <td className='all start together hash'>
+        {info && (
+          sliceHex(info.genesisHead)
+        )}
+      </td>
+      <td className='start'>
+        {info && (
+          info.parachain ? t('Yes') : t('No')
+        )}
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(styled(Upcoming)`
-  tbody tr {
-    cursor: pointer;
-  }
-`);
+export default React.memo(Upcoming);
