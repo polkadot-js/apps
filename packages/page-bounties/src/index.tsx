@@ -5,7 +5,6 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import { BalanceProvider } from './providers/BalanceProvider';
 import { BountyProvider } from './providers/BountyProvider';
 import Bounties from './Bounties';
 import { useTranslation } from './translate';
@@ -35,11 +34,9 @@ function BountiesApp ({ basePath }: Props): React.ReactElement<Props> {
           items={itemsRef.current}
         />
       </header>
-      <BalanceProvider>
-        <BountyProvider>
-          <Bounties/>
-        </BountyProvider>
-      </BalanceProvider>
+      <BountyProvider>
+        <Bounties/>
+      </BountyProvider>
     </main>
   );
 }

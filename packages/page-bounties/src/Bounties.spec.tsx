@@ -18,8 +18,6 @@ import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { BalanceApi, BalanceContext } from './providers/BalanceContext';
-
 function aBounty (): Bounty {
   return new TypeRegistry().createType('Bounty');
 }
@@ -44,29 +42,24 @@ describe('Bounties', () => {
       proposeBounty: jest.fn()
     };
 
-    const balanceContextDefault: BalanceApi = {
-      accountId: null,
-      balance: undefined,
-      setAccountId: () => { /**/ }
-    };
-
     const mockApi: ApiProps = { api: {
-      derive: { accounts: { info: () => Promise.resolve(() => { /**/ }) } },
+      derive: {
+        accounts: { info: () => Promise.resolve(() => { /**/ }) },
+        balances: { all: () => Promise.resolve(() => { /**/ }) }
+      },
       query: {},
       registry: { chainDecimals: 12 }
     },
-    systemName: 'substrate' } as ApiProps;
+    systemName: 'substrate' } as unknown as ApiProps;
 
     return render(
       <Suspense fallback='...'>
         <MemoryRouter>
           <ThemeProvider theme={lightTheme}>
             <ApiContext.Provider value={mockApi}>
-              <BalanceContext.Provider value={balanceContextDefault}>
-                <BountyContext.Provider value={{ ...bountyApiDefault, ...bountyApi }} >
-                  <Bounties/>
-                </BountyContext.Provider>
-              </BalanceContext.Provider>
+              <BountyContext.Provider value={{ ...bountyApiDefault, ...bountyApi }} >
+                <Bounties/>
+              </BountyContext.Provider>
             </ApiContext.Provider>
           </ThemeProvider>
         </MemoryRouter>
