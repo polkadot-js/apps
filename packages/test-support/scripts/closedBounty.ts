@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { createApi } from '@polkadot/test-support/api';
-import { sleep } from '@polkadot/test-support/utils/waitFor';
+import { sleep, waitForBountyState, waitForClaim } from '@polkadot/test-support/utils/waitFor';
 
 import { acceptCurator,
   approveBounty,
@@ -20,14 +20,15 @@ async function closedBounty () {
   await proposeBounty(api, new BN(500_000_000_000_000), 'new bounty hello hello more bytes');
 
   await approveBounty(api, 0);
-  await sleep(FUNDING_TIME);
+  await waitForBountyState(api, 'isFunded', 0, { interval: 2000, timeout: FUNDING_TIME });
 
   await proposeCurator(api, 0);
 
   await acceptCurator(api, 0);
 
   await awardBounty(api, 0);
-  await sleep(PAYOUT_TIME);
+
+  await waitForClaim(api, 0, { interval: 2000, timeout: PAYOUT_TIME });
 
   await claimBounty(api, 0);
   process.exit(0);
