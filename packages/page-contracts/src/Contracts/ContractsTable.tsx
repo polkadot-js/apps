@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { FullNewBlock } from '@polkadot/api-derive/types';
+import type { SignedBlockExtended } from '@polkadot/api-derive/type';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -38,7 +38,7 @@ function filterContracts (api: ApiPromise, keyringContracts: string[] = []): Con
 function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const newBlock = useCall<FullNewBlock>(api.derive.chain.subscribeNewBlocks);
+  const newBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ contractIndex, messageIndex, onCallResult }, setIndexes] = useState<Indexes>({ contractIndex: 0, messageIndex: 0 });
   const [isCallOpen, setIsCallOpen] = useState(false);
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
@@ -63,8 +63,8 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
           }
 
           return {
-            blockHash: newBlock.blockHash.toHex(),
-            blockNumber: formatNumber(newBlock.blockNumber),
+            blockHash: newBlock.block.header.hash.toHex(),
+            blockNumber: formatNumber(newBlock.block.header.number),
             contractId
           };
         })
