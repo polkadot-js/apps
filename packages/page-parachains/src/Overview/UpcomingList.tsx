@@ -18,7 +18,9 @@ function UpcomingList ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('upcoming'), 'start']
+    [t('upcoming'), 'start'],
+    [undefined, 'all'],
+    [t('parachain'), 'start']
   ]);
 
   return (

@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polakdot/types';
+import type { Option } from '@polkadot/types';
 import type { ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
 
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -24,12 +24,6 @@ function Upcoming ({ id }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<ParaGenesisArgs | null>(api.query.paras.upcomingParasGenesis, [id], transformGenesis);
-
-  const headerRef = useRef([
-    [t('upcoming'), 'start'],
-    [undefined, 'all'],
-    [t('parachain'), 'start']
-  ]);
 
   return (
     <tr key={id.toString()}>
