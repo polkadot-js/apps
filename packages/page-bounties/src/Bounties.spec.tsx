@@ -86,7 +86,7 @@ describe('Bounties', () => {
   });
 
   it('renders a bounty', async () => {
-    const { findByText, queryAllByText } = renderBounties({ bounties: [{ bounty: aBounty(), description: 'kusama comic book', index: anIndex() }] });
+    const { findByText, queryAllByText } = renderBounties({ bounties: [{ bounty: aBounty(), description: 'kusama comic book', index: anIndex(), proposals: [] }] });
 
     expect(await findByText('kusama comic book')).toBeTruthy();
     expect(queryAllByText('No open bounties')).toHaveLength(0);
