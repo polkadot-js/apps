@@ -43,7 +43,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
     ? (
       <>
         <Button
-          icon='plus'
+          icon='step-forward'
           isDisabled={false}
           label={t<string>('Initiate Voting')}
           onClick={toggleOpen}
@@ -84,10 +84,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 isDisabled={false}
                 label={t<string>('Approve')}
                 onStart={toggleOpen}
-                params={api.tx.council.propose.meta.args.length === 3
-                  ? [threshold, approveBountyProposal, approveBountyProposal.length]
-                  : [threshold, approveBountyProposal]
-                }
+                params={[threshold, approveBountyProposal, approveBountyProposal.length]}
                 tx={api.tx.council.propose}
               />
               <TxButton
@@ -96,10 +93,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 isDisabled={false}
                 label={t<string>('Reject')}
                 onStart={toggleOpen}
-                params={api.tx.council.propose.meta.args.length === 3
-                  ? [threshold, closeBountyProposal, closeBountyProposal.length]
-                  : [threshold, closeBountyProposal]
-                }
+                params={[threshold, closeBountyProposal, closeBountyProposal.length]}
                 tx={api.tx.council.propose}
               />
             </Modal.Actions>
