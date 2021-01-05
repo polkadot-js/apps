@@ -7,7 +7,7 @@ import { ApiPromise } from '@polkadot/api';
 import { aliceSigner, daveSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
 
-import { acceptMotion, fillTreasury, proposeMotion } from './helpers';
+import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers';
 
 export async function acceptCurator (api: ApiPromise, id: number) {
   await execute(api.tx.bounties.acceptCurator(id), aliceSigner());
@@ -28,16 +28,16 @@ export async function proposeBounty (api: ApiPromise, value: BN, title: string) 
 export async function proposeCurator (api: ApiPromise, index: number) {
   await proposeMotion(api, api.tx.bounties.proposeCurator(index, aliceSigner().address, 10));
 
-  const hashes = await api.query.council.proposals();
+  const bountyProposal = await getMotion(api, index);
 
-  await acceptMotion(api, hashes[0], 1);
+  await acceptMotion(api, bountyProposal.hash, bountyProposal.votes!.index.toNumber());
 }
 
 export async function approveBounty (api: ApiPromise, index: number) {
   await proposeMotion(api, api.tx.bounties.approveBounty(index));
 
-  const hashes = await api.query.council.proposals();
+  const bountyProposal = await getMotion(api, index);
 
-  await acceptMotion(api, hashes[0], index);
+  await acceptMotion(api, bountyProposal.hash, bountyProposal.votes!.index.toNumber());
   await fillTreasury(api);
 }

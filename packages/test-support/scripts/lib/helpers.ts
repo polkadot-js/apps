@@ -5,6 +5,7 @@ import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { aliceSigner, bobSigner, charlieSigner, daveSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
 import { Hash } from '@polkadot/types/interfaces';
@@ -26,4 +27,11 @@ export async function fillTreasury (api: ApiPromise) {
 
 export async function proposeMotion (api: ApiPromise, submittableExtrinsic: SubmittableExtrinsic<'promise'>) {
   await execute(api.tx.council.propose(4, submittableExtrinsic, LENGTH_BOUND), aliceSigner());
+}
+
+export async function getMotion (api: ApiPromise, index: number) {
+  const bounties = await api.derive.bounties.bounties();
+  const bountyProposals = bounties.find((bounty) => (bounty.index.toNumber() === index))?.proposals as DeriveCollectiveProposal[];
+
+  return bountyProposals[0];
 }

@@ -20,6 +20,7 @@ async function closedBounty () {
   await proposeBounty(api, new BN(500_000_000_000_000), 'new bounty hello hello more bytes');
 
   await approveBounty(api, 0);
+
   await waitForBountyState(api, 'isFunded', 0, { interval: 2000, timeout: FUNDING_TIME });
 
   await proposeCurator(api, 0);
