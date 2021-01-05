@@ -1,9 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import type { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
 import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { IExtrinsic } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -20,9 +19,9 @@ export interface CallOptions <T> {
   withParamsTransform?: boolean;
 }
 
-export type TxDef = [string, any[] | ConstructTxFn];
+export type TxDef = [string, any[] | ((...params: any[]) => SubmittableExtrinsic<'promise'>)];
 
-export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
+export type TxDefs = SubmittableExtrinsic<'promise'> | IExtrinsic | Call | TxDef | null;
 
 export type TxSource<T extends TxDefs> = [T, boolean];
 
@@ -52,15 +51,15 @@ export interface SessionRewards {
 }
 
 export interface ExtrinsicAndSenders {
-  extrinsic: SubmittableExtrinsic | null;
+  extrinsic: SubmittableExtrinsic<'promise'> | null;
   isSubmittable: boolean;
   sendTx: () => void;
   sendUnsigned: () => void;
 }
 
 export interface TxProps {
-  accountId?: StringOrNull;
-  onChangeAccountId?: (_: StringOrNull) => void;
+  accountId?: string | null;
+  onChangeAccountId?: (_: string | null) => void;
   onSuccess?: () => void;
   onFailed?: () => void;
   onStart?: () => void;
@@ -69,8 +68,8 @@ export interface TxProps {
 
 export interface TxState extends ExtrinsicAndSenders {
   isSending: boolean;
-  accountId?: StringOrNull;
-  onChangeAccountId: (_: StringOrNull) => void;
+  accountId?: string | null;
+  onChangeAccountId: (_: string | null) => void;
 }
 
 export interface UseSudo {
@@ -110,18 +109,18 @@ export interface UseAccountInfo {
   setName: React.Dispatch<string>;
   tags: string[];
   setTags: React.Dispatch<string[]>;
-  genesisHash: StringOrNull;
+  genesisHash: string | null;
   identity?: AddressIdentity;
   isEditingName: boolean;
   meta?: KeyringJson$Meta;
-  toggleIsEditingName: VoidFn;
+  toggleIsEditingName: () => void;
   isEditingTags: boolean;
   isNull: boolean;
-  toggleIsEditingTags: VoidFn;
-  onSaveName: VoidFn;
-  onSaveTags: VoidFn;
+  toggleIsEditingTags: () => void;
+  onSaveName: () => void;
+  onSaveTags: () => void;
   onSetGenesisHash: (genesisHash: string | null) => void;
-  onForgetAddress: VoidFn;
+  onForgetAddress: () => void;
 }
 
 export interface StakerState {

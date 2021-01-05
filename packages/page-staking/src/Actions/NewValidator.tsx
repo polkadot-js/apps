@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -88,6 +88,11 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                 />
               </>
             )}
+            <Modal.Columns>
+              <Modal.Column>
+                <BatchWarning />
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
             <Button
@@ -109,11 +114,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                       ? [bondTx, sessionTx, validateTx]
                       : [bondOwnTx, sessionTx, validateTx, controllerTx]
                   ]}
-                  tx={
-                    isFunction(api.tx.utility.batchAll)
-                      ? 'utility.batchAll'
-                      : 'utility.batch'
-                  }
+                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
               )
               : (

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -185,11 +185,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? [recipientId, maxTransfer]
               : [recipientId, amount]
           }
-          tx={
-            isProtected && api.tx.balances.transferKeepAlive
-              ? 'balances.transferKeepAlive'
-              : 'balances.transfer'
-          }
+          tx={(isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer}
         />
       </Modal.Actions>
     </Modal>

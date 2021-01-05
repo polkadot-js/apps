@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -8,8 +8,9 @@ import { Trans } from 'react-i18next';
 import store from 'store';
 import styled from 'styled-components';
 
-import { registry } from '@polkadot/react-api';
-import { Button, Editor, InputFile } from '@polkadot/react-components';
+import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
+import { Button, CopyButton, Editor, InputFile } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -32,19 +33,22 @@ interface Props {
 
 function Developer ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [code, setCode] = useState(EMPTY_CODE);
   const [isJsonValid, setIsJsonValid] = useState(true);
   const [isTypesValid, setIsTypesValid] = useState(true);
   const [types, setTypes] = useState<Record<string, any>>(EMPTY_TYPES);
   const [typesPlaceholder, setTypesPlaceholder] = useState<string | null>(null);
+  const [sharedUrl, setSharedUrl] = useState<string | null>(null);
 
   useEffect((): void => {
-    const types = store.get('types') as Record<string, unknown> || {};
+    const types = decodeUrlTypes() || store.get('types') as Record<string, unknown> || {};
 
     if (Object.keys(types).length) {
       setCode(JSON.stringify(types, null, 2));
       setTypes({});
       setTypesPlaceholder(Object.keys(types).join(', '));
+      setSharedUrl(encodeUrlTypes(types));
     }
   }, []);
 
@@ -125,14 +129,22 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
 
   const _saveDeveloper = useCallback(
     (): void => {
+      let url = null;
+
       try {
-        registry.register(types);
+        api.registerTypes(types);
         store.set('types', types);
         setIsTypesValid(true);
         onStatusChange({
           action: t<string>('Your custom types have been added'),
           status: 'success'
         });
+
+        if (Object.keys(types).length) {
+          url = encodeUrlTypes(types);
+
+          console.log(url);
+        }
       } catch (error) {
         console.error(error);
         setIsTypesValid(false);
@@ -141,8 +153,10 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           status: 'error'
         });
       }
+
+      setSharedUrl(url);
     },
-    [onStatusChange, t, types]
+    [api, onStatusChange, t, types]
   );
 
   const typesHasNoEntries = Object.keys(types).length === 0;
@@ -180,6 +194,11 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         </div>
       </div>
       <Button.Group>
+        <CopyButton
+          label={t<string>('Share')}
+          type={t<string>('url')}
+          value={sharedUrl}
+        />
         <Button
           icon='sync'
           label={t<string>('Reset')}

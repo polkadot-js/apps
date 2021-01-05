@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -10,6 +10,8 @@ const FONT = {
   fontWeightLight: 200,
   fontWeightNormal: 400
 };
+
+const MAX_WIDTH = 1750;
 
 export const darkTheme: ThemeDef = {
   ...FONT,
@@ -29,6 +31,8 @@ export const darkTheme: ThemeDef = {
   colorError: 'rgba(255, 0, 0, 0.85)',
   colorLabel: 'rgba(244, 242, 240, 0.45)',
   colorSummary: 'rgba(244, 242, 240, 0.75)',
+  contentHalfWidth: `${MAX_WIDTH / 2}px`,
+  contentMaxWidth: `${MAX_WIDTH}px`,
   theme: 'dark'
 };
 
@@ -50,5 +54,7 @@ export const lightTheme: ThemeDef = {
   colorError: 'rgba(139, 0, 0)',
   colorLabel: 'rgba(78, 78, 78, 0.66)',
   colorSummary: 'rgba(0, 0, 0, 0.6)',
+  contentHalfWidth: `${MAX_WIDTH / 2}px`,
+  contentMaxWidth: `${MAX_WIDTH}px`,
   theme: 'light'
 };

@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -20,6 +20,7 @@ interface Props {
 
 function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(defaultId);
   const [value, setValue] = useState<BN | undefined>();
@@ -39,7 +40,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
         isDisabled={!isMember || !isTipped}
         isIcon
         params={[hash, median]}
-        tx='treasury.tip'
+        tx={(api.tx.tips || api.tx.treasury).tip}
         withoutLink
       />
       {isOpen && (
@@ -87,7 +88,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
               label={t<string>('Submit tip')}
               onStart={toggleOpen}
               params={[hash, value]}
-              tx='treasury.tip'
+              tx={(api.tx.tips || api.tx.treasury).tip}
             />
           </Modal.Actions>
         </Modal>

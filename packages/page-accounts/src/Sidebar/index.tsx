@@ -1,22 +1,22 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { StringOrNull, VoidFn } from '@polkadot/react-components/types';
 
 import React, { useCallback, useState } from 'react';
 
 import Sidebar from './Sidebar';
 
-type ToggleContext = undefined | (([address, onUpdateName]: [StringOrNull, VoidFn | null]) => void);
-
 interface Props {
   children: React.ReactNode;
 }
 
+type State = [string | null, (() => void) | null];
+
+type ToggleContext = undefined | (([address, onUpdateName]: State) => void);
+
 const AccountSidebarToggle: React.Context<ToggleContext> = React.createContext<ToggleContext>(undefined);
 
 function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
-  const [[address, onUpdateName], setAddress] = useState<[StringOrNull, VoidFn | null]>([null, null]);
+  const [[address, onUpdateName], setAddress] = useState<State>([null, null]);
 
   const onClose = useCallback(
     () => setAddress([null, null]),

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-poll authors & contributors
+// Copyright 2017-2021 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
@@ -179,7 +179,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
                   isDisabled={!hasValue}
                   label={t('Vote')}
                   params={[[opt10m, opt100m, opt1b, opt10b]]}
-                  tx='poll.vote'
+                  tx={api.tx.poll.vote}
                 />
               </Button.Group>
             </>

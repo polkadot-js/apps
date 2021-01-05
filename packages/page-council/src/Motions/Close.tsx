@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
@@ -75,7 +75,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
                     : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
-              tx='council.close'
+              tx={api.tx.council.closeOperational || api.tx.council.close}
             />
           </Modal.Actions>
         </Modal>

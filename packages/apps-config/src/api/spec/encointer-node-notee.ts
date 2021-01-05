@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -6,9 +6,8 @@
 /* eslint-disable camelcase */
 
 export default {
-  Address: 'AccountId',
-  LookupSource: 'AccountId',
-  RefCount: 'u8',
+  Address: 'MultiAddress',
+  LookupSource: 'MultiAddress',
   CeremonyPhaseType: {
     _enum: [
       'Registering',
@@ -67,6 +66,6 @@ export default {
     attendee_public: 'AccountId',
     attendee_signature: 'Signature'
   },
-  // weight changed to u64 since 2.0.0-rc1 (commit 2051ecbf79e April 16th 2020
-  Weight: 'u64'
+  ShopIdentifier: 'Text',
+  ArticleIdentifier: 'Text'
 };

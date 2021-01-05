@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfo } from './types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components';
@@ -21,6 +21,7 @@ interface Props {
   scheduled: EntryInfo[];
   setNextDay: () => void;
   setPrevDay: () => void;
+  setView: (v: boolean) => void;
 }
 
 const HOURS = ((): number[] => {
@@ -33,7 +34,7 @@ const HOURS = ((): number[] => {
   return hours;
 })();
 
-function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay }: Props): React.ReactElement<Props> {
+function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay, setView }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const monthRef = useRef(MONTHS.map((m) => t(m)));
@@ -47,10 +48,21 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
     [date, now]
   );
 
+  const viewSetter = useCallback(() => (
+    <Button
+      className='all-events-button'
+      icon={'list'}
+      onClick={() => setView(true)}
+    />
+  ), [setView]);
+
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
+        <div className='highlight--color'>
+          {viewSetter()}
+          {date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}
+        </div>
         <Button.Group>
           <Button
             icon='chevron-left'

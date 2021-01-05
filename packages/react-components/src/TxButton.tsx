@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -7,7 +7,7 @@ import type { TxButtonProps as Props } from './types';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { SubmittableResult } from '@polkadot/api';
-import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { useIsMountedRef } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button';
@@ -16,12 +16,10 @@ import { useTranslation } from './translate';
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const { queueExtrinsic } = useContext(StatusContext);
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const needsAccount = !isUnsigned && !accountId;
 
   useEffect((): void => {
     (isStarted && onStart) && onStart();
@@ -54,19 +52,15 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
   const _onSend = useCallback(
     (): void => {
-      let extrinsics: SubmittableExtrinsic<'promise'>[];
+      let extrinsics: SubmittableExtrinsic<'promise'>[] | undefined;
 
       if (propsExtrinsic) {
         extrinsics = Array.isArray(propsExtrinsic)
           ? propsExtrinsic
           : [propsExtrinsic];
-      } else {
-        const [section, method] = (tx || '').split('.');
-
-        assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
-
+      } else if (tx) {
         extrinsics = [
-          api.tx[section][method](...(
+          tx(...(
             isFunction(params)
               ? params()
               : (params || [])
@@ -92,7 +86,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       onClick && onClick();
     },
-    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
+    [_onFailed, _onStart, _onSuccess, accountId, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
   );
 
   if (onSendRef) {
@@ -105,7 +99,13 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       icon={icon || 'check'}
       isBasic={isBasic}
       isBusy={isBusy}
-      isDisabled={isSending || isDisabled || needsAccount}
+      isDisabled={isSending || isDisabled || (!isUnsigned && !accountId) || (
+        tx
+          ? false
+          : Array.isArray(propsExtrinsic)
+            ? propsExtrinsic.length === 0
+            : !propsExtrinsic
+      )}
       isIcon={isIcon}
       isToplevel={isToplevel}
       label={label || (isIcon ? '' : t<string>('Submit'))}

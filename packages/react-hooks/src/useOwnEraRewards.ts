@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveEraPoints, DeriveEraRewards, DeriveStakerReward } from '@polkadot/api-derive/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { StakerState } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { registry } from '@polkadot/react-api';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useApi } from './useApi';
@@ -45,7 +45,7 @@ function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][
   };
 }
 
-function getValRewards (validatorEras: ValidatorWithEras[], erasPoints: DeriveEraPoints[], erasRewards: DeriveEraRewards[]): State {
+function getValRewards (api: ApiPromise, validatorEras: ValidatorWithEras[], erasPoints: DeriveEraPoints[], erasRewards: DeriveEraRewards[]): State {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
   validatorEras.forEach(({ eras, stashId }): void => {
@@ -57,7 +57,7 @@ function getValRewards (validatorEras: ValidatorWithEras[], erasPoints: DeriveEr
         const reward = eraPoints.validators[stashId].mul(eraRewards.eraReward).div(eraPoints.eraPoints);
 
         if (!reward.isZero()) {
-          const total = registry.createType('Balance', reward);
+          const total = api.createType('Balance', reward);
 
           if (!allRewards[stashId]) {
             allRewards[stashId] = [];
@@ -141,9 +141,9 @@ export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[
 
   useEffect((): void => {
     mountedRef && erasPoints && erasRewards && ownValidators && setState(
-      getValRewards(validatorEras, erasPoints, erasRewards)
+      getValRewards(api, validatorEras, erasPoints, erasRewards)
     );
-  }, [erasPoints, erasRewards, mountedRef, ownValidators, validatorEras]);
+  }, [api, erasPoints, erasRewards, mountedRef, ownValidators, validatorEras]);
 
   return state;
 }

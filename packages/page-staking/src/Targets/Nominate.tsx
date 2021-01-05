@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -25,10 +25,11 @@ interface IdState {
 
 function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [ids, setIds] = useState<IdState | null>(null);
   const [isOpen, toggleOpen] = useToggle();
 
-  const filter = useMemo(
+  const stashes = useMemo(
     () => (ownNominators || []).map(({ stashId }) => stashId),
     [ownNominators]
   );
@@ -50,7 +51,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
     <>
       <Button
         icon='hand-paper'
-        isDisabled={isDisabled || !filter.length || !targets.length}
+        isDisabled={isDisabled || !stashes.length || !targets.length}
         label={t<string>('Nominate selected')}
         onClick={toggleOpen}
       />
@@ -64,7 +65,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
-                  filter={filter}
+                  filter={stashes}
                   help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
                   label={t<string>('the stash account to nominate with')}
                   onChange={_onChangeStash}
@@ -107,7 +108,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
               label={t<string>('Nominate')}
               onStart={toggleOpen}
               params={[targets]}
-              tx='staking.nominate'
+              tx={api.tx.staking.nominate}
             />
           </Modal.Actions>
         </Modal>

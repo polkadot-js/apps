@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { ActionsProps, ColumnProps, ModalProps } from './types';
 
 import React, { useContext } from 'react';
-import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
+import { Modal as SUIModal } from 'semantic-ui-react';
 import { ThemeContext } from 'styled-components';
 
 import Actions from './Actions';

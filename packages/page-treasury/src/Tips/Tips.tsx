@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -54,7 +54,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onRefresh
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const tipsWithHashes = useCall<[[string[]], Option<OpenTip>[]]>(hashes && api.query.treasury.tips.multi, [hashes], TIP_OPTS);
+  const tipsWithHashes = useCall<[[string[]], Option<OpenTip>[]]>(hashes && (api.query.tips || api.query.treasury).tips.multi, [hashes], TIP_OPTS);
 
   const tips = useMemo(
     () => extractTips(tipsWithHashes, hashes),

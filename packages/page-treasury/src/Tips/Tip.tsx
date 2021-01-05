@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, AddressSmall, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
@@ -78,6 +78,7 @@ function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): T
 }
 
 function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onRefresh, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
 
@@ -154,7 +155,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               label={t('Cancel')}
               onSuccess={onRefresh}
               params={[hash]}
-              tx='treasury.retractTip'
+              tx={(api.tx.tips || api.tx.treasury).retractTip}
             />
           )
         }
@@ -176,7 +177,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               label={t<string>('Close')}
               onSuccess={onRefresh}
               params={[hash]}
-              tx='treasury.closeTip'
+              tx={(api.tx.tips || api.tx.treasury).closeTip}
             />
           )
         }

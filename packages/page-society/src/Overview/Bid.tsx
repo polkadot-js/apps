@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bid } from '@polkadot/types/interfaces';
@@ -6,7 +6,7 @@ import type { Bid } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 
 import { AddressSmall, TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -18,6 +18,7 @@ interface Props {
 
 function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [isBidder, setIsBidder] = useState(false);
 
@@ -45,7 +46,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
           isDisabled={!isBidder}
           label={t<string>('Unbid')}
           params={[index]}
-          tx='society.unbid'
+          tx={api.tx.society.unbid}
         />
       </td>
     </tr>

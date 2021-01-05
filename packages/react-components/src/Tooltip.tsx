@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
@@ -57,6 +57,10 @@ function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', tex
 export default React.memo(styled(Tooltip)`
   > div {
     overflow: hidden;
+  }
+
+  &.ui--Tooltip {
+    z-index: 1002;
   }
 
   &.address div {

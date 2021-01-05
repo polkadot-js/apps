@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -7,7 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Modal, Password, Toggle } from '@polkadot/react-components';
-import keyring from '@polkadot/ui-keyring';
+import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate';
 import { UNLOCK_MINS } from './util';

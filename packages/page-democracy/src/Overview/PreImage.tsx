@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -123,7 +123,11 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           label={t<string>('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}
-          tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
+          tx={
+            isImminent
+              ? api.tx.democracy.noteImminentPreimage
+              : api.tx.democracy.notePreimage
+          }
         />
       </Modal.Actions>
     </Modal>

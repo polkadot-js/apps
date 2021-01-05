@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '@polkadot/react-components/types';
@@ -104,7 +104,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
           />
         </div>
         <Flags flags={flags} />
-        <div className='ui-AddressMenu--button'>
+        <div className='ui--AddressMenu-buttons'>
           <Button.Group>
             <Button
               icon='paper-plane'
@@ -127,7 +127,6 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
             )}
             {!flags.isOwned && flags.isInContacts && (
               <Button
-                className='ui--AddressMenu-button'
                 icon='ban'
                 label={t<string>('Remove')}
                 onClick={_onForgetAddress}
@@ -180,11 +179,10 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
 
   .ui--AddressMenu-addr {
     font: ${theme.fontMono};
-    margin: 0.5rem 0;
-    overflow: hidden;
+    margin: 0.75rem 0;
     text-align: center;
-    text-overflow: ellipsis;
-    width: 100%;
+    word-break: break-all;
+    width: 26ch;
   }
 
   .ui--AddressMenu-addr+.ui--AddressMenu-addr {
@@ -242,9 +240,15 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
     }
   }
 
+  .ui--AddressMenu-buttons {
+    .ui--Button-Group {
+      margin-bottom: 0;
+    }
+  }
+
   .ui--AddressMenu-tags,
   .ui--AddressMenu-flags {
-    margin-bottom: 0.75rem;
+    margin: 0.75rem 0 0;
   }
 
   .ui--AddressMenu-flags {

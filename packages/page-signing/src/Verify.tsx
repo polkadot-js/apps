@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-signing authors & contributors
+// Copyright 2017-2021 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeypairType } from '@polkadot/util-crypto/types';
@@ -8,8 +8,8 @@ import styled from 'styled-components';
 
 import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import { keyring } from '@polkadot/ui-keyring';
+import { settings } from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
 
@@ -28,7 +28,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
   const [{ isValidSignature, signature }, setSignature] = useState<{ isValidSignature: boolean; signature: string }>({ isValidSignature: false, signature: '' });
-  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(uiSettings.availableCryptos as any[]));
+  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(settings.availableCryptos as any[]));
 
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';

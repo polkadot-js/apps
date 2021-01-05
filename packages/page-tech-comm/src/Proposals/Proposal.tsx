@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -124,7 +124,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
                       : [imageHash, index, proposalWeight, proposalLength]
                     : [imageHash, index]
                 }
-                tx='technicalCommittee.close'
+                tx={api.tx.technicalCommittee.closeOperational || api.tx.technicalCommittee.close}
               />
             )
         )}

@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2021 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { ThemeProps } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';

@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@polkadot/extension-inject/types';
 
 import { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { ApiPromise } from '@polkadot/api';
-import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 interface ExtensionKnown {
@@ -52,9 +51,9 @@ function saveProperties (api: ApiPromise, { name, version }: InjectedExtension):
 
   allProperties[name] = {
     extensionVersion: version,
-    ss58Format: registry.chainSS58,
-    tokenDecimals: registry.chainDecimals,
-    tokenSymbol: registry.chainToken
+    ss58Format: api.registry.chainSS58,
+    tokenDecimals: api.registry.chainDecimals,
+    tokenSymbol: api.registry.chainToken
   };
 
   store.set(storeKey, allProperties);
@@ -73,9 +72,9 @@ function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): 
 
   const { ss58Format, tokenDecimals, tokenSymbol } = allProperties[extension.name];
 
-  return ss58Format === registry.chainSS58 &&
-    tokenDecimals === registry.chainDecimals &&
-    tokenSymbol === registry.chainToken;
+  return ss58Format === api.registry.chainSS58 &&
+    tokenDecimals === api.registry.chainDecimals &&
+    tokenSymbol === api.registry.chainToken;
 }
 
 // filter extensions based on the properties we have available

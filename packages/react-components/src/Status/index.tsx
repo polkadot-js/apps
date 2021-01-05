@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -138,7 +138,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
               {section}.{method}
             </div>
             <div className='status'>
-              {error ? error.message : status}
+              {error ? (error.message || error) : status}
             </div>
           </div>
         </div>

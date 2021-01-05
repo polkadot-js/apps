@@ -1,7 +1,7 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveParachain } from '@polkadot/api-derive/types';
+import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 import styled from 'styled-components';
@@ -12,29 +12,28 @@ import { useTranslation } from '../translate';
 import Parachain from './Parachain';
 
 interface Props {
-  parachains?: DeriveParachain[];
+  canRegister?: boolean;
+  ids?: ParaId[];
 }
 
-function Parachains ({ parachains }: Props): React.ReactElement<Props> {
+function Parachains ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
-    [t('swap to id')],
-    [t('scheduling')],
-    []
+    [t('watermark')]
   ]);
 
   return (
     <Table
-      empty={parachains && t<string>('There are no registered parachains')}
+      empty={ids && t<string>('There are no registered parachains')}
       header={headerRef.current}
     >
-      {parachains?.map((parachain): React.ReactNode => (
+      {ids?.map((id): React.ReactNode => (
         <Parachain
-          key={parachain.id.toString()}
-          parachain={parachain}
+          id={id}
+          key={id.toString()}
         />
       ))}
     </Table>

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -108,6 +108,10 @@ export default {
     vote_requirement: 'u64'
   },
   PMAuth: 'BTreeMap<Did, DidSignature>',
+  Bonus: {
+    swap_bonuses: 'Vec<(Balance, BlockNumber)>',
+    vesting_bonuses: 'Vec<(Balance, Balance, BlockNumber)>'
+  },
   StateChange: {
     _enum: {
       KeyUpdate: 'KeyUpdate',
