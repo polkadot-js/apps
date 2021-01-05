@@ -27,3 +27,15 @@ export function daveSigner (): KeyringPair {
 
   return keyring.addFromUri('//Dave');
 }
+
+export function eveSigner (): KeyringPair {
+  const keyring = new Keyring({ type: 'sr25519' });
+
+  return keyring.addFromUri('//Eve');
+}
+
+export function ferdieSigner (): KeyringPair {
+  const keyring = new Keyring({ type: 'sr25519' });
+
+  return keyring.addFromUri('//Ferdie');
+}
