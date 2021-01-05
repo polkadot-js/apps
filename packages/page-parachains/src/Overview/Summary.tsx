@@ -11,11 +11,12 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  canRegister?: boolean;
   parachainCount?: number;
   upcomingCount?: number;
 }
 
-function Summary ({ parachainCount, upcomingCount }: Props): React.ReactElement<Props> {
+function Summary ({ canRegister, parachainCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -38,6 +39,11 @@ function Summary ({ parachainCount, upcomingCount }: Props): React.ReactElement<
             {formatNumber(upcomingCount)}
           </CardSummary>
         )}
+      </section>
+      <section>
+        <CardSummary label={t<string>('registration')}>
+          {canRegister ? t<string>('open') : t<string>('closed')}
+        </CardSummary>
       </section>
       <section>
         <CardSummary

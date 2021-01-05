@@ -124,7 +124,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
                       : [imageHash, index, proposalWeight, proposalLength]
                     : [imageHash, index]
                 }
-                tx={api.tx.technicalCommittee.close}
+                tx={api.tx.technicalCommittee.closeOperational || api.tx.technicalCommittee.close}
               />
             )
         )}
