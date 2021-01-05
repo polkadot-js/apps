@@ -21,8 +21,11 @@ export async function claimBounty (api: ApiPromise, index: number) {
   await execute(api.tx.bounties.claimBounty(index), daveSigner());
 }
 
-export async function proposeBounty (api: ApiPromise, value: BN, title: string) {
+export async function proposeBounty (api: ApiPromise, value: BN, title: string): Promise<number> {
   await execute(api.tx.bounties.proposeBounty(value, title), aliceSigner());
+  const index = await api.query.bounties.bountyCount();
+
+  return index.toNumber() - 1;
 }
 
 export async function proposeCurator (api: ApiPromise, index: number) {

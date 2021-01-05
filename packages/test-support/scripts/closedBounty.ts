@@ -17,21 +17,21 @@ import { FUNDING_TIME, PAYOUT_TIME } from './lib/constants';
 async function closedBounty () {
   const api = await createApi(9944);
 
-  await proposeBounty(api, new BN(500_000_000_000_000), 'new bounty hello hello more bytes');
+  const index = await proposeBounty(api, new BN(500_000_000_000_000), 'new bounty hello hello more bytes2');
 
-  await approveBounty(api, 0);
+  await approveBounty(api, index);
 
-  await waitForBountyState(api, 'isFunded', 0, { interval: 2000, timeout: FUNDING_TIME });
+  await waitForBountyState(api, 'isFunded', index, { interval: 2000, timeout: FUNDING_TIME });
 
-  await proposeCurator(api, 0);
+  await proposeCurator(api, index);
 
-  await acceptCurator(api, 0);
+  await acceptCurator(api, index);
 
-  await awardBounty(api, 0);
+  await awardBounty(api, index);
 
-  await waitForClaim(api, 0, { interval: 2000, timeout: PAYOUT_TIME });
+  await waitForClaim(api, index, { interval: 2000, timeout: PAYOUT_TIME });
 
-  await claimBounty(api, 0);
+  await claimBounty(api, index);
   process.exit(0);
 }
 

@@ -26,8 +26,9 @@ export const sleep = (ms: number) =>
 export async function waitForBountyState (api: ApiPromise, expectedState: bStatus, index: number, { interval = 500, timeout = 10000 } = {}): Promise<boolean> {
   let elapsed = 0;
   let bounties = await api.derive.bounties.bounties();
+  const bountyIndex = bounties.findIndex((bounty) => (bounty.index.toNumber() === index));
 
-  while (!bounties[index].bounty.status[expectedState]) {
+  while (!bounties[bountyIndex].bounty.status[expectedState]) {
     if (elapsed > timeout) {
       throw Error('Timeout');
     }
