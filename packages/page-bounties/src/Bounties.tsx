@@ -41,13 +41,14 @@ function Bounties (): React.ReactElement {
         empty={deriveBounties && t<string>('No open bounties')}
         header={headerRef.current}
       >
-        {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description, index }) => (
+        {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description, index, proposals }) => (
           <Bounty
             bestNumber={bestNumber}
             bounty={bounty}
             description={description}
             index={index}
             key={index.toNumber()}
+            proposals={proposals}
           />
         ))}
       </Table>
