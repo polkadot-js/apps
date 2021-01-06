@@ -19,6 +19,8 @@ interface CodeState {
   wasm: Uint8Array | null;
 }
 
+// sudo => parasSudoWrapper.sudoScheduleParaInitialize
+
 function Register ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
