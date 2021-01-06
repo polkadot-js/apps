@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
@@ -34,8 +33,8 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
     );
   }, [api, members]);
 
-  const approveBountyProposal: SubmittableExtrinsic<'promise'> = (api.tx.bounties || api.tx.treasury).approveBounty(index);
-  const closeBountyProposal: SubmittableExtrinsic<'promise'> = (api.tx.bounties || api.tx.treasury).closeBounty(index);
+  const approveBountyProposal = useRef((api.tx.bounties || api.tx.treasury).approveBounty(index));
+  const closeBountyProposal = useRef((api.tx.bounties || api.tx.treasury).closeBounty(index));
 
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
 
@@ -84,7 +83,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 isDisabled={false}
                 label={t<string>('Approve')}
                 onStart={toggleOpen}
-                params={[threshold, approveBountyProposal, approveBountyProposal.length]}
+                params={[threshold, approveBountyProposal.current, approveBountyProposal.current.length]}
                 tx={api.tx.council.propose}
               />
               <TxButton
@@ -93,7 +92,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 isDisabled={false}
                 label={t<string>('Reject')}
                 onStart={toggleOpen}
-                params={[threshold, closeBountyProposal, closeBountyProposal.length]}
+                params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
                 tx={api.tx.council.propose}
               />
             </Modal.Actions>
