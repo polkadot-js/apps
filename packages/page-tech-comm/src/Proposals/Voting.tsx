@@ -6,7 +6,7 @@ import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 
-import { Button, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
+import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -41,10 +41,8 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               filter={members}
               onChange={setAccountId}
             />
-            {(accountId === prime?.toString()) && (
-              <article className='warning'>
-                <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
-              </article>
+            {(accountId === prime?.eq(accountId)) && (
+              <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleVoting}>

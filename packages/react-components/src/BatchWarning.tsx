@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import { MarkWarning } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -17,9 +18,7 @@ function BatchWarning (): React.ReactElement | null {
   }
 
   return (
-    <article className='warning'>
-      <p>{t<string>('This chain does not yet support atomic batch operations. This means that if the transaction gets executed and one of the operations do fail (due to invalid data or lack of available funds) some of the changes made may not be applied.')}</p>
-    </article>
+    <MarkWarning content={t<string>('This chain does not yet support atomic batch operations. This means that if the transaction gets executed and one of the operations do fail (due to invalid data or lack of available funds) some of the changes made may not be applied.')} />
   );
 }
 

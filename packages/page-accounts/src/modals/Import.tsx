@@ -7,7 +7,7 @@ import type { ModalProps } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, InputAddress, InputFile, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { u8aToString } from '@polkadot/util';
@@ -121,6 +121,9 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
               onChange={_onChangeFile}
               withLabel
             />
+            {differentGenesis && (
+              <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
+            )}
           </Modal.Column>
           <Modal.Column>
             <p>{t<string>('Supply a backed-up JSON file, encrypted with your account-specific password.')}</p>
@@ -143,11 +146,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             <p>{t<string>('The password previously used to encrypt this account.')}</p>
           </Modal.Column>
         </Modal.Columns>
-        { differentGenesis &&
-            <article className='warning'>
-              <p>{t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')}</p>
-            </article>
-        }
         <ExternalWarning />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
