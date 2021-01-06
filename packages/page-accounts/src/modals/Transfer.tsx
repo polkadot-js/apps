@@ -165,6 +165,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   value={isAll}
                 />
               )}
+              {!isProtected && accountInfo && accountInfo.refcount && !accountInfo.refcount.isZero() && (
+                <article className='warning'>{t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')}</article>
+              )}
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}</p>
