@@ -10,10 +10,12 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceOf, BlockNumber } from '@polkadot/types/interfaces';
 
 export type BountyApi = {
+  approveBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
   bountyDepositBase: BN,
   bountyValueMinimum: BN,
+  closeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   dataDepositPerByte: BN,
   maximumReasonLength: number,
   proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
@@ -29,12 +31,16 @@ export function useBounties (): BountyApi {
   const maximumReasonLength = constsBase.maximumReasonLength.toNumber();
   const dataDepositPerByte = (constsBase.dataDepositPerByte as BalanceOf).toBn();
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
+  const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
+  const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
 
   return {
+    approveBounty,
     bestNumber,
     bounties,
     bountyDepositBase,
     bountyValueMinimum,
+    closeBounty,
     dataDepositPerByte,
     maximumReasonLength,
     proposeBounty

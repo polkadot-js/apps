@@ -10,13 +10,15 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import Bounties from '@polkadot/app-bounties/Bounties';
-import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { lightTheme } from '@polkadot/apps/themes';
+import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
 import { TypeRegistry } from '@polkadot/types/create';
+
+import Bounties from './Bounties';
+import { BountyApi } from './hooks';
 
 function aBounty (): Bounty {
   return new TypeRegistry().createType('Bounty');
@@ -30,11 +32,17 @@ function balanceOf (number: number) {
   return new TypeRegistry().createType('Balance', new BN(number));
 }
 
+function aGenesisHash () {
+  return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
+}
+
 let mockBountyApi: BountyApi = {
+  approveBounty: jest.fn(),
   bestNumber: new BN(1) as BlockNumber,
   bounties: [] as DeriveBounties,
   bountyDepositBase: new BN(1),
   bountyValueMinimum: new BN(1),
+  closeBounty: jest.fn(),
   dataDepositPerByte: new BN(1),
   maximumReasonLength: 100,
   proposeBounty: jest.fn()
@@ -61,6 +69,7 @@ describe('Bounties', () => {
       derive: {
         accounts: { info: () => Promise.resolve(() => { /**/ }) }
       },
+      genesisHash: aGenesisHash(),
       query: {},
       registry: { chainDecimals: 12 }
     },
