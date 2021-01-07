@@ -6,6 +6,7 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
+import { aliceSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
 
 import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers';
@@ -29,6 +30,16 @@ export async function proposeBounty (api: ApiPromise, value: BN, title: string, 
   return index.toNumber() - 1;
 }
 
+export async function proposeBounties (api: ApiPromise, numberOfBounties: number) {
+  const indexes = [];
+
+  for (let i = 0; i < numberOfBounties; i++) {
+    indexes.push(await proposeBounty(api, new BN(500_000_000_000_000), `new bounty nr ${i} hello hello more bytes`, aliceSigner()));
+  }
+
+  return indexes;
+}
+
 export async function proposeCurator (api: ApiPromise, index: number, signer: KeyringPair) {
   await proposeMotion(api, api.tx.bounties.proposeCurator(index, signer.address, 10), signer);
 
@@ -44,4 +55,12 @@ export async function approveBounty (api: ApiPromise, index: number, signer: Key
 
   await acceptMotion(api, bountyProposal.hash, bountyProposal.votes!.index.toNumber());
   await fillTreasury(api, signer);
+}
+
+export async function approveBounties (api: ApiPromise, bountyIndexes: number[]) {
+  for (const bountyIndex of bountyIndexes) {
+    await approveBounty(api, bountyIndex, aliceSigner());
+  }
+
+  // await bountyIndexes.forEach(async (bountyIndex) => await approveBounty(api, bountyIndex, aliceSigner()));
 }
