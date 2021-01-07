@@ -23,7 +23,7 @@ export type BountyApi = {
 
 export function useBounties (): BountyApi {
   const { api } = useApi();
-  const bounties = useCall<DeriveBounties>((api.derive.bounties || api.derive.treasury).bounties);
+  const bounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const constsBase = api.consts.bounties || api.consts.treasury;
   const bountyDepositBase = (constsBase.bountyDepositBase as BalanceOf).toBn();
