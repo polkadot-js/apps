@@ -9,9 +9,9 @@ import React from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Actions from './Actions';
-import Parachains from './Parachains';
+import Parachains from './ParachainList';
 import Summary from './Summary';
-import Upcoming from './Upcoming';
+import Upcoming from './UpcomingList';
 
 interface Props {
   className?: string;

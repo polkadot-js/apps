@@ -108,7 +108,14 @@ export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[
       const filteredEras = allEras.slice(-1 * maxEras);
       const validatorEras: ValidatorWithEras[] = [];
 
-      if (ownValidators?.length) {
+      if (allEras.length === 0) {
+        setState({
+          allRewards: {},
+          isLoadingRewards: false,
+          rewardCount: 0
+        });
+        setFiltered({ filteredEras, validatorEras });
+      } else if (ownValidators?.length) {
         ownValidators.forEach(({ stakingLedger, stashId }): void => {
           if (stakingLedger) {
             const eras = filteredEras.filter((era) => !stakingLedger.claimedRewards.some((c) => era.eq(c)));

@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
@@ -21,6 +22,7 @@ interface Props {
   className?: string;
   description: string;
   index: number;
+  proposals?: DeriveCollectiveProposal[];
 }
 
 interface DueProps {
@@ -29,7 +31,7 @@ interface DueProps {
 
 const EMPTY_CELL = '-';
 
-function Bounty ({ bestNumber, bounty, className = '', description, index }: Props): React.ReactElement<Props> {
+function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -61,6 +63,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
           <BountyActions
             bestNumber={bestNumber}
             index={index}
+            proposals={proposals}
             status={status}
           />
         </td>
