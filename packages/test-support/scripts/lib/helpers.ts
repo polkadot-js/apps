@@ -16,7 +16,7 @@ import { Hash } from '@polkadot/types/interfaces';
 
 import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants';
 
-export async function acceptMotion (api: ApiPromise, hash: Hash, index: number) {
+export async function acceptMotion (api: ApiPromise, hash: Hash, index: number): Promise<void> {
   const charlieVote = execute(api.tx.council.vote(hash, index, true), charlieSigner());
   const daveVote = execute(api.tx.council.vote(hash, index, true), daveSigner());
   const eveVote = execute(api.tx.council.vote(hash, index, true), eveSigner());
@@ -26,15 +26,15 @@ export async function acceptMotion (api: ApiPromise, hash: Hash, index: number) 
   await execute(api.tx.council.close(hash, index, WEIGHT_BOUND, LENGTH_BOUND), charlieSigner());
 }
 
-export async function fillTreasury (api: ApiPromise, signer: KeyringPair) {
+export async function fillTreasury (api: ApiPromise, signer: KeyringPair): Promise<void> {
   await execute(api.tx.balances.transfer(TREASURY_ADDRESS, new BN(5_000_000_000_000_000)), signer);
 }
 
-export async function proposeMotion (api: ApiPromise, submittableExtrinsic: SubmittableExtrinsic<'promise'>, signer: KeyringPair) {
+export async function proposeMotion (api: ApiPromise, submittableExtrinsic: SubmittableExtrinsic<'promise'>, signer: KeyringPair): Promise<void> {
   await execute(api.tx.council.propose(4, submittableExtrinsic, LENGTH_BOUND), signer);
 }
 
-export async function getMotion (api: ApiPromise, index: number) {
+export async function getMotion (api: ApiPromise, index: number): Promise<DeriveCollectiveProposal> {
   const bounties = await api.derive.bounties.bounties();
   const bountyProposals = bounties.find((bounty) => (bounty.index.toNumber() === index))?.proposals as DeriveCollectiveProposal[];
 

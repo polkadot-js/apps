@@ -22,7 +22,7 @@ export async function waitFor (predicate: () => boolean, { interval = 500, timeo
   return true;
 }
 
-export const sleep = (ms: number) =>
+export const sleep = (ms: number):Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function waitForBountyState (api: ApiPromise, expectedState: bStatus, index: number, { interval = 500, timeout = 10000 } = {}): Promise<boolean> {
@@ -52,7 +52,7 @@ async function getBounty (api: ApiPromise, bountyIndex: number): Promise<DeriveB
   return bounties.find((bounty) => (bounty.index.toNumber() === bountyIndex)) as DeriveBounty;
 }
 
-export async function waitForClaim (api: ApiPromise, index: number, { interval = 500, timeout = 10000 }): Promise<boolean> {
+export async function waitForClaim (api: ApiPromise, index: number, { interval = 500, timeout = 10000 }: {interval: number, timeout: number}): Promise<boolean> {
   const bounty = await getBounty(api, index);
   const unlockAt = bounty.bounty.status.asPendingPayout.unlockAt;
 

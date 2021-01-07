@@ -16,7 +16,7 @@ import { acceptCurator,
   proposeCurator } from './changeBountyStateFunctions';
 import { FUNDING_TIME, PAYOUT_TIME } from './constants';
 
-export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number) {
+export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number): Promise<number[]> {
   const indexes = [];
 
   for (let i = 0; i < numberOfBounties; i++) {
@@ -26,13 +26,13 @@ export async function multiProposeBounty (api: ApiPromise, numberOfBounties: num
   return indexes;
 }
 
-export async function multiApproveBounty (api: ApiPromise, bountyIndexes: number[]) {
+export async function multiApproveBounty (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
   for (const bountyIndex of bountyIndexes) {
     await approveBounty(api, bountyIndex, aliceSigner());
   }
 }
 
-export async function multiWaitForBountyState (api: ApiPromise, bountyIndexes: number[]) {
+export async function multiWaitForBountyState (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
   const waitFunctions = bountyIndexes.map((bountyIndex) =>
     waitForBountyState(api, 'isFunded', bountyIndex, { interval: 2000, timeout: FUNDING_TIME }));
 
@@ -59,13 +59,13 @@ export async function multiAwardBounty (api: ApiPromise, bountyIndexes: number[]
   await Promise.all(awardFunctions);
 }
 
-export async function multiWaitForClaim (api: ApiPromise, bountyIndexes: number[]) {
+export async function multiWaitForClaim (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
   for (const index of bountyIndexes) {
     await waitForClaim(api, index, { interval: 2000, timeout: PAYOUT_TIME });
   }
 }
 
-export async function multiClaimBounty (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]) {
+export async function multiClaimBounty (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
   const awardFunctions = bountyIndexes.map((bountyIndex, index) =>
     claimBounty(api, bountyIndex, signers[index]));
 

@@ -45,4 +45,4 @@ import { multiAcceptCurator,
   await multiClaimBounty(api, indexes, SIGNERS);
 
   await api.disconnect();
-})();
+})().catch((err) => console.error(err));
