@@ -20,3 +20,5 @@ export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
 export const KULUPU_GENESIS = getGenesis('kulupu');
+
+export const DOCK_GENESIS = '0xf73467c6544aa68df2ee546b135f955c46b90fa627e9b5d7935f41061bb8a5a9';
