@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/test-support authors & contributors
+// Copyright 2017-2021 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { createApi } from '@polkadot/test-support/api';
@@ -15,7 +15,7 @@ import { multiAcceptCurator,
   multiClaimBounty,
   multiProposeBounty,
   multiProposeCurator,
-  multiWaitForBountyState,
+  multiWaitForBountyFunded,
   multiWaitForClaim } from './lib/multiFunctions';
 
 (async () => {
@@ -28,7 +28,7 @@ import { multiAcceptCurator,
   indexes.pop();
   await multiApproveBounty(api, indexes);
 
-  await multiWaitForBountyState(api, indexes);
+  await multiWaitForBountyFunded(api, indexes);
 
   indexes.pop();
   await multiProposeCurator(api, indexes, SIGNERS);

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/test-support authors & contributors
+// Copyright 2017-2021 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
@@ -32,7 +32,7 @@ export async function multiApproveBounty (api: ApiPromise, bountyIndexes: number
   }
 }
 
-export async function multiWaitForBountyState (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
+export async function multiWaitForBountyFunded (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
   const waitFunctions = bountyIndexes.map((bountyIndex) =>
     waitForBountyState(api, 'isFunded', bountyIndex, { interval: 2000, timeout: FUNDING_TIME }));
 
