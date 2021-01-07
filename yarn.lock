@@ -2240,7 +2240,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-fin-comm@workspace:packages/page-fin-comm"
   dependencies:
-    "@babel/runtime": ^7.11.2
+    "@babel/runtime": ^7.12.1
     "@polkadot/react-components": 0.63.2-7
     "@polkadot/react-query": 0.63.2-7
   languageName: unknown
@@ -2287,7 +2287,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-root-comm@workspace:packages/page-root-comm"
   dependencies:
-    "@babel/runtime": ^7.11.2
+    "@babel/runtime": ^7.12.1
     "@polkadot/react-components": 0.63.2-7
     "@polkadot/react-query": 0.63.2-7
   languageName: unknown
