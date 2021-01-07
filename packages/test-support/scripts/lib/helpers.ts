@@ -17,11 +17,12 @@ import { Hash } from '@polkadot/types/interfaces';
 import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants';
 
 export async function acceptMotion (api: ApiPromise, hash: Hash, index: number) {
+  const charlieVote = execute(api.tx.council.vote(hash, index, true), charlieSigner());
   const daveVote = execute(api.tx.council.vote(hash, index, true), daveSigner());
   const eveVote = execute(api.tx.council.vote(hash, index, true), eveSigner());
   const ferdieVote = execute(api.tx.council.vote(hash, index, true), ferdieSigner());
 
-  await Promise.all([daveVote, eveVote, ferdieVote]);
+  await Promise.all([charlieVote, daveVote, eveVote, ferdieVote]);
   await execute(api.tx.council.close(hash, index, WEIGHT_BOUND, LENGTH_BOUND), charlieSigner());
 }
 
