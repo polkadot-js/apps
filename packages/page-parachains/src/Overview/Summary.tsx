@@ -1,7 +1,6 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
@@ -12,12 +11,12 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  canRegister?: boolean;
   parachainCount?: number;
-  proposalCount?: number;
-  nextFreeId?: BN;
+  upcomingCount?: number;
 }
 
-function Summary ({ nextFreeId, parachainCount, proposalCount }: Props): React.ReactElement<Props> {
+function Summary ({ canRegister, parachainCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -25,7 +24,7 @@ function Summary ({ nextFreeId, parachainCount, proposalCount }: Props): React.R
     <SummaryBox>
       <section>
         <CardSummary label={t<string>('relay')}>
-          {api.query.parachains
+          {api.query.paras
             ? t<string>('yes')
             : t<string>('no')
           }
@@ -35,16 +34,16 @@ function Summary ({ nextFreeId, parachainCount, proposalCount }: Props): React.R
             {formatNumber(parachainCount)}
           </CardSummary>
         )}
-        {isNumber(proposalCount) && (
-          <CardSummary label={t<string>('proposals')}>
-            {formatNumber(proposalCount)}
+        {isNumber(upcomingCount) && (
+          <CardSummary label={t<string>('upcoming')}>
+            {formatNumber(upcomingCount)}
           </CardSummary>
         )}
-        {api.query.parachains && nextFreeId && (
-          <CardSummary label={t<string>('next id')}>
-            {formatNumber(nextFreeId)}
-          </CardSummary>
-        )}
+      </section>
+      <section>
+        <CardSummary label={t<string>('registration')}>
+          {canRegister ? t<string>('open') : t<string>('closed')}
+        </CardSummary>
       </section>
       <section>
         <CardSummary

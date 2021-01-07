@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -164,6 +164,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   onChange={setIsAll}
                   value={isAll}
                 />
+              )}
+              {!isProtected && accountInfo && accountInfo.refcount && !accountInfo.refcount.isZero() && (
+                <article className='warning'>{t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')}</article>
               )}
             </Modal.Column>
             <Modal.Column>

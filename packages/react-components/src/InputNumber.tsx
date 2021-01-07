@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -97,7 +97,7 @@ function isValidNumber (bn: BN, bitLength: BitLength, isZeroable: boolean, maxVa
     // check if 0 and it should be a value
     (!isZeroable && bn.isZero()) ||
     // check that the bitlengths fit
-    bn.bitLength() > (bitLength || DEFAULT_BITLENGTH) ||
+    (bn.bitLength() > (bitLength || DEFAULT_BITLENGTH)) ||
     // cannot be > max (if specified)
     (maxValue && maxValue.gtn(0) && bn.gt(maxValue))
   ) {
@@ -176,8 +176,8 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   );
 
   useEffect((): void => {
-    onChange && onChange(valueBn);
-  }, [onChange, valueBn]);
+    onChange && onChange(isValid ? valueBn : undefined);
+  }, [isValid, onChange, valueBn]);
 
   const _onChangeWithSi = useCallback(
     (input: string, si: SiDef | null) => setValues(

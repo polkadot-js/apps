@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBounties } from '@polkadot/api-derive/types';
@@ -41,13 +41,14 @@ function Bounties (): React.ReactElement {
         empty={deriveBounties && t<string>('No open bounties')}
         header={headerRef.current}
       >
-        {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description, index }) => (
+        {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description, index, proposals }) => (
           <Bounty
             bestNumber={bestNumber}
             bounty={bounty}
             description={description}
             index={index}
             key={index.toNumber()}
+            proposals={proposals}
           />
         ))}
       </Table>
