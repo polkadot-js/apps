@@ -6,11 +6,8 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
-import { aliceSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
-import { waitForBountyState, waitForClaim } from '@polkadot/test-support/utils/waitFor';
 
-import { FUNDING_TIME, PAYOUT_TIME } from './constants';
 import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers';
 
 export async function acceptCurator (api: ApiPromise, id: number, signer: KeyringPair) {
