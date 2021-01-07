@@ -32,16 +32,6 @@ export async function proposeBounty (api: ApiPromise, value: BN, title: string, 
   return index.toNumber() - 1;
 }
 
-export async function proposeBounties (api: ApiPromise, numberOfBounties: number) {
-  const indexes = [];
-
-  for (let i = 0; i < numberOfBounties; i++) {
-    indexes.push(await proposeBounty(api, new BN(500_000_000_000_000), `new bounty nr ${i} hello hello more bytes`, aliceSigner()));
-  }
-
-  return indexes;
-}
-
 export async function proposeCurator (api: ApiPromise, index: number, signer: KeyringPair) {
   await proposeMotion(api, api.tx.bounties.proposeCurator(index, signer.address, 10), signer);
 
@@ -57,50 +47,4 @@ export async function approveBounty (api: ApiPromise, index: number, signer: Key
 
   await acceptMotion(api, bountyProposal.hash, bountyProposal.votes!.index.toNumber());
   await fillTreasury(api, signer);
-}
-
-export async function approveBounties (api: ApiPromise, bountyIndexes: number[]) {
-  for (const bountyIndex of bountyIndexes) {
-    await approveBounty(api, bountyIndex, aliceSigner());
-  }
-}
-
-export async function waitForBountiesFunding (api: ApiPromise, bountyIndexes: number[]) {
-  const waitFunctions = bountyIndexes.map((bountyIndex) =>
-    waitForBountyState(api, 'isFunded', bountyIndex, { interval: 2000, timeout: FUNDING_TIME }));
-
-  await Promise.all(waitFunctions);
-}
-
-export async function proposeCurators (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  for (let i = 0; i < bountyIndexes.length; i++) {
-    await proposeCurator(api, bountyIndexes[i], signers[i]);
-  }
-}
-
-export async function acceptCurators (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  const acceptFunctions = bountyIndexes.map((bountyIndex, index) =>
-    acceptCurator(api, bountyIndex, signers[index]));
-
-  await Promise.all(acceptFunctions);
-}
-
-export async function awardBounties (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  const awardFunctions = bountyIndexes.map((bountyIndex, index) =>
-    awardBounty(api, bountyIndex, signers[index]));
-
-  await Promise.all(awardFunctions);
-}
-
-export async function waitForClaims (api: ApiPromise, bountyIndexes: number[]) {
-  for (const index of bountyIndexes) {
-    await waitForClaim(api, index, { interval: 2000, timeout: PAYOUT_TIME });
-  }
-}
-
-export async function claimBounties (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]) {
-  const awardFunctions = bountyIndexes.map((bountyIndex, index) =>
-    claimBounty(api, bountyIndex, signers[index]));
-
-  await Promise.all(awardFunctions);
 }
