@@ -7,18 +7,14 @@ on:
 jobs:
   # publish to gh-pages (& IPFS when a release is detected)
   www:
-    if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
-    strategy:
-      matrix:
-        step: ['build:www']
-    name: ${{ matrix.step }}
+    name: build:www
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: ${{ matrix.step }}
+    - name: build:www
       run: |
-        yarn install --immutable | grep -v 'YN0013'
-        yarn ${{ matrix.step }}
+        yarn install --immutable
+        yarn build:www
     - name: Deploy to GitHub Pages
       uses: crazy-max/ghaction-github-pages@v2
       with:
