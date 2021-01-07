@@ -55,7 +55,11 @@ function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMe
   };
 }
 
+<<<<<<< HEAD
 export function useVotingStatus(votes: Votes | null | undefined, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee'): State {
+=======
+export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee'): State {
+>>>>>>> 733d7e351f (fix root and fin comms)
   const { api } = useApi();
   const bestNumber = useBestNumber();
 
