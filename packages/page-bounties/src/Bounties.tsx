@@ -3,11 +3,11 @@
 
 import React, { useRef } from 'react';
 
-import { useBounties } from '@polkadot/app-bounties/hooks';
 import { Button, Table } from '@polkadot/react-components';
 
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
+import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 function Bounties (): React.ReactElement {
