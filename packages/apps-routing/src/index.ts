@@ -32,7 +32,7 @@ import techcomm from './techcomm';
 import transfer from './transfer';
 import treasury from './treasury';
 
-export default function create(t: TFunction): Routes {
+export default function create (t: TFunction): Routes {
   return [
     accounts(t),
     addresses(t),

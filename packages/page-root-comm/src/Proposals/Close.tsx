@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
@@ -14,12 +13,11 @@ interface Props {
   hasFailed: boolean;
   hash: Hash;
   idNumber: ProposalIndex;
-  isDisabled: boolean;
   members: string[];
   proposal: Proposal;
 }
 
-function Close ({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
+function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -82,7 +80,6 @@ function Close ({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Pr
       )}
       <Button
         icon='times'
-        isDisabled={isDisabled}
         label={t<string>('Close')}
         onClick={toggleOpen}
       />
