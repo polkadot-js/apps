@@ -41,7 +41,7 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               filter={members}
               onChange={setAccountId}
             />
-            {(accountId === prime?.eq(accountId)) && (
+            {(accountId === prime?.toString()) && (
               <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>
