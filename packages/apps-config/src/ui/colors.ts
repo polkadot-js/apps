@@ -29,6 +29,7 @@ const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
+const chainJupiter = '#7143ff';
 
 // based on node name
 // alphabetical
@@ -46,6 +47,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 const nodeZero = '#0099cc';
+const nodeJupiter = '#7143ff';
 
 export { emptyColor };
 
@@ -76,7 +78,8 @@ export const chainColors: Record<string, any> = [
   ['Trick', chainRoccoTrick],
   ['Westend', chainWestend],
   ['Galois', chainGalois],
-  ['ZΞRO Alphaville', chainZero]
+  ['ZΞRO Alphaville', chainZero],
+  ['Jupiter Testnet', chainJupiter]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -99,7 +102,8 @@ export const nodeColors: Record<string, any> = [
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
-  ['SUBZΞRO', nodeZero]
+  ['SUBZΞRO', nodeZero],
+  ['Jupiter Node', nodeJupiter]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]
