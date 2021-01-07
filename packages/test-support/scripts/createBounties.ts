@@ -25,18 +25,23 @@ import { multiAcceptCurator,
 
   const indexes = await multiProposeBounty(api, 6);
 
+  indexes.pop();
   await multiApproveBounty(api, indexes);
 
   await multiWaitForBountyState(api, indexes);
 
+  indexes.pop();
   await multiProposeCurator(api, indexes, SIGNERS);
 
+  indexes.pop();
   await multiAcceptCurator(api, indexes, SIGNERS);
 
+  indexes.pop();
   await multiAwardBounty(api, indexes, SIGNERS);
 
   await multiWaitForClaim(api, indexes);
 
+  indexes.pop();
   await multiClaimBounty(api, indexes, SIGNERS);
 
   await api.disconnect();
