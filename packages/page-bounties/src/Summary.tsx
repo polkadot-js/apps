@@ -4,12 +4,10 @@
 import type { BountyIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { useTranslation } from '@polkadot/app-treasury/translate';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import Progress from '@polkadot/react-components/Progress';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTreasury } from '@polkadot/react-hooks/useTreasury';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -31,7 +29,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
 
   return (
     <SummaryBox className={`ui--BountySummary ${className}`}>
-      <section className='NormalSection'>
+      <section>
         <CardSummary label={t<string>('active')}>
           {activeBounties}
         </CardSummary>
@@ -49,118 +47,45 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
           </CardSummary>
         )}
       </section>
-      <section className='HighlightedSection'>
-        <header>{t<string>('treasury')}</header>
-        <div className='content'>
-          {value && (
-            <CardSummary label={t<string>('available')}>
-              <FormatBalance
-                value={value}
-                withSi
-              />
-            </CardSummary>
-          )}
-          {burn && (
-            <CardSummary
-              label={t<string>('next burn')}
-            >
-              <FormatBalance
-                value={burn}
-                withSi
-              />
-            </CardSummary>
-          )}
-          {spendPeriod.gtn(0) && (
-            <CardSummary
-              label={t<string>('spend period')}
-            >
-              <BlockToTime
-                blocks={spendPeriod}
-                className='timer'
-              />
-            </CardSummary>
-          )}
-          {bestNumber && spendPeriod.gtn(0) && (
-            <Progress
-              className='media--1000'
-              size='medium'
-              total={spendPeriod}
-              value={bestNumber.mod(spendPeriod)} />
-          )}
-        </div>
+      <section>
+        {value && (
+          <CardSummary label={t<string>('treasury')}>
+            <FormatBalance
+              value={value}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {burn && (
+          <CardSummary
+            label={t<string>('next burn')}
+          >
+            <FormatBalance
+              value={burn}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {spendPeriod.gtn(0) && (
+          <CardSummary
+            label={t<string>('spend period')}
+          >
+            <BlockToTime
+              blocks={spendPeriod}
+              className='timer'
+            />
+          </CardSummary>
+        )}
+        {bestNumber && spendPeriod.gtn(0) && (
+          <Progress
+            className='media--1000'
+            total={spendPeriod}
+            value={bestNumber.mod(spendPeriod)}
+          />
+        )}
       </section>
     </SummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)(({ theme }: ThemeProps) => `
-  && label, && header {
-    font-size: 0.714rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  & .NormalSection {
-    label {
-      color: #8B8B8B;
-    }
-    .ui--Labelled-content {
-      text-align: left;
-    }
-    article:first-child {
-      padding: 0 1.5rem 0 0;
-    }
-    article:last-child .ui--Labelled-content {
-      text-align: right;
-    }
-  }
-  & .HighlightedSection {
-    background-color: #fff;
-    z-index: 10;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border-radius: 4px;
-    header {
-      position: relative;
-      z-index: 30;
-      margin: 0.286rem 0.5rem;
-      text-align: left;
-    }
-    .content {
-      margin: 0 1.15rem 1.2rem 5rem;
-      position: relative;
-      z-index: 30;
-      display: flex;
-      flex-direction: row;
-      label {
-        color: #4D4D4D;
-      }
-    }
-    ::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 20;
-      border-radius: 4px;
-      width: 100%;
-      height: 100%;
-      opacity: ${theme.opacityOfHighlightedSection};
-    }
-  }
-  .ui--Labelled-content {
-    font-size: 1rem;
-    font-weight: 500;
-    color: ${theme.color};
-    .ui--FormatBalance-postfix {
-      font-weight: 500;
-      color: ${theme.color};
-      opacity: 1;
-    }
-    .timeUnits, .ui--FormatBalance-unit {
-      font-weight: 300;
-      color: #8B8B8B;
-      font-size: 1rem;
-    }
-  }
-`));
+export default React.memo(Summary);

@@ -212,17 +212,6 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
-  .ui--BountySummary {
-    .HighlightedSection {
-      ::after {
-        background-color: ${getHighlight(uiHighlight)} !important;
-      }
-      header {
-        color:  ${getHighlight(uiHighlight)} !important;
-        }
-    }
-  }
-
   #root {
     background: ${theme.bgPage};
     color: ${theme.color};
