@@ -22,6 +22,7 @@ import kilt from './kilt';
 import nodle from './nodle';
 import phala from './phala';
 import plasm from './plasm';
+import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
@@ -50,6 +51,7 @@ export default {
   hanonycash,
   jupiter,
   'mashnet-node': kilt,
+  'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'phala-node': phala,
   plasm,
