@@ -17,6 +17,7 @@ const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
 const chainPlasm = '#2096F3';
 const chainPolkabtc = '#510101';
+const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
@@ -42,6 +43,7 @@ const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
+const nodePolkadex = '#7C30DD';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
@@ -68,6 +70,7 @@ export const chainColors: Record<string, any> = [
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
+  ['Polkadex Testnet', chainPolkadex],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],
@@ -96,6 +99,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
+  ['Polkadex Node', chainPolkadex],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],

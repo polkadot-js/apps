@@ -128,6 +128,12 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://poc3a.phala.network/ws'
     },
     {
+      info: 'polkadex',
+      text: t('rpc.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Polkadex Team' } }),
+      value: 'wss://blockchain.polkadex.trade'
+    },
+    {
       info: 'polkabtc',
       text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Interlay' } }),

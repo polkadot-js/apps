@@ -26,9 +26,11 @@ import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
 import zero from './zero';
+import polkadex from "./polkadex";
 
 // mapping from specName in state.getRuntimeVersion
 export default {
+  Polkadex: polkadex,
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,

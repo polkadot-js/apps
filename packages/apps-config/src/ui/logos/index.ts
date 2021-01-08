@@ -41,6 +41,7 @@ import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkaBTC from './nodes/polkabtc.png';
+import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -64,6 +65,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC3', chainKusama],
   ['Moonbase Alpha', moonbeam],
   ['PolkaBTC', nodePolkaBTC],
+  ['Polkadex Testnet', nodePolkadex],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -97,6 +99,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
+  ['Polkadex Node', nodePolkadex],
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
@@ -147,6 +150,7 @@ export const namedLogos: Record<string, unknown> = {
   phala: nodePhala,
   plasm: nodePlasm,
   polkabtc: nodePolkaBTC,
+  polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
