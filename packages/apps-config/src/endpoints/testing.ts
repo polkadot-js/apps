@@ -104,6 +104,18 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://galois.maiziqianbao.net/ws'
     },
     {
+      info: 'jupiter',
+      text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Elara' } }),
+      value: 'wss://jupiter.elara.patract.io'
+    },
+    {
+      info: 'jupiter',
+      text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Patract' } }),
+      value: 'wss://ws.jupiter.patract.cn'
+    },
+    {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Acala' } }),
@@ -126,6 +138,12 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Phala Network' } }),
       value: 'wss://poc3a.phala.network/ws'
+    },
+    {
+      info: 'polkadex',
+      text: t('rpc.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Polkadex Team' } }),
+      value: 'wss://blockchain.polkadex.trade'
     },
     {
       info: 'polkabtc',
@@ -153,9 +171,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://westend-rpc.polkadot.io'
     },
     {
-      dnslink: 'zero',
       info: 'zero',
-      text: t('rpc.zero', 'zero', { ns: 'apps-config' }),
+      text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'ZERO' } }),
       value: 'wss://alphaville-0.zero.io'
     }
