@@ -96,6 +96,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
+  ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
@@ -113,8 +114,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
-  ['SUBZΞRO', nodeZero],
-  ['Jupiter Node', nodeJupiter]
+  ['SUBZΞRO', nodeZero]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
