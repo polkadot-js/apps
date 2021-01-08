@@ -158,6 +158,20 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'zero', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'ZERO' } }),
       value: 'wss://alphaville-0.zero.io'
+    },
+    {
+      dnslink: 'jupiter',
+      info: 'jupiter',
+      text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Elara' } }),
+      value: 'wss://jupiter.elara.patract.io'
+    },
+    {
+      dnslink: 'jupiter',
+      info: 'jupiter',
+      text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Patract' } }),
+      value: 'wss://ws.jupiter.patract.cn'
     }
   ];
 }
