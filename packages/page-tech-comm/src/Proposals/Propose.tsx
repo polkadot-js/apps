@@ -99,7 +99,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!isMember}
-        label={t<string>('Submit proposal')}
+        label={t<string>('Propose')}
         onClick={onOpen}
       />
     </>

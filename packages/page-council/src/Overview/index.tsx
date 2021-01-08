@@ -7,7 +7,7 @@ import type { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import {useApi, useCall, useMembers} from '@polkadot/react-hooks';
 
 import Candidates from './Candidates';
 import Members from './Members';
@@ -15,12 +15,16 @@ import SubmitCandidacy from './SubmitCandidacy';
 import Summary from './Summary';
 import Vote from './Vote';
 
+import SimpleSummary from './SimpleSummary';
+import SimpleMembers from './SimpleMembers';
+
 interface Props {
   className?: string;
   prime: AccountId | null;
 }
 
-const transformVotes = {
+// SD: Commented below
+/*const transformVotes = {
   transform: (entries: DeriveCouncilVotes): Record<string, AccountId[]> => {
     return entries.reduce((result: Record<string, AccountId[]>, [voter, { votes }]): Record<string, AccountId[]> => {
       votes.forEach((candidate): void => {
@@ -36,17 +40,29 @@ const transformVotes = {
       return result;
     }, {});
   }
-};
+};*/
 
 function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
-  const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, undefined, transformVotes);
+  // SD: Commented lines below
+  // const { api } = useApi();
+  // const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  // const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
+  // const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, undefined, transformVotes);
+
+  // SD: Added true parameter
+  const { isMember, members } = useMembers('council', true);
 
   return (
     <div className={className}>
-      <Summary
+      <SimpleSummary
+        members={members}
+      />
+      <SimpleMembers
+        members={members}
+        prime={prime}
+      />
+      {/* SD: Commented components below */}
+      {/*<Summary
         bestNumber={bestNumber}
         electionsInfo={electionsInfo}
       />
@@ -56,13 +72,13 @@ function Overview ({ className = '', prime }: Props): React.ReactElement<Props> 
       </Button.Group>
       <Members
         allVotes={allVotes}
-        electionsInfo={electionsInfo}
+        // electionsInfo={electionsInfo}
         prime={prime}
       />
       <Candidates
         allVotes={allVotes}
         electionsInfo={electionsInfo}
-      />
+      />*/}
     </div>
   );
 }

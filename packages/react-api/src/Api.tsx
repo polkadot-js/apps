@@ -11,6 +11,7 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import * as councilProposals from '@polkadot/api-derive/council/proposals';
 import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
@@ -197,7 +198,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const types = getDevTypes();
 
     // api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
-    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesBundle, typesChain, typesSpec, derives: {council: councilProposals} });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

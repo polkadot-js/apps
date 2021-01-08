@@ -47,7 +47,9 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
 
   useEffect((): void => {
     const proposal = delayBlocks && delayBlocks.gtn(0) && votingBlocks && votingBlocks.gtn(0)
-      ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
+      ? api.tx.simpleDemocracy.fastTrack(imageHash, votingBlocks, delayBlocks)
+      // SD: Commented line below
+      // ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
       : null;
 
     setProposal({ proposal, proposalLength: proposal?.length || 0 });
