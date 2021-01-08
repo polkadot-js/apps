@@ -30,7 +30,7 @@ import polkadex from "./polkadex";
 
 // mapping from specName in state.getRuntimeVersion
 export default {
-  Polkadex: polkadex,
+  'node-polkadex': polkadex,
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
