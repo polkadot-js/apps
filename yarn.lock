@@ -1978,7 +1978,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.74.2-14
-    "@testing-library/react": ^11.2.2
+    "@testing-library/react": ^11.2.3
     file-saver: ^2.0.5
     testcontainers: ^6.4.1
   languageName: unknown
@@ -2189,7 +2189,7 @@ __metadata:
     "@interlay/polkabtc-types": ^0.2.9
     "@laminar/type-definitions": ^0.2.0-beta.141
     "@polkadot/networks": ^5.2.3
-    "@sora-substrate/type-definitions": ^0.3.2
+    "@sora-substrate/type-definitions": ^0.3.3
     "@subsocial/types": ^0.4.27
     i18next: ^19.8.4
     moonbeam-types-bundle: ^1.0.5
@@ -2215,7 +2215,7 @@ __metadata:
     react-dom: ^17.0.1
     thread-loader: ^3.0.1
     tmp: ^0.2.1
-    webpack: ^5.11.1
+    webpack: ^5.12.0
   languageName: unknown
   linkType: soft
 
@@ -2262,7 +2262,7 @@ __metadata:
     query-string: ^6.13.8
     stream-browserify: ^3.0.0
     url-loader: ^4.1.1
-    webpack: ^5.11.1
+    webpack: ^5.12.0
     webpack-cli: ^4.3.1
     webpack-dev-server: ^4.0.0-beta.0
     webpack-merge: ^5.7.3
@@ -2620,7 +2620,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
-    "@testing-library/react": ^11.2.2
+    "@testing-library/react": ^11.2.3
     testcontainers: ^6.4.1
   languageName: unknown
   linkType: soft
@@ -2910,12 +2910,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:^0.3.2":
-  version: 0.3.2
-  resolution: "@sora-substrate/type-definitions@npm:0.3.2"
+"@sora-substrate/type-definitions@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "@sora-substrate/type-definitions@npm:0.3.3"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: c898b89bc11ec3e1a0a70d2378162016e07b5241e6f63708761665237d74ee555973d6b5fdce01fa0bd4caeb8d6540c701590bc012742cf3625cd455373a4f47
+  checksum: c8dd8433a7a6951186ebcd145a7495da02bec91afb5aedd47b8b1dd6934efe952f05d8144bc90376e0303f3ec06d5bd47bde41fe2982527811bbc6ef42de92eb
   languageName: node
   linkType: hard
 
@@ -3030,16 +3030,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^11.2.2":
-  version: 11.2.2
-  resolution: "@testing-library/react@npm:11.2.2"
+"@testing-library/react@npm:^11.2.3":
+  version: 11.2.3
+  resolution: "@testing-library/react@npm:11.2.3"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@testing-library/dom": ^7.28.1
   peerDependencies:
     react: "*"
     react-dom: "*"
-  checksum: b2061c140201ab179a8cc3294ebc58f9a7ea5ffdb83ee246d59cb0ecfe4c2c99cdeedef66c280a52773453477f03866388ba7b36d2b144a3e646250c3f8efbc9
+  checksum: a310ca61cd6668d8825c366c33febef024538d6e03b25a161d69ad0c9ec4a0336f189eb8a9400327f47b8f1127811ccac04b57646ca8f0a3d48d8a16a2988603
   languageName: node
   linkType: hard
 
@@ -3313,13 +3313,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.19":
-  version: 26.0.19
-  resolution: "@types/jest@npm:26.0.19"
+"@types/jest@npm:^26.0.20":
+  version: 26.0.20
+  resolution: "@types/jest@npm:26.0.20"
   dependencies:
     jest-diff: ^26.0.0
     pretty-format: ^26.0.0
-  checksum: 98c8daaf89ca79823461818c1c22d337354e250a135e0314ba1a49e615620c8e2f54c5b900ba8554bf853919c97538f9a38b5af00cea83fd715ee2e6d75e04b8
+  checksum: 221e39c7c9ce8d71ae4b2ba6abeef1a5b04f1cd96419b9fbbb65534bef4c4215b650561183073dcf47584ff1888d1f4fa7d2af2a38492b7feb9a3bfdcd24c44f
   languageName: node
   linkType: hard
 
@@ -12017,10 +12017,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"loader-runner@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "loader-runner@npm:4.1.0"
-  checksum: 2b964f3484249acc18f1c28e35aee284ed698a73e9f1913bc045761ad0af3a61b403e22ce170e4cc8bdcea87fddb6a34b42e9f88a023758e635d5276c75dd8c4
+"loader-runner@npm:^4.1.0, loader-runner@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "loader-runner@npm:4.2.0"
+  checksum: e8b103ae98d589d9f5444b51053cc8ec48d8d6d9c1d0f845fd6d25ada769c68f22c5031a58ba95faf9a561eb95607a38005ac37339e1e4e37105467193d2b290
   languageName: node
   linkType: hard
 
@@ -14235,7 +14235,7 @@ fsevents@~2.1.2:
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.29
     "@types/file-saver": ^2.0.1
-    "@types/jest": ^26.0.19
+    "@types/jest": ^26.0.20
     "@types/react-beautiful-dnd": ^13.0.0
     "@types/react-copy-to-clipboard": ^5.0.0
     "@types/react-dom": ^17.0.0
@@ -14258,7 +14258,7 @@ fsevents@~2.1.2:
     stylelint: ^13.8.0
     stylelint-config-recommended: ^3.0.0
     stylelint-config-styled-components: ^0.1.1
-    webpack: ^5.11.1
+    webpack: ^5.12.0
     webpack-cli: ^4.3.1
   languageName: unknown
   linkType: soft
@@ -18816,9 +18816,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.11.1":
-  version: 5.11.1
-  resolution: "webpack@npm:5.11.1"
+"webpack@npm:^5.12.0":
+  version: 5.12.0
+  resolution: "webpack@npm:5.12.0"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.45
@@ -18835,7 +18835,7 @@ fsevents@~2.1.2:
     glob-to-regexp: ^0.4.1
     graceful-fs: ^4.2.4
     json-parse-better-errors: ^1.0.2
-    loader-runner: ^4.1.0
+    loader-runner: ^4.2.0
     mime-types: ^2.1.27
     neo-async: ^2.6.2
     pkg-dir: ^5.0.0
@@ -18849,7 +18849,7 @@ fsevents@~2.1.2:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: c3130daeaa37c5acde0e8d75462d41914349522f8c85d20e7da669aa7997eb3ba3b051d3f25fc2c7ff76e87c8dab25f09a791fbad66c696e09cb2dd0fbcda0ad
+  checksum: 82ccf119fde2835a9c63cdb72f4ff2dac1e66d92de18392291531bb26e644d054f508184d0be64d9cadb0546d12f820113b4839f1c8083d344f2a982ab599f6a
   languageName: node
   linkType: hard
 

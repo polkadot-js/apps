@@ -8,7 +8,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@testing-library/react": "^11.2.2",
+    "@testing-library/react": "^11.2.3",
     "testcontainers": "^6.4.1"
   }
 }
