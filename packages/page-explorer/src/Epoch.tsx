@@ -4,7 +4,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { AddressMini } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, bnToBn } from '@polkadot/util';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -33,7 +33,7 @@ function Epoch ({ value }: Props): React.ReactElement<Props> | null {
 
   const validatorEmission = stats && !stats.emission_for_validators.isNone ? stats.emission_for_validators.unwrap() : 0;
   const treasuryEmission = stats && !stats.emission_for_treasury.isNone ? stats.emission_for_treasury.unwrap() : 0;
-  const totalEmission = validatorEmission + validatorEmission;
+  const totalEmission = bnToBn(validatorEmission).add(bnToBn(treasuryEmission));
 
   return (
     <tr>
