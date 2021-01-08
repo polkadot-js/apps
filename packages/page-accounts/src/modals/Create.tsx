@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { ModalProps } from '../types';
@@ -475,7 +476,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 }
 
-export default React.memo(styled(Create)`
+export default React.memo(styled(Create)(({ theme }: ThemeProps) => `
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -503,8 +504,8 @@ export default React.memo(styled(Create)`
       margin: 0.8rem 0;
 
       > label {
-          font-weight: 400;
+          font-weight: ${theme.fontWeightNormal};
       }
     }
   }
-`);
+`));
