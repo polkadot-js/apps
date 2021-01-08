@@ -21,42 +21,42 @@ import kilt from './kilt';
 import nodle from './nodle';
 import phala from './phala';
 import plasm from './plasm';
+import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
 import zero from './zero';
-import polkadex from "./polkadex";
 
 // mapping from specName in state.getRuntimeVersion
 export default {
-    Crab: crab,
-    Darwinia: darwinia,
-    Equilibrium: equilibrium,
-    bifrost: bifrost,
-    canvas,
-    'centrifuge-chain': centrifugeChain,
-    crust,
-    'cumulus-test-parachain': testPara,
-    'darwinia-parachain': darwiniaParachain,
-    'dock-main-runtime': dock,
-    'dock-testnet': dock,
-    dusty3: dusty,
-    edgeware,
-    'encointer-node': encointerNodeNotee,
-    'encointer-node-notee': encointerNodeNotee,
-    'encointer-node-teeproxy': encointerNodeTeeproxy,
-    galois: galois,
-    hanonycash,
-    'mashnet-node': kilt,
-    'node-polkadex': polkadex,
-    'nodle-chain': nodle,
-    'phala-node': phala,
-    plasm,
-    robonomics,
-    'stable-poc': stablePoc,
-    stable_poc: stablePoc,
-    stafi,
-    subsocial,
-    subzero: zero
+  Crab: crab,
+  Darwinia: darwinia,
+  Equilibrium: equilibrium,
+  bifrost: bifrost,
+  canvas,
+  'centrifuge-chain': centrifugeChain,
+  crust,
+  'cumulus-test-parachain': testPara,
+  'darwinia-parachain': darwiniaParachain,
+  'dock-main-runtime': dock,
+  'dock-testnet': dock,
+  dusty3: dusty,
+  edgeware,
+  'encointer-node': encointerNodeNotee,
+  'encointer-node-notee': encointerNodeNotee,
+  'encointer-node-teeproxy': encointerNodeTeeproxy,
+  galois: galois,
+  hanonycash,
+  'mashnet-node': kilt,
+  'node-polkadex': polkadex,
+  'nodle-chain': nodle,
+  'phala-node': phala,
+  plasm,
+  robonomics,
+  'stable-poc': stablePoc,
+  stable_poc: stablePoc,
+  stafi,
+  subsocial,
+  subzero: zero
 };
