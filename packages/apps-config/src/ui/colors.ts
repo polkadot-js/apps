@@ -41,6 +41,7 @@ const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
+const nodeJupiter = '#7143ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
@@ -49,7 +50,6 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 const nodeZero = '#0099cc';
-const nodeJupiter = '#7143ff';
 
 export { emptyColor };
 
@@ -62,6 +62,7 @@ export const chainColors: Record<string, any> = [
   ['darwinia cc1', chainDarwinia],
   ['darwinia parachain', chainRoccoDarwinia],
   ['hanonycash', chainHanonycash],
+  ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],
   ['Kusama', chainKusama],
   ['Kusama CC1', chainKusama],
@@ -81,8 +82,7 @@ export const chainColors: Record<string, any> = [
   ['Trick', chainRoccoTrick],
   ['Westend', chainWestend],
   ['Galois', chainGalois],
-  ['ZΞRO Alphaville', chainZero],
-  ['Jupiter Testnet', chainJupiter]
+  ['ZΞRO Alphaville', chainZero]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -100,14 +100,14 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
+  ['Jupiter Node', nodeJupiter],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
-  ['SUBZΞRO', nodeZero],
-  ['Jupiter Node', nodeJupiter]
+  ['SUBZΞRO', nodeZero]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]
