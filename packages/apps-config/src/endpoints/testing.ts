@@ -97,8 +97,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       value: 'wss://substrate-rpc.parity.io'
     },
     {
-      dnslink: 'galois',
       info: 'galois',
+      isDisabled: true, // cannot construct AccountServiceEnum
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'MathWallet' } }),
       value: 'wss://galois.maiziqianbao.net/ws'
