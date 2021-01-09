@@ -11,7 +11,6 @@ import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import dock from './dock';
 import dusty from './dusty';
-import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import equilibrium from './equilibrium';
@@ -43,7 +42,6 @@ export default {
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   dusty3: dusty,
-  edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,

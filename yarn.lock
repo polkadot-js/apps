@@ -1391,10 +1391,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edgeware/node-types@npm:^3.0.11":
-  version: 3.0.11
-  resolution: "@edgeware/node-types@npm:3.0.11"
-  checksum: a98552a63dd138748c5c68ee34401e2b46b326cd5897eb001d74b1ebb4a0817a074be60cde10fd1ee0368f5923554c56476fedc96cffe3764bdc87675a7e4790
+"@edgeware/node-types@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@edgeware/node-types@npm:3.2.0"
+  checksum: a5c0ff07269fd67f0d3c468426fecf00d66ba651cc77f285082945b5c894f47d50ab10488614ec0a6cf633143e7987ca1061a52657770f10cb8401e94ebb7215
   languageName: node
   linkType: hard
 
@@ -2185,7 +2185,7 @@ __metadata:
   dependencies:
     "@acala-network/type-definitions": ^0.6.1
     "@babel/runtime": ^7.12.5
-    "@edgeware/node-types": ^3.0.11
+    "@edgeware/node-types": ^3.2.0
     "@interlay/polkabtc-types": ^0.2.9
     "@laminar/type-definitions": ^0.2.0-beta.141
     "@polkadot/networks": ^5.2.3
