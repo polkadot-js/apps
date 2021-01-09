@@ -13,10 +13,10 @@
     "@babel/runtime": "^7.12.5",
     "@edgeware/node-types": "^3.2.0",
     "@interlay/polkabtc-types": "^0.2.9",
-    "@laminar/type-definitions": "^0.2.0-beta.141",
+    "@laminar/type-definitions": "^0.2.0-beta.143",
     "@polkadot/networks": "^5.2.3",
     "@sora-substrate/type-definitions": "^0.3.3",
-    "@subsocial/types": "^0.4.27",
+    "@subsocial/types": "^0.4.28",
     "moonbeam-types-bundle": "^1.0.5"
   },
   "devDependencies": {
