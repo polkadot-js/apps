@@ -217,7 +217,7 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
         width: 100%;
 
         .th {
-          font-weight: 400;
+          font-weight: ${theme.fontWeightNormal};
           text-align: right;
           flex-basis: 20%;
 

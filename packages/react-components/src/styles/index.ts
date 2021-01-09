@@ -370,7 +370,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     display: block;
     font: ${theme.fontSans};
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
   }
 
   main {
