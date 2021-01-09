@@ -5,7 +5,7 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { Button, Dropdown, Input, MarkError, Modal, StatusContext } from '@polkadot/react-components';
+import { Button, Dropdown, Input, MarkWarning, Modal, StatusContext } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -93,7 +93,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
               onChange={setSuri}
               value={suri}
             />
-            <MarkError content={t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')} />
+            <MarkWarning content={t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')} />
           </Modal.Column>
           <Modal.Column>
             <p>{t<string>('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}</p>
