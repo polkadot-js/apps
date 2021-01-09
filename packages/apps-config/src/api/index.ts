@@ -10,8 +10,8 @@ export * from './params';
 
 export function getChainTypes (specName: string, chainName: string): Record<string, string | Record<string, unknown>> {
   return {
-    ...(typesSpec[specName as 'edgeware'] || {}),
-    ...(typesChain[chainName as 'Beresheet'] || {})
+    ...(typesSpec[specName as keyof typeof typesSpec] || {}),
+    ...(typesChain[chainName as keyof typeof typesChain] || {})
   };
 }
 

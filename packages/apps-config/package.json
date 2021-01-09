@@ -11,7 +11,7 @@
   "dependencies": {
     "@acala-network/type-definitions": "^0.6.1",
     "@babel/runtime": "^7.12.5",
-    "@edgeware/node-types": "^3.0.11",
+    "@edgeware/node-types": "^3.2.0",
     "@interlay/polkabtc-types": "^0.2.9",
     "@laminar/type-definitions": "^0.2.0-beta.141",
     "@polkadot/networks": "^5.2.3",
