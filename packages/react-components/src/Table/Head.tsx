@@ -54,7 +54,7 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
   th {
     font: ${theme.fontSans};
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
