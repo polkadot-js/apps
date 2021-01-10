@@ -5,7 +5,6 @@ export * from '@polkadot/react-qr';
 
 export { default as AccountIndex } from './AccountIndex';
 export { default as AccountName } from './AccountName';
-export { default as ActionItem } from './ActionItem';
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
