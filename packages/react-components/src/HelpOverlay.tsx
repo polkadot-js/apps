@@ -49,13 +49,13 @@ export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
     color: ${theme.color};
     cursor: pointer;
     font-size: 2rem;
-    padding: 1rem 1.5rem 0 0;
+    padding: 0.65rem 1.5rem 0 0;
   }
 
   > .help-button {
     position: absolute;
     right: 0rem;
-    top: 0.125rem;
+    top: 0rem;
   }
 
   .help-slideout {
