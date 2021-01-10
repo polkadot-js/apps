@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { BatchWarning, Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
@@ -136,9 +136,7 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
           value={accountId}
         />
         {accountId.eq(proxiedAccount) && (
-          <article className='error'>
-            {t<string>('You should not setup proxies to act as a self-proxy.')}
-          </article>
+          <MarkError content={t<string>('You should not setup proxies to act as a self-proxy.')} />
         )}
         <Dropdown
           help={'Type of proxy'}

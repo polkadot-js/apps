@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -166,7 +166,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 />
               )}
               {!isProtected && accountInfo && accountInfo.refcount && !accountInfo.refcount.isZero() && (
-                <article className='warning'>{t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')}</article>
+                <MarkWarning content={t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />
               )}
             </Modal.Column>
             <Modal.Column>

@@ -4,7 +4,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import { getLedger } from '@polkadot/react-api';
-import { Button, Dropdown, Modal } from '@polkadot/react-components';
+import { Button, Dropdown, MarkError, Modal } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -98,7 +98,7 @@ function Ledger ({ className, onClose }: Props): React.ReactElement<Props> {
               value={addIndex}
             />
             {error && (
-              <article className='error'>{error.message}</article>
+              <MarkError content={error.message} />
             )}
           </Modal.Column>
           <Modal.Column>

@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { getEnvironment } from '@polkadot/react-api/util';
-import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, Modal, TextArea } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
@@ -374,10 +374,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   value={derivePath}
                 />
                 {deriveValidation?.error && (
-                  <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
+                  <MarkError content={errorIndex[deriveValidation.error] || deriveValidation.error} />
                 )}
                 {deriveValidation?.warning && (
-                  <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
+                  <MarkWarning content={errorIndex[deriveValidation.warning]} />
                 )}
               </Modal.Column>
               <Modal.Column>
