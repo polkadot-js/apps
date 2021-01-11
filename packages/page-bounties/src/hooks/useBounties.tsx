@@ -20,6 +20,7 @@ export type BountyApi = {
   dataDepositPerByte: BN,
   maximumReasonLength: number,
   proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  proposeCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
 };
 
 export function useBounties (): BountyApi {
@@ -33,6 +34,7 @@ export function useBounties (): BountyApi {
   const maximumReasonLength = constsBase.maximumReasonLength.toNumber();
   const dataDepositPerByte = (constsBase.dataDepositPerByte as BalanceOf).toBn();
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
+  const proposeCurator = (api.tx.bounties || api.tx.treasury).proposeCurator;
   const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
   const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
 
@@ -46,6 +48,7 @@ export function useBounties (): BountyApi {
     closeBounty,
     dataDepositPerByte,
     maximumReasonLength,
-    proposeBounty
+    proposeBounty,
+    proposeCurator
   };
 }
