@@ -11,35 +11,43 @@ import type { LinkOption } from '../settings/types';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): LinkOption {
-  return {
-    dnslink: 'rococo',
-    info: 'rococo',
-    text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
-    textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-    value: 'wss://rococo-rpc.polkadot.io',
-    // eslint-disable-next-line sort-keys
-    linked: [
-      // these are the base chains
-      {
-        info: 'rococoTick',
-        text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
-        textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-        value: 'wss://tick-rpc.polkadot.io'
-      },
-      {
-        info: 'rococoTrick',
-        text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
-        textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-        value: 'wss://trick-rpc.polkadot.io'
-      },
-      {
-        info: 'rococoTrack',
-        text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
-        textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-        value: 'wss://track-rpc.polkadot.io'
-      }
-      // add any additional parachains here, alphabetical
-    ]
-  };
+export function createRococo (t: TFunction): LinkOption[] {
+  return [
+    {
+      dnslink: 'rococo',
+      info: 'rococo',
+      text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+      value: 'wss://rococo-rpc.polkadot.io'
+    },
+    {
+      info: 'rococo',
+      text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
+      value: 'wss://rococo.api.onfinality.io/public-ws',
+      // eslint-disable-next-line sort-keys
+      linked: [
+        // these are the base chains
+        {
+          info: 'rococoTick',
+          text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
+          textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+          value: 'wss://tick-rpc.polkadot.io'
+        },
+        {
+          info: 'rococoTrick',
+          text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
+          textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+          value: 'wss://trick-rpc.polkadot.io'
+        },
+        {
+          info: 'rococoTrack',
+          text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
+          textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+          value: 'wss://track-rpc.polkadot.io'
+        }
+        // add any additional parachains here, alphabetical
+      ]
+    }
+  ];
 }
