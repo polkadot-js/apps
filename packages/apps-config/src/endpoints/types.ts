@@ -8,6 +8,6 @@ export interface EndpointOption {
   isDisabled?: boolean;
   linked?: EndpointOption[];
   info?: string;
-  providers: { by: string; url: string }[];
+  providers: Record<string, string>;
   text: React.ReactNode;
 }
