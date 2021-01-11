@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { AccountInfo } from '@polkadot/types/interfaces';
+import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -22,6 +22,10 @@ interface Props {
   senderId?: string;
 }
 
+function isRefcount (accountInfo: AccountInfoWithProviders | AccountInfoWithRefCount): accountInfo is AccountInfoWithRefCount {
+  return !!(accountInfo as AccountInfoWithRefCount).refcount;
+}
+
 function Transfer ({ className = '', onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -33,7 +37,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
-  const accountInfo = useCall<AccountInfo>(api.query.system.account, [senderId]);
+  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [senderId]);
 
   useEffect((): void => {
     if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
@@ -61,7 +65,12 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     }
   }, [api, balances, recipientId, senderId]);
 
-  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && (!accountInfo || !accountInfo.refcount || accountInfo.refcount.isZero());
+  const noReference = accountInfo
+    ? isRefcount(accountInfo)
+      ? accountInfo.refcount.isZero()
+      : (accountInfo.consumers.isZero() && accountInfo.providers.isZero())
+    : true;
+  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && noReference;
 
   return (
     <Modal
@@ -165,7 +174,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   value={isAll}
                 />
               )}
-              {!isProtected && accountInfo && accountInfo.refcount && !accountInfo.refcount.isZero() && (
+              {!isProtected && !noReference && (
                 <MarkWarning content={t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />
               )}
             </Modal.Column>
