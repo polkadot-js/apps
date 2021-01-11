@@ -53,26 +53,16 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={className}>
-        <td>
-          <div>
-            <div>{bountyStatus}</div>
-            {proposals && (
-              <div>
-                <VotingDescription
-                  proposals={proposals}
-                  status={status}
-                />
-              </div>
-            )}
-          </div>
-        </td>
-        <td data-testid='description'>{truncateTitle(description, 30)}</td>
+        <td>{bountyStatus}</td>
+        <td colSpan={2} data-testid='description'>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>
-        <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
-        <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
-        <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
-        <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
+        <td>{curator && <AddressSmall value={curator} />}</td>
         <td>
+          {blocksUntilPayout ? <DueBlocks dueBlocks={blocksUntilPayout} /> : ''}
+          {blocksUntilUpdate ? <DueBlocks dueBlocks={blocksUntilUpdate} /> : ''}
+        </td>
+        <td>
+          {beneficiary && <AddressSmall value={beneficiary} />}
           <BountyActions
             bestNumber={bestNumber}
             description={description}
@@ -82,52 +72,45 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             value={value}
           />
         </td>
-        <td className='table-column-icon'>
+        <td className='fast-actions'>
           <LinkExternal
             data={index}
             isLogo
             type='bounty'
           />
-        </td>
-        <td className='table-column-icon'>
-          <div onClick={handleOnIconClick}>
-            <Icon
-              icon={
-                isExpanded
-                  ? 'caret-up'
-                  : 'caret-down'
-              }
-            />
+          <div className='table-column-icon'
+            onClick={handleOnIconClick}>
+            <div>
+              <Icon
+                icon={
+                  isExpanded
+                    ? 'caret-up'
+                    : 'caret-down'
+                }
+              />
+            </div>
           </div>
         </td>
       </tr>
       <tr className={className}
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
-        <td />
-        <td className='proposer'>
+        <td className='proposer'
+          colSpan={2}>
           <div className='label'>{t('Proposer')}</div>
           <AddressSmall value={proposer} />
         </td>
         <td className='column-with-label'>
-          <div className='label'>{t('Value')}</div>
           <div className='label'>{t('Bond')}</div>
-        </td>
-        <td >
-          <div className='inline-balance'><FormatBalance value={value} /></div>
-          <div className='inline-balance'><FormatBalance value={bond} /></div>
-        </td>
-        <td className='column-with-label'>
           <div className='label'>{t("Curator's fee")}</div>
           <div className='label'>{t("Curator's deposit")}</div>
         </td>
         <td>
+          <div className='inline-balance'><FormatBalance value={bond} /></div>
           <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
           <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
         </td>
-        <td />
-        <td />
-        <td />
-        <td />
+        <td/>
+        <td/> <td/> <td/>
       </tr>
     </>
   );
@@ -152,14 +135,17 @@ export default React.memo(styled(Bounty)`
   & .links {
     display: inline-flex;
   }
+  & .fast-actions {
+    display: flex;
 
-  & .table-column-icon {
-    width: 52px;
-    padding: 0;
+    .table-column-icon {
+      width: 52px;
+      padding: 0;
 
-    div {
-      padding: 0.75rem;
-      cursor: pointer;
+      div {
+        padding: 0.75rem;
+        cursor: pointer;
+      }
     }
   }
 
