@@ -10,8 +10,11 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
+import { Metadata } from '@polkadot/metadata';
+import metaStatic from '@polkadot/metadata/static';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
@@ -49,6 +52,7 @@ let mockBountyApi: BountyApi = {
 };
 
 let mockBalance = balanceOf(1);
+let apiWithAugmentations: ApiPromise;
 
 const mockTreasury = {
   burn: new BN(1),
@@ -69,9 +73,23 @@ jest.mock('@polkadot/react-hooks/useTreasury', () => {
   };
 });
 
+export function createApiWithAugmentations (): ApiPromise {
+  const registry = new TypeRegistry();
+  const metadata = new Metadata(registry, metaStatic);
+
+  registry.setMetadata(metadata);
+
+  const api = new ApiPromise({ provider: new WsProvider('ws://', false), registry });
+
+  api.injectMetadata(metadata, true);
+
+  return api;
+}
+
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
+    apiWithAugmentations = createApiWithAugmentations();
   });
 
   const renderBounties = (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) => {
@@ -99,6 +117,38 @@ describe('Bounties', () => {
       </Suspense>
     );
   };
+
+  it('creates correct bounty with proposal', () => {
+    const bounty = apiWithAugmentations.registry.createType('Bounty', {
+      curatorDeposit: new BN(1),
+      status: 'Funded',
+      value: new BN(10)
+    });
+
+    expect(bounty.curatorDeposit.eq(new BN(1))).toBeTruthy();
+    expect(bounty.status.isFunded).toBeTruthy();
+    expect(bounty.value.eq(new BN(10))).toBeTruthy();
+  });
+
+  it('creates correct proposal', () => {
+    const proposal = apiWithAugmentations.registry.createType('Proposal', apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1));
+
+    expect(proposal.args[0].eq(new BN(0))).toBeTruthy();
+    expect(proposal.args[1].toString()).toEqual('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z');
+    expect(proposal.args[2].eq(new BN(1))).toBeTruthy();
+    expect(proposal.method).toEqual('proposeCurator');
+  });
+
+  it('creates correct votes', () => {
+    const votes = apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 });
+
+    expect(votes.ayes.length).toEqual(1);
+    expect(votes.ayes[0].toString()).toEqual('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
+    expect(votes.nays.length).toEqual(1);
+    expect(votes.nays[0].toString()).toEqual('5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty');
+    expect(votes.index.toNumber()).toEqual(0);
+    expect(votes.threshold.toNumber()).toEqual(4);
+  });
 
   it('shows empty list when no bounties', async () => {
     const { findByText } = renderBounties();
@@ -146,6 +196,16 @@ describe('Bounties', () => {
       fireEvent.change(titleInput, { target: { value: 'add bytes' } });
 
       expect(await findByText('Account does not have enough funds.')).toBeTruthy();
+    });
+  });
+
+  describe('Extended status for curator', () => {
+    it('Curator under voting', () => {
+      const bounty = new TypeRegistry().createType('Bounty', { status: 'Funded', value: new BN(151) });
+      const proposal = apiWithAugmentations.registry.createType('Proposal', apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1));
+      const votes = apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 });
+
+      console.log('To be continued', bounty, proposal, votes);
     });
   });
 });
