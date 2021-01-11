@@ -28,24 +28,24 @@ export function createRococo (t: TFunction): LinkOption[] {
       // these are the base chains
       {
         info: 'rococoTick',
+        text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://tick-rpc.polkadot.io'
-        },
-        text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' })
+        }
       },
       {
         info: 'rococoTrick',
+        text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://trick-rpc.polkadot.io'
-        },
-        text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' })
+        }
       },
       {
         info: 'rococoTrack',
+        text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://track-rpc.polkadot.io'
-        },
-        text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' })
+        }
       }
       // add any additional parachains here, alphabetical
     ]
