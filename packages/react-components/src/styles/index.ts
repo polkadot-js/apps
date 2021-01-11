@@ -80,7 +80,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--bg-light:before {
-    opacity: 0.125;
+    opacity: 0.2;
   }
 
   .highlight--border {

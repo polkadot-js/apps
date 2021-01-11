@@ -45,7 +45,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
+        <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
         <Button.Group>
           <Button
             icon='chevron-left'
