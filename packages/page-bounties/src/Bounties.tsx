@@ -1,24 +1,19 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBounties } from '@polkadot/api-derive/types';
-import type { BlockNumber } from '@polkadot/types/interfaces';
-
 import React, { useRef } from 'react';
 
 import Summary from '@polkadot/app-bounties/Summary';
 import { Button, Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
+import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 function Bounties (): React.ReactElement {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const deriveBounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const { bestNumber, bounties } = useBounties();
 
   const headerRef = useRef([
     [t('bounties'), 'start'],
@@ -35,15 +30,15 @@ function Bounties (): React.ReactElement {
 
   return (
     <>
-      <Summary activeBounties={deriveBounties?.length}/>
+      <Summary activeBounties={bounties?.length}/>
       <Button.Group>
         <BountyCreate />
       </Button.Group>
       <Table
-        empty={deriveBounties && t<string>('No open bounties')}
+        empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
       >
-        {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description, index, proposals }) => (
+        {bounties && bestNumber && bounties.map(({ bounty, description, index, proposals }) => (
           <Bounty
             bestNumber={bestNumber}
             bounty={bounty}

@@ -1,17 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BountyIndex } from '@polkadot/types/interfaces';
-
 import React from 'react';
 
+import { useBounties } from '@polkadot/app-bounties/hooks';
 import { useTranslation } from '@polkadot/app-treasury/translate';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import Progress from '@polkadot/react-components/Progress';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTreasury } from '@polkadot/react-hooks/useTreasury';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { Balance } from '@polkadot/types/interfaces';
 
 interface Props {
   activeBounties?: number;
@@ -20,10 +17,7 @@ interface Props {
 
 function Summary ({ activeBounties, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-
-  const bountyIndex = useCall<BountyIndex>((api.query.bounties || api.query.treasury).bountyCount);
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
+  const { bestNumber, bountyIndex } = useBounties();
 
   const { burn, spendPeriod, value } = useTreasury();
 

@@ -4,6 +4,10 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
 
+import { expandEndpoints } from './util';
+
+/* eslint-disable sort-keys */
+
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
@@ -13,63 +17,30 @@ import type { LinkOption } from '../settings/types';
 export function createProduction (t: TFunction): LinkOption[] {
   return [
     // fixed, polkadot
-    {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://rpc.polkadot.io'
-    },
-    {
-      info: 'polkadot',
-      text: t('rpc.polkadot.w3f', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Web3 Foundation' } }),
-      value: 'wss://cc1-1.polkadot.network'
-    },
-    {
-      info: 'polkadot',
-      text: t('rpc.polkadot.onfinality', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
-      value: 'wss://polkadot.api.onfinality.io/public-ws'
-    },
-    {
-      info: 'polkadot',
-      text: t('rpc.polkadot.patractlabs', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Patract Elara' } }),
-      value: 'wss://polkadot.elara.patract.io'
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://kusama-rpc.polkadot.io'
-    },
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.w3f', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Web3 Foundation' } }),
-      value: 'wss://cc3-5.kusama.network'
-    },
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.onfinality', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
-      value: 'wss://kusama.api.onfinality.io/public-ws'
-    },
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.patractlabs', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Patract Elara' } }),
-      value: 'wss://kusama.elara.patract.io'
-    },
-    {
-      info: 'kusama',
-      isDisabled: true,
-      text: t('rpc.kusama.ava', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.ava.summary', 'user-run public nodes; see https://status.cloud.ava.do/', { ns: 'apps-config' }),
-      value: 'wss://kusama.polkadot.cloud.ava.do'
-    },
+    ...expandEndpoints(t, [
+      {
+        dnslink: 'polkadot',
+        info: 'polkadot',
+        text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://rpc.polkadot.io',
+          'Web3 Foundation': 'wss://cc1-1.polkadot.network',
+          OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://polkadot.elara.patract.io'
+        }
+      },
+      {
+        dnslink: 'kusama',
+        info: 'kusama',
+        text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://kusama-rpc.polkadot.io',
+          'Web3 Foundation': 'wss://cc3-5.kusama.network',
+          OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://kusama.elara.patract.io'
+        }
+      }
+    ]),
     // alphabetical based on chain name
     {
       dnslink: 'centrifuge',
