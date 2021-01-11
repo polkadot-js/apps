@@ -1,33 +1,42 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-interface Props {
-  status: BountyStatus;
-  proposals: DeriveCollectiveProposal[];
+function votingDescriptions (bountyStatus: BountyStatus, t: TFunction): string[] {
+  switch (bountyStatus.type) {
+    case ('Proposed'): {
+      return [t('Approval under voting'), t('Rejection under voting')];
+    }
+
+    case ('Funded'): {
+      return [t('Curator under voting')];
+    }
+
+    case ('CuratorProposed'): {
+      return [t('Unassign curator under voting')];
+    }
+
+    case ('Active'): {
+      return [t('Unassign curator under voting'), t('Cancel bounty under voting')];
+    }
+
+    case ('PendingPayout'): {
+      return [t('Cancel bounty under voting')];
+    }
+
+    default: {
+      return [];
+    }
+  }
 }
 
-interface BountyStatesToDisplayVoting {
-  Funded: string;
-  Proposed: string;
+export function getProposal (proposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | null {
+  return proposals.length === 1 ? proposals[0] : null;
 }
 
-const happyPathProposalNames: BountyStatesToDisplayVoting = {
-  Funded: 'proposeCurator',
-  Proposed: 'approveBounty'
-};
-
-const votingDescriptions: BountyStatesToDisplayVoting = {
-  Funded: 'Curator under voting',
-  Proposed: 'Approval under voting'
-};
-
-function getProposal ({ proposals, status }: Props): DeriveCollectiveProposal | undefined {
-  return proposals.find(({ proposal }) => proposal.method === happyPathProposalNames[status.type as keyof BountyStatesToDisplayVoting]);
-}
-
-export function getVotingDescription ({ proposals, status }: Props): string | null {
-  return getProposal({ proposals, status }) ? votingDescriptions[status.type as keyof BountyStatesToDisplayVoting] : null;
+export function getVotingDescription (proposals: DeriveCollectiveProposal[], status: BountyStatus, t: TFunction): string | null {
+  return getProposal(proposals, status) ? votingDescriptions(status, t)[0] : null;
 }

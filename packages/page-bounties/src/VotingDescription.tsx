@@ -18,13 +18,13 @@ interface Props {
 
 function VotingDescription ({ className = '', proposals, status }: Props): JSX.Element {
   const { t } = useTranslation();
-  const description = getVotingDescription({ proposals, status });
+  const description = getVotingDescription(proposals, status, t);
 
   return (
     <>
       {description && (
         <div className={className}>
-          {t(description)}
+          {description}
         </div>
       )}
     </>
