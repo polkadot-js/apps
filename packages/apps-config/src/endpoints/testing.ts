@@ -15,7 +15,7 @@ import { createRococo } from './testingRococo';
 export function createTesting (t: TFunction): LinkOption[] {
   return [
     // polkadot test relays
-    createRococo(t),
+    ...createRococo(t),
     // alphabetical based on chain name
     {
       info: 'centrifuge',
