@@ -14,11 +14,11 @@ import { registerIpcHandler } from './register-ipc-handler';
 const ACCOUNTS_SUBFOLDER = 'polkadot-accounts';
 
 function safeWriteKey (key: string) {
-  return process.platform === 'win32' ? key.replaceAll(':', '-') : key;
+  return key.replaceAll(':', '-');
 }
 
 function safeReadKey (key: string) {
-  return process.platform === 'win32' ? key.replaceAll('-', ':') : key;
+  return key.replaceAll('-', ':');
 }
 
 export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => ({
