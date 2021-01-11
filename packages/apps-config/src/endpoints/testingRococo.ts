@@ -19,12 +19,11 @@ export function createRococo (t: TFunction): LinkOption[] {
   return expandEndpoint(t, {
     dnslink: 'rococo',
     info: 'rococo',
+    text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws'
     },
-    text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
-    // eslint-disable-next-line sort-keys
     linked: [
       // these are the base chains
       {
