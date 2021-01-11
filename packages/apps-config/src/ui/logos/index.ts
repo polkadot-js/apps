@@ -105,6 +105,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
+  ['Plasm Parachain Collator', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['SORA-staging Node', nodeSora],

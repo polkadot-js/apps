@@ -38,8 +38,14 @@ export function createRococo (t: TFunction): LinkOption {
         text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
         value: 'wss://track-rpc.polkadot.io'
-      }
+      },
       // add any additional parachains here, alphabetical
+      {
+        info: 'rococoPlasm',
+        text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
+        textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'PlasmNetwork' } }),
+        value: 'wss://rpc.rococo.plasmnet.io'
+      }
     ]
   };
 }
