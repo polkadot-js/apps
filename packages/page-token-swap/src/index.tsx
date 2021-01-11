@@ -63,10 +63,21 @@ export default React.memo(styled(TokenSwapApp)`
 
 export const migrationApiUrl = 'https://migration-api.dock.io';
 
-// Remove prefix '0x' from a hex string if present. Doesn't check if string is hex or not
+/**
+ * Remove prefix '0x' from a hex string if present. Doesn't check if string is valid hex or not
+ * @param string 
+ */
 export function removePrefixFromHex(string) {
   if (string.startsWith('0x')) {
     return string.slice(2);
   }
   return string;
+}
+
+/**
+ * Returns true if bonus period is over
+ */
+export function hasBonusPeriodEnded() {
+  // This value must match on the backend
+  return new Date().getTime() > 1610409600000
 }
