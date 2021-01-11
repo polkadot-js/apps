@@ -59,7 +59,7 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>
+        <div>
           {viewSetter()}
           {date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}
         </div>
