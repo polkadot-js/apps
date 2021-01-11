@@ -47,3 +47,7 @@ export function expandEndpoint (t: TFunction, input: EndpointOption): LinkOption
 
   return expandLinked(result);
 }
+
+export function expandEndpoints (t: TFunction, input: EndpointOption[]): LinkOption[] {
+  return input.reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input)), []);
+}
