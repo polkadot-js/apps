@@ -50,10 +50,22 @@ let mockBountyApi: BountyApi = {
 
 let mockBalance = balanceOf(1);
 
+const mockTreasury = {
+  burn: new BN(1),
+  spendPeriod: new BN(0),
+  value: balanceOf(1)
+};
+
 jest.mock('./hooks', () => {
   return {
     useBalance: () => mockBalance,
     useBounties: () => mockBountyApi
+  };
+});
+
+jest.mock('@polkadot/react-hooks/useTreasury', () => {
+  return {
+    useTreasury: () => mockTreasury
   };
 });
 

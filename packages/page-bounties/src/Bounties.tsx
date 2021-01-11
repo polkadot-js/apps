@@ -30,7 +30,7 @@ function Bounties (): React.ReactElement {
 
   return (
     <>
-      <Summary activeBounties={deriveBounties?.length}/>
+      <Summary activeBounties={bounties?.length}/>
       <Button.Group>
         <BountyCreate />
       </Button.Group>

@@ -7,13 +7,14 @@ import BN from 'bn.js';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BalanceOf, BlockNumber } from '@polkadot/types/interfaces';
+import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces';
 
 export type BountyApi = {
   approveBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
   bountyDepositBase: BN,
+  bountyIndex?: BN,
   bountyValueMinimum: BN,
   closeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   dataDepositPerByte: BN,
@@ -24,6 +25,7 @@ export type BountyApi = {
 export function useBounties (): BountyApi {
   const { api } = useApi();
   const bounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
+  const bountyIndex = useCall<BountyIndex>((api.query.bounties || api.query.treasury).bountyCount);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const constsBase = api.consts.bounties || api.consts.treasury;
   const bountyDepositBase = (constsBase.bountyDepositBase as BalanceOf).toBn();
@@ -39,6 +41,7 @@ export function useBounties (): BountyApi {
     bestNumber,
     bounties,
     bountyDepositBase,
+    bountyIndex,
     bountyValueMinimum,
     closeBounty,
     dataDepositPerByte,
