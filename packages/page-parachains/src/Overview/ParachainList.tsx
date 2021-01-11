@@ -11,7 +11,6 @@ import { useTranslation } from '../translate';
 import Parachain from './Parachain';
 
 interface Props {
-  canRegister?: boolean;
   ids?: ParaId[];
 }
 
