@@ -111,7 +111,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'hanonycash',
-      text: t('rpc.hanonycash', 'hanonycash', { ns: 'apps-config' }),
+      text: t('rpc.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'hanonycash' } }),
       value: 'wss://rpc.hanonycash.com'
     },
@@ -136,6 +136,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'stafi',
+      isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Stafi Foundation' } }),
       value: 'wss://mainnet-rpc.stafi.io'

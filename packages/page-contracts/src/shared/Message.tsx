@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -100,7 +101,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
   );
 }
 
-export default React.memo(styled(Message)`
+export default React.memo(styled(Message)(({ theme }: ThemeProps) => `
   align-items: center;
   border-radius: 0.25rem;
   display: flex;
@@ -118,7 +119,7 @@ export default React.memo(styled(Message)`
 
     .docs {
       font-size: 0.9rem;
-      font-weight: 400;
+      font-weight: ${theme.fontWeightNormal};
     }
   }
 
@@ -129,4 +130,4 @@ export default React.memo(styled(Message)`
   &+& {
     margin-top: 0.5rem;
   }
-`);
+`));

@@ -3,6 +3,7 @@
 
 import React, { useRef } from 'react';
 
+import Summary from '@polkadot/app-bounties/Summary';
 import { Button, Table } from '@polkadot/react-components';
 
 import Bounty from './Bounty';
@@ -29,6 +30,7 @@ function Bounties (): React.ReactElement {
 
   return (
     <>
+      <Summary activeBounties={deriveBounties?.length}/>
       <Button.Group>
         <BountyCreate />
       </Button.Group>

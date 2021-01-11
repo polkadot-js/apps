@@ -5,7 +5,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
-import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -75,9 +75,7 @@ function BountyCreate () {
                   value={title}
                 />
                 {!isTitleValid && (title !== TITLE_DEFAULT_VALUE) && (
-                  <article className='error'>
-                    {t<string>('Title too long')}
-                  </article>
+                  <MarkError content={t<string>('Title too long')} />
                 )}
               </Modal.Column>
               <Modal.Column>
@@ -95,9 +93,7 @@ function BountyCreate () {
                   value={value}
                 />
                 {!isValueValid && !value?.eq(BOUNTY_DEFAULT_VALUE) && (
-                  <article className='error'>
-                    {t<string>('Allocation value is smaller than the minimum bounty value.')}
-                  </article>
+                  <MarkError content={t<string>('Allocation value is smaller than the minimum bounty value.')} />
                 )}
               </Modal.Column>
               <Modal.Column>
@@ -128,9 +124,7 @@ function BountyCreate () {
                   withLabel
                 />
                 {!hasFunds && (
-                  <article className='error'>
-                    {t<string>('Account does not have enough funds.')}
-                  </article>
+                  <MarkError content={t<string>('Account does not have enough funds.')} />
                 )}
               </Modal.Column>
               <Modal.Column>
