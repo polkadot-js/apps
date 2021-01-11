@@ -9,27 +9,21 @@ import { AddressMini, AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { sliceHex } from './util';
+
 interface Props {
   proposal: ProposalExt;
 }
 
-function Proposal ({ proposal: { id, proposal: { balance, initialHeadState, name, proposer, validationFunction, validators } } }: Props): React.ReactElement<Props> {
+function Proposal ({ proposal: { id, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
   const initialHex = useMemo(
-    (): string => {
-      const hex = initialHeadState.toHex();
-
-      return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
-    },
-    [initialHeadState]
+    () => sliceHex(genesisHead, 8),
+    [genesisHead]
   );
 
   const validationHex = useMemo(
-    (): string => {
-      const hex = validationFunction.toHex();
-
-      return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
-    },
-    [validationFunction]
+    () => sliceHex(validationCode, 8),
+    [validationCode]
   );
 
   return (

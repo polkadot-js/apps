@@ -18,7 +18,7 @@ interface Props {
 const transformHead = {
   transform: (headData: Option<HeadData>): string | null =>
     headData.isSome
-      ? sliceHex(headData.unwrap())
+      ? sliceHex(headData.unwrap(), 18)
       : null
 };
 
