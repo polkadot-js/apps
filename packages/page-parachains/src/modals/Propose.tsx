@@ -82,6 +82,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   );
 
   const isNameValid = name.length >= 3;
+  const isValDuplicate = validators.some((a, ai) => validators.some((b, bi) => ai !== bi && a === b));
 
   return (
     <Modal
@@ -90,7 +91,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
+        <Modal.Columns>b
           <Modal.Column>
             <InputAddress
               label={t<string>('propose from')}
@@ -106,25 +107,24 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         <Modal.Columns>
           <Modal.Column>
             <Input
+              autoFocus
               isError={!isNameValid}
-              label={t<string>('name')}
+              label={t<string>('parachain name')}
               onChange={setName}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The name for this parachain')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
             <InputNumber
               defaultValue={paraId.toString()}
-              label={t<string>('parachain id')}
+              label={t<string>('requested id (random id pre-filled)')}
               onChange={setParaId}
+            />
+            <InputBalance
+              defaultValue={balance}
+              label={t<string>('initial balance')}
+              onChange={setBalance}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('The id of this parachain as known on the network')}</p>
+            <p>{t<string>('The name for this parachain, the id and the allocated/requested balance.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -132,7 +132,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
             <InputWasm
               help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
               isError={!isWasmValid}
-              label={t<string>('code')}
+              label={t<string>('validation code')}
               onChange={_setWasm}
               placeholder={
                 wasm && !isWasmValid
@@ -140,22 +140,15 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
                   : null
               }
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The WASM validation function for this parachain.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
             <InputFile
               help={t<string>('The genesis state for the parachain.')}
               isError={!genesisState}
-              label={t<string>('initial state')}
+              label={t<string>('genesis state')}
               onChange={_setGenesisState}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('The genesis state for this parachain.')}</p>
+            <p>{t<string>('The WASM validation function as well as the genesis state for this parachain.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -172,6 +165,9 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
             {!validators.length && (
               <MarkWarning content={t<string>('You need to supply at last one running validator for your parachain alongside this request.')} />
             )}
+            {isValDuplicate && (
+              <MarkWarning content={t<string>('You have duplicated validator entries, ensure each is unique.')} />
+            )}
             <Button.Group>
               <Button
                 icon='plus'
@@ -187,19 +183,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
             </Button.Group>
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('The validators for this parachain')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputBalance
-              defaultValue={balance}
-              label={t<string>('initial balance')}
-              onChange={setBalance}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The proposed initial balance for this parachain')}</p>
+            <p>{t<string>('The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
