@@ -219,7 +219,7 @@ describe('Bounties', () => {
       expect(await findByText('Curator under voting')).toBeTruthy();
     });
 
-    it('on bounty approval', async () => {
+    it('on bounty approval in proposed status', async () => {
       const bounty = bountyInStatus('Proposed');
       const proposals = [
         {
@@ -234,7 +234,7 @@ describe('Bounties', () => {
       expect(await findByText('Approval under voting')).toBeTruthy();
     });
 
-    it('on parallel bounty approval and bounty close', async () => {
+    it('on parallel bounty approval and bounty close in proposed status', async () => {
       const bounty = bountyInStatus('Proposed');
       const proposals = [
         {
@@ -256,7 +256,7 @@ describe('Bounties', () => {
       expect(await findByText('Approval under voting')).toBeTruthy();
     });
 
-    it('on bounty active and close bounty proposal', async () => {
+    it('on close bounty in active status', async () => {
       const bounty = bountyInStatus('Active');
       const proposals = [
         {
@@ -271,7 +271,7 @@ describe('Bounties', () => {
       expect(await findByText('Rejection under voting')).toBeTruthy();
     });
 
-    it('on bounty active and unassign curator proposal', async () => {
+    it('on unassign curator in active state', async () => {
       const bounty = bountyInStatus('Active');
       const proposals = [
         {
@@ -284,6 +284,21 @@ describe('Bounties', () => {
       const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
 
       expect(await findByText('Unassign curator under voting')).toBeTruthy();
+    });
+
+    it('on approve in active state', async () => {
+      const bounty = bountyInStatus('Active');
+      const proposals = [
+        {
+          hash: new TypeRegistry().createType('Hash'),
+          proposal: apiWithAugmentations
+            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.approveBounty(0)),
+          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
+        }];
+
+      const { findByTestId } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+
+      await expect(findByTestId('extendedStatus')).rejects.toThrow();
     });
   });
 });

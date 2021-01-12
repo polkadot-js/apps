@@ -23,7 +23,10 @@ function VotingDescription ({ className = '', proposals, status }: Props): JSX.E
   return (
     <>
       {description && (
-        <div className={className}>
+        <
+          div className={className}
+          data-testid='extendedStatus'
+        >
           {description}
         </div>
       )}
