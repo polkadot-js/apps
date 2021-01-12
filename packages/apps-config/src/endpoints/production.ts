@@ -23,7 +23,6 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://rpc.polkadot.io',
-        'Web3 Foundation': 'wss://cc1-1.polkadot.network',
         OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://polkadot.elara.patract.io'
       }
@@ -34,7 +33,6 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://kusama-rpc.polkadot.io',
-        'Web3 Foundation': 'wss://cc3-5.kusama.network',
         OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://kusama.elara.patract.io'
       }
