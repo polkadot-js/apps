@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
@@ -11,12 +12,12 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  canRegister?: boolean;
   parachainCount?: number;
+  proposalCount?: number;
   upcomingCount?: number;
 }
 
-function Summary ({ canRegister, parachainCount, upcomingCount }: Props): React.ReactElement<Props> {
+function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -39,11 +40,11 @@ function Summary ({ canRegister, parachainCount, upcomingCount }: Props): React.
             {formatNumber(upcomingCount)}
           </CardSummary>
         )}
-      </section>
-      <section>
-        <CardSummary label={t<string>('registration')}>
-          {canRegister ? t<string>('open') : t<string>('closed')}
-        </CardSummary>
+        {isNumber(proposalCount) && (
+          <CardSummary label={t<string>('proposals')}>
+            {formatNumber(proposalCount)}
+          </CardSummary>
+        )}
       </section>
       <section>
         <CardSummary
@@ -52,6 +53,7 @@ function Summary ({ canRegister, parachainCount, upcomingCount }: Props): React.
         >
           <BestNumber />
         </CardSummary>
+        <SummarySession withEra={false} />
       </section>
     </SummaryBox>
   );

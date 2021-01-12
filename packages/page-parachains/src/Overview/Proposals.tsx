@@ -1,21 +1,21 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ProposalExt } from './types';
+
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Proposal from './Proposal';
-import useProposals from './useProposals';
 
 interface Props {
-  className?: string;
+  proposals?: ProposalExt[];
 }
 
-function Proposals (): React.ReactElement<Props> {
+function Proposals ({ proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const proposals = useProposals();
 
   const headerRef = useRef([
     [t('proposals'), 'start', 2],
