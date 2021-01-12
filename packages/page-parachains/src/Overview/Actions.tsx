@@ -24,7 +24,6 @@ function Actions (): React.ReactElement<Props> {
         {api.query.proposeParachain && (
           <Button
             icon='plus'
-            isDisabled={true}
             label={t<string>('Propose')}
             onClick={togglePropose}
           />
