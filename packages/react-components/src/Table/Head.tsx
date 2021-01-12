@@ -38,15 +38,8 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? (
-                <h1>
-                  <Icon
-                    className='highlight--color'
-                    icon='dot-circle'
-                  />
-                  {label}
-                </h1>
-              )
+              ?
+                label
               : isEmpty
                 ? ''
                 : label
@@ -63,10 +56,12 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   z-index: 1;
 
   th {
-    font: ${theme.fontSans};
-    font-weight: ${theme.fontWeightNormal};
-    padding: 0.75rem 1rem 0.25rem;
-    text-align: right;
+    padding: 0.75rem 1rem 0.57rem;
+    font-weight: bold;
+    font-size: 0.7rem;
+    line-height: 0.85rem;
+    text-transform: uppercase;
+    color: #4D4D4D;
     vertical-align: baseline;
     white-space: nowrap;
 
@@ -80,14 +75,6 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
         margin-right: 0.5rem;
         vertical-align: middle;
       }
-    }
-
-    &:first-child {
-      border-left: 1px solid ${theme.borderTable};
-    }
-
-    &:last-child {
-      border-right: 1px solid ${theme.borderTable};
     }
 
     &.address {
@@ -118,14 +105,7 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    background: ${theme.bgTable};
     text-transform: lowercase;
-
-    &:first-child {
-      th {
-        border-top: 1px solid ${theme.borderTable};
-      }
-    }
 
     &.filter {
       .ui.input {

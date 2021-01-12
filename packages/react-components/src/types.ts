@@ -93,6 +93,8 @@ export interface ThemeDef {
   fontMono: string;
   fontWeightLight: number;
   fontWeightNormal: number;
+  fontWeightMedium: number;
+  fontWeightBold: number;
   theme: 'dark' | 'light';
 }
 
