@@ -44,8 +44,15 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://track-rpc.polkadot.io'
         }
-      }
+      },
       // add any additional parachains here, alphabetical
+      {
+        info: 'rococoPlasm',
+        text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
+        providers: {
+          PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
+        }
+      }
     ]
   };
 }

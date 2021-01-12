@@ -72,6 +72,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
+  ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot', chainPolkadot],
