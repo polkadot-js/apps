@@ -1,11 +1,14 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
+
+import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
-import { InputAddress, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, compactAddLength } from '@polkadot/util';
+import { BN_TEN, compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,11 +22,36 @@ interface CodeState {
   wasm: Uint8Array | null;
 }
 
+interface ValidatorProps {
+  address: string;
+  index: number;
+  setAddress: (index: number, value: string) => void;
+  t: TFunction;
+}
+
+function Validator ({ address, index, setAddress, t }: ValidatorProps): React.ReactElement<ValidatorProps> {
+  const _setAddress = useCallback(
+    (value: string | null) => value && setAddress(index, value),
+    [index, setAddress]
+  );
+
+  return (
+    <InputAddress
+      defaultValue={address}
+      label={t('validator {{index}}', { replace: { index: index + 1 } })}
+      onChange={_setAddress}
+    />
+  );
+}
+
 function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [paraId, setParaId] = useState(BN_ZERO);
+  const [name, setName] = useState('');
+  const [paraId, setParaId] = useState(new BN(Date.now() % 131072));
+  const [balance, setBalance] = useState(new BN(1000).mul(BN_TEN.pow(new BN(api.registry.chainDecimals))));
+  const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -37,16 +65,35 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
     []
   );
 
+  const _setAddress = useCallback(
+    (index: number, address: string) =>
+      setValidators((v) => v.map((v, i) => i === index ? address : v)),
+    []
+  );
+
+  const _addValidator = useCallback(
+    () => setValidators((v) => [...v, '']),
+    []
+  );
+
+  const _delValidator = useCallback(
+    () => setValidators((v) => [...v.slice(0, v.length - 1)]),
+    []
+  );
+
+  const isNameValid = name.length >= 3;
+
   return (
     <Modal
       className={className}
-      header={t<string>('Register parachain')}
+      header={t<string>('Propose parachain')}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              label={t<string>('register from')}
+              label={t<string>('propose from')}
               onChange={setAccountId}
               type='account'
               value={accountId}
@@ -58,7 +105,20 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
+            <Input
+              isError={!isNameValid}
+              label={t<string>('name')}
+              onChange={setName}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The name for this parachain')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
             <InputNumber
+              defaultValue={paraId.toString()}
               label={t<string>('parachain id')}
               onChange={setParaId}
             />
@@ -98,15 +158,59 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
             <p>{t<string>('The genesis state for this parachain.')}</p>
           </Modal.Column>
         </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            {validators.map((address, index) => (
+              <Validator
+                address={address}
+                index={index}
+                key={index}
+                setAddress={_setAddress}
+                t={t}
+              />
+            ))}
+            {!validators.length && (
+              <MarkWarning content={t<string>('You need to supply at last one running validator for your parachain alongside this request.')} />
+            )}
+            <Button.Group>
+              <Button
+                icon='plus'
+                label={t<string>('Add validator')}
+                onClick={_addValidator}
+              />
+              <Button
+                icon='minus'
+                isDisabled={validators.length === 0}
+                label={t<string>('Remove validator')}
+                onClick={_delValidator}
+              />
+            </Button.Group>
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The validators for this parachain')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputBalance
+              defaultValue={balance}
+              label={t<string>('initial balance')}
+              onChange={setBalance}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The proposed initial balance for this parachain')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!isWasmValid || !genesisState}
+          isDisabled={!isWasmValid || !genesisState || !isNameValid || !validators.length}
           onStart={onClose}
-          params={[paraId, genesisState, wasm]}
-          tx={api.tx.registrar.registerParathread}
+          params={[paraId, name, wasm, genesisState, validators, balance]}
+          tx={api.tx.proposeParachain?.proposeParachain}
         />
       </Modal.Actions>
     </Modal>

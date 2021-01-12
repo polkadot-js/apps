@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
 import type { Data, Option, Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
@@ -25,7 +26,7 @@ interface SubProps {
   name: string;
   setAddress: (index: number, value: string) => void;
   setName: (index: number, value: string) => void;
-  t: (key: string, opts?: { replace: Record<string, string | number> }) => string;
+  t: TFunction;
 }
 
 function extractInfo ([[ids], opts]: [[string[]], Option<ITuple<[AccountId, Data]>>[]]): [string, string][] {
@@ -60,7 +61,7 @@ function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps
       <Columar.Column>
         <InputAddress
           defaultValue={address}
-          label={t('address {{index}}', { replace: { index: index + 1 } })}
+          label={t<string>('address {{index}}', { replace: { index: index + 1 } })}
           onChange={_setAddress}
         />
       </Columar.Column>
@@ -69,7 +70,7 @@ function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps
           defaultValue={name}
           isError={!name}
           isFull
-          label={t('sub name')}
+          label={t<string>('sub name')}
           onChange={_setName}
         />
       </Columar.Column>

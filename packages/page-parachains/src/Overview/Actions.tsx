@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import Propose from '../modals/Propose';
 import { useTranslation } from '../translate';
@@ -16,6 +16,7 @@ interface Props {
 function Actions (): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { hasAccounts } = useAccounts();
   const [showPropose, togglePropose] = useToggle();
 
   return (
@@ -24,7 +25,7 @@ function Actions (): React.ReactElement<Props> {
         {api.query.proposeParachain && (
           <Button
             icon='plus'
-            isDisabled={true}
+            isDisabled={!hasAccounts}
             label={t<string>('Propose')}
             onClick={togglePropose}
           />
