@@ -6,7 +6,7 @@ import type { TFunction } from 'i18next';
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
-import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_TEN, compactAddLength } from '@polkadot/util';
 
@@ -51,7 +51,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const [name, setName] = useState('');
   const [paraId, setParaId] = useState(new BN(Date.now() % 131072));
   const [balance, setBalance] = useState(new BN(1000).mul(BN_TEN.pow(new BN(api.registry.chainDecimals))));
-  const [validators, setValidators] = useState<string[]>([]);
+  const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -169,6 +169,9 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
                 t={t}
               />
             ))}
+            {!validators.length && (
+              <MarkWarning content={t<string>('You need to supply at last one running validator for your parachain alongside this request.')} />
+            )}
             <Button.Group>
               <Button
                 icon='plus'

@@ -38,7 +38,7 @@ function Overview (): React.ReactElement<Props> {
           <Upcoming ids={upcomingIds} />
         </>
       )}
-      {api.query.parachainProposals && (
+      {api.query.proposeParachain && (
         <Proposals proposals={proposals} />
       )}
     </>
