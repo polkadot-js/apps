@@ -12,6 +12,7 @@ import Parachains from './ParachainList';
 import Proposals from './Proposals';
 import Summary from './Summary';
 import Upcoming from './UpcomingList';
+import useProposals from './useProposals';
 
 interface Props {
   className?: string;
@@ -21,11 +22,13 @@ function Overview (): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
   const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParas);
+  const proposals = useProposals();
 
   return (
     <>
       <Summary
         parachainCount={paraIds?.length}
+        proposalCount={proposals?.length}
         upcomingCount={upcomingIds?.length}
       />
       <Actions />
@@ -36,7 +39,7 @@ function Overview (): React.ReactElement<Props> {
         </>
       )}
       {api.query.parachainProposals && (
-        <Proposals />
+        <Proposals proposals={proposals} />
       )}
     </>
   );

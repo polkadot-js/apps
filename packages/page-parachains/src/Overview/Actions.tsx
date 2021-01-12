@@ -25,7 +25,7 @@ function Actions (): React.ReactElement<Props> {
           <Button
             icon='plus'
             isDisabled={true}
-            label={t<string>('Register')}
+            label={t<string>('Propose')}
             onClick={togglePropose}
           />
         )}
