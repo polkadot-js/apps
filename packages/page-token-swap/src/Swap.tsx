@@ -10,12 +10,13 @@ import keyring from '@polkadot/ui-keyring';
 import axios from 'axios';
 
 import { useTranslation } from './translate';
-import { migrationApiUrl, removePrefixFromHex } from './index';
+import { migrationApiUrl, removePrefixFromHex, hasBonusPeriodEnded } from './index';
 
 interface Props {
   title: string,
 }
-const useBonusCheckbox = true;
+
+const useBonusCheckbox = !hasBonusPeriodEnded();
 
 function SwapForm ({ title = 'Token migration request' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
