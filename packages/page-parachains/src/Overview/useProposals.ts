@@ -3,23 +3,25 @@
 
 import type { Option } from '@polkadot/types';
 import type { EventRecord, ParachainProposal, ParaId } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
 import type { ProposalExt } from './types';
 
 import { useEffect, useState } from 'react';
 
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
-function createExt (approvedIds: ParaId[], entries: [{ args: [ParaId] }, Option<ParachainProposal>][]): ProposalExt[] {
-  return entries
+function createExt (paraIds: ParaId[], approvedIds: ParaId[], proposals: [{ args: [ParaId] }, Option<ParachainProposal>][], scheduledProposals: [Codec, ParaId[]][]): ProposalExt[] {
+  return proposals
     .filter(([, opt]) => opt.isSome)
     .map(([{ args: [id] }, optProposal]) => ({
       id,
-      isApproved: approvedIds.some((a) => a.eq(id)),
+      isApproved: approvedIds.some((a) => a.eq(id)) || scheduledProposals.some(([, ids]) => ids.some((s) => s.eq(id))),
       proposal: optProposal.unwrap()
-    }));
+    }))
+    .filter(({ id, isApproved }) => !isApproved || !paraIds.some((p) => p.eq(id)));
 }
 
-export default function useProposals (): ProposalExt[] | undefined {
+export default function useProposals (paraIds: ParaId[] = []): ProposalExt[] | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ProposalExt[] | undefined>();
@@ -38,13 +40,18 @@ export default function useProposals (): ProposalExt[] | undefined {
 
   // re-get all our entries in the list
   useEffect((): void => {
-    approvedIds && trigger && api.query.proposeParachain.proposals
-      .entries()
-      .then((entries) =>
-        mountedRef.current && setState(createExt(approvedIds, entries as any))
-      )
-      .catch(console.error);
-  }, [api, approvedIds, mountedRef, trigger]);
+    approvedIds && trigger &&
+      Promise
+        .all([
+          api.query.proposeParachain.proposals.entries(),
+          api.query.proposeParachain.scheduledProposals.entries()
+        ])
+        .then(([proposals, scheduledProposals]) =>
+          mountedRef.current &&
+            setState(createExt(paraIds, approvedIds, proposals as any, scheduledProposals as any))
+        )
+        .catch(console.error);
+  }, [api, approvedIds, mountedRef, paraIds, trigger]);
 
   return state;
 }
