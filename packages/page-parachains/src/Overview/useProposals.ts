@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { ParachainProposal, ParaId } from '@polkadot/types/interfaces';
+import type { EventRecord, ParachainProposal, ParaId } from '@polkadot/types/interfaces';
 import type { ProposalExt } from './types';
 
 import { useEffect, useState } from 'react';
@@ -23,16 +23,28 @@ export default function useProposals (): ProposalExt[] | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ProposalExt[] | undefined>();
-  const approvedIds = useCall<ParaId[]>(api.query.proposeParachains?.approvedProposals);
+  const [trigger, setTrigger] = useState(1);
+  const approvedIds = useCall<ParaId[]>(api.query.proposeParachain?.approvedProposals);
+  const eventRecords = useCall<EventRecord[]>(api.query.system.events);
 
+  // trigger on any proposeParachain events
   useEffect((): void => {
-    approvedIds && api.query.proposeParachain.proposals
+    eventRecords && setTrigger((trigger) =>
+      eventRecords.filter(({ event: { section }, phase }) => phase.isApplyExtrinsic && section === 'proposeParachain').length
+        ? (trigger + 1)
+        : trigger
+    );
+  }, [eventRecords]);
+
+  // re-get all our entries in the list
+  useEffect((): void => {
+    approvedIds && trigger && api.query.proposeParachain.proposals
       .entries()
       .then((entries) =>
         mountedRef.current && setState(createExt(approvedIds, entries as any))
       )
       .catch(console.error);
-  }, [api, approvedIds, mountedRef]);
+  }, [api, approvedIds, mountedRef, trigger]);
 
   return state;
 }
