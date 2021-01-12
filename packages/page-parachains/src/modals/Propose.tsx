@@ -19,9 +19,7 @@ interface CodeState {
   wasm: Uint8Array | null;
 }
 
-// sudo => parasSudoWrapper.sudoScheduleParaInitialize
-
-function Register ({ className, onClose }: Props): React.ReactElement<Props> {
+function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -38,8 +36,6 @@ function Register ({ className, onClose }: Props): React.ReactElement<Props> {
     (wasm: Uint8Array, isWasmValid: boolean) => setWasm({ isWasmValid, wasm }),
     []
   );
-
-  console.error(genesisState);
 
   return (
     <Modal
@@ -117,4 +113,4 @@ function Register ({ className, onClose }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Register);
+export default React.memo(Propose);

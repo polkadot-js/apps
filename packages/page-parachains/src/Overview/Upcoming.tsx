@@ -7,6 +7,7 @@ import type { ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from './util';
@@ -26,12 +27,10 @@ function Upcoming ({ id }: Props): React.ReactElement<Props> {
 
   return (
     <tr key={id.toString()}>
-      <td className='number'>
-        <h1>{id.toString()}</h1>
-      </td>
+      <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='all start together hash'>
         {info && (
-          sliceHex(info.genesisHead)
+          sliceHex(info.genesisHead, 8)
         )}
       </td>
       <td className='start'>
