@@ -23,18 +23,18 @@ export default function useProposals (): ProposalExt[] | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ProposalExt[] | undefined>();
-  const [trigger, setTrigger] = useState(1);
+  const [trigger, setTrigger] = useState(Date.now());
   const approvedIds = useCall<ParaId[]>(api.query.proposeParachain?.approvedProposals);
-  const eventRecords = useCall<EventRecord[]>(api.query.system.events);
+  const events = useCall<EventRecord[]>(api.query.system.events);
 
   // trigger on any proposeParachain events
   useEffect((): void => {
-    eventRecords && setTrigger((trigger) =>
-      eventRecords.filter(({ event: { section }, phase }) => phase.isApplyExtrinsic && section === 'proposeParachain').length
-        ? (trigger + 1)
+    mountedRef.current && events && setTrigger((trigger) =>
+      events.filter(({ event: { section }, phase }) => phase.isApplyExtrinsic && section === 'proposeParachain').length
+        ? Date.now()
         : trigger
     );
-  }, [eventRecords]);
+  }, [events, mountedRef]);
 
   // re-get all our entries in the list
   useEffect((): void => {
