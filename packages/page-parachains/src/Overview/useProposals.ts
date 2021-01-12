@@ -10,18 +10,18 @@ import { useEffect, useState } from 'react';
 
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
-function createExt (paraIds: ParaId[], approvedIds: ParaId[], proposals: [{ args: [ParaId] }, Option<ParachainProposal>][], scheduledProposals: [Codec, ParaId[]][]): ProposalExt[] {
+function createExt (approvedIds: ParaId[], proposals: [{ args: [ParaId] }, Option<ParachainProposal>][], scheduledProposals: [Codec, ParaId[]][]): ProposalExt[] {
   return proposals
     .filter(([, opt]) => opt.isSome)
     .map(([{ args: [id] }, optProposal]) => ({
       id,
-      isApproved: approvedIds.some((a) => a.eq(id)) || scheduledProposals.some(([, ids]) => ids.some((s) => s.eq(id))),
+      isApproved: approvedIds.some((a) => a.eq(id)),
+      isScheduled: scheduledProposals.some(([, ids]) => ids.some((s) => s.eq(id))),
       proposal: optProposal.unwrap()
-    }))
-    .filter(({ id, isApproved }) => !isApproved || !paraIds.some((p) => p.eq(id)));
+    }));
 }
 
-export default function useProposals (paraIds: ParaId[] = []): ProposalExt[] | undefined {
+export default function useProposals (): ProposalExt[] | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ProposalExt[] | undefined>();
@@ -48,10 +48,10 @@ export default function useProposals (paraIds: ParaId[] = []): ProposalExt[] | u
         ])
         .then(([proposals, scheduledProposals]) =>
           mountedRef.current &&
-            setState(createExt(paraIds, approvedIds, proposals as any, scheduledProposals as any))
+            setState(createExt(approvedIds, proposals as any, scheduledProposals as any))
         )
         .catch(console.error);
-  }, [api, approvedIds, mountedRef, paraIds, trigger]);
+  }, [api, approvedIds, mountedRef, trigger]);
 
   return state;
 }

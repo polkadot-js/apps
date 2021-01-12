@@ -22,7 +22,7 @@ function Overview (): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
   const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParas);
-  const proposals = useProposals(paraIds);
+  const proposals = useProposals();
 
   return (
     <>
