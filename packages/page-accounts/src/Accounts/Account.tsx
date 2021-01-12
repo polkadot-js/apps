@@ -44,6 +44,7 @@ interface Props {
   delegation?: Delegation;
   filter: string;
   isFavorite: boolean;
+  hideExtra: boolean;
   proxy?: [ProxyDefinition[], BN];
   setBalance: (address: string, value: BN) => void;
   toggleFavorite: (address: string) => void;
@@ -78,7 +79,7 @@ const transformRecovery = {
   transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
 };
 
-function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite, hideExtra = false }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
@@ -109,7 +110,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   useEffect((): void => {
     if (balancesAll) {
-      console.log('balancesAll', balancesAll)
       setBalance(address, balancesAll.freeBalance.add(balancesAll.reservedBalance));
 
       api.api.tx.vesting?.vest && setVestingTx(() =>
@@ -207,13 +207,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <tr className={className}>
-      <td className='favorite'>
-        <Icon
-          color={isFavorite ? 'orange' : 'gray'}
-          icon='star'
-          onClick={_onFavorite}
-        />
-      </td>
+      {!hideExtra && (
+        <td className='favorite'>
+          <Icon
+            color={isFavorite ? 'orange' : 'gray'}
+            icon='star'
+            onClick={_onFavorite}
+          />
+        </td>
+      )}
       <td className='together'>
         {recoveryInfo && (
           <Badge
@@ -392,14 +394,19 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
-      <td className='number'>
-        <CryptoType accountId={address} />
-      </td>
-      <td className='all'>
-        <div className='tags'>
-          <Tags value={tags} />
-        </div>
-      </td>
+      {!hideExtra && (
+        <>
+          <td className='number'>
+            <CryptoType accountId={address} />
+          </td>
+
+          <td className='all'>
+            <div className='tags'>
+              <Tags value={tags} />
+            </div>
+          </td>
+        </>
+      )}
       <td className='number media--1500'>
         {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
       </td>
@@ -411,175 +418,177 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           withExtended={false}
         />
       </td>
-      <td className='button'>
-        {api.api.tx.balances?.transfer && (
-          <Button
-            icon='paper-plane'
-            label={t<string>('send')}
-            onClick={toggleTransfer}
-          />
-        )}
-        <Popup
-          className={`theme--${theme}`}
-          isOpen={isSettingsOpen}
-          onClose={toggleSettings}
-          trigger={
+      {!hideExtra && (
+        <td className='button'>
+          {api.api.tx.balances?.transfer && (
             <Button
-              icon='ellipsis-v'
-              onClick={toggleSettings}
+              icon='paper-plane'
+              label={t<string>('send')}
+              onClick={toggleTransfer}
             />
-          }
-        >
-          <Menu
-            onClick={toggleSettings}
-            text
-            vertical
+          )}
+          <Popup
+            className={`theme--${theme}`}
+            isOpen={isSettingsOpen}
+            onClose={toggleSettings}
+            trigger={
+              <Button
+                icon='ellipsis-v'
+                onClick={toggleSettings}
+              />
+            }
           >
-            {createMenuGroup([
-              api.api.tx.identity?.setIdentity && (
+            <Menu
+              onClick={toggleSettings}
+              text
+              vertical
+            >
+              {createMenuGroup([
+                api.api.tx.identity?.setIdentity && (
+                  <Menu.Item
+                    key='identityMain'
+                    onClick={toggleIdentityMain}
+                  >
+                    {t('Set on-chain identity')}
+                  </Menu.Item>
+                ),
+                api.api.tx.identity?.setSubs && identity?.display && (
+                  <Menu.Item
+                    key='identitySub'
+                    onClick={toggleIdentitySub}
+                  >
+                    {t('Set on-chain sub-identities')}
+                  </Menu.Item>
+                ),
+                api.api.tx.democracy?.unlock && democracyUnlockTx && (
+                  <Menu.Item
+                    key='clearDemocracy'
+                    onClick={_clearDemocracyLocks}
+                  >
+                    {t('Clear expired democracy locks')}
+                  </Menu.Item>
+                ),
+                api.api.tx.vesting?.vest && vestingVestTx && (
+                  <Menu.Item
+                    key='vestingVest'
+                    onClick={_vestingVest}
+                  >
+                    {t('Unlock vested amount')}
+                  </Menu.Item>
+                )
+              ])}
+              {createMenuGroup([
+                !(isExternal || isHardware || isInjected || isMultisig) && (
+                  <Menu.Item
+                    key='deriveAccount'
+                    onClick={toggleDerive}
+                  >
+                    {t('Derive account via derivation path')}
+                  </Menu.Item>
+                ),
+                isHardware && (
+                  <Menu.Item
+                    key='showHwAddress'
+                    onClick={_showOnHardware}
+                  >
+                    {t('Show address on hardware device')}
+                  </Menu.Item>
+                )
+              ])}
+              {createMenuGroup([
+                !(isExternal || isInjected || isMultisig || isDevelopment) && (
+                  <Menu.Item
+                    key='backupJson'
+                    onClick={toggleBackup}
+                  >
+                    {t('Create a backup file for this account')}
+                  </Menu.Item>
+                ),
+                !(isExternal || isInjected || isMultisig || isDevelopment) && (
+                  <Menu.Item
+                    key='changePassword'
+                    onClick={togglePassword}
+                  >
+                    {t("Change this account's password")}
+                  </Menu.Item>
+                ),
+                !(isInjected || isDevelopment) && (
+                  <Menu.Item
+                    key='forgetAccount'
+                    onClick={toggleForget}
+                  >
+                    {t('Forget this account')}
+                  </Menu.Item>
+                )
+              ])}
+              {api.api.tx.recovery?.createRecovery && createMenuGroup([
+                !recoveryInfo && (
+                  <Menu.Item
+                    key='makeRecoverable'
+                    onClick={toggleRecoverSetup}
+                  >
+                    {t('Make recoverable')}
+                  </Menu.Item>
+                ),
                 <Menu.Item
-                  key='identityMain'
-                  onClick={toggleIdentityMain}
+                  key='initRecovery'
+                  onClick={toggleRecoverAccount}
                 >
-                  {t('Set on-chain identity')}
+                  {t('Initiate recovery for another')}
                 </Menu.Item>
-              ),
-              api.api.tx.identity?.setSubs && identity?.display && (
+              ])}
+              {api.api.tx.multisig?.asMulti && isMultisig && createMenuGroup([
                 <Menu.Item
-                  key='identitySub'
-                  onClick={toggleIdentitySub}
+                  disabled={!multiInfos || !multiInfos.length}
+                  key='multisigApprovals'
+                  onClick={toggleMultisig}
                 >
-                  {t('Set on-chain sub-identities')}
+                  {t('Multisig approvals')}
                 </Menu.Item>
-              ),
-              api.api.tx.democracy?.unlock && democracyUnlockTx && (
+              ])}
+              {api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
                 <Menu.Item
-                  key='clearDemocracy'
-                  onClick={_clearDemocracyLocks}
+                  key='changeDelegate'
+                  onClick={toggleDelegate}
                 >
-                  {t('Clear expired democracy locks')}
-                </Menu.Item>
-              ),
-              api.api.tx.vesting?.vest && vestingVestTx && (
+                  {t('Change democracy delegation')}
+                </Menu.Item>,
                 <Menu.Item
-                  key='vestingVest'
-                  onClick={_vestingVest}
+                  key='undelegate'
+                  onClick={toggleUndelegate}
                 >
-                  {t('Unlock vested amount')}
+                  {t('Undelegate')}
                 </Menu.Item>
-              )
-            ])}
-            {createMenuGroup([
-              !(isExternal || isHardware || isInjected || isMultisig) && (
+              ])}
+              {api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
                 <Menu.Item
-                  key='deriveAccount'
-                  onClick={toggleDerive}
+                  key='delegate'
+                  onClick={toggleDelegate}
                 >
-                  {t('Derive account via derivation path')}
+                  {t('Delegate democracy votes')}
                 </Menu.Item>
-              ),
-              isHardware && (
+              ])}
+              {api.api.query.proxy?.proxies && createMenuGroup([
                 <Menu.Item
-                  key='showHwAddress'
-                  onClick={_showOnHardware}
+                  key='proxy-overview'
+                  onClick={toggleProxyOverview}
                 >
-                  {t('Show address on hardware device')}
+                  {proxy?.[0].length
+                    ? t('Manage proxies')
+                    : t('Add proxy')
+                  }
                 </Menu.Item>
-              )
-            ])}
-            {createMenuGroup([
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
-                <Menu.Item
-                  key='backupJson'
-                  onClick={toggleBackup}
-                >
-                  {t('Create a backup file for this account')}
-                </Menu.Item>
-              ),
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
-                <Menu.Item
-                  key='changePassword'
-                  onClick={togglePassword}
-                >
-                  {t("Change this account's password")}
-                </Menu.Item>
-              ),
-              !(isInjected || isDevelopment) && (
-                <Menu.Item
-                  key='forgetAccount'
-                  onClick={toggleForget}
-                >
-                  {t('Forget this account')}
-                </Menu.Item>
-              )
-            ])}
-            {api.api.tx.recovery?.createRecovery && createMenuGroup([
-              !recoveryInfo && (
-                <Menu.Item
-                  key='makeRecoverable'
-                  onClick={toggleRecoverSetup}
-                >
-                  {t('Make recoverable')}
-                </Menu.Item>
-              ),
-              <Menu.Item
-                key='initRecovery'
-                onClick={toggleRecoverAccount}
-              >
-                {t('Initiate recovery for another')}
-              </Menu.Item>
-            ])}
-            {api.api.tx.multisig?.asMulti && isMultisig && createMenuGroup([
-              <Menu.Item
-                disabled={!multiInfos || !multiInfos.length}
-                key='multisigApprovals'
-                onClick={toggleMultisig}
-              >
-                {t('Multisig approvals')}
-              </Menu.Item>
-            ])}
-            {api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
-              <Menu.Item
-                key='changeDelegate'
-                onClick={toggleDelegate}
-              >
-                {t('Change democracy delegation')}
-              </Menu.Item>,
-              <Menu.Item
-                key='undelegate'
-                onClick={toggleUndelegate}
-              >
-                {t('Undelegate')}
-              </Menu.Item>
-            ])}
-            {api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
-              <Menu.Item
-                key='delegate'
-                onClick={toggleDelegate}
-              >
-                {t('Delegate democracy votes')}
-              </Menu.Item>
-            ])}
-            {api.api.query.proxy?.proxies && createMenuGroup([
-              <Menu.Item
-                key='proxy-overview'
-                onClick={toggleProxyOverview}
-              >
-                {proxy?.[0].length
-                  ? t('Manage proxies')
-                  : t('Add proxy')
-                }
-              </Menu.Item>
-            ])}
-            <ChainLock
-              className='accounts--network-toggle'
-              genesisHash={genesisHash}
-              isDisabled={api.isDevelopment}
-              onChange={onSetGenesisHash}
-            />
-          </Menu>
-        </Popup>
-      </td>
+              ])}
+              <ChainLock
+                className='accounts--network-toggle'
+                genesisHash={genesisHash}
+                isDisabled={api.isDevelopment}
+                onChange={onSetGenesisHash}
+              />
+            </Menu>
+          </Popup>
+        </td>
+      )}
       <td className='links media--1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'

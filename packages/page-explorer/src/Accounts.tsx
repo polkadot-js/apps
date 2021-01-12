@@ -13,9 +13,10 @@ interface Props {
   headers: HeaderExtended[],
   title: string,
   tableHeaders?: array,
+  hideLongFields: boolean,
 }
 
-function Accounts ({ headers, tableHeaders, useComplex = true, title = 'accounts' }: Props): React.ReactElement<Props> {
+function Accounts ({ headers, tableHeaders, useComplex = true, hideLongFields = false, title = 'accounts' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef(tableHeaders || [
     [t(title), 'start', 3]
@@ -44,6 +45,7 @@ function Accounts ({ headers, tableHeaders, useComplex = true, title = 'accounts
             key={header.account}
             setBalance={setBalance}
             transferFromSelf={true}
+            hideExtra={hideLongFields}
           />
         ) : (
           <SimpleAccount

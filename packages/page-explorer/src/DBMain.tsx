@@ -135,7 +135,7 @@ function DBMain (): React.ReactElement<Props> {
           <Transfers headers={lastTransfers} title="last transfers" hideLongFields={true} />
         </Column>
         <Column>
-          <Accounts headers={richAccounts} title="top 10 rich accounts" hideLongFields={true} useComplex={false} />
+          <Accounts headers={richAccounts} title="top 10 rich accounts" hideLongFields={true} useComplex={true} />
         </Column>
       </Columar>
     </>
