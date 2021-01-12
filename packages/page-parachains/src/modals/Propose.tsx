@@ -1,10 +1,12 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
+
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
-import { Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_TEN, compactAddLength } from '@polkadot/util';
 
@@ -20,6 +22,28 @@ interface CodeState {
   wasm: Uint8Array | null;
 }
 
+interface ValidatorProps {
+  address: string;
+  index: number;
+  setAddress: (index: number, value: string) => void;
+  t: TFunction;
+}
+
+function Validator ({ address, index, setAddress, t }: ValidatorProps): React.ReactElement<ValidatorProps> {
+  const _setAddress = useCallback(
+    (value: string | null) => value && setAddress(index, value),
+    [index, setAddress]
+  );
+
+  return (
+    <InputAddress
+      defaultValue={address}
+      label={t('validator {{index}}', { replace: { index: index + 1 } })}
+      onChange={_setAddress}
+    />
+  );
+}
+
 function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -27,7 +51,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const [name, setName] = useState('');
   const [paraId, setParaId] = useState(new BN(Date.now() % 131072));
   const [balance, setBalance] = useState(new BN(1000).mul(BN_TEN.pow(new BN(api.registry.chainDecimals))));
-  const [validator, setValidator] = useState<string | null>(null);
+  const [validators, setValidators] = useState<string[]>([]);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -38,6 +62,22 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
 
   const _setWasm = useCallback(
     (wasm: Uint8Array, isWasmValid: boolean) => setWasm({ isWasmValid, wasm }),
+    []
+  );
+
+  const _setAddress = useCallback(
+    (index: number, address: string) =>
+      setValidators((v) => v.map((v, i) => i === index ? address : v)),
+    []
+  );
+
+  const _addValidator = useCallback(
+    () => setValidators((v) => [...v, '']),
+    []
+  );
+
+  const _delValidator = useCallback(
+    () => setValidators((v) => [...v.slice(0, v.length - 1)]),
     []
   );
 
@@ -120,13 +160,31 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
-            <InputAddress
-              label={t<string>('associated validator')}
-              onChange={setValidator}
-            />
+            {validators.map((address, index) => (
+              <Validator
+                address={address}
+                index={index}
+                key={index}
+                setAddress={_setAddress}
+                t={t}
+              />
+            ))}
+            <Button.Group>
+              <Button
+                icon='plus'
+                label={t<string>('Add validator')}
+                onClick={_addValidator}
+              />
+              <Button
+                icon='minus'
+                isDisabled={validators.length === 0}
+                label={t<string>('Remove validator')}
+                onClick={_delValidator}
+              />
+            </Button.Group>
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('A validator for this parachain')}</p>
+            <p>{t<string>('The validators for this parachain')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -146,9 +204,9 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!isWasmValid || !genesisState || !isNameValid || !validator}
+          isDisabled={!isWasmValid || !genesisState || !isNameValid || !validators.length}
           onStart={onClose}
-          params={[paraId, name, wasm, genesisState, [validator], balance]}
+          params={[paraId, name, wasm, genesisState, validators, balance]}
           tx={api.tx.proposeParachain?.proposeParachain}
         />
       </Modal.Actions>
