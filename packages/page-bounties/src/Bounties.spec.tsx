@@ -256,7 +256,7 @@ describe('Bounties', () => {
       expect(await findByText('Approval under voting')).toBeTruthy();
     });
 
-    it('on bounty active', async () => {
+    it('on bounty active and close bounty proposal', async () => {
       const bounty = bountyInStatus('Active');
       const proposals = [
         {
@@ -269,6 +269,21 @@ describe('Bounties', () => {
       const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
 
       expect(await findByText('Rejection under voting')).toBeTruthy();
+    });
+
+    it('on bounty active and unassign curator proposal', async () => {
+      const bounty = bountyInStatus('Active');
+      const proposals = [
+        {
+          hash: new TypeRegistry().createType('Hash'),
+          proposal: apiWithAugmentations
+            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.unassignCurator(0)),
+          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
+        }];
+
+      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+
+      expect(await findByText('Unassign curator under voting')).toBeTruthy();
     });
   });
 });

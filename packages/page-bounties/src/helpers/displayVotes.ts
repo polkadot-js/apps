@@ -32,20 +32,35 @@ function votingDescription (proposalName: string, t: TFunction): string {
   }
 }
 
-function getValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
-  return validProposalNames[status.type as bountyVotingStatus].find((validProposalName) => {
-    return bountyProposals.find(({ proposal }) => proposal.method === validProposalName);
+function getValidProposal (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): { index: number, proposalName: string | null} {
+  let proposalIndex = -1;
+  const proposalName = getValidProposalNames(status).find((validProposalName) => {
+    return isValidIndex(proposalIndex = getProposalIndexByName(bountyProposals, validProposalName));
   });
+
+  return proposalName ? { index: proposalIndex, proposalName: proposalName } : { index: -1, proposalName: null };
 }
 
-export function getProposal (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | undefined {
-  const proposalName = getValidProposalName(bountyProposals, status);
+function getValidProposalNames (status: BountyStatus) {
+  return validProposalNames[status.type as bountyVotingStatus];
+}
 
-  return proposalName ? bountyProposals.find(({ proposal }) => proposal.method === proposalName) : undefined;
+function getProposalIndexByName (bountyProposals: DeriveCollectiveProposal[], proposalName: string) {
+  return bountyProposals.findIndex(({ proposal }) => proposal.method === proposalName);
+}
+
+function isValidIndex (index: number) {
+  return index !== -1;
+}
+
+export function getProposal (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | null {
+  const { index } = getValidProposal(bountyProposals, status);
+
+  return isValidIndex(index) ? bountyProposals[index] : null;
 }
 
 export function getVotingDescription (proposals: DeriveCollectiveProposal[], status: BountyStatus, t: TFunction): string | null {
-  const proposalName = getValidProposalName(proposals, status);
+  const { proposalName } = getValidProposal(proposals, status);
 
   return proposalName ? votingDescription(proposalName, t) : null;
 }
