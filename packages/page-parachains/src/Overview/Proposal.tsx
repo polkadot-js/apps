@@ -17,7 +17,7 @@ interface Props {
   proposal: ProposalExt;
 }
 
-function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
+function Proposal ({ proposal: { id, isApproved, isScheduled, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasSudoKey, sudoKey } = useSudo();
@@ -41,10 +41,10 @@ function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHea
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'>
-        {isApproved && (
+        {(isApproved || isScheduled) && (
           <Badge
             color='green'
-            icon='check'
+            icon={isScheduled ? 'clock' : 'check'}
           />
         )}
       </td>
