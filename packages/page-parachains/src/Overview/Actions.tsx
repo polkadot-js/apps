@@ -21,7 +21,7 @@ function Actions (): React.ReactElement<Props> {
   return (
     <>
       <Button.Group>
-        {api.query.proposeParachains && (
+        {api.query.proposeParachain && (
           <Button
             icon='plus'
             isDisabled={true}

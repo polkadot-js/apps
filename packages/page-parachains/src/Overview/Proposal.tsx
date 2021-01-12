@@ -5,10 +5,12 @@ import type { ProposalExt } from './types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, TxButton } from '@polkadot/react-components';
+import { useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import { sliceHex } from './util';
 
 interface Props {
@@ -16,6 +18,10 @@ interface Props {
 }
 
 function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { hasSudoKey, sudoKey } = useSudo();
+
   const initialHex = useMemo(
     () => sliceHex(genesisHead, 8),
     [genesisHead]
@@ -48,6 +54,18 @@ function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHea
           value={validatorId}
         />
       ))}</td>
+      <td className='button'>
+        {!isApproved && (
+          <TxButton
+            accountId={sudoKey}
+            icon='check'
+            isDisabled={!hasSudoKey}
+            label={t<string>('Approve')}
+            params={[id]}
+            tx={api.tx.proposeParachain?.approveProposal}
+          />
+        )}
+      </td>
     </tr>
   );
 }

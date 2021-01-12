@@ -74,8 +74,8 @@ export interface TxState extends ExtrinsicAndSenders {
 
 export interface UseSudo {
   allAccounts: string[];
+  hasSudoKey: boolean;
   sudoKey?: string;
-  isMine: boolean;
 }
 
 export interface AddressFlags extends DeriveAccountFlags {
