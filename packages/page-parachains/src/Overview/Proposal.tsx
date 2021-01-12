@@ -22,6 +22,11 @@ function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHea
   const { api } = useApi();
   const { hasSudoKey, sudoKey } = useSudo();
 
+  const approveTx = useMemo(
+    () => api.tx.proposeParachain && api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
+    [api, id]
+  );
+
   const initialHex = useMemo(
     () => sliceHex(genesisHead, 8),
     [genesisHead]
@@ -58,11 +63,10 @@ function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHea
         {!isApproved && (
           <TxButton
             accountId={sudoKey}
+            extrinsic={approveTx}
             icon='check'
             isDisabled={!hasSudoKey}
             label={t<string>('Approve')}
-            params={[id]}
-            tx={api.tx.proposeParachain?.approveProposal}
           />
         )}
       </td>
