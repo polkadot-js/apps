@@ -18,11 +18,13 @@ interface Props {
 }
 
 const transformProposals = {
-  transform: (entries: [{ args: [ParaId] }, Option<ParachainProposal>][]): ProposalExt[] => {
-    return entries
+  transform: (entries: [{ args: [ParaId] }, Option<ParachainProposal>][]): ProposalExt[] =>
+    entries
       .filter(([, opt]) => opt.isSome)
-      .map(([{ args: [id] }, optProposal]) => ({ id, proposal: optProposal.unwrap() }));
-  }
+      .map(([{ args: [id] }, optProposal]) => ({
+        id,
+        proposal: optProposal.unwrap()
+      }))
 };
 
 function Proposals (): React.ReactElement<Props> {
