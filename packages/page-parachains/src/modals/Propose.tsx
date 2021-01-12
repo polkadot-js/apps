@@ -183,7 +183,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
             </Button.Group>
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('The validators for this parachain')}</p>
+            <p>{t<string>('The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
