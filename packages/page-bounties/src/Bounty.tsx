@@ -75,9 +75,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           <BountyActions
             bestNumber={bestNumber}
+            description={description}
             index={index}
             proposals={proposals}
             status={status}
+            value={value}
           />
         </td>
         <td className='table-column-icon'>

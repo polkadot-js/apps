@@ -3,7 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty, BountyIndex } from '@polkadot/types/interfaces';
+import type { BlockNumber, Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
@@ -24,8 +24,12 @@ import { TypeRegistry } from '@polkadot/types/create';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
-function aBounty (): Bounty {
-  return new TypeRegistry().createType('Bounty');
+function bountyStatus (status: string): BountyStatus {
+  return new TypeRegistry().createType('BountyStatus', status);
+}
+
+function aBounty ({ value = balanceOf(1), status = bountyStatus('Proposed') }: Partial<Bounty> = {}): Bounty {
+  return new TypeRegistry().createType('Bounty', { status, value });
 }
 
 function anIndex (index = 0): BountyIndex {
@@ -49,11 +53,13 @@ let mockBountyApi: BountyApi = {
   closeBounty: jest.fn(),
   dataDepositPerByte: new BN(1),
   maximumReasonLength: 100,
-  proposeBounty: jest.fn()
+  proposeBounty: jest.fn(),
+  proposeCurator: jest.fn()
 };
 
 let mockBalance = balanceOf(1);
 let apiWithAugmentations: ApiPromise;
+const mockMembers = { isMember: true };
 
 const mockTreasury = {
   burn: new BN(1),
@@ -105,6 +111,12 @@ function aProposal (extrinsic: SubmittableExtrinsic<'promise'>) {
   };
 }
 
+jest.mock('@polkadot/react-hooks/useMembers', () => {
+  return {
+    useMembers: () => mockMembers
+  };
+});
+
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
@@ -120,7 +132,10 @@ describe('Bounties', () => {
       },
       genesisHash: aGenesisHash(),
       query: {},
-      registry: { chainDecimals: 12 }
+      registry: { chainDecimals: 12 },
+      tx: {
+        council: {}
+      }
     },
     systemName: 'substrate' } as unknown as ApiProps;
 
@@ -219,6 +234,47 @@ describe('Bounties', () => {
       fireEvent.change(titleInput, { target: { value: 'add bytes' } });
 
       expect(await findByText('Account does not have enough funds.')).toBeTruthy();
+    });
+  });
+
+  describe('propose curator modal', () => {
+    it('shows an error if fee is greater than bounty value', async () => {
+      const { findByTestId, findByText } = renderBounties({ bounties: [
+        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
+          description: 'kusama comic book',
+          index: anIndex(),
+          proposals: [] }
+      ] });
+      const proposeCuratorButton = await findByText('Propose Curator');
+
+      fireEvent.click(proposeCuratorButton);
+      expect(await findByText('This action will create a Council motion to propose Curator.')).toBeTruthy();
+
+      const feeInput = await findByTestId("curator's fee");
+
+      fireEvent.change(feeInput, { target: { value: '6' } });
+
+      expect(await findByText("Curator's fee can't be higher than bounty value.")).toBeTruthy();
+    });
+    it('disables Assign Curator button if validation fails', async () => {
+      const { findByTestId, findByText } = renderBounties({ bounties: [
+        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
+          description: 'kusama comic book',
+          index: anIndex(),
+          proposals: [] }
+      ] });
+      const proposeCuratorButton = await findByText('Propose Curator');
+
+      fireEvent.click(proposeCuratorButton);
+      expect(await findByText('This action will create a Council motion to propose Curator.')).toBeTruthy();
+
+      const feeInput = await findByTestId("curator's fee");
+
+      fireEvent.change(feeInput, { target: { value: '6' } });
+
+      const assignCuratorButton = await findByText('Assign curator');
+
+      expect(assignCuratorButton.classList.contains('isDisabled')).toBeTruthy();
     });
   });
 

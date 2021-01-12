@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -15,13 +16,15 @@ import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
+  description: string
   index: number;
   proposals?: DeriveCollectiveProposal[];
+  value: Balance;
 }
 
 const BOUNTY_METHODS = ['proposeCurator'];
 
-function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<Props> | null {
+function ProposeCuratorAction ({ description, index, proposals, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers();
@@ -31,6 +34,7 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
   const [curatorId, setCuratorId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();
   const [fee, setFee] = useState<BN>(BN_ZERO);
+  const [isFeeValid, setIsFeeValid] = useState(false);
 
   useEffect((): void => {
     members && setThreshold(
@@ -40,8 +44,11 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
 
   const proposeCuratorProposal = useMemo(() => curatorId && proposeCurator(index, curatorId, fee), [curatorId, fee, index, proposeCurator]);
 
-  console.log(curatorId);
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
+
+  useEffect(() => {
+    setIsFeeValid(!!value?.gt(fee));
+  }, [value, fee]);
 
   return isMember && !isVotingInitiated
     ? (
@@ -54,7 +61,7 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
         />
         {isOpen && (
           <Modal
-            header={t<string>('Propose Curator to ...')}
+            header={t<string>(`Propose Curator to "${description}"`)}
             size='large'
           >
             <Modal.Content>
@@ -70,7 +77,7 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
                   <InputAddress
                     filter={members}
                     help={t<string>('Select the council account you wish to use to create a motion for the Bounty.')}
-                    label={t<string>('vote with account')}
+                    label={t<string>('proposing account')}
                     onChange={setAccountId}
                     type='account'
                     withLabel
@@ -90,15 +97,15 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
-                    help={t<string>('...')}
-                    label={t<string>('Select Curator')}
+                    help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
+                    label={t<string>('curator account')}
                     onChange={setCuratorId}
                     type='account'
                     withLabel
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('The account that will ...')}</p>
+                  <p>{t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}</p>
                 </Modal.Column>
               </Modal.Columns>
               <Modal.Columns>
@@ -111,15 +118,19 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
               <Modal.Columns>
                 <Modal.Column>
                   <InputBalance
-                    help={t<string>('...')}
+                    help={t<string>('A reward for a curator, this amount is included in the total value of the bounty.')}
+                    isError={!isFeeValid}
                     isZeroable
-                    label={t<string>('...')}
+                    label={t<string>("curator's fee")}
                     onChange={setFee}
                     value={fee}
                   />
+                  {!isFeeValid && (
+                    <MarkError content={t<string>("Curator's fee can't be higher than bounty value.")} />
+                  )}
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('....')}</p>
+                  <p>{t<string>("The curator's fee can be defined as the result of subtracting the value paid to the bounty rewardee from the total value of the bounty.")}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>
@@ -127,7 +138,7 @@ function ProposeCuratorAction ({ index, proposals }: Props): React.ReactElement<
               <TxButton
                 accountId={accountId}
                 icon='check'
-                isDisabled={false}
+                isDisabled={!isFeeValid}
                 label={t<string>('Assign curator')}
                 onStart={toggleOpen}
                 params={[threshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
