@@ -5,7 +5,7 @@ import type { ProposalExt } from './types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -15,7 +15,7 @@ interface Props {
   proposal: ProposalExt;
 }
 
-function Proposal ({ proposal: { id, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
+function Proposal ({ proposal: { id, isApproved, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
   const initialHex = useMemo(
     () => sliceHex(genesisHead, 8),
     [genesisHead]
@@ -29,6 +29,14 @@ function Proposal ({ proposal: { id, proposal: { balance, genesisHead, name, pro
   return (
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <td className='badge'>
+        {isApproved && (
+          <Badge
+            color='green'
+            icon='check'
+          />
+        )}
+      </td>
       <td className='start together'>{name.toUtf8()}</td>
       <td className='address'><AddressSmall value={proposer} /></td>
       <td className='balance'><FormatBalance value={balance} /></td>

@@ -5,5 +5,6 @@ import type { ParachainProposal, ParaId } from '@polkadot/types/interfaces';
 
 export interface ProposalExt {
   id: ParaId;
+  isApproved: boolean;
   proposal: ParachainProposal;
 }
