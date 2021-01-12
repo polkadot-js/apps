@@ -5,38 +5,47 @@ import type { TFunction } from 'i18next';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-function votingDescriptions (bountyStatus: BountyStatus, t: TFunction): string[] {
-  switch (bountyStatus.type) {
-    case ('Proposed'): {
-      return [t('Approval under voting'), t('Rejection under voting')];
-    }
+type bountyVotingStatus = 'Active' | 'Approved' | 'CuratorProposed' | 'Funded' | 'PendingPayout' | 'Proposed';
+type bountyVotingStatuses = { [status in bountyVotingStatus]: string[] };
 
-    case ('Funded'): {
-      return [t('Curator under voting')];
-    }
+const validProposalNames: bountyVotingStatuses = {
+  Active: ['closeBounty', 'unassignCurator'],
+  Approved: [],
+  CuratorProposed: ['unassignCurator'],
+  Funded: ['proposeCurator'],
+  PendingPayout: ['closeBounty'],
+  Proposed: ['approveBounty', 'closeBounty']
+};
 
-    case ('CuratorProposed'): {
-      return [t('Unassign curator under voting')];
-    }
-
-    case ('Active'): {
-      return [t('Unassign curator under voting'), t('Cancel bounty under voting')];
-    }
-
-    case ('PendingPayout'): {
-      return [t('Cancel bounty under voting')];
-    }
-
-    default: {
-      return [];
-    }
+function votingDescription (proposalName: string, t: TFunction): string {
+  switch (proposalName) {
+    case ('approveBounty'):
+      return t('Approval under voting');
+    case ('closeBounty'):
+      return t('Rejection under voting');
+    case ('proposeCurator'):
+      return t('Curator under voting');
+    case ('unassignCurator'):
+      return t('Unassign curator under voting');
+    default:
+      return '';
   }
 }
 
-export function getProposal (proposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | null {
-  return proposals.length === 1 ? proposals[0] : null;
+function getValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
+  return validProposalNames[status.type as bountyVotingStatus].find((validProposalName) => {
+    return bountyProposals.find(({ proposal }) => proposal.method === validProposalName);
+  });
+}
+
+export function getProposal (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | undefined {
+  const proposalName = getValidProposalName(bountyProposals, status);
+
+  return proposalName ? bountyProposals.find(({ proposal }) => proposal.method === proposalName) : undefined;
 }
 
 export function getVotingDescription (proposals: DeriveCollectiveProposal[], status: BountyStatus, t: TFunction): string | null {
-  return getProposal(proposals, status) ? votingDescriptions(status, t)[0] : null;
+  const proposalName = getValidProposalName(proposals, status);
+
+  return proposalName ? votingDescription(proposalName, t) : null;
 }

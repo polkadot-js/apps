@@ -233,5 +233,42 @@ describe('Bounties', () => {
 
       expect(await findByText('Approval under voting')).toBeTruthy();
     });
+
+    it('on parallel bounty approval and bounty close', async () => {
+      const bounty = bountyInStatus('Proposed');
+      const proposals = [
+        {
+          hash: new TypeRegistry().createType('Hash'),
+          proposal: apiWithAugmentations
+            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.closeBounty(0)),
+          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
+        },
+        {
+          hash: new TypeRegistry().createType('Hash'),
+          proposal: apiWithAugmentations
+            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.approveBounty(0)),
+          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL'], index: 1, nays: ['5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy'], threshold: 4 })
+        }
+      ];
+
+      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+
+      expect(await findByText('Approval under voting')).toBeTruthy();
+    });
+
+    it('on bounty active', async () => {
+      const bounty = bountyInStatus('Active');
+      const proposals = [
+        {
+          hash: new TypeRegistry().createType('Hash'),
+          proposal: apiWithAugmentations
+            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.closeBounty(0)),
+          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
+        }];
+
+      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+
+      expect(await findByText('Rejection under voting')).toBeTruthy();
+    });
   });
 });
