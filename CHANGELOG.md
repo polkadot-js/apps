@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## 0.75.1 Jan 11, 2021
+
+Contributed:
+
+- Ledger support for Dock (Thanks to https://github.com/lovesh)
+- Allow opening bounties for council voting (Thanks to https://github.com/ekowalsk)
+- Add bounties summary (Thanks to https://github.com/ekowalsk)
+- Add Patract Jupiter testnet (Thanks to https://github.com/zzcwoshizz)
+- Add Polkadex testnet (Thanks to https://github.com/Gauthamastro)
+- Update Darwinia types (Thanks to https://github.com/WoeOm)
+- OnFianlity support for Rococo (Thanks to https://github.com/ianhe8x)
+- Expanded tests for bounties (Thanks to https://github.com/krzysztof-jelski)
+- Fix Electron account saving under windows (Thanks to https://github.com/krzysztof-jelski)
+
+Changes:
+
+- Add (as used) warning for refcount on normal transfers
+- Update transfer recount check to cater for new Substrate
+- Fix staking comission validation (always 0-100 only)
+- Display errors of account derivation failures
+- Basic parachain registration modal (non-sudo only)
+- Additional upcoming parachain info & alignment fixes
+- Allow use of `closeOperational` on chains that do support it for collective proposals
+- Swap Error/Warning to consistent display with boxed triangle
+- Always build bundles with `NODE_ENV=production` set (react non-dev)
+- Swap Edgeware to specVersioned (with supporting type release from the team)
+- Disable network with missing types resulting in load failures
+- Adjust voting dialog with better display for non-preimage proposals
+- Adjust header highlights for better light/dark support
+- Fix JS app display with (& add tabs for consistency)
+- Update Electron CSP to cater for local nodes
+- Rework endpoint configuration for better ease of config
+
+
 ## 0.74.1 Jan 4, 2021
 
 Contributed:

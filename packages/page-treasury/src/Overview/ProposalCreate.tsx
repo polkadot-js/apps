@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputBalance, Modal, Static, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, MarkWarning, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -83,15 +83,13 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
                   isDisabled
                   label={t<string>('minimum bond')}
                 />
+                <MarkWarning content={t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
                 <p>{t<string>('Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.', { replace: { bondPercentage } })}</p>
               </Modal.Column>
             </Modal.Columns>
-            <article className='warning'>
-              <p>{t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')}</p>
-            </article>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton

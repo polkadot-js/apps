@@ -73,7 +73,7 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     margin: 0 auto;
     width: 100%;
     display: flex;
-    padding: 1.5rem 1.5rem 0;
+    padding: 1.25rem 1.5rem 0;
   }
 
   &::-webkit-scrollbar {

@@ -32,7 +32,7 @@ const transformMark = {
 function Parachain ({ className = '', id }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
-  const watermark = useCall<string | null>(api.query.hrmp.hrmpWatermarks, [id], transformMark);
+  const watermark = useCall<string | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
 
   return (
     <tr className={className}>
