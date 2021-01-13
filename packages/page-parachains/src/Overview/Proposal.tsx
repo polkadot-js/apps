@@ -68,23 +68,38 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         ? (
           <>
             <td colSpan={2}><Spinner variant='mini' /></td>
-            <td className='media--1000' />
-            <td
-              className='media--1600'
-              colSpan={2} />
-            <td
-              className='media--1300'
-              colSpan={1} />
+            <td className='media--1100' />
+            <td className='media--1700' />
+            <td className='media--1500' />
+            <td />
           </>
         )
         : (
           <>
-            <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
-            <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
-            <td className='balance media--1000'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
-            <td className='start hash together media--1600'>{initialHex}</td>
-            <td className='start hash together media--1600'>{validationHex}</td>
-            <td className='address all media--1300'>{proposal.proposal?.validators.map((validatorId) => (
+            {!isQueried
+              ? (
+                <td
+                  className='button start'
+                  colSpan={2}
+                >
+                  <Toggle
+                    label={t<string>('Details')}
+                    onChange={toggleIsQueried}
+                    value={isQueried}
+                  />
+                </td>
+              )
+              : (
+                <>
+                  <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
+                  <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
+                </>
+              )
+            }
+            <td className='balance media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+            <td className='start hash together media--1700'>{initialHex}</td>
+            <td className='start hash together media--1500'>{validationHex}</td>
+            <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
               <AddressMini
                 key={validatorId.toString()}
                 value={validatorId}
@@ -94,15 +109,11 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         )
       }
       <td className='button'>
-        <Toggle
-          label={t<string>('Details')}
-          onChange={toggleIsQueried}
-          value={isQueried}
-        />
         {!proposal.isApproved && (
           <>
             <TxButton
               accountId={sudoKey}
+              className='media--800'
               extrinsic={approveTx}
               icon='check'
               isDisabled={!hasSudoKey}
@@ -110,6 +121,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
             />
             <TxButton
               accountId={hasSudoKey ? sudoKey : proposal.proposal?.proposer}
+              className='media--1100'
               extrinsic={cancelTx}
               icon='ban'
               isDisabled={!hasSudoKey || !proposal.proposal}

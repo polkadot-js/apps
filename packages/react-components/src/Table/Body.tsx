@@ -139,6 +139,10 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       text-overflow: ellipsis;
     }
 
+    &.start {
+      text-align: left;
+    }
+
     &.together {
       white-space: nowrap;
     }
