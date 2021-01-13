@@ -3,9 +3,11 @@
 
 import type { ParaId } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
@@ -16,11 +18,13 @@ interface Props {
 
 function ParachainList ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
-    [t('watermark')]
+    [t('watermark'), 2]
   ]);
 
   return (
@@ -30,6 +34,7 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
     >
       {ids?.map((id): React.ReactNode => (
         <Parachain
+          bestNumber={bestNumber}
           id={id}
           key={id.toString()}
         />

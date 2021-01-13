@@ -4,14 +4,17 @@
 import type { Option } from '@polkadot/types';
 import type { BlockNumber, HeadData, ParaId } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import BN from 'bn.js';
+import React, { useMemo } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { sliceHex } from './util';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
   id: ParaId;
 }
@@ -24,23 +27,29 @@ const transformHead = {
 };
 
 const transformMark = {
-  transform: (watermark: Option<BlockNumber>): string | null =>
+  transform: (watermark: Option<BlockNumber>): BlockNumber | null =>
     watermark.isSome
-      ? watermark.unwrap().toHuman()
+      ? watermark.unwrap()
       : null
 };
 
-function Parachain ({ className = '', id }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
-  const watermark = useCall<string | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
+  const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
+
+  const blockDelay = useMemo(
+    () => watermark && bestNumber && bestNumber.sub(watermark),
+    [bestNumber, watermark]
+  );
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td />
       <td className='all start together hash'>{headHex}</td>
-      <td className='number'>{watermark}</td>
+      <td className='number'>{formatNumber(watermark)}</td>
+      <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
     </tr>
   );
 }
