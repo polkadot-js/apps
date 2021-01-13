@@ -7,7 +7,7 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import { getVotingDescription } from './helpers/displayVotes';
+import { getVotingDescription } from './helpers/extendedStatuses';
 import { useTranslation } from './translate';
 
 interface Props {
