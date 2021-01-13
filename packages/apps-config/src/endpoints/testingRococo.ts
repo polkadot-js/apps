@@ -20,7 +20,8 @@ export function createRococo (t: TFunction): EndpointOption {
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
-      OnFinality: 'wss://rococo.api.onfinality.io/public-ws'
+      OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
+      'Patract Elara': 'wss://rococo.elara.patract.io'
     },
     linked: [
       // these are the base chains
