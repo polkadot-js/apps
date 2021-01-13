@@ -11,9 +11,9 @@ type BountyVotingStatuses = { [status in BountyVotingStatus]: string[] };
 const validProposalNames: BountyVotingStatuses = {
   Active: ['closeBounty', 'unassignCurator'],
   Approved: [],
-  CuratorProposed: ['unassignCurator'],
-  Funded: ['proposeCurator'],
-  PendingPayout: ['closeBounty'],
+  CuratorProposed: ['unassignCurator', 'closeBounty'],
+  Funded: ['proposeCurator', 'closeBounty'],
+  PendingPayout: ['unassignCurator'],
   Proposed: ['approveBounty', 'closeBounty']
 };
 
