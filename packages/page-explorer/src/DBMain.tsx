@@ -123,20 +123,20 @@ function DBMain (): React.ReactElement<Props> {
   return (
     <>
       <Columar>
-        <Column>
+        <Columar.Column>
           <BlockHeaders headers={lastBlocks} title="last blocks" hideLongFields={true} />
-        </Column>
-        <Column>
+        </Columar.Column>
+        <Columar.Column>
           <Events events={lastEvents} title="last events" hideLongFields={true} />
-        </Column>
+        </Columar.Column>
       </Columar>
       <Columar>
-        <Column>
+        <Columar.Column>
           <Transfers headers={lastTransfers} title="last transfers" hideLongFields={true} />
-        </Column>
-        <Column>
+        </Columar.Column>
+        <Columar.Column>
           <Accounts headers={richAccounts} title="top 10 rich accounts" hideLongFields={true} useComplex={true} />
-        </Column>
+        </Columar.Column>
       </Columar>
     </>
   );

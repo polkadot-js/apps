@@ -34,7 +34,7 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
         />
       </header>
       <Columar>
-        <Column style={{margin: '10px auto 0 auto'}}>
+        <Columar.Column style={{margin: '10px auto 0 auto'}}>
           <Switch>
             <Route path={`${basePath}/status`}>
               <Status />
@@ -48,7 +48,7 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
             {' '}
             <a href="/#/token-migration/status" style={{marginLeft: '20px'}}>Check request status</a>
           </div>
-        </Column>
+        </Columar.Column>
       </Columar>
     </main>
   );
@@ -65,7 +65,7 @@ export const migrationApiUrl = 'https://migration-api.dock.io';
 
 /**
  * Remove prefix '0x' from a hex string if present. Doesn't check if string is valid hex or not
- * @param string 
+ * @param string
  */
 export function removePrefixFromHex(string) {
   if (string.startsWith('0x')) {

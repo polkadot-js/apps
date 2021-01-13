@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2021 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 
@@ -17,6 +18,7 @@ interface Props {
 
 function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -48,7 +50,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
                 isDisabled={!isMine || sudoKey === selected}
                 label={t<string>('Reassign')}
                 params={[selected]}
-                tx='sudo.setKey'
+                tx={api.tx.sudo.setKey}
               />
             </>
           )

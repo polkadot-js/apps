@@ -1,7 +1,8 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { ModalProps } from '../types';
@@ -12,10 +13,10 @@ import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { getEnvironment } from '@polkadot/react-api/util';
-import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, Modal, TextArea } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import { keyring } from '@polkadot/ui-keyring';
+import { settings } from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
@@ -344,7 +345,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                   label={t<string>('keypair crypto type')}
                   onChange={_onChangePairType}
-                  options={isEthereum ? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
+                  options={isEthereum ? settings.availableCryptosEth : settings.availableCryptos}
                   tabIndex={-1}
                 />
               </Modal.Column>
@@ -373,10 +374,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   value={derivePath}
                 />
                 {deriveValidation?.error && (
-                  <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
+                  <MarkError content={errorIndex[deriveValidation.error] || deriveValidation.error} />
                 )}
                 {deriveValidation?.warning && (
-                  <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
+                  <MarkWarning content={errorIndex[deriveValidation.warning]} />
                 )}
               </Modal.Column>
               <Modal.Column>
@@ -475,7 +476,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 }
 
-export default React.memo(styled(Create)`
+export default React.memo(styled(Create)(({ theme }: ThemeProps) => `
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -503,8 +504,8 @@ export default React.memo(styled(Create)`
       margin: 0.8rem 0;
 
       > label {
-          font-weight: 400;
+          font-weight: ${theme.fontWeightNormal};
       }
     }
   }
-`);
+`));

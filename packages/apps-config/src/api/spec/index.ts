@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import bifrost from './bifrost';
@@ -11,18 +11,17 @@ import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import dock from './dock';
 import dusty from './dusty';
-import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import equilibrium from './equilibrium';
 import galois from './galois';
 import hanonycash from './hanonycash';
+import jupiter from './jupiter';
 import kilt from './kilt';
-import kulupu from './kulupu';
-import nodeTemplate from './node-template';
 import nodle from './nodle';
 import phala from './phala';
 import plasm from './plasm';
+import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
@@ -43,15 +42,14 @@ export default {
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   dusty3: dusty,
-  edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   galois: galois,
   hanonycash,
-  kulupu,
+  jupiter,
   'mashnet-node': kilt,
-  'node-template': nodeTemplate,
+  'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'phala-node': phala,
   plasm,

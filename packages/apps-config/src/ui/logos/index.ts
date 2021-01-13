@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -32,6 +32,7 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
@@ -40,6 +41,8 @@ import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
+import nodePolkaBTC from './nodes/polkabtc.png';
+import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -62,6 +65,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Moonbase Alpha', moonbeam],
+  ['PolkaBTC', nodePolkaBTC],
+  ['Polkadex Testnet', nodePolkadex],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -91,16 +96,19 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
+  ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
+  ['Polkadex Node', nodePolkadex],
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
+  ['Plasm Parachain Collator', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
-  ['SORA-Substrate Node', nodeSora],
+  ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
@@ -131,9 +139,12 @@ export const namedLogos: Record<string, unknown> = {
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  encointer_cantillon: nodeEncointerTeeproxy,
+  encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
+  jupiter: nodeJupiter,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
@@ -142,6 +153,8 @@ export const namedLogos: Record<string, unknown> = {
   nodle: nodeNodle,
   phala: nodePhala,
   plasm: nodePlasm,
+  polkabtc: nodePolkaBTC,
+  polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,

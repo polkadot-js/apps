@@ -1,8 +1,7 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2021 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LabelProps } from 'semantic-ui-react/dist/commonjs/elements/Label';
-import type { SemanticShorthandItem } from 'semantic-ui-react/dist/commonjs/generic';
+import type { LabelProps, SemanticShorthandItem } from 'semantic-ui-react';
 
 export type LogType = 'error' | 'log';
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
@@ -213,7 +213,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
           label={t<string>('keypair crypto type')}
           onChange={setType}
-          options={isEthereum ? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
+          options={isEthereum ? settings.availableCryptosEth : settings.availableCryptos}
         />
       </div>
       <Button.Group>

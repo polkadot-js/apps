@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/apps-config/settings/types';
+import type { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
-import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
@@ -17,20 +18,20 @@ interface Props {
   className?: string;
 }
 
-const ledgerConnOptions = uiSettings.availableLedgerConn;
+const ledgerConnOptions = settings.availableLedgerConn;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
-  const [settings, setSettings] = useState((): SettingsStruct => {
-    const settings = uiSettings.get();
+  const [state, setSettings] = useState((): SettingsStruct => {
+    const values = settings.get();
 
-    return { ...settings, uiTheme: settings.uiTheme === 'dark' ? 'dark' : 'light' };
+    return { ...values, uiTheme: values.uiTheme === 'dark' ? 'dark' : 'light' };
   });
 
   const iconOptions = useMemo(
-    () => uiSettings.availableIcons
+    () => settings.availableIcons
       .map((o): Option => createIdenticon(o, ['default']))
       .concat(createIdenticon({ info: 'robohash', text: 'RoboHash', value: 'robohash' })),
     []
@@ -55,37 +56,37 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   useEffect((): void => {
-    const prev = uiSettings.get() as unknown as Record<string, unknown>;
-    const hasChanges = Object.entries(settings).some(([key, value]) => prev[key] !== value);
-    const needsReload = prev.apiUrl !== settings.apiUrl || prev.prefix !== settings.prefix;
+    const prev = settings.get() as unknown as Record<string, unknown>;
+    const hasChanges = Object.entries(state).some(([key, value]) => prev[key] !== value);
+    const needsReload = prev.apiUrl !== state.apiUrl || prev.prefix !== state.prefix;
 
     setChanged(
       hasChanges
         ? needsReload
         : null
     );
-  }, [settings]);
+  }, [state]);
 
   const _handleChange = useCallback(
     (key: keyof SettingsStruct) => <T extends string | number>(value: T) =>
-      setSettings((settings) => ({ ...settings, [key]: value })),
+      setSettings((state) => ({ ...state, [key]: value })),
     []
   );
 
   const _saveAndReload = useCallback(
-    () => saveAndReload(settings),
-    [settings]
+    () => saveAndReload(state),
+    [state]
   );
 
   const _save = useCallback(
     (): void => {
-      save(settings);
+      save(state);
       setChanged(null);
     },
-    [settings]
+    [state]
   );
 
-  const { i18nLang, icon, ledgerConn, prefix, uiTheme } = settings;
+  const { i18nLang, icon, ledgerConn, prefix, uiTheme } = state;
 
   return (
     <div className={className}>

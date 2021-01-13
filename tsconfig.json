@@ -40,8 +40,6 @@
       "@polkadot/app-anchor/*": [ "packages/page-anchor/src/*" ],
       "@polkadot/app-explorer": [ "packages/page-explorer/src" ],
       "@polkadot/app-explorer/*": [ "packages/page-explorer/src/*" ],
-      "@polkadot/app-generic-asset": [ "packages/page-generic-asset/src" ],
-      "@polkadot/app-generic-asset/*": [ "packages/page-generic-asset/src/*" ],
       "@polkadot/app-i18n": [ "packages/page-i18n/src" ],
       "@polkadot/app-i18n/*": [ "packages/page-i18n/src/*" ],
       "@polkadot/app-js": [ "packages/page-js/src" ],
@@ -79,7 +77,9 @@
       "@polkadot/react-query": [ "packages/react-query/src" ],
       "@polkadot/react-query/*": [ "packages/react-query/src/*" ],
       "@polkadot/react-signer": [ "packages/react-signer/src" ],
-      "@polkadot/react-signer/*": [ "packages/react-signer/src/*" ]
+      "@polkadot/react-signer/*": [ "packages/react-signer/src/*" ],
+      "@polkadot/test-support/": [ "packages/test-support/src/" ],
+      "@polkadot/test-support/*": [ "packages/test-support/src/*" ]
     },
     "skipLibCheck": true,
     "typeRoots": [

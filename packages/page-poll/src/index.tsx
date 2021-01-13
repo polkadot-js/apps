@@ -1,6 +1,7 @@
-// Copyright 2017-2020 @polkadot/app-poll authors & contributors
+// Copyright 2017-2021 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
@@ -179,7 +180,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
                   isDisabled={!hasValue}
                   label={t('Vote')}
                   params={[[opt10m, opt100m, opt1b, opt10b]]}
-                  tx='poll.vote'
+                  tx={api.tx.poll.vote}
                 />
               </Button.Group>
             </>
@@ -202,7 +203,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(PollApp)`
+export default React.memo(styled(PollApp)(({ theme }: ThemeProps) => `
   .pollActions {
     opacity: 0.75;
   }
@@ -257,7 +258,7 @@ export default React.memo(styled(PollApp)`
 
     .optionName {
       font-size: 1.2rem;
-      font-weight: 400;
+      font-weight: ${theme.fontWeightNormal};
       line-height: 1;
       margin-bottom: 0.75rem;
     }
@@ -287,7 +288,7 @@ export default React.memo(styled(PollApp)`
 
     .ui--FormatBalance {
       font-size: 1.2rem;
-      font-weight: 400;
+      font-weight: ${theme.fontWeightNormal};
       line-height: 1;
     }
 
@@ -295,4 +296,4 @@ export default React.memo(styled(PollApp)`
       margin: 0.75rem;
     }
   }
-`);
+`));

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // SInce this file is deemed deprecated (and awaiting removal), we just don't care
@@ -13,6 +13,7 @@ import type { ApiProps, CallState as State, SubtractProps } from '../types';
 import type { Options } from './types';
 
 import React from 'react';
+
 import { assert, isNull, isUndefined } from '@polkadot/util';
 
 import echoTransform from '../transform/echo';

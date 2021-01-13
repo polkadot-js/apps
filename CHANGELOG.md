@@ -1,5 +1,122 @@
 # CHANGELOG
 
+## 0.75.1 Jan 11, 2021
+
+Contributed:
+
+- Ledger support for Dock (Thanks to https://github.com/lovesh)
+- Allow opening bounties for council voting (Thanks to https://github.com/ekowalsk)
+- Add bounties summary (Thanks to https://github.com/ekowalsk)
+- Add Patract Jupiter testnet (Thanks to https://github.com/zzcwoshizz)
+- Add Polkadex testnet (Thanks to https://github.com/Gauthamastro)
+- Update Darwinia types (Thanks to https://github.com/WoeOm)
+- OnFianlity support for Rococo (Thanks to https://github.com/ianhe8x)
+- Expanded tests for bounties (Thanks to https://github.com/krzysztof-jelski)
+- Fix Electron account saving under windows (Thanks to https://github.com/krzysztof-jelski)
+
+Changes:
+
+- Add (as used) warning for refcount on normal transfers
+- Update transfer recount check to cater for new Substrate
+- Fix staking comission validation (always 0-100 only)
+- Display errors of account derivation failures
+- Basic parachain registration modal (non-sudo only)
+- Additional upcoming parachain info & alignment fixes
+- Allow use of `closeOperational` on chains that do support it for collective proposals
+- Swap Error/Warning to consistent display with boxed triangle
+- Always build bundles with `NODE_ENV=production` set (react non-dev)
+- Swap Edgeware to specVersioned (with supporting type release from the team)
+- Disable network with missing types resulting in load failures
+- Adjust voting dialog with better display for non-preimage proposals
+- Adjust header highlights for better light/dark support
+- Fix JS app display with (& add tabs for consistency)
+- Update Electron CSP to cater for local nodes
+- Rework endpoint configuration for better ease of config
+
+
+## 0.74.1 Jan 4, 2021
+
+Contributed:
+
+- Update Kulupu Address types (Thanks to https://github.com/sorpaas)
+- Swap Moonbeam to use types from npm (Thanks to https://github.com/joelamouche)
+- Update to latest Equilibrium types (Thanks to https://github.com/pr0fedt)
+- Add Subscan support for Centrifuge (Thanks to https://github.com/vedhavyas)
+- Adjust contract app layout padding (Thanks to https://github.com/MiZiet)
+- Update bounties app to extended derives (Thanks to https://github.com/MiZiet)
+- Allow curator accept from bounties page (Thanks to https://github.com/MiZiet)
+- Add UI tests for bounties (Thanks to https://github.com/krzysztof-jelski)
+- Adjust sidebar address display (Thanks to https://github.com/eddiemachado)
+
+Changes:
+
+- Update parachains app for Rococo V1 support (basics-only)
+- Block self-proxies from proxy setup dialog
+- Display locked amount on seconding modal
+- Use `blockWeights.maxBlock` value (as available) for max-fit calculations
+- Adjust multi-address input for dark-theme
+- Workaround for contract RPC value serialization
+- Fix InputAddress as used on sub-identity setups
+- Fix disabled check on bond more (proper check against stash)
+- Move `apps-config/bundled` -> `specVersion` (usage clarity)
+- Move Kulupu to spec versioned types
+- Remove generic asset support (to be replaced with asset)
+- Swap to webpack-dev-server for development environment
+
+
+## 0.73.1 Dec 28, 2020
+
+Contributed:
+
+- Add PolkaBTC network & types (Thanks to https://github.com/savudani8)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Sora testnet naming (Thanks to https://github.com/stefashkaa)
+- Bounty crate validation (Thanks to https://github.com/MiZiet, https://github.com/krzysztof-jelski)
+- Bounty crate help text (Thanks to https://github.com/MiZiet, https://github.com/krzysztof-jelski)
+- Claim bounty payouts (Thanks to (Thanks to https://github.com/MiZiet)
+- All upcoming calendar view (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Optimize staking data retrieval (18s -> 10s on Kusama test for staking overview load)
+- Pass explicit function (no strings) to TxButton props
+- Adjust calendar rows for dark theme
+- Update Frontier types (now included in API)
+- Webpack dev environment cleanups
+
+
+## 0.72.1 Dec 21, 2020
+
+Contributed:
+
+- Fix tooltip z-index on modals (Thanks to https://github.com/ii-ii-ii)
+- Align media queries on staking targets (Thanks to https://github.com/ii-ii-ii)
+- Handle pending bounty payouts (Thanks to https://github.com/ekowalsk)
+- Bounty create modal (Thanks to https://github.com/MiZiet, https://github.com/ekowalsk, https://github.com/krzysztof-jelski)
+- it i18n updates (Thanks to https://github.com/fomod-in)
+- Add Zero testnet (Thanks to https://github.com/2075)
+- Update encointer types & testnets (Thanks to https://github.com/brenzi)
+- Additional types for Dock network (Thanks to https://github.com/lovesh)
+- Update Phala endpoint (Thanks to https://github.com/h4x3rotab)
+
+Changes:
+
+- Add Rococo v1 testnet (with Tick, Trick & Track)
+- saving of toggle options on staking pages
+- Adjust bounties & tips with current Substrate endpoints
+- Add warning for older chains without atomic batches (where used)
+- Allow InputAddress display when no optional are available
+- Cleanup last-block-received countdowns (fixed character spacing)
+- Add sharing button for type definitions
+- Typo on society pages (with i18n key adjustments)
+- Adjust semantic-ui imports to non-cjs
+- Use RxJs & memoize from `@polkadot/util`
+- Cleanup global registry usage, only use registry from API
+- Cleanup info console logs for redirect (show APIs only as applicable)
+- Remove unused TxModal components
+- Swap to Webpack 5
+
+
 ## 0.71.2 Dec 14, 2020
 
 Contributed:

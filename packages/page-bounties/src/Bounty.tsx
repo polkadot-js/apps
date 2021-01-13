@@ -1,6 +1,7 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
@@ -11,7 +12,8 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { getBountyStatus } from './helpers/getBountyStatus';
+import { BountyActions } from './BountyActions';
+import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -20,14 +22,20 @@ interface Props {
   className?: string;
   description: string;
   index: number;
+  proposals?: DeriveCollectiveProposal[];
+}
+
+interface DueProps {
+  dueBlocks: BN | undefined;
 }
 
 const EMPTY_CELL = '-';
 
-function Bounty ({ bestNumber, bounty, className = '', description, index }: Props): React.ReactElement<Props> {
+function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { bond, curatorDeposit, fee, proposer, status, value }: BountyType = bounty;
+  const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
 
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);
 
@@ -36,9 +44,10 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
-  const handleOnIconClick = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const handleOnIconClick = useCallback(
+    () => setIsExpanded((isExpanded) => !isExpanded),
+    []
+  );
 
   return (
     <>
@@ -50,6 +59,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
         <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
+        <td>
+          <BountyActions
+            bestNumber={bestNumber}
+            index={index}
+            proposals={proposals}
+            status={status}
+          />
+        </td>
         <td className='table-column-icon'>
           <LinkExternal
             data={index}
@@ -73,20 +90,20 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
         <td />
         <td className='proposer'>
-          <div className='label'>Proposer</div>
+          <div className='label'>{t('Proposer')}</div>
           <AddressSmall value={proposer} />
         </td>
         <td className='column-with-label'>
-          <div className='label'>Value</div>
-          <div className='label'>Bond</div>
+          <div className='label'>{t('Value')}</div>
+          <div className='label'>{t('Bond')}</div>
         </td>
         <td >
           <div className='inline-balance'><FormatBalance value={value} /></div>
           <div className='inline-balance'><FormatBalance value={bond} /></div>
         </td>
         <td className='column-with-label'>
-          <div className='label'>Curators fee</div>
-          <div className='label'>Curators deposit</div>
+          <div className='label'>{t('Curators fee')}</div>
+          <div className='label'>{t('Curators deposit')}</div>
         </td>
         <td>
           <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
@@ -95,12 +112,13 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         <td />
         <td />
         <td />
+        <td />
       </tr>
     </>
   );
 }
 
-function DueBlocks ({ dueBlocks }: { dueBlocks: BN | undefined }): JSX.Element {
+function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
   const { t } = useTranslation();
 
   if (!dueBlocks) {

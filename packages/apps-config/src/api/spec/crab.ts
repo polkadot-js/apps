@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -205,7 +205,7 @@ export default {
 
   MerkleMountainRangeRootLog: {
     prefix: '[u8; 4; Prefix]',
-    mmrRoot: 'Hash'
+    ParentMmrRoot: 'Hash'
   },
 
   ChainProperties: {
@@ -263,5 +263,19 @@ export default {
   },
   PowerOf: {
     power: 'Power'
-  }
+  },
+  Signer: 'EthereumAddress',
+  RelayAuthorityT: {
+    accountId: 'AccountId',
+    signer: 'Signer',
+    stake: 'Balance',
+    term: 'BlockNumber'
+  },
+  MMRRoot: 'Hash',
+  EcdsaAddress: 'EthereumAddress',
+  EcdsaMessage: 'H256',
+  RelayAuthoritySigner: 'EcdsaAddress',
+  RelayAuthorityMessage: 'EcdsaMessage',
+  RelayAuthoritySignature: 'EcdsaSignature',
+  Term: 'u32'
 };

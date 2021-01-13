@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '../types';
@@ -74,6 +74,14 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     width: 100%;
     display: flex;
     padding: 1.5rem 1.5rem 0;
+  }
+
+  & .tabs-container {
+    max-width: ${theme.contentMaxWidth};
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    padding: 1.25rem 1.5rem 0;
   }
 
   &::-webkit-scrollbar {

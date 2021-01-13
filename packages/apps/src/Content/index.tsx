@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
@@ -100,7 +100,7 @@ export default React.memo(styled(Content)(({ theme }: ThemeProps) => `
     padding: 3.5rem 0;
   }
 
-  & main > *:not(header):not(.ui--FilterOverlay) {
+  & main > *:not(header):not(.hasOwnMaxWidth) {
     max-width: ${theme.contentMaxWidth};
     margin-right: auto;
     margin-left: auto;

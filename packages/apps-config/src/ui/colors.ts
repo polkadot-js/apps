@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -16,6 +16,8 @@ const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
 const chainPlasm = '#2096F3';
+const chainPolkabtc = '#510101';
+const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
@@ -28,6 +30,7 @@ const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
+const chainJupiter = '#7143ff';
 
 // based on node name
 // alphabetical
@@ -35,10 +38,14 @@ const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
+const nodeEncointerNotee = '#cc0000';
+const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
+const nodeJupiter = '#7143ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
+const nodePolkadex = '#7C30DD';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
@@ -55,6 +62,7 @@ export const chainColors: Record<string, any> = [
   ['darwinia cc1', chainDarwinia],
   ['darwinia parachain', chainRoccoDarwinia],
   ['hanonycash', chainHanonycash],
+  ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],
   ['Kusama', chainKusama],
   ['Kusama CC1', chainKusama],
@@ -64,6 +72,9 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
+  ['Plasm PC2', chainPlasm],
+  ['PolkaBTC', chainPolkabtc],
+  ['Polkadex Testnet', chainPolkadex],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],
@@ -86,10 +97,15 @@ export const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
+  ['Encointer Node noTEE', nodeEncointerNotee],
+  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
+  ['Jupiter Node', nodeJupiter],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
-  ['SORA-Substrate Node', nodeSora],
+  ['Polkadex Node', nodePolkadex],
+  ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero]

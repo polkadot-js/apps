@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import queryString from 'query-string';
@@ -6,7 +6,7 @@ import store from 'store';
 import axios from 'axios';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
-import settings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
 import keyring from '@polkadot/ui-keyring';
 import { assert } from '@polkadot/util';
 

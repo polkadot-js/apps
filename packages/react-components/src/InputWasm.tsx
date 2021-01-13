@@ -1,24 +1,26 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { InputFilePropsBase } from './InputFile';
 
 import React, { useCallback } from 'react';
 
 import { compactAddLength, isWasm } from '@polkadot/util';
 
-import InputFile, { InputFileProps } from './InputFile';
+import InputFile from './InputFile';
 
-interface Props extends Omit<InputFileProps, 'accept'> {
-  isValidRef: React.MutableRefObject<boolean>;
-  onChange: (contents: Uint8Array, name?: string) => void;
+interface Props extends InputFilePropsBase {
+  onChange: (contents: Uint8Array, isValid: boolean, name?: string) => void;
 }
 
-function InputWasm ({ isValidRef, onChange, ...props }: Props): React.ReactElement<Props> {
+function InputWasm ({ onChange, ...props }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (wasm: Uint8Array, name: string): void => {
-      isValidRef.current = isWasm(wasm);
-      onChange(compactAddLength(wasm), name);
+      const isValid = isWasm(wasm);
+
+      onChange(compactAddLength(wasm), isValid, name);
     },
-    [isValidRef, onChange]
+    [onChange]
   );
 
   return (

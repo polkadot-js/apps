@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -133,7 +133,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
                       : [hash, index, proposalWeight, proposalLength]
                     : [hash, index]
                 }
-                tx='council.close'
+                tx={api.tx.council.closeOperational || api.tx.council.close}
               />
             )
         )}

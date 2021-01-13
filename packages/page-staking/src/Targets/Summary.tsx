@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -86,7 +86,7 @@ function Summary ({ avgStaked, lowStaked, numNominators, numValidators, stakedRe
                 />
               </div>
             </CardSummary>
-            {(stakedReturn > 0) && (
+            {(stakedReturn > 0) && Number.isFinite(stakedReturn) && (
               <CardSummary
                 className='media--1200'
                 label={t<string>('returns')}
@@ -97,7 +97,7 @@ function Summary ({ avgStaked, lowStaked, numNominators, numValidators, stakedRe
           </>
         )}
       </section>
-      {avgStaked && lowStaked && (
+      {avgStaked?.gtn(0) && lowStaked?.gtn(0) && (
         <CardSummary
           className='media--1000'
           label={`${t<string>('lowest / avg staked')}`}
