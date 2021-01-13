@@ -48,12 +48,15 @@ function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): Reac
       </section>
       <section>
         <CardSummary
-          className='media--800'
+          className='media--1000'
           label={t<string>('best block')}
         >
           <BestNumber isFinalized={false} />
         </CardSummary>
-        <SummarySession withEra={false} />
+        <SummarySession
+          className='media--800'
+          withEra={false}
+        />
       </section>
     </SummaryBox>
   );
