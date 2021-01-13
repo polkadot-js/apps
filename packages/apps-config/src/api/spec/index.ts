@@ -21,6 +21,7 @@ import kilt from './kilt';
 import nodle from './nodle';
 import phala from './phala';
 import plasm from './plasm';
+import plasmParachain from './plasm-parachain';
 import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
@@ -53,6 +54,7 @@ export default {
   'nodle-chain': nodle,
   'phala-node': phala,
   plasm,
+  'plasm-parachain': plasmParachain,
   robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
