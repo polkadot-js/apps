@@ -55,9 +55,10 @@ export default function useProposals (): Proposals | undefined {
   return state;
 }
 
-export function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt | undefined {
+export function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[], isQueried = false): ProposalExt {
   const { api } = useApi();
-  const opt = useCall<Option<ParachainProposal>>(api.query.proposeParachain_UNUSED?.proposals, [id]);
+  // const opt = useCall<Option<ParachainProposal>>(api.query.proposeParachain_UNUSED?.proposals, [id]);
+  const opt = useCall<Option<ParachainProposal>>(isQueried && api.query.proposeParachain.proposals, [id]);
 
   return useMemo(
     (): ProposalExt => ({

@@ -6,8 +6,8 @@ import type { ScheduledProposals } from './types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, TxButton } from '@polkadot/react-components';
-import { useApi, useSudo } from '@polkadot/react-hooks';
+import { AddressMini, AddressSmall, Badge, Spinner, Toggle, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useSudo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,11 +24,22 @@ interface Props {
 function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const { hasSudoKey, sudoKey } = useSudo();
-  const proposal = useProposal(id, approvedIds, scheduled);
+  const [isQueried, toggleIsQueried] = useToggle();
+  const proposal = useProposal(id, approvedIds, scheduled, isQueried);
+
+  const cancelTx = useMemo(
+    () => api.tx.sudo && hasSudoKey
+      ? api.tx.sudo.sudo(api.tx.proposeParachain.cancelProposal(id))
+      : allAccounts.some((a) => proposal.proposal?.proposer.eq(a))
+        ? api.tx.proposeParachain.cancelProposal(id)
+        : null,
+    [api, allAccounts, hasSudoKey, id, proposal]
+  );
 
   const approveTx = useMemo(
-    () => api.tx.proposeParachain && api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
+    () => api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
     [api, id]
   );
 
@@ -46,33 +57,54 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'>
-        {proposal && (proposal.isApproved || proposal.isScheduled) && (
+        {(proposal.isApproved || proposal.isScheduled) && (
           <Badge
             color='green'
             icon={proposal.isScheduled ? 'clock' : 'check'}
           />
         )}
       </td>
-      <td className='start together'>{proposal?.proposal?.name.toUtf8()}</td>
-      <td className='address'>{proposal?.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
-      <td className='balance'>{proposal?.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
-      <td className='start hash together'>{initialHex}</td>
-      <td className='start hash together'>{validationHex}</td>
-      <td className='address all'>{proposal?.proposal?.validators.map((validatorId) => (
-        <AddressMini
-          key={validatorId.toString()}
-          value={validatorId}
-        />
-      ))}</td>
+      {isQueried && !proposal.proposal
+        ? <td colSpan={6}><Spinner variant='mini' /></td>
+        : (
+          <>
+            <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
+            <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
+            <td className='balance'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+            <td className='start hash together'>{initialHex}</td>
+            <td className='start hash together'>{validationHex}</td>
+            <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
+              <AddressMini
+                key={validatorId.toString()}
+                value={validatorId}
+              />
+            ))}</td>
+          </>
+        )
+      }
       <td className='button'>
-        {proposal && !proposal.isApproved && (
-          <TxButton
-            accountId={sudoKey}
-            extrinsic={approveTx}
-            icon='check'
-            isDisabled={!hasSudoKey}
-            label={t<string>('Approve')}
-          />
+        <Toggle
+          label={t<string>('Details')}
+          onChange={toggleIsQueried}
+          value={isQueried}
+        />
+        {!proposal.isApproved && (
+          <>
+            <TxButton
+              accountId={sudoKey}
+              extrinsic={approveTx}
+              icon='check'
+              isDisabled={!hasSudoKey}
+              label={t<string>('Approve')}
+            />
+            <TxButton
+              accountId={hasSudoKey ? sudoKey : proposal.proposal?.proposer}
+              extrinsic={cancelTx}
+              icon='ban'
+              isDisabled={!hasSudoKey || !proposal.proposal}
+              label={t<string>('Cancel')}
+            />
+          </>
         )}
       </td>
     </tr>
