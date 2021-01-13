@@ -113,6 +113,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           <>
             <TxButton
               accountId={sudoKey}
+              className='media--800'
               extrinsic={approveTx}
               icon='check'
               isDisabled={!hasSudoKey}
