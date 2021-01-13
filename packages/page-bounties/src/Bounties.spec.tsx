@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBounties } from '@polkadot/api-derive/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty, BountyIndex } from '@polkadot/types/interfaces';
 
 import { fireEvent, render } from '@testing-library/react';
@@ -27,8 +28,8 @@ function aBounty (): Bounty {
   return new TypeRegistry().createType('Bounty');
 }
 
-function anIndex (): BountyIndex {
-  return new TypeRegistry().createType('BountyIndex');
+function anIndex (index = 0): BountyIndex {
+  return new TypeRegistry().createType('BountyIndex', index);
 }
 
 function balanceOf (number: number) {
@@ -90,6 +91,20 @@ function bountyInStatus (status: string) {
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
+function aProposal (extrinsic: SubmittableExtrinsic<'promise'>) {
+  return {
+    hash: new TypeRegistry().createType('Hash'),
+    proposal: apiWithAugmentations
+      .registry.createType('Proposal', extrinsic),
+    votes: apiWithAugmentations.registry.createType('Votes', {
+      ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'],
+      index: 0,
+      nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'],
+      threshold: 4
+    })
+  };
+}
+
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
@@ -121,6 +136,10 @@ describe('Bounties', () => {
       </Suspense>
     );
   };
+
+  function renderOneBounty (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = anIndex()) {
+    return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
+  }
 
   it('creates correct bounty with proposal', () => {
     const bounty = apiWithAugmentations.registry.createType('Bounty', {
@@ -161,7 +180,7 @@ describe('Bounties', () => {
   });
 
   it('renders a bounty', async () => {
-    const { findByText, queryAllByText } = renderBounties({ bounties: [{ bounty: aBounty(), description: 'kusama comic book', index: anIndex(), proposals: [] }] });
+    const { findByText, queryAllByText } = renderOneBounty(aBounty(), [], 'kusama comic book');
 
     expect(await findByText('kusama comic book')).toBeTruthy();
     expect(queryAllByText('No open bounties')).toHaveLength(0);
@@ -206,30 +225,18 @@ describe('Bounties', () => {
   describe('status is extended when voting', () => {
     it('on proposed curator', async () => {
       const bounty = bountyInStatus('Funded');
-      const proposals = [
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
-        }];
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
 
-      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+      const { findByText } = renderOneBounty(bounty, proposals);
 
       expect(await findByText('Curator under voting')).toBeTruthy();
     });
 
     it('on bounty approval in proposed status', async () => {
       const bounty = bountyInStatus('Proposed');
-      const proposals = [
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.approveBounty(0)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
-        }];
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))];
 
-      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+      const { findByText } = renderOneBounty(bounty, proposals);
 
       expect(await findByText('Approval under voting')).toBeTruthy();
     });
@@ -237,66 +244,38 @@ describe('Bounties', () => {
     it('on parallel bounty approval and bounty close in proposed status', async () => {
       const bounty = bountyInStatus('Proposed');
       const proposals = [
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.closeBounty(0)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
-        },
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.approveBounty(0)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL'], index: 1, nays: ['5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy'], threshold: 4 })
-        }
+        aProposal(apiWithAugmentations.tx.bounties.closeBounty(0)),
+        aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))
       ];
 
-      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+      const { findByText } = renderOneBounty(bounty, proposals);
 
       expect(await findByText('Approval under voting')).toBeTruthy();
     });
 
     it('on close bounty in active status', async () => {
       const bounty = bountyInStatus('Active');
-      const proposals = [
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.closeBounty(0)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
-        }];
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.closeBounty(0))];
 
-      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+      const { findByText } = renderOneBounty(bounty, proposals);
 
       expect(await findByText('Rejection under voting')).toBeTruthy();
     });
 
     it('on unassign curator in active state', async () => {
       const bounty = bountyInStatus('Active');
-      const proposals = [
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.unassignCurator(0)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
-        }];
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.unassignCurator(0))];
 
-      const { findByText } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+      const { findByText } = renderOneBounty(bounty, proposals);
 
       expect(await findByText('Unassign curator under voting')).toBeTruthy();
     });
 
-    it('on approve in active state', async () => {
+    it('on bounty approval in active state', async () => {
       const bounty = bountyInStatus('Active');
-      const proposals = [
-        {
-          hash: new TypeRegistry().createType('Hash'),
-          proposal: apiWithAugmentations
-            .registry.createType('Proposal', apiWithAugmentations.tx.bounties.approveBounty(0)),
-          votes: apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 })
-        }];
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))];
 
-      const { findByTestId } = renderBounties({ bounties: [{ bounty, description: '', index: anIndex(), proposals }] });
+      const { findByTestId } = renderOneBounty(bounty, proposals);
 
       await expect(findByTestId('extendedStatus')).rejects.toThrow();
     });
