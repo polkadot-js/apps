@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Proposals } from './useProposals';
+import type { Proposals as UseProposals } from './useProposals';
 
 import React, { useRef } from 'react';
 
@@ -11,7 +11,7 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 
 interface Props {
-  proposals?: Proposals;
+  proposals?: UseProposals;
 }
 
 function Proposals ({ proposals }: Props): React.ReactElement<Props> {
