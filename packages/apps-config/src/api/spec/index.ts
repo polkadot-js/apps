@@ -13,6 +13,7 @@ import dock from './dock';
 import dusty from './dusty';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
+import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import galois from './galois';
 import hanonycash from './hanonycash';
@@ -43,9 +44,9 @@ export default {
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   dusty3: dusty,
-  'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
+  'encointer-parachain': encointerPara,
   galois: galois,
   hanonycash,
   jupiter,
