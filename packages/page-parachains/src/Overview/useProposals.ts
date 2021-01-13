@@ -1,26 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// import type { Option } from '@polkadot/types';
-// import type { Codec } from '@polkadot/types/types';
+import type { Option } from '@polkadot/types';
+import type { EventRecord, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
+import type { ProposalExt, Proposals, ScheduledProposals } from './types';
 
-import type { EventRecord, ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { ProposalExt } from './types';
-
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-
-export interface ScheduledProposals {
-  scheduledIds: ParaId[];
-  sessionIndex: SessionIndex;
-}
-
-export interface Proposals {
-  approvedIds: ParaId[];
-  proposalIds: ParaId[];
-  scheduled: ScheduledProposals[];
-}
 
 function createResult (approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
   return {
@@ -68,20 +55,19 @@ export default function useProposals (): Proposals | undefined {
   return state;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt | undefined {
-  return undefined;
+  const { api } = useApi();
+  const opt = useCall<Option<ParachainProposal>>(api.query.proposeParachain_UNUSED?.proposals, [id]);
+
+  return useMemo(
+    (): ProposalExt => ({
+      id,
+      isApproved: approvedIds.some((a) => a.eq(id)),
+      isScheduled: scheduled.some(({ scheduledIds }) => scheduledIds.some((s) => s.eq(id))),
+      proposal: opt && opt.isSome
+        ? opt.unwrap()
+        : undefined
+    }),
+    [approvedIds, id, opt, scheduled]
+  );
 }
-
-// export function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: Scheduled[]): ProposalExt | undefined {
-//   const { api } = useApi();
-//   const proposal = useCall<Option<ParachainProposal>>(api.query.proposeParachain.proposals, [id]);
-
-//   return useMemo(
-//     (): ProposalExt | undefined => {
-//       proposal && proposal?.isSome
-//         ?
-//     ),
-//     [approvedIds, id, proposal, scheduled]
-//   );
-// }

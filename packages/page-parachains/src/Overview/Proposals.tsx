@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Proposals as UseProposals } from './useProposals';
+import type { Proposals as UseProposals } from './types';
 
 import React, { useRef } from 'react';
 

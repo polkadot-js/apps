@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from './useProposals';
+import type { ScheduledProposals } from './types';
 
 import React, { useMemo } from 'react';
 
@@ -33,12 +33,12 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   );
 
   const initialHex = useMemo(
-    () => proposal && sliceHex(proposal.proposal.genesisHead, 8),
+    () => proposal?.proposal && sliceHex(proposal.proposal.genesisHead, 8),
     [proposal]
   );
 
   const validationHex = useMemo(
-    () => proposal && sliceHex(proposal.proposal.validationCode, 8),
+    () => proposal?.proposal && sliceHex(proposal.proposal.validationCode, 8),
     [proposal]
   );
 
@@ -53,12 +53,12 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           />
         )}
       </td>
-      <td className='start together'>{proposal?.proposal.name.toUtf8()}</td>
-      <td className='address'>{proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
-      <td className='balance'>{proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+      <td className='start together'>{proposal?.proposal?.name.toUtf8()}</td>
+      <td className='address'>{proposal?.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
+      <td className='balance'>{proposal?.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
       <td className='start hash together'>{initialHex}</td>
       <td className='start hash together'>{validationHex}</td>
-      <td className='address all'>{proposal?.proposal.validators.map((validatorId) => (
+      <td className='address all'>{proposal?.proposal?.validators.map((validatorId) => (
         <AddressMini
           key={validatorId.toString()}
           value={validatorId}
