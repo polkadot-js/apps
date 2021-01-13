@@ -21,10 +21,10 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
     [t('proposals'), 'start', 2],
     [],
     [t('proposer'), 'address'],
-    [t('balance')],
-    [t('initial state'), 'start'],
-    [t('validation'), 'start'],
-    [t('validators'), 'address'],
+    [t('balance'), 'media--1000'],
+    [t('initial state'), 'start media--1600'],
+    [t('validation'), 'start media--1600'],
+    [t('validators'), 'address media--1300'],
     []
   ]);
 

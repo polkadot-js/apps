@@ -65,15 +65,26 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         )}
       </td>
       {isQueried && !proposal.proposal
-        ? <td colSpan={6}><Spinner variant='mini' /></td>
+        ? (
+          <>
+            <td colSpan={2}><Spinner variant='mini' /></td>
+            <td className='media--1000' />
+            <td
+              className='media--1600'
+              colSpan={2} />
+            <td
+              className='media--1300'
+              colSpan={1} />
+          </>
+        )
         : (
           <>
             <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
             <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
-            <td className='balance'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
-            <td className='start hash together'>{initialHex}</td>
-            <td className='start hash together'>{validationHex}</td>
-            <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
+            <td className='balance media--1000'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+            <td className='start hash together media--1600'>{initialHex}</td>
+            <td className='start hash together media--1600'>{validationHex}</td>
+            <td className='address all media--1300'>{proposal.proposal?.validators.map((validatorId) => (
               <AddressMini
                 key={validatorId.toString()}
                 value={validatorId}
