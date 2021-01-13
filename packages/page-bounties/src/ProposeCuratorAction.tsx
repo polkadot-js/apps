@@ -66,13 +66,9 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>('This action will create a Council motion to propose Curator.')}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
+              <Modal.Column>
+                <p>{t<string>('This action will create a Council motion to propose Curator.')}</p>
+              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
@@ -88,13 +84,9 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                   <p>{t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>('Select Curator')}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
+              <Modal.Column>
+                <p>{t<string>('Select Curator.')}</p>
+              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
@@ -109,13 +101,9 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                   <p>{t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>("Curator's fee.")}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
+              <Modal.Column>
+                <p>{t<string>("Curator's fee.")}</p>
+              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputBalance
