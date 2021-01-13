@@ -29,7 +29,7 @@
     "react": "^17.0.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-chartjs-2": "^2.11.1",
-    "react-copy-to-clipboard": "^5.0.2",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
     "react-i18next": "^11.8.5",
