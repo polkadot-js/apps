@@ -11,10 +11,11 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
 
     return entry.linked
       ? result.concat(
-        expandLinked(entry.linked).map((entry): LinkOption => {
-          entry.isChild = true;
+        expandLinked(entry.linked).map((child): LinkOption => {
+          child.genesisHashRelay = entry.genesisHash;
+          child.isChild = true;
 
-          return entry;
+          return child;
         })
       )
       : result;
@@ -22,11 +23,13 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
 }
 
 export function expandEndpoint (t: TFunction, input: EndpointOption): LinkOption[] {
-  const { dnslink, info, isChild, isDisabled, linked, providers, text } = input;
+  const { dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, text } = input;
   const base = {
+    genesisHash,
     info,
     isChild,
     isDisabled,
+    paraId,
     text
   };
 

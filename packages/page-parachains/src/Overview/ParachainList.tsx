@@ -24,7 +24,8 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
-    [t('watermark'), 2]
+    [t('watermark'), 'undefined', 2],
+    [t('chain best')]
   ]);
 
   return (
