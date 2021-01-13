@@ -34,7 +34,7 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
         />
       </header>
       <Columar>
-        <Columar.Column style={{margin: '10px auto 0 auto'}}>
+        <div style={{margin: '10px auto 0 auto', minWidth: '50%'}}>
           <Switch>
             <Route path={`${basePath}/status`}>
               <Status />
@@ -48,7 +48,7 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
             {' '}
             <a href="/#/token-migration/status" style={{marginLeft: '20px'}}>Check request status</a>
           </div>
-        </Columar.Column>
+        </div>
       </Columar>
     </main>
   );
