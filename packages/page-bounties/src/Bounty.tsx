@@ -63,24 +63,25 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td>
           {beneficiary && <AddressSmall value={beneficiary} />}
-          <BountyActions
-            bestNumber={bestNumber}
-            description={description}
-            index={index}
-            proposals={proposals}
-            status={status}
-            value={value}
-          />
+          <div className="bounty-action-row">
+            <BountyActions
+              description={description}
+              bestNumber={bestNumber}
+              index={index}
+              proposals={proposals}
+              status={status}
+              value={value}
+            />
+          </div>
         </td>
         <td className='fast-actions'>
-          <LinkExternal
-            data={index}
-            isLogo
-            type='bounty'
-          />
-          <div className='table-column-icon'
-            onClick={handleOnIconClick}>
-            <div>
+          <div className="fast-actions-row">
+            <LinkExternal
+              data={index}
+              isLogo
+              type='bounty'
+            />
+            <div className='table-column-icon' onClick={handleOnIconClick}>
               <Icon
                 icon={
                   isExpanded
@@ -94,17 +95,18 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       </tr>
       <tr className={className}
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
-        <td className='proposer'
-          colSpan={2}>
-          <div className='label'>{t('Proposer')}</div>
-          <AddressSmall value={proposer} />
+        <td className='proposer' colSpan={2}>
+          <div className="proposer-row">
+            <div className='label'>{t('Proposer')}</div>
+            <AddressSmall value={proposer} />
+          </div>
         </td>
         <td className='column-with-label'>
           <div className='label'>{t('Bond')}</div>
           <div className='label'>{t("Curator's fee")}</div>
           <div className='label'>{t("Curator's deposit")}</div>
         </td>
-        <td>
+        <td className='column-with-data'>
           <div className='inline-balance'><FormatBalance value={bond} /></div>
           <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
           <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
@@ -125,8 +127,8 @@ function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
 
   return dueBlocks.gtn(0)
     ? <>
-      <BlockToTime blocks={dueBlocks} />
       {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
+      <BlockToTime blocks={dueBlocks} />
     </>
     : <>{t('Claimable')}</>;
 }
@@ -136,55 +138,69 @@ export default React.memo(styled(Bounty)`
     display: inline-flex;
   }
   & .fast-actions {
-    display: flex;
+      .fast-actions-row {
+        display: flex;
+        align-items: center;
+      }
 
-    .table-column-icon {
-      width: 52px;
-      padding: 0;
-
-      div {
-        padding: 0.75rem;
+      .table-column-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.7rem;
+        height: 1.7rem;
+        margin-left: 1rem;
+        border: 1px solid #DFDFDF;
+        border-radius: 4px;
         cursor: pointer;
       }
-    }
   }
 
   & .inline-balance {
-    display: inline-block;
     width: 100%;
-    margin: 12px 0;
+    padding: 0 0 1.7rem;
     font-size: 1rem;
     line-height: normal;
   }
 
   & .column-with-label {
-    vertical-align: middle;
-    padding: 0;
+    vertical-align: top;
+
     div {
       text-align: right;
-      padding: 12px 0 12px 0;
+      padding: 0 0 1.7rem;
       font-size: 0.7rem;
       line-height: normal;
       text-transform: uppercase;
-      color: #4D4D4D;
-      &:nth-child(2){
-        padding: 18px 0 10px 0;
-      }
+      font-weight: 600;
+      color: #8B8B8B;
     }
   }
 
+  & .column-with-data {
+    padding: 0 0.7rem;
+  }
+
   & .proposer {
-    vertical-align: middle;
-    div {
-      display: inline-block;
+    vertical-align: top;
+
+    .proposer-row {
+      display: flex;
+      align-items: center;
     }
+    
     .label {
       text-align: right;
-      padding: 12px 12px 12px 0;
-      font-size: 0.7rem;
-      line-height: normal;
+      padding: 0 1.7rem 0 0;
+      font-weight: 500;
+      font-size: 0.85rem;
+      line-height: 1.42rem;
+      color: #8B8B8B;
       text-transform: uppercase;
-      color: #4D4D4D;
     }
+  }
+  .bounty-action-row {
+    display: flex;
+    justify-content: flex-end;
   }
 `);

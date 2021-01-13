@@ -203,16 +203,12 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
     .name {
       align-items: center;
       display: inline-flex;
-      font-weight: ${theme.fontWeightNormal} !important;
-      filter: grayscale(100%);
-      line-height: 1;
-      opacity: 0.6;
+      font-size: 1rem;
+      line-height: 1.7rem;
+      text-transform: initial;
+      opacity: 1;
       overflow: hidden;
       text-overflow: ellipsis;
-
-      &:not(.isAddress) {
-        text-transform: uppercase;
-      }
 
       &.isAddress {
         font: ${theme.fontMono};

@@ -35,16 +35,24 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   position: relative;
 
   td {
-    padding: 0.75rem 1rem;
+    padding: 1.4rem 1rem;
     text-align: left;
     vertical-align: middle;
+    font-size: 1rem;
+    line-height: 1.7rem;
+    color: #1A1B20;
+    border-bottom: 1px solid #dfdfdf;
 
     &:first-child {
-      border-left: 1px solid ${theme.borderTable};
+      border-top-left-radius: 0.285rem;
+      border-bottom-left-radius: 0.285rem;
+      border-left: 1px solid #dfdfdf;
     }
 
     &:last-child {
-      border-right: 1px solid ${theme.borderTable};
+      border-right: 1px solid #dfdfdf;
+      border-top-right-radius: 0.285rem;
+      border-bottom-right-radius: 0.285rem;
     }
 
     label {
@@ -177,35 +185,14 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    // &:nth-child(odd) {
-    //   background: #faf8f6;
-    // }
 
     &:nth-child(odd) {
       background: ${theme.bgTable};
     }
 
     &:first-child {
-      td:first-child {
-        border-top-left-radius: 0.25rem;
-      }
-
-      td:last-child {
-        border-top-right-radius: 0.25rem;
-      }
-    }
-
-    &:last-child {
       td {
-        border-bottom: 1px solid ${theme.borderTable};
-
-        &:first-child {
-          border-bottom-left-radius: 0.25rem;
-        }
-
-        :last-child {
-          border-bottom-right-radius: 0.25rem;
-        }
+        border-top: 1px solid #dfdfdf;
       }
     }
 
