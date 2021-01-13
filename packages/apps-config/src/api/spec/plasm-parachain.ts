@@ -6,5 +6,5 @@
 
 export default {
   Address: 'MultiAddress',
-  LookupSource: 'MultiAddress',
+  LookupSource: 'MultiAddress'
 };
