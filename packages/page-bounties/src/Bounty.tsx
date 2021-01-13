@@ -13,7 +13,7 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { BountyActions } from './BountyActions';
-import { getBountyStatus } from './helpers';
+import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
 import VotingDescription from './VotingDescription';
 
@@ -66,7 +66,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             )}
           </div>
         </td>
-        <td>{description}</td>
+        <td>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>
         <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
