@@ -22,3 +22,5 @@ export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 export const KULUPU_GENESIS = getGenesis('kulupu');
 
 export const DOCK_GENESIS = getGenesis('dock-mainnet');
+
+export const POLYMESH_GENESIS = getGenesis('polymesh');
