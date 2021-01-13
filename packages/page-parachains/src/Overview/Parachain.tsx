@@ -15,7 +15,7 @@ import { formatNumber } from '@polkadot/util';
 import { sliceHex } from './util';
 
 interface Props {
-  bestNumber?: BN;
+  bestNumberFinalized?: BN;
   className?: string;
   id: ParaId;
 }
@@ -44,7 +44,7 @@ function getChainLink (endpoints: LinkOption[]): React.ReactNode {
   return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
 }
 
-function Parachain ({ bestNumber, className = '', id }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumberFinalized, className = '', id }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
@@ -53,8 +53,8 @@ function Parachain ({ bestNumber, className = '', id }: Props): React.ReactEleme
   // const endpoints = useParaEndpoints(id);
 
   const blockDelay = useMemo(
-    () => watermark && bestNumber && bestNumber.sub(watermark),
-    [bestNumber, watermark]
+    () => watermark && bestNumberFinalized && bestNumberFinalized.sub(watermark),
+    [bestNumberFinalized, watermark]
   );
 
   const chainLink = useMemo(
