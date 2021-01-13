@@ -96,7 +96,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
                 </>
               )
             }
-            <td className='balance media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+            <td className='number media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
             <td className='start hash together media--1700'>{initialHex}</td>
             <td className='start hash together media--1500'>{validationHex}</td>
             <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
