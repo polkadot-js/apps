@@ -25,7 +25,8 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
     [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
     [t('watermark'), 'undefined', 2],
-    [t('chain best')]
+    [t('chain best')],
+    [t('issuance')]
   ]);
 
   return (

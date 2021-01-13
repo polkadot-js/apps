@@ -3,13 +3,13 @@
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
-import type { BlockNumber, HeadData, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, HeadData, ParaId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { useApi, useCall, useParaApi } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { sliceHex } from './util';
@@ -50,7 +50,7 @@ function Parachain ({ bestNumberFinalized, className = '', id }: Props): React.R
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
   const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
-  // const endpoints = useParaEndpoints(id);
+  const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
 
   const blockDelay = useMemo(
     () => watermark && bestNumberFinalized && bestNumberFinalized.sub(watermark),
@@ -68,8 +68,9 @@ function Parachain ({ bestNumberFinalized, className = '', id }: Props): React.R
       <td className='together'>{chainLink}</td>
       <td className='all start together hash'>{headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
-      <td className='number'>{formatNumber(watermark)}</td>
+      <td className='number'>{watermark && formatNumber(watermark)}</td>
       <td className='number'>{paraBest && formatNumber(paraBest)}</td>
+      <td className='number'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
     </tr>
   );
 }
