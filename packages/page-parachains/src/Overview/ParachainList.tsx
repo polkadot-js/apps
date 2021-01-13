@@ -19,12 +19,13 @@ interface Props {
 function ParachainList ({ ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
+  const bestNumberFinalized = useCall<BN>(api.derive.chain.bestNumberFinalized);
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
-    [t('watermark'), 2]
+    [t('watermark'), 'undefined', 2],
+    [t('chain best')]
   ]);
 
   return (
@@ -34,7 +35,7 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
     >
       {ids?.map((id): React.ReactNode => (
         <Parachain
-          bestNumber={bestNumber}
+          bestNumberFinalized={bestNumberFinalized}
           id={id}
           key={id.toString()}
         />

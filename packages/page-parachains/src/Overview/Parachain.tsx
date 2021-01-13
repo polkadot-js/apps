@@ -1,20 +1,21 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
 import type { BlockNumber, HeadData, ParaId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { sliceHex } from './util';
 
 interface Props {
-  bestNumber?: BN;
+  bestNumberFinalized?: BN;
   className?: string;
   id: ParaId;
 }
@@ -33,23 +34,42 @@ const transformMark = {
       : null
 };
 
-function Parachain ({ bestNumber, className = '', id }: Props): React.ReactElement<Props> {
+function getChainLink (endpoints: LinkOption[]): React.ReactNode {
+  if (!endpoints.length) {
+    return null;
+  }
+
+  const { text, value } = endpoints[endpoints.length - 1];
+
+  return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
+}
+
+function Parachain ({ bestNumberFinalized, className = '', id }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const { api: paraApi, endpoints } = useParaApi(id);
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
   const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
+  const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
+  // const endpoints = useParaEndpoints(id);
 
   const blockDelay = useMemo(
-    () => watermark && bestNumber && bestNumber.sub(watermark),
-    [bestNumber, watermark]
+    () => watermark && bestNumberFinalized && bestNumberFinalized.sub(watermark),
+    [bestNumberFinalized, watermark]
+  );
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
   );
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td />
+      <td className='together'>{chainLink}</td>
       <td className='all start together hash'>{headHex}</td>
-      <td className='number'>{formatNumber(watermark)}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
+      <td className='number'>{formatNumber(watermark)}</td>
+      <td className='number'>{paraBest && formatNumber(paraBest)}</td>
     </tr>
   );
 }
