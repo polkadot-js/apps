@@ -49,9 +49,9 @@ function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): Reac
       <section>
         <CardSummary
           className='media--800'
-          label={t<string>('finalized block')}
+          label={t<string>('best block')}
         >
-          <BestNumber isFinalized />
+          <BestNumber isFinalized={false} />
         </CardSummary>
         <SummarySession withEra={false} />
       </section>
