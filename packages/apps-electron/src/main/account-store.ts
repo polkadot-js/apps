@@ -13,12 +13,20 @@ import { registerIpcHandler } from './register-ipc-handler';
 
 const ACCOUNTS_SUBFOLDER = 'polkadot-accounts';
 
+function safeWriteKey (key: string) {
+  return key.replace(/:/g, '-');
+}
+
+function safeReadKey (key: string) {
+  return key.replace(/-/g, ':');
+}
+
 export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => ({
   'account-store-all': () => {
     let result: { key: string, value: KeyringJson }[] = [];
 
     const collect = (key: string, value: KeyringJson) => {
-      result = [...result, { key, value }];
+      result = [...result, { key: safeReadKey(key), value }];
     };
 
     fileStore.all(collect);
@@ -27,16 +35,16 @@ export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => 
   },
   'account-store-get': async (key: string) => new Promise((resolve) => {
     try {
-      fileStore.get(key, resolve);
+      fileStore.get(safeWriteKey(key), resolve);
     } catch (err) {
       resolve(null);
     }
   }),
   'account-store-remove': async (key: string) => new Promise((resolve) =>
-    fileStore.remove(key, () => resolve(undefined))
+    fileStore.remove(safeWriteKey(key), () => resolve(undefined))
   ),
   'account-store-set': async (key: string, value: KeyringJson) => new Promise((resolve) =>
-    fileStore.set(key, value, () => resolve(undefined))
+    fileStore.set(safeWriteKey(key), value, () => resolve(undefined))
   )
 });
 

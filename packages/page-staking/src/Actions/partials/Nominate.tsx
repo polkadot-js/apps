@@ -7,7 +7,7 @@ import type { NominateInfo } from './types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { InputAddress, InputAddressMulti, Modal } from '@polkadot/react-components';
+import { InputAddress, InputAddressMulti, MarkWarning, Modal } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
@@ -80,7 +80,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
             onChange={setSelected}
             valueLabel={t<string>('nominated accounts')}
           />
-          <article className='warning'>{t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')}</article>
+          <MarkWarning content={t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')} />
         </Modal.Column>
         <Modal.Column>
           <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>

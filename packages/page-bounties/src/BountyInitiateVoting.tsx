@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -10,6 +10,7 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
+import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -23,6 +24,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers();
+  const { approveBounty, closeBounty } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();
@@ -33,8 +35,8 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
     );
   }, [api, members]);
 
-  const approveBountyProposal = useRef((api.tx.bounties || api.tx.treasury).approveBounty(index));
-  const closeBountyProposal = useRef((api.tx.bounties || api.tx.treasury).closeBounty(index));
+  const approveBountyProposal = useRef(approveBounty(index));
+  const closeBountyProposal = useRef(closeBounty(index));
 
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
 

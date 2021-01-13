@@ -7,6 +7,7 @@ import type { BlockNumber, HeadData, ParaId } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { formatNumber } from '@polkadot/util';
 
 import { sliceHex } from './util';
 
@@ -18,7 +19,7 @@ interface Props {
 const transformHead = {
   transform: (headData: Option<HeadData>): string | null =>
     headData.isSome
-      ? sliceHex(headData.unwrap())
+      ? sliceHex(headData.unwrap(), 18)
       : null
 };
 
@@ -32,13 +33,11 @@ const transformMark = {
 function Parachain ({ className = '', id }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
-  const watermark = useCall<string | null>(api.query.hrmp.hrmpWatermarks, [id], transformMark);
+  const watermark = useCall<string | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
 
   return (
     <tr className={className}>
-      <td className='number'>
-        <h1>{id.toString()}</h1>
-      </td>
+      <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td />
       <td className='all start together hash'>{headHex}</td>
       <td className='number'>{watermark}</td>

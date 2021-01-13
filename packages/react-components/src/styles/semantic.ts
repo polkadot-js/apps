@@ -117,7 +117,7 @@ export default (theme: ThemeDef): string => `
 
   .ui.label {
     background: transparent;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
     position: relative;
     z-index: 1;
   }
@@ -146,7 +146,7 @@ export default (theme: ThemeDef): string => `
       color: ${theme.colorSummary};
       font: ${theme.fontSans};
       font-size: 1.75rem;
-      font-weight: 400;
+      font-weight: ${theme.fontWeightNormal};
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -158,7 +158,7 @@ export default (theme: ThemeDef): string => `
 
     .description {
       margin: 1.5em 0;
-      font-weight: 400;
+      font-weight: ${theme.fontWeightNormal};
     }
   }
 

@@ -3,8 +3,8 @@
 
 import type { Codec } from '@polkadot/types/types';
 
-export function sliceHex (value: Codec): string {
+export function sliceHex (value: Codec, max: number): string {
   const hex = value.toHex();
 
-  return `${hex.slice(0, 18)}…${hex.slice(-16)}`;
+  return `${hex.slice(0, max + 2)}…${hex.slice(-max)}`;
 }

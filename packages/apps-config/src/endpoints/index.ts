@@ -10,24 +10,8 @@ import { createTesting } from './testing';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
-function expand (input: LinkOption[]): LinkOption[] {
-  return input.reduce((result: LinkOption[], entry): LinkOption[] => {
-    result.push(entry);
-
-    return entry.linked
-      ? result.concat(
-        expand(entry.linked).map((entry): LinkOption => {
-          entry.isChild = true;
-
-          return entry;
-        })
-      )
-      : result;
-  }, []);
-}
-
 export function createWsEndpoints (t: TFunction): LinkOption[] {
-  return expand([
+  return [
     ...createCustom(t),
     {
       isDisabled: false,
@@ -55,5 +39,5 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
     },
     ...createDev(t),
     ...createOwn(t)
-  ]).filter(({ isDisabled }) => !isDisabled);
+  ].filter(({ isDisabled }) => !isDisabled);
 }

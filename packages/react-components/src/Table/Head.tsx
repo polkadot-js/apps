@@ -6,6 +6,8 @@ import type { ThemeProps } from '../types';
 import React from 'react';
 import styled from 'styled-components';
 
+import Icon from '../Icon';
+
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
@@ -36,7 +38,15 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? <h1 className='highlight--color'>{label}</h1>
+              ? (
+                <h1>
+                  <Icon
+                    className='highlight--color'
+                    icon='dot-circle'
+                  />
+                  {label}
+                </h1>
+              )
               : isEmpty
                 ? ''
                 : label
@@ -54,7 +64,7 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
   th {
     font: ${theme.fontSans};
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
@@ -62,6 +72,14 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
     h1, h2 {
       font-size: 1.75rem;
+    }
+
+    h1 {
+      .ui--Icon {
+        font-size: 1rem;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+      }
     }
 
     &:first-child {
