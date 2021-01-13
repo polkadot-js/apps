@@ -7,6 +7,7 @@ import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 
 import { useIsMountedRef } from './useIsMountedRef';
 import { useParaEndpoints } from './useParaEndpoints';
@@ -47,10 +48,13 @@ export function useParaApi (paraId: BN | number): Result {
 
   useEffect((): void => {
     if (endpoints.length) {
-      const endpoint = endpoints[endpoints.length - 1];
-
       ApiPromise
-        .create({ provider: new WsProvider(endpoint.value as string) })
+        .create({
+          provider: new WsProvider(endpoints[endpoints.length - 1].value as string),
+          typesBundle,
+          typesChain,
+          typesSpec
+        })
         .then(_setApi)
         .catch(console.error);
     } else {
