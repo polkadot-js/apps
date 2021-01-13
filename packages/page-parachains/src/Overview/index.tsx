@@ -28,7 +28,7 @@ function Overview (): React.ReactElement<Props> {
     <>
       <Summary
         parachainCount={paraIds?.length}
-        proposalCount={proposals?.length}
+        proposalCount={proposals?.proposalIds.length}
         upcomingCount={upcomingIds?.length}
       />
       <Actions />

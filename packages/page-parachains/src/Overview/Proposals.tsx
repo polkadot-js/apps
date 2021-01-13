@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ProposalExt } from './types';
+import type { Proposals as UseProposals } from './useProposals';
 
 import React, { useRef } from 'react';
 
@@ -11,7 +11,7 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 
 interface Props {
-  proposals?: ProposalExt[];
+  proposals?: UseProposals;
 }
 
 function Proposals ({ proposals }: Props): React.ReactElement<Props> {
@@ -33,10 +33,12 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
       empty={proposals && t<string>('There are no pending proposals')}
       header={headerRef.current}
     >
-      {proposals?.map((proposal): React.ReactNode => (
+      {proposals?.proposalIds.map((id): React.ReactNode => (
         <Proposal
-          key={proposal.id.toString()}
-          proposal={proposal}
+          approvedIds={proposals.approvedIds}
+          id={id}
+          key={id.toString()}
+          scheduled={proposals.scheduled}
         />
       ))}
     </Table>

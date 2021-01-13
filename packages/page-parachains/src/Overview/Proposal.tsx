@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ProposalExt } from './types';
+import type { ParaId } from '@polkadot/types/interfaces';
+import type { ScheduledProposals } from './useProposals';
 
 import React, { useMemo } from 'react';
 
@@ -11,16 +12,20 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useProposal } from './useProposals';
 import { sliceHex } from './util';
 
 interface Props {
-  proposal: ProposalExt;
+  approvedIds: ParaId[];
+  id: ParaId;
+  scheduled: ScheduledProposals[];
 }
 
-function Proposal ({ proposal: { id, isApproved, isScheduled, proposal: { balance, genesisHead, name, proposer, validationCode, validators } } }: Props): React.ReactElement<Props> {
+function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasSudoKey, sudoKey } = useSudo();
+  const proposal = useProposal(id, approvedIds, scheduled);
 
   const approveTx = useMemo(
     () => api.tx.proposeParachain && api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
@@ -28,39 +33,39 @@ function Proposal ({ proposal: { id, isApproved, isScheduled, proposal: { balanc
   );
 
   const initialHex = useMemo(
-    () => sliceHex(genesisHead, 8),
-    [genesisHead]
+    () => proposal && sliceHex(proposal.proposal.genesisHead, 8),
+    [proposal]
   );
 
   const validationHex = useMemo(
-    () => sliceHex(validationCode, 8),
-    [validationCode]
+    () => proposal && sliceHex(proposal.proposal.validationCode, 8),
+    [proposal]
   );
 
   return (
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'>
-        {(isApproved || isScheduled) && (
+        {proposal && (proposal.isApproved || proposal.isScheduled) && (
           <Badge
             color='green'
-            icon={isScheduled ? 'clock' : 'check'}
+            icon={proposal.isScheduled ? 'clock' : 'check'}
           />
         )}
       </td>
-      <td className='start together'>{name.toUtf8()}</td>
-      <td className='address'><AddressSmall value={proposer} /></td>
-      <td className='balance'><FormatBalance value={balance} /></td>
+      <td className='start together'>{proposal?.proposal.name.toUtf8()}</td>
+      <td className='address'>{proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
+      <td className='balance'>{proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
       <td className='start hash together'>{initialHex}</td>
       <td className='start hash together'>{validationHex}</td>
-      <td className='address all'>{validators.map((validatorId) => (
+      <td className='address all'>{proposal?.proposal.validators.map((validatorId) => (
         <AddressMini
           key={validatorId.toString()}
           value={validatorId}
         />
       ))}</td>
       <td className='button'>
-        {!isApproved && (
+        {proposal && !proposal.isApproved && (
           <TxButton
             accountId={sudoKey}
             extrinsic={approveTx}
