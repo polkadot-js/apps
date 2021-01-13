@@ -10,5 +10,8 @@
   "dependencies": {
     "@testing-library/react": "^11.2.2",
     "testcontainers": "^6.4.1"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1"
   }
 }
