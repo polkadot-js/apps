@@ -4,9 +4,10 @@
 import { DOCK_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS, POLYMESH_GENESIS } from '../api/constants';
 
 // mapping of the genesisHash with the actual app name for Ledger
+// (these need to match with the network key in @polkadot/networks)
 export const ledgerChains = [
   [DOCK_GENESIS, 'dock'],
   [KUSAMA_GENESIS, 'kusama'],
   [POLKADOT_GENESIS, 'polkadot'],
-  [POLYMESH_GENESIS, 'polymesh']
+  [POLYMESH_GENESIS, 'polymath']
 ];
