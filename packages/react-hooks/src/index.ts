@@ -20,6 +20,7 @@ export { useIncrement } from './useIncrement';
 export { calcInflation, useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
+export { useLedger } from './useLedger';
 export { useLoadingDelay } from './useLoadingDelay';
 export { useMembers } from './useMembers';
 export { useModal } from './useModal';

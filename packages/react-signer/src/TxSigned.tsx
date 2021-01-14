@@ -7,6 +7,7 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { Ledger } from '@polkadot/ui-keyring';
 import type { AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -15,7 +16,7 @@ import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
 
@@ -137,12 +138,12 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, accountOffset as number || 0, addressOffset as number || 0) }];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset as number || 0, addressOffset as number || 0) }];
   } else if (isExternal) {
     return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
   } else if (isInjected) {
@@ -157,8 +158,9 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
   const { t } = useTranslation();
+  const { api } = useApi();
+  const { getLedger } = useLedger();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [error, setError] = useState<Error | null>(null);
@@ -240,7 +242,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, setQrState)
+          extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, getLedger, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
@@ -248,7 +250,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
     },
-    [api, tip]
+    [api, getLedger, tip]
   );
 
   const _onSign = useCallback(
@@ -256,13 +258,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress) {
         const [tx, [, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, setQrState)
+          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, getLedger, setQrState)
         ]);
 
         setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
       }
     },
-    [api, signedOptions, tip]
+    [api, getLedger, signedOptions, tip]
   );
 
   const _doStart = useCallback(

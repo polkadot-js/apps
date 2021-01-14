@@ -3754,7 +3754,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:4.12.0, @typescript-eslint/typescript-estree@npm:^4.8.2":
+"@typescript-eslint/types@npm:4.13.0":
+  version: 4.13.0
+  resolution: "@typescript-eslint/types@npm:4.13.0"
+  checksum: ed2e27ad1f7d0db28d13d3a5fe900b7638981689fea1b5556de4fcd87729f73cfe2e3792005cf4e05ba4c405f2abe9bc55c076354d4ac3f9576ded65c1b4ddf5
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:4.12.0":
   version: 4.12.0
   resolution: "@typescript-eslint/typescript-estree@npm:4.12.0"
   dependencies:
@@ -3773,6 +3780,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/typescript-estree@npm:^4.8.2":
+  version: 4.13.0
+  resolution: "@typescript-eslint/typescript-estree@npm:4.13.0"
+  dependencies:
+    "@typescript-eslint/types": 4.13.0
+    "@typescript-eslint/visitor-keys": 4.13.0
+    debug: ^4.1.1
+    globby: ^11.0.1
+    is-glob: ^4.0.1
+    lodash: ^4.17.15
+    semver: ^7.3.2
+    tsutils: ^3.17.1
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 8b7485f192f247d659779f1bc95d927612e53b23801981acc462c2fd76219a61ac1094348bf7ac46034b58c1751793053128d11264268e378241eb6e686f5e8e
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/visitor-keys@npm:4.12.0":
   version: 4.12.0
   resolution: "@typescript-eslint/visitor-keys@npm:4.12.0"
@@ -3780,6 +3806,16 @@ __metadata:
     "@typescript-eslint/types": 4.12.0
     eslint-visitor-keys: ^2.0.0
   checksum: 8825210cd8a729415fed4244406ca5ba9d02fa81719572f955d98cd08e378923fe553d9f71e4557f3ba14b191aba98e5d6207cc002a17d04078d9ca0d6c46855
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:4.13.0":
+  version: 4.13.0
+  resolution: "@typescript-eslint/visitor-keys@npm:4.13.0"
+  dependencies:
+    "@typescript-eslint/types": 4.13.0
+    eslint-visitor-keys: ^2.0.0
+  checksum: 35f20062885da380ef9d6e07f058ea9629a36b3d264dcf7e776e81da7c8f544373a287d6f49c88fd4fc546bb4afea27efdcd4e5be972c4202746b46cf1682a2d
   languageName: node
   linkType: hard
 
@@ -17896,10 +17932,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typedoc-default-themes@npm:0.12.0":
-  version: 0.12.0
-  resolution: "typedoc-default-themes@npm:0.12.0"
-  checksum: 112a092fe01a9fde6255cd0992c952cb28056efb6c1fb13426131be21cbbda283a9f27d294fdc10f51fa8ab5b0b47a1da74d908e24e7ad0d814939a6eb629a86
+"typedoc-default-themes@npm:0.12.1":
+  version: 0.12.1
+  resolution: "typedoc-default-themes@npm:0.12.1"
+  checksum: 491e8aeb5192760c6b9a563140a87a7f10322750e23412ffa526e5a417c366992321332db45096d5717dadf3f00a611b06e1d495ead0707c27d80f8d3a42bf58
   languageName: node
   linkType: hard
 
@@ -17937,7 +17973,7 @@ fsevents@~2.1.2:
     progress: ^2.0.3
     shelljs: ^0.8.4
     shiki: ^0.2.7
-    typedoc-default-themes: 0.12.0
+    typedoc-default-themes: 0.12.1
   peerDependencies:
     typescript: 3.9.x || 4.0.x || 4.1.x
   bin:
