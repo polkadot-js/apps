@@ -6,14 +6,9 @@ import BN from 'bn.js';
 import { ApiPromise } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { aliceSigner } from '@polkadot/test-support/keyring';
-import { waitForBountyState, waitForClaim } from '@polkadot/test-support/utils/waitFor';
 
-import { acceptCurator,
-  approveBounty,
-  awardBounty,
-  claimBounty,
-  proposeBounty,
-  proposeCurator } from './changeBountyStateFunctions';
+import { waitForBountyState, waitForClaim } from './bountyWaitFunctions';
+import { acceptCurator, approveBounty, awardBounty, claimBounty, proposeBounty, proposeCurator } from './changeBountyStateFunctions';
 import { FUNDING_TIME, PAYOUT_TIME } from './constants';
 
 export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number): Promise<number[]> {
