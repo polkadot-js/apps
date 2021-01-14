@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '@polkadot/react-components/types';
@@ -34,7 +34,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>
+        <div>
           {viewSetter()}
           Upcoming Events
         </div>

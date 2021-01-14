@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-api",
-  "version": "0.73.2-20",
+  "version": "0.75.2-32",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -18,6 +18,6 @@
     "@polkadot/api": "^3.4.2-8",
     "@polkadot/extension-dapp": "^0.36.2-1",
     "@polkadot/x-rxjs": "^3.4.2-8",
-    "fflate": "^0.4.7"
+    "fflate": "^0.5.2"
   }
 }

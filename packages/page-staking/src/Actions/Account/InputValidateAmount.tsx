@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -7,6 +7,7 @@ import type { AmountValidateState } from '../types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
+import { MarkError, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_TEN, BN_THOUSAND, BN_ZERO, formatBalance } from '@polkadot/util';
 
@@ -69,12 +70,10 @@ function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): Rea
     }
   }, [api, currentAmount, onError, stashBalance, t, value]);
 
-  if (error || warning) {
-    return (
-      <article className={error ? 'error' : 'warning'}>
-        <div>{error || warning}</div>
-      </article>
-    );
+  if (error) {
+    return <MarkError content={error} />;
+  } else if (warning) {
+    return <MarkWarning content={warning} />;
   }
 
   return null;

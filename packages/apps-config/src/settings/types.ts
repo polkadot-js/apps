@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export interface Option {
@@ -11,8 +11,11 @@ export interface Option {
 
 export interface LinkOption extends Option {
   dnslink?: string;
+  genesisHash?: string;
+  genesisHashRelay?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
   linked?: LinkOption[];
+  paraId?: number;
   textBy: string;
 }

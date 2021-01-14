@@ -1,4 +1,4 @@
-// Copyright 2019-2020 @polkadot/extension authors & contributors
+// Copyright 2019-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // eslint-disable-line

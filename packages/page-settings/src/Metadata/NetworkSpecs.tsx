@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
@@ -168,6 +168,10 @@ export default React.memo(styled(NetworkSpecs)`
   .settings--networkSpecs-qr {
     margin: 0.25rem auto;
     max-width: 15rem;
+
+    img {
+      border: 1px solid white;
+    }
   }
 
   .settings--networkSpecs-name {

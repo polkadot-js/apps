@@ -1,126 +1,114 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveParachain } from '@polkadot/api-derive/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
+import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
-import type { HeadData } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, HeadData, Header, ParaId, RelayChainBlockNumber } from '@polkadot/types/interfaces';
+import type { Codec, ITuple } from '@polkadot/types/types';
 
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
+import BN from 'bn.js';
+import React, { useMemo } from 'react';
 
-import { Badge, Button, Icon } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useParaApi } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { sliceHex } from './util';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
-  parachain: DeriveParachain;
+  id: ParaId;
+  lastInclusion?: [string, string];
 }
 
-const transformHead = {
-  transform: (headData: Option<HeadData>): string | null => {
-    if (headData.isSome) {
-      const hex = headData.unwrap().toHex();
-
-      return `${hex.slice(0, 18)}…${hex.slice(-16)}`;
-    }
-
-    return null;
-  }
+const transformDmpUmp = {
+  transform: (list: Codec[][]) => list.length
 };
 
-function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { api } = useApi();
-  const headHex = useCall<string | null>(api.query.parachains.heads, [id], transformHead);
-  const history = useHistory();
+const transformHead = {
+  transform: (headData: Option<HeadData>): string | null =>
+    headData.isSome
+      ? sliceHex(headData.unwrap(), 18)
+      : null
+};
 
-  const _onClick = useCallback(
-    () => history.push(`/parachains/${id.toString()}`),
-    [history, id]
+// const transformMark = {
+//   transform: (watermark: Option<BlockNumber>): BlockNumber | null =>
+//     watermark.isSome
+//       ? watermark.unwrap()
+//       : null
+// };
+
+const transformLast = {
+  transform: (header: Header) => header.number.unwrap()
+};
+
+const transformUpgrade = {
+  transform: (opt: Option<ITuple<[RelayChainBlockNumber]>>): RelayChainBlockNumber | null =>
+    opt.unwrapOr([null])[0]
+};
+
+function getChainLink (endpoints: LinkOption[]): React.ReactNode {
+  if (!endpoints.length) {
+    return null;
+  }
+
+  const { text, value } = endpoints[endpoints.length - 1];
+
+  return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
+}
+
+function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { api: paraApi, endpoints } = useParaApi(id);
+  const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
+  const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
+  const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
+  const updateAt = useCall<BlockNumber | null>(api.query.paras.futureCodeUpgrades, [id], transformUpgrade);
+  const qDmp = useCall<number>(api.query.dmp.downwardMessageQueues, [id], transformDmpUmp);
+  const qUmp = useCall<number>(api.query.dmp.relayDispatchQueues, [id], transformDmpUmp);
+  const qHrmpE = useCall<number>(api.query.hrmp.hrmpEgressChannelsIndex, [id], transformDmpUmp);
+  const qHrmpI = useCall<number>(api.query.hrmp.hrmpIngressChannelsIndex, [id], transformDmpUmp);
+  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformLast);
+
+  const blockDelay = useMemo(
+    () => lastRelayNumber && bestNumber && bestNumber.sub(lastRelayNumber).subn(1),
+    [bestNumber, lastRelayNumber]
+  );
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
   );
 
   return (
-    <tr
-      className={className}
-      onClick={_onClick}
-    >
+    <tr className={className}>
+      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <td className='together'>{chainLink}</td>
+      <td className='all start together hash'>{headHex}</td>
+      <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
-        <h1>{id.toString()}</h1>
+        {lastInclusion && lastRelayNumber && (
+          <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+        )
+        }
       </td>
-      <td className='badges'>
-        <div>
-          <Badge
-            className='did-update'
-            color={didUpdate ? 'green' : 'gray'}
-            hover={
-              didUpdate
-                ? t<string>('Updated in the latest block')
-                : t<string>('Not updated in the last block')
-            }
-            info={<Icon icon='check' />}
-          />
-          <Badge
-            className='pending-messages'
-            color={relayDispatchQueueSize ? 'counter' : 'gray'}
-            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', { replace: { relayDispatchQueueSize } })}
-            info={formatNumber(relayDispatchQueueSize)}
-          />
-        </div>
+      <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
+      <td className='number media--1100'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
+      <td className='number media--1300'>
+        {updateAt && bestNumber && (
+          <>
+            <BlockToTime blocks={bestNumber.sub(updateAt)} />
+            #{formatNumber(updateAt)}
+          </>
+        )}
       </td>
-      <td className='all start together headhex'>{headHex}</td>
-      <td className='number pending-swap-id media--800'>
-        {pendingSwapId?.toString()}
-      </td>
-      <td className='number media--800'>
-        {info?.scheduling?.toString() || t<string>('<unknown>')}
-      </td>
-      <td className='button'>
-        <Button
-          icon='arrow-right'
-          label={t('Info')}
-          onClick={_onClick}
-        />
+      <td className='number media--1200'>
+        {formatNumber(qUmp)}&nbsp;/&nbsp;{formatNumber(qDmp)}&nbsp;/&nbsp;{formatNumber(qHrmpE)}&nbsp;/&nbsp;{formatNumber(qHrmpI)}
       </td>
     </tr>
   );
 }
 
-export default React.memo(styled(Parachain)(({ theme }: ThemeProps) => `
-  & {
-    cursor: pointer !important;
-  }
-
-  h1 {
-    margin-top: 0 !important;
-  }
-
-  td.badges > div {
-    width: 3rem;
-    display: flex;
-    align-items: center;
-  }
-
-  td.info > div {
-    display: flex;
-    align-items: center;
-  }
-
-  td.pending-swap-id {
-    &, & * {
-      color: red !important;
-    }
-  }
-
-  td.headhex {
-    font: ${theme.fontMono};
-  }
-
-  .did-update {
-    margin-bottom: 0;
-  }
-`));
+export default React.memo(Parachain);
