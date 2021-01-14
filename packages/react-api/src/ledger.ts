@@ -35,7 +35,7 @@ export function getLedger (): Ledger {
     const genesisHex = api.genesisHash.toHex();
     const def = api && ledgerChains.find(({ genesisHash }) => genesisHash[0] === genesisHex);
 
-    assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
+    assert(def, `Unable to find supported chain for ${genesisHex}`);
 
     ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def.network);
   }
