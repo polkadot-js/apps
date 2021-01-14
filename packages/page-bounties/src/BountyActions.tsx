@@ -6,12 +6,11 @@ import type { Balance, BlockNumber, BountyStatus } from '@polkadot/types/interfa
 
 import React, { useCallback, useMemo } from 'react';
 
-import ProposeCuratorAction from '@polkadot/app-bounties/ProposeCuratorAction';
-
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
 import { getBountyStatus } from './helpers';
+import ProposeCuratorAction from './ProposeCuratorAction';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -36,14 +35,14 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           index={index}
           proposals={proposals}
         />}
-      {status.isFunded &&
-      <ProposeCuratorAction
-        description={description}
-        index={index}
-        proposals={proposals}
-        value={value}
-      />
-      }
+      {status.isFunded && (
+        <ProposeCuratorAction
+          description={description}
+          index={index}
+          proposals={proposals}
+          value={value}
+        />
+      )}
       {status.isCuratorProposed && curator &&
         <BountyCuratorProposedActions
           curatorId={curator}
