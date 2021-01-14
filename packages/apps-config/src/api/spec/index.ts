@@ -15,7 +15,6 @@ import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
-import galois from './galois';
 import hanonycash from './hanonycash';
 import jupiter from './jupiter';
 import kilt from './kilt';
@@ -47,7 +46,6 @@ export default {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
-  galois: galois,
   hanonycash,
   jupiter,
   'mashnet-node': kilt,

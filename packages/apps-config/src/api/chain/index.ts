@@ -6,6 +6,6 @@ import Phala from './phala';
 
 // alphabetical, based on the actual displayed name
 export default {
-  'Phala PoC-3': Phala,
-  Galois: Galois
+  Galois: Galois,
+  'Phala PoC-3': Phala
 };
