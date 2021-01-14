@@ -7,7 +7,7 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import { getVotingDescription } from './helpers/extendedStatuses';
+import { bestValidProposalName } from './helpers/extendedStatuses';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -16,18 +16,32 @@ interface Props {
   status: BountyStatus;
 }
 
-function VotingDescription ({ className = '', proposals, status }: Props): JSX.Element {
+type ProposalToDisplay = 'approveBounty' | 'closeBounty' | 'proposeCurator' | 'unassignCurator';
+
+function DescriptionTranslation ({ proposalName } : { proposalName: string }): JSX.Element {
   const { t } = useTranslation();
-  const description = getVotingDescription(proposals, status, t);
+
+  const descriptions = {
+    approveBounty: t('Approval under voting'),
+    closeBounty: t('Rejection under voting'),
+    proposeCurator: t('Curator under voting'),
+    unassignCurator: t('Unassign curator under voting')
+  };
+
+  return <>{descriptions[proposalName as ProposalToDisplay] ? descriptions[proposalName as ProposalToDisplay] : null}</>;
+}
+
+function VotingDescription ({ className = '', proposals, status }: Props): React.ReactElement<Props> {
+  const bestProposalName = bestValidProposalName(proposals, status);
 
   return (
     <>
-      {description && (
-        <
-          div className={className}
+      {bestProposalName && (
+        <div
+          className={className}
           data-testid='extendedStatus'
         >
-          {description}
+          <DescriptionTranslation proposalName={bestProposalName} />
         </div>
       )}
     </>
@@ -35,7 +49,7 @@ function VotingDescription ({ className = '', proposals, status }: Props): JSX.E
 }
 
 export default React.memo(styled(VotingDescription)`
-    font-size: 0.7rem;
-    color: #8B8B8B;
-    margin-top: 10px;
+  font-size: 0.7rem;
+  color: #8B8B8B;
+  margin-top: 10px;
 `);
