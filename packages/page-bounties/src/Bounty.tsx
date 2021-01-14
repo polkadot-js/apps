@@ -15,6 +15,7 @@ import { formatNumber } from '@polkadot/util';
 import { BountyActions } from './BountyActions';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
+import VotingDescription from './VotingDescription';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -52,7 +53,19 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={className}>
-        <td>{bountyStatus}</td>
+        <td>
+          <div>
+            <div>{bountyStatus}</div>
+            {proposals && (
+              <div>
+                <VotingDescription
+                  proposals={proposals}
+                  status={status}
+                />
+              </div>
+            )}
+          </div>
+        </td>
         <td>{description}</td>
         <td><FormatBalance value={value} /></td>
         <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
