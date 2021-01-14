@@ -18,9 +18,9 @@ import gql from 'graphql-tag';
 
 const EXTRINSIC_QUERY = gql`
   query ExtrinsicSearchQuery($filter: String!) {
-    extrinsic(order_by: { block_number: desc }, where: {
+    extrinsic(where: {
       hash: { _eq: $filter }
-    }, limit: 64) {
+    }) {
       block_number
       extrinsic_index
       is_signed
