@@ -4,7 +4,7 @@
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
 import type { Balance, BlockNumber, HeadData, Header, ParaId, RelayChainBlockNumber } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
+import type { Codec, ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -21,6 +21,10 @@ interface Props {
   id: ParaId;
   lastInclusion?: [string, string];
 }
+
+const transformDmpUmp = {
+  transform: (list: Codec[][]) => list.length
+};
 
 const transformHead = {
   transform: (headData: Option<HeadData>): string | null =>
@@ -58,10 +62,14 @@ function getChainLink (endpoints: LinkOption[]): React.ReactNode {
 function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
-  const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
   const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
+  const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
   const updateAt = useCall<BlockNumber | null>(api.query.paras.futureCodeUpgrades, [id], transformUpgrade);
+  const qDmp = useCall<number>(api.query.dmp.downwardMessageQueues, [id], transformDmpUmp);
+  const qUmp = useCall<number>(api.query.dmp.relayDispatchQueues, [id], transformDmpUmp);
+  const qHrmpE = useCall<number>(api.query.hrmp.hrmpEgressChannelsIndex, [id], transformDmpUmp);
+  const qHrmpI = useCall<number>(api.query.hrmp.hrmpIngressChannelsIndex, [id], transformDmpUmp);
   const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformLast);
 
   const blockDelay = useMemo(
@@ -88,13 +96,16 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
       </td>
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
       <td className='number media--1100'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
-      <td className='number media--1200'>
+      <td className='number media--1300'>
         {updateAt && bestNumber && (
           <>
             <BlockToTime blocks={bestNumber.sub(updateAt)} />
             #{formatNumber(updateAt)}
           </>
         )}
+      </td>
+      <td className='number media--1200'>
+        {formatNumber(qUmp)}&nbsp;/&nbsp;{formatNumber(qDmp)}&nbsp;/&nbsp;{formatNumber(qHrmpE)}&nbsp;/&nbsp;{formatNumber(qHrmpI)}
       </td>
     </tr>
   );

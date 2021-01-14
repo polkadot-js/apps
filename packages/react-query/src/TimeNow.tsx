@@ -14,20 +14,17 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   label?: React.ReactNode;
+  value?: Moment;
 }
 
-function TimeNow ({ children, className = '', label }: Props): React.ReactElement<Props> {
-  const { api, isSubstrateV2 } = useApi();
-  const timestamp = useCall<Moment>(api.query.timestamp.now);
+function TimeNow ({ children, className = '', label, value }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const timestamp = useCall<Moment>(!value && api.query.timestamp.now);
   const [now, setNow] = useState<BN | undefined>();
 
   useEffect((): void => {
-    setNow(
-      isSubstrateV2 || !timestamp
-        ? timestamp
-        : timestamp.muln(1000)
-    );
-  }, [timestamp, isSubstrateV2]);
+    setNow(value || timestamp);
+  }, [timestamp, value]);
 
   return (
     <div className={className}>
