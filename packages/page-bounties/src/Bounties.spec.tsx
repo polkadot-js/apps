@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, prettyDOM, render } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -19,7 +19,9 @@ import metaStatic from '@polkadot/metadata/static';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
+import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
+import { keyring } from '@polkadot/ui-keyring';
 
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
@@ -116,10 +118,12 @@ jest.mock('@polkadot/react-hooks/useMembers', () => {
     useMembers: () => mockMembers
   };
 });
+const proposal = jest.fn();
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
+    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     apiWithAugmentations = createApiWithAugmentations();
   });
 
@@ -134,7 +138,9 @@ describe('Bounties', () => {
       query: {},
       registry: { chainDecimals: 12 },
       tx: {
-        council: {}
+        council: {
+          proposal
+        }
       }
     },
     systemName: 'substrate' } as unknown as ApiProps;
@@ -256,6 +262,7 @@ describe('Bounties', () => {
 
       expect(await findByText("Curator's fee can't be higher than bounty value.")).toBeTruthy();
     });
+
     it('disables Assign Curator button if validation fails', async () => {
       const { findByTestId, findByText } = renderBounties({ bounties: [
         { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
@@ -275,6 +282,41 @@ describe('Bounties', () => {
       const assignCuratorButton = await findByText('Assign curator');
 
       expect(assignCuratorButton.classList.contains('isDisabled')).toBeTruthy();
+    });
+
+    it.only('happy path', async () => {
+      const { findByTestId, findByText, getAllByRole } = renderBounties({ bounties: [
+        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
+          description: 'kusama comic book',
+          index: anIndex(),
+          proposals: [] }
+      ] });
+      const proposeCuratorButton = await findByText('Propose Curator');
+
+      fireEvent.click(proposeCuratorButton);
+      expect(await findByText('This action will create a Council motion to propose Curator.')).toBeTruthy();
+
+      const feeInput = await findByTestId("curator's fee");
+
+      fireEvent.change(feeInput, { target: { value: '0' } });
+
+      const comboboxes = getAllByRole('combobox');
+
+      const proposingAccountInput = comboboxes[0].children[0];
+      const proposingCuratorInput = comboboxes[1].children[0];
+      const alice = aliceSigner();
+
+      fireEvent.change(proposingAccountInput, { target: { value: alice.address } });
+      fireEvent.change(proposingCuratorInput, { target: { value: alice.address } });
+
+      const assignCuratorButton = await findByText('Assign curator');
+
+      console.log(prettyDOM(assignCuratorButton));
+
+      // fireEvent.click(assignCuratorButton);
+      // expect(await findByText('Authorize transaction')).toBeTruthy();
+
+      // expect(proposal).toHaveBeenCalled();
     });
   });
 
