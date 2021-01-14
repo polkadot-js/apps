@@ -141,6 +141,7 @@ export default React.memo(styled(Bounty)`
       .fast-actions-row {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
       }
 
       .table-column-icon {
