@@ -32,7 +32,7 @@ export default React.memo(styled(FilterOverlay)`
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    top: 0.525rem;
+    top: 0.25rem;
 
     > div {
       max-width: 35rem !important;

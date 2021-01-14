@@ -34,7 +34,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>
+        <div>
           {viewSetter()}
           Upcoming Events
         </div>

@@ -76,7 +76,7 @@ export default React.memo(styled(DayHour)(({ theme }: ThemeProps) => `
   .hourLabel {
     flex: 0;
     font-size: 0.85rem;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
     line-height: 1;
     min-width: 5.5rem;
     opacity: 0.5;
@@ -88,7 +88,7 @@ export default React.memo(styled(DayHour)(({ theme }: ThemeProps) => `
 
   &.hasItems .hourLabel {
     font-size: 1.1rem;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
     opacity: 1;
     padding: 0.7rem 1rem;
   }

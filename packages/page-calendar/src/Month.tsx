@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '@polkadot/react-components/types';
 import type { DateState, EntryInfo } from './types';
 
 import React, { useMemo, useRef } from 'react';
@@ -44,7 +45,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   return (
     <div className={className}>
       <h1>
-        <div className='highlight--color'>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
+        <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
         <Button.Group>
           <Button
             icon='chevron-left'
@@ -82,7 +83,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   );
 }
 
-export default React.memo(styled(Month)`
+export default React.memo(styled(Month)(({ theme }: ThemeProps) => `
   flex: 0;
   max-width: max-content;
 
@@ -110,7 +111,7 @@ export default React.memo(styled(Month)`
     .dayOfWeek {
       > * {
         font-size: 0.7em;
-        font-weight: 400;
+        font-weight: ${theme.fontWeightNormal};
         letter-spacing: 0.1em;
         text-align: center;
         text-transform: uppercase;
@@ -124,4 +125,4 @@ export default React.memo(styled(Month)`
       justify-content: space-between;
     }
   }
-`);
+`));

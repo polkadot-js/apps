@@ -7,7 +7,7 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
+import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password, StatusContext } from '@polkadot/react-components';
 import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
@@ -228,7 +228,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                   placeholder={t<string>('//hard/soft')}
                 />
                 {deriveError && (
-                  <article className='error'>{deriveError}</article>
+                  <MarkError content={deriveError} />
                 )}
                 <Input
                   className='full'

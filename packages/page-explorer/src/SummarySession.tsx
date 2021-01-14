@@ -14,14 +14,15 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface Props {
+  className?: string;
   withEra?: boolean;
   withSession?: boolean;
 }
 
-function SummarySession ({ withEra = true, withSession = true }: Props): React.ReactElement<Props> {
+function SummarySession ({ className, withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
   const forcing = useCall<Forcing>(api.query.staking?.forceEra);
 
   const eraLabel = t<string>('era');
@@ -38,6 +39,7 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
             sessionInfo.sessionLength.gtn(1)
               ? (
                 <CardSummary
+                  className={className}
                   label={sessionLabel}
                   progress={{
                     total: sessionInfo.sessionLength,
@@ -57,6 +59,7 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
             sessionInfo.sessionLength.gtn(1)
               ? (
                 <CardSummary
+                  className={className}
                   label={eraLabel}
                   progress={{
                     total: forcing.isForceAlways ? sessionInfo.sessionLength : sessionInfo.eraLength,
@@ -66,7 +69,10 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
                 />
               )
               : (
-                <CardSummary label={eraLabel}>
+                <CardSummary
+                  className={className}
+                  label={eraLabel}
+                >
                   #{formatNumber(sessionInfo.activeEra)}
                   {activeEraStart && (
                     <Elapsed

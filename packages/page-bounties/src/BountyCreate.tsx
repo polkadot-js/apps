@@ -1,14 +1,12 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BalanceOf } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
+import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { calculateBountyBond, countUtf8Bytes } from './helpers';
@@ -20,45 +18,36 @@ const BOUNTY_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
-  const { api } = useApi();
-
+  const { bountyDepositBase, bountyValueMinimum, dataDepositPerByte, maximumReasonLength, proposeBounty } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const balance = useBalance(accountId);
+
   const [title, setTitle] = useState('');
-  const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
+  const [bond, setBond] = useState(bountyDepositBase);
   const [value, setValue] = useState<BN | undefined>(BOUNTY_DEFAULT_VALUE);
   const [isOpen, toggleIsOpen] = useToggle();
   const [isTitleValid, setIsTitleValid] = useState(false);
   const [isValueValid, setIsValueValid] = useState(false);
   const [hasFunds, setHasFunds] = useState(false);
 
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
+  useEffect(() => {
+    setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= maximumReasonLength);
+  }, [maximumReasonLength, title]);
 
   useEffect(() => {
-    const bountyTitleMaxLength = ((api.consts.bounties || api.consts.treasury).maximumReasonLength as BalanceOf).toNumber();
-
-    setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= bountyTitleMaxLength);
-  }, [api, title]);
+    setIsValueValid(!!value?.gte(bountyValueMinimum));
+  }, [bountyValueMinimum, value]);
 
   useEffect(() => {
-    const bountyMinValue = ((api.consts.bounties || api.consts.treasury).bountyValueMinimum as BalanceOf).toBn();
-
-    setIsValueValid(!!value?.gte(bountyMinValue));
-  }, [api, value]);
-
-  useEffect(() => {
-    setHasFunds(!!balances?.availableBalance.gte(bond));
-  }, [balances, bond]);
+    setHasFunds(!!balance?.gte(bond));
+  }, [balance, bond]);
 
   const isValid = hasFunds && isTitleValid && isValueValid;
 
   const onTitleChange = useCallback((value: string) => {
-    const bountyBase = api.consts.bounties || api.consts.treasury;
-    const bountyDepositBase = bountyBase.bountyDepositBase;
-    const bountyDepositPerByte = bountyBase.dataDepositPerByte;
-
     setTitle(value);
-    setBond(calculateBountyBond(value, bountyDepositBase as BalanceOf, bountyDepositPerByte as BalanceOf));
-  }, [api]);
+    setBond(calculateBountyBond(value, bountyDepositBase, dataDepositPerByte));
+  }, [bountyDepositBase, dataDepositPerByte]);
 
   return (
     <>
@@ -86,9 +75,7 @@ function BountyCreate () {
                   value={title}
                 />
                 {!isTitleValid && (title !== TITLE_DEFAULT_VALUE) && (
-                  <article className='error'>
-                    {t<string>('Title too long')}
-                  </article>
+                  <MarkError content={t<string>('Title too long')} />
                 )}
               </Modal.Column>
               <Modal.Column>
@@ -106,9 +93,7 @@ function BountyCreate () {
                   value={value}
                 />
                 {!isValueValid && !value?.eq(BOUNTY_DEFAULT_VALUE) && (
-                  <article className='error'>
-                    {t<string>('Allocation value is smaller than the minimum bounty value.')}
-                  </article>
+                  <MarkError content={t<string>('Allocation value is smaller than the minimum bounty value.')} />
                 )}
               </Modal.Column>
               <Modal.Column>
@@ -139,9 +124,7 @@ function BountyCreate () {
                   withLabel
                 />
                 {!hasFunds && (
-                  <article className='error'>
-                    {t<string>('Account does not have enough funds.')}
-                  </article>
+                  <MarkError content={t<string>('Account does not have enough funds.')} />
                 )}
               </Modal.Column>
               <Modal.Column>
@@ -157,7 +140,7 @@ function BountyCreate () {
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
               params={[value, title]}
-              tx={(api.tx.bounties || api.tx.treasury).proposeBounty}
+              tx={proposeBounty}
             />
           </Modal.Actions>
         </Modal>

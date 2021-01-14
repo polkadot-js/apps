@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ledgerChains } from '@polkadot/apps-config';
+import networks from '@polkadot/networks';
 import { Ledger } from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -9,10 +9,14 @@ import { assert } from '@polkadot/util';
 import { api } from './Api';
 
 let ledger: Ledger | null = null;
+const ledgerChains = networks.filter((network) => network.hasLedgerSupport);
 
 export function isLedgerCapable (): boolean {
   try {
-    return !!(window as unknown as { USB?: unknown }).USB && !!api && ledgerChains.map(([g]) => g).includes(api.genesisHash.toHex());
+    return (
+      !!(window as unknown as { USB?: unknown }).USB &&
+      !!api && ledgerChains.map(({ genesisHash }) => genesisHash[0]).includes(api.genesisHash.toHex())
+    );
   } catch (error) {
     return false;
   }
@@ -28,11 +32,12 @@ export function clearLedger (): void {
 
 export function getLedger (): Ledger {
   if (!ledger) {
-    const def = api && ledgerChains.find(([g]) => g === api.genesisHash.toHex());
+    const genesisHex = api.genesisHash.toHex();
+    const def = api && ledgerChains.find(({ genesisHash }) => genesisHash[0] === genesisHex);
 
-    assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
+    assert(def, `Unable to find supported chain for ${genesisHex}`);
 
-    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def[1]);
+    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def.network);
   }
 
   return ledger;

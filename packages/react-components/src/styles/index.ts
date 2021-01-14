@@ -80,7 +80,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--bg-light:before {
-    opacity: 0.125;
+    opacity: 0.2;
   }
 
   .highlight--border {
@@ -259,6 +259,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
       }
     }
 
+    &.mark {
+      margin: 0.5rem 0 0.5rem 2.25rem;
+      padding: 0.5rem 1rem;
+    }
+
+    &.nomargin {
+      margin-left: 0;
+    }
+
     &.extraMargin {
       margin: 2rem auto;
     }
@@ -370,7 +379,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     display: block;
     font: ${theme.fontSans};
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
   }
 
   main {

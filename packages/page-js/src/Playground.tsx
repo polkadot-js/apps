@@ -10,7 +10,7 @@ import type { Log, LogType, Snippet } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Dropdown, Editor } from '@polkadot/react-components';
+import { Button, Dropdown, Editor, Tabs } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import * as types from '@polkadot/types';
 import uiKeyring from '@polkadot/ui-keyring';
@@ -73,7 +73,7 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
 }
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
-function Playground ({ className = '' }: Props): React.ReactElement<Props> {
+function Playground ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const apiProps = useApi();
   const injectedRef = useRef<Injected | null>(null);
@@ -85,6 +85,14 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   const [logs, setLogs] = useState<Log[]>([]);
   const [options, setOptions] = useState<Snippet[]>([]);
   const [selected, setSelected] = useState(snippets[0]);
+
+  const tabsRef = useRef([
+    {
+      isRoot: true,
+      name: 'playground',
+      text: t<string>('Javascript')
+    }
+  ]);
 
   // initialize all options
   useEffect((): void => {
@@ -226,7 +234,13 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <main className={`js--App ${className}`}>
-      <header className='container'>
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={tabsRef.current}
+        />
+      </header>
+      <section className='js--Selection'>
         <Dropdown
           className='js--Dropdown'
           isFull
@@ -235,7 +249,7 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
           options={options}
           value={selected.value}
         />
-      </header>
+      </section>
       <section className='js--Content'>
         <article className='container js--Editor'>
           <ActionButtons
@@ -287,13 +301,16 @@ export default React.memo(styled(Playground)`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 1rem 0 0;
   position: relative;
 
   article {
     p:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .js--Selection {
+    margin-bottom: 1rem;
   }
 
   .js--Content {

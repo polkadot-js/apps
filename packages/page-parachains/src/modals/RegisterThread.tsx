@@ -19,9 +19,7 @@ interface CodeState {
   wasm: Uint8Array | null;
 }
 
-// sudo => parasSudoWrapper.sudoScheduleParaInitialize
-
-function Register ({ className, onClose }: Props): React.ReactElement<Props> {
+function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -39,12 +37,10 @@ function Register ({ className, onClose }: Props): React.ReactElement<Props> {
     []
   );
 
-  console.error(genesisState);
-
   return (
     <Modal
       className={className}
-      header={t<string>('Register parachain')}
+      header={t<string>('Register parathread')}
     >
       <Modal.Content>
         <Modal.Columns>
@@ -117,4 +113,4 @@ function Register ({ className, onClose }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Register);
+export default React.memo(RegisterThread);

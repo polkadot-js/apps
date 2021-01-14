@@ -5,6 +5,8 @@ import type { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 
+import { MarkWarning } from '@polkadot/react-components';
+
 import { useTranslation } from '../../translate';
 
 interface Props extends I18nProps {
@@ -34,9 +36,7 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
   }
 
   return (
-    <article className='warning'>
-      <div>{error}</div>
-    </article>
+    <MarkWarning content={error} />
   );
 }
 

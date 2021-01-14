@@ -4,10 +4,7 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import { Beresheet } from '@edgeware/node-types';
-
 export default {
-  ...Beresheet.types,
-  // Substrate overrides
-  RefCount: 'u32'
+  Address: 'MultiAddress',
+  LookupSource: 'MultiAddress'
 };
