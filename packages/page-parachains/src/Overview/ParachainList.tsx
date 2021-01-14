@@ -57,9 +57,10 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
-    [t('relay parent'), 'undefined', 2],
-    [t('chain best')],
-    [t('issuance')]
+    [t('relay parent'), undefined, 2],
+    [t('chain best'), 'media--900'],
+    [t('issuance'), 'media--1100'],
+    [t('upgrade'), ' media--1200']
   ]);
 
   return (
