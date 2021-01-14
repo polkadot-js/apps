@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
-import type { Option } from '@polkadot/types';
-import type { Balance, BlockNumber, HeadData, Header, ParaId, RelayChainBlockNumber } from '@polkadot/types/interfaces';
-import type { Codec, ITuple } from '@polkadot/types/types';
+import type { Option, Vec } from '@polkadot/types';
+import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
-import { useApi, useCall, useParaApi } from '@polkadot/react-hooks';
+import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,31 +22,40 @@ interface Props {
   lastInclusion?: [string, string];
 }
 
-const transformDmpUmp = {
-  transform: (list: Codec[][]) => list.length
-};
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>];
 
-const transformHead = {
-  transform: (headData: Option<HeadData>): string | null =>
-    headData.isSome
-      ? sliceHex(headData.unwrap(), 18)
-      : null
-};
-
-// const transformMark = {
-//   transform: (watermark: Option<BlockNumber>): BlockNumber | null =>
-//     watermark.isSome
-//       ? watermark.unwrap()
-//       : null
-// };
+interface QueryState {
+  headHex: string | null;
+  updateAt: BlockNumber | null;
+  qDmp: number;
+  qUmp: number;
+  qHrmpE: number;
+  qHrmpI: number;
+}
 
 const transformLast = {
   transform: (header: Header) => header.number.unwrap()
 };
 
-const transformUpgrade = {
-  transform: (opt: Option<ITuple<[RelayChainBlockNumber]>>): RelayChainBlockNumber | null =>
-    opt.unwrapOr([null])[0]
+const transformMulti = {
+  defaultValue: {
+    headHex: null,
+    qDmp: 0,
+    qHrmpE: 0,
+    qHrmpI: 0,
+    qUmp: 0,
+    updateAt: null
+  },
+  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI]: QueryResult): QueryState => ({
+    headHex: headData.isSome
+      ? sliceHex(headData.unwrap(), 18)
+      : null,
+    qDmp: dmp.length,
+    qHrmpE: hrmpE.length,
+    qHrmpI: hrmpI.length,
+    qUmp: ump.length,
+    updateAt: optUp.unwrapOr(null)
+  })
 };
 
 function getChainLink (endpoints: LinkOption[]): React.ReactNode {
@@ -64,13 +73,15 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
   const { api: paraApi, endpoints } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
   const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
-  const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
-  const updateAt = useCall<BlockNumber | null>(api.query.paras.futureCodeUpgrades, [id], transformUpgrade);
-  const qDmp = useCall<number>(api.query.dmp.downwardMessageQueues, [id], transformDmpUmp);
-  const qUmp = useCall<number>(api.query.dmp.relayDispatchQueues, [id], transformDmpUmp);
-  const qHrmpE = useCall<number>(api.query.hrmp.hrmpEgressChannelsIndex, [id], transformDmpUmp);
-  const qHrmpI = useCall<number>(api.query.hrmp.hrmpIngressChannelsIndex, [id], transformDmpUmp);
   const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformLast);
+  const paraInfo = useCallMulti<QueryState>([
+    [api.query.paras.heads, id],
+    [api.query.paras.futureCodeUpgrades, id],
+    [api.query.dmp.downwardMessageQueues, id],
+    [api.query.ump.relayDispatchQueues, id],
+    [api.query.hrmp.hrmpEgressChannelsIndex, id],
+    [api.query.hrmp.hrmpIngressChannelsIndex, id]
+  ], transformMulti) as QueryState; // we have a default value, cast is safe
 
   const blockDelay = useMemo(
     () => lastRelayNumber && bestNumber && bestNumber.sub(lastRelayNumber).subn(1),
@@ -86,7 +97,7 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='together'>{chainLink}</td>
-      <td className='all start together hash'>{headHex}</td>
+      <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
         {lastInclusion && lastRelayNumber && (
@@ -97,15 +108,15 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
       <td className='number media--1100'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
       <td className='number media--1300'>
-        {updateAt && bestNumber && (
+        {paraInfo.updateAt && bestNumber && (
           <>
-            <BlockToTime blocks={bestNumber.sub(updateAt)} />
-            #{formatNumber(updateAt)}
+            <BlockToTime blocks={bestNumber.sub(paraInfo.updateAt)} />
+            #{formatNumber(paraInfo.updateAt)}
           </>
         )}
       </td>
       <td className='number media--1200'>
-        {formatNumber(qUmp)}&nbsp;/&nbsp;{formatNumber(qDmp)}&nbsp;/&nbsp;{formatNumber(qHrmpE)}&nbsp;/&nbsp;{formatNumber(qHrmpI)}
+        {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}
       </td>
     </tr>
   );
