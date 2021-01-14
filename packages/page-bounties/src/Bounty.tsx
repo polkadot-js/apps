@@ -194,5 +194,9 @@ export default React.memo(styled(Bounty)`
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    
+    & > * + * {
+      margin-left: 0.6rem;
+    }
   }
 `);
