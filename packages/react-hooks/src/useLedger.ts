@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 
 import { useCallback, useMemo } from 'react';
 
-import { Ledger } from '@polkadot/ledger';
+import { Ledger } from '@polkadot/hw-ledger';
 import networks from '@polkadot/networks';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
