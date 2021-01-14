@@ -3,7 +3,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
-import type { Balance, BlockNumber, Hash, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -18,7 +18,7 @@ interface Props {
   bestNumber?: BN;
   className?: string;
   id: ParaId;
-  lastRelayParent?: Hash;
+  lastInclusion?: [string, string];
 }
 
 const transformHead = {
@@ -49,14 +49,14 @@ function getChainLink (endpoints: LinkOption[]): React.ReactNode {
   return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
 }
 
-function Parachain ({ bestNumber, className = '', id, lastRelayParent }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
   // const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
   const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
-  const lastRelayNumber = useCall<BN>(lastRelayParent && api.rpc.chain.getHeader, [lastRelayParent], transformLast);
+  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformLast);
 
   const blockDelay = useMemo(
     () => lastRelayNumber && bestNumber && bestNumber.sub(lastRelayNumber).subn(1),
@@ -74,7 +74,12 @@ function Parachain ({ bestNumber, className = '', id, lastRelayParent }: Props):
       <td className='together'>{chainLink}</td>
       <td className='all start together hash'>{headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
-      <td className='number'>{lastRelayNumber && formatNumber(lastRelayNumber)}</td>
+      <td className='number'>
+        {lastInclusion && lastRelayNumber && (
+          <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+        )
+        }
+      </td>
       <td className='number'>{paraBest && formatNumber(paraBest)}</td>
       <td className='number'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
     </tr>
