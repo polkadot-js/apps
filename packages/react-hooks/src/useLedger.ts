@@ -5,8 +5,8 @@ import type { ApiPromise } from '@polkadot/api';
 
 import { useCallback, useMemo } from 'react';
 
-import { ledgerChains } from '@polkadot/apps-config';
 import { Ledger } from '@polkadot/ledger';
+import networks from '@polkadot/networks';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
@@ -28,21 +28,23 @@ const EMPTY_STATE: StateBase = {
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 let ledger: Ledger | null = null;
+const ledgerChains = networks.filter((network) => network.hasLedgerSupport);
 
 function retrieveLedger (api: ApiPromise): Ledger {
   if (!ledger) {
-    const def = ledgerChains.find(([g]) => g === api.genesisHash.toHex());
+    const genesisHex = api.genesisHash.toHex();
+    const def = ledgerChains.find(({ genesisHash }) => genesisHash[0] === genesisHex);
 
-    assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
+    assert(def, `Unable to find supported chain for ${genesisHex}`);
 
-    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def[1]);
+    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def.network);
   }
 
   return ledger;
 }
 
 function getState (api: ApiPromise): StateBase {
-  const isLedgerCapable = hasWebUsb && ledgerChains.map(([g]) => g).includes(api.genesisHash.toHex());
+  const isLedgerCapable = hasWebUsb && ledgerChains.map(({ genesisHash }) => genesisHash[0]).includes(api.genesisHash.toHex());
 
   return {
     isLedgerCapable,
