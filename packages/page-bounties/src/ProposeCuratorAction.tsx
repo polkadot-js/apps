@@ -62,12 +62,12 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         />
         {isOpen && (
           <Modal
-            header={t<string>(`Propose Curator to "${truncateTitle(description, 30)}"`)}
+            header={t<string>(`Assign Curator to "${truncateTitle(description, 30)}"`)}
             size='large'
           >
             <Modal.Content>
               <Modal.Column>
-                <p>{t<string>('This action will create a Council motion to propose Curator.')}</p>
+                <p>{t<string>('This action will create a Council motion to assign a Curator.')}</p>
               </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
@@ -81,17 +81,14 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}</p>
+                  <p>{t<string>('The council member that will create the motion.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              <Modal.Column>
-                <p>{t<string>('Select Curator.')}</p>
-              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
                     help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
-                    label={t<string>('curator account')}
+                    label={t<string>('select curator')}
                     onChange={setCuratorId}
                     type='account'
                     withLabel
@@ -101,9 +98,6 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                   <p>{t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              <Modal.Column>
-                <p>{t<string>("Curator's fee.")}</p>
-              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputBalance
@@ -119,7 +113,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                   )}
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>("The curator's fee can be defined as the result of subtracting the value paid to the bounty rewardee from the total value of the bounty.")}</p>
+                  <p>{t<string>('Part of the bounty value that will go to the Curator as a reward for their work')}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>
