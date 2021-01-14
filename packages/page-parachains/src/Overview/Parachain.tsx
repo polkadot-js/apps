@@ -3,7 +3,8 @@
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
-import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, HeadData, Header, ParaId, RelayChainBlockNumber } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -39,6 +40,11 @@ const transformLast = {
   transform: (header: Header) => header.number.unwrap()
 };
 
+const transformUpgrade = {
+  transform: (opt: Option<ITuple<[RelayChainBlockNumber]>>): RelayChainBlockNumber | null =>
+    opt.unwrapOr([null])[0]
+};
+
 function getChainLink (endpoints: LinkOption[]): React.ReactNode {
   if (!endpoints.length) {
     return null;
@@ -53,9 +59,9 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
-  // const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
   const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
+  const updateAt = useCall<BlockNumber | null>(api.query.paras.futureCodeUpgrades, [id], transformUpgrade);
   const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformLast);
 
   const blockDelay = useMemo(
@@ -80,8 +86,16 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
         )
         }
       </td>
-      <td className='number'>{paraBest && formatNumber(paraBest)}</td>
-      <td className='number'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
+      <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
+      <td className='number media--1100'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
+      <td className='number media--1200'>
+        {updateAt && bestNumber && (
+          <>
+            <BlockToTime blocks={bestNumber.sub(updateAt)} />
+            #{formatNumber(updateAt)}
+          </>
+        )}
+      </td>
     </tr>
   );
 }
