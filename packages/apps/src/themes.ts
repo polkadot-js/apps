@@ -10,7 +10,7 @@ const FONT = {
   fontWeightLight: 200,
   fontWeightNormal: 400,
   fontWeightMedium: 500,
-  fontWeightBold: 700,
+  fontWeightBold: 700
 };
 
 const MAX_WIDTH = 1750;

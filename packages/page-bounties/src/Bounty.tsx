@@ -62,8 +62,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           {blocksUntilUpdate ? <DueBlocks dueBlocks={blocksUntilUpdate} /> : ''}
         </td>
         <td>
-          {beneficiary && <AddressSmall value={beneficiary} />}
-          <div className="bounty-action-row">
+          <div className='bounty-action-row'>
+            {beneficiary && <AddressSmall value={beneficiary} />}
             <BountyActions
               description={description}
               bestNumber={bestNumber}
@@ -75,13 +75,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
         <td className='fast-actions'>
-          <div className="fast-actions-row">
+          <div className='fast-actions-row'>
             <LinkExternal
               data={index}
               isLogo
               type='bounty'
             />
-            <div className='table-column-icon' onClick={handleOnIconClick}>
+            <div className='table-column-icon'
+              onClick={handleOnIconClick}>
               <Icon
                 icon={
                   isExpanded
@@ -95,8 +96,9 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       </tr>
       <tr className={className}
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
-        <td className='proposer' colSpan={2}>
-          <div className="proposer-row">
+        <td className='proposer'
+          colSpan={2}>
+          <div className='proposer-row'>
             <div className='label'>{t('Proposer')}</div>
             <AddressSmall value={proposer} />
           </div>
@@ -191,5 +193,6 @@ export default React.memo(styled(Bounty)`
   .bounty-action-row {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
   }
 `);

@@ -38,8 +38,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ?
-                label
+              ? label
               : isEmpty
                 ? ''
                 : label
