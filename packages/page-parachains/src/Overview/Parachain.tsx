@@ -3,7 +3,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option } from '@polkadot/types';
-import type { Balance, BlockNumber, HeadData, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, Hash, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -18,6 +18,7 @@ interface Props {
   bestNumber?: BN;
   className?: string;
   id: ParaId;
+  lastRelayParent?: Hash;
 }
 
 const transformHead = {
@@ -27,11 +28,15 @@ const transformHead = {
       : null
 };
 
-const transformMark = {
-  transform: (watermark: Option<BlockNumber>): BlockNumber | null =>
-    watermark.isSome
-      ? watermark.unwrap()
-      : null
+// const transformMark = {
+//   transform: (watermark: Option<BlockNumber>): BlockNumber | null =>
+//     watermark.isSome
+//       ? watermark.unwrap()
+//       : null
+// };
+
+const transformLast = {
+  transform: (header: Header) => header.number.unwrap()
 };
 
 function getChainLink (endpoints: LinkOption[]): React.ReactNode {
@@ -44,17 +49,18 @@ function getChainLink (endpoints: LinkOption[]): React.ReactNode {
   return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
 }
 
-function Parachain ({ bestNumber, className = '', id }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, lastRelayParent }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const headHex = useCall<string | null>(api.query.paras.heads, [id], transformHead);
-  const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
+  // const watermark = useCall<BlockNumber | null>(api.query.hrmp?.hrmpWatermarks, [id], transformMark);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
   const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
+  const lastRelayNumber = useCall<BN>(lastRelayParent && api.rpc.chain.getHeader, [lastRelayParent], transformLast);
 
   const blockDelay = useMemo(
-    () => watermark && bestNumber && bestNumber.sub(watermark),
-    [bestNumber, watermark]
+    () => lastRelayNumber && bestNumber && bestNumber.sub(lastRelayNumber).subn(1),
+    [bestNumber, lastRelayNumber]
   );
 
   const chainLink = useMemo(
@@ -68,7 +74,7 @@ function Parachain ({ bestNumber, className = '', id }: Props): React.ReactEleme
       <td className='together'>{chainLink}</td>
       <td className='all start together hash'>{headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
-      <td className='number'>{watermark && formatNumber(watermark)}</td>
+      <td className='number'>{lastRelayNumber && formatNumber(lastRelayNumber)}</td>
       <td className='number'>{paraBest && formatNumber(paraBest)}</td>
       <td className='number'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
     </tr>
