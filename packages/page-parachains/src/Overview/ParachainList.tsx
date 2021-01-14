@@ -60,7 +60,8 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
     [t('relay parent'), undefined, 2],
     [t('chain best'), 'media--900'],
     [t('issuance'), 'media--1100'],
-    [t('upgrade'), ' media--1200']
+    [t('upgrade'), 'media--1300'],
+    [t('ump/dmp/hrmp'), 'media--1200']
   ]);
 
   return (

@@ -165,7 +165,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
-  const isSubstrateV2 = !!Object.keys(api.consts).length;
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
@@ -176,7 +175,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
-    isSubstrateV2,
     systemChain,
     systemName,
     systemVersion
