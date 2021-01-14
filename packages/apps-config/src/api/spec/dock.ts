@@ -90,9 +90,8 @@ export default {
     starting_slot: 'SlotNo',
     expected_ending_slot: 'SlotNo',
     ending_slot: 'Option<SlotNo>',
-    total_emission: 'Option<Balance>',
-    emission_for_treasury: 'Option<Balance>',
-    emission_for_validators: 'Option<Balance>'
+    emission_for_validators: 'Option<Balance>',
+    emission_for_treasury: 'Option<Balance>'
   },
   ValidatorStatsPerEpoch: {
     block_count: 'EpochLen',
