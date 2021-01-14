@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { keyring } from '@polkadot/ui-keyring';
 
 import useIsMountedRef from './useIsMountedRef';
 
@@ -18,7 +18,7 @@ export default function useAccounts (): UseAccounts {
   const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false, isAccount: () => false, isReady: false });
 
   useEffect((): () => void => {
-    const subscription = accountObservable.subject.subscribe((accounts): void => {
+    const subscription = keyring.accounts.subject.subscribe((accounts): void => {
       if (mountedRef.current) {
         const allAccounts = accounts ? Object.keys(accounts) : [];
         const hasAccounts = allAccounts.length !== 0;

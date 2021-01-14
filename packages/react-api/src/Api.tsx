@@ -20,7 +20,7 @@ import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
-import addressDefaults from '@polkadot/util-crypto/address/defaults';
+import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';

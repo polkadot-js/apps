@@ -14,9 +14,9 @@ import { availableExtensions } from '@canvas-ui/apps-config/extensions';
 import { withMulti, withObservable } from '@canvas-ui/react-api/hoc';
 import { useApi } from '@canvas-ui/react-hooks';
 import { classes, getAddressName, toAddress as addressToAddress } from '@canvas-ui/react-util';
-import keyring from '@polkadot/ui-keyring';
-import keyringOption from '@polkadot/ui-keyring/options';
-import createKeyringItem from '@polkadot/ui-keyring/options/item';
+import { keyring } from '@polkadot/ui-keyring';
+// import keyringOption from '@polkadot/ui-keyring/options';
+import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -108,7 +108,7 @@ function createOption (address: string): Option {
     }
   }
 
-  return createItem(createKeyringItem(address, name), !isRecent);
+  return createItem(createOptionItem(address, name), !isRecent);
 }
 
 function readOptions (): Record<string, Record<string, string>> {
@@ -417,7 +417,7 @@ const ExportedComponent = withMulti(
       max-width: 0;
     }
   `,
-  withObservable(keyringOption.optionsSubject, {
+  withObservable(keyring.keyringOption.optionsSubject, {
     propName: 'optionsAll',
     transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
       Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {

@@ -12,8 +12,8 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/react-api": "0.45.0-beta.33",
-    "@polkadot/keyring": "^3.5.0-beta.13",
-    "@polkadot/ui-keyring": "^0.59.0-beta.12",
+    "@polkadot/keyring": "^5.2.3",
+    "@polkadot/ui-keyring": "^0.65.2-2",
     "i18next": "^19.4.5"
   }
 }
