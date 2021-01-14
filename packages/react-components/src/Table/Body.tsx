@@ -190,6 +190,10 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       background: ${theme.bgTable};
     }
 
+    &:nth-child(even) {
+      background: #fafafa;
+    }
+
     &:first-child {
       td {
         border-top: 1px solid #dfdfdf;
