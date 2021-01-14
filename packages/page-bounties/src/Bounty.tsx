@@ -167,13 +167,7 @@ export default React.memo(styled(Bounty)`
     vertical-align: top;
 
     div {
-      text-align: right;
       padding: 0 0 1.7rem;
-      font-size: 0.7rem;
-      line-height: normal;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: #8B8B8B;
     }
   }
 
@@ -189,15 +183,15 @@ export default React.memo(styled(Bounty)`
       align-items: center;
     }
     
-    .label {
-      text-align: right;
-      padding: 0 1.7rem 0 0;
-      font-weight: 500;
-      font-size: 0.85rem;
-      line-height: 1.42rem;
-      color: #8B8B8B;
-      text-transform: uppercase;
-    }
+  }
+  .label {
+    text-align: right;
+    padding: 0 1.7rem 0 0;
+    font-weight: 500;
+    font-size: 0.7rem;
+    line-height: normal;
+    color: #8B8B8B;
+    text-transform: uppercase;
   }
   .bounty-action-row {
     display: flex;
