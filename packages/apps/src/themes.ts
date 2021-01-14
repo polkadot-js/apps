@@ -7,10 +7,10 @@ import type { ThemeDef } from '@polkadot/react-components/types';
 const FONT = {
   fontMono: '0.9em Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New", Courier, monospace',
   fontSans: '1em "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+  fontWeightBold: 700,
   fontWeightLight: 200,
-  fontWeightNormal: 400,
   fontWeightMedium: 500,
-  fontWeightBold: 700
+  fontWeightNormal: 400
 };
 
 const MAX_WIDTH = 1750;

@@ -6,8 +6,6 @@ import type { ThemeProps } from '../types';
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from '../Icon';
-
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {

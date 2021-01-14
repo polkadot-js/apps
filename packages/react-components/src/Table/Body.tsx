@@ -44,17 +44,13 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
     border-bottom: 1px solid #dfdfdf;
 
     &:first-child {
-      border-top-left-radius: 0.285rem;
-      border-bottom-left-radius: 0.285rem;
       border-left: 1px solid #dfdfdf;
     }
 
     &:last-child {
       border-right: 1px solid #dfdfdf;
-      border-top-right-radius: 0.285rem;
-      border-bottom-right-radius: 0.285rem;
     }
-
+    
     label {
       display: block !important;
       white-space: nowrap;
@@ -194,10 +190,25 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       background: #fafafa;
     }
 
-    &:first-child {
+    &:first-child { 
       td {
         border-top: 1px solid #dfdfdf;
       }
+      td:first-child {
+        border-top-left-radius: 0.285rem;
+      }
+      td:last-child {
+        border-top-right-radius: 0.285rem;
+      } 
+    }
+
+    &:nth-last-child(2) {
+      td:first-child {
+        border-bottom-left-radius: 0.285rem;
+      }
+      td:last-child {
+        border-bottom-right-radius: 0.285rem;
+      } 
     }
 
     &.transparent {
