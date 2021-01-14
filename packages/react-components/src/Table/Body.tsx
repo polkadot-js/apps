@@ -37,7 +37,7 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   td {
     padding: 1.4rem 1rem;
     text-align: left;
-    vertical-align: middle;
+    vertical-align: baseline;
     font-size: 1rem;
     line-height: 1.7rem;
     color: #1A1B20;

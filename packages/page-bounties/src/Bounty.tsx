@@ -165,8 +165,6 @@ export default React.memo(styled(Bounty)`
   }
 
   & .column-with-label {
-    vertical-align: top;
-
     div {
       padding: 0 0 1.7rem;
     }
@@ -175,16 +173,12 @@ export default React.memo(styled(Bounty)`
   & .column-with-data {
     padding: 0 0.7rem;
   }
-
-  & .proposer {
-    vertical-align: top;
-
-    .proposer-row {
-      display: flex;
-      align-items: center;
-    }
-    
+  
+  .proposer-row {
+    display: flex;
+    align-items: center;
   }
+
   .label {
     text-align: right;
     padding: 0 1.7rem 0 0;
