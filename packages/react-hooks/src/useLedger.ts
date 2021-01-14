@@ -28,13 +28,14 @@ const EMPTY_STATE: StateBase = {
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 let ledger: Ledger | null = null;
-const ledgerChains = networks.filter((network) => network.hasLedgerSupport === true);
+const ledgerChains = networks.filter((network) => network.hasLedgerSupport);
 
 function retrieveLedger (api: ApiPromise): Ledger {
   if (!ledger) {
-    const def = ledgerChains.find(({ genesisHash }) => genesisHash[0] === api.genesisHash.toHex());
+    const genesisHex = api.genesisHash.toHex();
+    const def = ledgerChains.find(({ genesisHash }) => genesisHash[0] === genesisHex);
 
-    assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
+    assert(def, `Unable to find supported chain for ${genesisHex}`);
 
     ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def.network);
   }
