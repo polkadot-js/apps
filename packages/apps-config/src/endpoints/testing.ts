@@ -72,7 +72,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-testnet',
-      text: t('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
+      text: t('rpc.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
       }
@@ -100,7 +100,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'equilibrium',
-      text: t('rpc.equilibriumtestnet', 'Equilibrium Testnet', { ns: 'apps-config' }),
+      text: t('rpc.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://api.mvp.testnet.equilibrium.io'
       }

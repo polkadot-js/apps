@@ -7,13 +7,22 @@ import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    'Acala Mandala TC5': 'acala-testnet',
+    'Bifrost Asgard Nightly': 'bitfrost',
     'Centrifuge Mainnet': 'centrifuge',
+    ChainX: 'chainx',
+    'Crust Maxwell CC2': 'crust',
+    'Darwinia CC1': 'darwinia-cc1',
+    'Darwinia Crab': 'crab',
     Edgeware: 'edgeware',
+    Equilibrium: 'equilibrium',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
-    'Kusama CC3': 'kusama',
+    'Laminar Turbulence TC2': 'laminar-testnet',
+    'Phala PoC-3': 'phala',
+    Plasm: 'plasm',
     Polkadot: 'polkadot',
-    'Polkadot CC1': 'polkadot-cc1',
+    Stafi: 'stafi',
     Westend: 'westend'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
