@@ -36,12 +36,12 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^3.0.2-1",
-    "@polkadot/api-contract": "^3.0.2-1",
-    "@polkadot/keyring": "^3.5.0-beta.13",
-    "@polkadot/types": "^3.0.2-1",
-    "@polkadot/util": "^3.5.0-beta.13",
-    "@polkadot/util-crypto": "^3.5.0-beta.13",
+    "@polkadot/api": "^3.4.2-3",
+    "@polkadot/api-contract": "^3.4.2-3",
+    "@polkadot/keyring": "^5.2.3",
+    "@polkadot/types": "^3.4.2-3",
+    "@polkadot/util": "^5.2.3",
+    "@polkadot/util-crypto": "^5.2.3",
     "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
@@ -76,7 +76,7 @@
     "postinstall:electron": "electron-builder install-app-deps",
     "test": "polkadot-dev-run-test packages/apps/src --passWithNoTests",
     "test:one": "polkadot-dev-run-test",
-    "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
+    "start": "yarn clean && cd packages/apps && yarn webpack-cli serve --config webpack.serve.js --port 3000 --watch",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
@@ -84,7 +84,7 @@
     "@babel/register": "^7.10.1",
     "@babel/runtime": "^7.10.2",
     "@pinata/sdk": "^1.1.10",
-    "@polkadot/dev": "^0.59.5",
+    "@polkadot/dev": "^0.61.24",
     "@polkadot/ts": "^0.3.26",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.21",
