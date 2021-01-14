@@ -114,7 +114,6 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'galois',
-      isDisabled: true, // cannot construct AccountServiceEnum
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       providers: {
         MathWallet: 'wss://galois.maiziqianbao.net/ws'
