@@ -10,5 +10,9 @@
   "dependencies": {
     "@testing-library/react": "^11.2.3",
     "testcontainers": "^6.4.1"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0"
   }
 }
