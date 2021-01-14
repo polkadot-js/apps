@@ -15,7 +15,7 @@ export async function multiProposeBounty (api: ApiPromise, numberOfBounties: num
   const indexes = [];
 
   for (let i = 0; i < numberOfBounties; i++) {
-    indexes.push(await proposeBounty(api, new BN(500_000_000_000_000), `new bounty nr ${i} hello hello more bytes`, aliceSigner()));
+    indexes.push(await proposeBounty(api, new BN(500_000_000_000_000), `new bounty no ${i}`, aliceSigner()));
   }
 
   return indexes;
