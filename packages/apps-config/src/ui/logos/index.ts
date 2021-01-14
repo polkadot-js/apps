@@ -79,6 +79,7 @@ export const chainLogos: Record<string, unknown> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos: Record<string, unknown> = [
+  ['Acala Node', nodeAcala],
   ['airalab-robonomics', nodeRobonomics],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
@@ -99,6 +100,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
+  ['Laminar Node', nodeLaminar],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
