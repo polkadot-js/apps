@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import { fireEvent, prettyDOM, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -19,6 +19,8 @@ import metaStatic from '@polkadot/metadata/static';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
+import { QueueProvider } from '@polkadot/react-components/Status/Context';
+import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
@@ -118,13 +120,18 @@ jest.mock('@polkadot/react-hooks/useMembers', () => {
     useMembers: () => mockMembers
   };
 });
-const proposal = jest.fn();
+
+const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+let queueExtrinsic: QueueTxExtrinsicAdd;
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     apiWithAugmentations = createApiWithAugmentations();
+  });
+  beforeEach(() => {
+    queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
   });
 
   const renderBounties = (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) => {
@@ -139,21 +146,27 @@ describe('Bounties', () => {
       registry: { chainDecimals: 12 },
       tx: {
         council: {
-          proposal
+          propose
         }
       }
     },
     systemName: 'substrate' } as unknown as ApiProps;
 
+    const queue = {
+      queueExtrinsic
+    } as QueueProps;
+
     return render(
       <Suspense fallback='...'>
-        <MemoryRouter>
-          <ThemeProvider theme={lightTheme}>
-            <ApiContext.Provider value={mockApi}>
-              <Bounties/>
-            </ApiContext.Provider>
-          </ThemeProvider>
-        </MemoryRouter>
+        <QueueProvider value={queue}>
+          <MemoryRouter>
+            <ThemeProvider theme={lightTheme}>
+              <ApiContext.Provider value={mockApi}>
+                <Bounties/>
+              </ApiContext.Provider>
+            </ThemeProvider>
+          </MemoryRouter>
+        </QueueProvider>
       </Suspense>
     );
   };
@@ -284,7 +297,7 @@ describe('Bounties', () => {
       expect(assignCuratorButton.classList.contains('isDisabled')).toBeTruthy();
     });
 
-    it.only('happy path', async () => {
+    it('queues propose extrinsic on submit', async () => {
       const { findByTestId, findByText, getAllByRole } = renderBounties({ bounties: [
         { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
           description: 'kusama comic book',
@@ -304,19 +317,15 @@ describe('Bounties', () => {
 
       const proposingAccountInput = comboboxes[0].children[0];
       const proposingCuratorInput = comboboxes[1].children[0];
-      const alice = aliceSigner();
+      const alice = aliceSigner().address;
 
-      fireEvent.change(proposingAccountInput, { target: { value: alice.address } });
-      fireEvent.change(proposingCuratorInput, { target: { value: alice.address } });
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+      fireEvent.change(proposingCuratorInput, { target: { value: alice } });
 
       const assignCuratorButton = await findByText('Assign curator');
 
-      console.log(prettyDOM(assignCuratorButton));
-
-      // fireEvent.click(assignCuratorButton);
-      // expect(await findByText('Authorize transaction')).toBeTruthy();
-
-      // expect(proposal).toHaveBeenCalled();
+      fireEvent.click(assignCuratorButton);
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
     });
   });
 
