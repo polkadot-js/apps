@@ -267,7 +267,7 @@ describe('Bounties', () => {
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
-      expect(await findByText('This action will create a Council motion to propose Curator.')).toBeTruthy();
+      expect(await findByText('This action will create a Council motion to assign a Curator.')).toBeTruthy();
 
       const feeInput = await findByTestId("curator's fee");
 
@@ -286,7 +286,7 @@ describe('Bounties', () => {
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
-      expect(await findByText('This action will create a Council motion to propose Curator.')).toBeTruthy();
+      expect(await findByText('This action will create a Council motion to assign a Curator.')).toBeTruthy();
 
       const feeInput = await findByTestId("curator's fee");
 
@@ -307,7 +307,7 @@ describe('Bounties', () => {
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
-      expect(await findByText('This action will create a Council motion to propose Curator.')).toBeTruthy();
+      expect(await findByText('This action will create a Council motion to assign a Curator.')).toBeTruthy();
 
       const feeInput = await findByTestId("curator's fee");
 

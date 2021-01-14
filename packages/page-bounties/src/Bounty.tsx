@@ -117,8 +117,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='inline-balance'><FormatBalance value={bond} /></div>
         </td>
         <td className='column-with-label'>
-          <div className='label'>{t('Curators fee')}</div>
-          <div className='label'>{t('Curators deposit')}</div>
+          <div className='label'>{t("Curator's fee")}</div>
+          <div className='label'>{t("Curator's deposit")}</div>
         </td>
         <td>
           <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
