@@ -194,22 +194,6 @@ export default React.memo(styled(Bounty)`
     line-height: normal;
   }
 
-  & .column-with-label-row {
-      display: flex;
-      align-items: center;
-      padding: 0 0 1.7rem;
-
-      .label {
-        width: 50%;
-      }
-    }
-  }
-  
-  .proposer-row {
-    display: flex;
-    align-items: center;
-  }
-
   .label {
     text-align: right;
     padding: 0 1.7rem 0 0;
@@ -219,6 +203,22 @@ export default React.memo(styled(Bounty)`
     color: #8B8B8B;
     text-transform: uppercase;
   }
+
+  & .column-with-label-row {
+    display: flex;
+    align-items: center;
+    padding: 0 0 1.7rem;
+
+    .label {
+      width: 50%;
+    }
+  }
+  
+  .proposer-row {
+    display: flex;
+    align-items: center;
+  }
+
   .td-row {
     display: flex;
     justify-content: space-between;
