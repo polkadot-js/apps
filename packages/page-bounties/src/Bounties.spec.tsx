@@ -65,7 +65,7 @@ let mockBountyApi: BountyApi = {
 let mockBalance = balanceOf(1);
 let apiWithAugmentations: ApiPromise;
 const mockMembers = { isMember: true };
-const mockAccounts = { allAccounts: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'] };
+const mockAccounts = { allAccounts: ['5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM'] };
 const mockTreasury = {
   burn: new BN(1),
   spendPeriod: new BN(0),
@@ -99,10 +99,6 @@ export function createApiWithAugmentations (): ApiPromise {
 }
 
 function bountyInStatus (status: string) {
-  if (status === 'Active') {
-    return new TypeRegistry().createType('Bounty', { curator: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', status, updateDue: new BN(100000) as BlockNumber, value: new BN(151) });
-  }
-
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
@@ -133,6 +129,7 @@ jest.mock('@polkadot/react-hooks/useAccounts', () => {
 });
 
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+const extendBountyExpiry = jest.fn().mockReturnValue('mockProposeExtrinsic');
 let queueExtrinsic: QueueTxExtrinsicAdd;
 
 describe('Bounties', () => {
@@ -156,6 +153,9 @@ describe('Bounties', () => {
       query: {},
       registry: { chainDecimals: 12 },
       tx: {
+        bounties: {
+          extendBountyExpiry
+        },
         council: {
           propose
         }
@@ -331,18 +331,28 @@ describe('Bounties', () => {
     });
   });
 
-  describe('extend bounty time action modal', () => {
-    it('queues extend bounty time extrinsic on submit', async () => {
+  describe('extend bounty expiry action modal', () => {
+    it('queues extend bounty expiry extrinsic on submit', async () => {
       const bounty = bountyInStatus('Active');
 
       console.log(bounty);
-      const { findByTestId, findByText, getAllByRole } = renderOneBounty(bounty);
+      const { findByTestId, findByText } = renderOneBounty(bounty);
 
       const extendBountyExpiryButton = await findByText('Extend Bounty Expiry');
 
-      // fireEvent.click(extendBountyExpiryButton);
+      fireEvent.click(extendBountyExpiryButton);
 
-      // expect(await findByText('This action will extend expiry time of the selected bounty.')).toBeTruthy();
+      expect(await findByText('This action will extend expiry time of the selected bounty.')).toBeTruthy();
+
+      const remarkInput = await findByTestId('bounty remark');
+
+      fireEvent.change(remarkInput, { target: { value: 'The bounty extend expiry remark' } });
+
+      const acceptButton = await findByText('Accept');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
     });
   });
 

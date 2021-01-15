@@ -62,7 +62,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('Only curator account can extend the bounty expiry time.')}</p>
+                  <p>{t<string>('Only curator account can extend the bounty time.')}</p>
                 </Modal.Column>
               </Modal.Columns>
               <Modal.Column>
@@ -88,7 +88,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
               <TxButton
                 accountId={accountId}
                 icon='check'
-                label={t<string>('Extend bounty time')}
+                label={t<string>('Accept')}
                 onStart={toggleOpen}
                 params={[index, remark]}
                 tx={extendBountyExpiry}
