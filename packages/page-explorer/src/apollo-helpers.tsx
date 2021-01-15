@@ -15,11 +15,9 @@ export function accountToPolkadot(account, api) {
   const accountId = api.createType('AccountId', account.account_id);
   return {
     account: accountId,
-    // TODO: fix balances are incorrect when pulled from BE
-    // 99& sure its a crawler issue as even when dividing it seems wrong
-    free_balance: account.free_balance && Math.min(0x20000000000000 - 1, account.free_balance / 1000000),
-    locked_balance: account.locked_balance && Math.min(0x20000000000000 - 1, account.locked_balance / 1000000),
-    available_balance: account.available_balance && Math.min(0x20000000000000 - 1, account.available_balance / 1000000),
+    free_balance: account.free_balance && api.createType('Balance', account.free_balance),
+    locked_balance: account.locked_balance && api.createType('Balance', account.locked_balance),
+    available_balance: account.available_balance && api.createType('Balance', account.available_balance),
     produced_blocks: account.produced_blocks,
     nonce: account.nonce,
   };
