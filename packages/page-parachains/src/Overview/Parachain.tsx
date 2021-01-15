@@ -13,7 +13,7 @@ import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { sliceHex } from './util';
+import { sliceHex } from '../util';
 
 interface Props {
   bestNumber?: BN;

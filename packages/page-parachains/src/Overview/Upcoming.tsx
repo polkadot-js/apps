@@ -10,7 +10,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { sliceHex } from './util';
+import { sliceHex } from '../util';
 
 interface Props {
   id: ParaId;
