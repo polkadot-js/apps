@@ -57,6 +57,7 @@ export { emptyColor };
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
+  ['acala mandala pc2', chainRoccoAcala],
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia cc1', chainDarwinia],
