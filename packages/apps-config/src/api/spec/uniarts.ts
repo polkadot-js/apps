@@ -16,16 +16,16 @@ export default {
   ReasonIndex: 'u32',
   LottoIndex: 'u32',
   LotteryKind: {
-    _enum: [
-      'Routine',
-      'TreasuryFunded(ReasonIndex)'
-    ]
+    _enum: {
+      'Routine': 'Null',
+      'TreasuryFunded': 'ReasonIndex'
+    }
   },
   LottoResult: {
-    _enum: [
-      'Routine(AccountId, Balance)',
-      'TreasuryFunded(Balance)'
-    ]
+    _enum: {
+      'Routine': '(AccountId, Balance)',
+      'TreasuryFunded': 'Balance'
+    }
   },
   Lottery: {
     round: 'LottoIndex',
@@ -34,7 +34,7 @@ export default {
     next_ticket_id: 'u32',
     players: 'BTreeMap<AccountId, bool>',
     tickets: 'BTreeMap<u32, AccountId>',
-    result: 'Option<LottoResult<AccountId, Balance>>'
+    result: 'Option<LottoResult>'
   },
   NameData: {
     value: 'Value',
@@ -164,7 +164,7 @@ export default {
   },
   ReFungibleItemType: {
     Collection: 'u64',
-    Owner: 'Vec<Ownership<AccountId>>',
+    Owner: 'Vec<Ownership>',
     Data: 'Vec<u8>'
   },
   CollectionType: {
