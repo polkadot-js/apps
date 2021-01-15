@@ -85,7 +85,7 @@ function BountyCreate () {
             <Modal.Columns>
               <Modal.Column>
                 <InputBalance
-                  help={t<string>('The total payment amount of this bounty, curators fee included.')}
+                  help={t<string>("The total payment amount of this bounty, curator's fee included.")}
                   isError={!isValueValid}
                   isZeroable
                   label={t<string>('bounty requested allocation')}
