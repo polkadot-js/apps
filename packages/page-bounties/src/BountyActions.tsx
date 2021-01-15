@@ -9,6 +9,7 @@ import React, { useCallback, useMemo } from 'react';
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
 import { getBountyStatus } from './helpers';
 import ProposeCuratorAction from './ProposeCuratorAction';
 
@@ -48,6 +49,12 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           curatorId={curator}
           index={index}
         />}
+      {status.isActive && curator &&
+          <ExtendBountyExpiryAction
+            curatorId={curator}
+            index={index}
+          />
+      }
       {status.isPendingPayout && beneficiary && blocksUntilPayout &&
         <BountyClaimAction
           beneficiaryId={beneficiary}
