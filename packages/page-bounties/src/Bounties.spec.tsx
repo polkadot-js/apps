@@ -104,13 +104,13 @@ function bountyInStatus (status: string) {
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
-function aProposal (extrinsic: SubmittableExtrinsic<'promise'>) {
+function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] = ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']) {
   return {
     hash: new TypeRegistry().createType('Hash'),
     proposal: apiWithAugmentations
       .registry.createType('Proposal', extrinsic),
     votes: apiWithAugmentations.registry.createType('Votes', {
-      ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'],
+      ayes: ayes,
       index: 0,
       nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'],
       threshold: 4
@@ -427,6 +427,19 @@ describe('Bounties', () => {
       const { findByTestId } = renderOneBounty(bounty, proposals);
 
       await expect(findByTestId('extendedStatus')).rejects.toThrow();
+    });
+  });
+
+  describe('Voters are displayed when voting', () => {
+    it('on bounty approval', async () => {
+      const bounty = bountyInStatus('Proposed');
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0), ['5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'])];
+
+      const { findAllByTestId } = renderOneBounty(bounty, proposals);
+      const voters = (await findAllByTestId('voter'));
+      const ayeVoter = Object.entries(voters[0])[0][1].key;
+
+      expect(ayeVoter).toEqual('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y');
     });
   });
 });

@@ -7,8 +7,8 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { bestValidProposalName } from './helpers/extendedStatuses';
-import { useTranslation } from './translate';
+import { bestValidProposalName } from '../helpers/extendedStatuses';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
