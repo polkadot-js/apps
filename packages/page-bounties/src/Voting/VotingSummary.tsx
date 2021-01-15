@@ -29,7 +29,10 @@ function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
   return (
     <>
       {proposal && (
-        <div className={className}>
+        <div
+          className={className}
+          data-testid='voting-summary'
+        >
           <div>Aye <span className='votes'>{ayes}</span>/{threshold}</div>
           <div>Nay <span className='votes'>{nays}</span>/{nayThreshold}</div>
           <div className='description'>Voting results</div>

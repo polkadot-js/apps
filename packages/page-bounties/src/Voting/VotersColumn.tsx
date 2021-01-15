@@ -36,7 +36,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): JSX.Ele
   const voters = useMemo(() => votes?.map((accountId) =>
     <div
       className='voter'
-      data-testid='voter'
+      data-testid={`voters_${option}_${accountId.toString()}`}
       key={accountId.toString()}
     >
       <AddressSmall value={accountId}/>

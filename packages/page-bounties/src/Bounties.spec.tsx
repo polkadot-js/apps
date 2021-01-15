@@ -104,7 +104,10 @@ function bountyInStatus (status: string) {
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
-function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] = ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']) {
+const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+
+function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] = [alice], nays: string[] = [bob]) {
   return {
     hash: new TypeRegistry().createType('Hash'),
     proposal: apiWithAugmentations
@@ -112,7 +115,7 @@ function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] =
     votes: apiWithAugmentations.registry.createType('Votes', {
       ayes: ayes,
       index: 0,
-      nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'],
+      nays: nays,
       threshold: 4
     })
   };
@@ -430,16 +433,61 @@ describe('Bounties', () => {
     });
   });
 
-  describe('Voters are displayed when voting', () => {
-    it('on bounty approval', async () => {
+  describe('Voters', () => {
+    it('aye and nay', async () => {
       const bounty = bountyInStatus('Proposed');
-      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0), ['5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'])];
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))];
+      const { findAllByTestId } = renderOneBounty(bounty, proposals);
+      const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
+      const nayVoters = await findAllByTestId((testId) => testId.startsWith('voters_nays'));
+
+      expect(ayeVoters).toHaveLength(1);
+      expect(nayVoters).toHaveLength(1);
+      expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
+      expect(nayVoters[0].getAttribute('data-testid')).toContain(bob);
+    });
+
+    it('multiple aye and no nay', async () => {
+      const bounty = bountyInStatus('Proposed');
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0), [alice, bob], [])];
 
       const { findAllByTestId } = renderOneBounty(bounty, proposals);
-      const voters = (await findAllByTestId('voter'));
-      const ayeVoter = Object.entries(voters[0])[0][1].key;
+      const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
 
-      expect(ayeVoter).toEqual('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y');
+      expect(ayeVoters).toHaveLength(2);
+      await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
+      expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
+      expect(ayeVoters[1].getAttribute('data-testid')).toContain(bob);
+    });
+
+    it('not displayed when no voting', async () => {
+      const bounty = bountyInStatus('Proposed');
+      const proposals: DeriveCollectiveProposal[] = [];
+
+      const { findAllByTestId } = renderOneBounty(bounty, proposals);
+
+      await expect(findAllByTestId((testId) => testId.startsWith('voters_ayes'))).rejects.toThrow();
+      await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
+    });
+  });
+
+  describe('Voting summary', () => {
+    it('is displayed when voting', async () => {
+      const bounty = bountyInStatus('Proposed');
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0), [alice, bob], [])];
+
+      const { findByTestId } = renderOneBounty(bounty, proposals);
+
+      expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting results');
+    });
+
+    it('is not displayed when no voting', async () => {
+      const bounty = bountyInStatus('Proposed');
+      const proposals: DeriveCollectiveProposal[] = [];
+
+      const { findByTestId } = renderOneBounty(bounty, proposals);
+
+      await expect(findByTestId('voting-summary')).rejects.toThrow();
     });
   });
 });

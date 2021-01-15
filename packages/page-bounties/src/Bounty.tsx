@@ -283,6 +283,6 @@ export default React.memo(styled(Bounty)`
   
   & .votes-table {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 `);
