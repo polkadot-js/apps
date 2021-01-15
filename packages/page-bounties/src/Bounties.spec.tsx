@@ -259,12 +259,9 @@ describe('Bounties', () => {
 
   describe('propose curator modal', () => {
     it('shows an error if fee is greater than bounty value', async () => {
-      const { findByTestId, findByText } = renderBounties({ bounties: [
-        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
-          description: 'kusama comic book',
-          index: anIndex(),
-          proposals: [] }
-      ] });
+      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
+
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
@@ -278,12 +275,9 @@ describe('Bounties', () => {
     });
 
     it('disables Assign Curator button if validation fails', async () => {
-      const { findByTestId, findByText } = renderBounties({ bounties: [
-        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
-          description: 'kusama comic book',
-          index: anIndex(),
-          proposals: [] }
-      ] });
+      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
+
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
@@ -299,12 +293,9 @@ describe('Bounties', () => {
     });
 
     it('queues propose extrinsic on submit', async () => {
-      const { findByTestId, findByText, getAllByRole } = renderBounties({ bounties: [
-        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
-          description: 'kusama comic book',
-          index: anIndex(),
-          proposals: [] }
-      ] });
+      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const { findByTestId, findByText, getAllByRole } = renderOneBounty(aBounty(bounty));
+
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
