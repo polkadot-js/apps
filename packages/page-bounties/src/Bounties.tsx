@@ -39,7 +39,7 @@ function Bounties (): React.ReactElement {
         header={headerRef.current}
       >
         {bounties && bestNumber &&
-        bounties.sort((bounty1, bounty2) => (bounty2.index.sub(bounty1.index).toNumber()))
+        bounties.sort((a, b) => b.index.cmp(a.index))
           .map(({ bounty, description, index, proposals }) => (
             <Bounty
               bestNumber={bestNumber}
