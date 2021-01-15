@@ -8,12 +8,14 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import VotingDescription from '@polkadot/app-bounties/VotingDescription';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import VotingResultsColumn from './Voting/VotersColumn';
+import VotingDescription from './Voting/VotingDescription';
 import { BountyActions } from './BountyActions';
+import { BountyInfos } from './BountyInfos';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
 
@@ -84,6 +86,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td>
           <div className='td-row'>
+            {proposals && (
+              <BountyInfos
+                proposals={proposals}
+                status={status}
+              />
+            )}
             {beneficiary && <AddressSmall value={beneficiary} />}
             <div className='bounty-action-row'>
               <BountyActions
@@ -141,8 +149,25 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
           </div>
         </td>
-        <td/>
-        <td/><td/><td/>
+        <td />
+        <td />
+        <td>
+          {proposals && (
+            <div className='votes-table'>
+              <VotingResultsColumn
+                option={'ayes'}
+                proposals={proposals}
+                status={status}
+              />
+              <VotingResultsColumn
+                option={'nays'}
+                proposals={proposals}
+                status={status}
+              />
+            </div>
+          )}
+        </td>
+        <td />
       </tr>
     </>
   );
@@ -254,5 +279,10 @@ export default React.memo(styled(Bounty)`
     font-size: 0.7rem;
     line-height: 0.85rem;
     color: #8B8B8B;
+  }
+  
+  & .votes-table {
+    display: flex;
+    justify-content: space-around;
   }
 `);
