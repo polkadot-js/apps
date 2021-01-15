@@ -35,22 +35,18 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   position: relative;
 
   td {
-    padding: 1.4rem 1rem;
+    padding: 0.75rem 1rem;
     text-align: left;
-    vertical-align: baseline;
-    font-size: 1rem;
-    line-height: 1.7rem;
-    color: #1A1B20;
-    border-bottom: 1px solid #dfdfdf;
+    vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid #dfdfdf;
+      border-left: 1px solid ${theme.borderTable};
     }
 
     &:last-child {
-      border-right: 1px solid #dfdfdf;
+      border-right: 1px solid ${theme.borderTable};
     }
-    
+
     label {
       display: block !important;
       white-space: nowrap;
@@ -181,34 +177,36 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   }
 
   tr {
+    // &:nth-child(odd) {
+    //   background: #faf8f6;
+    // }
 
     &:nth-child(odd) {
       background: ${theme.bgTable};
     }
 
-    &:nth-child(even) {
-      background: #fafafa;
+    &:first-child {
+      td:first-child {
+        border-top-left-radius: 0.25rem;
+      }
+
+      td:last-child {
+        border-top-right-radius: 0.25rem;
+      }
     }
 
-    &:first-child { 
+    &:last-child {
       td {
-        border-top: 1px solid #dfdfdf;
-      }
-      td:first-child {
-        border-top-left-radius: 0.285rem;
-      }
-      td:last-child {
-        border-top-right-radius: 0.285rem;
-      } 
-    }
+        border-bottom: 1px solid ${theme.borderTable};
 
-    &:nth-last-child(2) {
-      td:first-child {
-        border-bottom-left-radius: 0.285rem;
+        &:first-child {
+          border-bottom-left-radius: 0.25rem;
+        }
+
+        :last-child {
+          border-bottom-right-radius: 0.25rem;
+        }
       }
-      td:last-child {
-        border-bottom-right-radius: 0.285rem;
-      } 
     }
 
     &.transparent {
