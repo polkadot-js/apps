@@ -17,14 +17,14 @@ export default {
   LottoIndex: 'u32',
   LotteryKind: {
     _enum: {
-      'Routine': 'Null',
-      'TreasuryFunded': 'ReasonIndex'
+      Routine: 'Null',
+      TreasuryFunded: 'ReasonIndex'
     }
   },
   LottoResult: {
     _enum: {
-      'Routine': '(AccountId, Balance)',
-      'TreasuryFunded': 'Balance'
+      Routine: '(AccountId, Balance)',
+      TreasuryFunded: 'Balance'
     }
   },
   Lottery: {
@@ -47,18 +47,10 @@ export default {
     total_supply: 'Balance'
   },
   OrderType: {
-    _enum: [
-      'Buy',
-      'Sell'
-    ]
+    _enum: ['Buy', 'Sell']
   },
   OrderStatus: {
-    _enum: [
-      'Created',
-      'PartialFilled',
-      'Filled',
-      'Canceled'
-    ]
+    _enum: ['Created', 'PartialFilled', 'Filled', 'Canceled']
   },
   TradePair: {
     hash: 'H256',
@@ -128,10 +120,7 @@ export default {
     amount: 'u64'
   },
   AccessMode: {
-    _enum: [
-      'Normal',
-      'WhiteList'
-    ]
+    _enum: ['Normal', 'WhiteList']
   },
   SaleOrder: {
     collection_id: 'u64',
