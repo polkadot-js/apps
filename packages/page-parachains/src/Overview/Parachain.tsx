@@ -22,7 +22,7 @@ interface Props {
   lastInclusion?: [string, string];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
 
 interface QueryState {
   headHex: string | null;
@@ -31,6 +31,7 @@ interface QueryState {
   qUmp: number;
   qHrmpE: number;
   qHrmpI: number;
+  watermark: BlockNumber | null;
 }
 
 const transformLast = {
@@ -44,9 +45,10 @@ const transformMulti = {
     qHrmpE: 0,
     qHrmpI: 0,
     qUmp: 0,
-    updateAt: null
+    updateAt: null,
+    watermark: null
   },
-  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
     headHex: headData.isSome
       ? sliceHex(headData.unwrap(), 18)
       : null,
@@ -54,7 +56,8 @@ const transformMulti = {
     qHrmpE: hrmpE.length,
     qHrmpI: hrmpI.length,
     qUmp: ump.length,
-    updateAt: optUp.unwrapOr(null)
+    updateAt: optUp.unwrapOr(null),
+    watermark: optWm.unwrapOr(null)
   })
 };
 
@@ -80,12 +83,19 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
     [api.query.dmp.downwardMessageQueues, id],
     [api.query.ump.relayDispatchQueues, id],
     [api.query.hrmp.hrmpEgressChannelsIndex, id],
-    [api.query.hrmp.hrmpIngressChannelsIndex, id]
+    [api.query.hrmp.hrmpIngressChannelsIndex, id],
+    [api.query.hrmp.hrmpWatermarks, id]
   ], transformMulti) as QueryState; // we have a default value, cast is safe
 
   const blockDelay = useMemo(
-    () => lastRelayNumber && bestNumber && bestNumber.sub(lastRelayNumber).subn(1),
-    [bestNumber, lastRelayNumber]
+    () => bestNumber && (
+      lastRelayNumber
+        ? bestNumber.sub(lastRelayNumber).subn(1)
+        : paraInfo.watermark
+          ? bestNumber.sub(paraInfo.watermark)
+          : undefined
+    ),
+    [bestNumber, lastRelayNumber, paraInfo]
   );
 
   const chainLink = useMemo(
@@ -100,9 +110,9 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
-        {lastInclusion && lastRelayNumber && (
-          <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
-        )
+        {lastInclusion && lastRelayNumber
+          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+          : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
