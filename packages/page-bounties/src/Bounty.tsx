@@ -104,15 +104,20 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <AddressSmall value={proposer} />
           </div>
         </td>
-        <td className='column-with-label'>
-          <div className='label'>{t('Bond')}</div>
-          <div className='label'>{t("Curator's fee")}</div>
-          <div className='label'>{t("Curator's deposit")}</div>
-        </td>
-        <td className='column-with-data'>
-          <div className='inline-balance'><FormatBalance value={bond} /></div>
-          <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
-          <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+        <td className='column-with-label'
+          colSpan={2}>
+          <div className='column-with-label-row'>
+            <div className='label'>{t('Bond')}</div>
+            <div className='inline-balance'><FormatBalance value={bond} /></div>
+          </div>
+          <div className='column-with-label-row'>
+            <div className='label'>{t("Curator's fee")}</div>
+            <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
+          </div>
+          <div className='column-with-label-row'>
+            <div className='label'>{t("Curator's deposit")}</div>
+            <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+          </div>
         </td>
         <td/>
         <td/> <td/> <td/>
@@ -161,20 +166,20 @@ export default React.memo(styled(Bounty)`
   }
 
   & .inline-balance {
-    width: 100%;
-    padding: 0 0 1.7rem;
+    width: 50%;
     font-size: 1rem;
     line-height: normal;
   }
 
-  & .column-with-label {
-    div {
+  & .column-with-label-row {
+      display: flex;
+      align-items: center;
       padding: 0 0 1.7rem;
-    }
-  }
 
-  & .column-with-data {
-    padding: 0 0.7rem;
+      .label {
+        width: 50%;
+      }
+    }
   }
   
   .proposer-row {
