@@ -74,7 +74,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='td-row'>
             {beneficiary && <AddressSmall value={beneficiary} />}
             <div className='bounty-action-row'>
-              <BountyActions
+              <BountyActions 
                 bestNumber={bestNumber}
                 index={index}
                 proposals={proposals}
@@ -146,7 +146,7 @@ function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps
   return dueBlocks.gtn(0)
     ? <>
       {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-      <BlockToTime blocks={dueBlocks}> until {until}</BlockToTime>
+      <BlockToTime className='block-to-time' blocks={dueBlocks}> until {until}</BlockToTime>
     </>
     : <>{t('Claimable')}</>;
 }
@@ -219,5 +219,11 @@ export default React.memo(styled(Bounty)`
     & > * + * {
       margin-left: 0.6rem;
     }
+  }
+  .block-to-time {
+    margin-top: 0.28rem;
+    font-size: 0.7rem;
+    line-height: 0.85rem;
+    color: #8B8B8B;
   }
 `);

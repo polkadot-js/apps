@@ -38,19 +38,12 @@ function BlockToTime ({ api, blocks, children, className = '', isInline, label }
 }
 
 export default React.memo(styled(BlockToTime)`
-  margin-top: 0.28rem;
-  font-size: 0.7rem;
-  line-height: 0.85rem;
-  color: #8B8B8B;
-
   &.isInline {
     display: inline-block;
   }
-
   span+span {
     padding-left: 0.25em;
   }
-
   span.timeUnits {
     font-size: 0.825em;
   }
