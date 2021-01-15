@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-params",
-  "version": "0.75.2-37",
+  "version": "0.75.2-38",
   "main": "index.js",
   "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -9,6 +9,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/react-components": "^0.75.2-37"
+    "@polkadot/react-components": "^0.75.2-38"
   }
 }
