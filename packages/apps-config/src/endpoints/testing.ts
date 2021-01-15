@@ -203,6 +203,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
       }
+    },
+    {
+      info: 'uniarts',
+      text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
+      providers: {
+        Uniarts: 'wss://testnet.uniarts.me'
+      }
     }
   ]);
 }
