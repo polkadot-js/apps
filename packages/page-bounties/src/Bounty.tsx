@@ -15,7 +15,6 @@ import { formatNumber } from '@polkadot/util';
 import { BountyActions } from './BountyActions';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
-import VotingDescription from './VotingDescription';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -62,16 +61,18 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           {blocksUntilUpdate ? <DueBlocks dueBlocks={blocksUntilUpdate} /> : ''}
         </td>
         <td>
-          <div className='bounty-action-row'>
+          <div className='td-row'>
             {beneficiary && <AddressSmall value={beneficiary} />}
-            <BountyActions
-              description={description}
-              bestNumber={bestNumber}
-              index={index}
-              proposals={proposals}
-              status={status}
-              value={value}
-            />
+            <div className='bounty-action-row'>
+              <BountyActions
+                bestNumber={bestNumber}
+                index={index}
+                proposals={proposals}
+                status={status}
+                description={description}
+                value={value}
+              />
+            </div>
           </div>
         </td>
         <td className='fast-actions'>
@@ -189,6 +190,11 @@ export default React.memo(styled(Bounty)`
     line-height: normal;
     color: #8B8B8B;
     text-transform: uppercase;
+  }
+  .td-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .bounty-action-row {
     display: flex;
