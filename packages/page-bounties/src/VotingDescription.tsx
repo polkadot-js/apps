@@ -41,7 +41,8 @@ function VotingDescription ({ className = '', proposals, status }: Props): React
 }
 
 export default React.memo(styled(VotingDescription)`
+  margin-top: 0.28rem;
   font-size: 0.7rem;
+  line-height: 0.85rem;
   color: #8B8B8B;
-  margin-top: 10px;
 `);

@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import VotingDescription from '@polkadot/app-bounties/VotingDescription';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -53,8 +54,19 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={className}>
-        <td>{bountyStatus}</td>
-        <td colSpan={2} data-testid='description'>{truncateTitle(description, 30)}</td>
+        <td>
+          <div>{bountyStatus}</div>
+          {proposals && (
+            <div>
+              <VotingDescription
+                proposals={proposals}
+                status={status}
+              />
+            </div>
+          )}
+        </td>
+        <td colSpan={2}
+          data-testid='description'>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>
         <td>{curator && <AddressSmall value={curator} />}</td>
         <td>
@@ -74,12 +86,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='td-row'>
             {beneficiary && <AddressSmall value={beneficiary} />}
             <div className='bounty-action-row'>
-              <BountyActions 
+              <BountyActions
                 bestNumber={bestNumber}
+                description={description}
                 index={index}
                 proposals={proposals}
                 status={status}
-                description={description}
                 value={value}
               />
             </div>
@@ -146,7 +158,8 @@ function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps
   return dueBlocks.gtn(0)
     ? <>
       {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-      <BlockToTime className='block-to-time' blocks={dueBlocks}> until {until}</BlockToTime>
+      <BlockToTime blocks={dueBlocks}
+        className='block-to-time'> until {until}</BlockToTime>
     </>
     : <>{t('Claimable')}</>;
 }
