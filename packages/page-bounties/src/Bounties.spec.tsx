@@ -65,7 +65,7 @@ let mockBountyApi: BountyApi = {
 let mockBalance = balanceOf(1);
 let apiWithAugmentations: ApiPromise;
 const mockMembers = { isMember: true };
-
+const mockAccounts = { allAccounts: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'] };
 const mockTreasury = {
   burn: new BN(1),
   spendPeriod: new BN(0),
@@ -99,6 +99,10 @@ export function createApiWithAugmentations (): ApiPromise {
 }
 
 function bountyInStatus (status: string) {
+  if (status === 'Active') {
+    return new TypeRegistry().createType('Bounty', { curator: '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', status, updateDue: new BN(100000) as BlockNumber, value: new BN(151) });
+  }
+
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
@@ -119,6 +123,12 @@ function aProposal (extrinsic: SubmittableExtrinsic<'promise'>) {
 jest.mock('@polkadot/react-hooks/useMembers', () => {
   return {
     useMembers: () => mockMembers
+  };
+});
+
+jest.mock('@polkadot/react-hooks/useAccounts', () => {
+  return {
+    useAccounts: () => mockAccounts
   };
 });
 
@@ -318,6 +328,21 @@ describe('Bounties', () => {
 
       fireEvent.click(assignCuratorButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+    });
+  });
+
+  describe('extend bounty time action modal', () => {
+    it('queues extend bounty time extrinsic on submit', async () => {
+      const bounty = bountyInStatus('Active');
+
+      console.log(bounty);
+      const { findByTestId, findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const extendBountyExpiryButton = await findByText('Extend Bounty Expiry');
+
+      // fireEvent.click(extendBountyExpiryButton);
+
+      // expect(await findByText('This action will extend expiry time of the selected bounty.')).toBeTruthy();
     });
   });
 

@@ -47,7 +47,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
           >
             <Modal.Content>
               <Modal.Column>
-                <p>{t<string>('This action will extend expiry of the selected bounty.')}</p>
+                <p>{t<string>('This action will extend expiry time of the selected bounty.')}</p>
               </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
@@ -98,7 +98,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
         )}
       </>
     )
-    : null;
+    : <>allAccounts: {allAccounts} curatorId: {curatorId.toString()}</>;
 }
 
 export default React.memo(ExtendBountyExpiryAction);
