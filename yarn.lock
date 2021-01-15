@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/type-definitions@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "@acala-network/type-definitions@npm:0.6.1"
+"@acala-network/type-definitions@npm:^0.6.2-7":
+  version: 0.6.2-7
+  resolution: "@acala-network/type-definitions@npm:0.6.2-7"
   dependencies:
-    "@open-web3/orml-type-definitions": ^0.8.2-4
-  checksum: 0a95e17cad0fb7161142ce09fecd8e798d42c5311a0a9a493b70ee1ded9a0883e8568eb447d83553ae2d1ac550dc4e068c9821fd2dd8279954612cd3dc992d38
+    "@open-web3/orml-type-definitions": ^0.8.2-6
+  checksum: 5352e7c4a712dbc4224585aeb3a47b6d3a47b7213057e30923a88bbfb5447bac1b62579327d523c40d42f84e063ee32a2222fcd6eb902cf5eff951f64ffab2b8
   languageName: node
   linkType: hard
 
@@ -1888,10 +1888,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:^0.8.2-4":
-  version: 0.8.2-4
-  resolution: "@open-web3/orml-type-definitions@npm:0.8.2-4"
-  checksum: 38205f6a957fc3ca05b15efa1bfccc182d4a5c34474929f91253fd8cd7a64061c3eb62efe8512816510e17c65e3c996c418ad45c9bf3542be52249302690f617
+"@open-web3/orml-type-definitions@npm:^0.8.2-6":
+  version: 0.8.2-6
+  resolution: "@open-web3/orml-type-definitions@npm:0.8.2-6"
+  checksum: f90fd5bcaf9ae5bfc4817d404a1f7665e8c33ea94623f975c1f980a463210d87781034fd47c1f0c887bfb3fb9230627ca8b14795fce6441eb9bbdb66a7bcdc61
   languageName: node
   linkType: hard
 
@@ -2183,7 +2183,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
-    "@acala-network/type-definitions": ^0.6.1
+    "@acala-network/type-definitions": ^0.6.2-7
     "@babel/runtime": ^7.12.5
     "@edgeware/node-types": ^3.2.0
     "@interlay/polkabtc-types": ^0.2.9
