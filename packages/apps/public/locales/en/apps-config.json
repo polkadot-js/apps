@@ -63,6 +63,7 @@
   "rpc.stafi": "Stafi",
   "rpc.subsocial": "Subsocial",
   "rpc.turbulence": "Turbulence",
+  "rpc.uniarts": "Uniarts",
   "rpc.westend": "Westend",
   "rpc.zero": "zero",
   "ss58.default": "Default for the connected node"
