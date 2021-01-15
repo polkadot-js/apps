@@ -52,6 +52,7 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
       {status.isActive && curator &&
           <ExtendBountyExpiryAction
             curatorId={curator}
+            description={description}
             index={index}
           />
       }

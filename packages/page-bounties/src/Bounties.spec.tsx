@@ -56,6 +56,7 @@ let mockBountyApi: BountyApi = {
   bountyValueMinimum: new BN(1),
   closeBounty: jest.fn(),
   dataDepositPerByte: new BN(1),
+  extendBountyExpiry: jest.fn(),
   maximumReasonLength: 100,
   proposeBounty: jest.fn(),
   proposeCurator: jest.fn()
