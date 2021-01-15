@@ -220,6 +220,24 @@ describe('Bounties', () => {
     expect(queryAllByText('No open bounties')).toHaveLength(0);
   });
 
+  it('renders bounties in order from newest to oldest', async () => {
+    const bounty1 = bountyInStatus('Proposed');
+    const bounty2 = bountyInStatus('Proposed');
+    const bounty3 = bountyInStatus('Proposed');
+
+    const { findAllByTestId } = renderBounties({ bounties: [
+      { bounty: bounty1, description: 'bounty 2', index: anIndex(2), proposals: [] },
+      { bounty: bounty2, description: 'bounty 1', index: anIndex(1), proposals: [] },
+      { bounty: bounty3, description: 'bounty 3', index: anIndex(3), proposals: [] }
+    ] });
+
+    const descriptions = await findAllByTestId('description');
+
+    expect(descriptions[0].textContent).toEqual('bounty 3');
+    expect(descriptions[1].textContent).toEqual('bounty 2');
+    expect(descriptions[2].textContent).toEqual('bounty 1');
+  });
+
   describe('create bounty modal', () => {
     it('validates bounty length', async () => {
       const { findByTestId, findByText } = renderBounties({ maximumReasonLength: 5 });

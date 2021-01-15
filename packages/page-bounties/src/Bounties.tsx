@@ -38,16 +38,18 @@ function Bounties (): React.ReactElement {
         empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
       >
-        {bounties && bestNumber && bounties.map(({ bounty, description, index, proposals }) => (
-          <Bounty
-            bestNumber={bestNumber}
-            bounty={bounty}
-            description={description}
-            index={index}
-            key={index.toNumber()}
-            proposals={proposals}
-          />
-        ))}
+        {bounties && bestNumber &&
+        bounties.sort((a, b) => b.index.cmp(a.index))
+          .map(({ bounty, description, index, proposals }) => (
+            <Bounty
+              bestNumber={bestNumber}
+              bounty={bounty}
+              description={description}
+              index={index}
+              key={index.toNumber()}
+              proposals={proposals}
+            />
+          ))}
       </Table>
     </>
   );

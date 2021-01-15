@@ -66,7 +66,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             )}
           </div>
         </td>
-        <td>{truncateTitle(description, 30)}</td>
+        <td data-testid='description'>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>
         <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
