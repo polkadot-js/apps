@@ -6,6 +6,7 @@ import type { ApiPromise } from '@polkadot/api';
 import { useCallback, useMemo } from 'react';
 
 import { Ledger } from '@polkadot/hw-ledger';
+import { LedgerTypes } from '@polkadot/hw-ledger/types';
 import networks from '@polkadot/networks';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -37,7 +38,7 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
     assert(def, `Unable to find supported chain for ${genesisHex}`);
 
-    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def.network);
+    ledger = new Ledger(uiSettings.ledgerConn as LedgerTypes, def.network);
   }
 
   return ledger;
