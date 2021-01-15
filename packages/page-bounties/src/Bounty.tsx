@@ -27,6 +27,7 @@ interface Props {
 
 interface DueProps {
   dueBlocks: BN | undefined;
+  until: 'update' | 'payout';
 }
 
 const EMPTY_CELL = '-';
@@ -57,8 +58,17 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td><FormatBalance value={value} /></td>
         <td>{curator && <AddressSmall value={curator} />}</td>
         <td>
-          {blocksUntilPayout ? <DueBlocks dueBlocks={blocksUntilPayout} /> : ''}
-          {blocksUntilUpdate ? <DueBlocks dueBlocks={blocksUntilUpdate} /> : ''}
+          {blocksUntilPayout
+            ? <DueBlocks
+              dueBlocks={blocksUntilPayout}
+              until={'payout'}
+            />
+            : ''}
+          {blocksUntilUpdate
+            ? <DueBlocks
+              dueBlocks={blocksUntilUpdate}
+              until={'update'}/>
+            : ''}
         </td>
         <td>
           <div className='td-row'>
@@ -120,13 +130,13 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
         <td/>
-        <td/> <td/> <td/>
+        <td/><td/><td/>
       </tr>
     </>
   );
 }
 
-function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
+function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps> {
   const { t } = useTranslation();
 
   if (!dueBlocks) {
@@ -136,7 +146,7 @@ function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
   return dueBlocks.gtn(0)
     ? <>
       {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-      <BlockToTime blocks={dueBlocks} />
+      <BlockToTime blocks={dueBlocks}> until {until}</BlockToTime>
     </>
     : <>{t('Claimable')}</>;
 }
