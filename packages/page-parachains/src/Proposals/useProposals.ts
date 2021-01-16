@@ -34,7 +34,7 @@ export default function useProposals (): Proposals | undefined {
   // trigger on any proposeParachain events
   useEffect((): void => {
     mountedRef.current && events && setTrigger((trigger) =>
-      events.filter(({ event: { section }, phase }) => phase.isApplyExtrinsic && section === 'proposeParachain').length
+      events.filter(({ event, phase }) => phase.isApplyExtrinsic && event.section === 'proposeParachain').length
         ? Date.now()
         : trigger
     );
