@@ -66,6 +66,14 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
         }
+      },
+      {
+        info: 'rococoRobonomics',
+        paraId: 3000,
+        text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://rococo.parachain.robonomics.network'
+        }
       }
     ]
   };
