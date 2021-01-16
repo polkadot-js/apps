@@ -9,7 +9,7 @@ import React from 'react';
 export function sliceHex (value: Codec, max: number): string {
   const hex = value.toHex();
 
-  return hex.length > (max + max + 2)
+  return hex.length > ((2 * max) + 2)
     ? `${hex.slice(0, max + 2)}…${hex.slice(-max)}`
     : hex;
 }
