@@ -9,14 +9,16 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
-function createResult (approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
+function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
   return {
     approvedIds,
     proposalIds: proposalKeys.map(({ args: [id] }) => id),
-    scheduled: scheduledProposals.map(([{ args: [sessionIndex] }, scheduledIds]) => ({
-      scheduledIds,
-      sessionIndex
-    }))
+    scheduled: scheduledProposals
+      .map(([{ args: [sessionIndex] }, scheduledIds]) => ({
+        scheduledIds,
+        sessionIndex
+      }))
+      .filter((s) => s.sessionIndex.gt(sessionIndex))
   };
 }
 
@@ -25,6 +27,7 @@ export default function useProposals (): Proposals | undefined {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Proposals | undefined>();
   const [trigger, setTrigger] = useState(Date.now());
+  const sessionIndex = useCall<SessionIndex>(api.query.session.currentIndex);
   const approvedIds = useCall<ParaId[]>(api.query.proposeParachain?.approvedProposals);
   const events = useCall<EventRecord[]>(api.query.system.events);
 
@@ -39,7 +42,7 @@ export default function useProposals (): Proposals | undefined {
 
   // re-get all our entries in the list
   useEffect((): void => {
-    approvedIds && trigger &&
+    approvedIds && sessionIndex && trigger &&
       Promise
         .all([
           api.query.proposeParachain.proposals.keys(),
@@ -47,10 +50,10 @@ export default function useProposals (): Proposals | undefined {
         ])
         .then(([proposals, scheduledProposals]) =>
           mountedRef.current &&
-            setState(createResult(approvedIds, proposals as any, scheduledProposals as any))
+            setState(createResult(sessionIndex, approvedIds, proposals as any, scheduledProposals as any))
         )
         .catch(console.error);
-  }, [api, approvedIds, mountedRef, trigger]);
+  }, [api, approvedIds, mountedRef, sessionIndex, trigger]);
 
   return state;
 }
