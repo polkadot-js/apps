@@ -3,9 +3,10 @@
 
 import type { SignedBlockExtended } from '@polkadot/api-derive/type';
 import type { CandidateReceipt, ParaId } from '@polkadot/types/interfaces';
+import type { ScheduledProposals } from '../types';
 
 import BN from 'bn.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -15,14 +16,24 @@ import Parachain from './Parachain';
 
 interface Props {
   ids?: ParaId[];
+  scheduled?: ScheduledProposals[];
 }
 
-function ParachainList ({ ids }: Props): React.ReactElement<Props> {
+function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [lastIncluded, setLastIncluded] = useState<Record<string, [string, string]>>({});
+
+  const scheduledIds = useMemo(
+    () => scheduled
+      ? scheduled.reduce((all: Record<string, boolean>, { scheduledIds }: ScheduledProposals): Record<string, boolean> => {
+        return scheduledIds.reduce((all: Record<string, boolean>, id) => ({ ...all, [id.toString()]: true }), all);
+      }, {})
+      : {},
+    [scheduled]
+  );
 
   useEffect((): void => {
     lastBlock && setLastIncluded((prev) => {
@@ -55,7 +66,7 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
   }, [api, lastBlock]);
 
   const headerRef = useRef([
-    [t('parachains'), 'start', 2],
+    [t('parachains'), 'start', 3],
     [t('heads'), 'start'],
     [t('relay parent'), undefined, 2],
     [t('chain best'), 'media--900'],
@@ -73,6 +84,7 @@ function ParachainList ({ ids }: Props): React.ReactElement<Props> {
         <Parachain
           bestNumber={bestNumber}
           id={id}
+          isScheduled={scheduledIds[id.toString()]}
           key={id.toString()}
           lastInclusion={lastIncluded[id.toString()]}
         />

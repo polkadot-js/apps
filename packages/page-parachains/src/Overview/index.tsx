@@ -33,7 +33,10 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
       <Actions />
       {api.query.paras && (
         <>
-          <Parachains ids={paraIds} />
+          <Parachains
+            ids={paraIds}
+            scheduled={proposals?.scheduled}
+          />
           <Upcoming ids={upcomingIds} />
         </>
       )}

@@ -8,6 +8,7 @@ import type { Codec } from '@polkadot/types/types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
+import { Badge } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -18,6 +19,7 @@ interface Props {
   bestNumber?: BN;
   className?: string;
   id: ParaId;
+  isScheduled?: boolean;
   lastInclusion?: [string, string];
 }
 
@@ -60,7 +62,7 @@ const transformMulti = {
   })
 };
 
-function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
@@ -95,7 +97,13 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='together'>{chainLink}</td>
+      <td className='badge'>{isScheduled && (
+        <Badge
+          color='green'
+          icon='clock'
+        />
+      )}</td>
+      <td className='badge together'>{chainLink}</td>
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
