@@ -66,7 +66,7 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
   }, [api, lastBlock]);
 
   const headerRef = useRef([
-    [t('parachains'), 'start', 2],
+    [t('parachains'), 'start', 3],
     [t('heads'), 'start'],
     [t('relay parent'), undefined, 2],
     [t('chain best'), 'media--900'],
