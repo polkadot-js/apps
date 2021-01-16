@@ -9,7 +9,9 @@ import React from 'react';
 export function sliceHex (value: Codec, max: number): string {
   const hex = value.toHex();
 
-  return `${hex.slice(0, max + 2)}…${hex.slice(-max)}`;
+  return hex.length > (max + max + 2)
+    ? `${hex.slice(0, max + 2)}…${hex.slice(-max)}`
+    : hex;
 }
 
 export function getChainLink (endpoints: LinkOption[]): React.ReactNode {
