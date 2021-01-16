@@ -7,12 +7,12 @@ import type { ScheduledProposals } from '../types';
 import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Badge, Spinner, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useSudo, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useParaEndpoints, useSudo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
+import { getChainLink, sliceHex } from '../util';
 import { useProposal } from './useProposals';
 
 interface Props {
@@ -28,6 +28,12 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   const { hasSudoKey, sudoKey } = useSudo();
   const [isQueried, toggleIsQueried] = useToggle();
   const proposal = useProposal(id, approvedIds, scheduled, isQueried);
+  const endpoints = useParaEndpoints(id);
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
+  );
 
   const cancelTx = useMemo(
     () => api.tx.sudo && hasSudoKey
@@ -55,14 +61,15 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
 
   return (
     <tr>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'>
+      <td className='number together'><h1>{formatNumber(id)}</h1></td>
+      <td className='badge together'>
         {(proposal.isApproved || proposal.isScheduled) && (
           <Badge
             color='green'
             icon={proposal.isScheduled ? 'clock' : 'check'}
           />
         )}
+        {chainLink}
       </td>
       {isQueried && !proposal.proposal
         ? (

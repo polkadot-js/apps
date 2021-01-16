@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
@@ -13,7 +12,7 @@ import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { sliceHex } from '../util';
+import { getChainLink, sliceHex } from '../util';
 
 interface Props {
   bestNumber?: BN;
@@ -60,16 +59,6 @@ const transformMulti = {
     watermark: optWm.unwrapOr(null)
   })
 };
-
-function getChainLink (endpoints: LinkOption[]): React.ReactNode {
-  if (!endpoints.length) {
-    return null;
-  }
-
-  const { text, value } = endpoints[endpoints.length - 1];
-
-  return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
-}
 
 function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
