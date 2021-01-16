@@ -116,7 +116,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         )
       }
       <td className='button'>
-        {!proposal.isApproved && (
+        {!(proposal.isApproved || proposal.isScheduled) && (
           <>
             <TxButton
               accountId={sudoKey}
