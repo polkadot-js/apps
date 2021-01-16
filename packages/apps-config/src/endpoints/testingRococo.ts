@@ -53,7 +53,7 @@ export function createRococo (t: TFunction): EndpointOption {
       // add any additional parachains here, alphabetical
       {
         info: 'rococoAcala',
-        paraId: 667,
+        paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
           Acala: 'wss://rococo-1.acala.laminar.one/ws'
