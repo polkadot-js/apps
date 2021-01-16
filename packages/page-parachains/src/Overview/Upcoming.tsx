@@ -4,13 +4,13 @@
 import type { Option } from '@polkadot/types';
 import type { ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useParaEndpoints } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
+import { getChainLink, sliceHex } from '../util';
 
 interface Props {
   id: ParaId;
@@ -24,10 +24,17 @@ function Upcoming ({ id }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<ParaGenesisArgs | null>(api.query.paras.upcomingParasGenesis, [id], transformGenesis);
+  const endpoints = useParaEndpoints(id);
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
+  );
 
   return (
     <tr key={id.toString()}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <td className='badge together'>{chainLink}</td>
       <td className='all start together hash'>
         {info && (
           sliceHex(info.genesisHead, 8)

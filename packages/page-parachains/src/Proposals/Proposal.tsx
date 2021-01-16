@@ -69,8 +69,8 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
             icon={proposal.isScheduled ? 'clock' : 'check'}
           />
         )}
-        {chainLink}
       </td>
+      <td className='badge together'>{chainLink}</td>
       {isQueried && !proposal.proposal
         ? (
           <>
