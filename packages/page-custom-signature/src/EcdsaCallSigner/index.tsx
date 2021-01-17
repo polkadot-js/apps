@@ -9,7 +9,7 @@ import CustomSignTx from './CustomSignTx';
 import EcdsaAccount from './EcdsaAccount';
 
 interface Props {
-  className: string;
+  className?: string;
 }
 
 function EcdsaCallSigner ({ className = '' }: Props): React.ReactElement<Props> {

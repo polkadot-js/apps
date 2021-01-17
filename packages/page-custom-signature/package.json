@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/react-components": "^0.75.2-53",
+    "@polkadot/react-components": "^0.75.2-56",
     "ethereumjs-util": "^7.0.7",
     "secp256k1": "^3.8.0"
   }
