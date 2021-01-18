@@ -22,9 +22,9 @@ export default {
     'Phala PoC-3': 'phala',
     Plasm: 'plasm',
     Polkadot: 'polkadot',
+    Rococo: 'rococo',
     Stafi: 'stafi',
-    Westend: 'westend',
-    Rococo: 'rococo'
+    Westend: 'westend'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
