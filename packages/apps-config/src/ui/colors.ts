@@ -22,6 +22,7 @@ const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
+const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = '#7C30DD';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
@@ -31,6 +32,7 @@ const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
 const chainJupiter = '#7143ff';
+const chainUniarts = '#b39ef7';
 
 // based on node name
 // alphabetical
@@ -58,6 +60,7 @@ export { emptyColor };
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
+  ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia cc1', chainDarwinia],
@@ -84,7 +87,8 @@ export const chainColors: Record<string, any> = [
   ['Trick', chainRoccoTrick],
   ['Westend', chainWestend],
   ['Galois', chainGalois],
-  ['ZΞRO Alphaville', chainZero]
+  ['ZΞRO Alphaville', chainZero],
+  ['Uniarts', chainUniarts]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color

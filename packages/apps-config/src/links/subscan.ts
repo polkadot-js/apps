@@ -22,6 +22,7 @@ export default {
     'Phala PoC-3': 'phala',
     Plasm: 'plasm',
     Polkadot: 'polkadot',
+    Rococo: 'rococo',
     Stafi: 'stafi',
     Westend: 'westend'
   },

@@ -52,6 +52,14 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoBifrost',
+        paraId: 107,
+        text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
@@ -60,11 +68,27 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoKilt',
+        paraId: 12623,
+        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
         info: 'rococoPlasm',
         paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
           PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
+        }
+      },
+      {
+        info: 'rococoRobonomics',
+        paraId: 3000,
+        text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://rococo.parachain.robonomics.network'
         }
       }
     ]

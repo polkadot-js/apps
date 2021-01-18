@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
@@ -9,20 +8,22 @@ import type { Codec } from '@polkadot/types/types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
+import { Badge } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { sliceHex } from './util';
+import { getChainLink, sliceHex } from '../util';
 
 interface Props {
   bestNumber?: BN;
   className?: string;
   id: ParaId;
+  isScheduled?: boolean;
   lastInclusion?: [string, string];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
 
 interface QueryState {
   headHex: string | null;
@@ -31,22 +32,24 @@ interface QueryState {
   qUmp: number;
   qHrmpE: number;
   qHrmpI: number;
+  watermark: BlockNumber | null;
 }
 
 const transformLast = {
   transform: (header: Header) => header.number.unwrap()
 };
 
-const transformMulti = {
+const optionsMulti = {
   defaultValue: {
     headHex: null,
     qDmp: 0,
     qHrmpE: 0,
     qHrmpI: 0,
     qUmp: 0,
-    updateAt: null
+    updateAt: null,
+    watermark: null
   },
-  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
     headHex: headData.isSome
       ? sliceHex(headData.unwrap(), 18)
       : null,
@@ -54,21 +57,12 @@ const transformMulti = {
     qHrmpE: hrmpE.length,
     qHrmpI: hrmpI.length,
     qUmp: ump.length,
-    updateAt: optUp.unwrapOr(null)
+    updateAt: optUp.unwrapOr(null),
+    watermark: optWm.unwrapOr(null)
   })
 };
 
-function getChainLink (endpoints: LinkOption[]): React.ReactNode {
-  if (!endpoints.length) {
-    return null;
-  }
-
-  const { text, value } = endpoints[endpoints.length - 1];
-
-  return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
-}
-
-function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
@@ -80,12 +74,19 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
     [api.query.dmp.downwardMessageQueues, id],
     [api.query.ump.relayDispatchQueues, id],
     [api.query.hrmp.hrmpEgressChannelsIndex, id],
-    [api.query.hrmp.hrmpIngressChannelsIndex, id]
-  ], transformMulti) as QueryState; // we have a default value, cast is safe
+    [api.query.hrmp.hrmpIngressChannelsIndex, id],
+    [api.query.hrmp.hrmpWatermarks, id]
+  ], optionsMulti);
 
   const blockDelay = useMemo(
-    () => lastRelayNumber && bestNumber && bestNumber.sub(lastRelayNumber).subn(1),
-    [bestNumber, lastRelayNumber]
+    () => bestNumber && (
+      lastRelayNumber
+        ? bestNumber.sub(lastRelayNumber).subn(1)
+        : paraInfo.watermark
+          ? bestNumber.sub(paraInfo.watermark)
+          : undefined
+    ),
+    [bestNumber, lastRelayNumber, paraInfo]
   );
 
   const chainLink = useMemo(
@@ -96,13 +97,19 @@ function Parachain ({ bestNumber, className = '', id, lastInclusion }: Props): R
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='together'>{chainLink}</td>
+      <td className='badge'>{isScheduled && (
+        <Badge
+          color='green'
+          icon='clock'
+        />
+      )}</td>
+      <td className='badge together'>{chainLink}</td>
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
-        {lastInclusion && lastRelayNumber && (
-          <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
-        )
+        {lastInclusion && lastRelayNumber
+          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+          : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>

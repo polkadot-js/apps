@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from './types';
+import type { ScheduledProposals } from '../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Badge, Spinner, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useSudo, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useParaEndpoints, useSudo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getChainLink, sliceHex } from '../util';
 import { useProposal } from './useProposals';
-import { sliceHex } from './util';
 
 interface Props {
   approvedIds: ParaId[];
@@ -28,6 +28,12 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   const { hasSudoKey, sudoKey } = useSudo();
   const [isQueried, toggleIsQueried] = useToggle();
   const proposal = useProposal(id, approvedIds, scheduled, isQueried);
+  const endpoints = useParaEndpoints(id);
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
+  );
 
   const cancelTx = useMemo(
     () => api.tx.sudo && hasSudoKey
@@ -55,8 +61,8 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
 
   return (
     <tr>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'>
+      <td className='number together'><h1>{formatNumber(id)}</h1></td>
+      <td className='badge together'>
         {(proposal.isApproved || proposal.isScheduled) && (
           <Badge
             color='green'
@@ -64,6 +70,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           />
         )}
       </td>
+      <td className='badge together'>{chainLink}</td>
       {isQueried && !proposal.proposal
         ? (
           <>
@@ -109,7 +116,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         )
       }
       <td className='button'>
-        {!proposal.isApproved && (
+        {!(proposal.isApproved || proposal.isScheduled) && (
           <>
             <TxButton
               accountId={sudoKey}

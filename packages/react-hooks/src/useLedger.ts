@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
+import type { LedgerTypes } from '@polkadot/hw-ledger/types';
 
 import { useCallback, useMemo } from 'react';
 
@@ -37,7 +38,7 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
     assert(def, `Unable to find supported chain for ${genesisHex}`);
 
-    ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def.network);
+    ledger = new Ledger(uiSettings.ledgerConn as LedgerTypes, def.network);
   }
 
   return ledger;
