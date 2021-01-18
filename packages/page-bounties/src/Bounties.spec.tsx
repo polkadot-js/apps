@@ -497,4 +497,15 @@ describe('Bounties', () => {
       await expect(findByTestId('voting-summary')).rejects.toThrow();
     });
   });
+
+  describe('Description', () => {
+    it('Beneficiary', async () => {
+      const bounty = bountyInStatus('PendingPayout');
+      const proposals = [aProposal(apiWithAugmentations.tx.bounties.awardBounty(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z'))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      expect(await findByText('Beneficiary')).toBeTruthy();
+    });
+  });
 });

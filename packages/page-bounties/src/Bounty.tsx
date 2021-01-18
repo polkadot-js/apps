@@ -16,6 +16,7 @@ import ExtendedStatus from './Voting/ExtendedStatus';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import { BountyInfos } from './BountyInfos';
+import Description from './Description';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
 
@@ -98,7 +99,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
                 status={status}
               />
             )}
-            {beneficiary && <AddressSmall value={beneficiary} />}
+            {beneficiary && (
+              <div>
+                <AddressSmall value={beneficiary} />
+                <Description description={t('Beneficiary')} />
+              </div>
+            )}
             <div className='bounty-action-row'>
               <BountyActions
                 bestNumber={bestNumber}
