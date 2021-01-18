@@ -23,7 +23,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
   const { extendBountyExpiry } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const { allAccounts } = useAccounts();
-  const [accountId, setAccountId] = useState<string | null>(null);
   const [remark, setRemark] = useState('');
   const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
 
@@ -55,14 +54,13 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
                     help={t<string>('This account will be used to create an extend bounty expire transaction.')}
                     isDisabled
                     label={t<string>('curator account')}
-                    onChange={setAccountId}
                     type='account'
                     value={curatorId.toString()}
                     withLabel
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('Only curator account can extend the bounty time.')}</p>
+                  <p>{t<string>('Only curator can extend the bounty time.')}</p>
                 </Modal.Column>
               </Modal.Columns>
               <Modal.Columns>
@@ -83,7 +81,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
             </Modal.Content>
             <Modal.Actions onCancel={toggleOpen}>
               <TxButton
-                accountId={accountId}
+                accountId={curatorId}
                 icon='check'
                 label={t<string>('Accept')}
                 onStart={toggleOpen}
