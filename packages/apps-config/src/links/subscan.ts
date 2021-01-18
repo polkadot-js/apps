@@ -23,7 +23,8 @@ export default {
     Plasm: 'plasm',
     Polkadot: 'polkadot',
     Stafi: 'stafi',
-    Westend: 'westend'
+    Westend: 'westend',
+    Rococo: 'rococo'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
