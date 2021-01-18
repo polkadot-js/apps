@@ -48,6 +48,8 @@ function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
 
+const extendBountyExpiry = jest.fn().mockReturnValue('mockProposeExtrinsic');
+
 let mockBountyApi: BountyApi = {
   approveBounty: jest.fn(),
   bestNumber: new BN(1) as BlockNumber,
@@ -56,6 +58,7 @@ let mockBountyApi: BountyApi = {
   bountyValueMinimum: new BN(1),
   closeBounty: jest.fn(),
   dataDepositPerByte: new BN(1),
+  extendBountyExpiry,
   maximumReasonLength: 100,
   proposeBounty: jest.fn(),
   proposeCurator: jest.fn()
@@ -64,7 +67,7 @@ let mockBountyApi: BountyApi = {
 let mockBalance = balanceOf(1);
 let apiWithAugmentations: ApiPromise;
 const mockMembers = { isMember: true };
-
+const mockAccounts = { allAccounts: ['5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM'] };
 const mockTreasury = {
   burn: new BN(1),
   spendPeriod: new BN(0),
@@ -118,6 +121,12 @@ function aProposal (extrinsic: SubmittableExtrinsic<'promise'>) {
 jest.mock('@polkadot/react-hooks/useMembers', () => {
   return {
     useMembers: () => mockMembers
+  };
+});
+
+jest.mock('@polkadot/react-hooks/useAccounts', () => {
+  return {
+    useAccounts: () => mockAccounts
   };
 });
 
@@ -276,12 +285,9 @@ describe('Bounties', () => {
 
   describe('propose curator modal', () => {
     it('shows an error if fee is greater than bounty value', async () => {
-      const { findByTestId, findByText } = renderBounties({ bounties: [
-        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
-          description: 'kusama comic book',
-          index: anIndex(),
-          proposals: [] }
-      ] });
+      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
+
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
@@ -295,12 +301,9 @@ describe('Bounties', () => {
     });
 
     it('disables Assign Curator button if validation fails', async () => {
-      const { findByTestId, findByText } = renderBounties({ bounties: [
-        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
-          description: 'kusama comic book',
-          index: anIndex(),
-          proposals: [] }
-      ] });
+      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
+
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
@@ -316,12 +319,9 @@ describe('Bounties', () => {
     });
 
     it('queues propose extrinsic on submit', async () => {
-      const { findByTestId, findByText, getAllByRole } = renderBounties({ bounties: [
-        { bounty: aBounty({ status: bountyStatus('Funded'), value: balanceOf(5) }),
-          description: 'kusama comic book',
-          index: anIndex(),
-          proposals: [] }
-      ] });
+      const bounty = { status: bountyStatus('Funded') };
+      const { findByTestId, findByText, getAllByRole } = renderOneBounty(aBounty(bounty));
+
       const proposeCuratorButton = await findByText('Propose Curator');
 
       fireEvent.click(proposeCuratorButton);
@@ -344,6 +344,30 @@ describe('Bounties', () => {
 
       fireEvent.click(assignCuratorButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+    });
+  });
+
+  describe('extend bounty expiry action modal', () => {
+    it('queues extend bounty expiry extrinsic on submit', async () => {
+      const bounty = bountyInStatus('Active');
+
+      const { findByTestId, findByText } = renderOneBounty(bounty);
+
+      const extendBountyExpiryButton = await findByText('Extend Expiry');
+
+      fireEvent.click(extendBountyExpiryButton);
+
+      expect(await findByText('This action will extend expiry time of the selected bounty.')).toBeTruthy();
+
+      const remarkInput = await findByTestId('bounty remark');
+
+      fireEvent.change(remarkInput, { target: { value: 'The bounty extend expiry remark' } });
+
+      const acceptButton = await findByText('Accept');
+
+      fireEvent.click(acceptButton);
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
+      expect(extendBountyExpiry).toHaveBeenCalledWith(anIndex(0), 'The bounty extend expiry remark');
     });
   });
 

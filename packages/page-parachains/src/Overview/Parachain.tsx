@@ -20,7 +20,8 @@ interface Props {
   className?: string;
   id: ParaId;
   isScheduled?: boolean;
-  lastInclusion?: [string, string];
+  lastBacked?: [string, string, BN];
+  lastInclusion?: [string, string, BN];
 }
 
 type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
@@ -35,7 +36,7 @@ interface QueryState {
   watermark: BlockNumber | null;
 }
 
-const transformLast = {
+const transformHeader = {
   transform: (header: Header) => header.number.unwrap()
 };
 
@@ -62,12 +63,12 @@ const optionsMulti = {
   })
 };
 
-function Parachain ({ bestNumber, className = '', id, isScheduled, lastInclusion }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
   const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
-  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformLast);
+  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
@@ -110,6 +111,11 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastInclusion
         {lastInclusion && lastRelayNumber
           ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
+        }
+      </td>
+      <td className='number'>
+        {lastBacked &&
+          <a href={`#/explorer/query/${lastBacked[0]}`}>{formatNumber(lastBacked[2])}</a>
         }
       </td>
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
