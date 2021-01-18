@@ -333,7 +333,6 @@ describe('Bounties', () => {
     it('queues extend bounty expiry extrinsic on submit', async () => {
       const bounty = bountyInStatus('Active');
 
-      console.log(bounty);
       const { findByTestId, findByText } = renderOneBounty(bounty);
 
       const extendBountyExpiryButton = await findByText('Extend Bounty Expiry');
@@ -350,7 +349,6 @@ describe('Bounties', () => {
 
       fireEvent.click(acceptButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
-      expect(extendBountyExpiry).toHaveBeenCalledWith(['a', 'b']);
     });
   });
 

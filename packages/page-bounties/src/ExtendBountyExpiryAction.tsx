@@ -65,9 +65,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
                   <p>{t<string>('Only curator account can extend the bounty time.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              <Modal.Column>
-                The remark on bounty time extension:
-              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <Input
@@ -80,7 +77,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('The note that will be added to the transaction.')}</p>
+                  <p>{t<string>("The note that will be added to the transaction. It won't be stored on chain")}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>
@@ -98,7 +95,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
         )}
       </>
     )
-    : <>allAccounts: {allAccounts} curatorId: {curatorId.toString()}</>;
+    : null;
 }
 
 export default React.memo(ExtendBountyExpiryAction);
