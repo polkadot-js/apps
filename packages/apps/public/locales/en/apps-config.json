@@ -52,6 +52,7 @@
   "rpc.polkadot.w3f": "Polkadot",
   "rpc.rococo": "Rococo",
   "rpc.rococo.acala": "Mandala PC1",
+  "rpc.rococo.bifrost": "Bifrost PC1",
   "rpc.rococo.darwinia": "Darwinia PC1",
   "rpc.rococo.laminar": "Turbulence PC1",
   "rpc.rococo.plasm": "Plasm PC1",
