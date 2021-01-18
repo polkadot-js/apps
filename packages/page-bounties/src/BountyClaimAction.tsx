@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -14,7 +14,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   beneficiaryId: AccountId;
-  index: number;
+  index: BountyIndex;
   payoutDue: BN;
 }
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -14,7 +14,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   description: string
-  index: number;
+  index: BountyIndex;
   curatorId: AccountId;
 }
 
