@@ -21,7 +21,7 @@
   "How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.": "How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.",
   "Initiate Voting": "Initiate Voting",
   "No open bounties": "No open bounties",
-  "Only curator account can extend the bounty time.": "Only curator account can extend the bounty time.",
+  "Only curator can extend the bounty time.": "Only curator can extend the bounty time.",
   "Part of the bounty value that will go to the Curator as a reward for their work": "Part of the bounty value that will go to the Curator as a reward for their work",
   "Propose Curator": "Propose Curator",
   "Proposer": "Proposer",
