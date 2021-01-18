@@ -104,7 +104,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               isLogo
               type='bounty'
             />
-            <div className='table-column-icon' onClick={handleOnIconClick}>
+            <div className='table-column-icon'
+              onClick={handleOnIconClick}>
               <Icon
                 icon={
                   isExpanded
