@@ -39,7 +39,7 @@ const transformLast = {
   transform: (header: Header) => header.number.unwrap()
 };
 
-const transformMulti = {
+const optionsMulti = {
   defaultValue: {
     headHex: null,
     qDmp: 0,
@@ -76,7 +76,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastInclusion
     [api.query.hrmp.hrmpEgressChannelsIndex, id],
     [api.query.hrmp.hrmpIngressChannelsIndex, id],
     [api.query.hrmp.hrmpWatermarks, id]
-  ], transformMulti) as QueryState; // we have a default value, cast is safe
+  ], optionsMulti);
 
   const blockDelay = useMemo(
     () => bestNumber && (

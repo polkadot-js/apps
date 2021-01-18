@@ -27,15 +27,22 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 
   setTimeout((): void => {
     if (mountedRef.current) {
-      if (calls.length) {
-        // swap to acive mode
+      const included = calls.map((c) => !!c);
+      const filtered = calls.filter((_, index) => included[index]);
+
+      if (filtered.length) {
+        // swap to active mode
         tracker.current.isActive = true;
 
-        tracker.current.subscriber = api.queryMulti(calls, (value): void => {
+        tracker.current.subscriber = api.queryMulti(filtered, (value): void => {
           // we use the isActive flag here since .subscriber may not be set on immediate callback)
           if (mountedRef.current && tracker.current.isActive) {
+            let valueIndex = -1;
+
             mountedRef.current && tracker.current.isActive && setValue(
-              transform(value)
+              transform(
+                calls.map((_, index) => included[index] ? value[++valueIndex] : undefined)
+              )
             );
           }
         });
@@ -47,11 +54,11 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 }
 
 // very much copied from useCall
-export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T | undefined {
+export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ isActive: false, serialized: null, subscriber: null });
-  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  const [value, setValue] = useState<T>((options || {}).defaultValue || [] as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

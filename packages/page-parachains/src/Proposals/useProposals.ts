@@ -7,7 +7,9 @@ import type { ProposalExt, Proposals, ScheduledProposals } from '../types';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall, useCallMulti, useIsMountedRef } from '@polkadot/react-hooks';
+
+type MultiQuery = [EventRecord[], SessionIndex | undefined, ParaId[] | undefined];
 
 function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
   return {
@@ -22,19 +24,30 @@ function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], propos
   };
 }
 
+const optionsMulti = {
+  defaultValue: [[], undefined, undefined] as MultiQuery,
+  transform: ([records, sessionIndex, approvedIds]: [EventRecord[], SessionIndex, ParaId[] | undefined]): MultiQuery => [
+    records.filter(({ event, phase }) => phase?.isApplyExtrinsic && event?.section === 'proposeParachain'),
+    sessionIndex,
+    approvedIds
+  ]
+};
+
 export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Proposals | undefined>();
   const [trigger, setTrigger] = useState(Date.now());
-  const sessionIndex = useCall<SessionIndex>(api.query.session.currentIndex);
-  const approvedIds = useCall<ParaId[]>(api.query.proposeParachain?.approvedProposals);
-  const events = useCall<EventRecord[]>(api.query.system.events);
+  const [events, sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
+    api.query.system.events,
+    api.query.session.currentIndex,
+    api.query.proposeParachain?.approvedProposals
+  ], optionsMulti);
 
   // trigger on any proposeParachain events
   useEffect((): void => {
     mountedRef.current && events && setTrigger((trigger) =>
-      events.filter((r) => r && r.phase?.isApplyExtrinsic && r.event?.section === 'proposeParachain').length
+      events.length
         ? Date.now()
         : trigger
     );
