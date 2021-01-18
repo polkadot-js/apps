@@ -48,6 +48,8 @@ function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
 
+const extendBountyExpiry = jest.fn().mockReturnValue('mockProposeExtrinsic');
+
 let mockBountyApi: BountyApi = {
   approveBounty: jest.fn(),
   bestNumber: new BN(1) as BlockNumber,
@@ -56,7 +58,7 @@ let mockBountyApi: BountyApi = {
   bountyValueMinimum: new BN(1),
   closeBounty: jest.fn(),
   dataDepositPerByte: new BN(1),
-  extendBountyExpiry: jest.fn(),
+  extendBountyExpiry,
   maximumReasonLength: 100,
   proposeBounty: jest.fn(),
   proposeCurator: jest.fn()
@@ -129,7 +131,6 @@ jest.mock('@polkadot/react-hooks/useAccounts', () => {
 });
 
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
-const extendBountyExpiry = jest.fn().mockReturnValue('mockProposeExtrinsic');
 let queueExtrinsic: QueueTxExtrinsicAdd;
 
 describe('Bounties', () => {
@@ -153,9 +154,6 @@ describe('Bounties', () => {
       query: {},
       registry: { chainDecimals: 12 },
       tx: {
-        bounties: {
-          extendBountyExpiry
-        },
         council: {
           propose
         }
@@ -351,8 +349,8 @@ describe('Bounties', () => {
       const acceptButton = await findByText('Accept');
 
       fireEvent.click(acceptButton);
-
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
+      expect(extendBountyExpiry).toHaveBeenCalledWith(['a', 'b']);
     });
   });
 
