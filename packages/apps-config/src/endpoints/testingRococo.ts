@@ -13,7 +13,7 @@ import type { EndpointOption } from './types';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo(t: TFunction): EndpointOption {
+export function createRococo (t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
     genesisHash: '0x481550b70e974177e83cff4d554cea7166be3eaeb32f020b86542e76968ccd0e',
