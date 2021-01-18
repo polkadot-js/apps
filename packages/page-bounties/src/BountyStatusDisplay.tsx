@@ -4,7 +4,7 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { useTranslation } from '@polkadot/app-bounties/translate';
 import VotingDescription from '@polkadot/app-bounties/VotingDescription';
