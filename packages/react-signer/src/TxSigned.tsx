@@ -220,7 +220,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         } else if (flags.isHardware) {
           try {
             const ledger = getLedger();
-            const { address } = await ledger.getAddress();
+            const { address } = await ledger.getAddress(false, flags.accountOffset, flags.addressOffset);
 
             console.log(`Signing with Ledger address ${address}`);
           } catch (error) {
