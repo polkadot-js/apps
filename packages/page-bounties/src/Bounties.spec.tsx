@@ -319,7 +319,7 @@ describe('Bounties', () => {
     });
 
     it('queues propose extrinsic on submit', async () => {
-      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const bounty = { status: bountyStatus('Funded') };
       const { findByTestId, findByText, getAllByRole } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
