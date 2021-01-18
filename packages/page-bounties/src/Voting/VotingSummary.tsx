@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import { useMembers } from '@polkadot/react-hooks';
 
+import Description from '../Description';
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
 
 interface Props {
@@ -35,7 +36,7 @@ function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
         >
           <p className='voting-summary-text'><span>Aye</span> <b>{ayes}/{threshold}</b></p>
           <p className='voting-summary-text'><span>Nay</span> <b>{nays}/{nayThreshold}</b></p>
-          <p className='description'>Voting results</p>
+          <Description description='Voting results' />
         </div>
       )}
     </>
@@ -52,12 +53,5 @@ export default React.memo(styled(VotingSummary)`
       min-width: 0.5rem;
       margin-right: 0.5rem;
     }
-  }
-
-  .description {
-    margin-top: 0.7rem;
-    font-size: 0.7rem;
-    color: #8B8B8B;
-    text-transform: none;
   }
 `);

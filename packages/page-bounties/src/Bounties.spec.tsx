@@ -431,6 +431,7 @@ describe('Bounties', () => {
 
       await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
     });
+
     it('when bounty is claimable', async () => {
       const bounty = bountyInStatus('PendingPayout');
       const { findByTestId } = renderOneBounty(bounty);

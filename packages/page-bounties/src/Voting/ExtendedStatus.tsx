@@ -6,10 +6,10 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { BN_ZERO } from '@polkadot/util';
 
+import Description from '../Description';
 import { bestValidProposalName } from '../helpers/extendedStatuses';
 import { useTranslation } from '../translate';
 
@@ -32,29 +32,22 @@ function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status 
 
   return (
     <>
-      {bestProposalName && (
-        <div
+      {bestProposalName && votingDescriptions[bestProposalName] &&
+        <Description
           className={className}
-          data-testid='extendedVotingStatus'
-        >
-          {votingDescriptions[bestProposalName] || null}
-        </div>
-      )}
-      {blocksUntilPayout?.lt(BN_ZERO) && (
-        <div
+          dataTestId='extendedVotingStatus'
+          description={votingDescriptions[bestProposalName]}
+        />
+      }
+      {blocksUntilPayout?.lt(BN_ZERO) &&
+        <Description
           className={className}
-          data-testid='extendedActionStatus'
-        >
-          {t('Claimable')}
-        </div>
-      )}
+          dataTestId='extendedActionStatus'
+          description={t<string>('Claimable')}
+        />
+      }
     </>
   );
 }
 
-export default React.memo(styled(ExtendedStatus)`
-  margin-top: 0.28rem;
-  font-size: 0.7rem;
-  line-height: 0.85rem;
-  color: #8B8B8B;
-`);
+export default React.memo(ExtendedStatus);

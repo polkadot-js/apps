@@ -9,7 +9,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -68,9 +67,9 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
         <td
+          className='description-column'
           colSpan={2}
           data-testid='description'
-          className='description-column'
         >
           <div title={description}>
             {description}
