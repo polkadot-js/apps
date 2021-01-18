@@ -36,7 +36,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
         <Button
           icon='calendar-plus'
           isDisabled={false}
-          label={t<string>('Extend Bounty Expiry')}
+          label={t<string>('Extend Expiry')}
           onClick={toggleOpen}
         />
         {isOpen && (

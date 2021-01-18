@@ -353,7 +353,7 @@ describe('Bounties', () => {
 
       const { findByTestId, findByText } = renderOneBounty(bounty);
 
-      const extendBountyExpiryButton = await findByText('Extend Bounty Expiry');
+      const extendBountyExpiryButton = await findByText('Extend Expiry');
 
       fireEvent.click(extendBountyExpiryButton);
 

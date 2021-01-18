@@ -17,7 +17,7 @@
   "Curator's fee": "Curator's fee",
   "Curator's fee can't be higher than bounty value.": "Curator's fee can't be higher than bounty value.",
   "Description of the Bounty (to be stored on-chain)": "Description of the Bounty (to be stored on-chain)",
-  "Extend Bounty Expiry": "Extend Bounty Expiry",
+  "Extend Expiry": "Extend Expiry",
   "How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.": "How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.",
   "Initiate Voting": "Initiate Voting",
   "No open bounties": "No open bounties",
