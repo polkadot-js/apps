@@ -68,6 +68,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoKilt',
+        paraId: 12623,
+        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
         info: 'rococoPlasm',
         paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),

@@ -166,6 +166,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoAcala: nodeAcala,
   rococoBifrost: nodeBifrost,
   rococoDarwinia: nodeDarwinia,
+  rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
   rococoPlasm: nodePlasm,
   rococoRobonomics: nodeRobonomics,
