@@ -40,7 +40,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): JSX.Ele
       key={accountId.toString()}
     >
       <AddressSmall value={accountId}/>
-    </div>), [votes]);
+    </div>), [option, votes]);
 
   return (
     <>
