@@ -15,7 +15,7 @@ import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, ErrorBoundary, MarkError, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
+import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
@@ -344,9 +344,6 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   passwordError={passwordError}
                   requestAddress={requestAddress}
                 />
-                {passwordError && (
-                  <MarkError content={passwordError} />
-                )}
                 {!currentItem.payload && (
                   <Tip onChange={setTip} />
                 )}
