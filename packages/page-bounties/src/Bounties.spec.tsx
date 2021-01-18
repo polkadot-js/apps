@@ -349,6 +349,7 @@ describe('Bounties', () => {
 
       fireEvent.click(acceptButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
+      expect(extendBountyExpiry).toHaveBeenCalledWith(anIndex(0), 'The bounty extend expiry remark');
     });
   });
 
