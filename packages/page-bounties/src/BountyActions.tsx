@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Balance, BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
 
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
 import { getBountyStatus } from './helpers';
 import ProposeCuratorAction from './ProposeCuratorAction';
 
 interface Props {
   bestNumber: BlockNumber;
   description: string;
-  index: number;
+  index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
   value: Balance;
@@ -48,6 +49,13 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           curatorId={curator}
           index={index}
         />}
+      {status.isActive && curator &&
+          <ExtendBountyExpiryAction
+            curatorId={curator}
+            description={description}
+            index={index}
+          />
+      }
       {status.isPendingPayout && beneficiary && blocksUntilPayout &&
         <BountyClaimAction
           beneficiaryId={beneficiary}

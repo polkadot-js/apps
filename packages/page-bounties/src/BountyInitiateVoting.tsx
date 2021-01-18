@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -14,7 +15,7 @@ import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
-  index: number;
+  index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
 }
 
