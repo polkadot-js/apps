@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import BountyStatusDisplay from '@polkadot/app-bounties/BountyStatusDisplay';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -15,7 +16,6 @@ import { formatNumber } from '@polkadot/util';
 import { BountyActions } from './BountyActions';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
-import VotingDescription from './VotingDescription';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -54,17 +54,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
     <>
       <tr className={className}>
         <td>
-          <div>
-            <div>{bountyStatus}</div>
-            {proposals && (
-              <div>
-                <VotingDescription
-                  proposals={proposals}
-                  status={status}
-                />
-              </div>
-            )}
-          </div>
+          <BountyStatusDisplay
+            bountyStatus={bountyStatus}
+            proposals={proposals}
+            status={status}
+          />
         </td>
         <td data-testid='description'>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>
