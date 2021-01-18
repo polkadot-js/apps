@@ -164,6 +164,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
+  rococoBifrost: nodeBifrost,
   rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
   rococoPlasm: nodePlasm,

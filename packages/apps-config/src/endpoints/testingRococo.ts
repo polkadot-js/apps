@@ -52,6 +52,14 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoBifrost',
+        paraId: 107,
+        text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
