@@ -35,6 +35,8 @@ interface Props {
   requestAddress: string;
 }
 
+type SignerCheckFn = () => Promise<void>;
+
 const NOOP = () => undefined;
 
 let qrId = 0;
@@ -138,23 +140,33 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>, SignerCheckFn | null]> {
   const pair = keyring.getPair(address);
-  const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
+  const { meta: { accountOffset: _accountOffset, addressOffset: _addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset as number || 0, addressOffset as number || 0) }];
+    const accountOffset = _accountOffset as number || 0;
+    const addressOffset = _addressOffset as number || 0;
+
+    const checkFn = async (): Promise<void> => {
+      const ledger = getLedger();
+      const { address } = await ledger.getAddress(false, accountOffset, addressOffset);
+
+      console.log(`Ledger is available for ${address}`);
+    };
+
+    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset, addressOffset) }, checkFn];
   } else if (isExternal) {
-    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
+    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }, null];
   } else if (isInjected) {
     const injected = await web3FromSource(source as string);
 
     assert(injected, `Unable to find a signer for ${address}`);
 
-    return ['signing', address, { ...options, signer: injected.signer }];
+    return ['signing', address, { ...options, signer: injected.signer }, null];
   }
 
-  return ['signing', pair.address, { ...options, signer: new AccountSigner(api.registry, pair) }];
+  return ['signing', pair.address, { ...options, signer: new AccountSigner(api.registry, pair) }, null];
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -223,6 +235,14 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [flags, senderInfo]
   );
 
+  const _checkAvailability = useCallback(
+    async (checkFn?: SignerCheckFn | null): Promise<void> => {
+      if (checkFn) {
+        await checkFn();
+      }
+    }, []
+  );
+
   const _onSendPayload = useCallback(
     (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): void => {
       if (senderInfo.signAddress && currentItem.payload) {
@@ -240,31 +260,35 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _onSend = useCallback(
     async (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): Promise<void> => {
       if (senderInfo.signAddress) {
-        const [tx, [status, pairOrAddress, options]] = await Promise.all([
+        const [tx, [status, pairOrAddress, options, checkFn]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
           extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, getLedger, setQrState)
         ]);
+
+        await _checkAvailability(checkFn);
 
         queueSetTxStatus(currentItem.id, status);
 
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
     },
-    [api, getLedger, tip]
+    [_checkAvailability, api, getLedger, tip]
   );
 
   const _onSign = useCallback(
     async (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): Promise<void> => {
       if (senderInfo.signAddress) {
-        const [tx, [, pairOrAddress, options]] = await Promise.all([
+        const [tx, [, pairOrAddress, options, checkFn]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
           extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, getLedger, setQrState)
         ]);
 
+        await _checkAvailability(checkFn);
+
         setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
       }
     },
-    [api, getLedger, signedOptions, tip]
+    [_checkAvailability, api, getLedger, signedOptions, tip]
   );
 
   const _doStart = useCallback(
@@ -274,6 +298,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       setTimeout((): void => {
         const errorHandler = (error: Error): void => {
           console.error(error);
+
           setBusy(false);
           setError(error);
         };
