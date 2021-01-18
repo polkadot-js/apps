@@ -15,7 +15,7 @@ import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
+import { Button, ErrorBoundary, MarkError, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
@@ -34,8 +34,6 @@ interface Props {
   currentItem: QueueTx;
   requestAddress: string;
 }
-
-type SignerCheckFn = () => Promise<void>;
 
 const NOOP = () => undefined;
 
@@ -140,33 +138,23 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>, SignerCheckFn | null]> {
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
-  const { meta: { accountOffset: _accountOffset, addressOffset: _addressOffset, isExternal, isHardware, isInjected, source } } = pair;
+  const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 
   if (isHardware) {
-    const accountOffset = _accountOffset as number || 0;
-    const addressOffset = _addressOffset as number || 0;
-
-    const checkFn = async (): Promise<void> => {
-      const ledger = getLedger();
-      const { address } = await ledger.getAddress(false, accountOffset, addressOffset);
-
-      console.log(`Ledger is available for ${address}`);
-    };
-
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset, addressOffset) }, checkFn];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset as number || 0, addressOffset as number || 0) }];
   } else if (isExternal) {
-    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }, null];
+    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
   } else if (isInjected) {
     const injected = await web3FromSource(source as string);
 
     assert(injected, `Unable to find a signer for ${address}`);
 
-    return ['signing', address, { ...options, signer: injected.signer }, null];
+    return ['signing', address, { ...options, signer: injected.signer }];
   }
 
-  return ['signing', pair.address, { ...options, signer: new AccountSigner(api.registry, pair) }, null];
+  return ['signing', pair.address, { ...options, signer: new AccountSigner(api.registry, pair) }];
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -223,24 +211,31 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   );
 
   const _unlock = useCallback(
-    (): boolean => {
-      const passwordError = senderInfo.signAddress && flags.isUnlockable
-        ? unlockAccount(senderInfo)
-        : null;
+    async (): Promise<boolean> => {
+      let passwordError: string | null = null;
+
+      if (senderInfo.signAddress) {
+        if (flags.isUnlockable) {
+          passwordError = unlockAccount(senderInfo);
+        } else if (flags.isHardware) {
+          try {
+            const ledger = getLedger();
+            const { address } = await ledger.getAddress();
+
+            console.log(`Signing with Ledger address ${address}`);
+          } catch (error) {
+            console.error(error);
+
+            passwordError = t<string>('Unable to connect the the Ledger. {{error}}', { replace: { error: (error as Error).message } });
+          }
+        }
+      }
 
       setPasswordError(passwordError);
 
       return !passwordError;
     },
-    [flags, senderInfo]
-  );
-
-  const _checkAvailability = useCallback(
-    async (checkFn?: SignerCheckFn | null): Promise<void> => {
-      if (checkFn) {
-        await checkFn();
-      }
-    }, []
+    [flags, getLedger, senderInfo, t]
   );
 
   const _onSendPayload = useCallback(
@@ -260,42 +255,38 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _onSend = useCallback(
     async (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): Promise<void> => {
       if (senderInfo.signAddress) {
-        const [tx, [status, pairOrAddress, options, checkFn]] = await Promise.all([
+        const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
           extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, getLedger, setQrState)
         ]);
-
-        await _checkAvailability(checkFn);
 
         queueSetTxStatus(currentItem.id, status);
 
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
     },
-    [_checkAvailability, api, getLedger, tip]
+    [api, getLedger, tip]
   );
 
   const _onSign = useCallback(
     async (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): Promise<void> => {
       if (senderInfo.signAddress) {
-        const [tx, [, pairOrAddress, options, checkFn]] = await Promise.all([
+        const [tx, [, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
           extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, getLedger, setQrState)
         ]);
 
-        await _checkAvailability(checkFn);
-
         setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
       }
     },
-    [_checkAvailability, api, getLedger, signedOptions, tip]
+    [api, getLedger, signedOptions, tip]
   );
 
   const _doStart = useCallback(
     (): void => {
       setBusy(true);
 
-      setTimeout((): void => {
+      setTimeout(():void => {
         const errorHandler = (error: Error): void => {
           console.error(error);
 
@@ -303,19 +294,21 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           setError(error);
         };
 
-        try {
-          if (_unlock()) {
-            isSubmit
-              ? currentItem.payload
-                ? _onSendPayload(queueSetTxStatus, currentItem, senderInfo)
-                : _onSend(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler)
-              : _onSign(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler);
-          } else {
-            setBusy(false);
-          }
-        } catch (error) {
-          errorHandler(error as Error);
-        }
+        _unlock()
+          .then((isUnlocked): void => {
+            if (isUnlocked) {
+              isSubmit
+                ? currentItem.payload
+                  ? _onSendPayload(queueSetTxStatus, currentItem, senderInfo)
+                  : _onSend(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler)
+                : _onSign(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler);
+            } else {
+              setBusy(false);
+            }
+          })
+          .catch((error): void => {
+            errorHandler(error as Error);
+          });
       }, 0);
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
@@ -351,6 +344,9 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   passwordError={passwordError}
                   requestAddress={requestAddress}
                 />
+                {passwordError && (
+                  <MarkError content={passwordError} />
+                )}
                 {!currentItem.payload && (
                   <Tip onChange={setTip} />
                 )}
