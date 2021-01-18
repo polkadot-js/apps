@@ -27,15 +27,17 @@ export function useTreasury (): Treasury {
   const [burn, setBurn] = useState<BN>();
 
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
-  const spendPeriod = api.consts.treasury.spendPeriod;
+  const spendPeriod = api.consts.treasury ? api.consts.treasury.spendPeriod : api.createType('BlockNumber', 0);
 
   useEffect(() => {
-    setValue(treasuryBalance?.freeBalance.gtn(0)
-      ? treasuryBalance.freeBalance
-      : undefined);
-    setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-      ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
-      : BN_ZERO);
+    if (api.consts.treasury) {
+      setValue(treasuryBalance?.freeBalance.gtn(0)
+        ? treasuryBalance.freeBalance
+        : undefined);
+      setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
+        ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
+        : BN_ZERO);
+    }
   }, [api, treasuryBalance, spendPeriod]);
 
   return {
