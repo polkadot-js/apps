@@ -30,14 +30,16 @@ export function useTreasury (): Treasury {
   const spendPeriod = api.consts.treasury ? api.consts.treasury.spendPeriod : api.createType('BlockNumber', 0);
 
   useEffect(() => {
-    if (api.consts.treasury) {
-      setValue(treasuryBalance?.freeBalance.gtn(0)
-        ? treasuryBalance.freeBalance
-        : undefined);
-      setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-        ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
-        : BN_ZERO);
+    if (!api.consts.treasury) {
+      return;
     }
+
+    setValue(treasuryBalance?.freeBalance.gtn(0)
+      ? treasuryBalance.freeBalance
+      : undefined);
+    setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
+      ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
+      : BN_ZERO);
   }, [api, treasuryBalance, spendPeriod]);
 
   return {
