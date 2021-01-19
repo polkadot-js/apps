@@ -11,14 +11,14 @@ import { useTranslation } from '@polkadot/app-bounties/translate';
 import VotingDescription from '@polkadot/app-bounties/VotingDescription';
 import { LabelHelp } from '@polkadot/react-components';
 
-type Props = {
+interface Props {
   bountyStatus: string;
   className?: string;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-function BountyStatusDisplay ({ bountyStatus, className = '', proposals, status }: Props) {
+function BountyStatusDisplay ({ bountyStatus, className = '', proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const statusHelpMessages: Record<string, string> = useMemo(() => ({
