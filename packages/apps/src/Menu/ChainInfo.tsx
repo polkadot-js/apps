@@ -95,12 +95,13 @@ export default React.memo(styled(ChainInfo)`
  
       .chain {
         max-width: 9rem;
+        margin-bottom: 0.35rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-weight: 600;
-        font-size: 1.15rem;
-        line-height: 1.5rem;
+        font-weight: 500;
+        font-size: 1rem;
+        line-height: 1.25rem;
         color: #FFFFFF;
       }
 
