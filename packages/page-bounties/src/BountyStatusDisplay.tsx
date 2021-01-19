@@ -5,6 +5,7 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { useTranslation } from '@polkadot/app-bounties/translate';
 import VotingDescription from '@polkadot/app-bounties/VotingDescription';
@@ -12,11 +13,12 @@ import { LabelHelp } from '@polkadot/react-components';
 
 type Props = {
   bountyStatus: string;
+  className?: string;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-function BountyStatusDisplay ({ bountyStatus, proposals, status }: Props) {
+function BountyStatusDisplay ({ bountyStatus, className = '', proposals, status }: Props) {
   const { t } = useTranslation();
 
   const statusHelpMessages: Record<string, string> = useMemo(() => ({
@@ -29,8 +31,8 @@ function BountyStatusDisplay ({ bountyStatus, proposals, status }: Props) {
   }), [t]);
 
   return (
-    <>
-      <div>
+    <div className={className}>
+      <div className='bountyStatus'>
         {bountyStatus}
         <LabelHelp
           help={statusHelpMessages[status.type]}
@@ -44,8 +46,13 @@ function BountyStatusDisplay ({ bountyStatus, proposals, status }: Props) {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 
-export default React.memo(BountyStatusDisplay);
+export default React.memo(styled(BountyStatusDisplay)`
+  .bountyStatus {
+    display: flex;
+    align-items: flex-end;
+  }
+`);
