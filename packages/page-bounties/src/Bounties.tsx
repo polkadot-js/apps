@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
+import styled from 'styled-components';
 
 import Summary from '@polkadot/app-bounties/Summary';
 import { Button, Table } from '@polkadot/react-components';
@@ -11,7 +12,11 @@ import BountyCreate from './BountyCreate';
 import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
-function Bounties (): React.ReactElement {
+interface Props {
+  className?: string;
+}
+
+function Bounties ({className}: Props): React.ReactElement {
   const { t } = useTranslation();
   const { bestNumber, bounties } = useBounties();
 
@@ -27,12 +32,13 @@ function Bounties (): React.ReactElement {
   ]);
 
   return (
-    <>
+    <div className={className}>
       <Summary activeBounties={bounties?.length}/>
       <Button.Group>
         <BountyCreate />
       </Button.Group>
       <Table
+        className='bounties-table-wrapper'
         empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
       >
@@ -49,8 +55,12 @@ function Bounties (): React.ReactElement {
             />
           ))}
       </Table>
-    </>
+    </div>
   );
 }
 
-export default React.memo(Bounties);
+export default React.memo(styled(Bounties)`
+  .bounties-table-wrapper table {
+    background: none;
+  }
+`);
