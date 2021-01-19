@@ -55,9 +55,9 @@ export default React.memo(styled(VotingSummary)`
   }
 
   .description {
-    font-size: 10px;
+    margin-top: 0.7rem;
+    font-size: 0.7rem;
     color: #8B8B8B;
-    margin-top: 10px;
     text-transform: none;
   }
 `);
