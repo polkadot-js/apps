@@ -23,7 +23,7 @@ function BountyStatusDisplay ({ bountyStatus, className = '', proposals, status 
 
   const statusHelpMessages: Record<string, string> = useMemo(() => ({
     Active: t('This bounty has received general approval and is currently being implemented.'),
-    Approved: t("This bounty was approved by the council, it will get funded after treasury's send period."),
+    Approved: t("This bounty was approved by the council, it will get funded after a treasury's spend period."),
     CuratorProposed: t('The voting for a curator is in progress.'),
     Funded: t('This bounty was approved and funded by council.'),
     PendingPayout: t('This bounty was completed and the beneficiary was awarded by the curator.'),
