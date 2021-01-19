@@ -47,8 +47,8 @@ function VotersColumn ({ className, option, proposals, status }: Props): JSX.Ele
       {proposal &&
         <div className={className}>
           <div className='vote-numbers'>
-            <span className='icon'><Icon icon={styleOptions[option].icon} /></span>
-            <span className='label'>{styleOptions[option].label} {votes && votes.length}</span>
+            <span className='vote-numbers-icon'><Icon icon={styleOptions[option].icon} /></span>
+            <span className='vote-numbers-label'>{styleOptions[option].label} {votes && votes.length}</span>
           </div>
           {voters}
         </div>}
@@ -57,16 +57,23 @@ function VotersColumn ({ className, option, proposals, status }: Props): JSX.Ele
 }
 
 export default React.memo(styled(VotersColumn)`
-   & .vote-numbers {
-     margin-bottom: 14px;
-   }
-   & .icon {
-     margin-right: 10px;
-   }
-   & .voter {
-     margin-bottom: 7px;
-   }
-   & .label {
-     font-size: 0.7rem;
-   }
+  .vote-numbers {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .vote-numbers-icon svg {
+    max-width: 10px;
+    color: #9E9E9E;
+  }
+  
+  .vote-numbers-label {
+    margin-left: 0.75rem;
+    font-weight: bold;
+    font-size: 0.7rem;
+    line-height: 0.85rem;
+    text-transform: uppercase;
+    color: #4D4D4D;
+  }
 `);
