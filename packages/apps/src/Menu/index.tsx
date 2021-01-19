@@ -216,6 +216,10 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
 
     > li {
       display: inline-block;
+
+    }
+    > li + li {
+      margin-left: 0.25rem
     }
   }
   .ui--NodeInfo {
