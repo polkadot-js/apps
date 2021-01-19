@@ -89,7 +89,7 @@ export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
     margin-right: 0.25rem;
     vertical-align: baseline;
   }
-  
+
   .ui--FormatBalance-unit {
     font-size: 0.825em;
   }
