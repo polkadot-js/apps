@@ -8,12 +8,12 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import BountyStatusDisplay from '@polkadot/app-bounties/BountyStatusDisplay';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { BountyActions } from './BountyActions';
+import BountyStatusDisplay from './BountyStatusDisplay';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
 
