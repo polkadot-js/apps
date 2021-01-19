@@ -29,11 +29,13 @@ interface LastEvents {
 function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
   const { descriptor } = event.data[0] as CandidateReceipt;
 
-  map[descriptor.paraId.toString()] = [
-    blockHash,
-    descriptor.relayParent.toHex(),
-    blockNumber
-  ];
+  if (descriptor) {
+    map[descriptor.paraId.toString()] = [
+      blockHash,
+      descriptor.relayParent.toHex(),
+      blockNumber
+    ];
+  }
 }
 
 function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
