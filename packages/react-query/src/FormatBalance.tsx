@@ -78,9 +78,6 @@ export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
   display: inline-block;
   vertical-align: baseline;
   white-space: nowrap;
-  font-weight: ${theme.fontWeightMedium};
-  font-size: 0.85rem;
-  line-height: 1.4rem;
 
   * {
     vertical-align: baseline !important;
@@ -92,11 +89,17 @@ export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
     margin-right: 0.25rem;
     vertical-align: baseline;
   }
+  
+  .ui--FormatBalance-unit {
+    font-size: 0.825em;
+  }
 
   .ui--FormatBalance-value {
     text-align: right;
 
     > .ui--FormatBalance-postfix {
+      font-weight: ${theme.fontWeightLight};
+      opacity: 0.7;
       vertical-align: baseline;
     }
   }

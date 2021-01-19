@@ -9,6 +9,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -289,5 +290,22 @@ export default React.memo(styled(Bounty)`
   & .votes-table {
     display: flex;
     justify-content: space-between;
+  }
+
+  & .ui--FormatBalance {
+    font-weight: ${({ theme }: ThemeProps) => theme.fontWeightMedium};
+    font-size: 0.85rem;
+    line-height: 1.4rem;
+
+    .ui--FormatBalance-unit {
+      font-size: 0.85rem;
+    }
+
+    .ui--FormatBalance-value {
+      > .ui--FormatBalance-postfix {
+        font-weight: ${({ theme }: ThemeProps) => theme.fontWeightMedium};
+        opacity: 100%;
+      }
+    }
   }
 `);

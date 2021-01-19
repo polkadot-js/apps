@@ -41,9 +41,11 @@ export default React.memo(styled(BlockToTime)`
   &.isInline {
     display: inline-block;
   }
+
   span+span {
     padding-left: 0.25em;
   }
+
   span.timeUnits {
     font-size: 0.825em;
   }
