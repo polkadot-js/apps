@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function BountyStatusDisplay ({ bountyStatus, className = '', proposals, status }: Props): React.ReactElement<Props> {
+function BountyStatusView ({ bountyStatus, className = '', proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const statusHelpMessages: Record<string, string> = useMemo(() => ({
@@ -51,7 +51,7 @@ function BountyStatusDisplay ({ bountyStatus, className = '', proposals, status 
   );
 }
 
-export default React.memo(styled(BountyStatusDisplay)`
+export default React.memo(styled(BountyStatusView)`
   .bountyStatus {
     display: flex;
     align-items: flex-end;

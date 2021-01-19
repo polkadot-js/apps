@@ -13,7 +13,7 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { BountyActions } from './BountyActions';
-import BountyStatusDisplay from './BountyStatusDisplay';
+import BountyStatusView from './BountyStatusView';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
 
@@ -54,7 +54,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
     <>
       <tr className={className}>
         <td>
-          <BountyStatusDisplay
+          <BountyStatusView
             bountyStatus={bountyStatus}
             proposals={proposals}
             status={status}
