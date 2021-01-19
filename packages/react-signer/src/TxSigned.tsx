@@ -211,16 +211,31 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   );
 
   const _unlock = useCallback(
-    (): boolean => {
-      const passwordError = senderInfo.signAddress && flags.isUnlockable
-        ? unlockAccount(senderInfo)
-        : null;
+    async (): Promise<boolean> => {
+      let passwordError: string | null = null;
+
+      if (senderInfo.signAddress) {
+        if (flags.isUnlockable) {
+          passwordError = unlockAccount(senderInfo);
+        } else if (flags.isHardware) {
+          try {
+            const ledger = getLedger();
+            const { address } = await ledger.getAddress(false, flags.accountOffset, flags.addressOffset);
+
+            console.log(`Signing with Ledger address ${address}`);
+          } catch (error) {
+            console.error(error);
+
+            passwordError = t<string>('Unable to connect the the Ledger. {{error}}', { replace: { error: (error as Error).message } });
+          }
+        }
+      }
 
       setPasswordError(passwordError);
 
       return !passwordError;
     },
-    [flags, senderInfo]
+    [flags, getLedger, senderInfo, t]
   );
 
   const _onSendPayload = useCallback(
@@ -274,23 +289,26 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       setTimeout((): void => {
         const errorHandler = (error: Error): void => {
           console.error(error);
+
           setBusy(false);
           setError(error);
         };
 
-        try {
-          if (_unlock()) {
-            isSubmit
-              ? currentItem.payload
-                ? _onSendPayload(queueSetTxStatus, currentItem, senderInfo)
-                : _onSend(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler)
-              : _onSign(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler);
-          } else {
-            setBusy(false);
-          }
-        } catch (error) {
-          errorHandler(error as Error);
-        }
+        _unlock()
+          .then((isUnlocked): void => {
+            if (isUnlocked) {
+              isSubmit
+                ? currentItem.payload
+                  ? _onSendPayload(queueSetTxStatus, currentItem, senderInfo)
+                  : _onSend(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler)
+                : _onSign(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler);
+            } else {
+              setBusy(false);
+            }
+          })
+          .catch((error): void => {
+            errorHandler(error as Error);
+          });
       }, 0);
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
