@@ -52,7 +52,7 @@ const optionsMulti = {
   },
   transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
     headHex: headData.isSome
-      ? sliceHex(headData.unwrap(), 18)
+      ? sliceHex(headData.unwrap(), 12)
       : null,
     qDmp: dmp.length,
     qHrmpE: hrmpE.length,
