@@ -6,6 +6,8 @@ import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/
 
 import React, { useCallback, useMemo } from 'react';
 
+import SlashCurator from '@polkadot/app-bounties/BountyActions/SlashCurator';
+
 import { getBountyStatus } from '../helpers';
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
@@ -71,6 +73,14 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           index={index}
           payoutDue={blocksUntilPayout}
         />
+      }
+      {status.isCuratorProposed && curator &&
+      <SlashCurator
+        curatorId={curator}
+        description={description}
+        index={index}
+        proposals={proposals}
+      />
       }
     </>
   );
