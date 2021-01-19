@@ -58,14 +58,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       <tr className={className}>
         <td>
           <div>{bountyStatus}</div>
-          {proposals && (
-            <div>
-              <VotingDescription
-                proposals={proposals}
-                status={status}
-              />
-            </div>
-          )}
+          <div>
+            <VotingDescription
+              proposals={proposals}
+              status={status}
+            />
+          </div>
         </td>
         <td colSpan={2}
           data-testid='description'>{truncateTitle(description, 30)}</td>

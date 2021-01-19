@@ -16,7 +16,7 @@ function Bounties (): React.ReactElement {
   const { bestNumber, bounties } = useBounties();
 
   const headerRef = useRef([
-    [t('bounties'), 'start'],
+    [t('status'), 'start'],
     [t('title'), 'start'],
     [],
     [t('value'), 'start'],
