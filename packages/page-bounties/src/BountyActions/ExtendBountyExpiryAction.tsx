@@ -8,9 +8,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { truncateTitle } from './helpers';
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { truncateTitle } from '../helpers';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   description: string
