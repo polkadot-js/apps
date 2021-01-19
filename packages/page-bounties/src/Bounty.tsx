@@ -198,6 +198,10 @@ export default React.memo(styled(Bounty)`
       display: flex;
       align-items: center;
       justify-content: flex-end;
+
+      & > * + * {
+        margin-left: 0.285rem;
+      }
     }
 
     .table-column-icon {
@@ -206,7 +210,6 @@ export default React.memo(styled(Bounty)`
       justify-content: center;
       width: 1.7rem;
       height: 1.7rem;
-      margin-left: 1rem;
       border: 1px solid #DFDFDF;
       border-radius: 4px;
       cursor: pointer;
@@ -215,7 +218,6 @@ export default React.memo(styled(Bounty)`
       width: 24px;
       height: 24px;
       padding: 0;
-      border: 1px solid #616161;
       border-radius: 4px;
       
       svg {
@@ -226,6 +228,10 @@ export default React.memo(styled(Bounty)`
 
       &:hover {
         background: #fff;
+      }
+      &:focus {
+        background: #fff;
+        border: 1px solid #616161;
       }
     }
   }
