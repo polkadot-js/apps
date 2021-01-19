@@ -33,26 +33,31 @@ function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
           className={className}
           data-testid='voting-summary'
         >
-          <div>Aye <span className='votes'>{ayes}</span>/{threshold}</div>
-          <div>Nay <span className='votes'>{nays}</span>/{nayThreshold}</div>
-          <div className='description'>Voting results</div>
+          <p className='voting-summary-text'><span>Aye</span> <b>{ayes}/{threshold}</b></p>
+          <p className='voting-summary-text'><span>Nay</span> <b>{nays}/{nayThreshold}</b></p>
+          <p className='description'>Voting results</p>
         </div>
       )}
     </>
   );
 }
 
-export default React.memo(styled(VotingSummary)(() => `
-  font-size: 12px;
+export default React.memo(styled(VotingSummary)`
+  .voting-summary-text {
+    font-size: 0.85rem;
+    line-height: 0.5rem;
+    color: #1A1B20;
 
-  & .description {
+    span {
+      min-width: 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .description {
     font-size: 10px;
     color: #8B8B8B;
     margin-top: 10px;
     text-transform: none;
   }
-
-  & .votes {
-    font-weight: 700;
-  }
-`));
+`);
