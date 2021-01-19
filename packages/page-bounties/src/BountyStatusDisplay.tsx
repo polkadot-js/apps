@@ -7,9 +7,10 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from '@polkadot/app-bounties/translate';
-import VotingDescription from '@polkadot/app-bounties/VotingDescription';
 import { LabelHelp } from '@polkadot/react-components';
+
+import { useTranslation } from './translate';
+import VotingDescription from './VotingDescription';
 
 interface Props {
   bountyStatus: string;
