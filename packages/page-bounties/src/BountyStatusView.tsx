@@ -23,11 +23,11 @@ function BountyStatusView ({ bountyStatus, className = '', proposals, status }: 
   const { t } = useTranslation();
 
   const statusHelpMessages: Record<string, string> = useMemo(() => ({
-    Active: t('This bounty has received general approval and is currently being implemented.'),
-    Approved: t("This bounty was approved by the council, it will get funded after a treasury's spend period."),
-    CuratorProposed: t('The voting for a curator is in progress.'),
-    Funded: t('This bounty was approved and funded by council.'),
-    PendingPayout: t('This bounty was completed and the beneficiary was awarded by the curator.'),
+    Active: t('This bounty has received approval and is currently being implemented.'),
+    Approved: t('This bounty was approved by the council. When next treasury spend period comes, it will get funded.'),
+    CuratorProposed: t('Curator has been proposed by council. The bounty is waiting for curator to accept the role.'),
+    Funded: t('This bounty is approved and funded.'),
+    PendingPayout: t('This bounty was completed and the beneficiary was awarded by the curator. Claiming the payout will be possible after delay has passed.'),
     Proposed: t('After a bounty was proposed the council decides whether to fund it or not.')
   }), [t]);
 
