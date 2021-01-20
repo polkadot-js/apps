@@ -16,7 +16,7 @@ interface Props {
   className?: string;
 }
 
-function Bounties ({className}: Props): React.ReactElement {
+function Bounties ({ className }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { bestNumber, bounties } = useBounties();
 
@@ -78,5 +78,19 @@ export default React.memo(styled(Bounties)`
     text-transform: initial;
     filter: initial;
     opacity: 1;
+  }
+
+  .ui--Table th:first-child h1 {
+    padding: 0;
+    font-weight: bold;
+    font-size: 0.7rem;
+    line-height: 0.85rem;
+    text-transform: uppercase;
+    color: #4D4D4D;
+    border: none;
+
+    svg {
+      display: none;
+    }
   }
 `);

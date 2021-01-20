@@ -6,6 +6,8 @@ import type { ThemeProps } from '../types';
 import React from 'react';
 import styled from 'styled-components';
 
+import Icon from '../Icon';
+
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
@@ -36,7 +38,15 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? label
+              ? (
+                <h1>
+                  <Icon
+                    className='highlight--color'
+                    icon='dot-circle'
+                  />
+                  {label}
+                </h1>
+              )
               : isEmpty
                 ? ''
                 : label
