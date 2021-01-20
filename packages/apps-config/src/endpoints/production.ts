@@ -23,7 +23,6 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://rpc.polkadot.io',
-        'Web3 Foundation': 'wss://cc1-1.polkadot.network',
         OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://polkadot.elara.patract.io'
       }
@@ -34,7 +33,6 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://kusama-rpc.polkadot.io',
-        'Web3 Foundation': 'wss://cc3-5.kusama.network',
         OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://kusama.elara.patract.io'
       }
@@ -64,7 +62,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-mainnet',
-      text: t('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
+      text: t('rpc.dock-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io'
       }
@@ -79,7 +77,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'equilibrium',
-      text: t('rpc.equilibrium', 'Equilibrium Mainnet', { ns: 'apps-config' }),
+      text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://tge.equilibrium.io'
       }
@@ -101,7 +99,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'nodle',
-      text: t('rpc.nodle-main', 'Nodle Main', { ns: 'apps-config' }),
+      text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://main1.nodleprotocol.io'
       }

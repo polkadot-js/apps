@@ -15,7 +15,7 @@ import { useTranslation } from './translate';
 
 function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts, isMine, sudoKey } = useSudo();
+  const { allAccounts, hasSudoKey, sudoKey } = useSudo();
 
   const itemsRef = useRef([
     {
@@ -37,20 +37,20 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
           items={itemsRef.current}
         />
       </header>
-      {isMine
+      {hasSudoKey
         ? (
           <Switch>
             <Route path={`${basePath}/key`}>
               <SetKey
                 allAccounts={allAccounts}
-                isMine={isMine}
+                isMine={hasSudoKey}
                 sudoKey={sudoKey}
               />
             </Route>
             <Route>
               <Sudo
                 allAccounts={allAccounts}
-                isMine={isMine}
+                isMine={hasSudoKey}
                 sudoKey={sudoKey}
               />
             </Route>

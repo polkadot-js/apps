@@ -4,6 +4,8 @@
 import type { SignerResult } from '@polkadot/api/types';
 
 export interface AddressFlags {
+  accountOffset: number;
+  addressOffset: number;
   hardwareType?: string;
   isHardware: boolean;
   isMultisig: boolean;

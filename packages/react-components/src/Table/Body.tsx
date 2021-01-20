@@ -82,6 +82,15 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       > * {
         vertical-align: middle;
       }
+
+      .ui--Toggle {
+        display: inline-block;
+        white-space: nowrap;
+
+        label {
+          display: inline-block !important;
+        }
+      }
     }
 
     &.combined {
@@ -128,6 +137,10 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       max-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    &.start {
+      text-align: left;
     }
 
     &.together {

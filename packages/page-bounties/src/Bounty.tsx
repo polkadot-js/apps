@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfaces';
+import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -13,15 +13,16 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { BountyActions } from './BountyActions';
-import { getBountyStatus } from './helpers';
+import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
+import VotingDescription from './VotingDescription';
 
 interface Props {
   bestNumber: BlockNumber;
   bounty: BountyType;
   className?: string;
   description: string;
-  index: number;
+  index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
 }
 
@@ -52,8 +53,20 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={className}>
-        <td>{bountyStatus}</td>
-        <td>{description}</td>
+        <td>
+          <div>
+            <div>{bountyStatus}</div>
+            {proposals && (
+              <div>
+                <VotingDescription
+                  proposals={proposals}
+                  status={status}
+                />
+              </div>
+            )}
+          </div>
+        </td>
+        <td data-testid='description'>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>
         <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
         <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
@@ -62,9 +75,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           <BountyActions
             bestNumber={bestNumber}
+            description={description}
             index={index}
             proposals={proposals}
             status={status}
+            value={value}
           />
         </td>
         <td className='table-column-icon'>
@@ -102,8 +117,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='inline-balance'><FormatBalance value={bond} /></div>
         </td>
         <td className='column-with-label'>
-          <div className='label'>{t('Curators fee')}</div>
-          <div className='label'>{t('Curators deposit')}</div>
+          <div className='label'>{t("Curator's fee")}</div>
+          <div className='label'>{t("Curator's deposit")}</div>
         </td>
         <td>
           <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
