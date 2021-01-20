@@ -15,9 +15,8 @@ import { formatNumber } from '@polkadot/util';
 import ExtendedStatus from './Voting/ExtendedStatus';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
-import { BountyInfos } from './BountyInfos';
-import Description from './Description';
-import { getBountyStatus, truncateTitle } from './helpers';
+import BountyInfos from './BountyInfos';
+import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -93,18 +92,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td>
           <div className='td-row'>
-            {proposals && (
-              <BountyInfos
-                proposals={proposals}
-                status={status}
-              />
-            )}
-            {beneficiary && (
-              <div>
-                <AddressSmall value={beneficiary} />
-                <Description description={t('Beneficiary')} />
-              </div>
-            )}
+            <BountyInfos
+              beneficiary={beneficiary}
+              proposals={proposals}
+              status={status}
+            />
             <div className='bounty-action-row'>
               <BountyActions
                 bestNumber={bestNumber}
