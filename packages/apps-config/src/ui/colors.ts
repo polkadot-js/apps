@@ -23,7 +23,7 @@ const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoBifrost = '#002cc3';
-const chainRoccoDarwinia = '#7C30DD';
+const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
@@ -64,7 +64,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia cc1', chainDarwinia],
-  ['darwinia parachain', chainRoccoDarwinia],
+  ['Darwinia PC2', chainRoccoDarwinia],
   ['hanonycash', chainHanonycash],
   ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],

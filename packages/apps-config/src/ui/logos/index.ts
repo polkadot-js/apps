@@ -59,6 +59,7 @@ import emptyLogo from './empty.svg';
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
   ['darwinia crab', nodeCrab],
+  ['Darwinia PC2', nodeDarwinia],
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
   ['Kusama', chainKusama], // new name after CC3
@@ -93,6 +94,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['crust', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
+  ['Darwinia Runtime Module Library', nodeDarwinia],
   ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],

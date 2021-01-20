@@ -60,6 +60,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoDarwinia',
+        paraId: 18,
+        text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
