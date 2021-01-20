@@ -210,6 +210,10 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
       overflow: hidden;
       text-overflow: ellipsis;
 
+      &:not(.isAddress) {
+        text-transform: uppercase;
+      }
+
       &.isAddress {
         font: ${theme.fontMono};
         text-transform: none;
