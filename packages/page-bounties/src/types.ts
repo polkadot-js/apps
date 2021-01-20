@@ -10,3 +10,13 @@ export interface BountyStatusType {
   unlockAt: BlockNumber | undefined;
   updateDue: BlockNumber | undefined;
 }
+
+export type HelpMessages = {
+  Active: string;
+  Approved: string;
+  Funded: string;
+  CuratorProposed: string;
+  PendingPayout: string;
+  Proposed: string;
+}
+export type BountyState = 'Active' | 'Approved' | 'Funded' | 'CuratorProposed' | 'PendingPayout' | 'Proposed'
