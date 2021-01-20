@@ -40,6 +40,7 @@ function Bounties ({ className }: Props): React.ReactElement {
       <Table
         className='bounties-table-wrapper'
         empty={bounties && t<string>('No open bounties')}
+        hasTitle={false}
         header={headerRef.current}
       >
         {bounties && bestNumber &&
