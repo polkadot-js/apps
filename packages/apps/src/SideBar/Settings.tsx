@@ -1,15 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Dropdown, Icon, Tooltip } from '@canvas-ui/react-components';
+import { ELEV_4_CSS } from '@canvas-ui/react-components/styles/constants';
 import { BareProps as Props } from '@canvas-ui/react-components/types';
-
+import { useApi, useEndpoints, useSettings } from '@canvas-ui/react-hooks';
+import { classes, useEndpointOptions } from '@canvas-ui/react-util';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { Dropdown, Icon, Tooltip } from '@canvas-ui/react-components';
-import { classes, useEndpointOptions } from '@canvas-ui/react-util';
-import { ELEV_4_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useApi, useEndpoints, useSettings } from '@canvas-ui/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -37,7 +36,7 @@ function Settings ({ className }: Props): React.ReactElement<Props> {
         data-tip
         to='/settings'
       >
-        <Icon name='setting' />
+        <Icon icon='cog' />
       </NavLink>
       <Tooltip
         place='top'
@@ -137,7 +136,7 @@ export default React.memo(styled(Settings)`
       color: var(--grey80);
     }
 
-    i.icon {
+    .svg-inline--fa {
       margin-right: 0;
     }
   }

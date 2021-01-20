@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Weight } from '@polkadot/types/interfaces';
 import type { UseWeight } from './types';
 
+import { useApi, useBlockTime } from '@canvas-ui/react-hooks';
 import BN from 'bn.js';
 import { useCallback, useMemo, useState } from 'react';
 
-import { useApi, useBlockTime } from '@canvas-ui/react-hooks';
 import { BN_TEN, BN_ZERO } from '@polkadot/util';
 
 const BN_MILLION = new BN(1_000_000);

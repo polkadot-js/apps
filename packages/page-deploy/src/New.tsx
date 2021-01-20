@@ -1,29 +1,29 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Code } from '@canvas-ui/apps/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { BlueprintPromise as Blueprint } from '@polkadot/api-contract';
-import { ComponentProps as Props } from './types';
-
+import { Button, ContractParams, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
+import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
+import { useTxParams } from '@canvas-ui/react-params';
+import { extractValues } from '@canvas-ui/react-params/values';
+import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
+import { truncate } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { SubmittableResult } from '@polkadot/api';
-import { Button, ContractParams, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
-import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useAbi, useAccountId, useGasWeight, useNonEmptyString, useNonZeroBn, useApi } from '@canvas-ui/react-hooks';
-import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { BlueprintPromise as Blueprint } from '@polkadot/api-contract';
+import { AccountId } from '@polkadot/types/interfaces';
 import keyring from '@polkadot/ui-keyring';
-import { truncate } from '@canvas-ui/react-util';
-import { useTxParams } from '@canvas-ui/react-params';
-import { extractValues } from '@canvas-ui/react-params/values';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 // import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
 import { useTranslation } from './translate';
+import { ComponentProps as Props } from './types';
 
 type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
@@ -259,7 +259,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             <TxButton
               accountId={accountId}
               extrinsic={initTx}
-              icon='cloud upload'
+              icon='cloud-upload-alt'
               isDisabled={!isValid}
               isPrimary
               label={t<string>('Deploy')}

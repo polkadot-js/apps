@@ -1,13 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { WithTranslation } from 'react-i18next';
-import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
-import { Abi } from '@polkadot/api-contract';
-import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { StringOrNull } from '@canvas-ui/react-util/types';
+import type { Icon as IconType, IconName } from '@fortawesome/fontawesome-svg-core';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+
 import { TxState } from '@canvas-ui/react-hooks/types';
+import { WithTranslation } from 'react-i18next';
+
+// import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import { Abi } from '@polkadot/api-contract';
 import { AccountId, Index } from '@polkadot/types/interfaces';
+
 import { ButtonProps } from './Button/types';
 import { InputAddressProps } from './InputAddress/types';
 import { TxCallback, TxFailedCallback } from './Status/types';
@@ -29,7 +33,7 @@ export interface TxTriggerProps {
 }
 
 export interface TxProps {
-  extrinsic?: SubmittableExtrinsic | null;
+  extrinsic?: SubmittableExtrinsic<'promise'> | null;
   tx?: string;
   params?: any[] | ConstructTxFn;
 }
@@ -42,27 +46,29 @@ export interface TxAccountProps {
   onChange: (value: string | null) => void;
 }
 
-export interface TxButtonProps extends TxProps {
-  accountId?: AccountId | StringOrNull;
+export interface TxButtonProps {
+  accountId?: AccountId | string | null;
   accountNonce?: Index;
   className?: string;
-  icon?: string;
-  iconSize?: SUIButtonProps['size'];
+  extrinsic?: SubmittableExtrinsic<'promise'> | SubmittableExtrinsic<'promise'>[] | null;
+  icon?: IconType | IconName;
   isBasic?: boolean;
+  isBusy?: boolean;
   isDisabled?: boolean;
   isIcon?: boolean;
-  isNegative?: boolean;
   isPrimary?: boolean;
   isUnsigned?: boolean;
   label?: React.ReactNode;
-  onClick?: VoidFn;
+  onClick?: () => void;
   onFailed?: TxFailedCallback;
-  onSendRef?: React.MutableRefObject<VoidFn | undefined>;
-  onStart?: VoidFn;
+  onSendRef?: React.MutableRefObject<(() => void) | undefined>;
+  onStart?: () => void;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
-  size?: SUIButtonProps['size'];
+  params?: any[] | (() => any[]);
   tooltip?: string;
+  tx?: ((...args: any[]) => SubmittableExtrinsic<'promise'>) | null;
+  withoutLink?: boolean;
   withSpinner?: boolean;
 }
 
@@ -114,4 +120,34 @@ export type CallContract = ContractDeployed;
 export interface NullContract {
   abi: null;
   address: null;
+}
+
+export interface ThemeDef {
+  bgInput: string;
+  bgInputError: string;
+  bgInverse: string;
+  bgMenu: string;
+  bgMenuHover: string;
+  bgPage: string;
+  bgTable: string;
+  bgTabs: string;
+  bgToggle: string;
+  borderTable: string;
+  borderTabs: string;
+  color: string;
+  colorCheckbox: string;
+  colorError: string;
+  colorLabel: string;
+  colorSummary: string;
+  contentHalfWidth: string;
+  contentMaxWidth: string;
+  fontSans: string;
+  fontMono: string;
+  fontWeightLight: number;
+  fontWeightNormal: number;
+  theme: 'dark' | 'light';
+}
+
+export interface ThemeProps {
+  theme: ThemeDef;
 }

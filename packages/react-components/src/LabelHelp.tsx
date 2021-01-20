@@ -1,41 +1,35 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useToggle } from '@canvas-ui/react-hooks';
 
 import Icon from './Icon';
-import { classes } from '@canvas-ui/react-util';
 import Tooltip from './Tooltip';
 
-interface Props extends BareProps {
+interface Props {
   help: React.ReactNode;
+  icon?: IconName;
+  className?: string;
 }
 
 let id = 0;
 
-function LabelHelp ({ className = '', help }: Props): React.ReactElement<Props> {
+function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): React.ReactElement<Props> {
   const [trigger] = useState(`label-help-${++id}`);
-  const [isTooltipOpen, toggleTooltip] = useToggle();
 
   return (
-    <div className={classes('ui--LabelHelp', className)}>
+    <div className={`ui--LabelHelp ${className}`}>
       <Icon
-        data-for={trigger}
-        data-tip
-        name='help circle'
-        onMouseOut={toggleTooltip}
-        onMouseOver={toggleTooltip}
+        icon={icon}
+        tooltip={trigger}
       />
-      {isTooltipOpen && (
-        <Tooltip
-          text={help}
-          trigger={trigger}
-        />
-      )}
+      <Tooltip
+        text={help}
+        trigger={trigger}
+      />
     </div>
   );
 }
@@ -45,5 +39,4 @@ export default React.memo(styled(LabelHelp)`
   display: inline-block;
   line-height: 1rem;
   margin: 0 0 0 0.25rem;
-  color: var(--grey50);
 `);

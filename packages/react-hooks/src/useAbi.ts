@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code } from '@canvas-ui/apps/types';
-import { VoidFn } from '@canvas-ui/react-util/types';
-import { AnyJson } from '@polkadot/types/types';
-import { FileState } from './types';
-
-import { useCallback, useEffect, useState } from 'react';
-import { Abi } from '@polkadot/api-contract';
 import store from '@canvas-ui/apps/store';
+import { Code } from '@canvas-ui/apps/types';
 import { useApi } from '@canvas-ui/react-hooks';
+import { VoidFn } from '@canvas-ui/react-util/types';
+import { useCallback, useEffect, useState } from 'react';
+
+import { Abi } from '@polkadot/api-contract';
+import { AnyJson } from '@polkadot/types/types';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+import { FileState } from './types';
 
 interface UseAbi {
   abi: Abi | null;

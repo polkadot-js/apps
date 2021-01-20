@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiProps, SubtractProps } from '../types';
-import { Options } from './types';
-
 import React from 'react';
+
+import { ApiProps, SubtractProps } from '../types';
 import withCall from './call';
+import { Options } from './types';
 
 type Call = string | [string, Options];
 

@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Button, Dropdown, Input, Toggle } from '@canvas-ui/react-components';
 import { BareProps as Props } from '@canvas-ui/react-components/types';
-
+import { useEndpoints, useSettings } from '@canvas-ui/react-hooks';
+import { classes, useEndpointOptions } from '@canvas-ui/react-util';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, Input, Dropdown, Toggle } from '@canvas-ui/react-components';
-import { classes, useEndpointOptions } from '@canvas-ui/react-util';
-import { useEndpoints, useSettings } from '@canvas-ui/react-hooks';
 
 import { useTranslation } from './translate';
 

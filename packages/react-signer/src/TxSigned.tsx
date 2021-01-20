@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Button, ErrorBoundary, Modal, Output, Toggle } from '@canvas-ui/react-components';
 import { QueueTx } from '@canvas-ui/react-components/Status/types';
-
+import { useApi, useToggle } from '@canvas-ui/react-hooks';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, ErrorBoundary, Modal, Output, Toggle } from '@canvas-ui/react-components';
-import { useApi, useToggle } from '@canvas-ui/react-hooks';
 
 import Address from './Address';
 import Qr from './Qr';
@@ -25,8 +24,7 @@ interface Props {
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const {
-    addQrSignature,
+  const { addQrSignature,
     flags,
     multiCall,
     onCancel,
@@ -39,8 +37,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     setSenderInfo,
     setSignedOptions,
     setTip,
-    signedTx
-  } = useSendTx(currentItem, requestAddress);
+    signedTx } = useSendTx(currentItem, requestAddress);
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
 

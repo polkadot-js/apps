@@ -1,15 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { classes } from '@canvas-ui/react-util';
+import { faFile, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
-import { classes } from '@canvas-ui/react-util';
-
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   errorText?: React.ReactNode;
@@ -25,8 +24,8 @@ function FileSupplied ({ className, errorText, isError, onRemove, text }: Props)
     <div className={classes(isError && 'isError', className)}>
       <Icon
         className='file-supplied'
-        name='file outline'
-        size='large'
+        icon={faFile}
+        size='2x'
       />
       <div className='info'>
         {text}
@@ -38,7 +37,7 @@ function FileSupplied ({ className, errorText, isError, onRemove, text }: Props)
       </div>
       <Icon
         className='file-remove'
-        name='trash alternate outline'
+        icon={faTrashAlt}
         onClick={onRemove}
       />
     </div>
@@ -62,11 +61,11 @@ export default React.memo(styled(FileSupplied)`
     }
   }
 
-  i.icon.file-supplied {
+  .svg-inline--fa.file-supplied {
     color: var(--blue-primary);
   }
 
-  i.icon.file-remove {
+  .svg-inline--fa.file-remove {
     color: var(--grey70);
     cursor: pointer;
     height: 100%;
@@ -77,7 +76,7 @@ export default React.memo(styled(FileSupplied)`
   }
 
   &.isError {
-    i.icon.file-supplied {
+    .svg-inline--fa.file-supplied {
       color: var(--red-primary);
     }
   }

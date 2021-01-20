@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { DropdownOptions } from '@canvas-ui/react-util/types';
-
-import React, { useCallback, useState } from 'react';
 import { useApi } from '@canvas-ui/react-hooks';
+import { DropdownOptions } from '@canvas-ui/react-util/types';
+import React, { useCallback, useState } from 'react';
 
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+
+import methodOptions from './options/method';
+import sectionOptions from './options/section';
 import LinkedWrapper from './LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
-import methodOptions from './options/method';
-import sectionOptions from './options/section';
 
 interface Props {
   className?: string;

@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import { Expander } from '@canvas-ui/react-components';
+import { useApi, useIsMountedRef } from '@canvas-ui/react-hooks';
+import BN from 'bn.js';
+import React, { useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-
-import BN from 'bn.js';
-import React, { useState, useEffect } from 'react';
-import { Trans } from 'react-i18next';
-import { Expander } from '@canvas-ui/react-components';
-import { useApi, useIsMountedRef } from '@canvas-ui/react-hooks';
 import { formatBalance, isFunction } from '@polkadot/util';
 
 interface Props {

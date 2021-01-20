@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { TypeDef } from '@polkadot/types/types';
-import { ComponentMap, RawParam, RawParams, RawParamOnChangeValue } from './types';
 
 import React, { useCallback } from 'react';
 
+import { TypeDef } from '@polkadot/types/types';
+
 import Param from './Param';
+import { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from './types';
 
 interface Props {
   defaultValue: RawParam;

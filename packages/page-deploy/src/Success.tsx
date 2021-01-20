@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
-
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { Button, ContractCard } from '@canvas-ui/react-components';
 import { useContract } from '@canvas-ui/react-hooks';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useTranslation } from './translate';
 

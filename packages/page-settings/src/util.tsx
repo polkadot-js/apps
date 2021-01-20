@@ -1,11 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Option } from '@canvas-ui/apps-config/settings/types';
-import { SettingsStruct } from '@polkadot/ui-settings/types';
+import type { SettingsStruct } from '@polkadot/ui-settings/types';
 
-import React from 'react';
+import { Option } from '@canvas-ui/apps-config/settings/types';
 import { Dropdown, IdentityIcon } from '@canvas-ui/react-components';
+import React from 'react';
+
 import uiSettings from '@polkadot/ui-settings';
 
 export function createOption ({ isHeader, text, value }: Option): Option | React.ReactNode {

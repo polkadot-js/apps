@@ -1,16 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { classes } from '@canvas-ui/react-util';
 import { VoidFn } from '@canvas-ui/react-util/types';
-
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
-import { classes } from '@canvas-ui/react-util';
 
 import EditButton from './EditButton';
 import InputTags from './InputTags';
 import Tag from './Tag';
-
 import { useTranslation } from './translate';
 
 interface Props {

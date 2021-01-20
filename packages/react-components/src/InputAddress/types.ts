@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { KeyringSectionOption, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
-import { BareProps } from '../types';
-
 import React from 'react';
+
+import { KeyringOption$Type, KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
+
+import { BareProps } from '../types';
 
 export interface InputAddressProps extends BareProps {
   defaultValue?: Uint8Array | string | null;

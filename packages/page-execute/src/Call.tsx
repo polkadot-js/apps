@@ -1,24 +1,24 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
-import { CallResult } from './types';
-
-import BN from 'bn.js';
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
-import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { useTxParams } from '@canvas-ui/react-params';
 import { extractValues } from '@canvas-ui/react-params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { getContractForAddress } from '@canvas-ui/react-util';
+import BN from 'bn.js';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { BN_ZERO, isNull } from '@polkadot/util';
 
 import Outcome from './Outcome';
 import { useTranslation } from './translate';
+import { CallResult } from './types';
 
 type Options = { key: string, text: React.ReactNode, value: number }[];
 
@@ -287,7 +287,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
                   isPrimary
                   label={t<string>('Call')}
                   params={_constructTx}
-                  tx='contracts.call'
+                  tx={api.tx.contracts.call}
                 />
               )
             }

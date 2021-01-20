@@ -1,11 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import queryString from 'query-string';
-import store from 'store';
 import { createEndpoints } from '@canvas-ui/apps-config/settings';
 import { registry } from '@canvas-ui/react-api';
 import { extractIpfsDetails } from '@canvas-ui/react-hooks/useIpfs';
+import queryString from 'query-string';
+import store from 'store';
+
 import settings from '@polkadot/ui-settings';
 
 function getApiUrl (): string {

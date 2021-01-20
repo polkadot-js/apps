@@ -1,7 +1,8 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { css } from 'styled-components';
+
 import { ELEV_2_CSS, ELEV_4_CSS } from './constants';
 
 export default css`
@@ -43,7 +44,7 @@ export default css`
     margin: 0;
   }
 
-  button.ui.icon.icon-button {
+  button.u.svg-inline--fa.icon-button {
     margin-left: 0.5rem;
     padding-top: 0;
     padding-right: 0;

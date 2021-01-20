@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { DoughnutProps } from './types';
 
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+
 import { bnToBn } from '@polkadot/util';
 
 import Base from './Base';
+import { DoughnutProps } from './types';
 
 interface Options {
   colorNormal: string[];

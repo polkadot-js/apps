@@ -1,17 +1,16 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { VoidFn } from '@canvas-ui/react-util/types';
-import { BareProps } from './types';
-
-import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 import { useToggle } from '@canvas-ui/react-hooks';
 import { classes } from '@canvas-ui/react-util';
+import { VoidFn } from '@canvas-ui/react-util/types';
+import React, { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import Button from './Button';
 import Modal from './Modal';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Page {
   content: React.ReactNode;

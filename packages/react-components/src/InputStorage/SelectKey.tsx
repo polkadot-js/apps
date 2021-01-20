@@ -1,16 +1,16 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueryableStorageEntry } from '@polkadot/api/types';
-import { DropdownOptions } from '@canvas-ui/react-util/types';
-import { BareProps } from '../types';
-
-import React from 'react';
-import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@canvas-ui/react-hooks';
+import { classes } from '@canvas-ui/react-util';
+import { DropdownOptions } from '@canvas-ui/react-util/types';
+import React from 'react';
+
+import { ApiPromise } from '@polkadot/api';
+import { QueryableStorageEntry } from '@polkadot/api/types';
 
 import Dropdown from '../Dropdown';
-import { classes } from '@canvas-ui/react-util';
+import { BareProps } from '../types';
 
 interface Props extends BareProps {
   isError?: boolean;

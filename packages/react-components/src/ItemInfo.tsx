@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { BareProps } from './types';
 
 import React from 'react';
 // import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   icon: React.ReactNode;
@@ -36,7 +36,7 @@ export default styled(React.memo(ItemInfo))`
   display: flex;
   align-items: flex-start;
 
-  i.icon.code-icon {
+  .svg-inline--fa.code-icon {
     color: var(--grey60);
     font-size: 1.8rem;
     margin: 1rem;

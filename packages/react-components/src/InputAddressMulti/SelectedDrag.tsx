@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
+import ReactDOM from 'react-dom';
 
 import { PORTAL_ID } from '../../../apps/src/Apps';
 import AddressToggle from '../AddressToggle';

@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Moment } from '@polkadot/types/interfaces';
 import { BareProps } from '@canvas-ui/react-api/types';
-
+import { useApi, useCall } from '@canvas-ui/react-hooks';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { useApi, useCall } from '@canvas-ui/react-hooks';
+
+import { Moment } from '@polkadot/types/interfaces';
 
 import Elapsed from './Elapsed';
 

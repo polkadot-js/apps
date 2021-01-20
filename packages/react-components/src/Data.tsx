@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, Codec, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { BareProps } from './types';
-
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
 import { registry as baseRegistry } from '@canvas-ui/react-api';
 import { truncate } from '@canvas-ui/react-util';
-import { isNull } from '@polkadot/util';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+
 import { createTypeUnsafe, Option } from '@polkadot/types';
+import { AnyJson, Codec, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { isNull } from '@polkadot/util';
 
 import AddressSmall from './AddressMini';
 import Labelled from './Labelled';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   asJson?: boolean;

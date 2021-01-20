@@ -1,7 +1,8 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { css } from 'styled-components';
+
 import { ELEV_2_CSS, ELEV_3_CSS } from './constants';
 
 export default css`
@@ -290,7 +291,7 @@ export default css`
     padding-left: 4rem !important;
   }
 
-  .ui[class*="left icon"].input.left.icon > i.icon.big {
+  .ui[class*="left icon"].input.left.icon > .svg-inline--fa.big {
     left: -7px;
     opacity: 1;
   }

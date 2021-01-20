@@ -1,16 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import linked from '@canvas-ui/apps-config/links';
 import { LinkTypes } from '@canvas-ui/apps-config/links/types';
-
+import { useApi } from '@canvas-ui/react-hooks';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import linked from '@canvas-ui/apps-config/links';
-import { useApi } from '@canvas-ui/react-hooks';
 
-import { useTranslation } from './translate';
 import Tooltip from './Tooltip';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOptions } from '@canvas-ui/react-util/types';
-
-import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@canvas-ui/react-hooks';
+import { DropdownOptions } from '@canvas-ui/react-util/types';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+import { DefinitionRpcExt } from '@polkadot/types/types';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
+import SelectMethod from './SelectMethod';
+import SelectSection from './SelectSection';
 
 interface Props {
   className?: string;

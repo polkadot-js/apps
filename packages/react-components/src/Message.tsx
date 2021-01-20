@@ -1,16 +1,16 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
+import { classes } from '@canvas-ui/react-util';
 import { VoidFn } from '@canvas-ui/react-util/types';
+import Tippy from '@tippyjs/react';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+import { followCursor } from 'tippy.js';
+
 import { AbiMessage } from '@polkadot/api-contract/types';
 import { Registry } from '@polkadot/types/types';
-
-import React, { useMemo } from 'react';
-import Tippy from '@tippyjs/react';
-import { followCursor } from 'tippy.js';
-import styled from 'styled-components';
-import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_3_CSS } from './styles/constants';
 import Button from './Button';
@@ -75,7 +75,7 @@ function Message ({ className, isConstructor, message, onSelect, registry }: Pro
             <div className='accessory'>
               <Button
                 className='execute'
-                icon={isConstructor ? 'cloud upload' : 'play'}
+                icon={isConstructor ? 'cloud-upload' : 'play'}
                 onClick={onSelect}
                 tooltip={t<string>(isConstructor ? 'Deploy with this constructor' : 'Call this message')}
               />

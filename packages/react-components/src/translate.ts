@@ -1,9 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useTranslation as useTranslationBase, UseTranslationResponse, withTranslation } from 'react-i18next';
+import type { UseTranslationResponse } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse {
+import { useTranslation as useTranslationBase, withTranslation } from 'react-i18next';
+
+export function useTranslation (): UseTranslationResponse<'react-components'> {
   return useTranslationBase('react-components');
 }
 

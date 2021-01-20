@@ -1,14 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { useToggle } from '@canvas-ui/react-hooks';
 import React from 'react';
 import ReactMd from 'react-markdown';
 import styled from 'styled-components';
-import { useToggle } from '@canvas-ui/react-hooks';
 
 import Icon from './Icon';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   md: string;
@@ -21,14 +20,14 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
     <div className={className}>
       <div className='help-button'>
         <Icon
-          name='help circle'
+          icon='question-circle'
           onClick={toggleVisible}
         />
       </div>
       <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
         <div className='help-button'>
           <Icon
-            name='close'
+            icon='close'
             onClick={toggleVisible}
           />
         </div>

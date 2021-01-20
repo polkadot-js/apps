@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueTx } from '@canvas-ui/react-components/Status/types';
-import { TypeDef } from '@polkadot/types/types';
-import { BareProps } from './types';
-
-import React, { useCallback, useMemo, useEffect, useRef } from 'react';
-import styled from 'styled-components';
 import { registry as baseRegistry } from '@canvas-ui/react-api';
-import { Button, Data, Labelled, InputAddress } from '@canvas-ui/react-components';
+import { Button, Data, InputAddress, Labelled } from '@canvas-ui/react-components';
+import { QueueTx } from '@canvas-ui/react-components/Status/types';
 import useSendTx from '@canvas-ui/react-signer/useSendTx';
+import { truncate } from '@canvas-ui/react-util';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import styled from 'styled-components';
+
 import { TypeRegistry } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
 
 import { ELEV_2_CSS } from './styles/constants';
 import { useTranslation } from './translate';
-import { truncate } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   additionalDetails: Record<string, any>;
@@ -239,7 +239,7 @@ function PendingTx ({ additionalDetails, children, className, currentItem, instr
           <div className='instructions'>
             {instructions}
           </div>
-          <Button.Group>
+          <Button.Group className='buttons-submit'>
             <Button
               isPrimary
               label={t<string>('Sign & Submit')}
@@ -273,5 +273,9 @@ export default React.memo(styled(PendingTx)`
       margin: 0;
       padding: 0;
     }
+  }
+
+  .buttons-submit {
+    margin: 1rem 0;
   }
 `);

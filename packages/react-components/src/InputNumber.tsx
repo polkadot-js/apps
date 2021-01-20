@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SiDef } from '@polkadot/util/types';
-import { BareProps, BitLength } from './types';
-
+import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
-import { classes } from '@canvas-ui/react-util';
-import { BitLengthOption } from './constants';
+import { BN_TEN, BN_ZERO, formatBalance, isBn } from '@polkadot/util';
+import { SiDef } from '@polkadot/util/types';
+
 import { ELEV_2_CSS } from './styles/constants';
+import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
+import { BareProps, BitLength } from './types';
 
 interface Props extends BareProps {
   autoFocus?: boolean;

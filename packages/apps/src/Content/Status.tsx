@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import { Status as StatusDisplay } from '@canvas-ui/react-components';
+import { ActionStatus, QueueAction$Add, QueueStatus, QueueTx } from '@canvas-ui/react-components/Status/types';
+import { useAccounts, useApi, useCall } from '@canvas-ui/react-hooks';
+import React, { useEffect } from 'react';
 
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
-import { ActionStatus, QueueStatus, QueueTx, QueueAction$Add } from '@canvas-ui/react-components/Status/types';
-
-import React, { useEffect } from 'react';
-import { Status as StatusDisplay } from '@canvas-ui/react-components';
-import { useAccounts, useApi, useCall } from '@canvas-ui/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 

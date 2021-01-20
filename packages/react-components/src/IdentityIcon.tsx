@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IdentityProps as Props } from '@polkadot/react-identicon/types';
-
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { getSystemIcon } from '@canvas-ui/apps-config/ui';
 import { useApi, useNotification } from '@canvas-ui/react-hooks';
-import BaseIdentityIcon from '@polkadot/react-identicon';
-import uiSettings from '@polkadot/ui-settings';
 import { ValidatorsContext } from '@canvas-ui/react-query';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import BaseIdentityIcon from '@polkadot/react-identicon';
+import { IdentityProps as Props } from '@polkadot/react-identicon/types';
+import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate';
 

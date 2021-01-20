@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DispatchError } from '@polkadot/types/interfaces';
-import { Props } from '../types';
-
-import React, { useEffect, useState } from 'react';
 import { Input } from '@canvas-ui/react-components';
+import React, { useEffect, useState } from 'react';
+
+import { DispatchError } from '@polkadot/types/interfaces';
 
 import { useTranslation } from '../translate';
+import { Props } from '../types';
 import Static from './Static';
 import Unknown from './Unknown';
 

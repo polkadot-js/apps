@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // SInce this file is deemed deprecated (and awaiting removal), we just don't care
@@ -9,15 +9,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { ApiProps, CallState as State, SubtractProps } from '../types';
-import { Options } from './types';
-
 import React from 'react';
+
 import { assert, isNull, isUndefined } from '@polkadot/util';
 
-import { isEqual, triggerChange } from '../util';
 import echoTransform from '../transform/echo';
+import { ApiProps, CallState as State, SubtractProps } from '../types';
+import { isEqual, triggerChange } from '../util';
 import withApi from './api';
+import { Options } from './types';
 
 // FIXME This is not correct, we need some junction of derive, query & consts
 interface Method {
@@ -38,8 +38,7 @@ const NO_SKIP = (): boolean => false;
 // a mapping of actual error messages that has already been shown
 const errorred: Record<string, boolean> = {};
 
-export default function withCall<P extends ApiProps> (endpoint: string, {
-  at,
+export default function withCall<P extends ApiProps> (endpoint: string, { at,
   atProp,
   callOnResult,
   fallbacks,
@@ -51,8 +50,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
   propName,
   skipIf = NO_SKIP,
   transform = echoTransform,
-  withIndicator = false
-}: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+  withIndicator = false }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       public state: State = {

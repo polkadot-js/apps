@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { KeyringPair } from '@polkadot/keyring/types';
-
+import { Modal, Password } from '@canvas-ui/react-components';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Modal, Password } from '@canvas-ui/react-components';
+
+import { KeyringPair } from '@polkadot/keyring/types';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate';

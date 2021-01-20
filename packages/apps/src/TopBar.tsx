@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Unused atm, experiment as a replacement for NodeInfo on the SideBar
 
+import { BestNumber, Chain, NodeName, NodeVersion } from '@canvas-ui/react-query';
 import React from 'react';
 import styled from 'styled-components';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@canvas-ui/react-query';
 
 interface Props {
   className?: string;

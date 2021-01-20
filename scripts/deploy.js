@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const ghpages = require('gh-pages');

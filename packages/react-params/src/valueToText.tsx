@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { classes } from '@canvas-ui/react-util';
+import React from 'react';
+
+import { Option, Raw } from '@polkadot/types';
 import { Keys, ValidatorId } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
-
-import React from 'react';
-import { classes } from '@canvas-ui/react-util';
 import { isFunction, isNull, isUndefined, u8aToHex } from '@polkadot/util';
-import { Option, Raw } from '@polkadot/types';
 
 interface DivProps {
   className?: string;

@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
-
+import { Dropdown } from '@canvas-ui/react-components';
 import BN from 'bn.js';
 import React, { useRef } from 'react';
+
 import { GenericVote } from '@polkadot/types';
-import { Dropdown } from '@canvas-ui/react-components';
 
 import { useTranslation } from '../translate';
+import { Props } from '../types';
 import Bare from './Bare';
 
 function doChange (onChange?: (value: any) => void): (_: number) => void {

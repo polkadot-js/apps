@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { ParamDef, Props, RawParam } from '../types';
-
-import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown } from '@canvas-ui/react-components';
-import { Enum } from '@polkadot/types';
+import React, { useCallback, useEffect, useState } from 'react';
 
+import { Enum } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
+
+import { ParamDef, Props, RawParam } from '../types';
 import Params from '../';
 import Bare from './Bare';
 import Static from './Static';

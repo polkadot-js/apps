@@ -1,13 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/app-democracy authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
+import { useApi } from '@canvas-ui/react-hooks';
+import { timeToString } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import { useMemo } from 'react';
-import { timeToString } from '@canvas-ui/react-util';
-import { useApi } from '@canvas-ui/react-hooks';
+
 import { BN_ONE, extractTime } from '@polkadot/util';
+
 import { useTranslation } from './translate';
 
 type Result = [number, string];

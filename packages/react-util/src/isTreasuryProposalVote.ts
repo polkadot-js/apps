@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Proposal } from '@polkadot/types/interfaces';
-
 import { registry } from '@canvas-ui/react-api';
+
+import { Proposal } from '@polkadot/types/interfaces';
 
 export default function isTreasuryProposalVote (proposal?: Proposal | null): boolean {
   if (!proposal) {

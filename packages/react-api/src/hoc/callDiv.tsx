@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { DefaultProps, Options } from './types';
-import { BaseProps } from '../types';
 
 import React from 'react';
 
+import { BaseProps } from '../types';
 import withCall from './call';
+import { DefaultProps, Options } from './types';
 
 interface Props<T> extends BaseProps<T> {
   callResult?: T;

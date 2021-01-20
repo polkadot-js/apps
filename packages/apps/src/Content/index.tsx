@@ -1,23 +1,22 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Route } from '@canvas-ui/apps-routing/types';
-
-import React, { Suspense, useCallback, useContext, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-import store from 'store';
-import styled from 'styled-components';
 import createRoutes from '@canvas-ui/apps-routing';
+import { Route } from '@canvas-ui/apps-routing/types';
 import { ErrorBoundary, GuideModal, Icon, StatusContext, WithLoader } from '@canvas-ui/react-components';
 import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useApi } from '@canvas-ui/react-hooks';
 import { classes } from '@canvas-ui/react-util';
-import useAppNavigation from '../useAppNavigation';
+import React, { Suspense, useCallback, useContext, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
+import store from 'store';
+import styled from 'styled-components';
 
-import Status from './Status';
-import { useTranslation } from '../translate';
-import NotFound from './NotFound';
 import HelpWidget from '../HelpWidget';
+import { useTranslation } from '../translate';
+import useAppNavigation from '../useAppNavigation';
+import NotFound from './NotFound';
+import Status from './Status';
 
 interface Props {
   className?: string;
@@ -61,7 +60,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       <div className={className}>
         <div className='disconnected'>
           <div>
-            <Icon name='warning circle' />
+            <Icon icon='warning-circle' />
             {t<string>('You are not connected to a node.')}
             <br />
             {t<string>('Ensure that your node is running and that your Websocket endpoint is reachable.')}
@@ -81,7 +80,11 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         isLoading={isLoading}
         text={t<string>('Initializing connection')}
       >
-        <Suspense fallback='...'>
+        <Suspense fallback={
+          <WithLoader text={t<string>('Loading')}>
+            <div />
+          </WithLoader>
+        }>
           <ErrorBoundary trigger={name}>
             <Component
               basePath={`/${name}`}
@@ -139,7 +142,7 @@ export default React.memo(styled(Content)`
       padding: 1.5rem;
       text-align: center;
 
-      i.icon {
+      .svg-inline--fa {
         display: block;
         color: var(--red-primary);
         font-size: 1.5rem;

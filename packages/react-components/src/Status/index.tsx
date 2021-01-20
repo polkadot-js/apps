@@ -1,47 +1,44 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueStatus, QueueTx, QueueTxStatus } from './types';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { registry } from '@canvas-ui/react-api';
-import { classes } from '@canvas-ui/react-util';
 
-import { ELEV_4_CSS } from '../styles/constants';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
+import { ELEV_4_CSS } from '../styles/constants';
 import { useTranslation } from '../translate';
-import StatusContext from './Context';
 import { STATUS_COMPLETE } from './constants';
+import StatusContext from './Context';
 
 export { StatusContext };
 
 interface Props {
   className?: string;
-  stqueue?: QueueStatus[];
-  txqueue?: QueueTx[];
 }
 
-function iconName (status: string): any {
+function iconName (status: string): IconName {
   switch (status) {
     case 'error':
       return 'ban';
 
     case 'event':
-      return 'caret square right';
+      return 'assistive-listening-systems';
 
     case 'received':
-      return 'telegram plane';
+      return 'telegram-plane';
 
     default:
-      return 'check circle';
+      return 'check';
   }
 }
 
-function signerIconName (status: QueueTxStatus): any {
+function signerIconName (status: QueueTxStatus): IconName {
   switch (status) {
     case 'cancelled':
       return 'ban';
@@ -50,16 +47,16 @@ function signerIconName (status: QueueTxStatus): any {
     case 'inblock':
     case 'finalized':
     case 'sent':
-      return 'check circle';
+      return 'check';
 
     case 'dropped':
     case 'invalid':
     case 'usurped':
-      return 'arrow down';
+      return 'arrow-down';
 
     case 'error':
     case 'finalitytimeout':
-      return 'warning sign';
+      return 'exclamation-triangle';
 
     case 'queued':
     // case 'retracted':
@@ -73,25 +70,28 @@ function signerIconName (status: QueueTxStatus): any {
 function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
   return (
     <div
-      className={classes('item', status)}
+      className={`item ${status}`}
       key={id}
     >
       <div className='wrapper'>
         <div className='container'>
           <Icon
             className='close-button'
-            name='times circle outline'
+            icon='times'
             onClick={removeItem}
           />
           <div className='short'>
-            <Icon name={iconName(status) as 'send'} />
+            <Icon icon={iconName(status)} />
           </div>
           <div className='desc'>
             <div className='header'>
-              {account
-                ? <AddressMini value={account} />
+              {Array.isArray(action)
+                ? action.map((action, index) => <div key={index}>{action}</div>)
                 : action}
             </div>
+            {account && (
+              <AddressMini value={account} />
+            )}
             <div className='status'>
               {message}
             </div>
@@ -106,7 +106,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
   let { method, section } = rpc;
 
   if (extrinsic) {
-    const found = registry.findMetaCall(extrinsic.callIndex);
+    const found = extrinsic.registry.findMetaCall(extrinsic.callIndex);
 
     if (found.section !== 'unknown') {
       method = found.method;
@@ -118,20 +118,22 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
 
   return (
     <div
-      className={classes('item', status)}
+      className={`item ${status}`}
       key={id}
     >
       <div className='wrapper'>
         <div className='container'>
-          <Icon
-            className='close-button'
-            name='times circle outline'
-            onClick={removeItem}
-          />
+          {STATUS_COMPLETE.includes(status) && (
+            <Icon
+              className='close-button'
+              icon='times'
+              onClick={removeItem}
+            />
+          )}
           <div className='short'>
             {icon === 'spinner'
               ? <Spinner variant='push' />
-              : <Icon name={icon} />
+              : <Icon icon={icon} />
             }
           </div>
           <div className='desc'>
@@ -139,7 +141,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
               {section}.{method}
             </div>
             <div className='status'>
-              {error ? error.message : status}
+              {error ? (error.message || error) : status}
             </div>
           </div>
         </div>
@@ -149,29 +151,33 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
 }
 
 function filterSt (stqueue?: QueueStatus[]): QueueStatus[] {
-  return (stqueue || []).filter(({ isCompleted }): boolean => !isCompleted);
+  return (stqueue || []).filter(({ isCompleted }) => !isCompleted);
 }
 
 function filterTx (txqueue?: QueueTx[]): [QueueTx[], QueueTx[]] {
-  const allTx = (txqueue || []).filter(({ status }): boolean => !['completed', 'incomplete'].includes(status));
+  const allTx = (txqueue || []).filter(({ status }) => !['completed', 'incomplete'].includes(status));
 
-  return [allTx, allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status))];
+  return [allTx, allTx.filter(({ status }) => STATUS_COMPLETE.includes(status))];
 }
 
-function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElement<Props> | null {
+function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
+  const { stqueue, txqueue } = useContext(StatusContext);
+  const [allSt, setAllSt] = useState<QueueStatus[]>([]);
+  const [[allTx, completedTx], setAllTx] = useState<[QueueTx[], QueueTx[]]>([[], []]);
   const { t } = useTranslation();
-  const allSt = useMemo(
-    (): QueueStatus[] => filterSt(stqueue),
-    [stqueue]
-  );
-  const [allTx, completedTx] = useMemo(
-    (): [QueueTx[], QueueTx[]] => filterTx(txqueue),
-    [txqueue]
-  );
+
+  useEffect((): void => {
+    setAllSt(filterSt(stqueue));
+  }, [stqueue]);
+
+  useEffect((): void => {
+    setAllTx(filterTx(txqueue));
+  }, [txqueue]);
+
   const _onDismiss = useCallback(
     (): void => {
-      allSt.map((s): void => s.removeItem());
-      completedTx.map((t): void => t.removeItem());
+      allSt.map((s) => s.removeItem());
+      completedTx.map((t) => t.removeItem());
     },
     [allSt, completedTx]
   );
@@ -185,8 +191,8 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
       {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
-            icon='cancel'
-            isFluid
+            icon='times'
+            isFull
             isPrimary
             label={t<string>('Dismiss all notifications')}
             onClick={_onDismiss}
@@ -199,114 +205,114 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
   );
 }
 
-export default React.memo(styled(Status)`
-  display: inline-block;
-  position: fixed;
-  right: 40px;
-  top: 30px;
-  width: 19rem;
-  z-index: 1001;
+export default React.memo(styled(Status)(() => `
+display: inline-block;
+position: fixed;
+right: 40px;
+top: 30px;
+width: 19rem;
+z-index: 1001;
 
-  &:not(:last-child) {
+&:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
+.dismiss {
+  margin-bottom: 0.25rem;
+}
+
+.item {
+  display: block;
+
+  > .wrapper > .container {
+    ${ELEV_4_CSS}
+    align-items: center;
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 0.25rem;
-  }
+    padding: 0 0.5rem;
+    opacity: 0.95;
+    vertical-align: middle;
+    position: relative;
 
-  .dismiss {
-    margin-bottom: 0.25rem;
-  }
+    .ui--highlight--spinner {
+      &:after {
+        border-color: #fff transparent transparent !important;
+        font-size: 1rem;
+      }
+    }
 
-  .item {
-    display: block;
+    .desc {
+      flex: 1;
+      overflow: hidden;
+      padding: 0.5rem 1rem;
 
-    > .wrapper > .container {
-      ${ELEV_4_CSS}
-      align-items: center;
-      color: var(--white);
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.25rem;
-      padding: 0 0.5rem;
-      opacity: 0.95;
-      vertical-align: middle;
-      position: relative;
-
-      .ui--highlight--spinner {
-        &:after {
-          border-color: #fff transparent transparent !important;
-          font-size: 1rem;
-        }
+      .header {
+        font-family: monospace;
+        font-size: 1rem;
       }
 
-      .desc {
-        flex: 1;
-        overflow: hidden;
-        padding: 0.5rem 1rem;
-
-        .header {
-          font-family: monospace;
-          font-size: 1rem;
-        }
-
-        .status {
-          color: var(--grey70);
-        }
-
-        .ui--AddressMini {
-          .ui--AddressMini-address {
-            min-width: 0;
-            text-align: left;
-          }
-        }
+      .status {
+        color: var(--grey70);
       }
 
-      .short {
-        font-size: 1.125rem;
-        color: var(--blue-primary);
-
-        i.icon {
-          line-height: 1;
-        }
-      }
-
-      .padded {
-        padding: 0.25rem 0 0 0 !important;
-      }
-
-      i.close-button {
-        color: var(--grey60);
-        position: absolute;
-        top: 0.25rem;
-        right: 0rem;
-        cursor: pointer;
-
-        &:hover {
-          color: var(--grey80);
+      .ui--AddressMini {
+        .ui--AddressMini-address {
+          min-width: 0;
+          text-align: left;
         }
       }
     }
 
-    // &.queued, &.canceled {
-    //   display: none;
-    // }
+    .short {
+      font-size: 1.125rem;
+      color: var(--blue-primary);
 
-    &.completed,
-    &.finalized,
-    &.inblock,
-    &.sent,
-    &.success {
-      & > .wrapper > .container .short {
-        color: var(--green-primary);
+      svg {
+        line-height: 1;
       }
     }
 
-    &.dropped,
-    &.error,
-    &.finalitytimeout,
-    &.invalid,
-    &.usurped {
-      & > .wrapper > .container .short {
-        color: var(--red-primary);
+    .padded {
+      padding: 0.25rem 0 0 0 !important;
+    }
+
+    .close-button {
+      color: var(--grey60);
+      position: absolute;
+      top: 0.25rem;
+      right: 0.25rem;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--grey80);
       }
     }
   }
-`);
+
+  // &.queued, &.canceled {
+  //   display: none;
+  // }
+
+  &.completed,
+  &.finalized,
+  &.inblock,
+  &.sent,
+  &.success {
+    & > .wrapper > .container .short {
+      color: var(--green-primary);
+    }
+  }
+
+  &.dropped,
+  &.error,
+  &.finalitytimeout,
+  &.invalid,
+  &.usurped {
+    & > .wrapper > .container .short {
+      color: var(--red-primary);
+    }
+  }
+}
+`));

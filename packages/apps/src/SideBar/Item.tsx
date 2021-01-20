@@ -1,11 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Route } from '@canvas-ui/apps-routing/types';
-
+import { Badge, Icon, Menu, Tooltip } from '@canvas-ui/react-components';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Badge, Icon, Menu, Tooltip } from '@canvas-ui/react-components';
 
 const DUMMY_COUNTER = (): null => null;
 
@@ -42,7 +41,7 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
         text={text}
         trigger={`nav-${name}`}
       />
-      <Icon name='chevron right' />
+      <Icon icon='chevron-right' />
     </>
   );
 

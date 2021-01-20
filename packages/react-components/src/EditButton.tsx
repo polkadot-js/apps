@@ -1,23 +1,24 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
-import { VoidFn } from '@canvas-ui/react-util/types';
-import { BareProps } from './types';
+import type { VoidFn } from '@canvas-ui/react-util/types';
+import type { IconName } from '@fortawesome/fontawesome-common-types';
 
 import React from 'react';
+import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
+import styled from 'styled-components';
 
 import Button from './Button';
-import styled from 'styled-components';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
-  icon?: string;
+  icon?: IconName;
   onClick: VoidFn;
   size?: IconProps['size'];
 }
 
-function EditButton ({ children, className, icon = 'edit', onClick, size = 'small' }: Props): React.ReactElement<Props> {
+function EditButton ({ children, className, icon = 'edit', onClick }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}
@@ -29,8 +30,6 @@ function EditButton ({ children, className, icon = 'edit', onClick, size = 'smal
           className='icon-button show-on-hover'
           icon={icon}
           isIcon
-          isPrimary
-          size={size}
         />
       </span>
     </div>
@@ -39,10 +38,6 @@ function EditButton ({ children, className, icon = 'edit', onClick, size = 'smal
 
 export default React.memo(styled(EditButton)`
   cursor: pointer;
-
-  button.ui.icon.primary.button.icon-button {
-    cursor: pointer;
-  }
 
   .editSpan {
     white-space: nowrap;

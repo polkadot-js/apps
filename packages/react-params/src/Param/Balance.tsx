@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
-
+import { InputBalance } from '@canvas-ui/react-components';
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
-import { InputBalance } from '@canvas-ui/react-components';
 
+import { Props } from '../types';
 import Bare from './Bare';
 
 function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {

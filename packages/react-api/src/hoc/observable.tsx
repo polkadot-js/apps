@@ -1,17 +1,16 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
-
-import { CallState } from '../types';
-import { HOC, Options, DefaultProps, RenderFn } from './types';
 
 import React from 'react';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import echoTransform from '../transform/echo';
+import { CallState } from '../types';
 import { intervalObservable, isEqual, triggerChange } from '../util';
+import { DefaultProps, HOC, Options, RenderFn } from './types';
 
 interface State extends CallState {
   subscriptions: { unsubscribe: () => void }[];

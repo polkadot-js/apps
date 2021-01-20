@@ -1,15 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { I18nProps } from '@canvas-ui/react-components/types';
-import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue } from './types';
-
-import React from 'react';
 import { ErrorBoundary } from '@canvas-ui/react-components';
+import { I18nProps } from '@canvas-ui/react-components/types';
+import React from 'react';
 
 import Holder from './Holder';
 import ParamComp from './ParamComp';
 import translate from './translate';
+import { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
 import { createValue } from './values';
 
 interface Props extends I18nProps {

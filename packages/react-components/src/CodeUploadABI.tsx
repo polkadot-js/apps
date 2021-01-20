@@ -1,17 +1,16 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { FileState } from '@canvas-ui/react-hooks/types';
-import { BareProps } from './types';
-
-import React, { useCallback } from 'react';
 import { useAbi, useFile, useNotification, useToggle } from '@canvas-ui/react-hooks';
+import { FileState } from '@canvas-ui/react-hooks/types';
 import { truncate } from '@canvas-ui/react-util';
+import React, { useCallback } from 'react';
 
 import Button from './Button';
 import InputABI from './InputABI';
 import Modal from './Modal';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   codeHash: string;

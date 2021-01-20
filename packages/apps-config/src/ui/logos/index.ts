@@ -1,11 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/apps-config authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 import chainKusama from './chains/kusama-128.gif';
-
+// extensions
+import extensionPolkadotJs from './extensions/polkadot-js.svg';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
@@ -14,10 +15,6 @@ import nodeNodle from './nodes/nodle.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
-
-// extensions
-import extensionPolkadotJs from './extensions/polkadot-js.svg';
-
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 

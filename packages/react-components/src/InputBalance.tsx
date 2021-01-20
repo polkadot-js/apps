@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps, BitLength } from './types';
-
+import { BitLengthOption } from '@canvas-ui/react-components/constants';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BitLengthOption } from '@canvas-ui/react-components/constants';
+
 import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
+
 import InputNumber from './InputNumber';
+import { BareProps, BitLength } from './types';
 
 interface Props extends BareProps {
   autoFocus?: boolean;

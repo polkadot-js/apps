@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-
 import { useScrollToTop } from '@canvas-ui/react-hooks';
+import React, { useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 function ScrollToTop ({ history }: RouteComponentProps): React.ReactElement {
   const scrollToTop = useScrollToTop();

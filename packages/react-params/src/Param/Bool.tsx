@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
-
-import React, { useCallback, useMemo, useState } from 'react';
 import { Dropdown } from '@canvas-ui/react-components';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { useTranslation } from '../translate';
+import { Props } from '../types';
 import Bare from './Bare';
 
 function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {

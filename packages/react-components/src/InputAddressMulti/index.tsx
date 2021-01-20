@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useDebounce } from '@canvas-ui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useDebounce } from '@canvas-ui/react-hooks';
 
-import { useTranslation } from '../translate';
 import Input from '../Input';
+import { useTranslation } from '../translate';
 import Available from './Available';
 import Selected from './Selected';
 

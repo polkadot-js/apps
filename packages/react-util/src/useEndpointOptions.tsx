@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TFunction } from 'i18next';
-import { UseEndpoints } from '@canvas-ui/react-hooks/types';
-
-import React, { useMemo } from 'react';
-import { classes } from '@canvas-ui/react-util';
 import { createEndpoints } from '@canvas-ui/apps-config/settings';
 import { useApi } from '@canvas-ui/react-hooks';
+import { UseEndpoints } from '@canvas-ui/react-hooks/types';
+import { classes } from '@canvas-ui/react-util';
+import { TFunction } from 'i18next';
+import React, { useMemo } from 'react';
 
 export default function useEndpointOptions ({ isCustom, url }: UseEndpoints, t: TFunction, useShortText?: boolean): React.ReactNode[] {
   const { isApiConnected } = useApi();

@@ -1,12 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { ParamDef } from '../types';
-
-import { useEffect, useState } from 'react';
 import { registry } from '@canvas-ui/react-api';
+import { useEffect, useState } from 'react';
+
 import { getTypeDef } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
+
+import { ParamDef } from '../types';
 
 function expandDef (td: TypeDef): TypeDef {
   try {

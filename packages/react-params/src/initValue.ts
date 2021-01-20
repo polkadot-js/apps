@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-
 import { registry } from '@canvas-ui/react-api';
-import { Raw, createType, getTypeDef } from '@polkadot/types';
+
+import { createType, getTypeDef, Raw } from '@polkadot/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];

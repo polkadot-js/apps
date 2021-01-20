@@ -1,19 +1,19 @@
-// Copyright 2017-2020 @canvas-ui/app-staking authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
-
+import { classes, toShortAddress } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { classes, toShortAddress } from '@canvas-ui/react-util';
 import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   balance?: BN | BN[];

@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
+
 import { UInt } from '@polkadot/types';
 import { bnToBn, isBn, isUndefined } from '@polkadot/util';
 
-import { classes } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;

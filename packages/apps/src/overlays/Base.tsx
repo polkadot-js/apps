@@ -1,15 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-import styled from 'styled-components';
+import type { Icon as IconType, IconName } from '@fortawesome/fontawesome-svg-core';
+
 import { Icon } from '@canvas-ui/react-components';
 import { useToggle } from '@canvas-ui/react-hooks';
+import React from 'react';
+import styled from 'styled-components';
 
 interface Props {
   children: React.ReactNode;
   className?: string;
-  icon: string;
+  icon: IconName | IconType;
   type: 'error' | 'info';
 }
 
@@ -24,16 +26,14 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
     <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
       <div className='content'>
         <Icon
-          className='contentIcon'
-          name={icon as 'send'}
-          size='big'
+          icon={icon}
         />
         <div className='contentItem'>
           {children}
         </div>
         <Icon
           className='closeIcon'
-          name='close'
+          icon='close'
           onClick={toggleHidden}
         />
       </div>

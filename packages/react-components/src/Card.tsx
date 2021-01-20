@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -58,16 +58,14 @@ export default React.memo(styled(Card)`
   }
 
   i.help.circle.icon,
-  .ui.button.mini,
-  .ui.button.tiny,
+  button.isIcon,
   .addTags {
     visibility: hidden;
   }
 
   &:hover {
     i.help.circle.icon,
-    .ui.button.mini,
-    .ui.button.tiny,
+    button.isIcon,
     .addTags {
       visibility: visible;
     }

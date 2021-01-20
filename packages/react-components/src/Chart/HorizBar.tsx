@@ -1,12 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { HorizBarProps, HorizBarValue } from './types';
-
-import React, { useEffect, useState } from 'react';
 import ChartJs from 'chart.js';
+import React, { useEffect, useState } from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
+
 import { bnToBn, isNumber } from '@polkadot/util';
+
+import { HorizBarProps, HorizBarValue } from './types';
 
 interface State {
   chartData?: ChartJs.ChartData;

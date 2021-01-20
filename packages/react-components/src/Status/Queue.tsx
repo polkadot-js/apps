@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { DispatchError } from '@polkadot/types/interfaces';
-import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
-import { BareProps } from '../types';
-import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
-
-import React, { useCallback, useRef, useState } from 'react';
-import { SubmittableResult } from '@polkadot/api';
 import { registry } from '@canvas-ui/react-api';
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { createType } from '@polkadot/types';
+import React, { useCallback, useRef, useState } from 'react';
 
-import { QueueProvider } from './Context';
+import { SubmittableResult } from '@polkadot/api';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { createType } from '@polkadot/types';
+import { DispatchError } from '@polkadot/types/interfaces';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
+
+import { BareProps } from '../types';
 import { STATUS_COMPLETE } from './constants';
+import { QueueProvider } from './Context';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 export interface Props extends BareProps {
   children: React.ReactNode;

@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useMemo } from 'react';
+
+import { createTypeUnsafe, TypeRegistry } from '@polkadot/types';
 import { AnyJson, Codec, Registry, TypeDef } from '@polkadot/types/types';
 
-import { useMemo } from 'react';
-import { createTypeUnsafe, TypeRegistry } from '@polkadot/types';
-
 function formatData (registry: Registry, data: AnyJson, type: TypeDef | undefined): Codec {
-  return createTypeUnsafe(registry, type?.type || 'Raw', [data], true);
+  return createTypeUnsafe(registry, type?.type || 'Raw', [data], { isPedantic: true });
 }
 
 export default function useCodec (registry: TypeRegistry, source: AnyJson, type?: TypeDef): [Codec, string] {

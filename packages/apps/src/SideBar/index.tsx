@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Routes } from '@canvas-ui/apps-routing/types';
-
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import { Responsive } from 'semantic-ui-react';
 import createRoutes from '@canvas-ui/apps-routing';
-import { Menu, media } from '@canvas-ui/react-components';
+import { Routes } from '@canvas-ui/apps-routing/types';
+import { media, Menu } from '@canvas-ui/react-components';
+import React, { useMemo } from 'react';
+import { Responsive } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import { useTranslation } from '../translate';
 import Item from './Item';
@@ -137,7 +136,7 @@ export default React.memo(styled(SideBar)`
         z-index: 1;
       }
 
-      i.icon {
+      .svg-inline--fa {
         margin-right: 0;
       }
     }

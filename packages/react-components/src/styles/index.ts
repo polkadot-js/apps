@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { createGlobalStyle } from 'styled-components';
 
 import cssComponents from './components';
+import { ELEV_3_CSS } from './constants';
 import cssForm from './form';
 import cssMedia from './media';
 import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
-import { ELEV_3_CSS } from './constants';
 
 interface Props {
   uiHighlight?: string;
@@ -51,7 +51,7 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--highlight--icon {
-    i.icon {
+    .svg-inline--fa {
       color: ${getHighlight} !important;
     }
   }

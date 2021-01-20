@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash } from '@polkadot/types/interfaces';
-import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
-import { BareProps } from './types';
-
+import Params from '@canvas-ui/react-params';
+import { FormatBalance } from '@canvas-ui/react-query';
+import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { GenericCall, getTypeDef } from '@polkadot/types';
-import Params from '@canvas-ui/react-params';
-import { FormatBalance } from '@canvas-ui/react-query';
+import { Hash } from '@polkadot/types/interfaces';
+import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 
 import Static from './Static';
-import { classes } from '@canvas-ui/react-util';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 export interface Props extends BareProps {
   children?: React.ReactNode;

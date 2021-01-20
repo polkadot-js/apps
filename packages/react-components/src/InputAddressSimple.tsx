@@ -1,14 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { toAddress as addressToAddress } from '@canvas-ui/react-util';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
-import { toAddress as addressToAddress } from '@canvas-ui/react-util';
 import IdentityIcon from './IdentityIcon';
 import Input from './Input';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   autoFocus?: boolean;

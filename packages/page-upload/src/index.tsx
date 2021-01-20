@@ -1,15 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { AppProps as Props } from '@canvas-ui/apps/types';
-import { ComponentProps } from './types';
-
+import useCodes from '@canvas-ui/apps/useCodes';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import useCodes from '@canvas-ui/apps/useCodes';
 
 import Add from './Add';
 import Success from './Success';
+import { ComponentProps } from './types';
 import Upload from './Upload';
 
 function UploadApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
