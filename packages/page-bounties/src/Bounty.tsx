@@ -12,11 +12,11 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import ExtendedStatus from './Voting/ExtendedStatus';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyInfos from './BountyInfos';
 import { getBountyStatus } from './helpers';
+import BountyStatusView from './BountyStatusView';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -57,14 +57,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
     <>
       <tr className={className}>
         <td>
-          <div>{bountyStatus}</div>
-          <div>
-            <ExtendedStatus
-              blocksUntilPayout={blocksUntilPayout}
-              proposals={proposals}
-              status={status}
-            />
-          </div>
+          <BountyStatusView
+            bountyStatus={bountyStatus}
+            proposals={proposals}
+            status={status}
+          />
         </td>
         <td
           className='description-column'

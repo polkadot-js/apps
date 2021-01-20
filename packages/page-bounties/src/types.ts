@@ -5,8 +5,13 @@ import type { AccountId, BlockNumber } from '@polkadot/types/interfaces/runtime'
 
 export interface BountyStatusType {
   beneficiary: AccountId | undefined;
-  bountyStatus: string;
+  bountyStatus: StatusName;
   curator: AccountId | undefined;
   unlockAt: BlockNumber | undefined;
   updateDue: BlockNumber | undefined;
 }
+
+export type HelpMessages = Record<StatusName, string>;
+
+export type StatusName = 'Active' | 'Approved' | 'CuratorProposed' | 'Funded' | 'PendingPayout' | 'Proposed';
+export type BountyVotingStatuses = { [status in StatusName]: string[] };

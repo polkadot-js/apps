@@ -68,7 +68,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const noReference = accountInfo
     ? isRefcount(accountInfo)
       ? accountInfo.refcount.isZero()
-      : (accountInfo.consumers.isZero() && accountInfo.providers.isZero())
+      : accountInfo.consumers.isZero()
     : true;
   const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && noReference;
 
