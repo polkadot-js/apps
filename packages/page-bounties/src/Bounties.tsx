@@ -66,6 +66,20 @@ export default React.memo(styled(Bounties)`
     &::before {
       background: none;
     }
+
+    tr {
+
+      td,
+      &:not(.filter) th {
+        &:first-child {
+          padding-left: 1.14rem;
+        }
+
+        &:last-child {
+          padding-right: 1.14rem;
+        }
+      }    
+    
   }
   
   .ui--IdentityIcon {

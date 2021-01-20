@@ -82,11 +82,11 @@ export default React.memo(styled(Table)`
       td,
       &:not(.filter) th {
         &:first-child {
-          padding-left: 1.14rem;
+          padding-left: 1.5rem;
         }
 
         &:last-child {
-          padding-right: 1.14rem;
+          padding-right: 0.75rem;
         }
 
         &.all {
