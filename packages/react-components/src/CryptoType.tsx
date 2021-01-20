@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
-
+import { classes } from '@canvas-ui/react-util';
 import React, { useEffect, useState } from 'react';
+
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import keyring from '@polkadot/ui-keyring';
 
-import { classes } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   accountId: AccountId | AccountIndex | Address | string | Uint8Array | null;

@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/app-extrinsics authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { Props } from '@canvas-ui/react-params/types';
-
-import React from 'react';
 import { useApi } from '@canvas-ui/react-hooks';
+import { Props } from '@canvas-ui/react-params/types';
+import React from 'react';
+
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import Extrinsic from './Extrinsic';
 

@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props, Props as CProps } from '../types';
-
-import React, { useMemo, useRef } from 'react';
 import { classes } from '@canvas-ui/react-util';
+import React, { useMemo, useRef } from 'react';
+
 import { encodeTypeDef } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
+import { Props as CProps, Props } from '../types';
 import findComponent from './findComponent';
 import Static from './Static';
 

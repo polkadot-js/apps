@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { Props, ComponentMap } from '../types';
-
 import { registry } from '@canvas-ui/react-api';
+
 import { getTypeDef } from '@polkadot/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
+import { ComponentMap, Props } from '../types';
 import Account from './Account';
 import Amount from './Amount';
 import Balance from './Balance';

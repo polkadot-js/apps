@@ -1,11 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
-
-import React, { useCallback, useState } from 'react';
 import { Input } from '@canvas-ui/react-components';
+import React, { useCallback, useState } from 'react';
 
+import { Props } from '../types';
 import Bare from './Bare';
 
 function Text ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {

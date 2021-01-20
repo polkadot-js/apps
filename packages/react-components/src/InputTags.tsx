@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { BareProps } from './types';
 
 import React from 'react';
 import store from 'store';
 
 import Dropdown from './Dropdown';
+import { BareProps } from './types';
 
 interface Option {
   key: string;

@@ -1,7 +1,5 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { ActionsProps, ColumnProps, ModalProps } from './types';
 
 import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
@@ -9,6 +7,7 @@ import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 import Actions from './Actions';
 import Column from './Column';
 import Columns from './Columns';
+import { ActionsProps, ColumnProps, ModalProps } from './types';
 
 type ModalType = React.FC<ModalProps> & {
   Actions: React.FC<ActionsProps>;

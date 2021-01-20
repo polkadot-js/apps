@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps as Props } from '@canvas-ui/apps/types';
-import { FileState } from '@canvas-ui/react-hooks/types';
-
-import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { SubmittableResult } from '@polkadot/api';
 import store from '@canvas-ui/apps/store';
-import { Button, InputABI, InputAddress, InputFile, Input, TxButton } from '@canvas-ui/react-components';
-import PendingTx from '@canvas-ui/react-components/PendingTx';
+import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { registry } from '@canvas-ui/react-api';
-import { useAccountId, useAbi, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
+import { Button, Input, InputABI, InputAddress, InputFile, TxButton } from '@canvas-ui/react-components';
+import PendingTx from '@canvas-ui/react-components/PendingTx';
+import { useAbi, useAccountId, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
+import { FileState } from '@canvas-ui/react-hooks/types';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { SubmittableResult } from '@polkadot/api';
 import { compactAddLength, isNull, isWasm } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -161,10 +161,11 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           <TxButton
             accountId={accountId}
             isDisabled={!isSubmittable}
+            isPrimary
             label={t<string>('Upload')}
             onSuccess={_onSuccess}
             params={[wasm]}
-            tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
+            tx={api.tx.contracts.putCode}
           />
         </Button.Group>
       </section>

@@ -1,11 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/app-contracts authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull } from './types';
+import { getContractAbi } from '@canvas-ui/react-util';
 
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise as Contract } from '@polkadot/api-contract';
-import { getContractAbi } from '@canvas-ui/react-util';
+
+import { StringOrNull } from './types';
 
 export default function getContractForAddress (api: ApiPromise, address: StringOrNull): Contract | null {
   if (!address) {

@@ -1,8 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
 import { useApi } from '@canvas-ui/react-hooks';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+
 import settings from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
@@ -35,7 +37,7 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
     return (
       <BaseOverlay
         className={className}
-        icon='globe'
+        icon={faGlobe}
         type='error'
       >
         <div>{t<string>('You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.')}</div>

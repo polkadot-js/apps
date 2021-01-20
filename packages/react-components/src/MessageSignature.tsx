@@ -1,19 +1,19 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiMessage } from '@polkadot/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
-import { CodecArg } from '@polkadot/types/types';
-
+import { classes } from '@canvas-ui/react-util';
 import React from 'react';
 import styled from 'styled-components';
+
+import { AbiMessage } from '@polkadot/api-contract/types';
 import { encodeTypeDef, TypeRegistry } from '@polkadot/types';
+import { CodecArg } from '@polkadot/types/types';
 
 import Icon from './Icon';
 import MessageArg from './MessageArg';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
-import { classes } from '@canvas-ui/react-util';
 
 export interface Props extends BareProps {
   message: AbiMessage;
@@ -66,7 +66,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
             className='ui--MessageSignature-icon'
             data-for={`mutates-${identifier}`}
             data-tip
-            name='database'
+            icon='database'
           />
           {withTooltip && (
             <Tooltip
@@ -82,7 +82,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
             className='ui--MessageSignature-icon'
             data-for={`payable-${identifier}`}
             data-tip
-            name='paper plane'
+            icon='paper-plane'
           />
           {withTooltip && (
             <Tooltip

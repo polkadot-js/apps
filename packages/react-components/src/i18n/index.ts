@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
+
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
 
 import Backend from './Backend';
@@ -41,7 +42,6 @@ i18n
       'api-contract',
       'apps',
       'apps-config',
-      'apps-electron',
       'apps-routing',
       'app-123code',
       'app-accounts',

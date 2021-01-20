@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { Props, RawParam } from '../types';
 
 import React, { useCallback } from 'react';
 
+import { Props, RawParam } from '../types';
 import Params from '../';
 import Base from './Base';
 import Static from './Static';

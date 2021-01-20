@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { InputBalance, Modal, Toggle } from '@canvas-ui/react-components';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { InputBalance, Modal, Toggle } from '@canvas-ui/react-components';
+
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';

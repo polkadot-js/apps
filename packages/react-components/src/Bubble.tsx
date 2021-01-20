@@ -1,15 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-import { SemanticCOLORS, SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
-
+import { classes } from '@canvas-ui/react-util';
 import React from 'react';
 import SUILabel from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
+import { SemanticCOLORS, SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
 import styled from 'styled-components';
 
-import { classes } from '@canvas-ui/react-util';
 import Icon from './Icon';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   children: React.ReactNode;
@@ -27,7 +26,7 @@ function Bubble ({ children, className = '', color, icon, label }: Props): React
       <div className='ui--Bubble-header'>
         {icon && (
           <Icon
-            name={icon}
+            icon={icon}
             size='large'
           />
         )}

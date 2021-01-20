@@ -1,14 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps as Props } from './types';
-
+import { Button, CodeCard } from '@canvas-ui/react-components';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, CodeCard } from '@canvas-ui/react-components';
 
 import { useTranslation } from './translate';
+import { ComponentProps as Props } from './types';
 
 function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

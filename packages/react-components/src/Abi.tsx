@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Abi as InkAbi } from '@polkadot/api-contract';
+import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
 import { BareProps } from '@canvas-ui/react-components/types';
-
+import { useToggle } from '@canvas-ui/react-hooks';
 import React from 'react';
 import styled from 'styled-components';
-import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useToggle } from '@canvas-ui/react-hooks';
+
+import { Abi as InkAbi } from '@polkadot/api-contract';
 
 import Expander from './Expander';
 import Messages from './Messages';

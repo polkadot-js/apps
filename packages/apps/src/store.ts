@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code } from './types';
-
+import { api } from '@canvas-ui/react-api';
 import EventEmitter from 'eventemitter3';
 import { nanoid } from 'nanoid';
 import store from 'store';
-import { api } from '@canvas-ui/react-api';
+
+import { Code } from './types';
 
 const KEY_CODE = 'code:';
 

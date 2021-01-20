@@ -1,13 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/app-contracts authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Button, IdentityIcon, MessageSignature, Output } from '@canvas-ui/react-components';
 import { BareProps } from '@canvas-ui/react-components/types';
-import { CallResult } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
-import { Button, IdentityIcon, MessageSignature, Output } from '@canvas-ui/react-components';
+
 import { TypeRegistry } from '@polkadot/types';
+
+import { CallResult } from './types';
 
 interface Props extends BareProps {
   onClear?: () => void;
@@ -32,10 +33,9 @@ function Outcome ({ className, onClear, outcome: { from, message, output, params
         </span>
         <Button
           className='icon-button clear-btn'
-          icon='close'
+          icon='times'
           isPrimary
           onClick={onClear}
-          size='mini'
         />
       </div>
       <Output

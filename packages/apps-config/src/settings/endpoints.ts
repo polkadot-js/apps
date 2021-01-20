@@ -1,7 +1,8 @@
-// Copyright 2017-2020 @canvas-ui/apps-config authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { TFunction } from 'i18next';
+
 import { Option } from './types';
 
 interface LinkOption extends Option {

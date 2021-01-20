@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/app-extrinsics authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { BareProps } from '@canvas-ui/react-components/types';
-import { RawParam } from '@canvas-ui/react-params/types';
-import { TypeDef } from '@polkadot/types/types';
-
-import React, { useCallback, useEffect, useState } from 'react';
-import { GenericCall, getTypeDef } from '@polkadot/types';
 import { InputExtrinsic } from '@canvas-ui/react-components';
+import { BareProps } from '@canvas-ui/react-components/types';
 import Params from '@canvas-ui/react-params';
+import { RawParam } from '@canvas-ui/react-params/types';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import { GenericCall, getTypeDef } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';

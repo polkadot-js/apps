@@ -1,29 +1,30 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
-import { BareProps } from './types';
+import type { IconName } from '@fortawesome/fontawesome-common-types';
 
-import React, { useCallback } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { useNotification } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
+import React, { useCallback } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+// import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
+import styled from 'styled-components';
 
 import Button from './Button';
 import { useTranslation } from './translate';
-import styled from 'styled-components';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
   className?: string;
-  icon?: string;
+  icon?: IconName;
   isAddress?: boolean;
-  size?: IconProps['size'];
+  // size?: IconProps['size'];
   value: string;
   withButton: boolean;
 }
 
-function CopyButton ({ children, className, icon = 'copy outline', isAddress = false, size = 'small', value, withButton = true }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy', isAddress = false, value, withButton = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const showNotification = useNotification();
 
@@ -53,8 +54,6 @@ function CopyButton ({ children, className, icon = 'copy outline', isAddress = f
                 className='icon-button show-on-hover'
                 icon={icon}
                 isIcon
-                isPrimary
-                size={size}
               />
             </span>
           )}
@@ -68,7 +67,7 @@ export default React.memo(styled(CopyButton)`
   cursor: copy;
   display: inline-block;
 
-  button.ui.icon.primary.button.icon-button {
+  button.u.svg-inline--fa.primary.button.icon-button {
     cursor: copy;
     position: relative;
     top: 2px;

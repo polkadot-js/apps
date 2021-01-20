@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import { TFunction } from 'i18next';
+
 import { Time } from '@polkadot/util/types';
 
 export default function timeToString (t: TFunction, { days, hours, minutes, seconds }: Time): string {

@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { DropdownOption, DropdownOptions } from '@canvas-ui/react-util/types';
-
 import React from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {

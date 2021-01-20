@@ -1,12 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { StatusContext } from '@canvas-ui/react-components';
 import { QueueTx, QueueTxMessageSetStatus } from '@canvas-ui/react-components/Status/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
-
 import { useCallback, useContext } from 'react';
-import { StatusContext } from '@canvas-ui/react-components';
+
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+
 import { handleTxResults } from './util';
 
 interface UseSendUnsigned {

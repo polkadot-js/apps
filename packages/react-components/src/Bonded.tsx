@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
-
+import { Bonded } from '@canvas-ui/react-query';
+import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React from 'react';
-import { Bonded } from '@canvas-ui/react-query';
+
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import { renderProvided } from './Balance';
-import { classes } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 export interface Props extends BareProps {
   bonded?: BN | BN[];

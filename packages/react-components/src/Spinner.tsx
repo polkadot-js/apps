@@ -10,14 +10,14 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   label?: React.ReactNode;
-  variant?: 'app' | 'push' | 'mini';
+  variant?: 'app' | 'push' | 'mini' | 'cover';
 }
 
 function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
-    <div className={`${className} ui--Spinner ${variant}`}>
+    <div className={`${className} ui--Spinner ${variant}${variant === 'cover' ? ' isCover' : ''}`}>
       <Loader
         active
         className='ui--highlight--spinner'
@@ -34,6 +34,18 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
 }
 
 export default React.memo(styled(Spinner)`
+  &.isCover {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+
+    img {
+      border: 1 px solid white;
+      margin: 0 auto;
+    }
+  }
+
   .text {
     margin: 0 auto 1.5rem auto;
     opacity: 0.6;

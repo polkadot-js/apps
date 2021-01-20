@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { AppNavigation } from './types';
 
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import { AppNavigation } from './types';
 
 export default function useAppNavigation (): AppNavigation {
   const history = useHistory();

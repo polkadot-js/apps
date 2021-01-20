@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
-
-import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from '@canvas-ui/react-components';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { compactAddLength, hexToU8a, u8aConcat } from '@polkadot/util';
 
+import { Props } from '../types';
 import Bare from './Bare';
 
 interface StateParam {

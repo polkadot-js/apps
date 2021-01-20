@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { classes } from '@canvas-ui/react-util';
 import React from 'react';
 import styled from 'styled-components';
+
 import Icon from './Icon';
-import { classes } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   icon?: boolean;
@@ -19,7 +19,7 @@ function InputStatus ({ className, isError = false, isValid = false, text = null
   return (
     <div className={classes(className, isError && 'isError')}>
       {!!text && (
-        <Icon name={!isValid ? 'warning circle' : 'check circle'} />
+        <Icon icon={!isValid ? 'exclamation-circle' : 'check-circle'} />
       )}
       {text}
     </div>

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // setup these right at front
@@ -7,14 +7,15 @@ import 'semantic-ui-css/semantic.min.css';
 import 'tippy.js/dist/tippy.css'; // optional
 import '@canvas-ui/react-components/i18n';
 
+import { Api } from '@canvas-ui/react-api';
+import Queue from '@canvas-ui/react-components/Status/Queue';
+import { BlockAuthors, Events } from '@canvas-ui/react-query';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import { Api } from '@canvas-ui/react-api';
-import Queue from '@canvas-ui/react-components/Status/Queue';
-import { BlockAuthors, Events } from '@canvas-ui/react-query';
+
 import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';

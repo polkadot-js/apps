@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { Call } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
+
+import { Call } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
 import useApi from './useApi';

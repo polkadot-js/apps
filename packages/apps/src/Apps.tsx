@@ -1,18 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { getSystemChainColor } from '@canvas-ui/apps-config/ui';
+import { defaultColor } from '@canvas-ui/apps-config/ui/general';
+import { ScrollToTop } from '@canvas-ui/react-components';
+import GlobalStyle from '@canvas-ui/react-components/styles';
 import { BareProps as Props } from '@canvas-ui/react-components/types';
-
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { getSystemChainColor } from '@canvas-ui/apps-config/ui';
-import { defaultColor } from '@canvas-ui/apps-config/ui/general';
-import GlobalStyle from '@canvas-ui/react-components/styles';
-import { useApi } from '@canvas-ui/react-hooks';
 
-import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
-import { ScrollToTop } from '@canvas-ui/react-components';
+import { SIDEBAR_MENU_THRESHOLD, SideBarTransition } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
 import WarmUp from './WarmUp';
@@ -107,7 +106,7 @@ export default React.memo(styled(Apps)`
       padding: 0.5rem 0.5rem;
       white-space: nowrap;
 
-      i.icon {
+      .svg-inline--fa {
         float: right;
         color: var(--grey50);
       }
@@ -117,7 +116,7 @@ export default React.memo(styled(Apps)`
         border-radius: var(--btn-radius-default);
         color: var(--grey80);
         
-        i.icon {
+        .svg-inline--fa {
         color: var(--grey80);
       }
       }
@@ -130,7 +129,7 @@ export default React.memo(styled(Apps)`
       color: var(--grey80);
       font-weight: 600;
 
-      i.icon {
+      .svg-inline--fa {
         color: var(--grey80);
       }
 

@@ -1,14 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Code } from '@canvas-ui/apps/types';
-import { ComponentProps as Props } from './types';
-
+import { Button, CodeCard } from '@canvas-ui/react-components';
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, CodeCard } from '@canvas-ui/react-components';
 
 import { useTranslation } from './translate';
+import { ComponentProps as Props } from './types';
 
 function Success ({ allCodes, basePath, navigateTo }: Props): React.ReactElement<Props> | null {
   const { id }: { id: string } = useParams();

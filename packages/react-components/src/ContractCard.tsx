@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { ComponentProps } from '@canvas-ui/apps/types';
-
+import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+
+import { ContractPromise as Contract } from '@polkadot/api-contract';
 
 import Abi from './Abi';
 import Button from './Button';

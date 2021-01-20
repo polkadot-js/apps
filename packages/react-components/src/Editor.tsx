@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Something is seriously going wrong here...
@@ -8,11 +8,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import { BareProps } from '@canvas-ui/react-components/types';
-
+import { classes } from '@canvas-ui/react-util';
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { classes } from '@canvas-ui/react-util';
 
 interface Props extends BareProps {
   code: string;

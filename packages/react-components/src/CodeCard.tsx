@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code, ComponentProps } from '@canvas-ui/apps/types';
-import { FileState } from '@canvas-ui/react-hooks/types';
-import { VoidFn } from '@canvas-ui/react-util/types';
-
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
 import store from '@canvas-ui/apps/store';
+import { Code, ComponentProps } from '@canvas-ui/apps/types';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useToggle } from '@canvas-ui/react-hooks';
+import { FileState } from '@canvas-ui/react-hooks/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
+import React, { useCallback } from 'react';
+import styled from 'styled-components';
 
 import Abi from './Abi';
 import Button from './Button';
+import Card from './Card';
 import CodeForget from './CodeForget';
 import CodeInfo from './CodeInfo';
 import CodeUploadABI from './CodeUploadABI';
@@ -53,7 +53,7 @@ function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onFor
   );
 
   return (
-    <article className={className}>
+    <Card className={className}>
       <CodeInfo
         code={code}
         isEditable
@@ -88,7 +88,7 @@ function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onFor
           />
         </Button.Group>
       </div>
-    </article>
+    </Card>
   );
 }
 

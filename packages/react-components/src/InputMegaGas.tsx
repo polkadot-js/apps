@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
 import { UseWeight } from '@canvas-ui/react-hooks/types';
-
+import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
 import { BN_ZERO } from '@polkadot/util';
-import { classes } from '@canvas-ui/react-util';
 
 import InputNumber from './InputNumber';
-import Toggle from './Toggle';
 import Progress from './Progress';
+import Toggle from './Toggle';
 import { useTranslation } from './translate';
 
 interface Props extends BareProps {

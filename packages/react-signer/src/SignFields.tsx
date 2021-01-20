@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SignerOptions } from '@polkadot/api/submittable/types';
-
-import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
 import { InputNumber, Modal, Output } from '@canvas-ui/react-components';
 import { useApi } from '@canvas-ui/react-hooks';
+import BN from 'bn.js';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { SignerOptions } from '@polkadot/api/submittable/types';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';

@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractInfo } from '@polkadot/types/interfaces';
-import { ComponentProps as Props } from './types';
-
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import styled from 'styled-components';
 import { Button, Input, InputABI, InputName } from '@canvas-ui/react-components';
 import { useAbi, useApi, useCall, useFile, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
+
 import { Option } from '@polkadot/types';
+import { ContractInfo } from '@polkadot/types/interfaces';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate';
+import { ComponentProps as Props } from './types';
 
 function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

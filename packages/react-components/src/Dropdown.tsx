@@ -1,16 +1,16 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { classes } from '@canvas-ui/react-util';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
+import styled from 'styled-components';
+
 import { isUndefined } from '@polkadot/util';
 
-import { classes } from '@canvas-ui/react-util';
 import Labelled from './Labelled';
+import { BareProps } from './types';
 
 interface Props<Option> extends BareProps {
   allowAdd?: boolean;

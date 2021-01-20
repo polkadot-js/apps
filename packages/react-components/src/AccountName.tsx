@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import registry from '@canvas-ui/react-api/typeRegistry';
 import { BareProps } from '@canvas-ui/react-api/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-
+import { useApi, useCall } from '@canvas-ui/react-hooks';
+import { getAddressName } from '@canvas-ui/react-util';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import registry from '@canvas-ui/react-api/typeRegistry';
-import { useCall, useApi } from '@canvas-ui/react-hooks';
+
+import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
-import { getAddressName } from '@canvas-ui/react-util';
 import Badge from './Badge';
 import Icon from './Icon';
 
@@ -79,7 +79,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
     <div className='via-identity'>
       {isSpecial && (
         <Badge
-          info={<Icon name='simplybuilt' />}
+          info={<Icon icon='simplybuilt' />}
           isInline
           isSmall
           type='green'
@@ -126,7 +126,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   const nameElem = displayParent
     ? <span className={`name ${isGood ? 'isGood' : ''}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
     : <span className={`name ${isGood ? 'isGood' : ''}`}>{displayName}</span>;
-  const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
+  const infoElem = <Icon icon={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
   const badgeType = isGood ? 'green' : (isBad ? 'brown' : 'gray');
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);

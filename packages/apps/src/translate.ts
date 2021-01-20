@@ -1,8 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useTranslation as useTranslationBase, UseTranslationResponse } from 'react-i18next';
+import type { UseTranslationResponse } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse {
-  return useTranslationBase(['apps', 'apps-routing']);
+import { useTranslation as useTranslationBase } from 'react-i18next';
+
+export function useTranslation (): UseTranslationResponse<'apps'> {
+  return useTranslationBase('apps');
 }

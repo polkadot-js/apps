@@ -1,8 +1,7 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { I18nProps } from '@canvas-ui/react-components/types';
-
 import React from 'react';
 
 export interface CollectionProps extends I18nProps {

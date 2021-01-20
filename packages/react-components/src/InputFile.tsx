@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { FileState } from '@canvas-ui/react-hooks/types';
-import { BareProps } from './types';
-
-import React, { useCallback, createRef, MouseEvent } from 'react';
+import { classes } from '@canvas-ui/react-util';
+import React, { createRef, MouseEvent, useCallback } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
-import { isHex, u8aToString, hexToU8a } from '@polkadot/util';
+
+import { hexToU8a, isHex, u8aToString } from '@polkadot/util';
 
 import { ELEV_2_CSS } from './styles/constants';
-import { classes } from '@canvas-ui/react-util';
-import Icon from './Icon';
 import FileSupplied from './FileSupplied';
+import Icon from './Icon';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 export interface InputFileProps extends BareProps {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
@@ -122,8 +122,8 @@ function InputFile ({ accept, children, className, errorText, help, isDisabled, 
                 ? (
                   <>
                     <Icon
-                      name='upload'
-                      size='large'
+                      icon='upload'
+                      size='2x'
                     />
                     <div>
                       {t<string>('Click to select or drag & drop to upload file.')}
@@ -177,7 +177,7 @@ export default React.memo(styled(InputFile)`
     width: 100% !important;
     text-align: center;
 
-    i.icon {
+    .svg-inline--fa {
       margin-bottom: 0.5rem;
     }
   }

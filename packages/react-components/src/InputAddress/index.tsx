@@ -1,30 +1,30 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull } from '@canvas-ui/react-util/types';
-import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
-import { BareProps } from '../types';
-import { Option } from './types';
-
-import { detect } from 'detect-browser';
-import React, { useCallback, useMemo } from 'react';
-import store from 'store';
-import styled from 'styled-components';
 import { availableExtensions } from '@canvas-ui/apps-config/extensions';
 import { withMulti, withObservable } from '@canvas-ui/react-api/hoc';
 import { useApi } from '@canvas-ui/react-hooks';
 import { classes, getAddressName, toAddress as addressToAddress } from '@canvas-ui/react-util';
+import { StringOrNull } from '@canvas-ui/react-util/types';
+import { detect } from 'detect-browser';
+import React, { useCallback, useMemo } from 'react';
+import store from 'store';
+import styled from 'styled-components';
+
 import { keyring } from '@polkadot/ui-keyring';
 // import keyringOption from '@polkadot/ui-keyring/options';
 import { createOptionItem } from '@polkadot/ui-keyring/options/item';
+import { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Dropdown from '../Dropdown';
 import InputStatus from '../InputStatus';
+import { useTranslation } from '../translate';
+import { BareProps } from '../types';
 import createHeader from './createHeader';
 import createItem from './createItem';
 import { NoAccount } from './KeyPair';
+import { Option } from './types';
 
 interface Props extends BareProps {
   defaultValue?: Uint8Array | string | null;

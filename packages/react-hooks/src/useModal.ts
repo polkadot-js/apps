@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { ModalState } from './types';
 
 import { useCallback } from 'react';
 
+import { ModalState } from './types';
 import useToggle from './useToggle';
 
 export default function useModal (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {

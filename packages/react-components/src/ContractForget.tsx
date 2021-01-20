@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
+import { useNotification, useToggle } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useNotification, useToggle } from '@canvas-ui/react-hooks';
+
 import keyring from '@polkadot/ui-keyring';
 
 import Button from './Button';
 import ContractInfo from './ContractInfo';
 import Modal from './Modal';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   address: string;

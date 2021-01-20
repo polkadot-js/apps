@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueProps, QueueStatus, QueueTx } from './types';
-
 import React from 'react';
+
+import { QueueProps, QueueStatus, QueueTx } from './types';
 
 const defaultState: Partial<QueueProps> = {
   stqueue: [] as QueueStatus[],

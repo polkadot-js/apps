@@ -1,18 +1,17 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { AppProps as Props } from '@canvas-ui/apps/types';
-import { ComponentProps } from './types';
-
-import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
 import { WithLoader } from '@canvas-ui/react-components';
 import { useAccounts, useContracts } from '@canvas-ui/react-hooks';
 import { classes } from '@canvas-ui/react-util';
+import React, { useMemo } from 'react';
+import { Route, Switch } from 'react-router';
 
 import Add from './Add';
 import Call from './Call';
 import Contracts from './Contracts';
+import { ComponentProps } from './types';
 
 function ExecuteApp ({ basePath, className, navigateTo }: Props): React.ReactElement<Props> {
   const { allAccounts, isReady: isAccountsReady } = useAccounts();

@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import Api, { api } from './Api';
 import ApiContext from './ApiContext';
-import { withApi, withCalls, withCallDiv, withMulti, withObservable } from './hoc';
+import { withApi, withCallDiv, withCalls, withMulti, withObservable } from './hoc';
 import { clearLedger, getLedger, isLedger, isLedgerCapable } from './ledger';
 import registry from './typeRegistry';
 

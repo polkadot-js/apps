@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-api/types';
-
-import React from 'react';
 import { useApi, useCall } from '@canvas-ui/react-hooks';
+import React from 'react';
+
 import FormatBalance from './FormatBalance';
 
 interface Props extends BareProps {

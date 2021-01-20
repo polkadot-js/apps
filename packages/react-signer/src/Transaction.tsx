@@ -1,16 +1,15 @@
-// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { registry } from '@canvas-ui/react-api';
+import { Call, Expander, Modal } from '@canvas-ui/react-components';
 import { QueueTx } from '@canvas-ui/react-components/Status/types';
-
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { registry } from '@canvas-ui/react-api';
-import { Call, Expander, Modal } from '@canvas-ui/react-components';
 
-import { useTranslation } from './translate';
 import PaymentInfo from './PaymentInfo';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

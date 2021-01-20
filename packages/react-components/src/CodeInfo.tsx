@@ -1,21 +1,21 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import store from '@canvas-ui/apps/store';
 import { Code } from '@canvas-ui/apps/types';
-import { BareProps } from './types';
-
+import { useNonEmptyString, useToggle } from '@canvas-ui/react-hooks';
+import { truncate } from '@canvas-ui/react-util';
+import { faFile } from '@fortawesome/free-regular-svg-icons';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import store from '@canvas-ui/apps/store';
-import ItemInfo from './ItemInfo';
-import { useNonEmptyString, useToggle } from '@canvas-ui/react-hooks';
 
 import CopyButton from './CopyButton';
 import EditButton from './EditButton';
 import Icon from './Icon';
 import Input from './Input';
+import ItemInfo from './ItemInfo';
 import { useTranslation } from './translate';
-import { truncate } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   code: Code;
@@ -51,7 +51,8 @@ function CodeInfo ({ children, className, code: { codeHash, id, name }, isEditab
       icon={
         <Icon
           className='code-icon'
-          name='file outline'
+          icon={faFile}
+          size='2x'
         />
       }
       subtitle={
@@ -94,7 +95,7 @@ function CodeInfo ({ children, className, code: { codeHash, id, name }, isEditab
 }
 
 export default styled(React.memo(CodeInfo))`
-  i.icon.code-icon {
+  .svg-inline--fa.code-icon {
     color: var(--grey60);
     font-size: 1.8rem;
     margin: 0.5rem;

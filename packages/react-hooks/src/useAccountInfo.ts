@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { StringOrNull } from '@canvas-ui/react-util/types';
-import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
-
 import { useCallback, useEffect, useState } from 'react';
-import keyring from '@polkadot/ui-keyring';
 
+import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
+import keyring from '@polkadot/ui-keyring';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+
+import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 import useAccounts from './useAccounts';
 import useAddresses from './useAddresses';
 import useApi from './useApi';

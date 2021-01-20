@@ -1,25 +1,25 @@
-// Copyright 2017-2020 @canvas-ui/app-accounts authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Environment } from '../types';
+import type { Environment } from '../types';
 
 // https://github.com/electron/electron/issues/2288
-function isElectron () {
-  if (process?.versions?.electron) {
-    return true;
-  }
+// function isElectron () {
+//   if (process?.versions?.electron) {
+//     return true;
+//   }
 
-  if (window?.process?.type === 'renderer') {
-    return true;
-  }
+//   if ((window?.process as any)?.type === 'renderer') {
+//     return true;
+//   }
 
-  return navigator?.userAgent?.indexOf('Electron') >= 0;
-}
+//   return navigator?.userAgent?.indexOf('Electron') >= 0;
+// }
 
 export default function getEnvironment (): Environment {
-  if (isElectron()) {
-    return 'app';
-  }
+  // if (isElectron()) {
+  //   return 'app';
+  // }
 
   return 'web';
 }

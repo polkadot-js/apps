@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, TypeDef } from '@polkadot/types/types';
-import { BareProps } from './types';
-
+import { classes } from '@canvas-ui/react-util';
 import React from 'react';
 import styled from 'styled-components';
+
 import { TypeRegistry } from '@polkadot/types';
+import { Codec, TypeDef } from '@polkadot/types/types';
 
 import CopyButton from './CopyButton';
 import Data from './Data';
 import Icon from './Icon';
 import Labelled from './Labelled';
-import { classes } from '@canvas-ui/react-util';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -57,7 +57,7 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
             >
               <Icon
                 className='copy-output'
-                name='copy outline'
+                icon='copy'
               />
             </CopyButton>
           )
@@ -78,7 +78,7 @@ export default React.memo(styled(Output)`
   .copy-output {
     float: right;
   
-    i.icon {
+    .svg-inline--fa {
       font-size: 0.875rem;
       color: var(--grey60);
       margin-right: 0;

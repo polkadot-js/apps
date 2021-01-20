@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ParamDef, Props, RawParam } from '../types';
-
 import React, { useEffect, useState } from 'react';
+
 import { isUndefined } from '@polkadot/util';
 
 import getInitValue from '../initValue';
+import { ParamDef, Props, RawParam } from '../types';
 import Params from '../';
 import Base from './Base';
 import useParamDefs from './useParamDefs';

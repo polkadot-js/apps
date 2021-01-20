@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InjectedExtension } from '@polkadot/extension-inject/types';
-import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
-
 import { ApiPromise } from '@polkadot/api';
+import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
+import { InjectedExtension } from '@polkadot/extension-inject/types';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;

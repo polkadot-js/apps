@@ -2,6 +2,7 @@
   "Create an account now.": "Create an account now.",
   "Ensure that your node is running and that your Websocket endpoint is reachable.": "Ensure that your node is running and that your Websocket endpoint is reachable.",
   "Initializing connection": "Initializing connection",
+  "Loading": "Loading",
   "Select Network": "Select Network",
   "Settings": "Settings",
   "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.",

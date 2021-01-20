@@ -1,20 +1,19 @@
-// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // import { PromiseContract as Contract } from '@polkadot/api-contract';
 // import { CodeStored } from '@canvas-ui/apps/types';
-import { BareProps } from './types';
-
-import React from 'react';
-import styled from 'styled-components';
-import ItemInfo from './ItemInfo';
 import { IdentityIcon } from '@canvas-ui/react-components';
 import { useAccountInfo } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
+import React from 'react';
+import styled from 'styled-components';
 
 import CopyButton from './CopyButton';
 import EditButton from './EditButton';
 import Input from './Input';
+import ItemInfo from './ItemInfo';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   address: string;

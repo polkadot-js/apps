@@ -1,11 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
-
 import React from 'react';
-import styled from 'styled-components';
 import Markdown from 'react-markdown';
+import styled from 'styled-components';
 
 import { ELEV_2_CSS, ELEV_3_CSS } from './styles/constants';
 import { useTranslation } from './translate';

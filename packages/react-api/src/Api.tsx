@@ -1,29 +1,28 @@
-// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InjectedExtension } from '@polkadot/extension-inject/types';
-import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
-import { ApiProps, ApiState } from './types';
-
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { ApiPromise } from '@polkadot/api/promise';
-import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@canvas-ui/apps-config/api';
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { WsProvider } from '@polkadot/rpc-provider';
-import { StatusContext } from '@canvas-ui/react-components/Status';
 import { TokenUnit } from '@canvas-ui/react-components/InputNumber';
+import { StatusContext } from '@canvas-ui/react-components/Status';
+import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+
+import { ApiPromise } from '@polkadot/api/promise';
+import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { InjectedExtension } from '@polkadot/extension-inject/types';
+import { WsProvider } from '@polkadot/rpc-provider';
+import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import keyring from '@polkadot/ui-keyring';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
-
 import uiSettings from '@polkadot/ui-settings';
-import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import { ApiProps, ApiState } from './types';
 
 interface Props {
   children: React.ReactNode;
