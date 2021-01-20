@@ -78,6 +78,10 @@ export default React.memo(styled(BountiesApp)`
       background: #fff;
     }
 
+    &:nth-child(odd) td {
+      vertical-align: middle;
+    }
+
     &:nth-child(even) {
       background: #fafafa;
     }
