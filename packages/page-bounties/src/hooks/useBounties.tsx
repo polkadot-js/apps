@@ -16,6 +16,7 @@ export type BountyApi = {
   bountyDepositBase: BN,
   bountyIndex?: BN,
   bountyValueMinimum: BN,
+  claimBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   closeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   dataDepositPerByte: BN,
   extendBountyExpiry: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
@@ -36,6 +37,7 @@ export function useBounties (): BountyApi {
   const dataDepositPerByte = (constsBase.dataDepositPerByte as BalanceOf).toBn();
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
   const proposeCurator = (api.tx.bounties || api.tx.treasury).proposeCurator;
+  const claimBounty = (api.tx.bounties || api.tx.treasury).claimBounty;
   const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
   const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
   const extendBountyExpiry = (api.tx.bounties || api.tx.treasury).extendBountyExpiry;
@@ -47,6 +49,7 @@ export function useBounties (): BountyApi {
     bountyDepositBase,
     bountyIndex,
     bountyValueMinimum,
+    claimBounty,
     closeBounty,
     dataDepositPerByte,
     extendBountyExpiry,
