@@ -17,7 +17,7 @@
     "@polkadot/networks": "^5.3.1",
     "@sora-substrate/type-definitions": "^0.3.3",
     "@subsocial/types": "^0.4.28",
-    "moonbeam-types-bundle": "^1.0.5"
+    "moonbeam-types-bundle": "^1.0.6"
   },
   "devDependencies": {
     "i18next": "^19.8.4"
