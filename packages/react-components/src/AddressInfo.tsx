@@ -186,22 +186,22 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   return (
     <>
       <div />
-      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold && (
+      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as ValidatorPrefsTo145).unstakeThreshold && (
         <>
           <Label label={t<string>('unstake threshold')} />
           <div className='result'>
-            {(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold.toString()}
+            {(stakingInfo.validatorPrefs as ValidatorPrefsTo145).unstakeThreshold.toString()}
           </div>
         </>
       )}
-      {validatorPrefsDisplay.validatorPayment && (stakingInfo.validatorPrefs.commission || (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment) && (
-        (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment
+      {validatorPrefsDisplay.validatorPayment && (stakingInfo.validatorPrefs.commission || (stakingInfo.validatorPrefs as ValidatorPrefsTo145).validatorPayment) && (
+        (stakingInfo.validatorPrefs as ValidatorPrefsTo145).validatorPayment
           ? (
             <>
               <Label label={t<string>('commission')} />
               <FormatBalance
                 className='result'
-                value={(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment}
+                value={(stakingInfo.validatorPrefs as ValidatorPrefsTo145).validatorPayment}
               />
             </>
           )
