@@ -4,22 +4,26 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
+import { BN_ZERO } from '@polkadot/util';
 
 import { bestValidProposalName } from '../helpers/extendedStatuses';
 import { useTranslation } from '../translate';
 
 interface Props {
+  blocksUntilPayout?: BN ;
   className?: string;
   proposals: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-function VotingDescription ({ className = '', proposals, status }: Props): React.ReactElement<Props> {
+function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status }: Props): React.ReactElement<Props> {
   const bestProposalName = bestValidProposalName(proposals, status);
   const { t } = useTranslation();
-  const descriptions: Record<string, string> = useMemo(() => ({
+  const votingDescriptions: Record<string, string> = useMemo(() => ({
     approveBounty: t('Approval under voting'),
     closeBounty: t('Rejection under voting'),
     proposeCurator: t('Curator under voting'),
@@ -31,16 +35,24 @@ function VotingDescription ({ className = '', proposals, status }: Props): React
       {bestProposalName && (
         <div
           className={className}
-          data-testid='extendedStatus'
+          data-testid='extendedVotingStatus'
         >
-          <>{descriptions[bestProposalName] || null}</>
+          {votingDescriptions[bestProposalName] || null}
+        </div>
+      )}
+      {blocksUntilPayout?.lt(BN_ZERO) && (
+        <div
+          className={className}
+          data-testid='extendedActionStatus'
+        >
+          {t('Claimable')}
         </div>
       )}
     </>
   );
 }
 
-export default React.memo(styled(VotingDescription)`
+export default React.memo(styled(ExtendedStatus)`
   margin-top: 0.28rem;
   font-size: 0.7rem;
   line-height: 0.85rem;

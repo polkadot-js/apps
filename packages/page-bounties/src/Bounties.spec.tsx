@@ -374,7 +374,7 @@ describe('Bounties', () => {
     });
   });
 
-  describe('status is extended when voting', () => {
+  describe('status is extended', () => {
     it('on proposed curator', async () => {
       const bounty = bountyInStatus('Funded');
       const proposals = [aProposal(apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
@@ -429,7 +429,13 @@ describe('Bounties', () => {
 
       const { findByTestId } = renderOneBounty(bounty, proposals);
 
-      await expect(findByTestId('extendedStatus')).rejects.toThrow();
+      await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
+    });
+    it('when bounty is claimable', async () => {
+      const bounty = bountyInStatus('PendingPayout');
+      const { findByTestId } = renderOneBounty(bounty);
+
+      expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
     });
   });
 

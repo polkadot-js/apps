@@ -13,8 +13,8 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import ExtendedStatus from './Voting/ExtendedStatus';
 import VotingResultsColumn from './Voting/VotersColumn';
-import VotingDescription from './Voting/VotingDescription';
 import { BountyActions } from './BountyActions';
 import { BountyInfos } from './BountyInfos';
 import { getBountyStatus, truncateTitle } from './helpers';
@@ -60,7 +60,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           <div>{bountyStatus}</div>
           <div>
-            <VotingDescription
+            <ExtendedStatus
+              blocksUntilPayout={blocksUntilPayout}
               proposals={proposals}
               status={status}
             />
@@ -182,17 +183,17 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps> {
   const { t } = useTranslation();
 
-  if (!dueBlocks) {
-    return <>{EMPTY_CELL}</>;
-  }
-
-  return dueBlocks.gtn(0)
-    ? <>
-      {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-      <BlockToTime blocks={dueBlocks}
-        className='block-to-time'> until {until}</BlockToTime>
+  return (
+    <>
+      {dueBlocks && dueBlocks.gtn(0) && (
+        <>
+          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
+          <BlockToTime blocks={dueBlocks}
+            className='block-to-time'> until {until}</BlockToTime>
+        </>
+      )}
     </>
-    : <>{t('Claimable')}</>;
+  );
 }
 
 export default React.memo(styled(Bounty)`
@@ -231,7 +232,7 @@ export default React.memo(styled(Bounty)`
       height: 24px;
       padding: 0;
       border-radius: 4px;
-      
+
       svg {
         padding: 0;
         margin: 0;
@@ -272,7 +273,7 @@ export default React.memo(styled(Bounty)`
       width: 50%;
     }
   }
-  
+
   .proposer-row {
     display: flex;
     align-items: center;
@@ -288,7 +289,7 @@ export default React.memo(styled(Bounty)`
     justify-content: flex-end;
     align-items: center;
     margin-left: auto;
-    
+
     & > * + * {
       margin-left: 0.6rem;
     }
@@ -299,7 +300,7 @@ export default React.memo(styled(Bounty)`
     line-height: 0.85rem;
     color: #8B8B8B;
   }
-  
+
   & .votes-table {
     display: flex;
     justify-content: space-between;
