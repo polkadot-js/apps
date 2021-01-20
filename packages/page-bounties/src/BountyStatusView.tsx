@@ -9,12 +9,13 @@ import styled from 'styled-components';
 
 import { LabelHelp } from '@polkadot/react-components';
 
+import { insertSpaceBeforeCapitalLetter } from './helpers';
 import { useTranslation } from './translate';
-import { BountyState, HelpMessages } from './types';
+import { HelpMessages, StatusName } from './types';
 import VotingDescription from './VotingDescription';
 
 interface Props {
-  bountyStatus: string;
+  bountyStatus: StatusName;
   className?: string;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
@@ -32,14 +33,12 @@ function BountyStatusView ({ bountyStatus, className = '', proposals, status }: 
     Proposed: t('After a bounty was proposed the council decides whether to fund it or not.')
   });
 
-  const currentBountyState = statusHelpMessages.current[status.type as BountyState];
-
   return (
     <div className={className}>
       <div className='bountyStatus'>
-        {bountyStatus}
+        {insertSpaceBeforeCapitalLetter(bountyStatus)}
         <LabelHelp
-          help={currentBountyState}
+          help={statusHelpMessages.current[bountyStatus]}
         />
       </div>
       {proposals && (

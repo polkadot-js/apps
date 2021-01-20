@@ -4,7 +4,7 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { bestValidProposalName } from './helpers/extendedStatuses';
@@ -19,12 +19,12 @@ interface Props {
 function VotingDescription ({ className = '', proposals, status }: Props): React.ReactElement<Props> {
   const bestProposalName = bestValidProposalName(proposals, status);
   const { t } = useTranslation();
-  const descriptions: Record<string, string> = useMemo(() => ({
+  const descriptions = useRef<Record<string, string>>({
     approveBounty: t('Approval under voting'),
     closeBounty: t('Rejection under voting'),
     proposeCurator: t('Curator under voting'),
     unassignCurator: t('Unassign curator under voting')
-  }), [t]);
+  });
 
   return (
     <>
@@ -33,7 +33,7 @@ function VotingDescription ({ className = '', proposals, status }: Props): React
           className={className}
           data-testid='extendedStatus'
         >
-          <>{descriptions[bestProposalName] || null}</>
+          <>{descriptions.current[bestProposalName] || null}</>
         </div>
       )}
     </>
