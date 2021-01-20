@@ -194,11 +194,14 @@ function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps
 }
 
 export default React.memo(styled(Bounty)`
-  .description-column div {
+  .description-column {
     max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   & .links {
     display: inline-flex;
