@@ -61,6 +61,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   position: relative;
   z-index: 1;
+
   th {
     font: ${theme.fontSans};
     font-weight: ${theme.fontWeightNormal};
@@ -68,9 +69,11 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
     text-align: right;
     vertical-align: baseline;
     white-space: nowrap;
+
     h1, h2 {
       font-size: 1.75rem;
     }
+
     h1 {
       .ui--Icon {
         font-size: 1rem;
@@ -78,52 +81,66 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
         vertical-align: middle;
       }
     }
+
     &:first-child {
       border-left: 1px solid ${theme.borderTable};
     }
+
     &:last-child {
       border-right: 1px solid ${theme.borderTable};
     }
+
     &.address {
       padding-left: 3rem;
       text-align: left;
     }
+
     &.badge {
       padding: 0;
     }
+
     &.expand {
       text-align: right;
     }
+
     &.isClickable {
       border-bottom: 2px solid transparent;
       cursor: pointer;
     }
+
     &.mini {
       padding: 0 !important;
     }
+
     &.start {
       text-align: left;
     }
   }
+
   tr {
     background: ${theme.bgTable};
     text-transform: lowercase;
+
     &:first-child {
       th {
         border-top: 1px solid ${theme.borderTable};
       }
     }
+
     &.filter {
       .ui.input {
         background: transparent;
+
         &:first-child {
           margin-top: -1px;
         }
       }
+
       th {
         padding: 0;
       }
     }
+
     &:not(.filter) {
       th {
         color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
