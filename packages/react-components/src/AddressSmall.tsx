@@ -47,7 +47,7 @@ export default React.memo(styled(AddressSmall)`
   }
 
   .ui--IdentityIcon {
-    margin-right: 0.42rem;
+    margin-right: 0.75rem;
   }
 
   .ui--AccountName {
