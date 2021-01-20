@@ -306,19 +306,7 @@ export default React.memo(styled(Bounty)`
   }
 
   & .ui--FormatBalance {
-    font-weight: ${({ theme }: ThemeProps) => theme.fontWeightMedium};
     font-size: 0.85rem;
     line-height: 1.4rem;
-
-    .ui--FormatBalance-unit {
-      font-size: 0.85rem;
-    }
-
-    .ui--FormatBalance-value {
-      > .ui--FormatBalance-postfix {
-        font-weight: ${({ theme }: ThemeProps) => theme.fontWeightMedium};
-        opacity: 100%;
-      }
-    }
   }
 `);
