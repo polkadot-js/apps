@@ -79,8 +79,8 @@ export default React.memo(styled(Bounties)`
         &:last-child {
           padding-right: 1.14rem;
         }
-      }    
-    
+      }
+    }
   }
   
   .ui--IdentityIcon {
