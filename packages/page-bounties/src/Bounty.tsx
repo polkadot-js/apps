@@ -66,8 +66,15 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
           </div>
         </td>
-        <td colSpan={2}
-          data-testid='description'>{truncateTitle(description, 30)}</td>
+        <td
+          colSpan={2}
+          data-testid='description'
+          className='description-column'
+        >
+          <div title={description}>
+            {description}
+          </div>
+        </td>
         <td><FormatBalance value={value} /></td>
         <td>{curator && <AddressSmall value={curator} />}</td>
         <td>
@@ -189,6 +196,12 @@ function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps
 }
 
 export default React.memo(styled(Bounty)`
+  .description-column div {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   & .links {
     display: inline-flex;
   }
