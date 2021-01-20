@@ -62,5 +62,9 @@ function Bounties ({className}: Props): React.ReactElement {
 export default React.memo(styled(Bounties)`
   .bounties-table-wrapper table {
     background: none;
+
+    &::before {
+      background: none;
+    }
   }
 `);
