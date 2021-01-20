@@ -13,9 +13,9 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { BountyActions } from './BountyActions';
+import BountyStatusView from './BountyStatusView';
 import { getBountyStatus, truncateTitle } from './helpers';
 import { useTranslation } from './translate';
-import VotingDescription from './VotingDescription';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -54,17 +54,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
     <>
       <tr className={className}>
         <td>
-          <div>
-            <div>{bountyStatus}</div>
-            {proposals && (
-              <div>
-                <VotingDescription
-                  proposals={proposals}
-                  status={status}
-                />
-              </div>
-            )}
-          </div>
+          <BountyStatusView
+            bountyStatus={bountyStatus}
+            proposals={proposals}
+            status={status}
+          />
         </td>
         <td data-testid='description'>{truncateTitle(description, 30)}</td>
         <td><FormatBalance value={value} /></td>

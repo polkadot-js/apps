@@ -4,8 +4,7 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-type BountyVotingStatus = 'Active' | 'Approved' | 'CuratorProposed' | 'Funded' | 'PendingPayout' | 'Proposed';
-type BountyVotingStatuses = { [status in BountyVotingStatus]: string[] };
+import { BountyVotingStatuses, StatusName } from '../types';
 
 const validProposalNames: BountyVotingStatuses = {
   Active: ['closeBounty', 'unassignCurator'],
@@ -17,7 +16,7 @@ const validProposalNames: BountyVotingStatuses = {
 };
 
 function validMethods (status: BountyStatus): string[] {
-  return validProposalNames[status.type as BountyVotingStatus];
+  return validProposalNames[status.type as StatusName];
 }
 
 function getProposalByMethod (bountyProposals: DeriveCollectiveProposal[], method: string | undefined): DeriveCollectiveProposal | undefined {
