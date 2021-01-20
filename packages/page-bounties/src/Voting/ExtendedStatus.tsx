@@ -16,12 +16,12 @@ import { useTranslation } from '../translate';
 interface Props {
   blocksUntilPayout?: BN ;
   className?: string;
-  proposals: DeriveCollectiveProposal[];
+  proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
 function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status }: Props): React.ReactElement<Props> {
-  const bestProposalName = bestValidProposalName(proposals, status);
+  const bestProposalName = proposals ? bestValidProposalName(proposals, status) : null;
   const { t } = useTranslation();
   const votingDescriptions: Record<string, string> = useMemo(() => ({
     approveBounty: t('Approval under voting'),
