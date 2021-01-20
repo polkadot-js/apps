@@ -4,6 +4,8 @@
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
+import { MarkWarning } from '@polkadot/react-components';
+
 import { useTranslation } from '../../translate';
 
 interface Props {
@@ -35,9 +37,7 @@ function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props):
   }
 
   return (
-    <article className='warning'>
-      <div>{error}</div>
-    </article>
+    <MarkWarning content={error} />
   );
 }
 

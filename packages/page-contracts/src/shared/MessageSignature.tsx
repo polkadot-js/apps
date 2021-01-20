@@ -80,7 +80,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
 
 export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
   font: ${theme.fontMono};
-  font-weight: 400;
+  font-weight: ${theme.fontWeightNormal};
   flex-grow: 1;
 
   .ui--MessageSignature-mutates {
@@ -91,7 +91,7 @@ export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
 
   .ui--MessageSignature-name {
     color: #2f8ddb;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
   }
 
   .ui--MessageSignature-type {

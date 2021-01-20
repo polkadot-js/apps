@@ -11,21 +11,58 @@ import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';
 import Expander from './Expander';
-import Inset, { InsetProps } from './Inset';
+import { useTranslation } from './translate';
 import TreasuryProposal from './TreasuryProposal';
 import { isTreasuryProposalVote } from './util';
 
 interface Props {
   className?: string;
-  asInset?: boolean;
-  insetProps?: Partial<InsetProps>;
   proposal?: Proposal | null;
   idNumber: BN | number | string;
   withLinks?: boolean;
   expandNested?: boolean;
 }
 
-export const styles = `
+function ProposedAction ({ className = '', expandNested, idNumber, proposal, withLinks }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const stringId = isString(idNumber)
+    ? idNumber
+    : formatNumber(idNumber);
+
+  if (!proposal) {
+    return (
+      <h3>#{stringId}&nbsp;{t<string>('No execution details available for this proposal')}</h3>
+    );
+  }
+
+  const { meta, method, section } = proposal.registry.findMetaCall(proposal.callIndex);
+
+  const header = `#${stringId}: ${section}.${method}`;
+
+  return (
+    <div className={`ui--ProposedAction ${className}`}>
+      <h3>{header}</h3>
+      <Expander summaryMeta={meta}>
+        {(isTreasuryProposalVote(proposal) && expandNested)
+          ? (
+            <TreasuryProposal
+              asInset={withLinks}
+              insetProps={{
+                withBottomMargin: true,
+                withTopMargin: true,
+                ...(withLinks ? { href: '/treasury' } : {})
+              }}
+              proposalId={proposal.args[0].toString()}
+            />
+          )
+          : <Call value={proposal} />
+        }
+      </Expander>
+    </div>
+  );
+}
+
+export default React.memo(styled(ProposedAction)`
   margin-left: 2rem;
 
   .ui--ProposedAction-extrinsic {
@@ -37,64 +74,4 @@ export const styles = `
   .ui--ProposedAction-header {
     margin-bottom: 1rem;
   }
-`;
-
-function ProposedAction ({ asInset, className = '', expandNested, idNumber, insetProps, proposal, withLinks }: Props): React.ReactElement<Props> {
-  const stringId = isString(idNumber)
-    ? idNumber
-    : formatNumber(idNumber);
-
-  if (!proposal) {
-    return (
-      <h3>#{stringId}</h3>
-    );
-  }
-
-  const { meta, method, section } = proposal.registry.findMetaCall(proposal.callIndex);
-
-  const header = `#${stringId}: ${section}.${method}`;
-  const documentation = meta?.documentation
-    ? (
-      <summary>{meta.documentation.join(' ')}</summary>
-    )
-    : null;
-  const params = (isTreasuryProposalVote(proposal) && expandNested)
-    ? (
-      <TreasuryProposal
-        asInset={withLinks}
-        insetProps={{
-          withBottomMargin: true,
-          withTopMargin: true,
-          ...(withLinks ? { href: '/treasury' } : {})
-        }}
-        proposalId={proposal.args[0].toString()}
-      />
-    )
-    : <Call value={proposal} />;
-
-  if (asInset) {
-    return (
-      <Inset
-        header={header}
-        isCollapsible
-        {...insetProps}
-      >
-        <>
-          {documentation}
-          {params}
-        </>
-      </Inset>
-    );
-  }
-
-  return (
-    <div className={`ui--ProposedAction ${className}`}>
-      <h3>{header}</h3>
-      <Expander summaryMeta={meta}>
-        {params}
-      </Expander>
-    </div>
-  );
-}
-
-export default React.memo(styled(ProposedAction)`${styles}`);
+`);

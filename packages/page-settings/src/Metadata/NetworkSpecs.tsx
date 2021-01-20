@@ -168,6 +168,10 @@ export default React.memo(styled(NetworkSpecs)`
   .settings--networkSpecs-qr {
     margin: 0.25rem auto;
     max-width: 15rem;
+
+    img {
+      border: 1px solid white;
+    }
   }
 
   .settings--networkSpecs-name {

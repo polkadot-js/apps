@@ -1,44 +1,52 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParaId } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
 
-import React, { useRef } from 'react';
-import styled from 'styled-components';
+import React, { useMemo } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { useApi, useCall, useParaEndpoints } from '@polkadot/react-hooks';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getChainLink, sliceHex } from '../util';
 
 interface Props {
-  ids?: ParaId[];
+  id: ParaId;
 }
 
-function Upcoming ({ ids }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+const transformGenesis = {
+  transform: (opt: Option<ParaGenesisArgs>) => opt.unwrapOr(null)
+};
 
-  const headerRef = useRef([
-    [t('upcoming'), 'start']
-  ]);
+function Upcoming ({ id }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const info = useCall<ParaGenesisArgs | null>(api.query.paras.upcomingParasGenesis, [id], transformGenesis);
+  const endpoints = useParaEndpoints(id);
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
+  );
 
   return (
-    <Table
-      empty={ids && t<string>('There are no upcoming parachains')}
-      header={headerRef.current}
-    >
-      {ids?.map((id): React.ReactNode => (
-        <tr key={id.toString()}>
-          <td className='number'>
-            <h1>{id.toString()}</h1>
-          </td>
-        </tr>
-      ))}
-    </Table>
+    <tr key={id.toString()}>
+      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <td className='badge together'>{chainLink}</td>
+      <td className='all start together hash'>
+        {info && (
+          sliceHex(info.genesisHead, 8)
+        )}
+      </td>
+      <td className='start'>
+        {info && (
+          info.parachain ? t('Yes') : t('No')
+        )}
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(styled(Upcoming)`
-  tbody tr {
-    cursor: pointer;
-  }
-`);
+export default React.memo(Upcoming);

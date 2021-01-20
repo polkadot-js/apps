@@ -1,21 +1,28 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
 
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
+import BountyInitiateVoting from './BountyInitiateVoting';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
 import { getBountyStatus } from './helpers';
+import ProposeCuratorAction from './ProposeCuratorAction';
 
 interface Props {
   bestNumber: BlockNumber;
-  index: number;
+  description: string;
+  index: BountyIndex;
+  proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
+  value: Balance;
 }
 
-export function BountyActions ({ bestNumber, index, status }: Props): JSX.Element {
+export function BountyActions ({ bestNumber, description, index, proposals, status, value }: Props): JSX.Element {
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);
 
   const { beneficiary, curator, unlockAt } = updateStatus();
@@ -24,11 +31,31 @@ export function BountyActions ({ bestNumber, index, status }: Props): JSX.Elemen
 
   return (
     <>
+      {status.isProposed &&
+        <BountyInitiateVoting
+          index={index}
+          proposals={proposals}
+        />}
+      {status.isFunded && (
+        <ProposeCuratorAction
+          description={description}
+          index={index}
+          proposals={proposals}
+          value={value}
+        />
+      )}
       {status.isCuratorProposed && curator &&
         <BountyCuratorProposedActions
           curatorId={curator}
           index={index}
         />}
+      {status.isActive && curator &&
+          <ExtendBountyExpiryAction
+            curatorId={curator}
+            description={description}
+            index={index}
+          />
+      }
       {status.isPendingPayout && beneficiary && blocksUntilPayout &&
         <BountyClaimAction
           beneficiaryId={beneficiary}

@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from './types';
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -40,12 +42,12 @@ function Tag ({ className = '', color = 'grey', hover, isTag = true, label, size
   );
 }
 
-export default React.memo(styled(Tag)`
+export default React.memo(styled(Tag)(({ theme }: ThemeProps) => `
   border-radius: 0.25rem;
   color: #fff;
   display: inline-block;
   font-size: 0.78571429rem;
-  font-weight: 400;
+  font-weight: ${theme.fontWeightNormal};
   line-height: 1;
   margin: 0.125rem;
   padding: 0.5833em 0.833em;
@@ -115,4 +117,4 @@ export default React.memo(styled(Tag)`
       transition: none;
     }
   }
-`);
+`));

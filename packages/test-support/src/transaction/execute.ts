@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { waitFor } from '@testing-library/react';
-
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
+
+import { waitFor } from '../utils/waitFor';
 
 export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, singer: KeyringPair, logger = { info: console.log }): Promise<void> {
   let currentTxDone = false;
@@ -36,5 +36,5 @@ export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, singe
   }
 
   await extrinsic.signAndSend(singer, sendStatusCb);
-  await waitFor(() => expect(currentTxDone).toBeTruthy(), { timeout: 20000 });
+  await waitFor(() => currentTxDone, { timeout: 20000 });
 }

@@ -15,10 +15,9 @@ interface Props {
   basePath: string;
   hidden?: (string | boolean | undefined)[];
   items: TabItem[];
-  isSequence?: boolean;
 }
 
-function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): React.ReactElement<Props> {
+function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
 
   // redirect on invalid tabs
@@ -50,9 +49,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
             {...tab}
             basePath={basePath}
             index={index}
-            isSequence={isSequence}
             key={tab.name}
-            num={filtered.length}
           />
         ))}
       </div>
@@ -73,7 +70,7 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     margin: 0 auto;
     width: 100%;
     display: flex;
-    padding: 1.5rem 1.5rem 0;
+    padding: 1.25rem 1.5rem 0;
   }
 
   &::-webkit-scrollbar {

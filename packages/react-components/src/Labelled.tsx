@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
@@ -45,7 +47,7 @@ function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, 
   );
 }
 
-export default React.memo(styled(Labelled)`
+export default React.memo(styled(Labelled)(({ theme }: ThemeProps) => `
   &.ui--Labelled {
     display: block;
     position: relative;
@@ -101,7 +103,7 @@ export default React.memo(styled(Labelled)`
 
       .labelExtra {
         color: rgba(78, 78, 78, .85);
-        font-weight: 400;
+        font-weight: ${theme.fontWeightNormal};
         right: 1.75rem;
         text-align: right;
       }
@@ -155,4 +157,4 @@ export default React.memo(styled(Labelled)`
       }
     }
   }
-`);
+`));

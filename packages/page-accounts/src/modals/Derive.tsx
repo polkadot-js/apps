@@ -7,7 +7,7 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
+import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password, StatusContext } from '@polkadot/react-components';
 import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
@@ -33,6 +33,10 @@ interface LockState {
 }
 
 function deriveValidate (suri: string, pairType: KeypairType): string | null {
+  if (suri.includes('///')) {
+    return 'Password paths are not supported on keys derived from others';
+  }
+
   try {
     const { path } = keyExtractPath(suri);
 
@@ -41,6 +45,8 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
       return 'Soft derivation paths are not allowed on ed25519';
     }
   } catch (error) {
+    console.error(error);
+
     return (error as Error).message;
   }
 
@@ -216,11 +222,14 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {sourceStatic}
                 <Input
                   autoFocus
-                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
+                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
                   label={t<string>('derivation path')}
                   onChange={setSuri}
                   placeholder={t<string>('//hard/soft')}
                 />
+                {deriveError && (
+                  <MarkError content={deriveError} />
+                )}
                 <Input
                   className='full'
                   help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
