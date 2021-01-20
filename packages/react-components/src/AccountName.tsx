@@ -203,10 +203,10 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
     .name {
       align-items: center;
       display: inline-flex;
-      font-size: 1rem;
-      line-height: 1.7rem;
-      text-transform: initial;
-      opacity: 1;
+      font-weight: ${theme.fontWeightNormal} !important;
+      filter: grayscale(100%);
+      line-height: 1;
+      opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
 

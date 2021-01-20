@@ -67,7 +67,16 @@ export default React.memo(styled(Bounties)`
       background: none;
     }
   }
+  
   .ui--IdentityIcon {
     margin-right: 0.42rem;
+  }
+
+  .via-identity .name {
+    font-size: 1rem;
+    line-height: 1.7rem;
+    text-transform: initial;
+    filter: initial;
+    opacity: 1;
   }
 `);
