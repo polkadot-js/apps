@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { AccountId, Balance, BountyIndex } from '@polkadot/types/interfaces';
+import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { truncateTitle } from '@polkadot/app-bounties/helpers';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
-import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
 
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
@@ -25,7 +24,7 @@ interface Props {
 
 const BOUNTY_METHODS = ['unassignCurator'];
 
-function ProposeCuratorAction ({ curatorId, description, index, proposals }: Props): React.ReactElement<Props> | null {
+function SlashCurator ({ curatorId, description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers();
@@ -110,4 +109,4 @@ function ProposeCuratorAction ({ curatorId, description, index, proposals }: Pro
     : null;
 }
 
-export default React.memo(ProposeCuratorAction);
+export default React.memo(SlashCurator);
