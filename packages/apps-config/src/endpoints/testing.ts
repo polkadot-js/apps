@@ -42,6 +42,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'bitcountry',
+      text: t('rpc.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
+      providers: {
+        'Bit.Country': 'wss://whenua.bit.country'
+      }
+    },
+    {
       info: 'bifrost',
       text: t('rpc.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {

@@ -19,6 +19,7 @@ import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
+import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
@@ -84,6 +85,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Acala Node', nodeAcala],
   ['mandala node', nodeAcala],
   ['airalab-robonomics', nodeRobonomics],
+  ['BitCountry Node', nodeBitCountry],
+  ['Bit.Country', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
   ['Canvas Node', nodeCanvas],
@@ -134,6 +137,7 @@ export const nodeLogos: Record<string, unknown> = [
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  bitcountry: nodeBitCountry,
   bifrost: nodeBifrost,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
