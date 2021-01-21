@@ -60,10 +60,6 @@ function bountyInStatus (status: string) {
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
-function aBounty ({ value = balanceOf(1), status = aBountyStatus('Proposed') }: Partial<Bounty> = {}): Bounty {
-  return new TypeRegistry().createType('Bounty', { status, value });
-}
-
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
@@ -88,13 +84,14 @@ let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBountyStatus: (status: string) => BountyStatus;
 let aBountyIndex: (index?:number) => BountyIndex;
+let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
-    ({ aBountyIndex, aBountyStatus } = new BountyFactory(augmentedApi));
+    ({ aBounty, aBountyIndex, aBountyStatus } = new BountyFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;

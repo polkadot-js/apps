@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
+import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import { Registry } from '@polkadot/types/types';
 
@@ -22,4 +23,7 @@ export class BountyFactory {
 
   public aBountyStatus = (status: string): BountyStatus =>
     this.#registry.createType('BountyStatus', status);
+
+  public aBounty = ({ status = this.aBountyStatus('Proposed'), value = balanceOf(1) }: Partial<Bounty> = {}): Bounty =>
+    this.#registry.createType('Bounty', { status, value });
 }
