@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import bitcountry from './bitcountry';
 import bifrost from './bifrost';
+import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
@@ -36,8 +36,8 @@ export default {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
-  'bitcountry-node': bitcountry,
   bifrost: bifrost,
+  'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
   crust,
