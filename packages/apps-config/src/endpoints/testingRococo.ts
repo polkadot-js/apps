@@ -84,6 +84,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPhala',
+        paraId: 30,
+        text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococov1.phala.network/ws'
+        }
+      },
+      {
         info: 'rococoPlasm',
         paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),

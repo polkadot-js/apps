@@ -20,6 +20,7 @@ import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
 import phala from './phala';
+import phalaParachain from './phala-parachain';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
 import polkadex from './polkadex';
@@ -53,6 +54,7 @@ export default {
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'phala-node': phala,
+  'phala-collator': phalaParachain,
   plasm,
   'plasm-parachain': plasmParachain,
   robonomics,
