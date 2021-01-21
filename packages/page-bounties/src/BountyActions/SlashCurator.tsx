@@ -7,11 +7,11 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { truncateTitle } from '@polkadot/app-bounties/helpers';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 

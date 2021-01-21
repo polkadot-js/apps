@@ -5,10 +5,10 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
-import { useBounties } from '@polkadot/app-bounties/hooks';
 import { TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
+import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
