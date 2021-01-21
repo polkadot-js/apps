@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
@@ -18,18 +19,13 @@ interface Props {
   status: BountyStatus;
 }
 
-const styleOptions = {
-  ayes: {
-    icon: 'check',
-    label: 'AYE:'
-  },
-  nays: {
-    icon: 'times',
-    label: 'NAY:'
-  }
+const icons = {
+  ayes: 'check',
+  nays: 'times'
 };
 
 function VotersColumn ({ className, option, proposals, status }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const proposal = useMemo(() => getProposalToDisplay(proposals, status), [proposals, status]);
   const votes = useMemo(() => option === 'ayes' ? proposal?.votes?.ayes : proposal?.votes?.nays, [proposal, option]);
 
@@ -48,8 +44,11 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
       {proposal &&
         <div className={className}>
           <div className='vote-numbers'>
-            <span className='vote-numbers-icon'><Icon icon={styleOptions[option].icon} /></span>
-            <span className='vote-numbers-label'>{styleOptions[option].label} {votes && votes.length}</span>
+            <span className='vote-numbers-icon'><Icon icon={icons[option]} /></span>
+            <span className='vote-numbers-label'>
+              {option === 'ayes' && t('Aye: {{count}}', { replace: { count: votes?.length } })}
+              {option === 'nays' && t('Nay: {{count}}', { replace: { count: votes?.length } })}
+            </span>
           </div>
           {voters}
         </div>}

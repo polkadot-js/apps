@@ -7,6 +7,7 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import { useTranslation } from '@polkadot/app-bounties/translate';
 import { useMembers } from '@polkadot/react-hooks';
 
 import Description from '../Description';
@@ -20,7 +21,7 @@ interface Props {
 
 function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
   const { members } = useMembers();
-
+  const { t } = useTranslation();
   const proposal = useMemo(() => getProposalToDisplay(proposals, status), [proposals, status]);
   const ayes = useMemo(() => proposal?.votes?.ayes?.length, [proposal]);
   const nays = useMemo(() => proposal?.votes?.nays?.length, [proposal]);
@@ -34,8 +35,8 @@ function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
           className={className}
           data-testid='voting-summary'
         >
-          <p className='voting-summary-text'><span>Aye</span> <b>{ayes}/{threshold}</b></p>
-          <p className='voting-summary-text'><span>Nay</span> <b>{nays}/{nayThreshold}</b></p>
+          <p className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></p>
+          <p className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></p>
           <Description description='Voting results' />
         </div>
       )}
