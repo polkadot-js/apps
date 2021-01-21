@@ -29,7 +29,7 @@ const styleOptions = {
   }
 };
 
-function VotersColumn ({ className, option, proposals, status }: Props): JSX.Element {
+function VotersColumn ({ className, option, proposals, status }: Props): React.ReactElement<Props> {
   const proposal = useMemo(() => getProposalToDisplay(proposals, status), [proposals, status]);
   const votes = useMemo(() => option === 'ayes' ? proposal?.votes?.ayes : proposal?.votes?.nays, [proposal, option]);
 
