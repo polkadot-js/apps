@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
@@ -21,10 +21,12 @@ import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 
+import { defaultAccounts, defaultBalance, defaultBountyApi, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
@@ -40,53 +42,34 @@ function anIndex (index = 0): BountyIndex {
   return new TypeRegistry().createType('BountyIndex', index);
 }
 
-function balanceOf (number: number) {
-  return new TypeRegistry().createType('Balance', new BN(number));
-}
-
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
 
-const extendBountyExpiry = jest.fn().mockReturnValue('mockProposeExtrinsic');
-
-let mockBountyApi: BountyApi = {
-  approveBounty: jest.fn(),
-  bestNumber: new BN(1) as BlockNumber,
-  bounties: [] as DeriveBounties,
-  bountyDepositBase: new BN(1),
-  bountyValueMinimum: new BN(1),
-  claimBounty: jest.fn(),
-  closeBounty: jest.fn(),
-  dataDepositPerByte: new BN(1),
-  extendBountyExpiry,
-  maximumReasonLength: 100,
-  proposeBounty: jest.fn(),
-  proposeCurator: jest.fn()
-};
-
-let mockBalance = balanceOf(1);
 let apiWithAugmentations: ApiPromise;
-const mockMembers = { isMember: true };
-const mockAccounts = { allAccounts: ['5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM'] };
-const mockTreasury = {
-  burn: new BN(1),
-  spendPeriod: new BN(0),
-  value: balanceOf(1)
-};
 
-jest.mock('./hooks', () => {
-  return {
-    useBalance: () => mockBalance,
-    useBounties: () => mockBountyApi
-  };
-});
+const mockMembers = defaultMembers;
+const mockAccounts = defaultAccounts;
+const mockTreasury = defaultTreasury;
+let mockBountyApi = defaultBountyApi;
+let mockBalance = defaultBalance;
 
-jest.mock('@polkadot/react-hooks/useTreasury', () => {
-  return {
-    useTreasury: () => mockTreasury
-  };
-});
+jest.mock('./hooks', () => ({
+  useBalance: () => mockBalance,
+  useBounties: () => mockBountyApi
+}));
+
+jest.mock('@polkadot/react-hooks/useTreasury', () => ({
+  useTreasury: () => mockTreasury
+}));
+
+jest.mock('@polkadot/react-hooks/useMembers', () => ({
+  useMembers: () => mockMembers
+}));
+
+jest.mock('@polkadot/react-hooks/useAccounts', () => ({
+  useAccounts: () => mockAccounts
+}));
 
 export function createApiWithAugmentations (): ApiPromise {
   const registry = new TypeRegistry();
@@ -121,18 +104,6 @@ function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] =
     })
   };
 }
-
-jest.mock('@polkadot/react-hooks/useMembers', () => {
-  return {
-    useMembers: () => mockMembers
-  };
-});
-
-jest.mock('@polkadot/react-hooks/useAccounts', () => {
-  return {
-    useAccounts: () => mockAccounts
-  };
-});
 
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
 let queueExtrinsic: QueueTxExtrinsicAdd;
@@ -371,7 +342,7 @@ describe('Bounties', () => {
 
       fireEvent.click(acceptButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
-      expect(extendBountyExpiry).toHaveBeenCalledWith(anIndex(0), 'The bounty extend expiry remark');
+      expect(mockBountyApi.extendBountyExpiry).toHaveBeenCalledWith(anIndex(0), 'The bounty extend expiry remark');
     });
   });
 
