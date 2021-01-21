@@ -92,7 +92,7 @@ export default React.memo(styled(ChainInfo)`
       flex: 1;
       padding-right: 0.5rem;
       text-align: left;
- 
+
       .chain {
         max-width: 9rem;
         margin-bottom: 0.35rem;
@@ -102,7 +102,6 @@ export default React.memo(styled(ChainInfo)`
         font-weight: 500;
         font-size: 1rem;
         line-height: 1.25rem;
-        color: #FFFFFF;
       }
 
       .runtimeVersion,
