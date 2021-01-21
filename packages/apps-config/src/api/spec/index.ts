@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import bifrost from './bifrost';
+import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
@@ -36,6 +37,7 @@ export default {
   Darwinia: darwinia,
   Equilibrium: equilibrium,
   bifrost: bifrost,
+  'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
   crust,

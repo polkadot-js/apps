@@ -20,6 +20,7 @@ import externalPolkastats from './external/polkastats.png';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeBifrost from './nodes/bifrost.svg';
+import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
@@ -87,6 +88,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['airalab-robonomics', nodeRobonomics],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
+  ['BitCountry Node', nodeBitCountry],
+  ['Bit.Country', nodeBitCountry],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
@@ -137,6 +140,7 @@ export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
   bifrost: nodeBifrost,
+  bitcountry: nodeBitCountry,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
