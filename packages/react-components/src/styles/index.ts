@@ -32,7 +32,7 @@ function getContrast (uiHighlight: string | undefined): string {
 
   return brightness > BRIGHTNESS
     ? 'rgba(45, 43, 41, 0.875)'
-    : 'rgb(255, 255, 255)';
+    : 'rgba(255, 253, 251, 0.875)';
 }
 
 export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
