@@ -73,7 +73,7 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           payoutDue={blocksUntilPayout}
         />
       }
-      {(status.isCuratorProposed || status.isActive) && curator && (
+      {(status.isCuratorProposed || status.isActive || status.isPendingPayout) && curator && (
         <SlashCurator
           curatorId={curator}
           description={description}
