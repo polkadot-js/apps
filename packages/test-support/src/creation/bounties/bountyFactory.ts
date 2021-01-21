@@ -24,6 +24,9 @@ export class BountyFactory {
   public aBountyStatus = (status: string): BountyStatus =>
     this.#registry.createType('BountyStatus', status);
 
+  public bountyWith = ({ status = 'Proposed', value = 1 } = {}): Bounty =>
+    this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) })
+
   public aBounty = ({ status = this.aBountyStatus('Proposed'), value = balanceOf(1) }: Partial<Bounty> = {}): Bounty =>
     this.#registry.createType('Bounty', { status, value });
 }

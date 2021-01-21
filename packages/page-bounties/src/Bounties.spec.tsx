@@ -26,7 +26,11 @@ import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { defaultAccounts, defaultBalance, defaultBountyApi, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
+import { defaultAccounts,
+  defaultBalance,
+  defaultBountyApi,
+  defaultMembers,
+  defaultTreasury } from '../test/hooks/defaults';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
@@ -56,10 +60,6 @@ jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccounts
 }));
 
-function bountyInStatus (status: string) {
-  return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
-}
-
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
@@ -85,13 +85,14 @@ let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBountyStatus: (status: string) => BountyStatus;
 let aBountyIndex: (index?:number) => BountyIndex;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
+let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
-    ({ aBounty, aBountyIndex, aBountyStatus } = new BountyFactory(augmentedApi));
+    ({ aBounty, aBountyIndex, aBountyStatus, bountyWith } = new BountyFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
@@ -184,9 +185,9 @@ describe('Bounties', () => {
   });
 
   it('renders bounties in order from newest to oldest', async () => {
-    const bounty1 = bountyInStatus('Proposed');
-    const bounty2 = bountyInStatus('Proposed');
-    const bounty3 = bountyInStatus('Proposed');
+    const bounty1 = bountyWith({ status: 'Proposed' });
+    const bounty2 = bountyWith({ status: 'Proposed' });
+    const bounty3 = bountyWith({ status: 'Proposed' });
 
     const { findAllByTestId } = renderBounties({ bounties: [
       { bounty: bounty1, description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
@@ -303,7 +304,7 @@ describe('Bounties', () => {
 
   describe('extend bounty expiry action modal', () => {
     it('queues extend bounty expiry extrinsic on submit', async () => {
-      const bounty = bountyInStatus('Active');
+      const bounty = bountyWith({ status: 'Active' });
 
       const { findByTestId, findByText } = renderOneBounty(bounty);
 
@@ -327,7 +328,7 @@ describe('Bounties', () => {
 
   describe('status is extended', () => {
     it('on proposed curator', async () => {
-      const bounty = bountyInStatus('Funded');
+      const bounty = bountyWith({ status: 'Funded' });
       const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
@@ -336,7 +337,7 @@ describe('Bounties', () => {
     });
 
     it('on bounty approval in proposed status', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
@@ -345,7 +346,7 @@ describe('Bounties', () => {
     });
 
     it('on parallel bounty approval and bounty close in proposed status', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [
         aProposal(augmentedApi.tx.bounties.closeBounty(0)),
         aProposal(augmentedApi.tx.bounties.approveBounty(0))
@@ -357,7 +358,7 @@ describe('Bounties', () => {
     });
 
     it('on close bounty in active status', async () => {
-      const bounty = bountyInStatus('Active');
+      const bounty = bountyWith({ status: 'Active' });
       const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
@@ -366,7 +367,7 @@ describe('Bounties', () => {
     });
 
     it('on unassign curator in active state', async () => {
-      const bounty = bountyInStatus('Active');
+      const bounty = bountyWith({ status: 'Active' });
       const proposals = [aProposal(augmentedApi.tx.bounties.unassignCurator(0))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
@@ -375,7 +376,7 @@ describe('Bounties', () => {
     });
 
     it('on bounty approval in active state', async () => {
-      const bounty = bountyInStatus('Active');
+      const bounty = bountyWith({ status: 'Active' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
 
       const { findByTestId } = renderOneBounty(bounty, proposals);
@@ -384,7 +385,7 @@ describe('Bounties', () => {
     });
 
     it('when bounty is claimable', async () => {
-      const bounty = bountyInStatus('PendingPayout');
+      const bounty = bountyWith({ status: 'PendingPayout' });
       const { findByTestId } = renderOneBounty(bounty);
 
       expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
@@ -393,7 +394,7 @@ describe('Bounties', () => {
 
   describe('Voters', () => {
     it('aye and nay', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
       const { findAllByTestId } = renderOneBounty(bounty, proposals);
       const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
@@ -406,7 +407,7 @@ describe('Bounties', () => {
     });
 
     it('multiple aye and no nay', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
 
       const { findAllByTestId } = renderOneBounty(bounty, proposals);
@@ -419,7 +420,7 @@ describe('Bounties', () => {
     });
 
     it('not displayed when no voting', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals: DeriveCollectiveProposal[] = [];
 
       const { findAllByTestId } = renderOneBounty(bounty, proposals);
@@ -431,7 +432,7 @@ describe('Bounties', () => {
 
   describe('Voting summary', () => {
     it('is displayed when voting', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
 
       const { findByTestId } = renderOneBounty(bounty, proposals);
@@ -440,7 +441,7 @@ describe('Bounties', () => {
     });
 
     it('is not displayed when no voting', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals: DeriveCollectiveProposal[] = [];
 
       const { findByTestId } = renderOneBounty(bounty, proposals);
@@ -451,7 +452,7 @@ describe('Bounties', () => {
 
   describe('Description', () => {
     it('Beneficiary', async () => {
-      const bounty = bountyInStatus('PendingPayout');
+      const bounty = bountyWith({ status: 'PendingPayout' });
       const proposals = [aProposal(augmentedApi.tx.bounties.awardBounty(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z'))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
