@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import Summary from '@polkadot/app-bounties/Summary';
 import { Button, Table } from '@polkadot/react-components';
+import { ThemeProps } from '@polkadot/react-components/types';
 
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
@@ -60,7 +61,7 @@ function Bounties ({ className }: Props): React.ReactElement {
   );
 }
 
-export default React.memo(styled(Bounties)`
+export default React.memo(styled(Bounties)(({ theme }: ThemeProps) => `
   .bounties-table-wrapper table {
     background: none;
 
@@ -96,7 +97,7 @@ export default React.memo(styled(Bounties)`
 
   .ui--Table th:first-child h1 {
     padding: 0;
-    font-weight: bold;
+    font-weight: ${theme.fontWeightBold};
     font-size: 0.7rem;
     line-height: 0.85rem;
     text-transform: uppercase;
@@ -107,4 +108,4 @@ export default React.memo(styled(Bounties)`
       display: none;
     }
   }
-`);
+`));
