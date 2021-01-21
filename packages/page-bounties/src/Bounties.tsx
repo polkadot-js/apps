@@ -69,7 +69,6 @@ export default React.memo(styled(Bounties)`
     }
 
     tr {
-
       td,
       &:not(.filter) th {
         &:first-child {
@@ -82,7 +81,7 @@ export default React.memo(styled(Bounties)`
       }
     }
   }
-  
+
   .ui--IdentityIcon {
     margin-right: 0.42rem;
   }

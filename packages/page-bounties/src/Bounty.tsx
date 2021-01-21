@@ -85,7 +85,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           {blocksUntilUpdate
             ? <DueBlocks
               dueBlocks={blocksUntilUpdate}
-              until={'update'}/>
+              until={'update'}
+            />
             : ''}
         </td>
         <td>
@@ -116,12 +117,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
             <div className='table-column-icon'
               onClick={handleOnIconClick}>
-              <Icon
-                icon={
-                  isExpanded
-                    ? 'caret-up'
-                    : 'caret-down'
-                }
+              <Icon icon={
+                isExpanded
+                  ? 'caret-up'
+                  : 'caret-down'
+              }
               />
             </div>
           </div>
@@ -201,9 +201,11 @@ export default React.memo(styled(Bounty)`
       text-overflow: ellipsis;
     }
   }
+
   & .links {
     display: inline-flex;
   }
+
   & .fast-actions {
     .fast-actions-row {
       display: flex;
@@ -240,12 +242,14 @@ export default React.memo(styled(Bounty)`
       &:hover {
         background: #fff;
       }
+
       &:focus {
         background: #fff;
         border: 1px solid #616161;
       }
     }
   }
+
   & .inline-balance {
     width: 50%;
     font-size: 1rem;
@@ -282,6 +286,7 @@ export default React.memo(styled(Bounty)`
     justify-content: space-between;
     align-items: center;
   }
+
   .bounty-action-row {
     display: flex;
     justify-content: flex-end;
@@ -292,6 +297,7 @@ export default React.memo(styled(Bounty)`
       margin-left: 0.6rem;
     }
   }
+
   .block-to-time {
     margin-top: 0.28rem;
     font-size: 0.7rem;

@@ -40,7 +40,8 @@ function VotersColumn ({ className, option, proposals, status }: Props): JSX.Ele
       key={accountId.toString()}
     >
       <AddressSmall value={accountId}/>
-    </div>), [option, votes]);
+    </div>),
+  [option, votes]);
 
   return (
     <>
@@ -67,7 +68,7 @@ export default React.memo(styled(VotersColumn)`
     max-width: 10px;
     color: #9E9E9E;
   }
-  
+
   .vote-numbers-label {
     margin-left: 0.75rem;
     font-weight: bold;
