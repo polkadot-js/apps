@@ -21,6 +21,7 @@ import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { createAugmentedApi } from '@polkadot/test-support/api';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
+import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
@@ -29,23 +30,8 @@ import { defaultAccounts, defaultBalance, defaultBountyApi, defaultMembers, defa
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
-function bountyStatus (status: string): BountyStatus {
-  return new TypeRegistry().createType('BountyStatus', status);
-}
-
-function aBounty ({ value = balanceOf(1), status = bountyStatus('Proposed') }: Partial<Bounty> = {}): Bounty {
-  return new TypeRegistry().createType('Bounty', { status, value });
-}
-
-function anIndex (index = 0): BountyIndex {
-  return new TypeRegistry().createType('BountyIndex', index);
-}
-
-function aGenesisHash () {
-  return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
-}
-
-let augmentedApi: ApiPromise;
+const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 
 const mockMembers = defaultMembers;
 const mockAccounts = defaultAccounts;
@@ -74,8 +60,13 @@ function bountyInStatus (status: string) {
   return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
 }
 
-const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+function aBounty ({ value = balanceOf(1), status = aBountyStatus('Proposed') }: Partial<Bounty> = {}): Bounty {
+  return new TypeRegistry().createType('Bounty', { status, value });
+}
+
+function aGenesisHash () {
+  return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
+}
 
 function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] = [alice], nays: string[] = [bob]) {
   return {
@@ -92,13 +83,18 @@ function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] =
 }
 
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+
+let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
+let aBountyStatus: (status: string) => BountyStatus;
+let aBountyIndex: (index?:number) => BountyIndex;
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
+    ({ aBountyIndex, aBountyStatus } = new BountyFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
@@ -141,7 +137,7 @@ describe('Bounties', () => {
     );
   };
 
-  function renderOneBounty (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = anIndex()) {
+  function renderOneBounty (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = aBountyIndex()) {
     return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
   }
 
@@ -196,9 +192,9 @@ describe('Bounties', () => {
     const bounty3 = bountyInStatus('Proposed');
 
     const { findAllByTestId } = renderBounties({ bounties: [
-      { bounty: bounty1, description: 'bounty 2', index: anIndex(2), proposals: [] },
-      { bounty: bounty2, description: 'bounty 1', index: anIndex(1), proposals: [] },
-      { bounty: bounty3, description: 'bounty 3', index: anIndex(3), proposals: [] }
+      { bounty: bounty1, description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
+      { bounty: bounty2, description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
+      { bounty: bounty3, description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
     ] });
 
     const descriptions = await findAllByTestId('description');
@@ -246,7 +242,7 @@ describe('Bounties', () => {
 
   describe('propose curator modal', () => {
     it('shows an error if fee is greater than bounty value', async () => {
-      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const bounty = { status: aBountyStatus('Funded'), value: balanceOf(5) };
       const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
@@ -262,7 +258,7 @@ describe('Bounties', () => {
     });
 
     it('disables Assign Curator button if validation fails', async () => {
-      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const bounty = { status: aBountyStatus('Funded'), value: balanceOf(5) };
       const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
@@ -280,7 +276,7 @@ describe('Bounties', () => {
     });
 
     it('queues propose extrinsic on submit', async () => {
-      const bounty = { status: bountyStatus('Funded') };
+      const bounty = { status: aBountyStatus('Funded') };
       const { findByTestId, findByText, getAllByRole } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
@@ -328,7 +324,7 @@ describe('Bounties', () => {
 
       fireEvent.click(acceptButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
-      expect(mockBountyApi.extendBountyExpiry).toHaveBeenCalledWith(anIndex(0), 'The bounty extend expiry remark');
+      expect(mockBountyApi.extendBountyExpiry).toHaveBeenCalledWith(aBountyIndex(0), 'The bounty extend expiry remark');
     });
   });
 
