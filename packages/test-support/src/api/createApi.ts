@@ -5,10 +5,10 @@ import { ApiPromise } from '@polkadot/api/promise';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
 
-export async function createApi (): Promise<ApiPromise> {
+export async function createApi (port: number = SUBSTRATE_PORT): Promise<ApiPromise> {
   process.env.NODE_ENV = 'test';
 
-  const provider = new WsProvider(`ws://127.0.0.1:${SUBSTRATE_PORT}`);
+  const provider = new WsProvider(`ws://127.0.0.1:${port}`);
 
   const api = await ApiPromise.create({ provider });
 

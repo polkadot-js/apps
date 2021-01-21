@@ -9,6 +9,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
@@ -22,7 +23,8 @@ const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
-const chainRoccoDarwinia = '#7C30DD';
+const chainRoccoBifrost = '#002cc3';
+const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
@@ -31,9 +33,11 @@ const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
 const chainJupiter = '#7143ff';
+const chainUniarts = '#b39ef7';
 
 // based on node name
 // alphabetical
+const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
@@ -57,10 +61,13 @@ export { emptyColor };
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
+  ['acala mandala pc2', chainRoccoAcala],
+  ['Bit.Country Tewai Chain', chainBitCountry],
+  ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia cc1', chainDarwinia],
-  ['darwinia parachain', chainRoccoDarwinia],
+  ['Darwinia PC2', chainRoccoDarwinia],
   ['hanonycash', chainHanonycash],
   ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],
@@ -83,7 +90,8 @@ export const chainColors: Record<string, any> = [
   ['Trick', chainRoccoTrick],
   ['Westend', chainWestend],
   ['Galois', chainGalois],
-  ['ZΞRO Alphaville', chainZero]
+  ['ZΞRO Alphaville', chainZero],
+  ['Uniarts', chainUniarts]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -92,6 +100,7 @@ export const chainColors: Record<string, any> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, any> = [
+  ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],

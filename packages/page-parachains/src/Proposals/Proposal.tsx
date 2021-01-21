@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from './types';
+import type { ScheduledProposals } from '../types';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Badge, Spinner, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useSudo, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useParaEndpoints, useSudo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getChainLink, sliceHex } from '../util';
 import { useProposal } from './useProposals';
-import { sliceHex } from './util';
 
 interface Props {
   approvedIds: ParaId[];
@@ -28,6 +28,12 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   const { hasSudoKey, sudoKey } = useSudo();
   const [isQueried, toggleIsQueried] = useToggle();
   const proposal = useProposal(id, approvedIds, scheduled, isQueried);
+  const endpoints = useParaEndpoints(id);
+
+  const chainLink = useMemo(
+    () => getChainLink(endpoints),
+    [endpoints]
+  );
 
   const cancelTx = useMemo(
     () => api.tx.sudo && hasSudoKey
@@ -55,8 +61,8 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
 
   return (
     <tr>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'>
+      <td className='number together'><h1>{formatNumber(id)}</h1></td>
+      <td className='badge together'>
         {(proposal.isApproved || proposal.isScheduled) && (
           <Badge
             color='green'
@@ -64,15 +70,42 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           />
         )}
       </td>
+      <td className='badge together'>{chainLink}</td>
       {isQueried && !proposal.proposal
-        ? <td colSpan={6}><Spinner variant='mini' /></td>
+        ? (
+          <>
+            <td colSpan={2}><Spinner variant='mini' /></td>
+            <td className='media--1100' />
+            <td className='media--1700' />
+            <td className='media--1500' />
+            <td />
+          </>
+        )
         : (
           <>
-            <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
-            <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
-            <td className='balance'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
-            <td className='start hash together'>{initialHex}</td>
-            <td className='start hash together'>{validationHex}</td>
+            {!isQueried
+              ? (
+                <td
+                  className='button start'
+                  colSpan={2}
+                >
+                  <Toggle
+                    label={t<string>('Details')}
+                    onChange={toggleIsQueried}
+                    value={isQueried}
+                  />
+                </td>
+              )
+              : (
+                <>
+                  <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
+                  <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
+                </>
+              )
+            }
+            <td className='number media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+            <td className='start hash together media--1700'>{initialHex}</td>
+            <td className='start hash together media--1500'>{validationHex}</td>
             <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
               <AddressMini
                 key={validatorId.toString()}
@@ -83,15 +116,11 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         )
       }
       <td className='button'>
-        <Toggle
-          label={t<string>('Details')}
-          onChange={toggleIsQueried}
-          value={isQueried}
-        />
-        {!proposal.isApproved && (
+        {!(proposal.isApproved || proposal.isScheduled) && (
           <>
             <TxButton
               accountId={sudoKey}
+              className='media--800'
               extrinsic={approveTx}
               icon='check'
               isDisabled={!hasSudoKey}
@@ -99,6 +128,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
             />
             <TxButton
               accountId={hasSudoKey ? sudoKey : proposal.proposal?.proposer}
+              className='media--1100'
               extrinsic={cancelTx}
               icon='ban'
               isDisabled={!hasSudoKey || !proposal.proposal}

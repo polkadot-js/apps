@@ -3,35 +3,51 @@
 
 import type { Option } from '@polkadot/types';
 import type { EventRecord, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { ProposalExt, Proposals, ScheduledProposals } from './types';
+import type { ProposalExt, Proposals, ScheduledProposals } from '../types';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall, useCallMulti, useIsMountedRef } from '@polkadot/react-hooks';
 
-function createResult (approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
+type MultiQuery = [EventRecord[], SessionIndex | undefined, ParaId[] | undefined];
+
+function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
   return {
     approvedIds,
     proposalIds: proposalKeys.map(({ args: [id] }) => id),
-    scheduled: scheduledProposals.map(([{ args: [sessionIndex] }, scheduledIds]) => ({
-      scheduledIds,
-      sessionIndex
-    }))
+    scheduled: scheduledProposals
+      .map(([{ args: [sessionIndex] }, scheduledIds]) => ({
+        scheduledIds,
+        sessionIndex
+      }))
+      .filter((s) => s.sessionIndex.gt(sessionIndex))
   };
 }
+
+const optionsMulti = {
+  defaultValue: [[], undefined, undefined] as MultiQuery,
+  transform: ([records, sessionIndex, approvedIds]: [EventRecord[], SessionIndex, ParaId[] | undefined]): MultiQuery => [
+    records.filter(({ event, phase }) => phase?.isApplyExtrinsic && event?.section === 'proposeParachain'),
+    sessionIndex,
+    approvedIds
+  ]
+};
 
 export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Proposals | undefined>();
   const [trigger, setTrigger] = useState(Date.now());
-  const approvedIds = useCall<ParaId[]>(api.query.proposeParachain?.approvedProposals);
-  const events = useCall<EventRecord[]>(api.query.system.events);
+  const [events, sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
+    api.query.system.events,
+    api.query.session.currentIndex,
+    api.query.proposeParachain?.approvedProposals
+  ], optionsMulti);
 
   // trigger on any proposeParachain events
   useEffect((): void => {
     mountedRef.current && events && setTrigger((trigger) =>
-      events.filter(({ event: { section }, phase }) => phase.isApplyExtrinsic && section === 'proposeParachain').length
+      events.length
         ? Date.now()
         : trigger
     );
@@ -39,7 +55,7 @@ export default function useProposals (): Proposals | undefined {
 
   // re-get all our entries in the list
   useEffect((): void => {
-    approvedIds && trigger &&
+    approvedIds && sessionIndex && trigger &&
       Promise
         .all([
           api.query.proposeParachain.proposals.keys(),
@@ -47,10 +63,10 @@ export default function useProposals (): Proposals | undefined {
         ])
         .then(([proposals, scheduledProposals]) =>
           mountedRef.current &&
-            setState(createResult(approvedIds, proposals as any, scheduledProposals as any))
+            setState(createResult(sessionIndex, approvedIds, proposals as any, scheduledProposals as any))
         )
         .catch(console.error);
-  }, [api, approvedIds, mountedRef, trigger]);
+  }, [api, approvedIds, mountedRef, sessionIndex, trigger]);
 
   return state;
 }

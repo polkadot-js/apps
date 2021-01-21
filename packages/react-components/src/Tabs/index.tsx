@@ -19,10 +19,9 @@ interface Props {
   basePath: string;
   hidden?: (string | boolean | undefined)[];
   items: TabItem[];
-  isSequence?: boolean;
 }
 
-function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): React.ReactElement<Props> {
+function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
 
   // redirect on invalid tabs
@@ -63,9 +62,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
                 {...tab}
                 basePath={basePath}
                 index={index}
-                isSequence={isSequence}
                 key={tab.name}
-                num={filtered.length}
               />
             </li>
           ))}

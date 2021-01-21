@@ -16,6 +16,7 @@ import type { EndpointOption } from './types';
 export function createRococo (t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
+    genesisHash: '0x481550b70e974177e83cff4d554cea7166be3eaeb32f020b86542e76968ccd0e',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
@@ -27,6 +28,7 @@ export function createRococo (t: TFunction): EndpointOption {
       // these are the base chains
       {
         info: 'rococoTick',
+        paraId: 100,
         text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://tick-rpc.polkadot.io'
@@ -34,6 +36,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrick',
+        paraId: 110,
         text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://trick-rpc.polkadot.io'
@@ -41,6 +44,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrack',
+        paraId: 120,
         text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://track-rpc.polkadot.io'
@@ -48,10 +52,51 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoBifrost',
+        paraId: 107,
+        text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
+        info: 'rococoDarwinia',
+        paraId: 18,
+        text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'rococoAcala',
+        paraId: 666,
+        text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
+        providers: {
+          Acala: 'wss://rococo-1.acala.laminar.one/ws'
+        }
+      },
+      {
+        info: 'rococoKilt',
+        paraId: 12623,
+        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
         info: 'rococoPlasm',
+        paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
           PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
+        }
+      },
+      {
+        info: 'rococoRobonomics',
+        paraId: 3000,
+        text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://rococo.parachain.robonomics.network'
         }
       }
     ]
