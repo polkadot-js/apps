@@ -49,7 +49,7 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 0.5rem;
-    color: ${theme.bountyColor};
+    color: ${theme.theme === 'dark' ? '#eeeeee' : '#1a1b20'}
 
     span {
       min-width: 0.5rem;

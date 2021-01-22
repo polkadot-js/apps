@@ -62,21 +62,21 @@ export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
     vertical-align: baseline;
     font-size: 1rem;
     line-height: 1.7rem;
-    color: ${theme.bountyColor};
-    border-bottom: 1px solid ${theme.bountyBorderTable};
+    color: ${theme.theme === 'dark' ? '#eeeeee' : '#1a1b20'}
+    border-bottom: 1px solid ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
 
     &:first-child {
-      border-left: 1px solid  ${theme.bountyBorderTable};
+      border-left: 1px solid  ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
     }
 
     &:last-child {
-      border-right: 1px solid  ${theme.bountyBorderTable};
+      border-right: 1px solid  ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
     }
   }
 
   tbody tr {
     &:nth-child(odd) {
-      background: ${theme.bountyBGTableOddRow};
+      background: ${theme.theme === 'dark' ? '#111218' : '#fff'};
     }
 
     &:nth-child(odd) td {
@@ -89,7 +89,7 @@ export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
 
     &:first-child {
       td {
-        border-top: 1px solid  ${theme.bountyBorderTable};
+        border-top: 1px solid  ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
       }
 
       td:first-child {
@@ -103,7 +103,7 @@ export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
 
     &:last-child {
       td {
-        border-bottom: 1px solid  ${theme.bountyBorderTable};
+        border-bottom: 1px solid  ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
       }
 
       td:first-child {

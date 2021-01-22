@@ -224,7 +224,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       justify-content: center;
       width: 1.7rem;
       height: 1.7rem;
-      border: 1px solid ${theme.bountyBorderTable};
+      border: 1px solid ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
       border-radius: 4px;
       cursor: pointer;
     }
@@ -264,7 +264,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     font-weight: 500;
     font-size: 0.7rem;
     line-height: normal;
-    color: ${theme.colorLabelLight};
+    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
     text-transform: uppercase;
   }
 
@@ -304,7 +304,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     margin-top: 0.28rem;
     font-size: 0.7rem;
     line-height: 0.85rem;
-    color: ${theme.colorLabelLight};
+    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
   }
 
   & .votes-table {

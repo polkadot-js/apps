@@ -26,5 +26,5 @@ export default React.memo(styled(Description)(({ theme }: ThemeProps) => `
   margin-top: 0.28rem;
   font-size: 0.7rem;
   line-height: 0.85rem;
-  color: ${theme.colorLabelLight};
+  color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
 `));

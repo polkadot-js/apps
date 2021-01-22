@@ -66,7 +66,7 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
 
   .vote-numbers-icon svg {
     max-width: 10px;
-    color: ${theme.colorLabelLight};
+    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
   }
 
   .vote-numbers-label {
