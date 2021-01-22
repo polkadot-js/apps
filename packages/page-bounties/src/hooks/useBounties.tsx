@@ -10,6 +10,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces';
 
 export type BountyApi = {
+  acceptCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   approveBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
@@ -38,11 +39,13 @@ export function useBounties (): BountyApi {
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
   const proposeCurator = (api.tx.bounties || api.tx.treasury).proposeCurator;
   const claimBounty = (api.tx.bounties || api.tx.treasury).claimBounty;
+  const acceptCurator = (api.tx.bounties || api.tx.treasury).acceptCurator;
   const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
   const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
   const extendBountyExpiry = (api.tx.bounties || api.tx.treasury).extendBountyExpiry;
 
   return {
+    acceptCurator,
     approveBounty,
     bestNumber,
     bounties,

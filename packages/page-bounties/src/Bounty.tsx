@@ -8,6 +8,8 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import Curator from '@polkadot/app-bounties/Curator';
+import { getProposalToDisplay } from '@polkadot/app-bounties/helpers/extendedStatuses';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -49,6 +51,18 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
+  const getCurator = useMemo(() => {
+    if (curator) {
+      return { curator: curator, isProposal: false };
+    }
+
+    const proposalToDisplay = proposals && getProposalToDisplay(proposals, status);
+
+    return (proposalToDisplay?.proposal.method === 'proposeCurator')
+      ? { curator: proposalToDisplay.proposal.args[1], isProposal: true }
+      : null;
+  }, [curator, proposals, status]);
+
   const handleOnIconClick = useCallback(
     () => setIsExpanded((isExpanded) => !isExpanded),
     []
@@ -75,7 +89,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
         <td><FormatBalance value={value} /></td>
-        <td>{curator && <AddressSmall value={curator} />}</td>
+        <td>
+          {getCurator && (
+            <Curator
+              curator={getCurator.curator}
+              isProposal={getCurator.isProposal}
+            />
+          )}
+        </td>
         <td>
           {blocksUntilPayout
             ? <DueBlocks

@@ -109,6 +109,9 @@ describe('Bounties', () => {
       query: {},
       registry: { chainDecimals: 12 },
       tx: {
+        bounties: {
+          defaultBountyApi
+        },
         council: {
           propose
         }
@@ -420,6 +423,33 @@ describe('Bounties', () => {
       const { findByTestId } = renderOneBounty(bounty);
 
       expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
+    });
+  });
+
+  describe('Proposed Curator extended status', () => {
+    it('Funded and propose curator motion', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, alice, 1))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      expect(await findByText('Proposed Curator')).toBeTruthy();
+    });
+
+    it('Funded and no propose curator motion', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Proposed Curator')).rejects.toThrow();
+    });
+
+    it('CuratorProposed', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Proposed Curator')).rejects.toThrow();
     });
   });
 

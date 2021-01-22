@@ -9,6 +9,7 @@ import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
 export const defaultBountyApi: BountyApi = {
+  acceptCurator: jest.fn(),
   approveBounty: jest.fn(),
   bestNumber: new BN(1) as BlockNumber,
   bounties: [] as DeriveBounties,
@@ -34,7 +35,8 @@ export const defaultTreasury = {
 export const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 export const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 export const ferdie = '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL';
+export const defaultCurator = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
 
 export const defaultMembers = { isMember: true, members: [alice, bob, ferdie] };
 
-export const defaultAccounts = { allAccounts: ['5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM'] };
+export const defaultAccounts = { allAccounts: [defaultCurator] };
