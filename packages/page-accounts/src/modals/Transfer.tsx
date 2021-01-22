@@ -27,11 +27,13 @@ function isRefcount (accountInfo: AccountInfoWithProviders | AccountInfoWithRefC
   return !!(accountInfo as AccountInfoWithRefCount).refcount;
 }
 
-async function checkPhishing (senderId: string | null, recipientId: string | null): Promise<[string | null, string | null]> {
+async function checkPhishing (_senderId: string | null, recipientId: string | null): Promise<[string | null, string | null]> {
   return [
-    senderId
-      ? await checkAddress(senderId)
-      : null,
+    // not being checked atm
+    // senderId
+    //   ? await checkAddress(senderId)
+    //   : null,
+    null,
     recipientId
       ? await checkAddress(recipientId)
       : null
@@ -48,7 +50,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [[maxTransfer, noFees], setMaxTransfer] = useState<[BN | null, boolean]>([null, false]);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
-  const [[senderPhish, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
+  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
   const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [senderId]);
 
@@ -115,9 +117,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 onChange={setSenderId}
                 type='account'
               />
-              {senderPhish && (
-                <MarkError content={t<string>('The sender is associated with a known phishing site, {{url}}', { replace: { url: senderPhish } })} />
-              )}
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}</p>
@@ -217,7 +216,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         <TxButton
           accountId={senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !recipientId || !amount || !!senderPhish || !!recipientPhish}
+          isDisabled={!hasAvailable || !recipientId || !amount || !!recipientPhish}
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={
