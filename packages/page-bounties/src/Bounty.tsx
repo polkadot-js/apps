@@ -9,12 +9,15 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
+import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
-import { getBountyStatus, truncateTitle } from './helpers';
+import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -28,6 +31,7 @@ interface Props {
 
 interface DueProps {
   dueBlocks: BN | undefined;
+  until: 'update' | 'payout';
 }
 
 const EMPTY_CELL = '-';
@@ -55,144 +59,261 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       <tr className={className}>
         <td>
           <BountyStatusView
+            blocksUntilPayout={blocksUntilPayout}
             bountyStatus={bountyStatus}
             proposals={proposals}
             status={status}
           />
         </td>
-        <td data-testid='description'>{truncateTitle(description, 30)}</td>
+        <td
+          className='description-column'
+          colSpan={2}
+          data-testid='description'
+        >
+          <div title={description}>
+            {description}
+          </div>
+        </td>
         <td><FormatBalance value={value} /></td>
-        <td>{curator ? <AddressSmall value={curator} /> : EMPTY_CELL}</td>
-        <td><DueBlocks dueBlocks={blocksUntilUpdate} /></td>
-        <td>{beneficiary ? <AddressSmall value={beneficiary} /> : EMPTY_CELL}</td>
-        <td><DueBlocks dueBlocks={blocksUntilPayout} /></td>
+        <td>{curator && <AddressSmall value={curator} />}</td>
         <td>
-          <BountyActions
-            bestNumber={bestNumber}
-            description={description}
-            index={index}
-            proposals={proposals}
-            status={status}
-            value={value}
-          />
+          {blocksUntilPayout
+            ? <DueBlocks
+              dueBlocks={blocksUntilPayout}
+              until={'payout'}
+            />
+            : ''}
+          {blocksUntilUpdate
+            ? <DueBlocks
+              dueBlocks={blocksUntilUpdate}
+              until={'update'}
+            />
+            : ''}
         </td>
-        <td className='table-column-icon'>
-          <LinkExternal
-            data={index}
-            isLogo
-            type='bounty'
-          />
+        <td>
+          <div className='td-row'>
+            <BountyInfos
+              beneficiary={beneficiary}
+              proposals={proposals}
+              status={status}
+            />
+            <div className='bounty-action-row'>
+              <BountyActions
+                bestNumber={bestNumber}
+                description={description}
+                index={index}
+                proposals={proposals}
+                status={status}
+                value={value}
+              />
+            </div>
+          </div>
         </td>
-        <td className='table-column-icon'>
-          <div onClick={handleOnIconClick}>
-            <Icon
-              icon={
+        <td className='fast-actions'>
+          <div className='fast-actions-row'>
+            <LinkExternal
+              data={index}
+              isLogo
+              type='bounty'
+            />
+            <div className='table-column-icon'
+              onClick={handleOnIconClick}>
+              <Icon icon={
                 isExpanded
                   ? 'caret-up'
                   : 'caret-down'
               }
-            />
+              />
+            </div>
           </div>
         </td>
       </tr>
       <tr className={className}
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
+        <td className='proposer'
+          colSpan={2}>
+          <div className='proposer-row'>
+            <div className='label'>{t('Proposer')}</div>
+            <AddressSmall value={proposer} />
+          </div>
+        </td>
+        <td className='column-with-label'
+          colSpan={2}>
+          <div className='column-with-label-row'>
+            <div className='label'>{t('Bond')}</div>
+            <div className='inline-balance'><FormatBalance value={bond} /></div>
+          </div>
+          <div className='column-with-label-row'>
+            <div className='label'>{t("Curator's fee")}</div>
+            <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
+          </div>
+          <div className='column-with-label-row'>
+            <div className='label'>{t("Curator's deposit")}</div>
+            <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+          </div>
+        </td>
         <td />
-        <td className='proposer'>
-          <div className='label'>{t('Proposer')}</div>
-          <AddressSmall value={proposer} />
-        </td>
-        <td className='column-with-label'>
-          <div className='label'>{t('Value')}</div>
-          <div className='label'>{t('Bond')}</div>
-        </td>
-        <td >
-          <div className='inline-balance'><FormatBalance value={value} /></div>
-          <div className='inline-balance'><FormatBalance value={bond} /></div>
-        </td>
-        <td className='column-with-label'>
-          <div className='label'>{t("Curator's fee")}</div>
-          <div className='label'>{t("Curator's deposit")}</div>
-        </td>
+        <td />
         <td>
-          <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
-          <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
+          {proposals && (
+            <div className='votes-table'>
+              <VotingResultsColumn
+                option={'ayes'}
+                proposals={proposals}
+                status={status}
+              />
+              <VotingResultsColumn
+                option={'nays'}
+                proposals={proposals}
+                status={status}
+              />
+            </div>
+          )}
         </td>
-        <td />
-        <td />
-        <td />
         <td />
       </tr>
     </>
   );
 }
 
-function DueBlocks ({ dueBlocks }: DueProps): React.ReactElement<DueProps> {
+function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps> {
   const { t } = useTranslation();
 
-  if (!dueBlocks) {
-    return <>{EMPTY_CELL}</>;
-  }
-
-  return dueBlocks.gtn(0)
-    ? <>
-      <BlockToTime blocks={dueBlocks} />
-      {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
+  return (
+    <>
+      {dueBlocks && dueBlocks.gtn(0) && (
+        <>
+          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
+          <BlockToTime blocks={dueBlocks}
+            className='block-to-time'> until {until}</BlockToTime>
+        </>
+      )}
     </>
-    : <>{t('Claimable')}</>;
+  );
 }
 
-export default React.memo(styled(Bounty)`
+export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
+  .description-column {
+    max-width: 200px;
+
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
   & .links {
     display: inline-flex;
   }
 
-  & .table-column-icon {
-    width: 52px;
-    padding: 0;
+  & .fast-actions {
+    .fast-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
 
-    div {
-      padding: 0.75rem;
+      & > * + * {
+        margin-left: 0.285rem;
+      }
+    }
+
+    .table-column-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      border: 1px solid ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
+      border-radius: 4px;
       cursor: pointer;
     }
-  }
 
-  & .inline-balance {
-    display: inline-block;
-    width: 100%;
-    margin: 12px 0;
-    font-size: 1rem;
-    line-height: normal;
-  }
+    .settings-button {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border-radius: 4px;
 
-  & .column-with-label {
-    vertical-align: middle;
-    padding: 0;
-    div {
-      text-align: right;
-      padding: 12px 0 12px 0;
-      font-size: 0.7rem;
-      line-height: normal;
-      text-transform: uppercase;
-      color: #4D4D4D;
-      &:nth-child(2){
-        padding: 18px 0 10px 0;
+      svg {
+        padding: 0;
+        margin: 0;
+        color: #000 !important;
+      }
+
+      &:hover {
+        background: #fff;
+      }
+
+      &:focus {
+        background: #fff;
+        border: 1px solid #616161;
       }
     }
   }
 
-  & .proposer {
-    vertical-align: middle;
-    div {
-      display: inline-block;
-    }
+  & .inline-balance {
+    width: 50%;
+    font-size: 1rem;
+    line-height: normal;
+  }
+
+  .label {
+    text-align: right;
+    padding: 0 1.7rem 0 0;
+    font-weight: 500;
+    font-size: 0.7rem;
+    line-height: normal;
+    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+    text-transform: uppercase;
+  }
+
+  & .column-with-label-row {
+    display: flex;
+    align-items: center;
+    padding: 0 0 1.7rem;
+
     .label {
-      text-align: right;
-      padding: 12px 12px 12px 0;
-      font-size: 0.7rem;
-      line-height: normal;
-      text-transform: uppercase;
-      color: #4D4D4D;
+      width: 50%;
     }
   }
-`);
+
+  .proposer-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .td-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .bounty-action-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+
+    & > * + * {
+      margin-left: 0.6rem;
+    }
+  }
+
+  .block-to-time {
+    margin-top: 0.28rem;
+    font-size: 0.7rem;
+    line-height: 0.85rem;
+    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+  }
+
+  & .votes-table {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & .ui--FormatBalance {
+    font-size: 0.85rem;
+    line-height: 1.4rem;
+  }
+`));
