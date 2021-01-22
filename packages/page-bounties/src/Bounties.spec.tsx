@@ -511,8 +511,8 @@ describe('Bounties', () => {
     });
   });
 
-  describe('Description', () => {
-    it('Beneficiary', async () => {
+  describe('Beneficiary description', () => {
+    it('PendingPayout status', async () => {
       const bounty = bountyWith({ status: 'PendingPayout' });
       const proposals = [aProposal(augmentedApi.tx.bounties.awardBounty(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z'))];
 
@@ -521,7 +521,7 @@ describe('Bounties', () => {
       expect(await findByText('Beneficiary')).toBeTruthy();
     });
 
-    it('Other status than PendingPayout', async () => {
+    it('Other status', async () => {
       const bounty = bountyWith({ status: 'Active' });
 
       const { findByText } = renderOneBounty(bounty);
