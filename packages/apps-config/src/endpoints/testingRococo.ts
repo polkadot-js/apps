@@ -68,6 +68,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoEncointer',
+        paraId: 1862,
+        text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://rococo.encointer.org'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
