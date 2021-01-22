@@ -6,6 +6,8 @@ import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/
 
 import React, { useCallback, useMemo } from 'react';
 
+import CloseBounty from '@polkadot/app-bounties/CloseBounty';
+
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
@@ -35,20 +37,22 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
         <BountyInitiateVoting
           index={index}
           proposals={proposals}
-        />}
-      {status.isFunded && (
+        />
+      }
+      {status.isFunded &&
         <ProposeCuratorAction
           description={description}
           index={index}
           proposals={proposals}
           value={value}
         />
-      )}
+      }
       {status.isCuratorProposed && curator &&
         <BountyCuratorProposedActions
           curatorId={curator}
           index={index}
-        />}
+        />
+      }
       {status.isActive && curator &&
           <ExtendBountyExpiryAction
             curatorId={curator}
@@ -56,12 +60,19 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
             index={index}
           />
       }
+      {(status.isFunded || status.isActive || status.isCuratorProposed) &&
+        <CloseBounty
+          index={index}
+          proposals={proposals}
+        />
+      }
       {status.isPendingPayout && beneficiary && blocksUntilPayout &&
         <BountyClaimAction
           beneficiaryId={beneficiary}
           index={index}
           payoutDue={blocksUntilPayout}
-        />}
+        />
+      }
     </>
   );
 }

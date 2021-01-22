@@ -15,7 +15,7 @@ export const defaultBountyApi: BountyApi = {
   bountyDepositBase: new BN(1),
   bountyValueMinimum: new BN(1),
   claimBounty: jest.fn(),
-  closeBounty: jest.fn(),
+  closeBounty: jest.fn().mockReturnValue({ length: 4 }),
   dataDepositPerByte: new BN(1),
   extendBountyExpiry: jest.fn().mockReturnValue('mockProposeExtrinsic'),
   maximumReasonLength: 100,
@@ -31,6 +31,10 @@ export const defaultTreasury = {
   value: balanceOf(1)
 };
 
-export const defaultMembers = { isMember: true };
+export const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+export const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+export const ferdie = '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL';
+
+export const defaultMembers = { isMember: true, members: [alice, bob, ferdie] };
 
 export const defaultAccounts = { allAccounts: ['5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM'] };
