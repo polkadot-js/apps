@@ -359,6 +359,56 @@ describe('Bounties', () => {
     });
   });
 
+  describe('slash curator action modal', () => {
+    it('unassigns curator from bounty in Active state', async () => {
+      const bounty = bountyWith({ status: 'Active' });
+      const { findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const slashCuratorButton = await findByText('Slash Curator');
+
+      fireEvent.click(slashCuratorButton);
+
+      expect(await findByText('This action will create a Council motion to unassign the Curator.')).toBeTruthy();
+
+      const comboboxes = getAllByRole('combobox');
+      const alice = aliceSigner().address;
+
+      const proposingAccountInput = comboboxes[0].children[0];
+
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+
+      const acceptButton = await findByText('Slash curator');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL', extrinsic: 'mockProposeExtrinsic' }));
+    });
+
+    it('unassigns curator from bounty in CuratorProposed state', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+      const { findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const slashCuratorButton = await findByText('Slash Curator');
+
+      fireEvent.click(slashCuratorButton);
+
+      expect(await findByText('This action will create a Council motion to unassign the Curator.')).toBeTruthy();
+
+      const comboboxes = getAllByRole('combobox');
+      const alice = aliceSigner().address;
+
+      const proposingAccountInput = comboboxes[0].children[0];
+
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+
+      const acceptButton = await findByText('Slash curator');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL', extrinsic: 'mockProposeExtrinsic' }));
+    });
+  });
+
   describe('status is extended', () => {
     it('on proposed curator', async () => {
       const bounty = bountyWith({ status: 'Funded' });

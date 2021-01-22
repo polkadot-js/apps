@@ -39,7 +39,7 @@ function SlashCurator ({ curatorId, description, index, proposals }: Props): Rea
     );
   }, [api, members]);
 
-  const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index]);
+  const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index, unassignCurator]);
 
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
 
