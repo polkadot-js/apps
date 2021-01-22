@@ -8,17 +8,17 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import Curator from '@polkadot/app-bounties/Curator';
-import { getProposalToDisplay } from '@polkadot/app-bounties/helpers/extendedStatuses';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
+import Curator from './Curator';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
@@ -51,15 +51,15 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
-  const getCurator = useMemo(() => {
+  const curatorToRender = useMemo(() => {
     if (curator) {
-      return { curator: curator, isProposal: false };
+      return { curator, isFromProposal: false };
     }
 
     const proposalToDisplay = proposals && getProposalToDisplay(proposals, status);
 
     return (proposalToDisplay?.proposal.method === 'proposeCurator')
-      ? { curator: proposalToDisplay.proposal.args[1], isProposal: true }
+      ? { curator: proposalToDisplay.proposal.args[1], isFromProposal: true }
       : null;
   }, [curator, proposals, status]);
 
@@ -90,10 +90,10 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td><FormatBalance value={value} /></td>
         <td>
-          {getCurator && (
+          {curatorToRender && (
             <Curator
-              curator={getCurator.curator}
-              isProposal={getCurator.isProposal}
+              curator={curatorToRender.curator}
+              isFromProposal={curatorToRender.isFromProposal}
             />
           )}
         </td>

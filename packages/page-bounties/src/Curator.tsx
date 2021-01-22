@@ -11,24 +11,17 @@ import Description from './Description';
 import { useTranslation } from './translate';
 
 interface Props {
-  className?: string;
   curator: Codec;
-  isProposal: boolean;
+  isFromProposal: boolean;
 }
 
-function Curator ({ className, curator, isProposal }: Props): React.ReactElement<Props> | null {
+function Curator ({ curator, isFromProposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
     <div>
       <AddressSmall value={curator.toString()} />
-      {isProposal && (
-        <Description
-          className={className}
-          dataTestId='extendedCuratorStatus'
-          description={t<string>('Proposed Curator')}
-        />
-      )}
+      {isFromProposal && <Description description={t<string>('Proposed Curator')} />}
     </div>
   );
 }
