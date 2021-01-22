@@ -1965,6 +1965,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.12.5
+    "@polkadot/phishing": ^0.3.22
     "@polkadot/react-components": ^0.76.2-17
     "@polkadot/test-support": 0.76.2-17
     "@polkadot/vanitygen": ^0.25.2-2
@@ -2449,6 +2450,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/phishing@npm:^0.3.22":
+  version: 0.3.22
+  resolution: "@polkadot/phishing@npm:0.3.22"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@polkadot/util": ^5.3.2-6
+    "@polkadot/util-crypto": ^5.3.2-6
+    "@polkadot/x-fetch": ^5.3.2-6
+  checksum: c5e77c345d9c4b5f3d3cd77f9268f014af3c6ae58549d21eb79594111f1a528f23c0a9e2da991a2f41ace55a1e5ea7931577e8e5410e76b3e5dee0fe990ff8f6
+  languageName: node
+  linkType: hard
+
 "@polkadot/react-api@^0.76.2-17, @polkadot/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"
@@ -2808,6 +2821,17 @@ __metadata:
     "@types/node-fetch": ^2.5.8
     node-fetch: ^2.6.1
   checksum: f2b95d67f99e5df746e34e399c09f210a06f0b8a4bdf1acd93862b04ba3fe4c4d27e48c036edcdfb621aea735305dc46b2d90ec4bd494315be955c3a7b029f0c
+  languageName: node
+  linkType: hard
+
+"@polkadot/x-fetch@npm:^5.3.2-6":
+  version: 5.3.2-7
+  resolution: "@polkadot/x-fetch@npm:5.3.2-7"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@types/node-fetch": ^2.5.8
+    node-fetch: ^2.6.1
+  checksum: 1706b2c7d5c6735c388784774e7194438a37d9e7d0c46bee372e9e90dac7aacebe7b655cf7b061919df27bf01f46e71bdd00aae3dd70e04fc4e89c8f45992f33
   languageName: node
   linkType: hard
 
