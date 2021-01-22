@@ -8,8 +8,9 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, Button, Icon, LinkExternal, Menu, Popup } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
+import { useToggle } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -41,6 +42,7 @@ const EMPTY_CELL = '-';
 function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isSettingsOpen, toggleSettings] = useToggle();
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
 
@@ -137,6 +139,31 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               isLogo
               type='bounty'
             />
+            <Popup
+              isOpen={isSettingsOpen}
+              onClose={toggleSettings}
+              trigger={
+                <Button
+                  className='settings-button'
+                  icon='ellipsis-v'
+                  onClick={toggleSettings}
+                />
+              }
+            >
+              <Menu
+                className='settings-menu'
+                onClick={toggleSettings}
+                text
+                vertical
+              >
+                <Menu.Item key='slashCurator'>
+                  Slash Curator
+                </Menu.Item>
+                <Menu.Item key='cancelBounty'>
+                  Cancel Bounty
+                </Menu.Item>
+              </Menu>
+            </Popup>
             <div className='table-column-icon'
               onClick={handleOnIconClick}>
               <Icon icon={
@@ -273,6 +300,11 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     }
   }
 
+      &:hover {
+        background: #fff;
+      }
+    }
+  }
   & .inline-balance {
     width: 50%;
     font-size: 1rem;
