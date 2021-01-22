@@ -226,7 +226,11 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     !filter && setLastValue(type, address);
 
-    onChange && onChange(transformToAccountId(address));
+    onChange && onChange(
+      this.hasValue(address)
+        ? transformToAccountId(address)
+        : null
+    );
   }
 
   private onChangeMulti = (addresses: string[]): void => {
