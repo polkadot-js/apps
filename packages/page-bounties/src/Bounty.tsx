@@ -9,6 +9,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -191,7 +192,7 @@ function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps
   );
 }
 
-export default React.memo(styled(Bounty)`
+export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   .description-column {
     max-width: 200px;
 
@@ -223,10 +224,11 @@ export default React.memo(styled(Bounty)`
       justify-content: center;
       width: 1.7rem;
       height: 1.7rem;
-      border: 1px solid #DFDFDF;
+      border: 1px solid ${theme.bountyBorderTable};
       border-radius: 4px;
       cursor: pointer;
     }
+
     .settings-button {
       width: 24px;
       height: 24px;
@@ -262,7 +264,7 @@ export default React.memo(styled(Bounty)`
     font-weight: 500;
     font-size: 0.7rem;
     line-height: normal;
-    color: #8B8B8B;
+    color: ${theme.colorLabelLight};
     text-transform: uppercase;
   }
 
@@ -302,7 +304,7 @@ export default React.memo(styled(Bounty)`
     margin-top: 0.28rem;
     font-size: 0.7rem;
     line-height: 0.85rem;
-    color: #8B8B8B;
+    color: ${theme.colorLabelLight};
   }
 
   & .votes-table {
@@ -314,4 +316,4 @@ export default React.memo(styled(Bounty)`
     font-size: 0.85rem;
     line-height: 1.4rem;
   }
-`);
+`));

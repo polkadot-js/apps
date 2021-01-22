@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { ThemeProps } from '@polkadot/react-components/types';
+
 interface Props {
   className?: string;
   dataTestId?: string;
@@ -20,9 +22,9 @@ function Description ({ className = '', dataTestId = '', description }: Props): 
   );
 }
 
-export default React.memo(styled(Description)`
+export default React.memo(styled(Description)(({ theme }: ThemeProps) => `
   margin-top: 0.28rem;
   font-size: 0.7rem;
   line-height: 0.85rem;
-  color: #8B8B8B;
-`);
+  color: ${theme.colorLabelLight};
+`));

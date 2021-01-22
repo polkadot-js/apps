@@ -82,10 +82,14 @@ export interface ThemeDef {
   bgToggle: string;
   borderTable: string;
   borderTabs: string;
+  bountyBGTableOddRow: string;
+  bountyBorderTable: string;
+  bountyColor: string;
   color: string;
   colorCheckbox: string;
   colorError: string;
   colorLabel: string;
+  colorLabelLight: string;
   colorSummary: string;
   contentHalfWidth: string;
   contentMaxWidth: string;

@@ -101,7 +101,7 @@ export default React.memo(styled(Bounties)(({ theme }: ThemeProps) => `
     font-size: 0.7rem;
     line-height: 0.85rem;
     text-transform: uppercase;
-    color: #4D4D4D;
+    color: ${theme.colorLabel};
     border: none;
 
     svg {

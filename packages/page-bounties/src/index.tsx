@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { Tabs } from '@polkadot/react-components';
+import { ThemeProps } from '@polkadot/react-components/types';
 
 import Bounties from './Bounties';
 import { useTranslation } from './translate';
@@ -40,14 +41,14 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
   );
 }
 
-export default React.memo(styled(BountiesApp)`
+export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
   && thead th {
     padding: 0.75rem 1rem 0.57rem;
     font-weight: bold;
     font-size: 0.7rem;
     line-height: 0.85rem;
     text-transform: uppercase;
-    color: #4D4D4D;
+    color: ${theme.colorLabel};
     border: none;
   }
 
@@ -61,21 +62,21 @@ export default React.memo(styled(BountiesApp)`
     vertical-align: baseline;
     font-size: 1rem;
     line-height: 1.7rem;
-    color: #1A1B20;
-    border-bottom: 1px solid #dfdfdf;
-    
+    color: ${theme.bountyColor};
+    border-bottom: 1px solid ${theme.bountyBorderTable};
+
     &:first-child {
-      border-left: 1px solid #dfdfdf;
+      border-left: 1px solid  ${theme.bountyBorderTable};
     }
 
     &:last-child {
-      border-right: 1px solid #dfdfdf;
+      border-right: 1px solid  ${theme.bountyBorderTable};
     }
   }
 
   tbody tr {
     &:nth-child(odd) {
-      background: #fff;
+      background: ${theme.bountyBGTableOddRow};
     }
 
     &:nth-child(odd) td {
@@ -83,12 +84,12 @@ export default React.memo(styled(BountiesApp)`
     }
 
     &:nth-child(even) {
-      background: #fafafa;
+      background: ${theme.bgPage};
     }
-    
-    &:first-child { 
+
+    &:first-child {
       td {
-        border-top: 1px solid #dfdfdf;
+        border-top: 1px solid  ${theme.bountyBorderTable};
       }
 
       td:first-child {
@@ -97,12 +98,12 @@ export default React.memo(styled(BountiesApp)`
 
       td:last-child {
         border-top-right-radius: 0.285rem;
-      } 
+      }
     }
 
     &:last-child {
       td {
-        border-bottom: 1px solid #dfdfdf;
+        border-bottom: 1px solid  ${theme.bountyBorderTable};
       }
 
       td:first-child {
@@ -110,7 +111,7 @@ export default React.memo(styled(BountiesApp)`
       }
       td:last-child {
         border-bottom-right-radius: 0.285rem;
-      } 
+      }
     }
   }
-`);
+`));

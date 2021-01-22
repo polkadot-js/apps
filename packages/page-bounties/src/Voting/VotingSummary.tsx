@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from '@polkadot/app-bounties/translate';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers } from '@polkadot/react-hooks';
 
 import Description from '../Description';
@@ -44,15 +45,15 @@ function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
   );
 }
 
-export default React.memo(styled(VotingSummary)`
+export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 0.5rem;
-    color: #1A1B20;
+    color: ${theme.bountyColor};
 
     span {
       min-width: 0.5rem;
       margin-right: 0.5rem;
     }
   }
-`);
+`));
