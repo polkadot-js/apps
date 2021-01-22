@@ -22,6 +22,8 @@ import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
+import { BountyExtraActions } from '@polkadot/app-bounties/BountyExtraActions';
+import CloseBounty from '@polkadot/app-bounties/CloseBounty';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -43,6 +45,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isSettingsOpen, toggleSettings] = useToggle();
+  const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
 
@@ -72,6 +75,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
+      {isCloseBountyOpen && (
+        <CloseBounty
+          index={index}
+          toggleOpen={toggleCloseBounty}
+        />
+      )}
       <tr className={className}>
         <td>
           <BountyStatusView
@@ -145,6 +154,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               trigger={
                 <Button
                   className='settings-button'
+                  dataTestId='extra-actions'
                   icon='ellipsis-v'
                   onClick={toggleSettings}
                 />
@@ -156,12 +166,15 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
                 text
                 vertical
               >
-                <Menu.Item key='slashCurator'>
-                  Slash Curator
-                </Menu.Item>
-                <Menu.Item key='cancelBounty'>
-                  Cancel Bounty
-                </Menu.Item>
+                <BountyExtraActions
+                  bestNumber={bestNumber}
+                  description={description}
+                  index={index}
+                  proposals={proposals}
+                  status={status}
+                  toggleCloseBounty={toggleCloseBounty}
+                  value={value}
+                />
               </Menu>
             </Popup>
             <div className='table-column-icon'

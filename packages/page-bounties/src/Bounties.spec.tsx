@@ -305,7 +305,11 @@ describe('Bounties', () => {
   describe('close bounty modal', () => {
     it('creates closeBounty proposal', async () => {
       const bounty = bountyWith({ status: 'Funded' });
-      const { findByText, getByRole } = renderOneBounty(bounty);
+      const { findByTestId, findByText, getByRole } = renderOneBounty(bounty);
+
+      const extraActionsButton = await findByTestId('extra-actions');
+
+      fireEvent.click(extraActionsButton);
 
       const closeButton = await findByText('Close');
 
