@@ -109,9 +109,6 @@ describe('Bounties', () => {
       query: {},
       registry: { chainDecimals: 12 },
       tx: {
-        bounties: {
-          defaultBountyApi
-        },
         council: {
           propose
         }

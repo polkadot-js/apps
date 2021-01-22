@@ -24,6 +24,7 @@ export type BountyApi = {
   maximumReasonLength: number,
   proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   proposeCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  unassignCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
 };
 
 export function useBounties (): BountyApi {
@@ -43,6 +44,7 @@ export function useBounties (): BountyApi {
   const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
   const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
   const extendBountyExpiry = (api.tx.bounties || api.tx.treasury).extendBountyExpiry;
+  const unassignCurator = (api.tx.bounties || api.tx.treasury).unassignCurator;
 
   return {
     acceptCurator,
@@ -58,6 +60,7 @@ export function useBounties (): BountyApi {
     extendBountyExpiry,
     maximumReasonLength,
     proposeBounty,
-    proposeCurator
+    proposeCurator,
+    unassignCurator
   };
 }
