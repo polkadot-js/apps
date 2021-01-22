@@ -9,6 +9,7 @@ import React, { useCallback, useMemo } from 'react';
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
+import CloseBounty from './CloseBounty';
 import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
 import { getBountyStatus } from './helpers';
 import ProposeCuratorAction from './ProposeCuratorAction';
@@ -35,20 +36,22 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
         <BountyInitiateVoting
           index={index}
           proposals={proposals}
-        />}
-      {status.isFunded && (
+        />
+      }
+      {status.isFunded &&
         <ProposeCuratorAction
           description={description}
           index={index}
           proposals={proposals}
           value={value}
         />
-      )}
+      }
       {status.isCuratorProposed && curator &&
         <BountyCuratorProposedActions
           curatorId={curator}
           index={index}
-        />}
+        />
+      }
       {status.isActive && curator &&
           <ExtendBountyExpiryAction
             curatorId={curator}
@@ -56,12 +59,19 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
             index={index}
           />
       }
+      {(status.isFunded || status.isActive || status.isCuratorProposed) &&
+        <CloseBounty
+          index={index}
+          proposals={proposals}
+        />
+      }
       {status.isPendingPayout && beneficiary && blocksUntilPayout &&
         <BountyClaimAction
           beneficiaryId={beneficiary}
           index={index}
           payoutDue={blocksUntilPayout}
-        />}
+        />
+      }
     </>
   );
 }

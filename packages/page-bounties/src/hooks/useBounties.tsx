@@ -10,6 +10,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces';
 
 export type BountyApi = {
+  acceptCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   approveBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
@@ -23,6 +24,7 @@ export type BountyApi = {
   maximumReasonLength: number,
   proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   proposeCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  unassignCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
 };
 
 export function useBounties (): BountyApi {
@@ -38,11 +40,14 @@ export function useBounties (): BountyApi {
   const proposeBounty = (api.tx.bounties || api.tx.treasury).proposeBounty;
   const proposeCurator = (api.tx.bounties || api.tx.treasury).proposeCurator;
   const claimBounty = (api.tx.bounties || api.tx.treasury).claimBounty;
+  const acceptCurator = (api.tx.bounties || api.tx.treasury).acceptCurator;
   const approveBounty = (api.tx.bounties || api.tx.treasury).approveBounty;
   const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
   const extendBountyExpiry = (api.tx.bounties || api.tx.treasury).extendBountyExpiry;
+  const unassignCurator = (api.tx.bounties || api.tx.treasury).unassignCurator;
 
   return {
+    acceptCurator,
     approveBounty,
     bestNumber,
     bounties,
@@ -55,6 +60,7 @@ export function useBounties (): BountyApi {
     extendBountyExpiry,
     maximumReasonLength,
     proposeBounty,
-    proposeCurator
+    proposeCurator,
+    unassignCurator
   };
 }

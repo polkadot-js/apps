@@ -26,16 +26,16 @@ import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { defaultAccounts,
+import { alice,
+  bob,
+  defaultAccounts,
   defaultBalance,
   defaultBountyApi,
   defaultMembers,
-  defaultTreasury } from '../test/hooks/defaults';
+  defaultTreasury,
+  ferdie } from '../test/hooks/defaults';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
-
-const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 
 const mockMembers = defaultMembers;
 const mockAccounts = defaultAccounts;
@@ -302,6 +302,37 @@ describe('Bounties', () => {
     });
   });
 
+  describe('close bounty modal', () => {
+    it('creates closeBounty proposal', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const { findByText, getByRole } = renderOneBounty(bounty);
+
+      const closeButton = await findByText('Close');
+
+      fireEvent.click(closeButton);
+      expect(await findByText('This action will create a Council proposal to close the Bounty.')).toBeTruthy();
+
+      const combobox = getByRole('combobox');
+      const proposingAccountInput = combobox.children[0];
+
+      fireEvent.change(proposingAccountInput, { target: { value: ferdie } });
+
+      const closeBountyButton = getByRole('button', { name: 'Close Bounty' });
+
+      fireEvent.click(closeBountyButton);
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: ferdie, extrinsic: 'mockProposeExtrinsic' }));
+    });
+
+    it('Not available when close bounty motion already exists', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      await expect(findByText('Close')).rejects.toThrow();
+    });
+  });
+
   describe('extend bounty expiry action modal', () => {
     it('queues extend bounty expiry extrinsic on submit', async () => {
       const bounty = bountyWith({ status: 'Active' });
@@ -392,6 +423,33 @@ describe('Bounties', () => {
     });
   });
 
+  describe('Proposed Curator extended status', () => {
+    it('Funded and propose curator motion', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, alice, 1))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      expect(await findByText('Proposed Curator')).toBeTruthy();
+    });
+
+    it('Funded and no propose curator motion', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Proposed Curator')).rejects.toThrow();
+    });
+
+    it('CuratorProposed', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Proposed Curator')).rejects.toThrow();
+    });
+  });
+
   describe('Voters', () => {
     it('aye and nay', async () => {
       const bounty = bountyWith({ status: 'Proposed' });
@@ -450,14 +508,22 @@ describe('Bounties', () => {
     });
   });
 
-  describe('Description', () => {
-    it('Beneficiary', async () => {
+  describe('Beneficiary description', () => {
+    it('PendingPayout status', async () => {
       const bounty = bountyWith({ status: 'PendingPayout' });
       const proposals = [aProposal(augmentedApi.tx.bounties.awardBounty(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z'))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
       expect(await findByText('Beneficiary')).toBeTruthy();
+    });
+
+    it('Other status', async () => {
+      const bounty = bountyWith({ status: 'Active' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Beneficiary')).rejects.toThrow();
     });
   });
 });
