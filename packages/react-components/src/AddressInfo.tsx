@@ -216,162 +216,174 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (index: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, withBalanceToggle }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; withBalanceToggle: boolean }): React.ReactNode {
-  const allItems = (
-    <>
-      {!withBalanceToggle && balancesAll && balanceDisplay.total && (
-        <>
-          <Label label={t<string>('total')} />
-          <FormatBalance
-            className='result'
-            value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, withBalanceToggle }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; withBalanceToggle: boolean }): React.ReactNode {
+  const allItems: React.ReactNode[] = [];
+
+  !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
+    <React.Fragment key={0}>
+      <Label label={t<string>('total')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+      />
+    </React.Fragment>
+  );
+  balancesAll && balanceDisplay.available && (balancesAll as DeriveBalancesAll).availableBalance && allItems.push(
+    <React.Fragment key={1}>
+      <Label label={t<string>('transferrable')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        value={(balancesAll as DeriveBalancesAll).availableBalance}
+      />
+    </React.Fragment>
+  );
+  balanceDisplay.vested && (balancesAll as DeriveBalancesAll)?.isVesting && allItems.push(
+    <React.Fragment key={2}>
+      <Label label={t<string>('vested')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        label={
+          <Icon
+            icon='info-circle'
+            tooltip={`${address}-vested-trigger`}
           />
-        </>
-      )}
-      {balancesAll && balanceDisplay.available && (balancesAll as DeriveBalancesAll).availableBalance && (
-        <>
-          <Label label={t<string>('transferrable')} />
-          <FormatBalance
-            className='result'
-            value={(balancesAll as DeriveBalancesAll).availableBalance}
-          />
-        </>
-      )}
-      {balanceDisplay.vested && (balancesAll as DeriveBalancesAll)?.isVesting && (
-        <>
-          <Label label={t<string>('vested')} />
-          <FormatBalance
-            className='result'
-            label={
-              <Icon
-                icon='info-circle'
-                tooltip={`${address}-vested-trigger`}
-              />
-            }
-            value={(balancesAll as DeriveBalancesAll).vestedBalance}
-          >
-            <Tooltip
-              text={
+        }
+        value={(balancesAll as DeriveBalancesAll).vestedBalance}
+      >
+        <Tooltip
+          text={
+            <>
+              <div>
+                {formatBalance((balancesAll as DeriveBalancesAll).vestedClaimable, { forceUnit: '-' })}
+                <div className='faded'>{t('available to be unlocked')}</div>
+              </div>
+              {bestNumber.lt((balancesAll as DeriveBalancesAll).vestingEndBlock) && (
                 <>
                   <div>
-                    {formatBalance((balancesAll as DeriveBalancesAll).vestedClaimable, { forceUnit: '-' })}
-                    <div className='faded'>{t('available to be unlocked')}</div>
+                    <BlockToTime blocks={(balancesAll as DeriveBalancesAll).vestingEndBlock.sub(bestNumber)} />
+                    <div className='faded'>{t('until block')} {formatNumber((balancesAll as DeriveBalancesAll).vestingEndBlock)}</div>
                   </div>
-                  {bestNumber.lt((balancesAll as DeriveBalancesAll).vestingEndBlock) && (
-                    <>
-                      <div>
-                        <BlockToTime blocks={(balancesAll as DeriveBalancesAll).vestingEndBlock.sub(bestNumber)} />
-                        <div className='faded'>{t('until block')} {formatNumber((balancesAll as DeriveBalancesAll).vestingEndBlock)}</div>
-                      </div>
-                      <div>
-                        {formatBalance((balancesAll as DeriveBalancesAll).vestingPerBlock)}
-                        <div className='faded'>{t('per block')}</div>
-                      </div>
-                    </>
-                  )}
+                  <div>
+                    {formatBalance((balancesAll as DeriveBalancesAll).vestingPerBlock)}
+                    <div className='faded'>{t('per block')}</div>
+                  </div>
                 </>
-              }
-              trigger={`${address}-vested-trigger`}
-            />
-          </FormatBalance>
-        </>
-      )}
-      {balanceDisplay.locked && balancesAll && (isAllLocked || (balancesAll as DeriveBalancesAll).lockedBalance?.gtn(0)) && (
-        <>
-          <Label label={t<string>('locked')} />
-          <FormatBalance
-            className='result'
-            label={
-              <Icon
-                icon='info-circle'
-                tooltip={`${address}-locks-trigger`}
-              />
-            }
-            value={isAllLocked ? 'all' : (balancesAll as DeriveBalancesAll).lockedBalance}
-          >
-            <Tooltip
-              text={(balancesAll as DeriveBalancesAll).lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
-                <div key={index}>
-                  {amount.isMax()
-                    ? t<string>('everything')
-                    : formatBalance(amount, { forceUnit: '-' })
-                  }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
-                </div>
-              ))}
-              trigger={`${address}-locks-trigger`}
-            />
-          </FormatBalance>
-        </>
-      )}
-      {balanceDisplay.reserved && balancesAll?.reservedBalance?.gtn(0) && (
-        <>
-          <Label label={t<string>('reserved')} />
-          <FormatBalance
-            className='result'
-            value={balancesAll.reservedBalance}
+              )}
+            </>
+          }
+          trigger={`${address}-vested-trigger`}
+        />
+      </FormatBalance>
+    </React.Fragment>
+  );
+  balanceDisplay.locked && balancesAll && (isAllLocked || (balancesAll as DeriveBalancesAll).lockedBalance?.gtn(0)) && allItems.push(
+    <React.Fragment key={3}>
+      <Label label={t<string>('locked')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        label={
+          <Icon
+            icon='info-circle'
+            tooltip={`${address}-locks-trigger`}
           />
-        </>
-      )}
-      {balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && (
-        <>
-          <Label label={t<string>('bonded')} />
-          <FormatBalance
-            className='result'
-            value={ownBonded}
-          >
-            {otherBonded.length !== 0 && (
-              <>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode =>
-                <FormatBalance
-                  key={index}
-                  value={bonded}
-                />
-              )})</>
-            )}
-          </FormatBalance>
-        </>
-      )}
-      {balanceDisplay.redeemable && stakingInfo?.redeemable?.gtn(0) && (
-        <>
-          <Label label={t<string>('redeemable')} />
-          <StakingRedeemable
-            className='result'
-            stakingInfo={stakingInfo}
-          />
-        </>
-      )}
-      {balanceDisplay.unlocking && stakingInfo?.unlocking && (
-        <>
-          <Label label={t<string>('unbonding')} />
-          <div className='result'>
-            <StakingUnbonding stakingInfo={stakingInfo} />
-          </div>
-        </>
-      )}
-      {balanceDisplay.unlocking && democracyLocks && (democracyLocks.length !== 0) && (
-        <>
-          <Label label={t<string>('democracy')} />
-          <div className='result'>
-            <DemocracyLocks value={democracyLocks} />
-          </div>
-        </>
-      )}
-    </>
+        }
+        value={isAllLocked ? 'all' : (balancesAll as DeriveBalancesAll).lockedBalance}
+      >
+        <Tooltip
+          text={(balancesAll as DeriveBalancesAll).lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
+            <div key={index}>
+              {amount.isMax()
+                ? t<string>('everything')
+                : formatBalance(amount, { forceUnit: '-' })
+              }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
+            </div>
+          ))}
+          trigger={`${address}-locks-trigger`}
+        />
+      </FormatBalance>
+    </React.Fragment>
+  );
+  balanceDisplay.reserved && balancesAll?.reservedBalance?.gtn(0) && allItems.push(
+    <React.Fragment key={4}>
+      <Label label={t<string>('reserved')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        value={balancesAll.reservedBalance}
+      />
+    </React.Fragment>
+  );
+  balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && allItems.push(
+    <React.Fragment key={5}>
+      <Label label={t<string>('bonded')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        value={ownBonded}
+      >
+        {otherBonded.length !== 0 && (
+          <>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode =>
+            <FormatBalance
+              formatIndex={formatIndex}
+              key={index}
+              value={bonded}
+            />
+          )})</>
+        )}
+      </FormatBalance>
+    </React.Fragment>
+  );
+  balanceDisplay.redeemable && stakingInfo?.redeemable?.gtn(0) && allItems.push(
+    <React.Fragment key={6}>
+      <Label label={t<string>('redeemable')} />
+      <StakingRedeemable
+        className='result'
+        stakingInfo={stakingInfo}
+      />
+    </React.Fragment>
+  );
+  balanceDisplay.unlocking && stakingInfo?.unlocking && allItems.push(
+    <React.Fragment key={7}>
+      <Label label={t<string>('unbonding')} />
+      <div className='result'>
+        <StakingUnbonding stakingInfo={stakingInfo} />
+      </div>
+    </React.Fragment>
+  );
+  balanceDisplay.unlocking && democracyLocks && (democracyLocks.length !== 0) && allItems.push(
+    <React.Fragment key={8}>
+      <Label label={t<string>('democracy')} />
+      <div className='result'>
+        <DemocracyLocks value={democracyLocks} />
+      </div>
+    </React.Fragment>
   );
 
   if (withBalanceToggle) {
     return (
-      <React.Fragment key={index}>
-        <Expander summary={<FormatBalance value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)} />}>
-          <div className='body column'>
-            {allItems}
-          </div>
+      <React.Fragment key={formatIndex}>
+        <Expander summary={
+          <FormatBalance
+            formatIndex={formatIndex}
+            value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+          />
+        }>
+          {allItems.length !== 0 && (
+            <div className='body column'>
+              {allItems}
+            </div>
+          )}
         </Expander>
       </React.Fragment>
     );
   }
 
   return (
-    <React.Fragment key={index}>
+    <React.Fragment key={formatIndex}>
       {allItems}
     </React.Fragment>
   );

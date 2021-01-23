@@ -101,20 +101,22 @@ describe('Bounties', () => {
   const renderBounties = (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) => {
     mockBountyApi = { ...mockBountyApi, ...bountyApi };
     mockBalance = balanceOf(balance);
-    const mockApi: ApiProps = { api: {
-      derive: {
-        accounts: { info: () => Promise.resolve(() => { /**/ }) }
-      },
-      genesisHash: aGenesisHash(),
-      query: {},
-      registry: { chainDecimals: 12 },
-      tx: {
-        council: {
-          propose
+    const mockApi: ApiProps = {
+      api: {
+        derive: {
+          accounts: { info: () => Promise.resolve(() => { /**/ }) }
+        },
+        genesisHash: aGenesisHash(),
+        query: {},
+        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
+        tx: {
+          council: {
+            propose
+          }
         }
-      }
-    },
-    systemName: 'substrate' } as unknown as ApiProps;
+      },
+      systemName: 'substrate'
+    } as unknown as ApiProps;
 
     const queue = {
       queueExtrinsic
