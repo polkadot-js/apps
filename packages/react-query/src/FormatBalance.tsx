@@ -33,9 +33,7 @@ const K_LENGTH = 3 + 1;
 
 function getFormat (registry: Registry, formatIndex = 0): [number, string] {
   const decimals = registry.chainDecimals;
-  const tokens = registry.chainToken;
-
-  console.log(JSON.stringify({ decimals, tokens }));
+  const tokens = registry.chainTokens;
 
   return [
     formatIndex < decimals.length

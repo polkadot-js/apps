@@ -22,7 +22,7 @@ function createInfo (api: ApiPromise, systemChain: string, systemName: string): 
     specVersion: api.runtimeVersion.specVersion.toNumber(),
     ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
     tokenDecimals: (api.registry.chainDecimals || [DEFAULT_DECIMALS.toNumber()])[0],
-    tokenSymbol: (api.registry.chainToken || formatBalance.getDefaults().unit)[0],
+    tokenSymbol: (api.registry.chainTokens || formatBalance.getDefaults().unit)[0],
     types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
   };
 }

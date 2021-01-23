@@ -108,7 +108,7 @@ describe('Bounties', () => {
         },
         genesisHash: aGenesisHash(),
         query: {},
-        registry: { chainDecimals: [12], chainToken: ['Unit'] },
+        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
           council: {
             propose

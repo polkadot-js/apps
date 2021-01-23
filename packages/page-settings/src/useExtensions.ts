@@ -53,7 +53,7 @@ function saveProperties (api: ApiPromise, { name, version }: InjectedExtension):
     extensionVersion: version,
     ss58Format: api.registry.chainSS58,
     tokenDecimals: api.registry.chainDecimals[0],
-    tokenSymbol: api.registry.chainToken[0]
+    tokenSymbol: api.registry.chainTokens[0]
   };
 
   store.set(storeKey, allProperties);
@@ -74,7 +74,7 @@ function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): 
 
   return ss58Format === api.registry.chainSS58 &&
     tokenDecimals === api.registry.chainDecimals[0] &&
-    tokenSymbol === api.registry.chainToken[0];
+    tokenSymbol === api.registry.chainTokens[0];
 }
 
 // filter extensions based on the properties we have available
