@@ -216,7 +216,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (index: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, withBalanceToggle }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; withBalanceToggle: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, withBalanceToggle }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; withBalanceToggle: boolean }): React.ReactNode {
   const allItems = (
     <>
       {!withBalanceToggle && balancesAll && balanceDisplay.total && (
@@ -224,6 +224,7 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
           <Label label={t<string>('total')} />
           <FormatBalance
             className='result'
+            formatIndex={formatIndex}
             value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
           />
         </>
@@ -233,6 +234,7 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
           <Label label={t<string>('transferrable')} />
           <FormatBalance
             className='result'
+            formatIndex={formatIndex}
             value={(balancesAll as DeriveBalancesAll).availableBalance}
           />
         </>
@@ -242,6 +244,7 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
           <Label label={t<string>('vested')} />
           <FormatBalance
             className='result'
+            formatIndex={formatIndex}
             label={
               <Icon
                 icon='info-circle'
@@ -281,6 +284,7 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
           <Label label={t<string>('locked')} />
           <FormatBalance
             className='result'
+            formatIndex={formatIndex}
             label={
               <Icon
                 icon='info-circle'
@@ -308,6 +312,7 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
           <Label label={t<string>('reserved')} />
           <FormatBalance
             className='result'
+            formatIndex={formatIndex}
             value={balancesAll.reservedBalance}
           />
         </>
@@ -317,11 +322,13 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
           <Label label={t<string>('bonded')} />
           <FormatBalance
             className='result'
+            formatIndex={formatIndex}
             value={ownBonded}
           >
             {otherBonded.length !== 0 && (
               <>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode =>
                 <FormatBalance
+                  formatIndex={formatIndex}
                   key={index}
                   value={bonded}
                 />
@@ -360,18 +367,25 @@ function createBalanceItems (index: number, lookup: Record<string, string>, t: T
 
   if (withBalanceToggle) {
     return (
-      <React.Fragment key={index}>
-        <Expander summary={<FormatBalance value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)} />}>
-          <div className='body column'>
-            {allItems}
-          </div>
+      <React.Fragment key={formatIndex}>
+        <Expander summary={
+          <FormatBalance
+            formatIndex={formatIndex}
+            value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+          />
+        }>
+          {formatIndex === 0 && (
+            <div className='body column'>
+              {allItems}
+            </div>
+          )}
         </Expander>
       </React.Fragment>
     );
   }
 
   return (
-    <React.Fragment key={index}>
+    <React.Fragment key={formatIndex}>
       {allItems}
     </React.Fragment>
   );
