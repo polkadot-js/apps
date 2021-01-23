@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Ledger } from '@polkadot/ui-keyring';
 
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Dropdown, MarkError, Modal } from '@polkadot/react-components';
-import { useLedger } from '@polkadot/react-hooks';
+import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -24,14 +25,20 @@ interface Props {
 const AVAIL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 // query the ledger for the address, adding it to the keyring
-async function queryLedger (getLedger: () => Ledger, accountOffset: number, addressOffset: number): Promise<void> {
+async function queryLedger (api: ApiPromise, getLedger: () => Ledger, accountOffset: number, addressOffset: number): Promise<void> {
   const { address } = await getLedger().getAddress(false, accountOffset, addressOffset);
 
-  keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: `ledger ${accountOffset}/${addressOffset}` });
+  keyring.addHardware(address, 'ledger', {
+    accountOffset,
+    addressOffset,
+    genesisHash: api.genesisHash.toHex(),
+    name: `ledger ${accountOffset}/${addressOffset}`
+  });
 }
 
 function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { getLedger } = useLedger();
   const [accIndex, setAccIndex] = useState(0);
   const [addIndex, setAddIndex] = useState(0);
@@ -53,7 +60,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       setError(null);
       setIsBusy(true);
 
-      queryLedger(getLedger, accIndex, addIndex)
+      queryLedger(api, getLedger, accIndex, addIndex)
         .then(() => onClose())
         .catch((error): void => {
           console.error(error);
@@ -62,7 +69,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           setError(error);
         });
     },
-    [accIndex, addIndex, getLedger, onClose]
+    [accIndex, addIndex, api, getLedger, onClose]
   );
 
   return (

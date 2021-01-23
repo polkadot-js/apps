@@ -13,10 +13,12 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
+import Curator from './Curator';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
@@ -49,6 +51,18 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
+  const curatorToRender = useMemo(() => {
+    if (curator) {
+      return { curator, isFromProposal: false };
+    }
+
+    const proposalToDisplay = proposals && getProposalToDisplay(proposals, status);
+
+    return (proposalToDisplay?.proposal.method === 'proposeCurator')
+      ? { curator: proposalToDisplay.proposal.args[1], isFromProposal: true }
+      : null;
+  }, [curator, proposals, status]);
+
   const handleOnIconClick = useCallback(
     () => setIsExpanded((isExpanded) => !isExpanded),
     []
@@ -75,7 +89,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
         <td><FormatBalance value={value} /></td>
-        <td>{curator && <AddressSmall value={curator} />}</td>
+        <td>
+          {curatorToRender && (
+            <Curator
+              curator={curatorToRender.curator}
+              isFromProposal={curatorToRender.isFromProposal}
+            />
+          )}
+        </td>
         <td>
           {blocksUntilPayout
             ? <DueBlocks

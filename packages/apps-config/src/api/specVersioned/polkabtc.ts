@@ -5,4 +5,10 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import definitions from '@interlay/polkabtc-types';
 
-export default definitions as OverrideBundleDefinition;
+// This is a temp work-around to add the interfaces key to the actual types
+// With the next release of the API this should be able tp be added to the base
+const extended = definitions as OverrideBundleDefinition;
+
+extended.instances = { balances: ['dot', 'polkaBtc'] };
+
+export default extended;

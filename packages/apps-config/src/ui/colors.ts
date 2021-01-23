@@ -68,6 +68,7 @@ export const chainColors: Record<string, any> = [
   ['crust maxwell cc2', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia PC2', chainRoccoDarwinia],
+  ['Encointer PC1', nodeEncointerNotee],
   ['hanonycash', chainHanonycash],
   ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],
