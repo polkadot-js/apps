@@ -112,7 +112,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
   // HACK Horrible hack to try and give some window to the DOT denomination
   const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
-  const properties = registry.createType('ChainProperties', { ...chainProperties, ss58Format });
+  const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
 
   return {
     injectedAccounts,
