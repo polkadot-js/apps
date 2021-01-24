@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
+import { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
