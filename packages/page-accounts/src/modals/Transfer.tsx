@@ -139,7 +139,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 type='allPlus'
               />
               {recipientPhish && (
-                <MarkError content={t<string>('The recipient is associated with a known phishing site, {{url}}', { replace: { url: recipientPhish } })} />
+                <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
               )}
             </Modal.Column>
             <Modal.Column>
