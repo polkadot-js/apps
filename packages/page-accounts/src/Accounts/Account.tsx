@@ -440,7 +440,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             vertical
           >
             {createMenuGroup([
-              api.api.tx.identity?.setIdentity && (
+              api.api.tx.identity?.setIdentity && !isHardware && (
                 <Menu.Item
                   key='identityMain'
                   onClick={toggleIdentityMain}
@@ -448,7 +448,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   {t('Set on-chain identity')}
                 </Menu.Item>
               ),
-              api.api.tx.identity?.setSubs && identity?.display && (
+              api.api.tx.identity?.setSubs && identity?.display && !isHardware && (
                 <Menu.Item
                   key='identitySub'
                   onClick={toggleIdentitySub}
@@ -492,7 +492,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )
             ])}
             {createMenuGroup([
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
+              !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
                 <Menu.Item
                   key='backupJson'
                   onClick={toggleBackup}
@@ -500,7 +500,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   {t('Create a backup file for this account')}
                 </Menu.Item>
               ),
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
+              !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
                 <Menu.Item
                   key='changePassword'
                   onClick={togglePassword}
