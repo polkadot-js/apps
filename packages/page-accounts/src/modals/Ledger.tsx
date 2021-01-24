@@ -113,7 +113,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          icon='sync'
+          icon='plus'
           isBusy={isBusy}
           label={t<string>('Save')}
           onClick={_onSave}
