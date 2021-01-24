@@ -206,7 +206,12 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
     ${theme.theme === 'dark'
     ? `
         font-weight: bold;
-        opacity: 1;
+          .ui--FormatBalance-value {
+
+            > .ui--FormatBalance-postfix {
+              opacity: 1;
+            }
+          }
     `
     : ''};
 
