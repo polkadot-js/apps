@@ -122,7 +122,7 @@ export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
 
     > .ui--FormatBalance-postfix {
       font-weight: ${theme.fontWeightLight};
-      opacity: 0.7;
+      opacity: ${theme.theme === 'light' ? '0.7' : '1'};
       vertical-align: baseline;
     }
   }

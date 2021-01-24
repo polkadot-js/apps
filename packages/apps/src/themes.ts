@@ -30,7 +30,7 @@ export const darkTheme: ThemeDef = {
   borderTabs: 'transparent',
   color: 'rgba(244, 242, 240, 0.9)',
   colorCheckbox: 'rgba(78, 78, 78, 0.66)',
-  colorError: 'rgba(255, 0, 0, 0.85)',
+  colorError: 'rgba(255, 83, 83, 0.8)',
   colorLabel: 'rgba(244, 242, 240, 0.45)',
   colorSummary: 'rgba(244, 242, 240, 0.75)',
   contentHalfWidth: `${MAX_WIDTH / 2}px`,
