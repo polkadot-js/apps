@@ -203,9 +203,11 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
     .ui--Expander-summary {
       color: ${theme.colorError};
 
-    ${theme.theme === 'dark' ? `
+    ${theme.theme === 'dark'
+    ? `
         font-weight: bold;
-    ` : ''};
+    `
+    : ''};
 
     }
   }

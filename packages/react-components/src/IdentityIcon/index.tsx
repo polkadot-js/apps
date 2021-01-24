@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
-import { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
 
 import { getSystemIcon } from '@polkadot/apps-config';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
@@ -62,16 +62,17 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
 
 export default React.memo(styled(IdentityIcon)(({ theme }: ThemeProps) => `
 
-    ${theme.theme === 'dark' ? `
+    ${theme.theme === 'dark'
+    ? `
         circle:first-child {
             fill: #282829;
         }
-    `: ''}
+    `
+    : ''}
 
-    border: 1px solid ${theme.theme === 'dark' ? 'transparent' : "#ddd"};
+    border: 1px solid ${theme.theme === 'dark' ? 'transparent' : '#ddd'};
     border-radius: 50%;
     display: inline-block;
     overflow: hidden;
 
 `));
-
