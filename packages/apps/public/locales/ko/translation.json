@@ -1267,7 +1267,7 @@
   "rpc.dock-testnet": "독 테스트넷",
   "rpc.dusty": "더스티",
   "rpc.edgeware": "에지웨어(Edgware 테스트넷, Commonwealth Labs가 운영함)",
-  "rpc.equilibriumr": "평형",
+  "rpc.equilibrium": "평형",
   "rpc.flamingfir": "Flaming Fir(서브스트레이트 테스트넷, Parity가 운영함)",
   "rpc.header.dev": "개발자 설정",
   "rpc.header.live": "라이브넷들",

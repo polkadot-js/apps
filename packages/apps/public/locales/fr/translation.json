@@ -1303,7 +1303,7 @@
   "rpc.dock-testnet": "Dock Testnet",
   "rpc.dusty": "Dusty",
   "rpc.edgeware": "Edgeware (Mainnet Edgeware, hébergé par Commonwealth Labs)",
-  "rpc.equilibriumr": "Equilibrium",
+  "rpc.equilibrium": "Equilibrium",
   "rpc.flamingfir": "Flaming Fir (Testnet Substrate, hébergé par Parity)",
   "rpc.header.dev": "Développement",
   "rpc.header.live": "Réseau Live",
