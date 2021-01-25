@@ -7,7 +7,7 @@ import type { ChainInfo } from '../types';
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, ChainImg, Columar, Input, Labelled, QrNetworkSpecs, Spinner, Table } from '@polkadot/react-components';
+import { ChainImg, Input, QrNetworkSpecs, Spinner, Table } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -81,117 +81,117 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     [networkSpecs]
   );
 
-  if (!isApiReady) {
-    return <Spinner />;
-  }
-
   const headerRef = useRef([
     [t('chain specificiations'), 'start', '2']
   ]);
 
+  if (!isApiReady) {
+    return <Spinner />;
+  }
+
   return (
-      <Table
-          className={className}
-          empty={t<string>('No open tips')}
-          header={headerRef.current}
-      >
+    <Table
+      className={className}
+      empty={t<string>('No open tips')}
+      header={headerRef.current}
+    >
 
-          <tr>
-              <td>
-                  <div className='settings--networkSpecs-name'>
-                      <Input
-                          className='full'
-                          help={t<string>('Name of the network. It is only for display purposes.')}
-                          isDisabled
-                          label={t<string>('Network Name')}
-                          value={networkSpecs.title}
-                      />
-                      <ChainImg className='settings--networkSpecs-logo' />
-                  </div>
-              </td>
-              <td rowSpan={6}>
-                  {qrData.genesisHash && (
-                      <QrNetworkSpecs
-                          className='settings--networkSpecs-qr'
-                          networkSpecs={debouncedQrData}
-                      />
-                  )}
-              </td>
-          </tr>
-          <tr>
-              <td>
-                  <div className='settings--networkSpecs-color'>
-                      <div>
-                          <Input
-                              className='full settings--networkSpecs-colorInput'
-                              help={t<string>('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
-                              isError={!_checkColorValid()}
-                              label={t<string>('Color')}
-                              onChange={_onChangeColor}
-                              value={networkSpecs.color}
-                          />
-                          <a className='settings--networkSpecs-colorChangeButton'
-                              onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  _onSetRandomColor();
-                              }}>
+      <tr>
+        <td>
+          <div className='settings--networkSpecs-name'>
+            <Input
+              className='full'
+              help={t<string>('Name of the network. It is only for display purposes.')}
+              isDisabled
+              label={t<string>('Network Name')}
+              value={networkSpecs.title}
+            />
+            <ChainImg className='settings--networkSpecs-logo' />
+          </div>
+        </td>
+        <td rowSpan={6}>
+          {qrData.genesisHash && (
+            <QrNetworkSpecs
+              className='settings--networkSpecs-qr'
+              networkSpecs={debouncedQrData}
+            />
+          )}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div className='settings--networkSpecs-color'>
+            <div>
+              <Input
+                className='full settings--networkSpecs-colorInput'
+                help={t<string>('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
+                isError={!_checkColorValid()}
+                label={t<string>('Color')}
+                onChange={_onChangeColor}
+                value={networkSpecs.color}
+              />
+              <a className='settings--networkSpecs-colorChangeButton'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  _onSetRandomColor();
+                }}>
                               generate random color
-                  </a>
-                      </div>
-                      <ChainColorIndicator
-                          className='settings--networkSpecs-colorBar'
-                          color={networkSpecs.color} />
-                  </div>
-              </td>
-          </tr>
-          <tr>
-              <td>
-                  <Input
-                      className='full'
-                      help={t<string>('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
-                      isDisabled
-                      label={t<string>('Genesis Hash')}
-                      value={networkSpecs.genesisHash}
-                  />
-              </td>
-          </tr>
-          <tr>
-              <td>
+              </a>
+            </div>
+            <ChainColorIndicator
+              className='settings--networkSpecs-colorBar'
+              color={networkSpecs.color} />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            help={t<string>('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
+            isDisabled
+            label={t<string>('Genesis Hash')}
+            value={networkSpecs.genesisHash}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
 
-                  <Input
-                      className='full'
-                      help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
-                      isDisabled
-                      label={t<string>('Unit')}
-                      value={networkSpecs.unit}
-                  />
-              </td>
-          </tr>
+          <Input
+            className='full'
+            help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
+            isDisabled
+            label={t<string>('Unit')}
+            value={networkSpecs.unit}
+          />
+        </td>
+      </tr>
 
-          <tr>
-              <td>
-                  <Input
-                      className='full'
-                      help={t<string>('Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address')}
-                      isDisabled
-                      label={t<string>('Address Prefix')}
-                      value={networkSpecs.prefix.toString()}
-                  />
-              </td>
-          </tr>
-          <tr>
-              <td>
-                  <Input
-                      className='full'
-                      help={t<string>('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
-                      isDisabled
-                      label={t<string>('Decimals')}
-                      value={networkSpecs.decimals.toString()}
-                  />
-              </td>
-          </tr>
-      </Table>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            help={t<string>('Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address')}
+            isDisabled
+            label={t<string>('Address Prefix')}
+            value={networkSpecs.prefix.toString()}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            help={t<string>('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
+            isDisabled
+            label={t<string>('Decimals')}
+            value={networkSpecs.decimals.toString()}
+          />
+        </td>
+      </tr>
+    </Table>
   );
 }
 
