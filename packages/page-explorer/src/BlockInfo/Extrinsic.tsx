@@ -70,6 +70,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
             tip={value.tip?.toBn()}
             value={value}
             withHash
+            withSignature
           />
         </Expander>
       </td>
