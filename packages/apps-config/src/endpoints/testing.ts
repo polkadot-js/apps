@@ -64,7 +64,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'crust',
-      text: t('rpc.crust.network', 'Crust Maxwell CC2', { ns: 'apps-config' }),
+      text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/'
       }
