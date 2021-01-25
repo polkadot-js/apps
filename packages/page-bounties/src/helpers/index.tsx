@@ -5,4 +5,4 @@ export * from './calculateBountyBond';
 export * from './getBountyStatus';
 export * from './isClaimable';
 export * from './stringHelpers';
-export * from './adjustComponentToUserRole';
+export * from './determineUnassignCuratorAction';

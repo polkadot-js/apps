@@ -12,11 +12,11 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
-import { adjustComponentToUserRole, truncateTitle } from '../helpers';
+import { determineUnassignCuratorAction, truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useUserRole } from '../hooks/useUserRole';
 import { useTranslation } from '../translate';
-import { DisplaySlashCuratorType } from '../types';
+import { ValidUnassignCuratorAction } from '../types';
 
 interface Props {
   blocksUntilUpdate?: BN;
@@ -50,7 +50,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
 
   const userRole = useUserRole(curatorId);
 
-  const displayComponentAs = adjustComponentToUserRole(userRole, status, blocksUntilUpdate);
+  const action = determineUnassignCuratorAction(userRole, status, blocksUntilUpdate);
 
   useEffect((): void => {
     members && setThreshold(
@@ -60,7 +60,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
 
   const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index, unassignCurator]);
 
-  const outputs = useMemo<Record<DisplaySlashCuratorType, ComponentDescriptions>>(() => ({
+  const outputs = useMemo<Record<ValidUnassignCuratorAction, ComponentDescriptions>>(() => ({
     GiveUp: {
       buttonName: t('Give Up'),
       filter: [curatorId.toString()],
@@ -69,15 +69,6 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
       params: [index],
       tip: t('You are giving up your curator role, bounty will return to funded state. You will get your deposit back.'),
       tx: unassignCurator
-    },
-    Hide: {
-      buttonName: '',
-      filter: [''],
-      header: t(''),
-      helpMessage: '',
-      params: [],
-      tip: '',
-      tx: api.tx.council.propose
     },
     SlashCuratorAction: {
       buttonName: t('Slash Curator'),
@@ -110,9 +101,9 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
 
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
 
-  const { buttonName, filter, header, helpMessage, params, tip, tx } = outputs[displayComponentAs];
+  const { buttonName, filter, header, helpMessage, params, tip, tx } = outputs[action];
 
-  return (displayComponentAs !== 'Hide') && !isVotingInitiated
+  return (action !== 'None') && !isVotingInitiated
     ? (
       <>
         <Button

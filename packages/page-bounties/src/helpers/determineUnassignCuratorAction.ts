@@ -5,10 +5,10 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
-import { DisplaySlashCuratorType, UserRole } from '@polkadot/app-bounties';
+import { UnassignCuratorAction, UserRole } from '@polkadot/app-bounties';
 import { BN_ZERO } from '@polkadot/util';
 
-export function adjustComponentToUserRole (role: UserRole, status: BountyStatus, blocksUntilUpdate?: BN): DisplaySlashCuratorType {
+export function determineUnassignCuratorAction (role: UserRole, status: BountyStatus, blocksUntilUpdate?: BN): UnassignCuratorAction {
   if (status.isCuratorProposed && role === 'Member') return 'UnassignCurator';
 
   if (status.isActive) {
@@ -19,5 +19,5 @@ export function adjustComponentToUserRole (role: UserRole, status: BountyStatus,
 
   if (status.isPendingPayout && role === 'Member') return 'SlashCuratorMotion';
 
-  return 'Hide';
+  return 'None';
 }
