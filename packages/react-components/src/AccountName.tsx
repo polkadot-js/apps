@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2021 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -203,7 +203,7 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
     .name {
       align-items: center;
       display: inline-flex;
-      font-weight: 400 !important;
+      font-weight: ${theme.fontWeightNormal} !important;
       filter: grayscale(100%);
       line-height: 1;
       opacity: 0.6;

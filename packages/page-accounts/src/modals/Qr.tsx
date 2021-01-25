@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -158,9 +158,9 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          icon='sign-in-alt'
+          icon='plus'
           isDisabled={!scanned || !isValid || (!isAddress && isIpfs)}
-          label={t<string>('Create')}
+          label={t<string>('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

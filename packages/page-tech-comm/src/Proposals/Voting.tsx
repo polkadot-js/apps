@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
@@ -6,7 +6,7 @@ import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 
-import { Button, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
+import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -42,9 +42,7 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               onChange={setAccountId}
             />
             {(accountId === prime?.toString()) && (
-              <article className='warning'>
-                <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
-              </article>
+              <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleVoting}>

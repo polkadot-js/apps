@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from './types';
@@ -12,10 +12,7 @@ import { formatNumber, hexToU8a, isHex, u8aToString } from '@polkadot/util';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
 
-export interface InputFileProps {
-  // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
-  // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
-  accept?: string;
+export interface InputFilePropsBase {
   className?: string;
   clearContent?: boolean;
   help?: React.ReactNode;
@@ -23,10 +20,16 @@ export interface InputFileProps {
   isError?: boolean;
   isFull?: boolean;
   label: React.ReactNode;
-  onChange?: (contents: Uint8Array, name: string) => void;
   placeholder?: React.ReactNode | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
+}
+
+export interface InputFileProps extends InputFilePropsBase {
+  // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
+  // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
+  accept?: string;
+  onChange?: (contents: Uint8Array, name: string) => void;
 }
 
 interface FileState {

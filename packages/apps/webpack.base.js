@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -40,11 +40,6 @@ function createWebpack (context, mode = 'production') {
     mode,
     module: {
       rules: [
-        {
-          include: /node_modules/,
-          test: /\.mjs$/,
-          type: 'javascript/auto'
-        },
         {
           include: /node_modules/,
           test: /\.css$/,

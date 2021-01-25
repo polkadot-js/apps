@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -24,7 +24,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
   const { hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
 
-  const itemsRef = useRef([
+  const tabsRef = useRef([
     {
       isRoot: true,
       name: 'overview',
@@ -43,7 +43,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         <Tabs
           basePath={basePath}
           hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
-          items={itemsRef.current}
+          items={tabsRef.current}
         />
       </header>
       <Switch>
