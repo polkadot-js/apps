@@ -25,6 +25,7 @@ interface SignedBalance extends Enum {
 }
 
 export interface EQDeriveBalancesAll {
+  additional: []; // fix until vesting instances are supported in api-derive
   freeBalance: Balance;
   reservedBalance: Balance;
   vestingLocked: Balance;
@@ -172,6 +173,7 @@ export default {
                 ]): EQDeriveBalancesAll => ({
                   accountId,
                   accountNonce,
+                  additional: [],
                   freeBalance,
                   lockedBalance: vestingLocked,
                   lockedBreakdown: [],

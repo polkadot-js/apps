@@ -59,6 +59,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Crust PC1', nodeCrust],
   ['darwinia crab', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
   ['Dusty', chainDusty],
@@ -97,6 +98,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
+  ['Crust Collator', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Darwinia Runtime Module Library', nodeDarwinia],
@@ -174,6 +176,7 @@ export const namedLogos: Record<string, unknown> = {
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoBifrost: nodeBifrost,
+  rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
