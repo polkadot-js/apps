@@ -171,8 +171,8 @@ export default {
                   accountId,
                   [freeBalance, reservedBalance, vestingLocked, accountNonce]
                 ]): EQDeriveBalancesAll => ({
-                  additional: [],
                   accountId,
+                  additional: [],
                   accountNonce,
                   freeBalance,
                   lockedBalance: vestingLocked,
