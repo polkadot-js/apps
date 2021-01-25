@@ -15,3 +15,5 @@ export type HelpMessages = Record<StatusName, string>;
 
 export type StatusName = 'Active' | 'Approved' | 'CuratorProposed' | 'Funded' | 'PendingPayout' | 'Proposed';
 export type BountyVotingStatuses = { [status in StatusName]: string[] };
+export type DisplaySlashCuratorType = 'GiveUp' | 'UnassignCurator' | 'SlashCuratorMotion' | 'SlashCuratorAction' | 'Hide';
+export type UserRole = 'User' | 'Member' | 'Curator' | 'None';

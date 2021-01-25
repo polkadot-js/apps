@@ -22,7 +22,7 @@ export const defaultBountyApi: BountyApi = {
   maximumReasonLength: 100,
   proposeBounty: jest.fn(),
   proposeCurator: jest.fn(),
-  unassignCurator: jest.fn()
+  unassignCurator: jest.fn().mockReturnValue('mockProposeExtrinsic')
 };
 
 export const defaultBalance = balanceOf(1);

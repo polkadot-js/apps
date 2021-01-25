@@ -115,3 +115,5 @@ export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
     }
   }
 `));
+export { DisplaySlashCuratorType } from '@polkadot/app-bounties/types';
+export { UserRole } from '@polkadot/app-bounties/types';

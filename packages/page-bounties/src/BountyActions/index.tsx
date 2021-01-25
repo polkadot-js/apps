@@ -27,8 +27,9 @@ interface Props {
 export function BountyActions ({ bestNumber, description, index, proposals, status, value }: Props): JSX.Element {
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);
 
-  const { beneficiary, curator, unlockAt } = updateStatus();
+  const { beneficiary, curator, unlockAt, updateDue } = updateStatus();
 
+  const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
   return (
@@ -75,10 +76,12 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
       }
       {(status.isCuratorProposed || status.isActive || status.isPendingPayout) && curator && (
         <SlashCurator
+          blocksUntilUpdate={blocksUntilUpdate}
           curatorId={curator}
           description={description}
           index={index}
           proposals={proposals}
+          status={status}
         />
       )}
     </>

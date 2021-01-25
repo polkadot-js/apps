@@ -51,11 +51,11 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
+                    defaultValue={curatorId.toString()}
                     help={t<string>('This account will be used to create an extend bounty expire transaction.')}
                     isDisabled
                     label={t<string>('curator account')}
                     type='account'
-                    value={curatorId.toString()}
                     withLabel
                   />
                 </Modal.Column>

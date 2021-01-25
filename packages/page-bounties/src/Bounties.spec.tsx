@@ -360,48 +360,46 @@ describe('Bounties', () => {
   });
 
   describe('slash curator action modal', () => {
-    it('unassigns curator from bounty in Active state', async () => {
+    it('give up on a Curator function in Active state bounty', async () => {
       const bounty = bountyWith({ status: 'Active' });
       const { findByText, getAllByRole } = renderOneBounty(bounty);
 
-      const slashCuratorButton = await findByText('Slash Curator');
+      const slashCuratorButton = await findByText('Give Up');
 
       fireEvent.click(slashCuratorButton);
 
-      expect(await findByText('This action will create a Council motion to unassign the Curator.')).toBeTruthy();
+      expect(await findByText('With this action you will give up on a Curator role.')).toBeTruthy();
 
       const comboboxes = getAllByRole('combobox');
-      const alice = aliceSigner().address;
 
       const proposingAccountInput = comboboxes[0].children[0];
 
       fireEvent.change(proposingAccountInput, { target: { value: alice } });
 
-      const acceptButton = await findByText('Slash curator');
+      const acceptButton = await findByText('Approve');
 
       fireEvent.click(acceptButton);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL', extrinsic: 'mockProposeExtrinsic' }));
     });
 
-    it('unassigns curator from bounty in CuratorProposed state', async () => {
-      const bounty = bountyWith({ status: 'CuratorProposed' });
+    it('slash curator from bounty in PendingPayout state', async () => {
+      const bounty = bountyWith({ status: 'PendingPayout' });
       const { findByText, getAllByRole } = renderOneBounty(bounty);
 
       const slashCuratorButton = await findByText('Slash Curator');
 
       fireEvent.click(slashCuratorButton);
 
-      expect(await findByText('This action will create a Council motion to unassign the Curator.')).toBeTruthy();
+      expect(await findByText('This action will create a Council motion to Slash the Curator.')).toBeTruthy();
 
       const comboboxes = getAllByRole('combobox');
-      const alice = aliceSigner().address;
 
       const proposingAccountInput = comboboxes[0].children[0];
 
       fireEvent.change(proposingAccountInput, { target: { value: alice } });
 
-      const acceptButton = await findByText('Slash curator');
+      const acceptButton = await findByText('Approve');
 
       fireEvent.click(acceptButton);
 
