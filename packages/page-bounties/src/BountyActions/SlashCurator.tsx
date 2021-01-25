@@ -33,7 +33,9 @@ interface ActionProperties {
   header: string;
   helpMessage: string;
   params: any[] | (() => any[]) | undefined;
+  proposingAccountTip: string
   tip: string;
+  title: string;
   tx: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
 }
 
@@ -64,7 +66,9 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
       header: t('This action will unassign you from a curator role.'),
       helpMessage: t("The Curator account that will give up on it's role"),
       params: [index],
-      tip: t('You are giving up your curator role, bounty will return to funded state. You will get your deposit back.'),
+      proposingAccountTip: t('The account that will create the transaction.'),
+      tip: t('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.'),
+      title: t("Give up curator's role"),
       tx: unassignCurator
     },
     SlashCuratorAction: {
@@ -73,7 +77,9 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
       header: t('This action will Slash the Curator.'),
       helpMessage: t('The Curator that will be slashed.'),
       params: [index],
-      tip: t("Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to funded state."),
+      proposingAccountTip: t('The account that will create the transaction.'),
+      tip: t("Curator's deposit will be slashed and curator will be unassigned. Bounty will return to the Funded state."),
+      title: t('Slash curator'),
       tx: unassignCurator
     },
     SlashCuratorMotion: {
@@ -82,7 +88,9 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
       header: t('This action will create a Council motion to slash the Curator.'),
       helpMessage: t('The Curator that will be slashed.'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
-      tip: t("Curator's deposit will be slashed and curator will be unassigned. Bounty will return to funded state."),
+      proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
+      tip: t("If the motion is outvoted, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
+      title: t('Slash curator'),
       tx: api.tx.council.propose
     },
     UnassignCurator: {
@@ -91,7 +99,9 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
       header: t('This action will create a Council motion to unassign the Curator.'),
       helpMessage: t('The Curator that will be unassigned'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
-      tip: t('Curator will be unassigned. Bounty will return to funded state.'),
+      proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
+      tip: t('If the motion is outvoted, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
+      title: t('Unassign curator'),
       tx: api.tx.council.propose
     }
   }), [t, curatorId, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
@@ -106,7 +116,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
     return null;
   }
 
-  const { buttonName, filter, header, helpMessage, params, tip, tx } = actionProperties[action];
+  const { buttonName, filter, header, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
 
   return !isVotingInitiated
     ? (
@@ -118,7 +128,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
         />
         {isOpen && (
           <Modal
-            header={t<string>(`Slash Curator from "${truncateTitle(description, 30)}"`)}
+            header={title + ` - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
@@ -137,7 +147,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('The account that will create this transaction.')}</p>
+                  <p>{proposingAccountTip}</p>
                 </Modal.Column>
               </Modal.Columns>
               <Modal.Columns>
