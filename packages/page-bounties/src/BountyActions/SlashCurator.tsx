@@ -26,7 +26,8 @@ interface Props {
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
-interface ComponentDescriptions {
+
+interface ActionProperties {
   buttonName: string;
   filter: string[];
   header: string;
@@ -56,7 +57,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
 
   const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index, unassignCurator]);
 
-  const outputs = useMemo<Record<ValidUnassignCuratorAction, ComponentDescriptions>>(() => ({
+  const actionProperties = useMemo<Record<ValidUnassignCuratorAction, ActionProperties>>(() => ({
     GiveUp: {
       buttonName: t('Give Up'),
       filter: [curatorId.toString()],
@@ -105,7 +106,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
     return null;
   }
 
-  const { buttonName, filter, header, helpMessage, params, tip, tx } = outputs[action];
+  const { buttonName, filter, header, helpMessage, params, tip, tx } = actionProperties[action];
 
   return !isVotingInitiated
     ? (
