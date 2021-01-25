@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveBounties, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
@@ -11,133 +11,88 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise } from '@polkadot/api';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { Metadata } from '@polkadot/metadata';
-import metaStatic from '@polkadot/metadata/static';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { createAugmentedApi } from '@polkadot/test-support/api';
+import { balanceOf } from '@polkadot/test-support/creation/balance';
+import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 
+import { alice,
+  bob,
+  defaultAccounts,
+  defaultBalance,
+  defaultBountyApi,
+  defaultMembers,
+  defaultTreasury,
+  ferdie } from '../test/hooks/defaults';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
-function bountyStatus (status: string): BountyStatus {
-  return new TypeRegistry().createType('BountyStatus', status);
-}
+const mockMembers = defaultMembers;
+const mockAccounts = defaultAccounts;
+const mockTreasury = defaultTreasury;
+let mockBountyApi = defaultBountyApi;
+let mockBalance = defaultBalance;
 
-function aBounty ({ value = balanceOf(1), status = bountyStatus('Proposed') }: Partial<Bounty> = {}): Bounty {
-  return new TypeRegistry().createType('Bounty', { status, value });
-}
+jest.mock('./hooks', () => ({
+  useBalance: () => mockBalance,
+  useBounties: () => mockBountyApi
+}));
 
-function anIndex (index = 0): BountyIndex {
-  return new TypeRegistry().createType('BountyIndex', index);
-}
+jest.mock('@polkadot/react-hooks/useTreasury', () => ({
+  useTreasury: () => mockTreasury
+}));
 
-function balanceOf (number: number) {
-  return new TypeRegistry().createType('Balance', new BN(number));
-}
+jest.mock('@polkadot/react-hooks/useMembers', () => ({
+  useMembers: () => mockMembers
+}));
+
+jest.mock('@polkadot/react-hooks/useAccounts', () => ({
+  useAccounts: () => mockAccounts
+}));
 
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
 
-const extendBountyExpiry = jest.fn().mockReturnValue('mockProposeExtrinsic');
-
-let mockBountyApi: BountyApi = {
-  approveBounty: jest.fn(),
-  bestNumber: new BN(1) as BlockNumber,
-  bounties: [] as DeriveBounties,
-  bountyDepositBase: new BN(1),
-  bountyValueMinimum: new BN(1),
-  closeBounty: jest.fn(),
-  dataDepositPerByte: new BN(1),
-  extendBountyExpiry,
-  maximumReasonLength: 100,
-  proposeBounty: jest.fn(),
-  proposeCurator: jest.fn()
-};
-
-let mockBalance = balanceOf(1);
-let apiWithAugmentations: ApiPromise;
-const mockMembers = { isMember: true };
-const mockAccounts = { allAccounts: ['5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM'] };
-const mockTreasury = {
-  burn: new BN(1),
-  spendPeriod: new BN(0),
-  value: balanceOf(1)
-};
-
-jest.mock('./hooks', () => {
-  return {
-    useBalance: () => mockBalance,
-    useBounties: () => mockBountyApi
-  };
-});
-
-jest.mock('@polkadot/react-hooks/useTreasury', () => {
-  return {
-    useTreasury: () => mockTreasury
-  };
-});
-
-export function createApiWithAugmentations (): ApiPromise {
-  const registry = new TypeRegistry();
-  const metadata = new Metadata(registry, metaStatic);
-
-  registry.setMetadata(metadata);
-
-  const api = new ApiPromise({ provider: new WsProvider('ws://', false), registry });
-
-  api.injectMetadata(metadata, true);
-
-  return api;
-}
-
-function bountyInStatus (status: string) {
-  return new TypeRegistry().createType('Bounty', { status, value: new BN(151) });
-}
-
-function aProposal (extrinsic: SubmittableExtrinsic<'promise'>) {
+function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] = [alice], nays: string[] = [bob]) {
   return {
     hash: new TypeRegistry().createType('Hash'),
-    proposal: apiWithAugmentations
+    proposal: augmentedApi
       .registry.createType('Proposal', extrinsic),
-    votes: apiWithAugmentations.registry.createType('Votes', {
-      ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'],
+    votes: augmentedApi.registry.createType('Votes', {
+      ayes: ayes,
       index: 0,
-      nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'],
+      nays: nays,
       threshold: 4
     })
   };
 }
 
-jest.mock('@polkadot/react-hooks/useMembers', () => {
-  return {
-    useMembers: () => mockMembers
-  };
-});
-
-jest.mock('@polkadot/react-hooks/useAccounts', () => {
-  return {
-    useAccounts: () => mockAccounts
-  };
-});
-
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+
+let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
+let aBountyStatus: (status: string) => BountyStatus;
+let aBountyIndex: (index?:number) => BountyIndex;
+let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
+let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
-    apiWithAugmentations = createApiWithAugmentations();
+    augmentedApi = createAugmentedApi();
+    ({ aBounty, aBountyIndex, aBountyStatus, bountyWith } = new BountyFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
@@ -146,20 +101,22 @@ describe('Bounties', () => {
   const renderBounties = (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) => {
     mockBountyApi = { ...mockBountyApi, ...bountyApi };
     mockBalance = balanceOf(balance);
-    const mockApi: ApiProps = { api: {
-      derive: {
-        accounts: { info: () => Promise.resolve(() => { /**/ }) }
-      },
-      genesisHash: aGenesisHash(),
-      query: {},
-      registry: { chainDecimals: 12 },
-      tx: {
-        council: {
-          propose
+    const mockApi: ApiProps = {
+      api: {
+        derive: {
+          accounts: { info: () => Promise.resolve(() => { /**/ }) }
+        },
+        genesisHash: aGenesisHash(),
+        query: {},
+        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
+        tx: {
+          council: {
+            propose
+          }
         }
-      }
-    },
-    systemName: 'substrate' } as unknown as ApiProps;
+      },
+      systemName: 'substrate'
+    } as unknown as ApiProps;
 
     const queue = {
       queueExtrinsic
@@ -180,12 +137,12 @@ describe('Bounties', () => {
     );
   };
 
-  function renderOneBounty (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = anIndex()) {
+  function renderOneBounty (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = aBountyIndex()) {
     return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
   }
 
   it('creates correct bounty with proposal', () => {
-    const bounty = apiWithAugmentations.registry.createType('Bounty', {
+    const bounty = augmentedApi.registry.createType('Bounty', {
       curatorDeposit: new BN(1),
       status: 'Funded',
       value: new BN(10)
@@ -197,7 +154,7 @@ describe('Bounties', () => {
   });
 
   it('creates correct proposal', () => {
-    const proposal = apiWithAugmentations.registry.createType('Proposal', apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1));
+    const proposal = augmentedApi.registry.createType('Proposal', augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1));
 
     expect(proposal.args[0].eq(new BN(0))).toBeTruthy();
     expect(proposal.args[1].toString()).toEqual('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z');
@@ -206,7 +163,7 @@ describe('Bounties', () => {
   });
 
   it('creates correct votes', () => {
-    const votes = apiWithAugmentations.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 });
+    const votes = augmentedApi.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 });
 
     expect(votes.ayes.length).toEqual(1);
     expect(votes.ayes[0].toString()).toEqual('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
@@ -230,14 +187,14 @@ describe('Bounties', () => {
   });
 
   it('renders bounties in order from newest to oldest', async () => {
-    const bounty1 = bountyInStatus('Proposed');
-    const bounty2 = bountyInStatus('Proposed');
-    const bounty3 = bountyInStatus('Proposed');
+    const bounty1 = bountyWith({ status: 'Proposed' });
+    const bounty2 = bountyWith({ status: 'Proposed' });
+    const bounty3 = bountyWith({ status: 'Proposed' });
 
     const { findAllByTestId } = renderBounties({ bounties: [
-      { bounty: bounty1, description: 'bounty 2', index: anIndex(2), proposals: [] },
-      { bounty: bounty2, description: 'bounty 1', index: anIndex(1), proposals: [] },
-      { bounty: bounty3, description: 'bounty 3', index: anIndex(3), proposals: [] }
+      { bounty: bounty1, description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
+      { bounty: bounty2, description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
+      { bounty: bounty3, description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
     ] });
 
     const descriptions = await findAllByTestId('description');
@@ -285,7 +242,7 @@ describe('Bounties', () => {
 
   describe('propose curator modal', () => {
     it('shows an error if fee is greater than bounty value', async () => {
-      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const bounty = { status: aBountyStatus('Funded'), value: balanceOf(5) };
       const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
@@ -301,7 +258,7 @@ describe('Bounties', () => {
     });
 
     it('disables Assign Curator button if validation fails', async () => {
-      const bounty = { status: bountyStatus('Funded'), value: balanceOf(5) };
+      const bounty = { status: aBountyStatus('Funded'), value: balanceOf(5) };
       const { findByTestId, findByText } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
@@ -319,7 +276,7 @@ describe('Bounties', () => {
     });
 
     it('queues propose extrinsic on submit', async () => {
-      const bounty = { status: bountyStatus('Funded') };
+      const bounty = { status: aBountyStatus('Funded') };
       const { findByTestId, findByText, getAllByRole } = renderOneBounty(aBounty(bounty));
 
       const proposeCuratorButton = await findByText('Propose Curator');
@@ -347,9 +304,40 @@ describe('Bounties', () => {
     });
   });
 
+  describe('close bounty modal', () => {
+    it('creates closeBounty proposal', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const { findByText, getByRole } = renderOneBounty(bounty);
+
+      const closeButton = await findByText('Close');
+
+      fireEvent.click(closeButton);
+      expect(await findByText('This action will create a Council proposal to close the Bounty.')).toBeTruthy();
+
+      const combobox = getByRole('combobox');
+      const proposingAccountInput = combobox.children[0];
+
+      fireEvent.change(proposingAccountInput, { target: { value: ferdie } });
+
+      const closeBountyButton = getByRole('button', { name: 'Close Bounty' });
+
+      fireEvent.click(closeBountyButton);
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: ferdie, extrinsic: 'mockProposeExtrinsic' }));
+    });
+
+    it('Not available when close bounty motion already exists', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      await expect(findByText('Close')).rejects.toThrow();
+    });
+  });
+
   describe('extend bounty expiry action modal', () => {
     it('queues extend bounty expiry extrinsic on submit', async () => {
-      const bounty = bountyInStatus('Active');
+      const bounty = bountyWith({ status: 'Active' });
 
       const { findByTestId, findByText } = renderOneBounty(bounty);
 
@@ -367,14 +355,14 @@ describe('Bounties', () => {
 
       fireEvent.click(acceptButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
-      expect(extendBountyExpiry).toHaveBeenCalledWith(anIndex(0), 'The bounty extend expiry remark');
+      expect(mockBountyApi.extendBountyExpiry).toHaveBeenCalledWith(aBountyIndex(0), 'The bounty extend expiry remark');
     });
   });
 
-  describe('status is extended when voting', () => {
+  describe('status is extended', () => {
     it('on proposed curator', async () => {
-      const bounty = bountyInStatus('Funded');
-      const proposals = [aProposal(apiWithAugmentations.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
+      const bounty = bountyWith({ status: 'Funded' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
@@ -382,8 +370,8 @@ describe('Bounties', () => {
     });
 
     it('on bounty approval in proposed status', async () => {
-      const bounty = bountyInStatus('Proposed');
-      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))];
+      const bounty = bountyWith({ status: 'Proposed' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
@@ -391,10 +379,10 @@ describe('Bounties', () => {
     });
 
     it('on parallel bounty approval and bounty close in proposed status', async () => {
-      const bounty = bountyInStatus('Proposed');
+      const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [
-        aProposal(apiWithAugmentations.tx.bounties.closeBounty(0)),
-        aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))
+        aProposal(augmentedApi.tx.bounties.closeBounty(0)),
+        aProposal(augmentedApi.tx.bounties.approveBounty(0))
       ];
 
       const { findByText } = renderOneBounty(bounty, proposals);
@@ -403,8 +391,8 @@ describe('Bounties', () => {
     });
 
     it('on close bounty in active status', async () => {
-      const bounty = bountyInStatus('Active');
-      const proposals = [aProposal(apiWithAugmentations.tx.bounties.closeBounty(0))];
+      const bounty = bountyWith({ status: 'Active' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
@@ -412,8 +400,8 @@ describe('Bounties', () => {
     });
 
     it('on unassign curator in active state', async () => {
-      const bounty = bountyInStatus('Active');
-      const proposals = [aProposal(apiWithAugmentations.tx.bounties.unassignCurator(0))];
+      const bounty = bountyWith({ status: 'Active' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.unassignCurator(0))];
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
@@ -421,12 +409,123 @@ describe('Bounties', () => {
     });
 
     it('on bounty approval in active state', async () => {
-      const bounty = bountyInStatus('Active');
-      const proposals = [aProposal(apiWithAugmentations.tx.bounties.approveBounty(0))];
+      const bounty = bountyWith({ status: 'Active' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
 
       const { findByTestId } = renderOneBounty(bounty, proposals);
 
-      await expect(findByTestId('extendedStatus')).rejects.toThrow();
+      await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
+    });
+
+    it('when bounty is claimable', async () => {
+      const bounty = bountyWith({ status: 'PendingPayout' });
+      const { findByTestId } = renderOneBounty(bounty);
+
+      expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
+    });
+  });
+
+  describe('Proposed Curator extended status', () => {
+    it('Funded and propose curator motion', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, alice, 1))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      expect(await findByText('Proposed Curator')).toBeTruthy();
+    });
+
+    it('Funded and no propose curator motion', async () => {
+      const bounty = bountyWith({ status: 'Funded' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Proposed Curator')).rejects.toThrow();
+    });
+
+    it('CuratorProposed', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Proposed Curator')).rejects.toThrow();
+    });
+  });
+
+  describe('Voters', () => {
+    it('aye and nay', async () => {
+      const bounty = bountyWith({ status: 'Proposed' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
+      const { findAllByTestId } = renderOneBounty(bounty, proposals);
+      const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
+      const nayVoters = await findAllByTestId((testId) => testId.startsWith('voters_nays'));
+
+      expect(ayeVoters).toHaveLength(1);
+      expect(nayVoters).toHaveLength(1);
+      expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
+      expect(nayVoters[0].getAttribute('data-testid')).toContain(bob);
+    });
+
+    it('multiple aye and no nay', async () => {
+      const bounty = bountyWith({ status: 'Proposed' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
+
+      const { findAllByTestId } = renderOneBounty(bounty, proposals);
+      const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
+
+      expect(ayeVoters).toHaveLength(2);
+      await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
+      expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
+      expect(ayeVoters[1].getAttribute('data-testid')).toContain(bob);
+    });
+
+    it('not displayed when no voting', async () => {
+      const bounty = bountyWith({ status: 'Proposed' });
+      const proposals: DeriveCollectiveProposal[] = [];
+
+      const { findAllByTestId } = renderOneBounty(bounty, proposals);
+
+      await expect(findAllByTestId((testId) => testId.startsWith('voters_ayes'))).rejects.toThrow();
+      await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
+    });
+  });
+
+  describe('Voting summary', () => {
+    it('is displayed when voting', async () => {
+      const bounty = bountyWith({ status: 'Proposed' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
+
+      const { findByTestId } = renderOneBounty(bounty, proposals);
+
+      expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting results');
+    });
+
+    it('is not displayed when no voting', async () => {
+      const bounty = bountyWith({ status: 'Proposed' });
+      const proposals: DeriveCollectiveProposal[] = [];
+
+      const { findByTestId } = renderOneBounty(bounty, proposals);
+
+      await expect(findByTestId('voting-summary')).rejects.toThrow();
+    });
+  });
+
+  describe('Beneficiary description', () => {
+    it('PendingPayout status', async () => {
+      const bounty = bountyWith({ status: 'PendingPayout' });
+      const proposals = [aProposal(augmentedApi.tx.bounties.awardBounty(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z'))];
+
+      const { findByText } = renderOneBounty(bounty, proposals);
+
+      expect(await findByText('Beneficiary')).toBeTruthy();
+    });
+
+    it('Other status', async () => {
+      const bounty = bountyWith({ status: 'Active' });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Beneficiary')).rejects.toThrow();
     });
   });
 });

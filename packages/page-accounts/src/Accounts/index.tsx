@@ -211,8 +211,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         {isLedgerEnabled && (
           <>
             <Button
-              icon='question'
-              label={t<string>('Add Ledger')}
+              icon='project-diagram'
+              label={t<string>('Add via Ledger')}
               onClick={toggleLedger}
             />
           </>

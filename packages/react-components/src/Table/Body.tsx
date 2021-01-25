@@ -177,11 +177,8 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    // &:nth-child(odd) {
-    //   background: #faf8f6;
-    // }
-
-    &:nth-child(odd) {
+    &:nth-child(odd):not(.isEven),
+    &:nth-child(even).isOdd {
       background: ${theme.bgTable};
     }
 

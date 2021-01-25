@@ -68,6 +68,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoEncointer',
+        paraId: 1862,
+        text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://rococo.encointer.org'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
@@ -81,6 +89,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoPhala',
+        paraId: 30,
+        text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococov1.phala.network/ws'
         }
       },
       {

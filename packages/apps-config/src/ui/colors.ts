@@ -9,6 +9,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
@@ -36,6 +37,7 @@ const chainUniarts = '#b39ef7';
 
 // based on node name
 // alphabetical
+const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
@@ -60,11 +62,13 @@ export { emptyColor };
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
+  ['Bit.Country Tewai Chain', chainBitCountry],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia PC2', chainRoccoDarwinia],
+  ['Encointer PC1', nodeEncointerNotee],
   ['hanonycash', chainHanonycash],
   ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],
@@ -75,6 +79,7 @@ export const chainColors: Record<string, any> = [
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Moonbase Alpha', nodeMoonbeam],
   ['Phala poc 3', chainPhala],
+  ['Phala PC1', chainPhala],
   ['Plasm', chainPlasm],
   ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
@@ -97,6 +102,7 @@ export const chainColors: Record<string, any> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, any> = [
+  ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
