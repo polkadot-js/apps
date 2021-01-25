@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -74,8 +74,8 @@ export interface TxState extends ExtrinsicAndSenders {
 
 export interface UseSudo {
   allAccounts: string[];
+  hasSudoKey: boolean;
   sudoKey?: string;
-  isMine: boolean;
 }
 
 export interface AddressFlags extends DeriveAccountFlags {

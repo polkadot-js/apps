@@ -1,10 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
-
-import Column from './Column';
 
 interface Props {
   children: React.ReactNode;
@@ -12,9 +10,22 @@ interface Props {
   is60?: boolean;
 }
 
+interface ColumnProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 type ColumarType = React.ComponentType<Props> & {
-  Column: React.ComponentType<Props>;
+  Column: React.ComponentType<ColumnProps>;
 };
+
+function Column ({ children, className = '' }: Props): React.ReactElement<Props> {
+  return (
+    <div className={`ui--Column ${className}`}>
+      {children}
+    </div>
+  );
+}
 
 function Columar ({ children, className = '', is60 }: Props): React.ReactElement<Props> {
   return (
@@ -24,7 +35,7 @@ function Columar ({ children, className = '', is60 }: Props): React.ReactElement
   );
 }
 
-const ColumarExp = React.memo(styled(Columar)`
+const ColumarStyled = React.memo(styled(Columar)`
   display: flex;
   flex-wrap: wrap;
 
@@ -54,6 +65,25 @@ const ColumarExp = React.memo(styled(Columar)`
   }
 `) as unknown as ColumarType;
 
-ColumarExp.Column = Column;
+ColumarStyled.Column = React.memo(styled(Column)`
+  box-sizing: border-box;
+  max-width: 100%;
+  flex: 1 1;
+  margin: 0;
+  padding: 0 0.75rem;
 
-export default ColumarExp;
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+
+  @media (min-width: 1025px) {
+    max-width: 50%;
+    min-width: 50%;
+  }
+`);
+
+export default ColumarStyled;

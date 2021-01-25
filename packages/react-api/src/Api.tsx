@@ -1,6 +1,7 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
@@ -11,7 +12,7 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
+import { ethereumChains, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -51,8 +52,9 @@ interface ChainData {
   systemVersion: string;
 }
 
-export const DEFAULT_DECIMALS = registry.createType('u32', 15);
+export const DEFAULT_DECIMALS = registry.createType('u32', 12);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
 
 let api: ApiPromise;
 
@@ -75,9 +77,29 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
+async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
+  try {
+    await injectedPromise;
+
+    const accounts = await web3Accounts();
+
+    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+      address,
+      meta: {
+        ...meta,
+        name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
+        whenCreated
+      }
+    }));
+  } catch (error) {
+    console.error('web3Enable', error);
+
+    return [];
+  }
+}
+
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
-    api.rpc.chain.getHeader(),
+  const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
     api.rpc.system.chainType
@@ -85,29 +107,12 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    injectedPromise
-      .then(() => web3Accounts())
-      .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
-        address,
-        meta: {
-          ...meta,
-          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
-          whenCreated
-        }
-      })))
-      .catch((error): InjectedAccountExt[] => {
-        console.error('web3Enable', error);
-
-        return [];
-      })
+    getInjectedAccounts(injectedPromise)
   ]);
 
   // HACK Horrible hack to try and give some window to the DOT denomination
-  const properties = api.genesisHash.eq(POLKADOT_GENESIS)
-    ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
-      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'DOT' })
-      : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
-    : chainProperties;
+  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
+  const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
 
   return {
     injectedAccounts,
@@ -125,9 +130,9 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : settings.prefix;
-  const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
-  const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-  const isEthereum = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
+  const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
+  const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
+  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = !isEthereum && (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
@@ -140,10 +145,10 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   // first setup the UI helpers
   formatBalance.setDefaults({
-    decimals: tokenDecimals,
-    unit: tokenSymbol
+    decimals: (tokenDecimals as BN[]).map((b) => b.toNumber()),
+    unit: tokenSymbol[0].toString()
   });
-  TokenUnit.setAbbr(tokenSymbol);
+  TokenUnit.setAbbr(tokenSymbol[0].toString());
 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
@@ -158,7 +163,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
-  const isSubstrateV2 = !!Object.keys(api.consts).length;
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
@@ -169,7 +173,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
-    isSubstrateV2,
     systemChain,
     systemName,
     systemVersion

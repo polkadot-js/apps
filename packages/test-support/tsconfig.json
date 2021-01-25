@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "es2018"
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}

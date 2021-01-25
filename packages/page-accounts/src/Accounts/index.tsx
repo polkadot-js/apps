@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -9,9 +9,8 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { isLedger } from '@polkadot/react-api';
 import { Button, Input, Table } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -49,6 +48,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
+  const { isLedgerEnabled } = useLedger();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isLedgerOpen, toggleLedger] = useToggle();
@@ -208,11 +208,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           label={t<string>('Add via Qr')}
           onClick={toggleQr}
         />
-        {isLedger() && (
+        {isLedgerEnabled && (
           <>
             <Button
-              icon='question'
-              label={t<string>('Add Ledger')}
+              icon='project-diagram'
+              label={t<string>('Add via Ledger')}
               onClick={toggleLedger}
             />
           </>

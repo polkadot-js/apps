@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '../types';
@@ -15,10 +15,9 @@ interface Props {
   basePath: string;
   hidden?: (string | boolean | undefined)[];
   items: TabItem[];
-  isSequence?: boolean;
 }
 
-function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): React.ReactElement<Props> {
+function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
 
   // redirect on invalid tabs
@@ -50,9 +49,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
             {...tab}
             basePath={basePath}
             index={index}
-            isSequence={isSequence}
             key={tab.name}
-            num={filtered.length}
           />
         ))}
       </div>
@@ -67,13 +64,13 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
 
   text-align: left;
   z-index: 1;
-  
+
   & .tabs-container {
     max-width: ${theme.contentMaxWidth};
     margin: 0 auto;
     width: 100%;
     display: flex;
-    padding: 1.5rem 1.5rem 0;
+    padding: 1.25rem 1.5rem 0;
   }
 
   &::-webkit-scrollbar {

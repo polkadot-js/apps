@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -47,7 +47,7 @@ export function createOwn (t: TFunction): LinkOption[] {
 
       return items.map((textBy) => ({
         info: 'local',
-        text: t('rpc.custom.entry', 'Custom', { ns: 'apps-config' }),
+        text: t('rpc.custom.own', 'Custom', { ns: 'apps-config' }),
         textBy,
         value: textBy
       }));

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -11,7 +11,7 @@ import type { AddressFlags, AddressProxy } from './types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
+import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
@@ -266,6 +266,13 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
           onChange={_updatePassword}
           onEnter={onEnter}
         />
+      )}
+      {passwordError && (
+        <Modal.Columns>
+          <Modal.Column>
+            <MarkError content={passwordError} />
+          </Modal.Column>
+        </Modal.Columns>
       )}
       {proxyInfo && (
         <Modal.Columns>

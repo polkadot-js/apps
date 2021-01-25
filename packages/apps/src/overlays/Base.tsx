@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -91,7 +91,7 @@ export default React.memo(styled(BaseOverlay)(({ theme }: ThemeProps) => `
     display: flex;
     margin: 0 auto;
     max-width: 50rem;
-    padding: 1em 3rem 1em;
+    padding: 1em 3rem 1rem 0.5rem;
     position: relative;
 
     .contentIcon {

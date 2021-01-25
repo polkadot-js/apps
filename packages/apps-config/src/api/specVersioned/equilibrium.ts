@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
@@ -25,6 +25,7 @@ interface SignedBalance extends Enum {
 }
 
 export interface EQDeriveBalancesAll {
+  additional: []; // temporary hotfix
   freeBalance: Balance;
   reservedBalance: Balance;
   vestingLocked: Balance;
@@ -43,17 +44,62 @@ type RawResult = [
   AccountInfo
 ];
 
-type EQDeriveBalancesQuery = (
+type EQDeriveBalancesAccountQuery = (
+  address: AccountIndex | AccountId | Address | string
+) => Observable<{ accountNonce: Index; }>;
+
+type EQDeriveBalancesAllQuery = (
   address: AccountIndex | AccountId | Address | string
 ) => Observable<EQDeriveBalancesAll>;
 
 export default {
   derives: {
+    // TODO derive.democracy.locks
+    // TODO derice.staking.account
     balances: {
-      all: (
+      account: (
+        // Compatibility with calc tx fee
         instanceId: string,
         api: ApiInterfaceRx
-      ): EQDeriveBalancesQuery =>
+      ): EQDeriveBalancesAccountQuery =>
+        memo(
+          instanceId,
+          (address: AccountId | AccountIndex | Address | string) =>
+            api.derive.accounts.accountId(address).pipe(
+              switchMap(
+                (accountId): Observable<[AccountId, [Index]]> =>
+                  accountId
+                    ? combineLatest([
+                      of(accountId),
+                      api
+                        .queryMulti([
+                          [api.query.system.account, accountId]
+                        ])
+                        .pipe(
+                          map((raw): [Index] => {
+                            if (raw.length < 1) {
+                              throw new Error('Data expected');
+                            }
+
+                            const data = raw as [AccountInfo];
+
+                            return [data[0].nonce];
+                          })
+                        )
+                    ])
+                    : of([
+                      api.registry.createType('AccountId'),
+                      [api.registry.createType('Index')]
+                    ])
+              ),
+              map(([, [accountNonce]]) => ({ accountNonce }))
+            )
+        ),
+      all: (
+        // Compatibility for account balance in explorer
+        instanceId: string,
+        api: ApiInterfaceRx
+      ): EQDeriveBalancesAllQuery =>
         memo(
           instanceId,
           (address: AccountIndex | AccountId | Address | string) =>
@@ -123,13 +169,9 @@ export default {
               map(
                 ([
                   accountId,
-                  [
-                    freeBalance,
-                    reservedBalance,
-                    vestingLocked,
-                    accountNonce
-                  ]
+                  [freeBalance, reservedBalance, vestingLocked, accountNonce]
                 ]): EQDeriveBalancesAll => ({
+                  additional: [],
                   accountId,
                   accountNonce,
                   freeBalance,
