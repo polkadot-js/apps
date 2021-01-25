@@ -16,16 +16,16 @@ interface Props {
   index: BountyIndex;
 }
 
-function BountyCuratorProposedActions ({ curatorId, index }: Props) {
+function BountyAcceptCurator ({ curatorId, index }: Props) {
   const { t } = useTranslation();
-  const { acceptCurator, unassignCurator } = useBounties();
+  const { acceptCurator } = useBounties();
   const { allAccounts } = useAccounts();
 
   const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
 
-  return isCurator
-    ? (
-      <>
+  return (
+    <>
+      {isCurator &&
         <TxButton
           accountId={curatorId}
           icon='check'
@@ -33,16 +33,9 @@ function BountyCuratorProposedActions ({ curatorId, index }: Props) {
           params={[index]}
           tx={acceptCurator}
         />
-        <TxButton
-          accountId={curatorId}
-          icon='times'
-          label={t<string>('Reject')}
-          params={[index]}
-          tx={unassignCurator}
-        />
-      </>
-    )
-    : null;
+      }
+    </>
+  );
 }
 
-export default React.memo(BountyCuratorProposedActions);
+export default React.memo(BountyAcceptCurator);

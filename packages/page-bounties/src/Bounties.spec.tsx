@@ -30,10 +30,12 @@ import { alice,
   bob,
   defaultAccounts,
   defaultBalance,
-  defaultBountyApi,
+  defaultBountyApi, defaultCurator,
   defaultMembers,
   defaultTreasury,
   ferdie } from '../test/hooks/defaults';
+import { clickButtonWithName } from '../test/utils/clickButtonWithName';
+import { clickButtonWithTestId } from '../test/utils/clickButtonWithTestId';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
@@ -223,9 +225,8 @@ describe('Bounties', () => {
         { balance: 10 }
       );
 
-      const addBountyButton = await findByText('Add Bounty');
+      await clickButtonWithName('Add Bounty', findByText);
 
-      fireEvent.click(addBountyButton);
       expect(await findByText('Description of the Bounty (to be stored on-chain)')).toBeTruthy(); // wait for load
 
       expect(queryByText('Account does not have enough funds.')).toBeFalsy();
@@ -307,13 +308,10 @@ describe('Bounties', () => {
       const bounty = bountyWith({ status: 'Funded' });
       const { findByTestId, findByText, getByRole } = renderOneBounty(bounty);
 
-      const extraActionsButton = await findByTestId('extra-actions');
+      await clickButtonWithTestId('extra-actions', findByTestId);
 
-      fireEvent.click(extraActionsButton);
+      await clickButtonWithName('Close', findByText);
 
-      const closeButton = await findByText('Close');
-
-      fireEvent.click(closeButton);
       expect(await findByText('This action will create a Council proposal to close the Bounty.')).toBeTruthy();
 
       const combobox = getByRole('combobox');
@@ -331,9 +329,26 @@ describe('Bounties', () => {
       const bounty = bountyWith({ status: 'Funded' });
       const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
 
-      const { findByText } = renderOneBounty(bounty, proposals);
+      const { findByTestId, findByText } = renderOneBounty(bounty, proposals);
+
+      await clickButtonWithTestId('extra-actions', findByTestId);
 
       await expect(findByText('Close')).rejects.toThrow();
+    });
+  });
+
+  describe('Reject curator modal', () => {
+    it('creates extrinsic', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+      const { findByTestId, findByText } = renderOneBounty(bounty);
+
+      await clickButtonWithTestId('extra-actions', findByTestId);
+
+      await clickButtonWithName('Reject Curator', findByText);
+
+      await clickButtonWithName('Reject', findByText);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: defaultCurator }));
     });
   });
 
@@ -343,9 +358,9 @@ describe('Bounties', () => {
 
       const { findByTestId, findByText } = renderOneBounty(bounty);
 
-      const extendBountyExpiryButton = await findByText('Extend Expiry');
+      await clickButtonWithTestId('extra-actions', findByTestId);
 
-      fireEvent.click(extendBountyExpiryButton);
+      await clickButtonWithName('Extend Expiry', findByText);
 
       expect(await findByText('This action will extend expiry time of the selected bounty.')).toBeTruthy();
 
@@ -353,9 +368,8 @@ describe('Bounties', () => {
 
       fireEvent.change(remarkInput, { target: { value: 'The bounty extend expiry remark' } });
 
-      const acceptButton = await findByText('Accept');
+      await clickButtonWithName('Accept', findByText);
 
-      fireEvent.click(acceptButton);
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
       expect(mockBountyApi.extendBountyExpiry).toHaveBeenCalledWith(aBountyIndex(0), 'The bounty extend expiry remark');
     });

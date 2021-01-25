@@ -8,7 +8,8 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressSmall, Button, Icon, LinkExternal, Menu, Popup } from '@polkadot/react-components';
+import ExtendBountyExpiryAction from '@polkadot/app-bounties/ExtendBountyExpiryAction';
+import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useToggle } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -18,12 +19,13 @@ import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyInfos from './BountyInfos';
+import BountyRejectCurator from './BountyRejectCurator';
 import BountyStatusView from './BountyStatusView';
+import CloseBounty from './CloseBounty';
 import Curator from './Curator';
+import { ExtraActionsButton } from './ExtraActionsButton';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
-import { BountyExtraActions } from '@polkadot/app-bounties/BountyExtraActions';
-import CloseBounty from '@polkadot/app-bounties/CloseBounty';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -44,8 +46,9 @@ const EMPTY_CELL = '-';
 function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
+  const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
+  const [isExtendExpiryOpen, toggleExtendExpiry] = useToggle();
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
 
@@ -75,12 +78,27 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      {isCloseBountyOpen && (
+      {isCloseBountyOpen &&
         <CloseBounty
           index={index}
           toggleOpen={toggleCloseBounty}
         />
-      )}
+      }
+      {isRejectCuratorOpen && curator &&
+        <BountyRejectCurator
+          curatorId={curator}
+          index={index}
+          toggleOpen={toggleRejectCurator}
+        />
+      }
+      {isExtendExpiryOpen && curator &&
+        <ExtendBountyExpiryAction
+          curatorId={curator}
+          description={description}
+          index={index}
+          toggleOpen={toggleExtendExpiry}
+        />
+      }
       <tr className={className}>
         <td>
           <BountyStatusView
@@ -148,35 +166,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               isLogo
               type='bounty'
             />
-            <Popup
-              isOpen={isSettingsOpen}
-              onClose={toggleSettings}
-              trigger={
-                <Button
-                  className='settings-button'
-                  dataTestId='extra-actions'
-                  icon='ellipsis-v'
-                  onClick={toggleSettings}
-                />
-              }
-            >
-              <Menu
-                className='settings-menu'
-                onClick={toggleSettings}
-                text
-                vertical
-              >
-                <BountyExtraActions
-                  bestNumber={bestNumber}
-                  description={description}
-                  index={index}
-                  proposals={proposals}
-                  status={status}
-                  toggleCloseBounty={toggleCloseBounty}
-                  value={value}
-                />
-              </Menu>
-            </Popup>
+            <ExtraActionsButton
+              curator={curator}
+              proposals={proposals}
+              status={status}
+              toggleCloseBounty={toggleCloseBounty}
+              toggleExtendExpiry={toggleExtendExpiry}
+              toggleRejectCurator={toggleRejectCurator}
+            />
             <div className='table-column-icon'
               onClick={handleOnIconClick}>
               <Icon icon={
