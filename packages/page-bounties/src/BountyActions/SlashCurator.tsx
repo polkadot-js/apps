@@ -48,10 +48,6 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
   const [threshold, setThreshold] = useState<BN>();
   const { allAccounts } = useAccounts();
 
-  const userRole = useUserRole(curatorId);
-
-  const action = determineUnassignCuratorAction(userRole, status, blocksUntilUpdate);
-
   useEffect((): void => {
     members && setThreshold(
       new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
@@ -101,9 +97,17 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
 
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
 
+  const userRole = useUserRole(curatorId);
+
+  const action = determineUnassignCuratorAction(userRole, status, blocksUntilUpdate);
+
+  if (action === 'None') {
+    return null;
+  }
+
   const { buttonName, filter, header, helpMessage, params, tip, tx } = outputs[action];
 
-  return (action !== 'None') && !isVotingInitiated
+  return !isVotingInitiated
     ? (
       <>
         <Button

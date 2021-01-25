@@ -38,7 +38,7 @@ describe('adjust slash curator component for', () => {
   it('User in Active state with update due blocks remaining', () => {
     const displayAs = determineUnassignCuratorAction('User', aBountyStatus('Active'), new BN('1'));
 
-    expect(displayAs).toEqual('Hide');
+    expect(displayAs).toEqual('None');
   });
 
   it('User in Active state with no updated state', () => {
@@ -50,12 +50,12 @@ describe('adjust slash curator component for', () => {
   it('Curator in Active state', () => {
     const displayAs = determineUnassignCuratorAction('Curator', aBountyStatus('PendingPayout'));
 
-    expect(displayAs).toEqual('Hide');
+    expect(displayAs).toEqual('None');
   });
 
   it('User in Active state', () => {
     const displayAs = determineUnassignCuratorAction('User', aBountyStatus('PendingPayout'));
 
-    expect(displayAs).toEqual('Hide');
+    expect(displayAs).toEqual('None');
   });
 });
