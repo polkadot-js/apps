@@ -60,6 +60,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoCrust',
+        paraId: 7777,
+        text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://api-rococo.crust.network'
+        }
+      },
+      {
         info: 'rococoDarwinia',
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),

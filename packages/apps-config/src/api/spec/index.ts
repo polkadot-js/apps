@@ -7,6 +7,7 @@ import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
+import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
@@ -42,6 +43,7 @@ export default {
   canvas,
   'centrifuge-chain': centrifugeChain,
   crust,
+  'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   'dock-main-runtime': dock,
