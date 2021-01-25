@@ -9,6 +9,4 @@ import definitions from '@interlay/polkabtc-types';
 // With the next release of the API this should be able tp be added to the base
 const extended = definitions as OverrideBundleDefinition;
 
-extended.instances = { balances: ['dot', 'polkaBtc'] };
-
 export default extended;

@@ -1518,10 +1518,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/polkabtc-types@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@interlay/polkabtc-types@npm:0.3.1"
-  checksum: 29b44e9763cd89b2a7241360666cf175fd3d7597d60ee78813a356e4d3d7346b9e2dc8455885596626712244a00e04ea26d0e486b541565d8696f7cd8138a210
+"@interlay/polkabtc-types@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "@interlay/polkabtc-types@npm:0.3.4"
+  checksum: 23d68e84fe0cf448c5cd61e9f8713728223971100a2e3825d8f03a1973a7ce9cd17156abaa6eeae73ac0aad720a249d646c5edec486153d802ae2c89e689faf2
   languageName: node
   linkType: hard
 
@@ -2188,7 +2188,7 @@ __metadata:
     "@acala-network/type-definitions": ^0.6.2-7
     "@babel/runtime": ^7.12.5
     "@edgeware/node-types": ^3.2.0
-    "@interlay/polkabtc-types": ^0.3.1
+    "@interlay/polkabtc-types": ^0.3.4
     "@laminar/type-definitions": ^0.2.0-beta.143
     "@polkadot/networks": ^5.4.4
     "@sora-substrate/type-definitions": ^0.3.5
