@@ -363,7 +363,7 @@ describe('Bounties', () => {
 
       fireEvent.click(slashCuratorButton);
 
-      expect(await findByText('With this action you will give up on a Curator role.')).toBeTruthy();
+      expect(await findByText('This action will unassign you from a curator role.')).toBeTruthy();
 
       const comboboxes = getAllByRole('combobox');
 
@@ -386,7 +386,7 @@ describe('Bounties', () => {
 
       fireEvent.click(slashCuratorButton);
 
-      expect(await findByText('This action will create a Council motion to Slash the Curator.')).toBeTruthy();
+      expect(await findByText('This action will create a Council motion to slash the Curator.')).toBeTruthy();
 
       const comboboxes = getAllByRole('combobox');
 

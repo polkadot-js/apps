@@ -61,7 +61,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
     GiveUp: {
       buttonName: t('Give Up'),
       filter: [curatorId.toString()],
-      header: t('With this action you will give up on a Curator role.'),
+      header: t('This action will unassign you from a curator role.'),
       helpMessage: t("The Curator account that will give up on it's role"),
       params: [index],
       tip: t('You are giving up your curator role, bounty will return to funded state. You will get your deposit back.'),
@@ -73,13 +73,13 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
       header: t('This action will Slash the Curator.'),
       helpMessage: t('The Curator that will be slashed.'),
       params: [index],
-      tip: t("Curator's deposit will be slashed and curator will be unassigned. Bounty will return to funded state."),
+      tip: t("Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to funded state."),
       tx: unassignCurator
     },
     SlashCuratorMotion: {
       buttonName: t('Slash Curator'),
       filter: members,
-      header: t('This action will create a Council motion to Slash the Curator.'),
+      header: t('This action will create a Council motion to slash the Curator.'),
       helpMessage: t('The Curator that will be slashed.'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       tip: t("Curator's deposit will be slashed and curator will be unassigned. Bounty will return to funded state."),
