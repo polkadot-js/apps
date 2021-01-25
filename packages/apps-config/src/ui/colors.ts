@@ -65,7 +65,7 @@ export const chainColors: Record<string, any> = [
   ['Bit.Country Tewai Chain', chainBitCountry],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],
-  ['crust maxwell cc2', chainCrust],
+  ['crust maxwell', chainCrust],
   ['Crust PC1', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia PC2', chainRoccoDarwinia],
