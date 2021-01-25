@@ -33,7 +33,7 @@ interface ActionProperties {
   header: string;
   helpMessage: string;
   params: any[] | (() => any[]) | undefined;
-  proposingAccountTip: string
+  proposingAccountTip: string;
   tip: string;
   title: string;
   tx: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
@@ -128,7 +128,7 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, propo
         />
         {isOpen && (
           <Modal
-            header={title + ` - "${truncateTitle(description, 30)}"`}
+            header={`${title} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
