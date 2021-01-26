@@ -8,22 +8,18 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import ExtendBountyExpiryAction from '@polkadot/app-bounties/ExtendBountyExpiryAction';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
-import { useToggle } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
+import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
-import BountyRejectCurator from './BountyRejectCurator';
 import BountyStatusView from './BountyStatusView';
-import CloseBounty from './CloseBounty';
 import Curator from './Curator';
-import { ExtraActionsButton } from './ExtraActionsButton';
 import { getBountyStatus } from './helpers';
 import { useTranslation } from './translate';
 
@@ -46,9 +42,6 @@ const EMPTY_CELL = '-';
 function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
-  const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
-  const [isExtendExpiryOpen, toggleExtendExpiry] = useToggle();
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
 
@@ -78,27 +71,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      {isCloseBountyOpen &&
-        <CloseBounty
-          index={index}
-          toggleOpen={toggleCloseBounty}
-        />
-      }
-      {isRejectCuratorOpen && curator &&
-        <BountyRejectCurator
-          curatorId={curator}
-          index={index}
-          toggleOpen={toggleRejectCurator}
-        />
-      }
-      {isExtendExpiryOpen && curator &&
-        <ExtendBountyExpiryAction
-          curatorId={curator}
-          description={description}
-          index={index}
-          toggleOpen={toggleExtendExpiry}
-        />
-      }
       <tr className={className}>
         <td>
           <BountyStatusView
@@ -166,13 +138,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               isLogo
               type='bounty'
             />
-            <ExtraActionsButton
+            <BountyExtraActions
               curator={curator}
+              description={description}
+              index={index}
               proposals={proposals}
               status={status}
-              toggleCloseBounty={toggleCloseBounty}
-              toggleExtendExpiry={toggleExtendExpiry}
-              toggleRejectCurator={toggleRejectCurator}
             />
             <div className='table-column-icon'
               onClick={handleOnIconClick}>
@@ -286,35 +257,8 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       border-radius: 4px;
       cursor: pointer;
     }
-
-    .settings-button {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-      border-radius: 4px;
-
-      svg {
-        padding: 0;
-        margin: 0;
-        color: #000 !important;
-      }
-
-      &:hover {
-        background: #fff;
-      }
-
-      &:focus {
-        background: #fff;
-        border: 1px solid #616161;
-      }
-    }
   }
 
-      &:hover {
-        background: #fff;
-      }
-    }
-  }
   & .inline-balance {
     width: 50%;
     font-size: 1rem;

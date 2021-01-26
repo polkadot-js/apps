@@ -40,13 +40,9 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <p>{t<string>('This action will create a Council proposal to close the Bounty.')}</p>
-          </Modal.Column>
-          <Modal.Column>
-          </Modal.Column>
-        </Modal.Columns>
+        <Modal.Column>
+          <p>{t<string>('This action will create a Council proposal to close the Bounty.')}</p>
+        </Modal.Column>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
