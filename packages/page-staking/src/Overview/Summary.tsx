@@ -8,8 +8,9 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, IdentityIcon, Spinner, SummaryBox } from '@polkadot/react-components';
 import { BlockAuthorsContext } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -28,35 +29,39 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
   return (
     <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
       <section>
-        {stakingOverview && (
-          <CardSummary label={t<string>('validators')}>
-            {stakingOverview.validators.length}&nbsp;/&nbsp;{stakingOverview.validatorCount.toString()}
-          </CardSummary>
-        )}
-        {!!waitingIds?.length && (
-          <CardSummary
-            className='media--1000'
-            label={t<string>('waiting')}
-          >
-            {waitingIds.length}
-          </CardSummary>
-        )}
-        {!!nominators?.length && (
-          <CardSummary
-            className='media--1100'
-            label={t<string>('nominators')}
-          >
-            {nominators.length}
-          </CardSummary>
-        )}
-        {(inflation > 0) && Number.isFinite(inflation) && (
-          <CardSummary
-            className='media--1200'
-            label={t<string>('inflation')}
-          >
-            {inflation.toFixed(1)}%
-          </CardSummary>
-        )}
+        <CardSummary label={t<string>('validators')}>
+          {stakingOverview
+            ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
+            : <Spinner noLabel />
+          }
+        </CardSummary>
+        <CardSummary
+          className='media--1000'
+          label={t<string>('waiting')}
+        >
+          {waitingIds
+            ? formatNumber(waitingIds.length)
+            : <Spinner noLabel />
+          }
+        </CardSummary>
+        <CardSummary
+          className='media--1100'
+          label={t<string>('nominators')}
+        >
+          {nominators
+            ? formatNumber(nominators.length)
+            : <Spinner noLabel />
+          }
+        </CardSummary>
+        <CardSummary
+          className='media--1200'
+          label={t<string>('inflation')}
+        >
+          {(inflation > 0) && Number.isFinite(inflation)
+            ? <>{inflation.toFixed(1)}%</>
+            : '-'
+          }
+        </CardSummary>
       </section>
       <section>
         <CardSummary
