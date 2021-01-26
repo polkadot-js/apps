@@ -171,6 +171,178 @@ describe('Bounties', () => {
     });
   });
 
+  describe('bounty in a list', () => {
+    describe('has extended status', () => {
+      it('when voting on proposed curator', async () => {
+        const bounty = bountyWith({ status: 'Funded' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Curator under voting')).toBeTruthy();
+      });
+
+      it('when voting on bounty approval', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Approval under voting')).toBeTruthy();
+      });
+
+      it('when simultaneous close and approve motions exist, show approved', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals = [
+          aProposal(augmentedApi.tx.bounties.closeBounty(0)),
+          aProposal(augmentedApi.tx.bounties.approveBounty(0))
+        ];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Approval under voting')).toBeTruthy();
+      });
+
+      it('when voting on close bounty', async () => {
+        const bounty = bountyWith({ status: 'Active' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Rejection under voting')).toBeTruthy();
+      });
+
+      it('when voting on unassign curator', async () => {
+        const bounty = bountyWith({ status: 'Active' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.unassignCurator(0))];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Unassign curator under voting')).toBeTruthy();
+      });
+
+      it('when a motion exists that would fail on execution, show nothing', async () => {
+        const bounty = bountyWith({ status: 'Active' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
+
+        const { findByTestId } = renderOneBounty(bounty, proposals);
+
+        await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
+      });
+
+      it('when bounty is claimable', async () => {
+        const bounty = bountyWith({ status: 'PendingPayout' });
+        const { findByTestId } = renderOneBounty(bounty);
+
+        expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
+      });
+    });
+
+    describe('has extended description for Curator', () => {
+      it('when propose curator motion is voted and bounty is in Funded state', async () => {
+        const bounty = bountyWith({ status: 'Funded' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, alice, 1))];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Proposed Curator')).toBeTruthy();
+      });
+
+      it('when bounty is in Funded status, but there is no motion, show nothing', async () => {
+        const bounty = bountyWith({ status: 'Funded' });
+
+        const { findByText } = renderOneBounty(bounty);
+
+        await expect(findByText('Proposed Curator')).rejects.toThrow();
+      });
+
+      it('when status is different, show nothing', async () => {
+        const bounty = bountyWith({ status: 'CuratorProposed' });
+
+        const { findByText } = renderOneBounty(bounty);
+
+        await expect(findByText('Proposed Curator')).rejects.toThrow();
+      });
+    });
+
+    describe('has Beneficiary description', () => {
+      it('in PendingPayout status', async () => {
+        const bounty = bountyWith({ status: 'PendingPayout' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.awardBounty(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z'))];
+
+        const { findByText } = renderOneBounty(bounty, proposals);
+
+        expect(await findByText('Beneficiary')).toBeTruthy();
+      });
+
+      it('not in other status', async () => {
+        const bounty = bountyWith({ status: 'Active' });
+
+        const { findByText } = renderOneBounty(bounty);
+
+        await expect(findByText('Beneficiary')).rejects.toThrow();
+      });
+    });
+
+    describe('has voting summary', () => {
+      it('is displayed when voting', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
+
+        const { findByTestId } = renderOneBounty(bounty, proposals);
+
+        expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting results');
+      });
+
+      it('is not displayed when not voting', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals: DeriveCollectiveProposal[] = [];
+
+        const { findByTestId } = renderOneBounty(bounty, proposals);
+
+        await expect(findByTestId('voting-summary')).rejects.toThrow();
+      });
+    });
+
+    describe('has voters', () => {
+      it('aye and nay', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
+        const { findAllByTestId } = renderOneBounty(bounty, proposals);
+        const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
+        const nayVoters = await findAllByTestId((testId) => testId.startsWith('voters_nays'));
+
+        expect(ayeVoters).toHaveLength(1);
+        expect(nayVoters).toHaveLength(1);
+        expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
+        expect(nayVoters[0].getAttribute('data-testid')).toContain(bob);
+      });
+
+      it('multiple ayes and no nay', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
+
+        const { findAllByTestId } = renderOneBounty(bounty, proposals);
+        const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
+
+        expect(ayeVoters).toHaveLength(2);
+        await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
+        expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
+        expect(ayeVoters[1].getAttribute('data-testid')).toContain(bob);
+      });
+
+      it('no voters when no voting', async () => {
+        const bounty = bountyWith({ status: 'Proposed' });
+        const proposals: DeriveCollectiveProposal[] = [];
+
+        const { findAllByTestId } = renderOneBounty(bounty, proposals);
+
+        await expect(findAllByTestId((testId) => testId.startsWith('voters_ayes'))).rejects.toThrow();
+        await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
+      });
+    });
+  });
+
   describe('create bounty modal', () => {
     it('validates bounty length', async () => {
       const { findByTestId, findByText } = renderBounties({ maximumReasonLength: 5 });
@@ -292,7 +464,7 @@ describe('Bounties', () => {
       expect(mockBountyApi.closeBounty).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
-    it('Not available when close bounty motion already exists', async () => {
+    it('is not available when close bounty motion already exists', async () => {
       const bounty = bountyWith({ status: 'Funded' });
       const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
 
@@ -377,8 +549,8 @@ describe('Bounties', () => {
     });
   });
 
-  describe('slash curator action modal', () => {
-    it('give up on a Curator function in Active state bounty', async () => {
+  describe('slash curator modal', () => {
+    it('gives up on the Curator role of an Active bounty', async () => {
       const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
       const { findByRole, findByTestId, findByText, getAllByRole } = renderOneBounty(bounty);
 
@@ -400,7 +572,7 @@ describe('Bounties', () => {
       expect(mockBountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
-    it('for bounty in PendingPayout state', async () => {
+    it('creates a motion when slashing a PendingPayout bounty', async () => {
       const bounty = bountyWith({ status: 'PendingPayout' });
 
       const { findByRole, findByTestId, findByText, getAllByRole } = renderOneBounty(bounty);
@@ -449,184 +621,14 @@ describe('Bounties', () => {
     });
   });
 
-  describe('shows extended status', () => {
-    it('when voting on proposed curator', async () => {
-      const bounty = bountyWith({ status: 'Funded' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Curator under voting')).toBeTruthy();
-    });
-
-    it('when voting on bounty approval', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Bounty approval under voting')).toBeTruthy();
-    });
-
-    it('when simultaneous close and approve motions exist, show approved', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals = [
-        aProposal(augmentedApi.tx.bounties.closeBounty(0)),
-        aProposal(augmentedApi.tx.bounties.approveBounty(0))
-      ];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Bounty approval under voting')).toBeTruthy();
-    });
-
-    it('when voting on close bounty', async () => {
-      const bounty = bountyWith({ status: 'Active' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Bounty rejection under voting')).toBeTruthy();
-    });
-
-    it('when voting on unassign curator', async () => {
-      const bounty = bountyWith({ status: 'Active' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.unassignCurator(0))];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Curator slash under voting')).toBeTruthy();
-    });
-
-    it('when a motion exists that would fail on execution, show nothing', async () => {
-      const bounty = bountyWith({ status: 'Active' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
-
-      const { findByTestId } = renderOneBounty(bounty, proposals);
-
-      await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
-    });
-
-    it('when bounty is claimable', async () => {
-      const bounty = bountyWith({ status: 'PendingPayout' });
-      const { findByTestId } = renderOneBounty(bounty);
-
-      expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
-    });
-  });
-
-  describe('shows extended description for curator', () => {
-    it('when propose curator motion is voted and bounty is in Funded state', async () => {
-      const bounty = bountyWith({ status: 'Funded' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, alice, 1))];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Proposed Curator')).toBeTruthy();
-    });
-
-    it('when bounty is in Funded status, but there is no motion, show nothing', async () => {
-      const bounty = bountyWith({ status: 'Funded' });
-
-      const { findByText } = renderOneBounty(bounty);
-
-      await expect(findByText('Proposed Curator')).rejects.toThrow();
-    });
-
-    it('when status is different, show nothing', async () => {
-      const bounty = bountyWith({ status: 'CuratorProposed' });
-
-      const { findByText } = renderOneBounty(bounty);
-
-      await expect(findByText('Proposed Curator')).rejects.toThrow();
-    });
-  });
-
-  describe('Voters', () => {
-    it('aye and nay', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
-      const { findAllByTestId } = renderOneBounty(bounty, proposals);
-      const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
-      const nayVoters = await findAllByTestId((testId) => testId.startsWith('voters_nays'));
-
-      expect(ayeVoters).toHaveLength(1);
-      expect(nayVoters).toHaveLength(1);
-      expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
-      expect(nayVoters[0].getAttribute('data-testid')).toContain(bob);
-    });
-
-    it('multiple aye and no nay', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
-
-      const { findAllByTestId } = renderOneBounty(bounty, proposals);
-      const ayeVoters = await findAllByTestId((testId) => testId.startsWith('voters_ayes'));
-
-      expect(ayeVoters).toHaveLength(2);
-      await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
-      expect(ayeVoters[0].getAttribute('data-testid')).toContain(alice);
-      expect(ayeVoters[1].getAttribute('data-testid')).toContain(bob);
-    });
-
-    it('not displayed when no voting', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals: DeriveCollectiveProposal[] = [];
-
-      const { findAllByTestId } = renderOneBounty(bounty, proposals);
-
-      await expect(findAllByTestId((testId) => testId.startsWith('voters_ayes'))).rejects.toThrow();
-      await expect(findAllByTestId((testId) => testId.startsWith('voters_nays'))).rejects.toThrow();
-    });
-  });
-
-  describe('Voting summary', () => {
-    it('is displayed when voting', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0), [alice, bob], [])];
-
-      const { findByTestId } = renderOneBounty(bounty, proposals);
-
-      expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting results');
-    });
-
-    it('is not displayed when no voting', async () => {
-      const bounty = bountyWith({ status: 'Proposed' });
-      const proposals: DeriveCollectiveProposal[] = [];
-
-      const { findByTestId } = renderOneBounty(bounty, proposals);
-
-      await expect(findByTestId('voting-summary')).rejects.toThrow();
-    });
-  });
-
-  describe('Beneficiary description', () => {
-    it('PendingPayout status', async () => {
-      const bounty = bountyWith({ status: 'PendingPayout' });
-      const proposals = [aProposal(augmentedApi.tx.bounties.awardBounty(0, alice))];
-
-      const { findByText } = renderOneBounty(bounty, proposals);
-
-      expect(await findByText('Beneficiary')).toBeTruthy();
-    });
-
-    it('Other status', async () => {
-      const bounty = bountyWith({ status: 'Active' });
-
-      const { findByText } = renderOneBounty(bounty);
-
-      await expect(findByText('Beneficiary')).rejects.toThrow();
-    });
-  });
-
   describe('Show', () => {
     it('warning when update time is close', async () => {
       const bounty = aBounty({ status: bountyStatusWith(
-        {
-          curator: alice,
-          status: 'Active',
-          updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
-        }) });
+          {
+            curator: alice,
+            status: 'Active',
+            updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
+          }) });
 
       const { findByText } = renderOneBounty(bounty);
 
@@ -652,10 +654,10 @@ describe('Bounties', () => {
 
     it('no warning or info when requirements are not met', async () => {
       const bounty = aBounty({ status: bountyStatusWith({
-        curator: alice,
-        status: 'Active',
-        updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
-      }) });
+          curator: alice,
+          status: 'Active',
+          updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
+        }) });
 
       const { findByText } = renderOneBounty(bounty);
 
