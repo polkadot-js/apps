@@ -144,7 +144,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws'
+        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws',
+        'Patract Elara': 'wss://mandala.elara.patract.io'
       }
     },
     {
