@@ -22,7 +22,7 @@ import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Stat
 import { createAugmentedApi } from '@polkadot/test-support/api';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
-import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
+import { MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
@@ -287,7 +287,6 @@ describe('Bounties', () => {
 
       const proposingAccountInput = comboboxes[0].children[0];
       const proposingCuratorInput = comboboxes[1].children[0];
-      const alice = aliceSigner().address;
 
       fireEvent.change(proposingAccountInput, { target: { value: alice } });
       fireEvent.change(proposingCuratorInput, { target: { value: alice } });
