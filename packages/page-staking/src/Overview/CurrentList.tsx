@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveHeartbeats, DeriveStakingOverview, DeriveStakingValidators } from '@polkadot/api-derive/types';
+import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { Authors } from '@polkadot/react-query/BlockAuthors';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { SortedTargets, ValidatorInfo } from '../types';
@@ -26,7 +26,6 @@ interface Props {
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
-  validators?: DeriveStakingValidators;
 }
 
 type AccountExtend = [string, boolean, boolean];
