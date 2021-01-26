@@ -5,8 +5,9 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
-import { UnassignCuratorAction, UserRole } from '@polkadot/app-bounties';
 import { BN_ZERO } from '@polkadot/util';
+
+import { UnassignCuratorAction, UserRole } from '../types';
 
 export function determineUnassignCuratorAction (role: UserRole, status: BountyStatus, blocksUntilUpdate?: BN): UnassignCuratorAction {
   if (status.isCuratorProposed && role === 'Member') {
