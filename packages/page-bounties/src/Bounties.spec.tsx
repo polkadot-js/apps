@@ -25,23 +25,17 @@ import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFa
 import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
+import { extractTime } from '@polkadot/util';
 
-import { alice,
-  bob,
-  defaultAccounts,
-  defaultBalance,
-  defaultBountyApi,
-  defaultMembers,
-  defaultTreasury,
-  ferdie } from '../test/hooks/defaults';
+import { alice, bob, defaultBalance, defaultBountyApi, defaultMembers, defaultTreasury, ferdie } from '../test/hooks/defaults';
 import Bounties from './Bounties';
 import { BountyApi } from './hooks';
 
 const mockMembers = defaultMembers;
-const mockAccounts = defaultAccounts;
 const mockTreasury = defaultTreasury;
 let mockBountyApi = defaultBountyApi;
 let mockBalance = defaultBalance;
+const mockBlockTime = [50, '', extractTime(1)];
 
 jest.mock('./hooks', () => ({
   useBalance: () => mockBalance,
@@ -56,8 +50,8 @@ jest.mock('@polkadot/react-hooks/useMembers', () => ({
   useMembers: () => mockMembers
 }));
 
-jest.mock('@polkadot/react-hooks/useAccounts', () => ({
-  useAccounts: () => mockAccounts
+jest.mock('@polkadot/react-hooks/useBlockTime', () => ({
+  useBlockTime: () => mockBlockTime
 }));
 
 function aGenesisHash () {
@@ -86,13 +80,14 @@ let aBountyStatus: (status: string) => BountyStatus;
 let aBountyIndex: (index?:number) => BountyIndex;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
+let bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
 
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
-    ({ aBounty, aBountyIndex, aBountyStatus, bountyWith } = new BountyFactory(augmentedApi));
+    ({ aBounty, aBountyIndex, aBountyStatus, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
@@ -337,7 +332,7 @@ describe('Bounties', () => {
 
   describe('extend bounty expiry action modal', () => {
     it('queues extend bounty expiry extrinsic on submit', async () => {
-      const bounty = bountyWith({ status: 'Active' });
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
 
       const { findByTestId, findByText } = renderOneBounty(bounty);
 
@@ -354,8 +349,56 @@ describe('Bounties', () => {
       const acceptButton = await findByText('Accept');
 
       fireEvent.click(acceptButton);
-      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM', extrinsic: 'mockProposeExtrinsic' }));
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockExtendExtrinsic' }));
       expect(mockBountyApi.extendBountyExpiry).toHaveBeenCalledWith(aBountyIndex(0), 'The bounty extend expiry remark');
+    });
+  });
+
+  describe('slash curator action modal', () => {
+    it('give up on a Curator function in Active state bounty', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
+      const { findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const slashCuratorButton = await findByText('Give Up');
+
+      fireEvent.click(slashCuratorButton);
+
+      expect(await findByText('This action will unassign you from a curator role.')).toBeTruthy();
+
+      const comboboxes = getAllByRole('combobox');
+
+      const proposingAccountInput = comboboxes[0].children[0];
+
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+
+      const acceptButton = await findByText('Approve');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' }));
+    });
+
+    it('for bounty in PendingPayout state', async () => {
+      const bounty = bountyWith({ status: 'PendingPayout' });
+      const { findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const slashCuratorButton = await findByText('Slash Curator');
+
+      fireEvent.click(slashCuratorButton);
+
+      expect(await findByText('This action will create a Council motion to slash the Curator.')).toBeTruthy();
+
+      const comboboxes = getAllByRole('combobox');
+
+      const proposingAccountInput = comboboxes[0].children[0];
+
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+
+      const acceptButton = await findByText('Approve');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
     });
   });
 

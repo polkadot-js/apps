@@ -24,6 +24,9 @@ export class BountyFactory {
   public aBountyStatus = (status: string): BountyStatus =>
     this.#registry.createType('BountyStatus', status);
 
+  public bountyStatusWith = ({ curator = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY', status = 'Active', updateDue = 100000 } = {}): BountyStatus =>
+    this.#registry.createType('BountyStatus', { active: { curator, updateDue }, status });
+
   public bountyWith = ({ status = 'Proposed', value = 1 } = {}): Bounty =>
     this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) })
 

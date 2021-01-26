@@ -11,8 +11,8 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   index: BountyIndex;
@@ -53,13 +53,9 @@ function CloseBounty ({ index, proposals }: Props): React.ReactElement<Props> | 
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>('This action will create a Council proposal to close the Bounty.')}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
+              <Modal.Column>
+                <p>{t<string>('This action will create a Council proposal to close the Bounty.')}</p>
+              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
