@@ -183,6 +183,7 @@
   "Inject Keys": "",
   "Inject session keys (advanced)": "",
   "Injected": "",
+  "It appears your currently running development chain and the UI artifacts are out of sync. This can happen after purging and restarting the chain. Do you want to reset your browser storage? This will remove all previously added code bundles and deployed contracts.": "",
   "It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -": "",
   "Judge": "",
   "Keys from rotateKeys": "",
