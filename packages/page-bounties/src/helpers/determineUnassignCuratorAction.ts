@@ -9,15 +9,27 @@ import { UnassignCuratorAction, UserRole } from '@polkadot/app-bounties';
 import { BN_ZERO } from '@polkadot/util';
 
 export function determineUnassignCuratorAction (role: UserRole, status: BountyStatus, blocksUntilUpdate?: BN): UnassignCuratorAction {
-  if (status.isCuratorProposed && role === 'Member') return 'UnassignCurator';
-
-  if (status.isActive) {
-    if (role === 'Curator') return 'GiveUp';
-    if (role === 'Member') return 'SlashCuratorMotion';
-    if (role === 'User' && blocksUntilUpdate && blocksUntilUpdate.lt(BN_ZERO)) return 'SlashCuratorAction';
+  if (status.isCuratorProposed && role === 'Member') {
+    return 'UnassignCurator';
   }
 
-  if (status.isPendingPayout && role === 'Member') return 'SlashCuratorMotion';
+  if (status.isActive) {
+    if (role === 'Curator') {
+      return 'GiveUp';
+    }
+
+    if (role === 'Member') {
+      return 'SlashCuratorMotion';
+    }
+
+    if (role === 'User' && blocksUntilUpdate && blocksUntilUpdate.lt(BN_ZERO)) {
+      return 'SlashCuratorAction';
+    }
+  }
+
+  if (status.isPendingPayout && role === 'Member') {
+    return 'SlashCuratorMotion';
+  }
 
   return 'None';
 }

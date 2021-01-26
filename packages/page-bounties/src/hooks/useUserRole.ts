@@ -16,9 +16,17 @@ export function useUserRole (curatorId: AccountId): UserRole {
 
   const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
 
-  if (isCurator) return 'Curator';
-  if (isMember) return 'Member';
-  if (hasAccounts) return 'User';
+  if (isCurator) {
+    return 'Curator';
+  }
+
+  if (isMember) {
+    return 'Member';
+  }
+
+  if (hasAccounts) {
+    return 'User';
+  }
 
   return 'None';
 }
