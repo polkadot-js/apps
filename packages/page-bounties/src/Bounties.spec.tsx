@@ -150,38 +150,6 @@ describe('Bounties', () => {
     return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
   }
 
-  it('creates correct bounty with proposal', () => {
-    const bounty = augmentedApi.registry.createType('Bounty', {
-      curatorDeposit: new BN(1),
-      status: 'Funded',
-      value: new BN(10)
-    });
-
-    expect(bounty.curatorDeposit.eq(new BN(1))).toBeTruthy();
-    expect(bounty.status.isFunded).toBeTruthy();
-    expect(bounty.value.eq(new BN(10))).toBeTruthy();
-  });
-
-  it('creates correct proposal', () => {
-    const proposal = augmentedApi.registry.createType('Proposal', augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1));
-
-    expect(proposal.args[0].eq(new BN(0))).toBeTruthy();
-    expect(proposal.args[1].toString()).toEqual('5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z');
-    expect(proposal.args[2].eq(new BN(1))).toBeTruthy();
-    expect(proposal.method).toEqual('proposeCurator');
-  });
-
-  it('creates correct votes', () => {
-    const votes = augmentedApi.registry.createType('Votes', { ayes: ['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], index: 0, nays: ['5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty'], threshold: 4 });
-
-    expect(votes.ayes.length).toEqual(1);
-    expect(votes.ayes[0].toString()).toEqual('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY');
-    expect(votes.nays.length).toEqual(1);
-    expect(votes.nays[0].toString()).toEqual('5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty');
-    expect(votes.index.toNumber()).toEqual(0);
-    expect(votes.threshold.toNumber()).toEqual(4);
-  });
-
   it('shows empty list when no bounties', async () => {
     const { findByText } = renderBounties();
 
