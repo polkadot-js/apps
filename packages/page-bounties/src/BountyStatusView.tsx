@@ -4,24 +4,26 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { LabelHelp } from '@polkadot/react-components';
 
+import ExtendedStatus from './Voting/ExtendedStatus';
 import { insertSpaceBeforeCapitalLetter } from './helpers';
 import { useTranslation } from './translate';
 import { HelpMessages, StatusName } from './types';
-import VotingDescription from './VotingDescription';
 
 interface Props {
+  blocksUntilPayout?: BN
   bountyStatus: StatusName;
   className?: string;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-function BountyStatusView ({ bountyStatus, className = '', proposals, status }: Props): React.ReactElement<Props> {
+function BountyStatusView ({ blocksUntilPayout, bountyStatus, className = '', proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const statusHelpMessages = useRef<HelpMessages>({
@@ -43,7 +45,8 @@ function BountyStatusView ({ bountyStatus, className = '', proposals, status }: 
       </div>
       {proposals && (
         <div>
-          <VotingDescription
+          <ExtendedStatus
+            blocksUntilPayout={blocksUntilPayout}
             proposals={proposals}
             status={status}
           />
@@ -56,6 +59,6 @@ function BountyStatusView ({ bountyStatus, className = '', proposals, status }: 
 export default React.memo(styled(BountyStatusView)`
   .bountyStatus {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
   }
 `);

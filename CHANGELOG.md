@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 0.77.1 Jan 25, 2021
+
+Contributed:
+
+- Add Darwinia on Rococo (Thanks to https://github.com/WoeOm)
+- Add Phala on Rococo (Thanks to https://github.com/tolak)
+- Add Encointer on Rococo (Thanks to https://github.com/brenzi)
+- Add Crust on Rococo (Thanks to https://github.com/zikunfan)
+- Add Bit.Country testnet (Thanks to https://github.com/justinphamnz)
+- Allow for bounty extension (Thanks to https://github.com/MiZiet)
+- Add tooltips to bounties (Thanks to https://github.com/MiZiet)
+- Adjust styling for bounties (thanks to https://github.com/MiZiet)
+- Allow using bounties without default treasury (https://github.com/ekowalsk)
+- Add close bounty action (Thanks to https://github.com/ekowalsk)
+- Fix Chinese i18n (Thanks to https://github.com/pfcoder)
+- Update chain types for Galois (Thanks to https://github.com/hging)
+- Adjust Equilibrium derives for new derives (thanks to https://github.com/pr0fedt)
+- Adjust IdentityIcon styling for dark theme (Thanks to https://github.com/jhonalino)
+
+Changes:
+
+- Allow Ledger accounts to be visible even when unplugged
+- Add warning where transfer fees are not covered by balance
+- Check transfer recipients against phishing list
+- Addition of hardware accounts always tie to genesis
+- Hide identity account operations on hardware devices
+- Allow for display of multiple balance instances
+- Adjust PolkaBTC definitions to indicate balance instances
+- Display extrinsic signatures (with type) on explorer
+
+
 ## 0.76.1 Jan 18, 2021
 
 Contributed:

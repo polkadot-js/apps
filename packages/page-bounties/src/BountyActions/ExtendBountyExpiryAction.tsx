@@ -8,9 +8,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { truncateTitle } from './helpers';
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { truncateTitle } from '../helpers';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   description: string
@@ -51,11 +51,11 @@ function ExtendBountyExpiryAction ({ curatorId, description, index }: Props): Re
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
+                    defaultValue={curatorId.toString()}
                     help={t<string>('This account will be used to create an extend bounty expire transaction.')}
                     isDisabled
                     label={t<string>('curator account')}
                     type='account'
-                    value={curatorId.toString()}
                     withLabel
                   />
                 </Modal.Column>

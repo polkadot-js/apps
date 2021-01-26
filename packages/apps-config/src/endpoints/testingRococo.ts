@@ -60,11 +60,27 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoCrust',
+        paraId: 7777,
+        text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://api-rococo.crust.network'
+        }
+      },
+      {
         info: 'rococoDarwinia',
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
           Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'rococoEncointer',
+        paraId: 1862,
+        text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://rococo.encointer.org'
         }
       },
       {
@@ -81,6 +97,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoPhala',
+        paraId: 30,
+        text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococov1.phala.network/ws'
         }
       },
       {

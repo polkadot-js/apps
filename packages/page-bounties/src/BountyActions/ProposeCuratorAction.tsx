@@ -13,8 +13,8 @@ import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   description: string

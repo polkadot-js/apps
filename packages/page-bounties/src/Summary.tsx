@@ -7,7 +7,7 @@ import { useBounties } from '@polkadot/app-bounties/hooks';
 import { useTranslation } from '@polkadot/app-treasury/translate';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import Progress from '@polkadot/react-components/Progress';
-import { useTreasury } from '@polkadot/react-hooks/useTreasury';
+import { useTreasury } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 interface Props {

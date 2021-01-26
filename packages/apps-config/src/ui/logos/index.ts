@@ -59,10 +59,12 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Crust PC1', nodeCrust],
   ['darwinia crab', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
+  ['Encointer PC1', nodeEncointerNotee],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -70,6 +72,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['PolkaBTC', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
+  ['Phala PC1', nodePhala],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -95,6 +98,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
+  ['Crust Collator', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Darwinia Runtime Module Library', nodeDarwinia],
@@ -117,6 +121,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Plasm Node', nodePlasm],
   ['Plasm Parachain Collator', nodePlasm],
   ['phala-substrate-node', nodePhala],
+  ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -171,9 +176,11 @@ export const namedLogos: Record<string, unknown> = {
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoBifrost: nodeBifrost,
+  rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
+  rococoPhala: nodePhala,
   rococoPlasm: nodePlasm,
   rococoRobonomics: nodeRobonomics,
   rococoTick: chainRococoTick,

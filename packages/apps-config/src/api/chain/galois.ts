@@ -38,5 +38,16 @@ export default {
     ethereum: 'AccountServiceEnum'
   },
   Nickname: 'String',
-  Ethereum: 'H160'
+  Ethereum: 'H160',
+  TransferAmountInfo: {
+    date: 'u64',
+    daily_info: 'Balance',
+    monthly_info: 'Balance',
+    yearly_info: 'Balance'
+  },
+  AccountLimit: {
+    daily_limit: 'Balance',
+    monthly_limit: 'Balance',
+    yearly_limit: 'Balance'
+  }
 };
