@@ -7,9 +7,9 @@ import React, { useCallback, useState } from 'react';
 
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { truncateTitle } from './helpers';
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { truncateTitle } from '../helpers';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId;

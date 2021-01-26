@@ -139,6 +139,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               type='bounty'
             />
             <BountyExtraActions
+              blocksUntilUpdate={blocksUntilUpdate}
               curator={curator}
               description={description}
               index={index}

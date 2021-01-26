@@ -26,13 +26,9 @@ function BountyRejectCurator ({ curatorId, index, toggleOpen }: Props) {
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <p>{t<string>('This action will reject your candidacy for the curator of the bounty.')}</p>
-          </Modal.Column>
-          <Modal.Column>
-          </Modal.Column>
-        </Modal.Columns>
+        <Modal.Column>
+          <p>{t<string>('This action will reject your candidacy for the curator of the bounty.')}</p>
+        </Modal.Column>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress

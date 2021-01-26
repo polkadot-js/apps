@@ -6,10 +6,10 @@ import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/
 
 import React, { useCallback, useMemo } from 'react';
 
-import BountyAcceptCurator from './BountyAcceptCurator';
+import BountyAcceptCurator from '../BountyAcceptCurator';
+import { getBountyStatus } from '../helpers';
 import BountyClaimAction from './BountyClaimAction';
 import BountyInitiateVoting from './BountyInitiateVoting';
-import { getBountyStatus } from './helpers';
 import ProposeCuratorAction from './ProposeCuratorAction';
 
 interface Props {

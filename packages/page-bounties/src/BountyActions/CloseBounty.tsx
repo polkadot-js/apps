@@ -10,8 +10,8 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers } from '@polkadot/react-hooks';
 
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   index: BountyIndex;
