@@ -207,18 +207,22 @@ export default React.memo(styled(NetworkSpecs)`
   }
 
   .settings--networkSpecs-name {
-    position: relative;
-        .settings--networkSpecs-logo {
+      position: relative;
+
+      .settings--networkSpecs-logo {
           height: 32px;
           left: 12px;
           position: absolute;
           top: 1rem;
           width: 32px;
-        }
+      }
   }
 
   .settings--networkSpecs-color {
+      position: relative;
+
       > div:first-child {
+
           display: flex;
 
           .settings--networkSpecs-colorInput {
@@ -226,6 +230,7 @@ export default React.memo(styled(NetworkSpecs)`
           }
 
           .settings--networkSpecs-colorChangeButton {
+              user-select: none;
               cursor: pointer;
               background: transparent;
               border: none;
@@ -235,8 +240,7 @@ export default React.memo(styled(NetworkSpecs)`
           }
       }
 
-      position: relative;
-        .settings--networkSpecs-colorBar {
+      .settings--networkSpecs-colorBar {
           border-radius: 50%;
           border: 1px solid grey;
           height: 32px;
@@ -244,17 +248,16 @@ export default React.memo(styled(NetworkSpecs)`
           position: absolute;
           top: 1rem;
           width: 32px;
-        }
+      }
   }
 
   .settings--networkSpecs-qr {
-    margin: 0.25rem auto;
-    max-width: 15rem;
+      margin: 0.25rem auto;
+      max-width: 15rem;
 
-    img {
-      border: 1px solid white;
-    }
+      img {
+          border: 1px solid white;
+      }
   }
-
 
 `);

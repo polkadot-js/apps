@@ -55,36 +55,33 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     >
 
       {extensions
-        ? (options.length
-          ? (
-            <>
-              <tr>
-                <td>
-                  <Dropdown
-                    label={t<string>('upgradable extensions')}
-                    onChange={setSelectedIndex}
-                    options={options}
-                    value={selectedIndex}
+        ? options.length !== 0 && (
+          <>
+            <tr>
+              <td>
+                <Dropdown
+                  label={t<string>('upgradable extensions')}
+                  onChange={setSelectedIndex}
+                  options={options}
+                  value={selectedIndex}
+                />
+              </td>
+            </tr>
+
+            <tr className='isOdd'>
+              <td>
+                <Button.Group>
+                  <Button
+                    icon='upload'
+                    isDisabled={isBusy}
+                    label={t<string>('Update metadata')}
+                    onClick={_updateMeta}
                   />
-                </td>
-              </tr>
-
-              <tr className='isOdd'>
-                <td>
-                  <Button.Group>
-                    <Button
-                      icon='upload'
-                      isDisabled={isBusy}
-                      label={t<string>('Update metadata')}
-                      onClick={_updateMeta}
-                    />
-                  </Button.Group>
-
-                </td>
-              </tr>
-            </>
-          )
-          : '')
+                </Button.Group>
+              </td>
+            </tr>
+          </>
+        )
         : <Spinner />
       }
 
