@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @canvas-ui/react-query authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ResetStorageModal } from '@canvas-ui/react-components';
 import { useApi, useCall } from '@canvas-ui/react-hooks';
 import React, { useEffect, useState } from 'react';
 
@@ -33,6 +34,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   const queryPoints = useCall<EraRewardPoints>(isApiReady && api.derive.staking?.currentPoints, []);
   const [state, setState] = useState<Authors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
   const [validators, setValidators] = useState<string[]>([]);
+  const [isChainPurged, setIsChainPurged] = useState(false);
 
   useEffect((): void => {
     // No unsub, global context - destroyed on app close
@@ -46,12 +48,39 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
         setValidators(validatorIds.map((validatorId) => validatorId.toString()));
       }).catch(console.error);
 
+      // Set block one hash to check if contract/code purge needed
+      api.queryMulti(
+        [api.query.system.chain, [api.query.system.blockHash, 1]],
+        ([chainName, blockOneHash]) => {
+          if (chainName.toString() === 'Development') {
+            window.localStorage.setItem('blockOneHash', blockOneHash.toString());
+          }
+        }
+      ).catch(console.error);
+
       // subscribe to new headers
-      api.derive.chain.subscribeNewHeads((lastHeader): void => {
+      api.derive.chain.subscribeNewHeads(async (lastHeader): Promise<void> => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
           const thisBlockAuthor = lastHeader.author?.toString();
           const thisBlockNumber = formatNumber(blockNumber);
+          const chainName = (await api.rpc.system.chain()).toString();
+
+          const blockOneHash = (await api.query.system.blockHash(1));
+          const blockOneHashRef = window.localStorage.getItem('blockOneHash');
+
+          console.log(blockOneHash.toString());
+          console.log(blockOneHashRef);
+
+          if (
+            chainName === 'Development' &&
+            blockOneHashRef &&
+            JSON.parse(blockOneHashRef) as string !== blockOneHash.toString()
+          ) {
+            setIsChainPurged(true);
+          }
+
+          window.localStorage.setItem('currentBlockIndex', thisBlockNumber);
 
           if (thisBlockAuthor) {
             byAuthor[thisBlockAuthor] = thisBlockNumber;
@@ -103,6 +132,9 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
     <ValidatorsContext.Provider value={validators}>
       <BlockAuthorsContext.Provider value={state}>
         {children}
+        {isChainPurged && (
+          <ResetStorageModal />
+        )}
       </BlockAuthorsContext.Provider>
     </ValidatorsContext.Provider>
   );

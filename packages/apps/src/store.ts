@@ -66,6 +66,12 @@ class Store extends EventEmitter {
     this.removeCode(id);
   }
 
+  public forgetAll (): void {
+    Object.keys(this.allCode).forEach((id) => {
+      this.forgetCode(id);
+    });
+  }
+
   // public forgetCodeByHash (codeHash: string): void {
   //   const id = shortId(codeHash);
 
