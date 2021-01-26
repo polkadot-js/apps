@@ -376,6 +376,7 @@ describe('Bounties', () => {
       fireEvent.click(acceptButton);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' }));
+      expect(mockBountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
     it('for bounty in PendingPayout state', async () => {
@@ -399,6 +400,31 @@ describe('Bounties', () => {
       fireEvent.click(acceptButton);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+    });
+  });
+
+  describe('award beneficiary action modal', () => {
+    it('awards the beneficiary ', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
+      const { findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const awardBeneficiaryButton = await findByText('Award Beneficiary');
+
+      fireEvent.click(awardBeneficiaryButton);
+      expect(await findByText('This action will award the Beneficiary and close the bounty after a delay.')).toBeTruthy();
+      const comboboxes = getAllByRole('combobox');
+
+      const beneficiaryAccountInput = comboboxes[1].children[0];
+
+      fireEvent.change(beneficiaryAccountInput, { target: { value: bob } });
+      fireEvent.keyDown(beneficiaryAccountInput, { code: 'Enter', key: 'Enter' });
+
+      const acceptButton = await findByText('Approve');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockAwardExtrinsic' }));
+      expect(mockBountyApi.awardBounty).toHaveBeenCalledWith(aBountyIndex(0), bob);
     });
   });
 

@@ -8,8 +8,8 @@ import React, { useMemo, useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId
@@ -30,7 +30,7 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
         <Button
           icon='award'
           isDisabled={false}
-          label={t<string>('Award Bounty')}
+          label={t<string>('Award Beneficiary')}
           onClick={toggleOpen}
         />
         {isOpen && (

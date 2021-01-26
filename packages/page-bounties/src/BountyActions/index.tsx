@@ -7,7 +7,7 @@ import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/
 import React, { useCallback, useMemo } from 'react';
 
 import { getBountyStatus } from '../helpers';
-import AwardBounty from '@polkadot/app-bounties/AwardBounty';
+import AwardBounty from './AwardBounty';
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
