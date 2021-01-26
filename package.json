@@ -12,13 +12,13 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^3.6.3",
-    "@polkadot/api-contract": "^3.6.3",
+    "@polkadot/api": "^3.6.5-0",
+    "@polkadot/api-contract": "^3.6.5-0",
     "@polkadot/hw-ledger": "^5.4.4",
     "@polkadot/keyring": "^5.4.4",
     "@polkadot/networks": "^5.4.4",
-    "@polkadot/phishing": "^0.4.9",
-    "@polkadot/types": "^3.6.3",
+    "@polkadot/phishing": "^0.4.19",
+    "@polkadot/types": "^3.6.5-0",
     "@polkadot/util": "^5.4.4",
     "@polkadot/util-crypto": "^5.4.4",
     "@polkadot/wasm-crypto": "^3.2.2",
@@ -71,7 +71,7 @@
     "@polkadot/dev": "^0.61.24",
     "@polkadot/ts": "^0.3.59",
     "@types/bn.js": "^4.11.6",
-    "@types/chart.js": "^2.9.29",
+    "@types/chart.js": "^2.9.30",
     "@types/file-saver": "^2.0.1",
     "@types/jest": "^26.0.20",
     "@types/react-beautiful-dnd": "^13.0.0",
@@ -96,7 +96,7 @@
     "stylelint": "^13.9.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "webpack": "^5.16.0",
+    "webpack": "^5.17.0",
     "webpack-cli": "^4.4.0"
   }
 }
