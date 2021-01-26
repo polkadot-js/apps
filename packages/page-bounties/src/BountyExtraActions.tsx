@@ -129,12 +129,7 @@ export default React.memo(styled(BountyExtraActions)(({ theme }: ThemeProps) => 
       color: ${theme.theme === 'dark' ? 'rgba(244,242,240,0.9)' : '#000 !important'};
     }
 
-    &:hover {
-      background: #fff;
-    }
-
     &:focus {
-      background: #fff;
       border: 1px solid #616161;
     }
   }
