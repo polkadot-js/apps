@@ -88,7 +88,7 @@ let aBounty: ({ fee, status, value }?: Partial<Bounty>) => Bounty;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
 
-describe('Bounties list', () => {
+describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
@@ -142,31 +142,33 @@ describe('Bounties list', () => {
     return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
   }
 
-  it('shows message when no bounties', async () => {
-    const { findByText } = renderBounties();
+  describe('list', () => {
+    it('shows message when no bounties', async () => {
+      const { findByText } = renderBounties();
 
-    expect(await findByText('No open bounties')).toBeTruthy();
-  });
+      expect(await findByText('No open bounties')).toBeTruthy();
+    });
 
-  it('renders a bounty', async () => {
-    const { findByText, queryAllByText } = renderOneBounty(aBounty(), [], 'kusama comic book');
+    it('renders a bounty', async () => {
+      const { findByText, queryAllByText } = renderOneBounty(aBounty(), [], 'kusama comic book');
 
-    expect(await findByText('kusama comic book')).toBeTruthy();
-    expect(queryAllByText('No open bounties')).toHaveLength(0);
-  });
+      expect(await findByText('kusama comic book')).toBeTruthy();
+      expect(queryAllByText('No open bounties')).toHaveLength(0);
+    });
 
-  it('renders bounties in order from newest to oldest', async () => {
-    const { findAllByTestId } = renderBounties({ bounties: [
-      { bounty: aBounty(), description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
-      { bounty: aBounty(), description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
-      { bounty: aBounty(), description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
-    ] });
+    it('renders bounties in order from newest to oldest', async () => {
+      const { findAllByTestId } = renderBounties({ bounties: [
+        { bounty: aBounty(), description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
+        { bounty: aBounty(), description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
+        { bounty: aBounty(), description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
+      ] });
 
-    const descriptions = await findAllByTestId('description');
+      const descriptions = await findAllByTestId('description');
 
-    expect(descriptions[0].textContent).toEqual('bounty 3');
-    expect(descriptions[1].textContent).toEqual('bounty 2');
-    expect(descriptions[2].textContent).toEqual('bounty 1');
+      expect(descriptions[0].textContent).toEqual('bounty 3');
+      expect(descriptions[1].textContent).toEqual('bounty 2');
+      expect(descriptions[2].textContent).toEqual('bounty 1');
+    });
   });
 
   describe('create bounty modal', () => {
@@ -447,8 +449,8 @@ describe('Bounties list', () => {
     });
   });
 
-  describe('status is extended', () => {
-    it('on proposed curator', async () => {
+  describe('shows extended status', () => {
+    it('when voting on proposed curator', async () => {
       const bounty = bountyWith({ status: 'Funded' });
       const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, '5EYCAe5ijiYfyeZ2JJCGq56LmPyNRAKzpG4QkoQkkQNB5e6Z', 1))];
 
@@ -457,7 +459,7 @@ describe('Bounties list', () => {
       expect(await findByText('Curator under voting')).toBeTruthy();
     });
 
-    it('on bounty approval in proposed status', async () => {
+    it('when voting on bounty approval', async () => {
       const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
 
@@ -466,7 +468,7 @@ describe('Bounties list', () => {
       expect(await findByText('Bounty approval under voting')).toBeTruthy();
     });
 
-    it('on parallel bounty approval and bounty close in proposed status', async () => {
+    it('when simultaneous close and approve motions exist, show approved', async () => {
       const bounty = bountyWith({ status: 'Proposed' });
       const proposals = [
         aProposal(augmentedApi.tx.bounties.closeBounty(0)),
@@ -478,7 +480,7 @@ describe('Bounties list', () => {
       expect(await findByText('Bounty approval under voting')).toBeTruthy();
     });
 
-    it('on close bounty in active status', async () => {
+    it('when voting on close bounty', async () => {
       const bounty = bountyWith({ status: 'Active' });
       const proposals = [aProposal(augmentedApi.tx.bounties.closeBounty(0))];
 
@@ -487,7 +489,7 @@ describe('Bounties list', () => {
       expect(await findByText('Bounty rejection under voting')).toBeTruthy();
     });
 
-    it('on unassign curator in active state', async () => {
+    it('when voting on unassign curator', async () => {
       const bounty = bountyWith({ status: 'Active' });
       const proposals = [aProposal(augmentedApi.tx.bounties.unassignCurator(0))];
 
@@ -496,7 +498,7 @@ describe('Bounties list', () => {
       expect(await findByText('Curator slash under voting')).toBeTruthy();
     });
 
-    it('on bounty approval in active state', async () => {
+    it('when a motion exists that would fail on execution, show nothing', async () => {
       const bounty = bountyWith({ status: 'Active' });
       const proposals = [aProposal(augmentedApi.tx.bounties.approveBounty(0))];
 
@@ -513,8 +515,8 @@ describe('Bounties list', () => {
     });
   });
 
-  describe('Proposed Curator extended status', () => {
-    it('Funded and propose curator motion', async () => {
+  describe('shows extended description for curator', () => {
+    it('when propose curator motion is voted and bounty is in Funded state', async () => {
       const bounty = bountyWith({ status: 'Funded' });
       const proposals = [aProposal(augmentedApi.tx.bounties.proposeCurator(0, alice, 1))];
 
@@ -523,7 +525,7 @@ describe('Bounties list', () => {
       expect(await findByText('Proposed Curator')).toBeTruthy();
     });
 
-    it('Funded and no propose curator motion', async () => {
+    it('when bounty is in Funded status, but there is no motion, show nothing', async () => {
       const bounty = bountyWith({ status: 'Funded' });
 
       const { findByText } = renderOneBounty(bounty);
@@ -531,7 +533,7 @@ describe('Bounties list', () => {
       await expect(findByText('Proposed Curator')).rejects.toThrow();
     });
 
-    it('CuratorProposed', async () => {
+    it('when status is different, show nothing', async () => {
       const bounty = bountyWith({ status: 'CuratorProposed' });
 
       const { findByText } = renderOneBounty(bounty);
