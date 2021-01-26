@@ -158,9 +158,9 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          icon='sign-in-alt'
+          icon='plus'
           isDisabled={!scanned || !isValid || (!isAddress && isIpfs)}
-          label={t<string>('Create')}
+          label={t<string>('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

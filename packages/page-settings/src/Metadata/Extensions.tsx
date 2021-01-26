@@ -3,10 +3,10 @@
 
 import type { ChainInfo } from '../types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { extensionLogos } from '@polkadot/apps-config';
-import { Button, Dropdown, Spinner } from '@polkadot/react-components';
+import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -43,32 +43,49 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     [chainInfo, extensions, selectedIndex, toggleBusy]
   );
 
+  const headerRef = useRef([
+    [t('Extensions'), 'start']
+  ]);
+
   return (
-    <div className={className}>
+    <Table
+      className={className}
+      empty={t<string>('No Upgradable extensions')}
+      header={headerRef.current}
+    >
+
       {extensions
-        ? options.length
-          ? (
-            <>
-              <Dropdown
-                label={t<string>('upgradable extensions')}
-                onChange={setSelectedIndex}
-                options={options}
-                value={selectedIndex}
-              />
-              <Button.Group>
-                <Button
-                  icon='upload'
-                  isDisabled={isBusy}
-                  label={t<string>('Update metadata')}
-                  onClick={_updateMeta}
+        ? options.length !== 0 && (
+          <>
+            <tr>
+              <td>
+                <Dropdown
+                  label={t<string>('upgradable extensions')}
+                  onChange={setSelectedIndex}
+                  options={options}
+                  value={selectedIndex}
                 />
-              </Button.Group>
-            </>
-          )
-          : <div>{t<string>('No upgradable extensions found')}</div>
+              </td>
+            </tr>
+
+            <tr className='isOdd'>
+              <td>
+                <Button.Group>
+                  <Button
+                    icon='upload'
+                    isDisabled={isBusy}
+                    label={t<string>('Update metadata')}
+                    onClick={_updateMeta}
+                  />
+                </Button.Group>
+              </td>
+            </tr>
+          </>
+        )
         : <Spinner />
       }
-    </div>
+
+    </Table>
   );
 }
 

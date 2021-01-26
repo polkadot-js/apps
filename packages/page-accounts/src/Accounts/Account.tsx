@@ -96,7 +96,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -440,7 +440,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             vertical
           >
             {createMenuGroup([
-              api.api.tx.identity?.setIdentity && (
+              api.api.tx.identity?.setIdentity && !isHardware && (
                 <Menu.Item
                   key='identityMain'
                   onClick={toggleIdentityMain}
@@ -448,7 +448,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   {t('Set on-chain identity')}
                 </Menu.Item>
               ),
-              api.api.tx.identity?.setSubs && identity?.display && (
+              api.api.tx.identity?.setSubs && identity?.display && !isHardware && (
                 <Menu.Item
                   key='identitySub'
                   onClick={toggleIdentitySub}
@@ -492,7 +492,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )
             ])}
             {createMenuGroup([
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
+              !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
                 <Menu.Item
                   key='backupJson'
                   onClick={toggleBackup}
@@ -500,7 +500,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   {t('Create a backup file for this account')}
                 </Menu.Item>
               ),
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
+              !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
                 <Menu.Item
                   key='changePassword'
                   onClick={togglePassword}
@@ -578,7 +578,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <ChainLock
               className='accounts--network-toggle'
               genesisHash={genesisHash}
-              isDisabled={api.isDevelopment}
+              isDisabled={api.isDevelopment || !isEditable}
               onChange={onSetGenesisHash}
             />
           </Menu>

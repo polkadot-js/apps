@@ -10,7 +10,7 @@ import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config';
 import { DEFAULT_DECIMALS, DEFAULT_SS58 } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 import { getSpecTypes } from '@polkadot/types-known';
-import { isNumber } from '@polkadot/util';
+import { formatBalance, isNumber } from '@polkadot/util';
 
 function createInfo (api: ApiPromise, systemChain: string, systemName: string): ChainInfo {
   return {
@@ -21,8 +21,8 @@ function createInfo (api: ApiPromise, systemChain: string, systemName: string): 
     metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
     specVersion: api.runtimeVersion.specVersion.toNumber(),
     ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
-    tokenDecimals: isNumber(api.registry.chainDecimals) ? api.registry.chainDecimals : DEFAULT_DECIMALS.toNumber(),
-    tokenSymbol: api.registry.chainToken || 'Unit',
+    tokenDecimals: (api.registry.chainDecimals || [DEFAULT_DECIMALS.toNumber()])[0],
+    tokenSymbol: (api.registry.chainTokens || formatBalance.getDefaults().unit)[0],
     types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
   };
 }
