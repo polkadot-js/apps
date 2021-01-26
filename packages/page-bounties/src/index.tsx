@@ -115,5 +115,3 @@ export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
     }
   }
 `));
-export { UnassignCuratorAction } from '@polkadot/app-bounties/types';
-export { UserRole } from '@polkadot/app-bounties/types';
