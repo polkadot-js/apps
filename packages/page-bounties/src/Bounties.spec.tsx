@@ -27,15 +27,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';
-import { alice,
-  bob,
-  defaultBalance,
-  defaultBountyApi,
-  defaultBountyUpdatePeriod,
-  defaultMembers,
-  defaultTreasury } from '../test/hooks/defaults';
-import { clickButtonWithName } from '../test/utils/clickButtonWithName';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';import { alice, bob,  defaultBalance, defaultBountyApi,defaultBountyUpdatePeriod, defaultMembers, defaultTreasury } from '../test/hooks/defaults';import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
 import Bounties from './Bounties';
@@ -96,7 +88,7 @@ let aBounty: ({ fee, status, value }?: Partial<Bounty>) => Bounty;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
 
-describe('Bounties', () => {
+describe('Bounties list', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
@@ -150,7 +142,7 @@ describe('Bounties', () => {
     return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
   }
 
-  it('shows empty list when no bounties', async () => {
+  it('shows message when no bounties', async () => {
     const { findByText } = renderBounties();
 
     expect(await findByText('No open bounties')).toBeTruthy();
@@ -164,14 +156,10 @@ describe('Bounties', () => {
   });
 
   it('renders bounties in order from newest to oldest', async () => {
-    const bounty1 = bountyWith({ status: 'Proposed' });
-    const bounty2 = bountyWith({ status: 'Proposed' });
-    const bounty3 = bountyWith({ status: 'Proposed' });
-
     const { findAllByTestId } = renderBounties({ bounties: [
-      { bounty: bounty1, description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
-      { bounty: bounty2, description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
-      { bounty: bounty3, description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
+      { bounty: aBounty(), description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
+      { bounty: aBounty(), description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
+      { bounty: aBounty(), description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
     ] });
 
     const descriptions = await findAllByTestId('description');
