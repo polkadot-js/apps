@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import bifrost from './bifrost';
+import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
+import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
@@ -13,19 +15,22 @@ import dock from './dock';
 import dusty from './dusty';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
+import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
-import galois from './galois';
 import hanonycash from './hanonycash';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
 import phala from './phala';
+import phalaParachain from './phala-parachain';
 import plasm from './plasm';
+import plasmParachain from './plasm-parachain';
 import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import uniarts from './uniarts';
 import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
@@ -34,29 +39,33 @@ export default {
   Darwinia: darwinia,
   Equilibrium: equilibrium,
   bifrost: bifrost,
+  'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
   crust,
+  'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   dusty3: dusty,
-  'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
-  galois: galois,
+  'encointer-parachain': encointerPara,
   hanonycash,
   jupiter,
   'mashnet-node': kilt,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  'phala-collator': phalaParachain,
   'phala-node': phala,
   plasm,
+  'plasm-parachain': plasmParachain,
   robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
   subsocial,
-  subzero: zero
+  subzero: zero,
+  uniarts: uniarts
 };

@@ -3,11 +3,13 @@
 
 import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Compact } from '@polkadot/types';
+import type { Registry } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import { useApi } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -15,10 +17,12 @@ import { useTranslation } from './translate';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  formatIndex?: number;
   isShort?: boolean;
   label?: React.ReactNode;
   labelPost?: string;
   value?: Compact<any> | BN | string | null | 'all';
+  valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;
 }
@@ -27,34 +31,67 @@ interface Props {
 const M_LENGTH = 6 + 1;
 const K_LENGTH = 3 + 1;
 
-function format (value: Compact<any> | BN | string, withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
-  const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
+function getFormat (registry: Registry, formatIndex = 0): [number, string] {
+  const decimals = registry.chainDecimals;
+  const tokens = registry.chainTokens;
+
+  return [
+    formatIndex < decimals.length
+      ? decimals[formatIndex]
+      : decimals[0],
+    formatIndex < tokens.length
+      ? tokens[formatIndex]
+      : tokens[1]
+  ];
+}
+
+function formatDisplay (prefix: string, postfix: string, unit: string, label = '', isShort = false): React.ReactNode {
+  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && <span className='ui--FormatBalance-postfix'>{`0000${postfix || ''}`.slice(-4)}</span>}<span className='ui--FormatBalance-unit'> {unit}</span>{label}</>;
+}
+
+function splitFormat (value: string, label?: string, isShort?: boolean): React.ReactNode {
+  const [prefix, postfixFull] = value.split('.');
+  const [postfix, unit] = postfixFull.split(' ');
+
+  return formatDisplay(prefix, postfix, unit, label, isShort);
+}
+
+function format (value: Compact<any> | BN | string, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
+  const [prefix, postfix] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
-  const unitPost = withCurrency ? formatBalance.getDefaults().unit : '';
+  const unitPost = withCurrency ? token : '';
 
   if (prefix.length > M_LENGTH) {
-    const [major, rest] = formatBalance(value, { withUnit: false }).split('.');
+    const [major, rest] = formatBalance(value, { decimals, withUnit: false }).split('.');
     const minor = rest.substr(0, 4);
     const unit = rest.substr(4);
 
     return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span><span className='ui--FormatBalance-unit'>{unit}{unit ? unitPost : ` ${unitPost}`}</span>{labelPost || ''}</>;
   }
 
-  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && <span className='ui--FormatBalance-postfix'>{`0000${postfix || ''}`.slice(-4)}</span>}<span className='ui--FormatBalance-unit'> {unitPost}</span>{labelPost || ''}</>;
+  return formatDisplay(prefix, postfix, unitPost, labelPost, isShort);
 }
 
-function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', formatIndex, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+
+  const formatInfo = useMemo(
+    () => getFormat(api.registry, formatIndex),
+    [api, formatIndex]
+  );
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
     <div className={`ui--FormatBalance ${className}`}>
       {label ? <>{label}&nbsp;</> : ''}<span className='ui--FormatBalance-value'>{
-        value
-          ? value === 'all'
-            ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
-            : format(value, withCurrency, withSi, isShort, labelPost)
-          : `-${labelPost || ''}`
+        valueFormatted
+          ? splitFormat(valueFormatted, labelPost, isShort)
+          : value
+            ? value === 'all'
+              ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
+              : format(value, formatInfo, withCurrency, withSi, isShort, labelPost)
+            : `-${labelPost || ''}`
       }</span>{children}
     </div>
   );

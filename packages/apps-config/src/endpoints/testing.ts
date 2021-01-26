@@ -42,6 +42,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'bitcountry',
+      text: t('rpc.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
+      providers: {
+        'Bit.Country': 'wss://whenua.bit.country'
+      }
+    },
+    {
       info: 'bifrost',
       text: t('rpc.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
@@ -57,7 +64,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'crust',
-      text: t('rpc.crust.network', 'Crust Maxwell CC2', { ns: 'apps-config' }),
+      text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/'
       }
@@ -72,7 +79,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-testnet',
-      text: t('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
+      text: t('rpc.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
       }
@@ -100,7 +107,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'equilibrium',
-      text: t('rpc.equilibriumtestnet', 'Equilibrium Testnet', { ns: 'apps-config' }),
+      text: t('rpc.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://api.mvp.testnet.equilibrium.io'
       }
@@ -114,7 +121,6 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'galois',
-      isDisabled: true, // cannot construct AccountServiceEnum
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       providers: {
         MathWallet: 'wss://galois.maiziqianbao.net/ws'
@@ -203,6 +209,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
+      }
+    },
+    {
+      info: 'uniarts',
+      text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
+      providers: {
+        Uniarts: 'wss://testnet.uniarts.me'
       }
     }
   ]);

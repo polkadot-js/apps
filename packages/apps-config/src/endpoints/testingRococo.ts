@@ -16,16 +16,19 @@ import type { EndpointOption } from './types';
 export function createRococo (t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
+    genesisHash: '0x481550b70e974177e83cff4d554cea7166be3eaeb32f020b86542e76968ccd0e',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
-      OnFinality: 'wss://rococo.api.onfinality.io/public-ws'
+      OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
+      'Patract Elara': 'wss://rococo.elara.patract.io'
     },
     linked: [
       // these are the base chains
       {
         info: 'rococoTick',
+        paraId: 100,
         text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://tick-rpc.polkadot.io'
@@ -33,6 +36,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrick',
+        paraId: 110,
         text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://trick-rpc.polkadot.io'
@@ -40,6 +44,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrack',
+        paraId: 120,
         text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://track-rpc.polkadot.io'
@@ -47,10 +52,75 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoBifrost',
+        paraId: 107,
+        text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
+        info: 'rococoCrust',
+        paraId: 7777,
+        text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://api-rococo.crust.network'
+        }
+      },
+      {
+        info: 'rococoDarwinia',
+        paraId: 18,
+        text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'rococoEncointer',
+        paraId: 1862,
+        text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://rococo.encointer.org'
+        }
+      },
+      {
+        info: 'rococoAcala',
+        paraId: 666,
+        text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
+        providers: {
+          Acala: 'wss://rococo-1.acala.laminar.one/ws'
+        }
+      },
+      {
+        info: 'rococoKilt',
+        paraId: 12623,
+        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoPhala',
+        paraId: 30,
+        text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococov1.phala.network/ws'
+        }
+      },
+      {
         info: 'rococoPlasm',
+        paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
           PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
+        }
+      },
+      {
+        info: 'rococoRobonomics',
+        paraId: 3000,
+        text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://rococo.parachain.robonomics.network'
         }
       }
     ]

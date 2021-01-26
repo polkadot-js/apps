@@ -3,11 +3,12 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
-import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { Delegation } from '../types';
 
 import BN from 'bn.js';
@@ -15,9 +16,8 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
@@ -74,6 +74,12 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
   );
 }
 
+async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
+  const ledger = getLedger();
+
+  await ledger.getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0);
+}
+
 const transformRecovery = {
   transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
 };
@@ -83,13 +89,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
+  const { getLedger } = useLedger();
   const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -191,13 +198,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // TODO: we should check the hardwareType from metadata here as well,
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
-      getLedger()
-        .getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0)
-        .catch((error): void => {
-          console.error(`ledger: ${(error as Error).message}`);
-        });
+      showLedgerAddress(getLedger, meta).catch((error): void => {
+        console.error(`ledger: ${(error as Error).message}`);
+      });
     },
-    [meta]
+    [getLedger, meta]
   );
 
   if (!isVisible) {
@@ -435,7 +440,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             vertical
           >
             {createMenuGroup([
-              api.api.tx.identity?.setIdentity && (
+              api.api.tx.identity?.setIdentity && !isHardware && (
                 <Menu.Item
                   key='identityMain'
                   onClick={toggleIdentityMain}
@@ -443,7 +448,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   {t('Set on-chain identity')}
                 </Menu.Item>
               ),
-              api.api.tx.identity?.setSubs && identity?.display && (
+              api.api.tx.identity?.setSubs && identity?.display && !isHardware && (
                 <Menu.Item
                   key='identitySub'
                   onClick={toggleIdentitySub}
@@ -487,7 +492,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )
             ])}
             {createMenuGroup([
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
+              !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
                 <Menu.Item
                   key='backupJson'
                   onClick={toggleBackup}
@@ -495,7 +500,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   {t('Create a backup file for this account')}
                 </Menu.Item>
               ),
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
+              !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
                 <Menu.Item
                   key='changePassword'
                   onClick={togglePassword}
@@ -573,7 +578,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <ChainLock
               className='accounts--network-toggle'
               genesisHash={genesisHash}
-              isDisabled={api.isDevelopment}
+              isDisabled={api.isDevelopment || !isEditable}
               onChange={onSetGenesisHash}
             />
           </Menu>

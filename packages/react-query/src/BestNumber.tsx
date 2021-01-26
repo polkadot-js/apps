@@ -11,13 +11,14 @@ import { formatNumber } from '@polkadot/util';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  isFinalized?: boolean;
   label?: React.ReactNode;
   withPound?: boolean;
 }
 
-function BestNumber ({ children, className = '', label, withPound }: Props): React.ReactElement<Props> {
+function BestNumber ({ children, className = '', isFinalized, label, withPound }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const bestNumber = useCall<BlockNumber>(isApiReady && api.derive.chain.bestNumber);
+  const bestNumber = useCall<BlockNumber>(isApiReady && (isFinalized ? api.derive.chain.bestNumberFinalized : api.derive.chain.bestNumber));
 
   return (
     <div className={className}>

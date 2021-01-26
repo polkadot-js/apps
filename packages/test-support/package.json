@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/test-support",
-  "version": "0.75.2-11",
+  "version": "0.77.2-2",
   "main": "index.js",
   "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -9,6 +9,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@testing-library/react": "^11.2.3",
-    "testcontainers": "^6.4.1"
+    "testcontainers": "^6.4.2"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0"
   }
 }

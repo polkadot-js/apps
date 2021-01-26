@@ -91,7 +91,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>b
+        <Modal.Columns>
           <Modal.Column>
             <InputAddress
               label={t<string>('propose from')}

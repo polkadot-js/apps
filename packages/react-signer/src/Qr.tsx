@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
-import { Columar, QrDisplayPayload, QrScanSignature, Spinner } from '@polkadot/react-components';
+import { Columar, MarkError, QrDisplayPayload, QrScanSignature, Spinner } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -78,7 +78,12 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
           </div>
         </Columar.Column>
       </Columar>
-      {sigError && <article className='error nomargin'>{sigError}</article>}
+      {sigError && (
+        <MarkError
+          className='nomargin'
+          content={sigError}
+        />
+      )}
     </>
   );
 }
@@ -87,5 +92,9 @@ export default React.memo(styled(Qr)`
   .qrDisplay {
     margin: 0 auto;
     max-width: 30rem;
+
+    img {
+      border: 1px solid white;
+    }
   }
 `);

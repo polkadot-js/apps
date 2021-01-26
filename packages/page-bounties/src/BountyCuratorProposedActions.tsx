@@ -1,23 +1,24 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
+import { useBounties } from '@polkadot/app-bounties/hooks';
 import { TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 
 interface Props {
   curatorId: AccountId;
-  index: number;
+  index: BountyIndex;
 }
 
 function BountyCuratorProposedActions ({ curatorId, index }: Props) {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { acceptCurator, unassignCurator } = useBounties();
   const { allAccounts } = useAccounts();
 
   const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
@@ -30,14 +31,14 @@ function BountyCuratorProposedActions ({ curatorId, index }: Props) {
           icon='check'
           label={t<string>('Accept')}
           params={[index]}
-          tx={(api.tx.bounties || api.tx.treasury).acceptCurator}
+          tx={acceptCurator}
         />
         <TxButton
           accountId={curatorId}
           icon='times'
           label={t<string>('Reject')}
           params={[index]}
-          tx={(api.tx.bounties || api.tx.treasury).unassignCurator}
+          tx={unassignCurator}
         />
       </>
     )

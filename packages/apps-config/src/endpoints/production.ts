@@ -62,7 +62,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-mainnet',
-      text: t('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
+      text: t('rpc.dock-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io'
       }
@@ -77,7 +77,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'equilibrium',
-      text: t('rpc.equilibrium', 'Equilibrium Mainnet', { ns: 'apps-config' }),
+      text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://tge.equilibrium.io'
       }
@@ -99,7 +99,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'nodle',
-      text: t('rpc.nodle-main', 'Nodle Main', { ns: 'apps-config' }),
+      text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://main1.nodleprotocol.io'
       }
