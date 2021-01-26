@@ -27,7 +27,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';import { alice, bob,  defaultBalance, defaultBountyApi,defaultBountyUpdatePeriod, defaultMembers, defaultTreasury } from '../test/hooks/defaults';import { clickButtonWithName } from '../test/utils/clickButtonWithName';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';import { alice, bob, defaultBalance, defaultBountyApi,defaultBountyUpdatePeriod, defaultMembers, defaultTreasury } from '../test/hooks/defaults';import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
 import Bounties from './Bounties';
