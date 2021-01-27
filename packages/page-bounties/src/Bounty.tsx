@@ -32,8 +32,9 @@ interface Props {
 }
 
 interface DueProps {
-  dueBlocks: BN | undefined;
-  until: 'update' | 'payout';
+  endBlock: BN;
+  dueBlocks: BN;
+  label: string;
 }
 
 const EMPTY_CELL = '-';
@@ -71,14 +72,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={className}>
-        <td>
-          <BountyStatusView
-            blocksUntilPayout={blocksUntilPayout}
-            bountyStatus={bountyStatus}
-            proposals={proposals}
-            status={status}
-          />
-        </td>
         <td
           className='description-column'
           colSpan={2}
@@ -87,6 +80,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div title={description}>
             {description}
           </div>
+        </td>
+        <td>
+          <BountyStatusView
+            blocksUntilPayout={blocksUntilPayout}
+            bountyStatus={bountyStatus}
+            proposals={proposals}
+            status={status}
+          />
         </td>
         <td><FormatBalance value={value} /></td>
         <td>
@@ -98,18 +99,20 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           )}
         </td>
         <td>
-          {blocksUntilPayout
-            ? <DueBlocks
+          {blocksUntilPayout && unlockAt && (
+            <DueBlocks
               dueBlocks={blocksUntilPayout}
-              until={'payout'}
+              endBlock={unlockAt}
+              label={t('payout')}
             />
-            : ''}
-          {blocksUntilUpdate
-            ? <DueBlocks
+          )}
+          {blocksUntilUpdate && updateDue && (
+            <DueBlocks
               dueBlocks={blocksUntilUpdate}
-              until={'update'}
+              endBlock={updateDue}
+              label={t('update')}
             />
-            : ''}
+          )}
         </td>
         <td>
           <div className='td-row'>
@@ -197,16 +200,15 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   );
 }
 
-function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps> {
-  const { t } = useTranslation();
-
+function DueBlocks ({ dueBlocks, endBlock, label }: DueProps): React.ReactElement<DueProps> {
   return (
     <>
-      {dueBlocks && dueBlocks.gtn(0) && (
+      {dueBlocks.gtn(0) && (
         <>
-          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-          <BlockToTime blocks={dueBlocks}
-            className='block-to-time'> until {until}</BlockToTime>
+          <BlockToTime blocks={dueBlocks}>
+            &nbsp;({label})
+          </BlockToTime>
+          #{formatNumber(endBlock)}
         </>
       )}
     </>
@@ -321,20 +323,8 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     }
   }
 
-  .block-to-time {
-    margin-top: 0.28rem;
-    font-size: 0.7rem;
-    line-height: 0.85rem;
-    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
-  }
-
   & .votes-table {
     display: flex;
     justify-content: space-between;
-  }
-
-  & .ui--FormatBalance {
-    font-size: 0.85rem;
-    line-height: 1.4rem;
   }
 `));

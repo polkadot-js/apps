@@ -22,9 +22,9 @@ function Bounties ({ className }: Props): React.ReactElement {
   const { bestNumber, bounties } = useBounties();
 
   const headerRef = useRef([
-    [t('status'), 'start'],
     [t('title'), 'start'],
     [],
+    [t('status'), 'start'],
     [t('value'), 'start'],
     [t('curator'), 'start'],
     [t('next action'), 'start'],
