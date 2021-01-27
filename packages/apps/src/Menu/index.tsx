@@ -150,8 +150,8 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
             ))}
           </ul>
         </div>
+        <NodeInfo className='media--1400' />
       </div>
-      <NodeInfo className='media--2000' />
     </div>
   );
 }
@@ -216,17 +216,15 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
 
     > li {
       display: inline-block;
-
     }
+
     > li + li {
       margin-left: 0.25rem
     }
   }
+
   .ui--NodeInfo {
-    position: absolute;
-    z-index: 299;
-    right: 0;
-    top: 0.8rem;;
+    align-self: center;
   }
 
 `));
