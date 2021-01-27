@@ -354,6 +354,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       </div>
     </React.Fragment>
   );
+  console.log(address, democracyLocks);
   balanceDisplay.unlocking && democracyLocks && (democracyLocks.length !== 0) && allItems.push(
     <React.Fragment key={8}>
       <Label label={t<string>('democracy')} />

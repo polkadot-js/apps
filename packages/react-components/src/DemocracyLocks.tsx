@@ -44,12 +44,12 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] 
     maxBalance: bnMax(...locks.map(({ balance }) => balance)),
     sorted: locks
       .map((info): [DeriveDemocracyLock, BN] => [info, info.unlockAt.gt(bestNumber) ? info.unlockAt.sub(bestNumber) : BN_ZERO])
-      .sort((a, b) => a[0].referendumId.cmp(b[0].referendumId))
+      .sort((a, b) => (a[0]?.referendumId && b[0]?.referendumId && a[0]?.referendumId.cmp(b[0]?.referendumId)) || 0)
       .sort((a, b) => a[1].cmp(b[1]))
       .sort((a, b) => a[0].isFinished === b[0].isFinished ? 0 : (a[0].isFinished ? -1 : 1))
       .reduce((sorted: Entry[], [{ balance, isDelegated, isFinished, referendumId, vote }, blocks]): Entry[] => {
         const isCountdown = blocks.gt(BN_ZERO);
-        const header = <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction.toString()}{isDelegated && '/d'}</div>;
+        const header = <div>{referendumId ? `#${referendumId.toString()}` : ''} {formatBalance(balance, { forceUnit: '-' })} {vote?.conviction.toString() || ''}{isDelegated && '/d'}</div>;
         const prev = sorted.length ? sorted[sorted.length - 1] : null;
 
         if (!prev || (isCountdown || (isFinished !== prev.isFinished))) {
@@ -71,7 +71,7 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] 
             ),
             headers: [header],
             isCountdown,
-            isFinished
+            isFinished: isFinished || true
           });
         } else {
           prev.headers.push(header);
