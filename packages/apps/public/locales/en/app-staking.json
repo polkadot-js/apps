@@ -149,6 +149,7 @@
   "Waiting nominations ({{count}})": "Waiting nominations ({{count}})",
   "Withdraw unbonded funds": "Withdraw unbonded funds",
   "You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.": "You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.",
+  "Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.": "Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.",
   "Your stash account. The transaction will be sent from the associated controller.": "Your stash account. The transaction will be sent from the associated controller.",
   "additional bonded funds": "additional bonded funds",
   "all bonded": "all bonded",
