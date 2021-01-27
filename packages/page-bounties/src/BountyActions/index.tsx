@@ -7,6 +7,7 @@ import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/
 import React, { useCallback, useMemo } from 'react';
 
 import { getBountyStatus } from '../helpers';
+import AwardBounty from './AwardBounty';
 import BountyClaimAction from './BountyClaimAction';
 import BountyCuratorProposedActions from './BountyCuratorProposedActions';
 import BountyInitiateVoting from './BountyInitiateVoting';
@@ -84,6 +85,12 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           status={status}
         />
       )}
+      {status.isActive && curator &&
+      <AwardBounty
+        curatorId={curator}
+        index={index}
+      />
+      }
     </>
   );
 }
