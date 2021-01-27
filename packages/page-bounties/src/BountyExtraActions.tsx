@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { determineUnassignCuratorAction } from '@polkadot/app-bounties/helpers';
 import { useBountyStatus, useUserRole } from '@polkadot/app-bounties/hooks';
+import { ValidUnassignCuratorAction } from '@polkadot/app-bounties/types';
 import { Button, Menu, Popup } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers, useToggle } from '@polkadot/react-hooks';
@@ -33,33 +34,37 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
   const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
   const [isSlashCuratorOpen, toggleSlashCurator] = useToggle();
   const [isExtendExpiryOpen, toggleExtendExpiry] = useToggle();
-
+  const [selectedAction, setSlashAction] = useState<ValidUnassignCuratorAction>();
   const { t } = useTranslation();
   const { isMember } = useMembers();
   const { curator, updateDue } = useBountyStatus(status);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
 
-  const userRole = useUserRole(curator);
-  const slashCuratorActionName = userRole && determineUnassignCuratorAction(userRole, status, blocksUntilUpdate);
+  const { isCurator, roles } = useUserRole(curator);
+  const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
-  const slashCuratorActionNames = useRef<Record<string, string>>({
+  const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
     GiveUp: t('Give Up'),
     SlashCuratorAction: t('Slash Curator'),
-    SlashCuratorMotion: t('Slash Curator'),
+    SlashCuratorMotion: t('Slash Curator (Council)'),
     UnassignCurator: t('Unassign Curator')
   });
 
   const existingCloseBountyProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'closeBounty'), [proposals]);
   const existingUnassignCuratorProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'unassignCurator'), [proposals]);
-  const isCurator = userRole === 'Curator';
 
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;
   const showExtendExpiry = status.isActive && isCurator;
-  const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal;
+  const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal && availableSlashActions !== [];
 
   const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator);
+
+  function slashCuratorClicked (action: ValidUnassignCuratorAction) {
+    setSlashAction(action);
+    toggleSlashCurator();
+  }
 
   return !hasNoItems
     ? (
@@ -85,13 +90,12 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
             toggleOpen={toggleExtendExpiry}
           />
         }
-        {isSlashCuratorOpen && curator &&
+        {isSlashCuratorOpen && curator && selectedAction &&
           <SlashCurator
-            blocksUntilUpdate={blocksUntilUpdate}
+            action={selectedAction}
             curatorId={curator}
             description={description}
             index={index}
-            status={status}
             toggleOpen={toggleSlashCurator}
           />
         }
@@ -137,14 +141,14 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
                 {t<string>('Extend Expiry')}
               </Menu.Item>
             }
-            {showSlashCurator && slashCuratorActionName &&
+            {showSlashCurator && availableSlashActions.map((actionName) =>
               <Menu.Item
-                key='slashCurator'
-                onClick={toggleSlashCurator}
+                key={actionName}
+                onClick={() => slashCuratorClicked(actionName)}
               >
-                {slashCuratorActionNames.current[slashCuratorActionName]}
+                {slashCuratorActionNames.current[actionName]}
               </Menu.Item>
-            }
+            )}
           </Menu>
         </Popup>
       </div>

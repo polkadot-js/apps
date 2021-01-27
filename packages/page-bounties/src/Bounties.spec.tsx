@@ -27,7 +27,13 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
-import { alice, bob, defaultBalance, defaultBountyApi, defaultCurator, defaultMembers, defaultTreasury, ferdie } from '../test/hooks/defaults';
+import { alice,
+  bob,
+  defaultBalance,
+  defaultBountyApi,
+  defaultMembers,
+  defaultTreasury,
+  ferdie } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
@@ -38,7 +44,6 @@ const mockMembers = defaultMembers;
 const mockTreasury = defaultTreasury;
 let mockBountyApi = defaultBountyApi;
 let mockBalance = defaultBalance;
-let mockUserRole = 'Curator';
 
 const mockBlockTime = [50, '', extractTime(1)];
 
@@ -48,10 +53,6 @@ jest.mock('./hooks/useBalance', () => ({
 
 jest.mock('./hooks/useBounties', () => ({
   useBounties: () => mockBountyApi
-}));
-
-jest.mock('./hooks/useUserRole', () => ({
-  useUserRole: () => mockUserRole
 }));
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({
@@ -344,7 +345,7 @@ describe('Bounties', () => {
 
   describe('Reject curator modal', () => {
     it('creates extrinsic', async () => {
-      const bounty = bountyWith({ status: 'CuratorProposed' });
+      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) });
 
       const { findByRole, findByTestId, findByText } = renderOneBounty(bounty);
 
@@ -354,7 +355,18 @@ describe('Bounties', () => {
 
       await clickButtonWithName('Reject', findByRole);
 
-      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: defaultCurator }));
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: bob }));
+    });
+
+    it('shows options for all roles', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'Active' }) });
+
+      const { findByTestId, findByText } = renderOneBounty(bounty);
+
+      await clickElementWithTestId('extra-actions', findByTestId);
+
+      expect(await findByText('Give Up')).toBeTruthy();
+      expect(await findByText('Slash Curator (Council)')).toBeTruthy();
     });
   });
 
@@ -406,13 +418,11 @@ describe('Bounties', () => {
     it('for bounty in PendingPayout state', async () => {
       const bounty = bountyWith({ status: 'PendingPayout' });
 
-      mockUserRole = 'Member';
-
       const { findByRole, findByTestId, findByText, getAllByRole } = renderOneBounty(bounty);
 
       await clickElementWithTestId('extra-actions', findByTestId);
 
-      await clickElementWithText('Slash Curator', findByText);
+      await clickElementWithText('Slash Curator (Council)', findByText);
 
       expect(await findByText('This action will create a Council motion to slash the Curator.')).toBeTruthy();
 

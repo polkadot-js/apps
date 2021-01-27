@@ -12,50 +12,56 @@ describe('adjust slash curator component for', () => {
   const { aBountyStatus } = new BountyFactory(augmentedApi);
 
   it('Member in Active state', () => {
-    const displayAs = determineUnassignCuratorAction('Member', aBountyStatus('Active'));
+    const displayAs = determineUnassignCuratorAction(['Member'], aBountyStatus('Active'));
 
-    expect(displayAs).toEqual('SlashCuratorMotion');
+    expect(displayAs).toEqual(['SlashCuratorMotion']);
   });
 
   it('Member in CuratorProposed state', () => {
-    const displayAs = determineUnassignCuratorAction('Member', aBountyStatus('CuratorProposed'));
+    const displayAs = determineUnassignCuratorAction(['Member'], aBountyStatus('CuratorProposed'));
 
-    expect(displayAs).toEqual('UnassignCurator');
+    expect(displayAs).toEqual(['UnassignCurator']);
   });
 
   it('Member in PendingPayout state', () => {
-    const displayAs = determineUnassignCuratorAction('Member', aBountyStatus('PendingPayout'));
+    const displayAs = determineUnassignCuratorAction(['Member'], aBountyStatus('PendingPayout'));
 
-    expect(displayAs).toEqual('SlashCuratorMotion');
+    expect(displayAs).toEqual(['SlashCuratorMotion']);
   });
 
   it('Curator in Active state', () => {
-    const displayAs = determineUnassignCuratorAction('Curator', aBountyStatus('Active'));
+    const displayAs = determineUnassignCuratorAction(['Curator'], aBountyStatus('Active'));
 
-    expect(displayAs).toEqual('GiveUp');
+    expect(displayAs).toEqual(['GiveUp']);
   });
 
   it('User in Active state with update due blocks remaining', () => {
-    const displayAs = determineUnassignCuratorAction('User', aBountyStatus('Active'), new BN('1'));
+    const displayAs = determineUnassignCuratorAction(['User'], aBountyStatus('Active'), new BN('1'));
 
-    expect(displayAs).toEqual('None');
+    expect(displayAs).toEqual([]);
   });
 
   it('User in Active state with no updated state', () => {
-    const displayAs = determineUnassignCuratorAction('User', aBountyStatus('Active'), new BN('-1'));
+    const displayAs = determineUnassignCuratorAction(['User'], aBountyStatus('Active'), new BN('-1'));
 
-    expect(displayAs).toEqual('SlashCuratorAction');
+    expect(displayAs).toEqual(['SlashCuratorAction']);
+  });
+
+  it('Member and User in Active state with no updated state', () => {
+    const displayAs = determineUnassignCuratorAction(['User', 'Member'], aBountyStatus('Active'), new BN('-1'));
+
+    expect(displayAs).toEqual(expect.arrayContaining(['SlashCuratorAction', 'SlashCuratorMotion']));
   });
 
   it('Curator in Active state', () => {
-    const displayAs = determineUnassignCuratorAction('Curator', aBountyStatus('PendingPayout'));
+    const displayAs = determineUnassignCuratorAction(['Curator'], aBountyStatus('PendingPayout'));
 
-    expect(displayAs).toEqual('None');
+    expect(displayAs).toEqual([]);
   });
 
   it('User in Active state', () => {
-    const displayAs = determineUnassignCuratorAction('User', aBountyStatus('PendingPayout'));
+    const displayAs = determineUnassignCuratorAction(['User'], aBountyStatus('PendingPayout'));
 
-    expect(displayAs).toEqual('None');
+    expect(displayAs).toEqual([]);
   });
 });

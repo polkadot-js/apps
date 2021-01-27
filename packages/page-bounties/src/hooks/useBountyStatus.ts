@@ -4,8 +4,8 @@
 import { useCallback } from 'react';
 
 import { getBountyStatus } from '@polkadot/app-bounties/helpers';
-import { BountyStatus } from '@polkadot/types/interfaces';
 import { BountyStatusType } from '@polkadot/app-bounties/types';
+import { BountyStatus } from '@polkadot/types/interfaces';
 
 export function useBountyStatus (status: BountyStatus): BountyStatusType {
   const updateStatus = useCallback(() => getBountyStatus(status), [status]);

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -11,18 +11,16 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
 
-import { determineUnassignCuratorAction, truncateTitle } from '../helpers';
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
-import { useUserRole } from '../hooks/useUserRole';
 import { useTranslation } from '../translate';
 import { ValidUnassignCuratorAction } from '../types';
 
 interface Props {
-  blocksUntilUpdate?: BN;
+  action: ValidUnassignCuratorAction;
   curatorId: AccountId;
   description: string;
   index: BountyIndex;
-  status: BountyStatus;
   toggleOpen: () => void;
 }
 
@@ -37,7 +35,7 @@ interface ActionProperties {
   tx: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
 }
 
-function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, status, toggleOpen }: Props): React.ReactElement<Props> | null {
+function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { members } = useMembers();
@@ -96,14 +94,6 @@ function SlashCurator ({ blocksUntilUpdate, curatorId, description, index, statu
       tx: api.tx.council.propose
     }
   }), [t, curatorId, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
-
-  const userRole = useUserRole(curatorId);
-
-  const action = determineUnassignCuratorAction(userRole, status, blocksUntilUpdate);
-
-  if (action === 'None') {
-    return null;
-  }
 
   const { filter, header, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
 
