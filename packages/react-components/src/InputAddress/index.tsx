@@ -14,6 +14,7 @@ import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import Dropdown from '../Dropdown';
+import Static from '../Static';
 import { getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
 import createHeader from './createHeader';
@@ -138,7 +139,17 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     // the options could be delayed, don't render without
     if (!hasOptions && !isDisabled) {
-      return null;
+      // This is nasty, but since this things is non-functional, there is not much
+      // we can do (well, wrap it, however that approach is deprecated here)
+      return (
+        <Static
+          className={className}
+          help={help}
+          label={label}
+        >
+          No accounts are available for selection.
+        </Static>
+      );
     }
 
     const { lastValue, value } = this.state;
@@ -240,7 +251,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address): string => address as string) as string[]
+          .filter((address) => address as string) as string[]
       );
     }
   }
