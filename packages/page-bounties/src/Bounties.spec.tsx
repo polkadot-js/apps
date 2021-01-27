@@ -22,7 +22,7 @@ import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Stat
 import { createAugmentedApi } from '@polkadot/test-support/api';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
-import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
+import { MemoryStore } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
@@ -287,7 +287,6 @@ describe('Bounties', () => {
 
       const proposingAccountInput = comboboxes[0].children[0];
       const proposingCuratorInput = comboboxes[1].children[0];
-      const alice = aliceSigner().address;
 
       fireEvent.change(proposingAccountInput, { target: { value: alice } });
       fireEvent.change(proposingCuratorInput, { target: { value: alice } });
@@ -376,6 +375,7 @@ describe('Bounties', () => {
       fireEvent.click(acceptButton);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' }));
+      expect(mockBountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
     it('for bounty in PendingPayout state', async () => {
@@ -399,6 +399,31 @@ describe('Bounties', () => {
       fireEvent.click(acceptButton);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+    });
+  });
+
+  describe('award beneficiary action modal', () => {
+    it('awards the beneficiary ', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
+      const { findByText, getAllByRole } = renderOneBounty(bounty);
+
+      const awardBeneficiaryButton = await findByText('Award Beneficiary');
+
+      fireEvent.click(awardBeneficiaryButton);
+      expect(await findByText('This action will award the Beneficiary and close the bounty after a delay.')).toBeTruthy();
+      const comboboxes = getAllByRole('combobox');
+
+      const beneficiaryAccountInput = comboboxes[1].children[0];
+
+      fireEvent.change(beneficiaryAccountInput, { target: { value: bob } });
+      fireEvent.keyDown(beneficiaryAccountInput, { code: 'Enter', key: 'Enter' });
+
+      const acceptButton = await findByText('Approve');
+
+      fireEvent.click(acceptButton);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockAwardExtrinsic' }));
+      expect(mockBountyApi.awardBounty).toHaveBeenCalledWith(aBountyIndex(0), bob);
     });
   });
 
