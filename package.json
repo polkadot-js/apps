@@ -69,7 +69,7 @@
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
     "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
     "clean:i18n": "rm -rf packages/apps/public/locales/en && mkdir -p packages/apps/public/locales/en",
-    "deploy": "gh-pages --dotfiles --repo https://github.com/polkadot-js/canvas-ui.git --dist packages/apps/build --dest .",
+    "deploy": "gh-pages --dotfiles --dist packages/apps/build --dest .",
     "lint": "polkadot-dev-run-lint",
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "postinstall": "polkadot-dev-yarn-only",
