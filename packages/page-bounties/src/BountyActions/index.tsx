@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 
 import BountyAcceptCurator from '../BountyAcceptCurator';
 import { useBountyStatus } from '../hooks';
+import AwardBounty from './AwardBounty';
 import BountyClaimAction from './BountyClaimAction';
 import BountyInitiateVoting from './BountyInitiateVoting';
 import ProposeCuratorAction from './ProposeCuratorAction';
@@ -53,6 +54,12 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           beneficiaryId={beneficiary}
           index={index}
           payoutDue={blocksUntilPayout}
+        />
+      }
+      {status.isActive && curator &&
+        <AwardBounty
+          curatorId={curator}
+          index={index}
         />
       }
     </>

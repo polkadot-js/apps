@@ -12,6 +12,7 @@ import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces'
 export type BountyApi = {
   acceptCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   approveBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  awardBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
   bountyDepositBase: BN,
@@ -45,10 +46,12 @@ export function useBounties (): BountyApi {
   const closeBounty = (api.tx.bounties || api.tx.treasury).closeBounty;
   const extendBountyExpiry = (api.tx.bounties || api.tx.treasury).extendBountyExpiry;
   const unassignCurator = (api.tx.bounties || api.tx.treasury).unassignCurator;
+  const awardBounty = (api.tx.bounties || api.tx.treasury).awardBounty;
 
   return {
     acceptCurator,
     approveBounty,
+    awardBounty,
     bestNumber,
     bounties,
     bountyDepositBase,
