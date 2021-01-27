@@ -62,7 +62,8 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             .transfer(recipientId, balances.availableBalance)
             .paymentInfo(senderId)
             .then(({ partialFee }): void => {
-              const maxTransfer = balances.availableBalance.sub(partialFee);
+              const adjFee = partialFee.muln(110).divn(100);
+              const maxTransfer = balances.availableBalance.sub(adjFee);
 
               setMaxTransfer(
                 maxTransfer.gt(api.consts.balances.existentialDeposit)

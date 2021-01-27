@@ -11,6 +11,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 export const defaultBountyApi: BountyApi = {
   acceptCurator: jest.fn(),
   approveBounty: jest.fn(),
+  awardBounty: jest.fn().mockReturnValue('mockAwardExtrinsic'),
   bestNumber: new BN(1) as BlockNumber,
   bounties: [] as DeriveBounties,
   bountyDepositBase: new BN(1),
