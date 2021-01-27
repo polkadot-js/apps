@@ -38,12 +38,20 @@ const mockMembers = defaultMembers;
 const mockTreasury = defaultTreasury;
 let mockBountyApi = defaultBountyApi;
 let mockBalance = defaultBalance;
+let mockUserRole = 'Curator';
+
 const mockBlockTime = [50, '', extractTime(1)];
 
-jest.mock('./hooks', () => ({
-  useBalance: () => mockBalance,
-  useBounties: () => mockBountyApi,
-  useUserRole: () => 'Curator'
+jest.mock('./hooks/useBalance', () => ({
+  useBalance: () => mockBalance
+}));
+
+jest.mock('./hooks/useBounties', () => ({
+  useBounties: () => mockBountyApi
+}));
+
+jest.mock('./hooks/useUserRole', () => ({
+  useUserRole: () => mockUserRole
 }));
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({
@@ -337,6 +345,7 @@ describe('Bounties', () => {
   describe('Reject curator modal', () => {
     it('creates extrinsic', async () => {
       const bounty = bountyWith({ status: 'CuratorProposed' });
+
       const { findByRole, findByTestId, findByText } = renderOneBounty(bounty);
 
       await clickElementWithTestId('extra-actions', findByTestId);
@@ -396,6 +405,9 @@ describe('Bounties', () => {
 
     it('for bounty in PendingPayout state', async () => {
       const bounty = bountyWith({ status: 'PendingPayout' });
+
+      mockUserRole = 'Member';
+
       const { findByRole, findByTestId, findByText, getAllByRole } = renderOneBounty(bounty);
 
       await clickElementWithTestId('extra-actions', findByTestId);
@@ -409,6 +421,7 @@ describe('Bounties', () => {
       const proposingAccountInput = comboboxes[0].children[0];
 
       fireEvent.change(proposingAccountInput, { target: { value: alice } });
+      fireEvent.keyDown(proposingAccountInput, { code: 'Enter', key: 'Enter' });
 
       await clickButtonWithName('Approve', findByRole);
 

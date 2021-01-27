@@ -1,17 +1,16 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { determineUnassignCuratorAction } from '@polkadot/app-bounties/helpers';
-import { useUserRole } from '@polkadot/app-bounties/hooks';
+import { useBountyStatus, useUserRole } from '@polkadot/app-bounties/hooks';
 import { Button, Menu, Popup } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
-import { useAccounts, useMembers, useToggle } from '@polkadot/react-hooks';
-import { AccountId, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import { useMembers, useToggle } from '@polkadot/react-hooks';
+import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import CloseBounty from './BountyActions/CloseBounty';
 import ExtendBountyExpiryAction from './BountyActions/ExtendBountyExpiryAction';
@@ -20,16 +19,15 @@ import BountyRejectCurator from './BountyRejectCurator';
 import { useTranslation } from './translate';
 
 interface Props {
-  blocksUntilUpdate?: BN;
+  bestNumber: BlockNumber;
   className?: string;
-  curator?: AccountId;
   description: string;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-function BountyExtraActions ({ blocksUntilUpdate, className, curator, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
+function BountyExtraActions ({ bestNumber, className, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
   const [isPopupOpen, togglePopupOpen] = useToggle();
   const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
   const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
@@ -38,7 +36,9 @@ function BountyExtraActions ({ blocksUntilUpdate, className, curator, descriptio
 
   const { t } = useTranslation();
   const { isMember } = useMembers();
-  const { allAccounts } = useAccounts();
+  const { curator, updateDue } = useBountyStatus(status);
+
+  const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
 
   const userRole = useUserRole(curator);
   const slashCuratorActionName = userRole && determineUnassignCuratorAction(userRole, status, blocksUntilUpdate);
@@ -52,14 +52,14 @@ function BountyExtraActions ({ blocksUntilUpdate, className, curator, descriptio
 
   const existingCloseBountyProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'closeBounty'), [proposals]);
   const existingUnassignCuratorProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'unassignCurator'), [proposals]);
-  const isCurator = useMemo(() => curator && allAccounts.includes(curator.toString()), [allAccounts, curator]);
+  const isCurator = userRole === 'Curator';
 
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;
   const showExtendExpiry = status.isActive && isCurator;
   const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal;
 
-  const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry);
+  const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator);
 
   return !hasNoItems
     ? (

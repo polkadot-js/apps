@@ -4,10 +4,10 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import BountyAcceptCurator from '../BountyAcceptCurator';
-import { getBountyStatus } from '../helpers';
+import { useBountyStatus } from '../hooks';
 import BountyClaimAction from './BountyClaimAction';
 import BountyInitiateVoting from './BountyInitiateVoting';
 import ProposeCuratorAction from './ProposeCuratorAction';
@@ -22,9 +22,7 @@ interface Props {
 }
 
 export function BountyActions ({ bestNumber, description, index, proposals, status, value }: Props): JSX.Element {
-  const updateStatus = useCallback(() => getBountyStatus(status), [status]);
-
-  const { beneficiary, curator, unlockAt } = updateStatus();
+  const { beneficiary, curator, unlockAt } = useBountyStatus(status);
 
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 

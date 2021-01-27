@@ -20,7 +20,7 @@ import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
-import { getBountyStatus } from './helpers';
+import { useBountyStatus } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -44,10 +44,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
-
-  const updateStatus = useCallback(() => getBountyStatus(status), [status]);
-
-  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = updateStatus();
+  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = useBountyStatus(status);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
@@ -139,8 +136,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               type='bounty'
             />
             <BountyExtraActions
-              blocksUntilUpdate={blocksUntilUpdate}
-              curator={curator}
+              bestNumber={bestNumber}
               description={description}
               index={index}
               proposals={proposals}
