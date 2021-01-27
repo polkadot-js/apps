@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
-import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
+import { Button, ContractParams, Dropdown, IconLink, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { useTxParams } from '@canvas-ui/react-params';
 import { extractValues } from '@canvas-ui/react-params/values';
@@ -164,7 +164,8 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     },
     [outcomes]
   );
-
+  // Clear all previous contract execution results
+  const _onClearAllOutcomes = () => setOutcomes([]);
   const isValid = useMemo(
     (): boolean => !!accountId && !!contract && !!contract.address && !!contract.abi && isWeightValid && isPaymentValid,
     [accountId, contract, isPaymentValid, isWeightValid]
@@ -298,12 +299,12 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
           <footer>
             <h3>
               {t<string>('Call results')}
-              {/* <IconLink
+              <IconLink
                 className='clear-all'
                 icon='close'
                 label={t<string>('Clear all')}
-                onClick={_onClearOutcomes}
-              /> */}
+                onClick={_onClearAllOutcomes}
+              />
             </h3>
             <div className='outcomes'>
               {outcomes.map((outcome, index): React.ReactNode => (
