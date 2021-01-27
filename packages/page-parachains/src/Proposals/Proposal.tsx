@@ -6,8 +6,8 @@ import type { ScheduledProposals } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, Spinner, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useParaEndpoints, useSudo, useToggle } from '@polkadot/react-hooks';
+import { AddressMini, AddressSmall, Badge, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useParaEndpoints, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -26,8 +26,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { hasSudoKey, sudoKey } = useSudo();
-  const [isQueried, toggleIsQueried] = useToggle();
-  const proposal = useProposal(id, approvedIds, scheduled, isQueried);
+  const proposal = useProposal(id, approvedIds, scheduled);
   const endpoints = useParaEndpoints(id);
 
   const chainLink = useMemo(
@@ -54,11 +53,6 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
     [proposal]
   );
 
-  const validationHex = useMemo(
-    () => proposal?.proposal && sliceHex(proposal.proposal.validationCode, 8),
-    [proposal]
-  );
-
   return (
     <tr>
       <td className='number together'><h1>{formatNumber(id)}</h1></td>
@@ -71,50 +65,16 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         )}
       </td>
       <td className='badge together'>{chainLink}</td>
-      {isQueried && !proposal.proposal
-        ? (
-          <>
-            <td colSpan={2}><Spinner variant='mini' /></td>
-            <td className='media--1100' />
-            <td className='media--1700' />
-            <td className='media--1500' />
-            <td />
-          </>
-        )
-        : (
-          <>
-            {!isQueried
-              ? (
-                <td
-                  className='button start'
-                  colSpan={2}
-                >
-                  <Toggle
-                    label={t<string>('Details')}
-                    onChange={toggleIsQueried}
-                    value={isQueried}
-                  />
-                </td>
-              )
-              : (
-                <>
-                  <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
-                  <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
-                </>
-              )
-            }
-            <td className='number media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
-            <td className='start hash together media--1700'>{initialHex}</td>
-            <td className='start hash together media--1500'>{validationHex}</td>
-            <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
-              <AddressMini
-                key={validatorId.toString()}
-                value={validatorId}
-              />
-            ))}</td>
-          </>
-        )
-      }
+      <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
+      <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
+      <td className='number media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
+      <td className='start hash together media--1400'>{initialHex}</td>
+      <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
+        <AddressMini
+          key={validatorId.toString()}
+          value={validatorId}
+        />
+      ))}</td>
       <td className='button'>
         {!(proposal.isApproved || proposal.isScheduled) && (
           <>
