@@ -57,7 +57,7 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;
   const showExtendExpiry = status.isActive && isCurator;
-  const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal && availableSlashActions !== [];
+  const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal && availableSlashActions.length !== 0;
 
   const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator);
 
