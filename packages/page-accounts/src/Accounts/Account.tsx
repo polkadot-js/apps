@@ -221,18 +221,27 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <td className='together'>
         {meta.genesisHash
           ? <Badge color='transparent' />
-          : (
-            <Badge
-              color='orange'
-              hover={
-                <div>
-                  <p>{t<string>('This account is available on all networks. Ensure you tie it to a specific network via the account options ("only this network" option) to limit availability on a single network.')}</p>
-                  <p>{t<string>('This is especially prudent in cases where the address is only destined to be used on a single network or linked to a specific device.')}</p>
-                </div>
-              }
-              icon='exclamation-triangle'
-            />
-          )
+          : isDevelopment
+            ? (
+              <Badge
+                className='devBadge'
+                color='orange'
+                hover={t<string>('This is a development account derived from the known development seed. Do now use for any funds on a non-development network.')}
+                icon='wrench'
+              />
+            )
+            : (
+              <Badge
+                color='orange'
+                hover={
+                  <div>
+                    <p>{t<string>('This account is available on all networks. Ensure you tie it to a specific network via the account options ("only this network" option) to limit availability on a single network.')}</p>
+                    <p>{t<string>('This is especially prudent in cases where the address is only destined to be used on a single network or linked to a specific device.')}</p>
+                  </div>
+                }
+                icon='exclamation-triangle'
+              />
+            )
         }
         {recoveryInfo && (
           <Badge
@@ -615,5 +624,9 @@ export default React.memo(styled(Account)`
   .tags {
     width: 100%;
     min-height: 1.5rem;
+  }
+
+  .devBadge {
+    opacity: 0.65;
   }
 `);
