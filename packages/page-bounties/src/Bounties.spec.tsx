@@ -12,6 +12,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
+import { BLOCKS_TO_SHOW_WARNING } from '@polkadot/app-bounties/BountyInfos';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -631,6 +632,44 @@ describe('Bounties', () => {
       const { findByText } = renderOneBounty(bounty);
 
       await expect(findByText('Beneficiary')).rejects.toThrow();
+    });
+  });
+
+  describe('Show', () => {
+    it('warning when update time is close', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice, status: 'Active', updateDue: BLOCKS_TO_SHOW_WARNING.toNumber() - 1 }) });
+      const { findByText } = renderOneBounty(bounty);
+
+      expect(await findByText('Warning')).toBeTruthy();
+      expect(await findByText('Close deadline')).toBeTruthy();
+    });
+
+    it('info when waiting for bounty funding', async () => {
+      const bounty = bountyWith({ status: 'Approved' });
+      const { findByText } = renderOneBounty(bounty);
+
+      expect(await findByText('Info')).toBeTruthy();
+      expect(await findByText('Waiting for Bounty Funding')).toBeTruthy();
+    });
+
+    it('info when waiting for curator acceptance', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+      const { findByText } = renderOneBounty(bounty);
+
+      expect(await findByText('Info')).toBeTruthy();
+      expect(await findByText('Waiting for Curator acceptance')).toBeTruthy();
+    });
+
+    it('no warning or info when requirements are not met', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice, status: 'Active', updateDue: BLOCKS_TO_SHOW_WARNING.toNumber() + 1 }) });
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Warning')).rejects.toThrow();
+      await expect(findByText('Close deadline')).rejects.toThrow();
+
+      await expect(findByText('Info')).rejects.toThrow();
+      await expect(findByText('Waiting for Bounty Funding')).rejects.toThrow();
+      await expect(findByText('Waiting for Curator acceptance')).rejects.toThrow();
     });
   });
 });
