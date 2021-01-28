@@ -113,6 +113,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='td-row'>
             <BountyInfos
               beneficiary={beneficiary}
+              blocksUntilUpdate={blocksUntilUpdate}
               proposals={proposals}
               status={status}
             />
