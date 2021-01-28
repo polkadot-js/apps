@@ -4,19 +4,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useTranslation } from '@polkadot/app-bounties/translate';
 import { Icon } from '@polkadot/react-components';
+import { ThemeProps } from '@polkadot/react-components/types';
 
 interface Props {
+  className: '';
   description: string;
-  title: string;
-  type?: 'normal' | 'warning';
+  type?: 'info' | 'warning';
 }
 
-function BountyInfo ({ description, title, type = 'normal' }: Props): React.ReactElement<Props> {
+function BountyInfo ({ className = '', description, type = 'info' }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
-    <div className='ui--BountyInfo'>
+    <div className={className}>
       <div className='title'>
-        { type === 'warning' && <Icon icon={'exclamation-triangle'}/> } {title}
+        { type === 'warning' && <Icon icon={'exclamation-triangle'}/> } {type === 'info' ? t('Info') : t('Warning')}
       </div>
       <div className='description'>
         {description}
@@ -25,6 +29,23 @@ function BountyInfo ({ description, title, type = 'normal' }: Props): React.Reac
   );
 }
 
-export default React.memo(styled(BountyInfo)`
+export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
+  font-weight: 700;
+  font-size: 0.857rem;
+  line-height: 1.714rem;
+  color: ${theme.theme === 'dark' ? '#BDBDBD' : '#1A1B20'};
 
-`);
+  .title{
+    margin-bottom: 0.285rem;
+    svg {
+      color: ${theme.theme === 'dark' ? '#BDBDBD' : '#424242'};
+    }
+  }
+
+  .description {
+    font-weight: 400;
+    font-size: 0.714rem;
+    line-height: 0.864rem;
+    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+  }
+`));
