@@ -84,7 +84,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('This amount will be reserved from your account and returned on bounty claim unless you are slashed.')}</p>
+                  <p>{t<string>('This amount will be reserved from your account and returned on bounty claim or if you give up, unless you are slashed earlier.')}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>
