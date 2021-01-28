@@ -42,11 +42,6 @@ function createWebpack (context, mode = 'production') {
       rules: [
         {
           include: /node_modules/,
-          test: /\.mjs$/,
-          type: 'javascript/auto'
-        },
-        {
-          include: /node_modules/,
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,

@@ -3,3 +3,4 @@
 
 export * from './useBounties';
 export * from './useBalance';
+export * from './useUserRole';

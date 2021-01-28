@@ -20,6 +20,7 @@ import externalPolkastats from './external/polkastats.png';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeBifrost from './nodes/bifrost.svg';
+import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
@@ -58,9 +59,12 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Crust PC1', nodeCrust],
   ['darwinia crab', nodeCrab],
+  ['Darwinia PC2', nodeDarwinia],
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
+  ['Encointer PC1', nodeEncointerNotee],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -68,6 +72,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['PolkaBTC', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
+  ['Phala PC1', nodePhala],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -86,13 +91,17 @@ export const nodeLogos: Record<string, unknown> = [
   ['airalab-robonomics', nodeRobonomics],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
+  ['BitCountry Node', nodeBitCountry],
+  ['Bit.Country', nodeBitCountry],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
+  ['Crust Collator', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
+  ['Darwinia Runtime Module Library', nodeDarwinia],
   ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
@@ -112,6 +121,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Plasm Node', nodePlasm],
   ['Plasm Parachain Collator', nodePlasm],
   ['phala-substrate-node', nodePhala],
+  ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -135,6 +145,7 @@ export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
   bifrost: nodeBifrost,
+  bitcountry: nodeBitCountry,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
@@ -164,8 +175,12 @@ export const namedLogos: Record<string, unknown> = {
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
+  rococoBifrost: nodeBifrost,
+  rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
+  rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
+  rococoPhala: nodePhala,
   rococoPlasm: nodePlasm,
   rococoRobonomics: nodeRobonomics,
   rococoTick: chainRococoTick,

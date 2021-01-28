@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { truncateTitle } from '@polkadot/app-bounties/helpers/truncateTitle';
+import { truncateTitle } from './stringHelpers';
 
 describe('Truncate title', () => {
   it('does not truncate short title', () => {

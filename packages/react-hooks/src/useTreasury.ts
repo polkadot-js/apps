@@ -27,9 +27,13 @@ export function useTreasury (): Treasury {
   const [burn, setBurn] = useState<BN>();
 
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
-  const spendPeriod = api.consts.treasury.spendPeriod;
+  const spendPeriod = api.consts.treasury ? api.consts.treasury.spendPeriod : BN_ZERO;
 
   useEffect(() => {
+    if (!api.consts.treasury) {
+      return;
+    }
+
     setValue(treasuryBalance?.freeBalance.gtn(0)
       ? treasuryBalance.freeBalance
       : undefined);
