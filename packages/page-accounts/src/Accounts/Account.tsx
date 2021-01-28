@@ -219,7 +219,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       </td>
       <td className='together'>
-        {meta.genesisHash
+        {meta.genesisHash || (!isDevelopment && !isEditable)
           ? <Badge color='transparent' />
           : isDevelopment
             ? (
