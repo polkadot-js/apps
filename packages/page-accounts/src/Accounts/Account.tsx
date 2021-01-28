@@ -224,8 +224,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           : isDevelopment
             ? (
               <Badge
-                color='orange'
                 className='devBadge'
+                color='orange'
                 hover={t<string>('This is a development account derived from the known development seed. Do now use for any funds on a non-development network.')}
                 icon='wrench'
               />
