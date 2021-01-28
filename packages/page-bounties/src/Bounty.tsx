@@ -120,6 +120,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               <BountyActions
                 bestNumber={bestNumber}
                 description={description}
+                fee={fee}
                 index={index}
                 proposals={proposals}
                 status={status}

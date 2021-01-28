@@ -3,26 +3,31 @@
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React from 'react';
 
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useBounties, useUserRole } from './hooks';
-import { useTranslation } from './translate';
+import { useBounties, useUserRole } from '../hooks';
+import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId;
+  fee: BN;
   index: BountyIndex;
 }
 
-function BountyAcceptCurator ({ curatorId, index }: Props) {
+function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
   const { t } = useTranslation();
   const { acceptCurator } = useBounties();
 
   const [isOpen, toggleOpen] = useToggle();
 
   const { isCurator } = useUserRole(curatorId);
+  const { bountyCuratorDeposit } = useBounties();
+
+  const deposit = bountyCuratorDeposit.mul(fee).div(new BN(1000000));
 
   return isCurator
     ? (
@@ -55,6 +60,31 @@ function BountyAcceptCurator ({ curatorId, index }: Props) {
                 </Modal.Column>
                 <Modal.Column>
                   <p>{t<string>('Only the account proposed as curator by the council can create the assign curator transaction ')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+              <Modal.Columns>
+                <Modal.Column>
+                  <InputBalance
+                    defaultValue={fee.toString()}
+                    isDisabled
+                    label={t<string>("curator's fee")}
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('This amount will be sent to your account on bounty claim.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+              <Modal.Columns>
+                <Modal.Column>
+                  <InputBalance
+                    defaultValue={deposit.toString()}
+                    help={t<string>("Curator's deposit depends on bounty fee.")}
+                    isDisabled
+                    label={t<string>("curator's deposit")}
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('This amount will be reserved from your account and returned on bounty claim unless you are slashed.')}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>
