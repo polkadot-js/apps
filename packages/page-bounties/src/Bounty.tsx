@@ -280,7 +280,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
    display: flex;
     align-items: center;
 
-     .label {
+    .label {
       width: 50%;
     }
   }
