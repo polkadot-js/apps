@@ -94,7 +94,7 @@ export default React.memo(styled(ChainInfo)`
       text-align: left;
 
       .chain {
-        max-width: 9rem;
+        max-width: 16rem;
         margin-bottom: 0.35rem;
         white-space: nowrap;
         overflow: hidden;
