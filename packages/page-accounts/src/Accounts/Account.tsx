@@ -219,6 +219,21 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       </td>
       <td className='together'>
+        {meta.genesisHash
+          ? <Badge color='transparent' />
+          : (
+            <Badge
+              color='orange'
+              hover={
+                <div>
+                  <p>{t<string>('This account is available on all networks. Ensure you tie it to a specific network via the account options ("only this network" option) to limit availability on a single network.')}</p>
+                  <p>{t<string>('This is especially prudent in cases where the address is only destined to be used on a single network or linked to a specific device.')}</p>
+                </div>
+              }
+              icon='exclamation-triangle'
+            />
+          )
+        }
         {recoveryInfo && (
           <Badge
             color='green'
