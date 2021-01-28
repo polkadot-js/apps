@@ -5,7 +5,6 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { AccountId, BountyStatus } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import Description from '@polkadot/app-bounties/Description';
 import { useTranslation } from '@polkadot/app-bounties/translate';
@@ -40,6 +39,4 @@ function BountyInfos ({ beneficiary, proposals, status }: Props): JSX.Element {
   );
 }
 
-export default React.memo(styled(BountyInfos)`
-  
-`);
+export default React.memo(BountyInfos);
