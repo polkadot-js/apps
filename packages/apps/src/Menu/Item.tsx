@@ -53,7 +53,7 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
 
   &.topLevel {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.5rem;
     border-radius: 0.15rem 0.15rem 0 0;
     a {
@@ -68,7 +68,7 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
       background-color: ${theme.bgTabs};
       color: ${theme.color};
       font-size: 1.15rem;
-      font-weight: 600;
+      font-weight: 400;
     }
   }
 
@@ -81,7 +81,7 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     display: block;
     padding: 0.5rem 1.15rem 0.57rem;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1rem;
     line-height: 1.5rem;
   }
