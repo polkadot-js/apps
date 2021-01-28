@@ -16,10 +16,11 @@ import { formatNumber } from '@polkadot/util';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
+import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
-import { getBountyStatus } from './helpers';
+import { useBountyStatus } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -43,10 +44,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
-
-  const updateStatus = useCallback(() => getBountyStatus(status), [status]);
-
-  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = updateStatus();
+  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = useBountyStatus(status);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
@@ -136,6 +134,13 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               data={index}
               isLogo
               type='bounty'
+            />
+            <BountyExtraActions
+              bestNumber={bestNumber}
+              description={description}
+              index={index}
+              proposals={proposals}
+              status={status}
             />
             <div className='table-column-icon'
               onClick={handleOnIconClick}>
@@ -248,28 +253,6 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       border: 1px solid ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
       border-radius: 4px;
       cursor: pointer;
-    }
-
-    .settings-button {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-      border-radius: 4px;
-
-      svg {
-        padding: 0;
-        margin: 0;
-        color: #000 !important;
-      }
-
-      &:hover {
-        background: #fff;
-      }
-
-      &:focus {
-        background: #fff;
-        border: 1px solid #616161;
-      }
     }
   }
 
