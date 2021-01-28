@@ -33,6 +33,7 @@
   "Give Up": "Give Up",
   "Give up curator's role": "Give up curator's role",
   "How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.": "How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.",
+  "Id": "Id",
   "If the motion is outvoted, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state.": "If the motion is outvoted, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state.",
   "If the motion is outvoted, the current Curator will be unassigned and the Bounty will return to the Funded state.": "If the motion is outvoted, the current Curator will be unassigned and the Bounty will return to the Funded state.",
   "Initiate Voting": "Initiate Voting",
