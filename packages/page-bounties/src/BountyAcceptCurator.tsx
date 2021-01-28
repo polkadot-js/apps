@@ -3,12 +3,12 @@
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import { TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
-import { useBounties } from './hooks';
+import { useBounties, useUserRole } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -19,23 +19,60 @@ interface Props {
 function BountyAcceptCurator ({ curatorId, index }: Props) {
   const { t } = useTranslation();
   const { acceptCurator } = useBounties();
-  const { allAccounts } = useAccounts();
 
-  const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
+  const [isOpen, toggleOpen] = useToggle();
 
-  return (
-    <>
-      {isCurator &&
-        <TxButton
-          accountId={curatorId}
+  const { isCurator } = useUserRole(curatorId);
+
+  return isCurator
+    ? (
+      <>
+        <Button
           icon='check'
+          isDisabled={false}
           label={t<string>('Accept')}
-          params={[index]}
-          tx={acceptCurator}
+          onClick={toggleOpen}
         />
-      }
-    </>
-  );
+        {isOpen && (
+          <Modal
+            header={t<string>('accept curator')}
+            size='large'
+          >
+            <Modal.Content>
+              <Modal.Column>
+                <p>{t<string>('This action will accept your candidacy for the curator of the bounty.')}</p>
+              </Modal.Column>
+              <Modal.Columns>
+                <Modal.Column>
+                  <InputAddress
+                    help={t<string>('This account will be used to create the accept curator transaction.')}
+                    isDisabled
+                    label={t<string>('curator account')}
+                    type='account'
+                    value={curatorId.toString()}
+                    withLabel
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('Only the account proposed as curator by the council can create the assign curator transaction ')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+            </Modal.Content>
+            <Modal.Actions onCancel={toggleOpen}>
+              <TxButton
+                accountId={curatorId}
+                icon='check'
+                label={t<string>('Accept Curator')}
+                onStart={toggleOpen}
+                params={[index]}
+                tx={acceptCurator}
+              />
+            </Modal.Actions>
+          </Modal>
+        )}
+      </>
+    )
+    : null;
 }
 
 export default React.memo(BountyAcceptCurator);

@@ -27,13 +27,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
-import { alice,
-  bob,
-  defaultBalance,
-  defaultBountyApi,
-  defaultMembers,
-  defaultTreasury,
-  ferdie } from '../test/hooks/defaults';
+import { alice, bob, defaultBalance, defaultBountyApi, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
@@ -313,7 +307,7 @@ describe('Bounties', () => {
   describe('close bounty modal', () => {
     it('creates closeBounty proposal', async () => {
       const bounty = bountyWith({ status: 'Funded' });
-      const { findByTestId, findByText, getByRole } = renderOneBounty(bounty);
+      const { findByRole, findByTestId, findByText, getByRole } = renderOneBounty(bounty);
 
       await clickElementWithTestId('extra-actions', findByTestId);
 
@@ -324,12 +318,13 @@ describe('Bounties', () => {
       const combobox = getByRole('combobox');
       const proposingAccountInput = combobox.children[0];
 
-      fireEvent.change(proposingAccountInput, { target: { value: ferdie } });
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+      fireEvent.keyDown(proposingAccountInput, { code: 'Enter', key: 'Enter' });
 
-      const closeBountyButton = getByRole('button', { name: 'Close Bounty' });
+      await clickButtonWithName('Close Bounty', findByRole);
 
-      fireEvent.click(closeBountyButton);
-      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: ferdie, extrinsic: 'mockProposeExtrinsic' }));
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+      expect(mockBountyApi.closeBounty).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
     it('Not available when close bounty motion already exists', async () => {
@@ -366,6 +361,23 @@ describe('Bounties', () => {
 
       expect(await findByText('Give Up')).toBeTruthy();
       expect(await findByText('Slash Curator (Council)')).toBeTruthy();
+    });
+  });
+
+  describe('Accept curator modal', () => {
+    it('creates extrinsic', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) });
+
+      const { findByRole, findByText } = renderOneBounty(bounty);
+
+      await clickButtonWithName('Accept', findByRole);
+
+      expect(await findByText('This action will accept your candidacy for the curator of the bounty.')).toBeTruthy();
+
+      await clickButtonWithName('Accept Curator', findByRole);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: bob }));
+      expect(mockBountyApi.acceptCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
   });
 
