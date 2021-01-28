@@ -7,6 +7,7 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import chainDusty from './chains/dusty.png';
+import chainHydrate from './chains/hydrate.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -64,6 +65,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Darwinia PC2', nodeDarwinia],
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
+  ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
@@ -178,6 +180,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
+  rococoHydrate: chainHydrate,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
   rococoPhala: nodePhala,
