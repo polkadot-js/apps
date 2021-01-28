@@ -4,6 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { BountyApi } from './hooks';
 
 import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
@@ -27,13 +28,13 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
+import { alice, bob, defaultMembers, defaultTreasury, ferdie } from '../test/hooks/defaults';
+import { BountiesPage, mocks } from '../test/pages/bountiesPage';
 import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';import { alice, bob, defaultBalance, defaultBountyApi,defaultBountyUpdatePeriod, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
-import { BountiesPage, mocks } from '../test/pages/bountiesPage';
 import Bounties from './Bounties';
-import { BountyApi } from './hooks';
 
 const mockMembers = defaultMembers;
 const mockTreasury = defaultTreasury;
@@ -96,7 +97,10 @@ describe('Bounties', () => {
     const mockApi: ApiProps = {
       api: {
         derive: {
-          accounts: { info: () => Promise.resolve(() => { /**/ }) }
+          accounts: {
+            info: () => Promise.resolve(() => { /**/
+            })
+          }
         },
         genesisHash: aGenesisHash(),
         query: {},
@@ -148,11 +152,13 @@ describe('Bounties', () => {
     });
 
     it('renders bounties in order from newest to oldest', async () => {
-      const { findAllByTestId } = renderBounties({ bounties: [
-        { bounty: aBounty(), description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
-        { bounty: aBounty(), description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
-        { bounty: aBounty(), description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
-      ] });
+      const { findAllByTestId } = renderBounties({
+        bounties: [
+          { bounty: aBounty(), description: 'bounty 2', index: aBountyIndex(2), proposals: [] },
+          { bounty: aBounty(), description: 'bounty 1', index: aBountyIndex(1), proposals: [] },
+          { bounty: aBounty(), description: 'bounty 3', index: aBountyIndex(3), proposals: [] }
+        ]
+      });
 
       const descriptions = await findAllByTestId('description');
 
@@ -556,7 +562,7 @@ describe('Bounties', () => {
       await clickButtonWithName('Approve', findByRole);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' }));
-      expect(mockBountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
+      expect(mocks.mockBountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
     it('creates a motion when slashing a PendingPayout bounty', async () => {
@@ -604,7 +610,7 @@ describe('Bounties', () => {
       fireEvent.click(acceptButton);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockAwardExtrinsic' }));
-      expect(mockBountyApi.awardBounty).toHaveBeenCalledWith(aBountyIndex(0), bob);
+      expect(mocks.mockBountyApi.awardBounty).toHaveBeenCalledWith(aBountyIndex(0), bob);
     });
   });
 

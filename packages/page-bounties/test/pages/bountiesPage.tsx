@@ -31,8 +31,11 @@ export const mocks = {
   mockBountyApi
 };
 
-jest.mock('../../src/hooks', () => ({
-  useBalance: () => mocks.mockBalance,
+jest.mock('../../src/hooks/useBalance', () => ({
+  useBalance: () => mocks.mockBalance
+}));
+
+jest.mock('../../src/hooks/useBounties', () => ({
   useBounties: () => mocks.mockBountyApi
 }));
 
