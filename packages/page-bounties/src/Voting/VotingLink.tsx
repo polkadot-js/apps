@@ -5,7 +5,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Icon } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 
 import Description from '../Description';
 import { useTranslation } from '../translate';
@@ -20,8 +19,7 @@ function VotingLink ({ className }: Props): React.ReactElement<string> {
   return (
     <>
       <div className={className}>
-        <a
-          className='voting-summary-text'
+        <a className='voting-link'
           href='#/council/motions'
         >
           <b>{t('Voting')}</b>
@@ -36,17 +34,20 @@ function VotingLink ({ className }: Props): React.ReactElement<string> {
   );
 }
 
-export default React.memo(styled(VotingLink)(({ theme }: ThemeProps) => `
-  .voting-summary-text {
+export default React.memo(styled(VotingLink)`
+  && .voting-link {
     font-size: 0.85rem;
     line-height: 0.5rem;
-    color: ${theme.theme === 'dark' ? '#eeeeee' : '#1a1b20'} !important;
+    color: currentColor;
+    :hover {
+      color: currentColor;
+    }
   }
 
   .voting-icon {
     margin-left: 0.3rem;
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.2rem;
     width: 0.4rem;
     height: 0.4rem;
   }
-`));
+`);
