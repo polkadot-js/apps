@@ -27,6 +27,7 @@ import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
+import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
 import nodeDockTestnet from './nodes/dock-testnet.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
@@ -63,6 +64,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Crust PC1', nodeCrust],
   ['darwinia crab', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
+  ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
@@ -105,6 +107,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Darwinia Runtime Module Library', nodeDarwinia],
+  ['DataHighway', nodeDataHighway],
+  ['DataHighway Node', nodeDataHighway],
+  ['DataHighway Parachain Collator', nodeDataHighway],
   ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
@@ -155,6 +160,7 @@ export const namedLogos: Record<string, unknown> = {
   crab: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,
+  datahighway: nodeDataHighway,
   'dock-mainnet': nodeDockMainnet,
   'dock-testnet': nodeDockTestnet,
   dusty: chainDusty,
@@ -182,6 +188,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
+  rococoDataHighway: nodeDataHighway,
   rococoHydrate: chainHydrate,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,

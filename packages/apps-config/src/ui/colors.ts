@@ -27,6 +27,7 @@ const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
+const chainRoccoDataHighway = '#000000';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
@@ -70,6 +71,7 @@ export const chainColors: Record<string, any> = [
   ['Crust PC1', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia PC2', chainRoccoDarwinia],
+  ['DataHighway', chainRoccoDataHighway],
   ['Encointer PC1', nodeEncointerNotee],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
