@@ -13,7 +13,6 @@ const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
-const chainDataHighway = '#000000';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainKulupu = '#003366';
