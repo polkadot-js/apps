@@ -1,0 +1,14 @@
+{
+  "name": "@canvas-ui/test-support",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "github:paritytech/canvas-ui",
+  "author": "Keith Ingram <keith@parity.io>",
+  "maintainers": [],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@testing-library/react": "^11.2.3",
+    "testcontainers": "^6.4.1"
+  }
+}
