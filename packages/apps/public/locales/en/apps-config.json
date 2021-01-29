@@ -63,6 +63,7 @@
   "rpc.rococo.kilt": "KILT PC1",
   "rpc.rococo.phala": "Phala PC1",
   "rpc.rococo.plasm": "Plasm PC2",
+  "rpc.rococo.polkabtc": "PolkaBTC",
   "rpc.rococo.robonomics": "Robonomics PC2",
   "rpc.rococo.tick": "Tick",
   "rpc.rococo.track": "Track",
