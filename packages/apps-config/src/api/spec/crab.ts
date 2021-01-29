@@ -208,14 +208,6 @@ export default {
     ParentMmrRoot: 'Hash'
   },
 
-  ChainProperties: {
-    ss58Format: 'Option<u8>',
-    tokenDecimals: 'Option<u32>',
-    tokenSymbol: 'Option<Text>',
-    ktonTokenDecimals: 'Option<u32>',
-    ktonTokenSymbol: 'Option<Text>'
-  },
-
   AccountInfo: {
     nonce: 'Index',
     refcount: 'RefCount',
