@@ -108,6 +108,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPolkabtc',
+        paraId: 21,
+        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
