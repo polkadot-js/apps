@@ -48,7 +48,8 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
       >
         <ChainImg
           className='endpointIcon'
-          logo={icon === 'local' ? 'empty' : icon}
+          logo={icon === 'local' ? 'empty' : (icon || 'empty')}
+          withoutHl
         />
         <div className='endpointValue'>{name}</div>
       </div>

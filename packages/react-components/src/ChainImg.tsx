@@ -11,16 +11,19 @@ interface Props {
   className?: string;
   logo?: keyof typeof namedLogos;
   onClick?: () => any;
+  withoutHl?: boolean;
 }
 
 function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
 }
 
-function ChainImg ({ className = '', logo, onClick }: Props): React.ReactElement<Props> {
+function ChainImg ({ className = '', logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
   const [isEmpty, img] = useMemo((): [boolean, string] => {
-    const found: unknown = namedLogos[logo || ''] || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
+    const found = logo
+      ? namedLogos[logo]
+      : chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
 
     return [!found || logo === 'empty', (found || emptyLogos.empty) as string];
   }, [logo, systemChain, systemName]);
@@ -28,7 +31,7 @@ function ChainImg ({ className = '', logo, onClick }: Props): React.ReactElement
   return (
     <img
       alt='chain logo'
-      className={`${className}${isEmpty ? ' highlight--bg' : ''}`}
+      className={`${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}`}
       onClick={onClick}
       src={img}
     />
