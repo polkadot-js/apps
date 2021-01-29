@@ -4,7 +4,6 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeProps } from '@polkadot/react-components/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
-import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
@@ -14,7 +13,7 @@ import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { getEnvironment } from '@polkadot/react-api/util';
 import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -22,15 +21,18 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
+import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
+
+type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
 
 interface Props extends ModalProps {
   className?: string;
   onClose: () => void;
   onStatusChange: (status: ActionStatus) => void;
   seed?: string;
-  type?: KeypairType;
+  type?: PairType;
 }
 
 type SeedType = 'bip' | 'raw' | 'dev';
@@ -40,7 +42,7 @@ interface AddressState {
   derivePath: string;
   deriveValidation? : DeriveValidationOutput
   isSeedValid: boolean;
-  pairType: KeypairType;
+  pairType: PairType;
   seed: string;
   seedType: SeedType;
 }
@@ -59,7 +61,7 @@ interface DeriveValidationOutput {
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
 
-function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): DeriveValidationOutput {
+function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: PairType): DeriveValidationOutput {
   try {
     const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
     let result: DeriveValidationOutput = {};
@@ -93,10 +95,12 @@ function rawValidate (seed: string): boolean {
   return ((seed.length > 0) && (seed.length <= 32)) || isHexSeed(seed);
 }
 
-function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
-  return keyring
-    .createFromUri(`${phrase.trim()}${derivePath}`, {}, pairType)
-    .address;
+function addressFromSeed (seed: string, derivePath: string, pairType: PairType): string {
+  return (
+    pairType === 'ed25519-ledger'
+      ? keyring.createFromUri(seed, {}, 'ed25519')
+      : keyring.createFromUri(`${seed.trim()}${derivePath}`, {}, pairType)
+  ).address;
 }
 
 function newSeed (seed: string | undefined | null, seedType: SeedType): string {
@@ -110,7 +114,7 @@ function newSeed (seed: string | undefined | null, seedType: SeedType): string {
   }
 }
 
-function generateSeed (_seed: string | undefined | null, derivePath: string, seedType: SeedType, pairType: KeypairType = DEFAULT_PAIR_TYPE): AddressState {
+function generateSeed (_seed: string | undefined | null, derivePath: string, seedType: SeedType, pairType: PairType = DEFAULT_PAIR_TYPE): AddressState {
   const seed = newSeed(_seed, seedType);
   const address = addressFromSeed(seed, derivePath, pairType);
 
@@ -125,7 +129,7 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
   };
 }
 
-function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
+function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: PairType): AddressState {
   const deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
   let isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
@@ -157,12 +161,14 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
   FileSaver.saveAs(blob, `${pair.address}.json`);
 }
 
-function createAccount (suri: string, pairType: KeypairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
+function createAccount (suri: string, pairType: PairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    const result = keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
+    const result = pairType === 'ed25519-ledger'
+      ? keyring.addUri(suri, password, { genesisHash, name, tags }, 'ed25519')
+      : keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
     const { address } = result.pair;
 
     status.account = address;
@@ -185,13 +191,15 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment, isEthereum } = useApi();
+  const { isLedgerEnabled } = useLedger();
   const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
+  const [ledgerSeed, setLedgerSeed] = useState<string | null>(null);
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
+  const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && (pairType === 'ed25519-ledger' ? !!ledgerSeed : isSeedValid);
   const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
   const errorIndex: Record<string, string> = useMemo(() => ({
@@ -206,7 +214,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       : []
   ).concat(
     { text: t<string>('Mnemonic'), value: 'bip' },
-    isEthereum ? { text: t<string>('Private Key'), value: 'raw' } : { text: t<string>('Raw seed'), value: 'raw' }
+    isEthereum
+      ? { text: t<string>('Private Key'), value: 'raw' }
+      : { text: t<string>('Raw seed'), value: 'raw' }
   ), [isEthereum, isDevelopment, t]);
 
   const _onChangeDerive = useCallback(
@@ -220,7 +230,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 
   const _onChangePairType = useCallback(
-    (newPairType: KeypairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
+    (newPairType: PairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
     [derivePath, seed, seedType]
   );
 
@@ -345,7 +355,13 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                   label={t<string>('keypair crypto type')}
                   onChange={_onChangePairType}
-                  options={isEthereum ? settings.availableCryptosEth : settings.availableCryptos}
+                  options={
+                    isEthereum
+                      ? settings.availableCryptosEth
+                      : isLedgerEnabled
+                        ? settings.availableCryptosLedger
+                        : settings.availableCryptos
+                  }
                   tabIndex={-1}
                 />
               </Modal.Column>
@@ -353,37 +369,47 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
               </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Input
-                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                  isError={!!deriveValidation?.error}
-                  label={t<string>('secret derivation path')}
-                  onChange={_onChangeDerive}
-                  onEnter={_onCommit}
-                  placeholder={
-                    seedType === 'raw'
-                      ? pairType === 'sr25519'
-                        ? t<string>('//hard/soft')
-                        : t<string>('//hard')
-                      : pairType === 'sr25519'
-                        ? t<string>('//hard/soft///password')
-                        : t<string>('//hard///password')
-                  }
-                  tabIndex={-1}
-                  value={derivePath}
+            {pairType === 'ed25519-ledger'
+              ? (
+                <CreateSuriLedger
+                  onChange={setLedgerSeed}
+                  seed={seed}
+                  seedType={seedType}
                 />
-                {deriveValidation?.error && (
-                  <MarkError content={errorIndex[deriveValidation.error] || deriveValidation.error} />
-                )}
-                {deriveValidation?.warning && (
-                  <MarkWarning content={errorIndex[deriveValidation.warning]} />
-                )}
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
+              )
+              : (
+                <Modal.Columns>
+                  <Modal.Column>
+                    <Input
+                      help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                      isError={!!deriveValidation?.error}
+                      label={t<string>('secret derivation path')}
+                      onChange={_onChangeDerive}
+                      onEnter={_onCommit}
+                      placeholder={
+                        seedType === 'raw'
+                          ? pairType === 'sr25519'
+                            ? t<string>('//hard/soft')
+                            : t<string>('//hard')
+                          : pairType === 'sr25519'
+                            ? t<string>('//hard/soft///password')
+                            : t<string>('//hard///password')
+                      }
+                      tabIndex={-1}
+                      value={derivePath}
+                    />
+                    {deriveValidation?.error && (
+                      <MarkError content={errorIndex[deriveValidation.error] || deriveValidation.error} />
+                    )}
+                    {deriveValidation?.warning && (
+                      <MarkWarning content={errorIndex[deriveValidation.warning]} />
+                    )}
+                  </Modal.Column>
+                  <Modal.Column>
+                    <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+                  </Modal.Column>
+                </Modal.Columns>
+              )}
           </Expander>
           <Modal.Columns>
             <Modal.Column>
@@ -426,13 +452,18 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             </Modal.Column>
           </Modal.Columns>
         </>}
-        {step === 3 && address && <CreateConfirmation
-          derivePath={derivePath}
-          isBusy={isBusy}
-          pairType={pairType}
-          seed={seed}
-        />
-        }
+        {step === 3 && address && (
+          <CreateConfirmation
+            derivePath={derivePath}
+            isBusy={isBusy}
+            pairType={
+              pairType === 'ed25519-ledger'
+                ? 'ed25519'
+                : pairType
+            }
+            seed={seed}
+          />
+        )}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         {step === 1 &&
