@@ -16,7 +16,9 @@ function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): R
         viewBox='0 0 17 65'
         width='17'
         xmlns='http://www.w3.org/2000/svg'>
-        <path d='M1 1L16 32.5L1 64'
+        <path
+          className='highlight--stroke'
+          d='M1 1L16 32.5L1 64'
           stroke='#D1D1D1'/>
       </svg>
     </div>
@@ -26,4 +28,4 @@ function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): R
 export default React.memo(styled(TabsSectionDelimiter)`
   height: 100%;
   width: auto;
-  `);
+`);
