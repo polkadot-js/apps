@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
+import { bountyColor, bountyLabelColor, bountySvgColor } from './theme';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -34,12 +35,12 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
   font-weight: 700;
   font-size: 0.857rem;
   line-height: 1.714rem;
-  color: ${theme.theme === 'dark' ? '#BDBDBD' : '#1A1B20'};
+  color: ${bountyColor[theme.theme]};
 
   .title{
     margin-bottom: 0.285rem;
     svg {
-      color: ${theme.theme === 'dark' ? '#BDBDBD' : '#424242'};
+      color: ${bountySvgColor[theme.theme]};
     }
   }
 
@@ -47,6 +48,6 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
     font-weight: 400;
     font-size: 0.714rem;
     line-height: 0.864rem;
-    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+    color: ${bountyLabelColor[theme.theme]};
   }
 `));

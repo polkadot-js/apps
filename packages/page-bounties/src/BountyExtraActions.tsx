@@ -5,9 +5,6 @@ import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { determineUnassignCuratorAction } from '@polkadot/app-bounties/helpers';
-import { useBountyStatus, useUserRole } from '@polkadot/app-bounties/hooks';
-import { ValidUnassignCuratorAction } from '@polkadot/app-bounties/types';
 import { Button, Menu, Popup } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers, useToggle } from '@polkadot/react-hooks';
@@ -17,7 +14,11 @@ import CloseBounty from './BountyActions/CloseBounty';
 import ExtendBountyExpiryAction from './BountyActions/ExtendBountyExpiryAction';
 import SlashCurator from './BountyActions/SlashCurator';
 import BountyRejectCurator from './BountyRejectCurator';
+import { determineUnassignCuratorAction } from './helpers';
+import { useBountyStatus, useUserRole } from './hooks';
+import { bountySvgColor } from './theme';
 import { useTranslation } from './translate';
+import { ValidUnassignCuratorAction } from './types';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -157,7 +158,7 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
 }
 
 export default React.memo(styled(BountyExtraActions)(({ theme }: ThemeProps) => `
-  .settings-button {
+  && .ui--Button:not(.isDisabled):not(.isIcon).settings-button {
     width: 24px;
     height: 24px;
     padding: 0;
@@ -166,7 +167,7 @@ export default React.memo(styled(BountyExtraActions)(({ theme }: ThemeProps) => 
     svg {
       padding: 0;
       margin: 0;
-      color: ${theme.theme === 'dark' ? 'rgba(244,242,240,0.9)' : '#000 !important'};
+      color: ${bountySvgColor[theme.theme]};
     }
 
     &:focus {
