@@ -382,7 +382,7 @@ describe('Bounties', () => {
 
       expect(deposit).toEqual('10.0000');
 
-      await clickButtonWithName('Accept Curator', findByRole);
+      await clickButtonWithName('Accept Curator Role', findByRole);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: bob }));
       expect(mockBountyApi.acceptCurator).toHaveBeenCalledWith(aBountyIndex(0));

@@ -9,6 +9,7 @@ import React from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
+import { toPermill } from '../helpers/toPermill';
 import { useBounties, useUserRole } from '../hooks';
 import { useTranslation } from '../translate';
 
@@ -27,7 +28,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
   const { isCurator } = useUserRole(curatorId);
   const { bountyCuratorDeposit } = useBounties();
 
-  const deposit = bountyCuratorDeposit.mul(fee).div(new BN(1_000_000));
+  const deposit = toPermill(fee, bountyCuratorDeposit);
 
   return isCurator
     ? (
@@ -40,7 +41,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
         />
         {isOpen && (
           <Modal
-            header={t<string>('accept curator')}
+            header={t<string>('accept curator role')}
             size='large'
           >
             <Modal.Content>
@@ -92,7 +93,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
               <TxButton
                 accountId={curatorId}
                 icon='check'
-                label={t<string>('Accept Curator')}
+                label={t<string>('Accept Curator Role')}
                 onStart={toggleOpen}
                 params={[index]}
                 tx={acceptCurator}
