@@ -58,7 +58,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(ChainInfo)`
   box-sizing: border-box;
-  padding: 0.4rem 1rem 0.4rem 1.5rem;
+  padding: 0.642rem 1rem 0.642rem 1.5rem;
   margin: 0;
 
   .apps--SideBar-logo-inner {
@@ -95,19 +95,24 @@ export default React.memo(styled(ChainInfo)`
 
       .chain {
         max-width: 16rem;
-        margin-bottom: 0.35rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         font-weight: 500;
-        font-size: 1rem;
-        line-height: 1.25rem;
+        font-size: 1.143rem;
+        line-height: 1.143rem;
       }
 
-      .runtimeVersion,
+      .runtimeVersion {
+          font-size: 0.714rem;
+          line-height: 0.714rem;
+          letter-spacing: -0.01em;
+          margin-bottom: 0.428rem;
+      }
+
       .bestNumber {
-        font-size: 0.7rem;
-        line-height: 1rem;
+        font-size: 0.857rem;
+        line-height: 0.857rem;
         letter-spacing: -0.01em;
       }
     }
