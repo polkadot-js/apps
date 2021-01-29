@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;
-const BLOCKS_TO_SHOW_WARNING = new BN('10000');
+const BLOCKS_LEFT_TO_SHOW_WARNING = new BN('10000');
 
 function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Props): JSX.Element {
   const { t } = useTranslation();
@@ -44,7 +44,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
           <Description description={t<string>('Beneficiary')} />
         </div>
       )}
-      {blocksUntilUpdate?.lt(bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100) ?? BLOCKS_TO_SHOW_WARNING) && (
+      {blocksUntilUpdate?.lt(bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100) ?? BLOCKS_LEFT_TO_SHOW_WARNING) && (
         <BountyInfo
           description={t<string>('Close deadline')}
           type='warning'
