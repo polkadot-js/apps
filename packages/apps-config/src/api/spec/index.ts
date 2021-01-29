@@ -18,6 +18,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
+import hydrate from './hydrate';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
@@ -52,6 +53,7 @@ export default {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
+  'hack-hydra-dx': hydrate,
   hanonycash,
   jupiter,
   'mashnet-node': kilt,

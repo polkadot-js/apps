@@ -16,7 +16,7 @@ import type { EndpointOption } from './types';
 export function createRococo (t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
-    genesisHash: '0x481550b70e974177e83cff4d554cea7166be3eaeb32f020b86542e76968ccd0e',
+    genesisHash: '0xe2bcff61f49d41ef837b92331a3f02dee14fa59723bc850697f516c5376cde1c',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
@@ -81,6 +81,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
         providers: {
           Encointer: 'wss://rococo.encointer.org'
+        }
+      },
+      {
+        info: 'rococoHydrate',
+        paraId: 82406,
+        text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://hydrate-rpc.hydradx.io:9944'
         }
       },
       {

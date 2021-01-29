@@ -89,6 +89,13 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       ? [exposure.own.unwrap(), exposure.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
     const skipRewards = bondTotal.isZero();
+    const minNominated = (exposure.others || []).reduce((min: BN, { value }): BN => {
+      const actual = value.unwrap();
+
+      return min.isZero() || actual.lt(min)
+        ? actual
+        : min;
+    }, BN_ZERO);
 
     if (bondTotal.isZero()) {
       bondTotal = bondOwn = stakingLedger.total.unwrap();
@@ -129,6 +136,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       key,
       knownLength: activeEra.sub(stakingLedger.claimedRewards[0] || activeEra),
       lastPayout,
+      minNominated,
       numNominators: (exposure.others || []).length,
       numRecentPayouts: earliestEra
         ? stakingLedger.claimedRewards.filter((era) => era.gte(earliestEra)).length
@@ -169,6 +177,11 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   });
 
   // all validators, calc median commission
+  const minNominated = elected.reduce((min: BN, { minNominated }) => {
+    return min.isZero() || minNominated.lt(min)
+      ? minNominated
+      : min;
+  }, BN_ZERO);
   const validators = sortValidators(arrayFlatten([elected, waiting]));
   const commValues = validators.map(({ commissionPer }) => commissionPer).sort((a, b) => a - b);
   const midIndex = Math.floor(commValues.length / 2);
@@ -188,6 +201,7 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     inflation,
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
+    minNominated,
     nominators,
     totalIssuance,
     totalStaked,
@@ -222,5 +236,5 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
     [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo]
   );
 
-  return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, ...partial };
+  return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, minNominated: BN_ZERO, ...partial };
 }

@@ -14,6 +14,7 @@ const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainHanonycash = '#0099CC';
+const chainHydrate = '#000000';
 const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
 const chainPlasm = '#2096F3';
@@ -71,6 +72,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia PC2', chainRoccoDarwinia],
   ['Encointer PC1', nodeEncointerNotee],
   ['hanonycash', chainHanonycash],
+  ['HydraDX Hydrate', chainHydrate],
   ['Jupiter Testnet', chainJupiter],
   ['Kulupu', chainKulupu],
   ['Kusama', chainKusama],

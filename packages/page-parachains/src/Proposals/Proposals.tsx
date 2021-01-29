@@ -27,8 +27,7 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
     [],
     [t('proposer'), 'address'],
     [t('balance'), 'media--1100'],
-    [t('initial state'), 'start media--1700'],
-    [t('validation'), 'start media--1500'],
+    [t('initial state'), 'start media--1400'],
     [t('validators'), 'start'],
     []
   ]);

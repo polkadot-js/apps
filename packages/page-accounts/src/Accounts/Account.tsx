@@ -96,7 +96,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -219,6 +219,31 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       </td>
       <td className='together'>
+        {meta.genesisHash
+          ? <Badge color='transparent' />
+          : isDevelopment
+            ? (
+              <Badge
+                className='devBadge'
+                color='orange'
+                hover={t<string>('This is a development account derived from the known development seed. Do now use for any funds on a non-development network.')}
+                icon='wrench'
+              />
+            )
+            : (
+              <Badge
+                color='orange'
+                hover={
+                  <div>
+                    <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                    <p>{t<string>('This is especially prudent in cases where the address is only destined to be used on a single network or linked to a specific device.')}</p>
+                    <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                  </div>
+                }
+                icon='exclamation-triangle'
+              />
+            )
+        }
         {recoveryInfo && (
           <Badge
             color='green'
@@ -578,7 +603,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <ChainLock
               className='accounts--network-toggle'
               genesisHash={genesisHash}
-              isDisabled={api.isDevelopment}
+              isDisabled={api.isDevelopment || !isEditable}
               onChange={onSetGenesisHash}
             />
           </Menu>
@@ -600,5 +625,9 @@ export default React.memo(styled(Account)`
   .tags {
     width: 100%;
     min-height: 1.5rem;
+  }
+
+  .devBadge {
+    opacity: 0.65;
   }
 `);
