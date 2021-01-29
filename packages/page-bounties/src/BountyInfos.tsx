@@ -7,6 +7,7 @@ import type { AccountId, BountyStatus } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 
+import { useBounties } from '@polkadot/app-bounties/hooks';
 import { useTranslation } from '@polkadot/app-bounties/translate';
 import { AddressSmall } from '@polkadot/react-components';
 
@@ -21,10 +22,13 @@ interface Props {
   status: BountyStatus;
 }
 
-export const BLOCKS_TO_SHOW_WARNING = new BN('10000');
+export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;
+const BLOCKS_TO_SHOW_WARNING = new BN('10000');
 
 function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Props): JSX.Element {
   const { t } = useTranslation();
+
+  const { bountyUpdatePeriod } = useBounties();
 
   return (
     <>
@@ -40,7 +44,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
           <Description description={t<string>('Beneficiary')} />
         </div>
       )}
-      {blocksUntilUpdate?.lt(BLOCKS_TO_SHOW_WARNING) && (
+      {blocksUntilUpdate?.lt(bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100) ?? BLOCKS_TO_SHOW_WARNING) && (
         <BountyInfo
           description={t<string>('Close deadline')}
           type='warning'

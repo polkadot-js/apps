@@ -12,7 +12,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { BLOCKS_TO_SHOW_WARNING } from '@polkadot/app-bounties/BountyInfos';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '@polkadot/app-bounties/BountyInfos';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -32,6 +32,7 @@ import { alice,
   bob,
   defaultBalance,
   defaultBountyApi,
+  defaultBountyUpdatePeriod,
   defaultMembers,
   defaultTreasury,
   ferdie } from '../test/hooks/defaults';
@@ -637,7 +638,13 @@ describe('Bounties', () => {
 
   describe('Show', () => {
     it('warning when update time is close', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: alice, status: 'Active', updateDue: BLOCKS_TO_SHOW_WARNING.toNumber() - 1 }) });
+      const bounty = aBounty({ status: bountyStatusWith(
+        {
+          curator: alice,
+          status: 'Active',
+          updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
+        }) });
+
       const { findByText } = renderOneBounty(bounty);
 
       expect(await findByText('Warning')).toBeTruthy();
@@ -661,7 +668,12 @@ describe('Bounties', () => {
     });
 
     it('no warning or info when requirements are not met', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: alice, status: 'Active', updateDue: BLOCKS_TO_SHOW_WARNING.toNumber() + 1 }) });
+      const bounty = aBounty({ status: bountyStatusWith({
+        curator: alice,
+        status: 'Active',
+        updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
+      }) });
+
       const { findByText } = renderOneBounty(bounty);
 
       await expect(findByText('Warning')).rejects.toThrow();
