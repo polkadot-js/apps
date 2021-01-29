@@ -7,13 +7,13 @@ import type { AccountId, BountyStatus } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 
-import { useBounties } from '@polkadot/app-bounties/hooks';
-import { useTranslation } from '@polkadot/app-bounties/translate';
 import { AddressSmall } from '@polkadot/react-components';
 
 import VotingSummary from './Voting/VotingSummary';
 import BountyInfo from './BountyInfo';
 import Description from './Description';
+import { useBounties } from './hooks';
+import { useTranslation } from './translate';
 
 interface Props {
   beneficiary?: AccountId;

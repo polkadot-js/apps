@@ -12,7 +12,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '@polkadot/app-bounties/BountyInfos';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -28,6 +27,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';
 import { alice,
   bob,
   defaultBalance,

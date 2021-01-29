@@ -7,12 +7,12 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from '@polkadot/app-bounties/translate';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers } from '@polkadot/react-hooks';
 
 import Description from '../Description';
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;

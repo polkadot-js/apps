@@ -4,9 +4,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from '@polkadot/app-bounties/translate';
 import { Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
+
+import { useTranslation } from './translate';
 
 interface Props {
   className: '';
