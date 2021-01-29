@@ -45,8 +45,10 @@ export default React.memo(styled(ChainImg)`
   box-sizing: border-box;
 
   &.isInline {
+    display: inline-block;
     height: 24px;
     margin-right: 0.75rem;
+    vertical-align: middle;
     width: 24px;
   }
 `);
