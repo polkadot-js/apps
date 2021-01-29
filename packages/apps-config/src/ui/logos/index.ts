@@ -70,7 +70,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
-  ['IntegriTEE PC1', nodeIntegritee],  
+  ['IntegriTEE PC1', nodeIntegritee],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
