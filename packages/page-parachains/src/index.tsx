@@ -62,4 +62,10 @@ export default React.memo(styled(ParachainsApp)`
   .parachains--hidden {
     display: none;
   }
+
+  a.chainAlign {
+    height: 24px;
+    line-height: 24px;
+    vertical-align: top;
+  }
 `);
