@@ -84,6 +84,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoHydrate',
+        paraId: 82406,
+        text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://hydrate-rpc.hydradx.io:9944'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
