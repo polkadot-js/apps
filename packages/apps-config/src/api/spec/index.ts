@@ -56,6 +56,7 @@ export default {
   'hack-hydra-dx': hydrate,
   hanonycash,
   jupiter,
+  'kilt-parachain': kilt,
   'mashnet-node': kilt,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,

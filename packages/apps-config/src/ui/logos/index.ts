@@ -67,6 +67,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
+  ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -113,6 +114,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['hanonycash', nodeHanonycash],
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
+  ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
   ['node-template', nodeSubstrate],

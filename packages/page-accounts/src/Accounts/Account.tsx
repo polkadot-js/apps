@@ -66,12 +66,14 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
-function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> {
-  return api.tx.utility.batch(
-    unlockableIds
-      .map((id) => api.tx.democracy.removeVote(id))
-      .concat(api.tx.democracy.unlock(address))
-  );
+function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> | null {
+  return api.tx.utility
+    ? api.tx.utility.batch(
+      unlockableIds
+        .map((id) => api.tx.democracy.removeVote(id))
+        .concat(api.tx.democracy.unlock(address))
+    )
+    : null;
 }
 
 async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
@@ -301,7 +303,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={toggleDelegate}
           />
         )}
-        {!!proxy?.[0].length && (
+        {!!proxy?.[0].length && api.api.tx.utility && (
           <Badge
             color='blue'
             hover={t<string>('This account has {{proxyNumber}} proxy set.', {
