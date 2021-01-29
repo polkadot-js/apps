@@ -100,6 +100,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoIntegritee',
+        paraId: 1983,
+        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        providers: {
+          SCS: 'wss://rococo.integritee.network'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),

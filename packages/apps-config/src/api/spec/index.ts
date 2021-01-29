@@ -20,6 +20,7 @@ import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
+import integritee from './integritee';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
@@ -57,6 +58,7 @@ export default {
   'encointer-parachain': encointerPara,
   'hack-hydra-dx': hydrate,
   hanonycash,
+  'integritee-parachain': integritee,
   jupiter,
   'kilt-parachain': kilt,
   'mashnet-node': kilt,
