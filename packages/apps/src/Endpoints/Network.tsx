@@ -48,6 +48,7 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
       >
         <ChainImg
           className='endpointIcon'
+          isInline
           logo={icon === 'local' ? 'empty' : (icon || 'empty')}
           withoutHl
         />
@@ -77,12 +78,6 @@ export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
   &.isSelected,
   &:hover {
     background: ${theme.bgTable};
-  }
-
-  .endpointIcon {
-    height: 24px;
-    margin-right: 0.75rem;
-    width: 24px;
   }
 
   .endpointSection {

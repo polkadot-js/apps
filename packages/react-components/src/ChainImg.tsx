@@ -9,6 +9,7 @@ import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
+  isInline?: boolean;
   logo?: keyof typeof namedLogos;
   onClick?: () => any;
   withoutHl?: boolean;
@@ -18,7 +19,7 @@ function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
 }
 
-function ChainImg ({ className = '', logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
+function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
   const [isEmpty, img] = useMemo((): [boolean, string] => {
     const found = logo
@@ -31,7 +32,7 @@ function ChainImg ({ className = '', logo, onClick, withoutHl }: Props): React.R
   return (
     <img
       alt='chain logo'
-      className={`${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}`}
+      className={`${className}${(isEmpty && !withoutHl) ? ' highlight--bg' : ''}${isInline ? ' isInline' : ''}`}
       onClick={onClick}
       src={img}
     />
@@ -42,4 +43,10 @@ export default React.memo(styled(ChainImg)`
   background: white;
   border-radius: 50%;
   box-sizing: border-box;
+
+  &.isInline {
+    height: 24px;
+    margin-right: 0.75rem;
+    width: 24px;
+  }
 `);
