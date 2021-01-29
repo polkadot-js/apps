@@ -9,6 +9,7 @@
 import chainDusty from './chains/dusty.png';
 import chainHydrate from './chains/hydrate.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainPolkaBTC from './chains/polkabtc.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -78,6 +79,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC3', chainKusama],
   ['Moonbase Alpha', moonbeam],
   ['PolkaBTC', nodePolkaBTC],
+  ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['Phala PC1', nodePhala],
   ['Rococo', chainRococo],
@@ -198,6 +200,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoLaminar: nodeLaminar,
   rococoPhala: nodePhala,
   rococoPlasm: nodePlasm,
+  rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,

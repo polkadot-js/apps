@@ -92,6 +92,7 @@ export const chainColors: Record<string, any> = [
   ['Plasm', chainPlasm],
   ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
+  ['PolkaBTC Staging', chainPolkabtc],
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
