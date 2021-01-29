@@ -30,6 +30,9 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
 
   const { bountyUpdatePeriod } = useBounties();
 
+  const blocksPercentageLeftToShowWarning = bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100);
+  const blocksToShowWarning = blocksPercentageLeftToShowWarning ?? BLOCKS_LEFT_TO_SHOW_WARNING;
+
   return (
     <>
       {proposals && (
@@ -44,7 +47,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
           <Description description={t<string>('Beneficiary')} />
         </div>
       )}
-      {blocksUntilUpdate?.lt(bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100) ?? BLOCKS_LEFT_TO_SHOW_WARNING) && (
+      {blocksUntilUpdate?.lt(blocksToShowWarning) && (
         <BountyInfo
           description={t<string>('Close deadline')}
           type='warning'

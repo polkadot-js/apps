@@ -29,4 +29,4 @@ export const bountyLabelColor: bountyTheme = {
 export const bountySvgColor: bountyTheme = {
   dark: '#8E8E8E',
   light: '#4D4D4D'
-}
+};
