@@ -58,7 +58,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
       )}
       {status.isCuratorProposed && (
         <BountyInfo
-          description={t<string>('Waiting for Curator acceptance')}
+          description={t<string>("Waiting for Curator's acceptance")}
           type='info'
         />
       )}
