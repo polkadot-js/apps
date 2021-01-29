@@ -17,7 +17,7 @@ function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): R
         width='17'
         xmlns='http://www.w3.org/2000/svg'>
         <path d='M1 1L16 32.5L1 64'
-          stroke='#DFDFDF'/>
+          stroke='#D1D1D1'/>
       </svg>
     </div>
   );
