@@ -3,7 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Balance, Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { fireEvent, render } from '@testing-library/react';
 import BN from 'bn.js';
@@ -84,7 +84,6 @@ const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
 let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBountyStatus: (status: string) => BountyStatus;
-let bountyBalance: (amount: number) => Balance;
 let aBountyIndex: (index?:number) => BountyIndex;
 let aBounty: ({ fee, status, value }?: Partial<Bounty>) => Bounty;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
@@ -95,7 +94,7 @@ describe('Bounties', () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
-    ({ aBounty, aBountyIndex, aBountyStatus, bountyBalance, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
+    ({ aBounty, aBountyIndex, aBountyStatus, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
@@ -367,7 +366,7 @@ describe('Bounties', () => {
 
   describe('Accept curator modal', () => {
     it('creates extrinsic', async () => {
-      const bounty = aBounty({ fee: bountyBalance(20), status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) });
+      const bounty = aBounty({ fee: balanceOf(20), status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) });
 
       const { findByRole, findByTestId, findByText } = renderOneBounty(bounty);
 

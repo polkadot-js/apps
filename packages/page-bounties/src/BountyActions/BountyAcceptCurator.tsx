@@ -27,7 +27,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
   const { isCurator } = useUserRole(curatorId);
   const { bountyCuratorDeposit } = useBounties();
 
-  const deposit = bountyCuratorDeposit.mul(fee).div(new BN(1000000));
+  const deposit = bountyCuratorDeposit.mul(fee).div(new BN(1_000_000));
 
   return isCurator
     ? (
