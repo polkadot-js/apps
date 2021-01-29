@@ -21,11 +21,13 @@ const chainPlasm = '#2096F3';
 const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
+const chainKilt = '#8c175b';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
+const chainRoccoDataHighway = '#000000';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
@@ -49,7 +51,6 @@ const nodeEquilibrium = '#1792ff';
 const nodeJupiter = '#7143ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
-const nodeKilt = '#eb5b2a';
 const nodePolkadex = '#7C30DD';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -70,10 +71,13 @@ export const chainColors: Record<string, any> = [
   ['Crust PC1', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia PC2', chainRoccoDarwinia],
+  ['DataHighway', chainRoccoDataHighway],
   ['Encointer PC1', nodeEncointerNotee],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['Jupiter Testnet', chainJupiter],
+  ['KILT Testnet', chainKilt],
+  ['KILT Collator Rococo', chainKilt],
   ['Kulupu', chainKulupu],
   ['Kusama', chainKusama],
   ['Kusama CC1', chainKusama],
@@ -116,7 +120,6 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['Jupiter Node', nodeJupiter],
-  ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
   ['SORA-staging Node', nodeSora],

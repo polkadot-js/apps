@@ -76,6 +76,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoDataHighway',
+        paraId: 2,
+        text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://testnet-harbour.datahighway.com'
+        }
+      },
+      {
         info: 'rococoEncointer',
         paraId: 1862,
         text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),

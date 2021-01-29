@@ -53,6 +53,7 @@
   "Give Up": "",
   "Give up curator's role": "",
   "Governance": "",
+  "Id": "",
   "If the motion is outvoted, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state.": "",
   "If the motion is outvoted, the current Curator will be unassigned and the Bounty will return to the Funded state.": "",
   "If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.": "",
