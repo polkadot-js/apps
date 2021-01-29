@@ -11,6 +11,7 @@ import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
+import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dusty from './dusty';
 import encointerNodeNotee from './encointer-node-notee';
@@ -47,6 +48,7 @@ export default {
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  'datahighway-parachain': datahighwayParachain,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   dusty3: dusty,
