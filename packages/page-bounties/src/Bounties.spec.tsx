@@ -664,7 +664,7 @@ describe('Bounties', () => {
       const { findByText } = renderOneBounty(bounty);
 
       expect(await findByText('Info')).toBeTruthy();
-      expect(await findByText('Waiting for Curator acceptance')).toBeTruthy();
+      expect(await findByText("Waiting for Curator's acceptance")).toBeTruthy();
     });
 
     it('no warning or info when requirements are not met', async () => {
@@ -681,7 +681,7 @@ describe('Bounties', () => {
 
       await expect(findByText('Info')).rejects.toThrow();
       await expect(findByText('Waiting for Bounty Funding')).rejects.toThrow();
-      await expect(findByText('Waiting for Curator acceptance')).rejects.toThrow();
+      await expect(findByText("Waiting for Curator's acceptance")).rejects.toThrow();
     });
   });
 });
