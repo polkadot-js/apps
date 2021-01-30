@@ -1293,6 +1293,7 @@
   "rpc.bifrost": "Bifrost Asgard",
   "rpc.canvas": "Canvas",
   "rpc.centrifuge": "Centrifuge",
+  "rpc.chainx": "ChainX",
   "rpc.crab": "Darwinia Crab",
   "rpc.crust.network": "Crust Maxwell",
   "rpc.custom": "Environment personnalisé",

@@ -156,24 +156,28 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       </tr>
       <tr className={className}
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
-        <td className='proposer'
+        <td
           colSpan={2}>
-          <div className='proposer-row'>
+          <div className='label-column-left'>
             <div className='label'>{t('Proposer')}</div>
             <AddressSmall value={proposer} />
           </div>
+          <div className='label-column-left'>
+            <div className='label'>{t('Id')}</div>
+            {index.toString()}
+          </div>
         </td>
-        <td className='column-with-label'
+        <td
           colSpan={2}>
-          <div className='column-with-label-row'>
+          <div className='label-column-right'>
             <div className='label'>{t('Bond')}</div>
             <div className='inline-balance'><FormatBalance value={bond} /></div>
           </div>
-          <div className='column-with-label-row'>
+          <div className='label-column-right'>
             <div className='label'>{t("Curator's fee")}</div>
             <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
           </div>
-          <div className='column-with-label-row'>
+          <div className='label-column-right'>
             <div className='label'>{t("Curator's deposit")}</div>
             <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
           </div>
@@ -272,19 +276,21 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     text-transform: uppercase;
   }
 
-  & .column-with-label-row {
-    display: flex;
+  .label-column-right, .label-column-left{
+   display: flex;
     align-items: center;
-    padding: 0 0 1.7rem;
 
     .label {
       width: 50%;
     }
   }
 
-  .proposer-row {
-    display: flex;
-    align-items: center;
+  .label-column-right {
+    padding: 0 0 1.7rem;
+  }
+
+  .label-column-left {
+    padding: 0 0 1.3rem;
   }
 
   .td-row {
