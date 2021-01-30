@@ -11,6 +11,7 @@ import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
+import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dusty from './dusty';
 import encointerNodeNotee from './encointer-node-notee';
@@ -18,6 +19,8 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
+import hydrate from './hydrate';
+import integritee from './integritee';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
@@ -46,14 +49,18 @@ export default {
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  'datahighway-parachain': datahighwayParachain,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   dusty3: dusty,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
+  'hack-hydra-dx': hydrate,
   hanonycash,
+  'integritee-parachain': integritee,
   jupiter,
+  'kilt-parachain': kilt,
   'mashnet-node': kilt,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,

@@ -11,7 +11,7 @@ export default {
     'Bifrost Asgard Nightly': 'bitfrost',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
-    'Crust Maxwell CC2': 'crust',
+    'Crust Maxwell': 'crust',
     'Darwinia CC1': 'darwinia-cc1',
     'Darwinia Crab': 'crab',
     Edgeware: 'edgeware',

@@ -16,10 +16,11 @@ import { formatNumber } from '@polkadot/util';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotingResultsColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
+import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
-import { getBountyStatus } from './helpers';
+import { useBountyStatus } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -43,10 +44,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { bond, curatorDeposit, fee, proposer, status, value } = bounty;
-
-  const updateStatus = useCallback(() => getBountyStatus(status), [status]);
-
-  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = updateStatus();
+  const { beneficiary, bountyStatus, curator, unlockAt, updateDue } = useBountyStatus(status);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
@@ -137,6 +135,13 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               isLogo
               type='bounty'
             />
+            <BountyExtraActions
+              bestNumber={bestNumber}
+              description={description}
+              index={index}
+              proposals={proposals}
+              status={status}
+            />
             <div className='table-column-icon'
               onClick={handleOnIconClick}>
               <Icon icon={
@@ -151,24 +156,28 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
       </tr>
       <tr className={className}
         style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
-        <td className='proposer'
+        <td
           colSpan={2}>
-          <div className='proposer-row'>
+          <div className='label-column-left'>
             <div className='label'>{t('Proposer')}</div>
             <AddressSmall value={proposer} />
           </div>
+          <div className='label-column-left'>
+            <div className='label'>{t('Id')}</div>
+            {index.toString()}
+          </div>
         </td>
-        <td className='column-with-label'
+        <td
           colSpan={2}>
-          <div className='column-with-label-row'>
+          <div className='label-column-right'>
             <div className='label'>{t('Bond')}</div>
             <div className='inline-balance'><FormatBalance value={bond} /></div>
           </div>
-          <div className='column-with-label-row'>
+          <div className='label-column-right'>
             <div className='label'>{t("Curator's fee")}</div>
             <div className='inline-balance'>{curator ? <FormatBalance value={fee} /> : EMPTY_CELL}</div>
           </div>
-          <div className='column-with-label-row'>
+          <div className='label-column-right'>
             <div className='label'>{t("Curator's deposit")}</div>
             <div className='inline-balance'>{curator ? <FormatBalance value={curatorDeposit} /> : EMPTY_CELL}</div>
           </div>
@@ -249,28 +258,6 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       border-radius: 4px;
       cursor: pointer;
     }
-
-    .settings-button {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-      border-radius: 4px;
-
-      svg {
-        padding: 0;
-        margin: 0;
-        color: #000 !important;
-      }
-
-      &:hover {
-        background: #fff;
-      }
-
-      &:focus {
-        background: #fff;
-        border: 1px solid #616161;
-      }
-    }
   }
 
   & .inline-balance {
@@ -289,19 +276,21 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     text-transform: uppercase;
   }
 
-  & .column-with-label-row {
-    display: flex;
+  .label-column-right, .label-column-left{
+   display: flex;
     align-items: center;
-    padding: 0 0 1.7rem;
 
     .label {
       width: 50%;
     }
   }
 
-  .proposer-row {
-    display: flex;
-    align-items: center;
+  .label-column-right {
+    padding: 0 0 1.7rem;
+  }
+
+  .label-column-left {
+    padding: 0 0 1.3rem;
   }
 
   .td-row {
