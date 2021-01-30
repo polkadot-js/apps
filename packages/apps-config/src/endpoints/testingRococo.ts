@@ -154,6 +154,14 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
         }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
+        }
       }
     ]
   };

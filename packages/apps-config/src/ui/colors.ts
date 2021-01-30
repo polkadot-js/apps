@@ -36,6 +36,7 @@ const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
+const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
 
@@ -57,6 +58,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 const nodeZero = '#0099cc';
+const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 export { emptyColor };
 
@@ -103,6 +105,7 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Galois', chainGalois],
   ['ZΞRO Alphaville', chainZero],
+  ['Zenlink PC1', chainZenlink],
   ['Uniarts', chainUniarts]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
@@ -128,7 +131,8 @@ export const nodeColors: Record<string, any> = [
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
-  ['SUBZΞRO', nodeZero]
+  ['SUBZΞRO', nodeZero],
+  ['Zenlink Collator', nodeZenlink]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]

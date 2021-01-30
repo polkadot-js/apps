@@ -34,6 +34,7 @@ import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
 import uniarts from './uniarts';
+import zenlink from './zenlink';
 import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
@@ -74,5 +75,6 @@ export default {
   stafi,
   subsocial,
   subzero: zero,
-  uniarts: uniarts
+  uniarts: uniarts,
+  zenlink
 };
