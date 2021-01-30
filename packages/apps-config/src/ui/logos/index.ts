@@ -25,6 +25,7 @@ import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeChainx from './nodes/chainx.svg';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
@@ -65,6 +66,7 @@ import emptyLogo from './empty.svg';
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
   ['Crust PC1', nodeCrust],
+  ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
@@ -106,6 +108,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['ChainX Node', nodeChainx],
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
   ['Crust Collator', nodeCrust],
@@ -164,6 +167,7 @@ export const namedLogos: Record<string, unknown> = {
   bitcountry: nodeBitCountry,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
+  chainx: nodeChainx,
   crab: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,

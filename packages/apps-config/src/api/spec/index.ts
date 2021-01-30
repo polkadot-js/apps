@@ -5,6 +5,7 @@ import bifrost from './bifrost';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
+import chainx from './chainx';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
@@ -46,6 +47,7 @@ export default {
   'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
+  chainx: chainx,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
