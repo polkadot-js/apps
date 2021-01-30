@@ -8,6 +8,7 @@
   "rpc.canvas": "Canvas",
   "rpc.centrifuge": "Centrifuge",
   "rpc.crab": "Darwinia Crab",
+  "rpc.chainx":"ChainX",
   "rpc.crust.network": "Crust Maxwell",
   "rpc.custom": "Custom environment",
   "rpc.custom.entry": "Custom {{WS_URL}}",

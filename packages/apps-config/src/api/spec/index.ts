@@ -8,6 +8,7 @@ import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
+import chainx from './chainx';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
@@ -45,6 +46,7 @@ export default {
   'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
+  chainx: chainx,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
