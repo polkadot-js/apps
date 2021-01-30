@@ -21,23 +21,7 @@ import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFa
 import { TypeRegistry } from '@polkadot/types/create';
 import { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import { defaultBalance, defaultBountyApi } from '../hooks/defaults';
-
-const mockBountyApi = defaultBountyApi;
-const mockBalance = defaultBalance;
-
-export const mocks = {
-  mockBalance,
-  mockBountyApi
-};
-
-jest.mock('../../src/hooks/useBalance', () => ({
-  useBalance: () => mocks.mockBalance
-}));
-
-jest.mock('../../src/hooks/useBounties', () => ({
-  useBounties: () => mocks.mockBountyApi
-}));
+import { mockBountyHooks } from '../hooks/defaults';
 
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
@@ -75,8 +59,8 @@ export class BountiesPage {
   }
 
   renderBounties (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) {
-    mocks.mockBountyApi = { ...mockBountyApi, ...bountyApi };
-    mocks.mockBalance = balanceOf(balance);
+    mockBountyHooks.bountyApi = { ...mockBountyHooks.bountyApi, ...bountyApi };
+    mockBountyHooks.balance = balanceOf(balance);
     const mockApi: ApiProps = {
       api: {
         derive: {

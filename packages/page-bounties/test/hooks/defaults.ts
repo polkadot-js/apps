@@ -31,6 +31,9 @@ export const defaultBountyApi: BountyApi = {
   unassignCurator: jest.fn().mockReturnValue('mockUnassignExtrinsic')
 };
 
-export const defaultBalance = balanceOf(1);
+const defaultBalance = balanceOf(1);
 
-export const defaultCurator = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
+export const mockBountyHooks = {
+  balance: defaultBalance,
+  bountyApi: defaultBountyApi
+};
