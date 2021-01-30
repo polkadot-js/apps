@@ -6,9 +6,7 @@ import type { ThemeProps } from '@polkadot/react-components/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { ModalProps } from '../types';
 
-import BN from 'bn.js';
 import FileSaver from 'file-saver';
-import hash from 'hash.js';
 import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,8 +17,7 @@ import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
-import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { mnemonicToSeedSync } from '@polkadot/util-crypto/mnemonic/bip39';
+import { hdLedger, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
@@ -64,75 +61,9 @@ interface DeriveValidationOutput {
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
 
-// performs hard-only derivation on the xprv
-function derivePrivate (xprv: Buffer, index: number) {
-  const kl = xprv.slice(0, 32);
-  const kr = xprv.slice(32, 64);
-  const cc = xprv.slice(64, 96);
-
-  const data = Buffer.allocUnsafe(1 + 64 + 4);
-
-  data.writeUInt32LE(index, 1 + 64);
-  kl.copy(data, 1);
-  kr.copy(data, 1 + 32);
-
-  data[0] = 0x00;
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const z = hash.hmac(hash.sha512, cc).update(data).digest();
-
-  data[0] = 0x01;
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const i = hash.hmac(hash.sha512, cc).update(data).digest();
-  const chainCode = i.slice(32, 64);
-  const zl = z.slice(0, 32);
-  const zr = z.slice(32, 64);
-  const left = new BN(kl, 16, 'le').add(new BN(zl.slice(0, 28), 16, 'le').mul(new BN(8))).toArrayLike(Buffer, 'le', 32);
-  let right = new BN(kr, 16, 'le').add(new BN(zr, 16, 'le')).toArrayLike(Buffer, 'le').slice(0, 32);
-
-  if (right.length !== 32) {
-    right = Buffer.from(right.toString('hex') + '00', 'hex');
-  }
-
-  return Buffer.from([...left, ...right, ...chainCode]);
-}
-
-// gets an xprv from a mnemonic
-function getLedgerMasterKey (seed: Uint8Array): Buffer {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const chainCode = hash.hmac(hash.sha256, 'ed25519 seed').update(new Uint8Array([1, ...seed])).digest();
-  let priv;
-
-  while (!priv || (priv[31] & 0b0010_0000)) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    priv = hash.hmac(hash.sha512, 'ed25519 seed').update(priv || seed).digest();
-  }
-
-  priv[0] &= 0b1111_1000;
-  priv[31] &= 0b0111_1111;
-  priv[31] |= 0b0100_0000;
-
-  return Buffer.from([...priv, ...chainCode]);
-}
-
-function deriveLedgerSecret (seed: Uint8Array, path: string): string {
-  return u8aToHex(
-    path
-      .split('/')
-      .slice(1)
-      .reduce((x, n) => derivePrivate(x, parseInt(n.replace("'", ''), 10) + 0x80000000), getLedgerMasterKey(seed))
-      .slice(0, 32)
-  );
-}
-
 function getSuri (seed: string, derivePath: string, pairType: PairType): string {
   return pairType === 'ed25519-ledger'
-    ? deriveLedgerSecret(mnemonicToSeedSync(seed), derivePath)
+    ? u8aToHex(hdLedger(seed, derivePath).secretKey.slice(0, 32))
     : `${seed}${derivePath}`;
 }
 

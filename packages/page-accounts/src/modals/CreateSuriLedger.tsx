@@ -15,23 +15,13 @@ interface Props {
   seedType: string;
 }
 
-type ChainKeys = keyof typeof CHAIN_PATH;
-
-// as per ZondaX with high bit (0x8) removed
-const CHAIN_PATH = {
-  'dock-mainnet': 0x00000252,
-  kusama: 0x000001b2,
-  polkadot: 0x00000162,
-  polymesh: 0x00000253
-};
-
-const ledgerNets = networks.filter(({ hasLedgerSupport, network }) => hasLedgerSupport && CHAIN_PATH[network as ChainKeys]);
+const ledgerNets = networks.filter(({ hasLedgerSupport }) => hasLedgerSupport);
 
 function CreateSuriLedger ({ className, onChange, seedType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accIndex, setAccIndex] = useState(0);
   const [addIndex, setAddIndex] = useState(0);
-  const [chainType, setChainType] = useState<ChainKeys>('polkadot');
+  const [chainType, setChainType] = useState('polkadot');
 
   const netOpts = useRef(ledgerNets.map(({ displayName, network }) => ({
     text: displayName,
@@ -49,7 +39,9 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
   })));
 
   useEffect((): void => {
-    onChange(`m/44'/${CHAIN_PATH[chainType]}'/${accIndex}'/0'/${addIndex}'`);
+    const network = ledgerNets.find(({ network }) => network === chainType);
+
+    onChange(`m/44'/${network?.slip44 as number}'/${accIndex}'/0'/${addIndex}'`);
   }, [accIndex, addIndex, chainType, onChange]);
 
   return (
