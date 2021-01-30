@@ -6,8 +6,10 @@ import type { ThemeProps } from '@polkadot/react-components/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { ModalProps } from '../types';
 
+import BN from 'bn.js';
 import FileSaver from 'file-saver';
-import React, { useCallback, useMemo, useState } from 'react';
+import hash from 'hash.js';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
@@ -18,6 +20,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { mnemonicToSeedSync } from '@polkadot/util-crypto/mnemonic/bip39';
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
@@ -61,6 +64,78 @@ interface DeriveValidationOutput {
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
 
+// performs hard-only derivation on the xprv
+function derivePrivate (xprv: Buffer, index: number) {
+  const kl = xprv.slice(0, 32);
+  const kr = xprv.slice(32, 64);
+  const cc = xprv.slice(64, 96);
+
+  const data = Buffer.allocUnsafe(1 + 64 + 4);
+
+  data.writeUInt32LE(index, 1 + 64);
+  kl.copy(data, 1);
+  kr.copy(data, 1 + 32);
+
+  data[0] = 0x00;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const z = hash.hmac(hash.sha512, cc).update(data).digest();
+
+  data[0] = 0x01;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const i = hash.hmac(hash.sha512, cc).update(data).digest();
+  const chainCode = i.slice(32, 64);
+  const zl = z.slice(0, 32);
+  const zr = z.slice(32, 64);
+  const left = new BN(kl, 16, 'le').add(new BN(zl.slice(0, 28), 16, 'le').mul(new BN(8))).toArrayLike(Buffer, 'le', 32);
+  let right = new BN(kr, 16, 'le').add(new BN(zr, 16, 'le')).toArrayLike(Buffer, 'le').slice(0, 32);
+
+  if (right.length !== 32) {
+    right = Buffer.from(right.toString('hex') + '00', 'hex');
+  }
+
+  return Buffer.from([...left, ...right, ...chainCode]);
+}
+
+// gets an xprv from a mnemonic
+function getLedgerMasterKey (seed: Uint8Array): Buffer {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const chainCode = hash.hmac(hash.sha256, 'ed25519 seed').update(new Uint8Array([1, ...seed])).digest();
+  let priv;
+
+  while (!priv || (priv[31] & 0b0010_0000)) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    priv = hash.hmac(hash.sha512, 'ed25519 seed').update(priv || seed).digest();
+  }
+
+  priv[0] &= 0b1111_1000;
+  priv[31] &= 0b0111_1111;
+  priv[31] |= 0b0100_0000;
+
+  return Buffer.from([...priv, ...chainCode]);
+}
+
+function deriveLedgerSecret (seed: Uint8Array, path: string): string {
+  return u8aToHex(
+    path
+      .split('/')
+      .slice(1)
+      .reduce((x, n) => derivePrivate(x, parseInt(n.replace("'", ''), 10) + 0x80000000), getLedgerMasterKey(seed))
+      .slice(0, 32)
+  );
+}
+
+function getSuri (seed: string, derivePath: string, pairType: PairType): string {
+  return pairType === 'ed25519-ledger'
+    ? deriveLedgerSecret(mnemonicToSeedSync(seed), derivePath)
+    : `${seed}${derivePath}`;
+}
+
 function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: PairType): DeriveValidationOutput {
   try {
     const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
@@ -96,11 +171,9 @@ function rawValidate (seed: string): boolean {
 }
 
 function addressFromSeed (seed: string, derivePath: string, pairType: PairType): string {
-  return (
-    pairType === 'ed25519-ledger'
-      ? keyring.createFromUri(seed, {}, 'ed25519')
-      : keyring.createFromUri(`${seed.trim()}${derivePath}`, {}, pairType)
-  ).address;
+  return keyring
+    .createFromUri(getSuri(seed, derivePath, pairType), {}, pairType === 'ed25519-ledger' ? 'ed25519' : pairType)
+    .address;
 }
 
 function newSeed (seed: string | undefined | null, seedType: SeedType): string {
@@ -131,6 +204,7 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: PairType): AddressState {
   const deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
+
   let isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
     : mnemonicValidate(seed);
@@ -140,6 +214,8 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
     try {
       address = addressFromSeed(seed, derivePath, pairType);
     } catch (error) {
+      console.error(error);
+
       isSeedValid = false;
     }
   }
@@ -161,14 +237,12 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
   FileSaver.saveAs(blob, `${pair.address}.json`);
 }
 
-function createAccount (suri: string, pairType: PairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
+function createAccount (seed: string, derivePath: string, pairType: PairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    const result = pairType === 'ed25519-ledger'
-      ? keyring.addUri(suri, password, { genesisHash, name, tags }, 'ed25519')
-      : keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
+    const result = keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
     const { address } = result.pair;
 
     status.account = address;
@@ -192,23 +266,25 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const { t } = useTranslation();
   const { api, isDevelopment, isEthereum } = useApi();
   const { isLedgerEnabled } = useLedger();
-  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
-  const [ledgerSeed, setLedgerSeed] = useState<string | null>(null);
+  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(
+    () => generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType)
+  );
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && (pairType === 'ed25519-ledger' ? !!ledgerSeed : isSeedValid);
+  const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
-  const errorIndex: Record<string, string> = useMemo(() => ({
+
+  const errorIndex = useRef<Record<string, string>>({
     PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
     SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
     WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
-  }), [t]);
+  });
 
-  const seedOpt = useMemo(() => (
+  const seedOpt = useRef((
     isDevelopment
       ? [{ text: t<string>('Development'), value: 'dev' }]
       : []
@@ -217,21 +293,27 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     isEthereum
       ? { text: t<string>('Private Key'), value: 'raw' }
       : { text: t<string>('Raw seed'), value: 'raw' }
-  ), [isEthereum, isDevelopment, t]);
+  ));
 
-  const _onChangeDerive = useCallback(
-    (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
+  const _onChangePath = useCallback(
+    (newDerivePath: string) => setAddress(
+      updateAddress(seed, newDerivePath, seedType, pairType)
+    ),
     [pairType, seed, seedType]
   );
 
   const _onChangeSeed = useCallback(
-    (newSeed: string) => setAddress(updateAddress(newSeed, derivePath, seedType, pairType)),
+    (newSeed: string) => setAddress(
+      updateAddress(newSeed, derivePath, seedType, pairType)
+    ),
     [derivePath, pairType, seedType]
   );
 
   const _onChangePairType = useCallback(
-    (newPairType: PairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
-    [derivePath, seed, seedType]
+    (newPairType: PairType) => setAddress(
+      updateAddress(seed, '', seedType, newPairType)
+    ),
+    [seed, seedType]
   );
 
   const _selectSeedType = useCallback(
@@ -274,8 +356,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
       setIsBusy(true);
       setTimeout((): void => {
-        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
-        const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), isHardware: false, name: name.trim() };
+        const status = createAccount(seed, derivePath, pairType, options, password, t<string>('created account'));
 
         onStatusChange(status);
         setIsBusy(false);
@@ -330,7 +412,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   defaultValue={seedType}
                   isButton
                   onChange={_selectSeedType}
-                  options={seedOpt}
+                  options={seedOpt.current}
                 />
                 <CopyButton
                   className='copyMoved'
@@ -372,8 +454,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             {pairType === 'ed25519-ledger'
               ? (
                 <CreateSuriLedger
-                  onChange={setLedgerSeed}
-                  seed={seed}
+                  onChange={_onChangePath}
                   seedType={seedType}
                 />
               )
@@ -384,8 +465,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                       help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
                       isError={!!deriveValidation?.error}
                       label={t<string>('secret derivation path')}
-                      onChange={_onChangeDerive}
-                      onEnter={_onCommit}
+                      onChange={_onChangePath}
                       placeholder={
                         seedType === 'raw'
                           ? pairType === 'sr25519'
@@ -399,10 +479,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                       value={derivePath}
                     />
                     {deriveValidation?.error && (
-                      <MarkError content={errorIndex[deriveValidation.error] || deriveValidation.error} />
+                      <MarkError content={errorIndex.current[deriveValidation.error] || deriveValidation.error} />
                     )}
                     {deriveValidation?.warning && (
-                      <MarkWarning content={errorIndex[deriveValidation.warning]} />
+                      <MarkWarning content={errorIndex.current[deriveValidation.warning]} />
                     )}
                   </Modal.Column>
                   <Modal.Column>
@@ -467,41 +547,43 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         {step === 1 &&
+          <Button
+            icon='step-forward'
+            isDisabled={!isFirstStepValid}
+            label={t<string>('Next')}
+            onClick={_nextStep}
+          />
+        }
+        {step === 2 && (
+          <>
+            <Button
+              icon='step-backward'
+              label={t<string>('Prev')}
+              onClick={_previousStep}
+            />
             <Button
               icon='step-forward'
-              isDisabled={!isFirstStepValid}
+              isDisabled={!isSecondStepValid}
               label={t<string>('Next')}
               onClick={_nextStep}
             />
-        }
-        {step === 2 &&
-           <><Button
-             icon='step-backward'
-             label={t<string>('Prev')}
-             onClick={_previousStep}
-           />
-           <Button
-             icon='step-forward'
-             isDisabled={!isSecondStepValid}
-             label={t<string>('Next')}
-             onClick={_nextStep}
-           />
-           </>}
-        {step === 3 &&
-            <>
-              <Button
-                icon='step-backward'
-                label={t<string>('Prev')}
-                onClick={_previousStep}
-              />
-              <Button
-                icon='plus'
-                isBusy={isBusy}
-                label={t<string>('Save')}
-                onClick={_onCommit}
-              />
-            </>
-        }
+          </>
+        )}
+        {step === 3 && (
+          <>
+            <Button
+              icon='step-backward'
+              label={t<string>('Prev')}
+              onClick={_previousStep}
+            />
+            <Button
+              icon='plus'
+              isBusy={isBusy}
+              label={t<string>('Save')}
+              onClick={_onCommit}
+            />
+          </>
+        )}
       </Modal.Actions>
     </Modal>
   );
