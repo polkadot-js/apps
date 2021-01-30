@@ -173,7 +173,7 @@ function createAccount (seed: string, derivePath: string, pairType: PairType, { 
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    const result = keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
+    const result = keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
     const { address } = result.pair;
 
     status.account = address;
