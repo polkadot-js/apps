@@ -14,7 +14,6 @@ import { ThemeProvider } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { lightTheme } from '@polkadot/apps/themes';
-import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import i18next from '@polkadot/react-components/i18n';
@@ -23,12 +22,14 @@ import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Stat
 import { createAugmentedApi } from '@polkadot/test-support/api';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
+import { aGenesisHash } from '@polkadot/test-support/creation/hashes';
+import { defaultTreasury } from '@polkadot/test-support/creation/treasury/defaults';
+import { proposalFactory } from '@polkadot/test-support/creation/treasury/proposalFactory';
 import { MemoryStore } from '@polkadot/test-support/keyring';
-import { TypeRegistry } from '@polkadot/types/create';
+import { alice, bob, defaultMembers, ferdie } from '@polkadot/test-support/keyring/addresses';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
-import { alice, bob, defaultMembers, defaultTreasury, ferdie } from '../test/hooks/defaults';
 import { BountiesPage, mocks } from '../test/pages/bountiesPage';
 import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';import { alice, bob, defaultBalance, defaultBountyApi,defaultBountyUpdatePeriod, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
@@ -36,42 +37,9 @@ import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
 import Bounties from './Bounties';
 
-const mockMembers = defaultMembers;
-const mockTreasury = defaultTreasury;
-const mockBlockTime = [50, '', extractTime(1)];
-
-jest.mock('@polkadot/react-hooks/useTreasury', () => ({
-  useTreasury: () => mockTreasury
-}));
-
-jest.mock('@polkadot/react-hooks/useMembers', () => ({
-  useMembers: () => mockMembers
-}));
-
-jest.mock('@polkadot/react-hooks/useBlockTime', () => ({
-  useBlockTime: () => mockBlockTime
-}));
-
-function aGenesisHash () {
-  return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
-}
-
-function aProposal (extrinsic: SubmittableExtrinsic<'promise'>, ayes: string[] = [alice], nays: string[] = [bob]) {
-  return {
-    hash: new TypeRegistry().createType('Hash'),
-    proposal: augmentedApi
-      .registry.createType('Proposal', extrinsic),
-    votes: augmentedApi.registry.createType('Votes', {
-      ayes: ayes,
-      index: 0,
-      nays: nays,
-      threshold: 4
-    })
-  };
-}
+let aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nays?: string[]) => DeriveCollectiveProposal;
 
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
-
 let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
@@ -80,12 +48,35 @@ let aBountyStatus: (status: string) => BountyStatus;
 let bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
+export const mockHooks = {
+  blockTime: [50, '', extractTime(1)],
+  members: defaultMembers,
+  treasury: defaultTreasury
+};
+
+export function initMockReactHooks () {
+  return mockHooks;
+}
+
+jest.mock('@polkadot/react-hooks/useTreasury', () => ({
+  useTreasury: () => mockHooks.treasury
+}));
+
+jest.mock('@polkadot/react-hooks/useMembers', () => ({
+  useMembers: () => mockHooks.members
+}));
+
+jest.mock('@polkadot/react-hooks/useBlockTime', () => ({
+  useBlockTime: () => mockHooks.blockTime
+}));
+
 describe('Bounties', () => {
   beforeAll(async () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
     ({ aBounty, aBountyIndex, aBountyStatus, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
+    ({ aProposal } = proposalFactory(augmentedApi));
   });
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
