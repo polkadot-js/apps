@@ -20,7 +20,7 @@ interface Props {
 let tagId = 0;
 
 function Tag ({ className = '', color = 'grey', hover, isTag = true, label, size = 'small' }: Props): React.ReactElement<Props> {
-  const [trigger] = useState(`tag-hover-${Date.now()}-${tagId++}`);
+  const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
   const tooltipProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};

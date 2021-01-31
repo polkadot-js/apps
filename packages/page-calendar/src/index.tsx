@@ -27,7 +27,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { t } = useTranslation();
   const scheduled = useScheduled();
   const [now, setNow] = useState(new Date());
-  const [dateState, setDateState] = useState(getDateState(now, now));
+  const [dateState, setDateState] = useState(() => getDateState(now, now));
   const [allEventsView, setAllEventsView] = useState(false);
 
   const itemsRef = useRef([{
