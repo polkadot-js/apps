@@ -1,6 +1,7 @@
 {
   "lng.detect": "Default browser language (auto-detect)",
   "rpc.amber": "Amber",
+  "rpc.ares": "Ares",
   "rpc.ava.summary": "user-run public nodes; see https://status.cloud.ava.do/",
   "rpc.beresheet": "Beresheet",
   "rpc.bifrost": "Bifrost Asgard",
@@ -54,6 +55,7 @@
   "rpc.polkadot.w3f": "Polkadot",
   "rpc.rococo": "Rococo",
   "rpc.rococo.acala": "Mandala PC2",
+  "rpc.rococo.ares": "Ares PC1",
   "rpc.rococo.bifrost": "Bifrost PC1",
   "rpc.rococo.crust": "Crust PC1",
   "rpc.rococo.darwinia": "Darwinia PC2",

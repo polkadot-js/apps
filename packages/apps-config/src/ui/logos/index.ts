@@ -10,6 +10,7 @@ import chainDusty from './chains/dusty.png';
 import chainHydrate from './chains/hydrate.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainPolkaBTC from './chains/polkabtc.png';
+import nodeAres from './nodes/ares.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -65,6 +66,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Ares PC1', nodeAres],
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
@@ -99,6 +101,8 @@ export const chainLogos: Record<string, unknown> = [
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos: Record<string, unknown> = [
   ['Acala Node', nodeAcala],
+  ['Ares Node', nodeAres],
+  ['Ares Parachain Collator', nodeAres],
   ['mandala node', nodeAcala],
   ['airalab-robonomics', nodeRobonomics],
   ['Bifrost Node', nodeBifrost],
@@ -196,6 +200,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
+  rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,

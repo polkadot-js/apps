@@ -8,6 +8,7 @@ import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
 import crab from './crab';
 import crust from './crust';
+import aresParachain from './ares-parachain';
 import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
@@ -40,6 +41,7 @@ import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
+  'ares-parachain': aresParachain,
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
