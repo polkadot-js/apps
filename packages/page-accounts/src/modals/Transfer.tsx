@@ -136,7 +136,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 labelExtra={
                   <Available
                     label={t<string>('transferrable')}
-                    params={recipientId}
+                    params={propRecipientId || recipientId}
                   />
                 }
                 onChange={setRecipientId}
