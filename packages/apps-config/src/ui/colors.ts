@@ -12,6 +12,7 @@ const emptyColor = '#99999';
 const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
@@ -36,6 +37,7 @@ const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
+const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
 
@@ -57,6 +59,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 const nodeZero = '#0099cc';
+const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 export { emptyColor };
 
@@ -70,6 +73,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia Crab', chainCrab],
   ['crust maxwell', chainCrust],
   ['Crust PC1', chainCrust],
+  ['ChainX', chainChainx],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
@@ -103,6 +107,7 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Galois', chainGalois],
   ['ZΞRO Alphaville', chainZero],
+  ['Zenlink PC1', chainZenlink],
   ['Uniarts', chainUniarts]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
@@ -128,7 +133,8 @@ export const nodeColors: Record<string, any> = [
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
-  ['SUBZΞRO', nodeZero]
+  ['SUBZΞRO', nodeZero],
+  ['Zenlink Collator', nodeZenlink]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]

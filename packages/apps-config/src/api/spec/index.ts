@@ -5,6 +5,7 @@ import bifrost from './bifrost';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
+import chainx from './chainx';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
@@ -34,6 +35,7 @@ import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
 import uniarts from './uniarts';
+import zenlink from './zenlink';
 import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
@@ -45,6 +47,7 @@ export default {
   'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
+  chainx: chainx,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
@@ -74,5 +77,6 @@ export default {
   stafi,
   subsocial,
   subzero: zero,
-  uniarts: uniarts
+  uniarts: uniarts,
+  zenlink
 };

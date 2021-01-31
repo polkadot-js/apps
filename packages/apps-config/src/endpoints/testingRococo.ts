@@ -22,7 +22,8 @@ export function createRococo (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://rococo.elara.patract.io'
+      'Patract Elara': 'wss://rococo.elara.patract.io',
+      'Ares Protocol': 'wss://rococo.aresprotocol.com'
     },
     linked: [
       // these are the base chains
@@ -153,6 +154,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
+        }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       }
     ]
