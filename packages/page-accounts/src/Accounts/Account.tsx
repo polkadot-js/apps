@@ -66,12 +66,14 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
-function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> {
-  return api.tx.utility.batch(
-    unlockableIds
-      .map((id) => api.tx.democracy.removeVote(id))
-      .concat(api.tx.democracy.unlock(address))
-  );
+function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> | null {
+  return api.tx.utility
+    ? api.tx.utility.batch(
+      unlockableIds
+        .map((id) => api.tx.democracy.removeVote(id))
+        .concat(api.tx.democracy.unlock(address))
+    )
+    : null;
 }
 
 async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
@@ -219,6 +221,31 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       </td>
       <td className='together'>
+        {meta.genesisHash
+          ? <Badge color='transparent' />
+          : isDevelopment
+            ? (
+              <Badge
+                className='devBadge'
+                color='orange'
+                hover={t<string>('This is a development account derived from the known development seed. Do now use for any funds on a non-development network.')}
+                icon='wrench'
+              />
+            )
+            : (
+              <Badge
+                color='orange'
+                hover={
+                  <div>
+                    <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                    <p>{t<string>('This is especially prudent in cases where the address is only destined to be used on a single network or linked to a specific device.')}</p>
+                    <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                  </div>
+                }
+                icon='exclamation-triangle'
+              />
+            )
+        }
         {recoveryInfo && (
           <Badge
             color='green'
@@ -276,7 +303,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={toggleDelegate}
           />
         )}
-        {!!proxy?.[0].length && (
+        {!!proxy?.[0].length && api.api.tx.utility && (
           <Badge
             color='blue'
             hover={t<string>('This account has {{proxyNumber}} proxy set.', {
@@ -600,5 +627,9 @@ export default React.memo(styled(Account)`
   .tags {
     width: 100%;
     min-height: 1.5rem;
+  }
+
+  .devBadge {
+    opacity: 0.65;
   }
 `);

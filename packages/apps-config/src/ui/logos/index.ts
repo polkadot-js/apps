@@ -7,7 +7,9 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import chainDusty from './chains/dusty.png';
+import chainHydrate from './chains/hydrate.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainPolkaBTC from './chains/polkabtc.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -23,9 +25,11 @@ import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeChainx from './nodes/chainx.svg';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
+import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
 import nodeDockTestnet from './nodes/dock-testnet.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
@@ -33,6 +37,7 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeIntegritee from './nodes/integritee.svg';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -52,6 +57,7 @@ import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeUniarts from './nodes/uniarts.png';
+import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
@@ -60,17 +66,23 @@ import emptyLogo from './empty.svg';
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
   ['Crust PC1', nodeCrust],
+  ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
+  ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
+  ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
+  ['IntegriTEE PC1', nodeIntegritee],
+  ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Moonbase Alpha', moonbeam],
   ['PolkaBTC', nodePolkaBTC],
+  ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['Phala PC1', nodePhala],
   ['Rococo', chainRococo],
@@ -96,12 +108,16 @@ export const nodeLogos: Record<string, unknown> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['ChainX Node', nodeChainx],
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
   ['Crust Collator', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Darwinia Runtime Module Library', nodeDarwinia],
+  ['DataHighway', nodeDataHighway],
+  ['DataHighway Node', nodeDataHighway],
+  ['DataHighway Parachain Collator', nodeDataHighway],
   ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
@@ -111,6 +127,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['hanonycash', nodeHanonycash],
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
+  ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
   ['node-template', nodeSubstrate],
@@ -131,6 +148,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
   ['SUBZΞRO', nodeZero],
+  ['Zenlink', nodeZenlink],
+  ['Zenlink Collator', nodeZenlink],
   ['Uniarts', nodeUniarts]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
@@ -148,9 +167,11 @@ export const namedLogos: Record<string, unknown> = {
   bitcountry: nodeBitCountry,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
+  chainx: nodeChainx,
   crab: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,
+  datahighway: nodeDataHighway,
   'dock-mainnet': nodeDockMainnet,
   'dock-testnet': nodeDockTestnet,
   dusty: chainDusty,
@@ -178,14 +199,20 @@ export const namedLogos: Record<string, unknown> = {
   rococoBifrost: nodeBifrost,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
+  rococoDataHighway: nodeDataHighway,
+  rococoEncointer: nodeEncointerNotee,
+  rococoHydrate: chainHydrate,
+  rococoIntegritee: nodeIntegritee,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
   rococoPhala: nodePhala,
   rococoPlasm: nodePlasm,
+  rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  rococoZenlink: nodeZenlink,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   subsocial: nodeSubsocial,

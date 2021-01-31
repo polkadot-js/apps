@@ -9,24 +9,28 @@ import { useAccounts, useMembers } from '@polkadot/react-hooks';
 
 import { UserRole } from '../types';
 
-export function useUserRole (curatorId: AccountId): UserRole {
+export type UserRolesInfo = { roles: UserRole[], isCurator: boolean };
+
+export function useUserRole (curatorId?: AccountId): UserRolesInfo {
   const { allAccounts, hasAccounts } = useAccounts();
 
   const { isMember } = useMembers();
 
-  const isCurator = useMemo(() => allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
+  const isCurator = useMemo(() => curatorId && allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
+
+  const roles: UserRole[] = [];
 
   if (isCurator) {
-    return 'Curator';
+    roles.push('Curator');
   }
 
   if (isMember) {
-    return 'Member';
+    roles.push('Member');
   }
 
   if (hasAccounts) {
-    return 'User';
+    roles.push('User');
   }
 
-  return 'None';
+  return { isCurator: !!isCurator, roles };
 }

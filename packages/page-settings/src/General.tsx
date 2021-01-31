@@ -7,7 +7,7 @@ import type { SettingsStruct } from '@polkadot/ui-settings/types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
-import { Button, Dropdown } from '@polkadot/react-components';
+import { Button, Dropdown, MarkWarning } from '@polkadot/react-components';
 import { useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
@@ -109,17 +109,6 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={iconOptions}
         />
       </div>
-      {isLedgerCapable && (
-        <div className='ui--row'>
-          <Dropdown
-            defaultValue={ledgerConn}
-            help={t<string>('Manage your connection to Ledger S')}
-            label={t<string>('manage hardware connections')}
-            onChange={_handleChange('ledgerConn')}
-            options={ledgerConnOptions}
-          />
-        </div>
-      )}
       <div className='ui--row'>
         <Dropdown
           defaultValue={uiTheme}
@@ -136,6 +125,24 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           options={translateLanguages}
         />
       </div>
+      {isLedgerCapable && (
+        <>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={ledgerConn}
+              help={t<string>('Manage your connection to Ledger S')}
+              label={t<string>('manage hardware connections')}
+              onChange={_handleChange('ledgerConn')}
+              options={ledgerConnOptions}
+            />
+          </div>
+          {state.ledgerConn !== 'none' && (
+            <div className='ui--row'>
+              <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
+            </div>
+          )}
+        </>
+      )}
       <Button.Group>
         <Button
           icon='save'
