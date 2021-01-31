@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
@@ -8,7 +9,6 @@ import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
 import crab from './crab';
 import crust from './crust';
-import aresParachain from './ares-parachain';
 import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
@@ -41,10 +41,10 @@ import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
-  'ares-parachain': aresParachain,
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
+  'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bitcountry-node': bitcountry,
   canvas,
