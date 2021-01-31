@@ -53,6 +53,14 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoAres',
+        paraId: 6,
+        text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
+        providers: {
+          'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
+        }
+      },
+      {
         info: 'rococoBifrost',
         paraId: 107,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),

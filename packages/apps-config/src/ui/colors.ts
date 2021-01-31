@@ -27,6 +27,7 @@ const chainKilt = '#8c175b';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
+const chainRoccoAres = '#70FF8B';
 const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = '#000000';
@@ -68,6 +69,7 @@ export { emptyColor };
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
+  ['Ares PC1', chainRoccoAres],
   ['Bit.Country Tewai Chain', chainBitCountry],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],

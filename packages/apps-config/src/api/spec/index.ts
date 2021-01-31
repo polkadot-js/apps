@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
@@ -43,6 +44,7 @@ export default {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
+  'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bitcountry-node': bitcountry,
   canvas,
