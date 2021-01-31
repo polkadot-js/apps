@@ -55,12 +55,15 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
-    if (balances && balances.accountId.eq(senderId) && recipientId && (senderId || propSenderId) && isFunction(api.rpc.payment?.queryInfo)) {
+    const fromId = propSenderId || senderId as string;
+    const toId = propRecipientId || recipientId as string;
+
+    if (balances && balances.accountId.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
           api.tx.balances
-            .transfer(propRecipientId || recipientId, balances.availableBalance)
-            .paymentInfo((propSenderId || senderId) as string)
+            .transfer(toId, balances.availableBalance)
+            .paymentInfo(fromId)
             .then(({ partialFee }): void => {
               const adjFee = partialFee.muln(110).divn(100);
               const maxTransfer = balances.availableBalance.sub(adjFee);
