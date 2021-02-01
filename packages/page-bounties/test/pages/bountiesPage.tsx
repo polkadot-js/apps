@@ -26,6 +26,7 @@ import { mockBountyHooks } from '../hooks/defaults';
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
+type FindByRole = (role: string) => Promise<HTMLElement>;
 
 type FindByText = (text: string) => Promise<HTMLElement>;
 
@@ -47,6 +48,7 @@ export class BountiesPage {
   bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
   bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
+  findByRole?: FindByRole;
   findByText?: FindByText;
   findByTestId?: FindByTestId;
   getAllByRole?: GetAllByRole;
@@ -56,13 +58,14 @@ export class BountiesPage {
   }
 
   renderOne (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = this.aBountyIndex()) {
-    const { findByTestId, findByText, getAllByRole } = this.renderBounties({ bounties: [{ bounty, description, index, proposals }] });
+    const { findByRole, findByTestId, findByText, getAllByRole } = this.renderBounties({ bounties: [{ bounty, description, index, proposals }] });
 
+    this.findByRole = findByRole;
     this.findByText = findByText;
     this.findByTestId = findByTestId;
     this.getAllByRole = getAllByRole;
 
-    return { findByTestId, findByText };
+    return { findByRole, findByTestId, findByText, getAllByRole };
   }
 
   renderBounties (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) {
@@ -147,6 +150,7 @@ export class BountiesPage {
     const proposingAccountInput = comboboxes[0].children[0];
 
     fireEvent.change(proposingAccountInput, { target: { value: account } });
+    fireEvent.keyDown(proposingAccountInput, { code: 'Enter', key: 'Enter' });
   }
 
   enterProposedCurator (curator: string) {
@@ -156,6 +160,7 @@ export class BountiesPage {
     const proposedCuratorInput = comboboxes[1].children[0];
 
     fireEvent.change(proposedCuratorInput, { target: { value: curator } });
+    fireEvent.keyDown(proposedCuratorInput, { code: 'Enter', key: 'Enter' });
   }
 
   expectExtrinsicQueued (extrinsicPart: { accountId: string; extrinsic: string }): void {
