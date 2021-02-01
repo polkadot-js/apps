@@ -12,6 +12,7 @@ const emptyColor = '#99999';
 const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainHanonycash = '#0099CC';
@@ -73,6 +74,7 @@ export const chainColors: Record<string, any> = [
   ['Bit.Country Tewai Chain', chainBitCountry],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],
+  ['Clover', chainClover],
   ['crust maxwell', chainCrust],
   ['Crust PC1', chainCrust],
   ['ChainX', chainChainx],

@@ -7,6 +7,8 @@ import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
+import clover from './clover';
+import cloverRococo from './clover-rococo';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
@@ -50,6 +52,8 @@ export default {
   canvas,
   'centrifuge-chain': centrifugeChain,
   chainx: chainx,
+  clover,
+  'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
