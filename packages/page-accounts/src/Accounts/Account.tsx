@@ -602,12 +602,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 }
               </Menu.Item>
             ])}
-            <ChainLock
-              className='accounts--network-toggle'
-              genesisHash={genesisHash}
-              isDisabled={api.isDevelopment || !isEditable}
-              onChange={onSetGenesisHash}
-            />
+            {isEditable && !api.isDevelopment && createMenuGroup([
+              <ChainLock
+                className='accounts--network-toggle'
+                genesisHash={genesisHash}
+                key='chainlock'
+                onChange={onSetGenesisHash}
+              />
+            ])}
           </Menu>
         </Popup>
       </td>
