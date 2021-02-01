@@ -3,12 +3,10 @@
 
 import type { BountyIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers } from '@polkadot/react-hooks';
+import { useApi, useMembers, useThresholds } from '@polkadot/react-hooks';
 
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
@@ -23,14 +21,9 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
   const { api } = useApi();
   const { members } = useMembers();
   const { closeBounty } = useBounties();
-  const [accountId, setAccountId] = useState<string | null>(null);
-  const [threshold, setThreshold] = useState<BN>();
+  const { treasuryRejectionThreshold: threshold } = useThresholds();
 
-  useEffect((): void => {
-    members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
-    );
-  }, [api, members]);
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   const closeBountyProposal = useRef(closeBounty(index));
 

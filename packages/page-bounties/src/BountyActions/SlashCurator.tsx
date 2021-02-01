@@ -3,13 +3,11 @@
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useMembers, useThresholds } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -41,14 +39,8 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
   const { members } = useMembers();
   const { unassignCurator } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [threshold, setThreshold] = useState<BN>();
+  const { treasuryRejectionThreshold: threshold } = useThresholds();
   const { allAccounts } = useAccounts();
-
-  useEffect((): void => {
-    members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
-    );
-  }, [api, members]);
 
   const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index, unassignCurator]);
 

@@ -12,6 +12,13 @@ const PROPOSE_THRESHOLDS: Record<string, number> = {
   default: 0.5
 };
 
+// more than
+const REJECT_THRESHOLDS: Record<string, number> = {
+  [KUSAMA_GENESIS]: 0.5,
+  [POLKADOT_GENESIS]: 0.5,
+  default: 0.5
+};
+
 const SLASH_THRESHOLDS: Record<string, number> = {
   [KUSAMA_GENESIS]: 0.5,
   [POLKADOT_GENESIS]: 0.75,
@@ -35,4 +42,8 @@ export function getSlashProposalThreshold (api: ApiPromise): number {
 
 export function getTreasuryProposalThreshold (api: ApiPromise): number {
   return TREASURY_THRESHOLDS[api.genesisHash.toHex()] || TREASURY_THRESHOLDS.default;
+}
+
+export function getTreasuryRejectionThreshold (api: ApiPromise): number {
+  return REJECT_THRESHOLDS[api.genesisHash.toHex()] || REJECT_THRESHOLDS.default;
 }

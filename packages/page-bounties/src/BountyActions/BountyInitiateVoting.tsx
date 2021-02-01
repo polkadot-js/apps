@@ -4,12 +4,11 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
+import { useThresholds } from '@polkadot/react-hooks/useThresholds';
 
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
@@ -28,13 +27,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
   const { approveBounty, closeBounty } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [threshold, setThreshold] = useState<BN>();
-
-  useEffect((): void => {
-    members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
-    );
-  }, [api, members]);
+  const { treasuryProposalThreshold: threshold } = useThresholds();
 
   const approveBountyProposal = useRef(approveBounty(index));
   const closeBountyProposal = useRef(closeBounty(index));
@@ -56,13 +49,9 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>('This action will create a Council motion to either approve or reject the Bounty.')}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
+              <Modal.Column>
+                <p>{t<string>('This action will create a Council motion to either approve or reject the Bounty.')}</p>
+              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress

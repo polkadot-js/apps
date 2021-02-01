@@ -37,5 +37,6 @@ export { useSavedFlags } from './useSavedFlags';
 export { useSudo } from './useSudo';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';
+export { useThresholds } from './useThresholds';
 export { useVotingStatus } from './useVotingStatus';
 export { useWeight } from './useWeight';

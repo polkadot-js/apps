@@ -8,9 +8,8 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { truncateTitle } from '@polkadot/app-bounties/helpers';
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
+import { useApi, useMembers, useThresholds, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useBounties } from '../hooks';
@@ -30,18 +29,13 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
   const { api } = useApi();
   const { isMember, members } = useMembers();
   const { proposeCurator } = useBounties();
+  const { treasuryProposalThreshold: threshold } = useThresholds();
+
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [curatorId, setCuratorId] = useState<string | null>(null);
-  const [threshold, setThreshold] = useState<BN>();
   const [fee, setFee] = useState<BN>(BN_ZERO);
   const [isFeeValid, setIsFeeValid] = useState(false);
-
-  useEffect((): void => {
-    members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
-    );
-  }, [api, members]);
 
   const proposeCuratorProposal = useMemo(() => curatorId && proposeCurator(index, curatorId, fee), [curatorId, fee, index, proposeCurator]);
 

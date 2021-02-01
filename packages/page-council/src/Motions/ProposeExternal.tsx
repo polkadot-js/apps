@@ -5,9 +5,8 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useThresholds, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -31,12 +30,12 @@ interface ProposalState {
 function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { proposalThreshold: threshold } = useThresholds();
+
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
-
-  const threshold = Math.ceil((members.length || 0) * getProposalThreshold(api));
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
