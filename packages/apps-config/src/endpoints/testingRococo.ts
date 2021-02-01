@@ -22,7 +22,8 @@ export function createRococo (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://rococo.elara.patract.io'
+      'Patract Elara': 'wss://rococo.elara.patract.io',
+      'Ares Protocol': 'wss://rococo.aresprotocol.com'
     },
     linked: [
       // these are the base chains
@@ -52,11 +53,27 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoAres',
+        paraId: 6,
+        text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
+        providers: {
+          'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
+        }
+      },
+      {
         info: 'rococoBifrost',
         paraId: 107,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
         providers: {
           Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
+        info: 'rococoClover',
+        paraId: 229,
+        text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://api-rococo.clover.finance'
         }
       },
       {
@@ -100,6 +117,22 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoIntegritee',
+        paraId: 1983,
+        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        providers: {
+          SCS: 'wss://rococo.integritee.network'
+        }
+      },
+      {
+        info: 'rococoPolkabtc',
+        paraId: 21,
+        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
@@ -137,6 +170,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
+        }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       }
     ]

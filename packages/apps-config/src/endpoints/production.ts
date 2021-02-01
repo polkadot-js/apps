@@ -54,6 +54,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'chainx',
+      text: t('rpc.chainx', 'ChainX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://mainnet.chainx.org/ws'
+      }
+    },
+    {
       info: 'darwinia',
       text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {

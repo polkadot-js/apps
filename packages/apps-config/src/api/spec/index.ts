@@ -1,10 +1,14 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
+import chainx from './chainx';
+import clover from './clover';
+import cloverRococo from './clover-rococo';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
@@ -20,6 +24,7 @@ import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
+import integritee from './integritee';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
@@ -33,6 +38,7 @@ import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
 import uniarts from './uniarts';
+import zenlink from './zenlink';
 import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
@@ -40,10 +46,14 @@ export default {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
+  'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
+  chainx: chainx,
+  clover,
+  'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
@@ -57,6 +67,7 @@ export default {
   'encointer-parachain': encointerPara,
   'hack-hydra-dx': hydrate,
   hanonycash,
+  'integritee-parachain': integritee,
   jupiter,
   'kilt-parachain': kilt,
   'mashnet-node': kilt,
@@ -72,5 +83,6 @@ export default {
   stafi,
   subsocial,
   subzero: zero,
-  uniarts: uniarts
+  uniarts: uniarts,
+  zenlink
 };

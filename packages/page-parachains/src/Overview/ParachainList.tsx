@@ -92,7 +92,6 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
     [t('included (parent)'), undefined, 2],
     [t('backed')],
     [t('chain best'), 'media--900'],
-    [t('issuance'), 'media--1100'],
     [t('upgrade'), 'media--1300'],
     [t('ump/dmp/hrmp'), 'media--1200']
   ]);

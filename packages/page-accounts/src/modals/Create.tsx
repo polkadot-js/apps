@@ -162,7 +162,7 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    const result = keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
+    const result = keyring.addUri(suri, password, { genesisHash, isHardware: false, name, tags }, pairType);
     const { address } = result.pair;
 
     status.account = address;
