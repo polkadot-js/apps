@@ -12,7 +12,7 @@ import { useMembers } from '@polkadot/react-hooks';
 
 import Description from '../Description';
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
-import { bountyColor } from '../theme';
+import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -52,7 +52,7 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 0.5rem;
-    color: ${bountyColor[theme.theme]}
+    color: ${bountyLabelColor[theme.theme]}
 
     span {
       min-width: 0.5rem;

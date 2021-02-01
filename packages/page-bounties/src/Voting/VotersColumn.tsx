@@ -11,7 +11,7 @@ import { AddressSmall, Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
-import { bountyColor } from '../theme';
+import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -67,7 +67,7 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
 
   .vote-numbers-icon svg {
     max-width: 10px;
-    color: ${bountyColor[theme.theme]};
+    color: ${bountyLabelColor[theme.theme]};
   }
 
   .vote-numbers-label {
