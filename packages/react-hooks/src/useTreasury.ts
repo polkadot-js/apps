@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import { toPermill } from '@polkadot/app-bounties/helpers/toPermill';
+import { permillOf } from '@polkadot/app-bounties/helpers';
 import { useApi } from '@polkadot/react-hooks/useApi';
 import { useCall } from '@polkadot/react-hooks/useCall';
 import { BN_ZERO, stringToU8a } from '@polkadot/util';
@@ -38,7 +38,7 @@ export function useTreasury (): Treasury {
       ? treasuryBalance.freeBalance
       : undefined);
     setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-      ? toPermill(api.consts.treasury.burn, treasuryBalance.freeBalance)
+      ? permillOf(api.consts.treasury.burn, treasuryBalance.freeBalance)
       : BN_ZERO);
   }, [api, treasuryBalance, spendPeriod]);
 

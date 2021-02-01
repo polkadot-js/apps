@@ -3,6 +3,6 @@
 
 import BN from 'bn.js';
 
-export function toPermill (value: BN, perMill: BN): BN {
+export function permillOf (value: BN, perMill: BN): BN {
   return value.mul(perMill).div(new BN(1_000_000));
 }

@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
-import { toPermill } from '@polkadot/app-bounties/helpers/toPermill';
+import { permillOf } from '@polkadot/app-bounties/helpers';
 import { Button, InputAddress, InputBalance, MarkWarning, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
@@ -24,7 +24,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const hasValue = value?.gtn(0);
 
   const bondPercentage = useMemo(
-    () => `${toPermill(api.consts.treasury.proposalBond, new BN(100)).toNumber().toFixed(2)}%`,
+    () => `${permillOf(api.consts.treasury.proposalBond, new BN(100)).toNumber().toFixed(2)}%`,
     [api]
   );
 

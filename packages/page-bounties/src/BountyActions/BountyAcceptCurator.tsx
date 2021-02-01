@@ -9,7 +9,7 @@ import React from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { toPermill } from '../helpers/toPermill';
+import { permillOf } from '../helpers';
 import { useBounties, useUserRole } from '../hooks';
 import { useTranslation } from '../translate';
 
@@ -28,7 +28,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
   const { isCurator } = useUserRole(curatorId);
   const { bountyCuratorDeposit } = useBounties();
 
-  const deposit = toPermill(fee, bountyCuratorDeposit);
+  const deposit = permillOf(fee, bountyCuratorDeposit);
 
   return isCurator
     ? (
