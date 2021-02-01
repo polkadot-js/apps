@@ -228,7 +228,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               <Badge
                 className='devBadge'
                 color='orange'
-                hover={t<string>('This is a development account derived from the known development seed. Do now use for any funds on a non-development network.')}
+                hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
                 icon='wrench'
               />
             )
@@ -238,7 +238,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 hover={
                   <div>
                     <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                    <p>{t<string>('This is especially prudent in cases where the address is only destined to be used on a single network or linked to a specific device.')}</p>
                     <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
                   </div>
                 }
@@ -602,12 +601,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 }
               </Menu.Item>
             ])}
-            <ChainLock
-              className='accounts--network-toggle'
-              genesisHash={genesisHash}
-              isDisabled={api.isDevelopment || !isEditable}
-              onChange={onSetGenesisHash}
-            />
+            {isEditable && !api.isDevelopment && createMenuGroup([
+              <ChainLock
+                className='accounts--network-toggle'
+                genesisHash={genesisHash}
+                key='chainlock'
+                onChange={onSetGenesisHash}
+              />
+            ])}
           </Menu>
         </Popup>
       </td>
