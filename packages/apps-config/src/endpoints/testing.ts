@@ -15,7 +15,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createTesting (t: TFunction): LinkOption[] {
+export function createTesting(t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // polkadot test relays
     createRococo(t),
@@ -195,6 +195,14 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      dnslink: 'ternoa-chaos',
+      info: 'ternoa-chaos',
+      text: t('rpc.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      providers: {
+        CapsuleCorp: 'wss://chaos.ternoa.com'
       }
     },
     {
