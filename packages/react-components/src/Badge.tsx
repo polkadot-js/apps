@@ -24,7 +24,7 @@ const HIGHLIGHTS = ['counter', 'highlight'];
 let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
-  const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
+  const [trigger] = useState(() => `badge-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};

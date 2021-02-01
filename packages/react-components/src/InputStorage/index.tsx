@@ -28,9 +28,9 @@ interface Props {
 
 function InputStorage ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.creator.section));
-  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
-  const [value, setValue] = useState<QueryableStorageEntry<'promise'>>(() => defaultValue);
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => keyOptions(api, defaultValue.creator.section));
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
+  const [value, setValue] = useState<QueryableStorageEntry<'promise'>>(defaultValue);
 
   const _onKeyChange = useCallback(
     (newValue: QueryableStorageEntry<'promise'>): void => {
