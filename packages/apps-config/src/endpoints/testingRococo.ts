@@ -69,6 +69,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoClover',
+        paraId: 229,
+        text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://api-rococo.clover.finance'
+        }
+      },
+      {
         info: 'rococoCrust',
         paraId: 7777,
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
