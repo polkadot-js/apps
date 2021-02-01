@@ -78,7 +78,7 @@ export default React.memo(styled(ChainInfo)`
 
     .ui--Icon.dropdown,
     > div.info {
-      text-align: left;
+      text-align: right;
       vertical-align: middle;
     }
 
@@ -91,29 +91,24 @@ export default React.memo(styled(ChainInfo)`
     .info {
       flex: 1;
       padding-right: 0.5rem;
-      text-align: left;
+      text-align: right;
 
       .chain {
         max-width: 16rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-weight: 500;
-        font-size: 1.143rem;
-        line-height: 1.143rem;
+      }
+
+      .chain, .bestNumber {
+        font-size: 0.9rem;
+        line-height: 1.2;
       }
 
       .runtimeVersion {
-          font-size: 0.714rem;
-          line-height: 0.714rem;
+          font-size: 0.75rem;
+          line-height: 1.2;
           letter-spacing: -0.01em;
-          margin-bottom: 0.428rem;
-      }
-
-      .bestNumber {
-        font-size: 0.857rem;
-        line-height: 0.857rem;
-        letter-spacing: -0.01em;
       }
     }
   }
