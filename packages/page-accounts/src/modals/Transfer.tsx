@@ -52,15 +52,18 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [senderId, setSenderId] = useState<string | null>(null);
   const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [propSenderId || senderId]);
-  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [senderId]);
+  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
-    if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
+    const fromId = propSenderId || senderId as string;
+    const toId = propRecipientId || recipientId as string;
+
+    if (balances && balances.accountId.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
           api.tx.balances
-            .transfer(propRecipientId || recipientId, balances.availableBalance)
-            .paymentInfo(propSenderId || senderId)
+            .transfer(toId, balances.availableBalance)
+            .paymentInfo(fromId)
             .then(({ partialFee }): void => {
               const adjFee = partialFee.muln(110).divn(100);
               const maxTransfer = balances.availableBalance.sub(adjFee);
@@ -112,7 +115,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 labelExtra={
                   <Available
                     label={t<string>('transferrable')}
-                    params={senderId}
+                    params={propSenderId || senderId}
                   />
                 }
                 onChange={setSenderId}
@@ -133,7 +136,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 labelExtra={
                   <Available
                     label={t<string>('transferrable')}
-                    params={recipientId}
+                    params={propRecipientId || recipientId}
                   />
                 }
                 onChange={setRecipientId}

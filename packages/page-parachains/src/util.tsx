@@ -6,6 +6,8 @@ import type { Codec } from '@polkadot/types/types';
 
 import React from 'react';
 
+import { ChainImg } from '@polkadot/react-components';
+
 export function sliceHex (value: Codec, max: number): string {
   const hex = value.toHex();
 
@@ -19,7 +21,19 @@ export function getChainLink (endpoints: LinkOption[]): React.ReactNode {
     return null;
   }
 
-  const { text, value } = endpoints[endpoints.length - 1];
+  const { info, text, value } = endpoints[endpoints.length - 1];
 
-  return <a href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}>{text}</a>;
+  return (
+    <>
+      <ChainImg
+        isInline
+        logo={info || 'empty'}
+        withoutHl
+      />
+      <a
+        className='chainAlign'
+        href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}
+      >{text}</a>
+    </>
+  );
 }

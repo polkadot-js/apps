@@ -10,7 +10,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color?: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow';
+  color?: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
   hover?: React.ReactNode;
   isTag?: boolean;
   label: React.ReactNode;
@@ -27,7 +27,7 @@ function Tag ({ className = '', color = 'grey', hover, isTag = true, label, size
 
   return (
     <div
-      className={`${color}Color${isTag ? ' isTag' : ''} ${size}Size ${className}`}
+      className={`${color === 'theme' ? 'highlight--color-bg highlight--bg' : ''} ${color}Color${isTag ? ' isTag' : ''} ${size}Size ${className}`}
       color={color || 'grey'}
       {...tooltipProps}
     >
