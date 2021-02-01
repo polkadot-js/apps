@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/**
- * types for clover
- **/
+// types for clover
+/* eslint-disable sort-keys */
+
 const cloverRococoTypes = {
   Amount: 'i128',
   AmountOf: 'Amount',
@@ -12,18 +12,35 @@ const cloverRococoTypes = {
     _enum: ['CLV', 'CUSDT', 'DOT', 'CETH']
   },
   CurrencyIdOf: 'CurrencyId',
+  CurrencyTypeEnum: {
+    _enum: ['CLV', 'CUSDT', 'DOT', 'CETH']
+  },
+  PairKey: 'u64',
+  Rate: 'FixedU128',
+  Ratio: 'FixedU128',
+  Price: 'FixedU128',
+  Share: 'u128',
+  OracleKey: 'CurrencyId',
   CurrencyInfo: {
     id: 'CurrencyId',
     name: 'CurrencyTypeEnum'
   },
-  CurrencyTypeEnum: {
-    _enum: ['CLV', 'CUSDT', 'DOT', 'CETH']
-  },
-  EcdsaSignature: '[u8; 65]',
-  EvmAddress: 'H160',
   ExchangeInfo: {
     balance: 'Balance',
     routes: 'Vec<CurrencyTypeEnum>'
+  },
+  PoolId: {
+    _enum: {
+      Swap: 'u64'
+    }
+  },
+  EcdsaSignature: '[u8; 65]',
+  EvmAddress: 'H160',
+  ExitSucceed: {
+    _enum: ['Stopped', 'Returned', 'Suicided']
+  },
+  ExitRevert: {
+    _enum: ['Reverted']
   },
   ExitError: {
     _enum: [
@@ -41,24 +58,7 @@ const cloverRococoTypes = {
       'Revert<ExitRevert>',
       'Fatal<ExitFatal>'
     ]
-  },
-  ExitRevert: {
-    _enum: ['Reverted']
-  },
-  ExitSucceed: {
-    _enum: ['Stopped', 'Returned', 'Suicided']
-  },
-  OracleKey: 'CurrencyId',
-  PairKey: 'u64',
-  PoolId: {
-    _enum: {
-      Swap: 'u64'
-    }
-  },
-  Price: 'FixedU128',
-  Rate: 'FixedU128',
-  Ratio: 'FixedU128',
-  Share: 'u128'
+  }
 };
 
 export default cloverRococoTypes;
