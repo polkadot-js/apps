@@ -4,6 +4,7 @@
     "build/**/*",
     "**/build/**/*"
   ],
+  "include": ["jest/jest-setup.ts"],
   "compilerOptions": {
     "jsx": "react",
     "baseUrl": ".",

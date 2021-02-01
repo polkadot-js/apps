@@ -15,7 +15,7 @@ import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
-import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { TypeRegistry } from '@polkadot/types/create';
@@ -31,9 +31,14 @@ type FindByText = (text: string) => Promise<HTMLElement>;
 
 type FindByTestId = (testId: string) => Promise<HTMLElement>;
 
+type GetAllByRole = (role: string) => HTMLElement[];
+
 class NotYetRendered extends Error {
 
 }
+
+let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
+const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
 
 export class BountiesPage {
   aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
@@ -44,16 +49,18 @@ export class BountiesPage {
 
   findByText?: FindByText;
   findByTestId?: FindByTestId;
+  getAllByRole?: GetAllByRole;
 
   constructor (api: ApiPromise) {
     ({ aBounty: this.aBounty, aBountyIndex: this.aBountyIndex, aBountyStatus: this.aBountyStatus, bountyStatusWith: this.bountyStatusWith, bountyWith: this.bountyWith } = new BountyFactory(api));
   }
 
   renderOne (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = this.aBountyIndex()) {
-    const { findByTestId, findByText } = this.renderBounties({ bounties: [{ bounty, description, index, proposals }] });
+    const { findByTestId, findByText, getAllByRole } = this.renderBounties({ bounties: [{ bounty, description, index, proposals }] });
 
     this.findByText = findByText;
     this.findByTestId = findByTestId;
+    this.getAllByRole = getAllByRole;
 
     return { findByTestId, findByText };
   }
@@ -74,15 +81,16 @@ export class BountiesPage {
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
           council: {
-            propose: jest.fn()
+            propose
           }
         }
       },
       systemName: 'substrate'
     } as unknown as ApiProps;
 
+    queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
     const queue = {
-      queueExtrinsic: jest.fn() as QueueTxExtrinsicAdd
+      queueExtrinsic
     } as QueueProps;
 
     return render(
@@ -100,18 +108,57 @@ export class BountiesPage {
     );
   }
 
-  async openProposeCurator (): Promise<void> {
-    if (!this.assertRendered()) {
+  private assertRendered (): asserts this is {findByText: FindByText, findByTestId: FindByTestId, getAllByRole: GetAllByRole} {
+    if (this.findByText === undefined) {
       throw new NotYetRendered();
     }
+  }
 
+  async openProposeCurator (): Promise<void> {
+    this.assertRendered();
     const proposeCuratorButton = await this.findByText('Propose Curator');
 
     fireEvent.click(proposeCuratorButton);
     expect(await this.findByText('This action will create a Council motion to assign a Curator.')).toBeTruthy();
   }
 
-  private assertRendered (): this is {findByText: FindByText} {
-    return this.findByText !== undefined;
+  async enterCuratorsFee (fee: string): Promise<void> {
+    this.assertRendered();
+    const feeInput = await this.findByTestId("curator's fee");
+
+    fireEvent.change(feeInput, { target: { value: fee } });
+  }
+
+  async expectText (expected: string): Promise<void> {
+    this.assertRendered();
+    expect(await this.findByText(expected)).toBeTruthy();
+  }
+
+  async assignCuratorButton (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    return this.findByText('Assign curator');
+  }
+
+  enterProposingAccount (account: string) {
+    this.assertRendered();
+    const comboboxes = this.getAllByRole('combobox');
+
+    const proposingAccountInput = comboboxes[0].children[0];
+
+    fireEvent.change(proposingAccountInput, { target: { value: account } });
+  }
+
+  enterProposedCurator (curator: string) {
+    this.assertRendered();
+    const comboboxes = this.getAllByRole('combobox');
+
+    const proposedCuratorInput = comboboxes[1].children[0];
+
+    fireEvent.change(proposedCuratorInput, { target: { value: curator } });
+  }
+
+  expectExtrinsicQueued (extrinsicPart: { accountId: string; extrinsic: string }): void {
+    expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining(extrinsicPart));
   }
 }

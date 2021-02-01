@@ -62,7 +62,6 @@ let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
 let aBountyIndex: (index?:number) => BountyIndex;
-let aBountyStatus: (status: string) => BountyStatus;
 let bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
@@ -73,14 +72,15 @@ describe('Bounties', () => {
     await i18next.changeLanguage('en');
     keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     augmentedApi = createAugmentedApi();
-    ({ aBounty, aBountyIndex, aBountyStatus, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
+    ({ aBounty, aBountyIndex, bountyStatusWith, bountyWith } = new BountyFactory(augmentedApi));
     ({ aProposal } = proposalFactory(augmentedApi));
   });
+
   beforeEach(() => {
     queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
   });
 
-  const renderBounties = (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) => {
+  function renderBounties (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) {
     mockBountyHooks.bountyApi = { ...mockBountyHooks.bountyApi, ...bountyApi };
     mockBountyHooks.balance = balanceOf(balance);
     const mockApi: ApiProps = {
@@ -120,7 +120,7 @@ describe('Bounties', () => {
         </QueueProvider>
       </Suspense>
     );
-  };
+  }
 
   function renderOneBounty (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = aBountyIndex()) {
     return renderBounties({ bounties: [{ bounty, description, index, proposals }] });
@@ -367,59 +367,32 @@ describe('Bounties', () => {
   describe('propose curator modal', () => {
     let bountiesPage: BountiesPage;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       bountiesPage = new BountiesPage(augmentedApi);
+      bountiesPage.renderOne(bountyWith({ status: 'Funded', value: 5 }));
+
+      await bountiesPage.openProposeCurator();
     });
 
     it('shows an error if fee is greater than bounty value', async () => {
-      const bounty = { status: aBountyStatus('Funded'), value: balanceOf(5) };
-      const { findByTestId, findByText } = bountiesPage.renderOne(aBounty(bounty));
+      await bountiesPage.enterCuratorsFee('6');
 
-      await bountiesPage.openProposeCurator();
-      const feeInput = await findByTestId("curator's fee");
-
-      fireEvent.change(feeInput, { target: { value: '6' } });
-      expect(await findByText("Curator's fee can't be higher than bounty value.")).toBeTruthy();
+      await bountiesPage.expectText("Curator's fee can't be higher than bounty value.");
     });
 
     it('disables Assign Curator button if validation fails', async () => {
-      const bounty = { status: aBountyStatus('Funded'), value: balanceOf(5) };
-      const { findByTestId, findByText } = bountiesPage.renderOne(aBounty(bounty));
+      await bountiesPage.enterCuratorsFee('6');
 
-      await bountiesPage.openProposeCurator();
-      const feeInput = await findByTestId("curator's fee");
-
-      fireEvent.change(feeInput, { target: { value: '6' } });
-      const assignCuratorButton = await findByText('Assign curator');
-
-      expect(assignCuratorButton.classList.contains('isDisabled')).toBeTruthy();
+      expect(await bountiesPage.assignCuratorButton()).toHaveClass('isDisabled');
     });
 
     it('queues propose extrinsic on submit', async () => {
-      const bounty = { status: aBountyStatus('Funded') };
-      const { findByTestId, findByText, getAllByRole } = renderOneBounty(aBounty(bounty));
+      await bountiesPage.enterCuratorsFee('0');
+      bountiesPage.enterProposingAccount(alice);
+      bountiesPage.enterProposedCurator(alice);
 
-      const proposeCuratorButton = await findByText('Propose Curator');
-
-      fireEvent.click(proposeCuratorButton);
-      expect(await findByText('This action will create a Council motion to assign a Curator.')).toBeTruthy();
-
-      const feeInput = await findByTestId("curator's fee");
-
-      fireEvent.change(feeInput, { target: { value: '0' } });
-
-      const comboboxes = getAllByRole('combobox');
-
-      const proposingAccountInput = comboboxes[0].children[0];
-      const proposingCuratorInput = comboboxes[1].children[0];
-
-      fireEvent.change(proposingAccountInput, { target: { value: alice } });
-      fireEvent.change(proposingCuratorInput, { target: { value: alice } });
-
-      const assignCuratorButton = await findByText('Assign curator');
-
-      fireEvent.click(assignCuratorButton);
-      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+      fireEvent.click(await bountiesPage.assignCuratorButton());
+      bountiesPage.expectExtrinsicQueued({ accountId: alice, extrinsic: 'mockProposeExtrinsic' });
     });
   });
 
