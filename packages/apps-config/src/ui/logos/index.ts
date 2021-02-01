@@ -27,8 +27,8 @@ import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
-import nodeCrab from './nodes/crab.svg';
 import nodeClover from './nodes/clover.svg';
+import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
@@ -174,8 +174,8 @@ export const namedLogos: Record<string, unknown> = {
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
-  crab: nodeCrab,
   clover: nodeClover,
+  crab: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,

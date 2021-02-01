@@ -66,7 +66,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'clover',
       text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
       providers: {
-        'Clover': 'wss://api.clover.finance/'
+        Clover: 'wss://api.clover.finance/'
       }
     },
     {

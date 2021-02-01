@@ -7,11 +7,11 @@ import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
+import clover from './clover';
+import cloverRococo from './clover-rococo';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
-import clover from './clover';
-import cloverRococo from './clover-rococo';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
@@ -50,9 +50,9 @@ export default {
   bifrost: bifrost,
   'bitcountry-node': bitcountry,
   canvas,
-    clover,
   'centrifuge-chain': centrifugeChain,
   chainx: chainx,
+  clover,
   'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crustParachain,
