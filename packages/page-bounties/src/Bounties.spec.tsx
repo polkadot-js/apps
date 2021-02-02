@@ -27,7 +27,14 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { extractTime } from '@polkadot/util';
 
-import { alice, bob, defaultBalance, defaultBountyApi, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';
+import { alice,
+  bob,
+  defaultBalance,
+  defaultBountyApi,
+  defaultBountyUpdatePeriod,
+  defaultMembers,
+  defaultTreasury } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
@@ -651,6 +658,55 @@ describe('Bounties', () => {
       const { findByText } = renderOneBounty(bounty);
 
       await expect(findByText('Beneficiary')).rejects.toThrow();
+    });
+  });
+
+  describe('Show', () => {
+    it('warning when update time is close', async () => {
+      const bounty = aBounty({ status: bountyStatusWith(
+        {
+          curator: alice,
+          status: 'Active',
+          updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
+        }) });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      expect(await findByText('Warning')).toBeTruthy();
+      expect(await findByText('Close deadline')).toBeTruthy();
+    });
+
+    it('info when waiting for bounty funding', async () => {
+      const bounty = bountyWith({ status: 'Approved' });
+      const { findByText } = renderOneBounty(bounty);
+
+      expect(await findByText('Info')).toBeTruthy();
+      expect(await findByText('Waiting for Bounty Funding')).toBeTruthy();
+    });
+
+    it('info when waiting for curator acceptance', async () => {
+      const bounty = bountyWith({ status: 'CuratorProposed' });
+      const { findByText } = renderOneBounty(bounty);
+
+      expect(await findByText('Info')).toBeTruthy();
+      expect(await findByText("Waiting for Curator's acceptance")).toBeTruthy();
+    });
+
+    it('no warning or info when requirements are not met', async () => {
+      const bounty = aBounty({ status: bountyStatusWith({
+        curator: alice,
+        status: 'Active',
+        updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
+      }) });
+
+      const { findByText } = renderOneBounty(bounty);
+
+      await expect(findByText('Warning')).rejects.toThrow();
+      await expect(findByText('Close deadline')).rejects.toThrow();
+
+      await expect(findByText('Info')).rejects.toThrow();
+      await expect(findByText('Waiting for Bounty Funding')).rejects.toThrow();
+      await expect(findByText("Waiting for Curator's acceptance")).rejects.toThrow();
     });
   });
 });
