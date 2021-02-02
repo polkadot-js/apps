@@ -162,7 +162,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { api } = useApi();
   const { getLedger } = useLedger();
   const { queueSetTxStatus } = useContext(StatusContext);
-  const [flags, setFlags] = useState(extractExternal(requestAddress));
+  const [flags, setFlags] = useState(() => extractExternal(requestAddress));
   const [error, setError] = useState<Error | null>(null);
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [isBusy, setBusy] = useState(false);

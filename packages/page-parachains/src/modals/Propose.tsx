@@ -49,8 +49,8 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [name, setName] = useState('');
-  const [paraId, setParaId] = useState(new BN(Date.now() % 131072));
-  const [balance, setBalance] = useState(new BN(1000).mul(BN_TEN.pow(new BN(api.registry.chainDecimals))));
+  const [paraId, setParaId] = useState(() => new BN(Date.now() % 131072));
+  const [balance, setBalance] = useState(() => new BN(1000).mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
   const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
