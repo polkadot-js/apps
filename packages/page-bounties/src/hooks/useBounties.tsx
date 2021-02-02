@@ -15,6 +15,7 @@ export type BountyApi = {
   awardBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
+  bountyCuratorDeposit: BN,
   bountyDepositBase: BN,
   bountyIndex?: BN,
   bountyUpdatePeriod?: BN,
@@ -35,6 +36,7 @@ export function useBounties (): BountyApi {
   const bountyIndex = useCall<BountyIndex>((api.query.bounties || api.query.treasury).bountyCount);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const constsBase = api.consts.bounties || api.consts.treasury;
+  const bountyCuratorDeposit = (constsBase.bountyCuratorDeposit as BalanceOf).toBn();
   const bountyDepositBase = (constsBase.bountyDepositBase as BalanceOf).toBn();
   const bountyValueMinimum = (constsBase.bountyValueMinimum as BalanceOf).toBn();
   const maximumReasonLength = constsBase.maximumReasonLength.toNumber();
@@ -56,6 +58,7 @@ export function useBounties (): BountyApi {
     awardBounty,
     bestNumber,
     bounties,
+    bountyCuratorDeposit,
     bountyDepositBase,
     bountyIndex,
     bountyUpdatePeriod,
