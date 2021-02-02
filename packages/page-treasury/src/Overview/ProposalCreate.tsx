@@ -24,7 +24,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const hasValue = value?.gtn(0);
 
   const bondPercentage = useMemo(
-    () => `${api.consts.treasury.proposalBond.muln(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%`,
+    () => `${api.consts.treasury.proposalBond.mul(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%`,
     [api]
   );
 
