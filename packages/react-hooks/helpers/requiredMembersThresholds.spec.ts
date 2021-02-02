@@ -19,7 +19,7 @@ describe('minimal members count', () => {
       expect(getAtLeastThresholdMembersCount(12, 0.6).toNumber()).toEqual(8);
     });
 
-    it('uneven number of members', () => {
+    it('odd number of members', () => {
       expect(getAtLeastThresholdMembersCount(19, 0.6).toNumber()).toEqual(12);
     });
   });
@@ -37,7 +37,7 @@ describe('minimal members count', () => {
       expect(getMoreThanThresholdMembersCount(12, 0.5).toNumber()).toEqual(7);
     });
 
-    it('uneven number of members', () => {
+    it('odd number of members', () => {
       expect(getMoreThanThresholdMembersCount(19, 0.5).toNumber()).toEqual(10);
     });
   });
