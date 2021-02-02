@@ -173,6 +173,10 @@ export default (theme: ThemeDef): string => `
     .ui.text.menu .item {
       color: ${theme.color};
     }
+
+    &&::before {
+      background: ${theme.bgMenu};
+    }
   }
 
   .ui.secondary.vertical.menu > .item {
