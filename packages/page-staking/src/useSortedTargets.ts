@@ -82,7 +82,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const emptyExposure = api.createType('Exposure');
-  const earliestEra = historyDepth && lastEra.sub(historyDepth).addn(1);
+  const earliestEra = historyDepth && lastEra.sub(historyDepth).add(BN_ONE);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
     let [bondOwn, bondTotal] = exposure.total

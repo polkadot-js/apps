@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { InputNumber, Toggle } from '@polkadot/react-components';
-import { BN_MILLION, BN_ZERO } from '@polkadot/util';
+import { BN_MILLION, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -26,7 +26,7 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
 
   const estimatedMg = useMemo(
     () => estimatedWeight
-      ? estimatedWeight.div(BN_MILLION).iaddn(1)
+      ? estimatedWeight.div(BN_MILLION).iadd(BN_ONE)
       : null,
     [estimatedWeight]
   );
