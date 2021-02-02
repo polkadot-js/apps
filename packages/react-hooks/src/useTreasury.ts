@@ -7,11 +7,11 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import { permillOf } from '@polkadot/app-bounties/helpers';
 import { useApi } from '@polkadot/react-hooks/useApi';
 import { useCall } from '@polkadot/react-hooks/useCall';
 import { BN_ZERO, stringToU8a } from '@polkadot/util';
 
+const PM_DIV = new BN(1000000);
 const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
 
 interface Treasury {
@@ -38,7 +38,7 @@ export function useTreasury (): Treasury {
       ? treasuryBalance.freeBalance
       : undefined);
     setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-      ? permillOf(api.consts.treasury.burn, treasuryBalance.freeBalance)
+      ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
       : BN_ZERO);
   }, [api, treasuryBalance, spendPeriod]);
 

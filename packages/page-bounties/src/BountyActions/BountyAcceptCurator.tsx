@@ -4,7 +4,7 @@
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
@@ -22,13 +22,11 @@ interface Props {
 function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
   const { t } = useTranslation();
   const { acceptCurator } = useBounties();
-
-  const [isOpen, toggleOpen] = useToggle();
-
   const { isCurator } = useUserRole(curatorId);
   const { bountyCuratorDeposit } = useBounties();
+  const [isOpen, toggleOpen] = useToggle();
 
-  const deposit = permillOf(fee, bountyCuratorDeposit);
+  const deposit = useMemo(() => permillOf(fee, bountyCuratorDeposit), [fee, bountyCuratorDeposit]);
 
   return isCurator
     ? (
