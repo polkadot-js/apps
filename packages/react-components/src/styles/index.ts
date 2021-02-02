@@ -58,6 +58,12 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     background: ${getContrast(uiHighlight)};
   }
 
+  .ui--MenuItem:hover .ui--Badge.highlight--bg-contrast,
+  .ui--MenuItem.isActive .ui--Badge.highlight--bg-contrast {
+    background: ${getHighlight(uiHighlight)};
+    color: ${getContrast(uiHighlight)} !important;
+  }
+
   .highlight--bg-faint,
   .highlight--bg-light {
     background: ${theme.bgTable};

@@ -20,8 +20,6 @@ const SHA_COL = 'rgba(34, 36, 38, 0.12)';
 const SHA_OFF = '5px';
 
 function Grouping ({ className = '', isActive, name, routes }: Props): React.ReactElement<Props> {
-  console.log(isActive, name);
-
   if (routes.length === 1) {
     return (
       <Item

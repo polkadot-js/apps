@@ -23,7 +23,7 @@ function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, t
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
+    <li className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
@@ -34,7 +34,7 @@ function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, t
         {text}
         {!!count && (
           <Badge
-            color='counter'
+            color={isToplevel ? 'counterInvert' : 'counter'}
             info={count}
           />
         )}
@@ -56,9 +56,11 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     font-weight: 400;
     line-height: 1.5rem;
     border-radius: 0.15rem 0.15rem 0 0;
+
     a {
       padding: 1rem 1.15rem 1.25rem;
     }
+
     &:hover {
       background-color: ${theme.bgMenu};
       color: ${theme.color};
