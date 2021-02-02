@@ -635,7 +635,7 @@
   "The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.": "제안의 관련된 보증금은 최소 필요한 온체인 보증금보다 더 커야 합니다. 제안이 통과할 때까지 잠깁니다.",
   "The auto-selection is done on the current profitability of the validators taking your favorites into account. It is adjusted based on the commission and current range of backing for the validator. The calculation may and will change over time, so it is rather a selection based on the current state of the network, not a predictor of future profitability.": "오토 셀력션은 패이버릿 감안하면서 현재 검사기의 수익성으로 합니다. 수수료 및  검사기의 지원 범위로 구성합니다. 시간이 지나면 이 계산은 변경될 수 있습니다만, 현재 네트워크 상태에 대한 설력션이며, 미래 수익성에 대한 예측 변수가 아닙니다",
   "The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.": "투표에 연관된 잔고는 명시된 컨빅션에 따라 잠기고 이 기간 동안 이체가 불가능합니다",
-  "The beneficiary will have access to the transferred fees when the transaction is included in a block.": "트랜잭션이 블록에 포함될 때, 블록 생성자와 이해관계자는 전송 수수료를 받을 수 있습니다.",
+  "The beneficiary will have access to the transferred amount when the transaction is included in a block.": "트랜잭션이 블록에 포함될 때, 블록 생성자와 이해관계자는 전송 수수료를 받을 수 있습니다.",
   "The beneficiary will receive the full amount if the proposal passes.": "제안이 통과되면 수령인은 전체 금액을 받습니다",
   "The beneficiary will received the tip as approved by council members.": "수령인 의회멤버들이 승인한 팁을 받을 예정입니다",
   "The blake2b 256-bit hash of the actual input data.": "실제 입력 데이터에서 blake2b 256-비트 해시",

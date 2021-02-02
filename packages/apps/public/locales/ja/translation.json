@@ -257,7 +257,7 @@
   "The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.": "復元に協力できるアドレスです。信頼できるヘルパーは{{maxHelpers}}つまで選択できます。",
   "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.": "このコントラクトのために割り当てられた寄附金、すなわち、インスタンス化時にコントラクトに転送された金額。",
   "The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.": "このコントラクトに割り当てられた値、すなわち、この呼び出しの一部としてコントラクトに転送された金額。",
-  "The beneficiary will have access to the transferred fees when the transaction is included in a block.": "受益者は、取引がブロックに含まれている場合、譲渡された手数料にアクセスすることができます。",
+  "The beneficiary will have access to the transferred amount when the transaction is included in a block.": "受益者は、取引がブロックに含まれている場合、譲渡された手数料にアクセスすることができます。",
   "The call hashes that have not been executed as of yet.": "まだ実行されていないコールハッシュ。",
   "The code hash for the on-chain deployed code.": "オンチェーンにデプロイされたコードハッシュ",
   "The code is not recognized as being in valid WASM format": "コードが有効な WASM 形式であると認識されません。",

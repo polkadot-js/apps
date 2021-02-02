@@ -119,7 +119,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}</p>
+              <p>{t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}</p>
             </Modal.Column>
           </Modal.Columns>
           <Modal.Columns>

@@ -157,7 +157,7 @@
   "The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.": "The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.",
   "The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.": "The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.",
   "The amount to allocate and the conviction that will be applied to all votes made on a referendum.": "The amount to allocate and the conviction that will be applied to all votes made on a referendum.",
-  "The beneficiary will have access to the transferred fees when the transaction is included in a block.": "The beneficiary will have access to the transferred fees when the transaction is included in a block.",
+  "The beneficiary will have access to the transferred amount when the transaction is included in a block.": "The beneficiary will have access to the transferred amount when the transaction is included in a block.",
   "The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.": "The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.",
   "The call hash from the list of available and unapproved calls.": "The call hash from the list of available and unapproved calls.",
   "The call hashes that have not been executed as of yet.": "The call hashes that have not been executed as of yet.",
