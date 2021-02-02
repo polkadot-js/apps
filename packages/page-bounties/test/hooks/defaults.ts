@@ -4,9 +4,12 @@
 import BN from 'bn.js';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
-import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BlockNumber } from '@polkadot/types/interfaces';
+
+import { BountyApi } from '../../src/hooks';
+
+export const defaultBountyUpdatePeriod = new BN(100000);
 
 export const defaultBountyApi: BountyApi = {
   acceptCurator: jest.fn(),
@@ -15,6 +18,7 @@ export const defaultBountyApi: BountyApi = {
   bestNumber: new BN(1) as BlockNumber,
   bounties: [] as DeriveBounties,
   bountyDepositBase: new BN(1),
+  bountyUpdatePeriod: defaultBountyUpdatePeriod,
   bountyValueMinimum: new BN(1),
   claimBounty: jest.fn(),
   closeBounty: jest.fn().mockReturnValue({ length: 4 }),
