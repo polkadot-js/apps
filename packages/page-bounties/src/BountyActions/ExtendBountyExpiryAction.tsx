@@ -6,6 +6,7 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 import React, { useCallback, useState } from 'react';
 
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useBlockTime } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -20,8 +21,9 @@ interface Props {
 
 function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { extendBountyExpiry } = useBounties();
+  const { bountyUpdatePeriod, extendBountyExpiry } = useBounties();
   const [remark, setRemark] = useState('');
+  const [, extendExpiryText] = useBlockTime(bountyUpdatePeriod);
 
   const onRemarkChange = useCallback((value: string) => {
     setRemark(value);
@@ -52,6 +54,21 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
               <p>{t<string>('Only curator can extend the bounty time.')}</p>
             </Modal.Column>
           </Modal.Columns>
+          {extendExpiryText &&
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  help={t<string>('The new expiry time does not depend on the current expiry time.')}
+                  isDisabled
+                  label={t<string>('new expiry time')}
+                  value={extendExpiryText}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('Expiry time set after the extension.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+          }
           <Modal.Columns>
             <Modal.Column>
               <Input
