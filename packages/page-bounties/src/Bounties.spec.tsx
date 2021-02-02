@@ -507,7 +507,7 @@ describe('Bounties', () => {
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
-      expect(await findByText('Approval under voting')).toBeTruthy();
+      expect(await findByText('Bounty approval under voting')).toBeTruthy();
     });
 
     it('on parallel bounty approval and bounty close in proposed status', async () => {
@@ -519,7 +519,7 @@ describe('Bounties', () => {
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
-      expect(await findByText('Approval under voting')).toBeTruthy();
+      expect(await findByText('Bounty approval under voting')).toBeTruthy();
     });
 
     it('on close bounty in active status', async () => {
@@ -528,7 +528,7 @@ describe('Bounties', () => {
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
-      expect(await findByText('Rejection under voting')).toBeTruthy();
+      expect(await findByText('Bounty rejection under voting')).toBeTruthy();
     });
 
     it('on unassign curator in active state', async () => {
@@ -537,7 +537,7 @@ describe('Bounties', () => {
 
       const { findByText } = renderOneBounty(bounty, proposals);
 
-      expect(await findByText('Unassign curator under voting')).toBeTruthy();
+      expect(await findByText('Curator slash under voting')).toBeTruthy();
     });
 
     it('on bounty approval in active state', async () => {
