@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_BILLION, isFunction } from '@polkadot/util';
+import { BN_BILLION, BN_ZERO, isFunction } from '@polkadot/util';
 
 export default function useStakerPayouts (): BN {
   const { api } = useApi();
