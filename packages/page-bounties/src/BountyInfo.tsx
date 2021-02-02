@@ -32,7 +32,7 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
 }
 
 export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.857rem;
   line-height: 1.714rem;
   color: ${bountyColor[theme.theme]};
