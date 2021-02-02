@@ -34,8 +34,7 @@ import { alice,
   defaultBountyApi,
   defaultBountyUpdatePeriod,
   defaultMembers,
-  defaultTreasury,
-  ferdie } from '../test/hooks/defaults';
+  defaultTreasury } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
@@ -93,7 +92,7 @@ let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBountyStatus: (status: string) => BountyStatus;
 let aBountyIndex: (index?:number) => BountyIndex;
-let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
+let aBounty: ({ fee, status, value }?: Partial<Bounty>) => Bounty;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
 
@@ -315,7 +314,7 @@ describe('Bounties', () => {
   describe('close bounty modal', () => {
     it('creates closeBounty proposal', async () => {
       const bounty = bountyWith({ status: 'Funded' });
-      const { findByTestId, findByText, getByRole } = renderOneBounty(bounty);
+      const { findByRole, findByTestId, findByText, getByRole } = renderOneBounty(bounty);
 
       await clickElementWithTestId('extra-actions', findByTestId);
 
@@ -326,12 +325,13 @@ describe('Bounties', () => {
       const combobox = getByRole('combobox');
       const proposingAccountInput = combobox.children[0];
 
-      fireEvent.change(proposingAccountInput, { target: { value: ferdie } });
+      fireEvent.change(proposingAccountInput, { target: { value: alice } });
+      fireEvent.keyDown(proposingAccountInput, { code: 'Enter', key: 'Enter' });
 
-      const closeBountyButton = getByRole('button', { name: 'Close Bounty' });
+      await clickButtonWithName('Close Bounty', findByRole);
 
-      fireEvent.click(closeBountyButton);
-      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: ferdie, extrinsic: 'mockProposeExtrinsic' }));
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: alice, extrinsic: 'mockProposeExtrinsic' }));
+      expect(mockBountyApi.closeBounty).toHaveBeenCalledWith(aBountyIndex(0));
     });
 
     it('Not available when close bounty motion already exists', async () => {
@@ -368,6 +368,31 @@ describe('Bounties', () => {
 
       expect(await findByText('Give Up')).toBeTruthy();
       expect(await findByText('Slash Curator (Council)')).toBeTruthy();
+    });
+  });
+
+  describe('Accept curator modal', () => {
+    it('creates extrinsic', async () => {
+      const bounty = aBounty({ fee: balanceOf(20), status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) });
+
+      const { findByRole, findByTestId, findByText } = renderOneBounty(bounty);
+
+      await clickButtonWithName('Accept', findByRole);
+
+      expect(await findByText('This action will accept your candidacy for the curator of the bounty.')).toBeTruthy();
+
+      const fee = (await findByTestId("curator's fee")).getAttribute('value');
+
+      expect(fee).toEqual('20.0000');
+
+      const deposit = (await findByTestId("curator's deposit")).getAttribute('value');
+
+      expect(deposit).toEqual('10.0000');
+
+      await clickButtonWithName('Accept Curator Role', findByRole);
+
+      expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: bob }));
+      expect(mockBountyApi.acceptCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
   });
 

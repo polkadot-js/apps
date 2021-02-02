@@ -17,6 +17,7 @@ export const defaultBountyApi: BountyApi = {
   awardBounty: jest.fn().mockReturnValue('mockAwardExtrinsic'),
   bestNumber: new BN(1) as BlockNumber,
   bounties: [] as DeriveBounties,
+  bountyCuratorDeposit: balanceOf(500000),
   bountyDepositBase: new BN(1),
   bountyUpdatePeriod: defaultBountyUpdatePeriod,
   bountyValueMinimum: new BN(1),
