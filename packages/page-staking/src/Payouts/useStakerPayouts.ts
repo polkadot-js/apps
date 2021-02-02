@@ -17,8 +17,8 @@ export default function useStakerPayouts (): BN {
   return useMemo(
     () => (migrateEraOpt && migrateEraOpt.isSome && migrateEraOpt.unwrap()) || (
       isFunction(api.tx.staking.payoutStakers)
-        ? new BN(0)
-        : new BN(BN_BILLION)
+        ? BN_ZERO
+        : BN_BILLION
     ),
     [api, migrateEraOpt]
   );
