@@ -5,12 +5,12 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { BN_ZERO } from '@polkadot/util';
 
 import Description from '../Description';
-import { bestValidProposalName } from '../helpers/extendedStatuses';
+import { proposalNameToDisplay } from '../helpers/extendedStatuses';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
 }
 
 function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status }: Props): React.ReactElement<Props> {
-  const bestProposalName = proposals ? bestValidProposalName(proposals, status) : null;
+  const bestProposalName = proposals ? proposalNameToDisplay(proposals, status) : null;
   const { t } = useTranslation();
   const votingDescriptions = useRef<Record<string, string>>({
     approveBounty: t('Bounty approval under voting'),
@@ -31,19 +31,13 @@ function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status 
     unassignCurator: t('Unassign curator under voting')
   });
 
-  const descriptionToDisplay = useMemo(() => {
-    if (bestProposalName !== 'unassignCurator') { return bestProposalName; }
-
-    return status.isCuratorProposed ? 'unassignCurator' : 'slashCurator';
-  }, [bestProposalName, status]);
-
   return (
     <>
-      {descriptionToDisplay && votingDescriptions.current[descriptionToDisplay] &&
+      {bestProposalName && votingDescriptions.current[bestProposalName] &&
         <Description
           className={className}
           dataTestId='extendedVotingStatus'
-          description={votingDescriptions.current[descriptionToDisplay]}
+          description={votingDescriptions.current[bestProposalName]}
         />
       }
       {blocksUntilPayout?.lt(BN_ZERO) &&

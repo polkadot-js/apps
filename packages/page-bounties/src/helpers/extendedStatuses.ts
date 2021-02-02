@@ -23,10 +23,18 @@ function getProposalByMethod (bountyProposals: DeriveCollectiveProposal[], metho
   return bountyProposals.find(({ proposal }) => proposal.method === method);
 }
 
-export function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
+function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
   const methods = bountyProposals.map(({ proposal }) => proposal.method);
 
   return validMethods(status).find((method) => methods.includes(method));
+}
+
+export function proposalNameToDisplay (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
+  const bestProposalName = bestValidProposalName(bountyProposals, status);
+
+  if (bestProposalName !== 'unassignCurator') { return bestProposalName; }
+
+  return status.isCuratorProposed ? 'unassignCurator' : 'slashCurator';
 }
 
 export function getProposalToDisplay (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | null {
