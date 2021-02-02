@@ -12,6 +12,9 @@ import { useApi } from '@polkadot/react-hooks/useApi';
 import { useMembers } from '@polkadot/react-hooks/useMembers';
 import { BN_ZERO } from '@polkadot/util';
 
+import { getAtLeastThresholdMembersCount,
+  getMoreThanThresholdMembersCount } from '../helpers/requiredMembersThresholds';
+
 export type ThresholdApi = {
   proposalThreshold: BN;
   treasuryProposalThreshold: BN;
@@ -29,19 +32,19 @@ export function useThresholds () : ThresholdApi {
   const [treasuryProposalThreshold, setTreasuryProposalThreshold] = useState<BN>(BN_ZERO);
 
   useEffect((): void => {
-    const pThreshold = getProposalThreshold(api);
-    const slashThreshold = getSlashProposalThreshold(api);
-    const tRejectionThreshold = getTreasuryRejectionThreshold(api);
-    const tProposalThreshold = getTreasuryProposalThreshold(api);
+    const proposalThreshold = getProposalThreshold(api);
+    const slashProposalThreshold = getSlashProposalThreshold(api);
+    const treasuryRejectionThreshold = getTreasuryRejectionThreshold(api);
+    const treasuryProposalThreshold = getTreasuryProposalThreshold(api);
 
-    members && setProposalThreshold(new BN(Math.ceil(members.length * pThreshold)));
-    members && setSlashProposalThreshold(new BN(Math.ceil(members.length * slashThreshold)));
-    members && setTreasuryRejectionThreshold(
-      Math.ceil(members.length * tRejectionThreshold) === members.length * tRejectionThreshold
-        ? new BN((members.length * tRejectionThreshold) + 1)
-        : new BN(Math.ceil((members.length * tRejectionThreshold)))
-    );
-    members && setTreasuryProposalThreshold(new BN(Math.ceil((members.length * tProposalThreshold))));
+    const membersCount = members?.length;
+
+    if (membersCount && membersCount !== 0) {
+      setProposalThreshold(getAtLeastThresholdMembersCount(membersCount, proposalThreshold));
+      setSlashProposalThreshold(getAtLeastThresholdMembersCount(membersCount, slashProposalThreshold));
+      setTreasuryRejectionThreshold(getMoreThanThresholdMembersCount(membersCount, treasuryRejectionThreshold));
+      setTreasuryProposalThreshold(getAtLeastThresholdMembersCount(membersCount, treasuryProposalThreshold));
+    }
   }, [api, members]);
 
   return { proposalThreshold, slashProposalThreshold, treasuryProposalThreshold, treasuryRejectionThreshold };
