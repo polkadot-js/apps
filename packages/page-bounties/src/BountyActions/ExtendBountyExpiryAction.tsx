@@ -68,7 +68,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>(`Bounty expiry time will be extended by ${timeAsText}.`)}</p>
+                <p>{t<string>(`Bounty expiry time will be set to ${timeAsText} from now.`)}</p>
               </Modal.Column>
             </Modal.Columns>
           }
