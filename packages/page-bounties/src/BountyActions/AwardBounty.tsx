@@ -63,7 +63,6 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
                     help={t<string>('Choose the Beneficiary for this bounty.')}
                     label={t<string>('beneficiary account')}
                     onChange={setBeneficiaryId}
-                    type='account'
                     withLabel
                   />
                 </Modal.Column>
