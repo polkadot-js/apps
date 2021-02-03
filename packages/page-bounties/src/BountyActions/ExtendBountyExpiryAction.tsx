@@ -5,6 +5,7 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useState } from 'react';
 
+import { increaseDateByDays } from '@polkadot/app-bounties/helpers/increaseDateByDays';
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
@@ -23,11 +24,13 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
   const { t } = useTranslation();
   const { bountyUpdatePeriod, extendBountyExpiry } = useBounties();
   const [remark, setRemark] = useState('');
-  const [, extendExpiryText] = useBlockTime(bountyUpdatePeriod);
+  const [, timeAsText, time] = useBlockTime(bountyUpdatePeriod);
 
   const onRemarkChange = useCallback((value: string) => {
     setRemark(value);
   }, []);
+
+  const expiryDate = increaseDateByDays(new Date(), time.days);
 
   return (
     <>
@@ -54,18 +57,18 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
               <p>{t<string>('Only curator can extend the bounty time.')}</p>
             </Modal.Column>
           </Modal.Columns>
-          {extendExpiryText &&
+          {timeAsText &&
             <Modal.Columns>
               <Modal.Column>
                 <Input
-                  help={t<string>('The new expiry time does not depend on the current expiry time.')}
+                  help={t<string>('The extended expiry date does not depend on the current expiry date.')}
                   isDisabled
-                  label={t<string>('new expiry time')}
-                  value={extendExpiryText}
+                  label={t<string>('new expiry date')}
+                  value={expiryDate.toLocaleDateString()}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>('Expiry time set after the extension.')}</p>
+                <p>{t<string>(`Bounty expiry time will be extended by ${timeAsText}.`)}</p>
               </Modal.Column>
             </Modal.Columns>
           }
