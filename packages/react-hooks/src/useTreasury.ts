@@ -37,7 +37,7 @@ export function useTreasury (): Treasury {
       ? treasuryBalance.freeBalance
       : undefined);
     setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-      ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(BN_MILLION)
+      ? api.consts.treasury.burn.mul(treasuryBalance.freeBalance).div(BN_MILLION)
       : BN_ZERO);
   }, [api, treasuryBalance, spendPeriod]);
 

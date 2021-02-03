@@ -81,7 +81,7 @@ function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatche
 function createReferendums (bestNumber: BlockNumber, blockTime: number, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
   return referendums.reduce((result: [EntryType, EntryInfo[]][], { index, status }): [EntryType, EntryInfo[]][] => {
     const enactBlocks = status.end.add(status.delay).sub(bestNumber);
-    const voteBlocks = status.end.sub(bestNumber).sub(BN_ONE);
+    const voteBlocks = status.end.sub(bestNumber).isub(BN_ONE);
 
     result.push(['referendumVote', [{
       ...newDate(voteBlocks, blockTime),
