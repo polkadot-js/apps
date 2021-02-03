@@ -27,7 +27,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
   const { approveBounty, closeBounty } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const { treasuryProposalThreshold: threshold } = useThresholds();
+  const { treasuryProposalThreshold } = useThresholds();
 
   const approveBountyProposal = useRef(approveBounty(index));
   const closeBountyProposal = useRef(closeBounty(index));
@@ -75,7 +75,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 isDisabled={false}
                 label={t<string>('Approve')}
                 onStart={toggleOpen}
-                params={[threshold, approveBountyProposal.current, approveBountyProposal.current.length]}
+                params={[treasuryProposalThreshold, approveBountyProposal.current, approveBountyProposal.current.length]}
                 tx={api.tx.council.propose}
               />
               <TxButton
@@ -84,7 +84,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 isDisabled={false}
                 label={t<string>('Reject')}
                 onStart={toggleOpen}
-                params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
+                params={[treasuryProposalThreshold, closeBountyProposal.current, closeBountyProposal.current.length]}
                 tx={api.tx.council.propose}
               />
             </Modal.Actions>

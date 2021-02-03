@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { getProposalThreshold,
@@ -10,26 +9,25 @@ import { getProposalThreshold,
   getTreasuryRejectionThreshold } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks/useApi';
 import { useMembers } from '@polkadot/react-hooks/useMembers';
-import { BN_ZERO } from '@polkadot/util';
 
 import { getAtLeastThresholdMembersCount,
   getMoreThanThresholdMembersCount } from '../helpers/requiredMembersThresholds';
 
 export type ThresholdApi = {
-  proposalThreshold: BN;
-  treasuryProposalThreshold: BN;
-  treasuryRejectionThreshold: BN;
-  slashProposalThreshold: BN;
+  proposalThreshold: number;
+  treasuryProposalThreshold: number;
+  treasuryRejectionThreshold: number;
+  slashProposalThreshold: number;
 }
 
 export function useThresholds () : ThresholdApi {
   const { api } = useApi();
   const { members } = useMembers();
 
-  const [proposalThreshold, setProposalThreshold] = useState<BN>(BN_ZERO);
-  const [slashProposalThreshold, setSlashProposalThreshold] = useState<BN>(BN_ZERO);
-  const [treasuryRejectionThreshold, setTreasuryRejectionThreshold] = useState<BN>(BN_ZERO);
-  const [treasuryProposalThreshold, setTreasuryProposalThreshold] = useState<BN>(BN_ZERO);
+  const [proposalThreshold, setProposalThreshold] = useState<number>(0);
+  const [slashProposalThreshold, setSlashProposalThreshold] = useState<number>(0);
+  const [treasuryRejectionThreshold, setTreasuryRejectionThreshold] = useState<number>(0);
+  const [treasuryProposalThreshold, setTreasuryProposalThreshold] = useState<number>(0);
 
   useEffect((): void => {
     const proposalThreshold = getProposalThreshold(api);

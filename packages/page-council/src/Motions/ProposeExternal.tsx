@@ -30,7 +30,7 @@ interface ProposalState {
 function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { proposalThreshold: threshold } = useThresholds();
+  const { proposalThreshold } = useThresholds();
 
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
@@ -107,13 +107,13 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
+              isDisabled={!proposalThreshold || !members.includes(accountId || '') || !proposal}
               label={t<string>('Propose')}
               onStart={toggleVisible}
               params={
                 api.tx.council.propose.meta.args.length === 3
-                  ? [threshold, proposal, proposalLength]
-                  : [threshold, proposal]
+                  ? [proposalThreshold, proposal, proposalLength]
+                  : [proposalThreshold, proposal]
               }
               tx={api.tx.council.propose}
             />

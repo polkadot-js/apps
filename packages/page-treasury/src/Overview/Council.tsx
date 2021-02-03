@@ -4,7 +4,6 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ProposalIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
@@ -32,7 +31,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const [accountId, setAccountId] = useState<string | null>(null);
   const [councilType, setCouncilType] = useState('accept');
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
-  const [threshold, setThreshold] = useState<BN>();
+  const [threshold, setThreshold] = useState<number>(0);
 
   const councilTypeOptRef = useRef([
     { text: t<string>('Acceptance proposal to council'), value: 'accept' },

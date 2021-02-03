@@ -21,7 +21,7 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
   const { api } = useApi();
   const { members } = useMembers();
   const { closeBounty } = useBounties();
-  const { treasuryRejectionThreshold: threshold } = useThresholds();
+  const { treasuryRejectionThreshold } = useThresholds();
 
   const [accountId, setAccountId] = useState<string | null>(null);
 
@@ -59,7 +59,7 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
           isDisabled={false}
           label={t<string>('Close Bounty')}
           onStart={toggleOpen}
-          params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
+          params={[treasuryRejectionThreshold, closeBountyProposal.current, closeBountyProposal.current.length]}
           tx={api.tx.council.propose}
         />
       </Modal.Actions>

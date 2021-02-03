@@ -89,7 +89,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const { members } = useMembers();
-  const { slashProposalThreshold: councilThreshold } = useThresholds();
+  const { slashProposalThreshold } = useThresholds();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -130,7 +130,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
         />
       }
       councilId={councilId}
-      councilThreshold={councilThreshold.toNumber()}
+      councilThreshold={slashProposalThreshold}
       key={rows[selectedIndex].era.toString()}
       slash={rows[selectedIndex]}
     />

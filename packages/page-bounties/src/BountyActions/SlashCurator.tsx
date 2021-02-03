@@ -39,7 +39,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
   const { members } = useMembers();
   const { unassignCurator } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const { treasuryRejectionThreshold: threshold } = useThresholds();
+  const { treasuryRejectionThreshold } = useThresholds();
   const { allAccounts } = useAccounts();
 
   const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index, unassignCurator]);
@@ -69,7 +69,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       filter: members,
       header: t('This action will create a Council motion to slash the Curator.'),
       helpMessage: t('The Curator that will be slashed.'),
-      params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
+      params: [treasuryRejectionThreshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t("If the motion is outvoted, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
       title: t('Slash curator'),
@@ -79,13 +79,13 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       filter: members,
       header: t('This action will create a Council motion to unassign the Curator.'),
       helpMessage: t('The Curator that will be unassigned'),
-      params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
+      params: [treasuryRejectionThreshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t('If the motion is outvoted, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
       title: t('Unassign curator'),
       tx: api.tx.council.propose
     }
-  }), [t, curatorId, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
+  }), [t, curatorId, index, unassignCurator, api.tx.council.propose, allAccounts, members, treasuryRejectionThreshold, unassignCuratorProposal]);
 
   const { filter, header, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
 

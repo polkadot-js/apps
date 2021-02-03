@@ -29,7 +29,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
   const { api } = useApi();
   const { isMember, members } = useMembers();
   const { proposeCurator } = useBounties();
-  const { treasuryProposalThreshold: threshold } = useThresholds();
+  const { treasuryProposalThreshold } = useThresholds();
 
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -117,7 +117,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 isDisabled={!isFeeValid}
                 label={t<string>('Assign curator')}
                 onStart={toggleOpen}
-                params={[threshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
+                params={[treasuryProposalThreshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
                 tx={api.tx.council.propose}
               />
             </Modal.Actions>

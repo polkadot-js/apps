@@ -29,7 +29,7 @@ interface ProposalState {
 function Slashing ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { slashProposalThreshold: threshold } = useThresholds();
+  const { slashProposalThreshold } = useThresholds();
   const slashes = useAvailableSlashes();
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
@@ -121,13 +121,13 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
             <TxButton
               accountId={accountId}
               icon='sync'
-              isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
+              isDisabled={!slashProposalThreshold || !members.includes(accountId || '') || !proposal}
               label={t<string>('Revert')}
               onStart={toggleVisible}
               params={
                 api.tx.council.propose.meta.args.length === 3
-                  ? [threshold, proposal, proposalLength]
-                  : [threshold, proposal]
+                  ? [slashProposalThreshold, proposal, proposalLength]
+                  : [slashProposalThreshold, proposal]
               }
               tx={api.tx.council.propose}
             />
