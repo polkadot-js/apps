@@ -13,6 +13,7 @@ const PROPOSE_THRESHOLDS: Record<string, number> = {
 };
 
 const REJECT_THRESHOLDS: Record<string, number> = {
+  [KULUPU_GENESIS]: 0.5,
   [KUSAMA_GENESIS]: 0.5,
   [POLKADOT_GENESIS]: 0.5,
   default: 0.5

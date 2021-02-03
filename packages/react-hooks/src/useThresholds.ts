@@ -7,17 +7,25 @@ import { getProposalThreshold,
   getSlashProposalThreshold,
   getTreasuryProposalThreshold,
   getTreasuryRejectionThreshold } from '@polkadot/apps-config';
-import { useApi } from '@polkadot/react-hooks/useApi';
-import { useMembers } from '@polkadot/react-hooks/useMembers';
 
-import { getAtLeastThresholdMembersCount,
-  getMoreThanThresholdMembersCount } from '../helpers/requiredMembersThresholds';
+import { useApi } from './useApi';
+import { useMembers } from './useMembers';
 
 export type ThresholdApi = {
   proposalThreshold: number;
   treasuryProposalThreshold: number;
   treasuryRejectionThreshold: number;
   slashProposalThreshold: number;
+}
+
+export function getMoreThanThresholdMembersCount (membersCount: number, thresholdRatio: number): number {
+  if (membersCount === 0) { return 0; }
+
+  return Math.floor(membersCount * thresholdRatio) + 1;
+}
+
+export function getAtLeastThresholdMembersCount (membersCount: number, thresholdRatio: number): number {
+  return Math.ceil(membersCount * thresholdRatio);
 }
 
 export function useThresholds () : ThresholdApi {

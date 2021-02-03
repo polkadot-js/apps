@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { getAtLeastThresholdMembersCount, getMoreThanThresholdMembersCount } from './requiredMembersThresholds';
+import { getAtLeastThresholdMembersCount, getMoreThanThresholdMembersCount } from './useThresholds';
 
 describe('minimal members count', () => {
   it('0 members', () => {
