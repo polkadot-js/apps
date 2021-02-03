@@ -26,16 +26,16 @@ import { aGenesisHash } from '@polkadot/test-support/creation/hashes';
 import { proposalFactory } from '@polkadot/test-support/creation/treasury/proposalFactory';
 import { mockHooks } from '@polkadot/test-support/hooks/mockHooks';
 import { MemoryStore } from '@polkadot/test-support/keyring';
-import { alice, bob, ferdie } from '@polkadot/test-support/keyring/addresses';
+import { alice, bob } from '@polkadot/test-support/keyring/addresses';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { mockBountyHooks } from '../test/hooks/defaults';
+import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
 import { BountiesPage } from '../test/pages/bountiesPage';
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from '../src/BountyInfos';import { alice, bob, defaultBalance, defaultBountyApi,defaultBountyUpdatePeriod, defaultMembers, defaultTreasury } from '../test/hooks/defaults';
 import { clickButtonWithName } from '../test/utils/clickButtonWithName';
 import { clickElementWithTestId } from '../test/utils/clickElementWithTestId';
 import { clickElementWithText } from '../test/utils/clickElementWithText';
 import Bounties from './Bounties';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyInfos';
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury
@@ -174,7 +174,7 @@ describe('Bounties', () => {
 
         const { findByText } = renderOneBounty(bounty, proposals);
 
-        expect(await findByText('Approval under voting')).toBeTruthy();
+        expect(await findByText('Bounty approval under voting')).toBeTruthy();
       });
 
       it('when simultaneous close and approve motions exist, show approved', async () => {
@@ -186,7 +186,7 @@ describe('Bounties', () => {
 
         const { findByText } = renderOneBounty(bounty, proposals);
 
-        expect(await findByText('Approval under voting')).toBeTruthy();
+        expect(await findByText('Bounty approval under voting')).toBeTruthy();
       });
 
       it('when voting on close bounty', async () => {
@@ -195,7 +195,7 @@ describe('Bounties', () => {
 
         const { findByText } = renderOneBounty(bounty, proposals);
 
-        expect(await findByText('Rejection under voting')).toBeTruthy();
+        expect(await findByText('Bounty rejection under voting')).toBeTruthy();
       });
 
       it('when voting on unassign curator', async () => {
@@ -204,7 +204,7 @@ describe('Bounties', () => {
 
         const { findByText } = renderOneBounty(bounty, proposals);
 
-        expect(await findByText('Unassign curator under voting')).toBeTruthy();
+        expect(await findByText('Curator slash under voting')).toBeTruthy();
       });
 
       it('when a motion exists that would fail on execution, show nothing', async () => {
@@ -397,7 +397,7 @@ describe('Bounties', () => {
   describe('close bounty modal', () => {
     let bountiesPage: BountiesPage;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       bountiesPage = new BountiesPage(augmentedApi);
     });
 
@@ -412,7 +412,7 @@ describe('Bounties', () => {
 
       bountiesPage.enterProposingAccount(alice);
 
-      await clickButtonWithName('Close Bounty', findByRole)
+      await clickButtonWithName('Close Bounty', findByRole);
 
       bountiesPage.expectExtrinsicQueued({ accountId: alice, extrinsic: 'mockProposeExtrinsic' });
       expect(mockBountyHooks.bountyApi.closeBounty).toHaveBeenCalledWith(aBountyIndex(0));
@@ -476,7 +476,7 @@ describe('Bounties', () => {
       await clickButtonWithName('Accept Curator Role', findByRole);
 
       expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining({ accountId: bob }));
-      expect(mockBountyApi.acceptCurator).toHaveBeenCalledWith(aBountyIndex(0));
+      expect(mockBountyHooks.bountyApi.acceptCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
   });
 
@@ -506,7 +506,7 @@ describe('Bounties', () => {
   describe('slash curator modal', () => {
     let bountiesPage: BountiesPage;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       bountiesPage = new BountiesPage(augmentedApi);
     });
 
@@ -570,11 +570,11 @@ describe('Bounties', () => {
   describe('Show', () => {
     it('warning when update time is close', async () => {
       const bounty = aBounty({ status: bountyStatusWith(
-          {
-            curator: alice,
-            status: 'Active',
-            updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
-          }) });
+        {
+          curator: alice,
+          status: 'Active',
+          updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
+        }) });
 
       const { findByText } = renderOneBounty(bounty);
 
@@ -600,10 +600,10 @@ describe('Bounties', () => {
 
     it('no warning or info when requirements are not met', async () => {
       const bounty = aBounty({ status: bountyStatusWith({
-          curator: alice,
-          status: 'Active',
-          updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
-        }) });
+        curator: alice,
+        status: 'Active',
+        updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
+      }) });
 
       const { findByText } = renderOneBounty(bounty);
 
