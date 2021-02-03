@@ -11,7 +11,7 @@ import React, { useMemo } from 'react';
 import { Badge } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import { getChainLink, sliceHex } from '../util';
 
@@ -81,7 +81,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   const blockDelay = useMemo(
     () => bestNumber && (
       lastRelayNumber
-        ? bestNumber.sub(lastRelayNumber).subn(1)
+        ? bestNumber.sub(lastRelayNumber).isub(BN_ONE)
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined
