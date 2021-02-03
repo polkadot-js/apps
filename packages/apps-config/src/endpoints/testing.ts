@@ -15,7 +15,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createTesting(t: TFunction): LinkOption[] {
+export function createTesting (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // polkadot test relays
     createRococo(t),
