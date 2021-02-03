@@ -11,6 +11,7 @@ import { AddressSmall, Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
+import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -47,8 +48,8 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
           <div className='vote-numbers'>
             <span className='vote-numbers-icon'><Icon icon={icons[option]} /></span>
             <span className='vote-numbers-label'>
-              {option === 'ayes' && t('Aye: {{count}}', { replace: { count: votes && votes.length } })}
-              {option === 'nays' && t('Nay: {{count}}', { replace: { count: votes && votes.length } })}
+              {option === 'ayes' && t('Aye: {{count}}', { replace: { count: votes ? votes.length : 0 } })}
+              {option === 'nays' && t('Nay: {{count}}', { replace: { count: votes ? votes.length : 0 } })}
             </span>
           </div>
           {voters}
@@ -66,7 +67,7 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
 
   .vote-numbers-icon svg {
     max-width: 10px;
-    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+    color: ${bountyLabelColor[theme.theme]};
   }
 
   .vote-numbers-label {

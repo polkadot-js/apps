@@ -63,6 +63,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'clover',
+      text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
+      providers: {
+        Clover: 'wss://api.clover.finance/'
+      }
+    },
+    {
       info: 'crust',
       text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
@@ -144,7 +151,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws'
+        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws',
+        'Patract Elara': 'wss://mandala.elara.patract.io'
       }
     },
     {

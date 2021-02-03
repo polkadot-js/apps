@@ -16,13 +16,14 @@ import type { EndpointOption } from './types';
 export function createRococo (t: TFunction): EndpointOption {
   return {
     dnslink: 'rococo',
-    genesisHash: '0x481550b70e974177e83cff4d554cea7166be3eaeb32f020b86542e76968ccd0e',
+    genesisHash: '0xe2bcff61f49d41ef837b92331a3f02dee14fa59723bc850697f516c5376cde1c',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://rococo.elara.patract.io'
+      'Patract Elara': 'wss://rococo.elara.patract.io',
+      'Ares Protocol': 'wss://rococo.aresprotocol.com'
     },
     linked: [
       // these are the base chains
@@ -52,11 +53,27 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoAres',
+        paraId: 6,
+        text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
+        providers: {
+          'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
+        }
+      },
+      {
         info: 'rococoBifrost',
         paraId: 107,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
         providers: {
           Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
+        info: 'rococoClover',
+        paraId: 229,
+        text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://api-rococo.clover.finance'
         }
       },
       {
@@ -76,11 +93,43 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoDataHighway',
+        paraId: 2,
+        text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://testnet-harbour.datahighway.com'
+        }
+      },
+      {
         info: 'rococoEncointer',
         paraId: 1862,
         text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
         providers: {
           Encointer: 'wss://rococo.encointer.org'
+        }
+      },
+      {
+        info: 'rococoHydrate',
+        paraId: 82406,
+        text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://hydrate-rpc.hydradx.io:9944'
+        }
+      },
+      {
+        info: 'rococoIntegritee',
+        paraId: 1983,
+        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        providers: {
+          SCS: 'wss://rococo.integritee.network'
+        }
+      },
+      {
+        info: 'rococoPolkabtc',
+        paraId: 21,
+        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
         }
       },
       {
@@ -121,6 +170,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
+        }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       }
     ]

@@ -37,7 +37,7 @@ export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Proposals | undefined>();
-  const [trigger, setTrigger] = useState(Date.now());
+  const [trigger, setTrigger] = useState(() => Date.now());
   const [events, sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.system.events,
     api.query.session.currentIndex,
@@ -71,10 +71,10 @@ export default function useProposals (): Proposals | undefined {
   return state;
 }
 
-export function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[], isQueried = false): ProposalExt {
+export function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt {
   const { api } = useApi();
   // const opt = useCall<Option<ParachainProposal>>(api.query.proposeParachain_UNUSED?.proposals, [id]);
-  const opt = useCall<Option<ParachainProposal>>(isQueried && api.query.proposeParachain.proposals, [id]);
+  const opt = useCall<Option<ParachainProposal>>(api.query.proposeParachain.proposals, [id]);
 
   return useMemo(
     (): ProposalExt => ({

@@ -5,26 +5,44 @@ import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { aliceSigner } from '@polkadot/test-support/keyring';
+import { execute } from '@polkadot/test-support/transaction';
 
 import { waitForBountyState, waitForClaim } from './bountyWaitFunctions';
-import { acceptCurator, approveBounty, awardBounty, claimBounty, proposeBounty, proposeCurator } from './changeBountyStateFunctions';
 import { FUNDING_TIME, PAYOUT_TIME } from './constants';
+import { extractHashesFromProposals,
+  extractIndexesFromProposals,
+  fillTreasury,
+  multiAcceptMotion,
+  multiGetMotion,
+  multiProposeMotion } from './helpers';
 
-export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number): Promise<number[]> {
-  const indexes = [];
+export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number, signer: KeyringPair): Promise<number[]> {
+  const initialIndex = await api.query.bounties.bountyCount();
 
-  for (let i = 0; i < numberOfBounties; i++) {
-    indexes.push(await proposeBounty(api, new BN(500_000_000_000_000), `new bounty no ${i}`, aliceSigner()));
+  const arr = Array.from({ length: numberOfBounties }, (_, i) => api.tx.bounties.proposeBounty(new BN(500_000_000_000_000), `new bounty no ${i}`));
+
+  await execute(
+    api.tx.utility.batch(arr),
+    signer
+  );
+  const endIndex = await api.query.bounties.bountyCount();
+
+  if ((endIndex.sub(initialIndex)).toNumber() !== numberOfBounties) {
+    throw new Error('Multi Propose Failed');
   }
 
-  return indexes;
+  return Array.from({ length: numberOfBounties }, (_, i) => i + initialIndex.toNumber());
 }
 
-export async function multiApproveBounty (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
-  for (const bountyIndex of bountyIndexes) {
-    await approveBounty(api, bountyIndex, aliceSigner());
-  }
+export async function multiApproveBounty (api: ApiPromise, bountyIndexes: number[], signer: KeyringPair): Promise<void> {
+  const extrinsicArray = bountyIndexes.map((index) => api.tx.bounties.approveBounty(index));
+
+  await multiProposeMotion(api, extrinsicArray, signer);
+
+  const bountyProposals = await multiGetMotion(api, bountyIndexes);
+
+  await fillTreasury(api, signer);
+  await multiAcceptMotion(api, extractHashesFromProposals(bountyProposals), extractIndexesFromProposals(bountyProposals));
 }
 
 export async function multiWaitForBountyFunded (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
@@ -34,24 +52,28 @@ export async function multiWaitForBountyFunded (api: ApiPromise, bountyIndexes: 
   await Promise.all(waitFunctions);
 }
 
-export async function multiProposeCurator (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  for (let i = 0; i < bountyIndexes.length; i++) {
-    await proposeCurator(api, bountyIndexes[i], signers[i]);
-  }
+export async function multiProposeCurator (api: ApiPromise, bountyIndexes: number[], signer: KeyringPair): Promise<void> {
+  const extrinsicArray = bountyIndexes.map((index) => api.tx.bounties.proposeCurator(index, signer.address, 10));
+
+  await multiProposeMotion(api, extrinsicArray, signer);
+
+  const bountyProposals = await multiGetMotion(api, bountyIndexes);
+
+  await multiAcceptMotion(api, extractHashesFromProposals(bountyProposals), extractIndexesFromProposals(bountyProposals));
 }
 
-export async function multiAcceptCurator (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  const acceptFunctions = bountyIndexes.map((bountyIndex, index) =>
-    acceptCurator(api, bountyIndex, signers[index]));
-
-  await Promise.all(acceptFunctions);
+export async function multiAcceptCurator (api: ApiPromise, bountyIndexes: number[], signer: KeyringPair): Promise<void> {
+  await execute(
+    api.tx.utility.batch(bountyIndexes.map((bountyIndex) => api.tx.bounties.acceptCurator(bountyIndex))),
+    signer
+  );
 }
 
-export async function multiAwardBounty (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  const awardFunctions = bountyIndexes.map((bountyIndex, index) =>
-    awardBounty(api, bountyIndex, signers[index]));
-
-  await Promise.all(awardFunctions);
+export async function multiAwardBounty (api: ApiPromise, bountyIndexes: number[], signer: KeyringPair): Promise<void> {
+  await execute(
+    api.tx.utility.batch(bountyIndexes.map((bountyIndex) => api.tx.bounties.awardBounty(bountyIndex, signer.address))),
+    signer
+  );
 }
 
 export async function multiWaitForClaim (api: ApiPromise, bountyIndexes: number[]): Promise<void> {
@@ -60,9 +82,9 @@ export async function multiWaitForClaim (api: ApiPromise, bountyIndexes: number[
   }
 }
 
-export async function multiClaimBounty (api: ApiPromise, bountyIndexes: number[], signers: KeyringPair[]): Promise<void> {
-  const awardFunctions = bountyIndexes.map((bountyIndex, index) =>
-    claimBounty(api, bountyIndex, signers[index]));
-
-  await Promise.all(awardFunctions);
+export async function multiClaimBounty (api: ApiPromise, bountyIndexes: number[], signer: KeyringPair): Promise<void> {
+  await execute(
+    api.tx.utility.batch(bountyIndexes.map((bountyIndex) => api.tx.bounties.claimBounty(bountyIndex))),
+    signer
+  );
 }

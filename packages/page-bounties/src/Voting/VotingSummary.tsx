@@ -7,12 +7,13 @@ import type { BountyStatus } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from '@polkadot/app-bounties/translate';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers } from '@polkadot/react-hooks';
 
 import Description from '../Description';
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
+import { bountyLabelColor } from '../theme';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
@@ -46,10 +47,12 @@ function VotingSummary ({ className, proposals, status }: Props): JSX.Element {
 }
 
 export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
+  margin: 0 1rem 0 0;
+
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 0.5rem;
-    color: ${theme.theme === 'dark' ? '#eeeeee' : '#1a1b20'}
+    color: ${bountyLabelColor[theme.theme]}
 
     span {
       min-width: 0.5rem;
