@@ -3,9 +3,9 @@
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { increaseDateByDays } from '@polkadot/app-bounties/helpers/increaseDateByDays';
+import { increaseDateByBlocks } from '@polkadot/app-bounties/helpers/increaseDateByBlocks';
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
@@ -24,13 +24,13 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
   const { t } = useTranslation();
   const { bountyUpdatePeriod, extendBountyExpiry } = useBounties();
   const [remark, setRemark] = useState('');
-  const [, timeAsText, time] = useBlockTime(bountyUpdatePeriod);
+  const [blockTime, timeAsText] = useBlockTime(bountyUpdatePeriod);
 
   const onRemarkChange = useCallback((value: string) => {
     setRemark(value);
   }, []);
 
-  const expiryDate = increaseDateByDays(new Date(), time.days);
+  const expiryDate = useMemo(() => bountyUpdatePeriod && increaseDateByBlocks(bountyUpdatePeriod, blockTime), [bountyUpdatePeriod, blockTime]);
 
   return (
     <>
@@ -57,14 +57,14 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
               <p>{t<string>('Only curator can extend the bounty time.')}</p>
             </Modal.Column>
           </Modal.Columns>
-          {timeAsText &&
+          {expiryDate &&
             <Modal.Columns>
               <Modal.Column>
                 <Input
                   help={t<string>('The extended expiry date does not depend on the current expiry date.')}
                   isDisabled
-                  label={t<string>('new expiry date')}
-                  value={expiryDate.toLocaleDateString()}
+                  label={t<string>('new expiry date and time')}
+                  value={`${expiryDate.toLocaleDateString()} ${expiryDate.toLocaleTimeString()}`}
                 />
               </Modal.Column>
               <Modal.Column>
