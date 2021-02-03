@@ -77,6 +77,7 @@
   "rpc.sora-substrate": "SORA-staging",
   "rpc.stafi": "Stafi",
   "rpc.subsocial": "Subsocial",
+  "rpc.ternoa-chaos": "Ternoa Chaos",
   "rpc.turbulence": "Turbulence",
   "rpc.uniarts": "Uniarts",
   "rpc.westend": "Westend",
