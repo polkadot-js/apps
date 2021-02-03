@@ -62,7 +62,7 @@ let augmentedApi: ApiPromise;
 let queueExtrinsic: QueueTxExtrinsicAdd;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
 let aBountyIndex: (index?:number) => BountyIndex;
-let bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
+let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
