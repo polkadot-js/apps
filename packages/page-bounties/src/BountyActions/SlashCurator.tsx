@@ -128,7 +128,6 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
               help={helpMessage}
               isDisabled
               label={t<string>('current curator')}
-              type='account'
               withLabel
             />
           </Modal.Column>
