@@ -12,7 +12,7 @@ import { checkAddress } from '@polkadot/phishing';
 import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -65,7 +65,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             .transfer(toId, balances.availableBalance)
             .paymentInfo(fromId)
             .then(({ partialFee }): void => {
-              const adjFee = partialFee.muln(110).divn(100);
+              const adjFee = partialFee.muln(110).div(BN_HUNDRED);
               const maxTransfer = balances.availableBalance.sub(adjFee);
 
               setMaxTransfer(

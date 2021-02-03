@@ -11,6 +11,7 @@ import React, { useMemo } from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -29,7 +30,7 @@ const transformReward = {
 };
 
 const transformEra = {
-  transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : undefined
+  transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gt(BN_ZERO) ? activeEra.sub(BN_ONE) : undefined
 };
 
 function Summary ({ avgStaked, lowStaked, numNominators, numValidators, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {

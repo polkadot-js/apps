@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
+import { BN_HUNDRED } from '@polkadot/util';
 
 import VotingSummary from './Voting/VotingSummary';
 import BountyInfo from './BountyInfo';
@@ -30,7 +31,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
 
   const { bountyUpdatePeriod } = useBounties();
 
-  const blocksPercentageLeftToShowWarning = bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100);
+  const blocksPercentageLeftToShowWarning = bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).div(BN_HUNDRED);
   const blocksToShowWarning = blocksPercentageLeftToShowWarning ?? BLOCKS_LEFT_TO_SHOW_WARNING;
 
   return (

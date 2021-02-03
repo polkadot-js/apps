@@ -3,6 +3,8 @@
 
 import BN from 'bn.js';
 
+import { BN_MILLION } from '@polkadot/util';
+
 export function permillOf (value: BN, perMill: BN): BN {
-  return value.mul(perMill).div(new BN(1_000_000));
+  return value.mul(perMill).div(BN_MILLION);
 }
