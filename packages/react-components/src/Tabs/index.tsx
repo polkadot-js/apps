@@ -74,7 +74,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
 
 export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
   background: ${theme.bgTabs};
-  border-bottom: 1px solid ${theme.borderTabs};
+  border-bottom: 1px solid ${theme.borderMenuTabs};
   text-align: left;
   z-index: 1;
 

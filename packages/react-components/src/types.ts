@@ -75,13 +75,15 @@ export interface ThemeDef {
   bgInputError: string;
   bgInverse: string;
   bgMenu: string;
-  bgMenuHover: string;
+  bgMenuItemHover: string;
+  bgMenuTabHover: string;
   bgPage: string;
   bgTable: string;
   bgTabs: string;
   bgToggle: string;
+  borderMenuItems: string;
+  borderMenuTabs: string;
   borderTable: string;
-  borderTabs: string;
   color: string;
   colorCheckbox: string;
   colorError: string;

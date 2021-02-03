@@ -143,6 +143,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           <ul className='menuItems'>
             {externalRef.current.map((route): React.ReactNode => (
               <Item
+                isLink
                 isToplevel
                 key={route.name}
                 route={route}
