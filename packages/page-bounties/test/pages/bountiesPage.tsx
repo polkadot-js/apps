@@ -22,18 +22,17 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { mockBountyHooks } from '../hooks/defaults';
+import { clickButtonWithName } from '../utils/clickButtonWithName';
+import { clickElementWithTestId } from '../utils/clickElementWithTestId';
+import { clickElementWithText } from '../utils/clickElementWithText';
 
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
 
-type FindByRole = (role: string) => Promise<HTMLElement>;
-
-type FindByText = (text: string) => Promise<HTMLElement>;
-
-type FindByTestId = (testId: string) => Promise<HTMLElement>;
-
-type GetAllByRole = (role: string) => HTMLElement[];
+type FindOne = (match: string) => Promise<HTMLElement>;
+type FindManyWithMatcher = (match: string | ((match: string)=> boolean)) => Promise<HTMLElement[]>
+type GetMany = (match: string) => HTMLElement[];
 
 class NotYetRendered extends Error {
 
@@ -42,6 +41,15 @@ class NotYetRendered extends Error {
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
 
+interface RenderedBountiesPage {
+  findAllByTestId: FindManyWithMatcher;
+  findByText: FindOne,
+  findByRole: FindOne,
+  findByTestId: FindOne,
+  getAllByRole: GetMany,
+  queryAllByText: GetMany
+}
+
 export class BountiesPage {
   aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
   aBountyIndex: (index?:number) => BountyIndex;
@@ -49,27 +57,35 @@ export class BountiesPage {
   bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
   bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
-  findByRole?: FindByRole;
-  findByText?: FindByText;
-  findByTestId?: FindByTestId;
-  getAllByRole?: GetAllByRole;
+  findByRole?: FindOne;
+  findByText?: FindOne;
+  findByTestId?: FindOne;
+  getAllByRole?: GetMany;
+  findAllByTestId?: FindManyWithMatcher;
+  queryAllByText?: GetMany;
 
   constructor (api: ApiPromise) {
     ({ aBounty: this.aBounty, aBountyIndex: this.aBountyIndex, aBountyStatus: this.aBountyStatus, bountyStatusWith: this.bountyStatusWith, bountyWith: this.bountyWith } = new BountyFactory(api));
   }
 
-  renderOne (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = this.aBountyIndex()) {
-    const { findByRole, findByTestId, findByText, getAllByRole } = this.renderBounties({ bounties: [{ bounty, description, index, proposals }] });
+  renderOne (bounty: Bounty, proposals: DeriveCollectiveProposal[] = [], description = '', index = this.aBountyIndex()): RenderedBountiesPage {
+    return this.renderMany({ bounties: [{ bounty, description, index, proposals }] });
+  }
+
+  renderMany (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}): RenderedBountiesPage {
+    const { findAllByTestId, findByRole, findByTestId, findByText, getAllByRole, queryAllByText } = this.renderBounties(bountyApi, { balance });
 
     this.findByRole = findByRole;
     this.findByText = findByText;
     this.findByTestId = findByTestId;
     this.getAllByRole = getAllByRole;
+    this.findAllByTestId = findAllByTestId;
+    this.queryAllByText = queryAllByText;
 
-    return { findByRole, findByTestId, findByText, getAllByRole };
+    return { findAllByTestId, findByRole, findByTestId, findByText, getAllByRole, queryAllByText };
   }
 
-  renderBounties (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) {
+  private renderBounties (bountyApi: Partial<BountyApi> = {}, { balance = 1 } = {}) {
     mockBountyHooks.bountyApi = { ...mockBountyHooks.bountyApi, ...bountyApi };
     mockBountyHooks.balance = balanceOf(balance);
     const mockApi: ApiProps = {
@@ -112,7 +128,7 @@ export class BountiesPage {
     );
   }
 
-  private assertRendered (): asserts this is {findByText: FindByText, findByTestId: FindByTestId, getAllByRole: GetAllByRole} {
+  private assertRendered (): asserts this is RenderedBountiesPage {
     if (this.findByText === undefined) {
       throw new NotYetRendered();
     }
@@ -123,7 +139,7 @@ export class BountiesPage {
     const proposeCuratorButton = await this.findByText('Propose Curator');
 
     fireEvent.click(proposeCuratorButton);
-    expect(await this.findByText('This action will create a Council motion to assign a Curator.')).toBeTruthy();
+    await this.expectText('This action will create a Council motion to assign a Curator.');
   }
 
   async enterCuratorsFee (fee: string): Promise<void> {
@@ -164,7 +180,128 @@ export class BountiesPage {
     fireEvent.keyDown(proposedCuratorInput, { code: 'Enter', key: 'Enter' });
   }
 
-  expectExtrinsicQueued (extrinsicPart: { accountId: string; extrinsic: string }): void {
+  expectExtrinsicQueued (extrinsicPart: { accountId: string; extrinsic?: string }): void {
     expect(queueExtrinsic).toHaveBeenCalledWith(expect.objectContaining(extrinsicPart));
+  }
+
+  expectTextAbsent (text: string): void {
+    this.assertRendered();
+    expect(this.queryAllByText(text)).toHaveLength(0);
+  }
+
+  async findAllDescriptions (): Promise<string[]> {
+    this.assertRendered();
+    const descriptions = await this.findAllByTestId('description');
+
+    return descriptions.map((d) => d.textContent || '');
+  }
+
+  async rendered (): Promise<void> {
+    this.assertRendered();
+    await this.findByTestId('bountyStatus');
+  }
+
+  async openAddBounty (): Promise<void> {
+    this.assertRendered();
+    await clickButtonWithName('Add Bounty', this.findByRole);
+    await this.expectText('This account will propose the bounty. Bond amount will be reserved on its balance.');
+  }
+
+  async enterBountyTitle (title: string): Promise<void> {
+    this.assertRendered();
+    const titleInput = await this.findByTestId('bounty title');
+
+    fireEvent.change(titleInput, { target: { value: title } });
+  }
+
+  async openCloseBounty (): Promise<void> {
+    this.assertRendered();
+    await this.openExtraActions();
+
+    await clickElementWithText('Close', this.findByText);
+
+    await this.expectText('This action will create a Council proposal to close the Bounty.');
+  }
+
+  async clickButton (buttonName: string): Promise<void> {
+    this.assertRendered();
+    await clickButtonWithName(buttonName, this.findByRole);
+  }
+
+  async clickButtonByTestId (buttonName: string): Promise<void> {
+    this.assertRendered();
+    await clickElementWithTestId(buttonName, this.findByTestId);
+  }
+
+  async clickButtonByText (buttonName: string): Promise<void> {
+    this.assertRendered();
+    await clickElementWithText(buttonName, this.findByText);
+  }
+
+  async openRejectCuratorRole (): Promise<void> {
+    await this.openExtraActions();
+    await this.clickButtonByText('Reject Curator');
+    await this.expectText('This action will reject your candidacy for the curator of the bounty.');
+  }
+
+  async openExtraActions (): Promise<void> {
+    await this.clickButtonByTestId('extra-actions');
+  }
+
+  async openAcceptCuratorRole (): Promise<void> {
+    await this.clickButton('Accept');
+    await this.expectText('This action will accept your candidacy for the curator of the bounty.');
+  }
+
+  async findCuratorsFee (): Promise<string> {
+    this.assertRendered();
+
+    return (await this.findByTestId("curator's fee")).getAttribute('value') || '';
+  }
+
+  async findCuratorsDeposit (): Promise<string> {
+    this.assertRendered();
+
+    return (await this.findByTestId("curator's deposit")).getAttribute('value') || '';
+  }
+
+  async openExtendExpiry (): Promise<void> {
+    await this.openExtraActions();
+    await this.clickButtonByText('Extend Expiry');
+    await this.expectText('This action will extend expiry time of the selected bounty.');
+  }
+
+  async enterExpiryRemark (remark: string): Promise<void> {
+    this.assertRendered();
+    const remarkInput = await this.findByTestId('bounty remark');
+
+    fireEvent.change(remarkInput, { target: { value: remark } });
+  }
+
+  async openGiveUpCuratorsRole (): Promise<void> {
+    await this.openExtraActions();
+    await this.clickButtonByText('Give Up');
+    await this.expectText('This action will unassign you from a curator role.');
+  }
+
+  async openSlashCuratorByCouncil (): Promise<void> {
+    await this.openExtraActions();
+    await this.clickButtonByText('Slash Curator (Council)');
+    await this.expectText('This action will create a Council motion to slash the Curator.');
+  }
+
+  async openAwardBeneficiary (): Promise<void> {
+    await this.clickButton('Award Beneficiary');
+    await this.expectText('This action will award the Beneficiary and close the bounty after a delay.');
+  }
+
+  enterBeneficiary (beneficiary: string): void {
+    this.assertRendered();
+    const comboboxes = this.getAllByRole('combobox');
+
+    const beneficiaryAccountInput = comboboxes[1].children[0];
+
+    fireEvent.change(beneficiaryAccountInput, { target: { value: beneficiary } });
+    fireEvent.keyDown(beneficiaryAccountInput, { code: 'Enter', key: 'Enter' });
   }
 }
