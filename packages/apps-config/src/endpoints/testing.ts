@@ -198,7 +198,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      dnslink: 'ternoa-chaos',
       info: 'ternoa-chaos',
       text: t('rpc.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
       providers: {
