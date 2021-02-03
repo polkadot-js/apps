@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
+import { BN_HUNDRED } from '@polkadot/util';
 
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
@@ -95,7 +96,7 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
           ? (commissionPer < MAX_COMM_PERCENT)
           : (!medianComm || (commissionPer <= medianComm)))
       ) &&
-      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gten(nomCount))
+      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).div(BN_HUNDRED).gten(nomCount))
     ) {
       if (!withGroup) {
         return true;

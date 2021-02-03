@@ -98,6 +98,7 @@ function Call ({ children, className = '', labelHash, labelSignature, mortality,
         isDisabled
         onError={onError}
         params={params}
+        registry={value.registry}
         values={values}
         withBorder={withBorder}
       />

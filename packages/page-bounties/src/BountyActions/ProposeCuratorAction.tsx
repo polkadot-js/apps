@@ -90,7 +90,6 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                     help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
                     label={t<string>('select curator')}
                     onChange={setCuratorId}
-                    type='account'
                     withLabel
                   />
                 </Modal.Column>

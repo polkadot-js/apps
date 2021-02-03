@@ -37,6 +37,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import ternoa from './ternoa';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -83,6 +84,7 @@ export default {
   stafi,
   subsocial,
   subzero: zero,
+  ternoa: ternoa,
   uniarts: uniarts,
   zenlink
 };

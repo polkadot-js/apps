@@ -58,6 +58,7 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeTernoa from './nodes/ternoa.svg';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -154,6 +155,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
   ['SUBZΞRO', nodeZero],
+  ['Ternoa Node', nodeTernoa],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Uniarts', nodeUniarts]
@@ -226,6 +228,7 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
+  'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   westend: nodePolkadot,
   zero: nodeZero

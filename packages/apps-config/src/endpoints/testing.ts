@@ -205,6 +205,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'ternoa-chaos',
+      text: t('rpc.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      providers: {
+        CapsuleCorp: 'wss://chaos.ternoa.com'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),

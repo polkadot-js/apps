@@ -185,7 +185,7 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment, isEthereum } = useApi();
-  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
+  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [isBusy, setIsBusy] = useState(false);
