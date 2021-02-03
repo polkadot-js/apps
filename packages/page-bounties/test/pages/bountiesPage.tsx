@@ -26,6 +26,7 @@ import { mockBountyHooks } from '../hooks/defaults';
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
 }
+
 type FindByRole = (role: string) => Promise<HTMLElement>;
 
 type FindByText = (text: string) => Promise<HTMLElement>;
@@ -143,7 +144,7 @@ export class BountiesPage {
     return this.findByText('Assign curator');
   }
 
-  enterProposingAccount (account: string) {
+  enterProposingAccount (account: string): void {
     this.assertRendered();
     const comboboxes = this.getAllByRole('combobox');
 
@@ -153,7 +154,7 @@ export class BountiesPage {
     fireEvent.keyDown(proposingAccountInput, { code: 'Enter', key: 'Enter' });
   }
 
-  enterProposedCurator (curator: string) {
+  enterProposedCurator (curator: string): void {
     this.assertRendered();
     const comboboxes = this.getAllByRole('combobox');
 
