@@ -10,7 +10,8 @@ import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO, FormatBalance } from '@polkadot/react-query';
+import { FormatBalance } from '@polkadot/react-query';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 

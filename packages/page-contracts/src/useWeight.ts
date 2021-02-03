@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { useApi, useBlockTime } from '@polkadot/react-hooks';
-import { BN_TEN, BN_MILLION, BN_ZERO } from '@polkadot/util';
+import { BN_MILLION, BN_TEN, BN_ZERO } from '@polkadot/util';
 
 export default function useWeight (): UseWeight {
   const { api } = useApi();
