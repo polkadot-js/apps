@@ -13,9 +13,9 @@ interface Props {
   flags: AddressFlags;
 }
 
-function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isMultisig, isProxied, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
+function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isMultisig, isNominator, isProxied, isSociety, isSudo, isTechCommittee, isValidator } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const hasFlags = isCouncil || isDevelopment || isExternal || isInjected || isMultisig || isProxied || isSociety || isSudo || isTechCommittee;
+  const hasFlags = isCouncil || isDevelopment || isExternal || isInjected || isMultisig || isProxied || isSociety || isSudo || isTechCommittee || isValidator || isNominator;
 
   if (!hasFlags) {
     return null;
@@ -23,6 +23,20 @@ function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isM
 
   return (
     <div className='ui--AddressMenu-flags'>
+      {isValidator && (
+        <Tag
+          color='theme'
+          label={t<string>('Validator')}
+          size='tiny'
+        />
+      )}
+      {isNominator && (
+        <Tag
+          color='theme'
+          label={t<string>('Nominator')}
+          size='tiny'
+        />
+      )}
       {isExternal && (
         isMultisig
           ? (

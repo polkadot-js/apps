@@ -1,11 +1,14 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
+import clover from './clover';
+import cloverRococo from './clover-rococo';
 import crab from './crab';
 import crust from './crust';
 import crustParachain from './crust-parachain';
@@ -34,6 +37,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import ternoa from './ternoa';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -43,11 +47,14 @@ export default {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
+  'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bitcountry-node': bitcountry,
   canvas,
   'centrifuge-chain': centrifugeChain,
   chainx: chainx,
+  clover,
+  'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
@@ -77,6 +84,7 @@ export default {
   stafi,
   subsocial,
   subzero: zero,
+  ternoa: ternoa,
   uniarts: uniarts,
   zenlink
 };

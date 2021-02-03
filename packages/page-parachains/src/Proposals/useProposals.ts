@@ -37,7 +37,7 @@ export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Proposals | undefined>();
-  const [trigger, setTrigger] = useState(Date.now());
+  const [trigger, setTrigger] = useState(() => Date.now());
   const [events, sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.system.events,
     api.query.session.currentIndex,

@@ -28,7 +28,7 @@ function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
 }
 
 function Root ({ store }: Props): React.ReactElement<Props> {
-  const [theme, setTheme] = useState(createTheme(settings));
+  const [theme, setTheme] = useState(() => createTheme(settings));
 
   useEffect((): void => {
     settings.on('change', (settings) => setTheme(createTheme(settings)));

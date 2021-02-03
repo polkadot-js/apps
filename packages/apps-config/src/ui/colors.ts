@@ -12,6 +12,7 @@ const emptyColor = '#99999';
 const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainHanonycash = '#0099CC';
@@ -27,6 +28,7 @@ const chainKilt = '#8c175b';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
+const chainRoccoAres = '#70FF8B';
 const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = '#000000';
@@ -58,6 +60,7 @@ const nodePolkadex = '#7C30DD';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
+const nodeTernoa = '#d622ff';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
@@ -68,9 +71,11 @@ export { emptyColor };
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
+  ['Ares PC1', chainRoccoAres],
   ['Bit.Country Tewai Chain', chainBitCountry],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Darwinia Crab', chainCrab],
+  ['Clover', chainClover],
   ['crust maxwell', chainCrust],
   ['Crust PC1', chainCrust],
   ['ChainX', chainChainx],
@@ -134,6 +139,7 @@ export const nodeColors: Record<string, any> = [
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero],
+  ['Ternoa Node', nodeTernoa],
   ['Zenlink Collator', nodeZenlink]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
