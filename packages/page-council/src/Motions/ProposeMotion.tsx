@@ -42,7 +42,6 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
       threshold: new BN(proposalThreshold)
     });
   }, [api, members, proposalThreshold]);
-
   const _setMethod = useCallback(
     (proposal?: SubmittableExtrinsic<'promise'> | null) => setProposal({
       proposal,
