@@ -40,6 +40,7 @@ import subsocial from './subsocial';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
+import idavoll from './idavoll';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -54,6 +55,7 @@ export default {
   chainx: chainx,
   clover,
   'clover-rococo': cloverRococo,
+  idavoll: idavoll,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,

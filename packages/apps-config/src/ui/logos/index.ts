@@ -61,6 +61,7 @@ import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeIdavoll from './nodes/idavoll.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -78,6 +79,7 @@ export const chainLogos: Record<string, unknown> = [
   ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
   ['IntegriTEE PC1', nodeIntegritee],
+  ['Idavoll', nodeIdavoll],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
@@ -131,6 +133,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
+  ['Idavoll Node', nodeIdavoll],
+  ['Idavoll Collator', nodeIdavoll],
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
@@ -189,6 +193,7 @@ export const namedLogos: Record<string, unknown> = {
   equilibrium: nodeEquilibrium,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
+  idavoll: nodeIdavoll,
   jupiter: nodeJupiter,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
