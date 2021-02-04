@@ -10,16 +10,16 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers, useToggle } from '@polkadot/react-hooks';
 import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import CloseBounty from './BountyActions/CloseBounty';
-import ExtendBountyExpiryAction from './BountyActions/ExtendBountyExpiryAction';
-import GiveUp from './GiveUp';
-import SlashCurator from './BountyActions/SlashCurator';
+import { determineUnassignCuratorAction } from '../helpers';
+import { useBountyStatus, useUserRole } from '../hooks';
+import { bountySvgColor } from '../theme';
+import { useTranslation } from '../translate';
+import { ValidUnassignCuratorAction } from '../types';
 import BountyRejectCurator from './BountyRejectCurator';
-import { determineUnassignCuratorAction } from './helpers';
-import { useBountyStatus, useUserRole } from './hooks';
-import { bountySvgColor } from './theme';
-import { useTranslation } from './translate';
-import { ValidUnassignCuratorAction } from './types';
+import CloseBounty from './CloseBounty';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
+import GiveUp from './GiveUp';
+import SlashCurator from './SlashCurator';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -30,7 +30,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function BountyExtraActions ({ bestNumber, className, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
+function Index ({ bestNumber, className, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
   const [isPopupOpen, togglePopupOpen] = useToggle();
   const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
   const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
@@ -174,7 +174,7 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
     : null;
 }
 
-export default React.memo(styled(BountyExtraActions)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Index)(({ theme }: ThemeProps) => `
   && .ui--Button:not(.isDisabled):not(.isIcon).settings-button {
     width: 24px;
     height: 24px;
