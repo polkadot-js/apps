@@ -85,7 +85,7 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
 
     const stashId = accountId.toString();
     const thisIdentity = allIdentity[stashId];
-    const nomCount = nominatedBy?.[stashId]?.length || numNominators || 0;
+    const nomCount = numNominators || nominatedBy?.[stashId]?.length || 0;
 
     if (
       (!withElected || isElected) &&
