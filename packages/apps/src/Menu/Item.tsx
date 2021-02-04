@@ -56,10 +56,11 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5rem;
-    border-radius: 0.15rem 0.15rem 0 0;
+    border-radius: 0.15rem;
+    margin-bottom: 0.5rem;
 
     a {
-      padding: 1rem 1.15rem 1.25rem;
+      padding: 1rem 1.15rem 0.75rem;
     }
 
     &:hover {
@@ -74,12 +75,12 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
       font-weight: 400;
     }
 
-    &.isLink {
-      margin-bottom: 0.5rem;
-      border-radius: 0.15rem;
+    &.isActive {
+      border-radius: 0.15rem 0.15rem 0 0;
+      margin-bottom: 0rem;
 
       a {
-        padding: 0.89rem 1.25rem;
+      padding: 1rem 3rem 1.25rem 1.15rem;
       }
     }
   }
