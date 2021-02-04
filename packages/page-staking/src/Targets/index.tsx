@@ -175,7 +175,7 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -345,6 +345,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <Summary
         avgStaked={avgStaked}
         lowStaked={lowStaked}
+        minNominated={minNominated}
         numNominators={nominators?.length}
         numValidators={validators?.length}
         stakedReturn={stakedReturn}
