@@ -12,18 +12,19 @@ import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
+  isLink?: boolean;
   isToplevel?: boolean;
   route: ItemRoute;
 }
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className = '', isLink, isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
   return (
-    <li className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
+    <li className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
@@ -62,7 +63,7 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     }
 
     &:hover {
-      background-color: ${theme.bgMenu};
+      background-color: ${theme.bgMenuTabHover};
       color: ${theme.color};
     }
 
@@ -71,6 +72,15 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
       color: ${theme.color};
       font-size: 1.15rem;
       font-weight: 400;
+    }
+
+    &.isLink {
+      margin-bottom: 0.5rem;
+      border-radius: 0.15rem;
+
+      a {
+        padding: 0.89rem 1.25rem;
+      }
     }
   }
 

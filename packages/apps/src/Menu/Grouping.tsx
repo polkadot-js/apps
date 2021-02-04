@@ -73,13 +73,15 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   }
 
   .groupMenu {
-    border-radius: 0 0 0.25rem 0.25rem;
+    border: 1px solid ${theme.borderMenuItems};
+    border-radius: 0.286rem;
     box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     display: none;
     margin: 0;
     overflow: hidden;
     padding: 0;
     position: absolute;
+    top: 3rem;
     z-index: 250;
 
     > li {
@@ -92,9 +94,14 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   }
 
   &:hover {
-    .groupHdr,
+
     .groupMenu li {
       background: ${theme.bgMenu};
+      color: ${theme.color};
+    }
+
+     .groupHdr {
+      background: ${theme.bgMenuTabHover};
       color: ${theme.color};
     }
 
@@ -106,7 +113,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
       display: block;
 
       > li:hover {
-        background: ${theme.bgMenuHover};
+        background: ${theme.bgMenuItemHover};
       }
     }
   }

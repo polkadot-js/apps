@@ -56,6 +56,7 @@ export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
     position: absolute;
     right: 0rem;
     top: 0rem;
+    z-index: 10;
   }
 
   .help-slideout {
