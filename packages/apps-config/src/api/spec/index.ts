@@ -89,6 +89,6 @@ export default {
   subzero: zero,
   ternoa: ternoa,
   uniarts: uniarts,
-  zenlink,
   subdao,
+  zenlink,
 };

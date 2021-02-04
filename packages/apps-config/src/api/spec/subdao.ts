@@ -3,6 +3,4 @@
 
 /* eslint-disable sort-keys */
 
-export default {
-  
-};
+export default {};

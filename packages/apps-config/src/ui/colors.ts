@@ -118,7 +118,7 @@ export const chainColors: Record<string, any> = [
   ['ZΞRO Alphaville', chainZero],
   ['Zenlink PC1', chainZenlink],
   ['Uniarts', chainUniarts],
-  ['SubDAO PC1', chainSubDAO],
+  ['SubDAO PC1', chainSubDAO]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -146,7 +146,7 @@ export const nodeColors: Record<string, any> = [
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO],
+  ['SubDAO Collator', nodeSubDAO]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]
