@@ -37,11 +37,11 @@ import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
+import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
-import subdao from './subdao';
 import zero from './zero';
 
 // mapping from specName in state.getRuntimeVersion
