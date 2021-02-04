@@ -29,12 +29,6 @@ describe('adjust slash curator component for', () => {
     expect(displayAs).toEqual(['SlashCuratorMotion']);
   });
 
-  it('Curator in Active state', () => {
-    const displayAs = determineUnassignCuratorAction(['Curator'], aBountyStatus('Active'));
-
-    expect(displayAs).toEqual(['GiveUp']);
-  });
-
   it('User in Active state with update due blocks remaining', () => {
     const displayAs = determineUnassignCuratorAction(['User'], aBountyStatus('Active'), new BN('1'));
 
