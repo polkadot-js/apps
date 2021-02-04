@@ -31,17 +31,9 @@ export const defaultBountyApi: BountyApi = {
   unassignCurator: jest.fn().mockReturnValue('mockUnassignExtrinsic')
 };
 
-export const defaultBalance = balanceOf(1);
+const defaultBalance = balanceOf(1);
 
-export const defaultTreasury = {
-  burn: new BN(1),
-  spendPeriod: new BN(0),
-  value: balanceOf(1)
+export const mockBountyHooks = {
+  balance: defaultBalance,
+  bountyApi: defaultBountyApi
 };
-
-export const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-export const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
-export const ferdie = '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL';
-export const defaultCurator = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
-
-export const defaultMembers = { isMember: true, members: [alice, bob, ferdie] };

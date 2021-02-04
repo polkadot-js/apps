@@ -39,6 +39,7 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
@@ -78,6 +79,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
@@ -132,6 +134,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
+  ['Idavoll Node', nodeIdavoll],
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
@@ -191,6 +194,7 @@ export const namedLogos: Record<string, unknown> = {
   equilibrium: nodeEquilibrium,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
+  idavoll: nodeIdavoll,
   jupiter: nodeJupiter,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
