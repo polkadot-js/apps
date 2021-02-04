@@ -62,7 +62,6 @@ import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
