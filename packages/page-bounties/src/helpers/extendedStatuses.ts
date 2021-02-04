@@ -9,7 +9,7 @@ import { BountyVotingStatuses, StatusName } from '../types';
 const validProposalNames: BountyVotingStatuses = {
   Active: ['closeBounty', 'unassignCurator'],
   Approved: [],
-  CuratorProposed: ['unassignCurator', 'closeBounty'],
+  CuratorProposed: ['closeBounty', 'unassignCurator'],
   Funded: ['proposeCurator', 'closeBounty'],
   PendingPayout: ['unassignCurator'],
   Proposed: ['approveBounty', 'closeBounty']
