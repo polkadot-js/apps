@@ -72,7 +72,6 @@ function Summary ({ avgStaked, lowStaked, minNominated, stakedReturn, totalIssua
           >
             <FormatBalance
               value={totalStaked}
-              withCurrency={false}
               withSi
             />
           </CardSummary>
