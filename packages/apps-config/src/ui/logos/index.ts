@@ -40,6 +40,7 @@ import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIntegritee from './nodes/integritee.svg';
+import nodeIdavoll from './nodes/idavoll.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -61,7 +62,7 @@ import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeIdavoll from './nodes/idavoll.png';
+
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 

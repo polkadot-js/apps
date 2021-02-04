@@ -25,6 +25,7 @@ import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import integritee from './integritee';
+import idavoll from './idavoll';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
@@ -40,7 +41,7 @@ import subsocial from './subsocial';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
-import idavoll from './idavoll';
+
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -55,7 +56,6 @@ export default {
   chainx: chainx,
   clover,
   'clover-rococo': cloverRococo,
-  idavoll: idavoll,
   crust,
   'crust-parachain': crustParachain,
   'cumulus-test-parachain': testPara,
@@ -70,6 +70,7 @@ export default {
   'hack-hydra-dx': hydrate,
   hanonycash,
   'integritee-parachain': integritee,
+  idavoll: idavoll,
   jupiter,
   'kilt-parachain': kilt,
   'mashnet-node': kilt,
