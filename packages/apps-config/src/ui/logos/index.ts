@@ -135,7 +135,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
-  ['Idavoll Collator', nodeIdavoll],
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
