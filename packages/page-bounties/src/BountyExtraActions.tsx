@@ -12,6 +12,7 @@ import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfac
 
 import CloseBounty from './BountyActions/CloseBounty';
 import ExtendBountyExpiryAction from './BountyActions/ExtendBountyExpiryAction';
+import GiveUp from './GiveUp';
 import SlashCurator from './BountyActions/SlashCurator';
 import BountyRejectCurator from './BountyRejectCurator';
 import { determineUnassignCuratorAction } from './helpers';
@@ -35,6 +36,7 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
   const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
   const [isSlashCuratorOpen, toggleSlashCurator] = useToggle();
   const [isExtendExpiryOpen, toggleExtendExpiry] = useToggle();
+  const [isGiveUpCuratorOpen, toggleGiveUpCurator] = useToggle();
   const [selectedAction, setSlashAction] = useState<ValidUnassignCuratorAction>();
   const { t } = useTranslation();
   const { isMember } = useMembers();
@@ -46,7 +48,6 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
-    GiveUp: t('Give Up'),
     SlashCuratorAction: t('Slash Curator'),
     SlashCuratorMotion: t('Slash Curator (Council)'),
     UnassignCurator: t('Unassign Curator')
@@ -57,10 +58,11 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
 
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;
+  const showGiveUpCurator = status.isActive && isCurator;
   const showExtendExpiry = status.isActive && isCurator;
   const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal && availableSlashActions.length !== 0;
 
-  const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator);
+  const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator || showGiveUpCurator);
 
   function slashCuratorClicked (action: ValidUnassignCuratorAction) {
     setSlashAction(action);
@@ -89,6 +91,13 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
             description={description}
             index={index}
             toggleOpen={toggleExtendExpiry}
+          />
+        }
+        {isGiveUpCuratorOpen && curator &&
+          <GiveUp
+            curatorId={curator}
+            index={index}
+            toggleOpen={toggleGiveUpCurator}
           />
         }
         {isSlashCuratorOpen && curator && selectedAction &&
@@ -140,6 +149,14 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
                 onClick={toggleExtendExpiry}
               >
                 {t<string>('Extend Expiry')}
+              </Menu.Item>
+            }
+            {showGiveUpCurator &&
+              <Menu.Item
+                key='giveUpCurator'
+                onClick={toggleGiveUpCurator}
+              >
+                {t<string>('Give Up')}
               </Menu.Item>
             }
             {showSlashCurator && availableSlashActions.map((actionName) =>

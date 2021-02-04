@@ -402,7 +402,7 @@ describe('Bounties', () => {
     });
   });
 
-  describe('slash curator modal', () => {
+  describe('give up curator modal', () => {
     it('gives up on the Curator role of an Active bounty', async () => {
       const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
 
@@ -410,12 +410,14 @@ describe('Bounties', () => {
       await bountiesPage.openGiveUpCuratorsRole();
 
       bountiesPage.enterProposingAccount(alice);
-      await bountiesPage.clickButton('Approve');
+      await bountiesPage.clickButton('Give Up');
 
       bountiesPage.expectExtrinsicQueued({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' });
       expect(mockBountyHooks.bountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
+  });
 
+  describe('slash curator modal', () => {
     it('creates a motion when slashing a PendingPayout bounty', async () => {
       bountiesPage.renderOne(bountyWith({ status: 'PendingPayout' }));
 

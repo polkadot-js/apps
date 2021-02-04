@@ -281,7 +281,7 @@ export class BountiesPage {
   async openGiveUpCuratorsRole (): Promise<void> {
     await this.openExtraActions();
     await this.clickButtonByText('Give Up');
-    await this.expectText('This action will unassign you from a curator role.');
+    await this.expectText('This action will unassign you from the curator role.');
   }
 
   async openSlashCuratorByCouncil (): Promise<void> {
