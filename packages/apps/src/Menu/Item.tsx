@@ -80,12 +80,12 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
       margin-bottom: 0rem;
 
       a {
-      padding: 1rem 3rem 1.25rem 1.15rem;
+      padding: 1rem 1.15rem 1.25rem 1.15rem;
       }
     }
   }
 
-  &.withCounter a {
+  &&.withCounter a {
     padding-right: 3rem;
   }
 
