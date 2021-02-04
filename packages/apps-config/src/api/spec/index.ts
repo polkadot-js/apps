@@ -37,6 +37,7 @@ import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
+import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import uniarts from './uniarts';
@@ -84,6 +85,7 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
+  subdao,
   subsocial,
   subzero: zero,
   ternoa: ternoa,

@@ -82,5 +82,6 @@
   "rpc.uniarts": "Uniarts",
   "rpc.westend": "Westend",
   "rpc.zero": "Zero",
+  "rpc.rococo.subdao": "SubDAO PC1",
   "ss58.default": "Default for the connected node"
 }

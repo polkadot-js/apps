@@ -57,6 +57,7 @@ import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
+import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
@@ -161,6 +162,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Ternoa Node', nodeTernoa],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
+  ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
@@ -224,6 +226,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
+  rococoSubDAO: nodeSubDAO,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
