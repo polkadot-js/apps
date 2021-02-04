@@ -1,14 +1,14 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { PROPOSE_THRESHOLDS, REJECT_THRESHOLDS, SLASH_THRESHOLDS, TREASURY_THRESHOLDS } from '@polkadot/apps-config';
 
 import { useApi } from './useApi';
 import { useMembers } from './useMembers';
 
-export type ThresholdApi = {
+export interface Thresholds {
   proposalThreshold: number;
   treasuryProposalThreshold: number;
   treasuryRejectionThreshold: number;
@@ -25,30 +25,36 @@ export function getAtLeastThresholdMembersCount (membersCount: number, threshold
   return Math.ceil(membersCount * thresholdRatio);
 }
 
-export function useThresholds () : ThresholdApi {
+export function useThresholds () : Thresholds {
   const { api } = useApi();
   const { members } = useMembers();
 
-  const [proposalThreshold, setProposalThreshold] = useState<number>(0);
-  const [slashProposalThreshold, setSlashProposalThreshold] = useState<number>(0);
-  const [treasuryRejectionThreshold, setTreasuryRejectionThreshold] = useState<number>(0);
-  const [treasuryProposalThreshold, setTreasuryProposalThreshold] = useState<number>(0);
-
-  useEffect((): void => {
-    const proposalThreshold = PROPOSE_THRESHOLDS[api.genesisHash.toHex()] || PROPOSE_THRESHOLDS.default;
-    const slashProposalThreshold = SLASH_THRESHOLDS[api.genesisHash.toHex()] || SLASH_THRESHOLDS.default;
-    const treasuryRejectionThreshold = REJECT_THRESHOLDS[api.genesisHash.toHex()] || REJECT_THRESHOLDS.default;
-    const treasuryProposalThreshold = TREASURY_THRESHOLDS[api.genesisHash.toHex()] || TREASURY_THRESHOLDS.default;
-
+  return useMemo((): Thresholds => {
     const membersCount = members?.length;
 
-    if (membersCount && membersCount !== 0) {
-      setProposalThreshold(getAtLeastThresholdMembersCount(membersCount, proposalThreshold));
-      setSlashProposalThreshold(getAtLeastThresholdMembersCount(membersCount, slashProposalThreshold));
-      setTreasuryRejectionThreshold(getMoreThanThresholdMembersCount(membersCount, treasuryRejectionThreshold));
-      setTreasuryProposalThreshold(getAtLeastThresholdMembersCount(membersCount, treasuryProposalThreshold));
+    if (!membersCount) {
+      return { proposalThreshold: 0, slashProposalThreshold: 0, treasuryProposalThreshold: 0, treasuryRejectionThreshold: 0 };
     }
-  }, [api, members]);
 
-  return { proposalThreshold, slashProposalThreshold, treasuryProposalThreshold, treasuryRejectionThreshold };
+    const genesisHash = api.genesisHash.toHex();
+
+    return {
+      proposalThreshold: getAtLeastThresholdMembersCount(
+        membersCount,
+        PROPOSE_THRESHOLDS[genesisHash] || PROPOSE_THRESHOLDS.default
+      ),
+      slashProposalThreshold: getAtLeastThresholdMembersCount(
+        membersCount,
+        SLASH_THRESHOLDS[genesisHash] || SLASH_THRESHOLDS.default
+      ),
+      treasuryProposalThreshold: getAtLeastThresholdMembersCount(
+        membersCount,
+        TREASURY_THRESHOLDS[genesisHash] || TREASURY_THRESHOLDS.default
+      ),
+      treasuryRejectionThreshold: getMoreThanThresholdMembersCount(
+        membersCount,
+        REJECT_THRESHOLDS[genesisHash] || REJECT_THRESHOLDS.default
+      )
+    };
+  }, [api, members]);
 }

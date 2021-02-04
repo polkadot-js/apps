@@ -4,7 +4,7 @@
 import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
 
 export const PROPOSE_THRESHOLDS: Record<string, number> = {
-  [KULUPU_GENESIS]: 1,
+  [KULUPU_GENESIS]: 0.8,
   [KUSAMA_GENESIS]: 0.5,
   [POLKADOT_GENESIS]: 0.6,
   default: 0.5
