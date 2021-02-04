@@ -42,6 +42,7 @@ const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
+const chainIdavoll = '#ff43ff';
 
 // based on node name
 // alphabetical
@@ -86,6 +87,7 @@ export const chainColors: Record<string, any> = [
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['IntegriTEE PC1', chainIntegritee],
+  ['Idavoll', chainIdavoll],
   ['Jupiter Testnet', chainJupiter],
   ['KILT Testnet', chainKilt],
   ['KILT Collator Rococo', chainKilt],
