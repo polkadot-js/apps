@@ -53,16 +53,6 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
   const unassignCuratorProposal = useMemo(() => unassignCurator(index), [index, unassignCurator]);
 
   const actionProperties = useMemo<Record<ValidUnassignCuratorAction, ActionProperties>>(() => ({
-    GiveUp: {
-      filter: [curatorId.toString()],
-      header: t('This action will unassign you from a curator role.'),
-      helpMessage: t("The Curator account that will give up on it's role"),
-      params: [index],
-      proposingAccountTip: t('The account that will create the transaction.'),
-      tip: t('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.'),
-      title: t("Give up curator's role"),
-      tx: unassignCurator
-    },
     SlashCuratorAction: {
       filter: allAccounts,
       header: t('This action will Slash the Curator.'),
@@ -93,7 +83,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       title: t('Unassign curator'),
       tx: api.tx.council.propose
     }
-  }), [t, curatorId, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
+  }), [t, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
 
   const { filter, header, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
 

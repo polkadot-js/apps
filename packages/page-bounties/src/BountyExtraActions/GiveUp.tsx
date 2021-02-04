@@ -8,7 +8,7 @@ import React from 'react';
 import { useBounties } from '@polkadot/app-bounties/hooks';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId;
@@ -16,23 +16,23 @@ interface Props {
   toggleOpen: () => void;
 }
 
-function BountyRejectCurator ({ curatorId, index, toggleOpen }: Props) {
+function BountyGiveUpCurator ({ curatorId, index, toggleOpen }: Props) {
   const { t } = useTranslation();
   const { unassignCurator } = useBounties();
 
   return (
     <Modal
-      header={t<string>('reject curator')}
+      header={t<string>("Give up curator's role")}
       size='large'
     >
       <Modal.Content>
         <Modal.Column>
-          <p>{t<string>('This action will reject your candidacy for the curator of the bounty.')}</p>
+          <p>{t<string>('This action will unassign you from the curator role.')}</p>
         </Modal.Column>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              help={t<string>('This account will be used to create the unassign curator transaction.')}
+              help={t<string>('The Curator account that will give up on it\'s role.')}
               isDisabled
               label={t<string>('curator account')}
               type='account'
@@ -41,15 +41,15 @@ function BountyRejectCurator ({ curatorId, index, toggleOpen }: Props) {
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('Only the account proposed as curator by the council can create the unassign curator transaction ')}</p>
+            <p>{t<string>('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={toggleOpen}>
         <TxButton
           accountId={curatorId}
-          icon='times'
-          label={t<string>('Reject')}
+          icon='check'
+          label={t<string>('Give Up')}
           onStart={toggleOpen}
           params={[index]}
           tx={unassignCurator}
@@ -59,4 +59,4 @@ function BountyRejectCurator ({ curatorId, index, toggleOpen }: Props) {
   );
 }
 
-export default React.memo(BountyRejectCurator);
+export default React.memo(BountyGiveUpCurator);
