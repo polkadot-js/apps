@@ -63,6 +63,7 @@ import nodeTernoa from './nodes/ternoa.svg';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeSubDAO from './nodes/subdao.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -161,6 +162,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Ternoa Node', nodeTernoa],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
+  ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
@@ -228,6 +230,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoZenlink: nodeZenlink,
+  rococoSubDAO: nodeSubDAO,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   subsocial: nodeSubsocial,

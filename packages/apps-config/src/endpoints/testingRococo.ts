@@ -179,6 +179,14 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
+      },
+      {
+        info: 'rococoSubDAO',
+        paraId: 888,
+        text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
+        providers: {
+          SubDAONetwork: 'wss://parachain.subdao.network'
+        }
       }
     ]
   };
