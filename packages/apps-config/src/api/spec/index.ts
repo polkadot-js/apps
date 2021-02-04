@@ -85,10 +85,10 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
+  subdao,
   subsocial,
   subzero: zero,
   ternoa: ternoa,
   uniarts: uniarts,
-  subdao,
   zenlink,
 };
