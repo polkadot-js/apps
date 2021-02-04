@@ -22,7 +22,8 @@ function FilterOverlay ({ children, className }: Props): React.ReactElement<Prop
 
 export default React.memo(styled(FilterOverlay)`
   display: none;
-  right: calc(50% - ${({ theme }: ThemeProps) => theme.contentHalfWidth} + 1.5rem)
+  right: calc(50% - ${({ theme }: ThemeProps) => theme.contentHalfWidth} + 1.5rem);
+
   .ui--Labelled label {
     display: none;
   }
@@ -48,7 +49,7 @@ export default React.memo(styled(FilterOverlay)`
     .ui.selection.dropdown {
       white-space: nowrap;
     }
-  `}
+  `};
 
   @media (max-width: ${({ theme }: ThemeProps) => theme.contentMaxWidth}) {
     right: 1.5rem;
