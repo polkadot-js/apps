@@ -39,8 +39,8 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
-import nodeIntegritee from './nodes/integritee.svg';
 import nodeIdavoll from './nodes/idavoll.png';
+import nodeIntegritee from './nodes/integritee.svg';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -79,8 +79,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
-  ['IntegriTEE PC1', nodeIntegritee],
   ['Idavoll', nodeIdavoll],
+  ['IntegriTEE PC1', nodeIntegritee],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],

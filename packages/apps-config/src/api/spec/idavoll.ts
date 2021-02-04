@@ -8,4 +8,3 @@ export default {
   Address: 'AccountId',
   LookupSource: 'AccountId'
 };
-  

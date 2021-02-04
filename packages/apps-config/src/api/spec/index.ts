@@ -24,8 +24,8 @@ import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
-import integritee from './integritee';
 import idavoll from './idavoll';
+import integritee from './integritee';
 import jupiter from './jupiter';
 import kilt from './kilt';
 import nodle from './nodle';
@@ -41,7 +41,6 @@ import subsocial from './subsocial';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
-
 
 // mapping from specName in state.getRuntimeVersion
 export default {
