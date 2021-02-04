@@ -3,7 +3,11 @@
 
 import { useMemo } from 'react';
 
-import { PROPOSE_THRESHOLDS, REJECT_THRESHOLDS, SLASH_THRESHOLDS, TREASURY_THRESHOLDS } from '@polkadot/apps-config';
+import { PROPOSE_THRESHOLDS,
+  REJECT_THRESHOLDS,
+  SLASH_THRESHOLDS,
+  Threshold,
+  TREASURY_THRESHOLDS } from '@polkadot/apps-config';
 
 import { useApi } from './useApi';
 import { useMembers } from './useMembers';
@@ -25,6 +29,16 @@ export function getAtLeastThresholdMembersCount (membersCount: number, threshold
   return Math.ceil(membersCount * thresholdRatio);
 }
 
+function getThreshold (membersCount: number, threshold: Threshold): number {
+  return threshold.option === 'AtLeast'
+    ? getAtLeastThresholdMembersCount(
+      membersCount,
+      threshold.value
+    )
+    : getMoreThanThresholdMembersCount(membersCount,
+      threshold.value);
+}
+
 export function useThresholds () : Thresholds {
   const { api } = useApi();
   const { members } = useMembers();
@@ -39,20 +53,16 @@ export function useThresholds () : Thresholds {
     const genesisHash = api.genesisHash.toHex();
 
     return {
-      proposalThreshold: getAtLeastThresholdMembersCount(
-        membersCount,
+      proposalThreshold: getThreshold(membersCount,
         PROPOSE_THRESHOLDS[genesisHash] || PROPOSE_THRESHOLDS.default
       ),
-      slashProposalThreshold: getAtLeastThresholdMembersCount(
-        membersCount,
+      slashProposalThreshold: getThreshold(membersCount,
         SLASH_THRESHOLDS[genesisHash] || SLASH_THRESHOLDS.default
       ),
-      treasuryProposalThreshold: getAtLeastThresholdMembersCount(
-        membersCount,
+      treasuryProposalThreshold: getThreshold(membersCount,
         TREASURY_THRESHOLDS[genesisHash] || TREASURY_THRESHOLDS.default
       ),
-      treasuryRejectionThreshold: getMoreThanThresholdMembersCount(
-        membersCount,
+      treasuryRejectionThreshold: getThreshold(membersCount,
         REJECT_THRESHOLDS[genesisHash] || REJECT_THRESHOLDS.default
       )
     };
