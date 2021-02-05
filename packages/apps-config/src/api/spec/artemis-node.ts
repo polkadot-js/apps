@@ -6,26 +6,50 @@
 /* eslint-disable sort-keys */
 
 export default {
-  Address: 'AccountId',
-  LookupSource: 'AccountId',
-  AppId: '[u8; 20]',
-  Message: {
-    payload: 'Vec<u8>',
-    verification: 'VerificationInput'
-  },
-  VerificationInput: {
-    _enum: {
-      Basic: 'VerificationBasic',
-      None: null
+  "Address": "MultiAddress",
+  "LookupSource": "MultiAddress",
+  "ChannelId": {
+    "_enum": {
+      "Basic": null,
+      "Incentivized": null
     }
   },
-  VerificationBasic: {
-    blockNumber: 'u64',
-    eventIndex: 'u32'
+  "Message": {
+    "data": "Vec<u8>",
+    "proof": "Proof"
   },
-  TokenId: 'H160',
-  BridgedAssetId: 'H160',
-  AssetAccountData: {
-    free: 'U256'
+  "Proof": {
+    "blockHash": "H256",
+    "txIndex": "u32",
+    "data": "(Vec<Vec<u8>>, Vec<Vec<u8>>)"
+  },
+  "EthereumHeader": {
+    "parentHash": "H256",
+    "timestamp": "u64",
+    "number": "u64",
+    "author": "H160",
+    "transactionsRoot": "H256",
+    "ommersHash": "H256",
+    "extraData": "Vec<u8>",
+    "stateRoot": "H256",
+    "receiptsRoot": "H256",
+    "logBloom": "Bloom",
+    "gasUsed": "U256",
+    "gasLimit": "U256",
+    "difficulty": "U256",
+    "seal": "Vec<Vec<u8>>"
+  },
+  "EthashProofData": {
+    "dagNodes": "[H512; 2]",
+    "proof": "Vec<H128>"
+  },
+  "Bloom": {
+    "_": "[u8; 256]"
+  },
+  "AssetId": {
+    "_enum": {
+      "ETH": null,
+      "Token": "H160"
+    }
   }
 };
