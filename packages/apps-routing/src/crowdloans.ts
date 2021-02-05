@@ -16,8 +16,8 @@ export default function create (t: TFunction): Route {
       ]
     },
     group: 'network',
-    icon: 'star',
-    name: 'claims',
+    icon: 'coins',
+    name: 'crowdloans',
     text: t('nav.crowdloans', 'Crowdloans', { ns: 'apps-routing' })
   };
 }
