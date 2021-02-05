@@ -11,17 +11,19 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  description: string;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
 }
 
 const BOUNTY_METHODS = ['approveBounty', 'closeBounty'];
 
-function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<Props> | null {
+function BountyInitiateVoting ({ description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers();
@@ -52,7 +54,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
         />
         {isOpen && (
           <Modal
-            header={t<string>('Initiate voting')}
+            header={`${t<string>('Initiate voting')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>

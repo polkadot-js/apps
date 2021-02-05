@@ -9,17 +9,18 @@ import React, { useMemo } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { permillOf } from '../helpers';
+import { permillOf, truncateTitle } from '../helpers';
 import { useBounties, useUserRole } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId;
+  description: string;
   fee: BN;
   index: BountyIndex;
 }
 
-function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
+function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
   const { t } = useTranslation();
   const { acceptCurator } = useBounties();
   const { isCurator } = useUserRole(curatorId);
@@ -39,7 +40,7 @@ function BountyAcceptCurator ({ curatorId, fee, index }: Props) {
         />
         {isOpen && (
           <Modal
-            header={t<string>('accept curator role')}
+            header={`${t<string>('accept curator role')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>

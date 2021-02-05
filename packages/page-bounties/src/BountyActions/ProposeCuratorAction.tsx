@@ -7,12 +7,12 @@ import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { truncateTitle } from '@polkadot/app-bounties/helpers';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
@@ -63,7 +63,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         {isOpen && (
           <Modal
             data-testid={'propose-curator-modal'}
-            header={t<string>(`Assign Curator to "${truncateTitle(description, 30)}"`)}
+            header={`${t<string>('Assign Curator to')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>

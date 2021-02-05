@@ -8,15 +8,17 @@ import React, { useMemo, useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
-  curatorId: AccountId
+  curatorId: AccountId;
+  description: string;
   index: BountyIndex;
 }
 
-function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | null {
+function AwardBounty ({ curatorId, description, index }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { awardBounty } = useBounties();
   const { allAccounts } = useAccounts();
@@ -35,7 +37,7 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
         />
         {isOpen && (
           <Modal
-            header={t<string>('award bounty')}
+            header={`${t<string>('award bounty')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>

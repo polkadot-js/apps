@@ -5,24 +5,26 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { useBounties } from '@polkadot/app-bounties/hooks';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
+import { truncateTitle } from '../helpers';
+import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId;
+  description: string;
   index: BountyIndex;
   toggleOpen: () => void;
 }
 
-function BountyGiveUpCurator ({ curatorId, index, toggleOpen }: Props) {
+function BountyGiveUpCurator ({ curatorId, description, index, toggleOpen }: Props) {
   const { t } = useTranslation();
   const { unassignCurator } = useBounties();
 
   return (
     <Modal
-      header={t<string>("Give up curator's role")}
+      header={`${t<string>("give up curator's role")} - "${truncateTitle(description, 30)}"`}
       size='large'
     >
       <Modal.Content>

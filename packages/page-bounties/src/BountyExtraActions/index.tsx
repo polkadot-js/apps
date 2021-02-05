@@ -74,6 +74,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
       <div className={className}>
         {isCloseBountyOpen &&
           <CloseBounty
+            description={description}
             index={index}
             toggleOpen={toggleCloseBounty}
           />
@@ -81,6 +82,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         {isRejectCuratorOpen && curator &&
           <BountyRejectCurator
             curatorId={curator}
+            description={description}
             index={index}
             toggleOpen={toggleRejectCurator}
           />
@@ -96,6 +98,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         {isGiveUpCuratorOpen && curator &&
           <GiveUp
             curatorId={curator}
+            description={description}
             index={index}
             toggleOpen={toggleGiveUpCurator}
           />

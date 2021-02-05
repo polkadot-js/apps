@@ -5,11 +5,11 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { increaseDateByBlocks } from '@polkadot/app-bounties/helpers/increaseDateByBlocks';
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
+import { increaseDateByBlocks } from '../helpers/increaseDateByBlocks';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
@@ -35,7 +35,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
   return (
     <>
       <Modal
-        header={t<string>(`Extend Expiry of "${truncateTitle(description, 30)}"`)}
+        header={`${t<string>('extend expiry')} - "${truncateTitle(description, 30)}"`}
         size='large'
       >
         <Modal.Content>

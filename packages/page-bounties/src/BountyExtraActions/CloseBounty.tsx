@@ -10,15 +10,17 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  description: string;
   index: BountyIndex;
   toggleOpen: () => void;
 }
 
-function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> | null {
+function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { members } = useMembers();
@@ -36,7 +38,7 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
 
   return (
     <Modal
-      header={t<string>('close bounty')}
+      header={`${t<string>('close bounty')} - "${truncateTitle(description, 30)}"`}
       size='large'
     >
       <Modal.Content>
