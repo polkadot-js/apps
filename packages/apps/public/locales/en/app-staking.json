@@ -105,6 +105,7 @@
   "The amount placed at-stake should allow some free funds for future transactions.": "The amount placed at-stake should allow some free funds for future transactions.",
   "The amount placed at-stake should not be your full available available amount to allow for transaction fees.": "The amount placed at-stake should not be your full available available amount to allow for transaction fees.",
   "The amount that will be used on a per-validator basis to calculate profits for that validator.": "The amount that will be used on a per-validator basis to calculate profits for that validator.",
+  "The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate": "The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate",
   "The bonded amount is less than the minimum bond amount of {{existentialDeposit}}": "The bonded amount is less than the minimum bond amount of {{existentialDeposit}}",
   "The bonding duration for any staked funds. After this period needs to be withdrawn.": "The bonding duration for any staked funds. After this period needs to be withdrawn.",
   "The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.": "The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.",
