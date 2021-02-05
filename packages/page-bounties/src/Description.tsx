@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import { ThemeProps } from '@polkadot/react-components/types';
 
+import { bountyLabelColor } from './theme';
+
 interface Props {
   className?: string;
   dataTestId?: string;
@@ -26,5 +28,5 @@ export default React.memo(styled(Description)(({ theme }: ThemeProps) => `
   margin-top: 0.28rem;
   font-size: 0.7rem;
   line-height: 0.85rem;
-  color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+  color: ${bountyLabelColor[theme.theme]};
 `));

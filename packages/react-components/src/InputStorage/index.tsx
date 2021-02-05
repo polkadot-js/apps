@@ -28,33 +28,29 @@ interface Props {
 
 function InputStorage ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.creator.section));
-  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => keyOptions(api, defaultValue.creator.section));
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
   const [value, setValue] = useState<QueryableStorageEntry<'promise'>>(() => defaultValue);
 
   const _onKeyChange = useCallback(
     (newValue: QueryableStorageEntry<'promise'>): void => {
-      if (value.creator.section === newValue.creator.section && value.creator.method === newValue.creator.method) {
-        return;
+      if (value.creator.section !== newValue.creator.section || value.creator.method !== newValue.creator.method) {
+        // set via callback
+        setValue(() => newValue);
+        onChange && onChange(newValue);
       }
-
-      // set via callback
-      setValue(() => newValue);
-      onChange && onChange(newValue);
     },
     [onChange, value]
   );
 
   const _onSectionChange = useCallback(
     (section: string): void => {
-      if (section === value.creator.section) {
-        return;
+      if (section !== value.creator.section) {
+        const optionsMethod = keyOptions(api, section);
+
+        setOptionsMethod(optionsMethod);
+        _onKeyChange(api.query[section][optionsMethod[0].value] as any);
       }
-
-      const optionsMethod = keyOptions(api, section);
-
-      setOptionsMethod(optionsMethod);
-      _onKeyChange(api.query[section][optionsMethod[0].value] as any);
     },
     [_onKeyChange, api, value]
   );

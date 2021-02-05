@@ -63,6 +63,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'clover',
+      text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
+      providers: {
+        Clover: 'wss://api.clover.finance/'
+      }
+    },
+    {
       info: 'crust',
       text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
@@ -195,6 +202,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      info: 'ternoa-chaos',
+      text: t('rpc.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      providers: {
+        CapsuleCorp: 'wss://chaos.ternoa.com'
       }
     },
     {

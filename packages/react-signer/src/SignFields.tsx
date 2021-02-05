@@ -21,7 +21,7 @@ interface Props {
 
 function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [blocks, setBlocks] = useState(new BN(64));
+  const [blocks, setBlocks] = useState(() => new BN(64));
   const [nonce, setNonce] = useState(BN_ZERO);
   const { t } = useTranslation();
 

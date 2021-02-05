@@ -8,13 +8,14 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { getInflationParams } from '@polkadot/apps-config';
+import { BN_MILLION } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
 export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN): Inflation {
   const { falloff, idealStake, maxInflation, minInflation } = getInflationParams(api);
-  const stakedFraction = totalStaked.muln(1_000_000).div(totalIssuance).toNumber() / 1_000_000;
+  const stakedFraction = totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
   const idealInterest = maxInflation / idealStake;
   const inflation = 100 * (minInflation + (
     stakedFraction <= idealStake

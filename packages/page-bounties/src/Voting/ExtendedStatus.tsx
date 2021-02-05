@@ -10,7 +10,7 @@ import React, { useRef } from 'react';
 import { BN_ZERO } from '@polkadot/util';
 
 import Description from '../Description';
-import { bestValidProposalName } from '../helpers/extendedStatuses';
+import { proposalNameToDisplay } from '../helpers/extendedStatuses';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -21,12 +21,13 @@ interface Props {
 }
 
 function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status }: Props): React.ReactElement<Props> {
-  const bestProposalName = proposals ? bestValidProposalName(proposals, status) : null;
+  const bestProposalName = proposals ? proposalNameToDisplay(proposals, status) : null;
   const { t } = useTranslation();
   const votingDescriptions = useRef<Record<string, string>>({
-    approveBounty: t('Approval under voting'),
-    closeBounty: t('Rejection under voting'),
+    approveBounty: t('Bounty approval under voting'),
+    closeBounty: t('Bounty rejection under voting'),
     proposeCurator: t('Curator under voting'),
+    slashCurator: t('Curator slash under voting'),
     unassignCurator: t('Unassign curator under voting')
   });
 

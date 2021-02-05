@@ -3,9 +3,11 @@
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
+import { increaseDateByBlocks } from '@polkadot/app-bounties/helpers/increaseDateByBlocks';
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useBlockTime } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -20,12 +22,15 @@ interface Props {
 
 function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { extendBountyExpiry } = useBounties();
+  const { bountyUpdatePeriod, extendBountyExpiry } = useBounties();
   const [remark, setRemark] = useState('');
+  const [blockTime, timeAsText] = useBlockTime(bountyUpdatePeriod);
 
   const onRemarkChange = useCallback((value: string) => {
     setRemark(value);
   }, []);
+
+  const expiryDate = useMemo(() => bountyUpdatePeriod && increaseDateByBlocks(bountyUpdatePeriod, blockTime), [bountyUpdatePeriod, blockTime]);
 
   return (
     <>
@@ -52,6 +57,21 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
               <p>{t<string>('Only curator can extend the bounty time.')}</p>
             </Modal.Column>
           </Modal.Columns>
+          {expiryDate &&
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  help={t<string>('The extended expiry date does not depend on the current expiry date.')}
+                  isDisabled
+                  label={t<string>('new expiry date and time')}
+                  value={`${expiryDate.toLocaleDateString()} ${expiryDate.toLocaleTimeString()}`}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>(`Bounty expiry time will be set to ${timeAsText} from now.`)}</p>
+              </Modal.Column>
+            </Modal.Columns>
+          }
           <Modal.Columns>
             <Modal.Column>
               <Input

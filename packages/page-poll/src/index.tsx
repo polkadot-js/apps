@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Tabs, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
+import { BN_MILLION, BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -26,8 +26,6 @@ interface Turnout {
   percentage: number;
   voted: BN;
 }
-
-const DIV = new BN(1_000_000);
 
 function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -53,7 +51,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
     if (totalIssuance && totals) {
       const max = bnMax(BN_ONE, ...totals);
 
-      setProgress(totals.map((total) => total.mul(DIV).div(max)));
+      setProgress(totals.map((total) => total.mul(BN_MILLION).div(max)));
 
       api.query.poll.voteOf
         .entries<ITuple<[Approvals, Balance]>>()

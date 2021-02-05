@@ -14,13 +14,14 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { getProposalToDisplay } from './helpers/extendedStatuses';
-import VotingResultsColumn from './Voting/VotersColumn';
+import VotersColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
 import { useBountyStatus } from './hooks';
+import { bountyBorderColor, bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -113,6 +114,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='td-row'>
             <BountyInfos
               beneficiary={beneficiary}
+              blocksUntilUpdate={blocksUntilUpdate}
               proposals={proposals}
               status={status}
             />
@@ -120,6 +122,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               <BountyActions
                 bestNumber={bestNumber}
                 description={description}
+                fee={fee}
                 index={index}
                 proposals={proposals}
                 status={status}
@@ -187,12 +190,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           {proposals && (
             <div className='votes-table'>
-              <VotingResultsColumn
+              <VotersColumn
                 option={'ayes'}
                 proposals={proposals}
                 status={status}
               />
-              <VotingResultsColumn
+              <VotersColumn
                 option={'nays'}
                 proposals={proposals}
                 status={status}
@@ -254,7 +257,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       justify-content: center;
       width: 1.7rem;
       height: 1.7rem;
-      border: 1px solid ${theme.theme === 'dark' ? '#2f313c' : '#dfdfdf'};
+      border: 1px solid ${bountyBorderColor[theme.theme]};
       border-radius: 4px;
       cursor: pointer;
     }
@@ -272,7 +275,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     font-weight: 500;
     font-size: 0.7rem;
     line-height: normal;
-    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+    color: ${bountyLabelColor[theme.theme]};
     text-transform: uppercase;
   }
 
@@ -314,7 +317,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     margin-top: 0.28rem;
     font-size: 0.7rem;
     line-height: 0.85rem;
-    color: ${theme.theme === 'dark' ? '#757575' : '#8B8B8B'};
+    color: ${bountyLabelColor[theme.theme]};
   }
 
   & .votes-table {

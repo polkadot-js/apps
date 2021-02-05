@@ -5,19 +5,21 @@ import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { determineUnassignCuratorAction } from '@polkadot/app-bounties/helpers';
-import { useBountyStatus, useUserRole } from '@polkadot/app-bounties/hooks';
-import { ValidUnassignCuratorAction } from '@polkadot/app-bounties/types';
 import { Button, Menu, Popup } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers, useToggle } from '@polkadot/react-hooks';
 import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import CloseBounty from './BountyActions/CloseBounty';
-import ExtendBountyExpiryAction from './BountyActions/ExtendBountyExpiryAction';
-import SlashCurator from './BountyActions/SlashCurator';
+import { determineUnassignCuratorAction } from '../helpers';
+import { useBountyStatus, useUserRole } from '../hooks';
+import { bountySvgColor } from '../theme';
+import { useTranslation } from '../translate';
+import { ValidUnassignCuratorAction } from '../types';
 import BountyRejectCurator from './BountyRejectCurator';
-import { useTranslation } from './translate';
+import CloseBounty from './CloseBounty';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
+import GiveUp from './GiveUp';
+import SlashCurator from './SlashCurator';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -28,12 +30,13 @@ interface Props {
   status: BountyStatus;
 }
 
-function BountyExtraActions ({ bestNumber, className, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
+function Index ({ bestNumber, className, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
   const [isPopupOpen, togglePopupOpen] = useToggle();
   const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
   const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
   const [isSlashCuratorOpen, toggleSlashCurator] = useToggle();
   const [isExtendExpiryOpen, toggleExtendExpiry] = useToggle();
+  const [isGiveUpCuratorOpen, toggleGiveUpCurator] = useToggle();
   const [selectedAction, setSlashAction] = useState<ValidUnassignCuratorAction>();
   const { t } = useTranslation();
   const { isMember } = useMembers();
@@ -45,7 +48,6 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
-    GiveUp: t('Give Up'),
     SlashCuratorAction: t('Slash Curator'),
     SlashCuratorMotion: t('Slash Curator (Council)'),
     UnassignCurator: t('Unassign Curator')
@@ -56,10 +58,11 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
 
   const showCloseBounty = (status.isFunded || status.isActive || status.isCuratorProposed) && isMember && !existingCloseBountyProposal;
   const showRejectCurator = status.isCuratorProposed && isCurator;
+  const showGiveUpCurator = status.isActive && isCurator;
   const showExtendExpiry = status.isActive && isCurator;
   const showSlashCurator = (status.isCuratorProposed || status.isActive || status.isPendingPayout) && !existingUnassignCuratorProposal && availableSlashActions.length !== 0;
 
-  const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator);
+  const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator || showGiveUpCurator);
 
   function slashCuratorClicked (action: ValidUnassignCuratorAction) {
     setSlashAction(action);
@@ -88,6 +91,13 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
             description={description}
             index={index}
             toggleOpen={toggleExtendExpiry}
+          />
+        }
+        {isGiveUpCuratorOpen && curator &&
+          <GiveUp
+            curatorId={curator}
+            index={index}
+            toggleOpen={toggleGiveUpCurator}
           />
         }
         {isSlashCuratorOpen && curator && selectedAction &&
@@ -141,6 +151,14 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
                 {t<string>('Extend Expiry')}
               </Menu.Item>
             }
+            {showGiveUpCurator &&
+              <Menu.Item
+                key='giveUpCurator'
+                onClick={toggleGiveUpCurator}
+              >
+                {t<string>('Give Up')}
+              </Menu.Item>
+            }
             {showSlashCurator && availableSlashActions.map((actionName) =>
               <Menu.Item
                 key={actionName}
@@ -156,8 +174,8 @@ function BountyExtraActions ({ bestNumber, className, description, index, propos
     : null;
 }
 
-export default React.memo(styled(BountyExtraActions)(({ theme }: ThemeProps) => `
-  .settings-button {
+export default React.memo(styled(Index)(({ theme }: ThemeProps) => `
+  && .ui--Button:not(.isDisabled):not(.isIcon).settings-button {
     width: 24px;
     height: 24px;
     padding: 0;
@@ -166,7 +184,7 @@ export default React.memo(styled(BountyExtraActions)(({ theme }: ThemeProps) => 
     svg {
       padding: 0;
       margin: 0;
-      color: ${theme.theme === 'dark' ? 'rgba(244,242,240,0.9)' : '#000 !important'};
+      color: ${bountySvgColor[theme.theme]};
     }
 
     &:focus {

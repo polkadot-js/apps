@@ -83,7 +83,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
-  const [source] = useState(keyring.getPair(from));
+  const [source] = useState(() => keyring.getPair(from));
   const [isBusy, setIsBusy] = useState(false);
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();

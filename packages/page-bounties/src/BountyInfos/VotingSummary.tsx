@@ -6,9 +6,11 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers } from '@polkadot/react-hooks';
 
 import Description from '../Description';
+import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -42,14 +44,13 @@ function VotingSummary ({ className, proposal }: Props): JSX.Element {
   );
 }
 
-export default React.memo(styled(VotingSummary)`
-
-  display: flex;
-  justify-content: space-between;
+export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
+  margin: 0 1rem 0 0;
 
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 0.5rem;
+    color: ${bountyLabelColor[theme.theme]}
 
     span {
       min-width: 0.5rem;
@@ -67,4 +68,4 @@ export default React.memo(styled(VotingSummary)`
     width: 0.4rem;
     height: 0.4rem;
   }
-`);
+`));

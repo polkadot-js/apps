@@ -29,8 +29,8 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const [isDeployOpen, toggleDeploy, setIsDeployOpen] = useToggle();
   const [isHashOpen, toggleHash] = useToggle();
   const [isUploadOpen, toggleUpload] = useToggle();
-  const [updated, setUpdated] = useState(Date.now());
-  const [allCodes, setAllCodes] = useState(store.getAllCode());
+  const [updated, setUpdated] = useState(() => Date.now());
+  const [allCodes, setAllCodes] = useState(() => store.getAllCode());
 
   const _onShowDeploy = useCallback(
     (codeHash: string, constructorIndex: number): void => {

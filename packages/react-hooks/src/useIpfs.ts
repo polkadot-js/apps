@@ -112,7 +112,7 @@ export function extractIpfsDetails (): State {
 }
 
 export function useIpfs (): State {
-  const [state] = useState(extractIpfsDetails());
+  const [state] = useState(() => extractIpfsDetails());
 
   return state;
 }

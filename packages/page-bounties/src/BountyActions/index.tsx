@@ -4,11 +4,12 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
-import BountyAcceptCurator from '../BountyAcceptCurator';
 import { useBountyStatus } from '../hooks';
 import AwardBounty from './AwardBounty';
+import BountyAcceptCurator from './BountyAcceptCurator';
 import BountyClaimAction from './BountyClaimAction';
 import BountyInitiateVoting from './BountyInitiateVoting';
 import ProposeCuratorAction from './ProposeCuratorAction';
@@ -16,13 +17,14 @@ import ProposeCuratorAction from './ProposeCuratorAction';
 interface Props {
   bestNumber: BlockNumber;
   description: string;
+  fee?: BN;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
   value: Balance;
 }
 
-export function BountyActions ({ bestNumber, description, index, proposals, status, value }: Props): JSX.Element {
+export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): JSX.Element {
   const { beneficiary, curator, unlockAt } = useBountyStatus(status);
 
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
@@ -43,9 +45,10 @@ export function BountyActions ({ bestNumber, description, index, proposals, stat
           value={value}
         />
       }
-      {status.isCuratorProposed && curator &&
+      {status.isCuratorProposed && curator && fee &&
         <BountyAcceptCurator
           curatorId={curator}
+          fee={fee}
           index={index}
         />
       }
