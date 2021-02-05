@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types';
 
-import Component from '@polkadot/app-crowdloans';
+import Component from '@polkadot/app-crowdloan';
 
 export default function create (t: TFunction): Route {
   return {
@@ -12,12 +12,12 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'query.crowdloans'
+        'query.crowdloan'
       ]
     },
     group: 'network',
     icon: 'coins',
-    name: 'crowdloans',
-    text: t('nav.crowdloans', 'Crowdloans', { ns: 'apps-routing' })
+    name: 'crowdloan',
+    text: t('nav.crowdloan', 'Crowdloan', { ns: 'apps-routing' })
   };
 }

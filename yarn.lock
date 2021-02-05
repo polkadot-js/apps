@@ -2034,9 +2034,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-crowdloans@workspace:packages/page-crowdloans":
+"@polkadot/app-crowdloan@workspace:packages/page-crowdloan":
   version: 0.0.0-use.local
-  resolution: "@polkadot/app-crowdloans@workspace:packages/page-crowdloans"
+  resolution: "@polkadot/app-crowdloan@workspace:packages/page-crowdloan"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.78.2-33

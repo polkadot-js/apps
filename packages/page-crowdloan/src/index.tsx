@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-crowdloans authors & contributors
+// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-function CrowdloansApp ({ className }: Props): React.ReactElement<Props> {
+function CrowdloanApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -21,4 +21,4 @@ function CrowdloansApp ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(CrowdloansApp)``);
+export default React.memo(styled(CrowdloanApp)``);
