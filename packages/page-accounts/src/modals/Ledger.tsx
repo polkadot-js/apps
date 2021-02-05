@@ -22,6 +22,7 @@ interface Props {
   onClose: () => void;
 }
 
+// new Array(20).fill(0).map((_, index) => index)
 export const AVAIL_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 // query the ledger for the address, adding it to the keyring
