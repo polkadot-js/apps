@@ -2034,6 +2034,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-crowdloans@workspace:packages/page-crowdloans":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-crowdloans@workspace:packages/page-crowdloans"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@polkadot/react-components": ^0.78.2-33
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-democracy@workspace:packages/page-democracy":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-democracy@workspace:packages/page-democracy"
