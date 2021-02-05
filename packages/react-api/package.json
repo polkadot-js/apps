@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-api",
-  "version": "0.78.2-33",
+  "version": "0.78.2-34",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
