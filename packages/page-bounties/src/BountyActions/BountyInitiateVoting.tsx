@@ -47,22 +47,18 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Initiate Voting')}
+          label={t<string>('Initiate voting')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={t<string>('Initiate Voting')}
+            header={t<string>('Initiate voting')}
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>('This action will create a Council motion to either approve or reject the Bounty.')}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
+              <Modal.Column>
+                <p>{t<string>('This action will create a Council motion to either approve or reject the Bounty.')}</p>
+              </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
