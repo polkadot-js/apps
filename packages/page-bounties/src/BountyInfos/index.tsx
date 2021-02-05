@@ -6,6 +6,7 @@ import type { AccountId, BountyStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import { AddressSmall } from '@polkadot/react-components';
 import { BN_HUNDRED } from '@polkadot/util';
@@ -21,6 +22,7 @@ import VotingSummary from './VotingSummary';
 interface Props {
   beneficiary?: AccountId;
   blocksUntilUpdate?: BN;
+  className?: string;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
@@ -28,7 +30,7 @@ interface Props {
 export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;
 const BLOCKS_LEFT_TO_SHOW_WARNING = new BN('10000');
 
-function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Props): JSX.Element {
+function BountyInfos ({ beneficiary, blocksUntilUpdate, className, proposals, status }: Props): JSX.Element {
   const { t } = useTranslation();
 
   const { bountyUpdatePeriod } = useBounties();
@@ -38,7 +40,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
   const proposalToDisplay = useMemo(() => proposals && getProposalToDisplay(proposals, status), [proposals, status]);
 
   return (
-    <>
+    <div className={className}>
       {proposalToDisplay && <VotingSummary proposal={proposalToDisplay}/>}
       {proposalToDisplay && <VotingLink />}
       {beneficiary && (
@@ -65,8 +67,12 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, proposals, status }: Pro
           type='info'
         />
       )}
-    </>
+    </div>
   );
 }
 
-export default React.memo(BountyInfos);
+export default React.memo(styled(BountyInfos)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`);

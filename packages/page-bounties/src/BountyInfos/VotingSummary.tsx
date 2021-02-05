@@ -57,15 +57,4 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
       margin-right: 0.5rem;
     }
   }
-
-  .votes {
-    margin-right: 5rem;
-  }
-
-  .voting-icon {
-    margin-left: 0.3rem;
-    margin-bottom: 0.1rem;
-    width: 0.4rem;
-    height: 0.4rem;
-  }
 `));

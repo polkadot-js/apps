@@ -10,7 +10,7 @@ function VotingLink (): React.ReactElement<string> {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div style={{ margin: ' 0 1rem 0 0' }}>
       <a href='#/council/motions'>{t<string>('Voting')}</a>
       <Description description={t<string>('Go to motions panel')} />
     </div>
