@@ -241,7 +241,7 @@ export class BountiesPage {
 
   async openRejectCuratorRole (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Reject Curator');
+    await this.clickButtonByText('Reject curator');
     await this.expectText('This action will reject your candidacy for the curator of the bounty.');
   }
 
@@ -281,13 +281,13 @@ export class BountiesPage {
 
   async openGiveUpCuratorsRole (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Give Up');
+    await this.clickButtonByText('Give up');
     await this.expectText('This action will unassign you from the curator role.');
   }
 
   async openSlashCuratorByCouncil (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Slash Curator (Council)');
+    await this.clickButtonByText('Slash curator (Council)');
     await this.expectText('This action will create a Council motion to slash the Curator.');
   }
 

@@ -362,8 +362,8 @@ describe('Bounties', () => {
 
       await bountiesPage.openExtraActions();
 
-      await bountiesPage.expectText('Give Up');
-      await bountiesPage.expectText('Slash Curator (Council)');
+      await bountiesPage.expectText('Give up');
+      await bountiesPage.expectText('Slash curator (Council)');
     });
   });
 
@@ -410,7 +410,7 @@ describe('Bounties', () => {
       await bountiesPage.openGiveUpCuratorsRole();
 
       bountiesPage.enterProposingAccount(alice);
-      await bountiesPage.clickButton('Give Up');
+      await bountiesPage.clickButton('Give up');
 
       bountiesPage.expectExtrinsicQueued({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' });
       expect(mockBountyHooks.bountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));

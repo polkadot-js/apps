@@ -49,7 +49,7 @@ function BountyGiveUpCurator ({ curatorId, index, toggleOpen }: Props) {
         <TxButton
           accountId={curatorId}
           icon='check'
-          label={t<string>('Give Up')}
+          label={t<string>('Give up')}
           onStart={toggleOpen}
           params={[index]}
           tx={unassignCurator}
