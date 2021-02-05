@@ -8,21 +8,23 @@ import React from 'react';
 import { useBounties } from '@polkadot/app-bounties/hooks';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
+import { truncateTitle } from '../helpers';
 import { useTranslation } from '../translate';
 
 interface Props {
   curatorId: AccountId;
+  description: string;
   index: BountyIndex;
   toggleOpen: () => void;
 }
 
-function BountyRejectCurator ({ curatorId, index, toggleOpen }: Props) {
+function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Props) {
   const { t } = useTranslation();
   const { unassignCurator } = useBounties();
 
   return (
     <Modal
-      header={t<string>('reject curator')}
+      header={`${t<string>('reject curator')} - "${truncateTitle(description, 30)}"`}
       size='large'
     >
       <Modal.Content>

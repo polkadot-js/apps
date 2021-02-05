@@ -33,6 +33,7 @@ export function BountyActions ({ bestNumber, description, fee, index, proposals,
     <>
       {status.isProposed &&
         <BountyInitiateVoting
+          description={description}
           index={index}
           proposals={proposals}
         />
@@ -48,6 +49,7 @@ export function BountyActions ({ bestNumber, description, fee, index, proposals,
       {status.isCuratorProposed && curator && fee &&
         <BountyAcceptCurator
           curatorId={curator}
+          description={description}
           fee={fee}
           index={index}
         />
@@ -62,6 +64,7 @@ export function BountyActions ({ bestNumber, description, fee, index, proposals,
       {status.isActive && curator &&
         <AwardBounty
           curatorId={curator}
+          description={description}
           index={index}
         />
       }

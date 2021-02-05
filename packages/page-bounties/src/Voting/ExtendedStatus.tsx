@@ -26,7 +26,7 @@ function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status 
   const votingDescriptions = useRef<Record<string, string>>({
     approveBounty: t('Bounty approval under voting'),
     closeBounty: t('Bounty rejection under voting'),
-    proposeCurator: t('Curator under voting'),
+    proposeCurator: t('Curator proposal under voting'),
     slashCurator: t('Curator slash under voting'),
     unassignCurator: t('Unassign curator under voting')
   });

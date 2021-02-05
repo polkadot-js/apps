@@ -8,15 +8,17 @@ import React, { useRef, useState } from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useThresholds } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  description: string;
   index: BountyIndex;
   toggleOpen: () => void;
 }
 
-function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> | null {
+function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { members } = useMembers();
@@ -29,7 +31,7 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
 
   return (
     <Modal
-      header={t<string>('close bounty')}
+      header={`${t<string>('close bounty')} - "${truncateTitle(description, 30)}"`}
       size='large'
     >
       <Modal.Content>
@@ -40,7 +42,7 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
           <Modal.Column>
             <InputAddress
               filter={members}
-              help={t<string>('Select the council account you wish to use to create a proposal for closing bounty.')}
+              help={t<string>('Select the council member account you wish to use to create a proposal for closing bounty.')}
               label={t<string>('propose with account')}
               onChange={setAccountId}
               type='account'

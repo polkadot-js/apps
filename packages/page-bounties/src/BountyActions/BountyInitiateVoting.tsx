@@ -10,17 +10,19 @@ import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-component
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 import { useThresholds } from '@polkadot/react-hooks/useThresholds';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  description: string;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
 }
 
 const BOUNTY_METHODS = ['approveBounty', 'closeBounty'];
 
-function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<Props> | null {
+function BountyInitiateVoting ({ description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers();
@@ -40,12 +42,12 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Initiate Voting')}
+          label={t<string>('Initiate voting')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={t<string>('Initiate Voting')}
+            header={`${t<string>('Initiate voting')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
@@ -56,7 +58,7 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
                 <Modal.Column>
                   <InputAddress
                     filter={members}
-                    help={t<string>('Select the council account you wish to use to create a motion for the Bounty.')}
+                    help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
                     label={t<string>('vote with account')}
                     onChange={setAccountId}
                     type='account'

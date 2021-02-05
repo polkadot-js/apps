@@ -7,11 +7,11 @@ import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { truncateTitle } from '@polkadot/app-bounties/helpers';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useThresholds, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
@@ -51,23 +51,24 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Propose Curator')}
+          label={t<string>('Propose curator')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={t<string>(`Assign Curator to "${truncateTitle(description, 30)}"`)}
+            data-testid={'propose-curator-modal'}
+            header={`${t<string>('Propose curator')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
               <Modal.Column>
-                <p>{t<string>('This action will create a Council motion to assign a Curator.')}</p>
+                <p>{t<string>('This action will create a Council motion to propose a Curator for the Bounty.')}</p>
               </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
                     filter={members}
-                    help={t<string>('Select the council account you wish to use to create a motion for the Bounty.')}
+                    help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
                     label={t<string>('proposing account')}
                     onChange={setAccountId}
                     type='account'
@@ -115,7 +116,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 accountId={accountId}
                 icon='check'
                 isDisabled={!isFeeValid}
-                label={t<string>('Assign curator')}
+                label={t<string>('Propose curator')}
                 onStart={toggleOpen}
                 params={[treasuryProposalThreshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
                 tx={api.tx.council.propose}
