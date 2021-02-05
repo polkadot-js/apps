@@ -11,7 +11,7 @@ import React, { useMemo } from 'react';
 import { Badge } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import { getChainLink, sliceHex } from '../util';
 
@@ -66,7 +66,7 @@ const optionsMulti = {
 function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { api: paraApi, endpoints } = useParaApi(id);
-  const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
+  const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
@@ -81,7 +81,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   const blockDelay = useMemo(
     () => bestNumber && (
       lastRelayNumber
-        ? bestNumber.sub(lastRelayNumber).subn(1)
+        ? bestNumber.sub(lastRelayNumber).isub(BN_ONE)
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined

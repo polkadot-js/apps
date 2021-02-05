@@ -42,6 +42,8 @@ const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
+const chainIdavoll = '#ff43ff';
+const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 
 // based on node name
 // alphabetical
@@ -59,6 +61,7 @@ const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
+const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeZero = '#0099cc';
@@ -72,48 +75,50 @@ export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
   ['Ares PC1', chainRoccoAres],
-  ['Bit.Country Tewai Chain', chainBitCountry],
   ['Bifrost PC1', chainRoccoBifrost],
-  ['Darwinia Crab', chainCrab],
+  ['Bit.Country Tewai Chain', chainBitCountry],
+  ['ChainX', chainChainx],
   ['Clover', chainClover],
   ['crust maxwell', chainCrust],
   ['Crust PC1', chainCrust],
-  ['ChainX', chainChainx],
   ['darwinia cc1', chainDarwinia],
+  ['Darwinia Crab', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
+  ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
   ['Jupiter Testnet', chainJupiter],
-  ['KILT Testnet', chainKilt],
   ['KILT Collator Rococo', chainKilt],
+  ['KILT Testnet', chainKilt],
   ['Kulupu', chainKulupu],
-  ['Kusama', chainKusama],
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Moonbase Alpha', nodeMoonbeam],
-  ['Phala poc 3', chainPhala],
   ['Phala PC1', chainPhala],
+  ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
   ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
   ['PolkaBTC Staging', chainPolkabtc],
   ['Polkadex Testnet', chainPolkadex],
-  ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
+  ['Polkadot', chainPolkadot],
   ['Rococo', chainRocco],
+  ['SubDAO PC1', chainSubDAO],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
+  ['Uniarts', chainUniarts],
   ['Westend', chainWestend],
-  ['Galois', chainGalois],
-  ['ZΞRO Alphaville', chainZero],
   ['Zenlink PC1', chainZenlink],
-  ['Uniarts', chainUniarts]
+  ['ZΞRO Alphaville', chainZero]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -140,7 +145,8 @@ export const nodeColors: Record<string, any> = [
   ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
-  ['Zenlink Collator', nodeZenlink]
+  ['Zenlink Collator', nodeZenlink],
+  ['SubDAO Collator', nodeSubDAO]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]

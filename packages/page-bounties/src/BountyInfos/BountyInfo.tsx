@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
-import { bountyColor, bountyLabelColor, bountySvgColor } from './theme';
-import { useTranslation } from './translate';
+import { bountyColor, bountyLabelColor, bountySvgColor } from '../theme';
+import { useTranslation } from '../translate';
 
 interface Props {
   className: '';

@@ -39,6 +39,7 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
@@ -56,6 +57,7 @@ import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
+import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
@@ -78,6 +80,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
@@ -132,6 +135,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
+  ['Idavoll Node', nodeIdavoll],
   ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
@@ -158,6 +162,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Ternoa Node', nodeTernoa],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
+  ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
@@ -191,6 +196,7 @@ export const namedLogos: Record<string, unknown> = {
   equilibrium: nodeEquilibrium,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
+  idavoll: nodeIdavoll,
   jupiter: nodeJupiter,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
@@ -220,6 +226,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
+  rococoSubDAO: nodeSubDAO,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,

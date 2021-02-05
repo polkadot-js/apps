@@ -81,7 +81,7 @@ function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatche
 function createReferendums (bestNumber: BlockNumber, blockTime: number, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
   return referendums.reduce((result: [EntryType, EntryInfo[]][], { index, status }): [EntryType, EntryInfo[]][] => {
     const enactBlocks = status.end.add(status.delay).sub(bestNumber);
-    const voteBlocks = status.end.sub(bestNumber).subn(1);
+    const voteBlocks = status.end.sub(bestNumber).isub(BN_ONE);
 
     result.push(['referendumVote', [{
       ...newDate(voteBlocks, blockTime),
@@ -110,7 +110,7 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
       .filter(([, values]) => values.length)
       .map(([key]): EntryInfo => {
         const eraIndex = key.args[0];
-        const blockProgress = sessionInfo.activeEra.sub(eraIndex).subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress);
+        const blockProgress = sessionInfo.activeEra.sub(eraIndex).isub(BN_ONE).imul(sessionInfo.eraLength).iadd(sessionInfo.eraProgress);
         const blocks = slashDuration.sub(blockProgress);
 
         return {

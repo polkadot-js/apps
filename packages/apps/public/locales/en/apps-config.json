@@ -70,6 +70,7 @@
   "rpc.rococo.plasm": "Plasm PC2",
   "rpc.rococo.polkabtc": "PolkaBTC PC1",
   "rpc.rococo.robonomics": "Robonomics PC2",
+  "rpc.rococo.subdao": "SubDAO PC1",
   "rpc.rococo.tick": "Tick",
   "rpc.rococo.track": "Track",
   "rpc.rococo.trick": "Trick",
