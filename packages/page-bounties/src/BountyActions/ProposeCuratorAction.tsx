@@ -63,12 +63,12 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         {isOpen && (
           <Modal
             data-testid={'propose-curator-modal'}
-            header={`${t<string>('Assign Curator to')} - "${truncateTitle(description, 30)}"`}
+            header={`${t<string>('Propose curator')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
               <Modal.Column>
-                <p>{t<string>('This action will create a Council motion to assign a Curator.')}</p>
+                <p>{t<string>('This action will create a Council motion to propose a Curator for the Bounty.')}</p>
               </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
