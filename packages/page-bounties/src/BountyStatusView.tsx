@@ -28,10 +28,10 @@ function BountyStatusView ({ blocksUntilPayout, bountyStatus, className = '', pr
 
   const statusHelpMessages = useRef<HelpMessages>({
     Active: t('This bounty has received approval and is currently being implemented.'),
-    Approved: t('This bounty was approved by the council. When next treasury spend period comes, it will get funded.'),
+    Approved: t('This bounty was approved by the council. When the next spend period starts, it will be funded.'),
     CuratorProposed: t('Curator has been proposed by council. The bounty is waiting for curator to accept the role.'),
-    Funded: t('This bounty is approved and funded.'),
-    PendingPayout: t('This bounty was completed and the beneficiary was awarded by the curator. Claiming the payout will be possible after delay has passed.'),
+    Funded: t('This bounty is funded.'),
+    PendingPayout: t('This bounty was completed and the beneficiary was rewarded by the curator. Claiming the payout will be possible after the delay period is over.'),
     Proposed: t('After a bounty was proposed the council decides whether to fund it or not.')
   });
 
