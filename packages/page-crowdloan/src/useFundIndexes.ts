@@ -9,7 +9,11 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 const filterEvents = {
   transform: (records: EventRecord[]): number =>
-    records.filter(({ event, phase }) => event && phase?.isApplyExtrinsic && event.section === 'crowdloan' && ['Created'].includes(event.method)).length
+    records.filter(({ event, phase }) =>
+      event && phase?.isApplyExtrinsic &&
+      event.section === 'crowdloan' &&
+      ['Created'].includes(event.method)
+    ).length
 };
 
 export default function useFundIndexes (): FundIndex[] {
