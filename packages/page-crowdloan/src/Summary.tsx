@@ -7,6 +7,7 @@ import { SummaryBox } from '@polkadot/react-components';
 
 interface Props {
   className?: string;
+  count: number;
 }
 
 function Summary ({ className }: Props): React.ReactElement<Props> {
