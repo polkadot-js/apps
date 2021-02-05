@@ -34,7 +34,10 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
       strict={tabIsExact}
       to={to}
     >
-      {text}{!!count && (
+      <div className='tabLinkText'>
+        {text}
+      </div>
+      {!!count && (
         <Badge
           className='tabCounter'
           color='counter'
@@ -55,19 +58,25 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   font-size: 1rem;
   font-weight: 400;
 
-  &:hover {
-    &::after {
+
+    &:hover {
+      color: #8B8B8B;
+
+      .tabLinkText::after{
+        background-color: #8B8B8B;
+      }
+    }
+
+    &:hover .tabLinkText::after,
+    &.tabLinkActive .tabLinkText::after {
       content: '';
       position: absolute;
       width: 3.14rem;
       height: 2px;
-      bottom: 0;
+      bottom: -2px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #8B8B8B;
     }
-    color: #8B8B8B
-  }
 
   &.tabLinkActive {
     color: ${theme.color};
@@ -77,14 +86,11 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
     }
   }
 
-  &.tabLinkActive::after {
-    content: '';
-    position: absolute;
-    width: 3.14rem;
-    height: 2px;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+  .tabLinkText {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .tabCounter {
