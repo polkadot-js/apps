@@ -6,6 +6,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
+import Funds from './Funds';
 import Summary from './Summary';
 import { useTranslation } from './translate';
 import useFundIndexes from './useFundIndexes';
@@ -17,11 +18,11 @@ interface Props {
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [, toggleAddFund] = useToggle();
-  const indexes = useFundIndexes();
+  const fundIndexes = useFundIndexes();
 
   return (
     <div className={className}>
-      <Summary count={indexes.length} />
+      <Summary fundCount={fundIndexes.length} />
       <Button.Group>
         <Button
           icon='plus'
@@ -29,6 +30,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
           onClick={toggleAddFund}
         />
       </Button.Group>
+      <Funds fundIndexes={fundIndexes} />
     </div>
   );
 }

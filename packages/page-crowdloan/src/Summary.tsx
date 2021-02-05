@@ -3,17 +3,24 @@
 
 import React from 'react';
 
-import { SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { formatNumber } from '@polkadot/util';
+
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  count: number;
+  fundCount: number;
 }
 
-function Summary ({ className }: Props): React.ReactElement<Props> {
+function Summary ({ className, fundCount }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <SummaryBox className={className}>
-      Nothing yet...
+      <CardSummary label={t<string>('funds')}>
+        {formatNumber(fundCount)}
+      </CardSummary>
     </SummaryBox>
   );
 }
