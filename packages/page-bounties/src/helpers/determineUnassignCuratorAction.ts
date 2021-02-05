@@ -17,10 +17,6 @@ export function determineUnassignCuratorAction (roles: UserRole[], status: Bount
   }
 
   if (status.isActive) {
-    if (roles.includes('Curator')) {
-      actions.push('GiveUp');
-    }
-
     if (roles.includes('Member')) {
       actions.push('SlashCuratorMotion');
     }

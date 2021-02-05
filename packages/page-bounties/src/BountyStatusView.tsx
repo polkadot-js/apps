@@ -37,7 +37,8 @@ function BountyStatusView ({ blocksUntilPayout, bountyStatus, className = '', pr
 
   return (
     <div className={className}>
-      <div className='bountyStatus'>
+      <div className='bountyStatus'
+        data-testid={'bountyStatus'}>
         {insertSpaceBeforeCapitalLetter(bountyStatus)}
         <LabelHelp
           help={statusHelpMessages.current[bountyStatus]}

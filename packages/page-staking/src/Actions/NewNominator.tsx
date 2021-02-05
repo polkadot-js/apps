@@ -72,7 +72,11 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
         >
           <Modal.Content>
             {step === 1 && (
-              <BondPartial onChange={setBondInfo} />
+              <BondPartial
+                isNominating
+                minNomination={targets.minNominated}
+                onChange={setBondInfo}
+              />
             )}
             {controllerId && stashId && step === 2 && (
               <NominatePartial

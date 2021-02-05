@@ -10,11 +10,11 @@ import React from 'react';
 import { AddressSmall } from '@polkadot/react-components';
 import { BN_HUNDRED } from '@polkadot/util';
 
-import VotingSummary from './Voting/VotingSummary';
+import Description from '../Description';
+import { useBounties } from '../hooks';
+import { useTranslation } from '../translate';
 import BountyInfo from './BountyInfo';
-import Description from './Description';
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import VotingSummary from './VotingSummary';
 
 interface Props {
   beneficiary?: AccountId;

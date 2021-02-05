@@ -24,6 +24,7 @@ import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
+import idavoll from './idavoll';
 import integritee from './integritee';
 import jupiter from './jupiter';
 import kilt from './kilt';
@@ -36,6 +37,7 @@ import polkadex from './polkadex';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
+import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import uniarts from './uniarts';
@@ -68,6 +70,7 @@ export default {
   'encointer-parachain': encointerPara,
   'hack-hydra-dx': hydrate,
   hanonycash,
+  idavoll: idavoll,
   'integritee-parachain': integritee,
   jupiter,
   'kilt-parachain': kilt,
@@ -82,6 +85,7 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
+  subdao,
   subsocial,
   subzero: zero,
   ternoa: ternoa,

@@ -14,7 +14,7 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { getProposalToDisplay } from './helpers/extendedStatuses';
-import VotingResultsColumn from './Voting/VotersColumn';
+import VotersColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
@@ -190,12 +190,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           {proposals && (
             <div className='votes-table'>
-              <VotingResultsColumn
+              <VotersColumn
                 option={'ayes'}
                 proposals={proposals}
                 status={status}
               />
-              <VotingResultsColumn
+              <VotersColumn
                 option={'nays'}
                 proposals={proposals}
                 status={status}
