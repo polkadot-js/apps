@@ -59,6 +59,8 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
 }
 
 export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
+  width: 50%;
+  
   .vote-numbers {
     display: flex;
     align-items: center;
