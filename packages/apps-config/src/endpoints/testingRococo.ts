@@ -117,6 +117,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoIdavoll',
+        paraId: 7766,
+        text: t('rpc.rococo.idavoll', 'Idavoll', { ns: 'apps-config' }),
+        providers: {
+          Idavoll: 'wss://rococo.idavoll.network'
+        }
+      },
+      {
         info: 'rococoIntegritee',
         paraId: 1983,
         text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
