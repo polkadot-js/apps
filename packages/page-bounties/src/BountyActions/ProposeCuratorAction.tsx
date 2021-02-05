@@ -57,11 +57,12 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Propose Curator')}
+          label={t<string>('Propose curator')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
+            data-testid={'propose-curator-modal'}
             header={t<string>(`Assign Curator to "${truncateTitle(description, 30)}"`)}
             size='large'
           >

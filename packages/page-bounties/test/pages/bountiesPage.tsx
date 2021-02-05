@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -43,11 +43,11 @@ const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
 
 interface RenderedBountiesPage {
   findAllByTestId: FindManyWithMatcher;
-  findByText: FindOne,
-  findByRole: FindOne,
-  findByTestId: FindOne,
-  getAllByRole: GetMany,
-  queryAllByText: GetMany
+  findByText: FindOne;
+  findByRole: FindOne;
+  findByTestId: FindOne;
+  getAllByRole: GetMany;
+  queryAllByText: GetMany;
 }
 
 export class BountiesPage {
@@ -136,7 +136,7 @@ export class BountiesPage {
 
   async openProposeCurator (): Promise<void> {
     this.assertRendered();
-    const proposeCuratorButton = await this.findByText('Propose Curator');
+    const proposeCuratorButton = await this.findByText('Propose curator');
 
     fireEvent.click(proposeCuratorButton);
     await this.expectText('This action will create a Council motion to assign a Curator.');
@@ -156,8 +156,9 @@ export class BountiesPage {
 
   async assignCuratorButton (): Promise<HTMLElement> {
     this.assertRendered();
+    const proposeCuratorModal = await this.findByTestId('propose-curator-modal');
 
-    return this.findByText('Propose curator');
+    return await within(proposeCuratorModal).findByText('Propose curator');
   }
 
   enterProposingAccount (account: string): void {
