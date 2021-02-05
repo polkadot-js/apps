@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Threshold } from '@polkadot/apps-config';
+
 import { useMemo } from 'react';
 
 import { PROPOSE_THRESHOLDS,
   REJECT_THRESHOLDS,
   SLASH_THRESHOLDS,
-  Threshold,
   TREASURY_THRESHOLDS } from '@polkadot/apps-config';
 
 import { useApi } from './useApi';
@@ -31,12 +32,8 @@ export function getAtLeastThresholdMembersCount (membersCount: number, threshold
 
 function getThreshold (membersCount: number, threshold: Threshold): number {
   return threshold.option === 'AtLeast'
-    ? getAtLeastThresholdMembersCount(
-      membersCount,
-      threshold.value
-    )
-    : getMoreThanThresholdMembersCount(membersCount,
-      threshold.value);
+    ? getAtLeastThresholdMembersCount(membersCount, threshold.value)
+    : getMoreThanThresholdMembersCount(membersCount, threshold.value);
 }
 
 export function useThresholds () : Thresholds {
