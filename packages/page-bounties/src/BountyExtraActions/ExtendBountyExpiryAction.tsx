@@ -77,7 +77,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
               <Input
                 autoFocus
                 defaultValue={''}
-                help={t<string>('The note on the extension.')}
+                help={t<string>('The note linked to the extension call, explaining the reason behind it.')}
                 label={t<string>('bounty remark')}
                 onChange={onRemarkChange}
                 value={remark}
