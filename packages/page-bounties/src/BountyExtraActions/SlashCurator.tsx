@@ -69,7 +69,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       helpMessage: t('The Curator that will be slashed.'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
-      tip: t("If the motion is outvoted, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
+      tip: t("If the motion is approved, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
       title: t('Slash curator'),
       tx: api.tx.council.propose
     },
@@ -79,7 +79,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       helpMessage: t('The Curator that will be unassigned'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
-      tip: t('If the motion is outvoted, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
+      tip: t('If the motion is approved, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
       title: t('Unassign curator'),
       tx: api.tx.council.propose
     }
