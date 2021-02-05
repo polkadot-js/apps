@@ -139,7 +139,7 @@ export class BountiesPage {
     const proposeCuratorButton = await this.findByText('Propose curator');
 
     fireEvent.click(proposeCuratorButton);
-    await this.expectText('This action will create a Council motion to assign a Curator.');
+    await this.expectText('This action will create a Council motion to propose a Curator for the Bounty.');
   }
 
   async enterCuratorsFee (fee: string): Promise<void> {
