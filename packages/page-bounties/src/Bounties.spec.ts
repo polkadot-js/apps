@@ -100,7 +100,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Curator under voting');
+        await bountiesPage.expectText('Curator proposal under voting');
       });
 
       it('when voting on bounty approval', async () => {

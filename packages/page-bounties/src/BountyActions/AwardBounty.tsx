@@ -30,7 +30,7 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
         <Button
           icon='award'
           isDisabled={false}
-          label={t<string>('Award Beneficiary')}
+          label={t<string>('Reward implementer')}
           onClick={toggleOpen}
         />
         {isOpen && (
@@ -40,13 +40,13 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
           >
             <Modal.Content>
               <Modal.Column>
-                <p>{t<string>('This action will award the Beneficiary and close the bounty after a delay.')}</p>
+                <p>{t<string>('This action will reward the Beneficiary and close the bounty after a delay period.')}</p>
               </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
                     defaultValue={curatorId}
-                    help={t<string>("Curator's account that will award a bounty to the Beneficiary.")}
+                    help={t<string>("Curator's account that will reward the bounty to the implementer.")}
                     isDisabled={true}
                     label={t<string>('award with account')}
                     type='account'
@@ -61,13 +61,13 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
                 <Modal.Column>
                   <InputAddress
                     help={t<string>('Choose the Beneficiary for this bounty.')}
-                    label={t<string>('beneficiary account')}
+                    label={t<string>('implementer account')}
                     onChange={setBeneficiaryId}
                     withLabel
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay.')}</p>
+                  <p>{t<string>("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>

@@ -73,7 +73,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 <Modal.Column>
                   <InputAddress
                     filter={members}
-                    help={t<string>('Select the council account you wish to use to create a motion for the Bounty.')}
+                    help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
                     label={t<string>('proposing account')}
                     onChange={setAccountId}
                     type='account'
@@ -121,7 +121,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 accountId={accountId}
                 icon='check'
                 isDisabled={!isFeeValid}
-                label={t<string>('Assign curator')}
+                label={t<string>('Propose curator')}
                 onStart={toggleOpen}
                 params={[threshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
                 tx={api.tx.council.propose}

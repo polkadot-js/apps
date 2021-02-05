@@ -47,7 +47,7 @@ function CloseBounty ({ index, toggleOpen }: Props): React.ReactElement<Props> |
           <Modal.Column>
             <InputAddress
               filter={members}
-              help={t<string>('Select the council account you wish to use to create a proposal for closing bounty.')}
+              help={t<string>('Select the council member account you wish to use to create a proposal for closing bounty.')}
               label={t<string>('propose with account')}
               onChange={setAccountId}
               type='account'

@@ -157,7 +157,7 @@ export class BountiesPage {
   async assignCuratorButton (): Promise<HTMLElement> {
     this.assertRendered();
 
-    return this.findByText('Assign curator');
+    return this.findByText('Propose curator');
   }
 
   enterProposingAccount (account: string): void {
@@ -291,8 +291,8 @@ export class BountiesPage {
   }
 
   async openAwardBeneficiary (): Promise<void> {
-    await this.clickButton('Award Beneficiary');
-    await this.expectText('This action will award the Beneficiary and close the bounty after a delay.');
+    await this.clickButton('Reward implementer');
+    await this.expectText('This action will reward the Beneficiary and close the bounty after a delay period.');
   }
 
   enterBeneficiary (beneficiary: string): void {
