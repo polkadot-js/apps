@@ -148,7 +148,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
                 key='extendExpiry'
                 onClick={toggleExtendExpiry}
               >
-                {t<string>('Extend Expiry')}
+                {t<string>('Extend expiry')}
               </Menu.Item>
             }
             {showGiveUpCurator &&

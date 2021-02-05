@@ -268,7 +268,7 @@ export class BountiesPage {
 
   async openExtendExpiry (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Extend Expiry');
+    await this.clickButtonByText('Extend expiry');
     await this.expectText('This action will extend expiry time of the selected bounty.');
   }
 
