@@ -35,6 +35,7 @@ import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
 import polkadex from './polkadex';
 import robonomics from './robonomics';
+import snowbridge from './snowbridge';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subdao from './subdao';
@@ -82,6 +83,7 @@ export default {
   plasm,
   'plasm-parachain': plasmParachain,
   robonomics,
+  snowbridge,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
