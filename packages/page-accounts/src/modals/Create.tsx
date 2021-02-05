@@ -337,16 +337,16 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 seed={seed}
                 withLabel
               >
+                <CopyButton
+                  className='copyMoved'
+                  type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
+                  value={seed}
+                />
                 <Dropdown
                   defaultValue={seedType}
                   isButton
                   onChange={_selectSeedType}
                   options={seedOpt.current}
-                />
-                <CopyButton
-                  className='copyMoved'
-                  type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
-                  value={seed}
                 />
               </TextArea>
             </Modal.Column>
@@ -524,10 +524,10 @@ export default React.memo(styled(Create)(({ theme }: ThemeProps) => `
     overflow: visible;
   }
 
-  .copyMoved {
+  .ui--CopyButton.copyMoved {
     position: absolute;
-    right: 9.1rem;
-    top: 1.25rem;
+    right: 9.25rem;
+    top: 1.15rem;
   }
 
   && .TextAreaWithDropdown {
