@@ -160,6 +160,8 @@
   "Unlock the sending account to allow signing of this transaction.": "",
   "Unlock vested amount": "",
   "Upload": "",
+  "Upload & deploy code": "",
+  "Upload & deploy code {{info}}": "",
   "Upload WASM": "",
   "Validators": "",
   "Vote": "",
