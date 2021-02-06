@@ -13,9 +13,11 @@ export default function useFundIndexes (): FundIndex[] {
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
 
   useEffect((): void => {
-    trigger && api.query.crowdloan.funds
-      .keys()
-      .then((indexes) => setIndexes(indexes.map(({ args }) => args[0] as FundIndex)));
+    trigger &&
+      api.query.crowdloan.funds
+        .keys()
+        .then((indexes) => setIndexes(indexes.map(({ args }) => args[0] as FundIndex)))
+        .catch(console.error);
   }, [api, trigger]);
 
   return indexes;
