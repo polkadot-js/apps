@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// and @canvas-ui/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useState } from 'react';

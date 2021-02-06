@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-extrinsics authors & contributors
+// Copyright 2017-2021 @polkadot/app-extrinsics authors & contributors
+// and @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useApi } from '@canvas-ui/react-hooks';

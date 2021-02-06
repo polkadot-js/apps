@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-settings authors & contributors
+// Copyright 2017-2021 @polkadot/app-settings authors & contributors
+// and @canvas-ui/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { createEndpoints } from '@canvas-ui/apps-config/settings';

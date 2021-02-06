@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// and @canvas-ui/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import Commonwealth from './commonwealth';
