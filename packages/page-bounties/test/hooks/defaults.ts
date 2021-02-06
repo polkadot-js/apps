@@ -4,9 +4,12 @@
 import BN from 'bn.js';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
-import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BlockNumber } from '@polkadot/types/interfaces';
+
+import { BountyApi } from '../../src/hooks';
+
+export const defaultBountyUpdatePeriod = new BN(100000);
 
 export const defaultBountyApi: BountyApi = {
   acceptCurator: jest.fn(),
@@ -14,7 +17,9 @@ export const defaultBountyApi: BountyApi = {
   awardBounty: jest.fn().mockReturnValue('mockAwardExtrinsic'),
   bestNumber: new BN(1) as BlockNumber,
   bounties: [] as DeriveBounties,
+  bountyCuratorDeposit: balanceOf(500000),
   bountyDepositBase: new BN(1),
+  bountyUpdatePeriod: defaultBountyUpdatePeriod,
   bountyValueMinimum: new BN(1),
   claimBounty: jest.fn(),
   closeBounty: jest.fn().mockReturnValue({ length: 4 }),
@@ -26,17 +31,9 @@ export const defaultBountyApi: BountyApi = {
   unassignCurator: jest.fn().mockReturnValue('mockUnassignExtrinsic')
 };
 
-export const defaultBalance = balanceOf(1);
+const defaultBalance = balanceOf(1);
 
-export const defaultTreasury = {
-  burn: new BN(1),
-  spendPeriod: new BN(0),
-  value: balanceOf(1)
+export const mockBountyHooks = {
+  balance: defaultBalance,
+  bountyApi: defaultBountyApi
 };
-
-export const alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-export const bob = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
-export const ferdie = '5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL';
-export const defaultCurator = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
-
-export const defaultMembers = { isMember: true, members: [alice, bob, ferdie] };

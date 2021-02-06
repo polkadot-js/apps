@@ -7,30 +7,28 @@ import BN from 'bn.js';
 
 import { BN_ZERO } from '@polkadot/util';
 
-import { UnassignCuratorAction, UserRole } from '../types';
+import { UserRole, ValidUnassignCuratorAction } from '../types';
 
-export function determineUnassignCuratorAction (role: UserRole, status: BountyStatus, blocksUntilUpdate?: BN): UnassignCuratorAction {
-  if (status.isCuratorProposed && role === 'Member') {
-    return 'UnassignCurator';
+export function determineUnassignCuratorAction (roles: UserRole[], status: BountyStatus, blocksUntilUpdate?: BN): ValidUnassignCuratorAction[] {
+  const actions: ValidUnassignCuratorAction[] = [];
+
+  if (status.isCuratorProposed && roles.includes('Member')) {
+    actions.push('UnassignCurator');
   }
 
   if (status.isActive) {
-    if (role === 'Curator') {
-      return 'GiveUp';
+    if (roles.includes('Member')) {
+      actions.push('SlashCuratorMotion');
     }
 
-    if (role === 'Member') {
-      return 'SlashCuratorMotion';
-    }
-
-    if (role === 'User' && blocksUntilUpdate && blocksUntilUpdate.lt(BN_ZERO)) {
-      return 'SlashCuratorAction';
+    if (roles.includes('User') && blocksUntilUpdate && blocksUntilUpdate.lt(BN_ZERO)) {
+      actions.push('SlashCuratorAction');
     }
   }
 
-  if (status.isPendingPayout && role === 'Member') {
-    return 'SlashCuratorMotion';
+  if (status.isPendingPayout && roles.includes('Member')) {
+    actions.push('SlashCuratorMotion');
   }
 
-  return 'None';
+  return actions;
 }

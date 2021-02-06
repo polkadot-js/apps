@@ -22,7 +22,8 @@ interface Props {
   onClose: () => void;
 }
 
-const AVAIL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+// new Array(20).fill(0).map((_, index) => index)
+export const AVAIL_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 // query the ledger for the address, adding it to the keyring
 async function queryLedger (api: ApiPromise, getLedger: () => Ledger, name: string, accountOffset: number, addressOffset: number): Promise<void> {
@@ -46,12 +47,12 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [isBusy, setIsBusy] = useState(false);
 
-  const accOps = useRef(AVAIL.map((value): Option => ({
+  const accOps = useRef(AVAIL_INDEXES.map((value): Option => ({
     text: t('Account type {{index}}', { replace: { index: value } }),
     value
   })));
 
-  const addOps = useRef(AVAIL.map((value): Option => ({
+  const addOps = useRef(AVAIL_INDEXES.map((value): Option => ({
     text: t('Address index {{index}}', { replace: { index: value } }),
     value
   })));

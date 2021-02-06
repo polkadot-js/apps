@@ -1,5 +1,50 @@
 # CHANGELOG
 
+## 0.78.1 Feb 1, 2021
+
+Contributed:
+
+- Adjust zh i18n translations (Thanks to https://github.com/zhangjun725)
+- Adjust settings metadata view for consistency (Thanks to https://github.com/jhonalino)
+- Use PolkaBTC definitions from vendor (Thanks to https://github.com/savudani8)
+- Upgrade Moonbeam vendor definitions (Thanks to https://github.com/joelamouche)
+- Crust Maxwell type upgrades (Thanks to https://github.com/zikunfan)
+- Expand network coverage for Patract Elara (Thanks to https://github.com/toxotguo)
+- Added ChainX endpoints & logo (thanks to https://github.com/qinghuan-chain)
+- Add Ares Rococo relay endpoints (Thanks to https://github.com/jiyilanzhou)
+- Adjust Rococo types for Plasm (Thanks to https://github.com/akru)
+- Add Rococo Ares parachain (https://github.com/jiyilanzhou)
+- Add Rococo PolkaBTC endpoint (Thanks to https://github.com/savudani8)
+- Add Rococo Hydrate parachain (thanks to https://github.com/lumir-mrkva)
+- Adjust Darwinia for new chain properties (Thanks to https://github.com/WoeOm)
+- Adjust Kilt on Rococo (Thanks to https://github.com/wischli)
+- Add Rococo Datahighway parachain (Thanks to https://github.com/cgroeschel)
+- Add Rococo IntegriTEE parachain (Thanks to https://github.com/brenzi)
+- Add Rococo Zenlink parachain (Thanks to https://github.com/Hayden0323)
+- Add Rococo & test Clover chains (Thanks to https://github.com/superpw)
+- Add slash creator action to bounties (Thanks to https://github.com/MiZiet)
+- Add award action to bounties (Thanks to https://github.com/MiZiet)
+- Use `utility.batch` in bounty test script (Thanks to https://github.com/MiZiet)
+- Display bounty id (Thanks to https://github.com/MiZiet)
+- Hide unhappy bounty actions (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Additional check for `isEditable` to make network swap available (i.e. non-injected only)
+- Allow for the addition of account name when adding Ledger
+- Adjust staking rendering for incremental display (instead of waiting for all)
+- Ensure `InputAddress` only returns filtered/available values
+- Explicit warnings on inactive staking (when none are active)
+- Allow for state app to operate without accounts
+- Adjust badges for non-specific and development accounts (including tooltips)
+- Adjust `ChainImg` to not fallback on current selected
+- Adjust Rococo proposal displays (align with new types)
+- Display parachain logo alongside parachain links
+- Update Rococo genesisHash
+- Bump Edgeware definitions
+- Bump Rococo definitions
+
+
 ## 0.77.1 Jan 25, 2021
 
 Contributed:

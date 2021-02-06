@@ -8,15 +8,17 @@ import React, { useMemo, useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
-  curatorId: AccountId
+  curatorId: AccountId;
+  description: string;
   index: BountyIndex;
 }
 
-function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | null {
+function AwardBounty ({ curatorId, description, index }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { awardBounty } = useBounties();
   const { allAccounts } = useAccounts();
@@ -30,23 +32,23 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
         <Button
           icon='award'
           isDisabled={false}
-          label={t<string>('Award Beneficiary')}
+          label={t<string>('Reward implementer')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={t<string>('award bounty')}
+            header={`${t<string>('award bounty')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
               <Modal.Column>
-                <p>{t<string>('This action will award the Beneficiary and close the bounty after a delay.')}</p>
+                <p>{t<string>('This action will reward the Beneficiary and close the bounty after a delay period.')}</p>
               </Modal.Column>
               <Modal.Columns>
                 <Modal.Column>
                   <InputAddress
                     defaultValue={curatorId}
-                    help={t<string>("Curator's account that will award a bounty to the Beneficiary.")}
+                    help={t<string>("Curator's account that will reward the bounty to the implementer.")}
                     isDisabled={true}
                     label={t<string>('award with account')}
                     type='account'
@@ -61,14 +63,13 @@ function AwardBounty ({ curatorId, index }: Props): React.ReactElement<Props> | 
                 <Modal.Column>
                   <InputAddress
                     help={t<string>('Choose the Beneficiary for this bounty.')}
-                    label={t<string>('beneficiary account')}
+                    label={t<string>('implementer account')}
                     onChange={setBeneficiaryId}
-                    type='account'
                     withLabel
                   />
                 </Modal.Column>
                 <Modal.Column>
-                  <p>{t<string>('Award bounty to a beneficiary account. The beneficiary will be able to claim the funds after a delay.')}</p>
+                  <p>{t<string>("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Modal.Content>

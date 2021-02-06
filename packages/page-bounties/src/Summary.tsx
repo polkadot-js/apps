@@ -3,12 +3,13 @@
 
 import React from 'react';
 
-import { useBounties } from '@polkadot/app-bounties/hooks';
-import { useTranslation } from '@polkadot/app-treasury/translate';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import Progress from '@polkadot/react-components/Progress';
 import { useTreasury } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+
+import { useBounties } from './hooks';
+import { useTranslation } from './translate';
 
 interface Props {
   activeBounties?: number;
@@ -19,7 +20,7 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
   const { t } = useTranslation();
   const { bestNumber, bountyIndex } = useBounties();
 
-  const { burn, spendPeriod, value } = useTreasury();
+  const { spendPeriod, value } = useTreasury();
 
   return (
     <SummaryBox className={`ui--BountySummary ${className}`}>
@@ -32,14 +33,6 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
             {bountyIndex?.subn(activeBounties).toString()}
           </CardSummary>
         )}
-        {bestNumber && spendPeriod.gtn(0) && (
-          <CardSummary label={t<string>('next bounty funding in')}>
-            <BlockToTime
-              blocks={spendPeriod.sub(bestNumber.mod(spendPeriod))}
-              className='timer'
-            />
-          </CardSummary>
-        )}
       </section>
       <section>
         {value && (
@@ -50,13 +43,11 @@ function Summary ({ activeBounties, className = '' }: Props): React.ReactElement
             />
           </CardSummary>
         )}
-        {burn && (
-          <CardSummary
-            label={t<string>('next burn')}
-          >
-            <FormatBalance
-              value={burn}
-              withSi
+        {bestNumber && spendPeriod.gtn(0) && (
+          <CardSummary label={t<string>('next bounty funding in')}>
+            <BlockToTime
+              blocks={spendPeriod.sub(bestNumber.mod(spendPeriod))}
+              className='timer'
             />
           </CardSummary>
         )}

@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputBalance, MarkWarning, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_HUNDRED, BN_MILLION } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -23,7 +24,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const hasValue = value?.gtn(0);
 
   const bondPercentage = useMemo(
-    () => `${api.consts.treasury.proposalBond.muln(100).divn(1_000_000).toNumber().toFixed(2)}%`,
+    () => `${api.consts.treasury.proposalBond.mul(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%`,
     [api]
   );
 

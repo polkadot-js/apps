@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
-import { Badge } from '@polkadot/react-components';
+import { Badge, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
-import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BlockToTime } from '@polkadot/react-query';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
-import { getChainLink, sliceHex } from '../util';
+import { sliceHex } from '../util';
 
 interface Props {
   bestNumber?: BN;
@@ -65,9 +65,8 @@ const optionsMulti = {
 
 function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const { api: paraApi, endpoints } = useParaApi(id);
-  const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
-  const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
+  const { api: paraApi } = useParaApi(id);
+  const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
@@ -82,17 +81,12 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   const blockDelay = useMemo(
     () => bestNumber && (
       lastRelayNumber
-        ? bestNumber.sub(lastRelayNumber).subn(1)
+        ? bestNumber.sub(lastRelayNumber).isub(BN_ONE)
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined
     ),
     [bestNumber, lastRelayNumber, paraInfo]
-  );
-
-  const chainLink = useMemo(
-    () => getChainLink(endpoints),
-    [endpoints]
   );
 
   return (
@@ -104,7 +98,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
           icon='clock'
         />
       )}</td>
-      <td className='badge together'>{chainLink}</td>
+      <td className='badge together'><ParaLink id={id} /></td>
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
@@ -119,7 +113,6 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
         }
       </td>
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
-      <td className='number media--1100'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
       <td className='number media--1300'>
         {paraInfo.updateAt && bestNumber && (
           <>

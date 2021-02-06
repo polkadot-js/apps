@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { formatNumber } from '@polkadot/util';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
 function isSingle (entry: BN | [BN, BN]): entry is BN {
   return !Array.isArray(entry);
@@ -24,13 +24,13 @@ export function createErasString (eras: BN[]): React.ReactNode {
         const last = result[result.length - 1];
 
         if (isSingle(last)) {
-          if (last.addn(1).eq(era)) {
+          if (last.add(BN_ONE).eq(era)) {
             result[result.length - 1] = [last, era];
           } else {
             result.push(era);
           }
         } else {
-          if (last[1].addn(1).eq(era)) {
+          if (last[1].add(BN_ONE).eq(era)) {
             last[1] = era;
           } else {
             result.push(era);
