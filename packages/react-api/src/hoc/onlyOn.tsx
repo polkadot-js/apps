@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// and @canvas-ui/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentType } from 'react';

@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/react-query authors & contributors
+// Copyright 2017-2021 @polkadot/react-query authors & contributors
+// and @canvas-ui/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useApi } from '@canvas-ui/react-hooks';
