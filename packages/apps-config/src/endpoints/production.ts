@@ -105,7 +105,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-        "Galactic Council": 'wss://rpc-02.snakenet.hydradx.io'
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io'
       }
     },
     {
