@@ -44,6 +44,29 @@ function Upload ({ onClose }: Props): React.ReactElement {
     [api, contractAbi, isAbiValid, isWasmValid, wasm]
   );
 
+  const constructOptions = useMemo(
+    () => contractAbi
+      ? contractAbi.constructors.map((message, index) => ({
+        info: message.identifier,
+        key: `${index}`,
+        text: (
+          <MessageSignature
+            asConstructor
+            message={message}
+          />
+        ),
+        value: index
+      }))
+      : [],
+    [contractAbi]
+  );
+
+  useEffect((): void => {
+    setConstructorIndex(() =>
+      constructOptions.find(({ info }) => info === 'default')?.value || 0
+    );
+  }, [constructOptions]);
+
   useEffect((): void => {
     setParams([]);
   }, [constructorIndex]);
@@ -73,22 +96,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
     setUploadTx(() => contract);
   }, [code, contractAbi, constructorIndex, endowment, params, weight]);
-
-  const constructOptions = useMemo(
-    () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
-        key: `${index}`,
-        text: (
-          <MessageSignature
-            asConstructor
-            message={message}
-          />
-        ),
-        value: index
-      }))
-      : [],
-    [contractAbi]
-  );
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {

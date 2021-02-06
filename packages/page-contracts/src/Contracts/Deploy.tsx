@@ -61,6 +61,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const constructOptions = useMemo(
     () => contractAbi
       ? contractAbi.constructors.map((message, index) => ({
+        info: message.identifier,
         key: `${index}`,
         text: (
           <MessageSignature
