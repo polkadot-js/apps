@@ -16,7 +16,6 @@ import ContractAdd from '../Contracts/Add';
 import ContractsTable from '../Contracts/ContractsTable';
 import store from '../store';
 import { useTranslation } from '../translate';
-import Banner from './Banner';
 import Deploy from './Deploy';
 import Summary from './Summary';
 
@@ -71,7 +70,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='plus'
-          label={t('Upload WASM')}
+          label={t('Upload & deploy code')}
           onClick={toggleUpload}
         />
         <Button
@@ -85,7 +84,6 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
           onClick={toggleAdd}
         />
       </Button.Group>
-      <Banner />
       <ContractsTable
         contracts={allContracts}
         updated={updated}
