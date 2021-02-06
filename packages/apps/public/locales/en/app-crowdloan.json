@@ -1,0 +1,21 @@
+{
+  "Add campaign": "Add campaign",
+  "No campaigns found": "No campaigns found",
+  "Overview": "Overview",
+  "The amount to be raised in this funding campaign": "The amount to be raised in this funding campaign",
+  "The block until which this campaign is active for": "The block until which this campaign is active for",
+  "The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first": "The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first",
+  "The parachain id this campaign refers to": "The parachain id this campaign refers to",
+  "This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.": "This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.",
+  "campaigns": "campaigns",
+  "cap": "cap",
+  "crowdfund cap": "crowdfund cap",
+  "end": "end",
+  "ending block": "ending block",
+  "first slot": "first slot",
+  "funds": "funds",
+  "last slot": "last slot",
+  "parachain id": "parachain id",
+  "propose from": "propose from",
+  "raised": "raised"
+}
