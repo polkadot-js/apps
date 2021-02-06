@@ -15,6 +15,7 @@ export { useCallMulti } from './useCallMulti';
 export { useContracts } from './useContracts';
 export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
+export { useEventTrigger } from './useEventTrigger';
 export { useFavorites } from './useFavorites';
 export { useIncrement } from './useIncrement';
 export { calcInflation, useInflation } from './useInflation';
