@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { EventRecord, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
+import type { ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
 import type { ProposalExt, Proposals, ScheduledProposals } from '../types';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useCall, useCallMulti, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall, useCallMulti, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
 
-type MultiQuery = [EventRecord[], SessionIndex | undefined, ParaId[] | undefined];
+type MultiQuery = [SessionIndex | undefined, ParaId[] | undefined];
 
 function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
   return {
@@ -25,33 +25,18 @@ function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], propos
 }
 
 const optionsMulti = {
-  defaultValue: [[], undefined, undefined] as MultiQuery,
-  transform: ([records, sessionIndex, approvedIds]: [EventRecord[], SessionIndex, ParaId[] | undefined]): MultiQuery => [
-    records.filter(({ event, phase }) => phase?.isApplyExtrinsic && event?.section === 'proposeParachain'),
-    sessionIndex,
-    approvedIds
-  ]
+  defaultValue: [undefined, undefined] as MultiQuery
 };
 
 export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
-  const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Proposals | undefined>();
-  const [trigger, setTrigger] = useState(() => Date.now());
-  const [events, sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
-    api.query.system.events,
+  const mountedRef = useIsMountedRef();
+  const trigger = useEventTrigger(['proposeParachain']);
+  const [sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.session.currentIndex,
     api.query.proposeParachain?.approvedProposals
   ], optionsMulti);
-
-  // trigger on any proposeParachain events
-  useEffect((): void => {
-    mountedRef.current && events && setTrigger((trigger) =>
-      events.length
-        ? Date.now()
-        : trigger
-    );
-  }, [events, mountedRef]);
 
   // re-get all our entries in the list
   useEffect((): void => {
