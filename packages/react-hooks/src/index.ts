@@ -35,6 +35,7 @@ export { useParaEndpoints } from './useParaEndpoints';
 export { usePassword } from './usePassword';
 export { useRegistrars } from './useRegistrars';
 export { useSavedFlags } from './useSavedFlags';
+export { useStepper } from './useStepper';
 export { useSudo } from './useSudo';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';

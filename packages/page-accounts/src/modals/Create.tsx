@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { getEnvironment } from '@polkadot/react-api/util';
 import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
-import { useApi, useLedger } from '@polkadot/react-hooks';
+import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -199,7 +199,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const { isLedgerEnabled } = useLedger();
   const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
-  const [step, setStep] = useState(1);
+  const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
@@ -268,15 +268,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     setIsMnemonicSaved(!isMnemonicSaved);
   };
 
-  const _nextStep = useCallback(
-    () => setStep((step) => step + 1),
-    []
-  );
-
-  const _previousStep = useCallback(
-    () => setStep((step) => step - 1),
-    []
-  );
   const _onCommit = useCallback(
     (): void => {
       if (!isValid) {
@@ -480,7 +471,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             icon='step-forward'
             isDisabled={!isFirstStepValid}
             label={t<string>('Next')}
-            onClick={_nextStep}
+            onClick={nextStep}
           />
         }
         {step === 2 && (
@@ -488,13 +479,13 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <Button
               icon='step-backward'
               label={t<string>('Prev')}
-              onClick={_previousStep}
+              onClick={prevStep}
             />
             <Button
               icon='step-forward'
               isDisabled={!isSecondStepValid}
               label={t<string>('Next')}
-              onClick={_nextStep}
+              onClick={nextStep}
             />
           </>
         )}
@@ -503,7 +494,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <Button
               icon='step-backward'
               label={t<string>('Prev')}
-              onClick={_previousStep}
+              onClick={prevStep}
             />
             <Button
               icon='plus'
