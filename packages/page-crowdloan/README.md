@@ -1,1 +1,1 @@
-# @polkadot/app-poll
+# @polkadot/app-crowdloan
