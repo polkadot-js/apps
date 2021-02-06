@@ -10,7 +10,7 @@ import { useApi, useEventTrigger } from '@polkadot/react-hooks';
 export default function useFundIndexes (): FundIndex[] {
   const { api } = useApi();
   const [indexes, setIndexes] = useState<FundIndex[]>([]);
-  const trigger = useEventTrigger([api.events.crowdloan?.Created]);
+  const trigger = useEventTrigger([api.events.crowdloan.Created]);
 
   useEffect((): void => {
     trigger &&

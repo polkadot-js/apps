@@ -148,7 +148,7 @@ function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, 
   ];
 }
 
-function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] {
+function getValuesFromBn (valueBn: BN, si: SiDef | null, isZeroable: boolean): [string, BN, boolean] {
   const value = si
     ? valueBn.div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals + si.power))).toString()
     : valueBn.toString();
@@ -156,13 +156,13 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] 
   return [
     value,
     valueBn,
-    true
+    isZeroable ? true : valueBn.gt(BN_ZERO)
   ];
 }
 
 function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isZeroable: boolean, maxValue?: BN): [string, BN, boolean] {
   return isBn(value)
-    ? getValuesFromBn(value, si)
+    ? getValuesFromBn(value, si, isZeroable)
     : getValuesFromString(api, value, si, bitLength, isZeroable, maxValue);
 }
 

@@ -8,12 +8,13 @@ import type { FundIndex, FundInfo } from '@polkadot/types/interfaces';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { useApi, useCallMulti } from '@polkadot/react-hooks';
 
 import Fund from './Fund';
 import { useTranslation } from './translate';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
   fundIndexes: FundIndex[];
 }
@@ -23,10 +24,9 @@ interface Fund {
   info: FundInfo;
 }
 
-function Funds ({ className, fundIndexes }: Props): React.ReactElement<Props> {
+function Funds ({ bestNumber, className, fundIndexes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
   const optFunds = useCallMulti<Option<FundInfo>[]>(fundIndexes.map((id) => [api.query.crowdloan.funds, id]));
   const [funds, setFunds] = useState<Fund[] | undefined>();
 
