@@ -8,12 +8,12 @@ import type { Codec } from '@polkadot/types/types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
-import { Badge } from '@polkadot/react-components';
+import { Badge, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
-import { getChainLink, sliceHex } from '../util';
+import { sliceHex } from '../util';
 
 interface Props {
   bestNumber?: BN;
@@ -65,7 +65,7 @@ const optionsMulti = {
 
 function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const { api: paraApi, endpoints } = useParaApi(id);
+  const { api: paraApi } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
   const paraInfo = useCallMulti<QueryState>([
@@ -89,11 +89,6 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
     [bestNumber, lastRelayNumber, paraInfo]
   );
 
-  const chainLink = useMemo(
-    () => getChainLink(endpoints),
-    [endpoints]
-  );
-
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
@@ -103,7 +98,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
           icon='clock'
         />
       )}</td>
-      <td className='badge together'>{chainLink}</td>
+      <td className='badge together'><ParaLink id={id} /></td>
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>

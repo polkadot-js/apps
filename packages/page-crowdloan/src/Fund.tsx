@@ -6,7 +6,7 @@ import type { FundIndex, FundInfo } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, ParaLink } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -17,12 +17,13 @@ interface Props {
   info: FundInfo;
 }
 
-function Fund ({ bestNumber, className, id, info: { cap, end, owner, raised } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, info: { cap, end, owner, parachain, raised } }: Props): React.ReactElement<Props> {
   const remaining = useMemo(() => bestNumber && end.sub(bestNumber), [bestNumber, end]);
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{id}</h1></td>
+      <td className='number'><h1>{parachain}</h1></td>
+      <td><ParaLink id={parachain} /></td>
       <td className='address'><AddressMini value={owner} /></td>
       <td className='number'><FormatBalance value={raised} /></td>
       <td className='number'><FormatBalance value={cap} /></td>
