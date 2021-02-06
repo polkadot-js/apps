@@ -48,9 +48,9 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
-    SlashCuratorAction: t('Slash Curator'),
-    SlashCuratorMotion: t('Slash Curator (Council)'),
-    UnassignCurator: t('Unassign Curator')
+    SlashCuratorAction: t('Slash curator'),
+    SlashCuratorMotion: t('Slash curator (Council)'),
+    UnassignCurator: t('Unassign curator')
   });
 
   const existingCloseBountyProposal = useMemo(() => proposals?.find(({ proposal }) => proposal.method === 'closeBounty'), [proposals]);
@@ -74,6 +74,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
       <div className={className}>
         {isCloseBountyOpen &&
           <CloseBounty
+            description={description}
             index={index}
             toggleOpen={toggleCloseBounty}
           />
@@ -81,6 +82,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         {isRejectCuratorOpen && curator &&
           <BountyRejectCurator
             curatorId={curator}
+            description={description}
             index={index}
             toggleOpen={toggleRejectCurator}
           />
@@ -96,6 +98,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         {isGiveUpCuratorOpen && curator &&
           <GiveUp
             curatorId={curator}
+            description={description}
             index={index}
             toggleOpen={toggleGiveUpCurator}
           />
@@ -140,7 +143,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
                 key='rejectCurator'
                 onClick={toggleRejectCurator}
               >
-                {t<string>('Reject Curator')}
+                {t<string>('Reject curator')}
               </Menu.Item>
             }
             {showExtendExpiry &&
@@ -148,7 +151,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
                 key='extendExpiry'
                 onClick={toggleExtendExpiry}
               >
-                {t<string>('Extend Expiry')}
+                {t<string>('Extend expiry')}
               </Menu.Item>
             }
             {showGiveUpCurator &&
@@ -156,7 +159,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
                 key='giveUpCurator'
                 onClick={toggleGiveUpCurator}
               >
-                {t<string>('Give Up')}
+                {t<string>('Give up')}
               </Menu.Item>
             }
             {showSlashCurator && availableSlashActions.map((actionName) =>

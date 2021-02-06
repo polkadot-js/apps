@@ -16,7 +16,6 @@ interface Props {
   className?: string;
   isMember: boolean;
   members: string[];
-  onRespond: () => void;
   proposal: DeriveTreasuryProposal;
   withSend: boolean;
 }
