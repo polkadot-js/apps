@@ -10,6 +10,7 @@ import { CodePromise } from '@polkadot/api-contract';
 import { Dropdown, InputAddress, InputBalance, InputFile, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
+import { keyring } from '@polkadot/ui-keyring';
 import { isNull, isWasm } from '@polkadot/util';
 
 import { ENDOWMENT } from '../constants';
@@ -44,14 +45,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
   );
 
   useEffect((): void => {
-    setUploadTx(() =>
-      code && contractAbi && endowment
-        ? code.createContract(constructorIndex, { gasLimit: weight.weight, value: endowment }, params)
-        : null
-    );
-  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
-
-  useEffect((): void => {
     setParams([]);
   }, [constructorIndex]);
 
@@ -66,6 +59,20 @@ function Upload ({ onClose }: Props): React.ReactElement {
   useEffect((): void => {
     abiName && setName(abiName);
   }, [abiName, setName]);
+
+  useEffect((): void => {
+    let contract: SubmittableExtrinsic<'promise'> | null = null;
+
+    try {
+      contract = code && contractAbi && endowment
+        ? code.createContract(constructorIndex, { gasLimit: weight.weight, value: endowment }, params)
+        : null;
+    } catch (error) {
+      // ignore, is null
+    }
+
+    setUploadTx(() => contract);
+  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
 
   const constructOptions = useMemo(
     () => contractAbi
@@ -96,12 +103,20 @@ function Upload ({ onClose }: Props): React.ReactElement {
       result.blueprint && store
         .saveCode(result.blueprint.codeHash, {
           abi: JSON.stringify(result.blueprint.abi.json),
-          name: name || '<unknown>',
+          name: name || '<>',
           tags: []
         })
         .catch(console.error);
+      result.contract && keyring.saveContract(result.contract.address.toString(), {
+        contract: {
+          abi: JSON.stringify(result.contract.abi.json),
+          genesisHash: api.genesisHash.toHex()
+        },
+        name: name || '<>',
+        tags: []
+      });
     },
-    [name]
+    [api, name]
   );
 
   const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid && !!uploadTx;
