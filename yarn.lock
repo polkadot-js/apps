@@ -2811,7 +2811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/wasm-crypto@npm:^3.2.1":
+"@polkadot/wasm-crypto@npm:^3.2.2":
   version: 3.2.2
   resolution: "@polkadot/wasm-crypto@npm:3.2.2"
   dependencies:
