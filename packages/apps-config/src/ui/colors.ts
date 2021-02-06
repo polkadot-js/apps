@@ -36,6 +36,7 @@ const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
+const chainSnakenet = '#F653A2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -89,6 +90,7 @@ export const chainColors: Record<string, any> = [
   ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
+  ['HydraDX Snakenet', chainSnakenet],
   ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
   ['Jupiter Testnet', chainJupiter],

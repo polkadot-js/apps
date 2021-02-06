@@ -69,6 +69,7 @@ export default {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   'hack-hydra-dx': hydrate,
+  'hydra-dx': hydrate,
   hanonycash,
   idavoll: idavoll,
   'integritee-parachain': integritee,

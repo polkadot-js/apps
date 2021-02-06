@@ -33,6 +33,7 @@
   "rpc.header.live": "Live networks",
   "rpc.header.test": "Test networks",
   "rpc.hosted.by": "hosted by {{host}}",
+  "rpc.hydra": "HydraDX",
   "rpc.jupiter": "Jupiter",
   "rpc.kilt": "Mashnet",
   "rpc.kulupu": "Kulupu",
