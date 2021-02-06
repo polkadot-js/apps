@@ -31,7 +31,7 @@ function Funds ({ bestNumber, className, fundIndexes }: Props): React.ReactEleme
   const [funds, setFunds] = useState<Fund[] | undefined>();
 
   const headerRef = useRef([
-    [t('campaigns'), 'start', 2],
+    [t('campaigns'), 'start', 3],
     [t('raised'), 'number'],
     [t('cap'), 'number'],
     [t('end'), 'number']

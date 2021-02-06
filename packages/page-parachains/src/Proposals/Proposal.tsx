@@ -6,13 +6,13 @@ import type { ScheduledProposals } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useParaEndpoints, useSudo } from '@polkadot/react-hooks';
+import { AddressMini, AddressSmall, Badge, ParaLink, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { getChainLink, sliceHex } from '../util';
+import { sliceHex } from '../util';
 import { useProposal } from './useProposals';
 
 interface Props {
@@ -27,12 +27,6 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   const { allAccounts } = useAccounts();
   const { hasSudoKey, sudoKey } = useSudo();
   const proposal = useProposal(id, approvedIds, scheduled);
-  const endpoints = useParaEndpoints(id);
-
-  const chainLink = useMemo(
-    () => getChainLink(endpoints),
-    [endpoints]
-  );
 
   const cancelTx = useMemo(
     () => api.tx.sudo && hasSudoKey
@@ -64,7 +58,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           />
         )}
       </td>
-      <td className='badge together'>{chainLink}</td>
+      <td className='badge together'><ParaLink id={id} /></td>
       <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
       <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
       <td className='number media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>

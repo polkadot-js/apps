@@ -71,6 +71,7 @@ export { default as Nonce } from './Nonce';
 export { default as Output } from './Output';
 export { default as Password } from './Password';
 export { default as PasswordStrength } from './PasswordStrength';
+export { default as ParaLink } from './ParaLink';
 export { default as Popup } from './Popup';
 export { default as Progress } from './Progress';
 export { default as ProposedAction } from './ProposedAction';
