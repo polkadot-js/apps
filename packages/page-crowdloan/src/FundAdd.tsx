@@ -56,7 +56,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                 />
               </Modal.Column>
               <Modal.Column>
-                {t<string>('This account will be associated with the fund and pay the deposit. Ensure to use an named accounts for identification.')}
+                {t<string>('This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.')}
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
