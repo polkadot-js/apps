@@ -70,6 +70,7 @@ export default {
   'encointer-parachain': encointerPara,
   'hack-hydra-dx': hydrate,
   hanonycash,
+  'hydra-dx': hydrate,
   idavoll: idavoll,
   'integritee-parachain': integritee,
   jupiter,

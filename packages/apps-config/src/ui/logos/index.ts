@@ -14,6 +14,7 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
+import chainSnakenet from './chains/snakenet.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
@@ -79,6 +80,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Dusty', chainDusty],
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
+  ['HydraDX Snakenet', chainSnakenet],
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
@@ -231,6 +233,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoZenlink: nodeZenlink,
+  snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
