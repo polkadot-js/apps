@@ -7,15 +7,17 @@ import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CodePromise } from '@polkadot/api-contract';
-import { InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
-import { useAccountId, useApi, useNonEmptyString } from '@polkadot/react-hooks';
+import { Dropdown, InputAddress, InputBalance, InputFile, Modal, TxButton } from '@polkadot/react-components';
+import { useAccountId, useApi, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { isNull, isWasm } from '@polkadot/util';
 
-import { ABI, InputName } from '../shared';
+import { ENDOWMENT } from '../constants';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
+import useWeight from '../useWeight';
 
 interface Props {
   onClose: () => void;
@@ -26,9 +28,13 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const { api } = useApi();
   const [accountId, setAccountId] = useAccountId();
   const [uploadTx, setUploadTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [constructorIndex, setConstructorIndex] = useState(0);
+  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
+  const [params, setParams] = useState<any[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const weight = useWeight();
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
@@ -38,8 +44,16 @@ function Upload ({ onClose }: Props): React.ReactElement {
   );
 
   useEffect((): void => {
-    setUploadTx(() => code ? code.createBlueprint() : null);
-  }, [code]);
+    setUploadTx(() =>
+      code && contractAbi && endowment
+        ? code.createContract(constructorIndex, { gasLimit: weight.weight, value: endowment }, params)
+        : null
+    );
+  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
+
+  useEffect((): void => {
+    setParams([]);
+  }, [constructorIndex]);
 
   useEffect((): void => {
     setWasm(
@@ -52,6 +66,22 @@ function Upload ({ onClose }: Props): React.ReactElement {
   useEffect((): void => {
     abiName && setName(abiName);
   }, [abiName, setName]);
+
+  const constructOptions = useMemo(
+    () => contractAbi
+      ? contractAbi.constructors.map((message, index) => ({
+        key: `${index}`,
+        text: (
+          <MessageSignature
+            asConstructor
+            message={message}
+          />
+        ),
+        value: index
+      }))
+      : [],
+    [contractAbi]
+  );
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -125,6 +155,34 @@ function Upload ({ onClose }: Props): React.ReactElement {
               onChange={setName}
               value={name || undefined}
             />
+            {isWasmValid && (
+              <>
+                <Dropdown
+                  help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
+                  isDisabled={contractAbi.constructors.length <= 1}
+                  label={t('deployment constructor')}
+                  onChange={setConstructorIndex}
+                  options={constructOptions}
+                  value={constructorIndex}
+                />
+                <Params
+                  onChange={setParams}
+                  params={contractAbi.constructors[constructorIndex].args}
+                  registry={contractAbi.registry}
+                />
+                <InputBalance
+                  help={t<string>('The allotted endowment for the deployed contract, i.e. the amount transferred to the contract upon instantiation.')}
+                  isError={!isEndowmentValid}
+                  label={t<string>('endowment')}
+                  onChange={setEndowment}
+                  value={endowment}
+                />
+                <InputMegaGas
+                  help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+                  weight={weight}
+                />
+              </>
+            )}
           </>
         )}
       </Modal.Content>

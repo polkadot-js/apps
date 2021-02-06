@@ -71,7 +71,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='plus'
-          label={t('Upload WASM')}
+          label={t('Upload WASM & Deploy')}
           onClick={toggleUpload}
         />
         <Button
