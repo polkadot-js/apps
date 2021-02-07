@@ -232,6 +232,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         Uniarts: 'wss://testnet.uniarts.me'
       }
+    },
+    {
+      info: 'dotmog',
+      text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
+      providers: {
+        DOTMog: 'wss://node01.dotmog.com'
+      }
     }
   ]);
 }
