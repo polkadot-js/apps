@@ -14,6 +14,15 @@ export default {
     price: 'Balance',
     gen: 'u64'
   },
+  MogwaiBios: {
+    mogwai_id: 'Hash',
+    state: 'u32',
+    metaxy: 'Vec<[u8;16]>',
+    intrinsic: 'Balance',
+    level: 'u8',
+    phases: 'Vec<BlockNumber>',
+    adaptations: 'Vec<Hash>'
+  },
   GameEvent: {
     id: 'Hash',
     begin: 'BlockNumber',
