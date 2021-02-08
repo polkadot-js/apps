@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { LedgerTypes } from '@polkadot/hw-ledger/types';
+import type { Network } from '@polkadot/networks/types';
 
 import { useCallback, useMemo } from 'react';
 
@@ -22,14 +23,18 @@ interface State extends StateBase {
   getLedger: () => Ledger;
 }
 
+interface NetworkNamed extends Network {
+  network: string;
+}
+
 const EMPTY_STATE: StateBase = {
   isLedgerCapable: false,
   isLedgerEnabled: false
 };
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
+const ledgerChains = networks.filter((n): n is NetworkNamed => !!(n.hasLedgerSupport && n.network));
 let ledger: Ledger | null = null;
-const ledgerChains = networks.filter((network) => network.hasLedgerSupport);
 
 function retrieveLedger (api: ApiPromise): Ledger {
   if (!ledger) {
