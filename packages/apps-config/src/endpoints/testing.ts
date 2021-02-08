@@ -235,9 +235,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'dotmog',
-      text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
+      text: t('rpc.dotmog', 'DOTMog.com', { ns: 'apps-config' }),
       providers: {
-        DOTMog: 'wss://node01.dotmog.com'
+        DOTMog: 'wss://mogiway-01.dotmog.com'
       }
     }
   ]);
