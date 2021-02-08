@@ -124,7 +124,7 @@ export class BountiesPage {
             </ThemeProvider>
           </MemoryRouter>
         </QueueProvider>
-      </Suspense>
+      </Suspense>, { container: document.body }
     );
   }
 
@@ -304,5 +304,14 @@ export class BountiesPage {
 
     fireEvent.change(beneficiaryAccountInput, { target: { value: beneficiary } });
     fireEvent.keyDown(beneficiaryAccountInput, { code: 'Enter', key: 'Enter' });
+  }
+
+  async findVotingDescription (description: string): Promise<void> {
+    this.assertRendered();
+    const votingInfo = await this.findByTestId('voting-description');
+    const icon = await within(votingInfo).findByTestId('question-circle');
+
+    fireEvent.mouseOver(icon);
+    await this.findByText(description);
   }
 }

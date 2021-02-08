@@ -15,7 +15,6 @@ import Description from '../Description';
 import { getProposalToDisplay } from '../helpers/extendedStatuses';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
-import VotingLink from '../Voting/VotingLink';
 import BountyInfo from './BountyInfo';
 import VotingSummary from './VotingSummary';
 
@@ -41,8 +40,7 @@ function BountyInfos ({ beneficiary, blocksUntilUpdate, className, proposals, st
 
   return (
     <div className={className}>
-      {proposalToDisplay && <VotingSummary proposal={proposalToDisplay}/>}
-      {proposalToDisplay && <VotingLink />}
+      {proposalToDisplay && <VotingSummary proposal={proposalToDisplay} status={status}/>}
       {beneficiary && (
         <div>
           <AddressSmall value={beneficiary} />
