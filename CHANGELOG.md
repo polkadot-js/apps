@@ -1,5 +1,47 @@
 # CHANGELOG
 
+## 0.79.1 Feb 8, 2021
+
+Contributed:
+
+- Display Validator/Nominator flags on account sidebar (Thanks to https://github.com/jhonalino)
+- Add ChainX endpoints from Patract Elana (Thanks to https://github.com/toxotguo)
+- Add Ternoa network (Thanks to https://github.com/ETeissonniere)
+- Add Idavoll network (Thanks to https://github.com/jasonberger0)
+- Add SubDAO network (Thanks to https://github.com/chenwei767)
+- Add HydraDX snakenet (Thanks to https://github.com/lumir-mrkva)
+- Update Acala types package (Thanks to https://github.com/ntduan)
+- Update bounty summaries (Thanks to https://github.com/MiZiet)
+- Additional bounties info display (Thanks to https://github.com/MiZiet)
+- Adjust bounties account types in dropdowns (Thanks to https://github.com/MiZiet)
+- Adjust popup display to match theme (Thanks to https://github.com/MiZiet)
+- Adjust bounties texts (Thanks to https://github.com/MiZiet & https://github.com/rrtti)
+- Add curator acceptance modal for bounties (Thanks to https://github.com/ekowalsk)
+- Distinguish slash/assign curator in bounties status (Thanks to https://github.com/ekowalsk)
+- Show bounty date on extend modal (Thanks to https://github.com/ekowalsk)
+- Extract give up curator modal on bounties (Thanks to https://github.com/ekowalsk)
+- Link from bounties to council vote (Thanks to https://github.com/ekowalsk)
+- Refactor bounties tests (Thanks to https://github.com/krzysztof-jelski)
+
+Changes:
+
+- Allow for Ledger-compatible bip32+ed25519 accounts on creation dialog
+- Display overall min. nominated amount on staking targets
+- Warn with check of to-be-bonded against current min nominated
+- Wan on fees dropping below existential to transaction signing dialog
+- Don't display account menus where there are no available items
+- Adjust mnemonic copy location on account creation (no overlaps)
+- Extend contracts to upload & deploy in one step (aligns with newest contract module)
+- Add initial support for the crowdloan module
+- Adjust best head extraction for parachains
+- Adjust extrinsic apps to clear previous errors on creation
+- Ensure calendar works with non-standard schedulers (like in Rococo)
+- Pass registry with `Call` decoding, allowing decoding at that point in time
+- Adjust popup menu dividers to ignore empty sections
+- Don't re-initialize useState, use callbacks for init as applicable
+- Cleanup TypeScript `as any` usages
+
+
 ## 0.78.1 Feb 1, 2021
 
 Contributed:
