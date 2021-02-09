@@ -35,7 +35,7 @@ import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
 import nodeDockTestnet from './nodes/dock-testnet.png';
-import nodeDotMog from './nodes/dotmog.png';
+import nodeDotMog from './nodes/dotmog.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -134,7 +134,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['DataHighway Node', nodeDataHighway],
   ['DataHighway Parachain Collator', nodeDataHighway],
   ['Dock Full Node', nodeDockMainnet],
-  ['DOTMog Full Node', nodeDotMog],
+  ['DOTMog Node', nodeDotMog],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
