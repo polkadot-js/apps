@@ -134,7 +134,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['DataHighway Node', nodeDataHighway],
   ['DataHighway Parachain Collator', nodeDataHighway],
   ['Dock Full Node', nodeDockMainnet],
-  ['DOTMog Full Node', nodeDotMog],
+  ['DOTMog Node', nodeDotMog],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
