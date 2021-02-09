@@ -64,7 +64,7 @@ export default {
   'datahighway-parachain': datahighwayParachain,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
-  'dotmog-node': dotmog
+  'dotmog-node': dotmog,
   dusty3: dusty,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
