@@ -18,6 +18,8 @@
       "@polkadot/app-accounts/*": [ "packages/page-accounts/src/*" ],
       "@polkadot/app-addresses": [ "packages/page-addresses/src" ],
       "@polkadot/app-addresses/*": [ "packages/page-addresses/src/*" ],
+      "@polkadot/app-auctions": [ "packages/page-auctions/src" ],
+      "@polkadot/app-auctions/*": [ "packages/page-auctions/src/*" ],
       "@polkadot/app-bounties": [ "packages/page-bounties/src" ],
       "@polkadot/app-bounties/*": [ "packages/page-bounties/src/*" ],
       "@polkadot/app-calendar": [ "packages/page-calendar/src" ],

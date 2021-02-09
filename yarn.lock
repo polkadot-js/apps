@@ -2107,6 +2107,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-auctions@workspace:packages/page-auctions":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-auctions@workspace:packages/page-auctions"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@polkadot/react-components": ^0.79.2-4
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-bounties@workspace:packages/page-bounties":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-bounties@workspace:packages/page-bounties"
