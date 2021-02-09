@@ -20,7 +20,7 @@ export interface InputFilePropsBase {
   isError?: boolean;
   isFull?: boolean;
   label: React.ReactNode;
-  placeholder?: React.ReactNode | null;
+  placeholder?: React.ReactNode | null | false;
   withEllipsis?: boolean;
   withLabel?: boolean;
 }
