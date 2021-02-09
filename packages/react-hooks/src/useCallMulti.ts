@@ -27,7 +27,7 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 
   setTimeout((): void => {
     if (mountedRef.current) {
-      const included = calls.map((c) => !!c);
+      const included = calls.map((c) => !!c && (!Array.isArray(c) || !!c[0]));
       const filtered = calls.filter((_, index) => included[index]);
 
       if (filtered.length) {
