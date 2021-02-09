@@ -4,17 +4,35 @@
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+
+import RegisterThread from '../modals/RegisterThread';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
 }
 
-function Actions (): React.ReactElement<Props> {
+function Actions ({ className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const [isRegisterOpen, toggleRegisterOpen] = useToggle();
+
   return (
-    <>
-      <Button.Group>
-      </Button.Group>
-    </>
+    <Button.Group className={className}>
+      {api.tx.registrar.register && (
+        <>
+          <Button
+            icon='plus'
+            label={t<string>('Register')}
+            onClick={toggleRegisterOpen}
+          />
+          {isRegisterOpen && (
+            <RegisterThread onClose={toggleRegisterOpen} />
+          )}
+        </>
+      )}
+    </Button.Group>
   );
 }
 
