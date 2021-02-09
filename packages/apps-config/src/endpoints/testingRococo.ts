@@ -201,7 +201,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 6633,
         text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),
         providers: {
-          SubDAONetwork: 'wss://rococo.trustednodes.net'
+          TrustBase: 'wss://rococo.trustednodes.net'
         }
       }
     ]
