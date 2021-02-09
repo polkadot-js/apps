@@ -139,7 +139,7 @@ export const nodeColors: Record<string, any> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
-  ['DOTMog Node', nodeDotMog],
+  ['Substrate Node', nodeDotMog],
   ['edgeware node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
