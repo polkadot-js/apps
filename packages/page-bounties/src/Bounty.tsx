@@ -8,7 +8,6 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import BountyActionMessage from '@polkadot/app-bounties/BountyActionMessage';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -16,6 +15,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { getProposalToDisplay } from './helpers/extendedStatuses';
 import VotersColumn from './Voting/VotersColumn';
+import BountyActionMessage from './BountyActionMessage';
 import { BountyActions } from './BountyActions';
 import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
@@ -72,12 +72,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
     <>
       <tr className={className}>
         <td>
-          <BountyStatusView
-            blocksUntilPayout={blocksUntilPayout}
-            bountyStatus={bountyStatus}
-            proposals={proposals}
-            status={status}
-          />
+          <BountyStatusView bountyStatus={bountyStatus}/>
         </td>
         <td
           className='description-column'
@@ -111,6 +106,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
             : ''}
           <BountyActionMessage
+            bestNumber={bestNumber}
             blocksUntilUpdate={blocksUntilUpdate}
             status={status}
           />

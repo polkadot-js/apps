@@ -148,14 +148,7 @@ describe('Bounties', () => {
 
         const { findByTestId } = bountiesPage.renderOne(bounty, proposals);
 
-        await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
-      });
-
-      it('when bounty is claimable', async () => {
-        const bounty = bountyWith({ status: 'PendingPayout' });
-        const { findByTestId } = bountiesPage.renderOne(bounty);
-
-        expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
+        await expect(findByTestId('voting-description')).rejects.toThrow();
       });
     });
 
@@ -474,6 +467,14 @@ describe('Bounties', () => {
       bountiesPage.renderOne(bounty);
 
       await bountiesPage.expectText('Waiting for Curator\'s acceptance');
+    });
+
+    it('info when bounty is claimable', async () => {
+      const bounty = bountyWith({ status: 'PendingPayout' });
+
+      bountiesPage.renderOne(bounty);
+
+      await bountiesPage.expectText('Waiting for implementer to claim');
     });
 
     it('no warning or info when requirements are not met', async () => {

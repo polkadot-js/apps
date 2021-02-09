@@ -1,11 +1,12 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BountyStatus } from '@polkadot/types/interfaces';
+import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useMemo } from 'react';
 
+import { useBountyStatus } from '@polkadot/app-bounties/hooks';
 import { BN_HUNDRED, BN_ZERO } from '@polkadot/util';
 
 import BountyInfo from './BountyInfos/BountyInfo';
@@ -13,6 +14,7 @@ import { useBounties } from './hooks';
 import { useTranslation } from './translate';
 
 interface Props {
+  bestNumber: BlockNumber;
   blocksUntilUpdate?: BN;
   status: BountyStatus;
 }
@@ -20,10 +22,12 @@ interface Props {
 export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;
 const BLOCKS_LEFT_TO_SHOW_WARNING = new BN('10000');
 
-function BountyActionMessage ({ blocksUntilUpdate, status }: Props): JSX.Element {
+function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props): JSX.Element {
   const { t } = useTranslation();
-
+  const { unlockAt } = useBountyStatus(status);
   const { bountyUpdatePeriod } = useBounties();
+
+  const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 
   const blocksPercentageLeftToShowWarning = bountyUpdatePeriod?.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).div(BN_HUNDRED);
   const blocksToShowWarning = blocksPercentageLeftToShowWarning ?? BLOCKS_LEFT_TO_SHOW_WARNING;
@@ -54,6 +58,12 @@ function BountyActionMessage ({ blocksUntilUpdate, status }: Props): JSX.Element
           type='info'
         />
       )}
+      {blocksUntilPayout?.lt(BN_ZERO) &&
+        <BountyInfo
+          description={t<string>('Waiting for implementer to claim')}
+          type='info'
+        />
+      }
     </div>
   );
 }

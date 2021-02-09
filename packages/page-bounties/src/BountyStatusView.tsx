@@ -1,29 +1,21 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BountyStatus } from '@polkadot/types/interfaces';
-
-import BN from 'bn.js';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import { LabelHelp } from '@polkadot/react-components';
 
-import ExtendedStatus from './Voting/ExtendedStatus';
 import { insertSpaceBeforeCapitalLetter } from './helpers';
 import { useTranslation } from './translate';
 import { HelpMessages, StatusName } from './types';
 
 interface Props {
-  blocksUntilPayout?: BN
   bountyStatus: StatusName;
   className?: string;
-  proposals?: DeriveCollectiveProposal[];
-  status: BountyStatus;
 }
 
-function BountyStatusView ({ blocksUntilPayout, bountyStatus, className = '', proposals, status }: Props): React.ReactElement<Props> {
+function BountyStatusView ({ bountyStatus, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const statusHelpMessages = useRef<HelpMessages>({
@@ -36,30 +28,19 @@ function BountyStatusView ({ blocksUntilPayout, bountyStatus, className = '', pr
   });
 
   return (
-    <div className={className}>
-      <div className='bountyStatus'
-        data-testid={'bountyStatus'}>
-        {insertSpaceBeforeCapitalLetter(bountyStatus)}
-        <LabelHelp
-          help={statusHelpMessages.current[bountyStatus]}
-        />
-      </div>
-      {proposals && (
-        <div>
-          <ExtendedStatus
-            blocksUntilPayout={blocksUntilPayout}
-            proposals={proposals}
-            status={status}
-          />
-        </div>
-      )}
+    <div
+      className={className}
+      data-testid={'bountyStatus'}
+    >
+      {insertSpaceBeforeCapitalLetter(bountyStatus)}
+      <LabelHelp
+        help={statusHelpMessages.current[bountyStatus]}
+      />
     </div>
   );
 }
 
 export default React.memo(styled(BountyStatusView)`
-  .bountyStatus {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
 `);

@@ -8,12 +8,12 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import VotingDescriptionInfo from '@polkadot/app-bounties/BountyInfos/VotingDescriptionInfo';
-import VotingLink from '@polkadot/app-bounties/Voting/VotingLink';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers } from '@polkadot/react-hooks';
 
 import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
+import VotingLink from '../Voting/VotingLink';
 
 interface Props {
   className?: string;
