@@ -15,6 +15,7 @@ const chainCrust = '#ff8812';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
+const chainDotMog = '#020609';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#080808';
@@ -53,6 +54,7 @@ const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
+const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
@@ -87,6 +89,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia Crab', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
+  ['DOTMog Testnet', chainDotMog],
   ['Encointer PC1', nodeEncointerNotee],
   ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
@@ -136,6 +139,7 @@ export const nodeColors: Record<string, any> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['DOTMog Node', nodeDotMog],
   ['edgeware node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
