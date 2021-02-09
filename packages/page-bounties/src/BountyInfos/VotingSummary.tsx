@@ -13,7 +13,7 @@ import { useMembers } from '@polkadot/react-hooks';
 
 import { bountyLabelColor } from '../theme';
 import { useTranslation } from '../translate';
-import VotingLink from '../Voting/VotingLink';
+import VotingLink from './VotingLink';
 
 interface Props {
   className?: string;

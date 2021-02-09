@@ -21,7 +21,7 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
 import { BountiesPage } from '../test/pages/bountiesPage';
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyActionMessage';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyNextActionInfo/BountyActionMessage';
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury

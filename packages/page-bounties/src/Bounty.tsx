@@ -13,9 +13,8 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
-import VotersColumn from './Voting/VotersColumn';
-import BountyActionMessage from './BountyActionMessage';
 import { BountyActions } from './BountyActions';
 import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
@@ -24,6 +23,7 @@ import Curator from './Curator';
 import { useBountyStatus } from './hooks';
 import { bountyBorderColor, bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
+import VotersColumn from './VotersColumn';
 
 interface Props {
   bestNumber: BlockNumber;
