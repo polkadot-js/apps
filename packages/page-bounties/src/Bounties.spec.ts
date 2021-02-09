@@ -100,7 +100,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.findVotingDescription('Curator proposal under voting');
+        await bountiesPage.expectVotingDescription('Curator proposal under voting');
       });
 
       it('when voting on bounty approval', async () => {
