@@ -1,6 +1,7 @@
 [
   "app-accounts.json",
   "app-addresses.json",
+  "app-auctions.json",
   "app-bounties.json",
   "app-calendar.json",
   "app-claims.json",
