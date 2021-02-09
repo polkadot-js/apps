@@ -119,7 +119,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           <div className='td-row'>
             <BountyInfos
               beneficiary={beneficiary}
-              blocksUntilUpdate={blocksUntilUpdate}
               proposals={proposals}
               status={status}
             />
@@ -305,13 +304,16 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    & :only-child {
+      margin-left: auto;
+    }
   }
 
   .bounty-action-row {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-left: auto;
 
     & > * + * {
       margin-left: 0.6rem;

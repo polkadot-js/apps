@@ -52,8 +52,6 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
 }
 
 export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
-  margin: 0 1rem 0 0;
-
   .voting-summary-text {
     font-size: 0.85rem;
     line-height: 1.5rem;
@@ -67,6 +65,7 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
 
   .link-info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     line-height: 1.5rem;
   }

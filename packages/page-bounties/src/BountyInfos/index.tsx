@@ -5,7 +5,6 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { AccountId, BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { AddressSmall } from '@polkadot/react-components';
 
@@ -16,18 +15,17 @@ import VotingSummary from './VotingSummary';
 
 interface Props {
   beneficiary?: AccountId;
-  className?: string;
   proposals?: DeriveCollectiveProposal[];
   status: BountyStatus;
 }
 
-function BountyInfos ({ beneficiary, className, proposals, status }: Props): JSX.Element {
+function BountyInfos ({ beneficiary, proposals, status }: Props): JSX.Element {
   const { t } = useTranslation();
 
   const proposalToDisplay = useMemo(() => proposals && getProposalToDisplay(proposals, status), [proposals, status]);
 
   return (
-    <div className={className}>
+    <>
       {proposalToDisplay &&
         <VotingSummary
           proposal={proposalToDisplay}
@@ -40,12 +38,8 @@ function BountyInfos ({ beneficiary, className, proposals, status }: Props): JSX
           <Description description={t<string>('Beneficiary')} />
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-export default React.memo(styled(BountyInfos)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`);
+export default React.memo(BountyInfos);
