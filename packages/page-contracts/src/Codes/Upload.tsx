@@ -168,11 +168,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
                     isError={!isWasmValid}
                     label={t<string>('compiled contract WASM')}
                     onChange={_onAddWasm}
-                    placeholder={
-                      wasm && !isWasmValid
-                        ? t<string>('The code is not recognized as being in valid WASM format')
-                        : null
-                    }
+                    placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
                   />
                 )}
                 <InputName

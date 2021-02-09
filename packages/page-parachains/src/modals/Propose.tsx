@@ -134,11 +134,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
               isError={!isWasmValid}
               label={t<string>('validation code')}
               onChange={_setWasm}
-              placeholder={
-                wasm && !isWasmValid
-                  ? t<string>('The code is not recognized as being in valid WASM format')
-                  : null
-              }
+              placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
             />
             <InputFile
               help={t<string>('The genesis state for the parachain.')}
