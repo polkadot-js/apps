@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-function CrowdloanApp ({ className }: Props): React.ReactElement<Props> {
+function AuctionsApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -21,4 +21,4 @@ function CrowdloanApp ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(CrowdloanApp)``);
+export default React.memo(styled(AuctionsApp)``);
