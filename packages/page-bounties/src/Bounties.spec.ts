@@ -109,7 +109,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Bounty approval under voting');
+        await bountiesPage.expectVotingDescription('Bounty approval under voting');
       });
 
       it('when simultaneous close and approve motions exist, show approved', async () => {
@@ -121,7 +121,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Bounty approval under voting');
+        await bountiesPage.expectVotingDescription('Bounty approval under voting');
       });
 
       it('when voting on close bounty', async () => {
@@ -130,7 +130,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Bounty rejection under voting');
+        await bountiesPage.expectVotingDescription('Bounty rejection under voting');
       });
 
       it('when voting on unassign curator', async () => {
@@ -139,7 +139,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Curator slash under voting');
+        await bountiesPage.expectVotingDescription('Curator slash under voting');
       });
 
       it('when a motion exists that would fail on execution, show nothing', async () => {
@@ -215,7 +215,7 @@ describe('Bounties', () => {
 
         const { findByTestId } = bountiesPage.renderOne(bounty, proposals);
 
-        expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting results');
+        expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting');
       });
 
       it('is not displayed when not voting', async () => {
