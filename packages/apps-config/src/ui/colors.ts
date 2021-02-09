@@ -89,7 +89,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia Crab', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
-  ['DOTMog Testnet', chainDotMog],
+  ['DOTMog.com NET', chainDotMog],
   ['Encointer PC1', nodeEncointerNotee],
   ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
