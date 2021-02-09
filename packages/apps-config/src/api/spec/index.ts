@@ -40,6 +40,7 @@ import stafi from './stafi';
 import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
+import trustbase from './trustbase';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -90,6 +91,7 @@ export default {
   subsocial,
   subzero: zero,
   ternoa: ternoa,
+  trustbase: trustbase,
   uniarts: uniarts,
   zenlink
 };

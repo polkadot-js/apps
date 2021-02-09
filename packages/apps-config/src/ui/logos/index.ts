@@ -62,6 +62,7 @@ import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
+import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -98,6 +99,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],
+  ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
@@ -162,6 +164,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Equilibrium', nodeEquilibrium],
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
+  ['TrustBase Node', nodeTrustBase],
+  ['TrustBase Collator', nodeTrustBase],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
@@ -232,6 +236,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  rococoTrustBase: nodeTrustBase,
   rococoZenlink: nodeZenlink,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,

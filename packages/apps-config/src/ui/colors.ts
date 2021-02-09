@@ -45,6 +45,7 @@ const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
+const chainTrustBase = '#ff43aa';
 
 // based on node name
 // alphabetical
@@ -117,6 +118,7 @@ export const chainColors: Record<string, any> = [
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
+  ['TrustBase PC1', chainTrustBase],
   ['Uniarts', chainUniarts],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
