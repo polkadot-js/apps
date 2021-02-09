@@ -8,7 +8,6 @@ import { Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
 import { bountyColor, bountyLabelColor, bountySvgColor } from '../theme';
-import { useTranslation } from '../translate';
 
 interface Props {
   className: '';
@@ -17,13 +16,13 @@ interface Props {
 }
 
 function BountyInfo ({ className = '', description, type = 'info' }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
   return (
     <div className={className}>
-      <div className='title'>
-        { type === 'warning' && <Icon icon={'exclamation-triangle'}/> } {type === 'info' ? t('Info') : t('Warning')}
-      </div>
+      {type === 'warning' && (
+        <div className='info-icon'>
+          <Icon icon={'exclamation-triangle'}/>
+        </div>
+      )}
       <div className='description'>
         {description}
       </div>
@@ -32,13 +31,15 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
 }
 
 export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
+  display: flex;
+  align-items: center;
   font-weight: 500;
   font-size: 0.857rem;
-  line-height: 1.714rem;
+  line-height: 1.5rem;
   color: ${bountyColor[theme.theme]};
 
-  .title{
-    margin-bottom: 0.285rem;
+  .info-icon{
+    margin-right: 0.2rem;
     svg {
       color: ${bountySvgColor[theme.theme]};
     }
@@ -49,5 +50,6 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
     font-size: 0.714rem;
     line-height: 0.864rem;
     color: ${bountyLabelColor[theme.theme]};
+    word-wrap: break-word;
   }
 `));

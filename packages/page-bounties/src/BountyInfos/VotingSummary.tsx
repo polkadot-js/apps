@@ -36,10 +36,8 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
           className={className}
           data-testid='voting-summary'
         >
-          <div className='votes'>
-            <p className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></p>
-            <p className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></p>
-          </div>
+          <div className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></div>
+          <div className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
           <div className='link-info'>
             <VotingLink/>
             <VotingDescriptionInfo
@@ -58,7 +56,7 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
 
   .voting-summary-text {
     font-size: 0.85rem;
-    line-height: 0.5rem;
+    line-height: 1.5rem;
     color: ${bountyLabelColor[theme.theme]}
 
     span {
@@ -70,6 +68,6 @@ export default React.memo(styled(VotingSummary)(({ theme }: ThemeProps) => `
   .link-info {
     display: flex;
     align-items: center;
-    margin-top: 0.3rem;
+    line-height: 1.5rem;
   }
 `));

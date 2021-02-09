@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import BountyActionMessage from '@polkadot/app-bounties/BountyActionMessage';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -96,7 +97,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
           )}
         </td>
-        <td>
+        <td className='bounty-action-message'>
           {blocksUntilPayout
             ? <DueBlocks
               dueBlocks={blocksUntilPayout}
@@ -109,6 +110,10 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               until={'update'}
             />
             : ''}
+          <BountyActionMessage
+            blocksUntilUpdate={blocksUntilUpdate}
+            status={status}
+          />
         </td>
         <td>
           <div className='td-row'>
@@ -314,9 +319,8 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   }
 
   .block-to-time {
-    margin-top: 0.28rem;
     font-size: 0.7rem;
-    line-height: 0.85rem;
+    line-height: 1.5rem;
     color: ${bountyLabelColor[theme.theme]};
   }
 
@@ -328,5 +332,9 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   & .ui--FormatBalance {
     font-size: 0.85rem;
     line-height: 1.4rem;
+  }
+
+  & .bounty-action-message {
+    width: 10rem;
   }
 `));

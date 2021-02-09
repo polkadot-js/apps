@@ -21,7 +21,7 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
 import { BountiesPage } from '../test/pages/bountiesPage';
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyInfos';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyActionMessage';
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury
@@ -457,7 +457,6 @@ describe('Bounties', () => {
 
       bountiesPage.renderOne(bounty);
 
-      await bountiesPage.expectText('Warning');
       await bountiesPage.expectText('Close deadline');
     });
 
@@ -466,7 +465,6 @@ describe('Bounties', () => {
 
       bountiesPage.renderOne(bounty);
 
-      await bountiesPage.expectText('Info');
       await bountiesPage.expectText('Waiting for Bounty Funding');
     });
 
@@ -475,7 +473,6 @@ describe('Bounties', () => {
 
       bountiesPage.renderOne(bounty);
 
-      await bountiesPage.expectText('Info');
       await bountiesPage.expectText('Waiting for Curator\'s acceptance');
     });
 
