@@ -5,6 +5,7 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Enum, Struct } from '@polkadot/types';
 import type { Option } from '@polkadot/types/codec';
 import type { AccountId, AccountIndex, AccountInfo, Address, Balance, BlockNumber, Index } from '@polkadot/types/interfaces';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
 
 import { memo } from '@polkadot/api-derive/util/memo';
@@ -55,7 +56,7 @@ type EQDeriveBalancesAllQuery = (
   address: AccountIndex | AccountId | Address | string
 ) => Observable<EQDeriveBalancesAll>;
 
-export default {
+const definitions: OverrideBundleDefinition = {
   types: [
     {
       // on all versions
@@ -287,3 +288,5 @@ export default {
     }
   }
 };
+
+export default definitions;

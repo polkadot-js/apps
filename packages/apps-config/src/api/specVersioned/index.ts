@@ -2,6 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import acala from './acala';
+import aresParachain from './ares-parachain';
+import bifrost from './bifrost';
+import bitcountry from './bitcountry';
+import canvas from './canvas';
+import centrifugeChain from './centrifuge-chain';
+import chainx from './chainx';
+import clover from './clover';
+import cloverRococo from './clover-rococo';
+import crab from './crab';
+import crust from './crust';
+import crustParachain from './crust-parachain';
+import testPara from './cumulus-test-parachain';
+import darwinia from './darwinia';
+import darwiniaParachain from './darwinia-parachain';
+import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dotmog from './dotmog';
 import dusty from './dusty';
@@ -38,9 +53,24 @@ import zenlink from './zenlink';
 import zero from './zero';
 
 export default {
+  Crab: crab,
+  Darwinia: darwinia,
   Equilibrium: equilibrium,
   acala,
+  'ares-parachain': aresParachain,
+  bifrost,
+  'bitcountry-node': bitcountry,
   'btc-parachain': polkabtc,
+  canvas,
+  'centrifuge-chain': centrifugeChain,
+  chainx,
+  clover,
+  'clover-rococo': cloverRococo,
+  crust,
+  'crust-parachain': crustParachain,
+  'cumulus-test-parachain': testPara,
+  'darwinia-parachain': darwiniaParachain,
+  'datahighway-parachain': datahighwayParachain,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   'dotmog-node': dotmog,
