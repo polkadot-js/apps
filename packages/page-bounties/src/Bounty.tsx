@@ -111,7 +111,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             status={status}
           />
         </td>
-        <td>
+        <td className='td-info-action-row'>
           <div className='td-row'>
             <BountyInfos
               beneficiary={beneficiary}
@@ -240,7 +240,10 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     display: inline-flex;
   }
 
-  & .fast-actions {
+  & td.fast-actions {
+    padding-left: 0.2rem;
+    width: 1%;
+
     .fast-actions-row {
       display: flex;
       align-items: center;
@@ -294,6 +297,10 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
 
   .label-column-left {
     padding: 0 0 1.3rem;
+  }
+
+  & .td-info-action-row {
+    padding-right: 0;
   }
 
   .td-row {
