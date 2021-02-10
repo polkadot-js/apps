@@ -92,6 +92,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Moonbase Alpha', moonbeam],
+  ['Moonbase Stage', moonbeam],
+  ['Moonbase Development Testnet', moonbeam],
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
