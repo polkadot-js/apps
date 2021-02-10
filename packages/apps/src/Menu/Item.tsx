@@ -55,12 +55,13 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
   &.topLevel {
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.5rem;
+    line-height: 1.214rem;
     border-radius: 0.15rem;
     margin-bottom: 0.5rem;
 
     a {
-      padding: 1rem 1.15rem 0.75rem;
+      padding: 0.857rem 1.15rem 0.786rem;
+      line-height: 1.214rem;
     }
 
     &:hover {
