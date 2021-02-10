@@ -453,6 +453,20 @@ describe('Bounties', () => {
       await bountiesPage.expectText('Close deadline');
     });
 
+    it('warning when update time is overdue', async () => {
+      const bounty = aBounty({ status: bountyStatusWith(
+        {
+          curator: alice,
+          status: 'Active',
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          updateDue: mockBountyHooks.bountyApi.bestNumber!.toNumber()
+        }) });
+
+      bountiesPage.renderOne(bounty);
+
+      await bountiesPage.expectText('Update overdue');
+    });
+
     it('info when waiting for bounty funding', async () => {
       const bounty = bountyWith({ status: 'Approved' });
 
@@ -487,11 +501,11 @@ describe('Bounties', () => {
       bountiesPage.renderOne(bounty);
       await bountiesPage.rendered();
 
-      bountiesPage.expectTextAbsent('Warning');
       bountiesPage.expectTextAbsent('Close deadline');
-      bountiesPage.expectTextAbsent('Info');
+      bountiesPage.expectTextAbsent('Update overdue');
       bountiesPage.expectTextAbsent('Waiting for Bounty Funding');
       bountiesPage.expectTextAbsent("Waiting for Curator's acceptance");
+      bountiesPage.expectTextAbsent('Waiting for implementer to claim');
     });
   });
 });
