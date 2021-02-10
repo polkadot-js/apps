@@ -5,6 +5,7 @@
 /* eslint-disable sort-keys */
 
 export default {
+  Address: 'AccountId',
   Balance: 'u64',
   BalanceOf: 'Balance',
   BalancesAggregate: {

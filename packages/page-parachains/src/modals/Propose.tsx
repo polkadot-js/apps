@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_TEN, compactAddLength } from '@polkadot/util';
+import { BN_TEN, BN_THOUSAND, compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -49,8 +49,8 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [name, setName] = useState('');
-  const [paraId, setParaId] = useState(new BN(Date.now() % 131072));
-  const [balance, setBalance] = useState(new BN(1000).mul(BN_TEN.pow(new BN(api.registry.chainDecimals))));
+  const [paraId, setParaId] = useState(() => new BN(Date.now() % 131072));
+  const [balance, setBalance] = useState(() => BN_THOUSAND.mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
   const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
@@ -134,11 +134,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
               isError={!isWasmValid}
               label={t<string>('validation code')}
               onChange={_setWasm}
-              placeholder={
-                wasm && !isWasmValid
-                  ? t<string>('The code is not recognized as being in valid WASM format')
-                  : null
-              }
+              placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
             />
             <InputFile
               help={t<string>('The genesis state for the parachain.')}

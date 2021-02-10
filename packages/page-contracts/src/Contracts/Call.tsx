@@ -13,7 +13,7 @@ import { ContractPromise } from '@polkadot/api-contract';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
 import { useTranslation } from '../translate';
@@ -30,7 +30,7 @@ interface Props {
   onClose: () => void;
 }
 
-const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).subn(1);
+const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();

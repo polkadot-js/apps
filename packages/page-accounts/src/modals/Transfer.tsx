@@ -8,10 +8,11 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { InputAddress, InputBalance, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { checkAddress } from '@polkadot/phishing';
+import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -26,6 +27,19 @@ function isRefcount (accountInfo: AccountInfoWithProviders | AccountInfoWithRefC
   return !!(accountInfo as AccountInfoWithRefCount).refcount;
 }
 
+async function checkPhishing (_senderId: string | null, recipientId: string | null): Promise<[string | null, string | null]> {
+  return [
+    // not being checked atm
+    // senderId
+    //   ? await checkAddress(senderId)
+    //   : null,
+    null,
+    recipientId
+      ? await checkAddress(recipientId)
+      : null
+  ];
+}
+
 function Transfer ({ className = '', onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -33,26 +47,31 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [hasAvailable] = useState(true);
   const [isProtected, setIsProtected] = useState(true);
   const [isAll, setIsAll] = useState(false);
-  const [maxTransfer, setMaxTransfer] = useState<BN | null>(null);
-  const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
-  const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
-  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [senderId]);
+  const [[maxTransfer, noFees], setMaxTransfer] = useState<[BN | null, boolean]>([null, false]);
+  const [recipientId, setRecipientId] = useState<string | null>(null);
+  const [senderId, setSenderId] = useState<string | null>(null);
+  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [propSenderId || senderId]);
+  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
-    if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
+    const fromId = propSenderId || senderId as string;
+    const toId = propRecipientId || recipientId as string;
+
+    if (balances && balances.accountId.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
           api.tx.balances
-            .transfer(recipientId, balances.availableBalance)
-            .paymentInfo(senderId)
+            .transfer(toId, balances.availableBalance)
+            .paymentInfo(fromId)
             .then(({ partialFee }): void => {
-              const maxTransfer = balances.availableBalance.sub(partialFee);
+              const adjFee = partialFee.muln(110).div(BN_HUNDRED);
+              const maxTransfer = balances.availableBalance.sub(adjFee);
 
               setMaxTransfer(
                 maxTransfer.gt(api.consts.balances.existentialDeposit)
-                  ? maxTransfer
-                  : null
+                  ? [maxTransfer, false]
+                  : [null, true]
               );
             })
             .catch(console.error);
@@ -61,16 +80,22 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         }
       }, 0);
     } else {
-      setMaxTransfer(null);
+      setMaxTransfer([null, false]);
     }
-  }, [api, balances, recipientId, senderId]);
+  }, [api, balances, propRecipientId, propSenderId, recipientId, senderId]);
+
+  useEffect((): void => {
+    checkPhishing(propSenderId || senderId, propRecipientId || recipientId)
+      .then(setPhishing)
+      .catch(console.error);
+  }, [propRecipientId, propSenderId, recipientId, senderId]);
 
   const noReference = accountInfo
     ? isRefcount(accountInfo)
       ? accountInfo.refcount.isZero()
-      : (accountInfo.consumers.isZero() && accountInfo.providers.isZero())
+      : accountInfo.consumers.isZero()
     : true;
-  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && noReference;
+  const canToggleAll = !isProtected && balances && balances.accountId.eq(propSenderId || senderId) && maxTransfer && noReference;
 
   return (
     <Modal
@@ -90,7 +115,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 labelExtra={
                   <Available
                     label={t<string>('transferrable')}
-                    params={senderId}
+                    params={propSenderId || senderId}
                   />
                 }
                 onChange={setSenderId}
@@ -111,12 +136,15 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 labelExtra={
                   <Available
                     label={t<string>('transferrable')}
-                    params={recipientId}
+                    params={propRecipientId || recipientId}
                   />
                 }
                 onChange={setRecipientId}
                 type='allPlus'
               />
+              {recipientPhish && (
+                <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
+              )}
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}</p>
@@ -177,6 +205,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               {!isProtected && !noReference && (
                 <MarkWarning content={t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />
               )}
+              {noFees && (
+                <MarkWarning content={t<string>('The transaction, after application of the transfer fees, will drop the balance below the existential deposit. As such the transfer will fail. The account needs more funds to cover the transaction fees.')} />
+              )}
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}</p>
@@ -187,15 +218,15 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
-          accountId={senderId}
+          accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !recipientId || !amount}
+          isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={
             canToggleAll && isAll
-              ? [recipientId, maxTransfer]
-              : [recipientId, amount]
+              ? [propRecipientId || recipientId, maxTransfer]
+              : [propRecipientId || recipientId, amount]
           }
           tx={(isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer}
         />

@@ -31,7 +31,6 @@ export async function proposeBounty (api: ApiPromise, value: BN, title: string, 
 
 export async function proposeCurator (api: ApiPromise, index: number, signer: KeyringPair): Promise<void> {
   await proposeMotion(api, api.tx.bounties.proposeCurator(index, signer.address, 10), signer);
-
   const bountyProposal = await getMotion(api, index);
 
   await acceptMotion(api, bountyProposal.hash, bountyProposal.votes?.index.toNumber() ?? 0);

@@ -185,7 +185,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
         header={headerActiveRef.current}
         legend={<Legend />}
       >
-        {(isLoading || !recentlyOnline || !infoMap) ? undefined : _renderRows(validators, true)}
+        {isLoading ? undefined : _renderRows(validators, true)}
       </Table>
     );
 }

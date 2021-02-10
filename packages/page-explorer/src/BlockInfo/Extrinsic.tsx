@@ -5,7 +5,7 @@ import type { ThemeProps } from '@polkadot/react-components/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
@@ -38,9 +38,36 @@ function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
 
 function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { meta, method, section } = value.registry.findMetaCall(value.callIndex);
-  const era = getEra(value, blockNumber);
-  const thisEvents = filterEvents(index, events);
+
+  const { meta, method, section } = useMemo(
+    () => value.registry.findMetaCall(value.callIndex),
+    [value]
+  );
+
+  const mortality = useMemo(
+    (): string | undefined => {
+      if (value.isSigned) {
+        const era = getEra(value, blockNumber);
+
+        return era
+          ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+            replace: {
+              endsAt: formatNumber(era[1]),
+              startAt: formatNumber(era[0])
+            }
+          })
+          : t<string>('immortal');
+      }
+
+      return undefined;
+    },
+    [blockNumber, t, value]
+  );
+
+  const thisEvents = useMemo(
+    () => filterEvents(index, events),
+    [index, events]
+  );
 
   return (
     <tr
@@ -57,19 +84,11 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
         >
           <Call
             className='details'
-            mortality={
-              era
-                ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
-                  replace: {
-                    endsAt: formatNumber(era[1]),
-                    startAt: formatNumber(era[0])
-                  }
-                })
-                : t<string>('immortal')
-            }
+            mortality={mortality}
             tip={value.tip?.toBn()}
             value={value}
             withHash
+            withSignature
           />
         </Expander>
       </td>

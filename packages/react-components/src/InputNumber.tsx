@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
-import { BN_TEN, BN_ZERO, formatBalance, isBn } from '@polkadot/util';
+import { BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn } from '@polkadot/util';
 
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
@@ -56,7 +56,7 @@ export class TokenUnit {
 }
 
 function getGlobalMaxValue (bitLength?: number): BN {
-  return new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1);
+  return BN_TWO.pow(new BN(bitLength || DEFAULT_BITLENGTH)).isub(BN_ONE);
 }
 
 function getRegex (isDecimal: boolean): RegExp {
@@ -121,7 +121,7 @@ function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength:
     }
 
     const div = new BN(input.replace(/\.\d*$/, ''));
-    const modString = input.replace(/^\d+\./, '').substr(0, api.registry.chainDecimals);
+    const modString = input.replace(/^\d+\./, '').substr(0, api.registry.chainDecimals[0]);
     const mod = new BN(modString);
 
     result = div
@@ -148,7 +148,7 @@ function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, 
   ];
 }
 
-function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] {
+function getValuesFromBn (valueBn: BN, si: SiDef | null, isZeroable: boolean): [string, BN, boolean] {
   const value = si
     ? valueBn.div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals + si.power))).toString()
     : valueBn.toString();
@@ -156,13 +156,13 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] 
   return [
     value,
     valueBn,
-    true
+    isZeroable ? true : valueBn.gt(BN_ZERO)
   ];
 }
 
 function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isZeroable: boolean, maxValue?: BN): [string, BN, boolean] {
   return isBn(value)
-    ? getValuesFromBn(value, si)
+    ? getValuesFromBn(value, si, isZeroable)
     : getValuesFromString(api, value, si, bitLength, isZeroable, maxValue);
 }
 

@@ -63,8 +63,15 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'clover',
+      text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
+      providers: {
+        Clover: 'wss://api.clover.finance/'
+      }
+    },
+    {
       info: 'crust',
-      text: t('rpc.crust.network', 'Crust Maxwell CC2', { ns: 'apps-config' }),
+      text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/'
       }
@@ -144,7 +151,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws'
+        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws',
+        'Patract Elara': 'wss://mandala.elara.patract.io'
       }
     },
     {
@@ -197,6 +205,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'ternoa-chaos',
+      text: t('rpc.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      providers: {
+        CapsuleCorp: 'wss://chaos.ternoa.com'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
@@ -216,6 +231,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
       providers: {
         Uniarts: 'wss://testnet.uniarts.me'
+      }
+    },
+    {
+      info: 'dotmog',
+      text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
+      providers: {
+        DOTMog: 'wss://mogiway-01.dotmog.com'
       }
     }
   ]);

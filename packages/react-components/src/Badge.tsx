@@ -11,7 +11,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'blue' | 'counter' | 'counterInvert' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
+  color: 'blue' | 'counter' | 'counterInvert' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
@@ -24,7 +24,7 @@ const HIGHLIGHTS = ['counter', 'highlight'];
 let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
-  const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
+  const [trigger] = useState(() => `badge-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};
@@ -112,6 +112,10 @@ export default React.memo(styled(Badge)`
 
   &.greenColor {
     background: green;
+  }
+
+  &.orangeColor {
+    background: darkorange;
   }
 
   &.purpleColor {

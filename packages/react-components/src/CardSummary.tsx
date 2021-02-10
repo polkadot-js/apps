@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber, isUndefined } from '@polkadot/util';
+import { BN_HUNDRED, formatNumber, isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 import Progress from './Progress';
@@ -43,7 +43,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         }`
         : (
           progress.isPercent
-            ? value.muln(100).div(total).toString()
+            ? value.mul(BN_HUNDRED).div(total).toString()
             : formatNumber(value)
         )
     )
