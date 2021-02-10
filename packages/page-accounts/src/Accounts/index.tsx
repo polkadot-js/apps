@@ -90,10 +90,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [allAccounts, favorites]);
 
   useEffect(() => {
-    if (api.query.democracy?.votingOf && !delegations?.length) {
-      return;
-    }
-
     setSortedAccountsWithDelegation(
       sortedAccounts?.map((account, index) => {
         let delegation: Delegation | undefined;
@@ -233,7 +229,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerExtension />
       <BannerClaims />
       <Table
-        empty={(!hasAccounts || (!isLoading && sortedAccountsWithDelegation)) && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={headerRef.current}
