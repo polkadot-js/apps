@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '@polkadot/react-components/types';
@@ -48,7 +48,9 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
       >
         <ChainImg
           className='endpointIcon'
-          logo={icon === 'local' ? 'empty' : icon}
+          isInline
+          logo={icon === 'local' ? 'empty' : (icon || 'empty')}
+          withoutHl
         />
         <div className='endpointValue'>{name}</div>
       </div>
@@ -76,12 +78,6 @@ export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
   &.isSelected,
   &:hover {
     background: ${theme.bgTable};
-  }
-
-  .endpointIcon {
-    height: 24px;
-    margin-right: 0.75rem;
-    width: 24px;
   }
 
   .endpointSection {

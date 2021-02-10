@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
@@ -13,7 +13,7 @@ export function createMenuGroup (items: (React.ReactNode | false | undefined | n
   const filtered = items.filter((item): item is React.ReactNode => !!item);
 
   return filtered.length
-    ? <>{filtered}<Menu.Divider /></>
+    ? <><Menu.Divider />{filtered}</>
     : null;
 }
 

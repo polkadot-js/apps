@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
@@ -155,11 +155,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               label={t('Cancel')}
               onSuccess={onRefresh}
               params={[hash]}
-              tx={
-                api.tx.tips
-                  ? 'tips.retractTip'
-                  : 'treasury.retractTip'
-              }
+              tx={(api.tx.tips || api.tx.treasury).retractTip}
             />
           )
         }
@@ -181,11 +177,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               label={t<string>('Close')}
               onSuccess={onRefresh}
               params={[hash]}
-              tx={
-                api.tx.tips
-                  ? 'tips.closeTip'
-                  : 'treasury.closeTip'
-              }
+              tx={(api.tx.tips || api.tx.treasury).closeTip}
             />
           )
         }

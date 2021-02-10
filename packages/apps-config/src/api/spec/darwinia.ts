@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -206,14 +206,6 @@ export default {
   MerkleMountainRangeRootLog: {
     prefix: '[u8; 4; Prefix]',
     mmrRoot: 'Hash'
-  },
-
-  ChainProperties: {
-    ss58Format: 'Option<u8>',
-    tokenDecimals: 'Option<u32>',
-    tokenSymbol: 'Option<Text>',
-    ktonTokenDecimals: 'Option<u32>',
-    ktonTokenSymbol: 'Option<Text>'
   },
 
   AccountInfo: {

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
@@ -118,12 +118,8 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
               }
               tx={
                 isMember
-                  ? api.tx.tips
-                    ? 'tips.tipNew'
-                    : 'treasury.tipNew'
-                  : api.tx.tips
-                    ? 'tips.reportAwesome'
-                    : 'treasury.reportAwesome'
+                  ? (api.tx.tips || api.tx.treasury).tipNew
+                  : (api.tx.tips || api.tx.treasury).reportAwesome
               }
             />
           </Modal.Actions>

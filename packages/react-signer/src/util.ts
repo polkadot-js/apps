@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -9,6 +9,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { keyring } from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
+const NO_FLAGS = { accountOffset: 0, addressOffset: 0, isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
 
 export const UNLOCK_MINS = 15;
 
@@ -28,7 +29,7 @@ export function lockAccount (pair: KeyringPair): void {
 
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
-    return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
+    return NO_FLAGS;
   }
 
   let publicKey;
@@ -38,7 +39,7 @@ export function extractExternal (accountId: string | null): AddressFlags {
   } catch (error) {
     console.error(error);
 
-    return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
+    return NO_FLAGS;
   }
 
   const pair = keyring.getPair(publicKey);
@@ -54,6 +55,8 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   return {
+    accountOffset: pair.meta.accountOffset as number || 0,
+    addressOffset: pair.meta.addressOffset as number || 0,
     hardwareType: pair.meta.hardwareType as string,
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,

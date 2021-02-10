@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable sort-keys */
 
 export default {
-  RefCount: 'u8',
   Record: 'Vec<u8>',
   TechnicalParam: 'Vec<u8>',
   TechnicalReport: 'Vec<u8>',

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeProps } from '../types';
@@ -9,25 +9,22 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Badge from '../Badge';
-import Icon from '../Icon';
 
 interface Props extends TabItem {
   basePath: string;
   className?: string;
   count?: number;
   index: number;
-  isSequence?: boolean;
-  num: number;
 }
 
-function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, isSequence, name, num, text }: Props): React.ReactElement<Props> {
+function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, name, text }: Props): React.ReactElement<Props> {
   const to = isRoot
     ? basePath
     : `${basePath}/${name}`;
 
   // only do exact matching when not the fallback (first position tab),
   // params are problematic for dynamic hidden such as app-accounts
-  const tabIsExact = isExact || !hasParams || (!isSequence && index === 0);
+  const tabIsExact = isExact || !hasParams || index === 0;
 
   return (
     <NavLink
@@ -37,13 +34,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
       strict={tabIsExact}
       to={to}
     >
-      {text}{(isSequence && index < (num - 1)) && (
-        <Icon
-          className='tabIcon'
-          icon='arrow-right'
-        />
-      )}
-      {!!count && (
+      {text}{!!count && (
         <Badge
           className='tabCounter'
           color='counter'

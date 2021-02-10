@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2021 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types';
@@ -12,7 +12,7 @@ import Bare from './Bare';
 
 function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
-  const [defaultValue] = useState(new BN((value as BN || '0').toString()).toString(10));
+  const [defaultValue] = useState(() => new BN((value as BN || '0').toString()).toString(10));
 
   const _onChange = useCallback(
     (value?: BN): void => {

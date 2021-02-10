@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '@polkadot/react-components/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
@@ -37,9 +38,36 @@ function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
 
 function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { meta, method, section } = value.registry.findMetaCall(value.callIndex);
-  const era = getEra(value, blockNumber);
-  const thisEvents = filterEvents(index, events);
+
+  const { meta, method, section } = useMemo(
+    () => value.registry.findMetaCall(value.callIndex),
+    [value]
+  );
+
+  const mortality = useMemo(
+    (): string | undefined => {
+      if (value.isSigned) {
+        const era = getEra(value, blockNumber);
+
+        return era
+          ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+            replace: {
+              endsAt: formatNumber(era[1]),
+              startAt: formatNumber(era[0])
+            }
+          })
+          : t<string>('immortal');
+      }
+
+      return undefined;
+    },
+    [blockNumber, t, value]
+  );
+
+  const thisEvents = useMemo(
+    () => filterEvents(index, events),
+    [index, events]
+  );
 
   return (
     <tr
@@ -56,19 +84,11 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
         >
           <Call
             className='details'
-            mortality={
-              era
-                ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
-                  replace: {
-                    endsAt: formatNumber(era[1]),
-                    startAt: formatNumber(era[0])
-                  }
-                })
-                : t<string>('immortal')
-            }
+            mortality={mortality}
             tip={value.tip?.toBn()}
             value={value}
             withHash
+            withSignature
           />
         </Expander>
       </td>
@@ -102,7 +122,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
   );
 }
 
-export default React.memo(styled(ExtrinsicDisplay)`
+export default React.memo(styled(ExtrinsicDisplay)(({ theme }: ThemeProps) => `
   .explorer--BlockByHash-event+.explorer--BlockByHash-event {
     margin-top: 0.75rem;
   }
@@ -117,6 +137,6 @@ export default React.memo(styled(ExtrinsicDisplay)`
 
   .explorer--BlockByHash-unsigned {
     opacity: 0.6;
-    font-weight: 400;
+    font-weight: ${theme.fontWeightNormal};
   }
-`);
+`));

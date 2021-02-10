@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
+import { BN_HUNDRED } from '@polkadot/util';
 
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
@@ -31,6 +32,7 @@ interface Props {
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
+  toggleLedger: () => void;
 }
 
 interface SavedFlags {
@@ -83,7 +85,7 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
 
     const stashId = accountId.toString();
     const thisIdentity = allIdentity[stashId];
-    const nomCount = nominatedBy?.[stashId]?.length || numNominators || 0;
+    const nomCount = numNominators || nominatedBy?.[stashId]?.length || 0;
 
     if (
       (!withElected || isElected) &&
@@ -94,7 +96,7 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
           ? (commissionPer < MAX_COMM_PERCENT)
           : (!medianComm || (commissionPer <= medianComm)))
       ) &&
-      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gten(nomCount))
+      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).div(BN_HUNDRED).gten(nomCount))
     ) {
       if (!withGroup) {
         return true;
@@ -173,7 +175,7 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -225,6 +227,10 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       sort(sortBy, sortFromMax, filtered)
     );
   }, [filtered, sortBy, sortFromMax]);
+
+  useEffect((): void => {
+    toggleLedger();
+  }, [toggleLedger]);
 
   const myNominees = useMemo(
     () => extractNominees(ownNominators),
@@ -339,6 +345,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <Summary
         avgStaked={avgStaked}
         lowStaked={lowStaked}
+        minNominated={minNominated}
         numNominators={nominators?.length}
         numValidators={validators?.length}
         stakedReturn={stakedReturn}

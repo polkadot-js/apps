@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
-import type { DeriveParachainInfo } from '@polkadot/api-derive/types';
+import type { Codec } from '@polkadot/types/types';
 
-export function parachainName (t: TFunction, info: DeriveParachainInfo | null): string {
-  return info?.name || t<string>('Unknown Chain');
-}
+export function sliceHex (value: Codec, max: number): string {
+  const hex = value.toHex();
 
-export function parachainOwner (t: TFunction, info: DeriveParachainInfo | null): string {
-  return info?.owner || t<string>('Unknown Owner');
+  return hex.length > ((2 * max) + 2)
+    ? `${hex.slice(0, max + 2)}…${hex.slice(-max)}`
+    : hex;
 }

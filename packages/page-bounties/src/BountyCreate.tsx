@@ -1,37 +1,53 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BalanceOf } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
+import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond } from './helpers/calculateBountyBond';
+import { calculateBountyBond, countUtf8Bytes } from './helpers';
 import { useTranslation } from './translate';
+
+const MIN_TITLE_LEN = 1;
+const TITLE_DEFAULT_VALUE = '';
+const BOUNTY_DEFAULT_VALUE = BN_ZERO;
 
 function BountyCreate () {
   const { t } = useTranslation();
-  const { api } = useApi();
-
+  const { bountyDepositBase, bountyValueMinimum, dataDepositPerByte, maximumReasonLength, proposeBounty } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const balance = useBalance(accountId);
+
   const [title, setTitle] = useState('');
-  const [bond, setBond] = useState(((api.consts.bounties || api.consts.treasury).bountyDepositBase as BalanceOf).toBn());
-  const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
-  const [isValid] = useState(true);
+  const [bond, setBond] = useState(bountyDepositBase);
+  const [value, setValue] = useState<BN | undefined>(BOUNTY_DEFAULT_VALUE);
   const [isOpen, toggleIsOpen] = useToggle();
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isValueValid, setIsValueValid] = useState(false);
+  const [hasFunds, setHasFunds] = useState(false);
+
+  useEffect(() => {
+    setIsTitleValid(title?.length >= MIN_TITLE_LEN && countUtf8Bytes(title) <= maximumReasonLength);
+  }, [maximumReasonLength, title]);
+
+  useEffect(() => {
+    setIsValueValid(!!value?.gte(bountyValueMinimum));
+  }, [bountyValueMinimum, value]);
+
+  useEffect(() => {
+    setHasFunds(!!balance?.gte(bond));
+  }, [balance, bond]);
+
+  const isValid = hasFunds && isTitleValid && isValueValid;
 
   const onTitleChange = useCallback((value: string) => {
-    const bountyBase = api.consts.bounties || api.consts.treasury;
-    const bountyDepositBase = bountyBase.bountyDepositBase;
-    const bountyDepositPerByte = bountyBase.dataDepositPerByte;
-
     setTitle(value);
-    setBond(calculateBountyBond(value, bountyDepositBase as BalanceOf, bountyDepositPerByte as BalanceOf));
-  }, [api]);
+    setBond(calculateBountyBond(value, bountyDepositBase, dataDepositPerByte));
+  }, [bountyDepositBase, dataDepositPerByte]);
 
   return (
     <>
@@ -51,11 +67,16 @@ function BountyCreate () {
               <Modal.Column>
                 <Input
                   autoFocus
+                  defaultValue={TITLE_DEFAULT_VALUE}
                   help={t<string>('The description of this bounty')}
+                  isError={!isTitleValid}
                   label={t<string>('bounty title')}
                   onChange={onTitleChange}
                   value={title}
                 />
+                {!isTitleValid && (title !== TITLE_DEFAULT_VALUE) && (
+                  <MarkError content={t<string>('Title too long')} />
+                )}
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('Description of the Bounty (to be stored on-chain)')}</p>
@@ -64,12 +85,16 @@ function BountyCreate () {
             <Modal.Columns>
               <Modal.Column>
                 <InputBalance
-                  help={t<string>('The total payment amount of this bounty, curators fee included.')}
+                  help={t<string>("The total payment amount of this bounty, curator's fee included.")}
+                  isError={!isValueValid}
                   isZeroable
                   label={t<string>('bounty requested allocation')}
-                  onChange={setAmount}
-                  value={amount}
+                  onChange={setValue}
+                  value={value}
                 />
+                {!isValueValid && !value?.eq(BOUNTY_DEFAULT_VALUE) && (
+                  <MarkError content={t<string>('Allocation value is smaller than the minimum bounty value.')} />
+                )}
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.')}</p>
@@ -92,11 +117,15 @@ function BountyCreate () {
               <Modal.Column>
                 <InputAddress
                   help={t<string>('Select the account you wish to propose the bounty from.')}
+                  isError={!hasFunds}
                   label={t<string>('submit with account')}
                   onChange={setAccountId}
                   type='account'
                   withLabel
                 />
+                {!hasFunds && (
+                  <MarkError content={t<string>('Account does not have enough funds.')} />
+                )}
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('This account will propose the bounty. Bond amount will be reserved on its balance.')}</p>
@@ -110,12 +139,8 @@ function BountyCreate () {
               isDisabled={!accountId || !isValid}
               label={t<string>('Add Bounty')}
               onStart={toggleIsOpen}
-              params={[amount, title]}
-              tx={
-                api.tx.bounties
-                  ? 'bounties.proposeBounty'
-                  : 'treasury.proposeBounty'
-              }
+              params={[value, title]}
+              tx={proposeBounty}
             />
           </Modal.Actions>
         </Modal>

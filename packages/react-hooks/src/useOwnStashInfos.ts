@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -69,8 +69,8 @@ export function useOwnStashInfos (): StakerState[] | undefined {
       if (ownStashes.length) {
         const stashIds = ownStashes.map(([stashId]) => stashId);
         const fns: any[] = [
-          [api.derive.staking.accounts as any, stashIds],
-          [api.query.staking.validators.multi as any, stashIds]
+          [api.derive.staking.accounts, stashIds],
+          [api.query.staking.validators.multi, stashIds]
         ];
 
         api.combineLatest<[DeriveStakingAccount[], ValidatorInfo[]]>(fns, ([accounts, validators]): void => {

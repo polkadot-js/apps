@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-signing authors & contributors
+// Copyright 2017-2021 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer } from '@polkadot/api/types';
@@ -38,7 +38,7 @@ interface SignerState {
 
 function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
+  const [currentPair, setCurrentPair] = useState<KeyringPair | null>(() => keyring.getPairs()[0] || null);
   const [{ data, isHexData }, setData] = useState<DataState>({ data: '', isHexData: false });
   const [{ isInjected }, setAccountState] = useState<AccountState>({ isExternal: false, isHardware: false, isInjected: false });
   const [isLocked, setIsLocked] = useState(false);

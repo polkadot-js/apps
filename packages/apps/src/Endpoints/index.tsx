@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
@@ -121,10 +121,10 @@ function loadAffinities (groups: Group[]): Record<string, string> {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
-  const [groups, setGroups] = useState(combineEndpoints(linkOptions));
-  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(settings.get().apiUrl, groups));
-  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
-  const [affinities, setAffinities] = useState(loadAffinities(groups));
+  const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
+  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
+  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
+  const [affinities, setAffinities] = useState(() => loadAffinities(groups));
 
   const isKnownUrl = useMemo(() => {
     let result = false;

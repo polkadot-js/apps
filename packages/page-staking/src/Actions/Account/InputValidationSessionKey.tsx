@@ -1,9 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
+
+import { MarkWarning } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
 
@@ -34,9 +36,7 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
   }
 
   return (
-    <article className='warning'>
-      <div>{error}</div>
-    </article>
+    <MarkWarning content={error} />
   );
 }
 

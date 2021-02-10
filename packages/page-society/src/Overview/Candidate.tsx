@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -24,7 +24,7 @@ interface Props {
 
 function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const votes = useCall<VoteType[]>(api.query.society.votes.multi, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as any, {
+  const votes = useCall<VoteType[]>(api.query.society.votes.multi, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])], {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
         .map((voteOpt, index): [string, Option<SocietyVote>] => [allMembers[index], voteOpt])

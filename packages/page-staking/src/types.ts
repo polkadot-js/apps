@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Inflation } from '@polkadot/react-hooks/types';
@@ -46,19 +46,19 @@ interface ValidatorInfoRank {
 export interface ValidatorInfo extends ValidatorInfoRank {
   accountId: AccountId;
   bondOther: BN;
-  bondOwn: Balance;
+  bondOwn: BN;
   bondShare: number;
-  bondTotal: Balance;
+  bondTotal: BN;
   commissionPer: number;
   exposure: Exposure;
   isActive: boolean;
-  isCommission: boolean;
   isElected: boolean;
   isFavorite: boolean;
   isNominating: boolean;
   key: string;
   knownLength: BN;
   lastPayout?: BN;
+  minNominated: BN;
   numNominators: number;
   numRecentPayouts: number;
   skipRewards: boolean;
@@ -75,6 +75,7 @@ export interface SortedTargets {
   inflation: Inflation;
   lowStaked?: BN;
   medianComm: number;
+  minNominated: BN;
   nominators?: string[];
   totalStaked?: BN;
   totalIssuance?: BN;

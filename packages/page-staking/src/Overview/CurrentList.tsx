@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -90,7 +90,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
 
   const infoMap = useMemo(
     () => targets.validators?.reduce((result: Record<string, ValidatorInfo>, info): Record<string, ValidatorInfo> => {
-      result[info.accountId.toString()] = info;
+      result[info.key] = info;
 
       return result;
     }, {}),
@@ -129,9 +129,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           key={address}
           lastBlock={byAuthor[address]}
           nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
-          onlineCount={recentlyOnline?.[address]?.blockCount}
-          onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
+          recentlyOnline={recentlyOnline?.[address]}
           toggleFavorite={toggleFavorite}
           validatorInfo={infoMap?.[address]}
           withIdentity={toggles.withIdentity}
@@ -186,7 +185,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
         header={headerActiveRef.current}
         legend={<Legend />}
       >
-        {(isLoading || !recentlyOnline || !infoMap) ? undefined : _renderRows(validators, true)}
+        {isLoading ? undefined : _renderRows(validators, true)}
       </Table>
     );
 }

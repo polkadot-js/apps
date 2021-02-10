@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2021 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -6,15 +6,16 @@ import type { Routes } from './types';
 
 import accounts from './accounts';
 import addresses from './addresses';
+import auctions from './auctions';
 import bounties from './bounties';
 import calendar from './calendar';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
+import crowdloan from './crowdloan';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
 import poll from './poll';
@@ -37,7 +38,6 @@ export default function create (t: TFunction): Routes {
     claims(t),
     poll(t),
     transfer(t),
-    genericAsset(t),
     staking(t),
     democracy(t),
     council(t),
@@ -45,6 +45,8 @@ export default function create (t: TFunction): Routes {
     bounties(t),
     techcomm(t),
     parachains(t),
+    auctions(t),
+    crowdloan(t),
     society(t),
     calendar(t),
     contracts(t),

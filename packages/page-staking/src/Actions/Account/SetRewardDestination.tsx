@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RewardDestination } from '@polkadot/types/interfaces';
@@ -7,6 +7,7 @@ import type { DestinationType } from '../types';
 import React, { useMemo, useState } from 'react';
 
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import { createDestCurr } from '../destOptions';
@@ -20,8 +21,9 @@ interface Props {
 
 function SetRewardDestination ({ controllerId, defaultDestination, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [destination, setDestination] = useState<DestinationType>(((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
-  const [destAccount, setDestAccount] = useState<string | null>(defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
+  const { api } = useApi();
+  const [destination, setDestination] = useState<DestinationType>(() => ((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
+  const [destAccount, setDestAccount] = useState<string | null>(() => defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
 
   const options = useMemo(
     () => createDestCurr(t),
@@ -91,7 +93,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
               ? { Account: destAccount }
               : destination
           ]}
-          tx='staking.setPayee'
+          tx={api.tx.staking.setPayee}
         />
       </Modal.Actions>
     </Modal>

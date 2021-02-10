@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -28,8 +28,8 @@ interface Props {
 
 function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
-  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section));
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
   const [value, setValue] = useState<SubmittableExtrinsicFunction<'promise'>>((): SubmittableExtrinsicFunction<'promise'> => defaultValue);
 
   const _onKeyChange = useCallback(

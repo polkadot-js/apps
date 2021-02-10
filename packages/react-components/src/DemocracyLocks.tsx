@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -86,7 +86,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
-  const [trigger] = useState(`${Date.now()}-democracy-locks-${++id}`);
+  const [trigger] = useState(() => `${Date.now()}-democracy-locks-${++id}`);
   const [{ maxBalance, sorted }, setState] = useState<State>({ maxBalance: BN_ZERO, sorted: [] });
 
   useEffect((): void => {

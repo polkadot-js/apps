@@ -1,7 +1,7 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { GenericContainer, Wait } from 'testcontainers';
+import { AlwaysPullPolicy, GenericContainer, Wait } from 'testcontainers';
 
 import { SubstrateTestsGlobal } from './substrateTestsGlobal';
 
@@ -11,6 +11,7 @@ const startSubstrate = async () => {
   console.log('Substrate container starting...');
 
   const startedTestContainer = await new GenericContainer('parity/substrate')
+    .withPullPolicy(new AlwaysPullPolicy())
     .withName('polkadot-apps-test-substrate')
     .withExposedPorts(9944)
     .withCmd(['--dev', '--ws-port=9944', '--unsafe-ws-external'])
