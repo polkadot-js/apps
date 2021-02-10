@@ -92,7 +92,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
           )}
         </td>
-        <td className='bounty-action-message'>
+        <td>
           {blocksUntilPayout
             ? <DueBlocks
               dueBlocks={blocksUntilPayout}
@@ -330,9 +330,5 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   & .ui--FormatBalance {
     font-size: 0.85rem;
     line-height: 1.4rem;
-  }
-
-  & .bounty-action-message {
-    width: 10rem;
   }
 `));
