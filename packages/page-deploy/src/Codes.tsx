@@ -27,7 +27,7 @@ function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props):
                 </Link>
                 {` ${t<string>('or')} `}
                 <Link to={'/upload'}>
-                  {t<string>('upload a new Wasm blob')}
+                  {t<string>('upload a new contract bundle')}
                 </Link>
                 {'.'}
               </>
@@ -41,7 +41,7 @@ function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props):
                 </Link>
                 {` ${t<string>('or by')} `}
                 <Link to={'/upload'}>
-                  {t<string>('uploading a new Wasm blob')}
+                  {t<string>('uploading a new contract bundle')}
                 </Link>
                 {'.'}
               </>
@@ -64,7 +64,7 @@ function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props):
           )))}
           <Button.Group>
             <Button
-              label={t<string>('Upload New Wasm Blob')}
+              label={t<string>('Upload New Contract Bundle')}
               onClick={navigateTo.upload}
             />
             <Button

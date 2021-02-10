@@ -22,7 +22,7 @@
   "The deployment constructor information for this contract, as provided by the ABI.": "The deployment constructor information for this contract, as provided by the ABI.",
   "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.": "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.",
   "Unique Deployment Salt": "Unique Deployment Salt",
-  "Upload New Wasm Blob": "Upload New Wasm Blob",
+  "Upload New Contract Bundle": "Upload New Contract Bundle",
   "You can add an existing code bundle by": "You can add an existing code bundle by",
   "Your contract has been successfully deployed on chain.": "Your contract has been successfully deployed on chain.",
   "deployment account": "deployment account",
@@ -30,8 +30,8 @@
   "maximum gas allowed": "maximum gas allowed",
   "or": "or",
   "or by": "or by",
-  "upload a new Wasm blob": "upload a new Wasm blob",
-  "uploading a new Wasm blob": "uploading a new Wasm blob",
+  "upload a new contract bundle": "upload a new Contract Bundle",
+  "uploading a new contract bundle": "uploading a new Contract Bundle",
   "use deployment salt": "use deployment salt",
   "using its code hash": "using its code hash"
 }
