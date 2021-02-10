@@ -2330,7 +2330,7 @@ __metadata:
     "@interlay/polkabtc-types": ^0.3.4
     "@laminar/type-definitions": ^0.2.0-beta.143
     "@polkadot/networks": ^5.6.2
-    "@sora-substrate/type-definitions": ^0.3.7
+    "@sora-substrate/type-definitions": ^0.4.1
     "@subsocial/types": ^0.4.29
     i18next: ^19.8.5
     moonbeam-types-bundle: ^1.1.4
@@ -3082,12 +3082,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:^0.3.7":
-  version: 0.3.7
-  resolution: "@sora-substrate/type-definitions@npm:0.3.7"
+"@sora-substrate/type-definitions@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@sora-substrate/type-definitions@npm:0.4.1"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: 905b682a14f41800367fcf465c2420060773425b9f1557cb144b1b348e0ba0ca3f4f55b55e047a4f2ea6bab9923d9c08b18c178b2572420e0239a71b7b33f36d
+  checksum: 21037a6365e445090dad7c2cf475e1858dbe35daf9ac0a9d492db09a8cbddaebd0a0b9b0080f639ecbbe3fbab0745a4306a56af86307e0758092858036b8240d
   languageName: node
   linkType: hard
 
