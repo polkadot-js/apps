@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import typesChain from './chain';
-import specVersioned from './specVersioned';
+import spec from './spec';
 
 export * from './constants';
 export * from './params';
@@ -13,6 +13,6 @@ export function getChainTypes (_specName: string, chainName: string): Record<str
   };
 }
 
-export const typesBundle = { spec: specVersioned };
+export const typesBundle = { spec };
 
 export { typesChain };
