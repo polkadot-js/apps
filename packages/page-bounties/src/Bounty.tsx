@@ -70,7 +70,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      <tr className={className}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''} isOdd`}>
         <td>
           <BountyStatusView bountyStatus={bountyStatus}/>
         </td>
@@ -157,10 +157,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
       </tr>
-      <tr className={className}
-        style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
-        <td
-          colSpan={2}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} isOdd`}>
+        <td colSpan={2}>
           <div className='label-column-left'>
             <div className='label'>{t('Proposer')}</div>
             <AddressSmall value={proposer} />
@@ -170,8 +168,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             {index.toString()}
           </div>
         </td>
-        <td
-          colSpan={2}>
+        <td colSpan={2}>
           <div className='label-column-right'>
             <div className='label'>{t('Bond')}</div>
             <div className='inline-balance'><FormatBalance value={bond} /></div>
@@ -226,6 +223,14 @@ function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps
 }
 
 export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
+  &.isCollapsed {
+    visibility: collapse;
+  }
+
+  &.isExpanded {
+    visibility: visible;
+  }
+
   .description-column {
     max-width: 200px;
 
@@ -292,11 +297,11 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   }
 
   .label-column-right {
-    padding: 0 0 1.7rem;
+    padding: 0 0 0.75rem;
   }
 
   .label-column-left {
-    padding: 0 0 1.3rem;
+    padding: 0 0 0.75rem;
   }
 
   & .td-info-action-row {

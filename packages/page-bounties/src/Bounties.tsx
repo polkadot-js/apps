@@ -45,17 +45,19 @@ function Bounties ({ className }: Props): React.ReactElement {
         header={headerRef.current}
       >
         {bounties && bestNumber &&
-        bounties.sort((a, b) => b.index.cmp(a.index))
-          .map(({ bounty, description, index, proposals }) => (
-            <Bounty
-              bestNumber={bestNumber}
-              bounty={bounty}
-              description={description}
-              index={index}
-              key={index.toNumber()}
-              proposals={proposals}
-            />
-          ))}
+          bounties
+            .sort((a, b) => b.index.cmp(a.index))
+            .map(({ bounty, description, index, proposals }) => (
+              <Bounty
+                bestNumber={bestNumber}
+                bounty={bounty}
+                description={description}
+                index={index}
+                key={index.toNumber()}
+                proposals={proposals}
+              />
+            ))
+        }
       </Table>
     </div>
   );
