@@ -35,6 +35,7 @@ import jupiter from './jupiter';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
+import litentry from './litentry';
 import moonbeam from './moonbeam';
 import nodle from './nodle';
 import phala from './phala';
@@ -91,6 +92,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'kilt-parachain': kilt,
   kulupu,
   laminar,
+  litentry,
   mandala: acala,
   'mashnet-node': kilt,
   'moonbase-alphanet': moonbeam,
