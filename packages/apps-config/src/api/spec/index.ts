@@ -1,6 +1,9 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
+
+import acala from './acala';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bitcountry from './bitcountry';
@@ -19,6 +22,7 @@ import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dotmog from './dotmog';
 import dusty from './dusty';
+import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
@@ -29,14 +33,18 @@ import idavoll from './idavoll';
 import integritee from './integritee';
 import jupiter from './jupiter';
 import kilt from './kilt';
+import kulupu from './kulupu';
+import laminar from './laminar';
+import moonbeam from './moonbeam';
 import nodle from './nodle';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
+import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import robonomics from './robonomics';
-import stablePoc from './stable-poc';
+import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
 import subdao from './subdao';
 import subsocial from './subsocial';
@@ -46,17 +54,19 @@ import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
 
-// mapping from specName in state.getRuntimeVersion
-export default {
+// NOTE: The mapping is done from specName in state.getRuntimeVersion
+const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
+  acala,
   'ares-parachain': aresParachain,
-  bifrost: bifrost,
+  bifrost,
   'bitcountry-node': bitcountry,
+  'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
-  chainx: chainx,
+  chainx,
   clover,
   'clover-rococo': cloverRococo,
   crust,
@@ -68,17 +78,25 @@ export default {
   'dock-testnet': dock,
   'dotmog-node': dotmog,
   dusty3: dusty,
+  edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   'hack-hydra-dx': hydrate,
   hanonycash,
   'hydra-dx': hydrate,
-  idavoll: idavoll,
+  idavoll,
   'integritee-parachain': integritee,
   jupiter,
   'kilt-parachain': kilt,
+  kulupu,
+  laminar,
+  mandala: acala,
   'mashnet-node': kilt,
+  'moonbase-alphanet': moonbeam,
+  moonbeam,
+  'moonbeam-standalone': moonbeam,
+  'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'phala-collator': phalaParachain,
@@ -86,14 +104,15 @@ export default {
   plasm,
   'plasm-parachain': plasmParachain,
   robonomics,
-  'stable-poc': stablePoc,
-  stable_poc: stablePoc,
+  'sora-substrate': soraSubstrate,
   stafi,
   subdao,
   subsocial,
   subzero: zero,
-  ternoa: ternoa,
-  trustbase: trustbase,
-  uniarts: uniarts,
+  ternoa,
+  trustbase,
+  uniarts,
   zenlink
 };
+
+export default spec;
