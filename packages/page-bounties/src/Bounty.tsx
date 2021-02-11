@@ -4,14 +4,12 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
-import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
@@ -20,6 +18,7 @@ import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
 import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
+import DueBlocks from './DueBlocks';
 import { useBountyStatus } from './hooks';
 import { bountyBorderColor, bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
@@ -32,11 +31,6 @@ interface Props {
   description: string;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
-}
-
-interface DueProps {
-  dueBlocks: BN | undefined;
-  until: 'update' | 'payout';
 }
 
 const EMPTY_CELL = '-';
@@ -93,18 +87,20 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           )}
         </td>
         <td>
-          {blocksUntilPayout
-            ? <DueBlocks
+          {blocksUntilPayout && unlockAt && (
+            <DueBlocks
               dueBlocks={blocksUntilPayout}
-              until={'payout'}
+              endBlock={unlockAt}
+              label={t<string>('payout')}
             />
-            : ''}
-          {blocksUntilUpdate
-            ? <DueBlocks
+          )}
+          {blocksUntilUpdate && updateDue && (
+            <DueBlocks
               dueBlocks={blocksUntilUpdate}
-              until={'update'}
+              endBlock={updateDue}
+              label={t<string>('update')}
             />
-            : ''}
+          )}
           <BountyActionMessage
             bestNumber={bestNumber}
             blocksUntilUpdate={blocksUntilUpdate}
@@ -205,22 +201,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         </td>
         <td />
       </tr>
-    </>
-  );
-}
-
-function DueBlocks ({ dueBlocks, until }: DueProps): React.ReactElement<DueProps> {
-  const { t } = useTranslation();
-
-  return (
-    <>
-      {dueBlocks && dueBlocks.gtn(0) && (
-        <>
-          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(dueBlocks) } })}
-          <BlockToTime blocks={dueBlocks}
-            className='block-to-time'> until {until}</BlockToTime>
-        </>
-      )}
     </>
   );
 }
