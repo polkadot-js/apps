@@ -3,8 +3,8 @@
 
 /* eslint-disable sort-keys */
 export default {
-  Address: 'AccountId',
-  LookupSource: 'AccountId',
+  Address: 'MultiAddress',
+  LookupSource: 'MultiAddress',
   Balance: 'u128',
   AssetId: 'u64',
   BlockNumber: 'u32',
