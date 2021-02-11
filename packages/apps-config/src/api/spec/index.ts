@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
+
 import acala from './acala';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
@@ -52,7 +54,7 @@ import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
 
-export default {
+const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
@@ -111,3 +113,5 @@ export default {
   uniarts,
   zenlink
 };
+
+export default spec;
