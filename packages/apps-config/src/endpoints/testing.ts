@@ -144,13 +144,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'jupiter',
       text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://jupiter.elara.patract.io'
-      }
-    },
-    {
-      info: 'jupiter',
-      text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
-      providers: {
+        Elara: 'wss://jupiter.elara.patract.io',
         Patract: 'wss://ws.jupiter.patract.cn'
       }
     },
@@ -198,17 +192,17 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'laminar',
-      text: t('rpc.turbulence', 'Turbulence', { ns: 'apps-config' }),
-      providers: {
-        Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
-      }
-    },
-    {
       info: 'sora-substrate',
       text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      info: 'laminar',
+      text: t('rpc.turbulence', 'Turbulence', { ns: 'apps-config' }),
+      providers: {
+        Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
       }
     },
     {

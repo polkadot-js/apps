@@ -141,11 +141,11 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoPolkabtc',
-        paraId: 21,
-        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        info: 'rococoKilt',
+        paraId: 12623,
+        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
-          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
         }
       },
       {
@@ -154,14 +154,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
           Acala: 'wss://rococo-1.acala.laminar.one/ws'
-        }
-      },
-      {
-        info: 'rococoKilt',
-        paraId: 12623,
-        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
-        providers: {
-          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
         }
       },
       {
@@ -181,19 +173,19 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPolkabtc',
+        paraId: 21,
+        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+        }
+      },
+      {
         info: 'rococoRobonomics',
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
-        }
-      },
-      {
-        info: 'rococoZenlink',
-        paraId: 188,
-        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
-        providers: {
-          Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       },
       {
@@ -210,6 +202,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),
         providers: {
           TrustBase: 'wss://rococo.trustednodes.net'
+        }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
       }
     ]
