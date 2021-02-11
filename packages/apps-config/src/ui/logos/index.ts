@@ -47,6 +47,7 @@ import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
+import nodeLitentry from './nodes/litentry.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
@@ -150,6 +151,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
+  ['Litentry Parachain Collator', nodeLitentry],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
@@ -235,6 +237,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoIntegritee: nodeIntegritee,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
+  rococoLitentry: nodeLitentry,
   rococoPhala: nodePhala,
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,

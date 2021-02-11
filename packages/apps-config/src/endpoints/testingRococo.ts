@@ -211,6 +211,14 @@ export function createRococo (t: TFunction): EndpointOption {
         providers: {
           TrustBase: 'wss://rococo.trustednodes.net'
         }
+      },
+      {
+        info: 'rococoLitentry',
+        paraId: 1984,
+        text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rococov1.litentry.io'
+        }
       }
     ]
   };
