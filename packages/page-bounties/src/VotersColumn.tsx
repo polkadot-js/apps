@@ -10,9 +10,9 @@ import styled from 'styled-components';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
-import { getProposalToDisplay } from '../helpers/extendedStatuses';
-import { bountyLabelColor } from '../theme';
-import { useTranslation } from '../translate';
+import { getProposalToDisplay } from './helpers/extendedStatuses';
+import { bountyLabelColor } from './theme';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

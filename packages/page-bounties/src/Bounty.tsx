@@ -13,8 +13,8 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
-import VotersColumn from './Voting/VotersColumn';
 import { BountyActions } from './BountyActions';
 import BountyExtraActions from './BountyExtraActions';
 import BountyInfos from './BountyInfos';
@@ -23,6 +23,7 @@ import Curator from './Curator';
 import { useBountyStatus } from './hooks';
 import { bountyBorderColor, bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
+import VotersColumn from './VotersColumn';
 
 interface Props {
   bestNumber: BlockNumber;
@@ -71,12 +72,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
     <>
       <tr className={className}>
         <td>
-          <BountyStatusView
-            blocksUntilPayout={blocksUntilPayout}
-            bountyStatus={bountyStatus}
-            proposals={proposals}
-            status={status}
-          />
+          <BountyStatusView bountyStatus={bountyStatus}/>
         </td>
         <td
           className='description-column'
@@ -109,12 +105,16 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
               until={'update'}
             />
             : ''}
+          <BountyActionMessage
+            bestNumber={bestNumber}
+            blocksUntilUpdate={blocksUntilUpdate}
+            status={status}
+          />
         </td>
-        <td>
+        <td className='td-info-action-row'>
           <div className='td-row'>
             <BountyInfos
               beneficiary={beneficiary}
-              blocksUntilUpdate={blocksUntilUpdate}
               proposals={proposals}
               status={status}
             />
@@ -240,7 +240,10 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     display: inline-flex;
   }
 
-  & .fast-actions {
+  & td.fast-actions {
+    padding-left: 0.2rem;
+    width: 1%;
+
     .fast-actions-row {
       display: flex;
       align-items: center;
@@ -296,17 +299,24 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     padding: 0 0 1.3rem;
   }
 
+  & .td-info-action-row {
+    padding-right: 0;
+  }
+
   .td-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    & :only-child {
+      margin-left: auto;
+    }
   }
 
   .bounty-action-row {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-left: auto;
 
     & > * + * {
       margin-left: 0.6rem;
@@ -314,9 +324,8 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   }
 
   .block-to-time {
-    margin-top: 0.28rem;
     font-size: 0.7rem;
-    line-height: 0.85rem;
+    line-height: 1.5rem;
     color: ${bountyLabelColor[theme.theme]};
   }
 
