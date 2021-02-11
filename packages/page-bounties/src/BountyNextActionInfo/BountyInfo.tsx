@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
-import { bountyColor, bountyLabelColor, bountySvgColor } from '../theme';
+import { bountyLabelColor, bountySvgColor } from '../theme';
 
 interface Props {
   className: '';
@@ -36,7 +36,6 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
   font-weight: 500;
   font-size: 0.857rem;
   line-height: 1.5rem;
-  color: ${bountyColor[theme.theme]};
 
   .info-icon{
     margin-right: 0.2rem;
