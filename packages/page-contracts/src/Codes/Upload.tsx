@@ -7,7 +7,7 @@ import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CodePromise } from '@polkadot/api-contract';
-import { Button, Dropdown, InputAddress, InputBalance, InputFile, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
@@ -29,7 +29,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const { api } = useApi();
   const [accountId, setAccountId] = useAccountId();
   const [step, nextStep, prevStep] = useStepper();
-  const [uploadTx, setUploadTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState(0);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
   const [params, setParams] = useState<any[]>([]);
@@ -86,16 +86,17 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   useEffect((): void => {
     let contract: SubmittableExtrinsic<'promise'> | null = null;
+    let error: string | null = null;
 
     try {
       contract = code && contractAbi && endowment
         ? code.createContract(constructorIndex, { gasLimit: weight.weight, value: endowment }, params)
         : null;
-    } catch (error) {
-      // ignore, is null
+    } catch (e) {
+      error = (e as Error).message;
     }
 
-    setUploadTx(() => contract);
+    setUploadTx(() => [contract, error]);
   }, [code, contractAbi, constructorIndex, endowment, params, weight]);
 
   const _onAddWasm = useCallback(
@@ -206,6 +207,9 @@ function Upload ({ onClose }: Props): React.ReactElement {
               help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
               weight={weight}
             />
+            {error && (
+              <MarkError content={error} />
+            )}
           </>
         )}
       </Modal.Content>
