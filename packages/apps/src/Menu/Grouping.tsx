@@ -54,8 +54,9 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   margin-bottom: -5px;
 
   .groupHdr {
-    border-radius: 0.15rem 0.15rem 0 0;
-    padding: 0.857rem 1.15rem 1.5rem;
+    border-radius: 0.285rem;
+    padding: 0.857rem 0.857em 0.786rem 1rem;
+    margin-bottom: 1.071rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.214rem;
@@ -67,9 +68,15 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
 
   &.isActive .groupHdr {
     background-color: ${theme.bgTabs};
-    color: ${theme.color};
     font-size: 1rem;
     font-weight: 400;
+    padding: 0.857rem 1.429rem 1.857rem;
+    margin-bottom: 0;
+
+    &:hover {
+      padding: 0.857rem 1.429rem 0.786rem 1.429rem;
+      margin-bottom: 1.071rem;
+    }
   }
 
   .groupMenu {
@@ -81,7 +88,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     overflow: hidden;
     padding: 0;
     position: absolute;
-    top: 3rem;
+    top: 2.9rem;
     z-index: 250;
 
     > li {
@@ -94,19 +101,13 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   }
 
   &:hover {
-
     .groupMenu li {
       background: ${theme.bgMenu};
       color: ${theme.color};
     }
 
-     .groupHdr {
-      background: ${theme.bgMenuTabHover};
-      color: ${theme.color};
-    }
-
     .groupHdr {
-      box-shadow: 0 -${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
+      box-shadow: 0px 4px 37px rgba(0, 0, 0, 0.08);
     }
 
     .groupMenu {

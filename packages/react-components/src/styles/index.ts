@@ -35,6 +35,15 @@ function getContrast (uiHighlight: string | undefined): string {
     : 'rgba(255, 253, 251, 0.875)';
 }
 
+function getMenuHoverContrast (uiHighlight: string | undefined): string {
+  const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
+  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return brightness < BRIGHTNESS
+    ? 'rgba(0, 0, 0, 0.15)'
+    : 'rgba(255, 255, 255, 0.15)';
+}
+
 export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
   .highlight--all {
     background: ${getHighlight(uiHighlight)} !important;
@@ -58,7 +67,6 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     background: ${getContrast(uiHighlight)};
   }
 
-  .ui--MenuItem:hover .ui--Badge.highlight--bg-contrast,
   .ui--MenuItem.isActive .ui--Badge.highlight--bg-contrast {
     background: ${getHighlight(uiHighlight)};
     color: ${getContrast(uiHighlight)} !important;
@@ -107,6 +115,20 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .highlight--gradient {
     background: ${`linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
+  }
+
+  .ui--MenuItem.topLevel:hover,
+  .ui--MenuItem.isActive.topLevel:hover {
+    color: ${getContrast(uiHighlight)};
+
+    a {
+      background-color: ${getMenuHoverContrast(uiHighlight)};
+    }
+  }
+
+  .menuItems li:hover .groupHdr {
+    background: ${getMenuHoverContrast(uiHighlight)};
+    color: ${getContrast(uiHighlight)};
   }
 
   .highlight--hover-bg:hover {
