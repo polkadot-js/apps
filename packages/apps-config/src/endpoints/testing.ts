@@ -19,7 +19,7 @@ export function createTesting (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // polkadot test relays
     createRococo(t),
-    // alphabetical based on chain name
+    // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
       info: 'centrifuge',
       text: t('rpc.amber', 'Amber', { ns: 'apps-config' }),
@@ -89,6 +89,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
+      }
+    },
+    {
+      info: 'dotmog',
+      text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
+      providers: {
+        DOTMog: 'wss://mogiway-01.dotmog.com'
       }
     },
     {
@@ -231,13 +238,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
       providers: {
         Uniarts: 'wss://testnet.uniarts.me'
-      }
-    },
-    {
-      info: 'dotmog',
-      text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
-      providers: {
-        DOTMog: 'wss://mogiway-01.dotmog.com'
       }
     }
   ]);
