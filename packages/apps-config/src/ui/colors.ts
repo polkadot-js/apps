@@ -60,6 +60,7 @@ const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeJupiter = '#7143ff';
+const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
@@ -148,6 +149,7 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['Jupiter Node', nodeJupiter],
+  ['Litentry Parachain Collator', nodeLitentry],
   ['nodle chain node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
   ['SORA-staging Node', nodeSora],

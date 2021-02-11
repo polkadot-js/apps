@@ -149,6 +149,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoLitentry',
+        paraId: 1984,
+        text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rococov1.litentry.io'
+        }
+      },
+      {
         info: 'rococoAcala',
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
