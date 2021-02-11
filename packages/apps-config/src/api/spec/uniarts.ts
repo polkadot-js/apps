@@ -5,7 +5,6 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
-/* eslint-disable camelcase */
 
 const definitions: OverrideBundleDefinition = {
   types: [
