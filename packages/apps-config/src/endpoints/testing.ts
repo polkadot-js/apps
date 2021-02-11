@@ -4,7 +4,6 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
 
-import { createRococo } from './testingRococo';
 import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
@@ -17,8 +16,6 @@ import { expandEndpoints } from './util';
 
 export function createTesting (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
-    // polkadot test relays
-    createRococo(t),
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
       info: 'centrifuge',

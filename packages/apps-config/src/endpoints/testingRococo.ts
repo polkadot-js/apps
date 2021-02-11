@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { EndpointOption } from './types';
+import type { LinkOption } from '../settings/types';
+
+import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -13,8 +15,8 @@ import type { EndpointOption } from './types';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): EndpointOption {
-  return {
+export function createRococo (t: TFunction): LinkOption[] {
+  return expandEndpoints(t, [{
     dnslink: 'rococo',
     genesisHash: '0xe2bcff61f49d41ef837b92331a3f02dee14fa59723bc850697f516c5376cde1c',
     info: 'rococo',
@@ -221,5 +223,5 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       }
     ]
-  };
+  }]);
 }
