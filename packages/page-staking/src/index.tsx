@@ -159,7 +159,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         ownStashes={ownStashes}
         targets={targets}
       />
-      {basePath === pathname && ownStashes && hasAccounts && (
+      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
         <ActionsBanner />
       )}
       <Overview
