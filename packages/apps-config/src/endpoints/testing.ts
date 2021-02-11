@@ -196,17 +196,17 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'laminar',
-      text: t('rpc.turbulence', 'Turbulence', { ns: 'apps-config' }),
-      providers: {
-        Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
-      }
-    },
-    {
       info: 'ternoa-chaos',
       text: t('rpc.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
       providers: {
         CapsuleCorp: 'wss://chaos.ternoa.com'
+      }
+    },
+    {
+      info: 'laminar',
+      text: t('rpc.turbulence', 'Turbulence', { ns: 'apps-config' }),
+      providers: {
+        Laminar: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
       }
     },
     {
