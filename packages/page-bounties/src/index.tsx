@@ -8,7 +8,7 @@ import { Tabs } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 
 import Bounties from './Bounties';
-import { bountyBorderColor, bountyColor, bountyOddRowBackground } from './theme';
+import { bountyBorderColor, bountyOddRowBackground } from './theme';
 import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
@@ -63,7 +63,6 @@ export default React.memo(styled(BountiesApp)(({ theme }: ThemeProps) => `
     vertical-align: baseline;
     font-size: 1rem;
     line-height: 1.7rem;
-    color: ${bountyColor[theme.theme]};
     border-bottom: 1px solid ${bountyBorderColor[theme.theme]};
 
     &:first-child {

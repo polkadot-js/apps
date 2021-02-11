@@ -333,9 +333,4 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     display: flex;
     justify-content: space-between;
   }
-
-  & .ui--FormatBalance {
-    font-size: 0.85rem;
-    line-height: 1.4rem;
-  }
 `));
