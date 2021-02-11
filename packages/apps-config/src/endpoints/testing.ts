@@ -219,6 +219,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'uniarts',
+      text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
+      providers: {
+        Uniarts: 'wss://testnet.uniarts.me'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
@@ -231,13 +238,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
-      }
-    },
-    {
-      info: 'uniarts',
-      text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
-      providers: {
-        Uniarts: 'wss://testnet.uniarts.me'
       }
     }
   ]);
