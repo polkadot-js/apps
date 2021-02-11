@@ -24,7 +24,7 @@ export default {
     }
   },
   TokenSymbol: {
-    _enum: [ "ACA", "AUSD", "DOT", "XBTC", "LDOT", "RENBTC", "SDN", "PLM" ]
+    _enum: ["ACA", "AUSD", "DOT", "XBTC", "LDOT", "RENBTC", "SDN", "PLM"]
   },
   AmountOf: "Amount",
   Amount: "i128"
