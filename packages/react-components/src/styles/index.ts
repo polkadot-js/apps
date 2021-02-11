@@ -261,7 +261,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
     &.mark {
       margin: 0.5rem 0 0.5rem 2.25rem;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1rem !important;
     }
 
     &.nomargin {
