@@ -12,8 +12,8 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'AccountId',
-        LookupSource: 'AccountId',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
         Balance: 'u128',
         AssetId: 'u64',
         BlockNumber: 'u32',

@@ -69,6 +69,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBitCountry',
+        paraId: 107,
+        text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
+        providers: {
+          BitCountry: 'wss://tewai-parachain.bit.country:9955'
+        }
+      },
+      {
         info: 'rococoClover',
         paraId: 229,
         text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
