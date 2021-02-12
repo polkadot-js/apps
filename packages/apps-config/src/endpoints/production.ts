@@ -14,7 +14,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createProduction (t: TFunction): LinkOption[] {
+export function createProduction(t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // fixed, polkadot
     {
@@ -121,7 +121,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'nodle',
       text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main1.nodleprotocol.io',
+        Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
       }
     },
