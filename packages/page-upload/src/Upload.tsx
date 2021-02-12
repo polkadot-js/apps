@@ -108,7 +108,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
       {...pendingTx}
     >
       <header>
-        <h1>{t<string>('Upload WASM Code Blob')}</h1>
+        <h1>{t<string>('Upload Contract Bundle')}</h1>
         <div className='instructions'>
           {t<string>('You can upload an existing Wasm blob here. Already have a blob on chain? ')}
           <Link to={`${basePath}/add`}>

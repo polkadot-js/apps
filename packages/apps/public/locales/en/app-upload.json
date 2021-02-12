@@ -23,7 +23,7 @@
   "Unable to find on-chain WASM code for the supplied codeHash": "Unable to find on-chain WASM code for the supplied codeHash",
   "Upload": "Upload",
   "Upload Another Code Bundle": "Upload Another Code Bundle",
-  "Upload WASM Code Blob": "Upload WASM Code Blob",
+  "Upload Contract Bundle": "Upload Contract Bundle",
   "Upload Wasm Blob": "Upload Wasm Blob",
   "Upload a new code hash.": "Upload a new code hash.",
   "Using the unique code hash you can add on-chain contract code for you to deploy.": "Using the unique code hash you can add on-chain contract code for you to deploy.",
