@@ -14,7 +14,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createProduction(t: TFunction): LinkOption[] {
+export function createProduction (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // fixed, polkadot
     {
