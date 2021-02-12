@@ -12,8 +12,8 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'IndicesLookupSource',
-        LookupSource: 'IndicesLookupSource',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
         MogwaiStruct: {
           id: 'Hash',
           dna: 'Hash',
