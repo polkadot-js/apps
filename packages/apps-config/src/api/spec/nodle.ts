@@ -27,7 +27,6 @@ const definitions: OverrideBundleDefinition = {
           votes_for: 'Option<Balance>'
         },
         CertificateId: 'AccountId',
-        RefCount: 'u8',
         RootCertificate: {
           child_revocations: 'Vec<CertificateId>',
           created: 'BlockNumber',
@@ -36,7 +35,14 @@ const definitions: OverrideBundleDefinition = {
           renewed: 'BlockNumber',
           revoked: 'bool',
           validity: 'BlockNumber'
-        }
+        },
+        VestingSchedule: {
+          start: 'BlockNumber',
+          period: 'BlockNumber',
+          period_count: 'u32',
+          per_period: 'Balance'
+        },
+        VestingScheduleOf: 'VestingSchedule'
       }
     }
   ]
