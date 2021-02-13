@@ -79,8 +79,8 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
-  const nominators: Record<string, boolean> = {};
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], Record<string, BN>] {
+  const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
@@ -130,7 +130,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
-        nominators[nominator] = true;
+        nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value.toBn());
 
         return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key)),
@@ -155,7 +155,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     };
   });
 
-  return [list, Object.keys(nominators)];
+  return [list, nominators];
 }
 
 function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
@@ -181,9 +181,9 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   });
 
   // all validators, calc median commission
-  const minNominated = elected.reduce((min: BN, { minNominated }) => {
-    return min.isZero() || minNominated.lt(min)
-      ? minNominated
+  const minNominated = Object.values(nominators).reduce((min: BN, value) => {
+    return min.isZero() || value.lt(min)
+      ? value
       : min;
   }, BN_ZERO);
   const validators = sortValidators(arrayFlatten([elected, waiting]));
@@ -206,7 +206,7 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
     minNominated,
-    nominators,
+    nominators: Object.keys(nominators),
     totalIssuance,
     totalStaked,
     validatorIds,
