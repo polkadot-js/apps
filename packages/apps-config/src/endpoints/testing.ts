@@ -221,7 +221,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
       providers: {
-        Parity: 'wss://westend-rpc.polkadot.io'
+        Parity: 'wss://westend-rpc.polkadot.io',
+        'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws'
       }
     },
     {
