@@ -100,7 +100,7 @@
   "No sub identities set.": "No sub identities set.",
   "Nominator": "Nominator",
   "Normal transfer without keep-alive checks": "Normal transfer without keep-alive checks",
-  "One of more extensions has been detected in your browser, however no accounts has been injected.": "One of more extensions has been detected in your browser, however no accounts has been injected.",
+  "One or more extensions are detected in your browser, however no accounts has been injected.": "One or more extensions are detected in your browser, however no accounts has been injected.",
   "Owned": "Owned",
   "Password are ignored for hex seed": "Password are ignored for hex seed",
   "Pending call hashes": "Pending call hashes",
