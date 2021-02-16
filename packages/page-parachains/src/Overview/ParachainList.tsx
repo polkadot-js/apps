@@ -109,7 +109,7 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
     [t('parachains'), 'start', 3],
     ['', 'media--1500'],
     [t('heads'), 'start'],
-    [t('included (parent)'), undefined, 2],
+    [t('included'), undefined, 2],
     [t('backed')],
     [t('chain best'), 'media--900'],
     [t('upgrade'), 'media--1300'],

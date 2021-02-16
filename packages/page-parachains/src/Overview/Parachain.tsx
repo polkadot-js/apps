@@ -11,7 +11,7 @@ import React, { useCallback, useMemo } from 'react';
 import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ONE, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
@@ -70,7 +70,6 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
-  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
@@ -83,13 +82,13 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
 
   const blockDelay = useMemo(
     () => bestNumber && (
-      lastRelayNumber
-        ? bestNumber.sub(lastRelayNumber).isub(BN_ONE)
+      lastInclusion
+        ? bestNumber.sub(lastInclusion[2])
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined
     ),
-    [bestNumber, lastRelayNumber, paraInfo]
+    [bestNumber, lastInclusion, paraInfo]
   );
 
   const valRender = useCallback(
@@ -123,8 +122,8 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
-        {lastInclusion && lastRelayNumber
-          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+        {lastInclusion
+          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
