@@ -47,7 +47,7 @@ function BannerExtension (): React.ReactElement | null {
 
     return (
       <Banner type='warning'>
-        <p>{t<string>('One of more extensions has been detected in your browser, however no accounts has been injected.')}</p>
+        <p>{t<string>('One or more extensions are detected in your browser, however no accounts has been injected.')}</p>
         <p>{t<string>('Ensure that the extension has accounts, some accounts are visible globally and available for this chain and that you gave the application permission to access accounts from the extension to use them.')}</p>
       </Banner>
     );
