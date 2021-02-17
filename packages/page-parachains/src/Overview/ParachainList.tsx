@@ -49,7 +49,7 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded }, setLastEvents] = useState<LastEvents>({ lastBacked: {}, lastIncluded: {} });
   const [validators, validatorGroups] = useCallMulti<[AccountId[] | null, ParaValidatorIndex[][] | null]>([
-    api.query.session.validators,
+    api.query.inclusion?.validators || api.query.session?.validators,
     api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups
   ], optionsMulti);
 
