@@ -118,7 +118,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   trustbase,
   uniarts,
-  zenlink,
+  zenlink
 };
 
 export default spec;

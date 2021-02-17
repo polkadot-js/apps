@@ -251,7 +251,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoZenlink: nodeZenlink,
-  sgc:nodeSgc,
+  sgc: nodeSgc,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
