@@ -182,9 +182,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
-  ['Sgc Node', nodeSgc]
-
-
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -267,7 +264,6 @@ export const namedLogos: Record<string, unknown> = {
   uniarts: nodeUniarts,
   westend: nodePolkadot,
   zero: nodeZero,
-  sgc:nodeSgc
 };
 
 // extension logos

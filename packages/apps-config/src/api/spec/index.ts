@@ -119,7 +119,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   trustbase,
   uniarts,
   zenlink,
-  sgc
 };
 
 export default spec;
