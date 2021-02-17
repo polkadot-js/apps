@@ -49,8 +49,6 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
     return null;
   }
 
-  console.log(api.consts.balances, !api.tx.balances?.transfer.is(extrinsic), balances?.accountId.eq(accountId), balances?.availableBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit));
-
   return (
     <>
       <Expander
