@@ -82,6 +82,7 @@
   "rpc.rococo.trick": "Trick",
   "rpc.rococo.trustbase": "TrustBase PC1",
   "rpc.rococo.zenlink": "Zenlink PC1",
+  "rpc.sgc": "Sgc",
   "rpc.sora-substrate": "SORA-staging",
   "rpc.stafi": "Stafi",
   "rpc.subsocial": "Subsocial",
