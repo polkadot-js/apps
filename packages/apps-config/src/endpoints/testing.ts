@@ -231,6 +231,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
       }
+    },
+    {
+      info: 'sgc',
+      text: t('rpc.sgc', 'Sgc', { ns: 'apps-config' }),
+      providers: {
+        Sgc: 'wss://substrate.org.cn:4443'
+      }
     }
   ]);
 }
