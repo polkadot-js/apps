@@ -219,8 +219,6 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
 
   const queuePayload = useCallback(
     (registry: Registry, payload: SignerPayloadJSON, signerCb: SignerCallback): void => {
-      console.log('Queue:queuePayload', registry);
-
       addToTxQueue({
         accountId: payload.address,
         // this is not great, but the Extrinsic doesn't need a submittable
