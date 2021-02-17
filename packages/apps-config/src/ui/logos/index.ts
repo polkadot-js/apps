@@ -58,7 +58,7 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
-import nodeSgc from './nodes/Sgc.svg';
+import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubDAO from './nodes/subdao.png';
@@ -69,8 +69,6 @@ import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-
-
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
