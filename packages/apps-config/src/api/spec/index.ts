@@ -55,7 +55,7 @@ import trustbase from './trustbase';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
-import sgc from './sgc';
+
 
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
