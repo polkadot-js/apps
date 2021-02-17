@@ -238,6 +238,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
       }
-    },
+    }
   ]);
 }

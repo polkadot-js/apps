@@ -69,7 +69,6 @@ import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeSgc from './nodes/sgc.svg';
 
 
 // last-resort fallback, just something empty
@@ -181,7 +180,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
-  ['Uniarts', nodeUniarts],
+  ['Uniarts', nodeUniarts]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -263,7 +262,7 @@ export const namedLogos: Record<string, unknown> = {
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   westend: nodePolkadot,
-  zero: nodeZero,
+  zero: nodeZero
 };
 
 // extension logos
