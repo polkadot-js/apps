@@ -189,6 +189,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'sgc',
+      text: t('rpc.sgc', 'Sgc', { ns: 'apps-config' }),
+      providers: {
+        SGC: 'wss://substrate.org.cn:4443'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
