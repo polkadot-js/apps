@@ -76,7 +76,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--bg-faint:before {
-    opacity: 0.0375;
+    opacity: 0.025;
   }
 
   .highlight--bg-light:before {

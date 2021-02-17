@@ -6,12 +6,6 @@ type bountyTheme = {
   light:string;
 }
 
-export const bountyBorderColor: bountyTheme = {
-  // align with table
-  dark: '#26272c', // '#2f313c',
-  light: '#eeecea' // '#dfdfdf'
-};
-
 export const bountyLabelColor: bountyTheme = {
   dark: '#757575',
   light: '#8B8B8B'
