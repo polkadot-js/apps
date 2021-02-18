@@ -225,7 +225,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'unique',
-      text: t('rpc.unique', 'Unique Network', { ns: 'apps-config' }),
+      text: t('rpc.unique', 'Unique', { ns: 'apps-config' }),
       providers: {
         Unique: 'wss://testnet2.uniquenetwork.io'
       }
