@@ -92,7 +92,8 @@ const definitions: OverrideBundleDefinition = {
           who: 'AccountId',
           ringBalance: 'Compact<Balance>',
           ktonBalance: 'Compact<Balance>',
-          power: 'Power'
+          power: 'Power',
+          value: 'Compact<Balance>'
         },
         ElectionResultT: {
           electedStashes: 'Vec<AccountId>',
