@@ -65,7 +65,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'darwinia',
       text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://cc1.darwinia.network',
+        'Darwinia Network': 'wss://mainnet.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
       }
     },
