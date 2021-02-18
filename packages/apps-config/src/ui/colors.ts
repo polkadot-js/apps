@@ -45,6 +45,7 @@ const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
+const chainUnique = 'linear-gradient(180deg, #000219 0%, #000219 7%, #77903b 7%, #77903b 100%)';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTrustBase = '#ff43aa';
@@ -71,6 +72,7 @@ const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
+const nodeUnique = chainUnique;
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
@@ -129,6 +131,7 @@ export const chainColors: Record<string, any> = [
   ['Trick', chainRoccoTrick],
   ['TrustBase PC1', chainTrustBase],
   ['Uniarts', chainUniarts],
+  ['Unique Node', chainUnique],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZΞRO Alphaville', chainZero]
@@ -161,6 +164,7 @@ export const nodeColors: Record<string, any> = [
   ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
+  ['Unique Node', nodeUnique],
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO]
   // ['node template', emptyColor],

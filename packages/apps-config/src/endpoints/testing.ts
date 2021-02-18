@@ -224,6 +224,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'unique',
+      text: t('rpc.unique', 'Unique', { ns: 'apps-config' }),
+      providers: {
+        Unique: 'wss://testnet2.uniquenetwork.io'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
