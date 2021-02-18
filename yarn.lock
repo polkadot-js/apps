@@ -2333,7 +2333,7 @@ __metadata:
     "@sora-substrate/type-definitions": ^0.4.1
     "@subsocial/types": ^0.4.29
     i18next: ^19.8.5
-    moonbeam-types-bundle: ^1.1.4
+    moonbeam-types-bundle: 1.1.6
   languageName: unknown
   linkType: soft
 
@@ -13075,14 +13075,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:^1.1.4":
-  version: 1.1.4
-  resolution: "moonbeam-types-bundle@npm:1.1.4"
+"moonbeam-types-bundle@npm:1.1.6":
+  version: 1.1.6
+  resolution: "moonbeam-types-bundle@npm:1.1.6"
   dependencies:
-    "@polkadot/api": ^3.6.4
-    "@polkadot/types": ^3.6.4
+    "@polkadot/types": ^3.9.3
     typescript: ^4.1.3
-  checksum: 11b1c0a10aea3841388be78230adeed16218fb53b6ca32b720a474b709df72ae4786ff007ae6be1603192c4438c2f04b8a389c9efed2e4e62ef2c284ff7f4cf7
+  checksum: 0f8846f918a0dabdd897925d8aa8ffd4bfef35a4d39c308e79c1951a37b827b94d751a725e0f580130930b1ed4de8c8d7cb4286e62890f7d03f952d83eedf127
   languageName: node
   linkType: hard
 
