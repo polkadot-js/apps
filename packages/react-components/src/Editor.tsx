@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import { BareProps } from '@canvas-ui/react-components/types';
+import { BareProps } from './types';
 import { classes } from '@canvas-ui/react-util';
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';

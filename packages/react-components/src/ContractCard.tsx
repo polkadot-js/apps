@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps } from '@canvas-ui/apps/types';
-import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+import { ELEV_2_CSS } from './styles/constants';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 

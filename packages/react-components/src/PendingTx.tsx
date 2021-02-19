@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry as baseRegistry } from '@canvas-ui/react-api';
-import { Button, Data, InputAddress, Labelled } from '@canvas-ui/react-components';
-import { QueueTx } from '@canvas-ui/react-components/Status/types';
+import { Button, Data, InputAddress, Labelled } from '.';
+import { QueueTx } from './Status/types';
 import useSendTx from '@canvas-ui/react-signer/useSendTx';
 import { truncate } from '@canvas-ui/react-util';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';

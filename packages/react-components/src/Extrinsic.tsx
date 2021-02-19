@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InputExtrinsic } from '@canvas-ui/react-components';
-import { BareProps } from '@canvas-ui/react-components/types';
+import { InputExtrinsic } from '.';
+import { BareProps } from './types';
 import Params from '@canvas-ui/react-params';
 import { RawParam } from '@canvas-ui/react-params/types';
 import React, { useCallback, useEffect, useState } from 'react';

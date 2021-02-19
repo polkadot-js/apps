@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from '@canvas-ui/react-components/types';
+import { BareProps } from './types';
 import { ParamDef } from '@canvas-ui/react-params/types';
 import React from 'react';
 

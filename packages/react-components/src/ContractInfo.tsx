@@ -3,7 +3,7 @@
 
 // import { PromiseContract as Contract } from '@polkadot/api-contract';
 // import { CodeStored } from '@canvas-ui/apps/types';
-import { IdentityIcon } from '@canvas-ui/react-components';
+import { IdentityIcon } from '.';
 import { useAccountInfo } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import React from 'react';

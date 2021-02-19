@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from '@canvas-ui/react-components/types';
+import { BareProps } from './types';
 import { UseWeight } from '@canvas-ui/react-hooks/types';
 import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';

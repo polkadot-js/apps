@@ -3,7 +3,7 @@
 
 import store from '@canvas-ui/apps/store';
 import { Code, ComponentProps } from '@canvas-ui/apps/types';
-import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+import { ELEV_2_CSS } from './styles/constants';
 import { useAbi, useToggle } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
