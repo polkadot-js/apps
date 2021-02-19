@@ -4,7 +4,7 @@
 import React, { useCallback } from 'react';
 
 import { Props, RawParam } from '@canvas-ui/react-components/types';
-import Params from '../';
+import Params from '@canvas-ui/react-components/Params/Params';
 import Base from './Base';
 import Static from './Static';
 import useParamDefs from './useParamDefs';

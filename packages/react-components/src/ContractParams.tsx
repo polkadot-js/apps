@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import UIParams from '@canvas-ui/react-params';
+import UIParams from './Params/Params';
 import { UseTxParams } from './types';
 import React from 'react';
 

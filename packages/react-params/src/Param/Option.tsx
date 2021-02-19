@@ -9,7 +9,7 @@ import { TypeDef } from '@polkadot/types/types';
 
 import { useTranslation } from '../translate';
 import { Props } from '@canvas-ui/react-components/types';
-import Param from './index';
+import Param from '@canvas-ui/react-components/Params/Params';
 
 function Option ({ className = '', defaultValue, isDisabled, name, onChange, onEnter, onEscape, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

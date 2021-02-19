@@ -3,7 +3,7 @@
 
 import { InputExtrinsic } from '.';
 import { BareProps } from './types';
-import Params from '@canvas-ui/react-params';
+import Params from './Params/Params';
 import { RawParam } from './types';
 import React, { useCallback, useEffect, useState } from 'react';
 
