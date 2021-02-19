@@ -4,7 +4,7 @@
 import { createEndpoints } from '@canvas-ui/apps-config/settings';
 import { useApi } from '@canvas-ui/react-hooks';
 import { UseEndpoints } from '@canvas-ui/react-hooks/types';
-import { classes } from '@canvas-ui/react-util';
+import { classes } from '.';
 import { TFunction } from 'i18next';
 import React, { useMemo } from 'react';
 
