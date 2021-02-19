@@ -10,3 +10,5 @@ export {
   createLanguages,
   createSs58
 };
+
+export const PORTAL_ID = 'portals';

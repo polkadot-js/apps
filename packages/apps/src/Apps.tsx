@@ -23,7 +23,7 @@ interface SidebarState {
   transition: SideBarTransition;
 }
 
-export const PORTAL_ID = 'portals';
+import { PORTAL_ID } from '@canvas-ui/apps-config/settings'
 
 function saveSidebar (sidebar: SidebarState): SidebarState {
   return store.set('sidebar', sidebar) as SidebarState;

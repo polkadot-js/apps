@@ -5,7 +5,7 @@ import React from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import ReactDOM from 'react-dom';
 
-import { PORTAL_ID } from '../../../apps/src/Apps';
+import { PORTAL_ID } from '@canvas-ui/apps-config/settings';
 import AddressToggle from '../AddressToggle';
 
 interface Props {

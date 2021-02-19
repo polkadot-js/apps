@@ -21,9 +21,9 @@ import keyring from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import ledgerSigner from '../../react-signer/src/LedgerSigner';
-import { AddressFlags, AddressProxy } from '../../react-signer/src/types';
-import { extractExternal, handleTxResults } from '../../react-signer/src/util';
+import ledgerSigner from '@canvas-ui/react-signer/LedgerSigner';
+import { AddressFlags, AddressProxy } from '@canvas-ui/react-signer/types';
+import { extractExternal, handleTxResults } from '@canvas-ui/react-signer/util';
 
 interface UseSendTx {
   addQrSignature: (_: { signature: string }) => void;
