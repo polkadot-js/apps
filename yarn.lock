@@ -1388,7 +1388,8 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/apps-config": 0.45.0-beta.33
     "@canvas-ui/react-components": 0.45.0-beta.33
-    "@canvas-ui/react-query": 0.45.0-beta.33
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     file-saver: ^2.0.2
     query-string: ^6.13.1
   languageName: unknown
