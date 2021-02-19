@@ -13,7 +13,7 @@ import SignFields from './SignFields';
 import Tip from './Tip';
 import Transaction from './Transaction';
 import { useTranslation } from './translate';
-import useSendTx from './useSendTx';
+import useSendTx from '@canvas-ui/react-hooks/useSendTx';
 
 interface Props {
   className?: string;
