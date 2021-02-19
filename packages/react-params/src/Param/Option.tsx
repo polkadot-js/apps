@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { TypeDef } from '@polkadot/types/types';
 
 import { useTranslation } from '../translate';
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import Param from './index';
 
 function Option ({ className = '', defaultValue, isDisabled, name, onChange, onEnter, onEscape, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {

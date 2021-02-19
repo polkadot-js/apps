@@ -20,6 +20,8 @@ import { TxCallback, TxFailedCallback } from '@canvas-ui/react-api/Status/types'
 import { ActionStatus } from '@canvas-ui/react-api/Status/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 
+import { TypeDef } from '@polkadot/types/types';
+
 export interface BareProps {
   children?: React.ReactNode;
   className?: string;
@@ -182,3 +184,61 @@ export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
 }
 
 export type ComponentMap = Record<string, React.ComponentType<Props>>;
+
+export type RawParamValue = unknown | undefined;
+
+export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
+
+export type RawParamValues = RawParamValue | RawParamValueArray;
+
+export interface RawParam {
+  isValid: boolean;
+  value: RawParamValues;
+}
+
+export type RawParams = RawParam[];
+
+export interface Props {
+  className?: string;
+  defaultValue: RawParam;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isInOption?: boolean;
+  isReadOnly?: boolean;
+  isOptional?: boolean;
+  label?: React.ReactNode;
+  name?: string;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  onEscape?: RawParamOnEscape;
+  // eslint-disable-next-line no-use-before-define
+  overrides?: ComponentMap;
+  type: TypeDef & { withOptionActive?: boolean };
+  withLabel?: boolean;
+}
+
+export interface RawParamOnChangeValue {
+  isValid: boolean;
+  value: RawParamValues;
+}
+
+export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
+export type RawParamOnEnter = () => void;
+export type RawParamOnEscape = () => void;
+
+
+export type Size = 'full' | 'large' | 'medium' | 'small';
+
+export interface ParamDef {
+  length?: number;
+  name?: string;
+  type: TypeDef;
+}
+
+export interface UseTxParams {
+  params: ParamDef[];
+  values: RawParams;
+  onChange: React.Dispatch<RawParams>;
+}
+
+export type UseTxParamsHook = [ParamDef[], RawParams, React.Dispatch<RawParams>];

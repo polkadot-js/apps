@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Bytes } from '@polkadot/types';
 
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import CallDisplay from './Call';
 import Unknown from './Unknown';
 

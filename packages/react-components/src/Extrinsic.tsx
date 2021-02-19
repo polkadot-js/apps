@@ -4,7 +4,7 @@
 import { InputExtrinsic } from '.';
 import { BareProps } from './types';
 import Params from '@canvas-ui/react-params';
-import { RawParam } from '@canvas-ui/react-params/types';
+import { RawParam } from './types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';

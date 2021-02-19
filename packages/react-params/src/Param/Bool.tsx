@@ -5,7 +5,7 @@ import { Dropdown } from '@canvas-ui/react-components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { useTranslation } from '../translate';
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {

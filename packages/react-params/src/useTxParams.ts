@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { TypeDef } from '@polkadot/types/types';
 
-import { RawParams, UseTxParamsHook } from './types';
+import { RawParams, UseTxParamsHook } from '@canvas-ui/react-components/types';
 import createValues from './values';
 
 export default function useTxParams (source: { type: TypeDef }[]): UseTxParamsHook {

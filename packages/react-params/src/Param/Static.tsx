@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
-import type { RawParam } from '../types';
+import { RawParam } from '@canvas-ui/react-components/types'
 
 import { Static } from '@canvas-ui/react-components';
 import React from 'react';

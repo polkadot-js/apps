@@ -9,7 +9,8 @@ import { compactAddLength, hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHe
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
+import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '@canvas-ui/react-components/types';
+import { RawParam } from '@canvas-ui/react-components/types'
 import Bare from './Bare';
 
 interface Props {

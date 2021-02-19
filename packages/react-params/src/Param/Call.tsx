@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Extrinsic } from '@polkadot/types/interfaces';
 
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 import Unknown from './Unknown';
 
