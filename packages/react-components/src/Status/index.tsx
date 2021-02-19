@@ -14,7 +14,7 @@ import Spinner from '../Spinner';
 import { ELEV_4_CSS } from '../styles/constants';
 import { useTranslation } from '../translate';
 import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
-import StatusContext from './Context';
+import StatusContext from '@canvas-ui/react-api/Status/Context';
 
 export { StatusContext };
 
