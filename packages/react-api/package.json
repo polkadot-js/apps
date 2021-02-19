@@ -31,6 +31,9 @@
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
+    "@canvas-ui/apps-config": "workspace:packages/apps-config",
+    "@canvas-ui/react-components": "workspace:packages/react-components",
+    "@canvas-ui/react-signer": "workspace:packages/react-signer",
     "@polkadot/api": "^3.4.2-3",
     "@polkadot/extension-dapp": "^0.26.0-beta.26",
     "rxjs-compat": "^6.5.5"
