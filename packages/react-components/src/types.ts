@@ -4,6 +4,7 @@
 import type { StringOrNull } from '@canvas-ui/react-util/types';
 import type { Icon as IconType, IconName } from '@fortawesome/fontawesome-svg-core';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { ConstructTxFn } from '@canvas-ui/react-hooks/types';
 
 import { TxState } from '@canvas-ui/react-hooks/types';
 import { WithTranslation } from 'react-i18next';
@@ -23,8 +24,6 @@ export interface BareProps {
 }
 
 export type I18nProps = BareProps & WithTranslation;
-
-export type ConstructTxFn = () => any[];
 
 export type TxTrigger = React.ComponentType<TxTriggerProps>;
 
