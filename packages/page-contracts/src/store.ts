@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// Moved from @canvas-ui/apps -> @canvas-ui/page-contracts
+
 import { api } from '@canvas-ui/react-api';
 import EventEmitter from 'eventemitter3';
 import { nanoid } from 'nanoid';
