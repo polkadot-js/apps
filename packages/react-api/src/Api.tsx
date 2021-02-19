@@ -3,7 +3,7 @@
 
 import { typesChain, typesSpec } from '@canvas-ui/apps-config/api';
 import StatusContext from './Status/Context';
-import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
+import ApiSigner from './ApiSigner';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api/promise';

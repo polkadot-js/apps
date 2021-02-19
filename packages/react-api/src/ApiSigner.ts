@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { registry } from '@canvas-ui/react-api';
-import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '@canvas-ui/react-api/Status/types';
+import { registry } from '.';
+import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from './Status/types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { Signer, SignerResult } from '@polkadot/api/types';
