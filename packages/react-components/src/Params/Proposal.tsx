@@ -3,7 +3,7 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { useApi } from '@canvas-ui/react-hooks';
-import { Props, RawParam } from './types';
+import { Props, RawParam } from '../types';
 import React, { useCallback } from 'react';
 
 import ExtrinsicDisplay from './Extrinsic';

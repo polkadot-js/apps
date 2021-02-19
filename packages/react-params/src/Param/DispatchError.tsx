@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 
 import { DispatchError } from '@polkadot/types/interfaces';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../../react-components/src/Params/translate';
 import { Props } from '@canvas-ui/react-components/types';
 import Static from './Static';
 import Unknown from './Unknown';

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from '../initValue';
+import getInitValue from '../../../react-components/src/Params/initValue';
 import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
 import Params from '@canvas-ui/react-components/Params/Params';
 import Base from './Base';

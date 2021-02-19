@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { TypeDef } from '@polkadot/types/types';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../../react-components/src/Params/translate';
 import { Props } from '@canvas-ui/react-components/types';
 import Param from '@canvas-ui/react-components/Params/Params';
 

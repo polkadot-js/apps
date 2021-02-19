@@ -2,9 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
-import Holder from './Holder';
-
-export { Holder };
-
-export { default as useTxParams } from './useTxParams';
+export { default as useTxParams } from '@canvas-ui/react-components/Params/useTxParams';
 

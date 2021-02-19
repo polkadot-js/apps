@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ErrorBoundary } from '@canvas-ui/react-components';
-import { I18nProps } from '@canvas-ui/react-components/types';
+import ErrorBoundary from '../ErrorBoundary';
+import { I18nProps } from '../types';
 import React from 'react';
 
 import Holder from './Holder';
@@ -32,8 +32,6 @@ interface State {
 }
 
 export { Holder };
-
-export { default as useTxParams } from './useTxParams';
 
 class Params extends React.PureComponent<Props, State> {
   public state: State = {

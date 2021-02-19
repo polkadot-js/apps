@@ -4,7 +4,7 @@
 import { Dropdown } from '@canvas-ui/react-components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../../react-components/src/Params/translate';
 import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 

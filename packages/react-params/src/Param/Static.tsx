@@ -8,7 +8,7 @@ import { Static } from '@canvas-ui/react-components';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../../react-components/src/Params/translate';
 import Bare from './Bare';
 
 interface Props {
