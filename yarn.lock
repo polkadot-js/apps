@@ -1404,6 +1404,12 @@ __metadata:
   resolution: "@canvas-ui/apps-routing@workspace:packages/apps-routing"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/app-deploy": "workspace:packages/page-deploy"
+    "@canvas-ui/app-execute": "workspace:packages/page-execute"
+    "@canvas-ui/app-settings": "workspace:packages/page-settings"
+    "@canvas-ui/app-upload": "workspace:packages/page-upload"
+    "@canvas-ui/apps": "workspace:packages/apps"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
   languageName: unknown
   linkType: soft
 
@@ -1413,8 +1419,13 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.10.1
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/apps-config": "workspace:packages/apps-config"
+    "@canvas-ui/apps-routing": "workspace:packages/apps-routing"
+    "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": 0.45.0-beta.33
-    "@canvas-ui/react-signer": 0.45.0-beta.33
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-query": "workspace:packages/react-query"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     "@polkadot/api-contract": ^3.4.2-3
     "@polkadot/dev": ^0.61.24
     babel-loader: ^8.1.0
@@ -1519,7 +1530,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/react-signer@0.45.0-beta.33, @canvas-ui/react-signer@workspace:packages/react-signer":
+"@canvas-ui/react-signer@workspace:packages/react-signer":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-signer@workspace:packages/react-signer"
   dependencies:
