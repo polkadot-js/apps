@@ -8,7 +8,8 @@ import React from 'react';
 import Holder from './Holder';
 import ParamComp from './ParamComp';
 import translate from './translate';
-import { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
+import { ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
+import { ComponentMap } from '@canvas-ui/react-components/types'
 import { createValue } from './values';
 
 interface Props extends I18nProps {

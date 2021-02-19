@@ -180,3 +180,5 @@ export interface ComponentProps extends BareProps, WithBasePath, WithAppNavigati
 export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
   onStatusChange: (status: ActionStatus) => void;
 }
+
+export type ComponentMap = Record<string, React.ComponentType<Props>>;

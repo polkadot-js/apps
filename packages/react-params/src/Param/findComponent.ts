@@ -7,7 +7,8 @@ import { getTypeDef } from '@polkadot/types';
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
-import { ComponentMap, Props } from '../types';
+import { Props } from '../types';
+import { ComponentMap } from '@canvas-ui/react-components/types'
 import Account from './Account';
 import Amount from './Amount';
 import Balance from './Balance';
