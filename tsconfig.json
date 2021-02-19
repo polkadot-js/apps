@@ -15,6 +15,8 @@
       "@canvas-ui/apps-routing/*": [ "packages/apps-routing/src/*" ],
       "@canvas-ui/app-deploy": [ "packages/page-deploy/src" ],
       "@canvas-ui/app-deploy/*": [ "packages/page-deploy/src/*" ],
+      "@canvas-ui/page-contracts": [ "packages/page-contracts/src" ],
+      "@canvas-ui/page-contracts/*": [ "packages/page-contracts/src/*" ],
       "@canvas-ui/app-execute": [ "packages/page-execute/src" ],
       "@canvas-ui/app-execute/*": [ "packages/page-execute/src/*" ],
       "@canvas-ui/app-i18n": [ "packages/page-i18n/src" ],
