@@ -1599,6 +1599,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@canvas-ui/test-support@workspace:packages/test-support"
   dependencies:
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@testing-library/react": ^11.2.3
     testcontainers: ^6.4.1
   languageName: unknown

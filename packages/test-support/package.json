@@ -8,6 +8,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
     "@testing-library/react": "^11.2.3",
     "testcontainers": "^6.4.1"
   }

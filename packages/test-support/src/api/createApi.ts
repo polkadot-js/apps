@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SUBSTRATE_PORT } from '@canvas-ui/test-support/substrate';
+import { SUBSTRATE_PORT } from '../substrate';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { WsProvider } from '@polkadot/rpc-provider';
