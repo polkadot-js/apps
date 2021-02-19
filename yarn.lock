@@ -1476,8 +1476,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/react-api": "workspace:packages/react-api"
-    "@canvas-ui/react-components": "workspace:packages/react-components"
-    "@canvas-ui/react-util": "workspace:packages/react-util"
     eventemitter3: ^4.0.7
     nanoid: ^3.1.10
     react: ^16.13.1
