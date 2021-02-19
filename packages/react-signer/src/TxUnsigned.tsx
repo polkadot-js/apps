@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Button, ErrorBoundary, Modal } from '@canvas-ui/react-components';
-import { QueueTx } from '@canvas-ui/react-components/Status/types';
+import { QueueTx } from '@canvas-ui/react-api/Status/types';
 import { useToggle } from '@canvas-ui/react-hooks';
 import React from 'react';
 

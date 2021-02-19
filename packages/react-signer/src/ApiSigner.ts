@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
-import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '@canvas-ui/react-components/Status/types';
+import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '@canvas-ui/react-api/Status/types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { Signer, SignerResult } from '@polkadot/api/types';

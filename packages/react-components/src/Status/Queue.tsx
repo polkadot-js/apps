@@ -12,9 +12,9 @@ import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
 
 import { BareProps } from '../types';
-import { STATUS_COMPLETE } from './constants';
-import { QueueProvider } from './Context';
-import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
+import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
+import { QueueProvider } from '@canvas-ui/react-api/Status/Context';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@canvas-ui/react-api/Status/types';
 
 export interface Props extends BareProps {
   children: React.ReactNode;

@@ -3,7 +3,7 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { Call, Expander, Modal } from '@canvas-ui/react-components';
-import { QueueTx } from '@canvas-ui/react-components/Status/types';
+import { QueueTx } from '@canvas-ui/react-api/Status/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';

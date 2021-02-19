@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { InputAddress, Modal, Toggle } from '@canvas-ui/react-components';
-import { QueueTx } from '@canvas-ui/react-components/Status/types';
+import { QueueTx } from '@canvas-ui/react-api/Status/types';
 import { useAccounts, useApi, useIsMountedRef } from '@canvas-ui/react-hooks';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 

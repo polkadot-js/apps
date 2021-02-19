@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { typesChain, typesSpec } from '@canvas-ui/apps-config/api';
-import { StatusContext } from '@canvas-ui/react-components/Status';
+import StatusContext from '@canvas-ui/react-api/Status/Context';
 import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 

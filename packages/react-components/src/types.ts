@@ -14,7 +14,7 @@ import { AccountId, Index } from '@polkadot/types/interfaces';
 
 import { ButtonProps } from './Button/types';
 import { InputAddressProps } from './InputAddress/types';
-import { TxCallback, TxFailedCallback } from './Status/types';
+import { TxCallback, TxFailedCallback } from '@canvas-ui/react-api/Status/types';
 
 export interface BareProps {
   children?: React.ReactNode;
