@@ -3,7 +3,7 @@
 
 import store from '@canvas-ui/page-contracts/store';
 import { ComponentProps as Props } from '@canvas-ui/page-contracts/types';
-import useCodes from '@canvas-ui/apps/useCodes';
+import useCodes from '@canvas-ui/page-contracts/useCodes';
 import { Button, Input, InputABI, InputName } from '@canvas-ui/react-components';
 import { useAbi, useApi, useCall, useFile, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';

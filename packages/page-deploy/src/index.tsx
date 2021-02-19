@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AppProps as Props } from '@canvas-ui/page-contracts/types';
-import useCodes from '@canvas-ui/apps/useCodes';
+import useCodes from '@canvas-ui/page-contracts/useCodes';
 import { WithLoader } from '@canvas-ui/react-components';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
