@@ -1536,6 +1536,11 @@ __metadata:
   resolution: "@canvas-ui/react-hooks@workspace:packages/react-hooks"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/apps": "workspace:packages/apps"
+    "@canvas-ui/apps-config": "workspace:packages/apps-config"
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     "@types/memoizee": ^0.4.4
     memoizee: ^0.4.14
   languageName: unknown
