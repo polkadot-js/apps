@@ -30,3 +30,4 @@ export { default as useScrollToTop } from './useScrollToTop';
 export { default as useSettings } from './useSettings';
 export { default as useToggle } from './useToggle';
 export { default as useWeight } from './useWeight';
+export { default as useEndpointOptions } from './useEndpointOptions';
