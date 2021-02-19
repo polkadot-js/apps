@@ -5,6 +5,7 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
+import { Digits } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,7 +25,7 @@ function BestNumber ({ children, className = '', isFinalized, label, withPound }
     <div className={className}>
       {label || ''}{withPound && '#'}{
         bestNumber
-          ? formatNumber(bestNumber)
+          ? <Digits value={formatNumber(bestNumber)} />
           : '-'
       }{children}
     </div>
