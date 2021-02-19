@@ -4,7 +4,7 @@
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { AppNavigation } from '@canvas-ui/page-contracts/types';
+import { AppNavigation } from '@canvas-ui/react-components/types';
 
 export default function useAppNavigation (): AppNavigation {
   const history = useHistory();

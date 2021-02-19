@@ -1,8 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps } from '@canvas-ui/page-contracts/types';
-import { BareProps } from '@canvas-ui/react-components/types';
+import { AppProps, BareProps } from '@canvas-ui/react-components/types';
 
 export interface RouteProps extends AppProps, BareProps {
   location: any;

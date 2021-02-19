@@ -3,37 +3,9 @@
 
 // Moved from @canvas-ui/apps -> page-contracts
 
-import { ActionStatus } from '@canvas-ui/react-api/Status/types';
-import { BareProps } from '@canvas-ui/react-components/types';
-import { VoidFn } from '@canvas-ui/react-util/types';
-
 import { AnyJson } from '@polkadot/types/types';
 
-export interface AppNavigation {
-  deploy: VoidFn;
-  deployNew: (_: string, __?: number) => VoidFn;
-  deploySuccess: (_: string) => VoidFn;
-  execute: VoidFn;
-  executeAdd: VoidFn;
-  executeCall: (_: string, __?: number) => VoidFn;
-  upload: VoidFn;
-  uploadAdd: VoidFn;
-  uploadSuccess: (_: string) => VoidFn;
-}
 
-interface WithAppNavigation {
-  navigateTo: AppNavigation;
-}
-
-export interface WithBasePath {
-  basePath: string;
-}
-
-export interface ComponentProps extends BareProps, WithBasePath, WithAppNavigation {}
-
-export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
-  onStatusChange: (status: ActionStatus) => void;
-}
 
 interface CodeBase {
   id: string;
