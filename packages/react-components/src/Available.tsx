@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Available } from '@canvas-ui/react-query';
+import Available from './AvailableParent';
 import { classes } from '@canvas-ui/react-util';
 import React from 'react';
 
