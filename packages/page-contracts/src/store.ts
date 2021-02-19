@@ -8,7 +8,7 @@ import EventEmitter from 'eventemitter3';
 import { nanoid } from 'nanoid';
 import store from 'store';
 
-import { Code } from '@canvas-ui/page-contracts/types';
+import { Code } from './types';
 
 const KEY_CODE = 'code:';
 

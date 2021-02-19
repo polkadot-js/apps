@@ -12,7 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/apps": "workspace:packages/apps",
     "@canvas-ui/page-contracts": "workspace:packages/page-contracts",
     "@canvas-ui/react-api": "workspace:packages/react-api",
     "@canvas-ui/react-components": "workspace:packages/react-components",
