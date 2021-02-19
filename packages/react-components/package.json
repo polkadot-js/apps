@@ -13,6 +13,7 @@
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/apps": "workspace:packages/apps",
     "@canvas-ui/apps-config": "workspace:packages/apps-config",
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts",
     "@canvas-ui/react-api": "0.45.0-beta.33",
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
     "@canvas-ui/react-params": "workspace:packages/react-params",

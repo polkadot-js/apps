@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import store from '@canvas-ui/apps/store';
-import { ComponentProps as Props } from '@canvas-ui/apps/types';
+import { ComponentProps as Props } from '@canvas-ui/page-contracts/types';
 import useCodes from '@canvas-ui/apps/useCodes';
 import { Button, Input, InputABI, InputName } from '@canvas-ui/react-components';
 import { useAbi, useApi, useCall, useFile, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';

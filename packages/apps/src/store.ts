@@ -6,7 +6,7 @@ import EventEmitter from 'eventemitter3';
 import { nanoid } from 'nanoid';
 import store from 'store';
 
-import { Code } from './types';
+import { Code } from '@canvas-ui/page-contracts/types';
 
 const KEY_CODE = 'code:';
 

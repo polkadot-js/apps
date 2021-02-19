@@ -1359,6 +1359,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/apps": "workspace:packages/apps"
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts"
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-params": "workspace:packages/react-params"
@@ -1372,7 +1373,6 @@ __metadata:
   resolution: "@canvas-ui/app-execute@workspace:packages/page-execute"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/apps": "workspace:packages/apps"
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-params": "workspace:packages/react-params"
@@ -1401,6 +1401,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/apps": "workspace:packages/apps"
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts"
     "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
@@ -1427,7 +1428,7 @@ __metadata:
     "@canvas-ui/app-execute": "workspace:packages/page-execute"
     "@canvas-ui/app-settings": "workspace:packages/page-settings"
     "@canvas-ui/app-upload": "workspace:packages/page-upload"
-    "@canvas-ui/apps": "workspace:packages/apps"
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts"
     "@canvas-ui/react-components": "workspace:packages/react-components"
   languageName: unknown
   linkType: soft
@@ -1440,6 +1441,7 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/apps-config": "workspace:packages/apps-config"
     "@canvas-ui/apps-routing": "workspace:packages/apps-routing"
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts"
     "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": 0.45.0-beta.33
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
@@ -1469,6 +1471,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@canvas-ui/page-contracts@workspace:packages/page-contracts":
+  version: 0.0.0-use.local
+  resolution: "@canvas-ui/page-contracts@workspace:packages/page-contracts"
+  dependencies:
+    "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
+    eventemitter3: ^4.0.7
+    nanoid: ^3.1.10
+    react: ^16.13.1
+    store: ^2.0.12
+  languageName: unknown
+  linkType: soft
+
 "@canvas-ui/react-api@0.45.0-beta.33, @canvas-ui/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-api@workspace:packages/react-api"
@@ -1490,6 +1506,7 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/apps": "workspace:packages/apps"
     "@canvas-ui/apps-config": "workspace:packages/apps-config"
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts"
     "@canvas-ui/react-api": 0.45.0-beta.33
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-params": "workspace:packages/react-params"
@@ -1538,6 +1555,7 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/apps": "workspace:packages/apps"
     "@canvas-ui/apps-config": "workspace:packages/apps-config"
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts"
     "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-util": "workspace:packages/react-util"

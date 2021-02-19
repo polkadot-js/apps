@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props } from '@canvas-ui/apps/types';
+import { AppProps as Props } from '@canvas-ui/page-contracts/types';
 import useCodes from '@canvas-ui/apps/useCodes';
 import { WithLoader } from '@canvas-ui/react-components';
 import React, { useMemo } from 'react';

@@ -13,11 +13,10 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/app-deploy": "workspace:packages/page-deploy",
-    "@canvas-ui/page-contracts": "workspace:packages/page-contracts",
     "@canvas-ui/app-execute": "workspace:packages/page-execute",
     "@canvas-ui/app-settings": "workspace:packages/page-settings",
     "@canvas-ui/app-upload": "workspace:packages/page-upload",
-    "@canvas-ui/apps": "workspace:packages/apps",
+    "@canvas-ui/page-contracts": "workspace:packages/page-contracts",
     "@canvas-ui/react-components": "workspace:packages/react-components"
   }
 }
