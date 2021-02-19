@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Compact } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../../react-query/src/translate';
 
 interface Props extends BareProps {
   children?: React.ReactNode;

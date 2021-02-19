@@ -5,7 +5,7 @@ import { BareProps } from '@canvas-ui/react-api/types';
 import { useApi, useCall } from '@canvas-ui/react-hooks';
 import React from 'react';
 
-import FormatBalance from './FormatBalance';
+import FormatBalance from '../../react-components/src/FormatBalance';
 
 interface Props extends BareProps {
   children?: React.ReactNode;

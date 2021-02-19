@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import Params from '@canvas-ui/react-params';
-import { FormatBalance } from '@canvas-ui/react-query';
+import FormatBalance from './FormatBalance';
 import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';

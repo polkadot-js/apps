@@ -8,7 +8,7 @@ import React from 'react';
 import { Option } from '@polkadot/types';
 import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types/interfaces';
 
-import FormatBalance from './FormatBalance';
+import FormatBalance from '../../react-components/src/FormatBalance';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
