@@ -1573,7 +1573,10 @@ __metadata:
   resolution: "@canvas-ui/react-signer@workspace:packages/react-signer"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": 0.45.0-beta.33
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     "@polkadot/react-qr": ^0.65.2-2
   languageName: unknown
   linkType: soft
