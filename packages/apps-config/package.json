@@ -11,6 +11,7 @@
   "dependencies": {
     "@acala-network/type-definitions": "^0.6.2-12",
     "@babel/runtime": "^7.12.5",
+    "@darwinia/types": "^1.1.0-alpha.1",
     "@edgeware/node-types": "^3.3.1",
     "@interlay/polkabtc-types": "^0.3.4",
     "@laminar/type-definitions": "^0.2.0-beta.143",
