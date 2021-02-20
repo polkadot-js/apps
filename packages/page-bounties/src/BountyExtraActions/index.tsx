@@ -2,17 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Button, Menu, Popup } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { useMembers, useToggle } from '@polkadot/react-hooks';
 import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { determineUnassignCuratorAction } from '../helpers';
 import { useBountyStatus, useUserRole } from '../hooks';
-import { bountySvgColor } from '../theme';
 import { useTranslation } from '../translate';
 import { ValidUnassignCuratorAction } from '../types';
 import BountyRejectCurator from './BountyRejectCurator';
@@ -117,7 +114,6 @@ function Index ({ bestNumber, className, description, index, proposals, status }
           onClose={togglePopupOpen}
           trigger={
             <Button
-              className='settings-button'
               dataTestId='extra-actions'
               icon='ellipsis-v'
               onClick={togglePopupOpen}
@@ -177,21 +173,4 @@ function Index ({ bestNumber, className, description, index, proposals, status }
     : null;
 }
 
-export default React.memo(styled(Index)(({ theme }: ThemeProps) => `
-  && .ui--Button:not(.isDisabled):not(.isIcon).settings-button {
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    border-radius: 4px;
-
-    svg {
-      padding: 0;
-      margin: 0;
-      color: ${bountySvgColor[theme.theme]};
-    }
-
-    &:focus {
-      border: 1px solid #616161;
-    }
-  }
-`));
+export default React.memo(Index);

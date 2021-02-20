@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
@@ -65,17 +66,17 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
   return (
     <>
       <tr className={`${className}${isExpanded ? ' noBorder' : ''} isOdd`}>
-        <td>
-          <BountyStatusView bountyStatus={bountyStatus}/>
-        </td>
+        <td className='number'><h1>{formatNumber(index)}</h1></td>
         <td
           className='description-column'
-          colSpan={2}
           data-testid='description'
         >
           <div title={description}>
             {description}
           </div>
+        </td>
+        <td>
+          <BountyStatusView bountyStatus={bountyStatus}/>
         </td>
         <td><FormatBalance value={value} /></td>
         <td>
@@ -159,10 +160,6 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <div className='label'>{t('Proposer')}</div>
             <AddressSmall value={proposer} />
           </div>
-          <div className='label-column-left'>
-            <div className='label'>{t('Id')}</div>
-            {index.toString()}
-          </div>
         </td>
         <td colSpan={2}>
           <div className='label-column-right'>
@@ -209,6 +206,10 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
 
   &.isExpanded {
     visibility: visible;
+  }
+
+  &.noBorder td {
+    border-bottom: 1px solid transparent;
   }
 
   .description-column {

@@ -15,10 +15,9 @@ interface Props {
   filter?: React.ReactNode;
   header?: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
-  hasTitle: boolean;
 }
 
-function Head ({ className = '', filter, hasTitle, header, isEmpty }: Props): React.ReactElement<Props> | null {
+function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!header?.length) {
     return null;
   }
@@ -38,7 +37,7 @@ function Head ({ className = '', filter, hasTitle, header, isEmpty }: Props): Re
             key={index}
             onClick={onClick}
           >
-            {index === 0 && hasTitle
+            {index === 0
               ? (
                 <h1>
                   <Icon
