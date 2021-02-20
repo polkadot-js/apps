@@ -50,7 +50,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'crab',
       text: t('rpc.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
@@ -65,7 +65,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'darwinia',
       text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://mainnet.darwinia.network',
+        'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
       }
     },
