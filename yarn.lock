@@ -1304,6 +1304,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.9.6":
+  version: 7.12.18
+  resolution: "@babel/runtime@npm:7.12.18"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: cb9e0c51b8e6e294ed5f52992d3fac13eb33b346760ef8eb0b3cb7542bb7c88c0297e2d878082255f91677e81e9cfcb00c38b3e55771a1ad9451647c6dd6a974
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.12.13, @babel/template@npm:^7.3.3":
   version: 7.12.13
   resolution: "@babel/template@npm:7.12.13"
@@ -1359,6 +1368,27 @@ __metadata:
   bin:
     watch: cli.js
   checksum: 7909f89bbee917b2a5932fd178b48b5291f417293538b1e8e68a5fa5815b3d6d4873c591d965f84559cd3e7b669c42a749ab706ef792368de39b95541ae4627d
+  languageName: node
+  linkType: hard
+
+"@darwinia/types-known@npm:^1.1.0-alpha.1":
+  version: 1.1.0-alpha.1
+  resolution: "@darwinia/types-known@npm:1.1.0-alpha.1"
+  dependencies:
+    "@babel/runtime": ^7.9.6
+    "@polkadot/types": 3.6.4
+    "@polkadot/util": ^3.0.1
+    bn.js: ^5.1.2
+  checksum: 501067fe1ebece4505eb6b0fa8ea08773e757ade51a8f55bd37a5a72476e24f653f34c444b50b63f1fd793f9dbfc15664841ff5eedb67c8bb4a9fc5be91a32fb
+  languageName: node
+  linkType: hard
+
+"@darwinia/types@npm:^1.1.0-alpha.1":
+  version: 1.1.0-alpha.1
+  resolution: "@darwinia/types@npm:1.1.0-alpha.1"
+  dependencies:
+    "@darwinia/types-known": ^1.1.0-alpha.1
+  checksum: df8ac2ffbc7eba7c39995d8b71b4d2ef4762f2e844411f5950b370b4aa83a047a494c2e10f9f1188bcca17be180822096e2db550616dee63c8f3e1c2d3fc31e8
   languageName: node
   linkType: hard
 
@@ -2326,6 +2356,7 @@ __metadata:
   dependencies:
     "@acala-network/type-definitions": ^0.6.2-12
     "@babel/runtime": ^7.12.5
+    "@darwinia/types": ^1.1.0-alpha.1
     "@edgeware/node-types": ^3.3.1
     "@interlay/polkabtc-types": ^0.3.4
     "@laminar/type-definitions": ^0.2.0-beta.143
@@ -5246,7 +5277,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:^5.0.0, bn.js@npm:^5.1.1":
+"bn.js@npm:^5.0.0, bn.js@npm:^5.1.1, bn.js@npm:^5.1.2":
   version: 5.1.3
   resolution: "bn.js@npm:5.1.3"
   checksum: 991c1fefb03bd69315297d454b379d5a5dd4834ab97db3ec985714f00ff7d3cc19642e1ac6bdf0d9f04946cc9f1ad26a5b497b7f4e7fa1230caf68af46fbefe6
