@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// Moved from @canvas-ui/apps -> page-contracts
+// Moved from @canvas-ui/apps -> react-store
 
 import { AnyJson } from '@polkadot/types/types';
 

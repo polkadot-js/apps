@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/page-contracts/store';
-import { Code } from '@canvas-ui/page-contracts/types';
+import store from '@canvas-ui/react-store/store';
+import { Code } from '@canvas-ui/react-store/types';
 import { useNonEmptyString, useToggle } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import { faFile } from '@fortawesome/free-regular-svg-icons';

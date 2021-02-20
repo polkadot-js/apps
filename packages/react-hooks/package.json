@@ -32,8 +32,8 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/apps-config": "workspace:packages/apps-config",
-    "@canvas-ui/page-contracts": "workspace:packages/page-contracts",
     "@canvas-ui/react-api": "workspace:packages/react-api",
+    "@canvas-ui/react-store": "workspace:packages/react-store",
     "@canvas-ui/react-util": "workspace:packages/react-util",
     "memoizee": "^0.4.14"
   },

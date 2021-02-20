@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/page-contracts/store';
-import { ComponentProps as Props } from '@canvas-ui/page-contracts/types';
+import store from '@canvas-ui/react-store/store';
+import { ComponentProps as Props } from '@canvas-ui/react-store/types';
 import { registry } from '@canvas-ui/react-api';
 import { Button, Input, InputABI, InputAddress, InputFile, TxButton } from '@canvas-ui/react-components';
 import PendingTx from '@canvas-ui/react-components/PendingTx';

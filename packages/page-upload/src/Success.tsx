@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code } from '@canvas-ui/page-contracts/types';
+import { Code } from '@canvas-ui/react-store/types';
 import { Button, CodeCard } from '@canvas-ui/react-components';
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';

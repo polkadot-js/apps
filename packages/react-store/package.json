@@ -1,5 +1,5 @@
 {
-  "name": "@canvas-ui/page-contracts",
+  "name": "@canvas-ui/react-store",
   "private": true,
   "version": "0.45.0-beta.33",
   "main": "index.js",
