@@ -37,10 +37,12 @@ export function useOwnStashes (): [string, IsInKeyring][] | undefined {
   const ownLedger = useCall<Option<StakingLedger>[]>(hasAccounts && api.query.staking?.ledger.multi, [allAccounts]);
 
   return useMemo(
-    () => ownBonded && ownLedger
-      ? getStashes(allAccounts, ownBonded, ownLedger)
-      : undefined,
-    [allAccounts, ownBonded, ownLedger]
+    () => hasAccounts
+      ? ownBonded && ownLedger
+        ? getStashes(allAccounts, ownBonded, ownLedger)
+        : undefined
+      : [],
+    [allAccounts, hasAccounts, ownBonded, ownLedger]
   );
 }
 

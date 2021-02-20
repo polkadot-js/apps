@@ -29,11 +29,9 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const [isBelowExistential, setBelowExistential] = useState(false);
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     accountId && extrinsic && isFunction(extrinsic.paymentInfo) && isFunction(api.rpc.payment?.queryInfo) &&
       setTimeout((): void => {
         try {
@@ -42,20 +40,12 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
             .then((info) => mountedRef.current && setDispatchInfo(info))
             .catch(console.error);
         } catch (error) {
-          console.error((error as Error).message);
+          console.error(error);
         }
       }, 0);
   }, [api, accountId, extrinsic, mountedRef]);
 
-  useEffect((): void => {
-    setBelowExistential(!!(
-      extrinsic && !api.tx.balances?.transfer.is(extrinsic) &&
-      dispatchInfo && balances && api.consts.balances &&
-      balances.availableBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
-    ));
-  }, [api, balances, dispatchInfo, extrinsic]);
-
-  if (!dispatchInfo) {
+  if (!dispatchInfo || !extrinsic) {
     return null;
   }
 
@@ -69,7 +59,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
           </Trans>
         }
       />
-      {isBelowExistential && (
+      {api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && balances.availableBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit) && (
         <MarkWarning content={t<string>('The account does not have enough funds to cover the transaction fees without dropping the balance below the account existential amount.')} />
       )}
     </>

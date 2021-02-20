@@ -43,7 +43,8 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   const pair = keyring.getPair(publicKey);
-  const isUnlockable = !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected;
+  const { isExternal, isHardware, isInjected, isMultisig, isProxied } = pair.meta;
+  const isUnlockable = !isExternal && !isHardware && !isInjected;
 
   if (isUnlockable) {
     const entry = lockCountdown[pair.address];
@@ -58,10 +59,10 @@ export function extractExternal (accountId: string | null): AddressFlags {
     accountOffset: pair.meta.accountOffset as number || 0,
     addressOffset: pair.meta.addressOffset as number || 0,
     hardwareType: pair.meta.hardwareType as string,
-    isHardware: !!pair.meta.isHardware,
-    isMultisig: !!pair.meta.isMultisig,
-    isProxied: !!pair.meta.isProxied,
-    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied && !pair.meta.isHardware,
+    isHardware: !!isHardware,
+    isMultisig: !!isMultisig,
+    isProxied: !!isProxied,
+    isQr: !!isExternal && !isMultisig && !isProxied && !isHardware && !isInjected,
     isUnlockable: isUnlockable && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)

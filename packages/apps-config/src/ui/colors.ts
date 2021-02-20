@@ -37,6 +37,7 @@ const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
+const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = 'radial-gradient(circle, rgba(13,16,110,1) 0%, rgba(246,83,162,1) 100%)';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -44,6 +45,7 @@ const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
+const chainUnique = 'linear-gradient(180deg, #000219 0%, #000219 7%, #77903b 7%, #77903b 100%)';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTrustBase = '#ff43aa';
@@ -60,14 +62,17 @@ const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeJupiter = '#7143ff';
+const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
+const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
+const nodeUnique = chainUnique;
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
@@ -119,12 +124,14 @@ export const chainColors: Record<string, any> = [
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
   ['Rococo', chainRocco],
+  ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
   ['TrustBase PC1', chainTrustBase],
   ['Uniarts', chainUniarts],
+  ['Unique Node', chainUnique],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZΞRO Alphaville', chainZero]
@@ -148,13 +155,16 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['Jupiter Node', nodeJupiter],
+  ['Litentry Parachain Collator', nodeLitentry],
   ['nodle chain node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
+  ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['SUBZΞRO', nodeZero],
   ['Ternoa Node', nodeTernoa],
+  ['Unique Node', nodeUnique],
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO]
   // ['node template', emptyColor],

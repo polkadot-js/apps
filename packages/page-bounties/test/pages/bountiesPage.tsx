@@ -114,17 +114,20 @@ export class BountiesPage {
     } as QueueProps;
 
     return render(
-      <Suspense fallback='...'>
-        <QueueProvider value={queue}>
-          <MemoryRouter>
-            <ThemeProvider theme={lightTheme}>
-              <ApiContext.Provider value={mockApi}>
-                <Bounties/>
-              </ApiContext.Provider>
-            </ThemeProvider>
-          </MemoryRouter>
-        </QueueProvider>
-      </Suspense>
+      <>
+        <div id='tooltips'/>
+        <Suspense fallback='...'>
+          <QueueProvider value={queue}>
+            <MemoryRouter>
+              <ThemeProvider theme={lightTheme}>
+                <ApiContext.Provider value={mockApi}>
+                  <Bounties/>
+                </ApiContext.Provider>
+              </ThemeProvider>
+            </MemoryRouter>
+          </QueueProvider>
+        </Suspense>
+      </>
     );
   }
 
@@ -304,5 +307,14 @@ export class BountiesPage {
 
     fireEvent.change(beneficiaryAccountInput, { target: { value: beneficiary } });
     fireEvent.keyDown(beneficiaryAccountInput, { code: 'Enter', key: 'Enter' });
+  }
+
+  async expectVotingDescription (description: string): Promise<void> {
+    this.assertRendered();
+    const votingInfo = await this.findByTestId('voting-description');
+    const icon = await within(votingInfo).findByTestId('question-circle');
+
+    fireEvent.mouseEnter(icon);
+    expect(await this.findByText(description)).toBeVisible();
   }
 }

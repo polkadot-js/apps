@@ -4,24 +4,22 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useRef } from 'react';
+import styled from 'styled-components';
 
-import { BN_ZERO } from '@polkadot/util';
+import { LabelHelp } from '@polkadot/react-components';
 
-import Description from '../Description';
 import { proposalNameToDisplay } from '../helpers/extendedStatuses';
 import { useTranslation } from '../translate';
 
 interface Props {
-  blocksUntilPayout?: BN ;
   className?: string;
-  proposals?: DeriveCollectiveProposal[];
+  proposal: DeriveCollectiveProposal;
   status: BountyStatus;
 }
 
-function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status }: Props): React.ReactElement<Props> {
-  const bestProposalName = proposals ? proposalNameToDisplay(proposals, status) : null;
+function VotingDescriptionInfo ({ className, proposal, status }: Props): React.ReactElement<Props> {
+  const bestProposalName = proposalNameToDisplay(proposal, status);
   const { t } = useTranslation();
   const votingDescriptions = useRef<Record<string, string>>({
     approveBounty: t('Bounty approval under voting'),
@@ -32,23 +30,17 @@ function ExtendedStatus ({ blocksUntilPayout, className = '', proposals, status 
   });
 
   return (
-    <>
+    <div
+      className={className}
+      data-testid='voting-description'
+    >
       {bestProposalName && votingDescriptions.current[bestProposalName] &&
-        <Description
-          className={className}
-          dataTestId='extendedVotingStatus'
-          description={votingDescriptions.current[bestProposalName]}
-        />
+        <LabelHelp help={votingDescriptions.current[bestProposalName]}/>
       }
-      {blocksUntilPayout?.lt(BN_ZERO) &&
-        <Description
-          className={className}
-          dataTestId='extendedActionStatus'
-          description={t<string>('Claimable')}
-        />
-      }
-    </>
+    </div>
   );
 }
 
-export default React.memo(ExtendedStatus);
+export default React.memo(styled(VotingDescriptionInfo)`
+  margin-left: 0.2rem;
+`);

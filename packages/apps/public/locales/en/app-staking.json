@@ -142,6 +142,7 @@
   "To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.": "To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.",
   "Unbond": "Unbond",
   "Unbond funds": "Unbond funds",
+  "Use the account actions to create a new validator/nominator stash and bond it to participate in staking. Do not send funds directly via a transfer to a validator.": "Use the account actions to create a new validator/nominator stash and bond it to participate in staking. Do not send funds directly via a transfer to a validator.",
   "Validate": "Validate",
   "Validator": "Validator",
   "Validator stats": "Validator stats",

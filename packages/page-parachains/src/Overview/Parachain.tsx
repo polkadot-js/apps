@@ -2,17 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { Badge, ParaLink } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ONE, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
   isScheduled?: boolean;
   lastBacked?: [string, string, BN];
   lastInclusion?: [string, string, BN];
+  validators?: AccountId[];
 }
 
 type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
@@ -63,11 +65,11 @@ const optionsMulti = {
   })
 };
 
-function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, validators }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
   const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
-  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
@@ -80,13 +82,23 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
 
   const blockDelay = useMemo(
     () => bestNumber && (
-      lastRelayNumber
-        ? bestNumber.sub(lastRelayNumber).isub(BN_ONE)
+      lastInclusion
+        ? bestNumber.sub(lastInclusion[2])
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined
     ),
-    [bestNumber, lastRelayNumber, paraInfo]
+    [bestNumber, lastInclusion, paraInfo]
+  );
+
+  const valRender = useCallback(
+    () => validators?.map((id) => (
+      <AddressMini
+        key={id.toString()}
+        value={id}
+      />
+    )),
+    [validators]
   );
 
   return (
@@ -99,11 +111,19 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
         />
       )}</td>
       <td className='badge together'><ParaLink id={id} /></td>
+      <td className='number media--1500'>
+        {validators && validators.length !== 0 && (
+          <Expander
+            renderChildren={valRender}
+            summary={t<string>('Validators ({{count}})', { replace: { count: formatNumber(validators.length) } })}
+          />
+        )}
+      </td>
       <td className='all start together hash'>{paraInfo.headHex}</td>
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
-        {lastInclusion && lastRelayNumber
-          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+        {lastInclusion
+          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>

@@ -61,6 +61,7 @@
   "With the ABI updates, there may still be dragons... the new ABI formats are a complete departure and required a lot of under-the-hood changes. So when something doesn't quite work as expected, please let us know via GH issues.": "With the ABI updates, there may still be dragons... the new ABI formats are a complete departure and required a lot of under-the-hood changes. So when something doesn't quite work as expected, please let us know via GH issues.",
   "You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.": "You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.",
   "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.": "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.",
+  "Your environment does not support the latest instantiateWithCode contracts call, nor does it have utility.batch functionality available. This operation is not available.": "Your environment does not support the latest instantiateWithCode contracts call, nor does it have utility.batch functionality available. This operation is not available.",
   "address forgotten": "address forgotten",
   "addresses": "addresses",
   "call from account": "call from account",
