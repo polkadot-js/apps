@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { chainColors, nodeColors } from './colors';
+import { chainAltColors, chainColors, nodeColors } from './colors';
 import { identityNodes } from './identityIcons';
 
 export * from './logos';
@@ -17,4 +17,9 @@ export function getSystemIcon (systemName: string): 'beachball' | 'polkadot' | '
 export function getSystemChainColor (systemChain: string, systemName: string): string | undefined {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)];
+}
+
+export function getSystemChainAltColor (systemChain: string, systemName: string): string | undefined {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return chainAltColors[sanitize(systemChain)] || getSystemChainColor(systemChain, systemName);
 }

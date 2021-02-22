@@ -14,6 +14,7 @@ import cssTheme from './theme';
 
 interface Props {
   uiHighlight?: string;
+  uiAltHighlight?: string;
 }
 
 const BRIGHTNESS = 128 + 32;
@@ -35,7 +36,7 @@ function getContrast (uiHighlight: string | undefined): string {
     : 'rgba(255, 253, 251, 0.875)';
 }
 
-export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
+export default createGlobalStyle<Props & ThemeProps>(({ theme, uiAltHighlight, uiHighlight }: Props & ThemeProps) => `
   .highlight--all {
     background: ${getHighlight(uiHighlight)} !important;
     border-color: ${getHighlight(uiHighlight)} !important;
@@ -174,7 +175,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
       .ui--Icon {
         background: transparent;
-        color: ${getHighlight(uiHighlight)};
+        color: ${getHighlight(uiAltHighlight)};
       }
     }
   }
@@ -202,7 +203,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight(uiHighlight)} !important;
+          background-color: ${getHighlight(uiAltHighlight)} !important;
 
           &:before {
             border-color: ${getHighlight(uiHighlight)} !important;

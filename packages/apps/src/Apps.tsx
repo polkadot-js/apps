@@ -7,7 +7,7 @@ import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { getSystemChainColor } from '@polkadot/apps-config';
+import { getSystemChainAltColor, getSystemChainColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -28,9 +28,15 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     [systemChain, systemName]
   );
 
+  const uiAltHighlight = useMemo(
+    () => getSystemChainAltColor(systemChain, systemName),
+    [systemChain, systemName]
+  );
+
   return (
     <>
-      <GlobalStyle uiHighlight={uiHighlight} />
+      <GlobalStyle uiAltHighlight={uiAltHighlight}
+        uiHighlight={uiHighlight} />
       <div className={`apps--Wrapper theme--${theme} ${className}`}>
         <Menu />
         <AccountSidebar>

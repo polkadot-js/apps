@@ -50,6 +50,12 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTrustBase = '#ff43aa';
 
+// chain alternative colors
+// alternative colors will be used in some cases
+// e.g. svg graphs that doesn't support gradient colors
+// alternative colors should only be rgb/rgba colors
+const chainCloverAlt = '#52ad75';
+
 // based on node name
 // alphabetical
 const nodeBitCountry = '#191a2e';
@@ -77,6 +83,11 @@ const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 export { emptyColor };
+
+const colorsReducer = (colors: Record<string, any>, [chain, color]: string[]): Record<string, any> => ({
+  ...colors,
+  [chain.toLowerCase()]: color
+});
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
@@ -135,10 +146,11 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZΞRO Alphaville', chainZero]
-].reduce((colors, [chain, color]): Record<string, any> => ({
-  ...colors,
-  [chain.toLowerCase()]: color
-}), {});
+].reduce(colorsReducer, {});
+
+export const chainAltColors: Record<string, any> = [
+  ['Clover', chainCloverAlt]
+].reduce(colorsReducer, {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
