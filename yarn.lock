@@ -2361,6 +2361,7 @@ __metadata:
     "@interlay/polkabtc-types": ^0.3.4
     "@laminar/type-definitions": ^0.2.0-beta.143
     "@polkadot/networks": ^5.7.1
+    "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^0.4.1
     "@subsocial/types": ^0.4.29
     i18next: ^19.8.5
@@ -3112,6 +3113,13 @@ __metadata:
   dependencies:
     "@sinonjs/commons": ^1.7.0
   checksum: 64458b908773638dda08b555a00e6fbbbc679735348291dc1b7f437ada2f60242537fdc48e4ee82d2573d86984ec87e755b66a96c0ed9ebf0f46b4c6687ccde2
+  languageName: node
+  linkType: hard
+
+"@snowfork/snowbridge-types@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "@snowfork/snowbridge-types@npm:0.2.3"
+  checksum: 827621cac826c700d98ec19b94784df3087e37cd25099fdb2a30264ee75defbd6cb25f789c1b8c9a511c687018dff637b95affb9feaecaa56ae9cdf0b533108d
   languageName: node
   linkType: hard
 
