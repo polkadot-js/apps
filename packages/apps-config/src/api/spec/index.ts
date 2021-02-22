@@ -46,6 +46,7 @@ import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import robonomics from './robonomics';
 import sgc from './sgc';
+import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
 import subdao from './subdao';
@@ -108,6 +109,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'plasm-parachain': plasmParachain,
   robonomics,
   sgc,
+  snowbridge,
   'sora-substrate': soraSubstrate,
   stafi,
   subdao,

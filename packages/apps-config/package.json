@@ -16,6 +16,7 @@
     "@interlay/polkabtc-types": "^0.3.4",
     "@laminar/type-definitions": "^0.2.0-beta.143",
     "@polkadot/networks": "^5.7.1",
+    "@snowfork/snowbridge-types": "^0.2.3",
     "@sora-substrate/type-definitions": "^0.4.1",
     "@subsocial/types": "^0.4.29",
     "moonbeam-types-bundle": "1.1.6"
