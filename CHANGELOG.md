@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 0.81.1 Feb 22, 2021
+
+Contributed:
+
+- Add Unique network (Thanks to https://github.com/gregzaitsev)
+- Add Sgc testnet (Thanks to https://github.com/Zombieliu)
+- Add all known Moonbeam spec names (Thanks to https://github.com/joelamouche)
+- Adjust Moonbeam types for v6 upgrade (Thanks to https://github.com/joelamouche)
+- Adjust DOTmog logo (Thanks to https://github.com/darkfriend77)
+- Add Vedran provider for Westend (Thanks to https://github.com/mpetrunic)
+- Fix typo in accounts overlays (Thanks to https://github.com/marksthespots)
+- Fix typo in JavaScript app (Thanks to https://github.com/shaunxw)
+- Update types for Darwinia Crab (Thanks to https://github.com/WoeOm)
+- Update provider for Darwinia (Thanks to https://github.com/WoeOm)
+- Updata paraId for Bit.Country (Thanks to https://github.com/justinphamnz)
+
+Changes:
+
+- Display validators for all connected parachains
+- Adjust included block parachain calculation
+- Align bounties display with UI styling
+- Rework calculation for min-available balance warning in signer
+- Adjust slashed validators display (check against known eras)
+- Cleanup JS console app examples for system.account usage
+- Adjust JS console app sending example (incl. Signer fix)
+- Display error on contracts deploy pre-3.0 Substrate with no utility.batch
+- Adjust table displays with bottom-borders
+- Adjust Governance proxy checks to include tips
+- Reworks digits formatting for explorer blocks
+
+
 ## 0.80.1 Feb 15, 2021
 
 Contributed:
