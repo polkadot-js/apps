@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps } from '@canvas-ui/react-store/types';
+import { ComponentProps } from '@canvas-ui/react-components/types';
 import { ELEV_2_CSS } from './styles/constants';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
