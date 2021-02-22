@@ -185,7 +185,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'polkabtc',
       text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://alpha.polkabtc.io/api/parachain'
+        Interlay: 'wss://beta.polkabtc.io/api/parachain'
       }
     },
     {
