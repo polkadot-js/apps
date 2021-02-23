@@ -3,8 +3,8 @@
 
 import { ComponentMap } from '../types'
 
-import Call from './Call';
-import Proposal from './Proposal';
+import Call from '../../../react-params/src/Param/Call';
+import Proposal from '../../../react-params/src/Param/Proposal';
 
 const components: ComponentMap = {
   Call,

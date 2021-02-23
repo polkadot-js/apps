@@ -7,7 +7,7 @@ import React from 'react';
 import { Bytes } from '@polkadot/types';
 
 import { Props } from '@canvas-ui/react-components/types';
-import CallDisplay from './Call';
+import CallDisplay from './CallDisplay';
 import Unknown from './Unknown';
 
 function OpaqueCall (props: Props): React.ReactElement<Props> {

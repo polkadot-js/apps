@@ -3,10 +3,10 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { useApi } from '@canvas-ui/react-hooks';
-import { Props, RawParam } from '../types';
+import { Props, RawParam } from '@canvas-ui/react-components/types';
 import React, { useCallback } from 'react';
 
-import ExtrinsicDisplay from '../../../react-params/src/Param/Extrinsic';
+import ExtrinsicDisplay from './Extrinsic';
 
 function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();

@@ -14,7 +14,7 @@ import Amount from './Amount';
 import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
-import Call from './Call';
+import Call from './CallDisplay';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import Enum from './Enum';
