@@ -7,7 +7,7 @@ import { isUndefined } from '@polkadot/util';
 
 import getInitValue from '../../../react-components/src/Params/initValue';
 import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
-import Params from '@canvas-ui/react-components/Params/Params';
+import Params from '@canvas-ui/react-params/Param/Params';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 

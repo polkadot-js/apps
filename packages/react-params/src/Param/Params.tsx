@@ -1,17 +1,17 @@
 // Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import ErrorBoundary from '../ErrorBoundary';
-import { I18nProps } from '../types';
+import ErrorBoundary from '../../../react-components/src/ErrorBoundary';
+import { I18nProps } from '../../../react-components/src/types';
 import React from 'react';
 
-import Holder from './Holder';
+import Holder from '@canvas-ui/react-components/Params/Holder';
 import ParamComp from './ParamComp';
-import translate from './translate';
-import { ParamDef, RawParamOnChangeValue, RawParams } from '../types';
-import { RawParam } from '../types'
-import { ComponentMap } from '../types'
-import { createValue } from './values';
+import translate from '@canvas-ui/react-components/Params/translate';
+import { ParamDef, RawParamOnChangeValue, RawParams } from '@canvas-ui/react-components/types';
+import { RawParam } from '@canvas-ui/react-components/types'
+import { ComponentMap } from '@canvas-ui/react-components/types'
+import { createValue } from '@canvas-ui/react-components/Params/values';
 
 interface Props extends I18nProps {
   children?: React.ReactNode;

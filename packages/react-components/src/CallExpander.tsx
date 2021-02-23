@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Call } from '@polkadot/types/interfaces';
 
-import CallDisplay from './Call';
+import CallDisplay from '../../react-params/src/Call';
 import Expander from './Expander';
 
 interface Props {

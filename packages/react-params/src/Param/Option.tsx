@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Toggle } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { TypeDef } from '@polkadot/types/types';
 
-import { useTranslation } from '../../../react-components/src/Params/translate';
-import { Props } from '@canvas-ui/react-components/types';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
 import Param from '.';
 
 function Option ({ className = '', defaultValue, isDisabled, name, onChange, onEnter, onEscape, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {

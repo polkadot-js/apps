@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import UIParams from './Params/Params';
-import { RawParams } from './types';
+import UIParams from './Param/Params';
+import { RawParams } from '@canvas-ui/react-components/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { AbiParam } from '@polkadot/api-contract/types';

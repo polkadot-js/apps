@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Params from './Params/Params';
+import Params from './Param/Params';
 import { classes } from '@canvas-ui/react-util';
 import React from 'react';
 
@@ -9,7 +9,7 @@ import { getTypeDef } from '@polkadot/types';
 import { Event } from '@polkadot/types/interfaces';
 import { Codec, TypeDef } from '@polkadot/types/types';
 
-import { BareProps } from './types';
+import { BareProps } from '@canvas-ui/react-components/types';
 
 export interface Props extends BareProps {
   children?: React.ReactNode;
