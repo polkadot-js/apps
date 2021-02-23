@@ -16,7 +16,6 @@
     "@canvas-ui/app-execute": "workspace:packages/page-execute",
     "@canvas-ui/app-settings": "workspace:packages/page-settings",
     "@canvas-ui/app-upload": "workspace:packages/page-upload",
-    "@canvas-ui/react-components": "workspace:packages/react-components",
-    "@canvas-ui/react-store": "workspace:packages/react-store"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
   }
 }

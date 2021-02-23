@@ -56,7 +56,6 @@ export { default as MessageSignature } from './MessageSignature';
 export { default as Modal } from './Modal';
 export { default as Output } from './Output';
 export { default as Password } from './Password';
-export { default as PendingTx } from './PendingTx';
 export { default as Progress } from './Progress';
 export { default as ResetStorageModal } from './ResetStorageModal';
 export { default as ScrollToTop } from './ScrollToTop';

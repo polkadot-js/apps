@@ -39,9 +39,12 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
+export { default as PendingTx } from './PendingTx';
+
 export default React.memo(styled(Signer)`
   .signToggle {
     position: absolute;
     left: 1.5rem;
   }
 `);
+
