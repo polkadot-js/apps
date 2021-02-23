@@ -1545,6 +1545,7 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": 0.45.0-beta.33
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-util": "workspace:packages/react-util"
   languageName: unknown
   linkType: soft
