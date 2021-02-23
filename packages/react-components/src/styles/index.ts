@@ -203,7 +203,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiAltHighlight, u
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight(uiAltHighlight)} !important;
+          background: ${getHighlight(uiHighlight)} !important;
 
           &:before {
             border-color: ${getHighlight(uiHighlight)} !important;
