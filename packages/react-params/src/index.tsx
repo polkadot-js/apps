@@ -7,5 +7,6 @@ export { default as CallParams } from './CallParams';
 export { default as ContractParams } from './ContractParams';
 export { default as Event } from './Event';
 export { default as Extrinsic } from './Extrinsic';
+export { default as Call } from './Call';
 
 

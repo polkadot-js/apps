@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import ErrorBoundary from '../../../react-components/src/ErrorBoundary';
-import { I18nProps } from '../../../react-components/src/types';
+import ErrorBoundary from '@canvas-ui/react-components/ErrorBoundary';
+import { I18nProps } from '@canvas-ui/react-components/types';
 import React from 'react';
 
 import Holder from '@canvas-ui/react-components/Params/Holder';

@@ -7,7 +7,7 @@ import { Vec } from '@polkadot/types';
 import { KeyValue as Pair } from '@polkadot/types/interfaces';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '../../../react-components/src/Params/translate';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
 import { Props } from '@canvas-ui/react-components/types';
 import { RawParam } from '@canvas-ui/react-components/types'
 import Base from './Base';

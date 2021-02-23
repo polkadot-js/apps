@@ -9,7 +9,6 @@ export { default as Badge } from './Badge';
 export { default as Balance } from './Balance';
 export { default as Bonded } from './Bonded';
 export { default as Button } from './Button';
-export { default as Call } from '../../react-params/src/Call';
 export { default as Card } from './Card';
 export { default as Chart } from './Chart';
 export { default as CodeCard } from './CodeCard';

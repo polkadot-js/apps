@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import Param from '.';
-import { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from '../../../react-components/src/types';
+import { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from '@canvas-ui/react-components/types';
 import React, { useCallback } from 'react';
 
 import { TypeDef } from '@polkadot/types/types';

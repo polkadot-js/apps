@@ -6,8 +6,8 @@ import React from 'react';
 
 import { Call } from '@polkadot/types/interfaces';
 
-import CallDisplay from '../../react-params/src/Call';
-import Expander from './Expander';
+import CallDisplay from './Call';
+import Expander from '@canvas-ui/react-components/Expander';
 
 interface Props {
   children?: React.ReactNode;

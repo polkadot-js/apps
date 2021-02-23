@@ -7,7 +7,7 @@ import React, { useRef } from 'react';
 
 import { GenericVote } from '@polkadot/types';
 
-import { useTranslation } from '../../../react-components/src/Params/translate';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
 import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
