@@ -6,7 +6,7 @@ import { useApi } from '@canvas-ui/react-hooks';
 import { Props, RawParam } from '../types';
 import React, { useCallback } from 'react';
 
-import ExtrinsicDisplay from './Extrinsic';
+import ExtrinsicDisplay from '../../../react-params/src/Param/Extrinsic';
 
 function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();

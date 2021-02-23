@@ -7,7 +7,7 @@ import React from 'react';
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
-import Extrinsic from './Extrinsic';
+import Extrinsic from '../../../react-params/src/Param/Extrinsic';
 
 function Call ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTx } = useApi();
