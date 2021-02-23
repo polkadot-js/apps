@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentMap } from '../types'
+import { ComponentMap } from '../../../react-components/src/types'
 
-import Call from '../../../react-params/src/Param/Call';
-import Proposal from '../../../react-params/src/Param/Proposal';
+import Call from './Call';
+import Proposal from './Proposal';
 
 const components: ComponentMap = {
   Call,

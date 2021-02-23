@@ -12,7 +12,7 @@ import { GenericCall, getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 import { isUndefined } from '@polkadot/util';
 
-import paramComponents from '@canvas-ui/react-components/Params';
+import paramComponents from './Param';
 
 interface Props extends BareProps {
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
