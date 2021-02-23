@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
-import { Call, Expander, Modal } from '@canvas-ui/react-components';
+import { Expander, Modal } from '@canvas-ui/react-components';
+import { Call } from '@canvas-ui/react-params'
 import { QueueTx } from '@canvas-ui/react-api/Status/types';
 import BN from 'bn.js';
 import React from 'react';
