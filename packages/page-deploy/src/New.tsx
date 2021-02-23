@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Code } from '@canvas-ui/react-store/types';
-import { Button, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
+import { Button, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
+import PendingTx from '@canvas-ui/react-signer/PendingTx'
 import { ContractParams } from '@canvas-ui/react-params'
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
