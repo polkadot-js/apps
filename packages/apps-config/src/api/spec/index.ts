@@ -6,6 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import acala from './acala';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
+import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
@@ -64,7 +65,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   Equilibrium: equilibrium,
   acala,
   'ares-parachain': aresParachain,
-  bifrost,
+  bifrost: bifrost,
+  'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'btc-parachain': polkabtc,
   canvas,
