@@ -156,7 +156,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
-  ['Litentry Parachain Collator', nodeLitentry],
+  ['Litentry Collator', nodeLitentry],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Polkadex Node', nodePolkadex],
