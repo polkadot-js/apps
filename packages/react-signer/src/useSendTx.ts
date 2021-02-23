@@ -6,9 +6,9 @@ import { StatusContext } from '@canvas-ui/react-components';
 import { QueueTx, QueueTxMessageSetStatus } from '@canvas-ui/react-api/Status/types';
 import { useApi } from '@canvas-ui/react-hooks';
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
-import ledgerSigner from '@canvas-ui/react-signer/LedgerSigner';
-import { AddressFlags, AddressProxy } from '@canvas-ui/react-signer/types';
-import { extractExternal, handleTxResults } from '@canvas-ui/react-signer/util';
+import ledgerSigner from './LedgerSigner';
+import { AddressFlags, AddressProxy } from './types';
+import { extractExternal, handleTxResults } from './util';
 
 import BN from 'bn.js';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
