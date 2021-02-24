@@ -4,7 +4,7 @@
 
 import type { SettingsStruct } from '@polkadot/ui-settings/types';
 
-import { Option } from '@canvas-ui/apps-config/settings/types';
+import { Option } from '@canvas-ui/app-config/settings/types';
 import { Dropdown, IdentityIcon } from '@canvas-ui/react-components';
 import React from 'react';
 

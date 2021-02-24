@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-deploy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code } from '@canvas-ui/apps/types';
+import { Code } from '@canvas-ui/app/types';
 import { Button, ContractParams, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';

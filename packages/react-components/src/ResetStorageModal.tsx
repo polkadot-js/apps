@@ -2,7 +2,7 @@
 // and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/apps/store';
+import store from '@canvas-ui/app/store';
 import { useToggle } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 

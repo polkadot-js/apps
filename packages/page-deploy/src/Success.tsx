@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-deploy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps as Props } from '@canvas-ui/apps/types';
+import { ComponentProps as Props } from '@canvas-ui/app/types';
 import { Button, ContractCard } from '@canvas-ui/react-components';
 import { useContract } from '@canvas-ui/react-hooks';
 import React, { useEffect } from 'react';

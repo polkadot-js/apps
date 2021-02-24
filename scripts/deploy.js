@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Copyright 2017-2021 @polkadot/apps authors & contributors
-// and @canvas-ui/apps authors & contributors
+// and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const ghpages = require('gh-pages');
@@ -12,7 +12,7 @@ const options = {
 
 console.log(options);
 
-ghpages.publish('packages/apps/build', options, (error) => {
+ghpages.publish('packages/app/build', options, (error) => {
   if (error) {
     process.stderr.write(`${error.message}\n`, () => process.exit(1));
   } else {

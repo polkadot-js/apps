@@ -2,8 +2,8 @@
 // and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/apps/store';
-import { Code } from '@canvas-ui/apps/types';
+import store from '@canvas-ui/app/store';
+import { Code } from '@canvas-ui/app/types';
 import { useNonEmptyString, useToggle } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import { faFile } from '@fortawesome/free-regular-svg-icons';

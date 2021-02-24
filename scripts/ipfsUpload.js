@@ -1,5 +1,5 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
-// and @canvas-ui/apps authors & contributors
+// and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // const fs = require('fs');
@@ -7,14 +7,14 @@
 // const cloudflare = require('dnslink-cloudflare');
 // const execSync = require('@polkadot/dev/scripts/execSync');
 
-// const createEndpoints = require('../packages/apps-config/build/settings/endpoints').default;
+// const createEndpoints = require('../packages/app-config/build/settings/endpoints').default;
 // const lernaInfo = require('../lerna.json');
 
 // // https://gateway.pinata.cloud/ipfs/
 // const GATEWAY = 'https://ipfs.io/ipfs/';
 // const DOMAIN = 'dotapps.io';
-// const DST = 'packages/apps/build';
-// const SRC = 'packages/apps/public';
+// const DST = 'packages/app/build';
+// const SRC = 'packages/app/public';
 // const WOPTS = { encoding: 'utf8', flag: 'w' };
 
 // const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;

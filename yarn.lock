@@ -1353,6 +1353,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@canvas-ui/app-config@0.45.0-beta.33, @canvas-ui/app-config@workspace:packages/app-config":
+  version: 0.0.0-use.local
+  resolution: "@canvas-ui/app-config@workspace:packages/app-config"
+  dependencies:
+    "@babel/runtime": ^7.10.2
+    edgeware-node-types: ^2.3.3
+  languageName: unknown
+  linkType: soft
+
 "@canvas-ui/app-deploy@workspace:packages/page-deploy":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/app-deploy@workspace:packages/page-deploy"
@@ -1369,12 +1378,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@canvas-ui/app-routing@workspace:packages/app-routing":
+  version: 0.0.0-use.local
+  resolution: "@canvas-ui/app-routing@workspace:packages/app-routing"
+  dependencies:
+    "@babel/runtime": ^7.10.2
+  languageName: unknown
+  linkType: soft
+
 "@canvas-ui/app-settings@workspace:packages/page-settings":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/app-settings@workspace:packages/page-settings"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/apps-config": 0.45.0-beta.33
+    "@canvas-ui/app-config": 0.45.0-beta.33
     "@canvas-ui/react-components": 0.45.0-beta.33
     "@canvas-ui/react-query": 0.45.0-beta.33
     file-saver: ^2.0.2
@@ -1390,26 +1407,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/apps-config@0.45.0-beta.33, @canvas-ui/apps-config@workspace:packages/apps-config":
+"@canvas-ui/app@workspace:packages/app":
   version: 0.0.0-use.local
-  resolution: "@canvas-ui/apps-config@workspace:packages/apps-config"
-  dependencies:
-    "@babel/runtime": ^7.10.2
-    edgeware-node-types: ^2.3.3
-  languageName: unknown
-  linkType: soft
-
-"@canvas-ui/apps-routing@workspace:packages/apps-routing":
-  version: 0.0.0-use.local
-  resolution: "@canvas-ui/apps-routing@workspace:packages/apps-routing"
-  dependencies:
-    "@babel/runtime": ^7.10.2
-  languageName: unknown
-  linkType: soft
-
-"@canvas-ui/apps@workspace:packages/apps":
-  version: 0.0.0-use.local
-  resolution: "@canvas-ui/apps@workspace:packages/apps"
+  resolution: "@canvas-ui/app@workspace:packages/app"
   dependencies:
     "@babel/polyfill": ^7.10.1
     "@babel/runtime": ^7.10.2

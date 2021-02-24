@@ -1,5 +1,5 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
-// and @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @polkadot/app authors & contributors
+// and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const fs = require('fs');
@@ -61,8 +61,8 @@ module.exports = {
     resource: {
       jsonIndent: 2,
       lineEnding: '\n',
-      loadPath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
-      savePath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json'
+      loadPath: 'packages/app/public/locales/{{lng}}/{{ns}}.json',
+      savePath: 'packages/app/public/locales/{{lng}}/{{ns}}.json'
     },
     trans: {
       component: 'Trans'

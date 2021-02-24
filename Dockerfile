@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl git gnupg
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
 
-WORKDIR /apps
+WORKDIR /app
 COPY . .
 
 RUN npm install yarn -g
@@ -27,7 +27,7 @@ COPY env.sh .
 RUN apk add --no-cache bash; chmod +x env.sh
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /apps/packages/apps/build /usr/share/nginx/html
+COPY --from=builder /app/packages/app/build /usr/share/nginx/html
 
 EXPOSE 80
 

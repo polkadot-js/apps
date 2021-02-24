@@ -2,7 +2,7 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { getSystemIcon } from '@canvas-ui/apps-config/ui';
+import { getSystemIcon } from '@canvas-ui/app-config/ui';
 import { useApi, useNotification } from '@canvas-ui/react-hooks';
 import { ValidatorsContext } from '@canvas-ui/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
