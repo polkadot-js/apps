@@ -41,9 +41,9 @@ i18n
     load: 'languageOnly',
     ns: [
       'api-contract',
-      'apps',
-      'apps-config',
-      'apps-routing',
+      'app',
+      'app-config',
+      'app-routing',
       'app-123code',
       'app-accounts',
       'app-claims',

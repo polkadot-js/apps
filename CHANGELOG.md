@@ -116,7 +116,7 @@
 - Text cleanups (Thanks to https://github.com/ltfschoen)
 - update Parachains to support latest Polkadot (Thanks to https://github.com/kwingram25)
 - Rework multi address inputs (e.g. nominations & council) (Thanks to https://github.com/kwingram25)
-- Introduce apps-config as a single source of config information
+- Introduce app-config as a single source of config information
 - Cater for metadata updates to extensions
 - Rework explorer layouts, combining extrinsics & events into a single view
 - Swap all layouts to be explicitly table-based (instead of table-like)

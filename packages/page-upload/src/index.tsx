@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-upload authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props } from '@canvas-ui/apps/types';
-import useCodes from '@canvas-ui/apps/useCodes';
+import { AppProps as Props } from '@canvas-ui/app/types';
+import useCodes from '@canvas-ui/app/useCodes';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 

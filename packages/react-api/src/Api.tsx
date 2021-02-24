@@ -2,7 +2,7 @@
 // and @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { typesChain, typesSpec } from '@canvas-ui/apps-config/api';
+import { typesChain, typesSpec } from '@canvas-ui/app-config/api';
 import { TokenUnit } from '@canvas-ui/react-components/InputNumber';
 import { StatusContext } from '@canvas-ui/react-components/Status';
 import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
@@ -51,13 +51,13 @@ interface ChainData {
 
 // const injectedPromise = new Promise<InjectedExtension[]>((resolve): void => {
 //   window.addEventListener('load', (): void => {
-//     resolve(web3Enable('polkadot-js/apps'));
+//     resolve(web3Enable('polkadot-js/app'));
 //   });
 // });
 
 const DEFAULT_DECIMALS = registry.createType('u32', 12);
 const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
-const injectedPromise = web3Enable('polkadot-js/apps');
+const injectedPromise = web3Enable('polkadot-js/app');
 let api: ApiPromise;
 
 export { api };

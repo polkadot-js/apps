@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/apps/store';
-import { Code, ComponentProps } from '@canvas-ui/apps/types';
+import store from '@canvas-ui/app/store';
+import { Code, ComponentProps } from '@canvas-ui/app/types';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useToggle } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';

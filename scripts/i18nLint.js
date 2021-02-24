@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
-// and @canvas-ui/apps authors & contributors
+// and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const fs = require('fs');
 const path = require('path');
 
 const defaults = {};
-const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
+const i18nRoot = path.join(__dirname, '../packages/app/public/locales');
 
 function getEntries (langRoot) {
   return fs
