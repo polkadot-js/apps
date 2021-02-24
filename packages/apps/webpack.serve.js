@@ -24,6 +24,7 @@ module.exports = merge(
       }),
       new webpack.HotModuleReplacementPlugin()
     ],
+    watch: true,
     watchOptions: {
       ignored: ['.yarn', 'build', 'node_modules']
     }
