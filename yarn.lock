@@ -1782,12 +1782,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@laminar/type-definitions@npm:^0.2.0-beta.143":
-  version: 0.2.0-beta.143
-  resolution: "@laminar/type-definitions@npm:0.2.0-beta.143"
+"@laminar/type-definitions@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@laminar/type-definitions@npm:0.3.1"
   dependencies:
-    "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: aee1bb82e901b320abeb9bede01f7ebc640507f69438a31792505dabc6c3d0b7c9d7cd3001203e0c72b465308c4e1704c379d8d5d1fb98efcc05f5d79f1fe072
+    "@open-web3/orml-type-definitions": ^0.8.2-9
+  checksum: 4afa3b4c3a3429fa059ab5dc7c03a8d64ba125e5e3061a58e8eb8fdca4022304244cfdec6e60d48d911ea7a08bda6b0375ffd51e560e2a14ed9671385257c22c
   languageName: node
   linkType: hard
 
@@ -2383,7 +2383,7 @@ __metadata:
     "@darwinia/types": ^1.1.0-alpha.1
     "@edgeware/node-types": ^3.3.2
     "@interlay/polkabtc-types": ^0.5.0
-    "@laminar/type-definitions": ^0.2.0-beta.143
+    "@laminar/type-definitions": ^0.3.1
     "@polkadot/networks": ^5.7.2-3
     "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^0.4.7
@@ -2401,7 +2401,7 @@ __metadata:
     "@babel/polyfill": ^7.12.1
     "@polkadot/dev": ^0.61.27
     "@polkadot/react-components": ^0.81.2-8
-    "@types/react-dom": ^17.0.0
+    "@types/react-dom": ^17.0.1
     "@types/tmp": ^0.2.0
     babel-loader: ^8.2.2
     copy-webpack-plugin: ^7.0.0
@@ -2667,7 +2667,7 @@ __metadata:
     "@polkadot/api": ^3.10.3-5
     "@polkadot/extension-dapp": ^0.37.2-0
     "@polkadot/x-rxjs": ^5.7.2-3
-    fflate: ^0.6.1
+    fflate: ^0.6.4
   languageName: unknown
   linkType: soft
 
@@ -3770,12 +3770,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@types/react-dom@npm:17.0.0"
+"@types/react-dom@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "@types/react-dom@npm:17.0.1"
   dependencies:
     "@types/react": "*"
-  checksum: 7ca9351b6c2523327cd7afe40082a37034898f65e9d86700236682efed910ba7c9cec10e9a3b829aa7b804b18791a28743ce468fcb42e9a788bfc33b84137e45
+  checksum: 695dd4bbef4fabdc726359e4031b2887b913d65fb2ff59e5a9e81f9ae20ca4dd8f2b6fe1f39fa5c1197babdb86f6b81b385f5d4438536f2ceeb5ff136102f45b
   languageName: node
   linkType: hard
 
@@ -8992,10 +8992,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fflate@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "fflate@npm:0.6.1"
-  checksum: 5f0ed2c95370f77329133d0171d52cac6d771afe30c44cc40696971033838fbd8d60509b4932e374f50197625f2b2916d6a02a67255f2befdebb06767b4ccc94
+"fflate@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "fflate@npm:0.6.4"
+  checksum: 34eee444b02485592cd1971cd2dedb88591768896528c1668cccf9d1f32c5098042a3a491a93e5308de768fdb7182dfa7e2f32f1f9a158802ca7a1bccb0e5f55
   languageName: node
   linkType: hard
 
@@ -14574,7 +14574,7 @@ fsevents@~2.1.2:
     "@types/jest": ^26.0.20
     "@types/react-beautiful-dnd": ^13.0.0
     "@types/react-copy-to-clipboard": ^5.0.0
-    "@types/react-dom": ^17.0.0
+    "@types/react-dom": ^17.0.1
     "@types/react-router-dom": ^5.1.7
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.7

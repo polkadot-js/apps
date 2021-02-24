@@ -76,7 +76,7 @@
     "@types/jest": "^26.0.20",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-copy-to-clipboard": "^5.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react-dom": "^17.0.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.7",
