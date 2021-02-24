@@ -19,6 +19,7 @@ interface Props {
 const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
+const VERY_DARK = 16;
 
 const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
@@ -38,6 +39,10 @@ function getContrast (uiHighlight: string | undefined): string {
 function getMenuHoverContrast (uiHighlight: string | undefined): string {
   const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
   const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  if (brightness < VERY_DARK) {
+    return 'rgba(255, 255, 255, 0.15)';
+  }
 
   return brightness < BRIGHTNESS
     ? 'rgba(0, 0, 0, 0.15)'
