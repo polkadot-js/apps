@@ -136,6 +136,18 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     color: ${getContrast(uiHighlight)};
   }
 
+  .groupMenu {
+    background: ${getHighlight(uiHighlight)} !important;
+
+    &::before {
+      background: ${getMenuHoverContrast(uiHighlight)};
+      color:  ${getContrast(uiHighlight)};
+    }
+    li {
+      color:  ${getContrast(uiHighlight)};
+    }
+  }
+
   .highlight--hover-bg:hover {
     background: ${getHighlight(uiHighlight)} !important;
   }
