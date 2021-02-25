@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-storage",
   "private": true,
-  "version": "0.81.2-12",
+  "version": "0.81.2-13",
   "main": "index.js",
   "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.7",
-    "@polkadot/react-components": "^0.81.2-12",
-    "@polkadot/react-params": "^0.81.2-12"
+    "@polkadot/react-components": "^0.81.2-13",
+    "@polkadot/react-params": "^0.81.2-13"
   }
 }
