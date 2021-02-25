@@ -167,6 +167,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoMathChain',
+        paraId: 40,
+        text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
+        providers: {
+          MathWallet: 'wss://testpara.maiziqianbao.net/ws'
+        }
+      },
+      {
         info: 'rococoPhala',
         paraId: 30,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
