@@ -76,7 +76,6 @@ function getSuri (seed: string, derivePath: string, pairType: PairType): string 
 function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: PairType): DeriveValidationOutput {
   try {
     const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
-    console.log("password",password,"path",path)
     let result: DeriveValidationOutput = {};
 
     // show a warning in case the password contains an unintended / character
@@ -188,19 +187,12 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
 }
 
 function createAccount (seed: string, derivePath: string, pairType: PairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
-  console.log('createaccount')
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    console.log(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
-    let pair=keyring.createFromUri(getSuri(seed, derivePath, pairType), { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType)
-    console.log('pair created')
-    console.log(pair)
-    console.log(pair.publicKey,pair.publicKey.length)
-    const result = keyring.addPair(pair,password);
-    //const result = keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
-    console.log('keyring.addUri',result)
+    const result = keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
+
     const { address } = result.pair;
 
     status.account = address;
@@ -213,7 +205,6 @@ function createAccount (seed: string, derivePath: string, pairType: PairType, { 
       downloadAccount(result);
     }
   } catch (error) {
-    console.trace(error)
     status.status = 'error';
     status.message = (error as Error).message;
   }
