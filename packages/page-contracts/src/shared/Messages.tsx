@@ -44,7 +44,7 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
     );
 }
 
-function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm } : Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);

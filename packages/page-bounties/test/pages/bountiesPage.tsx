@@ -31,7 +31,7 @@ function aGenesisHash () {
 }
 
 type FindOne = (match: string) => Promise<HTMLElement>;
-type FindManyWithMatcher = (match: string | ((match: string)=> boolean)) => Promise<HTMLElement[]>
+type FindManyWithMatcher = (match: string | ((match: string) => boolean)) => Promise<HTMLElement[]>
 type GetMany = (match: string) => HTMLElement[];
 
 class NotYetRendered extends Error {
@@ -52,7 +52,7 @@ interface RenderedBountiesPage {
 
 export class BountiesPage {
   aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
-  aBountyIndex: (index?:number) => BountyIndex;
+  aBountyIndex: (index?: number) => BountyIndex;
   aBountyStatus: (status: string) => BountyStatus;
   bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
   bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
