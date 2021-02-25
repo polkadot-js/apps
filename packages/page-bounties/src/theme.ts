@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 type bountyTheme = {
-  dark:string;
-  light:string;
+  dark: string;
+  light: string;
 }
 
 export const bountyLabelColor: bountyTheme = {

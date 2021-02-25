@@ -12,17 +12,17 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^3.10.2",
-    "@polkadot/api-contract": "^3.10.2",
-    "@polkadot/hw-ledger": "^5.7.1",
-    "@polkadot/keyring": "^5.7.1",
-    "@polkadot/networks": "^5.7.1",
-    "@polkadot/phishing": "^0.5.34",
-    "@polkadot/types": "^3.10.2",
-    "@polkadot/util": "^5.7.1",
-    "@polkadot/util-crypto": "^5.7.1",
-    "@polkadot/wasm-crypto": "^3.2.3",
-    "@polkadot/x-rxjs": "^5.7.1",
+    "@polkadot/api": "^3.10.3-5",
+    "@polkadot/api-contract": "^3.10.3-5",
+    "@polkadot/hw-ledger": "^5.7.2-3",
+    "@polkadot/keyring": "^5.7.2-3",
+    "@polkadot/networks": "^5.7.2-3",
+    "@polkadot/phishing": "^0.5.37",
+    "@polkadot/types": "^3.10.3-5",
+    "@polkadot/util": "^5.7.2-3",
+    "@polkadot/util-crypto": "^5.7.2-3",
+    "@polkadot/wasm-crypto": "^3.2.4",
+    "@polkadot/x-rxjs": "^5.7.2-3",
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.2.0",
     "typescript": "^4.1.5"
@@ -60,15 +60,15 @@
     "test": "polkadot-dev-run-test --selectProjects=fast-tests --silent --testPathIgnorePatterns slow --testNamePattern='^((?!--SLOW--).)*$'",
     "test:all": "polkadot-dev-run-test --selectProjects=all-tests --silent",
     "test:one": "polkadot-dev-run-test",
-    "start": "yarn clean && cd packages/apps && yarn webpack-cli serve --config webpack.serve.js --port 3000 --watch",
+    "start": "yarn clean && cd packages/apps && yarn webpack-cli serve --config webpack.serve.js --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/register": "^7.12.10",
-    "@babel/runtime": "^7.12.5",
+    "@babel/core": "^7.13.1",
+    "@babel/register": "^7.13.0",
+    "@babel/runtime": "^7.13.7",
     "@pinata/sdk": "^1.1.11",
-    "@polkadot/dev": "^0.61.26",
+    "@polkadot/dev": "^0.61.27",
     "@polkadot/ts": "^0.3.59",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.30",
@@ -76,7 +76,7 @@
     "@types/jest": "^26.0.20",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-copy-to-clipboard": "^5.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react-dom": "^17.0.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.7",
@@ -96,7 +96,7 @@
     "stylelint": "^13.9.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "webpack": "^5.19.0",
-    "webpack-cli": "^4.4.0"
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
   }
 }

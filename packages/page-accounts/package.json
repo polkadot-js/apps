@@ -9,8 +9,8 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/phishing": "^0.5.34",
+    "@babel/runtime": "^7.13.7",
+    "@polkadot/phishing": "^0.5.37",
     "@polkadot/react-components": "^0.81.2-9",
     "@polkadot/vanitygen": "^0.29.1",
     "detect-browser": "^5.2.0",

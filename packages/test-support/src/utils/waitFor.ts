@@ -23,5 +23,5 @@ export async function waitFor (predicate: () => Promise<boolean> | boolean, { in
   return true;
 }
 
-export const sleep = (ms: number):Promise<void> =>
+export const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));

@@ -3,7 +3,7 @@
 
 import { fireEvent } from '@testing-library/react';
 
-export const clickButtonWithName = async (buttonName: string, findByRole: (...args : any[]) => Promise<HTMLElement>): Promise<void> => {
+export const clickButtonWithName = async (buttonName: string, findByRole: (...args: any[]) => Promise<HTMLElement>): Promise<void> => {
   const button = await findByRole('button', { name: buttonName });
 
   fireEvent.click(button);
