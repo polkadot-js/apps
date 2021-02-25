@@ -41,12 +41,13 @@ function Bounties ({ className }: Props): React.ReactElement {
         {bounties && bestNumber &&
           bounties
             .sort((a, b) => b.index.cmp(a.index))
-            .map(({ bounty, description, index, proposals }) => (
+            .map(({ bounty, description, index, proposals }, count) => (
               <Bounty
                 bestNumber={bestNumber}
                 bounty={bounty}
                 description={description}
                 index={index}
+                isEven={!!(count % 2)}
                 key={index.toNumber()}
                 proposals={proposals}
               />
@@ -59,27 +60,16 @@ function Bounties ({ className }: Props): React.ReactElement {
 
 export default React.memo(styled(Bounties)`
   .bounties-table-wrapper table {
-    background: none;
-
-    &::before {
-      background: none;
-    }
-
     tr {
       td,
       &:not(.filter) th {
-        &:first-child {
-          padding-left: 1.14rem;
-        }
-
         &:last-child {
           padding-right: 1.14rem;
         }
       }
     }
   }
-
-  .ui--IdentityIcon {
+.ui--IdentityIcon {
     margin-right: 0.42rem;
   }
 

@@ -31,12 +31,13 @@ interface Props {
   className?: string;
   description: string;
   index: BountyIndex;
+  isEven: boolean;
   proposals?: DeriveCollectiveProposal[];
 }
 
 const EMPTY_CELL = '-';
 
-function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
+function Bounty ({ bestNumber, bounty, className = '', description, index, isEven, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -65,7 +66,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''} isOdd`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td className='number'><h1>{formatNumber(index)}</h1></td>
         <td
           className='description-column'
@@ -154,7 +155,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} isOdd`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2}>
           <div className='label-column-left'>
             <div className='label'>{t('Proposer')}</div>
