@@ -13,14 +13,16 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: 'AccountId',
-        CapsuleID: 'u32',
-        CapsuleIDOf: 'CapsuleID',
-        CapsuleData: {
-          offchain_uri: 'Vec<u8>',
-          pk_hash: 'Hash',
-          creator: 'AccountId',
+        NFTId: 'u32',
+        NFTIdOf: 'NFTId',
+        NFTData: {
           owner: 'AccountId',
+          details: 'NFTDetails',
+          sealed: 'bool',
           locked: 'bool'
+        },
+        NFTDetails: {
+          offchain_uri: 'Vec<u8>'
         },
         LookupSource: 'AccountId'
       }
