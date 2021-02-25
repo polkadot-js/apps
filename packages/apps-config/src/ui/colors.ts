@@ -111,6 +111,7 @@ export const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
+  ['MathChain PC1', chainGalois],
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
