@@ -17,7 +17,7 @@ export interface Props {
   className?: string;
   help?: string
   label?: React.ReactNode;
-  onChange?:(value: number) => void;
+  onChange?: (value: number) => void;
   value?: number;
 }
 
