@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/test-support",
-  "version": "0.81.2-12",
+  "version": "0.81.2-13",
   "main": "index.js",
   "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
