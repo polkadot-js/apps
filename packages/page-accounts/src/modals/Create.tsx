@@ -143,11 +143,8 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: PairType): AddressState {
   let address: string | null = null;
-  let isSeedValid = true;
-  let deriveValidation: DeriveValidationOutput = {};
-
-  const deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
-  const isSeedValid = seedType === 'raw'
+  let deriveValidation: DeriveValidationOutput = deriveValidate(seed, seedType, derivePath, pairType);
+  let isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
     : mnemonicValidate(seed);
 
@@ -222,6 +219,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const isValid = isFirstStepValid && isSecondStepValid;
 
   const errorIndex = useRef<Record<string, string>>({
+    INVALID_DERIVATION_PATH: t<string>('This is an invalid derivation path.'),
     PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
     SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
     WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
@@ -256,7 +254,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     (newPairType: PairType) => setAddress(
       updateAddress(seed, isEthereum ? ETH_DEFAULT_PATH : '', seedType, newPairType)
     ),
-    [derivePath, seed, seedType, isEthereum]
+    [seed, seedType, isEthereum]
   );
 
   const _selectSeedType = useCallback(
