@@ -17,13 +17,15 @@ import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
-import { hdLedger, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { hdLedger, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a, hdValidatePath } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
 import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
+
+const ETH_DEFAULT_PATH = "m/44'/60'/0'/0/0";
 
 type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
 
@@ -61,22 +63,22 @@ interface DeriveValidationOutput {
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
 
-function isHDDerivePath (path: string) {
-  // TODO: add more validation
-  const firstLetter = path[0];
+// function isHDDerivePath (path: string) {
+//   // TODO: add more validation
+//   const firstLetter = path[0];
 
-  return firstLetter === 'm' || firstLetter === 'M' || firstLetter === "m'" || firstLetter === "M'";
-}
+//   return firstLetter === 'm' || firstLetter === 'M' || firstLetter === "m'" || firstLetter === "M'";
+// }
 
 function getSuri (seed: string, derivePath: string, pairType: PairType): string {
   return pairType === 'ed25519-ledger'
     ? u8aToHex(hdLedger(seed, derivePath).secretKey.slice(0, 32))
-    : isHDDerivePath(derivePath) ? `${seed}/${derivePath}` : `${seed}${derivePath}`;
+    : pairType === 'ethereum' ? `${seed}/${derivePath}` : `${seed}${derivePath}`;
 }
 
 function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: PairType): DeriveValidationOutput {
   try {
-    const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
+    const { password, path } = keyExtractSuri(pairType==='ethereum'?`${seed}/${derivePath}`:`${seed}${derivePath}`);
     let result: DeriveValidationOutput = {};
 
     // show a warning in case the password contains an unintended / character
@@ -145,20 +147,22 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   let isSeedValid = true;
   let deriveValidation: DeriveValidationOutput = {};
 
-  if (pairType === 'ethereum') {
-    try {
-      address = addressFromSeed(seed, derivePath, pairType);
-    } catch (error) {
-      console.error(error);
+  // if (pairType === 'ethereum') {
+  //   try {
+  //     address = addressFromSeed(seed, derivePath, pairType);
+  //   } catch (error) {
+  //     console.error(error);
 
-      isSeedValid = false;
-      deriveValidation = { error: (error as Error).message ? (error as Error).message : (error as Error).toString() };
-    }
-  } else {
+  //     isSeedValid = false;
+  //     deriveValidation = { error: (error as Error).message ? (error as Error).message : (error as Error).toString() };
+  //   }
+  // } else {
     deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
     isSeedValid = seedType === 'raw'
       ? rawValidate(seed)
       : mnemonicValidate(seed);
+      console.log('isSeedValid',isSeedValid,'deriveValidation',deriveValidation)
+      let val=hdValidatePath(derivePath)
 
     if (!deriveValidation?.error && isSeedValid) {
       try {
@@ -169,7 +173,7 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
         isSeedValid = false;
       }
     }
-  }
+  // }
 
   return {
     address,
@@ -219,7 +223,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const { isLedgerEnabled } = useLedger();
   const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(propsSeed,
     isEthereum
-      ? "m/44'/60'/0'/0/0"
+      ? ETH_DEFAULT_PATH
       : '',
     propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
@@ -249,29 +253,23 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   ));
 
   const _onChangePath = useCallback(
-    (newDerivePath: string) =>
-      setAddress(
+    (newDerivePath: string) => setAddress(
         updateAddress(seed, newDerivePath, seedType, pairType)
-      )
-    ,
+      ),
     [pairType, seed, seedType]
   );
 
   const _onChangeSeed = useCallback(
-    (newSeed: string) =>
-      setAddress(
+    (newSeed: string) => setAddress(
         updateAddress(newSeed, derivePath, seedType, pairType)
-      )
-    ,
+      ),
     [derivePath, pairType, seedType]
   );
 
   const _onChangePairType = useCallback(
-    (newPairType: PairType) =>
-      setAddress(
-        updateAddress(seed, derivePath, seedType, newPairType)
-      )
-    ,
+    (newPairType: PairType) => setAddress(
+        updateAddress(seed,isEthereum? derivePath:'', seedType, newPairType)
+      ),
     [derivePath, seed, seedType]
   );
 
@@ -418,7 +416,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                       onChange={_onChangePath}
                       placeholder={
                         pairType === 'ethereum'
-                          ? "m/44'/60'/0'/0/0"
+                          ? ETH_DEFAULT_PATH
                           : seedType === 'raw'
                             ? pairType === 'sr25519'
                               ? t<string>('//hard/soft')
