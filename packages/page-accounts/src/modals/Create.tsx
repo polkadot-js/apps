@@ -221,11 +221,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const { t } = useTranslation();
   const { api, isDevelopment, isEthereum } = useApi();
   const { isLedgerEnabled } = useLedger();
-  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(propsSeed,
-    isEthereum
-      ? ETH_DEFAULT_PATH
-      : '',
-    propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
+  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(
+    propsSeed,
+    isEthereum ? ETH_DEFAULT_PATH : '',
+    propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType
+  ));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
