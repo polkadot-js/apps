@@ -144,8 +144,8 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   let isSeedValid = true;
   let deriveValidation: DeriveValidationOutput = {};
 
-  deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
-  isSeedValid = seedType === 'raw'
+  const deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
+  const isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
     : mnemonicValidate(seed);
 
@@ -252,7 +252,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   const _onChangePairType = useCallback(
     (newPairType: PairType) => setAddress(
-      updateAddress(seed, isEthereum ? derivePath : '', seedType, newPairType)
+      updateAddress(seed, isEthereum ? ETH_DEFAULT_PATH : '', seedType, newPairType)
     ),
     [derivePath, seed, seedType, isEthereum]
   );
