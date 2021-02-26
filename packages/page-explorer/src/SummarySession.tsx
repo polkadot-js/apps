@@ -9,7 +9,7 @@ import React from 'react';
 import { CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Elapsed } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -36,7 +36,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
       {sessionInfo && (
         <>
           {withSession && (
-            sessionInfo.sessionLength.gtn(1)
+            sessionInfo.sessionLength.gt(BN_ONE)
               ? (
                 <CardSummary
                   className={className}
@@ -56,7 +56,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
               )
           )}
           {forcing && !forcing.isForceNone && withEra && (
-            sessionInfo.sessionLength.gtn(1)
+            sessionInfo.sessionLength.gt(BN_ONE)
               ? (
                 <CardSummary
                   className={className}

@@ -22,8 +22,8 @@ interface Props {
 function SetRewardDestination ({ controllerId, defaultDestination, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [destination, setDestination] = useState<DestinationType>(((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
-  const [destAccount, setDestAccount] = useState<string | null>(defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
+  const [destination, setDestination] = useState<DestinationType>(() => ((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
+  const [destAccount, setDestAccount] = useState<string | null>(() => defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
 
   const options = useMemo(
     () => createDestCurr(t),

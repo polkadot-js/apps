@@ -41,6 +41,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
     <Modal
       className={className}
       header={t<string>('Register parathread')}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns>
@@ -74,11 +75,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
               isError={!isWasmValid}
               label={t<string>('code')}
               onChange={_setWasm}
-              placeholder={
-                wasm && !isWasmValid
-                  ? t<string>('The code is not recognized as being in valid WASM format')
-                  : null
-              }
+              placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
             />
           </Modal.Column>
           <Modal.Column>
@@ -106,7 +103,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           isDisabled={!isWasmValid || !genesisState}
           onStart={onClose}
           params={[paraId, genesisState, wasm]}
-          tx={api.tx.registrar.registerParathread}
+          tx={api.tx.registrar.register}
         />
       </Modal.Actions>
     </Modal>

@@ -171,7 +171,15 @@ export default (theme: ThemeDef): string => `
     color: ${theme.color};
 
     .ui.text.menu .item {
-      color: ${theme.color};
+      color: ${theme.color} !important;
+
+      &.disabled {
+        opacity: 0.3;
+      }
+    }
+
+    &&::before {
+      background: ${theme.bgMenu};
     }
   }
 

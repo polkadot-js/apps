@@ -17,6 +17,7 @@ import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwn
 import basicMd from './md/basic.md';
 import Summary from './Overview/Summary';
 import Actions from './Actions';
+import ActionsBanner from './ActionsBanner';
 import { STORE_FAVS_BASE } from './constants';
 import Overview from './Overview';
 import Payouts from './Payouts';
@@ -39,11 +40,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { pathname } = useLocation();
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
+  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -158,6 +159,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         ownStashes={ownStashes}
         targets={targets}
       />
+      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
+        <ActionsBanner />
+      )}
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}

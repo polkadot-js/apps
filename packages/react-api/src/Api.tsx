@@ -12,7 +12,7 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
+import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -198,7 +198,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

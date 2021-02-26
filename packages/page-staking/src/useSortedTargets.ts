@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { arrayFlatten, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -79,16 +79,24 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
-  const nominators: Record<string, boolean> = {};
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], Record<string, BN>] {
+  const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('Exposure');
-  const earliestEra = historyDepth && lastEra.sub(historyDepth).addn(1);
+  const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
     let [bondOwn, bondTotal] = exposure.total
       ? [exposure.own.unwrap(), exposure.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
     const skipRewards = bondTotal.isZero();
+    // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
+    const minNominated = (exposure.others || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
+      const actual = value.unwrap();
+
+      return min.isZero() || actual.lt(min)
+        ? actual
+        : min;
+    }, BN_ZERO);
 
     if (bondTotal.isZero()) {
       bondTotal = bondOwn = stakingLedger.total.unwrap();
@@ -122,13 +130,14 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
-        nominators[nominator] = true;
+        nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value.toBn());
 
         return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key)),
       key,
       knownLength: activeEra.sub(stakingLedger.claimedRewards[0] || activeEra),
       lastPayout,
+      minNominated,
       numNominators: (exposure.others || []).length,
       numRecentPayouts: earliestEra
         ? stakingLedger.claimedRewards.filter((era) => era.gte(earliestEra)).length
@@ -146,7 +155,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     };
   });
 
-  return [list, Object.keys(nominators)];
+  return [list, nominators];
 }
 
 function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
@@ -163,12 +172,20 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   // add the explicit stakedReturn
   !avgStaked.isZero() && elected.forEach((e): void => {
     if (!e.skipRewards) {
-      e.stakedReturn = inflation.stakedReturn * avgStaked.muln(1_000_000).div(e.bondTotal).toNumber() / 1_000_000;
+      const adjusted = avgStaked.mul(BN_HUNDRED).imuln(inflation.stakedReturn).div(e.bondTotal);
+
+      // in some cases, we may have overflows... protect against those
+      e.stakedReturn = (adjusted.gt(BN_MAX_INTEGER) ? BN_MAX_INTEGER : adjusted).toNumber() / BN_HUNDRED.toNumber();
       e.stakedReturnCmp = e.stakedReturn * (100 - e.commissionPer) / 100;
     }
   });
 
   // all validators, calc median commission
+  const minNominated = Object.values(nominators).reduce((min: BN, value) => {
+    return min.isZero() || value.lt(min)
+      ? value
+      : min;
+  }, BN_ZERO);
   const validators = sortValidators(arrayFlatten([elected, waiting]));
   const commValues = validators.map(({ commissionPer }) => commissionPer).sort((a, b) => a - b);
   const midIndex = Math.floor(commValues.length / 2);
@@ -188,7 +205,8 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     inflation,
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
-    nominators,
+    minNominated,
+    nominators: Object.keys(nominators),
     totalIssuance,
     totalStaked,
     validatorIds,
@@ -222,5 +240,5 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
     [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo]
   );
 
-  return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, ...partial };
+  return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, minNominated: BN_ZERO, ...partial };
 }

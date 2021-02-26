@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import { Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_TEN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import ReferendumVote from './ReferendumVote';
@@ -30,8 +30,8 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
 
   const sorted = useMemo(
     () => votes.sort((a, b) => {
-      const ta = a.balance.muln(LOCKS[a.vote.conviction.toNumber()]).divn(10);
-      const tb = b.balance.muln(LOCKS[b.vote.conviction.toNumber()]).divn(10);
+      const ta = a.balance.muln(LOCKS[a.vote.conviction.toNumber()]).div(BN_TEN);
+      const tb = b.balance.muln(LOCKS[b.vote.conviction.toNumber()]).div(BN_TEN);
 
       return tb.cmp(ta);
     }),

@@ -35,6 +35,7 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   position: relative;
 
   td {
+    border-bottom: 1px solid ${theme.borderTable};
     padding: 0.75rem 1rem;
     text-align: left;
     vertical-align: middle;

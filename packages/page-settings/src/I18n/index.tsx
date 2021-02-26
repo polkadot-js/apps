@@ -74,7 +74,7 @@ async function retrieveAll (): Promise<Defaults> {
   });
 
   // fill in all empty values (useful for download, filling in)
-  keys.forEach((lng):void => {
+  keys.forEach((lng): void => {
     Object.keys(english).forEach((record): void => {
       Object.keys(english[record]).forEach((key): void => {
         if (!languageCache[lng][key]) {

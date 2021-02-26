@@ -76,7 +76,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--bg-faint:before {
-    opacity: 0.0375;
+    opacity: 0.025;
   }
 
   .highlight--bg-light:before {
@@ -174,6 +174,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
       .ui--Icon {
         background: transparent;
+        color: inherit;
         color: ${getHighlight(uiHighlight)};
       }
     }
@@ -202,7 +203,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight(uiHighlight)} !important;
+          background: ${getHighlight(uiHighlight)} !important;
 
           &:before {
             border-color: ${getHighlight(uiHighlight)} !important;
@@ -261,7 +262,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
     &.mark {
       margin: 0.5rem 0 0.5rem 2.25rem;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1rem !important;
     }
 
     &.nomargin {

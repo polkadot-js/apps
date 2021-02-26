@@ -89,6 +89,8 @@ export interface AddressFlags extends DeriveAccountFlags {
   isMultisig: boolean;
   isProxied: boolean;
   isOwned: boolean;
+  isValidator: boolean;
+  isNominator: boolean;
 }
 
 export interface AddressIdentity extends DeriveAccountRegistration {
