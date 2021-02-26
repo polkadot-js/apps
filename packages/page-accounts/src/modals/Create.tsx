@@ -66,7 +66,9 @@ const STEPS_COUNT = 3;
 function getSuri (seed: string, derivePath: string, pairType: PairType): string {
   return pairType === 'ed25519-ledger'
     ? u8aToHex(hdLedger(seed, derivePath).secretKey.slice(0, 32))
-    : pairType === 'ethereum' ? `${seed}/${derivePath}` : `${seed}${derivePath}`;
+    : pairType === 'ethereum'
+      ? `${seed}/${derivePath}`
+      : `${seed}${derivePath}`;
 }
 
 function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: PairType): DeriveValidationOutput {
