@@ -137,6 +137,7 @@
   "Setup account as recoverable": "Setup account as recoverable",
   "Should the search be case sensitive, e.g if you select \"no\" your search for \"Some\" may return addresses containing \"somE\" or \"sOme\"...": "Should the search be case sensitive, e.g if you select \"no\" your search for \"Some\" may return addresses containing \"somE\" or \"sOme\"...",
   "Show address on hardware device": "Show address on hardware device",
+  "Since some extensions, such as the polkadot-js extension, protects you against all community reported phishing sites, there are valid reasons to use them for additional protection, even if you are not storing accounts in it.": "Since some extensions, such as the polkadot-js extension, protects you against all community reported phishing sites, there are valid reasons to use them for additional protection, even if you are not storing accounts in it.",
   "Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.": "Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.",
   "Society": "Society",
   "Soft derivation paths are not allowed on ed25519": "Soft derivation paths are not allowed on ed25519",
