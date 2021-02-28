@@ -41,11 +41,15 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   });
 
   useEffect((): void => {
-    onChange({
-      nominateTx: selected && selected.length
-        ? api.tx.staking.nominate(selected)
-        : null
-    });
+    try {
+      onChange({
+        nominateTx: selected && selected.length
+          ? api.tx.staking.nominate(selected)
+          : null
+      });
+    } catch {
+      onChange({ nominateTx: null });
+    }
   }, [api, onChange, selected]);
 
   return (

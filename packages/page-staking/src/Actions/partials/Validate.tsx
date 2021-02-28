@@ -34,12 +34,16 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
   ]);
 
   useEffect((): void => {
-    onChange({
-      validateTx: api.tx.staking.validate({
-        blocked: !allowNoms,
-        commission
-      })
-    });
+    try {
+      onChange({
+        validateTx: api.tx.staking.validate({
+          blocked: !allowNoms,
+          commission
+        })
+      });
+    } catch {
+      onChange({ validateTx: null });
+    }
   }, [api, allowNoms, commission, onChange]);
 
   const _setCommission = useCallback(
