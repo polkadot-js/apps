@@ -9,10 +9,10 @@
   "maintainers": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.13.7",
+    "@babel/runtime": "^7.13.8",
     "@polkadot/apps-config": "^0.81.2-19",
     "@polkadot/react-components": "^0.81.2-19",
     "@polkadot/react-query": "^0.81.2-19",
-    "query-string": "^6.13.8"
+    "query-string": "^6.14.1"
   }
 }
