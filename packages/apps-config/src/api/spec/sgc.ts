@@ -13,7 +13,8 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: 'MultiAddress',
-        LookupSource: 'MultiAddress'
+        LookupSource: 'MultiAddress',
+        TokenId: 'u32'
       }
     }
   ]
