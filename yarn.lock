@@ -2140,7 +2140,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.13.7
-    "@polkadot/phishing": ^0.6.0
+    "@polkadot/phishing": ^0.6.1
     "@polkadot/react-components": ^0.81.2-16
     "@polkadot/test-support": 0.81.2-16
     "@polkadot/vanitygen": ^0.29.1
@@ -2646,7 +2646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/phishing@npm:^0.6.0":
+"@polkadot/phishing@npm:^0.6.1":
   version: 0.6.1
   resolution: "@polkadot/phishing@npm:0.6.1"
   dependencies:

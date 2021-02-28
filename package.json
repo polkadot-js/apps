@@ -17,7 +17,7 @@
     "@polkadot/hw-ledger": "^5.9.2",
     "@polkadot/keyring": "^5.9.2",
     "@polkadot/networks": "^5.9.2",
-    "@polkadot/phishing": "^0.6.0",
+    "@polkadot/phishing": "^0.6.1",
     "@polkadot/types": "^3.10.3-19",
     "@polkadot/util": "^5.9.2",
     "@polkadot/util-crypto": "^5.9.2",
