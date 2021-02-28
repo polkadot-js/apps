@@ -14,9 +14,9 @@
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.13.7",
-    "@polkadot/api": "^3.10.3-19",
-    "@polkadot/extension-dapp": "^0.37.2-0",
+    "@babel/runtime": "^7.13.8",
+    "@polkadot/api": "^3.11.1",
+    "@polkadot/extension-dapp": "^0.37.2",
     "@polkadot/x-rxjs": "^5.9.2",
     "fflate": "^0.6.4"
   }
