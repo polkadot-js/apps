@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { ValidateInfo } from './types';
 
 import BN from 'bn.js';
@@ -35,11 +36,12 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
 
   useEffect((): void => {
     try {
+      // This casting is not needed... however the default prefs is outdates
       onChange({
         validateTx: api.tx.staking.validate({
           blocked: !allowNoms,
           commission
-        })
+        } as unknown as ValidatorPrefs)
       });
     } catch {
       onChange({ validateTx: null });
