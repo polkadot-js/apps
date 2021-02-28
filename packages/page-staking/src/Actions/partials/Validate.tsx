@@ -36,7 +36,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
 
   useEffect((): void => {
     try {
-      // This casting is not needed... however the default prefs is outdates
+      // This casting is not needed... however the default prefs is outdated
       onChange({
         validateTx: api.tx.staking.validate({
           blocked: !allowNoms,
