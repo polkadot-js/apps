@@ -11,8 +11,7 @@ import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { Modal, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { assert, isFunction } from '@polkadot/util';
-import { format } from '@polkadot/util/logger';
+import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import TxSigned from './TxSigned';
@@ -36,7 +35,7 @@ async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt
 
     const result = await rpc[section][method](...values);
 
-    console.log('submitRpc: result ::', format(result));
+    console.log('submitRpc: result ::', loggerFormat(result));
 
     return {
       result,
