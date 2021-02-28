@@ -30,8 +30,8 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
   const [allowNoms, setAllowNoms] = useState(true);
 
   const blockedOptions = useRef([
-    { text: t('Yes'), value: true },
-    { text: t('No'), value: false }
+    { text: t('Yes, allow nominations'), value: true },
+    { text: t('No, block all nominations'), value: false }
   ]);
 
   useEffect((): void => {
