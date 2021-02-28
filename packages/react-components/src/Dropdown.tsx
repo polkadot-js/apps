@@ -15,7 +15,7 @@ interface Props<Option> {
   allowAdd?: boolean;
   children?: React.ReactNode;
   className?: string;
-  defaultValue?: string | number | boolean;
+  defaultValue?: any;
   dropdownClassName?: string;
   help?: React.ReactNode;
   isButton?: boolean;
@@ -47,7 +47,7 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
 
 function BaseDropdown<Option> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
-  const [stored, setStored] = useState<string | number | boolean | undefined>();
+  const [stored, setStored] = useState<string | undefined>();
 
   const _setStored = useCallback(
     (value: string): void => {
