@@ -110,7 +110,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   plasm,
   'plasm-parachain': plasmParachain,
   robonomics,
-  sgc,
+  'sgc-node': sgc,
   snowbridge,
   'sora-substrate': soraSubstrate,
   stafi,
