@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-auctions",
   "private": true,
-  "version": "0.82.2-1",
+  "version": "0.82.2-2",
   "description": "A module to allows for parachain auctions",
   "main": "index.js",
   "scripts": {},
@@ -10,6 +10,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.8",
-    "@polkadot/react-components": "^0.82.2-1"
+    "@polkadot/react-components": "^0.82.2-2"
   }
 }
