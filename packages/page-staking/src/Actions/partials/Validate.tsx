@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { ValidateInfo } from './types';
 
 import BN from 'bn.js';
@@ -36,12 +35,11 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
 
   useEffect((): void => {
     try {
-      // This casting is not needed... however the default prefs is outdated
       onChange({
         validateTx: api.tx.staking.validate({
           blocked: !allowNoms,
           commission
-        } as unknown as ValidatorPrefs)
+        })
       });
     } catch {
       onChange({ validateTx: null });
@@ -92,20 +90,22 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
           <p>{t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
         </Modal.Column>
       </Modal.Columns>
-      <Modal.Columns>
-        <Modal.Column>
-          <Dropdown
-            defaultValue={true}
-            help={t<string>('Does this validator allow nominations or is it blocked for all')}
-            label={t<string>('allows new nominations')}
-            onChange={setAllowNoms}
-            options={blockedOptions.current}
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}</p>
-        </Modal.Column>
-      </Modal.Columns>
+      {api.tx.staking.kick && (
+        <Modal.Columns>
+          <Modal.Column>
+            <Dropdown
+              defaultValue={true}
+              help={t<string>('Does this validator allow nominations or is it blocked for all')}
+              label={t<string>('allows new nominations')}
+              onChange={setAllowNoms}
+              options={blockedOptions.current}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      )}
     </div>
   );
 }
