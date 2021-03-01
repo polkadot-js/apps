@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 0.82.1 Mar 1, 2021
+
+Contributed:
+
+- Start of Polish i18n (Thanks to https://github.com/jimmy-tudeski)
+- Adjust display of table buttons with gradient themes (Thanks to https://github.com/superpw)
+- Update PolkaBTC network URL (Thanks to https://github.com/savudani8)
+- Add network types for Snowbridge (Thanks to https://github.com/vgeddes)
+- Update Btfrost types (Thanks to https://github.com/awesomepan)
+- Update Litentry collator name (Thanks to https://github.com/chenzongxiong)
+- Add MathChain PC1 support (Thanks to https://github.com/hging)
+- Update Ternoa types (thanks to https://github.com/ETeissonniere)
+- Update Scg types (Thanks to https://github.com/Zombieliu)
+- Add derivation path support for ETH-compatible accounts (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Explicit messages around extension phishing support
+- Adjust parachain validators to always show stashes
+- Adjust block links display on a per-contract view
+- Adjust display of disabled items on popup menus (dark-mode driven)
+- Align bounty row display with the rest of the UI
+
+
 ## 0.81.1 Feb 22, 2021
 
 Contributed:
