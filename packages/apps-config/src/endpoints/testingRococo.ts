@@ -143,6 +143,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoJupiter',
+        paraId: 1,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
+        providers: {
+          jupiter: 'wss://ws.rococo.jupiter.patract.cn'
+        }
+      },
+      {
         info: 'rococoKilt',
         paraId: 12623,
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
