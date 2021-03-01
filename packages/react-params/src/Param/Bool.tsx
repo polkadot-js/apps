@@ -3,9 +3,10 @@
 
 import type { Props } from '../types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
+import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Bare from './Bare';
@@ -15,16 +16,15 @@ function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isErr
   const [defaultValue] = useState(
     value instanceof Boolean
       ? value.valueOf()
-      : value as boolean
+      : isBoolean(value)
+        ? value
+        : false
   );
 
-  const options = useMemo(
-    () => [
-      { text: t<string>('No'), value: false },
-      { text: t<string>('Yes'), value: true }
-    ],
-    [t]
-  );
+  const options = useRef([
+    { text: t<string>('No'), value: false },
+    { text: t<string>('Yes'), value: true }
+  ]);
 
   const _onChange = useCallback(
     (value: boolean) =>
@@ -44,7 +44,7 @@ function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isErr
         isError={isError}
         label={label}
         onChange={_onChange}
-        options={options}
+        options={options.current}
         withEllipsis
         withLabel={withLabel}
       />

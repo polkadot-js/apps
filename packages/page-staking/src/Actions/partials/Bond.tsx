@@ -26,6 +26,14 @@ interface Props {
   onChange: (info: BondInfo) => void;
 }
 
+const EMPTY_INFO = {
+  bondOwnTx: null,
+  bondTx: null,
+  controllerId: null,
+  controllerTx: null,
+  stashId: null
+};
+
 function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -76,13 +84,7 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
           controllerTx: api.tx.staking.setController(controllerId),
           stashId
         }
-        : {
-          bondOwnTx: null,
-          bondTx: null,
-          controllerId: null,
-          controllerTx: null,
-          stashId: null
-        }
+        : EMPTY_INFO
     );
   }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, stashId, onChange]);
 
