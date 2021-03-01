@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { InputAddressMulti, Modal, Spinner, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import SenderInfo from '../partials/SenderInfo';
@@ -18,20 +18,24 @@ interface Props {
   nominating?: string[];
   onClose: () => void;
   stashId: string;
-  stakingInfo?: DeriveStakingAccount;
 }
 
 const MAX_KICK = 128;
 
-function KickNominees ({ className = '', controllerId, nominating, onClose, stakingInfo, stashId }: Props): React.ReactElement<Props> | null {
+const accountOpts = {
+  withExposure: true
+};
+
+function KickNominees ({ className = '', controllerId, nominating, onClose, stashId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [selected, setSelected] = useState<string[]>([]);
   const [{ kickTx }, setTx] = useState<{ kickTx?: null | SubmittableExtrinsic<'promise'> }>({});
+  const queryInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [stashId, accountOpts]);
 
   const nominators = useMemo(
-    () => stakingInfo?.exposure?.others.map(({ who }) => who.toString()),
-    [stakingInfo]
+    () => queryInfo?.exposure?.others.map(({ who }) => who.toString()),
+    [queryInfo]
   );
 
   useEffect((): void => {

@@ -136,7 +136,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           <KickNominees
             controllerId={controllerId}
             onClose={toggleKick}
-            stakingInfo={stakingAccount}
             stashId={stashId}
           />
         )}
