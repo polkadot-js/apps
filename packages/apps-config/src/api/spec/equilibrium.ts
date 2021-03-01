@@ -3,13 +3,11 @@
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Enum } from '@polkadot/types';
-import type { AccountData, AccountId, AccountIndex, Address, Balance, Index } from '@polkadot/types/interfaces';
+import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
-
-import BN from 'bn.js';
-
 import { memo } from '@polkadot/api-derive/util/memo';
 import { map } from '@polkadot/x-rxjs/operators';
+import BN from 'bn.js';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
@@ -19,16 +17,6 @@ interface SignedBalance extends Enum {
   readonly asPositive: Balance;
   readonly isNegative: boolean;
   readonly asNegative: Balance;
-}
-export interface EQDeriveBalancesAll {
-  additional: []; // fix until vesting instances are supported in api-derive
-  freeBalance: Balance;
-  reservedBalance: Balance;
-  vestingLocked: Balance;
-  lockedBalance: Balance;
-  accountId: AccountId;
-  accountNonce: Index;
-  lockedBreakdown: unknown[];
 }
 
 const currencies = ['Unknown', 'Usd', 'EQ', 'Eth', 'Btc', 'Eos', 'Dot'];
