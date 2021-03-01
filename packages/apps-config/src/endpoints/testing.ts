@@ -141,8 +141,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'jupiter',
       text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://jupiter.elara.patract.io',
-        Patract: 'wss://ws.jupiter.patract.cn'
+        Elara: 'wss://jupiter-poa.elara.patract.io',
+        Patract: 'wss://ws.jupiter-poa.patract.cn'
       }
     },
     {
