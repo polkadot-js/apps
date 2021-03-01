@@ -5,9 +5,11 @@ import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Enum } from '@polkadot/types';
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
+
+import BN from 'bn.js';
+
 import { memo } from '@polkadot/api-derive/util/memo';
 import { map } from '@polkadot/x-rxjs/operators';
-import BN from 'bn.js';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
@@ -131,7 +133,7 @@ const definitions: OverrideBundleDefinition = {
   derives: {
     ...currencies.reduce((all, cur) => ({ ...all,
       [cur]: {
-        account: (instanceId: string, api: ApiInterfaceRx) =>
+        customAccount: (instanceId: string, api: ApiInterfaceRx) =>
           memo(
             instanceId,
             (address: AccountIndex | AccountId | Address | string) =>
