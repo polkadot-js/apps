@@ -6,7 +6,7 @@ import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { InputAddressMulti, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddressMulti, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
@@ -30,7 +30,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stak
   const [{ kickTx }, setTx] = useState<{ kickTx?: null | SubmittableExtrinsic<'promise'> }>({});
 
   const nominators = useMemo(
-    () => stakingInfo?.nominators?.map((a) => a.toString()),
+    () => stakingInfo?.exposure?.others.map(({ who }) => who.toString()),
     [stakingInfo]
   );
 
@@ -57,17 +57,20 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stak
           controllerId={controllerId}
           stashId={stashId}
         />
-        {nominators && (
-          <InputAddressMulti
-            available={nominators}
-            availableLabel={t<string>('existing nominators')}
-            defaultValue={nominating}
-            help={t<string>('Filter available candidates based on name, address or short account index.')}
-            maxCount={MAX_KICK}
-            onChange={setSelected}
-            valueLabel={t<string>('removed accounts')}
-          />
-        )}
+        {nominators
+          ? (
+            <InputAddressMulti
+              available={nominators}
+              availableLabel={t<string>('existing/active nominators')}
+              defaultValue={nominating}
+              help={t<string>('Filter available nominators based on name, address or short account index.')}
+              maxCount={MAX_KICK}
+              onChange={setSelected}
+              valueLabel={t<string>('nominators to be removed')}
+            />
+          )
+          : <Spinner label={t<string>('Retrieving active nominators')} />
+        }
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
