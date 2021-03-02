@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
@@ -21,11 +22,15 @@ interface Props {
   prefix?: IdentityProps['prefix'];
   size?: number;
   theme?: IdentityProps['theme'] | 'robohash';
-  value?: string | Uint8Array | null;
+  value?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
 export function getIdentityTheme (systemName: string): 'substrate' {
   return ((settings.icon === 'default' && getSystemIcon(systemName)) || settings.icon) as 'substrate';
+}
+
+function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Array | null): value is AccountId | AccountIndex | Address {
+  return !!(value && (value as AccountId).toHuman);
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
@@ -55,7 +60,7 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
       prefix={prefix}
       size={size}
       theme={isEthereum ? 'ethereum' : thisTheme as 'substrate'}
-      value={value}
+      value={isCodec(value) ? value.toString() : value}
     />
   );
 }
