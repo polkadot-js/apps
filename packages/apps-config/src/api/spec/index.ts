@@ -56,6 +56,7 @@ import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uniarts from './uniarts';
+import unique from './unique';
 import zenlink from './zenlink';
 import zero from './zero';
 
@@ -104,6 +105,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
+  nft: unique,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
