@@ -7,11 +7,12 @@ import type { NominateInfo } from './types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { InputAddress, InputAddressMulti, MarkWarning, Modal } from '@polkadot/react-components';
+import { InputAddressMulti, MarkWarning, Modal } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
 import { useTranslation } from '../../translate';
+import SenderInfo from './SenderInfo';
 
 interface Props {
   className?: string;
@@ -41,33 +42,24 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   });
 
   useEffect((): void => {
-    onChange({
-      nominateTx: selected && selected.length
-        ? api.tx.staking.nominate(selected)
-        : null
-    });
+    try {
+      onChange({
+        nominateTx: selected && selected.length
+          ? api.tx.staking.nominate(selected)
+          : null
+      });
+    } catch {
+      onChange({ nominateTx: null });
+    }
   }, [api, onChange, selected]);
 
   return (
     <div className={className}>
       {withSenders && (
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={stashId}
-              isDisabled
-              label={t<string>('stash account')}
-            />
-            <InputAddress
-              defaultValue={controllerId}
-              isDisabled
-              label={t<string>('controller account')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
+        <SenderInfo
+          controllerId={controllerId}
+          stashId={stashId}
+        />
       )}
       <Modal.Columns>
         <Modal.Column>
