@@ -168,6 +168,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'ReAlis Network',
+      text: t('rpc.realis', 'ReAlis Network', { ns: 'apps-config' }),
+      providers: {
+        'ReAlis Network': 'ws://161.97.142.255:9944'
+      }
+    },
+    {
       info: 'phala',
       text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
       providers: {
