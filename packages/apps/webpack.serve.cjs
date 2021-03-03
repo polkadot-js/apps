@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 
-const baseConfig = require('./webpack.base.js');
+const baseConfig = require('./webpack.base.cjs');
 
 module.exports = merge(
   baseConfig(__dirname, 'development'),

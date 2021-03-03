@@ -3,7 +3,7 @@
 
 const config = require('@polkadot/dev/config/jest.cjs');
 
-const findPackages = require('./scripts/findPackages');
+const findPackages = require('./scripts/findPackages.cjs');
 
 const internalModules = findPackages()
   .filter(({ name }) => !['@polkadot/apps'].includes(name))
@@ -22,9 +22,7 @@ const defaultConfig = {
     '\\.(md)$': '<rootDir>/jest/mocks/empty.js'
   },
   setupFilesAfterEnv: ['<rootDir>/jest/jest-setup.ts'],
-  transformIgnorePatterns: [
-    '<rootDir>/node_modules'
-  ]
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|rxjs/_esm5)']
 };
 
 module.exports = Object.assign({}, config, {

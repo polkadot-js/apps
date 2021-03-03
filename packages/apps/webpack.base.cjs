@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
-const findPackages = require('../../scripts/findPackages');
+const findPackages = require('../../scripts/findPackages.cjs');
 
 function mapChunks (name, regs, inc) {
   return regs.reduce((result, test, index) => ({

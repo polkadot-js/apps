@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Dropdown, InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_HUNDRED as MAX_COMM } from '@polkadot/util';
+import { BN_HUNDRED as MAX_COMM, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -90,7 +90,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
           <p>{t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
         </Modal.Column>
       </Modal.Columns>
-      {api.tx.staking.kick && (
+      {isFunction(api.tx.staking.kick) && (
         <Modal.Columns>
           <Modal.Column>
             <Dropdown

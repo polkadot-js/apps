@@ -182,7 +182,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   </>
                 )
               }
-              {api.tx.balances.transferKeepAlive && (
+              {isFunction(api.tx.balances.transferKeepAlive) && (
                 <Toggle
                   className='typeToggle'
                   label={

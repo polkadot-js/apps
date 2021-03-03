@@ -1,6 +1,7 @@
 {
   "name": "@polkadot/apps-config",
   "version": "0.82.2-6",
+  "type": "module",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
@@ -15,9 +16,9 @@
     "@edgeware/node-types": "^3.3.2",
     "@interlay/polkabtc-types": "^0.5.2",
     "@laminar/type-definitions": "^0.3.1",
-    "@polkadot/networks": "^5.9.3-0",
+    "@polkadot/networks": "^6.0.1-5",
     "@snowfork/snowbridge-types": "^0.2.3",
-    "@sora-substrate/type-definitions": "^0.4.9",
+    "@sora-substrate/type-definitions": "^0.4.10",
     "@subsocial/types": "^0.4.33-w3f-grant2",
     "moonbeam-types-bundle": "1.1.6"
   },
