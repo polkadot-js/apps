@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
@@ -324,7 +324,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     >
                       {t<string>('Change validator preferences')}
                     </Menu.Item>
-                    {api.tx.staking.kick && (
+                    {isFunction(api.tx.staking.kick) && (
                       <Menu.Item
                         disabled={!isOwnController}
                         onClick={toggleKick}
