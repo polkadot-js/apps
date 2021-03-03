@@ -22,7 +22,7 @@ const defaultConfig = {
     '\\.(md)$': '<rootDir>/jest/mocks/empty.js'
   },
   setupFilesAfterEnv: ['<rootDir>/jest/jest-setup.ts'],
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|rxjs/_esm5)']
 };
 
 module.exports = Object.assign({}, config, {
