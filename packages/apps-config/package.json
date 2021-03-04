@@ -16,7 +16,7 @@
     "@edgeware/node-types": "^3.3.2",
     "@interlay/polkabtc-types": "^0.5.2",
     "@laminar/type-definitions": "^0.3.1",
-    "@polkadot/networks": "^6.0.1-5",
+    "@polkadot/networks": "^6.0.1-6",
     "@snowfork/snowbridge-types": "^0.2.3",
     "@sora-substrate/type-definitions": "^0.4.10",
     "@subsocial/types": "^0.4.33-w3f-grant2",
