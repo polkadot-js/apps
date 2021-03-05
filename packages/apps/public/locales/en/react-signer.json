@@ -20,6 +20,7 @@
   "Sign via Qr": "Sign via Qr",
   "Signed transaction": "Signed transaction",
   "Submit (no signature)": "Submit (no signature)",
+  "The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.": "The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.",
   "The account does not have enough funds to cover the transaction fees without dropping the balance below the account existential amount.": "The account does not have enough funds to cover the transaction fees without dropping the balance below the account existential amount.",
   "The actual fully constructed signed output. This can be used for submission via other channels.": "The actual fully constructed signed output. This can be used for submission via other channels.",
   "The call data that can be supplied to a final call to multi approvals": "The call data that can be supplied to a final call to multi approvals",
