@@ -17,7 +17,7 @@
     "@babel/runtime": "^7.13.9",
     "@polkadot/api": "^4.0.1-7",
     "@polkadot/extension-dapp": "^0.37.3-2",
-    "@polkadot/x-rxjs": "^6.0.1-6",
+    "@polkadot/x-rxjs": "^6.0.1-8",
     "fflate": "^0.6.7"
   }
 }
