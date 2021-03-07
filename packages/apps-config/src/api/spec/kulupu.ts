@@ -41,7 +41,7 @@ const definitions: OverrideBundleDefinition = {
       // enable pallet-lockdrop in runtime 17
       minmax: [17, undefined],
       types: {
-        CampaignIdentifier: "[u8; 4]"
+        CampaignIdentifier: '[u8; 4]'
       }
     }
   ]
