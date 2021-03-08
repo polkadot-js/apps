@@ -23,13 +23,13 @@ export default (theme: ThemeDef): string => `
   .ui.input > input,
   .ui.selection.dropdown > input {
     background: ${theme.bgInput};
-    color: ${theme.color};
+    color: var(--color-text);
     font: var(--font-sans);
     font-size: 1rem;
 
     &:focus {
       background: ${theme.bgInput};
-      color: ${theme.color};
+      color: var(--color-text);
     }
   }
 
@@ -50,16 +50,16 @@ export default (theme: ThemeDef): string => `
 
     &.selection.visible {
       background: ${theme.bgInput};
-      color: ${theme.color};
+      color: var(--color-text);
     }
 
     .menu {
       background: ${theme.bgInput};
-      color: ${theme.color};
+      color: var(--color-text);
 
       > .item {
         border-color: transparent !important;
-        color: ${theme.color} !important;
+        color: var(--color-text) !important;
 
         &.header.disabled {
           margin: 1em 0 0 0;
@@ -77,7 +77,7 @@ export default (theme: ThemeDef): string => `
       min-height: 1em;
 
       &:not(.default) {
-        color: ${theme.color} !important;
+        color: var(--color-text) !important;
       }
     }
   }
@@ -125,7 +125,7 @@ export default (theme: ThemeDef): string => `
   .ui.modal {
     background: var(--bg-page);
     box-shadow: none;
-    color: ${theme.color};
+    color: var(--color-text);
     font: var(--font-sans);
 
     > .actions,
@@ -143,7 +143,7 @@ export default (theme: ThemeDef): string => `
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: ${theme.colorSummary};
+      color: var(--color-summary);
       font: var(--font-sans);
       font-size: 1.75rem;
       font-weight: var(--font-weight-normal);
@@ -168,10 +168,10 @@ export default (theme: ThemeDef): string => `
 
   .ui.popup {
     background: ${theme.bgMenu};
-    color: ${theme.color};
+    color: var(--color-text);
 
     .ui.text.menu .item {
-      color: ${theme.color} !important;
+      color: var(--color-text) !important;
 
       &.disabled {
         opacity: 0.3;

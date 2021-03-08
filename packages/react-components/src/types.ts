@@ -81,11 +81,6 @@ export interface ThemeDef {
   bgToggle: string;
   borderTable: string;
   borderTabs: string;
-  color: string;
-  colorCheckbox: string;
-  colorError: string;
-  colorLabel: string;
-  colorSummary: string;
   theme: 'dark' | 'light';
 }
 

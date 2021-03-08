@@ -62,7 +62,7 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
       border-right: none;
       background: ${theme.bgInput};
       box-sizing: border-box;
-      color: ${theme.color};
+      color: var(--color-text);
       display: block;
       outline: none;
       padding: 1.75rem 3rem 0.75rem 1.5rem;
@@ -81,7 +81,7 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
 
       &.ui-textArea-withError {
         background: ${theme.bgInputError};
-        color: ${theme.colorError};
+        color: var(--color-error);
       }
     }
 

@@ -193,7 +193,7 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     background: ${theme.bgTabs};
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
-    color: ${theme.color};
+    color: var(--color-text);
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;

@@ -131,7 +131,7 @@ export default React.memo(styled(Progress)(({ theme }: ThemeProps) => `
     background: ${theme.bgInverse};
     border-radius: 100%;
     bottom: 0.375rem;
-    color: ${theme.colorSummary};
+    color: var(--color-summary);
     display: flex;
     justify-content: center;
     left: 0.375rem;

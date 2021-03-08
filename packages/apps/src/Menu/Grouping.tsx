@@ -82,7 +82,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     .groupHdr,
     .groupMenu li {
       background: ${theme.bgMenu};
-      color: ${theme.color};
+      color: var(--color-text);
     }
 
     .groupHdr {

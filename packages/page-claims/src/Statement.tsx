@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { StatementKind } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -57,7 +56,7 @@ function Statement ({ className, kind, systemChain }: Props): React.ReactElement
   );
 }
 
-export default React.memo(styled(Statement)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Statement)`
   .statement{
     border: 1px solid #c2c2c2;
     background: #f2f2f2;
@@ -68,7 +67,7 @@ export default React.memo(styled(Statement)(({ theme }: ThemeProps) => `
     white-space: normal;
 
     p {
-      color: ${theme.color} !important;
+      color: var(--color-text) !important;
     }
 
     iframe {
@@ -81,4 +80,4 @@ export default React.memo(styled(Statement)(({ theme }: ThemeProps) => `
   .statementUrl{
     margin-left: 0.3rem
   }
-`));
+`);

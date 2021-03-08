@@ -14,11 +14,6 @@ export const darkTheme: ThemeDef = {
   bgToggle: '#58595f',
   borderTable: '#343536',
   borderTabs: '#343536',
-  color: 'rgba(244, 242, 240, 0.9)',
-  colorCheckbox: 'rgba(78, 78, 78, 0.66)',
-  colorError: 'rgba(255, 83, 83, 0.8)',
-  colorLabel: 'rgba(244, 242, 240, 0.45)',
-  colorSummary: 'rgba(244, 242, 240, 0.75)',
   theme: 'dark'
 };
 
@@ -33,10 +28,5 @@ export const lightTheme: ThemeDef = {
   bgToggle: '#e4e5e6',
   borderTable: '#f1efed',
   borderTabs: '#f1efed',
-  color: '#4e4e4e',
-  colorCheckbox: 'rgba(34, 36, 38, 0.15)',
-  colorError: 'rgba(139, 0, 0)',
-  colorLabel: 'rgba(78,78,78,0.66)',
-  colorSummary: 'rgba(0, 0, 0, 0.6)',
   theme: 'light'
 };

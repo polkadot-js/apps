@@ -196,7 +196,7 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
 
     .ui--AddressMenu-sectionHeader {
       display: inline-flex;
-      color: ${theme.color};
+      color: var(--color-text);
       margin-bottom: 0.4rem;
       width: 100%;
 

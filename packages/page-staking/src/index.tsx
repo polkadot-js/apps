@@ -206,7 +206,7 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
 
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
-      color: ${theme.colorError};
+      color: var(--color-error);
 
     ${theme.theme === 'dark'
     ? `
