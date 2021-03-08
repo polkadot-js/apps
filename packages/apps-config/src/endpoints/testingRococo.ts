@@ -95,6 +95,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoChainX',
+        paraId: 59,
+        text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
+        }
+      },
+      {
         info: 'rococoDarwinia',
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
