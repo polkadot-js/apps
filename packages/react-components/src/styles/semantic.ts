@@ -22,13 +22,13 @@ export default (theme: ThemeDef): string => `
   .ui.selection.dropdown,
   .ui.input > input,
   .ui.selection.dropdown > input {
-    background: ${theme.bgInput};
+    background: var(--bg-input);
     color: var(--color-text);
     font: var(--font-sans);
     font-size: 1rem;
 
     &:focus {
-      background: ${theme.bgInput};
+      background: var(--bg-input);
       color: var(--color-text);
     }
   }
@@ -49,12 +49,12 @@ export default (theme: ThemeDef): string => `
     }
 
     &.selection.visible {
-      background: ${theme.bgInput};
+      background: var(--bg-input);
       color: var(--color-text);
     }
 
     .menu {
-      background: ${theme.bgInput};
+      background: var(--bg-input);
       color: var(--color-text);
 
       > .item {
@@ -67,7 +67,7 @@ export default (theme: ThemeDef): string => `
 
           &:hover,
           &.selected {
-            background: ${theme.bgInput};
+            background: var(--bg-input);
           }
         }
       }
@@ -106,7 +106,7 @@ export default (theme: ThemeDef): string => `
     }
 
     &.error input {
-      background-color: ${theme.bgInputError};
+      background-color: var(--bg-input-error);
       border-color: #e0b4b4;
     }
 
