@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.82.2-19",
+  "version": "0.83.0",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -12,17 +12,17 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^4.0.1-9",
-    "@polkadot/api-contract": "^4.0.1-9",
-    "@polkadot/hw-ledger": "^6.0.1-9",
-    "@polkadot/keyring": "^6.0.1-9",
-    "@polkadot/networks": "^6.0.1-9",
-    "@polkadot/phishing": "^0.6.7",
-    "@polkadot/types": "^4.0.1-9",
-    "@polkadot/util": "^6.0.1-9",
-    "@polkadot/util-crypto": "^6.0.1-9",
-    "@polkadot/wasm-crypto": "^4.0.1",
-    "@polkadot/x-rxjs": "^6.0.1-9",
+    "@polkadot/api": "^4.0.1",
+    "@polkadot/api-contract": "^4.0.1",
+    "@polkadot/hw-ledger": "^6.0.4",
+    "@polkadot/keyring": "^6.0.4",
+    "@polkadot/networks": "^6.0.4",
+    "@polkadot/phishing": "^0.6.17",
+    "@polkadot/types": "^4.0.1",
+    "@polkadot/util": "^6.0.4",
+    "@polkadot/util-crypto": "^6.0.4",
+    "@polkadot/wasm-crypto": "^4.0.2",
+    "@polkadot/x-rxjs": "^6.0.4",
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.2.0",
     "typescript": "^4.2.2"
@@ -96,7 +96,7 @@
     "stylelint": "^13.11.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "webpack": "^5.24.2",
+    "webpack": "^5.24.3",
     "webpack-cli": "^4.5.0"
   }
 }
