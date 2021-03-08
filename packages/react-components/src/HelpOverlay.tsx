@@ -59,7 +59,7 @@ export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
   }
 
   .help-slideout {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
     box-shadow: -6px 0px 20px 0px rgba(0, 0, 0, 0.3);
     bottom: 0;
     max-width: 50rem;

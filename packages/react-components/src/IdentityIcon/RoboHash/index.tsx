@@ -10,8 +10,6 @@
 // The Cats/"set4" were created by David Revoy, used under CC-BY-4.0 https://www.peppercarrot.com/en/article391/cat-avatar-generator
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
-import type { ThemeProps } from '../../types';
-
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -87,8 +85,8 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
   );
 }
 
-export default React.memo(styled(RoboHash)(({ theme }: ThemeProps) => `
-  background: ${theme.bgPage};
+export default React.memo(styled(RoboHash)`
+  background: var(--bg-page);
   border-radius: 50%;
   position: relative;
   overflow: hidden;
@@ -104,4 +102,4 @@ export default React.memo(styled(RoboHash)(({ theme }: ThemeProps) => `
       opacity: 0.35;
     }
   }
-`));
+`);

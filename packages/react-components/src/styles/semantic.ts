@@ -123,7 +123,7 @@ export default (theme: ThemeDef): string => `
   }
 
   .ui.modal {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
     box-shadow: none;
     color: ${theme.color};
     font: var(--font-sans);

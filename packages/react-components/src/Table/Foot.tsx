@@ -36,6 +36,6 @@ export default React.memo(styled(Foot)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
   }
 `));

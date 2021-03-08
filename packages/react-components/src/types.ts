@@ -76,7 +76,6 @@ export interface ThemeDef {
   bgInverse: string;
   bgMenu: string;
   bgMenuHover: string;
-  bgPage: string;
   bgTable: string;
   bgTabs: string;
   bgToggle: string;

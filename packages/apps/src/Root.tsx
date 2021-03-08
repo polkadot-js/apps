@@ -22,6 +22,9 @@ interface Props {
 }
 
 function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
+  document && document.documentElement &&
+    document.documentElement.setAttribute('data-theme', uiTheme || 'light');
+
   return uiTheme === 'dark'
     ? darkTheme
     : lightTheme;

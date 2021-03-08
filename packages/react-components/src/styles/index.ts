@@ -214,7 +214,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   #root {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
     color: ${theme.color};
     font: var(--font-sans);
     height: 100%;
