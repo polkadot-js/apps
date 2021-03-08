@@ -2084,20 +2084,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polka/send-type@npm:^0.5.0":
-  version: 0.5.2
-  resolution: "@polka/send-type@npm:0.5.2"
-  checksum: ca2d70f8bd79a38c096ab90e374384adaf506fb60b82b4a9eac4e580939aa0e844f0349180c9a861553fe14649857b8fb265c117afe0c1a6b2c0b6caa19ceb28
-  languageName: node
-  linkType: hard
-
-"@polka/url@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@polka/url@npm:0.5.0"
-  checksum: 38bed31ba12ffb835d62d56064ff85b1070a4f247c7edac892ac55887e20b08f69cc91f5a8fc3a9559151c66a883bf4bc1cd54099bf1d0ee250d4d6f79d527b4
-  languageName: node
-  linkType: hard
-
 "@polkadot/api-contract@npm:^3.11.1":
   version: 3.11.1
   resolution: "@polkadot/api-contract@npm:3.11.1"
@@ -14567,7 +14553,6 @@ fsevents@~2.1.2:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-is: ^17.0.1
-    realis: ^1.0.5
     source-map-explorer: ^2.5.2
     styled-components: ^5.2.1
     stylelint: ^13.11.0
@@ -14577,18 +14562,6 @@ fsevents@~2.1.2:
     webpack-cli: ^4.5.0
   languageName: unknown
   linkType: soft
-
-"polkadot@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "polkadot@npm:1.0.0"
-  dependencies:
-    "@polka/send-type": ^0.5.0
-    "@polka/url": ^0.5.0
-  bin:
-    polkadot: bin.js
-  checksum: 29dca24d436a5b25f6bf6ea86da20e3d0f8164ad340bbb7fd2b041fc50d3c9121980c1138bed67b067d07d2e6395397ef04f38c90cde3a24f5744782e06f6c70
-  languageName: node
-  linkType: hard
 
 "popper.js@npm:^1.14.4":
   version: 1.16.1
@@ -15608,18 +15581,6 @@ fsevents@~2.1.2:
   dependencies:
     picomatch: ^2.2.1
   checksum: a64fe5606937d9655252230003362d95da05dbfd3baecedb4bb8c1bc0df497d051a192f9b75345c944e58a0b362c68349be602d6dbf05d03770e510b35a9f80f
-  languageName: node
-  linkType: hard
-
-"realis@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "realis@npm:1.0.5"
-  dependencies:
-    "@polkadot/api": 1.35.0-beta.19
-    cids: ^0.7.1
-    polkadot: ^1.0.0
-    yarn: ^1.22.10
-  checksum: 72660b2cbd0f1676e976c16ac247d3bdbce0f2af0b327982c8c819b505b6efb1c9c8616bf4ff15d8676eb2e373ee710e474119b7e50da26e806616c7148426c4
   languageName: node
   linkType: hard
 
@@ -19616,16 +19577,6 @@ fsevents@~2.1.2:
     y18n: ^5.0.5
     yargs-parser: ^20.2.2
   checksum: a79ce1f043021cd645de1ffebb6149541d382ba68f4a6b5eca5d2ad65af51893371bbd78e240dc3b6cf0cbb419511ba5bda715dec992e4266e6863ea49f14feb
-  languageName: node
-  linkType: hard
-
-"yarn@npm:^1.22.10":
-  version: 1.22.10
-  resolution: "yarn@npm:1.22.10"
-  bin:
-    yarn: bin/yarn.js
-    yarnpkg: bin/yarn.js
-  checksum: e43c2102576ac3d79f58f6cddc36726e39d54357bbdd2b9af8ad94d8368e63170555acb4652af08a04354e1a92555d5b293936f9d9b3c8b066872ac11f32cb29
   languageName: node
   linkType: hard
 

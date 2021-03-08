@@ -171,7 +171,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'ReAlis Network',
       text: t('rpc.realis', 'ReAlis Network', { ns: 'apps-config' }),
       providers: {
-        'ReAlis Network': 'wss://realis.network'
+        'ReAlis Network': 'wss://rpc.realis.network:9944/'
       }
     },
     {
