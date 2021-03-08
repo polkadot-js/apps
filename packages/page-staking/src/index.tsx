@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
 import Summary from './Overview/Summary';
@@ -71,7 +72,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'actions',
       text: t<string>('Account actions')
     },
-    api.query.staking.activeEra && {
+    isFunction(api.query.staking.activeEra) && {
       name: 'payout',
       text: t<string>('Payouts')
     },

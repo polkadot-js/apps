@@ -60,7 +60,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
         }
       />
       {api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && balances.availableBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit) && (
-        <MarkWarning content={t<string>('The account does not have enough funds to cover the transaction fees without dropping the balance below the account existential amount.')} />
+        <MarkWarning content={t<string>('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
       )}
     </>
   );
