@@ -66,7 +66,7 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
   z-index: 1;
 
   & .tabs-container {
-    max-width: ${theme.contentMaxWidth};
+    max-width: var(--width-full);
     margin: 0 auto;
     width: 100%;
     display: flex;

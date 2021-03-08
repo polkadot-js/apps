@@ -116,7 +116,7 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
 
   > .ui--Labelled {
     font-size: 1.75rem;
-    font-weight: ${theme.fontWeightLight};
+    font-weight: var(--font-weight-light);
     position: relative;
     line-height: 1;
     text-align: right;
@@ -139,7 +139,7 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
 
     .isSecondary {
       font-size: 1rem;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
 
       .timer {
         min-width: 8rem;

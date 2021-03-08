@@ -24,7 +24,7 @@ export default (theme: ThemeDef): string => `
   .ui.selection.dropdown > input {
     background: ${theme.bgInput};
     color: ${theme.color};
-    font: ${theme.fontSans};
+    font: var(--font-sans);
     font-size: 1rem;
 
     &:focus {
@@ -117,7 +117,7 @@ export default (theme: ThemeDef): string => `
 
   .ui.label {
     background: transparent;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
     position: relative;
     z-index: 1;
   }
@@ -126,7 +126,7 @@ export default (theme: ThemeDef): string => `
     background: ${theme.bgPage};
     box-shadow: none;
     color: ${theme.color};
-    font: ${theme.fontSans};
+    font: var(--font-sans);
 
     > .actions,
     > .content {
@@ -144,9 +144,9 @@ export default (theme: ThemeDef): string => `
       background: transparent;
       border-bottom: none;
       color: ${theme.colorSummary};
-      font: ${theme.fontSans};
+      font: var(--font-sans);
       font-size: 1.75rem;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -158,7 +158,7 @@ export default (theme: ThemeDef): string => `
 
     .description {
       margin: 1.5em 0;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
     }
   }
 

@@ -27,8 +27,8 @@ function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<P
 export default React.memo(styled(Foot)(({ theme }: ThemeProps) => `
   td {
     color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
-    font: ${theme.fontSans};
-    font-weight: ${theme.fontWeightNormal};
+    font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
