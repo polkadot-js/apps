@@ -37,6 +37,7 @@ const definitions: OverrideBundleDefinition = {
           ]
         },
         LookupSource: 'AccountId',
+        OrderedSet: 'Vec<AssetId>',
         Price: 'Balance'
       }
     }
