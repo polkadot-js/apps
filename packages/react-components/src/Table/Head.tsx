@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -58,7 +56,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Head)`
   position: relative;
   z-index: 1;
 
@@ -143,8 +141,8 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
     &:not(.filter) {
       th {
-        color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+        color: var(--color-table-head);
       }
     }
   }
-`));
+`);
