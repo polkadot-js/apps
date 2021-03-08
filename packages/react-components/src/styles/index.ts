@@ -60,7 +60,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     position: relative;
 
     &:before {
@@ -225,7 +225,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   article {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;

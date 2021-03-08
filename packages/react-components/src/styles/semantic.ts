@@ -3,7 +3,8 @@
 
 import type { ThemeDef } from '../types';
 
-export default (theme: ThemeDef): string => `
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default (_theme: ThemeDef): string => `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }
@@ -167,7 +168,7 @@ export default (theme: ThemeDef): string => `
   }
 
   .ui.popup {
-    background: ${theme.bgMenu};
+    background: var(--bg-menu);
     color: var(--color-text);
 
     .ui.text.menu .item {
@@ -179,7 +180,7 @@ export default (theme: ThemeDef): string => `
     }
 
     &&::before {
-      background: ${theme.bgMenu};
+      background: var(--bg-menu);
     }
   }
 

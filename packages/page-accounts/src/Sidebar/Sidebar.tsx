@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -161,15 +159,15 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
   );
 }
 
-export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
+export default React.memo(styled(FullSidebar)`
   input {
     width: auto !important;
   }
 
   .ui--AddressMenu-header {
     align-items: center;
-    background: ${theme.bgTabs};
-    border-bottom: 1px solid ${theme.borderTable};
+    background: var(--bg-tabs);
+    border-bottom: 1px solid var(--border-table);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -306,4 +304,4 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

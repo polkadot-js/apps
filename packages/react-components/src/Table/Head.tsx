@@ -83,11 +83,11 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
     }
 
     &:first-child {
-      border-left: 1px solid ${theme.borderTable};
+      border-left: 1px solid var(--border-table);
     }
 
     &:last-child {
-      border-right: 1px solid ${theme.borderTable};
+      border-right: 1px solid var(--border-table);
     }
 
     &.address {
@@ -118,12 +118,12 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     text-transform: lowercase;
 
     &:first-child {
       th {
-        border-top: 1px solid ${theme.borderTable};
+        border-top: 1px solid var(--border-table);
       }
     }
 

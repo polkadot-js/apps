@@ -71,14 +71,6 @@ export interface NullContract {
 }
 
 export interface ThemeDef {
-  bgInverse: string;
-  bgMenu: string;
-  bgMenuHover: string;
-  bgTable: string;
-  bgTabs: string;
-  bgToggle: string;
-  borderTable: string;
-  borderTabs: string;
   theme: 'dark' | 'light';
 }
 
