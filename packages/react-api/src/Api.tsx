@@ -134,7 +134,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
-  
+
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
