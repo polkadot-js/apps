@@ -66,6 +66,7 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
+const nodeRealis = '#FFD700';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -136,7 +137,8 @@ export const chainColors: Record<string, any> = [
   ['Unique Node', chainUnique],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
-  ['ZΞRO Alphaville', chainZero]
+  ['ZΞRO Alphaville', chainZero],
+  ['ReAlis', nodeRealis]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -168,7 +170,8 @@ export const nodeColors: Record<string, any> = [
   ['Ternoa Node', nodeTernoa],
   ['Unique Node', nodeUnique],
   ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO]
+  ['SubDAO Collator', nodeSubDAO],
+  ['ReAlis', nodeRealis]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]
