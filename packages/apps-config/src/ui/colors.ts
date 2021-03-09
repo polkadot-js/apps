@@ -75,7 +75,7 @@ const nodeTernoa = '#d622ff';
 const nodeUnique = chainUnique;
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-const nodeReAlis ='#FFD700';
+const nodeReAlis = '#FFD700';
 
 export { emptyColor };
 
