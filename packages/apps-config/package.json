@@ -20,7 +20,7 @@
     "@snowfork/snowbridge-types": "^0.2.3",
     "@sora-substrate/type-definitions": "^0.4.10",
     "@subsocial/types": "^0.4.35-beta.2",
-    "moonbeam-types-bundle": "1.1.6"
+    "moonbeam-types-bundle": "1.1.8"
   },
   "devDependencies": {
     "i18next": "^19.9.1"
