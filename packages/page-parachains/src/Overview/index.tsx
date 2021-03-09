@@ -21,7 +21,9 @@ interface Props {
 function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
-  const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParas);
+
+  // TODO With event trigger
+  const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParasGenesis?.keys);
 
   return (
     <div className={className}>
