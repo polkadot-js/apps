@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StorageKey } from '@polkadot/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { Proposals } from '../types';
 
@@ -18,12 +19,17 @@ interface Props {
   proposals?: Proposals;
 }
 
+const optParaKeys = {
+  transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
+    keys.map(({ args: [paraId] }) => paraId)
+};
+
 function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
 
   // TODO With event trigger
-  const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParasGenesis?.keys);
+  const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParasGenesis?.keys, [], optParaKeys);
 
   return (
     <div className={className}>
