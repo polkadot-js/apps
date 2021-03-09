@@ -164,7 +164,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
-        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network'
+        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
       }
     },
     {
