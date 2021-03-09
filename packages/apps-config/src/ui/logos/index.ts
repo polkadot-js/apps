@@ -58,7 +58,7 @@ import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
-import nodeReAlis from './nodes/realis.png';
+import nodeRealis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -114,7 +114,7 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
   ['Unique', chainUnique],
-  ['ReAlis Network', nodeReAlis]
+  ['ReAlis Network', nodeRealis]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -189,7 +189,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
   ['Unique Node', nodeUnique],
-  ['ReAlis Network', nodeReAlis]
+  ['ReAlis Network', nodeRealis]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -236,7 +236,7 @@ export const namedLogos: Record<string, unknown> = {
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
-  realis: nodeReAlis,
+  realis: nodeRealis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoAres: nodeAres,

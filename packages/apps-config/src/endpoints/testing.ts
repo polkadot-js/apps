@@ -248,10 +248,10 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'ReAlis Network',
-      text: t('rpc.realis', 'ReAlis Network', { ns: 'apps-config' }),
+      info: 'Realis Network',
+      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
       providers: {
-        'ReAlis Network': 'wss://rpc.realis.network/'
+        'Realis Network': 'wss://rpc.realis.network/'
       }
     }
   ]);
