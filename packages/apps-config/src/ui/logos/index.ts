@@ -58,6 +58,7 @@ import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeReAlis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -71,7 +72,6 @@ import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeReAlis from './nodes/realis.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -236,6 +236,7 @@ export const namedLogos: Record<string, unknown> = {
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
+  realis: nodeReAlis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoAres: nodeAres,
@@ -275,8 +276,7 @@ export const namedLogos: Record<string, unknown> = {
   uniarts: nodeUniarts,
   unique: nodeUnique,
   westend: nodePolkadot,
-  zero: nodeZero,
-  realis: nodeReAlis
+  zero: nodeZero
 };
 
 // extension logos

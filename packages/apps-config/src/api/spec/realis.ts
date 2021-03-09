@@ -1,3 +1,6 @@
+// [object Object]
+// SPDX-License-Identifier: Apache-2.0
+
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 // structs need to be in order
@@ -8,7 +11,7 @@ const definitions: OverrideBundleDefinition = {
     {
       // on all versions
       minmax: [0, undefined],
-  types: {
+      types: {
         TokenId: 'u32',
         Rarity: {
           _enum: [
@@ -43,7 +46,6 @@ const definitions: OverrideBundleDefinition = {
       }
     }
   ]
-}
-
+};
 
 export default definitions;

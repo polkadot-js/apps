@@ -66,6 +66,7 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
+const nodeReAlis = '#FFD700';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -75,7 +76,6 @@ const nodeTernoa = '#d622ff';
 const nodeUnique = chainUnique;
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-const nodeReAlis = '#FFD700';
 
 export { emptyColor };
 

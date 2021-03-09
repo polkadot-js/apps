@@ -46,6 +46,7 @@ import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
 import polkabtc from './polkabtc';
 import polkadex from './polkadex';
+import realis from './realis';
 import robonomics from './robonomics';
 import sgc from './sgc';
 import snowbridge from './snowbridge';
@@ -59,7 +60,6 @@ import uniarts from './uniarts';
 import unique from './unique';
 import zenlink from './zenlink';
 import zero from './zero';
-import realis from './realis';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
@@ -114,6 +114,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phala-node': phala,
   plasm,
   'plasm-parachain': plasmParachain,
+  realis,
   robonomics,
   'sgc-node': sgc,
   snowbridge,
@@ -125,8 +126,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   trustbase,
   uniarts,
-  zenlink,
-  realis
+  zenlink
 };
 
 export default spec;
