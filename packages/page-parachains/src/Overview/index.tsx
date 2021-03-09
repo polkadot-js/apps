@@ -5,9 +5,9 @@ import type { StorageKey } from '@polkadot/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { Proposals } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
 
 import Actions from './Actions';
 import Parachains from './ParachainList';
@@ -19,17 +19,27 @@ interface Props {
   proposals?: Proposals;
 }
 
-const optParaKeys = {
-  transform: (keys: StorageKey<[ParaId]>[]): ParaId[] =>
-    keys.map(({ args: [paraId] }) => paraId)
-};
-
 function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
+  const sessionTrigger = useEventTrigger([api.events.session.NewSession]);
+  const mountedRef = useIsMountedRef();
+  const [upcomingIds, setUpcomingIds] = useState<ParaId[]>([]);
 
-  // TODO With event trigger
-  const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParasGenesis?.keys, [], optParaKeys);
+  useEffect((): void => {
+    sessionTrigger &&
+      api.query.paras?.upcomingParasGenesis
+        ?.keys()
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        .then((keys: StorageKey<[ParaId]>[]): void => {
+          mountedRef.current &&
+            setUpcomingIds(
+              keys.map(({ args: [paraId] }) => paraId)
+            );
+        })
+        .catch(console.error);
+  }, [api, mountedRef, sessionTrigger]);
 
   return (
     <div className={className}>
