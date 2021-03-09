@@ -71,6 +71,7 @@ import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeReAlis from './nodes/realis.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -112,7 +113,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Trick', chainRococoTrick],
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
-  ['Unique', chainUnique]
+  ['Unique', chainUnique],
+  ['ReAlis Network', nodeReAlis]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -186,7 +188,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
-  ['Unique Node', nodeUnique]
+  ['Unique Node', nodeUnique],
+  ['ReAlis Network', nodeReAlis]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -272,7 +275,8 @@ export const namedLogos: Record<string, unknown> = {
   uniarts: nodeUniarts,
   unique: nodeUnique,
   westend: nodePolkadot,
-  zero: nodeZero
+  zero: nodeZero,
+  realis: nodeReAlis
 };
 
 // extension logos

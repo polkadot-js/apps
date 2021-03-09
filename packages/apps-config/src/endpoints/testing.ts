@@ -246,6 +246,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
       }
+    },
+    {
+      info: 'ReAlis Network',
+      text: t('rpc.realis', 'ReAlis Network', { ns: 'apps-config' }),
+      providers: {
+        'ReAlis Network': 'wss://rpc.realis.network/'
+      }
     }
   ]);
 }

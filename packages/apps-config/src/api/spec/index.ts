@@ -59,6 +59,7 @@ import uniarts from './uniarts';
 import unique from './unique';
 import zenlink from './zenlink';
 import zero from './zero';
+import realis from './realis';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
@@ -124,7 +125,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   trustbase,
   uniarts,
-  zenlink
+  zenlink,
+  realis
 };
 
 export default spec;
