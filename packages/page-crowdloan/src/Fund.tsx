@@ -22,7 +22,7 @@ function Fund ({ bestNumber, className, info: { cap, depositor, end, raised }, p
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{paraId}</h1></td>
+      <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={depositor} /></td>
       <td className='number'><FormatBalance value={raised} /></td>
