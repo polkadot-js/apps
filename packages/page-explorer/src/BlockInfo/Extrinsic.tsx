@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 
@@ -122,7 +121,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
   );
 }
 
-export default React.memo(styled(ExtrinsicDisplay)(({ theme }: ThemeProps) => `
+export default React.memo(styled(ExtrinsicDisplay)`
   .explorer--BlockByHash-event+.explorer--BlockByHash-event {
     margin-top: 0.75rem;
   }
@@ -137,6 +136,6 @@ export default React.memo(styled(ExtrinsicDisplay)(({ theme }: ThemeProps) => `
 
   .explorer--BlockByHash-unsigned {
     opacity: 0.6;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
   }
-`));
+`);

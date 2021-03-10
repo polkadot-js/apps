@@ -5,27 +5,28 @@ const config = require('@polkadot/dev/config/jest.cjs');
 
 const findPackages = require('./scripts/findPackages.cjs');
 
-const internalModules = findPackages()
-  .filter(({ name }) => !['@polkadot/apps'].includes(name))
-  .reduce((modules, { dir, name }) => {
-    modules[`${name}(.*)$`] = `<rootDir>/packages/${dir}/src/$1`;
-
-    return modules;
-  }, {});
-
 const defaultConfig = {
   moduleNameMapper: {
-    ...internalModules,
+    ...(
+      findPackages()
+        .filter(({ name }) => !['@polkadot/apps'].includes(name))
+        .reduce((modules, { dir, name }) => {
+          modules[`${name}(.*)$`] = `<rootDir>/packages/${dir}/src/$1`;
+
+          return modules;
+        }, {})
+    ),
     '@polkadot/apps/(.*)$': '<rootDir>/packages/apps/src/$1',
     '\\.(css|less)$': 'empty/object',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
     '\\.(md)$': '<rootDir>/jest/mocks/empty.js'
   },
   setupFilesAfterEnv: ['<rootDir>/jest/jest-setup.ts'],
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|rxjs/_esm5)']
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
 };
 
-module.exports = Object.assign({}, config, {
+module.exports = {
+  ...config,
   projects: [
     {
       ...defaultConfig,
@@ -39,4 +40,4 @@ module.exports = Object.assign({}, config, {
     }
   ],
   testTimeout: 25000
-});
+};

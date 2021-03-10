@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiProps } from '@polkadot/react-api/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Header } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -392,13 +391,13 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default React.memo(styled(Forks)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Forks)`
   margin-bottom: 1.5rem;
 
   table {
     border-collapse: separate;
     border-spacing: 0.25rem;
-    font: ${theme.fontMono};
+    font: var(--font-mono);
 
     td {
       padding: 0.25rem 0.5rem;
@@ -461,4 +460,4 @@ export default React.memo(styled(Forks)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

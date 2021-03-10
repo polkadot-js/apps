@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { DateState, EntryInfo } from './types';
 
 import React, { useMemo, useRef } from 'react';
@@ -83,7 +82,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   );
 }
 
-export default React.memo(styled(Month)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Month)`
   flex: 0;
   max-width: max-content;
 
@@ -111,7 +110,7 @@ export default React.memo(styled(Month)(({ theme }: ThemeProps) => `
     .dayOfWeek {
       > * {
         font-size: 0.7em;
-        font-weight: ${theme.fontWeightNormal};
+        font-weight: var(--font-weight-normal);
         letter-spacing: 0.1em;
         text-align: center;
         text-transform: uppercase;
@@ -125,4 +124,4 @@ export default React.memo(styled(Month)(({ theme }: ThemeProps) => `
       justify-content: space-between;
     }
   }
-`));
+`);

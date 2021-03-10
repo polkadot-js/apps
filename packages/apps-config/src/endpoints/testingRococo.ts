@@ -18,7 +18,7 @@ import { expandEndpoints } from './util';
 export function createRococo (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [{
     dnslink: 'rococo',
-    genesisHash: '0xf60989b1d5edd03c1947d557dc56982800a3fec377702be5e87ee6f30b6298f9',
+    genesisHash: '0xbfe2000a8b9543730d0c787638ceb66b45ecf71a062e2bed7de765350238d913',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
