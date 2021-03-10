@@ -24,7 +24,7 @@ interface Props {
   withSenders?: boolean;
 }
 
-function Nominate ({ className = '', controllerId, nominating, onChange, stashId, targets: { validatorIds = [] }, withSenders }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', controllerId, nominating, onChange, stashId, targets: { nominateIds = [] }, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
@@ -32,13 +32,13 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => validatorIds.includes(acc)),
+      ...favorites.filter((acc) => nominateIds.includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominating || []).filter((acc) => !favorites.includes(acc))
     ];
 
     return shortlist
-      .concat(...(validatorIds.filter((acc) => !shortlist.includes(acc))));
+      .concat(...(nominateIds.filter((acc) => !shortlist.includes(acc))));
   });
 
   useEffect((): void => {

@@ -52,6 +52,7 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   commissionPer: number;
   exposure: Exposure;
   isActive: boolean;
+  isBlocking: boolean;
   isElected: boolean;
   isFavorite: boolean;
   isNominating: boolean;
@@ -77,6 +78,7 @@ export interface SortedTargets {
   medianComm: number;
   minNominated: BN;
   nominators?: string[];
+  nominateIds?: string[];
   totalStaked?: BN;
   totalIssuance?: BN;
   validators?: ValidatorInfo[];

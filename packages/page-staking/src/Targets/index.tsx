@@ -154,7 +154,8 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
 
   ownNominators.forEach(({ nominating = [] }: StakerState): void => {
     nominating.forEach((nominee: string): void => {
-      !myNominees.includes(nominee) && myNominees.push(nominee);
+      !myNominees.includes(nominee) &&
+        myNominees.push(nominee);
     });
   });
 
@@ -165,11 +166,10 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   const result: string[] = [];
 
   for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
-    const { isFavorite, key, stakedReturnCmp } = list[i];
+    const { isBlocking, isFavorite, key, stakedReturnCmp } = list[i];
 
-    if (isFavorite || (stakedReturnCmp > 0)) {
+    (!isBlocking && (isFavorite || (stakedReturnCmp > 0))) &&
       result.push(key);
-    }
   }
 
   return result;
