@@ -164,7 +164,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
-        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network'
+        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
       }
     },
     {
@@ -244,6 +245,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
+      }
+    },
+    {
+      info: 'Realis Network',
+      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
+      providers: {
+        'Realis Network': 'wss://rpc.realis.network/'
       }
     }
   ]);
