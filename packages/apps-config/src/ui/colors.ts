@@ -126,6 +126,7 @@ export const chainColors: Record<string, any> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
@@ -137,8 +138,7 @@ export const chainColors: Record<string, any> = [
   ['Unique Node', chainUnique],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
-  ['ZΞRO Alphaville', chainZero],
-  ['ReAlis', nodeRealis]
+  ['ZΞRO Alphaville', chainZero]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -162,6 +162,7 @@ export const nodeColors: Record<string, any> = [
   ['nodle chain node', nodeNodle],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
@@ -170,8 +171,7 @@ export const nodeColors: Record<string, any> = [
   ['Ternoa Node', nodeTernoa],
   ['Unique Node', nodeUnique],
   ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO],
-  ['ReAlis', nodeRealis]
+  ['SubDAO Collator', nodeSubDAO]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]

@@ -106,6 +106,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['Phala PC1', nodePhala],
+  ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
   ['Sgc', nodeSgc],
   ['Tick', chainRococoTick],
@@ -113,8 +114,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Trick', chainRococoTrick],
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
-  ['Unique', chainUnique],
-  ['ReAlis Network', nodeRealis]
+  ['Unique', chainUnique]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -172,6 +172,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['phala-substrate-node', nodePhala],
   ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -188,8 +189,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
-  ['Unique Node', nodeUnique],
-  ['ReAlis Network', nodeRealis]
+  ['Unique Node', nodeUnique]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
