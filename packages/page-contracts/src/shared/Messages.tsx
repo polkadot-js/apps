@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
 
@@ -120,15 +119,15 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
   );
 }
 
-export default React.memo(styled(Messages)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Messages)`
   padding-bottom: 0.75rem !important;
 
   &.isLabelled {
-    background: ${theme.bgInput};
+    background: var(--bg-input);
     box-sizing: border-box;
     border: 1px solid rgba(34,36,38,.15);
     border-radius: .28571429rem;
     padding: 1rem 1rem 0.5rem;
     width: 100%;
   }
-`));
+`);

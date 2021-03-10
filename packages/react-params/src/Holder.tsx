@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -21,7 +19,7 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
   );
 }
 
-export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Holder)`
   &.withBorder {
     border-left: 0.25rem solid #f2f2f2;
   }
@@ -37,7 +35,7 @@ export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
 
   .ui--Param .ui--Labelled label {
     text-transform: none !important;
-    font: ${theme.fontMono};
+    font: var(--font-mono);
   }
 
   .ui--row {
@@ -45,7 +43,7 @@ export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
   }
 
   .ui--Param-Address {
-    font: ${theme.fontMono};
+    font: var(--font-mono);
   }
 
   .ui--Params-Content {
@@ -95,4 +93,4 @@ export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
       right: 3.5rem;
     }
   }
-`));
+`);

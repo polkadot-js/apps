@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Group } from './types';
 
 import React, { useCallback } from 'react';
@@ -58,7 +57,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
   );
 }
 
-export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
+export default React.memo(styled(GroupDisplay)`
   .groupHeader {
     border-radius: 0.25rem;
     cursor: pointer;
@@ -68,7 +67,7 @@ export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
     text-transform: uppercase;
 
     &:hover {
-      background: ${theme.bgTable};
+      background: var(--bg-table);
     }
 
     .ui--Icon {
@@ -79,4 +78,4 @@ export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
   .groupNetworks {
     padding: 0.25rem 0 0.5rem 1rem;
   }
-`));
+`);

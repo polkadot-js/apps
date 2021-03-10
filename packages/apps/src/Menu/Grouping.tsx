@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Group } from './types';
 
 import React from 'react';
@@ -46,7 +45,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
   );
 }
 
-export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Grouping)`
   cursor: pointer;
   position: relative;
 
@@ -81,8 +80,8 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: ${theme.bgMenu};
-      color: ${theme.color};
+      background: var(--bg-menu);
+      color: var(--color-text);
     }
 
     .groupHdr {
@@ -93,8 +92,8 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
       display: block;
 
       > li:hover {
-        background: ${theme.bgMenuHover};
+        background: var(--bg-menu-hover);
       }
     }
   }
-`));
+`);

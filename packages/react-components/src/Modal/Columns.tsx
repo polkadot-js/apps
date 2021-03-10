@@ -15,7 +15,6 @@ function Columns ({ children, className = '' }: ColumnProps): React.ReactElement
 export default React.memo(styled(Columns)`
   align-items: center;
   display: flex;
-  flex-layout: row;
   justify-content: space-between;
 
   &+& {

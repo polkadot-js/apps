@@ -66,18 +66,14 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
 }
 
 export default React.memo(styled(IdentityIcon)(({ theme }: ThemeProps) => `
-
-    ${theme.theme === 'dark'
-    ? `
-        circle:first-child {
-            fill: #282829;
-        }
-    `
+  ${theme.theme === 'dark'
+    ? `circle:first-child {
+      fill: #282829;
+    }`
     : ''}
 
-    border: 1px solid ${theme.theme === 'dark' ? 'transparent' : '#ddd'};
-    border-radius: 50%;
-    display: inline-block;
-    overflow: hidden;
-
+  border: 1px solid ${theme.theme === 'dark' ? 'transparent' : '#ddd'};
+  border-radius: 50%;
+  display: inline-block;
+  overflow: hidden;
 `));

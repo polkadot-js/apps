@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Compact } from '@polkadot/types';
 import type { Registry } from '@polkadot/types/types';
 
@@ -97,7 +96,7 @@ function FormatBalance ({ children, className = '', formatIndex, isShort, label,
   );
 }
 
-export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
+export default React.memo(styled(FormatBalance)`
   display: inline-block;
   vertical-align: baseline;
   white-space: nowrap;
@@ -121,7 +120,7 @@ export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
     text-align: right;
 
     > .ui--FormatBalance-postfix {
-      font-weight: ${theme.fontWeightLight};
+      font-weight: var(--font-weight-light);
       opacity: 0.7;
       vertical-align: baseline;
     }
@@ -139,4 +138,4 @@ export default React.memo(styled(FormatBalance)(({ theme }: ThemeProps) => `
   .ui--Icon+.ui--FormatBalance-value {
     margin-left: 0.375rem;
   }
-`));
+`);

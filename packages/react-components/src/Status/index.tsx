@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { ThemeProps } from '../types';
 import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -203,7 +202,7 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default React.memo(styled(Status)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Status)`
   display: inline-block;
   position: fixed;
   right: 0.75rem;
@@ -240,7 +239,7 @@ export default React.memo(styled(Status)(({ theme }: ThemeProps) => `
         padding: 0.5rem 1rem;
 
         .status {
-          font-weight: ${theme.fontWeightNormal};
+          font-weight: var(--font-weight-normal);
         }
 
         .ui--AddressMini {
@@ -306,4 +305,4 @@ export default React.memo(styled(Status)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

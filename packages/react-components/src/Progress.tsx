@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UInt } from '@polkadot/types';
-import type { ThemeProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -72,7 +71,7 @@ function Progress ({ className = '', isDisabled, size = 'normal', total, value }
   );
 }
 
-export default React.memo(styled(Progress)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Progress)`
   border-radius: 100%;
   clip-path: circle(50%);
   height: 4.5rem;
@@ -128,10 +127,10 @@ export default React.memo(styled(Progress)(({ theme }: ThemeProps) => `
 
   .inner {
     align-items: center;
-    background: ${theme.bgInverse};
+    background: var(--bg-inverse);
     border-radius: 100%;
     bottom: 0.375rem;
-    color: ${theme.colorSummary};
+    color: var(--color-summary);
     display: flex;
     justify-content: center;
     left: 0.375rem;
@@ -161,4 +160,4 @@ export default React.memo(styled(Progress)(({ theme }: ThemeProps) => `
       font-size: 0.625rem;
     }
   }
-`));
+`);

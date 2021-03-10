@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { EntryInfo } from './types';
 
 import React, { useCallback, useMemo } from 'react';
@@ -55,7 +54,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(UpcomingEvents)(({ theme }: ThemeProps) => `
+export default React.memo(styled(UpcomingEvents)`
   flex: 0;
   max-width: max-content;
 
@@ -63,11 +62,11 @@ export default React.memo(styled(UpcomingEvents)(({ theme }: ThemeProps) => `
     padding: 10px 0;
     font-size: 13px;
     &:nth-child(odd) {
-      background: ${theme.bgTable};
+      background: var(--bg-table);
     }
   }
 
   .allEventsWrapper {
     padding-inline-start: 10px;
   }
-`));
+`);

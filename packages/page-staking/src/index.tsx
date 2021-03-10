@@ -206,20 +206,17 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
 
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
-      color: ${theme.colorError};
+      color: var(--color-error);
 
     ${theme.theme === 'dark'
-    ? `
-        font-weight: bold;
-          .ui--FormatBalance-value {
+    ? `font-weight: bold;
+      .ui--FormatBalance-value {
 
-            > .ui--FormatBalance-postfix {
-              opacity: 1;
-            }
-          }
-    `
+        > .ui--FormatBalance-postfix {
+          opacity: 1;
+        }
+      }`
     : ''};
-
     }
   }
 `));

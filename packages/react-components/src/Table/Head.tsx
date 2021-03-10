@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -58,13 +56,13 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Head)`
   position: relative;
   z-index: 1;
 
   th {
-    font: ${theme.fontSans};
-    font-weight: ${theme.fontWeightNormal};
+    font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
@@ -83,11 +81,11 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
     }
 
     &:first-child {
-      border-left: 1px solid ${theme.borderTable};
+      border-left: 1px solid var(--border-table);
     }
 
     &:last-child {
-      border-right: 1px solid ${theme.borderTable};
+      border-right: 1px solid var(--border-table);
     }
 
     &.address {
@@ -118,12 +116,12 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     text-transform: lowercase;
 
     &:first-child {
       th {
-        border-top: 1px solid ${theme.borderTable};
+        border-top: 1px solid var(--border-table);
       }
     }
 
@@ -143,8 +141,8 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
     &:not(.filter) {
       th {
-        color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+        color: var(--color-table-head);
       }
     }
   }
-`));
+`);
