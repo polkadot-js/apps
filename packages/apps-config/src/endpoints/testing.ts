@@ -190,6 +190,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'realis',
+      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
+      providers: {
+        'Realis Network': 'wss://rpc.realis.network/'
+      }
+    },
+    {
       info: 'sgc',
       text: t('rpc.sgc', 'Sgc', { ns: 'apps-config' }),
       providers: {
@@ -245,13 +252,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
-      }
-    },
-    {
-      info: 'Realis Network',
-      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
-      providers: {
-        'Realis Network': 'wss://rpc.realis.network/'
       }
     }
   ]);
