@@ -12,16 +12,35 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'AccountId',
-        BlockNumber: 'u64',
+        Attestation: {
+          attester: 'AccountId',
+          ctypeHash: 'Hash',
+          delegationId: 'Option<DelegationNodeId>',
+          revoked: 'bool'
+        },
+        Balance: 'u128',
+        DelegationNode: {
+          owner: 'AccountId',
+          parent: 'Option<DelegationNodeId>',
+          permissions: 'Permissions',
+          revoked: 'bool',
+          rootId: 'DelegationNodeId'
+        },
         DelegationNodeId: 'Hash',
-        ErrorCode: 'u16',
+        DelegationRoot: {
+          ctypeHash: 'Hash',
+          owner: 'AccountId',
+          revoked: 'bool'
+        },
+        DidRecord: {
+          boxKey: 'Hash',
+          docRef: 'Option<Vec<u8>>',
+          signKey: 'Hash'
+        },
         Index: 'u64',
-        LookupSource: 'AccountId',
         Permissions: 'u32',
         PublicBoxKey: 'Hash',
         PublicSigningKey: 'Hash',
-        RefCount: 'u8',
         Signature: 'MultiSignature'
       }
     }
