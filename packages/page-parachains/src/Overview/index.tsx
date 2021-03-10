@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageKey } from '@polkadot/types';
+import type { Vec } from '@polkadot/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { Proposals } from '../types';
 
@@ -28,14 +28,12 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     sessionTrigger &&
-      api.query.paras?.upcomingParasGenesis
-        ?.keys()
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        .then((keys: StorageKey<[ParaId]>[]): void => {
+      api.query.paras?.actionsQueue
+        ?.entries<Vec<ParaId>, [ParaId]>()
+        .then((entries): void => {
           mountedRef.current &&
             setUpcomingIds(
-              keys.map(({ args: [paraId] }) => paraId)
+              entries.reduce<ParaId[]>((all, [, ids]) => [...all, ...ids], [])
             );
         })
         .catch(console.error);
