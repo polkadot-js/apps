@@ -20,17 +20,17 @@ interface Props {
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
-  const fundIndexes = useFundIndexes();
+  const paraIds = useFundIndexes();
 
   return (
     <div className={className}>
-      <Summary fundCount={fundIndexes.length} />
+      <Summary fundCount={paraIds.length} />
       <Button.Group>
         <FundAdd bestNumber={bestNumber} />
       </Button.Group>
       <Funds
         bestNumber={bestNumber}
-        fundIndexes={fundIndexes}
+        paraIds={paraIds}
       />
     </div>
   );
