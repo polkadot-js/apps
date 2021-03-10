@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -40,7 +38,7 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
   );
 }
 
-export default React.memo(styled(Balances)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Balances)`
   .balanceExpander {
     .column.column--expander {
       width: auto;
@@ -48,7 +46,7 @@ export default React.memo(styled(Balances)(({ theme }: ThemeProps) => `
       label {
         color: inherit;
         font-size: 0.93rem;
-        font-weight: ${theme.fontWeightNormal};
+        font-weight: var(--font-weight-normal);
       }
 
       .ui--Expander-content .ui--FormatBalance-value {
@@ -56,4 +54,4 @@ export default React.memo(styled(Balances)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

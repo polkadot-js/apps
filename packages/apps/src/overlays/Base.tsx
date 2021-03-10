@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -47,8 +46,8 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
   );
 }
 
-export default React.memo(styled(BaseOverlay)(({ theme }: ThemeProps) => `
-  background: ${theme.bgMenu};
+export default React.memo(styled(BaseOverlay)`
+  background: var(--bg-menu);
   border: 1px solid transparent;
   border-radius: 0.25rem;
   border-left-width: 0.25rem;
@@ -114,4 +113,4 @@ export default React.memo(styled(BaseOverlay)(({ theme }: ThemeProps) => `
     right: 0em;
     top: 0.75rem;
   }
-`));
+`);
