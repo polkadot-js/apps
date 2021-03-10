@@ -14,16 +14,15 @@ import { useIsMountedRef } from './useIsMountedRef';
 
 type EventCheck = AugmentedEvent<'promise'> | string | false | undefined | null;
 
-export function useEventTrigger (events: EventCheck[]): number {
+export function useEventTrigger (checks: EventCheck[]): number {
   const { api } = useApi();
   const [trigger, setTrigger] = useState(() => Date.now());
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<EventRecord[]>(api.query.system.events);
 
   useEffect((): void => {
-    const count = eventRecords && eventRecords.filter(({ event, phase }) =>
-      event && phase?.isApplyExtrinsic &&
-      events.some((check) => check && (
+    const count = eventRecords && eventRecords.filter(({ event }) =>
+      event && checks.some((check) => check && (
         isString(check)
           ? event.section === check
           : check.is(event)
@@ -31,7 +30,7 @@ export function useEventTrigger (events: EventCheck[]): number {
     ).length;
 
     mountedRef.current && count && setTrigger(Date.now());
-  }, [eventRecords, events, mountedRef]);
+  }, [eventRecords, checks, mountedRef]);
 
   return trigger;
 }
