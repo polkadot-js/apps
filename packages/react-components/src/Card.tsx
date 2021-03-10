@@ -31,8 +31,16 @@ export default React.memo(styled(Card)`
   }
 
   &:hover {
+    i.help.circle.icon,
+    .ui.button.mini,
+    .ui.button.tiny,
+
     label {
       opacity: 1;
+    }
+
+    .addTags {
+      visibility: visible;
     }
   }
 
@@ -62,15 +70,6 @@ export default React.memo(styled(Card)`
   .ui.button.tiny,
   .addTags {
     visibility: hidden;
-  }
-
-  &:hover {
-    i.help.circle.icon,
-    .ui.button.mini,
-    .ui.button.tiny,
-    .addTags {
-      visibility: visible;
-    }
   }
 
   .ui--AddressSummary-buttons {

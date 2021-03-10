@@ -57,9 +57,6 @@ export default React.memo(styled(AvatarItem)`
         line-height: 2.4rem;
         margin-right: 0 !important;
       }
-
-      > img {
-      }
     }
 
     .ui--AvatarItem-details {
