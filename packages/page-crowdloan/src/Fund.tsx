@@ -30,8 +30,8 @@ function Fund ({ bestNumber, className, info: { cap, depositor, end, raised }, p
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={depositor} /></td>
-      <td className='number'><FormatBalance value={raised} /></td>
       <td className='number'><FormatBalance value={cap} /></td>
+      <td className='number'><FormatBalance value={raised} /></td>
       <td className='number'>{remaining && (
         <>
           <BlockToTime blocks={remaining} />

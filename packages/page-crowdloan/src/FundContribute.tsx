@@ -68,6 +68,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
             <Modal.Columns>
               <Modal.Column>
                 <InputBalance
+                  autoFocus
                   isError={isAmountError}
                   isZeroable={false}
                   label={t<string>('contribution')}
