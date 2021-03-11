@@ -4,14 +4,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
-  basePath: string;
   className?: string;
 }
 
-function AuctionsApp ({ className }: Props): React.ReactElement<Props> {
+function Auctions ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -21,4 +20,4 @@ function AuctionsApp ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(AuctionsApp)``);
+export default React.memo(styled(Auctions)``);
