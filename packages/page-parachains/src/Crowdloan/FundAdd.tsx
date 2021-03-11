@@ -29,7 +29,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
   const [isOpen, toggleOpen] = useToggle();
 
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
-  const isLastError = !lastSlot || !firstSlot || lastSlot.eq(BN_ZERO) || lastSlot.lte(firstSlot) || lastSlot.gt(firstSlot.addn(3));
+  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.addn(3));
 
   // TODO Add verifier
 
@@ -106,7 +106,6 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                 />
                 <InputNumber
                   isError={isLastError}
-                  isZeroable={false}
                   label={t<string>('last slot')}
                   onChange={setLastSlot}
                 />
