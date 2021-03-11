@@ -17,7 +17,7 @@ interface Props {
 
 function Summary ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const numAuctions = useCall<AuctionIndex>(api.query.auctions.auctionCounter)
+  const numAuctions = useCall<AuctionIndex>(api.query.auctions.auctionCounter);
   const { t } = useTranslation();
 
   return (
