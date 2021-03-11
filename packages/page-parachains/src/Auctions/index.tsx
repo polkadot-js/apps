@@ -2,22 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { useTranslation } from '../translate';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
 }
 
 function Auctions ({ className }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
   return (
-    <main className={className}>
-      {t<string>('auctions....')}
-    </main>
+    <div className={className}>
+      <Summary />
+    </div>
   );
 }
 
-export default React.memo(styled(Auctions)``);
+export default React.memo(Auctions);
