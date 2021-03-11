@@ -6,18 +6,16 @@ import type { AuctionIndex } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  numAuctions?: AuctionIndex | null;
 }
 
-function Summary ({ className }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const numAuctions = useCall<AuctionIndex>(api.query.auctions.auctionCounter);
+function Summary ({ className, numAuctions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
