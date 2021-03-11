@@ -17,7 +17,7 @@ interface Props {
   className?: string;
 }
 
-function Overview ({ className }: Props): React.ReactElement<Props> {
+function Crowdloan ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
   const paraIds = useFundIndexes();
@@ -36,4 +36,4 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Overview);
+export default React.memo(Crowdloan);

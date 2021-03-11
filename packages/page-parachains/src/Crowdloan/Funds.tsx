@@ -10,8 +10,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate';
 import Fund from './Fund';
-import { useTranslation } from './translate';
 
 interface Props {
   bestNumber?: BN;
