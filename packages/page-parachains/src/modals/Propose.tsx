@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, InputWasm, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_TEN, BN_THOUSAND, compactAddLength } from '@polkadot/util';
+import { BN_TEN, BN_THOUSAND, BN_ZERO, compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -49,7 +49,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [name, setName] = useState('');
-  const [paraId, setParaId] = useState(() => new BN(Date.now() % 131072));
+  const [paraId, setParaId] = useState<BN | undefined>();
   const [balance, setBalance] = useState(() => BN_THOUSAND.mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
   const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
@@ -113,8 +113,8 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
               onChange={setName}
             />
             <InputNumber
-              defaultValue={paraId.toString()}
-              label={t<string>('requested id (random id pre-filled)')}
+              isZeroable={false}
+              label={t<string>('requested id')}
               onChange={setParaId}
             />
             <InputBalance
@@ -187,7 +187,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!isWasmValid || !genesisState || !isNameValid || !validators.length}
+          isDisabled={!isWasmValid || !genesisState || !isNameValid || !validators.length || !paraId?.gt(BN_ZERO)}
           onStart={onClose}
           params={[paraId, name, wasm, genesisState, validators, balance]}
           tx={api.tx.proposeParachain?.proposeParachain}
