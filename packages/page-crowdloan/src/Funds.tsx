@@ -34,7 +34,8 @@ function Funds ({ bestNumber, className, paraIds }: Props): React.ReactElement<P
     [t('campaigns'), 'start', 3],
     [t('raised'), 'number'],
     [t('cap'), 'number'],
-    [t('end'), 'number']
+    [t('end'), 'number'],
+    [undefined, 'button']
   ]);
 
   // we actually want to split this further info completed and ongoing

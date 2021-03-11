@@ -122,6 +122,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
               accountId={accountId}
               icon='plus'
               isDisabled={!paraId?.gt(BN_ZERO) || !cap?.gt(BN_ZERO) || !firstSlot?.gt(BN_ZERO) || isEndError || isLastError}
+              label={t<string>('Add')}
               onStart={toggleOpen}
               params={[paraId, cap, firstSlot, lastSlot, endBlock, null]}
               tx={api.tx.crowdloan.create}

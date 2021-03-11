@@ -10,6 +10,8 @@ import { AddressMini, ParaLink } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import FundContribute from './FundContribute';
+
 interface Props {
   bestNumber?: BN;
   className?: string;
@@ -18,7 +20,10 @@ interface Props {
 }
 
 function Fund ({ bestNumber, className, info: { cap, depositor, end, raised }, paraId }: Props): React.ReactElement<Props> {
-  const remaining = useMemo(() => bestNumber && end.sub(bestNumber), [bestNumber, end]);
+  const remaining = useMemo(
+    () => bestNumber && end.gt(bestNumber) && end.sub(bestNumber),
+    [bestNumber, end]
+  );
 
   return (
     <tr className={className}>
@@ -33,6 +38,15 @@ function Fund ({ bestNumber, className, info: { cap, depositor, end, raised }, p
           #{formatNumber(end)}
         </>
       )}</td>
+      <td className='button'>
+        {remaining && (
+          <FundContribute
+            cap={cap}
+            paraId={paraId}
+            raised={raised}
+          />
+        )}
+      </td>
     </tr>
   );
 }
