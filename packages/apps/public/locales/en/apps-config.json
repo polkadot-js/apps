@@ -17,10 +17,7 @@
   "rpc.custom.own": "Custom",
   "rpc.darwinia": "Darwinia",
   "rpc.datahighway": "DataHighway",
-<<<<<<< HEAD
-=======
   "rpc.datahighway.harbour": "Harbour",
->>>>>>> 240b0f80c7c9eabc1bdd37e570d7fca653a0229f
   "rpc.dock-mainnet": "Dock",
   "rpc.dock-testnet": "Dock",
   "rpc.dotmog": "DOTMog",
