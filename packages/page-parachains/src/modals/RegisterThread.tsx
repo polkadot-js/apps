@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
+
 import React, { useCallback, useState } from 'react';
 
 import { InputAddress, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
@@ -23,7 +25,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [paraId, setParaId] = useState(BN_ZERO);
+  const [paraId, setParaId] = useState<BN | undefined>();
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -60,6 +62,8 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <Modal.Columns>
           <Modal.Column>
             <InputNumber
+              autoFocus
+              isZeroable={false}
               label={t<string>('parachain id')}
               onChange={setParaId}
             />
@@ -100,7 +104,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!isWasmValid || !genesisState}
+          isDisabled={!isWasmValid || !genesisState || !paraId?.gt(BN_ZERO)}
           onStart={onClose}
           params={[paraId, genesisState, wasm]}
           tx={api.tx.registrar.register}

@@ -21,7 +21,7 @@ interface Props {
 function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
-  const sessionTrigger = useEventTrigger([api.events.session.NewSession]);
+  const sessionTrigger = useEventTrigger([api.events.session.NewSession, api.events.registrar?.Registered]);
   const mountedRef = useIsMountedRef();
   const [upcomingIds, setUpcomingIds] = useState<ParaId[]>([]);
 
