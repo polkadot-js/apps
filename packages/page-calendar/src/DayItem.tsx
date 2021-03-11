@@ -18,7 +18,12 @@ interface Props {
   item: EntryInfoTyped;
 }
 
-const options = { day: 'numeric', month: 'long', weekday: 'long', year: 'numeric' };
+const FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
+  day: 'numeric',
+  month: 'long',
+  weekday: 'long',
+  year: 'numeric'
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function assertUnreachable (x: never): never {
@@ -160,7 +165,7 @@ function DayItem ({ className, item: { date, info, type }, showAllEvents }: Prop
   return (
     <div className={className}>
       {showAllEvents &&
-        <div className='itemDate'>{date.toLocaleString(undefined, options)}</div>
+        <div className='itemDate'>{date.toLocaleString(undefined, FORMAT_OPTIONS)}</div>
       }
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
       {desc}

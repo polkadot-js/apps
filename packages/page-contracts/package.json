@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-contracts",
   "private": true,
-  "version": "0.77.2-32",
+  "version": "0.83.2-27",
   "description": "Deployment and management of substrate contracts",
   "main": "index.js",
   "scripts": {},
@@ -9,7 +9,7 @@
   "maintainers": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/api-contract": "^3.6.5-8"
+    "@babel/runtime": "^7.13.10",
+    "@polkadot/api-contract": "^4.0.4-11"
   }
 }

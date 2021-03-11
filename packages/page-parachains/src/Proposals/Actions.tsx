@@ -6,8 +6,8 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import Propose from '../modals/Propose';
 import { useTranslation } from '../translate';
+import Propose from './Propose';
 
 interface Props {
   className?: string;

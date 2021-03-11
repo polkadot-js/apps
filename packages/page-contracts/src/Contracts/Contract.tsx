@@ -8,6 +8,7 @@ import type { BlockNumber, ContractInfo } from '@polkadot/types/interfaces';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
@@ -142,4 +143,8 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
   );
 }
 
-export default React.memo(Contract);
+export default React.memo(styled(Contract)`
+  td.top a+a {
+    margin-left: 0.75rem;
+  }
+`);

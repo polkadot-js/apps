@@ -4,11 +4,11 @@
 import type { ValidateInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { InputAddress, InputNumber, Modal } from '@polkadot/react-components';
+import { Dropdown, InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_HUNDRED as MAX_COMM } from '@polkadot/util';
+import { BN_HUNDRED as MAX_COMM, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -25,16 +25,34 @@ const COMM_MUL = new BN(1e7);
 function Validate ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [commission, setCommission] = useState<BN | number>(1);
+  const [allowNoms, setAllowNoms] = useState(true);
+
+  const blockedOptions = useRef([
+    { text: t('Yes, allow nominations'), value: true },
+    { text: t('No, block all nominations'), value: false }
+  ]);
+
+  useEffect((): void => {
+    try {
+      onChange({
+        validateTx: api.tx.staking.validate({
+          blocked: !allowNoms,
+          commission
+        })
+      });
+    } catch {
+      onChange({ validateTx: null });
+    }
+  }, [api, allowNoms, commission, onChange]);
 
   const _setCommission = useCallback(
-    (value?: BN) => onChange({
-      validateTx: value && api.tx.staking.validate({
-        commission: value.isZero()
-          ? 1 // small non-zero set to avoid isEmpty
-          : value.mul(COMM_MUL)
-      })
-    }),
-    [api, onChange]
+    (value?: BN) => value && setCommission(
+      value.isZero()
+        ? 1 // small non-zero set to avoid isEmpty
+        : value.mul(COMM_MUL)
+    ),
+    []
   );
 
   return (
@@ -72,6 +90,22 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
           <p>{t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
         </Modal.Column>
       </Modal.Columns>
+      {isFunction(api.tx.staking.kick) && (
+        <Modal.Columns>
+          <Modal.Column>
+            <Dropdown
+              defaultValue={true}
+              help={t<string>('Does this validator allow nominations or is it blocked for all')}
+              label={t<string>('allows new nominations')}
+              onChange={setAllowNoms}
+              options={blockedOptions.current}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      )}
     </div>
   );
 }

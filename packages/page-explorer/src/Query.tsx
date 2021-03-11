@@ -28,7 +28,7 @@ function stateFromValue (value: string): State {
 
 function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
+  const [{ isValid, value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const _setHash = useCallback(
     (value: string): void => setState(stateFromValue(value)),

@@ -21,10 +21,20 @@ import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
   className?: string;
+  isNominating?: boolean;
+  minNomination?: BN;
   onChange: (info: BondInfo) => void;
 }
 
-function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
+const EMPTY_INFO = {
+  bondOwnTx: null,
+  bondTx: null,
+  controllerId: null,
+  controllerTx: null,
+  stashId: null
+};
+
+function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -74,13 +84,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
           controllerTx: api.tx.staking.setController(controllerId),
           stashId
         }
-        : {
-          bondOwnTx: null,
-          bondTx: null,
-          controllerId: null,
-          controllerTx: null,
-          stashId: null
-        }
+        : EMPTY_INFO
     );
   }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, stashId, onChange]);
 
@@ -134,6 +138,8 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
             />
             <InputValidateAmount
               controllerId={controllerId}
+              isNominating={isNominating}
+              minNomination={minNomination}
               onError={setAmountError}
               stashId={stashId}
               value={amount}

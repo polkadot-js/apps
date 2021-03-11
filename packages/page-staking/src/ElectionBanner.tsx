@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import { MarkWarning } from '@polkadot/react-components';
+
 import { useTranslation } from './translate';
 
 interface Props {
@@ -17,9 +19,10 @@ function ElectionBanner ({ isInElection }: Props): React.ReactElement<Props> | n
   }
 
   return (
-    <article className='warning centered'>
-      {t<string>('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
-    </article>
+    <MarkWarning
+      className='warning centered'
+      content={t<string>('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
+    />
   );
 }
 

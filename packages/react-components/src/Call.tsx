@@ -57,7 +57,7 @@ function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
   return (value as any)._raw?.signature?.multiSignature as ExtrinsicSignature;
 }
 
-function extractState (value:IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean): Extracted {
+function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean): Extracted {
   const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): Param => ({
     name: name.toString(),
     type: getTypeDef(type.toString())
@@ -98,6 +98,7 @@ function Call ({ children, className = '', labelHash, labelSignature, mortality,
         isDisabled
         onError={onError}
         params={params}
+        registry={value.registry}
         values={values}
         withBorder={withBorder}
       />

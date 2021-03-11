@@ -28,8 +28,8 @@ const EMPTY_STATE: StateBase = {
 };
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
+const ledgerChains = networks.filter((n) => !!n.hasLedgerSupport);
 let ledger: Ledger | null = null;
-const ledgerChains = networks.filter((network) => network.hasLedgerSupport);
 
 function retrieveLedger (api: ApiPromise): Ledger {
   if (!ledger) {
