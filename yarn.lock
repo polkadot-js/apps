@@ -2163,15 +2163,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-auctions@workspace:packages/page-auctions":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-auctions@workspace:packages/page-auctions"
-  dependencies:
-    "@babel/runtime": ^7.13.10
-    "@polkadot/react-components": ^0.83.2-25
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/app-bounties@workspace:packages/page-bounties":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-bounties@workspace:packages/page-bounties"
@@ -2217,15 +2208,6 @@ __metadata:
     "@babel/runtime": ^7.13.10
     "@polkadot/react-components": ^0.83.2-25
     "@polkadot/react-query": ^0.83.2-25
-  languageName: unknown
-  linkType: soft
-
-"@polkadot/app-crowdloan@workspace:packages/page-crowdloan":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-crowdloan@workspace:packages/page-crowdloan"
-  dependencies:
-    "@babel/runtime": ^7.13.10
-    "@polkadot/react-components": ^0.83.2-25
   languageName: unknown
   linkType: soft
 

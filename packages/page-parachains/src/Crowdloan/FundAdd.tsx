@@ -9,7 +9,7 @@ import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   bestNumber?: BN;

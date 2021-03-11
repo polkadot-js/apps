@@ -6,8 +6,8 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import RegisterThread from '../modals/RegisterThread';
 import { useTranslation } from '../translate';
+import RegisterThread from './RegisterThread';
 
 interface Props {
   className?: string;
@@ -20,7 +20,7 @@ function Actions ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <Button.Group className={className}>
-      {api.tx.registrar.register && (
+      {api.tx.registrar?.register && (
         <>
           <Button
             icon='plus'

@@ -10,7 +10,7 @@ import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/r
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   cap: Balance;
