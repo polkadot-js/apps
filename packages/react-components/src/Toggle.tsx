@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -43,7 +41,7 @@ function Toggle ({ className = '', isDisabled, isOverlay, isRadio, label, onChan
   );
 }
 
-export default React.memo(styled(Toggle)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Toggle)`
   > label {
     display: inline-block;
     margin: 0 0.5rem;
@@ -55,7 +53,7 @@ export default React.memo(styled(Toggle)(({ theme }: ThemeProps) => `
   }
 
   .ui--Toggle-Slider {
-    background: ${theme.bgToggle};
+    background: var(--bg-toggle);
     border-radius: 1.5rem;
     display: inline-block;
     height: 1.5rem;
@@ -63,8 +61,8 @@ export default React.memo(styled(Toggle)(({ theme }: ThemeProps) => `
     width: 3rem;
 
     &::before {
-      background: ${theme.bgTable};
-      border: 0.125rem solid ${theme.bgToggle};
+      background: var(--bg-table);
+      border: 0.125rem solid var(--bg-toggle);
       border-radius: 50%;
       content: "";
       height: 1.5rem;
@@ -108,4 +106,4 @@ export default React.memo(styled(Toggle)(({ theme }: ThemeProps) => `
     position: absolute;
     right: 3.5rem;
   }
-`));
+`);

@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -53,16 +51,16 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
   );
 }
 
-export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
+export default React.memo(styled(TextArea)`
   .TextAreaWithDropdown {
     display: flex;
     textarea {
       border-radius: 0.25rem 0 0 0.25rem;
       border: 1px solid #DDE1EB;
       border-right: none;
-      background: ${theme.bgInput};
+      background: var(--bg-input);
       box-sizing: border-box;
-      color: ${theme.color};
+      color: var(--color-text);
       display: block;
       outline: none;
       padding: 1.75rem 3rem 0.75rem 1.5rem;
@@ -70,18 +68,18 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
       width: 100%;
 
       &:read-only {
-        background: ${theme.bgInverse};
+        background: var(--bg-inverse);
         box-shadow: none;
         outline: none;
 
         ~ .ui.buttons > .ui.selection.dropdown {
-          background: ${theme.bgInverse};
+          background: var(--bg-inverse);
         }
       }
 
       &.ui-textArea-withError {
-        background: ${theme.bgInputError};
-        color: ${theme.colorError};
+        background: var(--bg-input-error);
+        color: var(--color-error);
       }
     }
 
@@ -98,4 +96,4 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

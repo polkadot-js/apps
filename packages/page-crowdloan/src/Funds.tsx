@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { Option } from '@polkadot/types';
-import type { FundIndex, FundInfo } from '@polkadot/types/interfaces';
+import type { FundIndex, FundInfo, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -16,18 +16,18 @@ import { useTranslation } from './translate';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  fundIndexes: FundIndex[];
+  paraIds: FundIndex[];
 }
 
 interface Fund {
-  id: FundIndex;
   info: FundInfo;
+  paraId: ParaId;
 }
 
-function Funds ({ bestNumber, className, fundIndexes }: Props): React.ReactElement<Props> {
+function Funds ({ bestNumber, className, paraIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optFunds = useCallMulti<Option<FundInfo>[]>(fundIndexes.map((id) => [api.query.crowdloan.funds, id]));
+  const optFunds = useCallMulti<Option<FundInfo>[]>(paraIds.map((id) => [api.query.crowdloan.funds, id]));
   const [funds, setFunds] = useState<Fund[] | undefined>();
 
   const headerRef = useRef([
@@ -39,12 +39,12 @@ function Funds ({ bestNumber, className, fundIndexes }: Props): React.ReactEleme
 
   // we actually want to split this further info completed and ongoing
   useEffect((): void => {
-    optFunds && fundIndexes.length === optFunds.length && setFunds(
-      fundIndexes
-        .map((id, i) => ({ id, info: optFunds[i].unwrapOr(null) }))
+    optFunds && paraIds.length === optFunds.length && setFunds(
+      paraIds
+        .map((paraId, i) => ({ info: optFunds[i].unwrapOr(null), paraId }))
         .filter((fund): fund is Fund => !!fund.info)
     );
-  }, [fundIndexes, optFunds]);
+  }, [optFunds, paraIds]);
 
   return (
     <Table
@@ -52,12 +52,12 @@ function Funds ({ bestNumber, className, fundIndexes }: Props): React.ReactEleme
       empty={funds && t<string>('No campaigns found')}
       header={headerRef.current}
     >
-      {funds?.map(({ id, info }) => (
+      {funds?.map(({ info, paraId }) => (
         <Fund
           bestNumber={bestNumber}
-          id={id}
           info={info}
-          key={id.toString()}
+          key={paraId.toString()}
+          paraId={paraId}
         />
       ))}
     </Table>

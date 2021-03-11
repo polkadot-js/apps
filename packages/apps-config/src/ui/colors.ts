@@ -38,7 +38,7 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
-const chainSnakenet = 'radial-gradient(circle, rgba(13,16,110,1) 0%, rgba(246,83,162,1) 100%)';
+const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -66,6 +66,7 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
+const nodeRealis = '#FFD700';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -125,6 +126,7 @@ export const chainColors: Record<string, any> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
@@ -160,6 +162,7 @@ export const nodeColors: Record<string, any> = [
   ['nodle chain node', nodeNodle],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],

@@ -31,6 +31,8 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
   const isLastError = !lastSlot || !firstSlot || lastSlot.eq(BN_ZERO) || lastSlot.lte(firstSlot) || lastSlot.gt(firstSlot.addn(3));
 
+  // TODO Add verifier
+
   return (
     <>
       <Button
@@ -121,7 +123,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
               icon='plus'
               isDisabled={!paraId?.gt(BN_ZERO) || !cap?.gt(BN_ZERO) || !firstSlot?.gt(BN_ZERO) || isEndError || isLastError}
               onStart={toggleOpen}
-              params={[paraId, cap, firstSlot, lastSlot, endBlock]}
+              params={[paraId, cap, firstSlot, lastSlot, endBlock, null]}
               tx={api.tx.crowdloan.create}
             />
           </Modal.Actions>
