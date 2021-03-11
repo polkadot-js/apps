@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Vec } from '@polkadot/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { Proposals } from '../types';
 
@@ -28,12 +27,12 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     sessionTrigger &&
-      api.query.paras?.actionsQueue
-        ?.entries<Vec<ParaId>, [ParaId]>()
-        .then((entries): void => {
+      api.query.paras?.upcomingParasGenesis
+        ?.keys<[ParaId]>()
+        .then((keys): void => {
           mountedRef.current &&
             setUpcomingIds(
-              entries.reduce<ParaId[]>((all, [, ids]) => [...all, ...ids], [])
+              keys.map<ParaId>(({ args: [paraId] }) => paraId)
             );
         })
         .catch(console.error);
