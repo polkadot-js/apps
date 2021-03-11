@@ -25,13 +25,21 @@ function Fund ({ bestNumber, className, info: { cap, depositor, end, raised }, p
     [bestNumber, end]
   );
 
+  const percentage = useMemo(
+    () => `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
+    [cap, raised]
+  );
+
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={depositor} /></td>
       <td className='number'><FormatBalance value={cap} /></td>
-      <td className='number'><FormatBalance value={raised} /></td>
+      <td className='number'>
+        <FormatBalance value={raised} />
+        <div>{percentage}</div>
+      </td>
       <td className='number'>{remaining && (
         <>
           <BlockToTime blocks={remaining} />
