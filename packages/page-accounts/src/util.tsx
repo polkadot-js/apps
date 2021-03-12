@@ -9,11 +9,11 @@ import React from 'react';
 import { Menu } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
-export function createMenuGroup (items: (React.ReactNode | false | undefined | null)[]): React.ReactNode | null {
+export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[]): React.ReactNode | null {
   const filtered = items.filter((item): item is React.ReactNode => !!item);
 
   return filtered.length
-    ? <><Menu.Divider />{filtered}</>
+    ? <React.Fragment key={key}><Menu.Divider />{filtered}</React.Fragment>
     : null;
 }
 
