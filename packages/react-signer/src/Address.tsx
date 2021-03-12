@@ -160,7 +160,11 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         (isProxyActive && proxyInfo && proxyAddress) ||
         requestAddress;
 
-      return [signAddress, extractExternal(signAddress)];
+      try {
+        return [signAddress, extractExternal(signAddress)];
+      } catch {
+        return [signAddress, {} as AddressFlags];
+      }
     },
     [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]
   );
