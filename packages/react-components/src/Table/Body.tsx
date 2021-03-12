@@ -209,6 +209,10 @@ export default React.memo(styled(Body)`
       background: transparent;
     }
 
+    &.noBorder td {
+      border-bottom: 1px solid transparent;
+    }
+
     .ui--Button-Group {
       margin: 0;
     }

@@ -10,19 +10,31 @@ import { AddressMini, ParaLink } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
+
 interface Props {
   blockNumber: BlockNumber;
   className?: string;
-  duration: BlockNumber;
-  isEven: boolean;
   isFirst: boolean;
+  latestBlockNumber: BlockNumber;
   value: WinnerData;
 }
 
-function WinRanges ({ blockNumber, className = '', duration, isEven, isFirst, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
+function WinRanges ({ blockNumber, className = '', isFirst, latestBlockNumber, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
-    <tr className={`${className} ${isEven ? 'isEven' : 'isOdd'}`}>
-      <td>{isFirst && <h1>{formatNumber(blockNumber)}/{formatNumber(duration)}</h1>}</td>
+    <tr className={className}>
+      <td>
+        {isFirst && (
+          <h1>
+            {blockNumber.eq(latestBlockNumber)
+              ? t<string>('latest')
+              : <>-{formatNumber(latestBlockNumber.sub(blockNumber))}</>
+            }
+          </h1>
+        )}
+      </td>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>

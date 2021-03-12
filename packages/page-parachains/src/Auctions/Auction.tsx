@@ -30,17 +30,17 @@ function Auction ({ auctionInfo, className, numAuctions }: Props): React.ReactEl
   return (
     <Table
       className={className}
-      empty={numAuctions && auctionInfo
+      empty={winningData && numAuctions && auctionInfo
         ? t<string>('No winners in this auction')
         : t<string>('No ongoing auction')
       }
       header={headerRef.current}
     >
-      {auctionInfo && winningData?.map((value, count) => (
+      {winningData?.map((value, count) => (
         <WinBlock
-          duration={auctionInfo[1]}
           isEven={!!(count % 2)}
           key={value.blockNumber.toString()}
+          latestBlockNumber={winningData[0].blockNumber}
           value={value}
         />
       ))}
