@@ -7,9 +7,11 @@ import type { ITuple } from '@polkadot/types/types';
 
 import React from 'react';
 
+import { Button } from '@polkadot/react-components';
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
 
 import Auction from './Auction';
+import Bid from './Bid';
 import Summary from './Summary';
 
 interface Props {
@@ -41,7 +43,13 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <Summary numAuctions={numAuctions} />
+      <Summary
+        auctionInfo={auctionInfo}
+        numAuctions={numAuctions}
+      />
+      <Button.Group>
+        <Bid id={auctionInfo && numAuctions} />
+      </Button.Group>
       <Auction
         auctionInfo={auctionInfo}
         numAuctions={numAuctions}

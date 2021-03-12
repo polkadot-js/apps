@@ -6,10 +6,10 @@ import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/i
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import Bid from './Bid';
+import useWinningData from './useWinningData';
+import WinBlock from './WinBlock';
 
 interface Props {
   auctionInfo: [LeasePeriodOf, BlockNumber] | null;
@@ -19,32 +19,31 @@ interface Props {
 
 function Auction ({ auctionInfo, className, numAuctions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const winningData = useWinningData();
 
   const headerRef = useRef([
-    [t('auctions'), 'start', 1],
-    [t('duration'), 'number'],
-    [t('lease period'), 'number'],
-    [t('winning'), 'number', 3],
-    []
+    [t('winners'), 'start', 4],
+    [t('range'), 'start'],
+    [t('value'), 'number']
   ]);
 
   return (
     <Table
       className={className}
-      empty={numAuctions && t<string>('No ongoing auction')}
+      empty={winningData && numAuctions && auctionInfo
+        ? t<string>('No winners in this auction')
+        : t<string>('No ongoing auction')
+      }
       header={headerRef.current}
     >
-      {auctionInfo && numAuctions && (
-        <tr>
-          <td className='number'><h1>{formatNumber(numAuctions)}</h1></td>
-          <td className='number all'>{formatNumber(auctionInfo[1])}</td>
-          <td className='number'>{formatNumber(auctionInfo[0])}</td>
-          <td colSpan={3} />
-          <td className='button'>
-            <Bid id={numAuctions} />
-          </td>
-        </tr>
-      )}
+      {winningData?.map((value, count) => (
+        <WinBlock
+          isEven={!!(count % 2)}
+          key={value.blockNumber.toString()}
+          latestBlockNumber={winningData[0].blockNumber}
+          value={value}
+        />
+      ))}
     </Table>
   );
 }

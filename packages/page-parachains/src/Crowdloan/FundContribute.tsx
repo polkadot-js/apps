@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { UInt } from '@polkadot/types';
 import type { Balance, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -33,9 +34,9 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
   );
 
   // TODO verifier signature
-  // TODO check against min contribution
 
-  const isAmountError = !amount?.gt(BN_ZERO);
+  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as UInt);
+  const isAmountError = !amount || !amount.gt(BN_ZERO) || isAmountBelow;
 
   return (
     <>
@@ -75,12 +76,14 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
                   maxValue={maxAmount}
                   onChange={setAmount}
                 />
+                {isAmountBelow && (
+                  <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{min}}', { replace: { min: formatBalance(api.consts.crowdloan.minContribution as UInt) } })} />
+                )}
               </Modal.Column>
               <Modal.Column>
                 {t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}
               </Modal.Column>
             </Modal.Columns>
-
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton

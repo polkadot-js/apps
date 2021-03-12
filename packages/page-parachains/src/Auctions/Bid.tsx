@@ -14,7 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  id: AuctionIndex;
+  id: AuctionIndex | null;
 }
 
 function Bid ({ className, id }: Props): React.ReactElement<Props> {
@@ -34,7 +34,7 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
     <>
       <Button
         icon='plus'
-        isDisabled={!hasAccounts}
+        isDisabled={!hasAccounts || !id}
         label={t<string>('Bid')}
         onClick={toggleOpen}
       />
