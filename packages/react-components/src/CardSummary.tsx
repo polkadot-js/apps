@@ -19,6 +19,7 @@ interface ProgressProps {
   total?: BN | UInt;
   value?: BN | UInt;
   withTime?: boolean;
+  withTimeNumber?: boolean;
 }
 
 interface Props {
@@ -65,7 +66,9 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           progress && !progress.hideValue && (
             <>
               {isTimed && (
-                <BlockToTime blocks={progress.total} />
+                progress.withTimeNumber
+                  ? formatNumber(progress.total)
+                  : <BlockToTime blocks={progress.total} />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)

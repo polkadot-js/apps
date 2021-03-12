@@ -12,12 +12,14 @@ import { useTranslation } from '../translate';
 
 interface Props {
   auctionInfo: [LeasePeriodOf, BlockNumber] | null;
+  bestNumber?: BlockNumber;
   className?: string;
   numAuctions?: AuctionIndex | null;
 }
 
-function Summary ({ auctionInfo, className, numAuctions }: Props): React.ReactElement<Props> {
+function Summary ({ auctionInfo, bestNumber, className, numAuctions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [period, ending] = auctionInfo || [];
 
   return (
     <SummaryBox className={className}>
@@ -27,11 +29,17 @@ function Summary ({ auctionInfo, className, numAuctions }: Props): React.ReactEl
       {auctionInfo && (
         <section>
           <CardSummary label={t<string>('period')}>
-            {formatNumber(auctionInfo[0])}
+            {formatNumber(period)}
           </CardSummary>
-          <CardSummary label={t<string>('duration')}>
-            {formatNumber(auctionInfo[1])}
-          </CardSummary>
+          <CardSummary
+            label={t<string>('ending')}
+            progress={{
+              total: ending,
+              value: bestNumber,
+              withTime: true,
+              withTimeNumber: true
+            }}
+          />
         </section>
       )}
     </SummaryBox>

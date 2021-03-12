@@ -60,7 +60,9 @@ function Progress ({ className = '', isDisabled, size = 'normal', total, value }
         angle={
           angle <= 180
             ? '0'
-            : (angle - 180).toFixed(1)
+            : angle >= 360
+              ? '180'
+              : (angle - 180).toFixed(1)
         }
         type='second'
       />

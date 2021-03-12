@@ -29,7 +29,9 @@ export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise): Result
         a.consts.timestamp?.minimumPeriod.muln(2) ||
         DEFAULT_TIME
       );
-      const time = extractTime(blockTime.mul(blocks).toNumber());
+      const value = blockTime.mul(blocks).toNumber();
+      const prefix = value < 0 ? '+' : '';
+      const time = extractTime(Math.abs(value));
       const { days, hours, minutes, seconds } = time;
       const timeStr = [
         days ? (days > 1) ? t<string>('{{days}} days', { replace: { days } }) : t<string>('1 day') : null,
@@ -43,7 +45,7 @@ export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise): Result
 
       return [
         blockTime.toNumber(),
-        timeStr,
+        `${prefix}${timeStr}`,
         time
       ];
     },

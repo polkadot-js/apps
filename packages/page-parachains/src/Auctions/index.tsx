@@ -8,7 +8,7 @@ import type { ITuple } from '@polkadot/types/types';
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
+import { useApi, useCall, useCallMulti } from '@polkadot/react-hooks';
 
 import Auction from './Auction';
 import Bid from './Bid';
@@ -36,6 +36,7 @@ const optionsMulti = {
 
 function Auctions ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const { auctionInfo, numAuctions } = useCallMulti<QueryState>([
     api.query.auctions.auctionCounter,
     api.query.auctions.auctionInfo
@@ -45,6 +46,7 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
     <div className={className}>
       <Summary
         auctionInfo={auctionInfo}
+        bestNumber={bestNumber}
         numAuctions={numAuctions}
       />
       <Button.Group>
@@ -52,6 +54,7 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
       </Button.Group>
       <Auction
         auctionInfo={auctionInfo}
+        bestNumber={bestNumber}
         numAuctions={numAuctions}
       />
     </div>

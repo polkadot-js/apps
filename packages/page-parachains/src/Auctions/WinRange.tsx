@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { WinnerData } from './types';
 
@@ -13,14 +14,16 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  bestNumber: BlockNumber;
   blockNumber: BlockNumber;
   className?: string;
   isFirst: boolean;
-  latestBlockNumber: BlockNumber;
+  isLatest: boolean;
+  offset: BN;
   value: WinnerData;
 }
 
-function WinRanges ({ blockNumber, className = '', isFirst, latestBlockNumber, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
+function WinRanges ({ bestNumber, blockNumber, className = '', isFirst, isLatest, offset, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -28,9 +31,9 @@ function WinRanges ({ blockNumber, className = '', isFirst, latestBlockNumber, v
       <td>
         {isFirst && (
           <h1>
-            {blockNumber.eq(latestBlockNumber)
+            {isLatest
               ? t<string>('latest')
-              : <>-{formatNumber(latestBlockNumber.sub(blockNumber))}</>
+              : <>#{formatNumber(bestNumber.sub(offset).iadd(blockNumber))}</>
             }
           </h1>
         )}

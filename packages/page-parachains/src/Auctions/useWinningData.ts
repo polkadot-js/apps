@@ -7,7 +7,7 @@ import type { WinnerData, Winning } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { useApi, useExtrinsicTrigger } from '@polkadot/react-hooks';
+import { useApi, useEventTrigger } from '@polkadot/react-hooks';
 
 const RANGES = [
   '0-0', '0-1', '0-2', '0-3',
@@ -52,7 +52,7 @@ function extractData (values: [StorageKey<[BlockNumber]>, Option<WinningData>][]
 export default function useWinningData (): Winning[] | null {
   const { api } = useApi();
   const [winning, setWinning] = useState<Winning[] | null>(null);
-  const trigger = useExtrinsicTrigger([api.tx.auctions.bid]);
+  const trigger = useEventTrigger([api.events.auctions.BidAccepted]);
 
   useEffect((): void => {
     trigger &&
