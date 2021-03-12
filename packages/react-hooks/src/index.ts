@@ -16,6 +16,7 @@ export { useContracts } from './useContracts';
 export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useEventTrigger } from './useEventTrigger';
+export { useExtrinsicTrigger } from './useExtrinsicTrigger';
 export { useFavorites } from './useFavorites';
 export { useIncrement } from './useIncrement';
 export { calcInflation, useInflation } from './useInflation';

@@ -209,10 +209,6 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     visibility: visible;
   }
 
-  &.noBorder td {
-    border-bottom: 1px solid transparent;
-  }
-
   .description-column {
     max-width: 200px;
 
