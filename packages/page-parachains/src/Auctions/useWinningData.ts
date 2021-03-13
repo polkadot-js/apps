@@ -96,41 +96,46 @@ function mergeFirst (prev: Winning[] | null, optFirstData: Option<WinningData>):
 
 export default function useWinningData (endBlock: BlockNumber | null): Winning[] | null {
   const { api } = useApi();
-  const [winning, setWinning] = useState<Winning[] | null>(null);
+  const [result, setResult] = useState<Winning[] | null>(null);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
   const triggerRef = useRef(trigger);
   const allEntries = useCall<[StorageKey<[BlockNumber]>, Option<WinningData>][]>(api.query.auctions?.winning.entries);
   const optFirstData = useCall<Option<WinningData>>(api.query.auctions?.winning, FIRST_PARAM);
 
+  // should be fired once, all entries as an initial round
   useEffect((): void => {
-    allEntries && setWinning(
+    allEntries && setResult(
       extractData(endBlock, allEntries)
     );
   }, [allEntries, endBlock]);
 
+  // when block 0 changes, update (typically in non-ending-period, static otherwise)
   useEffect((): void => {
-    optFirstData && setWinning((prev) =>
+    optFirstData && setResult((prev) =>
       mergeFirst(prev, optFirstData)
     );
   }, [optFirstData]);
 
+  // on a bid event, get the new entry (assuming the event really triggered, i.e. not just a block)
+  // and add it to the list when not duplicated. Additionally we cleanup after ourselves when endBlock
+  // gets cleared
   useEffect((): void => {
-    if (endBlock && bestNumber && triggerRef.current !== trigger) {
-      const blockOffset = bestNumber.gt(endBlock)
-        ? bestNumber.sub(endBlock).add(BN_ONE)
-        : BN_ZERO;
+    if (!endBlock) {
+      setResult(null);
+    } else if (bestNumber && bestNumber.gt(endBlock) && triggerRef.current !== trigger) {
+      const blockOffset = bestNumber.sub(endBlock).iadd(BN_ONE);
 
       triggerRef.current = trigger;
 
       api.query.auctions
         ?.winning<Option<WinningData>>(blockOffset)
-        .then((optCurrent) => setWinning((prev) =>
+        .then((optCurrent) => setResult((prev) =>
           mergeCurrent(prev, optCurrent, endBlock, blockOffset)
         ))
         .catch(console.error);
     }
   }, [api, bestNumber, endBlock, trigger, triggerRef]);
 
-  return winning;
+  return result;
 }

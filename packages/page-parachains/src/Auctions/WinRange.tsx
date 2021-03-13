@@ -16,13 +16,13 @@ import { useTranslation } from '../translate';
 interface Props {
   blockNumber: BN;
   className?: string;
+  endBlock: BlockNumber;
   isFirst: boolean;
   isLatest: boolean;
-  startBlock: BlockNumber;
   value: WinnerData;
 }
 
-function WinRanges ({ blockNumber, className = '', isFirst, isLatest, startBlock, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
+function WinRanges ({ blockNumber, className = '', endBlock, isFirst, isLatest, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -31,7 +31,7 @@ function WinRanges ({ blockNumber, className = '', isFirst, isLatest, startBlock
         {isFirst && (
           <h1>{isLatest
             ? t<string>('latest')
-            : <>#{formatNumber(blockNumber.isZero() ? startBlock : blockNumber)}</>
+            : <>#{formatNumber(blockNumber.isZero() ? endBlock : blockNumber)}</>
           }</h1>
         )}
       </td>

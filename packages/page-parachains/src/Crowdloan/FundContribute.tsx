@@ -47,11 +47,11 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Contribute to campaign')}
+          header={t<string>('Contribute to fund')}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('This account will contribute to the crowdloan.')}>
               <Modal.Column>
                 <InputAddress
                   label={t<string>('contribute from')}
@@ -60,11 +60,8 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
                   value={accountId}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('This account will contribute to the crowdloan.')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}>
               <Modal.Column>
                 <InputBalance
                   autoFocus
@@ -79,9 +76,6 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
                 {isAmountOver && (
                   <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
                 )}
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>

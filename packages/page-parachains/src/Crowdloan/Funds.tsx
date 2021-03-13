@@ -31,7 +31,7 @@ function Funds ({ bestNumber, className, paraIds }: Props): React.ReactElement<P
   const [funds, setFunds] = useState<Fund[] | undefined>();
 
   const headerRef = useRef([
-    [t('campaigns'), 'start', 3],
+    [t('funds'), 'start', 3],
     [t('cap'), 'number'],
     [t('raised'), 'number'],
     [t('end'), 'number'],

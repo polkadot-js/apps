@@ -38,7 +38,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!hasAccounts}
-        label={t<string>('Add campaign')}
+        label={t<string>('Add fund')}
         onClick={toggleOpen}
       />
       {isOpen && (
@@ -48,7 +48,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.')}>
               <Modal.Column>
                 <InputAddress
                   label={t<string>('propose from')}
@@ -57,11 +57,8 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                   value={accountId}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The parachain id this fund applies to')}>
               <Modal.Column>
                 <InputNumber
                   autoFocus
@@ -70,11 +67,8 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                   onChange={setParaId}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('The parachain id this campaign refers to')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The amount to be raised in this funding campaign')}>
               <Modal.Column>
                 <InputBalance
                   isZeroable={false}
@@ -82,11 +76,8 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                   onChange={setCap}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('The amount to be raised in this funding campaign')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The block until which this fund is active for')}>
               <Modal.Column>
                 <InputNumber
                   isError={isEndError}
@@ -94,11 +85,8 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                   onChange={setEndBlock}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('The block until which this campaign is active for')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}>
               <Modal.Column>
                 <InputNumber
                   label={t<string>('first slot')}
@@ -109,9 +97,6 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                   label={t<string>('last slot')}
                   onChange={setLastSlot}
                 />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
