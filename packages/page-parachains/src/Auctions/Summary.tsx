@@ -6,19 +6,21 @@ import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/i
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   auctionInfo: [LeasePeriodOf, BlockNumber] | null;
-  bestNumber?: BlockNumber;
   className?: string;
   numAuctions?: AuctionIndex | null;
 }
 
-function Summary ({ auctionInfo, bestNumber, className, numAuctions }: Props): React.ReactElement<Props> {
+function Summary ({ auctionInfo, className, numAuctions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const [period, ending] = auctionInfo || [];
 
   return (

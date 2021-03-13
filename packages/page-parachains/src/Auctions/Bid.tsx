@@ -22,10 +22,10 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [amount, setAmount] = useState<BN | undefined>();
-  const [firstSlot, setFirstSlot] = useState<BN | undefined>();
-  const [lastSlot, setLastSlot] = useState<BN | undefined>();
-  const [paraId, setParaId] = useState<BN | undefined>();
+  const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
+  const [firstSlot, setFirstSlot] = useState<BN | undefined>(BN_ZERO);
+  const [lastSlot, setLastSlot] = useState<BN | undefined>(BN_ZERO);
+  const [paraId, setParaId] = useState<BN | undefined>(BN_ZERO);
   const [isOpen, toggleOpen] = useToggle();
 
   const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.addn(3));
@@ -62,6 +62,7 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
               <Modal.Column>
                 <InputNumber
                   autoFocus
+                  defaultValue={paraId?.toString()}
                   isZeroable={false}
                   label={t<string>('parachain id')}
                   onChange={setParaId}
@@ -86,10 +87,12 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
             <Modal.Columns>
               <Modal.Column>
                 <InputNumber
+                  defaultValue={firstSlot?.toString()}
                   label={t<string>('first slot')}
                   onChange={setFirstSlot}
                 />
                 <InputNumber
+                  defaultValue={lastSlot?.toString()}
                   isError={isLastError}
                   label={t<string>('last slot')}
                   onChange={setLastSlot}
