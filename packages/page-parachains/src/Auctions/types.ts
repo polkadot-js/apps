@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
+import type BN from 'bn.js';
+import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 
 export interface WinnerData {
   accountId: AccountId;
@@ -11,6 +12,6 @@ export interface WinnerData {
 }
 
 export interface Winning {
-  blockNumber: BlockNumber;
+  blockNumber: BN;
   winners: WinnerData[];
 }

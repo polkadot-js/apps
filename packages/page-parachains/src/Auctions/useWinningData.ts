@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
+import type { BlockNumber, LeasePeriodOf, WinningData } from '@polkadot/types/interfaces';
 import type { WinnerData, Winning } from './types';
 
 import { useEffect, useState } from 'react';
@@ -16,18 +16,10 @@ const RANGES = [
   '3-3'
 ];
 
-function flattenData (winning: Winning[]): Winning[] {
-  return winning
-    .sort((a, b) => b.blockNumber.cmp(a.blockNumber))
-    .filter(({ winners }, index, winning) =>
-      index === 0 ||
-      JSON.stringify({ winners }) !== JSON.stringify({ winners: winning[index - 1].winners })
-    );
-}
-
-function extractData (values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] {
-  return flattenData(
-    values.reduce<Winning[]>((winning, [{ args: [blockNumber] }, optData]): Winning[] => {
+function extractData (endBlock: BlockNumber | null, values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] {
+  return values
+    .sort(([{ args: [a] }], [{ args: [b] }]) => a.cmp(b))
+    .reduce((all: Winning[], [{ args: [blockOffset] }, optData]): Winning[] => {
       if (optData.isSome) {
         const winners = optData.unwrap().reduce<WinnerData[]>((winners, optEntry, index): WinnerData[] => {
           if (optEntry.isSome) {
@@ -39,17 +31,23 @@ function extractData (values: [StorageKey<[BlockNumber]>, Option<WinningData>][]
           return winners;
         }, []);
 
-        if (winners.length) {
-          winning.push({ blockNumber, winners });
-        }
+        winners.length && (
+          all.length === 0 ||
+          JSON.stringify({ winners }) !== JSON.stringify({ winners: all[all.length - 1].winners })
+        ) && all.push({
+          blockNumber: endBlock
+            ? blockOffset.add(endBlock)
+            : blockOffset,
+          winners
+        });
       }
 
-      return winning;
+      return all;
     }, [])
-  );
+    .reverse();
 }
 
-export default function useWinningData (): Winning[] | null {
+export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber] | null): Winning[] | null {
   const { api } = useApi();
   const [winning, setWinning] = useState<Winning[] | null>(null);
   const trigger = useEventTrigger([api.events.auctions.BidAccepted]);
@@ -58,9 +56,11 @@ export default function useWinningData (): Winning[] | null {
     trigger &&
       api.query.auctions.winning
         .entries<Option<WinningData>, [BlockNumber]>()
-        .then((values) => setWinning(extractData(values)))
+        .then((values) => setWinning(
+          extractData(auctionInfo && auctionInfo[1], values))
+        )
         .catch(console.error);
-  }, [api, trigger]);
+  }, [api, auctionInfo, trigger]);
 
   return winning;
 }
