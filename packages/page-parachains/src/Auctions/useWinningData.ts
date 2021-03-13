@@ -73,9 +73,9 @@ function mergeCurrent (current: Winning, prev: Winning[] | null): Winning[] | nu
 export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber] | null): Winning[] | null {
   const { api } = useApi();
   const [winning, setWinning] = useState<Winning[] | null>(null);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const trigger = useEventTrigger([api.events.auctions.BidAccepted]);
   const triggerRef = useRef(trigger);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
   // gets all entries, once-off
   const allEntries = useCall<Winning[]>(auctionInfo && api.query.auctions.winning.entries, undefined, {

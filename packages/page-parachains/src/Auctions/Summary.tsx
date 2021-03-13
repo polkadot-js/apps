@@ -34,8 +34,13 @@ function Summary ({ auctionInfo, className, numAuctions }: Props): React.ReactEl
             {formatNumber(period)}
           </CardSummary>
           <CardSummary
-            label={t<string>('ending')}
+            label={
+              bestNumber && ending && bestNumber.gt(ending)
+                ? t<string>('ended at')
+                : t<string>('ends at')
+            }
             progress={{
+              hideGraph: true,
               total: ending,
               value: bestNumber,
               withTime: true,

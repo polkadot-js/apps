@@ -29,12 +29,10 @@ function WinRanges ({ blockNumber, className = '', isFirst, isLatest, startBlock
     <tr className={className}>
       <td>
         {isFirst && (
-          <h1>
-            {isLatest
-              ? t<string>('latest')
-              : <>#{formatNumber(blockNumber.isZero() ? startBlock : blockNumber)}</>
-            }
-          </h1>
+          <h1>{isLatest
+            ? t<string>('latest')
+            : <>#{formatNumber(blockNumber.isZero() ? startBlock : blockNumber)}</>
+          }</h1>
         )}
       </td>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
