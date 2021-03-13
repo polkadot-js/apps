@@ -18,7 +18,7 @@ interface Props {
   className?: string;
   isFirst: boolean;
   isLatest: boolean;
-  startBlock: BlockNumber | null;
+  startBlock: BlockNumber;
   value: WinnerData;
 }
 

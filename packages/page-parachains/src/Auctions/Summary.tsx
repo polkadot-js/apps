@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-auctions authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { UInt } from '@polkadot/types';
 import type { AuctionIndex, Balance, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
 import type { Winning } from './types';
 
@@ -29,9 +30,16 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('auctions')}>
-        {formatNumber(numAuctions)}
-      </CardSummary>
+      <section>
+        <CardSummary label={t<string>('auctions')}>
+          {formatNumber(numAuctions)}
+        </CardSummary>
+        {period && (
+          <CardSummary label={t<string>('period')}>
+            {formatNumber(period)}
+          </CardSummary>
+        )}
+      </section>
       {auctionInfo && (
         <>
           {totalIssuance && lastWinner && (
@@ -51,24 +59,32 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
             </CardSummary>
           )}
           <section>
-            <CardSummary label={t<string>('period')}>
-              {formatNumber(period)}
-            </CardSummary>
-            <CardSummary
-              label={
-                bestNumber && ending && bestNumber.gt(ending)
-                  ? t<string>('ended at')
-                  : t<string>('ends at')
-              }
-              progress={{
-                hideGraph: true,
-                total: ending,
-                value: bestNumber,
-                withTime: true
-              }}
-            >
-              #{formatNumber(ending)}
-            </CardSummary>
+            {bestNumber && ending && (
+              bestNumber.lt(ending)
+                ? (
+                  <CardSummary
+                    label={t<string>('ends at')}
+                    progress={{
+                      hideGraph: true,
+                      total: ending,
+                      value: bestNumber,
+                      withTime: true
+                    }}
+                  >
+                    #{formatNumber(ending)}
+                  </CardSummary>
+                )
+                : (
+                  <CardSummary
+                    label={t<string>('ending period')}
+                    progress={{
+                      total: ending.add(api.consts.auctions.endingPeriod as UInt),
+                      value: bestNumber.sub(ending),
+                      withTime: true
+                    }}
+                  ></CardSummary>
+                )
+            )}
           </section>
         </>
       )}

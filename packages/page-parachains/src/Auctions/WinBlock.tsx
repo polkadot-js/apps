@@ -12,7 +12,7 @@ interface Props {
   className?: string;
   isEven: boolean;
   isLatest: boolean;
-  startBlock: BlockNumber | null;
+  startBlock: BlockNumber;
   value: Winning;
 }
 

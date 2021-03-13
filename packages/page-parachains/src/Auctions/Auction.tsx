@@ -41,8 +41,8 @@ function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): 
         <WinBlock
           isEven={!!(count % 2)}
           isLatest={count === 0}
-          key={value.blockNumber.toString()}
-          startBlock={auctionInfo && auctionInfo[1]}
+          key={`${count}:${value.blockNumber.toString()}`}
+          startBlock={auctionInfo[1]}
           value={value}
         />
       ))}

@@ -82,13 +82,13 @@ function mergeFirst (prev: Winning[] | null, optFirstData: Option<WinningData>):
 
     if (!firstEntry.winners.length) {
       return updated;
-    } else if (updated.length) {
-      updated[updated.length - 1] = firstEntry;
-
-      return [...updated];
+    } else if (!updated.length) {
+      return [firstEntry];
     }
 
-    return [firstEntry];
+    updated[updated.length - 1] = firstEntry;
+
+    return updated.slice();
   }
 
   return prev;
