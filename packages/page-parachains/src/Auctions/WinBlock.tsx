@@ -10,23 +10,23 @@ import WinRange from './WinRange';
 
 interface Props {
   className?: string;
+  endBlock: BlockNumber;
   isEven: boolean;
   isLatest: boolean;
-  startBlock: BlockNumber;
   value: Winning;
 }
 
-function WinBlock ({ className = '', isEven, isLatest, startBlock, value: { blockNumber, winners } }: Props): React.ReactElement<Props> {
+function WinBlock ({ className = '', endBlock, isEven, isLatest, value: { blockNumber, winners } }: Props): React.ReactElement<Props> {
   return (
     <>
       {winners.map((value, index) => (
         <WinRange
           blockNumber={blockNumber}
           className={`${className} ${isEven ? 'isEven' : 'isOdd'} ${index === (winners.length - 1) ? '' : 'noBorder'}`}
+          endBlock={endBlock}
           isFirst={index === 0}
           isLatest={isLatest}
           key={index}
-          startBlock={startBlock}
           value={value}
         />
       ))}

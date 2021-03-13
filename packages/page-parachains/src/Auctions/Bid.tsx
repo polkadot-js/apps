@@ -45,7 +45,7 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('This account will be associated with the bid. This should match the registrar for the parachain.')}>
               <Modal.Column>
                 <InputAddress
                   label={t<string>('bid from')}
@@ -54,11 +54,8 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
                   value={accountId}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('This account will be associated with the bid. This should match the registrar for the parachain.')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The parachain id this bid is placed for')}>
               <Modal.Column>
                 <InputNumber
                   autoFocus
@@ -68,11 +65,8 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
                   onChange={setParaId}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('The parachain id this bid is placed for')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The amount to to bid for this parachain slot')}>
               <Modal.Column>
                 <InputBalance
                   isZeroable={false}
@@ -80,11 +74,8 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
                   onChange={setAmount}
                 />
               </Modal.Column>
-              <Modal.Column>
-                {t<string>('The amount to to bid for this parachain slot')}
-              </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
+            <Modal.Columns hint={t<string>('The first and last slots for this bid. The last slot should be after the first and a maximum of 3 slots more than the first')}>
               <Modal.Column>
                 <InputNumber
                   defaultValue={firstSlot?.toString()}
@@ -97,9 +88,6 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
                   label={t<string>('last slot')}
                   onChange={setLastSlot}
                 />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The first and last slots for this bid. The last slot should be after the first and a maximum of 3 slots more than the first')}
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>

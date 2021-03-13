@@ -41,7 +41,8 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
     api.query.auctions.auctionCounter,
     api.query.auctions.auctionInfo
   ], optionsMulti);
-  const winningData = useWinningData(auctionInfo && auctionInfo[1]);
+  const endBlock = auctionInfo && auctionInfo[1];
+  const winningData = useWinningData(endBlock);
 
   return (
     <div className={className}>
@@ -54,7 +55,7 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
         <Bid id={auctionInfo && numAuctions} />
       </Button.Group>
       <Auction
-        auctionInfo={auctionInfo}
+        endBlock={endBlock}
         numAuctions={numAuctions}
         winningData={winningData}
       />
