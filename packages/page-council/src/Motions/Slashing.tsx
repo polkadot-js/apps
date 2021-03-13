@@ -78,45 +78,35 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={members}
-                  help={t<string>('Select the account you wish to make the proposal with.')}
-                  label={t<string>('propose from account')}
-                  onChange={setAcountId}
-                  type='account'
-                  withLabel
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The council account for the proposal. The selection is filtered by the current members.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>
+              <InputAddress
+                filter={members}
+                help={t<string>('Select the account you wish to make the proposal with.')}
+                label={t<string>('propose from account')}
+                onChange={setAcountId}
+                type='account'
+                withLabel
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                {eras.length
-                  ? (
-                    <Dropdown
-                      defaultValue={eras[0].value}
-                      help={t<string>('The unapplied slashed era to cancel.')}
-                      label={t<string>('the era to cancel for')}
-                      onChange={setSelectedEra}
-                      options={eras}
-                    />
-                  )
-                  : (
-                    <Input
-                      isDisabled
-                      label={t<string>('the era to cancel for')}
-                      value={t<string>('no unapplied slashes found')}
-                    />
-                  )
-                }
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The specific eras on which there are unapplied slashes. For each era a separate proposal is to be made.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The specific eras on which there are unapplied slashes. For each era a separate proposal is to be made.')}>
+              {eras.length
+                ? (
+                  <Dropdown
+                    defaultValue={eras[0].value}
+                    help={t<string>('The unapplied slashed era to cancel.')}
+                    label={t<string>('the era to cancel for')}
+                    onChange={setSelectedEra}
+                    options={eras}
+                  />
+                )
+                : (
+                  <Input
+                    isDisabled
+                    label={t<string>('the era to cancel for')}
+                    value={t<string>('no unapplied slashes found')}
+                  />
+                )
+              }
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
