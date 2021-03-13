@@ -368,19 +368,14 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   />
                 )}
                 {isSubmit && !senderInfo.isMultiCall && multiCall && (
-                  <Modal.Columns>
-                    <Modal.Column>
-                      <Output
-                        isFull
-                        isTrimmed
-                        label={t<string>('multisig call data')}
-                        value={multiCall}
-                        withCopy
-                      />
-                    </Modal.Column>
-                    <Modal.Column>
-                      {t('The call data that can be supplied to a final call to multi approvals')}
-                    </Modal.Column>
+                  <Modal.Columns hint={t('The call data that can be supplied to a final call to multi approvals')}>
+                    <Output
+                      isFull
+                      isTrimmed
+                      label={t<string>('multisig call data')}
+                      value={multiCall}
+                      withCopy
+                    />
                   </Modal.Columns>
                 )}
               </>
