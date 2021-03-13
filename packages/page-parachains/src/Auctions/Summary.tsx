@@ -63,7 +63,7 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
               bestNumber.lt(ending)
                 ? (
                   <CardSummary
-                    label={t<string>('ends at')}
+                    label={t<string>('end period at')}
                     progress={{
                       hideGraph: true,
                       total: ending,
