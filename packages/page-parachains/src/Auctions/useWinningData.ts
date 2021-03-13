@@ -68,8 +68,8 @@ function extractData (endBlock: BlockNumber | null, values: [StorageKey<[BlockNu
 function mergeCurrent (prev: Winning[] | null, optCurrent: Option<WinningData>, endBlock: BlockNumber, blockOffset: BN): Winning[] | null {
   const current = createWinning(endBlock, blockOffset, extractWinners(optCurrent));
 
-  if (current.winners.length && prev && prev.length && isNewWinners(current.winners, prev[0].winners)) {
-    return [current, ...prev];
+  if (current.winners.length && (!prev?.length || isNewWinners(current.winners, prev[0].winners))) {
+    return [current, ...(prev || [])];
   }
 
   return prev;
