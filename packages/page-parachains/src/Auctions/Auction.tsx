@@ -31,7 +31,7 @@ function Auction ({ auctionInfo, className, numAuctions }: Props): React.ReactEl
     <Table
       className={className}
       empty={numAuctions && winningData && (
-        auctionInfo && winningData.length
+        auctionInfo && !winningData.length
           ? t<string>('No winners in this auction')
           : t<string>('No ongoing auction')
       )}

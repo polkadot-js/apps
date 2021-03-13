@@ -18,7 +18,8 @@ const RANGES = [
 
 function extractData (endBlock: BlockNumber | null, values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] {
   return values
-    .reduce((winning: Winning[], [{ args: [blockOffset] }, optData]): Winning[] => {
+    .sort(([{ args: [a] }], [{ args: [b] }]) => a.cmp(b))
+    .reduce((all: Winning[], [{ args: [blockOffset] }, optData]): Winning[] => {
       if (optData.isSome) {
         const winners = optData.unwrap().reduce<WinnerData[]>((winners, optEntry, index): WinnerData[] => {
           if (optEntry.isSome) {
@@ -30,23 +31,19 @@ function extractData (endBlock: BlockNumber | null, values: [StorageKey<[BlockNu
           return winners;
         }, []);
 
-        if (winners.length) {
-          winning.push({
-            blockNumber: endBlock
-              ? blockOffset.add(endBlock)
-              : blockOffset,
-            winners
-          });
-        }
+        winners.length && (
+          all.length === 0 ||
+          JSON.stringify({ winners }) !== JSON.stringify({ winners: all[all.length - 1].winners })
+        ) && all.push({
+          blockNumber: endBlock
+            ? blockOffset.add(endBlock)
+            : blockOffset,
+          winners
+        });
       }
 
-      return winning;
+      return all;
     }, [])
-    .sort((a, b) => a.blockNumber.cmp(b.blockNumber))
-    .filter(({ winners }, index, winning) =>
-      index === 0 ||
-      JSON.stringify({ winners }) !== JSON.stringify({ winners: winning[index - 1].winners })
-    )
     .reverse();
 }
 
