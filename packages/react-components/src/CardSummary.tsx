@@ -14,12 +14,12 @@ import Labelled from './Labelled';
 import Progress from './Progress';
 
 interface ProgressProps {
+  hideGraph?: boolean;
   hideValue?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
   withTime?: boolean;
-  withTimeNumber?: boolean;
 }
 
 interface Props {
@@ -65,10 +65,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         {children}{
           progress && !progress.hideValue && (
             <>
-              {isTimed && (
-                progress.withTimeNumber
-                  ? formatNumber(progress.total)
-                  : <BlockToTime blocks={progress.total} />
+              {isTimed && !children && (
+                <BlockToTime blocks={progress.total} />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -91,7 +89,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           )
         }
       </Labelled>
-      {progress && <Progress {...progress} />}
+      {progress && !progress.hideGraph && <Progress {...progress} />}
     </article>
   );
 }
