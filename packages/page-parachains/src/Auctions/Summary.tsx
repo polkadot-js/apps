@@ -78,7 +78,7 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
                   <CardSummary
                     label={t<string>('ending period')}
                     progress={{
-                      total: ending.add(api.consts.auctions.endingPeriod as UInt),
+                      total: api.consts.auctions.endingPeriod as UInt,
                       value: bestNumber.sub(ending),
                       withTime: true
                     }}
