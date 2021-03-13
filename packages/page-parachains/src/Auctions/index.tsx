@@ -13,6 +13,7 @@ import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import Auction from './Auction';
 import Bid from './Bid';
 import Summary from './Summary';
+import useWinningData from './useWinningData';
 
 interface Props {
   className?: string;
@@ -40,11 +41,13 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
     api.query.auctions.auctionCounter,
     api.query.auctions.auctionInfo
   ], optionsMulti);
+  const winningData = useWinningData(auctionInfo && auctionInfo[1]);
 
   return (
     <div className={className}>
       <Summary
         auctionInfo={auctionInfo}
+        lastWinner={winningData && winningData[0]}
         numAuctions={numAuctions}
       />
       <Button.Group>
@@ -53,6 +56,7 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
       <Auction
         auctionInfo={auctionInfo}
         numAuctions={numAuctions}
+        winningData={winningData}
       />
     </div>
   );
