@@ -104,7 +104,9 @@ export default function useWinningData (endBlock: BlockNumber | null): Winning[]
   const optFirstData = useCall<Option<WinningData>>(api.query.auctions?.winning, FIRST_PARAM);
 
   useEffect((): void => {
-    allEntries && setWinning(extractData(endBlock, allEntries));
+    allEntries && setWinning(
+      extractData(endBlock, allEntries)
+    );
   }, [allEntries, endBlock]);
 
   useEffect((): void => {
