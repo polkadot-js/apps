@@ -108,7 +108,7 @@ export default function useWinningData (endBlock: BlockNumber | null): Winning[]
   }, [allEntries, endBlock]);
 
   useEffect((): void => {
-    optFirstData && setWinning((prev): Winning[] | null =>
+    optFirstData && setWinning((prev) =>
       mergeFirst(prev, optFirstData)
     );
   }, [optFirstData]);
