@@ -10,6 +10,7 @@ import { BestNumber } from '@polkadot/react-query';
 import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useLeasePeriod from '../useLeasePeriod';
 
 interface Props {
   parachainCount?: number;
@@ -20,6 +21,7 @@ interface Props {
 function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const leaseInfo = useLeasePeriod();
 
   return (
     <SummaryBox>
@@ -46,6 +48,18 @@ function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): Reac
           </CardSummary>
         )}
       </section>
+      {leaseInfo && (
+        <CardSummary
+          label={t<string>('lease period')}
+          progress={{
+            total: leaseInfo.length,
+            value: leaseInfo.remainder,
+            withTime: true
+          }}
+        >
+          {formatNumber(leaseInfo.currentPeriod)}
+        </CardSummary>
+      )}
       <section>
         <CardSummary
           className='media--1000'
