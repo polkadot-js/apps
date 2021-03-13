@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -31,7 +31,7 @@ function aGenesisHash () {
 }
 
 type FindOne = (match: string) => Promise<HTMLElement>;
-type FindManyWithMatcher = (match: string | ((match: string)=> boolean)) => Promise<HTMLElement[]>
+type FindManyWithMatcher = (match: string | ((match: string) => boolean)) => Promise<HTMLElement[]>
 type GetMany = (match: string) => HTMLElement[];
 
 class NotYetRendered extends Error {
@@ -43,16 +43,16 @@ const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
 
 interface RenderedBountiesPage {
   findAllByTestId: FindManyWithMatcher;
-  findByText: FindOne,
-  findByRole: FindOne,
-  findByTestId: FindOne,
-  getAllByRole: GetMany,
-  queryAllByText: GetMany
+  findByText: FindOne;
+  findByRole: FindOne;
+  findByTestId: FindOne;
+  getAllByRole: GetMany;
+  queryAllByText: GetMany;
 }
 
 export class BountiesPage {
   aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
-  aBountyIndex: (index?:number) => BountyIndex;
+  aBountyIndex: (index?: number) => BountyIndex;
   aBountyStatus: (status: string) => BountyStatus;
   bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
   bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
@@ -114,17 +114,20 @@ export class BountiesPage {
     } as QueueProps;
 
     return render(
-      <Suspense fallback='...'>
-        <QueueProvider value={queue}>
-          <MemoryRouter>
-            <ThemeProvider theme={lightTheme}>
-              <ApiContext.Provider value={mockApi}>
-                <Bounties/>
-              </ApiContext.Provider>
-            </ThemeProvider>
-          </MemoryRouter>
-        </QueueProvider>
-      </Suspense>
+      <>
+        <div id='tooltips'/>
+        <Suspense fallback='...'>
+          <QueueProvider value={queue}>
+            <MemoryRouter>
+              <ThemeProvider theme={lightTheme}>
+                <ApiContext.Provider value={mockApi}>
+                  <Bounties/>
+                </ApiContext.Provider>
+              </ThemeProvider>
+            </MemoryRouter>
+          </QueueProvider>
+        </Suspense>
+      </>
     );
   }
 
@@ -136,10 +139,10 @@ export class BountiesPage {
 
   async openProposeCurator (): Promise<void> {
     this.assertRendered();
-    const proposeCuratorButton = await this.findByText('Propose Curator');
+    const proposeCuratorButton = await this.findByText('Propose curator');
 
     fireEvent.click(proposeCuratorButton);
-    await this.expectText('This action will create a Council motion to assign a Curator.');
+    await this.expectText('This action will create a Council motion to propose a Curator for the Bounty.');
   }
 
   async enterCuratorsFee (fee: string): Promise<void> {
@@ -156,8 +159,9 @@ export class BountiesPage {
 
   async assignCuratorButton (): Promise<HTMLElement> {
     this.assertRendered();
+    const proposeCuratorModal = await this.findByTestId('propose-curator-modal');
 
-    return this.findByText('Assign curator');
+    return await within(proposeCuratorModal).findByText('Propose curator');
   }
 
   enterProposingAccount (account: string): void {
@@ -240,7 +244,7 @@ export class BountiesPage {
 
   async openRejectCuratorRole (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Reject Curator');
+    await this.clickButtonByText('Reject curator');
     await this.expectText('This action will reject your candidacy for the curator of the bounty.');
   }
 
@@ -267,7 +271,7 @@ export class BountiesPage {
 
   async openExtendExpiry (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Extend Expiry');
+    await this.clickButtonByText('Extend expiry');
     await this.expectText('This action will extend expiry time of the selected bounty.');
   }
 
@@ -280,19 +284,19 @@ export class BountiesPage {
 
   async openGiveUpCuratorsRole (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Give Up');
-    await this.expectText('This action will unassign you from a curator role.');
+    await this.clickButtonByText('Give up');
+    await this.expectText('This action will unassign you from the curator role.');
   }
 
   async openSlashCuratorByCouncil (): Promise<void> {
     await this.openExtraActions();
-    await this.clickButtonByText('Slash Curator (Council)');
+    await this.clickButtonByText('Slash curator (Council)');
     await this.expectText('This action will create a Council motion to slash the Curator.');
   }
 
   async openAwardBeneficiary (): Promise<void> {
-    await this.clickButton('Award Beneficiary');
-    await this.expectText('This action will award the Beneficiary and close the bounty after a delay.');
+    await this.clickButton('Reward implementer');
+    await this.expectText('This action will reward the Beneficiary and close the bounty after a delay period.');
   }
 
   enterBeneficiary (beneficiary: string): void {
@@ -303,5 +307,14 @@ export class BountiesPage {
 
     fireEvent.change(beneficiaryAccountInput, { target: { value: beneficiary } });
     fireEvent.keyDown(beneficiaryAccountInput, { code: 'Enter', key: 'Enter' });
+  }
+
+  async expectVotingDescription (description: string): Promise<void> {
+    this.assertRendered();
+    const votingInfo = await this.findByTestId('voting-description');
+    const icon = await within(votingInfo).findByTestId('question-circle');
+
+    fireEvent.mouseEnter(icon);
+    expect(await this.findByText(description)).toBeVisible();
   }
 }

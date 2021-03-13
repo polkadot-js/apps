@@ -79,7 +79,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     position: relative;
 
     &:before {
@@ -95,7 +95,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--bg-faint:before {
-    opacity: 0.0375;
+    opacity: 0.025;
   }
 
   .highlight--bg-light:before {
@@ -219,6 +219,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
       .ui--Icon {
         background: transparent;
+        color: inherit;
         color: ${getHighlight(uiHighlight)};
       }
     }
@@ -245,7 +246,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight(uiHighlight)} !important;
+          background: ${getHighlight(uiHighlight)} !important;
 
           &:before {
             border-color: ${getHighlight(uiHighlight)} !important;
@@ -256,9 +257,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   #root {
-    background: ${theme.bgPage};
-    color: ${theme.color};
-    font: ${theme.fontSans};
+    background: var(--bg-page);
+    color: var(--color-text);
+    font: var(--font-sans);
     height: 100%;
   }
 
@@ -267,7 +268,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   article {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
@@ -304,7 +305,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
     &.mark {
       margin: 0.5rem 0 0.5rem 2.25rem;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1rem !important;
     }
 
     &.nomargin {
@@ -352,7 +353,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   body {
     height: 100%;
     margin: 0;
-    font: ${theme.fontSans};
+    font: var(--font-sans);
   }
 
   br {
@@ -383,9 +384,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   h1, h2, h3, h4, h5 {
-    color: ${theme.colorSummary};
-    font: ${theme.fontSans};
-    font-weight: ${theme.fontWeightLight};
+    color: var(--color-summary);
+    font: var(--font-sans);
+    font-weight: var(--font-weight-light);
     margin-bottom: 0.25rem;
   }
 
@@ -418,11 +419,11 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   label {
     box-sizing: border-box;
-    color: ${theme.colorLabel};
+    color: var(--color-label);
     display: block;
-    font: ${theme.fontSans};
+    font: var(--font-sans);
     font-size: 1rem;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
   }
 
   main {

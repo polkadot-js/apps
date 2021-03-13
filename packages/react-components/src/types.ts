@@ -71,32 +71,6 @@ export interface NullContract {
 }
 
 export interface ThemeDef {
-  bgInput: string;
-  bgInputError: string;
-  bgInverse: string;
-  bgMenu: string;
-  bgMenuItemHover: string;
-  bgMenuTabHover: string;
-  bgPage: string;
-  bgTable: string;
-  bgTabs: string;
-  bgToggle: string;
-  borderMenuItems: string;
-  borderMenuTabs: string;
-  borderTable: string;
-  color: string;
-  colorCheckbox: string;
-  colorError: string;
-  colorLabel: string;
-  colorSummary: string;
-  contentHalfWidth: string;
-  contentMaxWidth: string;
-  fontSans: string;
-  fontMono: string;
-  fontWeightLight: number;
-  fontWeightNormal: number;
-  fontWeightMedium: number;
-  fontWeightBold: number;
   theme: 'dark' | 'light';
 }
 

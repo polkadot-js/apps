@@ -4,7 +4,6 @@
 import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
 import type { ApiProps } from '@polkadot/react-api/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { Group, Groups, ItemRoute } from './types';
 
@@ -157,7 +156,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Menu)`
   width: 100%;
   padding: 0;
   z-index: 220;
@@ -178,7 +177,7 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     background: #999 !important;
 
     .menuActive {
-      background: ${theme.bgPage};
+      background: var(--bg-page);
     }
 
     &:before {
@@ -196,10 +195,10 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   }
 
   .menuActive {
-    background: ${theme.bgTabs};
+    background: var(--bg-tabs);
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
-    color: ${theme.color};
+    color: var(--color-text);
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;
@@ -228,4 +227,4 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     align-self: center;
   }
 
-`));
+`);

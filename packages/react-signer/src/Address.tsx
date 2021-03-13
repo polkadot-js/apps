@@ -75,7 +75,7 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
         case 'Any':
           return true;
         case 'Governance':
-          return ['council', 'democracy', 'elections', 'electionsPhragmen', 'poll', 'society', 'technicalCommittee', 'treasury'].includes(section);
+          return ['council', 'democracy', 'elections', 'electionsPhragmen', 'poll', 'society', 'technicalCommittee', 'tips', 'treasury'].includes(section);
         case 'IdentityJudgement':
           return section === 'identity' && method === 'provideJudgement';
         case 'NonTransfer':
@@ -160,7 +160,11 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         (isProxyActive && proxyInfo && proxyAddress) ||
         requestAddress;
 
-      return [signAddress, extractExternal(signAddress)];
+      try {
+        return [signAddress, extractExternal(signAddress)];
+      } catch {
+        return [signAddress, {} as AddressFlags];
+      }
     },
     [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]
   );

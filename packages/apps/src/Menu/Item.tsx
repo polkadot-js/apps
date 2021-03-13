@@ -7,7 +7,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Badge, Icon } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
@@ -47,7 +46,7 @@ function Item ({ className = '', isLink, isToplevel, route: { Modal, href, icon,
   );
 }
 
-export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
+export default React.memo(styled(Item)`
   cursor: pointer;
   position: relative;
   white-space: nowrap;
@@ -69,10 +68,10 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
     &.isActive.highlight--color-contrast {
       font-size: 1.15rem;
       font-weight: 400;
-      color: ${theme.color};
+      color: var(--color-text);
 
       a {
-        background-color: ${theme.bgTabs};
+        background-color: var(--bg-tabs);
       }
     }
 
@@ -115,4 +114,4 @@ export default React.memo(styled(Item)(({ theme } : ThemeProps) => `
   .ui--Icon {
     margin-right: 0.5rem;
   }
-`));
+`);

@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
 import type { SectionType, TabItem } from './types';
 
 import React, { useEffect } from 'react';
@@ -72,9 +71,9 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
-  background: ${theme.bgTabs};
-  border-bottom: 1px solid ${theme.borderMenuTabs};
+export default React.memo(styled(Tabs)`
+  background: var(--bg-tabs);
+  border-bottom: 1px solid var(--border-tabs);
   text-align: left;
   z-index: 1;
 
@@ -82,8 +81,7 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: ${theme.contentMaxWidth};
-    margin: 0 auto;
+    margin: 0 auto;    max-width: var(--width-full);
     padding: 0 1.5rem;
     height: 3.286rem;
   }
@@ -105,4 +103,4 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
       margin: 0 2.72rem 0 2.35rem;
     }
   }
-`));
+`);

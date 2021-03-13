@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { EndpointOption } from './types';
+import type { LinkOption } from '../settings/types';
+
+import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -13,10 +15,10 @@ import type { EndpointOption } from './types';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): EndpointOption {
-  return {
+export function createRococo (t: TFunction): LinkOption[] {
+  return expandEndpoints(t, [{
     dnslink: 'rococo',
-    genesisHash: '0xe2bcff61f49d41ef837b92331a3f02dee14fa59723bc850697f516c5376cde1c',
+    genesisHash: '0x19c0e4fa8ab75f5ac7865e0b8f74ff91eb9a100d336f423cd013a8befba40299',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
@@ -69,6 +71,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoBitCountry',
+        paraId: 8888,
+        text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
+        providers: {
+          BitCountry: 'wss://tewai-parachain.bit.country:9955'
+        }
+      },
+      {
         info: 'rococoClover',
         paraId: 229,
         text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
@@ -82,6 +92,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
         providers: {
           Crust: 'wss://api-rococo.crust.network'
+        }
+      },
+      {
+        info: 'rococoChainX',
+        paraId: 59,
+        text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
         }
       },
       {
@@ -117,6 +135,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoIdavoll',
+        paraId: 7766,
+        text: t('rpc.rococo.idavoll', 'Idavoll', { ns: 'apps-config' }),
+        providers: {
+          Idavoll: 'wss://rococo.idavoll.network'
+        }
+      },
+      {
         info: 'rococoIntegritee',
         paraId: 1983,
         text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
@@ -125,11 +151,27 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoPolkabtc',
-        paraId: 21,
-        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        info: 'rococoJupiter',
+        paraId: 1,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
         providers: {
-          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+          jupiter: 'wss://ws.rococo.jupiter.patract.cn'
+        }
+      },
+      {
+        info: 'rococoKilt',
+        paraId: 12623,
+        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoLitentry',
+        paraId: 1984,
+        text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rococov1.litentry.io'
         }
       },
       {
@@ -141,11 +183,11 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoKilt',
-        paraId: 12623,
-        text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
+        info: 'rococoMathChain',
+        paraId: 40,
+        text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+          MathWallet: 'wss://testpara.maiziqianbao.net/ws'
         }
       },
       {
@@ -165,11 +207,35 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPolkabtc',
+        paraId: 21,
+        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+        }
+      },
+      {
         info: 'rococoRobonomics',
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
+        }
+      },
+      {
+        info: 'rococoSubDAO',
+        paraId: 888,
+        text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
+        providers: {
+          SubDAONetwork: 'wss://parachain.subdao.network'
+        }
+      },
+      {
+        info: 'rococoTrustBase',
+        paraId: 6633,
+        text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),
+        providers: {
+          TrustBase: 'wss://rococo.trustednodes.net'
         }
       },
       {
@@ -181,5 +247,5 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       }
     ]
-  };
+  }]);
 }

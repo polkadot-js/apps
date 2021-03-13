@@ -21,7 +21,7 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
 import { BountiesPage } from '../test/pages/bountiesPage';
-import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyInfos';
+import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyNextActionInfo/BountyActionMessage';
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury
@@ -46,7 +46,7 @@ jest.mock('./hooks/useBounties', () => ({
 let aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nays?: string[]) => DeriveCollectiveProposal;
 let augmentedApi: ApiPromise;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
-let aBountyIndex: (index?:number) => BountyIndex;
+let aBountyIndex: (index?: number) => BountyIndex;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 
@@ -100,7 +100,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Curator under voting');
+        await bountiesPage.expectVotingDescription('Curator proposal under voting');
       });
 
       it('when voting on bounty approval', async () => {
@@ -109,7 +109,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Bounty approval under voting');
+        await bountiesPage.expectVotingDescription('Bounty approval under voting');
       });
 
       it('when simultaneous close and approve motions exist, show approved', async () => {
@@ -121,7 +121,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Bounty approval under voting');
+        await bountiesPage.expectVotingDescription('Bounty approval under voting');
       });
 
       it('when voting on close bounty', async () => {
@@ -130,7 +130,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Bounty rejection under voting');
+        await bountiesPage.expectVotingDescription('Bounty rejection under voting');
       });
 
       it('when voting on unassign curator', async () => {
@@ -139,7 +139,7 @@ describe('Bounties', () => {
 
         bountiesPage.renderOne(bounty, proposals);
 
-        await bountiesPage.expectText('Curator slash under voting');
+        await bountiesPage.expectVotingDescription('Curator slash under voting');
       });
 
       it('when a motion exists that would fail on execution, show nothing', async () => {
@@ -148,14 +148,7 @@ describe('Bounties', () => {
 
         const { findByTestId } = bountiesPage.renderOne(bounty, proposals);
 
-        await expect(findByTestId('extendedVotingStatus')).rejects.toThrow();
-      });
-
-      it('when bounty is claimable', async () => {
-        const bounty = bountyWith({ status: 'PendingPayout' });
-        const { findByTestId } = bountiesPage.renderOne(bounty);
-
-        expect((await findByTestId('extendedActionStatus')).textContent).toEqual('Claimable');
+        await expect(findByTestId('voting-description')).rejects.toThrow();
       });
     });
 
@@ -215,7 +208,7 @@ describe('Bounties', () => {
 
         const { findByTestId } = bountiesPage.renderOne(bounty, proposals);
 
-        expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting results');
+        expect((await findByTestId('voting-summary')).textContent).toEqual('Aye 2/4Nay 0/0Voting');
       });
 
       it('is not displayed when not voting', async () => {
@@ -362,8 +355,8 @@ describe('Bounties', () => {
 
       await bountiesPage.openExtraActions();
 
-      await bountiesPage.expectText('Give Up');
-      await bountiesPage.expectText('Slash Curator (Council)');
+      await bountiesPage.expectText('Give up');
+      await bountiesPage.expectText('Slash curator (Council)');
     });
   });
 
@@ -402,7 +395,7 @@ describe('Bounties', () => {
     });
   });
 
-  describe('slash curator modal', () => {
+  describe('give up curator modal', () => {
     it('gives up on the Curator role of an Active bounty', async () => {
       const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
 
@@ -410,12 +403,14 @@ describe('Bounties', () => {
       await bountiesPage.openGiveUpCuratorsRole();
 
       bountiesPage.enterProposingAccount(alice);
-      await bountiesPage.clickButton('Approve');
+      await bountiesPage.clickButton('Give up');
 
       bountiesPage.expectExtrinsicQueued({ accountId: alice, extrinsic: 'mockUnassignExtrinsic' });
       expect(mockBountyHooks.bountyApi.unassignCurator).toHaveBeenCalledWith(aBountyIndex(0));
     });
+  });
 
+  describe('slash curator modal', () => {
     it('creates a motion when slashing a PendingPayout bounty', async () => {
       bountiesPage.renderOne(bountyWith({ status: 'PendingPayout' }));
 
@@ -455,8 +450,21 @@ describe('Bounties', () => {
 
       bountiesPage.renderOne(bounty);
 
-      await bountiesPage.expectText('Warning');
       await bountiesPage.expectText('Close deadline');
+    });
+
+    it('warning when update time is overdue', async () => {
+      const bounty = aBounty({ status: bountyStatusWith(
+        {
+          curator: alice,
+          status: 'Active',
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          updateDue: mockBountyHooks.bountyApi.bestNumber!.toNumber()
+        }) });
+
+      bountiesPage.renderOne(bounty);
+
+      await bountiesPage.expectText('Update overdue');
     });
 
     it('info when waiting for bounty funding', async () => {
@@ -464,7 +472,6 @@ describe('Bounties', () => {
 
       bountiesPage.renderOne(bounty);
 
-      await bountiesPage.expectText('Info');
       await bountiesPage.expectText('Waiting for Bounty Funding');
     });
 
@@ -473,8 +480,15 @@ describe('Bounties', () => {
 
       bountiesPage.renderOne(bounty);
 
-      await bountiesPage.expectText('Info');
       await bountiesPage.expectText('Waiting for Curator\'s acceptance');
+    });
+
+    it('info when bounty is claimable', async () => {
+      const bounty = bountyWith({ status: 'PendingPayout' });
+
+      bountiesPage.renderOne(bounty);
+
+      await bountiesPage.expectText('Waiting for implementer to claim');
     });
 
     it('no warning or info when requirements are not met', async () => {
@@ -487,11 +501,11 @@ describe('Bounties', () => {
       bountiesPage.renderOne(bounty);
       await bountiesPage.rendered();
 
-      bountiesPage.expectTextAbsent('Warning');
       bountiesPage.expectTextAbsent('Close deadline');
-      bountiesPage.expectTextAbsent('Info');
+      bountiesPage.expectTextAbsent('Update overdue');
       bountiesPage.expectTextAbsent('Waiting for Bounty Funding');
       bountiesPage.expectTextAbsent("Waiting for Curator's acceptance");
+      bountiesPage.expectTextAbsent('Waiting for implementer to claim');
     });
   });
 });

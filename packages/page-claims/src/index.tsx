@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
@@ -37,7 +37,7 @@ const PRECLAIMS_LOADING = 'PRECLAIMS_LOADING';
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
   cursor: copy;
-  font: ${({ theme }: ThemeProps) => theme.fontMono};
+  font: var(--font-mono);
   border: 1px dashed #c2c2c2;
   background: #f2f2f2;
   padding: 1rem;
@@ -48,7 +48,7 @@ const Payload = styled.pre`
 `;
 
 const Signature = styled.textarea`
-  font: ${({ theme }: ThemeProps) => theme.fontMono};
+  font: var(--font-mono);
   padding: 1rem;
   border: 1px solid rgba(34, 36, 38, 0.15);
   border-radius: 0.25rem;

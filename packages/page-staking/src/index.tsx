@@ -13,10 +13,12 @@ import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
 import Summary from './Overview/Summary';
 import Actions from './Actions';
+import ActionsBanner from './ActionsBanner';
 import { STORE_FAVS_BASE } from './constants';
 import Overview from './Overview';
 import Payouts from './Payouts';
@@ -70,7 +72,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'actions',
       text: t<string>('Account actions')
     },
-    api.query.staking.activeEra && {
+    isFunction(api.query.staking.activeEra) && {
       name: 'payout',
       text: t<string>('Payouts')
     },
@@ -158,6 +160,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         ownStashes={ownStashes}
         targets={targets}
       />
+      {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
+        <ActionsBanner />
+      )}
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
@@ -201,20 +206,17 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
 
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
-      color: ${theme.colorError};
+      color: var(--color-error);
 
     ${theme.theme === 'dark'
-    ? `
-        font-weight: bold;
-          .ui--FormatBalance-value {
+    ? `font-weight: bold;
+      .ui--FormatBalance-value {
 
-            > .ui--FormatBalance-postfix {
-              opacity: 1;
-            }
-          }
-    `
+        > .ui--FormatBalance-postfix {
+          opacity: 1;
+        }
+      }`
     : ''};
-
     }
   }
 `));

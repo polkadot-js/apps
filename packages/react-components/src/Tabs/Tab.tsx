@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
 import type { TabItem } from './types';
 
 import React from 'react';
@@ -48,7 +47,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   );
 }
 
-export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Tab)`
   position: relative;
   display: flex;
   align-items: center;
@@ -79,7 +78,7 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
     }
 
   &.tabLinkActive {
-    color: ${theme.color};
+    color: var(--color-text) !important;
     font-weight: 400;
     &:hover {
       cursor: default;
@@ -100,4 +99,4 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   .tabIcon {
     margin-left: 0.75rem;
   }
-`));
+`);

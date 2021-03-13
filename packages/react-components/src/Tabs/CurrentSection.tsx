@@ -5,8 +5,6 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import React from 'react';
 import styled from 'styled-components';
 
-import { ThemeProps } from '@polkadot/react-components/types';
-
 import Icon from '../Icon';
 
 interface Props {
@@ -24,7 +22,7 @@ function CurrentSection ({ className = '', icon, text }: Props): React.ReactElem
   );
 }
 
-export default React.memo(styled(CurrentSection)(({ theme }: ThemeProps) => `
+export default React.memo(styled(CurrentSection)`
   margin: 0 2.5rem 0 1.5rem;
   font-weight: 400;
   font-size: 1rem;
@@ -33,7 +31,7 @@ export default React.memo(styled(CurrentSection)(({ theme }: ThemeProps) => `
   height: 100%;
   display: flex;
   align-items: center;
-  color: ${theme.color};
+  color: var(--color-text);
 
   .ui--Icon {
     margin-right: 0.85rem;
@@ -44,4 +42,4 @@ export default React.memo(styled(CurrentSection)(({ theme }: ThemeProps) => `
   @media only screen and (max-width: 900px) {
     margin: 0 1.5rem;
   }
-`));
+`);

@@ -5,7 +5,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import media from './media';
-import { ThemeProps } from './types';
 
 interface Props {
   children: React.ReactNode;
@@ -22,11 +21,11 @@ function FilterOverlay ({ children, className }: Props): React.ReactElement<Prop
 
 export default React.memo(styled(FilterOverlay)`
   display: none;
-  right: calc(50% - ${({ theme }: ThemeProps) => theme.contentHalfWidth} + 1.5rem);
 
   .ui--Labelled label {
     display: none;
   }
+  right: calc(50% - var(--width-half) + 1.5rem);
 
   && .ui--Input {
     margin: 0.29rem 0;
@@ -51,7 +50,7 @@ export default React.memo(styled(FilterOverlay)`
     }
   `};
 
-  @media (max-width: ${({ theme }: ThemeProps) => theme.contentMaxWidth}) {
+  @media (max-width: var(--width-full)) {
     right: 1.5rem;
   }
 `);
