@@ -1,17 +1,16 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber } from '@polkadot/types/interfaces';
-
 import React from 'react';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
 import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useLeasePeriod from '../useLeasePeriod';
 
 interface Props {
   parachainCount?: number;
@@ -22,7 +21,7 @@ interface Props {
 function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const leaseInfo = useLeasePeriod();
 
   return (
     <SummaryBox>
@@ -49,16 +48,16 @@ function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): Reac
           </CardSummary>
         )}
       </section>
-      {bestNumber && api.consts.slots?.leasePeriod && (
+      {leaseInfo && (
         <CardSummary
           label={t<string>('lease period')}
           progress={{
-            total: api.consts.slots.leasePeriod as BlockNumber,
-            value: bestNumber.mod(api.consts.slots.leasePeriod as BlockNumber),
+            total: leaseInfo.length,
+            value: leaseInfo.remainder,
             withTime: true
           }}
         >
-          {formatNumber(bestNumber.div(api.consts.slots.leasePeriod as BlockNumber))}
+          {formatNumber(leaseInfo.currentPeriod)}
         </CardSummary>
       )}
       <section>
