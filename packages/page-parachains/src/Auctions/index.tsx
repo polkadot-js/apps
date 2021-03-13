@@ -41,7 +41,7 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
     api.query.auctions.auctionCounter,
     api.query.auctions.auctionInfo
   ], optionsMulti);
-  const winningData = useWinningData(auctionInfo);
+  const winningData = useWinningData(auctionInfo && auctionInfo[1]);
 
   return (
     <div className={className}>

@@ -61,7 +61,6 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
             }
             progress={{
               hideGraph: true,
-              // hideValue: true,
               total: ending,
               value: bestNumber,
               withTime: true

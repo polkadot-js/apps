@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { BlockNumber, LeasePeriodOf, WinningData } from '@polkadot/types/interfaces';
+import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
 import type { WinnerData, Winning } from './types';
 
 import BN from 'bn.js';
@@ -17,6 +17,8 @@ const RANGES = [
   '2-2', '2-3',
   '3-3'
 ];
+
+const FIRST_PARAM = [0];
 
 function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
   return JSON.stringify({ w: a }) !== JSON.stringify({ w: b });
@@ -63,7 +65,9 @@ function extractData (endBlock: BlockNumber | null, values: [StorageKey<[BlockNu
     .reverse();
 }
 
-function mergeCurrent (current: Winning, prev: Winning[] | null): Winning[] | null {
+function mergeCurrent (prev: Winning[] | null, optCurrent: Option<WinningData>, endBlock: BlockNumber, blockOffset: BN): Winning[] | null {
+  const current = createWinning(endBlock, blockOffset, extractWinners(optCurrent));
+
   if (current.winners.length && prev && prev.length && isNewWinners(current.winners, prev[0].winners)) {
     return [current, ...prev];
   }
@@ -71,61 +75,60 @@ function mergeCurrent (current: Winning, prev: Winning[] | null): Winning[] | nu
   return prev;
 }
 
-export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber] | null): Winning[] | null {
+function mergeFirst (prev: Winning[] | null, optFirstData: Option<WinningData>): Winning[] | null {
+  if (prev && prev.length <= 1) {
+    const updated: Winning[] = prev || [];
+    const firstEntry = createWinning(null, null, extractWinners(optFirstData));
+
+    if (!firstEntry.winners.length) {
+      return updated;
+    } else if (updated.length) {
+      updated[updated.length - 1] = firstEntry;
+
+      return [...updated];
+    }
+
+    return [firstEntry];
+  }
+
+  return prev;
+}
+
+export default function useWinningData (endBlock: BlockNumber | null): Winning[] | null {
   const { api } = useApi();
   const [winning, setWinning] = useState<Winning[] | null>(null);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
   const triggerRef = useRef(trigger);
-
-  // gets all entries, once-off
-  const allEntries = useCall<Winning[]>(auctionInfo && api.query.auctions?.winning.entries, undefined, {
-    transform: (values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] =>
-      extractData(auctionInfo && auctionInfo[1], values)
-  });
-
-  // the first entry will update while we are not in the ending period, always track
-  const firstEntry = useCall<Winning>(api.query.auctions?.winning, [0], {
-    transform: (optData: Option<WinningData>): Winning =>
-      createWinning(null, null, extractWinners(optData))
-  });
+  const allEntries = useCall<[StorageKey<[BlockNumber]>, Option<WinningData>][]>(api.query.auctions?.winning.entries);
+  const optFirstData = useCall<Option<WinningData>>(api.query.auctions?.winning, FIRST_PARAM);
 
   useEffect((): void => {
-    allEntries && setWinning(allEntries);
-  }, [allEntries]);
+    allEntries && setWinning(extractData(endBlock, allEntries));
+  }, [allEntries, endBlock]);
 
   useEffect((): void => {
-    firstEntry && setWinning((prev): Winning[] => {
-      if (!firstEntry.winners.length) {
-        return prev || [];
-      }
-
-      let updated: Winning[] = prev || [];
-
-      if (updated.length) {
-        updated[updated.length - 1] = firstEntry;
-      } else {
-        updated = [firstEntry];
-      }
-
-      return [...updated];
-    });
-  }, [firstEntry]);
+    optFirstData && setWinning((prev): Winning[] | null =>
+      mergeFirst(prev, optFirstData)
+    );
+  }, [optFirstData]);
 
   useEffect((): void => {
-    if (auctionInfo && bestNumber && bestNumber.gt(auctionInfo[1]) && triggerRef.current !== trigger) {
-      const blockOffset = bestNumber.sub(auctionInfo[1]).add(BN_ONE);
+    if (endBlock && bestNumber && triggerRef.current !== trigger) {
+      const blockOffset = bestNumber.gt(endBlock)
+        ? bestNumber.sub(endBlock).add(BN_ONE)
+        : BN_ZERO;
 
       triggerRef.current = trigger;
 
       api.query.auctions
         ?.winning<Option<WinningData>>(blockOffset)
-        .then((current) => setWinning((prev) =>
-          mergeCurrent(createWinning(auctionInfo[1], blockOffset, extractWinners(current)), prev)
+        .then((optCurrent) => setWinning((prev) =>
+          mergeCurrent(prev, optCurrent, endBlock, blockOffset)
         ))
         .catch(console.error);
     }
-  }, [api, auctionInfo, bestNumber, trigger, triggerRef]);
+  }, [api, bestNumber, endBlock, trigger, triggerRef]);
 
   return winning;
 }
