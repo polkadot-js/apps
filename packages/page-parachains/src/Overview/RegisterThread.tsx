@@ -46,7 +46,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
+        <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
           <Modal.Column>
             <InputAddress
               label={t<string>('register from')}
@@ -55,11 +55,8 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
               value={accountId}
             />
           </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('This account will be associated with the parachain and pay the deposit.')}</p>
-          </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
+        <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
           <Modal.Column>
             <InputNumber
               autoFocus
@@ -68,11 +65,8 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
               onChange={setParaId}
             />
           </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The id of this parachain as known on the network')}</p>
-          </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
+        <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
           <Modal.Column>
             <InputWasm
               help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
@@ -82,11 +76,8 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
               placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
             />
           </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The WASM validation function for this parachain.')}</p>
-          </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
+        <Modal.Columns hint={t<string>('The genesis state for this parachain.')}>
           <Modal.Column>
             <InputFile
               help={t<string>('The genesis state for the parachain.')}
@@ -94,9 +85,6 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
               label={t<string>('initial state')}
               onChange={_setGenesisState}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The genesis state for this parachain.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>

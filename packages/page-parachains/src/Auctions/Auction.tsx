@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
+import type { AuctionIndex, BlockNumber } from '@polkadot/types/interfaces';
 import type { Winning } from './types';
 
 import React, { useRef } from 'react';
@@ -12,13 +12,13 @@ import { useTranslation } from '../translate';
 import WinBlock from './WinBlock';
 
 interface Props {
-  auctionInfo: [LeasePeriodOf, BlockNumber] | null;
   className?: string;
+  endBlock: BlockNumber | null;
   numAuctions: AuctionIndex | null;
   winningData: Winning[] | null;
 }
 
-function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): React.ReactElement<Props> {
+function Auction ({ className, endBlock, numAuctions, winningData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -31,18 +31,18 @@ function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): 
     <Table
       className={className}
       empty={numAuctions && winningData && (
-        auctionInfo && !winningData.length
+        endBlock && !winningData.length
           ? t<string>('No winners in this auction')
           : t<string>('No ongoing auction')
       )}
       header={headerRef.current}
     >
-      {auctionInfo && winningData?.map((value, count) => (
+      {endBlock && winningData?.map((value, count) => (
         <WinBlock
+          endBlock={endBlock}
           isEven={!!(count % 2)}
           isLatest={count === 0}
-          key={`${count}:${value.blockNumber.toString()}`}
-          startBlock={auctionInfo[1]}
+          key={value.blockNumber.toString()}
           value={value}
         />
       ))}

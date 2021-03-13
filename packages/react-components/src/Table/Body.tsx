@@ -211,6 +211,7 @@ export default React.memo(styled(Body)`
 
     &.noBorder td {
       border-bottom: 1px solid transparent;
+      padding-bottom: 0 !important;
     }
 
     .ui--Button-Group {

@@ -6,9 +6,15 @@ import type { ColumnProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-function Columns ({ children, className = '' }: ColumnProps): React.ReactElement<ColumnProps> {
+import Column from './Column';
+
+function Columns ({ children, className = '', hint }: ColumnProps): React.ReactElement<ColumnProps> {
   return (
-    <div className={`ui--Modal-Columns ${className}`}>{children}</div>
+    <div className={`ui--Modal-Columns ${className}`}>
+      {children}{hint && (
+        <Column>{hint}</Column>
+      )}
+    </div>
   );
 }
 
