@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { WinnerData } from './types';
 
 import React from 'react';
@@ -17,10 +18,11 @@ interface Props {
   className?: string;
   isFirst: boolean;
   isLatest: boolean;
+  startBlock: BlockNumber | null;
   value: WinnerData;
 }
 
-function WinRanges ({ blockNumber, className = '', isFirst, isLatest, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
+function WinRanges ({ blockNumber, className = '', isFirst, isLatest, startBlock, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -30,7 +32,7 @@ function WinRanges ({ blockNumber, className = '', isFirst, isLatest, value: { a
           <h1>
             {isLatest
               ? t<string>('latest')
-              : <>#{formatNumber(blockNumber)}</>
+              : <>#{formatNumber(blockNumber.isZero() ? startBlock : blockNumber)}</>
             }
           </h1>
         )}

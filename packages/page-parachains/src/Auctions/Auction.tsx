@@ -42,6 +42,7 @@ function Auction ({ auctionInfo, className, numAuctions }: Props): React.ReactEl
           isEven={!!(count % 2)}
           isLatest={count === 0}
           key={value.blockNumber.toString()}
+          startBlock={auctionInfo && auctionInfo[1]}
           value={value}
         />
       ))}
