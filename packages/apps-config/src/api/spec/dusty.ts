@@ -42,7 +42,7 @@ const definitions: OverrideBundleDefinition = {
           individual: 'BTreeMap<AccountId, Balance>',
           total: 'Balance'
         },
-        Keys: 'SessionKeys2',
+        Keys: 'SessionKeys3',
         Lockdrop: {
           duration: 'u64',
           public_key: '[u8; 33]',
