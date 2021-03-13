@@ -45,24 +45,24 @@ function Progress ({ className = '', isDisabled, size = 'normal', total, value }
     return null;
   }
 
+  const drawAngle = angle % 360;
+
   return (
     <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${size}Size ${className}`}>
       <div className='background highlight--bg' />
       <Clip
         angle={
-          angle <= 180
-            ? angle.toFixed(1)
+          drawAngle <= 180
+            ? drawAngle.toFixed(1)
             : '180'
         }
         type='first'
       />
       <Clip
         angle={
-          angle <= 180
+          drawAngle <= 180
             ? '0'
-            : angle >= 360
-              ? '180'
-              : (angle - 180).toFixed(1)
+            : (drawAngle - 180).toFixed(1)
         }
         type='second'
       />
