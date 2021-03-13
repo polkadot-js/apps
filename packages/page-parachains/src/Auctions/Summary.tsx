@@ -32,43 +32,45 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
       <CardSummary label={t<string>('auctions')}>
         {formatNumber(numAuctions)}
       </CardSummary>
-      {totalIssuance && lastWinner && (
-        <CardSummary
-          label={t<string>('total')}
-          progress={{
-            hideValue: true,
-            total: totalIssuance,
-            value: lastWinner.total,
-            withTime: true
-          }}
-        >
-          <FormatBalance
-            value={lastWinner.total}
-            withSi
-          />
-        </CardSummary>
-      )}
       {auctionInfo && (
-        <section>
-          <CardSummary label={t<string>('period')}>
-            {formatNumber(period)}
-          </CardSummary>
-          <CardSummary
-            label={
-              bestNumber && ending && bestNumber.gt(ending)
-                ? t<string>('ended at')
-                : t<string>('ends at')
-            }
-            progress={{
-              hideGraph: true,
-              total: ending,
-              value: bestNumber,
-              withTime: true
-            }}
-          >
-            #{formatNumber(ending)}
-          </CardSummary>
-        </section>
+        <>
+          {totalIssuance && lastWinner && (
+            <CardSummary
+              label={t<string>('total')}
+              progress={{
+                hideValue: true,
+                total: totalIssuance,
+                value: lastWinner.total,
+                withTime: true
+              }}
+            >
+              <FormatBalance
+                value={lastWinner.total}
+                withSi
+              />
+            </CardSummary>
+          )}
+          <section>
+            <CardSummary label={t<string>('period')}>
+              {formatNumber(period)}
+            </CardSummary>
+            <CardSummary
+              label={
+                bestNumber && ending && bestNumber.gt(ending)
+                  ? t<string>('ended at')
+                  : t<string>('ends at')
+              }
+              progress={{
+                hideGraph: true,
+                total: ending,
+                value: bestNumber,
+                withTime: true
+              }}
+            >
+              #{formatNumber(ending)}
+            </CardSummary>
+          </section>
+        </>
       )}
     </SummaryBox>
   );

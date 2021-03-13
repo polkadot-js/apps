@@ -37,7 +37,7 @@ function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): 
       )}
       header={headerRef.current}
     >
-      {winningData?.map((value, count) => (
+      {auctionInfo && winningData?.map((value, count) => (
         <WinBlock
           isEven={!!(count % 2)}
           isLatest={count === 0}
