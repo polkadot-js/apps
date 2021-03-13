@@ -46,49 +46,41 @@ function Bid ({ className, id }: Props): React.ReactElement<Props> {
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will be associated with the bid. This should match the registrar for the parachain.')}>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('bid from')}
-                  onChange={setAccountId}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
+              <InputAddress
+                label={t<string>('bid from')}
+                onChange={setAccountId}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The parachain id this bid is placed for')}>
-              <Modal.Column>
-                <InputNumber
-                  autoFocus
-                  defaultValue={paraId?.toString()}
-                  isZeroable={false}
-                  label={t<string>('parachain id')}
-                  onChange={setParaId}
-                />
-              </Modal.Column>
+              <InputNumber
+                autoFocus
+                defaultValue={paraId?.toString()}
+                isZeroable={false}
+                label={t<string>('parachain id')}
+                onChange={setParaId}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The amount to to bid for this parachain slot')}>
-              <Modal.Column>
-                <InputBalance
-                  isZeroable={false}
-                  label={t<string>('bid amount')}
-                  onChange={setAmount}
-                />
-              </Modal.Column>
+              <InputBalance
+                isZeroable={false}
+                label={t<string>('bid amount')}
+                onChange={setAmount}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The first and last slots for this bid. The last slot should be after the first and a maximum of 3 slots more than the first')}>
-              <Modal.Column>
-                <InputNumber
-                  defaultValue={firstSlot?.toString()}
-                  label={t<string>('first slot')}
-                  onChange={setFirstSlot}
-                />
-                <InputNumber
-                  defaultValue={lastSlot?.toString()}
-                  isError={isLastError}
-                  label={t<string>('last slot')}
-                  onChange={setLastSlot}
-                />
-              </Modal.Column>
+              <InputNumber
+                defaultValue={firstSlot?.toString()}
+                label={t<string>('first slot')}
+                onChange={setFirstSlot}
+              />
+              <InputNumber
+                defaultValue={lastSlot?.toString()}
+                isError={isLastError}
+                label={t<string>('last slot')}
+                onChange={setLastSlot}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

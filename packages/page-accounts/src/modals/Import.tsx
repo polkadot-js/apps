@@ -102,49 +102,37 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
     >
       <Modal.Content>
         <Modal.Columns>
-          <Modal.Column>
-            <AddressRow
-              defaultName={(pair?.meta.name as string) || null}
-              noDefaultNameOpacity
-              value={pair?.address || null}
-            />
-          </Modal.Column>
+          <AddressRow
+            defaultName={(pair?.meta.name as string) || null}
+            noDefaultNameOpacity
+            value={pair?.address || null}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputFile
-              accept={acceptedFormats}
-              className='full'
-              help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
-              isError={!pair}
-              label={t<string>('backup file')}
-              onChange={_onChangeFile}
-              withLabel
-            />
-            {differentGenesis && (
-              <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
-            )}
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Supply a backed-up JSON file, encrypted with your account-specific password.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('Supply a backed-up JSON file, encrypted with your account-specific password.')}>
+          <InputFile
+            accept={acceptedFormats}
+            className='full'
+            help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
+            isError={!pair}
+            label={t<string>('backup file')}
+            onChange={_onChangeFile}
+            withLabel
+          />
+          {differentGenesis && (
+            <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
+          )}
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Password
-              autoFocus
-              className='full'
-              help={t<string>('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
-              isError={!isPassValid}
-              label={t<string>('password')}
-              onChange={_onChangePass}
-              onEnter={_onSave}
-              value={password}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The password previously used to encrypt this account.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The password previously used to encrypt this account.')}>
+          <Password
+            autoFocus
+            className='full'
+            help={t<string>('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
+            isError={!isPassValid}
+            label={t<string>('password')}
+            onChange={_onChangePass}
+            onEnter={_onSave}
+            value={password}
+          />
         </Modal.Columns>
         <ExternalWarning />
       </Modal.Content>

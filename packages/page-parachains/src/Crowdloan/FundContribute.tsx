@@ -52,31 +52,27 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will contribute to the crowdloan.')}>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('contribute from')}
-                  onChange={setAccountId}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
+              <InputAddress
+                label={t<string>('contribute from')}
+                onChange={setAccountId}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}>
-              <Modal.Column>
-                <InputBalance
-                  autoFocus
-                  isError={isAmountError}
-                  isZeroable={false}
-                  label={t<string>('contribution')}
-                  onChange={setAmount}
-                />
-                {isAmountBelow && (
-                  <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{value}}', { replace: { value: formatBalance(api.consts.crowdloan.minContribution as UInt) } })} />
-                )}
-                {isAmountOver && (
-                  <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
-                )}
-              </Modal.Column>
+              <InputBalance
+                autoFocus
+                isError={isAmountError}
+                isZeroable={false}
+                label={t<string>('contribution')}
+                onChange={setAmount}
+              />
+              {isAmountBelow && (
+                <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{value}}', { replace: { value: formatBalance(api.consts.crowdloan.minContribution as UInt) } })} />
+              )}
+              {isAmountOver && (
+                <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
+              )}
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
