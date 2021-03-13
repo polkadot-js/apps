@@ -89,9 +89,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               </>
             )}
             <Modal.Columns>
-              <Modal.Column>
-                <BatchWarning />
-              </Modal.Column>
+              <BatchWarning />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
