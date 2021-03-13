@@ -14,5 +14,6 @@ export interface WinnerData {
 export interface Winning {
   blockNumber: BN;
   blockOffset: BN;
+  total: BN;
   winners: WinnerData[];
 }

@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Option, StorageKey } from '@polkadot/types';
 import type { BlockNumber, LeasePeriodOf, WinningData } from '@polkadot/types/interfaces';
 import type { WinnerData, Winning } from './types';
 
+import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
 import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
@@ -42,6 +42,7 @@ function createWinning (endBlock: BlockNumber | null, blockOffset: BN | null | u
       ? blockOffset.add(endBlock)
       : blockOffset || BN_ZERO,
     blockOffset: blockOffset || BN_ZERO,
+    total: winners.reduce((total, { value }) => total.iadd(value), new BN(0)),
     winners
   };
 }
@@ -74,17 +75,17 @@ export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber
   const { api } = useApi();
   const [winning, setWinning] = useState<Winning[] | null>(null);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const trigger = useEventTrigger([api.events.auctions.BidAccepted]);
+  const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
   const triggerRef = useRef(trigger);
 
   // gets all entries, once-off
-  const allEntries = useCall<Winning[]>(auctionInfo && api.query.auctions.winning.entries, undefined, {
+  const allEntries = useCall<Winning[]>(auctionInfo && api.query.auctions?.winning.entries, undefined, {
     transform: (values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] =>
       extractData(auctionInfo && auctionInfo[1], values)
   });
 
   // the first entry will update while we are not in the ending period, always track
-  const firstEntry = useCall<Winning>(api.query.auctions.winning, [0], {
+  const firstEntry = useCall<Winning>(api.query.auctions?.winning, [0], {
     transform: (optData: Option<WinningData>): Winning =>
       createWinning(null, null, extractWinners(optData))
   });
@@ -118,7 +119,7 @@ export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber
       triggerRef.current = trigger;
 
       api.query.auctions
-        .winning<Option<WinningData>>(blockOffset)
+        ?.winning<Option<WinningData>>(blockOffset)
         .then((current) => setWinning((prev) =>
           mergeCurrent(createWinning(auctionInfo[1], blockOffset, extractWinners(current)), prev)
         ))
