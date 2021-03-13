@@ -72,7 +72,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoBitCountry',
-        paraId: 8888,
+        paraId: 8,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
           BitCountry: 'wss://tewai-parachain.bit.country:9955'
