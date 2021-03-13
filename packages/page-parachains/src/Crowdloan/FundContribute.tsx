@@ -47,7 +47,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Contribute to campaign')}
+          header={t<string>('Contribute to fund')}
           size='large'
         >
           <Modal.Content>

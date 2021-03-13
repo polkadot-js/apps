@@ -38,7 +38,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!hasAccounts}
-        label={t<string>('Add campaign')}
+        label={t<string>('Add fund')}
         onClick={toggleOpen}
       />
       {isOpen && (
@@ -58,7 +58,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                 />
               </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The parachain id this campaign refers to')}>
+            <Modal.Columns hint={t<string>('The parachain id this fund applies to')}>
               <Modal.Column>
                 <InputNumber
                   autoFocus
@@ -77,7 +77,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
                 />
               </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The block until which this campaign is active for')}>
+            <Modal.Columns hint={t<string>('The block until which this fund is active for')}>
               <Modal.Column>
                 <InputNumber
                   isError={isEndError}
