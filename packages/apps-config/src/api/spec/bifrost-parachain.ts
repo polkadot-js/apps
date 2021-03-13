@@ -30,8 +30,34 @@ const definitions: OverrideBundleDefinition = {
           cost: 'Balance',
           income: 'Balance'
         },
+        TokenSymbol: {
+          _enum: [
+            'BNC',
+            'aUSD',
+            'DOT',
+            'vDOT',
+            'KSM',
+            'vKSM',
+            'ETH',
+            'vETH',
+            'EOS',
+            'vEOS',
+            'IOST',
+            'vIOST'
+          ]
+        },
         TokenType: {
-          _enum: ['Native', 'Stable', 'Token', 'VToken']
+          _enum: [
+            'Native',
+            'Stable',
+            'Token',
+            'VToken'
+          ]
+        },
+        CurrencyId: {
+          _enum: {
+            Token: 'TokenSymbol'
+          }
         },
         BiddingOrderId: 'u64',
         RewardRecord: {
@@ -77,7 +103,11 @@ const definitions: OverrideBundleDefinition = {
           abi_sequence: 'UnsignedInt'
         },
         BlockchainType: {
-          _enum: ['BIFROST', 'EOS', 'IOST']
+          _enum: [
+            'BIFROST',
+            'EOS',
+            'IOST'
+          ]
         },
         Precision: 'u32',
         BridgeAssetSymbol: {
@@ -162,7 +192,14 @@ const definitions: OverrideBundleDefinition = {
           }
         },
         TransactionStatus: {
-          _enum: ['Initialized', 'Created', 'SignComplete', 'Sent', 'Succeeded', 'Failed']
+          _enum: [
+            'Initialized',
+            'Created',
+            'SignComplete',
+            'Sent',
+            'Succeeded',
+            'Failed'
+          ]
         },
         ProducerAuthoritySchedule: {
           version: 'u32',
@@ -244,7 +281,8 @@ const definitions: OverrideBundleDefinition = {
           pending_reward: 'Balance'
         },
         VtokenMintPrice: 'u128',
-        MintPrice: 'VtokenMintPrice'
+        MintPrice: 'VtokenMintPrice',
+        CurrencyIdOf: 'CurrencyId'
       }
 
     }
