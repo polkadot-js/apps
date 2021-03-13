@@ -1,11 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BlockNumber } from '@polkadot/types/interfaces';
+
 import React from 'react';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
 import { formatNumber, isNumber } from '@polkadot/util';
 
@@ -20,6 +22,7 @@ interface Props {
 function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
   return (
     <SummaryBox>
@@ -46,6 +49,18 @@ function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): Reac
           </CardSummary>
         )}
       </section>
+      {bestNumber && api.consts.slots?.leasePeriod && (
+        <CardSummary
+          label={t<string>('lease period')}
+          progress={{
+            total: api.consts.slots.leasePeriod as BlockNumber,
+            value: bestNumber.mod(api.consts.slots.leasePeriod as BlockNumber),
+            withTime: true
+          }}
+        >
+          {formatNumber(bestNumber.div(api.consts.slots.leasePeriod as BlockNumber))}
+        </CardSummary>
+      )}
       <section>
         <CardSummary
           className='media--1000'
