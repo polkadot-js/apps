@@ -12,6 +12,7 @@ import Actions from './Actions';
 import Parachains from './ParachainList';
 import Summary from './Summary';
 import Upcoming from './UpcomingList';
+import useActionsQueue from './useActionsQueue';
 import useLeasePeriod from './useLeasePeriod';
 
 interface Props {
@@ -23,6 +24,7 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
   const mountedRef = useIsMountedRef();
+  const actionsQueue = useActionsQueue();
   const leasePeriod = useLeasePeriod();
   const sessionTrigger = useEventTrigger([api.events.session.NewSession, api.events.registrar?.Registered]);
   const [upcomingIds, setUpcomingIds] = useState<ParaId[]>([]);
@@ -52,10 +54,12 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
       {api.query.paras && (
         <>
           <Parachains
+            actionsQueue={actionsQueue}
             ids={paraIds}
             scheduled={proposals?.scheduled}
           />
           <Upcoming
+            actionsQueue={actionsQueue}
             currentPeriod={leasePeriod && leasePeriod.currentPeriod}
             ids={upcomingIds}
           />

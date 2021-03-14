@@ -126,7 +126,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           evictAt
             ? (
               <>
-                <BlockToTime blocks={evictAt.sub(bestNumber)} />
+                <BlockToTime value={evictAt.sub(bestNumber)} />
                 #{formatNumber(evictAt)}
               </>
             )

@@ -4,13 +4,14 @@
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
+import type { QueuedAction } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
 import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
+import { BlockToTime, SessionToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -23,6 +24,7 @@ interface Props {
   isScheduled?: boolean;
   lastBacked?: [string, string, BN];
   lastInclusion?: [string, string, BN];
+  nextAction?: QueuedAction;
   validators?: AccountId[];
 }
 
@@ -120,7 +122,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
         )}
       </td>
       <td className='all start together hash'>{paraInfo.headHex}</td>
-      <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
+      <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
       <td className='number'>
         {lastInclusion
           ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
@@ -136,7 +138,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       <td className='number media--1300'>
         {paraInfo.updateAt && bestNumber && (
           <>
-            <BlockToTime blocks={bestNumber.sub(paraInfo.updateAt)} />
+            <BlockToTime value={bestNumber.sub(paraInfo.updateAt)} />
             #{formatNumber(paraInfo.updateAt)}
           </>
         )}

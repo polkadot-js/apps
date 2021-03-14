@@ -59,7 +59,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
       <td className='address'><AddressMini value={depositor} /></td>
       <td className='number together'>
         {blocksLeft && (
-          <BlockToTime blocks={blocksLeft} />
+          <BlockToTime value={blocksLeft} />
         )}
         #{formatNumber(end)}
       </td>

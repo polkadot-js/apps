@@ -3,6 +3,7 @@
 
 import type BN from 'bn.js';
 import type { ParaId } from '@polkadot/types/interfaces';
+import type { QueuedAction } from './types';
 
 import React, { useRef } from 'react';
 
@@ -12,11 +13,12 @@ import { useTranslation } from '../translate';
 import Upcoming from './Upcoming';
 
 interface Props {
+  actionsQueue: QueuedAction[];
   currentPeriod: BN | null;
   ids?: ParaId[];
 }
 
-function UpcomingList ({ currentPeriod, ids }: Props): React.ReactElement<Props> {
+function UpcomingList ({ actionsQueue, currentPeriod, ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -37,6 +39,9 @@ function UpcomingList ({ currentPeriod, ids }: Props): React.ReactElement<Props>
           currentPeriod={currentPeriod}
           id={id}
           key={id.toString()}
+          nextAction={actionsQueue.find(({ paraIds }) =>
+            paraIds.some((p) => p.eq(id))
+          )}
         />
       ))}
     </Table>

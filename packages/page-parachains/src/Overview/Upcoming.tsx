@@ -5,11 +5,13 @@ import type BN from 'bn.js';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, ParaGenesisArgs, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { QueuedAction } from './types';
 
 import React from 'react';
 
 import { ParaLink } from '@polkadot/react-components';
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
+import { SessionToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -18,6 +20,7 @@ import { sliceHex } from '../util';
 interface Props {
   currentPeriod: BN | null;
   id: ParaId;
+  nextAction?: QueuedAction;
 }
 
 interface LeaseInfo {
@@ -61,7 +64,7 @@ const optMulti = {
   })
 };
 
-function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
+function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { leases, lifecycle, upcomingGenesis } = useCallMulti<MultiState>([
@@ -80,7 +83,14 @@ function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
         )}
       </td>
       <td className='number'>
-        {lifecycle && lifecycle.toString()}
+        {lifecycle && (
+          <>
+            {lifecycle.toString()}
+            {nextAction && (
+              <SessionToTime value={nextAction.sessionIndex} />
+            )}
+          </>
+        )}
       </td>
       <td className='start together'>
         {currentPeriod &&

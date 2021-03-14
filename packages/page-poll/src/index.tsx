@@ -114,7 +114,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
             )}
             <div>
               {canVote
-                ? <BlockToTime blocks={blocksLeft} />
+                ? <BlockToTime value={blocksLeft} />
                 : t<string>('Completed')
               }
               <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
