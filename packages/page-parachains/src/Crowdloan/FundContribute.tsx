@@ -31,7 +31,6 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
   // TODO verifier signature
 
   const remaining = cap.sub(raised);
-  const allowContribute = remaining.gte(api.consts.crowdloan.minContribution as UInt);
   const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as UInt);
   const isAmountOver = !!(amount && amount.gt(remaining));
   const isAmountError = isAmountBelow || isAmountOver;
@@ -40,7 +39,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
     <>
       <Button
         icon='plus'
-        isDisabled={!hasAccounts || !allowContribute}
+        isDisabled={!hasAccounts}
         label={t<string>('Contribute')}
         onClick={toggleOpen}
       />
