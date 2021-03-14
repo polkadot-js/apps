@@ -5,7 +5,7 @@ import BN from 'bn.js';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -14,13 +14,19 @@ interface Props {
   referendumCount?: number;
 }
 
+const optMulti = {
+  defaultValue: [undefined, undefined] as [BN | undefined, BN | undefined]
+};
+
 function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeProposals = useCall<unknown[]>(api.derive.democracy.proposals);
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
-  const publicPropCount = useCall<BN>(api.query.democracy.publicPropCount);
-  const referendumTotal = useCall<BN>(api.query.democracy.referendumCount);
+  const bestNumber = useBestNumber();
+  const [publicPropCount, referendumTotal] = useCallMulti<[BN | undefined, BN | undefined]>([
+    api.query.democracy.publicPropCount,
+    api.query.democracy.referendumCount
+  ], optMulti);
 
   return (
     <SummaryBox>

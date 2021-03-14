@@ -7,7 +7,7 @@ import type { Winning } from './types';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -23,7 +23,7 @@ interface Props {
 function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
   const [period, ending] = auctionInfo || [];
 

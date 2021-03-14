@@ -7,7 +7,7 @@ import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/i
 import React, { useMemo, useState } from 'react';
 
 import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -28,7 +28,7 @@ function Bid ({ auctionInfo, className, id }: Props): React.ReactElement<Props> 
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [paraId, setParaId] = useState<BN | undefined>(BN_ZERO);

@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
@@ -45,7 +45,7 @@ function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumb
 function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded }, setLastEvents] = useState<LastEvents>({ lastBacked: {}, lastIncluded: {} });
   const [validators, validatorGroups] = useCallMulti<[AccountId[] | null, ParaValidatorIndex[][] | null]>([

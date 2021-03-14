@@ -13,37 +13,37 @@ import { BN_MILLION, BN_ZERO, stringToU8a } from '@polkadot/util';
 
 const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
 
-interface Treasury {
+interface Result {
   value?: Balance;
   burn?: BN;
   spendPeriod: BN;
 }
 
-export function useTreasury (): Treasury {
+export function useTreasury (): Result {
   const { api } = useApi();
-
-  const [value, setValue] = useState<Balance>();
-  const [burn, setBurn] = useState<BN>();
+  const [result, setResult] = useState<Result>({
+    spendPeriod: api.consts.treasury
+      ? api.consts.treasury.spendPeriod
+      : BN_ZERO
+  });
 
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
-  const spendPeriod = api.consts.treasury ? api.consts.treasury.spendPeriod : BN_ZERO;
 
   useEffect(() => {
     if (!api.consts.treasury) {
       return;
     }
 
-    setValue(treasuryBalance?.freeBalance.gtn(0)
-      ? treasuryBalance.freeBalance
-      : undefined);
-    setBurn(treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-      ? api.consts.treasury.burn.mul(treasuryBalance.freeBalance).div(BN_MILLION)
-      : BN_ZERO);
-  }, [api, treasuryBalance, spendPeriod]);
+    setResult(({ spendPeriod }) => ({
+      burn: treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
+        ? api.consts.treasury.burn.mul(treasuryBalance.freeBalance).div(BN_MILLION)
+        : BN_ZERO,
+      spendPeriod,
+      value: treasuryBalance?.freeBalance.gtn(0)
+        ? treasuryBalance.freeBalance
+        : undefined
+    }));
+  }, [api, treasuryBalance]);
 
-  return {
-    burn,
-    spendPeriod,
-    value
-  };
+  return result;
 }

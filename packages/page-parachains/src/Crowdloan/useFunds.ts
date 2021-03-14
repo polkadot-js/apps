@@ -8,7 +8,7 @@ import type { Campaign } from './types';
 import BN from 'bn.js';
 import { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useCall, useCallMulti, useEventTrigger } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCallMulti, useEventTrigger } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 interface Result {
@@ -83,7 +83,7 @@ function createResult (bestNumber: BlockNumber, funds: Campaign[], prev: Result)
 
 export default function useFunds (): Result {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const [paraIds, setParaIds] = useState<ParaId[]>([]);
   const trigger = useEventTrigger([api.events.crowdloan.Created]);
   const optFunds = useCallMulti<Option<FundInfo>[]>(paraIds.map((id) => [api.query.crowdloan.funds, id]));
