@@ -10,7 +10,7 @@ import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 
 import { Button, Columar, InputAddress, Progress, Spinner, Tabs, Toggle, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MILLION, BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
@@ -21,17 +21,25 @@ interface Props {
   className?: string;
 }
 
+type MultiResult = [Balance | undefined, [Balance, Balance, Balance, Balance] | undefined];
+
 interface Turnout {
   percentage: number;
   voted: BN;
 }
 
+const optMulti = {
+  defaultValue: [undefined, undefined] as MultiResult
+};
+
 function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
+  const bestNumber = useBestNumber();
+  const [totalIssuance, totals] = useCallMulti<MultiResult>([
+    api.query.balances.totalIssuance,
+    api.query.poll.totals
+  ], optMulti);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [turnout, setTurnout] = useState<Turnout | null>(null);
   const [opt10m, setOpt10m] = useState(false);

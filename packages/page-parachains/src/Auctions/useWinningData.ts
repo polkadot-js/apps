@@ -8,7 +8,7 @@ import type { WinnerData, Winning } from './types';
 import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { RANGES } from './constants';
@@ -92,7 +92,7 @@ function mergeFirst (prev: Winning[] | null, optFirstData: Option<WinningData>):
 export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber] | null): Winning[] | null {
   const { api } = useApi();
   const [result, setResult] = useState<Winning[] | null>(null);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
   const triggerRef = useRef(trigger);
   const allEntries = useCall<[StorageKey<[BlockNumber]>, Option<WinningData>][]>(api.query.auctions?.winning.entries);
