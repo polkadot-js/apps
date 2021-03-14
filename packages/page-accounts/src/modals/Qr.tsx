@@ -109,30 +109,23 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           ? (
             <>
               <Modal.Columns>
-                <Modal.Column>
-                  <AddressRow
-                    defaultName={name}
-                    noDefaultNameOpacity
-                    value={scanned.content}
-                  />
-                </Modal.Column>
+                <AddressRow
+                  defaultName={name}
+                  noDefaultNameOpacity
+                  value={scanned.content}
+                />
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <Input
-                    autoFocus
-                    className='full'
-                    help={t<string>('Name given to this account. You can change it at any point in the future.')}
-                    isError={!isNameValid}
-                    label={t<string>('name')}
-                    onChange={_onNameChange}
-                    onEnter={_onSave}
-                    value={name}
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}>
+                <Input
+                  autoFocus
+                  className='full'
+                  help={t<string>('Name given to this account. You can change it at any point in the future.')}
+                  isError={!isNameValid}
+                  label={t<string>('name')}
+                  onChange={_onNameChange}
+                  onEnter={_onSave}
+                  value={name}
+                />
               </Modal.Columns>
               {!isAddress && (
                 <PasswordInput
@@ -143,15 +136,10 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
             </>
           )
           : (
-            <Modal.Columns>
-              <Modal.Column>
-                <div className='qr-wrapper'>
-                  <QrScanAddress onScan={_onScan} />
-                </div>
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}>
+              <div className='qr-wrapper'>
+                <QrScanAddress onScan={_onScan} />
+              </div>
             </Modal.Columns>
           )
         }

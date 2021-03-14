@@ -7,7 +7,7 @@ import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/i
 import React, { useMemo, useState } from 'react';
 
 import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -28,6 +28,7 @@ function Bid ({ auctionInfo, className, id }: Props): React.ReactElement<Props> 
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [paraId, setParaId] = useState<BN | undefined>(BN_ZERO);
@@ -50,13 +51,13 @@ function Bid ({ auctionInfo, className, id }: Props): React.ReactElement<Props> 
     [auctionInfo]
   );
 
-  const [leasePeriod] = auctionInfo || [null, null];
+  const [leasePeriod, endBlock] = auctionInfo || [null, null];
 
   return (
     <>
       <Button
         icon='plus'
-        isDisabled={!hasAccounts || !id || !leasePeriod}
+        isDisabled={!hasAccounts || !id || !leasePeriod || !endBlock || bestNumber?.gte(endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
         label={t<string>('Bid')}
         onClick={toggleOpen}
       />
@@ -68,44 +69,36 @@ function Bid ({ auctionInfo, className, id }: Props): React.ReactElement<Props> 
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will be associated with the bid. This should match the registrar for the parachain.')}>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('bid from')}
-                  onChange={setAccountId}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
+              <InputAddress
+                label={t<string>('bid from')}
+                onChange={setAccountId}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The parachain id this bid is placed for')}>
-              <Modal.Column>
-                <InputNumber
-                  autoFocus
-                  defaultValue={paraId?.toString()}
-                  isZeroable={false}
-                  label={t<string>('parachain id')}
-                  onChange={setParaId}
-                />
-              </Modal.Column>
+              <InputNumber
+                autoFocus
+                defaultValue={paraId?.toString()}
+                isZeroable={false}
+                label={t<string>('parachain id')}
+                onChange={setParaId}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The amount to to bid for this parachain slot')}>
-              <Modal.Column>
-                <InputBalance
-                  isZeroable={false}
-                  label={t<string>('bid amount')}
-                  onChange={setAmount}
-                />
-              </Modal.Column>
+              <InputBalance
+                isZeroable={false}
+                label={t<string>('bid amount')}
+                onChange={setAmount}
+              />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The first and last slots for this bid. The last slot should be after the first and a maximum of 3 slots more than the first')}>
-              <Modal.Column>
-                <Dropdown
-                  label={t<string>('bid slot range')}
-                  onChange={setRange}
-                  options={rangeOpts}
-                  value={range}
-                />
-              </Modal.Column>
+              <Dropdown
+                label={t<string>('bid slot range (start slot, end slot)')}
+                onChange={setRange}
+                options={rangeOpts}
+                value={range}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

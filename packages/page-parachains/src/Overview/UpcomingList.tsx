@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
@@ -11,10 +12,11 @@ import { useTranslation } from '../translate';
 import Upcoming from './Upcoming';
 
 interface Props {
+  currentPeriod: BN | null;
   ids?: ParaId[];
 }
 
-function UpcomingList ({ ids }: Props): React.ReactElement<Props> {
+function UpcomingList ({ currentPeriod, ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -31,6 +33,7 @@ function UpcomingList ({ ids }: Props): React.ReactElement<Props> {
     >
       {ids?.map((id): React.ReactNode => (
         <Upcoming
+          currentPeriod={currentPeriod}
           id={id}
           key={id.toString()}
         />

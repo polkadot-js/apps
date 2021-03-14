@@ -17,22 +17,20 @@ function SenderInfo ({ className = '', controllerId, stashId }: Props): React.Re
   const { t } = useTranslation();
 
   return (
-    <Modal.Columns className={className}>
-      <Modal.Column>
-        <InputAddress
-          defaultValue={stashId}
-          isDisabled
-          label={t<string>('stash account')}
-        />
-        <InputAddress
-          defaultValue={controllerId}
-          isDisabled
-          label={t<string>('controller account')}
-        />
-      </Modal.Column>
-      <Modal.Column>
-        <p>{t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')}</p>
-      </Modal.Column>
+    <Modal.Columns
+      className={className}
+      hint={t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')}
+    >
+      <InputAddress
+        defaultValue={stashId}
+        isDisabled
+        label={t<string>('stash account')}
+      />
+      <InputAddress
+        defaultValue={controllerId}
+        isDisabled
+        label={t<string>('controller account')}
+      />
     </Modal.Columns>
   );
 }

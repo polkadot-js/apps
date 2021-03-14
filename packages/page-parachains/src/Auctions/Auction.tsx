@@ -9,7 +9,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import WinBlock from './WinBlock';
+import WinRange from './WinRange';
 
 interface Props {
   auctionInfo: [LeasePeriodOf, BlockNumber] | null;
@@ -22,32 +22,36 @@ function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): 
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('winners'), 'start', 4],
+    [t('bids'), 'start', 4],
     [t('slots')],
     [t('value')]
   ]);
 
-  const endBlock = auctionInfo && auctionInfo[1];
-
   return (
     <Table
       className={className}
-      empty={numAuctions && winningData && (
-        endBlock && !winningData.length
-          ? t<string>('No winners in this auction')
-          : t<string>('No ongoing auction')
-      )}
+      empty={
+        numAuctions && winningData && (
+          auctionInfo && auctionInfo[1] && !winningData.length
+            ? t<string>('No winners in this auction')
+            : t<string>('No ongoing auction')
+        )
+      }
       header={headerRef.current}
     >
-      {auctionInfo && winningData?.map((value, count) => (
-        <WinBlock
-          auctionInfo={auctionInfo}
-          isEven={!!(count % 2)}
-          isLatest={count === 0}
-          key={value.blockNumber.toString()}
-          value={value}
-        />
-      ))}
+      {auctionInfo && winningData?.map(({ blockNumber, winners }, round) =>
+        winners.map((value, index) => (
+          <WinRange
+            auctionInfo={auctionInfo}
+            blockNumber={blockNumber}
+            className={`${(round % 2) ? 'isEven' : 'isOdd'} ${index === (winners.length - 1) ? '' : 'noBorder'}`}
+            isFirst={index === 0}
+            isLatest={round === 0}
+            key={`${blockNumber.toString()}:${index}`}
+            value={value}
+          />
+        ))
+      )}
     </Table>
   );
 }
