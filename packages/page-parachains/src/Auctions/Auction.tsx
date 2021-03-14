@@ -22,7 +22,7 @@ function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): 
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('winners'), 'start', 4],
+    [t('bids'), 'start', 4],
     [t('slots')],
     [t('value')]
   ]);
