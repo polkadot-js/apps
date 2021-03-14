@@ -19,11 +19,13 @@ interface Props {
 function Crowdloan ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
-  const { funds, totalCap, totalRaised } = useFunds();
+  const { activeCap, activeRaised, funds, totalCap, totalRaised } = useFunds();
 
   return (
     <div className={className}>
       <Summary
+        activeCap={activeCap}
+        activeRaised={activeRaised}
         fundCount={funds ? funds.length : 0}
         totalCap={totalCap}
         totalRaised={totalRaised}

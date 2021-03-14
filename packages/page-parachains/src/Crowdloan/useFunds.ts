@@ -14,12 +14,14 @@ import { BN_ZERO } from '@polkadot/util';
 import useFundIndexes from './useFundIndexes';
 
 interface Result {
+  activeCap: BN;
+  activeRaised: BN;
   funds: Campaign[] | null;
   totalCap: BN;
   totalRaised: BN;
 }
 
-const EMPTY = { funds: null, totalCap: BN_ZERO, totalRaised: BN_ZERO };
+const EMPTY = { activeCap: BN_ZERO, activeRaised: BN_ZERO, funds: null, totalCap: BN_ZERO, totalRaised: BN_ZERO };
 
 export default function useFunds (): Result {
   const { api } = useApi();
@@ -41,11 +43,20 @@ export default function useFunds (): Result {
   // here we manually add the actual ending status and calculate the totals
   useEffect((): void => {
     bestNumber && campaigns && setResult((prev): Result => {
-      const [totalRaised, totalCap] = campaigns.reduce(([r, c], { info: { cap, raised } }) => [r.iadd(raised), c.iadd(cap)], [new BN(0), new BN(0)]);
-      const hasNewCap = !prev.totalCap.eq(totalCap);
-      const hasNewRaised = !prev.totalRaised.eq(totalRaised);
+      const [activeRaised, activeCap, totalRaised, totalCap] = campaigns.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
+        bestNumber.gt(end) ? ar : ar.iadd(raised),
+        bestNumber.gt(end) ? ac : ac.iadd(cap),
+        tr.iadd(raised),
+        tc.iadd(cap)
+      ], [new BN(0), new BN(0), new BN(0), new BN(0)]);
+      const hasNewActiveCap = !prev.activeCap.eq(activeCap);
+      const hasNewActiveRaised = !prev.activeRaised.eq(activeRaised);
+      const hasNewTotalCap = !prev.totalCap.eq(totalCap);
+      const hasNewTotalRaised = !prev.totalRaised.eq(totalRaised);
       const hasChanged =
-        !prev.funds || hasNewCap || hasNewRaised ||
+        !prev.funds ||
+        hasNewActiveCap || hasNewActiveRaised ||
+        hasNewTotalCap || hasNewTotalRaised ||
         campaigns.some(({ info: { end }, isEnded }) => !isEnded && bestNumber.gt(end));
 
       if (!hasChanged) {
@@ -53,6 +64,8 @@ export default function useFunds (): Result {
       }
 
       return {
+        activeCap: hasNewActiveCap ? activeCap : prev.activeCap,
+        activeRaised: hasNewActiveRaised ? activeRaised : prev.activeRaised,
         funds: campaigns.map((data): Campaign => {
           if (!data.isEnded && bestNumber.gt(data.info.end)) {
             data.isEnded = true;
@@ -60,8 +73,8 @@ export default function useFunds (): Result {
 
           return data;
         }),
-        totalCap: hasNewCap ? totalCap : prev.totalCap,
-        totalRaised: hasNewRaised ? totalRaised : prev.totalRaised
+        totalCap: hasNewTotalCap ? totalCap : prev.totalCap,
+        totalRaised: hasNewTotalRaised ? totalRaised : prev.totalRaised
       };
     });
   }, [bestNumber, campaigns]);
