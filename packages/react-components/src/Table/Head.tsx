@@ -110,6 +110,14 @@ export default React.memo(styled(Head)`
       padding: 0 !important;
     }
 
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
+    }
+
     &.start {
       text-align: left;
     }

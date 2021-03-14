@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
+import type { BlockNumber, LeasePeriodOf, WinningData } from '@polkadot/types/interfaces';
 import type { WinnerData, Winning } from './types';
 
 import BN from 'bn.js';
@@ -11,12 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
-const RANGES = [
-  '0-0', '0-1', '0-2', '0-3',
-  '1-1', '1-2', '1-3',
-  '2-2', '2-3',
-  '3-3'
-];
+import { RANGES } from './constants';
 
 const FIRST_PARAM = [0];
 
@@ -94,7 +89,7 @@ function mergeFirst (prev: Winning[] | null, optFirstData: Option<WinningData>):
   return prev;
 }
 
-export default function useWinningData (endBlock: BlockNumber | null): Winning[] | null {
+export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber] | null): Winning[] | null {
   const { api } = useApi();
   const [result, setResult] = useState<Winning[] | null>(null);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
@@ -105,10 +100,12 @@ export default function useWinningData (endBlock: BlockNumber | null): Winning[]
 
   // should be fired once, all entries as an initial round
   useEffect((): void => {
+    const [, endBlock] = auctionInfo || [null, null];
+
     allEntries && setResult(
       extractData(endBlock, allEntries)
     );
-  }, [allEntries, endBlock]);
+  }, [allEntries, auctionInfo]);
 
   // when block 0 changes, update (typically in non-ending-period, static otherwise)
   useEffect((): void => {
@@ -121,8 +118,10 @@ export default function useWinningData (endBlock: BlockNumber | null): Winning[]
   // and add it to the list when not duplicated. Additionally we cleanup after ourselves when endBlock
   // gets cleared
   useEffect((): void => {
+    const [, endBlock] = auctionInfo || [null, null];
+
     if (!endBlock) {
-      setResult(null);
+      setResult((prev) => prev && prev.length ? null : prev);
     } else if (bestNumber && bestNumber.gt(endBlock) && triggerRef.current !== trigger) {
       const blockOffset = bestNumber.sub(endBlock).iadd(BN_ONE);
 
@@ -135,7 +134,7 @@ export default function useWinningData (endBlock: BlockNumber | null): Winning[]
         ))
         .catch(console.error);
     }
-  }, [api, bestNumber, endBlock, trigger, triggerRef]);
+  }, [api, bestNumber, auctionInfo, trigger, triggerRef]);
 
   return result;
 }
