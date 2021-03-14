@@ -8,9 +8,9 @@ import { useEffect, useState } from 'react';
 
 import { useApi, useEventTrigger } from '@polkadot/react-hooks';
 
-export default function useParathreads (): ParaId[] | undefined {
+export default function useUpomingIds (): ParaId[] | undefined {
   const { api } = useApi();
-  const trigger = useEventTrigger([api.events.session.NewSession]);
+  const trigger = useEventTrigger([api.events.session.NewSession, api.events.registrar?.Registered]);
   const [result, setResult] = useState<ParaId[] | undefined>();
 
   useEffect((): void => {
@@ -22,7 +22,12 @@ export default function useParathreads (): ParaId[] | undefined {
             .map(([{ args: [paraId] }, optValue]): ParaId | null => {
               const value = optValue.unwrap();
 
-              return (value && (value.isParathread || value.isUpgradingToParachain || value.isOutgoingParathread))
+              return value && (
+                value.isParathread ||
+                value.isUpgradingToParachain ||
+                value.isOutgoingParathread ||
+                value.isOnboarding
+              )
                 ? paraId
                 : null;
             })
