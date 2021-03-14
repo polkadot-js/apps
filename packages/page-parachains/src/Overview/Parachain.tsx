@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, HeadData, Header, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -26,10 +26,11 @@ interface Props {
   validators?: AccountId[];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
 
 interface QueryState {
   headHex: string | null;
+  lifecycle: ParaLifecycle | null;
   updateAt: BlockNumber | null;
   qDmp: number;
   qUmp: number;
@@ -45,6 +46,7 @@ const transformHeader = {
 const optionsMulti = {
   defaultValue: {
     headHex: null,
+    lifecycle: null,
     qDmp: 0,
     qHrmpE: 0,
     qHrmpI: 0,
@@ -52,10 +54,11 @@ const optionsMulti = {
     updateAt: null,
     watermark: null
   },
-  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
     headHex: headData.isSome
-      ? sliceHex(headData.unwrap(), 12)
+      ? sliceHex(headData.unwrap())
       : null,
+    lifecycle: optLifecycle.unwrapOr(null),
     qDmp: dmp.length,
     qHrmpE: hrmpE.length,
     qHrmpI: hrmpI.length,
@@ -73,6 +76,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
+    [api.query.paras.paraLifecycles, id],
     [api.query.dmp.downwardMessageQueues, id],
     [api.query.ump.relayDispatchQueues, id],
     [api.query.hrmp.hrmpEgressChannelsIndex, id],
@@ -119,7 +123,11 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
           />
         )}
       </td>
-      <td className='all start together hash'>{paraInfo.headHex}</td>
+      <td className='start together hash'>{paraInfo.headHex}</td>
+      <td className='start media--1100'>
+        {paraInfo.lifecycle && paraInfo.lifecycle.toString()}
+      </td>
+      <td className='all' />
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
       <td className='number'>
         {lastInclusion

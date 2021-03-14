@@ -3,7 +3,7 @@
 
 import type { Codec } from '@polkadot/types/types';
 
-export function sliceHex (value: Codec, max: number): string {
+export function sliceHex (value: Codec, max = 8): string {
   const hex = value.toHex();
 
   return hex.length > ((2 * max) + 2)
