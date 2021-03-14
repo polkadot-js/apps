@@ -74,7 +74,7 @@ function Upcoming ({ id }: Props): React.ReactElement<Props> {
         )}
       </td>
       <td className='start together'>{leases.map(({ period }) => formatNumber(period)).join(', ')}</td>
-      <td className='start'>
+      <td className='number'>
         {upcomingGenesis && (
           upcomingGenesis.parachain ? t('Yes') : t('No')
         )}
