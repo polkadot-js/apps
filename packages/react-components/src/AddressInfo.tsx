@@ -263,7 +263,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
               {bestNumber.lt((balancesAll as DeriveBalancesAll).vestingEndBlock) && (
                 <>
                   <div>
-                    <BlockToTime blocks={(balancesAll as DeriveBalancesAll).vestingEndBlock.sub(bestNumber)} />
+                    <BlockToTime value={(balancesAll as DeriveBalancesAll).vestingEndBlock.sub(bestNumber)} />
                     <div className='faded'>{t('until block')} {formatNumber((balancesAll as DeriveBalancesAll).vestingEndBlock)}</div>
                   </div>
                   <div>

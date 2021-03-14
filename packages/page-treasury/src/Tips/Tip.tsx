@@ -142,7 +142,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         {closesAt
           ? (bestNumber && closesAt.gt(bestNumber)) && (
             <div className='closingTimer'>
-              <BlockToTime blocks={closesAt.sub(bestNumber)} />
+              <BlockToTime value={closesAt.sub(bestNumber)} />
               #{formatNumber(closesAt)}
             </div>
           )

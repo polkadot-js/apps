@@ -59,8 +59,8 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] 
                 {isCountdown
                   ? (
                     <BlockToTime
-                      blocks={blocks}
                       label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                      value={blocks}
                     />
                   )
                   : isFinished

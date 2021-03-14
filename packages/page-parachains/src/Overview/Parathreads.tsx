@@ -3,45 +3,49 @@
 
 import type BN from 'bn.js';
 import type { ParaId } from '@polkadot/types/interfaces';
+import type { QueuedAction } from './types';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import Upcoming from './Upcoming';
+import Parathread from './Parathread';
 
 interface Props {
+  actionsQueue: QueuedAction[];
   currentPeriod: BN | null;
   ids?: ParaId[];
 }
 
-function UpcomingList ({ currentPeriod, ids }: Props): React.ReactElement<Props> {
+function Parathreads ({ actionsQueue, currentPeriod, ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('upcoming'), 'start', 2],
+    [t('waiting'), 'start', 2],
     [t('genesis'), 'start'],
     [t('lifecycle'), 'start'],
     [],
-    [t('leases'), 'start'],
-    [t('parachain'), 'start']
+    [t('leases'), 'start']
   ]);
 
   return (
     <Table
-      empty={ids && t<string>('There are no upcoming parachains')}
+      empty={ids && t<string>('There are no waiting parathreads')}
       header={headerRef.current}
     >
       {ids?.map((id): React.ReactNode => (
-        <Upcoming
+        <Parathread
           currentPeriod={currentPeriod}
           id={id}
           key={id.toString()}
+          nextAction={actionsQueue.find(({ paraIds }) =>
+            paraIds.some((p) => p.eq(id))
+          )}
         />
       ))}
     </Table>
   );
 }
 
-export default React.memo(UpcomingList);
+export default React.memo(Parathreads);

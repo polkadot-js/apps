@@ -33,7 +33,7 @@ function Scheduled ({ className = '', value: { blockNumber, call, maybeId, maybe
       <td className='number together'>
         {bestNumber && (
           <>
-            <BlockToTime blocks={blockNumber.sub(bestNumber)} />
+            <BlockToTime value={blockNumber.sub(bestNumber)} />
             #{formatNumber(blockNumber)}
           </>
         )}

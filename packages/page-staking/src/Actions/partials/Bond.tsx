@@ -152,7 +152,7 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
               help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
               label={t<string>('on-chain bonding duration')}
             >
-              <BlockToTime blocks={bondedBlocks} />
+              <BlockToTime value={bondedBlocks} />
             </Static>
           )}
         </Modal.Columns>

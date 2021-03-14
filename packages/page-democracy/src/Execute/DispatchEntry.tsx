@@ -30,7 +30,7 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
       <td className='number together'>
         {bestNumber && (
           <>
-            <BlockToTime blocks={at.sub(bestNumber)} />
+            <BlockToTime value={at.sub(bestNumber)} />
             #{formatNumber(at)}
           </>
         )}
