@@ -88,8 +88,8 @@ function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
         }
       </td>
       <td className='number'>
-        {upcomingGenesis && lifecycle && (
-          upcomingGenesis.parachain && !lifecycle.isOnboarding ? t('Yes') : t('No')
+        {upcomingGenesis && (
+          upcomingGenesis.parachain.isTrue ? t('Yes') : t('No')
         )}
       </td>
     </tr>
