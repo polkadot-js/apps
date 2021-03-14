@@ -85,7 +85,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
     }
   }), [t, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
 
-  const { filter, header, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
+  const { filter, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
 
   return (
     <Modal
@@ -93,37 +93,24 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       size='large'
     >
       <Modal.Content>
-        <Modal.Column>
-          <p>{header}</p>
-        </Modal.Column>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              filter={filter}
-              help={t<string>('The account that will sign the transaction.')}
-              label={t<string>('proposing account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{proposingAccountTip}</p>
-          </Modal.Column>
+        <Modal.Columns hint={proposingAccountTip}>
+          <InputAddress
+            filter={filter}
+            help={t<string>('The account that will sign the transaction.')}
+            label={t<string>('proposing account')}
+            onChange={setAccountId}
+            type='account'
+            withLabel
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={curatorId}
-              help={helpMessage}
-              isDisabled
-              label={t<string>('current curator')}
-              withLabel
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{tip}</p>
-          </Modal.Column>
+        <Modal.Columns hint={tip}>
+          <InputAddress
+            defaultValue={curatorId}
+            help={helpMessage}
+            isDisabled
+            label={t<string>('current curator')}
+            withLabel
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={toggleOpen}>

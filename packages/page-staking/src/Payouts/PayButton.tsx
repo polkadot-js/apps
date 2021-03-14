@@ -124,49 +124,43 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('request payout from')}
-                  onChange={setAccount}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}>
+              <InputAddress
+                label={t<string>('request payout from')}
+                onChange={setAccount}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                {Array.isArray(payout)
-                  ? (
-                    <Static
-                      label={t<string>('payout stakers for (multiple)')}
-                      value={
-                        payout.map(({ validatorId }) => (
-                          <AddressMini
-                            className='addressStatic'
-                            key={validatorId}
-                            value={validatorId}
-                          />
-                        ))
-                      }
-                    />
-                  )
-                  : (
-                    <InputAddress
-                      defaultValue={payout.validatorId}
-                      isDisabled
-                      label={t<string>('payout stakers for (single)')}
-                    />
-                  )
-                }
-              </Modal.Column>
-              <Modal.Column>
+            <Modal.Columns hint={
+              <>
                 <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
                 <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
-              </Modal.Column>
+              </>
+            }>
+              {Array.isArray(payout)
+                ? (
+                  <Static
+                    label={t<string>('payout stakers for (multiple)')}
+                    value={
+                      payout.map(({ validatorId }) => (
+                        <AddressMini
+                          className='addressStatic'
+                          key={validatorId}
+                          value={validatorId}
+                        />
+                      ))
+                    }
+                  />
+                )
+                : (
+                  <InputAddress
+                    defaultValue={payout.validatorId}
+                    isDisabled
+                    label={t<string>('payout stakers for (single)')}
+                  />
+                )
+              }
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={togglePayout}>

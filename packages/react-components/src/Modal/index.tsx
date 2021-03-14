@@ -2,20 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
-import type { ActionsProps, ColumnProps, ModalProps } from './types';
+import type { ActionsProps, ColumnsProps, ModalProps } from './types';
 
 import React, { useContext } from 'react';
 import { Modal as SUIModal } from 'semantic-ui-react';
 import { ThemeContext } from 'styled-components';
 
 import Actions from './Actions';
-import Column from './Column';
 import Columns from './Columns';
 
 type ModalType = React.FC<ModalProps> & {
   Actions: React.FC<ActionsProps>;
-  Column: React.FC<ColumnProps>;
-  Columns: React.FC<ColumnProps>;
+  Columns: React.FC<ColumnsProps>;
   Content: typeof SUIModal.Content;
   Header: typeof SUIModal.Header;
   Description: typeof SUIModal.Description;
@@ -43,7 +41,6 @@ function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
 const Modal = React.memo(ModalBase) as unknown as ModalType;
 
 Modal.Actions = Actions;
-Modal.Column = Column;
 Modal.Columns = Columns;
 Modal.Content = SUIModal.Content;
 Modal.Header = SUIModal.Header;

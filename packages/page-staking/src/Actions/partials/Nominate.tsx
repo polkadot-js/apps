@@ -61,23 +61,22 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
           stashId={stashId}
         />
       )}
-      <Modal.Columns>
-        <Modal.Column>
-          <InputAddressMulti
-            available={available}
-            availableLabel={t<string>('candidate accounts')}
-            defaultValue={nominating}
-            help={t<string>('Filter available candidates based on name, address or short account index.')}
-            maxCount={MAX_NOMINATIONS}
-            onChange={setSelected}
-            valueLabel={t<string>('nominated accounts')}
-          />
-          <MarkWarning content={t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')} />
-        </Modal.Column>
-        <Modal.Column>
+      <Modal.Columns hint={
+        <>
           <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
           <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
-        </Modal.Column>
+        </>
+      }>
+        <InputAddressMulti
+          available={available}
+          availableLabel={t<string>('candidate accounts')}
+          defaultValue={nominating}
+          help={t<string>('Filter available candidates based on name, address or short account index.')}
+          maxCount={MAX_NOMINATIONS}
+          onChange={setSelected}
+          valueLabel={t<string>('nominated accounts')}
+        />
+        <MarkWarning content={t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')} />
       </Modal.Columns>
     </div>
   );

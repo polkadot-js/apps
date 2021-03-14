@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { UInt } from '@polkadot/types';
 import type { AuctionIndex, Balance, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
 import type { Winning } from './types';
 
@@ -78,7 +77,7 @@ function Summary ({ auctionInfo, className, lastWinner, numAuctions }: Props): R
                   <CardSummary
                     label={t<string>('ending period')}
                     progress={{
-                      total: api.consts.auctions.endingPeriod as UInt,
+                      total: api.consts.auctions.endingPeriod as BlockNumber,
                       value: bestNumber.sub(ending),
                       withTime: true
                     }}

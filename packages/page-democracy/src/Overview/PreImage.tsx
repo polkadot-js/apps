@@ -60,58 +60,47 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              help={t<string>('The account you want to register the preimage from')}
-              label={t<string>('send from account')}
-              labelExtra={
-                <Available
-                  label={<span className='label'>{t<string>('transferrable')}</span>}
-                  params={accountId}
-                />
-              }
-              onChange={setAccountId}
-              type='account'
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('This account will pay the fees for the preimage, based on the size thereof.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('This account will pay the fees for the preimage, based on the size thereof.')}>
+          <InputAddress
+            help={t<string>('The account you want to register the preimage from')}
+            label={t<string>('send from account')}
+            labelExtra={
+              <Available
+                label={<span className='label'>{t<string>('transferrable')}</span>}
+                params={accountId}
+              />
+            }
+            onChange={setAccountId}
+            type='account'
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Extrinsic
-              defaultValue={apiDefaultTxSudo}
-              label={t<string>('propose')}
-              onChange={setProposal}
-            />
-            <Input
-              className='disabledLook'
-              help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
-              isDisabledError={!isMatched}
-              label={t<string>('preimage hash')}
-              value={encodedHash}
-            />
-          </Modal.Column>
-          <Modal.Column>
+        <Modal.Columns hint={
+          <>
             <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
             <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
-          </Modal.Column>
+          </>
+        }>
+          <Extrinsic
+            defaultValue={apiDefaultTxSudo}
+            label={t<string>('propose')}
+            onChange={setProposal}
+          />
+          <Input
+            className='disabledLook'
+            help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
+            isDisabledError={!isMatched}
+            label={t<string>('preimage hash')}
+            value={encodedHash}
+          />
         </Modal.Columns>
         {!isImminent && (
-          <Modal.Columns>
-            <Modal.Column>
-              <InputBalance
-                defaultValue={storageFee}
-                help={t<string>('The amount reserved to store this image')}
-                isDisabled
-                label={t<string>('calculated storage fee')}
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('The calculated storage costs based on the size and the per-bytes fee.')}</p>
-            </Modal.Column>
+          <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
+            <InputBalance
+              defaultValue={storageFee}
+              help={t<string>('The amount reserved to store this image')}
+              isDisabled
+              label={t<string>('calculated storage fee')}
+            />
           </Modal.Columns>
         )}
       </Modal.Content>

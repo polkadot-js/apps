@@ -39,42 +39,27 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={proposalId}
-                  proposal={image?.proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The proposal is in the queue for future referendums. One proposal from this list will move forward to voting.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The proposal is in the queue for future referendums. One proposal from this list will move forward to voting.')}>
+              <ProposedAction
+                idNumber={proposalId}
+                proposal={image?.proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  help={t<string>('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
-                  label={t<string>('second with account')}
-                  onChange={setAccountId}
-                  type='account'
-                  withLabel
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}>
+              <InputAddress
+                help={t<string>('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
+                label={t<string>('second with account')}
+                onChange={setAccountId}
+                type='account'
+                withLabel
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputBalance
-                  isDisabled
-                  label={t<string>('deposit required')}
-                  value={deposit || api.consts.democracy.minimumDeposit}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The deposit will be locked for the lifetime of the proposal.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The deposit will be locked for the lifetime of the proposal.')}>
+              <InputBalance
+                isDisabled
+                label={t<string>('deposit required')}
+                value={deposit || api.consts.democracy.minimumDeposit}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleSeconding}>

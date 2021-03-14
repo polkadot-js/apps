@@ -241,58 +241,46 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              isDisabled={true}
-              label={t<string>('proxied account')}
-              type='account'
-              value={proxiedAccount}
+        <Modal.Columns hint={t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}>
+          <InputAddress
+            isDisabled={true}
+            label={t<string>('proxied account')}
+            type='account'
+            value={proxiedAccount}
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}>
+          {previous.map((value, index) => (
+            <PrevProxy
+              index={index}
+              key={`${value.toString()}-${index}`}
+              onRemove={_delPrev}
+              typeOpts={typeOpts.current}
+              value={value}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}</p>
-          </Modal.Column>
+          ))}
+          {added.map((value, index) => (
+            <NewProxy
+              index={index}
+              key={`${value.toString()}-${index}`}
+              onChangeAccount={_changeProxyAccount}
+              onChangeType={_changeProxyType}
+              onRemove={_delProxy}
+              proxiedAccount={proxiedAccount}
+              typeOpts={typeOpts.current}
+              value={value}
+            />
+          ))}
+          <Button.Group>
+            <Button
+              icon='plus'
+              label={t<string>('Add proxy')}
+              onClick={_addProxy}
+            />
+          </Button.Group>
         </Modal.Columns>
         <Modal.Columns>
-          <Modal.Column>
-            {previous.map((value, index) => (
-              <PrevProxy
-                index={index}
-                key={`${value.toString()}-${index}`}
-                onRemove={_delPrev}
-                typeOpts={typeOpts.current}
-                value={value}
-              />
-            ))}
-            {added.map((value, index) => (
-              <NewProxy
-                index={index}
-                key={`${value.toString()}-${index}`}
-                onChangeAccount={_changeProxyAccount}
-                onChangeType={_changeProxyType}
-                onRemove={_delProxy}
-                proxiedAccount={proxiedAccount}
-                typeOpts={typeOpts.current}
-                value={value}
-              />
-            ))}
-            <Button.Group>
-              <Button
-                icon='plus'
-                label={t<string>('Add proxy')}
-                onClick={_addProxy}
-              />
-            </Button.Group>
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <BatchWarning />
-          </Modal.Column>
+          <BatchWarning />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

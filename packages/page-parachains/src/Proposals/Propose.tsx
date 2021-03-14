@@ -91,96 +91,76 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              label={t<string>('propose from')}
-              onChange={setAccountId}
-              type='account'
-              value={accountId}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('This account will be associated with the parachain and pay the deposit.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
+          <InputAddress
+            label={t<string>('propose from')}
+            onChange={setAccountId}
+            type='account'
+            value={accountId}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              isError={!isNameValid}
-              label={t<string>('parachain name')}
-              onChange={setName}
-            />
-            <InputNumber
-              isZeroable={false}
-              label={t<string>('requested id')}
-              onChange={setParaId}
-            />
-            <InputBalance
-              defaultValue={balance}
-              label={t<string>('initial balance')}
-              onChange={setBalance}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The name for this parachain, the id and the allocated/requested balance.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The name for this parachain, the id and the allocated/requested balance.')}>
+          <Input
+            autoFocus
+            isError={!isNameValid}
+            label={t<string>('parachain name')}
+            onChange={setName}
+          />
+          <InputNumber
+            isZeroable={false}
+            label={t<string>('requested id')}
+            onChange={setParaId}
+          />
+          <InputBalance
+            defaultValue={balance}
+            label={t<string>('initial balance')}
+            onChange={setBalance}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputWasm
-              help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
-              isError={!isWasmValid}
-              label={t<string>('validation code')}
-              onChange={_setWasm}
-              placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
-            />
-            <InputFile
-              help={t<string>('The genesis state for the parachain.')}
-              isError={!genesisState}
-              label={t<string>('genesis state')}
-              onChange={_setGenesisState}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The WASM validation function as well as the genesis state for this parachain.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The WASM validation function as well as the genesis state for this parachain.')}>
+          <InputWasm
+            help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
+            isError={!isWasmValid}
+            label={t<string>('validation code')}
+            onChange={_setWasm}
+            placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
+          />
+          <InputFile
+            help={t<string>('The genesis state for the parachain.')}
+            isError={!genesisState}
+            label={t<string>('genesis state')}
+            onChange={_setGenesisState}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            {validators.map((address, index) => (
-              <Validator
-                address={address}
-                index={index}
-                key={index}
-                setAddress={_setAddress}
-                t={t}
-              />
-            ))}
-            {!validators.length && (
-              <MarkWarning content={t<string>('You need to supply at last one running validator for your parachain alongside this request.')} />
-            )}
-            {isValDuplicate && (
-              <MarkWarning content={t<string>('You have duplicated validator entries, ensure each is unique.')} />
-            )}
-            <Button.Group>
-              <Button
-                icon='plus'
-                label={t<string>('Add validator')}
-                onClick={_addValidator}
-              />
-              <Button
-                icon='minus'
-                isDisabled={validators.length === 0}
-                label={t<string>('Remove validator')}
-                onClick={_delValidator}
-              />
-            </Button.Group>
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.')}>
+          {validators.map((address, index) => (
+            <Validator
+              address={address}
+              index={index}
+              key={index}
+              setAddress={_setAddress}
+              t={t}
+            />
+          ))}
+          {!validators.length && (
+            <MarkWarning content={t<string>('You need to supply at last one running validator for your parachain alongside this request.')} />
+          )}
+          {isValDuplicate && (
+            <MarkWarning content={t<string>('You have duplicated validator entries, ensure each is unique.')} />
+          )}
+          <Button.Group>
+            <Button
+              icon='plus'
+              label={t<string>('Add validator')}
+              onClick={_addValidator}
+            />
+            <Button
+              icon='minus'
+              isDisabled={validators.length === 0}
+              label={t<string>('Remove validator')}
+              onClick={_delValidator}
+            />
+          </Button.Group>
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

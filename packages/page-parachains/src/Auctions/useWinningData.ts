@@ -100,10 +100,8 @@ export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber
 
   // should be fired once, all entries as an initial round
   useEffect((): void => {
-    const [, endBlock] = auctionInfo || [null, null];
-
     allEntries && setResult(
-      extractData(endBlock, allEntries)
+      extractData(auctionInfo && auctionInfo[1], allEntries)
     );
   }, [allEntries, auctionInfo]);
 
@@ -121,7 +119,7 @@ export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber
     const [, endBlock] = auctionInfo || [null, null];
 
     if (!endBlock) {
-      setResult((prev) => prev && prev.length ? null : prev);
+      setResult((prev) => prev && prev.length ? [] : prev);
     } else if (bestNumber && bestNumber.gt(endBlock) && triggerRef.current !== trigger) {
       const blockOffset = bestNumber.sub(endBlock).iadd(BN_ONE);
 

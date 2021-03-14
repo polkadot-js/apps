@@ -47,45 +47,37 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
-          <Modal.Column>
-            <InputAddress
-              label={t<string>('register from')}
-              onChange={setAccountId}
-              type='account'
-              value={accountId}
-            />
-          </Modal.Column>
+          <InputAddress
+            label={t<string>('register from')}
+            onChange={setAccountId}
+            type='account'
+            value={accountId}
+          />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
-          <Modal.Column>
-            <InputNumber
-              autoFocus
-              isZeroable={false}
-              label={t<string>('parachain id')}
-              onChange={setParaId}
-            />
-          </Modal.Column>
+          <InputNumber
+            autoFocus
+            isZeroable={false}
+            label={t<string>('parachain id')}
+            onChange={setParaId}
+          />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
-          <Modal.Column>
-            <InputWasm
-              help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
-              isError={!isWasmValid}
-              label={t<string>('code')}
-              onChange={_setWasm}
-              placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
-            />
-          </Modal.Column>
+          <InputWasm
+            help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
+            isError={!isWasmValid}
+            label={t<string>('code')}
+            onChange={_setWasm}
+            placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
+          />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The genesis state for this parachain.')}>
-          <Modal.Column>
-            <InputFile
-              help={t<string>('The genesis state for the parachain.')}
-              isError={!genesisState}
-              label={t<string>('initial state')}
-              onChange={_setGenesisState}
-            />
-          </Modal.Column>
+          <InputFile
+            help={t<string>('The genesis state for the parachain.')}
+            isError={!genesisState}
+            label={t<string>('initial state')}
+            onChange={_setGenesisState}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

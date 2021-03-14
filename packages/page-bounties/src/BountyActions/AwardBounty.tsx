@@ -41,36 +41,23 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
             size='large'
           >
             <Modal.Content>
-              <Modal.Column>
-                <p>{t<string>('This action will reward the Beneficiary and close the bounty after a delay period.')}</p>
-              </Modal.Column>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    defaultValue={curatorId}
-                    help={t<string>("Curator's account that will reward the bounty to the implementer.")}
-                    isDisabled={true}
-                    label={t<string>('award with account')}
-                    type='account'
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The Curator account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('The Curator account that will be used to send this transaction. Any applicable fees will be paid by this account.')}>
+                <InputAddress
+                  defaultValue={curatorId}
+                  help={t<string>("Curator's account that will reward the bounty to the implementer.")}
+                  isDisabled={true}
+                  label={t<string>('award with account')}
+                  type='account'
+                  withLabel
+                />
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    help={t<string>('Choose the Beneficiary for this bounty.')}
-                    label={t<string>('implementer account')}
-                    onChange={setBeneficiaryId}
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}>
+                <InputAddress
+                  help={t<string>('Choose the Beneficiary for this bounty.')}
+                  label={t<string>('implementer account')}
+                  onChange={setBeneficiaryId}
+                  withLabel
+                />
               </Modal.Columns>
             </Modal.Content>
             <Modal.Actions onCancel={toggleOpen}>

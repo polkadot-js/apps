@@ -88,9 +88,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
               />
             )}
             <Modal.Columns>
-              <Modal.Column>
-                <BatchWarning />
-              </Modal.Column>
+              <BatchWarning />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>

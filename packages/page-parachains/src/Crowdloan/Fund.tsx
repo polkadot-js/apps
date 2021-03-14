@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { UInt } from '@polkadot/types';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { Campaign } from './types';
 
 import React, { useMemo } from 'react';
@@ -35,7 +35,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
   const [percentage, isCapped] = useMemo(
     () => [
       `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
-      cap.sub(raised).lt(api.consts.crowdloan.minContribution as UInt)
+      cap.sub(raised).lt(api.consts.crowdloan.minContribution as BlockNumber)
     ],
     [api, cap, raised]
   );

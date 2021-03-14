@@ -44,45 +44,34 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={referendumId}
-                  proposal={proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>
+              <ProposedAction
+                idNumber={referendumId}
+                proposal={proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteAccount onChange={setAccountId} />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
+              <VoteAccount onChange={setAccountId} />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                {isCurrentVote && (
-                  <VoteValue
-                    accountId={accountId}
-                    autoFocus
-                    onChange={setBalance}
-                  />
-                )}
-                <ConvictionDropdown
-                  help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
-                  label={t<string>('conviction')}
-                  onChange={setConviction}
-                  value={conviction}
-                />
-              </Modal.Column>
-              <Modal.Column>
+            <Modal.Columns hint={
+              <>
                 <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
                 <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
-              </Modal.Column>
+              </>
+            }>
+              {isCurrentVote && (
+                <VoteValue
+                  accountId={accountId}
+                  autoFocus
+                  onChange={setBalance}
+                />
+              )}
+              <ConvictionDropdown
+                help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
+                label={t<string>('conviction')}
+                onChange={setConviction}
+                value={conviction}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVoting}>

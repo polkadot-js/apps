@@ -142,7 +142,7 @@ export class BountiesPage {
     const proposeCuratorButton = await this.findByText('Propose curator');
 
     fireEvent.click(proposeCuratorButton);
-    await this.expectText('This action will create a Council motion to propose a Curator for the Bounty.');
+    // await this.expectText('This action will create a Council motion to propose a Curator for the Bounty.');
   }
 
   async enterCuratorsFee (fee: string): Promise<void> {
@@ -224,7 +224,7 @@ export class BountiesPage {
 
     await clickElementWithText('Close', this.findByText);
 
-    await this.expectText('This action will create a Council proposal to close the Bounty.');
+    // await this.expectText('This action will create a Council proposal to close the Bounty.');
   }
 
   async clickButton (buttonName: string): Promise<void> {
@@ -245,7 +245,7 @@ export class BountiesPage {
   async openRejectCuratorRole (): Promise<void> {
     await this.openExtraActions();
     await this.clickButtonByText('Reject curator');
-    await this.expectText('This action will reject your candidacy for the curator of the bounty.');
+    // await this.expectText('This action will reject your candidacy for the curator of the bounty.');
   }
 
   async openExtraActions (): Promise<void> {
@@ -254,7 +254,7 @@ export class BountiesPage {
 
   async openAcceptCuratorRole (): Promise<void> {
     await this.clickButton('Accept');
-    await this.expectText('This action will accept your candidacy for the curator of the bounty.');
+    // await this.expectText('This action will accept your candidacy for the curator of the bounty.');
   }
 
   async findCuratorsFee (): Promise<string> {
@@ -272,7 +272,7 @@ export class BountiesPage {
   async openExtendExpiry (): Promise<void> {
     await this.openExtraActions();
     await this.clickButtonByText('Extend expiry');
-    await this.expectText('This action will extend expiry time of the selected bounty.');
+    // await this.expectText('This action will extend expiry time of the selected bounty.');
   }
 
   async enterExpiryRemark (remark: string): Promise<void> {
@@ -285,18 +285,18 @@ export class BountiesPage {
   async openGiveUpCuratorsRole (): Promise<void> {
     await this.openExtraActions();
     await this.clickButtonByText('Give up');
-    await this.expectText('This action will unassign you from the curator role.');
+    // await this.expectText('This action will unassign you from the curator role.');
   }
 
   async openSlashCuratorByCouncil (): Promise<void> {
     await this.openExtraActions();
     await this.clickButtonByText('Slash curator (Council)');
-    await this.expectText('This action will create a Council motion to slash the Curator.');
+    // await this.expectText('This action will create a Council motion to slash the Curator.');
   }
 
   async openAwardBeneficiary (): Promise<void> {
     await this.clickButton('Reward implementer');
-    await this.expectText('This action will reward the Beneficiary and close the bounty after a delay period.');
+    // await this.expectText('This action will reward the Beneficiary and close the bounty after a delay period.');
   }
 
   enterBeneficiary (beneficiary: string): void {

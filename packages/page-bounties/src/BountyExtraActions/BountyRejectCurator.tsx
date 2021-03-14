@@ -28,23 +28,15 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
       size='large'
     >
       <Modal.Content>
-        <Modal.Column>
-          <p>{t<string>('This action will reject your candidacy for the curator of the bounty.')}</p>
-        </Modal.Column>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              help={t<string>('This account will be used to create the unassign curator transaction.')}
-              isDisabled
-              label={t<string>('curator account')}
-              type='account'
-              value={curatorId.toString()}
-              withLabel
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Only the account proposed as curator by the council can create the unassign curator transaction ')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the unassign curator transaction ')}>
+          <InputAddress
+            help={t<string>('This account will be used to create the unassign curator transaction.')}
+            isDisabled
+            label={t<string>('curator account')}
+            type='account'
+            value={curatorId.toString()}
+            withLabel
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={toggleOpen}>

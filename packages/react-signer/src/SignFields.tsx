@@ -48,43 +48,33 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
 
   return (
     <>
-      <Modal.Columns>
-        <Modal.Column>
-          <InputNumber
-            isDisabled={!!signedTx}
-            isZeroable
-            label={t<string>('Nonce')}
-            labelExtra={t<string>('Current account nonce: {{accountNonce}}', { replace: { accountNonce: nonce } })}
-            onChange={_setNonce}
-            value={nonce}
-          />
-          <InputNumber
-            isDisabled={!!signedTx}
-            isZeroable
-            label={t<string>('Lifetime (# of blocks)')}
-            labelExtra={t<string>('Set to 0 to make transaction immortal')}
-            onChange={_setBlocks}
-            value={blocks}
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t('Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.')}</p>
-        </Modal.Column>
+      <Modal.Columns hint={t('Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.')}>
+        <InputNumber
+          isDisabled={!!signedTx}
+          isZeroable
+          label={t<string>('Nonce')}
+          labelExtra={t<string>('Current account nonce: {{accountNonce}}', { replace: { accountNonce: nonce } })}
+          onChange={_setNonce}
+          value={nonce}
+        />
+        <InputNumber
+          isDisabled={!!signedTx}
+          isZeroable
+          label={t<string>('Lifetime (# of blocks)')}
+          labelExtra={t<string>('Set to 0 to make transaction immortal')}
+          onChange={_setBlocks}
+          value={blocks}
+        />
       </Modal.Columns>
       {!!signedTx && (
-        <Modal.Columns>
-          <Modal.Column>
-            <Output
-              isFull
-              isTrimmed
-              label={t<string>('Signed transaction')}
-              value={signedTx}
-              withCopy
-            />
-          </Modal.Column>
-          <Modal.Column>
-            {t('The actual fully constructed signed output. This can be used for submission via other channels.')}
-          </Modal.Column>
+        <Modal.Columns hint={t('The actual fully constructed signed output. This can be used for submission via other channels.')}>
+          <Output
+            isFull
+            isTrimmed
+            label={t<string>('Signed transaction')}
+            value={signedTx}
+            withCopy
+          />
         </Modal.Columns>
       )}
     </>
