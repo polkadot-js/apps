@@ -134,7 +134,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
         />
       </td>
       <td className='all' />
-      <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
+      <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
       <td className='number'>
         {lastInclusion
           ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
