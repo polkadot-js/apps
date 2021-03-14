@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
@@ -15,6 +16,7 @@ import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 
 interface Props {
+  currentPeriod: BN | null;
   id: ParaId;
 }
 
@@ -56,7 +58,7 @@ const optMulti = {
   })
 };
 
-function Upcoming ({ id }: Props): React.ReactElement<Props> {
+function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { leases, upcomingGenesis } = useCallMulti<MultiState>([
@@ -73,7 +75,11 @@ function Upcoming ({ id }: Props): React.ReactElement<Props> {
           sliceHex(upcomingGenesis.genesisHead, 8)
         )}
       </td>
-      <td className='start together'>{leases.map(({ period }) => formatNumber(period)).join(', ')}</td>
+      <td className='start together'>
+        {currentPeriod &&
+          leases.map(({ period }) => formatNumber(currentPeriod.addn(period))).join(', ')
+        }
+      </td>
       <td className='number'>
         {upcomingGenesis && (
           upcomingGenesis.parachain ? t('Yes') : t('No')

@@ -2,23 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { LeasePeriod } from './types';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-interface Result {
-  currentPeriod: BN;
-  length: BN;
-  remainder: BN;
-}
-
-export default function useLeasePeriod (): Result | null {
+export default function useLeasePeriod (): LeasePeriod | null {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
-  return useMemo((): Result | null => {
+  return useMemo((): LeasePeriod | null => {
     if (api.consts.slots?.leasePeriod && bestNumber) {
       const length = api.consts.slots.leasePeriod as BlockNumber;
 
