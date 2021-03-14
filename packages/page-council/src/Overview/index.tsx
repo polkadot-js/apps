@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCouncilVotes, DeriveElectionsInfo } from '@polkadot/api-derive/types';
-import type { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
 import Candidates from './Candidates';
 import Members from './Members';
@@ -40,7 +40,7 @@ const transformVotes = {
 
 function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
   const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, undefined, transformVotes);
 

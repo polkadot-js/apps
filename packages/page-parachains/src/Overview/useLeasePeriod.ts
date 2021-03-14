@@ -6,11 +6,11 @@ import type { LeasePeriod } from './types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber } from '@polkadot/react-hooks';
 
 export default function useLeasePeriod (): LeasePeriod | null {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
 
   return useMemo((): LeasePeriod | null => {
     if (api.consts.slots?.leasePeriod && bestNumber) {
