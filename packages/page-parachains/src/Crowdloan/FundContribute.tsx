@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { UInt } from '@polkadot/types';
-import type { Balance, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
@@ -31,7 +30,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
   // TODO verifier signature
 
   const remaining = cap.sub(raised);
-  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as UInt);
+  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as BlockNumber);
   const isAmountOver = !!(amount && amount.gt(remaining));
   const isAmountError = isAmountBelow || isAmountOver;
 
@@ -67,7 +66,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
                 onChange={setAmount}
               />
               {isAmountBelow && (
-                <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{value}}', { replace: { value: formatBalance(api.consts.crowdloan.minContribution as UInt) } })} />
+                <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{value}}', { replace: { value: formatBalance(api.consts.crowdloan.minContribution as BlockNumber) } })} />
               )}
               {isAmountOver && (
                 <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
