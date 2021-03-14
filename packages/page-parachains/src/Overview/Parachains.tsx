@@ -110,7 +110,7 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
   const headerRef = useRef([
     [t('parachains'), 'start', 3],
     ['', 'media--1500'],
-    [t('heads'), 'start'],
+    [t('head'), 'start'],
     [t('lifecycle'), 'start media--1100'],
     [],
     [t('included'), undefined, 2],
