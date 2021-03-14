@@ -10,7 +10,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import Upcoming from './Upcoming';
+import Parathread from './Parathread';
 
 interface Props {
   actionsQueue: QueuedAction[];
@@ -18,25 +18,24 @@ interface Props {
   ids?: ParaId[];
 }
 
-function UpcomingList ({ actionsQueue, currentPeriod, ids }: Props): React.ReactElement<Props> {
+function Parathreads ({ actionsQueue, currentPeriod, ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('upcoming'), 'start', 2],
+    [t('waiting'), 'start', 2],
     [t('genesis'), 'start'],
     [t('lifecycle'), 'start'],
     [],
-    [t('leases'), 'start'],
-    [t('parachain'), 'start']
+    [t('leases'), 'start']
   ]);
 
   return (
     <Table
-      empty={ids && t<string>('There are no upcoming parachains')}
+      empty={ids && t<string>('There are no waiting parathreads')}
       header={headerRef.current}
     >
       {ids?.map((id): React.ReactNode => (
-        <Upcoming
+        <Parathread
           currentPeriod={currentPeriod}
           id={id}
           key={id.toString()}
@@ -49,4 +48,4 @@ function UpcomingList ({ actionsQueue, currentPeriod, ids }: Props): React.React
   );
 }
 
-export default React.memo(UpcomingList);
+export default React.memo(Parathreads);

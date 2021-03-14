@@ -44,7 +44,7 @@ function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumb
   }
 }
 
-function ParachainList ({ actionsQueue, ids, scheduled }: Props): React.ReactElement<Props> {
+function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
@@ -143,4 +143,4 @@ function ParachainList ({ actionsQueue, ids, scheduled }: Props): React.ReactEle
   );
 }
 
-export default React.memo(ParachainList);
+export default React.memo(Parachains);

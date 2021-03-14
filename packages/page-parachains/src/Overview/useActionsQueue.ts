@@ -23,7 +23,7 @@ export default function useActionsQueue (): QueuedAction[] {
   return useMemo(
     (): QueuedAction[] =>
       currentIndex && nextActions
-        ? nextActions.map((paraIds, index) => ({
+        ? nextActions.filter((paraIds) => paraIds.length).map((paraIds, index) => ({
           paraIds,
           sessionIndex: currentIndex.add(INC[index])
         }))

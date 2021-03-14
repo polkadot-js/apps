@@ -24,10 +24,9 @@ function SessionToTime ({ children, className, isInline, label, value }: Props):
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
 
   const blocks = useMemo(
-    () => sessionInfo && value && sessionInfo.currentIndex.gt(value)
-      ? sessionInfo
-        .currentIndex
-        .sub(value)
+    () => sessionInfo && value && sessionInfo.currentIndex.lt(value)
+      ? value
+        .sub(sessionInfo.currentIndex)
         .imul(sessionInfo.sessionLength)
         .isub(sessionInfo.sessionProgress)
       : BN_ZERO,

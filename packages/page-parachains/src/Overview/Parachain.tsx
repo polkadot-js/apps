@@ -11,11 +11,12 @@ import React, { useCallback, useMemo } from 'react';
 
 import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
-import { BlockToTime, SessionToTime } from '@polkadot/react-query';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
+import Lifecycle from './Lifecycle';
 
 interface Props {
   bestNumber?: BN;
@@ -127,14 +128,10 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       </td>
       <td className='start together hash'>{paraInfo.headHex}</td>
       <td className='start media--1100'>
-        {paraInfo.lifecycle && (
-          <>
-            {paraInfo.lifecycle.toString()}
-            {nextAction && (
-              <SessionToTime value={nextAction.sessionIndex} />
-            )}
-          </>
-        )}s
+        <Lifecycle
+          lifecycle={paraInfo.lifecycle}
+          nextAction={nextAction}
+        />
       </td>
       <td className='all' />
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
