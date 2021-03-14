@@ -43,7 +43,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   );
 
   const initialHex = useMemo(
-    () => proposal?.proposal && sliceHex(proposal.proposal.genesisHead, 8),
+    () => proposal?.proposal && sliceHex(proposal.proposal.genesisHead),
     [proposal]
   );
 

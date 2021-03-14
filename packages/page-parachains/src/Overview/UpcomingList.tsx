@@ -21,8 +21,9 @@ function UpcomingList ({ currentPeriod, ids }: Props): React.ReactElement<Props>
 
   const headerRef = useRef([
     [t('upcoming'), 'start', 2],
-    [t('genesis'), 'start all'],
-    [t('lifecycle'), 'number'],
+    [t('genesis'), 'start'],
+    [t('lifecycle'), 'start'],
+    [],
     [t('leases'), 'start'],
     [t('parachain'), 'start']
   ]);
