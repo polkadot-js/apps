@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -41,8 +41,7 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
     api.query.auctions.auctionCounter,
     api.query.auctions.auctionInfo
   ], optionsMulti);
-  const endBlock = auctionInfo && auctionInfo[1];
-  const winningData = useWinningData(endBlock);
+  const winningData = useWinningData(auctionInfo);
 
   return (
     <div className={className}>
@@ -52,10 +51,13 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
         numAuctions={numAuctions}
       />
       <Button.Group>
-        <Bid id={auctionInfo && numAuctions} />
+        <Bid
+          auctionInfo={auctionInfo}
+          id={ numAuctions}
+        />
       </Button.Group>
       <Auction
-        endBlock={endBlock}
+        auctionInfo={auctionInfo}
         numAuctions={numAuctions}
         winningData={winningData}
       />

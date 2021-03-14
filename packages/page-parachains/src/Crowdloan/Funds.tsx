@@ -1,14 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { Option } from '@polkadot/types';
-import type { FundIndex, FundInfo, ParaId } from '@polkadot/types/interfaces';
+import type { Campaign } from './types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Fund from './Fund';
@@ -16,52 +14,57 @@ import Fund from './Fund';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  paraIds: FundIndex[];
+  value: Campaign[] | null;
 }
 
-interface Fund {
-  info: FundInfo;
-  paraId: ParaId;
-}
-
-function Funds ({ bestNumber, className, paraIds }: Props): React.ReactElement<Props> {
+function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const optFunds = useCallMulti<Option<FundInfo>[]>(paraIds.map((id) => [api.query.crowdloan.funds, id]));
-  const [funds, setFunds] = useState<Fund[] | undefined>();
 
-  const headerRef = useRef([
-    [t('funds'), 'start', 3],
-    [t('cap'), 'number'],
-    [t('raised'), 'number'],
-    [t('end'), 'number'],
-    [undefined, 'button']
+  const headerActiveRef = useRef([
+    [t('ongoing'), 'start', 4],
+    [t('ending')],
+    [t('slots')],
+    [t('raised')],
+    []
   ]);
 
-  // we actually want to split this further info completed and ongoing
-  useEffect((): void => {
-    optFunds && paraIds.length === optFunds.length && setFunds(
-      paraIds
-        .map((paraId, i) => ({ info: optFunds[i].unwrapOr(null), paraId }))
-        .filter((fund): fund is Fund => !!fund.info)
-    );
-  }, [optFunds, paraIds]);
+  const headedEndedRef = useRef([
+    [t('completed'), 'start', 4],
+    [t('ended')],
+    [t('slots')],
+    [t('raised')]
+  ]);
 
   return (
-    <Table
-      className={className}
-      empty={funds && t<string>('No campaigns found')}
-      header={headerRef.current}
-    >
-      {funds?.map(({ info, paraId }) => (
-        <Fund
-          bestNumber={bestNumber}
-          info={info}
-          key={paraId.toString()}
-          paraId={paraId}
-        />
-      ))}
-    </Table>
+    <>
+      <Table
+        className={className}
+        empty={value && t<string>('No active campaigns found')}
+        header={headerActiveRef.current}
+      >
+        {value?.filter(({ isEnded }) => !isEnded).map((fund) => (
+          <Fund
+            bestNumber={bestNumber}
+            isOngoing
+            key={fund.paraId.toString()}
+            value={fund}
+          />
+        ))}
+      </Table>
+      <Table
+        className={className}
+        empty={value && t<string>('No completed campaigns found')}
+        header={headedEndedRef.current}
+      >
+        {value?.filter(({ isEnded }) => isEnded).map((fund) => (
+          <Fund
+            bestNumber={bestNumber}
+            key={fund.paraId.toString()}
+            value={fund}
+          />
+        ))}
+      </Table>
+    </>
   );
 }
 
