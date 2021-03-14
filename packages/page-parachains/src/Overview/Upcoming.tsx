@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, ParaGenesisArgs, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, HeadData, ParaGenesisArgs, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { LeaseInfo, QueuedAction } from './types';
 
@@ -13,7 +13,6 @@ import { ParaLink } from '@polkadot/react-components';
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
 
@@ -24,18 +23,23 @@ interface Props {
 }
 
 interface MultiState {
+  headHex: string | null;
   leases: LeaseInfo[];
   lifecycle: ParaLifecycle | null;
-  upcomingGenesis: ParaGenesisArgs | null;
 }
 
 const optMulti = {
   defaultValue: {
+    headHex: null,
     leases: [],
-    lifecycle: null,
-    upcomingGenesis: null
+    lifecycle: null
   },
-  transform: ([optGenesis, optLifecycle, leases]: [Option<ParaGenesisArgs>, Option<ParaLifecycle>, Vec<Option<ITuple<[AccountId, BalanceOf]>>>]): MultiState => ({
+  transform: ([optHead, optGenesis, optLifecycle, leases]: [Option<HeadData>, Option<ParaGenesisArgs>, Option<ParaLifecycle>, Vec<Option<ITuple<[AccountId, BalanceOf]>>>]): MultiState => ({
+    headHex: optHead.isSome
+      ? sliceHex(optHead.unwrap())
+      : optGenesis.isSome
+        ? sliceHex(optGenesis.unwrap().genesisHead)
+        : null,
     leases: leases
       ? leases
         .map((optLease, period): LeaseInfo | null => {
@@ -53,15 +57,14 @@ const optMulti = {
         })
         .filter((item): item is LeaseInfo => !!item)
       : [],
-    lifecycle: optLifecycle.unwrapOr(null),
-    upcomingGenesis: optGenesis.unwrapOr(null)
+    lifecycle: optLifecycle.unwrapOr(null)
   })
 };
 
 function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api } = useApi();
-  const { leases, lifecycle, upcomingGenesis } = useCallMulti<MultiState>([
+  const { headHex, leases, lifecycle } = useCallMulti<MultiState>([
+    [api.query.paras.heads, id],
     [api.query.paras.upcomingParasGenesis, id],
     [api.query.paras.paraLifecycles, id],
     [api.query.slots?.leases, id]
@@ -71,11 +74,7 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge together'><ParaLink id={id} /></td>
-      <td className='start together hash'>
-        {upcomingGenesis && (
-          sliceHex(upcomingGenesis.genesisHead)
-        )}
-      </td>
+      <td className='start together hash'>{headHex}</td>
       <td className='start'>
         <Lifecycle
           lifecycle={lifecycle}
@@ -87,11 +86,6 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
         {currentPeriod &&
           leases.map(({ period }) => formatNumber(currentPeriod.addn(period))).join(', ')
         }
-      </td>
-      <td className='number'>
-        {upcomingGenesis && (
-          upcomingGenesis.parachain.isTrue ? t('Yes') : t('No')
-        )}
       </td>
     </tr>
   );

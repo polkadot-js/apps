@@ -23,11 +23,10 @@ function Upcomings ({ actionsQueue, currentPeriod, ids }: Props): React.ReactEle
 
   const headerRef = useRef([
     [t('upcoming'), 'start', 2],
-    [t('genesis'), 'start'],
+    [t('head'), 'start'],
     [t('lifecycle'), 'start'],
     [],
-    [t('leases'), 'start'],
-    [t('parachain'), 'start']
+    [t('leases'), 'start']
   ]);
 
   return (

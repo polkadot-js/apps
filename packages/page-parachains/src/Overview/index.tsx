@@ -4,18 +4,17 @@
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { Proposals } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { useApi, useCall, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Actions from './Actions';
 import Parachains from './Parachains';
-import Parathreads from './Parathreads';
 import Summary from './Summary';
 import Upcomings from './Upcomings';
 import useActionsQueue from './useActionsQueue';
 import useLeasePeriod from './useLeasePeriod';
-import useParathreads from './useParathreads';
+import useUpcomingIds from './useUpcomingIds';
 
 interface Props {
   className?: string;
@@ -25,25 +24,9 @@ interface Props {
 function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
-  const mountedRef = useIsMountedRef();
   const actionsQueue = useActionsQueue();
   const leasePeriod = useLeasePeriod();
-  const threadIds = useParathreads();
-  const trigger = useEventTrigger([api.events.session.NewSession, api.events.registrar?.Registered]);
-  const [upcomingIds, setUpcomingIds] = useState<ParaId[]>([]);
-
-  useEffect((): void => {
-    trigger &&
-      api.query.paras?.upcomingParasGenesis
-        ?.keys<[ParaId]>()
-        .then((keys): void => {
-          mountedRef.current &&
-            setUpcomingIds(
-              keys.map(({ args: [paraId] }) => paraId)
-            );
-        })
-        .catch(console.error);
-  }, [api, mountedRef, trigger]);
+  const upcomingIds = useUpcomingIds();
 
   return (
     <div className={className}>
@@ -60,11 +43,6 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
             actionsQueue={actionsQueue}
             ids={paraIds}
             scheduled={proposals?.scheduled}
-          />
-          <Parathreads
-            actionsQueue={actionsQueue}
-            currentPeriod={leasePeriod && leasePeriod.currentPeriod}
-            ids={threadIds}
           />
           <Upcomings
             actionsQueue={actionsQueue}
