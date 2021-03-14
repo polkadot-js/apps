@@ -77,12 +77,12 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
     <tr key={id.toString()}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge together'><ParaLink id={id} /></td>
-      <td className='all start together hash'>
+      <td className='start together hash'>
         {upcomingGenesis && (
-          sliceHex(upcomingGenesis.genesisHead, 8)
+          sliceHex(upcomingGenesis.genesisHead)
         )}
       </td>
-      <td className='number'>
+      <td className='start'>
         {lifecycle && (
           <>
             {lifecycle.toString()}
@@ -92,6 +92,7 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
           </>
         )}
       </td>
+      <td className='all' />
       <td className='start together'>
         {currentPeriod &&
           leases.map(({ period }) => formatNumber(currentPeriod.addn(period))).join(', ')

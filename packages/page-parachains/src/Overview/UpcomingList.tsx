@@ -23,8 +23,9 @@ function UpcomingList ({ actionsQueue, currentPeriod, ids }: Props): React.React
 
   const headerRef = useRef([
     [t('upcoming'), 'start', 2],
-    [t('genesis'), 'start all'],
-    [t('lifecycle'), 'number'],
+    [t('genesis'), 'start'],
+    [t('lifecycle'), 'start'],
+    [],
     [t('leases'), 'start'],
     [t('parachain'), 'start']
   ]);

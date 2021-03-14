@@ -111,6 +111,8 @@ function ParachainList ({ actionsQueue, ids, scheduled }: Props): React.ReactEle
     [t('parachains'), 'start', 3],
     ['', 'media--1500'],
     [t('heads'), 'start'],
+    [t('lifecycle'), 'start media--1100'],
+    [],
     [t('included'), undefined, 2],
     [t('backed')],
     [t('chain best'), 'media--900'],
