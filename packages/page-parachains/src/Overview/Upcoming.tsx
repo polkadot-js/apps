@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, ParaGenesisArgs, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, ParaGenesisArgs, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
 import React from 'react';
@@ -28,15 +28,17 @@ interface LeaseInfo {
 
 interface MultiState {
   leases: LeaseInfo[];
+  lifecycle: ParaLifecycle | null;
   upcomingGenesis: ParaGenesisArgs | null;
 }
 
 const optMulti = {
   defaultValue: {
     leases: [],
+    lifecycle: null,
     upcomingGenesis: null
   },
-  transform: ([optGenesis, leases]: [Option<ParaGenesisArgs>, Vec<Option<ITuple<[AccountId, BalanceOf]>>>]): MultiState => ({
+  transform: ([optGenesis, optLifecycle, leases]: [Option<ParaGenesisArgs>, Option<ParaLifecycle>, Vec<Option<ITuple<[AccountId, BalanceOf]>>>]): MultiState => ({
     leases: leases
       ? leases
         .map((optLease, period): LeaseInfo | null => {
@@ -54,6 +56,7 @@ const optMulti = {
         })
         .filter((item): item is LeaseInfo => !!item)
       : [],
+    lifecycle: optLifecycle.unwrapOr(null),
     upcomingGenesis: optGenesis.unwrapOr(null)
   })
 };
@@ -61,8 +64,9 @@ const optMulti = {
 function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { leases, upcomingGenesis } = useCallMulti<MultiState>([
+  const { leases, lifecycle, upcomingGenesis } = useCallMulti<MultiState>([
     [api.query.paras.upcomingParasGenesis, id],
+    [api.query.paras.paraLifecycles, id],
     [api.query.slots?.leases, id]
   ], optMulti);
 
@@ -75,6 +79,9 @@ function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
           sliceHex(upcomingGenesis.genesisHead, 8)
         )}
       </td>
+      <td className='number'>
+        {lifecycle && lifecycle.toString()}
+      </td>
       <td className='start together'>
         {currentPeriod &&
           leases.map(({ period }) => formatNumber(currentPeriod.addn(period))).join(', ')
@@ -82,7 +89,7 @@ function Upcoming ({ currentPeriod, id }: Props): React.ReactElement<Props> {
       </td>
       <td className='number'>
         {upcomingGenesis && (
-          upcomingGenesis.parachain ? t('Yes') : t('No')
+          upcomingGenesis.parachain.isTrue ? t('Yes') : t('No')
         )}
       </td>
     </tr>
