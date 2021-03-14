@@ -66,7 +66,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           progress && !progress.hideValue && (
             <>
               {isTimed && !children && (
-                <BlockToTime blocks={progress.total} />
+                <BlockToTime value={progress.total} />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -79,8 +79,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        blocks={progress.total.sub(progress.value)}
                         className='timer'
+                        value={progress.total.sub(progress.value)}
                       />
                     )
                 }

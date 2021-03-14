@@ -4,6 +4,7 @@
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, HeadData, Header, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
+import type { QueuedAction } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
@@ -15,6 +16,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
+import Lifecycle from './Lifecycle';
 
 interface Props {
   bestNumber?: BN;
@@ -23,6 +25,7 @@ interface Props {
   isScheduled?: boolean;
   lastBacked?: [string, string, BN];
   lastInclusion?: [string, string, BN];
+  nextAction?: QueuedAction;
   validators?: AccountId[];
 }
 
@@ -68,7 +71,7 @@ const optionsMulti = {
   })
 };
 
-function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, nextAction, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
@@ -125,7 +128,10 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       </td>
       <td className='start together hash'>{paraInfo.headHex}</td>
       <td className='start media--1100'>
-        {paraInfo.lifecycle && paraInfo.lifecycle.toString()}
+        <Lifecycle
+          lifecycle={paraInfo.lifecycle}
+          nextAction={nextAction}
+        />
       </td>
       <td className='all' />
       <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
@@ -144,7 +150,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       <td className='number media--1300'>
         {paraInfo.updateAt && bestNumber && (
           <>
-            <BlockToTime blocks={bestNumber.sub(paraInfo.updateAt)} />
+            <BlockToTime value={bestNumber.sub(paraInfo.updateAt)} />
             #{formatNumber(paraInfo.updateAt)}
           </>
         )}

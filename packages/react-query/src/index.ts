@@ -18,5 +18,6 @@ export { default as LockedVote } from './LockedVote';
 export { default as NodeName } from './NodeName';
 export { default as NodeVersion } from './NodeVersion';
 export { default as Nonce } from './Nonce';
+export { default as SessionToTime } from './SessionToTime';
 export { default as TimeNow } from './TimeNow';
 export { default as TotalIssuance } from './TotalIssuance';

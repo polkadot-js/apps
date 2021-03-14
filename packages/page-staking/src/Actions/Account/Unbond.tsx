@@ -73,7 +73,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
               help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
-              <BlockToTime blocks={bondedBlocks} />
+              <BlockToTime value={bondedBlocks} />
             </Static>
           )}
         </Modal.Columns>

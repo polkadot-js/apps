@@ -25,7 +25,7 @@ function Summary (): React.ReactElement {
           className='media--800'
           label={t<string>('target')}
         >
-          <BlockToTime blocks={BN_ONE} />
+          <BlockToTime value={BN_ONE} />
         </CardSummary>
         {api.query.balances && (
           <CardSummary
