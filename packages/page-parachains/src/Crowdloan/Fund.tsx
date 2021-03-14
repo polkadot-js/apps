@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { UInt } from '@polkadot/types';
-import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
+import type { Campaign } from './types';
 
 import React, { useMemo } from 'react';
 
@@ -18,11 +18,10 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  info: FundInfo;
-  paraId: ParaId;
+  value: Campaign;
 }
 
-function Fund ({ bestNumber, className, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const blocksLeft = useMemo(
@@ -56,9 +55,11 @@ function Fund ({ bestNumber, className, info: { cap, depositor, end, firstSlot, 
       </td>
       <td className='address'><AddressMini value={depositor} /></td>
       <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
-      <td className='number'><FormatBalance value={cap} /></td>
       <td className='number'>
-        <FormatBalance value={raised} />
+        <FormatBalance
+          value={raised}
+          withCurrency={false}
+        />&nbsp;/&nbsp;<FormatBalance value={cap} />
         <div>{percentage}</div>
       </td>
       <td className='number'>
