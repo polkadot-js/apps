@@ -60,7 +60,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
 
 export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
   width: 50%;
-  
+
   .vote-numbers {
     display: flex;
     align-items: center;
@@ -78,6 +78,6 @@ export default React.memo(styled(VotersColumn)(({ theme }: ThemeProps) => `
     font-size: 0.7rem;
     line-height: 0.85rem;
     text-transform: uppercase;
-    color: ${theme.colorLabel};
+    color: var(--color-label);
   }
 `));

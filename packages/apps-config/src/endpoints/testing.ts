@@ -141,8 +141,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'jupiter',
       text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://jupiter.elara.patract.io',
-        Patract: 'wss://ws.jupiter.patract.cn'
+        Elara: 'wss://jupiter-poa.elara.patract.io',
+        Patract: 'wss://ws.jupiter-poa.patract.cn'
       }
     },
     {
@@ -155,7 +155,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'kilt',
-      text: t('rpc.kilt', 'Mashnet', { ns: 'apps-config' }),
+      text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
       }
@@ -164,7 +164,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
-        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network'
+        'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
       }
     },
     {
@@ -186,6 +187,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
       providers: {
         Interlay: 'wss://beta.polkabtc.io/api/parachain'
+      }
+    },
+    {
+      info: 'realis',
+      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
+      providers: {
+        'Realis Network': 'wss://rpc.realis.network/'
       }
     },
     {

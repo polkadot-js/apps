@@ -58,6 +58,7 @@ import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeRealis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -90,6 +91,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
+  ['Jupiter A1', nodeJupiter],
+  ['Jupiter PC1', nodeJupiter],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
@@ -103,6 +106,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['Phala PC1', nodePhala],
+  ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
   ['Sgc', nodeSgc],
   ['Tick', chainRococoTick],
@@ -152,7 +156,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
-  ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
@@ -160,6 +163,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Litentry Collator', nodeLitentry],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
+  ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
@@ -168,6 +172,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['phala-substrate-node', nodePhala],
   ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -231,11 +236,13 @@ export const namedLogos: Record<string, unknown> = {
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
+  realis: nodeRealis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
+  rococoChainX: nodeChainx,
   rococoClover: nodeClover,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
@@ -244,6 +251,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoIntegritee: nodeIntegritee,
+  rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,

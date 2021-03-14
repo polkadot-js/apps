@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -78,9 +77,9 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
   );
 }
 
-export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
-  font: ${theme.fontMono};
-  font-weight: ${theme.fontWeightNormal};
+export default React.memo(styled(MessageSignature)`
+  font: var(--font-mono);
+  font-weight: var(--font-weight-normal);
   flex-grow: 1;
 
   .ui--MessageSignature-mutates {
@@ -91,7 +90,7 @@ export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
 
   .ui--MessageSignature-name {
     color: #2f8ddb;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
   }
 
   .ui--MessageSignature-type {
@@ -101,4 +100,4 @@ export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
   .ui--MessageSignature-returnType {
     color: #ff8600;
   }
-`));
+`);

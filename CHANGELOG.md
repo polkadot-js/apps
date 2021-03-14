@@ -1,5 +1,53 @@
 # CHANGELOG
 
+## 0.83.1 Mar 8, 2021
+
+Contributed:
+
+- Update Jupiter networks alongside Rococo (Thanks to https://github.com/zzcwoshizz)
+- Add ChainX support on Rococo (Thanks to https://github.com/qinghuan-chain)
+- Update Kulupu types for next upgrade (Thanks to https://github.com/sorpaas)
+- Bump Acala types package (Thanks to https://github.com/ntduan)
+- Update HydraDX types (Thanks to https://github.com/lumir-mrkva)
+- Add ETH dev accounts on Frontier-like networks (Thanks to https://github.com/joelamouche)
+- Fix Unique type injection (Thanks to https://github.com/gregzaitsev)
+- Update account help around ED (Thanks to https://github.com/NukeManDan)
+
+Changes:
+
+- Fix address ion display in explorer (compatibility with `MultiAddress`)
+- Add block status to validator preferences setup
+- Allow validators to remove nominators (currently active-only)
+- Stash derives now check for events for refresh triggers
+- Adjust Electron CSP to allow workers as used in QR operations
+- Swap code-generation to ESM modules
+- Adjust funding warnings with explicit free balance mention
+
+
+## 0.82.1 Mar 1, 2021
+
+Contributed:
+
+- Start of Polish i18n (Thanks to https://github.com/jimmy-tudeski)
+- Adjust display of table buttons with gradient themes (Thanks to https://github.com/superpw)
+- Update PolkaBTC network URL (Thanks to https://github.com/savudani8)
+- Add network types for Snowbridge (Thanks to https://github.com/vgeddes)
+- Update Btfrost types (Thanks to https://github.com/awesomepan)
+- Update Litentry collator name (Thanks to https://github.com/chenzongxiong)
+- Add MathChain PC1 support (Thanks to https://github.com/hging)
+- Update Ternoa types (thanks to https://github.com/ETeissonniere)
+- Update Scg types (Thanks to https://github.com/Zombieliu)
+- Add derivation path support for ETH-compatible accounts (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Explicit messages around extension phishing support
+- Adjust parachain validators to always show stashes
+- Adjust block links display on a per-contract view
+- Adjust display of disabled items on popup menus (dark-mode driven)
+- Align bounty row display with the rest of the UI
+
+
 ## 0.81.1 Feb 22, 2021
 
 Contributed:

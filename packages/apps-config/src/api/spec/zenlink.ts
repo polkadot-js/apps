@@ -13,21 +13,17 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: 'AccountId',
-        AccountInfo: 'AccountInfoWithRefCount',
-        AssetId: {
-          _enum: {
-            NativeCurrency: null,
-            ParaCurrency: 'u32'
-          }
-        },
         LookupSource: 'AccountId',
+        RefCount: 'u32',
+        AccountInfo: 'AccountInfoWithRefCount',
+        PairId: 'u32',
         Pair: {
           token_0: 'AssetId',
           token_1: 'AssetId',
           account: 'AccountId',
-          total_liquidity: 'TokenBalance'
+          total_liquidity: 'TokenBalance',
+          lp_asset_id: 'AssetId'
         },
-        PairId: 'u32',
         PairInfo: {
           token_0: 'AssetId',
           token_1: 'AssetId',
@@ -35,9 +31,25 @@ const definitions: OverrideBundleDefinition = {
           total_liquidity: 'TokenBalance',
           holding_liquidity: 'TokenBalance',
           reserve_0: 'TokenBalance',
-          reserve_1: 'TokenBalance'
+          reserve_1: 'TokenBalance',
+          lp_asset_id: 'AssetId'
         },
-        RefCount: 'u32',
+        AssetId: {
+          chain_id: 'u32',
+          module_index: 'u8',
+          asset_index: 'u32'
+        },
+        TokenId: 'u32',
+        AssetProperty: {
+          _enum: {
+            FOREIGN: null,
+            LP: 'LpProperty'
+          }
+        },
+        LpProperty: {
+          token_0: 'AssetId',
+          token_1: 'AssetId'
+        },
         TokenBalance: 'u128'
       }
     }

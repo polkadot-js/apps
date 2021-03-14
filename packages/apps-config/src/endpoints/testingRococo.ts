@@ -18,7 +18,7 @@ import { expandEndpoints } from './util';
 export function createRococo (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [{
     dnslink: 'rococo',
-    genesisHash: '0xf60989b1d5edd03c1947d557dc56982800a3fec377702be5e87ee6f30b6298f9',
+    genesisHash: '0x19c0e4fa8ab75f5ac7865e0b8f74ff91eb9a100d336f423cd013a8befba40299',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
@@ -72,7 +72,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoBitCountry',
-        paraId: 8888,
+        paraId: 8,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
           BitCountry: 'wss://tewai-parachain.bit.country:9955'
@@ -92,6 +92,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
         providers: {
           Crust: 'wss://api-rococo.crust.network'
+        }
+      },
+      {
+        info: 'rococoChainX',
+        paraId: 59,
+        text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
         }
       },
       {
@@ -140,6 +148,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
         providers: {
           SCS: 'wss://rococo.integritee.network'
+        }
+      },
+      {
+        info: 'rococoJupiter',
+        paraId: 1,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
+        providers: {
+          jupiter: 'wss://ws.rococo.jupiter.patract.cn'
         }
       },
       {

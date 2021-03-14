@@ -4,7 +4,6 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { ThemeProps } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -183,7 +182,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 }
 
-export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
+export default React.memo(styled(AccountName)`
   align-items: center;
   border: 1px dotted transparent;
   display: inline-flex;
@@ -203,7 +202,7 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
     .name {
       align-items: center;
       display: inline-flex;
-      font-weight: ${theme.fontWeightNormal} !important;
+      font-weight: var(--font-weight-normal) !important;
       filter: grayscale(100%);
       line-height: 1;
       opacity: 0.6;
@@ -215,7 +214,7 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
       }
 
       &.isAddress {
-        font: ${theme.fontMono};
+        font: var(--font-mono);
         text-transform: none;
       }
 
@@ -235,4 +234,4 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);
