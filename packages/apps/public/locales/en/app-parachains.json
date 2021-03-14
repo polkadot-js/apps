@@ -102,6 +102,8 @@
   "bid amount": "bid amount",
   "bid from": "bid from",
   "bid slot range": "bid slot range",
+  "bid slot range (start slot, end slot)": "bid slot range (start slot, end slot)",
+  "bids": "bids",
   "campaigns": "campaigns",
   "cap": "cap",
   "chain best": "chain best",
