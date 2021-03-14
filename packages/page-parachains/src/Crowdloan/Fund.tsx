@@ -18,16 +18,19 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
+  isOngoing?: boolean;
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const blocksLeft = useMemo(
     () => bestNumber && end.gt(bestNumber) && end.sub(bestNumber),
     [bestNumber, end]
   );
+
+  // TODO Dissolve should look at retirement and the actual period
 
   const [percentage, isCapped] = useMemo(
     () => [
@@ -54,31 +57,33 @@ function Fund ({ bestNumber, className, value: { info: { cap, depositor, end, fi
         }
       </td>
       <td className='address'><AddressMini value={depositor} /></td>
+      <td className='number together'>
+        {blocksLeft && (
+          <BlockToTime blocks={blocksLeft} />
+        )}
+        #{formatNumber(end)}
+      </td>
       <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
-      <td className='number'>
+      <td className='number together'>
         <FormatBalance
           value={raised}
           withCurrency={false}
-        />&nbsp;/&nbsp;<FormatBalance value={cap} />
+        />&nbsp;/&nbsp;<FormatBalance
+          value={cap}
+        />
         <div>{percentage}</div>
       </td>
-      <td className='number'>
-        {blocksLeft && (
-          <>
-            <BlockToTime blocks={blocksLeft} />
-            #{formatNumber(end)}
-          </>
-        )}
-      </td>
-      <td className='button'>
-        {canContribute && (
-          <FundContribute
-            cap={cap}
-            paraId={paraId}
-            raised={raised}
-          />
-        )}
-      </td>
+      {isOngoing && (
+        <td className='button'>
+          {canContribute && (
+            <FundContribute
+              cap={cap}
+              paraId={paraId}
+              raised={raised}
+            />
+          )}
+        </td>
+      )}
     </tr>
   );
 }

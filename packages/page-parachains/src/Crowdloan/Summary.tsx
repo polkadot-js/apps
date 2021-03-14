@@ -14,10 +14,11 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   fundCount: number;
-  totals: [BN, BN];
+  totalCap: BN;
+  totalRaised: BN;
 }
 
-function Summary ({ className, fundCount, totals: [raised, cap] }: Props): React.ReactElement<Props> {
+function Summary ({ className, fundCount, totalCap, totalRaised }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -29,18 +30,18 @@ function Summary ({ className, fundCount, totals: [raised, cap] }: Props): React
         label={`${t<string>('raised / total cap')}`}
         progress={{
           hideValue: true,
-          total: cap,
-          value: raised
+          total: totalCap,
+          value: totalRaised
         }}
       >
         <FormatBalance
-          value={raised}
+          value={totalRaised}
           withCurrency={false}
           withSi
         />
         &nbsp;/&nbsp;
         <FormatBalance
-          value={cap}
+          value={totalCap}
           withSi
         />
       </CardSummary>

@@ -20,28 +20,51 @@ interface Props {
 function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('funds'), 'start', 4],
+  const headerActiveRef = useRef([
+    [t('ongoing'), 'start', 4],
+    [t('ending')],
     [t('slots')],
     [t('raised')],
-    [t('end')],
     []
   ]);
 
+  const headedEndedRef = useRef([
+    [t('completed'), 'start', 4],
+    [t('ended')],
+    [t('slots')],
+    [t('raised')]
+  ]);
+
   return (
-    <Table
-      className={className}
-      empty={value && t<string>('No campaigns found')}
-      header={headerRef.current}
-    >
-      {value?.map((fund) => (
-        <Fund
-          bestNumber={bestNumber}
-          key={fund.paraId.toString()}
-          value={fund}
-        />
-      ))}
-    </Table>
+    <>
+      <Table
+        className={className}
+        empty={value && t<string>('No active campaigns found')}
+        header={headerActiveRef.current}
+      >
+        {value?.filter(({ isEnded }) => !isEnded).map((fund) => (
+          <Fund
+            bestNumber={bestNumber}
+            isOngoing
+            key={fund.paraId.toString()}
+            value={fund}
+          />
+        ))}
+      </Table>
+      <Table
+        className={className}
+        empty={value && t<string>('No completed campaigns found')}
+        header={headedEndedRef.current}
+      >
+        {value?.filter(({ isEnded }) => isEnded).map((fund) => (
+          <Fund
+            bestNumber={bestNumber}
+            key={fund.paraId.toString()}
+            value={fund}
+          />
+        ))}
+      </Table>
+    </>
   );
 }
 
