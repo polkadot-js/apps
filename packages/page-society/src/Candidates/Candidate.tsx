@@ -12,8 +12,8 @@ import { AddressSmall } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
+import Votes from '../Overview/Votes';
 import CandidateVoting from './CandidateVoting';
-import Votes from './Votes';
 
 interface Props {
   allMembers: string[];
