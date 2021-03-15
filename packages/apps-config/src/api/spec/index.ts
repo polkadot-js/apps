@@ -74,6 +74,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
+  chainx,
   'chainx-parachain': chainx,
   clover,
   'clover-rococo': cloverRococo,
