@@ -74,7 +74,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
-  chainx,
+  'chainx-parachain': chainx,
   clover,
   'clover-rococo': cloverRococo,
   crust,
@@ -82,6 +82,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   'datahighway-parachain': datahighwayParachain,
+  'dev-parachain': zenlink,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   'dotmog-node': dotmog,
@@ -125,8 +126,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subzero: zero,
   ternoa,
   trustbase,
-  uniarts,
-  zenlink
+  uniarts
 };
 
 export default spec;
