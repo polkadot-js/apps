@@ -34,7 +34,7 @@ function Item ({ className = '', isLink, isToplevel, route: { Modal, href, icon,
         {text}
         {!!count && (
           <Badge
-            color={isToplevel ? 'counterInvert' : 'counter'}
+            color={'white'}
             info={count}
           />
         )}

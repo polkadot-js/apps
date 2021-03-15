@@ -27,9 +27,14 @@ function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
 }
 
-function getContrast (uiHighlight: string | undefined): string {
+function countBrightness (uiHighlight: string | undefined): number {
   const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
-  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+}
+
+function getContrast (uiHighlight: string | undefined): string {
+  const brightness = countBrightness(uiHighlight);
 
   return brightness > BRIGHTNESS
     ? 'rgba(45, 43, 41, 0.875)'
@@ -37,8 +42,7 @@ function getContrast (uiHighlight: string | undefined): string {
 }
 
 function getMenuHoverContrast (uiHighlight: string | undefined): string {
-  const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
-  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+  const brightness = countBrightness(uiHighlight);
 
   if (brightness < VERY_DARK) {
     return 'rgba(255, 255, 255, 0.15)';
@@ -72,9 +76,25 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     background: ${getContrast(uiHighlight)};
   }
 
-  .ui--MenuItem.isActive .ui--Badge.highlight--bg-contrast {
+  .ui--MenuItem.isActive .ui--Badge {
     background: ${getHighlight(uiHighlight)};
     color: ${getContrast(uiHighlight)} !important;
+  }
+
+  .ui--MenuItem {
+    & .ui--Badge {
+      color: ${countBrightness(uiHighlight) < BRIGHTNESS ? '#fff' : '#424242'};
+    }
+
+    &:hover:not(.isActive) .ui--Badge {
+      background: ${countBrightness(uiHighlight) < BRIGHTNESS ? 'rgba(255, 255, 255, 0.8)' : '#4D4D4D'};
+      color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#fff' : '#424242'};
+    }
+  }
+
+  .ui--Tab .ui--Badge {
+    background: ${getHighlight(uiHighlight)};
+    color: ${countBrightness(uiHighlight) < BRIGHTNESS ? '#fff' : '#424242'};
   }
 
   .highlight--bg-faint,
