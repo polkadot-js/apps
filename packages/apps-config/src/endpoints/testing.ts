@@ -18,6 +18,13 @@ export function createTesting (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
+      info: 'clover',
+      text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
+      providers: {
+        Clover: 'wss://api.clover.finance/'
+      }
+    },
+    {
       info: 'centrifuge',
       text: t('rpc.amber', 'Amber', { ns: 'apps-config' }),
       providers: {
@@ -57,13 +64,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.canvas', 'Canvas', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://canvas-rpc.parity.io'
-      }
-    },
-    {
-      info: 'clover',
-      text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
-      providers: {
-        Clover: 'wss://api.clover.finance/'
       }
     },
     {
