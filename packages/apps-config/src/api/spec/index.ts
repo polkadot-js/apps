@@ -74,7 +74,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
-  chainx,
+  'chainx-parachain': chainx,
   clover,
   'clover-rococo': cloverRococo,
   crust,
@@ -126,7 +126,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   trustbase,
   uniarts,
-  zenlink
+  'dev-parachain': zenlink
 };
 
 export default spec;
