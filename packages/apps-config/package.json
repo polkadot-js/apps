@@ -12,6 +12,7 @@
   "dependencies": {
     "@acala-network/type-definitions": "^0.7.1",
     "@babel/runtime": "^7.13.10",
+    "@crustio/type-definitions": "0.0.5",
     "@darwinia/types": "^1.1.0-alpha.1",
     "@edgeware/node-types": "^3.3.2",
     "@interlay/polkabtc-types": "^0.5.3",
