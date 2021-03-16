@@ -28,7 +28,17 @@ function Members ({ className = '', info }: Props): React.ReactElement<Props> {
   ]);
 
   const filtered = useMemo(
-    () => (members || []).filter((member) => !info || !info.hasDefender || !member.accountId.eq(info.defender)),
+    () => members && info
+      ? members
+        .filter((member) => !info || !info.hasDefender || !member.accountId.eq(info.defender))
+        .sort((a, b) =>
+          !info?.head?.eq(a.accountId)
+            ? 1
+            : !info?.head?.eq(b.accountId)
+              ? -1
+              : 0
+        )
+      : [],
     [info, members]
   );
 
