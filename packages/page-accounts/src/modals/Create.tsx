@@ -3,7 +3,7 @@
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
-import type { ModalProps } from '../types';
+import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useRef, useState } from 'react';
@@ -23,41 +23,9 @@ import CreateConfirmation from './CreateConfirmation';
 import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 
-const ETH_DEFAULT_PATH = "m/44'/60'/0'/0/0";
 
-type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
-
-interface Props extends ModalProps {
-  className?: string;
-  onClose: () => void;
-  onStatusChange: (status: ActionStatus) => void;
-  seed?: string;
-  type?: PairType;
-}
-
-type SeedType = 'bip' | 'raw' | 'dev';
-
-interface AddressState {
-  address: string | null;
-  derivePath: string;
-  deriveValidation? : DeriveValidationOutput
-  isSeedValid: boolean;
-  pairType: PairType;
-  seed: string;
-  seedType: SeedType;
-}
-
-interface CreateOptions {
-  genesisHash?: string;
-  name: string;
-  tags?: string[];
-}
-
-interface DeriveValidationOutput {
-  error?: string;
-  warning?: string;
-}
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -199,7 +167,7 @@ function createAccount (seed: string, derivePath: string, pairType: PairType, { 
   return status;
 }
 
-function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
+function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: CreateProps): React.ReactElement<CreateProps> {
   const { t } = useTranslation();
   const { api, isDevelopment, isEthereum } = useApi();
   const { isLedgerEnabled } = useLedger();
@@ -377,23 +345,22 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   seedType={seedType}
                 />
               )
-              : (
+              :pairType === 'ethereum'
+              ? <CreateEthDerivationPath
+              onChange={_onChangePath}
+              seedType={seedType} derivePath={derivePath} deriveValidation={deriveValidation} />:(
                 <Modal.Columns hint={
-                  pairType === 'ethereum' && seedType === 'raw'
-                    ? t<string>('The derivation path is only relevant when deriving keys from a mnemonic.')
-                    : t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
+                   t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
                 }>
-                  {(pairType !== 'ethereum' || seedType !== 'raw') && (
+                  {(
                     <Input
-                      help={(pairType === 'ethereum' ? t<string>('You can set a custom derivation path for this account using the following syntax "m/<purpose>/<coin_type>/<account>/<change>/<address_index>') : t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
-                      isDisabled={pairType === 'ethereum' && seedType === 'raw'}
+                      help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
+                      isDisabled={seedType === 'raw'}
                       isError={!!deriveValidation?.error}
                       label={t<string>('secret derivation path')}
                       onChange={_onChangePath}
                       placeholder={
-                        pairType === 'ethereum'
-                          ? ETH_DEFAULT_PATH
-                          : seedType === 'raw'
+                       seedType === 'raw'
                             ? pairType === 'sr25519'
                               ? t<string>('//hard/soft')
                               : t<string>('//hard')
