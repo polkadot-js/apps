@@ -11,17 +11,17 @@ import { useBlockTime } from '@polkadot/react-hooks';
 
 interface Props {
   api?: ApiPromise;
-  blocks?: BN;
   children?: React.ReactNode;
   className?: string;
   isInline?: boolean;
   label?: React.ReactNode;
+  value?: BN;
 }
 
-function BlockToTime ({ api, blocks, children, className = '', isInline, label }: Props): React.ReactElement<Props> | null {
-  const [, text] = useBlockTime(blocks, api);
+function BlockToTime ({ api, children, className = '', isInline, label, value }: Props): React.ReactElement<Props> | null {
+  const [, text] = useBlockTime(value, api);
 
-  if (blocks?.ltn(0)) {
+  if (!value || value.isZero()) {
     return null;
   }
 

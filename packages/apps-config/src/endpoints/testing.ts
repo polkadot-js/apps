@@ -70,7 +70,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'crust',
       text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
-        'Crust Network': 'wss://api.crust.network/'
+        'Crust Network': 'wss://api.crust.network/',
+        'DCloud Foundation': 'wss://api.decloudf.com/'
       }
     },
     {

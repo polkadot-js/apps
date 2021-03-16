@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AugmentedEvent } from '@polkadot/api/types';
+import type { Vec } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -14,22 +15,20 @@ import { useIsMountedRef } from './useIsMountedRef';
 
 type EventCheck = AugmentedEvent<'promise'> | string | false | undefined | null;
 
-export function useEventTrigger (checks: EventCheck[]): number {
+export function useEventTrigger (checks: EventCheck[]): string {
   const { api } = useApi();
-  const [trigger, setTrigger] = useState(() => Date.now());
+  const [trigger, setTrigger] = useState('0x00');
   const mountedRef = useIsMountedRef();
-  const eventRecords = useCall<EventRecord[]>(api.query.system.events);
+  const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
 
   useEffect((): void => {
-    const count = eventRecords && eventRecords.filter(({ event }) =>
+    mountedRef.current && eventRecords && eventRecords.filter(({ event }) =>
       event && checks.some((check) => check && (
         isString(check)
           ? event.section === check
           : check.is(event)
       ))
-    ).length;
-
-    mountedRef.current && count && setTrigger(Date.now());
+    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || '0x00');
   }, [eventRecords, checks, mountedRef]);
 
   return trigger;
