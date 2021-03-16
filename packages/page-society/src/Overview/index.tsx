@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Defender from './Defender';
+import Head from './Head';
 import Members from './Members';
 import Summary from './Summary';
 
@@ -30,6 +31,7 @@ function Overview ({ className, isMember, ownMembers }: Props): React.ReactEleme
         isMember={isMember}
         ownMembers={ownMembers}
       />
+      <Head info={info} />
       <Members info={info} />
     </div>
   );
