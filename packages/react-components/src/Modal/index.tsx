@@ -30,8 +30,8 @@ function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
       open={open}
     >
       {header && (
-        <div className='header highlight--bg'>
-          <h1 className='highlight--color-contrast'>{header}</h1>
+        <div className='header'>
+          <h1>{header}</h1>
         </div>
       )}
       {children}

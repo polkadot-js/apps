@@ -149,7 +149,7 @@ export default (_theme: ThemeDef): string => `
       font-size: 1.75rem;
       font-weight: var(--font-weight-normal);
       line-height: 1.25rem;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 1.5rem 0;
       text-transform: lowercase;
 
       > label {
