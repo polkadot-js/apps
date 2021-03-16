@@ -87,7 +87,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   'dotmog-node': dotmog,
-  dusty3: dusty,
+  dusty4: dusty,
   edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
