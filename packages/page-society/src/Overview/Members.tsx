@@ -38,19 +38,19 @@ function Members ({ className = '', info }: Props): React.ReactElement<Props> {
               ? -1
               : 0
         )
-      : [],
+      : undefined,
     [info, members]
   );
 
   return (
     <Table
       className={className}
-      empty={info && t<string>('No active members')}
+      empty={info && filtered && t<string>('No active members')}
       header={headerRef.current}
     >
-      {filtered.map((member): React.ReactNode => (
+      {info && filtered && filtered.map((member): React.ReactNode => (
         <Member
-          isHead={info?.head?.eq(member.accountId)}
+          isHead={info.head?.eq(member.accountId)}
           key={member.accountId.toString()}
           value={member}
         />
