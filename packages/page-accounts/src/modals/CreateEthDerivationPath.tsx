@@ -6,7 +6,7 @@ import { Checkbox, Dropdown, Input, MarkError, MarkWarning, Modal } from "@polka
 
 import { useTranslation } from "../translate";
 import { AVAIL_INDEXES } from "./Ledger";
-import { DeriveValidationOutput } from "../types";
+import { DeriveValidationOutput, PairType } from "../types";
 
 interface Props {
   className?: string;
@@ -14,20 +14,34 @@ interface Props {
   seedType: string;
   derivePath: string;
   deriveValidation: DeriveValidationOutput | undefined;
+  seed: string;
+  addressFromSeed: (seed: string, derivePath: string, pairType: PairType) => string;
 }
 
 export const ETH_DEFAULT_PATH = "m/44'/60'/0'/0/0";
+const derivePathList = new Array(20).fill(0).map((_, i) => {
+  return `m/44'/60'/0'/0/${i}`;
+});
+console.log("derivePathList", derivePathList);
 
 function CreateEthDerivationPath({
   className,
   onChange,
   seedType,
   derivePath,
-  deriveValidation
+  deriveValidation,
+  seed,
+  addressFromSeed
 }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [addIndex, setAddIndex] = useState(0);
   const [useCustomPath, setUseCustomPath] = useState(false);
+  console.log("derivePathList", derivePathList);
+  const addressList = //useState<string[]>(
+    derivePathList.map(deri => {
+      return addressFromSeed(seed, deri, "ethereum");
+    })
+  //);
 
   const errorIndex = useRef<Record<string, string>>({
     INVALID_DERIVATION_PATH: t<string>("This is an invalid derivation path."),
@@ -39,8 +53,8 @@ function CreateEthDerivationPath({
   });
 
   const addOps = useRef(
-    AVAIL_INDEXES.map(value => ({
-      text: t("Address index {{index}}", { replace: { index: value } }),
+    AVAIL_INDEXES.map((value, i) => ({
+      text: t("Address index {{index}} - {{address}}", { replace: { index: value, address: addressList[i] } }),
       value
     }))
   );
@@ -50,8 +64,7 @@ function CreateEthDerivationPath({
   };
 
   useEffect((): void => {
-
-    onChange(`m/44'/60'/0'/0'/${addIndex}'`);
+    onChange(`m/44'/60'/0'/0/${addIndex}`);
   }, [addIndex, onChange]);
 
   return (

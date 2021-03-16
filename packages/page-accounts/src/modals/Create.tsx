@@ -348,7 +348,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               :pairType === 'ethereum'
               ? <CreateEthDerivationPath
               onChange={_onChangePath}
-              seedType={seedType} derivePath={derivePath} deriveValidation={deriveValidation} />:(
+              seedType={seedType} derivePath={derivePath} deriveValidation={deriveValidation} addressFromSeed={addressFromSeed} seed={seed}  />:(
                 <Modal.Columns hint={
                    t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
                 }>
