@@ -30,11 +30,11 @@ function Members ({ className = '', info }: Props): React.ReactElement<Props> {
   const filtered = useMemo(
     () => members && info
       ? members
-        .filter((member) => !info || !info.hasDefender || !member.accountId.eq(info.defender))
+        .filter((member) => !info.hasDefender || !member.accountId.eq(info.defender))
         .sort((a, b) =>
-          !info?.head?.eq(a.accountId)
+          !info.head?.eq(a.accountId)
             ? 1
-            : !info?.head?.eq(b.accountId)
+            : !info.head?.eq(b.accountId)
               ? -1
               : 0
         )
