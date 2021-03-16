@@ -15,7 +15,6 @@ import clover from './clover';
 import cloverRococo from './clover-rococo';
 import crab from './crab';
 import crust from './crust';
-import crustParachain from './crust-parachain';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
@@ -80,7 +79,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   clover,
   'clover-rococo': cloverRococo,
   crust,
-  'crust-parachain': crustParachain,
+  'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   'datahighway-parachain': datahighwayParachain,

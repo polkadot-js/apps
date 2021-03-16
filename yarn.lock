@@ -1398,6 +1398,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@crustio/type-definitions@npm:0.0.5":
+  version: 0.0.5
+  resolution: "@crustio/type-definitions@npm:0.0.5"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^0.8.2-9
+  checksum: 849813ac540f3a406555b99dd2a3439c279810275ca28881e8efd95604cce5800bb49644d5ccb0318aecb48f2f7cb4cf0b362198186edbf0d49816882e24414c
+  languageName: node
+  linkType: hard
+
 "@darwinia/types-known@npm:^1.1.0-alpha.1":
   version: 1.1.0-alpha.1
   resolution: "@darwinia/types-known@npm:1.1.0-alpha.1"
@@ -2371,6 +2380,7 @@ __metadata:
   dependencies:
     "@acala-network/type-definitions": ^0.7.1
     "@babel/runtime": ^7.13.10
+    "@crustio/type-definitions": 0.0.5
     "@darwinia/types": ^1.1.0-alpha.1
     "@edgeware/node-types": ^3.3.2
     "@interlay/polkabtc-types": ^0.5.3
