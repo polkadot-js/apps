@@ -50,14 +50,22 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'crab',
       text: t('rpc.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
+      }
+    },
+    {
+      info: 'chainx',
+      text: t('rpc.chainx', 'ChainX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://mainnet.chainx.org/ws',
+        'Patract Elara': 'wss://chainx.elara.patract.io'
       }
     },
     {
       info: 'darwinia',
       text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://cc1.darwinia.network',
+        'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
       }
     },
@@ -93,6 +101,14 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'snakenet',
+      text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
+      providers: {
+        HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io'
+      }
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.kulupu', 'Kulupu', { ns: 'apps-config' }),
@@ -105,7 +121,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'nodle',
       text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main1.nodleprotocol.io',
+        Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
       }
     },

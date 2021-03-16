@@ -8,7 +8,7 @@ import { useCacheKey } from './useCacheKey';
 // hook for favorites with local storage
 export function useFavorites (storageKeyBase: string): [string[], (address: string) => void] {
   const [getCache, setCache] = useCacheKey<string[]>(storageKeyBase);
-  const [favorites, setFavorites] = useState<string[]>(getCache() || []);
+  const [favorites, setFavorites] = useState<string[]>(() => getCache() || []);
 
   const toggleFavorite = useCallback(
     (address: string): void => setFavorites(

@@ -22,7 +22,8 @@ interface Props {
   onClose: () => void;
 }
 
-const AVAIL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+// new Array(20).fill(0).map((_, index) => index)
+export const AVAIL_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
 // query the ledger for the address, adding it to the keyring
 async function queryLedger (api: ApiPromise, getLedger: () => Ledger, name: string, accountOffset: number, addressOffset: number): Promise<void> {
@@ -46,12 +47,12 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [isBusy, setIsBusy] = useState(false);
 
-  const accOps = useRef(AVAIL.map((value): Option => ({
+  const accOps = useRef(AVAIL_INDEXES.map((value): Option => ({
     text: t('Account type {{index}}', { replace: { index: value } }),
     value
   })));
 
-  const addOps = useRef(AVAIL.map((value): Option => ({
+  const addOps = useRef(AVAIL_INDEXES.map((value): Option => ({
     text: t('Address index {{index}}', { replace: { index: value } }),
     value
   })));
@@ -85,53 +86,38 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              className='full'
-              help={t<string>('Name given to this account to uniquely identity the account to yourself.')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              placeholder={t<string>('account name')}
-              value={name}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            {t<string>('The name for this account as it will appear under your accounts.')}
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The name for this account as it will appear under your accounts.')}>
+          <Input
+            autoFocus
+            className='full'
+            help={t<string>('Name given to this account to uniquely identity the account to yourself.')}
+            isError={!isNameValid}
+            label={t<string>('name')}
+            onChange={_onChangeName}
+            placeholder={t<string>('account name')}
+            value={name}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              help={t('The account type (derivation) to use')}
-              label={t('account type')}
-              onChange={setAccIndex}
-              options={accOps.current}
-              value={accIndex}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            {t('The account type that you wish to create. This is the top-level derivation.')}
-          </Modal.Column>
+        <Modal.Columns hint={t('The account type that you wish to create. This is the top-level derivation.')}>
+          <Dropdown
+            help={t('The account type (derivation) to use')}
+            label={t('account type')}
+            onChange={setAccIndex}
+            options={accOps.current}
+            value={accIndex}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              help={t('The address index (derivation on account) to use')}
-              label={t('address index')}
-              onChange={setAddIndex}
-              options={addOps.current}
-              value={addIndex}
-            />
-            {error && (
-              <MarkError content={error.message} />
-            )}
-          </Modal.Column>
-          <Modal.Column>
-            {t('The address index on the account that you wish to add. This is the second-level derivation.')}
-          </Modal.Column>
+        <Modal.Columns hint={t('The address index on the account that you wish to add. This is the second-level derivation.')}>
+          <Dropdown
+            help={t('The address index (derivation on account) to use')}
+            label={t('address index')}
+            onChange={setAddIndex}
+            options={addOps.current}
+            value={addIndex}
+          />
+          {error && (
+            <MarkError content={error.message} />
+          )}
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

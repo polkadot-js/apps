@@ -51,59 +51,53 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              label={t<string>('delegating account')}
-              onChange={setDelegatingAccount}
-              type='account'
-              value={delegatingAccount}
-            />
-            <InputAddress
-              label={t<string>('delegated account')}
-              onChange={setDelegatedAccount}
-              type='account'
-              value={delegatedAccount}
-            />
-          </Modal.Column>
-          <Modal.Column>
+        <Modal.Columns hint={
+          <>
             <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
             <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
-          </Modal.Column>
+          </>
+        }>
+          <InputAddress
+            label={t<string>('delegating account')}
+            onChange={setDelegatingAccount}
+            type='account'
+            value={delegatingAccount}
+          />
+          <InputAddress
+            label={t<string>('delegated account')}
+            onChange={setDelegatedAccount}
+            type='account'
+            value={delegatedAccount}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputBalance
-              autoFocus
-              help={t<string>('Amount to delegate for any democracy vote. This is adjusted using the available funds on the account.')}
-              isError={!!amountError?.error}
-              isZeroable={false}
-              label={t<string>('delegating amount')}
-              labelExtra={
-                <BalanceFree
-                  label={<span className='label'>{t<string>('balance')}</span>}
-                  params={delegatingAccount}
-                />
-              }
-              maxValue={maxBalance}
-              onChange={setAmount}
-              value={amount}
-            />
-            <ValidateAmount
-              amount={amount}
-              delegatingAccount={delegatingAccount}
-              onError={setAmountError}
-            />
-            <ConvictionDropdown
-              help={t<string>('The conviction that will be used for each delegated vote.')}
-              label={t<string>('conviction')}
-              onChange={setConviction}
-              value={conviction}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}>
+          <InputBalance
+            autoFocus
+            help={t<string>('Amount to delegate for any democracy vote. This is adjusted using the available funds on the account.')}
+            isError={!!amountError?.error}
+            isZeroable={false}
+            label={t<string>('delegating amount')}
+            labelExtra={
+              <BalanceFree
+                label={<span className='label'>{t<string>('balance')}</span>}
+                params={delegatingAccount}
+              />
+            }
+            maxValue={maxBalance}
+            onChange={setAmount}
+            value={amount}
+          />
+          <ValidateAmount
+            amount={amount}
+            delegatingAccount={delegatingAccount}
+            onError={setAmountError}
+          />
+          <ConvictionDropdown
+            help={t<string>('The conviction that will be used for each delegated vote.')}
+            label={t<string>('conviction')}
+            onChange={setConviction}
+            value={conviction}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

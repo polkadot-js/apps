@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { EndpointOption } from './types';
+import type { LinkOption } from '../settings/types';
+
+import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -13,16 +15,17 @@ import type { EndpointOption } from './types';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): EndpointOption {
-  return {
+export function createRococo (t: TFunction): LinkOption[] {
+  return expandEndpoints(t, [{
     dnslink: 'rococo',
-    genesisHash: '0xe2bcff61f49d41ef837b92331a3f02dee14fa59723bc850697f516c5376cde1c',
+    genesisHash: '0x19c0e4fa8ab75f5ac7865e0b8f74ff91eb9a100d336f423cd013a8befba40299',
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://rococo.elara.patract.io'
+      'Patract Elara': 'wss://rococo.elara.patract.io',
+      'Ares Protocol': 'wss://rococo.aresprotocol.com'
     },
     linked: [
       // these are the base chains
@@ -52,11 +55,35 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoAres',
+        paraId: 6,
+        text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
+        providers: {
+          'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
+        }
+      },
+      {
         info: 'rococoBifrost',
         paraId: 107,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
         providers: {
           Bifrost: 'wss://rococo-1.testnet.liebi.com'
+        }
+      },
+      {
+        info: 'rococoBitCountry',
+        paraId: 8,
+        text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
+        providers: {
+          BitCountry: 'wss://tewai-parachain.bit.country:9955'
+        }
+      },
+      {
+        info: 'rococoClover',
+        paraId: 229,
+        text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://api-rococo.clover.finance'
         }
       },
       {
@@ -68,11 +95,27 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoChainX',
+        paraId: 59,
+        text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
+        }
+      },
+      {
         info: 'rococoDarwinia',
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
           Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'rococoDataHighway',
+        paraId: 2,
+        text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
+        providers: {
+          DataHighway: 'wss://testnet-harbour.datahighway.com'
         }
       },
       {
@@ -92,11 +135,27 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoAcala',
-        paraId: 666,
-        text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
+        info: 'rococoIdavoll',
+        paraId: 7766,
+        text: t('rpc.rococo.idavoll', 'Idavoll', { ns: 'apps-config' }),
         providers: {
-          Acala: 'wss://rococo-1.acala.laminar.one/ws'
+          Idavoll: 'wss://rococo.idavoll.network'
+        }
+      },
+      {
+        info: 'rococoIntegritee',
+        paraId: 1983,
+        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        providers: {
+          SCS: 'wss://rococo.integritee.network'
+        }
+      },
+      {
+        info: 'rococoJupiter',
+        paraId: 1,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
+        providers: {
+          jupiter: 'wss://ws.rococo.jupiter.patract.cn'
         }
       },
       {
@@ -105,6 +164,30 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoLitentry',
+        paraId: 1984,
+        text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rococov1.litentry.io'
+        }
+      },
+      {
+        info: 'rococoAcala',
+        paraId: 666,
+        text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
+        providers: {
+          Acala: 'wss://rococo-1.acala.laminar.one/ws'
+        }
+      },
+      {
+        info: 'rococoMathChain',
+        paraId: 40,
+        text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
+        providers: {
+          MathWallet: 'wss://testpara.maiziqianbao.net/ws'
         }
       },
       {
@@ -124,13 +207,45 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPolkabtc',
+        paraId: 21,
+        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
+        }
+      },
+      {
         info: 'rococoRobonomics',
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://rococo.parachain.robonomics.network'
         }
+      },
+      {
+        info: 'rococoSubDAO',
+        paraId: 888,
+        text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
+        providers: {
+          SubDAONetwork: 'wss://parachain.subdao.network'
+        }
+      },
+      {
+        info: 'rococoTrustBase',
+        paraId: 6633,
+        text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),
+        providers: {
+          TrustBase: 'wss://rococo.trustednodes.net'
+        }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
+        }
       }
     ]
-  };
+  }]);
 }

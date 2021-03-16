@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { DateState } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -26,8 +25,8 @@ const NOW_INC = 30 * 1000;
 function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const scheduled = useScheduled();
-  const [now, setNow] = useState(new Date());
-  const [dateState, setDateState] = useState(getDateState(now, now));
+  const [now, setNow] = useState(() => new Date());
+  const [dateState, setDateState] = useState(() => getDateState(now, now));
   const [allEventsView, setAllEventsView] = useState(false);
 
   const itemsRef = useRef([{
@@ -161,7 +160,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
+export default React.memo(styled(CalendarApp)`
   .calendarFlex {
     align-items: flex-start;
     display: flex;
@@ -177,8 +176,8 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
     }
 
     > div {
-      background-color: ${theme.bgTable};
-      border: 1px solid ${theme.borderTable};
+      background-color: var(--bg-table);
+      border: 1px solid var(--border-table);
       border-radius: 0.25rem;
 
       &+div {
@@ -205,4 +204,4 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

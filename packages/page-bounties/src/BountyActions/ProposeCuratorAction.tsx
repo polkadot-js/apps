@@ -7,12 +7,12 @@ import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { truncateTitle } from '@polkadot/app-bounties/helpers';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
@@ -57,64 +57,46 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Propose Curator')}
+          label={t<string>('Propose curator')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={t<string>(`Assign Curator to "${truncateTitle(description, 30)}"`)}
+            data-testid={'propose-curator-modal'}
+            header={`${t<string>('Propose curator')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
-              <Modal.Column>
-                <p>{t<string>('This action will create a Council motion to assign a Curator.')}</p>
-              </Modal.Column>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    filter={members}
-                    help={t<string>('Select the council account you wish to use to create a motion for the Bounty.')}
-                    label={t<string>('proposing account')}
-                    onChange={setAccountId}
-                    type='account'
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The council member that will create the motion.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('The council member that will create the motion.')}>
+                <InputAddress
+                  filter={members}
+                  help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
+                  label={t<string>('proposing account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
-                    label={t<string>('select curator')}
-                    onChange={setCuratorId}
-                    type='account'
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}>
+                <InputAddress
+                  help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
+                  label={t<string>('select curator')}
+                  onChange={setCuratorId}
+                  withLabel
+                />
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputBalance
-                    help={t<string>('A reward for a curator, this amount is included in the total value of the bounty.')}
-                    isError={!isFeeValid}
-                    isZeroable
-                    label={t<string>("curator's fee")}
-                    onChange={setFee}
-                    value={fee}
-                  />
-                  {!isFeeValid && (
-                    <MarkError content={t<string>("Curator's fee can't be higher than bounty value.")} />
-                  )}
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('Part of the bounty value that will go to the Curator as a reward for their work')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('Part of the bounty value that will go to the Curator as a reward for their work')}>
+                <InputBalance
+                  help={t<string>('A reward for a curator, this amount is included in the total value of the bounty.')}
+                  isError={!isFeeValid}
+                  isZeroable
+                  label={t<string>("curator's fee")}
+                  onChange={setFee}
+                  value={fee}
+                />
+                {!isFeeValid && (
+                  <MarkError content={t<string>("Curator's fee can't be higher than bounty value.")} />
+                )}
               </Modal.Columns>
             </Modal.Content>
             <Modal.Actions onCancel={toggleOpen}>
@@ -122,7 +104,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 accountId={accountId}
                 icon='check'
                 isDisabled={!isFeeValid}
-                label={t<string>('Assign curator')}
+                label={t<string>('Propose curator')}
                 onStart={toggleOpen}
                 params={[threshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
                 tx={api.tx.council.propose}

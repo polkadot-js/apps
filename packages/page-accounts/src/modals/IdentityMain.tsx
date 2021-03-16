@@ -80,17 +80,13 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
   const [{ info, okAll, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
   const [hasEmail, setHasEmail] = useState(false);
-  // const [hasImg, setHasImg] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
-  // const [hasPgp, setHasPgp] = useState(false);
   const [hasRiot, setHasRiot] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
-  const [valDisplay, setValDisplay] = useState((getAddressMeta(address).name || '').replace(/\(.*\)/, '').trim());
+  const [valDisplay, setValDisplay] = useState(() => (getAddressMeta(address).name || '').replace(/\(.*\)/, '').trim());
   const [valEmail, setValEmail] = useState('');
-  // const [{ errImg, valImg }, setValImg] = useState<{ errImg: boolean; valImg: string }>({ errImg: true, valImg: '' });
   const [valLegal, setValLegal] = useState('');
-  // const [{ errPgp, valPgp }, setValPgp] = useState<{ errPgp: boolean; valPgp: string }>({ errPgp: true, valPgp: '' });
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
@@ -135,8 +131,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         riot: { [okRiot && hasRiot ? 'raw' : 'none']: okRiot && hasRiot ? valRiot : null },
         twitter: { [okTwitter && hasTwitter ? 'raw' : 'none']: okTwitter && hasTwitter ? valTwitter : null },
         web: { [okWeb && hasWeb ? 'raw' : 'none']: okWeb && hasWeb ? valWeb : null }
-        // image: { [hasImg ? 'sha256' : 'none']: hasImg ? valImg : null },
-        // pgpFingerprint: hasPgp ? valPgp : null
       },
       okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okWeb,
       okDisplay,
@@ -146,7 +140,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       okTwitter,
       okWeb
     });
-    //  errImg, errPgp, hasImg, hasPgp, valImg, valPgp,
   }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
 
   return (

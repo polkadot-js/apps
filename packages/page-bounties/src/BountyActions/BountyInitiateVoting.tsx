@@ -11,17 +11,19 @@ import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
+import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  description: string;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
 }
 
 const BOUNTY_METHODS = ['approveBounty', 'closeBounty'];
 
-function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<Props> | null {
+function BountyInitiateVoting ({ description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers();
@@ -47,36 +49,24 @@ function BountyInitiateVoting ({ index, proposals }: Props): React.ReactElement<
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Initiate Voting')}
+          label={t<string>('Initiate voting')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={t<string>('Initiate Voting')}
+            header={`${t<string>('Initiate voting')} - "${truncateTitle(description, 30)}"`}
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns>
-                <Modal.Column>
-                  <p>{t<string>('This action will create a Council motion to either approve or reject the Bounty.')}</p>
-                </Modal.Column>
-                <Modal.Column>
-                </Modal.Column>
-              </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    filter={members}
-                    help={t<string>('Select the council account you wish to use to create a motion for the Bounty.')}
-                    label={t<string>('vote with account')}
-                    onChange={setAccountId}
-                    type='account'
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}>
+                <InputAddress
+                  filter={members}
+                  help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
+                  label={t<string>('vote with account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
               </Modal.Columns>
             </Modal.Content>
             <Modal.Actions onCancel={toggleOpen}>

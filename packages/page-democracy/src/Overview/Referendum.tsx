@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber, isBoolean } from '@polkadot/util';
+import { BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useChangeCalc from '../useChangeCalc';
@@ -40,7 +40,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
@@ -82,7 +82,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   }
 
   const enactBlock = status.end.add(status.delay);
-  const remainBlock = status.end.sub(bestNumber).subn(1);
+  const remainBlock = status.end.sub(bestNumber).isub(BN_ONE);
 
   return (
     <tr className={className}>
@@ -92,11 +92,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         proposal={image?.proposal}
       />
       <td className='number together media--1200'>
-        <BlockToTime blocks={remainBlock} />
+        <BlockToTime value={remainBlock} />
         {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together media--1400'>
-        <BlockToTime blocks={enactBlock.sub(bestNumber)} />
+        <BlockToTime value={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
       <td className='number together media--1400'>

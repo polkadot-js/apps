@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -22,7 +22,7 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<unknown[]>(api.derive.society.members);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
 
   const pot = useMemo((): string | null => {
     return info && info.pot.gtn(0)

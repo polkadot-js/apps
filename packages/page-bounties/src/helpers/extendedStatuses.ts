@@ -9,7 +9,7 @@ import { BountyVotingStatuses, StatusName } from '../types';
 const validProposalNames: BountyVotingStatuses = {
   Active: ['closeBounty', 'unassignCurator'],
   Approved: [],
-  CuratorProposed: ['unassignCurator', 'closeBounty'],
+  CuratorProposed: ['closeBounty', 'unassignCurator'],
   Funded: ['proposeCurator', 'closeBounty'],
   PendingPayout: ['unassignCurator'],
   Proposed: ['approveBounty', 'closeBounty']
@@ -23,10 +23,16 @@ function getProposalByMethod (bountyProposals: DeriveCollectiveProposal[], metho
   return bountyProposals.find(({ proposal }) => proposal.method === method);
 }
 
-export function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
+function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
   const methods = bountyProposals.map(({ proposal }) => proposal.method);
 
   return validMethods(status).find((method) => methods.includes(method));
+}
+
+export function proposalNameToDisplay (bountyProposal: DeriveCollectiveProposal, status: BountyStatus): string | undefined {
+  if (bountyProposal.proposal.method !== 'unassignCurator') { return bountyProposal.proposal.method; }
+
+  return status.isCuratorProposed ? 'unassignCurator' : 'slashCurator';
 }
 
 export function getProposalToDisplay (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): DeriveCollectiveProposal | null {

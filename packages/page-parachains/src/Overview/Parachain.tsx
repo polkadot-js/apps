@@ -2,18 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { Balance, BlockNumber, HeadData, Header, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, HeadData, Header, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
+import type { QueuedAction } from './types';
 
 import BN from 'bn.js';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { Badge } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
-import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { getChainLink, sliceHex } from '../util';
+import { useTranslation } from '../translate';
+import { sliceHex } from '../util';
+import Lifecycle from './Lifecycle';
 
 interface Props {
   bestNumber?: BN;
@@ -22,12 +25,15 @@ interface Props {
   isScheduled?: boolean;
   lastBacked?: [string, string, BN];
   lastInclusion?: [string, string, BN];
+  nextAction?: QueuedAction;
+  validators?: AccountId[];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>];
 
 interface QueryState {
   headHex: string | null;
+  lifecycle: ParaLifecycle | null;
   updateAt: BlockNumber | null;
   qDmp: number;
   qUmp: number;
@@ -43,6 +49,7 @@ const transformHeader = {
 const optionsMulti = {
   defaultValue: {
     headHex: null,
+    lifecycle: null,
     qDmp: 0,
     qHrmpE: 0,
     qHrmpI: 0,
@@ -50,10 +57,11 @@ const optionsMulti = {
     updateAt: null,
     watermark: null
   },
-  transform: ([headData, optUp, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm]: QueryResult): QueryState => ({
     headHex: headData.isSome
-      ? sliceHex(headData.unwrap(), 12)
+      ? sliceHex(headData.unwrap())
       : null,
+    lifecycle: optLifecycle.unwrapOr(null),
     qDmp: dmp.length,
     qHrmpE: hrmpE.length,
     qHrmpI: hrmpI.length,
@@ -63,15 +71,15 @@ const optionsMulti = {
   })
 };
 
-function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, nextAction, validators }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const { api: paraApi, endpoints } = useParaApi(id);
-  const paraBest = useCall<BlockNumber>(paraApi?.derive.chain.bestNumber);
-  const paraIssu = useCall<Balance>(paraApi?.query.balances?.totalIssuance);
-  const lastRelayNumber = useCall<BN>(lastInclusion && api.rpc.chain.getHeader, [lastInclusion && lastInclusion[1]], transformHeader);
+  const { api: paraApi } = useParaApi(id);
+  const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
+    [api.query.paras.paraLifecycles, id],
     [api.query.dmp.downwardMessageQueues, id],
     [api.query.ump.relayDispatchQueues, id],
     [api.query.hrmp.hrmpEgressChannelsIndex, id],
@@ -81,18 +89,23 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
 
   const blockDelay = useMemo(
     () => bestNumber && (
-      lastRelayNumber
-        ? bestNumber.sub(lastRelayNumber).subn(1)
+      lastInclusion
+        ? bestNumber.sub(lastInclusion[2])
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined
     ),
-    [bestNumber, lastRelayNumber, paraInfo]
+    [bestNumber, lastInclusion, paraInfo]
   );
 
-  const chainLink = useMemo(
-    () => getChainLink(endpoints),
-    [endpoints]
+  const valRender = useCallback(
+    () => validators?.map((id) => (
+      <AddressMini
+        key={id.toString()}
+        value={id}
+      />
+    )),
+    [validators]
   );
 
   return (
@@ -104,12 +117,27 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
           icon='clock'
         />
       )}</td>
-      <td className='badge together'>{chainLink}</td>
-      <td className='all start together hash'>{paraInfo.headHex}</td>
-      <td className='number'>{blockDelay && <BlockToTime blocks={blockDelay} />}</td>
+      <td className='badge together'><ParaLink id={id} /></td>
+      <td className='number media--1500'>
+        {validators && validators.length !== 0 && (
+          <Expander
+            renderChildren={valRender}
+            summary={t<string>('Validators ({{count}})', { replace: { count: formatNumber(validators.length) } })}
+          />
+        )}
+      </td>
+      <td className='start together hash'>{paraInfo.headHex}</td>
+      <td className='start media--1100'>
+        <Lifecycle
+          lifecycle={paraInfo.lifecycle}
+          nextAction={nextAction}
+        />
+      </td>
+      <td className='all' />
+      <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
       <td className='number'>
-        {lastInclusion && lastRelayNumber
-          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastRelayNumber)}</a>
+        {lastInclusion
+          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
@@ -119,11 +147,10 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
         }
       </td>
       <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
-      <td className='number media--1100'>{paraIssu && <FormatBalance valueFormatted={paraIssu.toHuman()} />}</td>
       <td className='number media--1300'>
         {paraInfo.updateAt && bestNumber && (
           <>
-            <BlockToTime blocks={bestNumber.sub(paraInfo.updateAt)} />
+            <BlockToTime value={bestNumber.sub(paraInfo.updateAt)} />
             #{formatNumber(paraInfo.updateAt)}
           </>
         )}

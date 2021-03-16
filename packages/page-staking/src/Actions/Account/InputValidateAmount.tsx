@@ -16,6 +16,8 @@ import { useTranslation } from '../../translate';
 interface Props {
   controllerId: string | null;
   currentAmount?: BN | null;
+  isNominating?: boolean;
+  minNomination?: BN;
   onError: (state: AmountValidateState | null) => void;
   stashId: string | null;
   value?: BN | null;
@@ -37,7 +39,7 @@ function formatExistential (value: BN): string {
   return fmt;
 }
 
-function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): React.ReactElement<Props> | null {
+function ValidateAmount ({ currentAmount, isNominating, minNomination, onError, stashId, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
@@ -50,6 +52,7 @@ function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): Rea
       const existentialDeposit = api.consts.balances.existentialDeposit;
       const maxBond = stashBalance.freeBalance.sub(existentialDeposit.divn(2));
       let newError: string | null = null;
+      let newWarning: string | null = null;
 
       if (check.gte(maxBond)) {
         newError = t('The specified value is too large and does not allow funds to pay future transaction fees.');
@@ -57,18 +60,22 @@ function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): Rea
         newError = t('The bonded amount is less than the minimum bond amount of {{existentialDeposit}}', {
           replace: { existentialDeposit: formatExistential(existentialDeposit) }
         });
+      } else if (isNominating && minNomination && check.lte(minNomination)) {
+        newWarning = t('The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate', {
+          replace: { minNomination: formatBalance(minNomination) }
+        });
       }
 
       setResult((state): AmountValidateState => {
         const error = state.error !== newError ? newError : state.error;
-        const warning = state.warning;
+        const warning = state.warning !== newWarning ? newWarning : state.warning;
 
         onError((error || warning) ? { error, warning } : null);
 
         return { error, warning };
       });
     }
-  }, [api, currentAmount, onError, stashBalance, t, value]);
+  }, [api, currentAmount, isNominating, minNomination, onError, stashBalance, t, value]);
 
   if (error) {
     return <MarkError content={error} />;
