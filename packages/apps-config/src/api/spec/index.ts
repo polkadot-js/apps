@@ -129,8 +129,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subzero: zero,
   ternoa,
   trustbase,
-  uniarts,
-  'VLN' : vln
+  VLN : vln,
+  uniarts
 };
 
 export default spec;

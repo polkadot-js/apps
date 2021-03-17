@@ -7,34 +7,34 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 const definitions: OverrideBundleDefinition = {
- types: [
-  {
-   minmax: [0, undefined],
-   types: {
-    Asset: {
-     _enum: {
-      Collateral: "Collateral",
-      Fiat: "Fiat",
-      Usdv: null
-     }
-    },
-    Collateral: {
-     _enum: [
-      "Usdc"
-     ]
-    },
-    Fiat: {
-     _enum: [
-      "Cop",
-      "Vez"
-     ]
-    },
-    CurrencyId: "Asset",
-    OracleKey: "Asset",
-    OracleValue: "FixedU128",
-    CurrencyIdOf: "Asset"
-   }
-  }]
+    types: [
+        {
+            minmax: [0, undefined],
+            types: {
+                Asset: {
+                    _enum: {
+                        Collateral: "Collateral",
+                        Fiat: "Fiat",
+                        Usdv: null
+                    }
+                },
+                Collateral: {
+                    _enum: [
+                        "Usdc"
+                    ]
+                },
+                Fiat: {
+                    _enum: [
+                        "Cop",
+                        "Vez"
+                    ]
+                },
+                CurrencyId: "Asset",
+                OracleKey: "Asset",
+                OracleValue: "FixedU128",
+                CurrencyIdOf: "Asset"
+            }
+        }]
 };
 
 export default definitions;
