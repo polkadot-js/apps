@@ -27,6 +27,7 @@ import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
+import galois from './galois';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
@@ -86,7 +87,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-main-runtime': dock,
   'dock-testnet': dock,
   'dotmog-node': dotmog,
-  dusty3: dusty,
+  dusty4: dusty,
   edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
@@ -104,6 +105,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   litentry,
   mandala: acala,
   'mashnet-node': kilt,
+  'mathchain-galois': galois,
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
