@@ -240,6 +240,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'vln',
+      text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
+      providers: {
+        Valiu: 'wss://vln.valiu.dev'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
