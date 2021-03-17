@@ -32,7 +32,14 @@ const definitions: OverrideBundleDefinition = {
                 CurrencyId: "Asset",
                 OracleKey: "Asset",
                 OracleValue: "FixedU128",
-                CurrencyIdOf: "Asset"
+                CurrencyIdOf: "Asset",
+                TimestampedValue: {
+                    "value": "OracleValue",
+                    "timestamp": "Moment"
+                },
+                TimestampedValueOf : "TimestampedValue",
+                OrderedSet: "Vec<AccountId>",
+                Share: "Permill"
             }
         }]
 };
