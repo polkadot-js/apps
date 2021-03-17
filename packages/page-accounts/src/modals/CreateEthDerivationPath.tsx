@@ -69,13 +69,28 @@ function CreateEthDerivationPath({
   //   );
 
   useEffect((): void => {
-    setAddressList(
-      new Array(maxIndex).fill(0).map((_, i) => ({
-        text: t("Address index {{index}} - {{address}}", { replace: { index: i, address: addressFromSeed(seed, `m/44'/60'/0'/0/${i}` , "ethereum") } }),
-        value:i,
-        key:i
-      }))
-    );
+      let initLength=addressList.length
+      let _addressList=addressList
+      if (maxIndex>initLength){
+        for (let i=initLength;i<maxIndex;i++){
+            _addressList.push({
+                text: t("Address index {{index}} - {{address}}", { replace: { index: i, address: addressFromSeed(seed, `m/44'/60'/0'/0/${i}` , "ethereum") } }),
+                value:i,
+                key:i
+              })
+        }
+        setAddressList(_addressList)
+      } else if (maxIndex<initLength){
+        setAddressList(_addressList.slice(0,maxIndex))
+      } else {
+        setAddressList(
+          new Array(maxIndex).fill(0).map((_, i) => ({
+            text: t("Address index {{index}} - {{address}}", { replace: { index: i, address: addressFromSeed(seed, `m/44'/60'/0'/0/${i}` , "ethereum") } }),
+            value:i,
+            key:i
+          }))
+        );
+      }
   }, [maxIndex,seed]);
 
   const _toggleCustomPath = () => {
