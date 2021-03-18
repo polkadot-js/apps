@@ -67,6 +67,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
   Equilibrium: equilibrium,
+  VLN: vln,
   acala,
   'ares-parachain': aresParachain,
   bifrost: bifrost,
@@ -129,7 +130,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subzero: zero,
   ternoa,
   trustbase,
-  VLN : vln,
   uniarts
 };
 
