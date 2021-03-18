@@ -20,12 +20,10 @@ import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicVal
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
-import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
-
-
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -345,41 +343,46 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   seedType={seedType}
                 />
               )
-              :pairType === 'ethereum'
-              ? <CreateEthDerivationPath
-              onChange={_onChangePath}
-              seedType={seedType} derivePath={derivePath} deriveValidation={deriveValidation} addressFromSeed={addressFromSeed} seed={seed}  />:(
-                <Modal.Columns hint={
-                   t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
-                }>
-                  {(
-                    <Input
-                      help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
-                      isDisabled={seedType === 'raw'}
-                      isError={!!deriveValidation?.error}
-                      label={t<string>('secret derivation path')}
-                      onChange={_onChangePath}
-                      placeholder={
-                       seedType === 'raw'
+              : pairType === 'ethereum'
+                ? <CreateEthDerivationPath
+                  addressFromSeed={addressFromSeed}
+                  derivePath={derivePath}
+                  deriveValidation={deriveValidation}
+                  onChange={_onChangePath}
+                  seed={seed}
+                  seedType={seedType} />
+                : (
+                  <Modal.Columns hint={
+                    t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
+                  }>
+                    {(
+                      <Input
+                        help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
+                        isDisabled={seedType === 'raw'}
+                        isError={!!deriveValidation?.error}
+                        label={t<string>('secret derivation path')}
+                        onChange={_onChangePath}
+                        placeholder={
+                          seedType === 'raw'
                             ? pairType === 'sr25519'
                               ? t<string>('//hard/soft')
                               : t<string>('//hard')
                             : pairType === 'sr25519'
                               ? t<string>('//hard/soft///password')
                               : t<string>('//hard///password')
-                      }
-                      tabIndex={-1}
-                      value={derivePath}
-                    />
-                  )}
-                  {deriveValidation?.error && (
-                    <MarkError content={errorIndex.current[deriveValidation.error] || deriveValidation.error} />
-                  )}
-                  {deriveValidation?.warning && (
-                    <MarkWarning content={errorIndex.current[deriveValidation.warning]} />
-                  )}
-                </Modal.Columns>
-              )}
+                        }
+                        tabIndex={-1}
+                        value={derivePath}
+                      />
+                    )}
+                    {deriveValidation?.error && (
+                      <MarkError content={errorIndex.current[deriveValidation.error] || deriveValidation.error} />
+                    )}
+                    {deriveValidation?.warning && (
+                      <MarkWarning content={errorIndex.current[deriveValidation.warning]} />
+                    )}
+                  </Modal.Columns>
+                )}
           </Expander>
           <Modal.Columns>
             <ExternalWarning />

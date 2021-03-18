@@ -33,7 +33,6 @@ export interface SortedAccount {
   isFavorite: boolean;
 }
 
-
 export type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
 
 export interface CreateProps extends ModalProps {
