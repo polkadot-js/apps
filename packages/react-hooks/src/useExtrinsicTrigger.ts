@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { SignedBlockExtended } from '@polkadot/api-derive/type';
+import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 
 import { useEffect, useState } from 'react';
 

@@ -1,10 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HeaderExtended } from '@polkadot/api-derive/types';
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { HeaderExtended } from '@polkadot/api-derive';
 import { AddressMini, Digits } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 

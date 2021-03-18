@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 
 import React from 'react';
 
-import { HeaderExtended } from '@polkadot/api-derive';
 import { Columar } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders';
