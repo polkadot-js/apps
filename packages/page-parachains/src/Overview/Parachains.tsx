@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignedBlockExtended } from '@polkadot/api-derive/type';
+import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { ScheduledProposals } from '../types';
 import type { QueuedAction } from './types';
