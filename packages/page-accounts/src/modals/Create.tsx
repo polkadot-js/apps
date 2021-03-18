@@ -320,22 +320,24 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             isPadded
             summary={t<string>('Advanced creation options')}
           >
-            <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
-              <Dropdown
-                defaultValue={pairType}
-                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                label={t<string>('keypair crypto type')}
-                onChange={_onChangePairType}
-                options={
-                  isEthereum
-                    ? settings.availableCryptosEth
-                    : isLedgerEnabled
-                      ? settings.availableCryptosLedger
-                      : settings.availableCryptos
-                }
-                tabIndex={-1}
-              />
-            </Modal.Columns>
+            {pairType === 'ethereum'
+              ? null
+              : <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
+                <Dropdown
+                  defaultValue={pairType}
+                  help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                  label={t<string>('keypair crypto type')}
+                  onChange={_onChangePairType}
+                  options={
+                    isEthereum
+                      ? settings.availableCryptosEth
+                      : isLedgerEnabled
+                        ? settings.availableCryptosLedger
+                        : settings.availableCryptos
+                  }
+                  tabIndex={-1}
+                />
+              </Modal.Columns>}
             {pairType === 'ed25519-ledger'
               ? (
                 <CreateSuriLedger
