@@ -57,6 +57,7 @@ import trustbase from './trustbase';
 import uniarts from './uniarts';
 import zenlink from './zenlink';
 import zero from './zero';
+import matic from './matic';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
@@ -120,7 +121,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   trustbase,
   uniarts,
-  zenlink
+  zenlink,
+  'node-template': matic
 };
 
 export default spec;

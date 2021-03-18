@@ -245,6 +245,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville-0.zero.io'
       }
+    },
+    {
+      info: 'matic',
+      text: t('rpc.matic', 'Matic', { ns: 'apps-config' }),
+      providers: {
+        MATIC: 'ws://54.160.87.220:8001'
+      }
     }
   ]);
 }
