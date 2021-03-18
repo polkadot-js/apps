@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.84.2-2",
+  "version": "0.84.2-3",
   "type": "module",
   "main": "index.js",
   "sideEffects": true,
