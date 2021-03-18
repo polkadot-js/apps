@@ -89,6 +89,10 @@ export default React.memo(styled(Item)`
         padding-right: 3.2rem;
       }
     }
+
+    .ui--Badge {
+      top: 0.7rem;
+    }
   }
 
   &&.withCounter a {
@@ -108,7 +112,6 @@ export default React.memo(styled(Item)`
   .ui--Badge {
     position: absolute;
     right: 0.5rem;
-    top: 0.7rem;
   }
 
   .ui--Icon {
