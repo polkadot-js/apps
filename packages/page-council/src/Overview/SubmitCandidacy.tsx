@@ -26,31 +26,21 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  help={t<string>('Select the account you wish to submit for candidacy.')}
-                  label={t<string>('candidate account')}
-                  onChange={setAcountId}
-                  type='account'
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.')}>
+              <InputAddress
+                help={t<string>('Select the account you wish to submit for candidacy.')}
+                label={t<string>('candidate account')}
+                onChange={setAcountId}
+                type='account'
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputBalance
-                  defaultValue={api.consts[modLocation].candidacyBond}
-                  help={t<string>('The bond that is reserved')}
-                  isDisabled
-                  label={t<string>('candidacy bond')}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t('The bond will be reserved for the duration of your candidacy and membership.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
+              <InputBalance
+                defaultValue={api.consts[modLocation].candidacyBond}
+                help={t<string>('The bond that is reserved')}
+                isDisabled
+                label={t<string>('candidacy bond')}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={onClose}>

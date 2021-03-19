@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
@@ -38,7 +38,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!hasAccounts}
-        label={t<string>('Add campaign')}
+        label={t<string>('Add fund')}
         onClick={toggleOpen}
       />
       {isOpen && (
@@ -48,71 +48,46 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('propose from')}
-                  onChange={setAccountId}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.')}>
+              <InputAddress
+                label={t<string>('propose from')}
+                onChange={setAccountId}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputNumber
-                  autoFocus
-                  isZeroable={false}
-                  label={t<string>('parachain id')}
-                  onChange={setParaId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The parachain id this campaign refers to')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The parachain id this fund applies to')}>
+              <InputNumber
+                autoFocus
+                isZeroable={false}
+                label={t<string>('parachain id')}
+                onChange={setParaId}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputBalance
-                  isZeroable={false}
-                  label={t<string>('crowdfund cap')}
-                  onChange={setCap}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The amount to be raised in this funding campaign')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The amount to be raised in this funding campaign')}>
+              <InputBalance
+                isZeroable={false}
+                label={t<string>('crowdfund cap')}
+                onChange={setCap}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputNumber
-                  isError={isEndError}
-                  label={t<string>('ending block')}
-                  onChange={setEndBlock}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The block until which this campaign is active for')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The block until which this fund is active for')}>
+              <InputNumber
+                isError={isEndError}
+                label={t<string>('ending block')}
+                onChange={setEndBlock}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputNumber
-                  label={t<string>('first slot')}
-                  onChange={setFirstSlot}
-                />
-                <InputNumber
-                  isError={isLastError}
-                  label={t<string>('last slot')}
-                  onChange={setLastSlot}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}>
+              <InputNumber
+                label={t<string>('first slot')}
+                onChange={setFirstSlot}
+              />
+              <InputNumber
+                isError={isLastError}
+                label={t<string>('last slot')}
+                onChange={setLastSlot}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

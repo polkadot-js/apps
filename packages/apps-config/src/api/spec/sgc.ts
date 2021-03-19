@@ -14,7 +14,25 @@ const definitions: OverrideBundleDefinition = {
       types: {
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress',
-        TokenId: 'u32'
+        TokenId: 'u64',
+        InstanceId: 'u64',
+        ExchangeId: 'u32',
+        TokenSymbol: {
+          _enum: {
+            SGC: 0,
+            DOT: 1,
+            ACA: 2,
+            AUSD: 3
+          }
+        },
+        CurrencyId: {
+          _enum: {
+            Token: 'TokenSymbol'
+          }
+        },
+        CurrencyIdOf: 'CurrencyId',
+        CollectionId: 'u64',
+        AssetId: '64'
       }
     }
   ]

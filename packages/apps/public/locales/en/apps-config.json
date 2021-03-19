@@ -95,6 +95,7 @@
   "rpc.turbulence": "Turbulence",
   "rpc.uniarts": "Uniarts",
   "rpc.unique": "Unique",
+  "rpc.vln": "Valiu",
   "rpc.westend": "Westend",
   "rpc.zero": "Zero",
   "ss58.default": "Default for the connected node"

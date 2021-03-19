@@ -70,7 +70,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'crust',
       text: t('rpc.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
-        'Crust Network': 'wss://api.crust.network/'
+        'Crust Network': 'wss://api.crust.network/',
+        'DCloud Foundation': 'wss://api.decloudf.com/'
       }
     },
     {
@@ -134,7 +135,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'galois',
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       providers: {
-        MathWallet: 'wss://galois.maiziqianbao.net/ws'
+        MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
+        'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
       }
     },
     {
@@ -236,6 +238,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.unique', 'Unique', { ns: 'apps-config' }),
       providers: {
         Unique: 'wss://testnet2.uniquenetwork.io'
+      }
+    },
+    {
+      info: 'vln',
+      text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
+      providers: {
+        Valiu: 'wss://vln.valiu.dev'
       }
     },
     {

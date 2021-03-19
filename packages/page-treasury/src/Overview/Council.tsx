@@ -54,34 +54,24 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={members}
-                  help={t<string>('Select the council account you wish to use to make the proposal.')}
-                  label={t<string>('submit with council account')}
-                  onChange={setAccountId}
-                  type='account'
-                  withLabel
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The council member that is proposing this, submission equates to an "aye" vote.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The council member that is proposing this, submission equates to an "aye" vote.')}>
+              <InputAddress
+                filter={members}
+                help={t<string>('Select the council account you wish to use to make the proposal.')}
+                label={t<string>('submit with council account')}
+                onChange={setAccountId}
+                type='account'
+                withLabel
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Dropdown
-                  help={t<string>('The type of council proposal to submit.')}
-                  label={t<string>('council proposal type')}
-                  onChange={setCouncilType}
-                  options={councilTypeOptRef.current}
-                  value={councilType}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Proposal can either be to approve or reject this spend. Once approved, the change is applied by either removing the proposal or scheduling payout.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('Proposal can either be to approve or reject this spend. Once approved, the change is applied by either removing the proposal or scheduling payout.')}>
+              <Dropdown
+                help={t<string>('The type of council proposal to submit.')}
+                label={t<string>('council proposal type')}
+                onChange={setCouncilType}
+                options={councilTypeOptRef.current}
+                value={councilType}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

@@ -1,20 +1,22 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SignedBlockExtended } from '@polkadot/api-derive/type';
+import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { ScheduledProposals } from '../types';
+import type { QueuedAction } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
 
 interface Props {
+  actionsQueue: QueuedAction[];
   ids?: ParaId[];
   scheduled?: ScheduledProposals[];
 }
@@ -42,10 +44,10 @@ function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumb
   }
 }
 
-function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
+function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded }, setLastEvents] = useState<LastEvents>({ lastBacked: {}, lastIncluded: {} });
   const [validators, validatorGroups] = useCallMulti<[AccountId[] | null, ParaValidatorIndex[][] | null]>([
@@ -108,7 +110,9 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('parachains'), 'start', 3],
     ['', 'media--1500'],
-    [t('heads'), 'start'],
+    [t('head'), 'start'],
+    [t('lifecycle'), 'start media--1100'],
+    [],
     [t('included'), undefined, 2],
     [t('backed')],
     [t('chain best'), 'media--900'],
@@ -129,6 +133,9 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
           key={id.toString()}
           lastBacked={lastBacked[id.toString()]}
           lastInclusion={lastIncluded[id.toString()]}
+          nextAction={actionsQueue.find(({ paraIds }) =>
+            paraIds.some((p) => p.eq(id))
+          )}
           validators={validatorMap[index]}
         />
       ))}
@@ -136,4 +143,4 @@ function ParachainList ({ ids, scheduled }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(ParachainList);
+export default React.memo(Parachains);
