@@ -14,6 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isFounder?: boolean;
   isHead?: boolean;
   value: DeriveSocietyMember;
 }
@@ -23,7 +24,7 @@ const CANVAS_STYLE = {
   margin: '0 auto'
 };
 
-function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ className = '', isFounder, isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const suspended = useCall<bool>(api.query.society.suspendedMembers, [accountId]);
@@ -50,8 +51,13 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
         {isHead && (
           <Tag
             color='green'
-            hover={t<string>('Current society head, exempt')}
             label={t<string>('society head')}
+          />
+        )}
+        {isFounder && (
+          <Tag
+            color='green'
+            label={t<string>('society founder')}
           />
         )}
         {suspended?.isTrue && (
