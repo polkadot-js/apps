@@ -135,7 +135,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'galois',
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       providers: {
-        MathWallet: 'wss://galois.maiziqianbao.net/ws'
+        MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
+        'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
       }
     },
     {
