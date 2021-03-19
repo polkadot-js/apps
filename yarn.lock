@@ -14548,6 +14548,7 @@ fsevents@~2.1.2:
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.9
     "@types/styled-theming": ^2.2.5
+    axios: ^0.21.1
     concurrently: ^5.3.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0

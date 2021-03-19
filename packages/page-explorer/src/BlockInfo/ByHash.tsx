@@ -16,6 +16,9 @@ import Events from '../Events';
 import { useTranslation } from '../translate';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
+import axios from 'axios';
+
+const LightClientURI = 'http://localhost:7000/v1/json-rpc';
 
 interface Props {
   className?: string;
@@ -23,7 +26,7 @@ interface Props {
   value?: string | null;
 }
 
-function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
+function transformResult([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
   return [
     events.map((record, index) => ({
       indexes: [index],
@@ -35,11 +38,12 @@ function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedB
   ];
 }
 
-function BlockByHash ({ className = '', error, value }: Props): React.ReactElement<Props> {
+function BlockByHash({ className = '', error, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [[events, getBlock, getHeader], setState] = useState<[KeyedEvent[]?, SignedBlock?, HeaderExtended?]>([]);
+  const [confidence, setConfidence] = useState<String>('0 %');
   const [myError, setError] = useState<Error | null | undefined>(error);
 
   useEffect((): void => {
@@ -51,6 +55,40 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       ])
       .then((result): void => {
         mountedRef.current && setState(transformResult(result));
+
+        const number = result[2]?.number.unwrap().toNumber();
+
+        axios.post(LightClientURI,
+          {
+            "id": 1,
+            "jsonrpc": "2.0",
+            "method": "get_blockConfidence",
+            "params": { number }
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        ).then(v => {
+          console.log(v);
+
+          if (v.status != 200) {
+
+            setConfidence('ℹ️ Make sure Light Client runs on :7000');
+            return;
+
+          }
+
+          setConfidence(v.data.result.confidence);
+
+        }).catch(_ => {
+
+          setConfidence('ℹ️ Make sure Light Client runs on :7000');
+          console.log('Light client: Called, but failed');
+
+        });
+
       })
       .catch((error: Error): void => {
         mountedRef.current && setError(error);
@@ -72,6 +110,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               [t('parent'), 'start'],
               [t('extrinsics'), 'start'],
               [t('state'), 'start'],
+              [t('confidence'), 'start'],
               []
             ]
             : [['...', 'start', 6]]
@@ -95,6 +134,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               }</td>
               <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
+              <td className='hash overflow'>{confidence}</td>
               <td>
                 <LinkExternal
                   data={value}
