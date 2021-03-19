@@ -136,6 +136,7 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
           nextAction={actionsQueue.find(({ paraIds }) =>
             paraIds.some((p) => p.eq(id))
           )}
+          sessionValidators={validators}
           validators={validatorMap[index]}
         />
       ))}
