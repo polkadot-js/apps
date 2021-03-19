@@ -86,53 +86,38 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              className='full'
-              help={t<string>('Name given to this account to uniquely identity the account to yourself.')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              placeholder={t<string>('account name')}
-              value={name}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            {t<string>('The name for this account as it will appear under your accounts.')}
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The name for this account as it will appear under your accounts.')}>
+          <Input
+            autoFocus
+            className='full'
+            help={t<string>('Name given to this account to uniquely identity the account to yourself.')}
+            isError={!isNameValid}
+            label={t<string>('name')}
+            onChange={_onChangeName}
+            placeholder={t<string>('account name')}
+            value={name}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              help={t('The account type (derivation) to use')}
-              label={t('account type')}
-              onChange={setAccIndex}
-              options={accOps.current}
-              value={accIndex}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            {t('The account type that you wish to create. This is the top-level derivation.')}
-          </Modal.Column>
+        <Modal.Columns hint={t('The account type that you wish to create. This is the top-level derivation.')}>
+          <Dropdown
+            help={t('The account type (derivation) to use')}
+            label={t('account type')}
+            onChange={setAccIndex}
+            options={accOps.current}
+            value={accIndex}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              help={t('The address index (derivation on account) to use')}
-              label={t('address index')}
-              onChange={setAddIndex}
-              options={addOps.current}
-              value={addIndex}
-            />
-            {error && (
-              <MarkError content={error.message} />
-            )}
-          </Modal.Column>
-          <Modal.Column>
-            {t('The address index on the account that you wish to add. This is the second-level derivation.')}
-          </Modal.Column>
+        <Modal.Columns hint={t('The address index on the account that you wish to add. This is the second-level derivation.')}>
+          <Dropdown
+            help={t('The address index (derivation on account) to use')}
+            label={t('address index')}
+            onChange={setAddIndex}
+            options={addOps.current}
+            value={addIndex}
+          />
+          {error && (
+            <MarkError content={error.message} />
+          )}
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

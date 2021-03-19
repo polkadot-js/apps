@@ -44,6 +44,7 @@
   "Nay: {{count}}": "Nay: {{count}}",
   "No open bounties": "No open bounties",
   "Only curator can extend the bounty time.": "Only curator can extend the bounty time.",
+  "Only the account proposed as curator by the council can create the assign curator transaction": "Only the account proposed as curator by the council can create the assign curator transaction",
   "Only the account proposed as curator by the council can create the assign curator transaction ": "Only the account proposed as curator by the council can create the assign curator transaction ",
   "Only the account proposed as curator by the council can create the unassign curator transaction ": "Only the account proposed as curator by the council can create the unassign curator transaction ",
   "Part of the bounty value that will go to the Curator as a reward for their work": "Part of the bounty value that will go to the Curator as a reward for their work",

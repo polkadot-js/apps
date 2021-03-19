@@ -3,9 +3,10 @@
 
 import React from 'react';
 
-export interface ColumnProps {
+export interface ColumnsProps {
   children: React.ReactNode;
   className?: string;
+  hint?: React.ReactNode;
 }
 
 export interface ModalProps {

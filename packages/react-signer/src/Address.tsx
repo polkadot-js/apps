@@ -160,7 +160,11 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         (isProxyActive && proxyInfo && proxyAddress) ||
         requestAddress;
 
-      return [signAddress, extractExternal(signAddress)];
+      try {
+        return [signAddress, extractExternal(signAddress)];
+      } catch {
+        return [signAddress, {} as AddressFlags];
+      }
     },
     [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]
   );
@@ -212,51 +216,36 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
 
   return (
     <>
-      <Modal.Columns>
-        <Modal.Column>
-          <InputAddress
-            className='full'
-            defaultValue={requestAddress}
-            isDisabled
-            isInput
-            label={t('sending from my account')}
-            withLabel
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
-        </Modal.Column>
+      <Modal.Columns hint={t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}>
+        <InputAddress
+          className='full'
+          defaultValue={requestAddress}
+          isDisabled
+          isInput
+          label={t('sending from my account')}
+          withLabel
+        />
       </Modal.Columns>
       {proxyInfo && isProxyActive && (
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              filter={proxyInfo.proxiesFilter}
-              help={t('The proxy to be used for this transaction.')}
-              label={t('proxy account')}
-              onChange={setProxyAddress}
-              type='account'
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}>
+          <InputAddress
+            filter={proxyInfo.proxiesFilter}
+            help={t('The proxy to be used for this transaction.')}
+            label={t('proxy account')}
+            onChange={setProxyAddress}
+            type='account'
+          />
         </Modal.Columns>
       )}
       {multiInfo && (
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              filter={multiInfo.whoFilter}
-              help={t('The multisig signatory for this transaction.')}
-              label={t('multisig signatory')}
-              onChange={setMultiAddress}
-              type='account'
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}>
+          <InputAddress
+            filter={multiInfo.whoFilter}
+            help={t('The multisig signatory for this transaction.')}
+            label={t('multisig signatory')}
+            onChange={setMultiAddress}
+            type='account'
+          />
         </Modal.Columns>
       )}
       {signAddress && !currentItem.isUnsigned && flags.isUnlockable && (
@@ -269,48 +258,36 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
       )}
       {passwordError && (
         <Modal.Columns>
-          <Modal.Column>
-            <MarkError content={passwordError} />
-          </Modal.Column>
+          <MarkError content={passwordError} />
         </Modal.Columns>
       )}
       {proxyInfo && (
-        <Modal.Columns>
-          <Modal.Column>
-            <Toggle
-              className='tipToggle'
-              isDisabled={proxyInfo.isProxied}
-              label={
-                isProxyActive
-                  ? t<string>('Use a proxy for this call')
-                  : t<string>("Don't use a proxy for this call")
-              }
-              onChange={setIsProxyActive}
-              value={isProxyActive}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}>
+          <Toggle
+            className='tipToggle'
+            isDisabled={proxyInfo.isProxied}
+            label={
+              isProxyActive
+                ? t<string>('Use a proxy for this call')
+                : t<string>("Don't use a proxy for this call")
+            }
+            onChange={setIsProxyActive}
+            value={isProxyActive}
+          />
         </Modal.Columns>
       )}
       {multiInfo && (
-        <Modal.Columns>
-          <Modal.Column>
-            <Toggle
-              className='tipToggle'
-              label={
-                isMultiCall
-                  ? t<string>('Multisig message with call (for final approval)')
-                  : t<string>('Multisig approval with hash (non-final approval)')
-              }
-              onChange={setIsMultiCall}
-              value={isMultiCall}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}>
+          <Toggle
+            className='tipToggle'
+            label={
+              isMultiCall
+                ? t<string>('Multisig message with call (for final approval)')
+                : t<string>('Multisig approval with hash (non-final approval)')
+            }
+            onChange={setIsMultiCall}
+            value={isMultiCall}
+          />
         </Modal.Columns>
       )}
     </>

@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
@@ -11,7 +10,7 @@ import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 
 import { Button, Columar, InputAddress, Progress, Spinner, Tabs, Toggle, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MILLION, BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
@@ -22,17 +21,25 @@ interface Props {
   className?: string;
 }
 
+type MultiResult = [Balance | undefined, [Balance, Balance, Balance, Balance] | undefined];
+
 interface Turnout {
   percentage: number;
   voted: BN;
 }
 
+const optMulti = {
+  defaultValue: [undefined, undefined] as MultiResult
+};
+
 function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
+  const bestNumber = useBestNumber();
+  const [totalIssuance, totals] = useCallMulti<MultiResult>([
+    api.query.balances.totalIssuance,
+    api.query.poll.totals
+  ], optMulti);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [turnout, setTurnout] = useState<Turnout | null>(null);
   const [opt10m, setOpt10m] = useState(false);
@@ -107,7 +114,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
             )}
             <div>
               {canVote
-                ? <BlockToTime blocks={blocksLeft} />
+                ? <BlockToTime value={blocksLeft} />
                 : t<string>('Completed')
               }
               <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
@@ -201,7 +208,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(PollApp)(({ theme }: ThemeProps) => `
+export default React.memo(styled(PollApp)`
   .pollActions {
     opacity: 0.75;
   }
@@ -256,7 +263,7 @@ export default React.memo(styled(PollApp)(({ theme }: ThemeProps) => `
 
     .optionName {
       font-size: 1.2rem;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
       line-height: 1;
       margin-bottom: 0.75rem;
     }
@@ -286,7 +293,7 @@ export default React.memo(styled(PollApp)(({ theme }: ThemeProps) => `
 
     .ui--FormatBalance {
       font-size: 1.2rem;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
       line-height: 1;
     }
 
@@ -294,4 +301,4 @@ export default React.memo(styled(PollApp)(({ theme }: ThemeProps) => `
       margin: 0.75rem;
     }
   }
-`));
+`);

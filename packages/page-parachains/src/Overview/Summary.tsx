@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LeasePeriod } from './types';
+
 import React from 'react';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
@@ -12,12 +14,13 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  leasePeriod: LeasePeriod | null;
   parachainCount?: number;
   proposalCount?: number;
   upcomingCount?: number;
 }
 
-function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
+function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -46,6 +49,18 @@ function Summary ({ parachainCount, proposalCount, upcomingCount }: Props): Reac
           </CardSummary>
         )}
       </section>
+      {leasePeriod && (
+        <CardSummary
+          label={t<string>('lease period')}
+          progress={{
+            total: leasePeriod.length,
+            value: leasePeriod.remainder,
+            withTime: true
+          }}
+        >
+          {formatNumber(leasePeriod.currentPeriod)}
+        </CardSummary>
+      )}
       <section>
         <CardSummary
           className='media--1000'

@@ -64,34 +64,24 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              help={t<string>('The selected account to be unlocked.')}
-              isDisabled
-              label={t<string>('account')}
-              value={address}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('This account that will perform the message signing.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('This account that will perform the message signing.')}>
+          <InputAddress
+            help={t<string>('The selected account to be unlocked.')}
+            isDisabled
+            label={t<string>('account')}
+            value={address}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Password
-              autoFocus
-              help={t<string>('The account\'s password specified at the creation of this account.')}
-              isError={!!unlockError}
-              label={t<string>('password')}
-              onChange={setPassword}
-              onEnter={_onUnlock}
-              value={password}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}>
+          <Password
+            autoFocus
+            help={t<string>('The account\'s password specified at the creation of this account.')}
+            isError={!!unlockError}
+            label={t<string>('password')}
+            onChange={setPassword}
+            onEnter={_onUnlock}
+            value={password}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

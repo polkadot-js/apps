@@ -10,6 +10,8 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import useProposals from './Proposals/useProposals';
+import Auctions from './Auctions';
+import Crowdloan from './Crowdloan';
 import Overview from './Overview';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
@@ -34,6 +36,14 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
     api.query.proposeParachain && {
       name: 'proposals',
       text: t<string>('Proposals')
+    },
+    api.query.auctions && {
+      name: 'auctions',
+      text: t<string>('Auctions')
+    },
+    api.query.crowdloan && {
+      name: 'crowdloan',
+      text: t<string>('Crowdloan')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
 
@@ -46,6 +56,12 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         />
       </header>
       <Switch>
+        <Route path={`${basePath}/auctions`}>
+          <Auctions />
+        </Route>
+        <Route path={`${basePath}/crowdloan`}>
+          <Crowdloan />
+        </Route>
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />
         </Route>

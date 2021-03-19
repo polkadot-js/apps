@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UInt } from '@polkadot/types';
-import type { ThemeProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -15,6 +14,7 @@ import Labelled from './Labelled';
 import Progress from './Progress';
 
 interface ProgressProps {
+  hideGraph?: boolean;
   hideValue?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
@@ -65,8 +65,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         {children}{
           progress && !progress.hideValue && (
             <>
-              {isTimed && (
-                <BlockToTime blocks={progress.total} />
+              {isTimed && !children && (
+                <BlockToTime value={progress.total} />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -79,8 +79,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        blocks={progress.total.sub(progress.value)}
                         className='timer'
+                        value={progress.total.sub(progress.value)}
                       />
                     )
                 }
@@ -89,17 +89,17 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           )
         }
       </Labelled>
-      {progress && <Progress {...progress} />}
+      {progress && !progress.hideGraph && <Progress {...progress} />}
     </article>
   );
 }
 
-export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
+export default React.memo(styled(CardSummary)`
   align-items: center;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: ${theme.colorSummary};
+  color: var(--color-summary);
   display: flex;
   flex: 0 1 auto;
   flex-flow: row wrap;
@@ -116,7 +116,7 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
 
   > .ui--Labelled {
     font-size: 1.75rem;
-    font-weight: ${theme.fontWeightLight};
+    font-weight: var(--font-weight-light);
     position: relative;
     line-height: 1;
     text-align: right;
@@ -139,7 +139,7 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
 
     .isSecondary {
       font-size: 1rem;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
 
       .timer {
         min-width: 8rem;
@@ -155,4 +155,4 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
       font-size: 1.4rem;
     }
   }
-`));
+`);

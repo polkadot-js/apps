@@ -86,7 +86,7 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
         <span className='payout-eras'>{eraStr}</span>
       </td>
       <td className='number'><FormatBalance value={available} /></td>
-      <td className='number'>{eraBlocks && <BlockToTime blocks={eraBlocks} />}</td>
+      <td className='number'>{eraBlocks && <BlockToTime value={eraBlocks} />}</td>
       <td
         className='button'
         colSpan={3}
