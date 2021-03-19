@@ -26,7 +26,7 @@ interface Props {
   lastBacked?: [string, string, BN];
   lastInclusion?: [string, string, BN];
   nextAction?: QueuedAction;
-  sessionValidators?: AccountId[];
+  sessionValidators?: AccountId[] | null;
   validators?: AccountId[];
 }
 
