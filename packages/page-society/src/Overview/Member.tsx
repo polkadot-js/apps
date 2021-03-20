@@ -69,7 +69,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
       <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td>
+      <td className='all'>
         {isHead && (
           <Tag
             color='green'
@@ -101,7 +101,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
           />
         )}
       </td>
-      <td className='all number'>
+      <td className='number'>
         {!!payouts?.length && (
           <Expander
             renderChildren={renderPayouts}

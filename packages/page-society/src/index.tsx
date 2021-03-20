@@ -45,9 +45,9 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
             ? -1
             : b.isSkeptic
               ? 1
-              : a.isVoter
+              : a.isCandidateVoter || a.member.isDefenderVoter
                 ? -1
-                : b.isVoter
+                : b.isCandidateVoter || b.member.isDefenderVoter
                   ? 1
                   : a.isFounder
                     ? 1
