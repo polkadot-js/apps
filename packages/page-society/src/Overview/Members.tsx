@@ -22,7 +22,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
 
   const headerRef = useRef([
     [t('members'), 'start', 2],
-    [t('payouts'), 'number'],
+    [],
     [t('strikes')],
     []
   ]);
