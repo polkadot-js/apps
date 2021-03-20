@@ -75,6 +75,15 @@ const optionsMulti = {
   })
 };
 
+function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
+  return list?.map((id) => (
+    <AddressMini
+      key={id.toString()}
+      value={id}
+    />
+  ));
+}
+
 function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -105,22 +114,12 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   );
 
   const valRender = useCallback(
-    () => validators?.map((id) => (
-      <AddressMini
-        key={id.toString()}
-        value={id}
-      />
-    )),
+    () => renderAddresses(validators),
     [validators]
   );
 
   const bckRender = useCallback(
-    () => nonBacked.map((id) => (
-      <AddressMini
-        key={id.toString()}
-        value={id}
-      />
-    )),
+    () => renderAddresses(nonBacked),
     [nonBacked]
   );
 
