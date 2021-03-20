@@ -1,20 +1,25 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
+import type BN from 'bn.js';
+import type { MapMember } from '../types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
-import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
+import { KUSAMA_GENESIS } from '@polkadot/apps-config';
+import { AddressSmall, Columar, Expander, Icon, Modal, Tag } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import drawCanary from '../draw/canary';
 import { useTranslation } from '../translate';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
-  isHead?: boolean;
-  value: DeriveSocietyMember;
+  value: MapMember;
 }
 
 const CANVAS_STYLE = {
@@ -22,12 +27,32 @@ const CANVAS_STYLE = {
   margin: '0 auto'
 };
 
-function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canInk] = useState(api.genesisHash.eq('0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe'));
+  const [canInk] = useState(() => api.genesisHash.eq(KUSAMA_GENESIS));
   const [isInkShowing, toggleInk] = useToggle();
+
+  const renderPayouts = useCallback(
+    () => bestNumber && payouts?.map(([bn, value], index) => (
+      <p key={index}>
+        <Columar>
+          <Columar.Column>
+            <FormatBalance value={value} />
+          </Columar.Column>
+          <Columar.Column>
+            <div>#{formatNumber(bn)}</div>
+            <BlockToTime
+              key={index}
+              value={bn.sub(bestNumber)}
+            />
+          </Columar.Column>
+        </Columar>
+      </p>
+    )),
+    [bestNumber, payouts]
+  );
 
   useEffect((): void => {
     if (canvasRef.current) {
@@ -44,19 +69,47 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
       <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td>
+      <td className='all'>
         {isHead && (
           <Tag
             color='green'
-            hover={t<string>('Current society head, exempt')}
             label={t<string>('society head')}
           />
         )}
+        {isFounder && (
+          <Tag
+            color='green'
+            label={t<string>('society founder')}
+          />
+        )}
+        {isSkeptic && (
+          <Tag
+            color='yellow'
+            label={t<string>('skeptic')}
+          />
+        )}
+        {(isCandidateVoter || isDefenderVoter) && (
+          <Tag
+            color='blue'
+            label={t<string>('voted')}
+          />
+        )}
+        {isSuspended && (
+          <Tag
+            color='red'
+            label={t<string>('suspended')}
+          />
+        )}
       </td>
-      <td className='all'>&nbsp;</td>
-      <td className='number'>
-        {strikes.toString()}
+      <td className='number together'>
+        {!!payouts?.length && (
+          <Expander
+            renderChildren={renderPayouts}
+            summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
+          />
+        )}
       </td>
+      <td className='number'>{formatNumber(strikes)}</td>
       <td>
         {canInk && (
           <>
@@ -90,4 +143,17 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
   );
 }
 
-export default React.memo(Member);
+export default React.memo(styled(Member)`
+  .ui--Column {
+    min-width: 14ch;
+
+    &:first-child {
+      max-width: 100% !important;
+    }
+
+    &:last-child {
+      max-width: 14ch;
+      white-space: nowrap;
+    }
+  }
+`);

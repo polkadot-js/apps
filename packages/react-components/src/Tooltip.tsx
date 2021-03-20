@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
@@ -6,9 +6,11 @@ import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 
-const rootElement = typeof document === 'undefined'
-  ? null // This hack is required for server side rendering
-  : document.getElementById('tooltips');
+function rootElement () {
+  return typeof document === 'undefined'
+    ? null // This hack is required for server side rendering
+    : document.getElementById('tooltips');
+}
 
 interface Props {
   className?: string;
@@ -33,10 +35,12 @@ function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', tex
   );
 
   useEffect((): () => void => {
-    rootElement && rootElement.appendChild(tooltipContainer);
+    const root = rootElement();
+
+    root && root.appendChild(tooltipContainer);
 
     return (): void => {
-      rootElement && rootElement.removeChild(tooltipContainer);
+      root && root.removeChild(tooltipContainer);
     };
   }, [tooltipContainer]);
 

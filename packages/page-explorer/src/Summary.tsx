@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -25,7 +25,7 @@ function Summary (): React.ReactElement {
           className='media--800'
           label={t<string>('target')}
         >
-          <BlockToTime blocks={BN_ONE} />
+          <BlockToTime value={BN_ONE} />
         </CardSummary>
         {api.query.balances && (
           <CardSummary

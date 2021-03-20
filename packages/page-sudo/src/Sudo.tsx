@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2021 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { Button, Extrinsic, Icon, InputNumber, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -44,7 +44,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
           label={t<string>('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
-        {api.tx.sudo.sudoUncheckedWeight && (
+        {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
           <InputNumber
             help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
             isDisabled={!withWeight}
@@ -80,8 +80,8 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             }
             tx={
               withWeight
-                ? 'sudo.sudoUncheckedWeight'
-                : 'sudo.sudo'
+                ? api.tx.sudo.sudoUncheckedWeight
+                : api.tx.sudo.sudo
             }
           />
         </Button.Group>

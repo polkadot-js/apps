@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
@@ -31,32 +31,30 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
   const args = meta?.args.map(({ name }) => name).join(', ') || '';
 
   return (
-    <Modal.Columns className={className}>
-      <Modal.Column>
-        <Expander
+    <Modal.Columns
+      className={className}
+      hint={t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
+    >
+      <Expander
+        className='tx-details'
+        summary={<>{t<string>('Sending transaction')} <span className='highlight'>{section}.{method}({args})</span></>}
+        summaryMeta={meta}
+      >
+        <Call
+          onError={onError}
+          value={extrinsic}
+          withBorder={false}
+        />
+      </Expander>
+      {!isUnsigned && !payload && (
+        <PaymentInfo
+          accountId={accountId}
           className='tx-details'
-          summary={<>{t<string>('Sending transaction')} <span className='highlight'>{section}.{method}({args})</span></>}
-          summaryMeta={meta}
-        >
-          <Call
-            onError={onError}
-            value={extrinsic}
-            withBorder={false}
-          />
-        </Expander>
-        {!isUnsigned && !payload && (
-          <PaymentInfo
-            accountId={accountId}
-            className='tx-details'
-            extrinsic={extrinsic}
-            isSendable={isSendable}
-            tip={tip}
-          />
-        )}
-      </Modal.Column>
-      <Modal.Column>
-        <p>{t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}</p>
-      </Modal.Column>
+          extrinsic={extrinsic}
+          isSendable={isSendable}
+          tip={tip}
+        />
+      )}
     </Modal.Columns>
   );
 }
@@ -69,7 +67,7 @@ export default React.memo(styled(Transaction)`
     }
 
     .highlight {
-      font-weight: 400;
+      font-weight: var(--font-weight-normal);
     }
 
     .meta {

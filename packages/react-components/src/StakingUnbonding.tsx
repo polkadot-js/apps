@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
@@ -75,8 +75,8 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
               {api.consts.babe?.epochDuration
                 ? (
                   <BlockToTime
-                    blocks={blocks}
                     label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                    value={blocks}
                   />
                 )
                 : t<string>('{{eras}} eras remaining', { replace: { eras: formatNumber(eras) } })

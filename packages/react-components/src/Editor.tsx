@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Something is seriously going wrong here...
@@ -38,7 +38,7 @@ interface Props {
  * ```
  */
 function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactElement<Props> {
-  const [editorId] = useState(`flask-${Date.now()}`);
+  const [editorId] = useState(() => `flask-${Date.now()}`);
   const editorRef = useRef<CodeFlask | null>(null);
 
   useEffect((): void => {

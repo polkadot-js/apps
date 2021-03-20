@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -101,7 +101,7 @@ export default React.memo(styled(Labelled)`
 
       .labelExtra {
         color: rgba(78, 78, 78, .85);
-        font-weight: 400;
+        font-weight: var(--font-weight-normal);
         right: 1.75rem;
         text-align: right;
       }

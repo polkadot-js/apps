@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -65,47 +65,36 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  help={t<string>('This account will be use to approve each candidate.')}
-                  label={t<string>('voting account')}
-                  onChange={setAccountId}
-                  type='account'
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The vote will be recorded for the selected account.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The vote will be recorded for the selected account.')}>
+              <InputAddress
+                help={t<string>('This account will be use to approve each candidate.')}
+                label={t<string>('voting account')}
+                onChange={setAccountId}
+                type='account'
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteValue
-                  accountId={accountId}
-                  isCouncil
-                  onChange={setVoteValue}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}>
+              <VoteValue
+                accountId={accountId}
+                isCouncil
+                onChange={setVoteValue}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddressMulti
-                  available={available}
-                  availableLabel={t<string>('council candidates')}
-                  defaultValue={defaultVotes}
-                  help={t<string>('Select and order council candidates you wish to vote for.')}
-                  maxCount={MAX_VOTES}
-                  onChange={setVotes}
-                  valueLabel={t<string>('my ordered votes')}
-                />
-              </Modal.Column>
-              <Modal.Column>
+            <Modal.Columns hint={
+              <>
                 <p>{t<string>('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
                 <p>{t<string>('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
-              </Modal.Column>
+              </>
+            }>
+              <InputAddressMulti
+                available={available}
+                availableLabel={t<string>('council candidates')}
+                defaultValue={defaultVotes}
+                help={t<string>('Select and order council candidates you wish to vote for.')}
+                maxCount={MAX_VOTES}
+                onChange={setVotes}
+                valueLabel={t<string>('my ordered votes')}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
@@ -115,12 +104,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               isDisabled={!defaultVotes.length}
               label={t<string>('Unvote all')}
               onStart={toggleVisible}
-              params={[]}
-              tx={
-                api.tx.electionsPhragmen
-                  ? 'electionsPhragmen.removeVoter'
-                  : 'elections.removeVoter'
-              }
+              tx={(api.tx.electionsPhragmen || api.tx.elections).removeVoter}
             />
             <TxButton
               accountId={accountId}
@@ -128,11 +112,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[votes, voteValue]}
-              tx={
-                api.tx.electionsPhragmen
-                  ? 'electionsPhragmen.vote'
-                  : 'elections.vote'
-              }
+              tx={(api.tx.electionsPhragmen || api.tx.elections).vote}
             />
           </Modal.Actions>
         </Modal>

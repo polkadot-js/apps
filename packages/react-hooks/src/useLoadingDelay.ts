@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
@@ -13,7 +13,9 @@ export function useLoadingDelay (delay = 100): boolean {
     setTimeout((): void => {
       mountedRef.current && setIsLoading(false);
     }, delay);
-  });
+  // Ignore, this is for the initial setup
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return isLoading;
 }

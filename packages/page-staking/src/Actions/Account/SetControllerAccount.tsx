@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
 
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import InputValidationController from './InputValidationController';
@@ -16,6 +17,7 @@ interface Props {
 
 function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isFatal, setIsFatal] = useState(false);
   const [controllerId, setControllerId] = useState<string | null>(null);
 
@@ -30,38 +32,28 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              isDisabled
-              label={t<string>('stash account')}
-              value={stashId}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}>
+          <InputAddress
+            isDisabled
+            label={t<string>('stash account')}
+            value={stashId}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={defaultControllerId}
-              help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-              label={t<string>('controller account')}
-              onChange={setControllerId}
-              type='account'
-              value={controllerId}
-            />
-            <InputValidationController
-              accountId={stashId}
-              controllerId={controllerId}
-              defaultController={defaultControllerId}
-              onError={_setError}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
+          <InputAddress
+            defaultValue={defaultControllerId}
+            help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
+            label={t<string>('controller account')}
+            onChange={setControllerId}
+            type='account'
+            value={controllerId}
+          />
+          <InputValidationController
+            accountId={stashId}
+            controllerId={controllerId}
+            defaultController={defaultControllerId}
+            onError={_setError}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
@@ -72,7 +64,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
           label={t<string>('Set controller')}
           onStart={onClose}
           params={[controllerId]}
-          tx='staking.setController'
+          tx={api.tx.staking.setController}
         />
       </Modal.Actions>
     </Modal>

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -22,13 +22,18 @@ interface Props {
 }
 
 function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
+  const validTheme = uiTheme === 'dark' ? 'dark' : 'light';
+
+  document && document.documentElement &&
+    document.documentElement.setAttribute('data-theme', validTheme);
+
   return uiTheme === 'dark'
     ? darkTheme
     : lightTheme;
 }
 
 function Root ({ store }: Props): React.ReactElement<Props> {
-  const [theme, setTheme] = useState(createTheme(settings));
+  const [theme, setTheme] = useState(() => createTheme(settings));
 
   useEffect((): void => {
     settings.on('change', (settings) => setTheme(createTheme(settings)));

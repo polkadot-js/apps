@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PayoutValidator } from './types';
@@ -66,7 +66,7 @@ function Validator ({ className = '', isDisabled, payout }: Props): React.ReactE
         <span className='payout-eras'>{eraStr}</span>
       </td>
       <td className='number'><FormatBalance value={payout.available} /></td>
-      <td className='number'>{eraBlocks && <BlockToTime blocks={eraBlocks} />}</td>
+      <td className='number'>{eraBlocks && <BlockToTime value={eraBlocks} />}</td>
       <td
         className='expand'
         colSpan={2}

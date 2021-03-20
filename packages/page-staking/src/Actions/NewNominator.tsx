@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SortedTargets } from '../types';
@@ -72,7 +72,11 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
         >
           <Modal.Content>
             {step === 1 && (
-              <BondPartial onChange={setBondInfo} />
+              <BondPartial
+                isNominating
+                minNomination={targets.minNominated}
+                onChange={setBondInfo}
+              />
             )}
             {controllerId && stashId && step === 2 && (
               <NominatePartial
@@ -84,9 +88,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
               />
             )}
             <Modal.Columns>
-              <Modal.Column>
-                <BatchWarning />
-              </Modal.Column>
+              <BatchWarning />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
@@ -109,11 +111,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                       ? [bondTx, nominateTx]
                       : [bondOwnTx, nominateTx, controllerTx]
                   ]}
-                  tx={
-                    isFunction(api.tx.utility.batchAll)
-                      ? 'utility.batchAll'
-                      : 'utility.batch'
-                  }
+                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
               )
               : (

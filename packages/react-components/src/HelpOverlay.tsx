@@ -1,7 +1,5 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { ThemeProps } from './types';
 
 import React from 'react';
 import ReactMd from 'react-markdown';
@@ -44,22 +42,22 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
+export default React.memo(styled(HelpOverlay)`
   .help-button {
-    color: ${theme.color};
+    color: var(--color-text);
     cursor: pointer;
     font-size: 2rem;
-    padding: 1rem 1.5rem 0 0;
+    padding: 0.65rem 1.5rem 0 0;
   }
 
   > .help-button {
     position: absolute;
     right: 0rem;
-    top: 0.125rem;
+    top: 0rem;
   }
 
   .help-slideout {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
     box-shadow: -6px 0px 20px 0px rgba(0, 0, 0, 0.3);
     bottom: 0;
     max-width: 50rem;
@@ -69,7 +67,7 @@ export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
     top: 0;
     transition-duration: .5s;
     transition-property: all;
-    z-index: 225; // 5 more than menubar
+    z-index: 225; /* 5 more than menubar */
 
     .help-button {
       text-align: right;
@@ -83,4 +81,4 @@ export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
       right: 0;
     }
   }
-`));
+`);

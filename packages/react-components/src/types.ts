@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { WithTranslation } from 'react-i18next';
-import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
@@ -27,7 +27,7 @@ export interface TxButtonProps {
   accountId?: AccountId | string | null;
   accountNonce?: Index;
   className?: string;
-  extrinsic?: SubmittableExtrinsic | SubmittableExtrinsic[] | null;
+  extrinsic?: SubmittableExtrinsic<'promise'> | SubmittableExtrinsic<'promise'>[] | null;
   icon?: IconName;
   isBasic?: boolean;
   isBusy?: boolean;
@@ -44,7 +44,7 @@ export interface TxButtonProps {
   onUpdate?: TxCallback;
   params?: any[] | (() => any[]);
   tooltip?: string;
-  tx?: string;
+  tx?: ((...args: any[]) => SubmittableExtrinsic<'promise'>) | null;
   withoutLink?: boolean;
   withSpinner?: boolean;
 }
@@ -71,28 +71,6 @@ export interface NullContract {
 }
 
 export interface ThemeDef {
-  bgInput: string;
-  bgInputError: string;
-  bgInverse: string;
-  bgMenu: string;
-  bgMenuHover: string;
-  bgPage: string;
-  bgTable: string;
-  bgTabs: string;
-  bgToggle: string;
-  borderTable: string;
-  borderTabs: string;
-  color: string;
-  colorCheckbox: string;
-  colorError: string;
-  colorLabel: string;
-  colorSummary: string;
-  contentHalfWidth: string;
-  contentMaxWidth: string;
-  fontSans: string;
-  fontMono: string;
-  fontWeightLight: number;
-  fontWeightNormal: number;
   theme: 'dark' | 'light';
 }
 

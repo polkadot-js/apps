@@ -1,7 +1,5 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { ThemeProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -31,20 +29,21 @@ function Body ({ children, className = '', empty, emptySpinner }: Props): React.
   );
 }
 
-export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Body)`
   position: relative;
 
   td {
-    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-table);
+    padding: 0.5rem 1rem;
     text-align: left;
     vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid ${theme.borderTable};
+      border-left: 1px solid var(--border-table);
     }
 
     &:last-child {
-      border-right: 1px solid ${theme.borderTable};
+      border-right: 1px solid var(--border-table);
     }
 
     label {
@@ -75,12 +74,21 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
     }
 
     &.button {
-      padding: 0.5rem;
+      padding: 0.25rem 0.5rem;
       text-align: right;
       white-space: nowrap;
 
       > * {
         vertical-align: middle;
+      }
+
+      .ui--Toggle {
+        display: inline-block;
+        white-space: nowrap;
+
+        label {
+          display: inline-block !important;
+        }
       }
     }
 
@@ -99,7 +107,7 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
     }
 
     &.hash {
-      font: ${theme.fontMono};
+      font: var(--font-mono);
     }
 
     &.links {
@@ -128,6 +136,10 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       max-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    &.start {
+      text-align: left;
     }
 
     &.together {
@@ -164,12 +176,9 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    // &:nth-child(odd) {
-    //   background: #faf8f6;
-    // }
-
-    &:nth-child(odd) {
-      background: ${theme.bgTable};
+    &:nth-child(odd):not(.isEven),
+    &:nth-child(even).isOdd {
+      background: var(--bg-table);
     }
 
     &:first-child {
@@ -184,7 +193,7 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
 
     &:last-child {
       td {
-        border-bottom: 1px solid ${theme.borderTable};
+        border-bottom: 1px solid var(--border-table);
 
         &:first-child {
           border-bottom-left-radius: 0.25rem;
@@ -198,6 +207,11 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
 
     &.transparent {
       background: transparent;
+    }
+
+    &.noBorder td {
+      border-bottom: 1px solid transparent;
+      padding-bottom: 0 !important;
     }
 
     .ui--Button-Group {
@@ -214,4 +228,4 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       background-color: #eee !important;
     }
   }
-`));
+`);

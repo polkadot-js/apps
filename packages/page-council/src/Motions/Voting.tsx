@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
-import { Button, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { Button, MarkWarning, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -21,6 +21,7 @@ interface Props {
 
 function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -39,33 +40,21 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={idNumber}
-                  proposal={proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}>
+              <ProposedAction
+                idNumber={idNumber}
+                proposal={proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteAccount
-                  filter={members}
-                  onChange={setAccountId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The council account for this vote. The selection is filtered by the current members.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The council account for this vote. The selection is filtered by the current members.')}>
+              <VoteAccount
+                filter={members}
+                onChange={setAccountId}
+              />
+              {isPrime && (
+                <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
+              )}
             </Modal.Columns>
-            {isPrime && (
-              <article className='warning'>
-                <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
-              </article>
-            )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleVoting}>
             <TxButton
@@ -75,7 +64,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, idNumber, false]}
-              tx='council.vote'
+              tx={api.tx.council.vote}
             />
             <TxButton
               accountId={accountId}
@@ -84,7 +73,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, idNumber, true]}
-              tx='council.vote'
+              tx={api.tx.council.vote}
             />
           </Modal.Actions>
         </Modal>

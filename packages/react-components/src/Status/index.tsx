@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -239,7 +239,7 @@ export default React.memo(styled(Status)`
         padding: 0.5rem 1rem;
 
         .status {
-          font-weight: 400;
+          font-weight: var(--font-weight-normal);
         }
 
         .ui--AddressMini {

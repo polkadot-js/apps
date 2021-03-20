@@ -1,9 +1,28 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParachainProposal, ParaId } from '@polkadot/types/interfaces';
+import type BN from 'bn.js';
+import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 
-export interface ProposalExt {
-  id: ParaId;
-  proposal: ParachainProposal;
+export interface LeaseInfo {
+  accountId: AccountId;
+  balance: BalanceOf;
+  period: number;
+}
+
+export interface LeasePeriod {
+  currentPeriod: BN;
+  length: BN;
+  remainder: BN;
+}
+
+export interface QueuedAction {
+  paraIds: ParaId[];
+  sessionIndex: BN;
+}
+
+export interface EventMapInfo {
+  blockHash: string;
+  blockNumber: BN;
+  relayParent: string;
 }

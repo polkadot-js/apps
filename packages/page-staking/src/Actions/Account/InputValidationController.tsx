@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -7,6 +7,7 @@ import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 
+import { MarkError, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
@@ -75,9 +76,9 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
   }
 
   return (
-    <article className={isFatal ? 'error' : 'warning'}>
-      <div>{error}</div>
-    </article>
+    isFatal
+      ? <MarkError content={error} />
+      : <MarkWarning content={error} />
   );
 }
 

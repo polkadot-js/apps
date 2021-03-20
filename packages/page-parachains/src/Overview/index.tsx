@@ -1,66 +1,57 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveParachain } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
-import type { ParachainProposal, ParaId } from '@polkadot/types/interfaces';
-import type { ProposalExt } from './types';
+import type { ParaId } from '@polkadot/types/interfaces';
+import type { Proposals } from '../types';
 
-import BN from 'bn.js';
 import React from 'react';
 
-import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Transfer from '../Transfer';
+import Actions from './Actions';
 import Parachains from './Parachains';
-import Proposals from './Proposals';
-import Register from './Register';
 import Summary from './Summary';
+import Upcomings from './Upcomings';
+import useActionsQueue from './useActionsQueue';
+import useLeasePeriod from './useLeasePeriod';
+import useUpcomingIds from './useUpcomingIds';
 
 interface Props {
-  isMine?: boolean;
-  sudoKey?: string;
+  className?: string;
+  proposals?: Proposals;
 }
 
-const transformProposals = {
-  transform: (entries: [{ args: [ParaId] }, Option<ParachainProposal>][]): ProposalExt[] => {
-    return entries
-      .filter(([, opt]) => opt.isSome)
-      .map(([{ args: [id] }, optProposal]) => ({ id, proposal: optProposal.unwrap() }));
-  }
-};
-
-function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
+function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const parachains = useCall<DeriveParachain[]>(api.derive.parachains?.overview);
-  const proposals = useCall<ProposalExt[]>(api.query.proposeParachain?.proposals.entries, undefined, transformProposals);
-  const nextFreeId = useCall<BN>(api.query.registrar?.nextFreeId);
+  const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
+  const actionsQueue = useActionsQueue();
+  const leasePeriod = useLeasePeriod();
+  const upcomingIds = useUpcomingIds();
 
   return (
-    <>
+    <div className={className}>
       <Summary
-        nextFreeId={nextFreeId}
-        parachainCount={parachains?.length}
-        proposalCount={proposals?.length}
+        leasePeriod={leasePeriod}
+        parachainCount={paraIds?.length}
+        proposalCount={proposals?.proposalIds.length}
+        upcomingCount={upcomingIds?.length}
       />
-      <Button.Group>
-        <Transfer parachains={parachains} />
-        {api.query.parachains && (
-          <Register
-            isDisabled={!isMine}
-            nextFreeId={nextFreeId}
-            sudoKey={sudoKey}
+      <Actions />
+      {api.query.paras && (
+        <>
+          <Parachains
+            actionsQueue={actionsQueue}
+            ids={paraIds}
+            scheduled={proposals?.scheduled}
           />
-        )}
-      </Button.Group>
-      {api.query.parachains && (
-        <Parachains parachains={parachains} />
+          <Upcomings
+            actionsQueue={actionsQueue}
+            currentPeriod={leasePeriod && leasePeriod.currentPeriod}
+            ids={upcomingIds}
+          />
+        </>
       )}
-      {api.query.proposeParachain && (
-        <Proposals proposals={proposals} />
-      )}
-    </>
+    </div>
   );
 }
 

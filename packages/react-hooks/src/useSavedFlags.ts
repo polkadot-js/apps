@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
@@ -37,8 +37,8 @@ function getSetters <T extends Flags> (flags: T, setFlags: React.Dispatch<React.
 }
 
 export function useSavedFlags <T extends Flags> (storageKey: string, initial: T): State<T> {
-  const [flags, setFlags] = useState(getInitial(storageKey, initial));
-  const [setters] = useState(getSetters(initial, setFlags));
+  const [flags, setFlags] = useState(() => getInitial(storageKey, initial));
+  const [setters] = useState(() => getSetters(initial, setFlags));
 
   useEffect(
     (): void => {

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useState } from 'react';
@@ -112,7 +112,7 @@ export function extractIpfsDetails (): State {
 }
 
 export function useIpfs (): State {
-  const [state] = useState(extractIpfsDetails());
+  const [state] = useState(() => extractIpfsDetails());
 
   return state;
 }

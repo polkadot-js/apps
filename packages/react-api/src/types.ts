@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
@@ -21,7 +21,6 @@ export interface ApiState {
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;
-  isSubstrateV2: boolean;
   systemChain: string;
   systemName: string;
   systemVersion: string;

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -9,6 +9,7 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { BN_ONE } from '@polkadot/util';
 
 type Unsub = () => void;
 
@@ -30,7 +31,7 @@ export function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
       // any <= activeEra (we include activeEra since slashes are immediately reflected)
       while (start.lte(indexes.activeEra)) {
         range.push(start);
-        start = start.addn(1);
+        start = start.add(BN_ONE);
       }
 
       if (range.length) {

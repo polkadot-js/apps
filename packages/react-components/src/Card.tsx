@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -14,7 +14,7 @@ interface Props {
 
 function Card ({ children, className = '', isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
   return (
-    <article className={`ui--Card${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
+    <article className={`ui--Card ${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
       {children}
     </article>
   );
@@ -30,7 +30,30 @@ export default React.memo(styled(Card)`
     opacity: 0.42;
   }
 
+  i.help.circle.icon,
+  .ui.button.mini,
+  .ui.button.tiny,
+  .addTags {
+    visibility: hidden;
+  }
+
+  .ui--AddressSummary-buttons {
+    text-align: right;
+    margin-bottom: 2em;
+
+    button {
+      margin-left: 0.2em;
+    }
+  }
+
   &:hover {
+    i.help.circle.icon,
+    .ui.button.mini,
+    .ui.button.tiny,
+    .addTags {
+      visibility: visible;
+    }
+
     label {
       opacity: 1;
     }
@@ -55,30 +78,5 @@ export default React.memo(styled(Card)`
 
   &.withBottomMargin {
     margin-bottom: 1.5rem;
-  }
-
-  i.help.circle.icon,
-  .ui.button.mini,
-  .ui.button.tiny,
-  .addTags {
-    visibility: hidden;
-  }
-
-  &:hover {
-    i.help.circle.icon,
-    .ui.button.mini,
-    .ui.button.tiny,
-    .addTags {
-      visibility: visible;
-    }
-  }
-
-  .ui--AddressSummary-buttons {
-    text-align: right;
-    margin-bottom: 2em;
-
-    button {
-      margin-left: 0.2em;
-    }
   }
 `);

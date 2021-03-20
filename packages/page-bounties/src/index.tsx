@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -12,9 +12,10 @@ export { default as useCounter } from './useCounter';
 
 interface Props {
   basePath: string;
+  className?: string;
 }
 
-function BountiesApp ({ basePath }: Props): React.ReactElement<Props> {
+function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const itemsRef = useRef([
@@ -26,7 +27,7 @@ function BountiesApp ({ basePath }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <main className='bounties--App'>
+    <main className={`bounties--App ${className}`}>
       <header>
         <Tabs
           basePath={basePath}

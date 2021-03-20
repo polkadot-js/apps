@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
@@ -37,14 +37,12 @@ export function getContractForAddress (api: ApiPromise, address: string | null):
 
 export function getCallMessageOptions (callContract: Contract | null): any[] {
   return callContract
-    ? callContract.abi.messages.map((message, index): { key: string; text: React.ReactNode; value: number } => {
-      return {
-        key: message.identifier,
-        text: (
-          <MessageSignature message={message} />
-        ),
-        value: index
-      };
-    })
+    ? callContract.abi.messages.map((message, index): { key: string; text: React.ReactNode; value: number } => ({
+      key: message.identifier,
+      text: (
+        <MessageSignature message={message} />
+      ),
+      value: index
+    }))
     : [];
 }

@@ -1,8 +1,7 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -44,8 +43,8 @@ function AccountIndex ({ children, className = '', defaultValue, label, value }:
   );
 }
 
-export default React.memo(styled(AccountIndex)(({ theme }: ThemeProps) => `
+export default React.memo(styled(AccountIndex)`
   .account-index {
-    font: ${theme.fontMono};
+    font: var(--font-mono);
   }
-`));
+`);

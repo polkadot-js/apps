@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2021 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Snippet } from '@polkadot/app-js/types';
@@ -22,7 +22,7 @@ const randomAmount = Math.floor((Math.random() * 100000) + 1);
 const transfer = api.tx.balances.transfer(BOB, randomAmount);
 
 // Sign and Send the transaction
-transfer.signAndSend(ALICE, ({ events = [], status }) => {
+await transfer.signAndSend(ALICE, ({ events = [], status }) => {
   if (status.isInBlock) {
     console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asInBlock.toHex());
   } else {

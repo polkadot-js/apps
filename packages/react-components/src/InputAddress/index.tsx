@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
@@ -14,6 +14,7 @@ import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import Dropdown from '../Dropdown';
+import Static from '../Static';
 import { getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
 import createHeader from './createHeader';
@@ -133,7 +134,24 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, placeholder, withEllipsis, withLabel } = this.props;
+    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
+    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
+
+    // the options could be delayed, don't render without
+    if (!hasOptions && !isDisabled) {
+      // This is nasty, but since this things is non-functional, there is not much
+      // we can do (well, wrap it, however that approach is deprecated here)
+      return (
+        <Static
+          className={className}
+          help={help}
+          label={label}
+        >
+          No accounts are available for selection.
+        </Static>
+      );
+    }
+
     const { lastValue, value } = this.state;
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
@@ -219,7 +237,11 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     !filter && setLastValue(type, address);
 
-    onChange && onChange(transformToAccountId(address));
+    onChange && onChange(
+      this.hasValue(address)
+        ? transformToAccountId(address)
+        : null
+    );
   }
 
   private onChangeMulti = (addresses: string[]): void => {
@@ -229,7 +251,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address): string => address as string) as string[]
+          .filter((address) => address as string) as string[]
       );
     }
   }

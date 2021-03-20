@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2021 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -73,48 +73,33 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={members}
-                  help={t<string>('Select the account you wish to make the proposal with.')}
-                  label={t<string>('propose from account')}
-                  onChange={setAcountId}
-                  type='account'
-                  withLabel
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The council account for the proposal. The selection is filtered by the current members.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>
+              <InputAddress
+                filter={members}
+                help={t<string>('Select the account you wish to make the proposal with.')}
+                label={t<string>('propose from account')}
+                onChange={setAcountId}
+                type='account'
+                withLabel
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputNumber
-                  className='medium'
-                  help={t<string>('The minimum number of council votes required to approve this motion')}
-                  isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
-                  label={t<string>('threshold')}
-                  onChange={_setThreshold}
-                  placeholder={t<string>('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
-                  value={threshold || BN_ZERO}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The desired threshold. Here set to a default of 50%+1, as applicable for general proposals.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The desired threshold. Here set to a default of 50%+1, as applicable for general proposals.')}>
+              <InputNumber
+                className='medium'
+                help={t<string>('The minimum number of council votes required to approve this motion')}
+                isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
+                label={t<string>('threshold')}
+                onChange={_setThreshold}
+                placeholder={t<string>('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
+                value={threshold || BN_ZERO}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Extrinsic
-                  defaultValue={apiDefaultTxSudo}
-                  label={t<string>('proposal')}
-                  onChange={_setMethod}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The actual proposal to make, based on the selected call and parameters thereof.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The actual proposal to make, based on the selected call and parameters thereof.')}>
+              <Extrinsic
+                defaultValue={apiDefaultTxSudo}
+                label={t<string>('proposal')}
+                onChange={_setMethod}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
@@ -128,7 +113,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx='council.propose'
+              tx={api.tx.council.propose}
             />
           </Modal.Actions>
         </Modal>

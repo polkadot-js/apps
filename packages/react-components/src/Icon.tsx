@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -24,7 +24,7 @@ library.add(fas);
 
 function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, size = '1x', tooltip }: Props): React.ReactElement<Props> {
   const extraProps = tooltip
-    ? { 'data-for': tooltip, 'data-tip': true }
+    ? { 'data-for': tooltip, 'data-testid': icon, 'data-tip': true }
     : {};
 
   return (

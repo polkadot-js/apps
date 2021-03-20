@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -22,7 +22,7 @@ export default class ApiSigner implements Signer {
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     return new Promise((resolve, reject): void => {
-      this.#queuePayload(payload, (id: number, result: SignerResult | null): void => {
+      this.#queuePayload(this.#registry, payload, (id: number, result: SignerResult | null): void => {
         if (result) {
           resolve(result);
         } else {

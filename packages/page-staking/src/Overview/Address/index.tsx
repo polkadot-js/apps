@@ -1,7 +1,7 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { DeriveAccountInfo, DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
@@ -31,9 +31,8 @@ interface Props {
   isMain?: boolean;
   lastBlock?: string;
   nominatedBy?: NominatedByType[];
-  onlineCount?: false | BN;
-  onlineMessage?: boolean;
   points?: string;
+  recentlyOnline?: DeriveHeartbeatAuthor;
   toggleFavorite: (accountId: string) => void;
   validatorInfo?: ValidatorInfo;
   withIdentity: boolean;
@@ -53,7 +52,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState 
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
-  if (exposure) {
+  if (exposure && exposure.total) {
     nominators = exposure.others.map(({ value, who }) => ({ nominatorId: who.toString(), value: value.unwrap() }));
     stakeTotal = exposure.total.unwrap();
     stakeOwn = exposure.own.unwrap();
@@ -83,7 +82,7 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
@@ -122,8 +121,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           isElected={isElected}
           isMain={isMain}
           nominators={isMain ? nominators : nominatedBy}
-          onlineCount={onlineCount}
-          onlineMessage={onlineMessage}
+          onlineCount={recentlyOnline?.blockCount}
+          onlineMessage={recentlyOnline?.hasMessage}
         />
       </td>
       <td className='address'>

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
@@ -118,7 +118,7 @@ export default React.memo(styled(Message)`
 
     .docs {
       font-size: 0.9rem;
-      font-weight: 400;
+      font-weight: var(--font-weight-normal);
     }
   }
 

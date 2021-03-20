@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -101,7 +101,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
                   ? [memberThreshold, proposal, proposalLength]
                   : [memberThreshold, proposal]
               }
-              tx='technicalCommittee.propose'
+              tx={api.tx.technicalCommittee.propose}
             />
           </Modal.Actions>
         </Modal>

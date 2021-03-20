@@ -1,26 +1,19 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/react-components/i18n';
 
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import AccountsApp from '@polkadot/app-accounts';
-import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
 import { lightTheme } from '@polkadot/apps/themes';
 import { Api } from '@polkadot/react-api';
-import { useApi } from '@polkadot/react-hooks';
-
-const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
-
-const WaitForApi = ({ children }: { children: React.ReactNode }): PropsWithChildren<any> | null => {
-  const api = useApi();
-
-  return api.isApiReady ? (children) : null;
-};
+import { MemoryStore } from '@polkadot/test-support/keyring';
+import { WaitForApi } from '@polkadot/test-support/react';
+import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
 
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
@@ -44,7 +37,7 @@ const renderAccounts = () => {
 };
 
 describe.only('--SLOW--: Account Create', () => {
-  it('new create modal', async () => {
+  it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 
     const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
@@ -85,7 +78,7 @@ describe.only('--SLOW--: Account Create', () => {
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
 
-  it('error message for derivation path', async () => {
+  it('gives an error message when entering invalid derivation path', async () => {
     const { findByTestId, findByText } = renderAccounts();
 
     const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
