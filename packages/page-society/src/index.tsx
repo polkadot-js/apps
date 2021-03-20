@@ -29,10 +29,10 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
   return members
     .filter((member) => !info.hasDefender || !member.accountId.eq(info.defender))
     .map((member): MapMember => ({
+      isCandidateVoter: voters.includes(member.accountId.toString()),
       isFounder: info.founder?.eq(member.accountId),
       isHead: info.head?.eq(member.accountId),
       isSkeptic: skeptics.includes(member.accountId.toString()),
-      isVoter: voters.includes(member.accountId.toString()),
       key: member.accountId.toString(),
       member
     }))
@@ -45,9 +45,9 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
             ? -1
             : b.isSkeptic
               ? 1
-              : a.isVoter
+              : a.isCandidateVoter || a.member.isDefenderVoter
                 ? -1
-                : b.isVoter
+                : b.isCandidateVoter || b.member.isDefenderVoter
                   ? 1
                   : a.isFounder
                     ? 1

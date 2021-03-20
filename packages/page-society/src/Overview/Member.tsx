@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { bool } from '@polkadot/types';
-import type { BalanceOf, BlockNumber } from '@polkadot/types/interfaces';
 import type { MapMember } from '../types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -11,7 +9,7 @@ import styled from 'styled-components';
 
 import { KUSAMA_GENESIS } from '@polkadot/apps-config';
 import { AddressSmall, Columar, Expander, Icon, Modal, Tag } from '@polkadot/react-components';
-import { useApi, useCallMulti, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -21,15 +19,7 @@ import { useTranslation } from '../translate';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  isFounder?: boolean;
-  isHead?: boolean;
-  isSkeptic?: boolean;
   value: MapMember;
-}
-
-interface MultiState {
-  isSuspended: boolean;
-  payouts: [BlockNumber, BalanceOf][];
 }
 
 const CANVAS_STYLE = {
@@ -37,30 +27,15 @@ const CANVAS_STYLE = {
   margin: '0 auto'
 };
 
-const optMulti = {
-  defaultValue: {
-    isSuspended: false,
-    payouts: [] as [BlockNumber, BalanceOf][]
-  },
-  transform: ([suspended, payouts]: [bool, [BlockNumber, BalanceOf][]]): MultiState => ({
-    isSuspended: suspended.isTrue,
-    payouts
-  })
-};
-
-function Member ({ bestNumber, className = '', value: { isFounder, isHead, isSkeptic, isVoter, member: { accountId, strikes } } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canInk] = useState(() => api.genesisHash.eq(KUSAMA_GENESIS));
   const [isInkShowing, toggleInk] = useToggle();
-  const { isSuspended, payouts } = useCallMulti<MultiState>([
-    [api.query.society.suspendedMembers, accountId],
-    [api.query.society.payouts, accountId]
-  ], optMulti);
 
   const renderPayouts = useCallback(
-    () => bestNumber && payouts.map(([bn, value], index) => (
+    () => bestNumber && payouts?.map(([bn, value], index) => (
       <p key={index}>
         <Columar>
           <Columar.Column>
@@ -94,7 +69,7 @@ function Member ({ bestNumber, className = '', value: { isFounder, isHead, isSke
       <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td>
+      <td className='all'>
         {isHead && (
           <Tag
             color='green'
@@ -113,7 +88,7 @@ function Member ({ bestNumber, className = '', value: { isFounder, isHead, isSke
             label={t<string>('skeptic')}
           />
         )}
-        {isVoter && (
+        {(isCandidateVoter || isDefenderVoter) && (
           <Tag
             color='blue'
             label={t<string>('voted')}
@@ -126,8 +101,8 @@ function Member ({ bestNumber, className = '', value: { isFounder, isHead, isSke
           />
         )}
       </td>
-      <td className='all number'>
-        {payouts.length !== 0 && (
+      <td className='number together'>
+        {!!payouts?.length && (
           <Expander
             renderChildren={renderPayouts}
             summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
@@ -170,13 +145,14 @@ function Member ({ bestNumber, className = '', value: { isFounder, isHead, isSke
 
 export default React.memo(styled(Member)`
   .ui--Column {
+    min-width: 14ch;
+
     &:first-child {
       max-width: 100% !important;
     }
 
     &:last-child {
-      max-width: 13ch;
-      min-width: 13ch;
+      max-width: 14ch;
       white-space: nowrap;
     }
   }
