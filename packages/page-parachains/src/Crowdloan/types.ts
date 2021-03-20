@@ -6,5 +6,6 @@ import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
 export interface Campaign {
   info: FundInfo;
   isEnded?: boolean;
+  key: string;
   paraId: ParaId;
 }
