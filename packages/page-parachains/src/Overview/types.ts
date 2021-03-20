@@ -20,3 +20,9 @@ export interface QueuedAction {
   paraIds: ParaId[];
   sessionIndex: BN;
 }
+
+export interface EventMapInfo {
+  blockHash: string;
+  blockNumber: BN;
+  relayParent: string;
+}

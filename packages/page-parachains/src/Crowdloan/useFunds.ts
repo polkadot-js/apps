@@ -31,7 +31,7 @@ const EMPTY: Result = {
 function extractCampaigns (optFunds: Option<FundInfo>[], paraIds: ParaId[]): Campaign[] | null {
   return optFunds && paraIds.length === optFunds.length
     ? paraIds
-      .map((paraId, i) => ({ info: optFunds[i].unwrapOr(null), paraId }))
+      .map((paraId, i) => ({ info: optFunds[i].unwrapOr(null), key: paraId.toString(), paraId }))
       .filter((fund): fund is Campaign => !!fund.info)
     : null;
 }

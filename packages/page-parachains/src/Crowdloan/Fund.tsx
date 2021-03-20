@@ -25,6 +25,7 @@ interface Props {
 function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+
   const blocksLeft = useMemo(
     () => bestNumber && end.gt(bestNumber) && end.sub(bestNumber),
     [bestNumber, end]
