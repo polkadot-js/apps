@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { MapMember } from './types';
 
@@ -9,6 +10,7 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BN_THREE, BN_TWO } from '@polkadot/util';
 
 import Candidates from './Candidates';
 import Overview from './Overview';
@@ -25,7 +27,48 @@ interface Props {
 
 export { useCounter };
 
-function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], info: DeriveSociety): MapMember[] {
+function strikeSort (a: MapMember, b: MapMember): number {
+  return a.isWarned && b.isWarned
+    ? b.member.strikes.cmp(a.member.strikes)
+    : a.isWarned
+      ? -1
+      : b.isWarned
+        ? 1
+        : 0;
+}
+
+function secondarySort (a: MapMember, b: MapMember): number {
+  const isVoterA = a.isCandidateVoter || a.member.isDefenderVoter;
+  const isVoterB = b.isCandidateVoter || b.member.isDefenderVoter;
+
+  return isVoterA && isVoterB
+    ? strikeSort(a, b)
+    : isVoterA
+      ? -1
+      : isVoterB
+        ? 1
+        : strikeSort(a, b);
+}
+
+function finalSort (a: MapMember, b: MapMember): number {
+  return a.isHead
+    ? -1
+    : b.isHead
+      ? 1
+      : a.isFounder
+        ? -1
+        : b.isFounder
+          ? 1
+          : a.isSkeptic && b.isSkeptic
+            ? secondarySort(a, b)
+            : a.isSkeptic
+              ? -1
+              : b.isSkeptic
+                ? 1
+                : 0;
+}
+
+function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], info: DeriveSociety, warnStrikes: BN): MapMember[] {
   return members
     .filter((member) => !info.hasDefender || !member.accountId.eq(info.defender))
     .map((member): MapMember => ({
@@ -33,32 +76,13 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
       isFounder: info.founder?.eq(member.accountId),
       isHead: info.head?.eq(member.accountId),
       isSkeptic: skeptics.includes(member.accountId.toString()),
+      isWarned: member.strikes.gt(warnStrikes),
       key: member.accountId.toString(),
       member
     }))
-    .sort((a, b) => b.member.payouts.length - a.member.payouts.length)
-    .sort((a, b) =>
-      b.isCandidateVoter || b.member.isDefenderVoter
-        ? 1
-        : a.isCandidateVoter || a.member.isDefenderVoter
-          ? -1
-          : 0
-    )
-    .sort((a, b) =>
-      a.isHead
-        ? -1
-        : b.isHead
-          ? 1
-          : a.isFounder
-            ? -1
-            : b.isFounder
-              ? 1
-              : b.isSkeptic
-                ? 1
-                : a.isSkeptic
-                  ? -1
-                  : 0
-    );
+    .sort(({ member: a }, { member: b }) => (b.payouts.length - a.payouts.length) || b.strikes.cmp(a.strikes))
+    .sort(secondarySort)
+    .sort(finalSort);
 }
 
 function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
@@ -72,9 +96,9 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   const mapMembers = useMemo(
     () => members && info && skeptics && voters
-      ? getMapMembers(members, skeptics, voters, info)
+      ? getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE))
       : undefined,
-    [info, members, skeptics, voters]
+    [api, info, members, skeptics, voters]
   );
 
   const items = useMemo(() => [
