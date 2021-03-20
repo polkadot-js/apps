@@ -658,7 +658,7 @@
   "The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.": "여기는 본인이 디플로이하고 싶은 계약서를 모아 놓은WASM를 확인할 수 있습니다. 각 고유한 코드 블롭은 새로운 인스턴스를 만들 수 있는 코드 해시랑 첨부될 예정입니다.",
   "The compiled runtime WASM for the parachain you wish to register.": "등록하고 싶은 파라체인의 합계한 실행 시간 WASM",
   "The compiled runtime WASM for this parachain.": "해당 파라체인의 합계한 실행 시간 WASM",
-  "The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "콘트롤러는 거래 수수료를 처리할 수 있는 충분한 펀드가 없습니다. 반드시 적립되어 있는 콘트롤럴를 사용하세요",
+  "The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "콘트롤러는 거래 수수료를 처리할 수 있는 충분한 펀드가 없습니다. 반드시 적립되어 있는 콘트롤럴를 사용하세요",
   "The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.": "콘트롤러는 지명 혹은 승인하는 행동을 관리하는 계정입니다. 이 거래를 승인합니다.",
   "The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.": "콘트롤러는 지명 혹은 승인하는 행동을 관리하는 계정입니다. 이 거래를 승인합니다. 다른 스태시 혹은 콘트롤러랑 동일하면 안 됩니다",
   "The conviction that will be used for each delegated vote.": "각각의 위임된 투표에 사용될 처벌분",
