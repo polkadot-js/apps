@@ -175,6 +175,7 @@
   "the amount that should be transferred. It needs to be less than the available balance": "the amount that should be transferred. It needs to be less than the available balance",
   "the parachain that will receive the transfer of tokens.": "the parachain that will receive the transfer of tokens.",
   "the parachain to transfer to": "the parachain to transfer to",
+  "timeout": "timeout",
   "total": "total",
   "total raised / cap": "total raised / cap",
   "transfer remark/comment": "transfer remark/comment",
