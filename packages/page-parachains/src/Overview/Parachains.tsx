@@ -4,6 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
+import type { IEvent } from '@polkadot/types/types'
 import type { ScheduledProposals } from '../types';
 import type { QueuedAction } from './types';
 
@@ -34,7 +35,7 @@ const optionsMulti = {
 };
 
 function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
-  const { descriptor } = event.data[0] as CandidateReceipt;
+  const { descriptor } = (event as unknown as IEvent<[CandidateReceipt]>).data[0];
 
   if (descriptor) {
     map[descriptor.paraId.toString()] = [
