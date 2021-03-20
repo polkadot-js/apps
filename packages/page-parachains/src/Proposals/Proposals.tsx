@@ -25,7 +25,7 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('proposals'), 'start', 3],
     [],
-    [undefined, 'start'],
+    [],
     [t('proposer'), 'address'],
     [t('balance'), 'media--1100'],
     [t('initial state'), 'start media--1400'],
