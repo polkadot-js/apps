@@ -49,7 +49,11 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
                 ? -1
                 : b.isVoter
                   ? 1
-                  : 0
+                  : a.isFounder
+                    ? 1
+                    : b.isFounder
+                      ? -1
+                      : 0
     );
 }
 
