@@ -101,7 +101,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
           />
         )}
       </td>
-      <td className='number'>
+      <td className='number together'>
         {!!payouts?.length && (
           <Expander
             renderChildren={renderPayouts}
@@ -145,13 +145,14 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
 
 export default React.memo(styled(Member)`
   .ui--Column {
+    min-width: 14ch;
+
     &:first-child {
       max-width: 100% !important;
     }
 
     &:last-child {
-      max-width: 13ch;
-      min-width: 13ch;
+      max-width: 14ch;
       white-space: nowrap;
     }
   }
