@@ -175,8 +175,8 @@ export default React.memo(styled(Member)`
     }
 
     &:last-child {
-      max-width: 12ch;
-      min-width: 12ch;
+      max-width: 13ch;
+      min-width: 13ch;
       white-space: nowrap;
     }
   }
