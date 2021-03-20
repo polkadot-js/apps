@@ -11,7 +11,7 @@ import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 function transform (allAccounts: string[], members: DeriveSocietyMember[]): OwnMembers {
   const allMembers = members
     .filter((member) => !member.isSuspended)
-    .map((member): string => member.accountId.toString());
+    .map(({ accountId }) => accountId.toString());
   const ownMembers = allMembers
     .filter((address) => allAccounts.includes(address));
 

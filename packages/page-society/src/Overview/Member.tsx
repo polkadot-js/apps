@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { MapMember } from '../types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -27,6 +28,25 @@ const CANVAS_STYLE = {
   margin: '0 auto'
 };
 
+function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): JSX.Element[] {
+  return payouts.map(([bn, value], index) => (
+    <p key={index}>
+      <Columar>
+        <Columar.Column>
+          <FormatBalance value={value} />
+        </Columar.Column>
+        <Columar.Column>
+          <div>#{formatNumber(bn)}</div>
+          <BlockToTime
+            key={index}
+            value={bn.sub(bestNumber)}
+          />
+        </Columar.Column>
+      </Columar>
+    </p>
+  ));
+}
+
 function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -35,22 +55,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
   const [isInkShowing, toggleInk] = useToggle();
 
   const renderPayouts = useCallback(
-    () => bestNumber && payouts?.map(([bn, value], index) => (
-      <p key={index}>
-        <Columar>
-          <Columar.Column>
-            <FormatBalance value={value} />
-          </Columar.Column>
-          <Columar.Column>
-            <div>#{formatNumber(bn)}</div>
-            <BlockToTime
-              key={index}
-              value={bn.sub(bestNumber)}
-            />
-          </Columar.Column>
-        </Columar>
-      </p>
-    )),
+    () => bestNumber && payouts && renderJSXPayouts(bestNumber, payouts),
     [bestNumber, payouts]
   );
 
@@ -79,7 +84,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
         {isFounder && (
           <Tag
             color='green'
-            label={t<string>('society founder')}
+            label={t<string>('founder')}
           />
         )}
         {isSkeptic && (
