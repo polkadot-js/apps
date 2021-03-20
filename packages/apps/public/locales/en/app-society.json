@@ -14,6 +14,7 @@
   "No candidates": "No candidates",
   "No suspended candidates": "No suspended candidates",
   "No suspended members": "No suspended members",
+  "Payouts ({{count}})": "Payouts ({{count}})",
   "Rejections": "Rejections",
   "Skeptics": "Skeptics",
   "Society overview": "Society overview",
@@ -39,6 +40,7 @@
   "members": "members",
   "pot": "pot",
   "rotation": "rotation",
+  "skeptic": "skeptic",
   "society founder": "society founder",
   "society head": "society head",
   "strikes": "strikes",
@@ -47,5 +49,6 @@
   "vote for candidate": "vote for candidate",
   "vote for defender": "vote for defender",
   "vote from account": "vote from account",
+  "voted": "voted",
   "votes": "votes"
 }
