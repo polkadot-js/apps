@@ -15,6 +15,7 @@ import { formatNumber } from '@polkadot/util';
 import Events from '../Events';
 import { useTranslation } from '../translate';
 import Extrinsics from './Extrinsics';
+import Justifications from './Justifications';
 import Logs from './Logs';
 
 interface Props {
@@ -122,6 +123,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             </Columar.Column>
             <Columar.Column>
               <Logs value={getHeader.digest.logs} />
+              <Justifications value={getBlock.justifications} />
             </Columar.Column>
           </Columar>
         </>
