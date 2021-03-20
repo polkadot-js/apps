@@ -110,7 +110,7 @@
   "The call hash from the list of available and unapproved calls.": "",
   "The code hash for the on-chain deployed code.": "",
   "The codeHash is not a valid hex hash": "",
-  "The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "",
+  "The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "",
   "The multisig signatory for this transaction.": "",
   "The operation type to apply. For approvals both non-final and final approvals are supported.": "",

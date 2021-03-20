@@ -682,7 +682,7 @@
   "The compiled runtime WASM for the parachain you wish to register.": "La runtime WASM compilata per la parachain che desideri registrare",
   "The compiled runtime WASM for this parachain.": "La runtime WASM compilata di questa parachain",
   "The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.": "Il contratto WASM precedentemente implementato. Internamente è identificato dall'hash del codice, come generato o allegato.",
-  "The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "Il controller non ha fondi sufficienti per coprire le commissioni di transazione. Assicurati di avere un controller adeguatamente finanziato.",
+  "The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "Il controller non ha fondi sufficienti per coprire le commissioni di transazione. Assicurati di avere un controller adeguatamente finanziato.",
   "The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.": "Il controller è l'account che è utilizzato per controllare ogni azione di nomina o di validazione. Firmerò questa transazione.",
   "The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.": "Il controller è l'account che è utilizzato per controllare ogni azione di nomina o di validazione. Non deve corrispondere con un altro stash o un ulteriore controller.",
   "The conviction that will be used for each delegated vote.": "Il moltiplicatore usato per ogni voto delegato",
