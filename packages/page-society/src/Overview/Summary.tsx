@@ -24,11 +24,12 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
   const members = useCall<unknown[]>(api.derive.society.members);
   const bestNumber = useBestNumber();
 
-  const pot = useMemo((): string | null => {
-    return info && info.pot.gtn(0)
-      ? info.pot.toString()
-      : null;
-  }, [info]);
+  const pot = useMemo(
+    () => info && info.pot.gtn(0)
+      ? info.pot
+      : null,
+    [info]
+  );
 
   return (
     <SummaryBox className={className}>

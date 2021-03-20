@@ -36,24 +36,28 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
       key: member.accountId.toString(),
       member
     }))
+    .sort((a, b) => b.member.payouts.length - a.member.payouts.length)
+    .sort((a, b) =>
+      b.isCandidateVoter || b.member.isDefenderVoter
+        ? 1
+        : a.isCandidateVoter || a.member.isDefenderVoter
+          ? -1
+          : 0
+    )
     .sort((a, b) =>
       a.isHead
         ? -1
         : b.isHead
           ? 1
-          : a.isSkeptic
+          : a.isFounder
             ? -1
-            : b.isSkeptic
+            : b.isFounder
               ? 1
-              : a.isCandidateVoter || a.member.isDefenderVoter
-                ? -1
-                : b.isCandidateVoter || b.member.isDefenderVoter
-                  ? 1
-                  : a.isFounder
-                    ? 1
-                    : b.isFounder
-                      ? -1
-                      : 0
+              : b.isSkeptic
+                ? 1
+                : a.isSkeptic
+                  ? -1
+                  : 0
     );
 }
 
@@ -67,7 +71,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { candidates, skeptics, voters } = useVoters();
 
   const mapMembers = useMemo(
-    () => members && info
+    () => members && info && skeptics && voters
       ? getMapMembers(members, skeptics, voters, info)
       : undefined,
     [info, members, skeptics, voters]

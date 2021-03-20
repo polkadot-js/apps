@@ -28,7 +28,7 @@ export interface VoteSplit {
 }
 
 export interface Voters {
-  candidates: DeriveSocietyCandidate[];
-  skeptics: string[];
-  voters: string[];
+  candidates?: DeriveSocietyCandidate[];
+  skeptics?: string[];
+  voters?: string[];
 }
