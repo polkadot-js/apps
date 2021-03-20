@@ -48,7 +48,10 @@ function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumb
 
 function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<string, boolean> {
   return scheduled.reduce((all: Record<string, boolean>, { scheduledIds }: ScheduledProposals): Record<string, boolean> =>
-    scheduledIds.reduce((all: Record<string, boolean>, id) => ({ ...all, [id.toString()]: true }), all), {});
+    scheduledIds.reduce((all: Record<string, boolean>, id) => ({
+      ...all,
+      [id.toString()]: true
+    }), all), {});
 }
 
 function mapValidators (ids?: ParaId[], validators?: AccountId[] | null, validatorGroups?: ParaValidatorIndex[][] | null): AccountId[][] {
