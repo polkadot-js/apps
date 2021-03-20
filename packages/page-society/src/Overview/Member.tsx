@@ -1,22 +1,35 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
+import type BN from 'bn.js';
 import type { bool } from '@polkadot/types';
+import type { BalanceOf, BlockNumber } from '@polkadot/types/interfaces';
+import type { MapMember } from '../types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
-import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { KUSAMA_GENESIS } from '@polkadot/apps-config';
+import { AddressSmall, Columar, Expander, Icon, Modal, Tag } from '@polkadot/react-components';
+import { useApi, useCallMulti, useToggle } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import drawCanary from '../draw/canary';
 import { useTranslation } from '../translate';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
   isFounder?: boolean;
   isHead?: boolean;
-  value: DeriveSocietyMember;
+  isSkeptic?: boolean;
+  value: MapMember;
+}
+
+interface MultiState {
+  isSuspended: boolean;
+  payouts: [BlockNumber, BalanceOf][];
 }
 
 const CANVAS_STYLE = {
@@ -24,13 +37,47 @@ const CANVAS_STYLE = {
   margin: '0 auto'
 };
 
-function Member ({ className = '', isFounder, isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+const optMulti = {
+  defaultValue: {
+    isSuspended: false,
+    payouts: [] as [BlockNumber, BalanceOf][]
+  },
+  transform: ([suspended, payouts]: [bool, [BlockNumber, BalanceOf][]]): MultiState => ({
+    isSuspended: suspended.isTrue,
+    payouts
+  })
+};
+
+function Member ({ bestNumber, className = '', value: { isFounder, isHead, isSkeptic, isVoter, member: { accountId, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const suspended = useCall<bool>(api.query.society.suspendedMembers, [accountId]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canInk] = useState(() => api.genesisHash.eq('0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe'));
+  const [canInk] = useState(() => api.genesisHash.eq(KUSAMA_GENESIS));
   const [isInkShowing, toggleInk] = useToggle();
+  const { isSuspended, payouts } = useCallMulti<MultiState>([
+    [api.query.society.suspendedMembers, accountId],
+    [api.query.society.payouts, accountId]
+  ], optMulti);
+
+  const renderPayouts = useCallback(
+    () => bestNumber && payouts.map(([bn, value], index) => (
+      <p key={index}>
+        <Columar>
+          <Columar.Column>
+            <FormatBalance value={value} />
+          </Columar.Column>
+          <Columar.Column>
+            <div>#{formatNumber(bn)}</div>
+            <BlockToTime
+              key={index}
+              value={bn.sub(bestNumber)}
+            />
+          </Columar.Column>
+        </Columar>
+      </p>
+    )),
+    [bestNumber, payouts]
+  );
 
   useEffect((): void => {
     if (canvasRef.current) {
@@ -60,17 +107,34 @@ function Member ({ className = '', isFounder, isHead, value: { accountId, strike
             label={t<string>('society founder')}
           />
         )}
-        {suspended?.isTrue && (
+        {isSkeptic && (
           <Tag
             color='yellow'
+            label={t<string>('skeptic')}
+          />
+        )}
+        {isVoter && (
+          <Tag
+            color='blue'
+            label={t<string>('voted')}
+          />
+        )}
+        {isSuspended && (
+          <Tag
+            color='red'
             label={t<string>('suspended')}
           />
         )}
       </td>
-      <td className='all'>&nbsp;</td>
-      <td className='number'>
-        {strikes.toString()}
+      <td className='all number'>
+        {payouts.length !== 0 && (
+          <Expander
+            renderChildren={renderPayouts}
+            summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
+          />
+        )}
       </td>
+      <td className='number'>{formatNumber(strikes)}</td>
       <td>
         {canInk && (
           <>
@@ -104,4 +168,16 @@ function Member ({ className = '', isFounder, isHead, value: { accountId, strike
   );
 }
 
-export default React.memo(Member);
+export default React.memo(styled(Member)`
+  .ui--Column {
+    &:first-child {
+      max-width: 100% !important;
+    }
+
+    &:last-child {
+      max-width: 13ch;
+      min-width: 13ch;
+      white-space: nowrap;
+    }
+  }
+`);
