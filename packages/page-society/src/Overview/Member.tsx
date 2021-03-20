@@ -47,7 +47,7 @@ function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): J
   ));
 }
 
-function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, isWarned, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -97,6 +97,12 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
           <Tag
             color='blue'
             label={t<string>('voted')}
+          />
+        )}
+        {isWarned && (
+          <Tag
+            color='grey'
+            label={t<string>('strikes')}
           />
         )}
         {isSuspended && (

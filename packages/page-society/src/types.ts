@@ -9,6 +9,7 @@ export interface MapMember {
   isFounder?: boolean;
   isHead?: boolean;
   isSkeptic?: boolean;
+  isWarned: boolean;
   key: string;
   member: DeriveSocietyMember;
 }
