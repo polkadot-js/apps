@@ -596,7 +596,7 @@
   "The compiled runtime WASM for the parachain you wish to register.": ".وقت التشغيل المجمع  واسم  للكتلة الموازية الذي ترغب في تسجيله",
   "The compiled runtime WASM for this parachain.": "وقت التشغيل المجمع واسم  لهذه الكتلة الموازية",
   "The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.": ".تم نشر عقد واسم  من قبل.  يتم تعريف هذا الأمر داخليًا بواسطة تجزئة الرمز، على أنه تم إنشاؤه أو إرفاقه",
-  "The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "ليس لدى المراقب المالي الأموال الكافية لتغطية رسوم المعاملات. تأكد من استخدام وحدة تحكم ممولة",
+  "The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "ليس لدى المراقب المالي الأموال الكافية لتغطية رسوم المعاملات. تأكد من استخدام وحدة تحكم ممولة",
   "The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.": ".وحدة التحكم هي الحساب الذي يتم استخدامه للتحكم في أي إجراءات ترشيح أو التحقق من الصحة. سأقوم بالتوقيع على هذه المعاملة",
   "The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.": ".وحدة التحكم هي الحساب الذي سيتم استخدامه للتحكم في أي إجراءات ترشيح أو التحقق من الصحة. يجب ألا يتطابق مع وحدة تخزين أو وحدة تحكم أخرى",
   "The conviction that will be used for each delegated vote.": "القناعة التي ستستخدم لكل تصويت مفوض",

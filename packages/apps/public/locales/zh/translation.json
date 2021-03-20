@@ -639,7 +639,7 @@
   "The compiled runtime WASM for the parachain you wish to register.": "你想要注册的平行链的编译 runtime WASM。",
   "The compiled runtime WASM for this parachain.": "这个平行链的编译 runtime WASM。",
   "The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.": "该合同已经部署。在内部，这是通过创建或附加的代码的散列标识的。",
-  "The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "控制账户没有足够的资金支付交易费用。确保使用的控制账户有足够的资金。",
+  "The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "控制账户没有足够的资金支付交易费用。确保使用的控制账户有足够的资金。",
   "The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.": "控制账户是用于控制任何提名或验证操作的帐户。我将签署这笔交易。",
   "The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.": "控制账户是用于控制任何提名或验证操作的帐户。不应该匹配另一个存储或控制账户。",
   "The conviction that will be used for each delegated vote.": "将用于每次委托投票的信念值",
