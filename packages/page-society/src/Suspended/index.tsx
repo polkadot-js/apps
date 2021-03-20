@@ -29,22 +29,21 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
   const candidates = useCall<AccountId[]>(api.query.society.suspendedCandidates.keys, undefined, optExtract);
   const members = useCall<AccountId[]>(api.query.society.suspendedMembers.keys, undefined, optExtract);
 
-  const headerRefC = useRef([
-    [t('candidates'), 'start']
-  ]);
-
-  const headerRefM = useRef([
-    [t('members'), 'start']
-  ]);
-
-  console.log(JSON.stringify({ candidates, members }, null, 2));
+  const headerRef = useRef({
+    candidates: [
+      [t('candidates'), 'start']
+    ],
+    members: [
+      [t('members'), 'start']
+    ]
+  });
 
   return (
     <div className={className}>
       <Table
         className={className}
         empty={members && t<string>('No suspended members')}
-        header={headerRefM.current}
+        header={headerRef.current.members}
       >
         {members && members.map((accountId): React.ReactNode => (
           <Suspension
@@ -56,7 +55,7 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
       <Table
         className={className}
         empty={candidates && t<string>('No suspended candidates')}
-        header={headerRefC.current}
+        header={headerRef.current.candidates}
       >
         {candidates && candidates.map((accountId): React.ReactNode => (
           <Suspension
