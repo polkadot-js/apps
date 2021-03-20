@@ -1,11 +1,12 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { bool } from '@polkadot/types';
+import type { MapMember } from '../types';
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { KUSAMA_GENESIS } from '@polkadot/apps-config';
 import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
@@ -16,7 +17,8 @@ interface Props {
   className?: string;
   isFounder?: boolean;
   isHead?: boolean;
-  value: DeriveSocietyMember;
+  isSkeptic?: boolean;
+  value: MapMember;
 }
 
 const CANVAS_STYLE = {
@@ -24,12 +26,12 @@ const CANVAS_STYLE = {
   margin: '0 auto'
 };
 
-function Member ({ className = '', isFounder, isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ className = '', value: { isFounder, isHead, isSkeptic, isVoter, member: { accountId, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const suspended = useCall<bool>(api.query.society.suspendedMembers, [accountId]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canInk] = useState(() => api.genesisHash.eq('0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe'));
+  const [canInk] = useState(() => api.genesisHash.eq(KUSAMA_GENESIS));
   const [isInkShowing, toggleInk] = useToggle();
 
   useEffect((): void => {
@@ -60,9 +62,21 @@ function Member ({ className = '', isFounder, isHead, value: { accountId, strike
             label={t<string>('society founder')}
           />
         )}
-        {suspended?.isTrue && (
+        {isSkeptic && (
           <Tag
             color='yellow'
+            label={t<string>('skeptic')}
+          />
+        )}
+        {isVoter && (
+          <Tag
+            color='blue'
+            label={t<string>('voted')}
+          />
+        )}
+        {suspended?.isTrue && (
+          <Tag
+            color='red'
             label={t<string>('suspended')}
           />
         )}

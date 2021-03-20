@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety } from '@polkadot/api-derive/types';
+import type { MapMember } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -14,10 +15,11 @@ interface Props {
   className?: string;
   info?: DeriveSociety;
   isMember: boolean;
+  mapMembers?: MapMember[];
   ownMembers: string[];
 }
 
-function Overview ({ className, info, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Overview ({ className, info, isMember, mapMembers, ownMembers }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary info={info} />
@@ -26,7 +28,7 @@ function Overview ({ className, info, isMember, ownMembers }: Props): React.Reac
         isMember={isMember}
         ownMembers={ownMembers}
       />
-      <Members info={info} />
+      <Members mapMembers={mapMembers} />
     </div>
   );
 }
