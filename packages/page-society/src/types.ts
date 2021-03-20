@@ -5,10 +5,10 @@ import type { DeriveSocietyCandidate, DeriveSocietyMember } from '@polkadot/api-
 import type { SocietyVote } from '@polkadot/types/interfaces';
 
 export interface MapMember {
+  isCandidateVoter?: boolean;
   isFounder?: boolean;
   isHead?: boolean;
   isSkeptic?: boolean;
-  isVoter?: boolean;
   key: string;
   member: DeriveSocietyMember;
 }
