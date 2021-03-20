@@ -25,6 +25,7 @@ interface Props {
   isScheduled?: boolean;
   lastBacked?: [string, string, BN];
   lastInclusion?: [string, string, BN];
+  lastTimeout?: [string, string, BN];
   nextAction?: QueuedAction;
   sessionValidators?: AccountId[] | null;
   validators?: AccountId[];
@@ -84,7 +85,7 @@ function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
   ));
 }
 
-function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
@@ -143,12 +144,14 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'>{isScheduled && (
-        <Badge
-          color='green'
-          icon='clock'
-        />
-      )}</td>
+      <td className='badge'>
+        {isScheduled && (
+          <Badge
+            color='green'
+            icon='clock'
+          />
+        )}
+      </td>
       <td className='badge together'><ParaLink id={id} /></td>
       <td className='number media--1500'>
         {validators && validators.length !== 0 && (
@@ -173,18 +176,23 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       </td>
       <td className='all' />
       <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
-      <td className='number'>
+      <td className='number no-pad-left'>
         {lastInclusion
           ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
-      <td className='number'>
+      <td className='number no-pad-left'>
         {lastBacked &&
           <a href={`#/explorer/query/${lastBacked[0]}`}>{formatNumber(lastBacked[2])}</a>
         }
       </td>
-      <td className='number media--900'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
+      <td className='number no-pad-left'>
+        {lastTimeout &&
+          <a href={`#/explorer/query/${lastTimeout[0]}`}>{formatNumber(lastTimeout[2])}</a>
+        }
+      </td>
+      <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
       <td className='number media--1300'>
         {paraInfo.updateAt && bestNumber && (
           <>
