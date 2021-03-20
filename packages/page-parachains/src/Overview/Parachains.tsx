@@ -6,7 +6,7 @@ import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
 import type { ScheduledProposals } from '../types';
-import type { QueuedAction } from './types';
+import type { EventMapInfo, QueuedAction } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -23,7 +23,7 @@ interface Props {
   scheduled?: ScheduledProposals[];
 }
 
-type EventMap = Record<string, [string, string, BN]>;
+type EventMap = Record<string, EventMapInfo>;
 
 interface LastEvents {
   lastBacked: EventMap;
@@ -41,11 +41,11 @@ function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumb
   const { descriptor } = (event as unknown as IEvent<[CandidateReceipt]>).data[0];
 
   if (descriptor) {
-    map[descriptor.paraId.toString()] = [
+    map[descriptor.paraId.toString()] = {
       blockHash,
-      descriptor.relayParent.toHex(),
-      blockNumber
-    ];
+      blockNumber,
+      relayParent: descriptor.relayParent.toHex()
+    };
   }
 }
 
@@ -68,9 +68,9 @@ function mapValidators (ids?: ParaId[], validators?: AccountId[] | null, validat
 }
 
 function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: LastEvents): LastEvents {
-  const backed: Record<string, [string, string, BN]> = {};
-  const included: Record<string, [string, string, BN]> = {};
-  const timeout: Record<string, [string, string, BN]> = {};
+  const backed: EventMap = {};
+  const included: EventMap = {};
+  const timeout: EventMap = {};
   const blockNumber = lastBlock.block.header.number.unwrap();
   const blockHash = lastBlock.block.header.hash.toHex();
   let wasBacked = false;

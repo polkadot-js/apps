@@ -4,7 +4,7 @@
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-import type { QueuedAction } from './types';
+import type { EventMapInfo, QueuedAction } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -23,9 +23,9 @@ interface Props {
   className?: string;
   id: ParaId;
   isScheduled?: boolean;
-  lastBacked?: [string, string, BN];
-  lastInclusion?: [string, string, BN];
-  lastTimeout?: [string, string, BN];
+  lastBacked?: EventMapInfo;
+  lastInclusion?: EventMapInfo;
+  lastTimeout?: EventMapInfo;
   nextAction?: QueuedAction;
   sessionValidators?: AccountId[] | null;
   validators?: AccountId[];
@@ -106,7 +106,7 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   const blockDelay = useMemo(
     () => bestNumber && (
       lastInclusion
-        ? bestNumber.sub(lastInclusion[2])
+        ? bestNumber.sub(lastInclusion.blockNumber)
         : paraInfo.watermark
           ? bestNumber.sub(paraInfo.watermark)
           : undefined
@@ -178,18 +178,18 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
       <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
       <td className='number no-pad-left'>
         {lastInclusion
-          ? <a href={`#/explorer/query/${lastInclusion[0]}`}>{formatNumber(lastInclusion[2])}</a>
+          ? <a href={`#/explorer/query/${lastInclusion.blockHash}`}>{formatNumber(lastInclusion.blockNumber)}</a>
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
       <td className='number no-pad-left'>
         {lastBacked &&
-          <a href={`#/explorer/query/${lastBacked[0]}`}>{formatNumber(lastBacked[2])}</a>
+          <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
         }
       </td>
       <td className='number no-pad-left'>
         {lastTimeout &&
-          <a href={`#/explorer/query/${lastTimeout[0]}`}>{formatNumber(lastTimeout[2])}</a>
+          <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
       </td>
       <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
