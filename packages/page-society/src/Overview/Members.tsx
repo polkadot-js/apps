@@ -50,6 +50,7 @@ function Members ({ className = '', info }: Props): React.ReactElement<Props> {
     >
       {info && filtered && filtered.map((member): React.ReactNode => (
         <Member
+          isFounder={info.founder?.eq(member.accountId)}
           isHead={info.head?.eq(member.accountId)}
           key={member.accountId.toString()}
           value={member}
