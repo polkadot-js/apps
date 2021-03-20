@@ -6,6 +6,7 @@ import type { MapMember } from '../types';
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { useBestNumber } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Member from './Member';
@@ -17,9 +18,11 @@ interface Props {
 
 function Members ({ className = '', mapMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const bestNumber = useBestNumber();
 
   const headerRef = useRef([
-    [t('members'), 'start', 3],
+    [t('members'), 'start', 2],
+    [t('payouts'), 'number'],
     [t('strikes')],
     []
   ]);
@@ -32,6 +35,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
     >
       {mapMembers?.map((value): React.ReactNode => (
         <Member
+          bestNumber={bestNumber}
           key={value.key}
           value={value}
         />
