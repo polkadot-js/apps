@@ -53,13 +53,11 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route path={`${basePath}/forks`}><Forks /></Route>
         <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>

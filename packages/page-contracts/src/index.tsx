@@ -25,12 +25,10 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   return (
     <main className={`contracts--App ${className}`}>
       <HelpOverlay md={introMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Contracts />
     </main>
   );
