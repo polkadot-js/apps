@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { MapMember } from './types';
 
+import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
@@ -72,8 +72,8 @@ function finalSort (a: MapMember, b: MapMember): number {
           : skepticSort(a, b);
 }
 
-function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], info: DeriveSociety, warnStrikes: BN): MapMember[] {
-  return members
+function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], info: DeriveSociety, warnStrikes: BN): [MapMember[], BN] {
+  const mapMembers = members
     .filter((member) => !info.hasDefender || !member.accountId.eq(info.defender))
     .map((member): MapMember => ({
       isCandidateVoter: voters.includes(member.accountId.toString()),
@@ -87,6 +87,13 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
     .sort(({ member: a }, { member: b }) => (b.payouts.length - a.payouts.length) || b.strikes.cmp(a.strikes))
     .sort(voterSort)
     .sort(finalSort);
+
+  return [
+    mapMembers,
+    mapMembers.reduce((total, { member: { payouts } }) =>
+      payouts.reduce((total, [, balance]) => total.iadd(balance), total), new BN(0)
+    )
+  ];
 }
 
 function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
@@ -98,10 +105,10 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members);
   const { candidates, skeptics, voters } = useVoters();
 
-  const mapMembers = useMemo(
+  const [mapMembers, payoutTotal] = useMemo(
     () => members && info && skeptics && voters
       ? getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE))
-      : undefined,
+      : [undefined, undefined],
     [api, info, members, skeptics, voters]
   );
 
@@ -124,12 +131,10 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/candidates`}>
           <Candidates
@@ -148,6 +153,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
             isMember={isMember}
             mapMembers={mapMembers}
             ownMembers={ownMembers}
+            payoutTotal={payoutTotal}
           />
         </Route>
       </Switch>
