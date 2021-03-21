@@ -5,9 +5,11 @@
   "Aye, I approve": "Aye, I approve",
   "Bid": "Bid",
   "Bid to join": "Bid to join",
+  "Candidate": "Candidate",
   "Candidates": "Candidates",
   "Close": "Close",
   "Current society head, exempt": "Current society head, exempt",
+  "Defender": "Defender",
   "Nay, I do not approve": "Nay, I do not approve",
   "No active members": "No active members",
   "No bids": "No bids",
@@ -56,5 +58,6 @@
   "vote for defender": "vote for defender",
   "vote from account": "vote from account",
   "voted": "voted",
+  "voted on": "voted on",
   "votes": "votes"
 }
