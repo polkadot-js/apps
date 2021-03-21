@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveSociety } from '@polkadot/api-derive/types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
@@ -16,9 +17,10 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   info?: DeriveSociety;
+  payoutTotal?: BN;
 }
 
-function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<unknown[]>(api.derive.society.members);
@@ -65,6 +67,14 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
         </>
       )}
       <section>
+        {payoutTotal && (
+          <CardSummary label={t<string>('payouts')}>
+            <FormatBalance
+              value={payoutTotal}
+              withSi
+            />
+          </CardSummary>
+        )}
         {pot && (
           <CardSummary label={t<string>('pot')}>
             <FormatBalance

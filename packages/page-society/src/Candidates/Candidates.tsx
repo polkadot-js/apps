@@ -23,7 +23,7 @@ function Candidates ({ allMembers, candidates, className = '', isMember, ownMemb
 
   const headerRef = useRef([
     [t('candidates'), 'start'],
-    [t('kind')],
+    [t('bid kind'), 'start', 2],
     [t('value')],
     [t('votes'), 'expand'],
     []
