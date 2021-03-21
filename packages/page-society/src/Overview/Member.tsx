@@ -120,6 +120,8 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
           />
         )}
       </td>
+      <td>{isDefenderVoter && t<string>('defender')}</td>
+      <td>{isCandidateVoter && t<string>('candidate')}</td>
       <td className='number'>{formatNumber(strikes)}</td>
       <td>
         {canInk && (

@@ -22,6 +22,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
 
   const headerRef = useRef([
     [t('members'), 'start', 3],
+    [t('round voting'), 'start', 2],
     [t('strikes')],
     []
   ]);
