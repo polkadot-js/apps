@@ -112,6 +112,12 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
             label={t<string>('suspended')}
           />
         )}
+        {availablePayout && (
+          <Tag
+            color='green'
+            label={t<string>('payout')}
+          />
+        )}
       </td>
       <td className='number together'>
         {!!payouts?.length && (
