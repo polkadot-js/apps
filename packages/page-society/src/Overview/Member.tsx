@@ -70,6 +70,11 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
     [bestNumber, payouts]
   );
 
+  const votedOn = useMemo(
+    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')].filter((s): s is string => !!s),
+    [isCandidateVoter, isDefenderVoter, t]
+  );
+
   return (
     <tr className={className}>
       <td className='address'>
@@ -127,8 +132,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
           />
         )}
       </td>
-      <td>{isDefenderVoter && t<string>('defender')}</td>
-      <td>{isCandidateVoter && t<string>('candidate')}</td>
+      <td className='together'>{votedOn.join(', ')}</td>
       <td className='number'>{formatNumber(strikes)}</td>
       <td className='button start'>
         <DesignKusama accountId={accountId} />
