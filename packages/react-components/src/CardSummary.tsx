@@ -122,7 +122,7 @@ export default React.memo(styled(CardSummary)`
     text-align: right;
 
     > * {
-      margin: 0.5rem 0;
+      margin: 0.25rem 0;
 
       &:first-child {
         margin-top: 0;
