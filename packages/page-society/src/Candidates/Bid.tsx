@@ -33,7 +33,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
 
   return (
     <tr>
-      <td className='all'>
+      <td className='address all'>
         <AddressSmall value={who} />
       </td>
       <BidType value={kind} />
