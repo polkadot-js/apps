@@ -24,7 +24,6 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
     [t('members'), 'start', 3],
     [t('round voting'), 'start', 2],
     [t('strikes')],
-    [],
     []
   ]);
 

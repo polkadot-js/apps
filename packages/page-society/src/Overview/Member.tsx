@@ -5,28 +5,22 @@ import type BN from 'bn.js';
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { MapMember } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { KUSAMA_GENESIS } from '@polkadot/apps-config';
-import { AddressSmall, Columar, Expander, Icon, Modal, Tag, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { AddressSmall, Columar, Expander, Tag, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import drawCanary from '../draw/canary';
 import { useTranslation } from '../translate';
+import DesignKusama from './DesignKusama';
 
 interface Props {
   bestNumber?: BN;
   className?: string;
   value: MapMember;
 }
-
-const CANVAS_STYLE = {
-  display: 'block',
-  margin: '0 auto'
-};
 
 function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): JSX.Element[] {
   return payouts.map(([bn, value], index) => (
@@ -56,9 +50,6 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canInk] = useState(() => api.genesisHash.eq(KUSAMA_GENESIS));
-  const [isInkShowing, toggleInk] = useToggle();
 
   const renderPayouts = useCallback(
     () => bestNumber && payouts && renderJSXPayouts(bestNumber, payouts),
@@ -78,16 +69,6 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
     () => bestNumber && payouts.find(([bn]) => bestNumber.gt(bn)),
     [bestNumber, payouts]
   );
-
-  useEffect((): void => {
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext('2d');
-
-      if (ctx) {
-        drawCanary(ctx, accountId);
-      }
-    }
-  });
 
   return (
     <tr className={className}>
@@ -143,36 +124,8 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
       <td>{isDefenderVoter && t<string>('defender')}</td>
       <td>{isCandidateVoter && t<string>('candidate')}</td>
       <td className='number'>{formatNumber(strikes)}</td>
-      <td className='button'>
-        {canInk && (
-          <>
-            <Icon
-              icon='pen-nib'
-              onClick={toggleInk}
-            />
-            {isInkShowing && (
-              <Modal
-                header={t('design samples')}
-                size='large'
-              >
-                <Modal.Content>
-                  <canvas
-                    height={525}
-                    ref={canvasRef}
-                    style={CANVAS_STYLE}
-                    width={800}
-                  />
-                </Modal.Content>
-                <Modal.Actions
-                  cancelLabel={t<string>('Close')}
-                  onCancel={toggleInk}
-                />
-              </Modal>
-            )}
-          </>
-        )}
-      </td>
-      <td className='button'>
+      <td className='button start'>
+        <DesignKusama accountId={accountId} />
         {availablePayout && (
           <TxButton
             accountId={accountId}
@@ -190,7 +143,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
 
 export default React.memo(styled(Member)`
   .payout+.payout {
-    margin-top: 0.375rem;
+    margin-top: 0.5rem;
   }
 
   .ui--Column {
