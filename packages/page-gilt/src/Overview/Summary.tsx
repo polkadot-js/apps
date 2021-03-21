@@ -25,7 +25,7 @@ function Summary ({ activeTotal, className }: Props): React.ReactElement<Props> 
     <SummaryBox className={className}>
       <section>
         {activeTotal && (
-          <CardSummary label={t<string>('total')}>
+          <CardSummary label={t<string>('index')}>
             {formatNumber(activeTotal.index)}
           </CardSummary>
         )}
