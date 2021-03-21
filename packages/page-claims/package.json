@@ -2,14 +2,6 @@
   "name": "@polkadot/app-claims",
   "private": true,
   "version": "0.84.2-21",
-  "description": "An app for claiming Polkadot tokens",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Keith Ingram <keith@parity.io>",
-  "maintainers": [
-    "Keith Ingram <keith@parity.io>",
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.10",
