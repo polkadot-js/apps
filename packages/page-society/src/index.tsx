@@ -39,7 +39,6 @@ function sortMembers (a: MapMember, b: MapMember): number {
         ? (a.isSkeptic ? -1 : 1)
         : isVoterA !== (b.isCandidateVoter || b.isDefenderVoter)
           ? (isVoterA ? -1 : 1)
-          // the next woks when the isCandidateVoter || isDefenderVoter is isCandidateVoter && isDefenderVoter
           // : a.isDefenderVoter !== b.isDefenderVoter
           //   ? (a.isDefenderVoter ? -1 : 1)
           //   : a.isCandidateVoter !== b.isCandidateVoter
