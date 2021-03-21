@@ -102,7 +102,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
         )}
         {isWarned && (
           <Tag
-            color='grey'
+            color='orange'
             label={t<string>('strikes')}
           />
         )}
@@ -114,7 +114,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
         )}
         {availablePayout && (
           <Tag
-            color='green'
+            color='grey'
             label={t<string>('payout')}
           />
         )}
