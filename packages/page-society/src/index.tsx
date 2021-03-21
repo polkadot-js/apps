@@ -27,70 +27,54 @@ interface Props {
 
 export { useCounter };
 
-function strikeSort (a: MapMember, b: MapMember): number {
-  return a.isWarned && b.isWarned
-    ? b.member.strikes.cmp(a.member.strikes)
-    : a.isWarned
-      ? -1
-      : b.isWarned
-        ? 1
-        : 0;
+// head -> founder -> skeptics -> votes -> suspended -> strikes -> strikes -> payouts
+function sortMembers (a: MapMember, b: MapMember): number {
+  const isVoterA = a.isCandidateVoter || a.isDefenderVoter;
+
+  return a.isHead !== b.isHead
+    ? (a.isHead ? -1 : 1)
+    : a.isFounder !== b.isFounder
+      ? (a.isFounder ? -1 : 1)
+      : a.isSkeptic !== b.isSkeptic
+        ? (a.isSkeptic ? -1 : 1)
+        : isVoterA !== (b.isCandidateVoter || b.isDefenderVoter)
+          ? (isVoterA ? -1 : 1)
+          // : a.isDefenderVoter !== b.isDefenderVoter
+          //   ? (a.isDefenderVoter ? -1 : 1)
+          //   : a.isCandidateVoter !== b.isCandidateVoter
+          //     ? (a.isCandidateVoter ? -1 : 1)
+          : a.isSuspended !== b.isSuspended
+            ? (a.isSuspended ? -1 : 1)
+            : a.isWarned !== b.isWarned
+              ? (a.isWarned ? -1 : 1)
+              : (b.strikes.cmp(a.strikes) || (b.payouts.length - a.payouts.length));
 }
 
-function voterSort (a: MapMember, b: MapMember): number {
-  const isVoterA = a.isCandidateVoter || a.member.isDefenderVoter;
-  const isVoterB = b.isCandidateVoter || b.member.isDefenderVoter;
-
-  return isVoterA && isVoterB
-    ? strikeSort(a, b)
-    : isVoterA
-      ? -1
-      : isVoterB
-        ? 1
-        : strikeSort(a, b);
-}
-
-function skepticSort (a: MapMember, b: MapMember): number {
-  return a.isSkeptic && b.isSkeptic
-    ? voterSort(a, b)
-    : a.isSkeptic
-      ? -1
-      : b.isSkeptic
-        ? 1
-        : 0;
-}
-
-function finalSort (a: MapMember, b: MapMember): number {
-  return a.isHead
-    ? -1
-    : b.isHead
-      ? 1
-      : a.isFounder
-        ? -1
-        : b.isFounder
-          ? 1
-          : skepticSort(a, b);
-}
-
-function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], info: DeriveSociety, warnStrikes: BN): [MapMember[], BN] {
+function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], { defender, founder, hasDefender, head }: DeriveSociety, warnStrikes: BN): [MapMember[], BN] {
   const mapMembers = members
-    .filter((member) => !info.hasDefender || !member.accountId.eq(info.defender))
-    .map((member): MapMember => ({
-      isCandidateVoter: voters.includes(member.accountId.toString()),
-      isFounder: info.founder?.eq(member.accountId),
-      isHead: info.head?.eq(member.accountId),
-      isSkeptic: skeptics.includes(member.accountId.toString()),
-      isWarned: member.strikes.gt(warnStrikes),
-      key: member.accountId.toString(),
-      member
-    }))
-    .sort(({ member: a }, { member: b }) => (b.payouts.length - a.payouts.length) || b.strikes.cmp(a.strikes))
-    .sort(voterSort)
-    .sort(finalSort);
+    .filter((member) => !hasDefender || !member.accountId.eq(defender))
+    .map(({ accountId, isDefenderVoter, isSuspended, payouts, strikes }): MapMember => {
+      const key = accountId.toString();
+
+      return {
+        accountId,
+        isCandidateVoter: voters.includes(key),
+        isDefenderVoter,
+        isFounder: !!founder?.eq(accountId),
+        isHead: !!head?.eq(accountId),
+        isSkeptic: skeptics.includes(key),
+        isSuspended,
+        isWarned: !isSuspended && strikes.gt(warnStrikes),
+        key,
+        payouts,
+        strikes
+      };
+    })
+    .sort(sortMembers);
 
   return [
     mapMembers,
-    mapMembers.reduce((total, { member: { payouts } }) =>
+    mapMembers.reduce((total, { payouts }) =>
       payouts.reduce((total, [, balance]) => total.iadd(balance), total), new BN(0)
     )
   ];

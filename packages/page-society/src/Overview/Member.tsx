@@ -46,7 +46,7 @@ function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): J
   ));
 }
 
-function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, isWarned, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, payouts, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
