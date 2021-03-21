@@ -51,9 +51,9 @@ function sortMembers (a: MapMember, b: MapMember): number {
               : (b.strikes.cmp(a.strikes) || (b.payouts.length - a.payouts.length));
 }
 
-function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], info: DeriveSociety, warnStrikes: BN): [MapMember[], BN] {
+function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], voters: string[], { defender, founder, hasDefender, head }: DeriveSociety, warnStrikes: BN): [MapMember[], BN] {
   const mapMembers = members
-    .filter((member) => !info.hasDefender || !member.accountId.eq(info.defender))
+    .filter((member) => !hasDefender || !member.accountId.eq(defender))
     .map(({ accountId, isDefenderVoter, isSuspended, payouts, strikes }): MapMember => {
       const key = accountId.toString();
 
@@ -61,8 +61,8 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
         accountId,
         isCandidateVoter: voters.includes(key),
         isDefenderVoter,
-        isFounder: !!info.founder?.eq(accountId),
-        isHead: !!info.head?.eq(accountId),
+        isFounder: !!founder?.eq(accountId),
+        isHead: !!head?.eq(accountId),
         isSkeptic: skeptics.includes(key),
         isSuspended,
         isWarned: !isSuspended && strikes.gt(warnStrikes),
