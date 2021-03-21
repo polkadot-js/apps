@@ -9,7 +9,7 @@ import { KUSAMA_GENESIS } from '@polkadot/apps-config';
 import { Button, Modal } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import drawCanary from '../draw/canary';
+import drawCanary, { PADD, SIZE } from '../draw/canary';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -20,6 +20,9 @@ const CANVAS_STYLE = {
   display: 'block',
   margin: '0 auto'
 };
+
+const HEIGHT = (SIZE * 2) + (PADD * 1);
+const WIDTH = (SIZE * 3) + (PADD * 2);
 
 function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -55,10 +58,10 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
         >
           <Modal.Content>
             <canvas
-              height={525}
+              height={HEIGHT}
               ref={canvasRef}
               style={CANVAS_STYLE}
-              width={800}
+              width={WIDTH}
             />
           </Modal.Content>
           <Modal.Actions
