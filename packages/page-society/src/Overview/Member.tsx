@@ -5,12 +5,12 @@ import type BN from 'bn.js';
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { MapMember } from '../types';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { KUSAMA_GENESIS } from '@polkadot/apps-config';
-import { AddressSmall, Columar, Expander, Icon, Modal, Tag } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { AddressSmall, Columar, Expander, Icon, Modal, Tag, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -30,32 +30,52 @@ const CANVAS_STYLE = {
 
 function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): JSX.Element[] {
   return payouts.map(([bn, value], index) => (
-    <p key={index}>
+    <div
+      className='payout'
+      key={index}
+    >
       <Columar>
         <Columar.Column>
           <FormatBalance value={value} />
         </Columar.Column>
         <Columar.Column>
           <div>#{formatNumber(bn)}</div>
-          <BlockToTime
-            key={index}
-            value={bn.sub(bestNumber)}
-          />
+          {bn.gt(bestNumber) && (
+            <BlockToTime
+              key={index}
+              value={bn.sub(bestNumber)}
+            />
+          )}
         </Columar.Column>
       </Columar>
-    </p>
+    </div>
   ));
 }
 
 function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFounder, isHead, isSkeptic, isWarned, member: { accountId, isDefenderVoter, isSuspended, payouts, strikes } } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canInk] = useState(() => api.genesisHash.eq(KUSAMA_GENESIS));
   const [isInkShowing, toggleInk] = useToggle();
 
   const renderPayouts = useCallback(
     () => bestNumber && payouts && renderJSXPayouts(bestNumber, payouts),
+    [bestNumber, payouts]
+  );
+
+  const isMember = useMemo(
+    (): boolean => {
+      const address = accountId.toString();
+
+      return allAccounts.some((accountId) => accountId === address);
+    },
+    [allAccounts, accountId]
+  );
+
+  const availablePayout = useMemo(
+    () => bestNumber && payouts.find(([bn]) => bestNumber.gt(bn)),
     [bestNumber, payouts]
   );
 
@@ -123,7 +143,7 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
       <td>{isDefenderVoter && t<string>('defender')}</td>
       <td>{isCandidateVoter && t<string>('candidate')}</td>
       <td className='number'>{formatNumber(strikes)}</td>
-      <td>
+      <td className='button'>
         {canInk && (
           <>
             <Icon
@@ -152,11 +172,27 @@ function Member ({ bestNumber, className = '', value: { isCandidateVoter, isFoun
           </>
         )}
       </td>
+      <td className='button'>
+        {availablePayout && (
+          <TxButton
+            accountId={accountId}
+            icon='ellipsis-h'
+            isDisabled={!isMember}
+            label='Payout'
+            params={[]}
+            tx={api.tx.society.payout}
+          />
+        )}
+      </td>
     </tr>
   );
 }
 
 export default React.memo(styled(Member)`
+  .payout+.payout {
+    margin-top: 0.375rem;
+  }
+
   .ui--Column {
     min-width: 14ch;
 
