@@ -41,6 +41,7 @@
   "founder": "founder",
   "kind": "kind",
   "members": "members",
+  "payout": "payout",
   "payouts": "payouts",
   "pot": "pot",
   "rotation": "rotation",

@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-hooks",
-  "version": "0.84.2-19",
+  "version": "0.84.2-20",
   "description": "A collection of React hooks the Polkadot JS Apps UI",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
