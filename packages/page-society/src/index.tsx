@@ -37,7 +37,7 @@ function strikeSort (a: MapMember, b: MapMember): number {
         : 0;
 }
 
-function secondarySort (a: MapMember, b: MapMember): number {
+function voterSort (a: MapMember, b: MapMember): number {
   const isVoterA = a.isCandidateVoter || a.member.isDefenderVoter;
   const isVoterB = b.isCandidateVoter || b.member.isDefenderVoter;
 
@@ -60,7 +60,7 @@ function finalSort (a: MapMember, b: MapMember): number {
         : b.isFounder
           ? 1
           : a.isSkeptic && b.isSkeptic
-            ? secondarySort(a, b)
+            ? voterSort(a, b)
             : a.isSkeptic
               ? -1
               : b.isSkeptic
@@ -81,7 +81,7 @@ function getMapMembers (members: DeriveSocietyMember[], skeptics: string[], vote
       member
     }))
     .sort(({ member: a }, { member: b }) => (b.payouts.length - a.payouts.length) || b.strikes.cmp(a.strikes))
-    .sort(secondarySort)
+    .sort(voterSort)
     .sort(finalSort);
 }
 
@@ -95,9 +95,8 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { candidates, skeptics, voters } = useVoters();
 
   const mapMembers = useMemo(
-    () => members && info && skeptics && voters
-      ? getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE))
-      : undefined,
+    () => members && info && skeptics && voters &&
+      getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE)),
     [api, info, members, skeptics, voters]
   );
 
@@ -120,12 +119,10 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/candidates`}>
           <Candidates
