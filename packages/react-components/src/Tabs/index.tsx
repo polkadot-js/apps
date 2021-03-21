@@ -41,7 +41,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
     : items;
 
   return (
-    <div className={`ui--Tabs ${className}`}>
+    <header className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
         {filtered.map((tab, index) => (
           <Tab
@@ -52,7 +52,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
           />
         ))}
       </div>
-    </div>
+    </header>
   );
 }
 

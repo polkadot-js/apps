@@ -38,12 +38,10 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   return (
     <main className='democracy--App'>
       <HelpOverlay md={basicMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/dispatch`}>
           <Execute />

@@ -96,12 +96,10 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <div className='pollContainer'>
         <div className='pollHeader'>
           <h1>{t('denomination vote')}</h1>
