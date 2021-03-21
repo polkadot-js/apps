@@ -1,14 +1,11 @@
 {
   "name": "@polkadot/apps-config",
   "version": "0.84.2-21",
+  "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
   "dependencies": {
     "@acala-network/type-definitions": "^0.7.1",
     "@babel/runtime": "^7.13.10",

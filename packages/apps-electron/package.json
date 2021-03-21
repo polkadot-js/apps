@@ -1,8 +1,8 @@
 {
   "name": "@polkadot/apps-electron",
-  "main": "index.js",
   "private": true,
   "version": "0.84.2-21",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/core": "^7.13.10",
     "@babel/polyfill": "^7.12.1",
