@@ -46,7 +46,7 @@ function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): J
   ));
 }
 
-function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, payouts, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, key, payouts, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -57,21 +57,19 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
   );
 
   const isMember = useMemo(
-    (): boolean => {
-      const address = accountId.toString();
-
-      return allAccounts.some((accountId) => accountId === address);
-    },
-    [allAccounts, accountId]
+    () => allAccounts.some((a) => a === key),
+    [allAccounts, key]
   );
 
   const availablePayout = useMemo(
-    () => bestNumber && payouts.find(([bn]) => bestNumber.gt(bn)),
+    () => bestNumber && payouts.find(([b]) => bestNumber.gt(b)),
     [bestNumber, payouts]
   );
 
   const votedOn = useMemo(
-    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')].filter((s): s is string => !!s),
+    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')]
+      .filter((s): s is string => !!s)
+      .join(', '),
     [isCandidateVoter, isDefenderVoter, t]
   );
 
@@ -127,12 +125,13 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
       <td className='number together'>
         {!!payouts?.length && (
           <Expander
+            className='payoutExpander'
             renderChildren={renderPayouts}
             summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
           />
         )}
       </td>
-      <td className='together'>{votedOn.join(', ')}</td>
+      <td className='together'>{votedOn}</td>
       <td className='number'>{formatNumber(strikes)}</td>
       <td className='button start'>
         <DesignKusama accountId={accountId} />
@@ -152,20 +151,27 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
 }
 
 export default React.memo(styled(Member)`
-  .payout+.payout {
-    margin-top: 0.5rem;
-  }
-
-  .ui--Column {
-    min-width: 14ch;
-
-    &:first-child {
-      max-width: 100% !important;
+  .payoutExpander {
+    .payout+.payout {
+      margin-top: 0.5rem;
     }
 
-    &:last-child {
-      max-width: 14ch;
-      white-space: nowrap;
+    .ui--Columnar {
+      flex-wrap: unset;
+
+      .ui--Column {
+        min-width: 15ch;
+
+        &:first-child {
+          max-width: 100% !important;
+        }
+
+        &:last-child {
+          min-width: 15ch;
+          max-width: 15ch;
+          white-space: nowrap;
+        }
+      }
     }
   }
 `);
