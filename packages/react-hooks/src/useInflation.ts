@@ -17,7 +17,9 @@ const EMPTY: Inflation = { inflation: 0, stakedReturn: 0 };
 
 export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN): Inflation {
   const { falloff, idealStake, maxInflation, minInflation } = getInflationParams(api);
-  const stakedFraction = totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
+  const stakedFraction = totalStaked.isZero() || totalIssuance.isZero()
+    ? 0
+    : totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
   const idealInterest = maxInflation / idealStake;
   const inflation = 100 * (minInflation + (
     stakedFraction <= idealStake
