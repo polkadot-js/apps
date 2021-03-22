@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 0.85.1 Mar 22, 2021
+
+Contributed:
+
+- Adjust dusty spec name (Thanks to https://github.com/akru)
+- Update Galois types (Thanks to https://github.com/hging)
+- Update Crust types (Thanks to https://github.com/zikunfan)
+- Add Vln testnet (thanks to https://github.com/stanly-johnson)
+- Update Datahighway types (Thanks to https://github.com/cgroeschel)
+- Language fixes (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Display validator votes on parachains
+- Adjust society (display split, expand member/candidate info & payouts)
+- Adjust inflation calculation for zero staked/issuance
+- Display call hash on signer modal
+- Cleanup Modal layouts & de-dupe tags
+- Cleanup global tabs displays (optimize elements)
+
+
 ## 0.84.1 Mar 15, 2021
 
 Contributed:
