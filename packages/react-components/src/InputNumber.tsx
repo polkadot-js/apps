@@ -22,7 +22,7 @@ interface Props {
   bitLength?: BitLength;
   children?: React.ReactNode;
   className?: string;
-  defaultValue?: string;
+  defaultValue?: string | BN;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
@@ -187,7 +187,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   );
 
   const _onChange = useCallback(
-    (input: string) => _onChangeWithSi(input, si),
+    (input: string | BN) => _onChangeWithSi(input.toString(), si),
     [_onChangeWithSi, si]
   );
 
