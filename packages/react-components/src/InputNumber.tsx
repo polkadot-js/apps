@@ -187,12 +187,12 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   );
 
   const _onChange = useCallback(
-    (input: string | BN) => _onChangeWithSi(input.toString(), si),
+    (input: string) => _onChangeWithSi(input, si),
     [_onChangeWithSi, si]
   );
 
   useEffect((): void => {
-    defaultValue && _onChange(defaultValue);
+    defaultValue && _onChange(defaultValue.toString());
   }, [_onChange, defaultValue]);
 
   const _onKeyDown = useCallback(
