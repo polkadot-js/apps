@@ -1,19 +1,23 @@
-// Copyright 2017-2021 @canvas-ui/app-deploy authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-instantiate authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { AppProps as Props } from '@canvas-ui/app/types';
 import useCodes from '@canvas-ui/app/useCodes';
 import { WithLoader } from '@canvas-ui/react-components';
+import { useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
+import Add from './Add';
 import Codes from './Codes';
 import New from './New';
+import NewFromCode from './NewFromCode';
 import Success from './Success';
 import { ComponentProps } from './types';
 
-function DeployApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
+function InstantiateApp ({ basePath }: Props): React.ReactElement<Props> {
   const { allCodes, hasCodes, isLoading, updated } = useCodes();
+  const hasInstantiateWithCode = useHasInstantiateWithCode();
 
   const componentProps = useMemo(
     (): ComponentProps => ({
@@ -21,18 +25,25 @@ function DeployApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> 
       basePath,
       hasCodes,
       isLoading,
-      navigateTo,
       updated
     }),
-    [allCodes, basePath, hasCodes, isLoading, navigateTo, updated]
+    [allCodes, basePath, hasCodes, isLoading, updated]
   );
 
   return (
-    <main className='deploy--App'>
+    <main className='instantiate--App'>
       <WithLoader isLoading={isLoading}>
         <Switch>
-          <Route path={`${basePath}/new/:id?/:index?`}>
+          <Route path={`${basePath}/new/:id/:index?`}>
             <New {...componentProps} />
+          </Route>
+          {hasInstantiateWithCode && (
+            <Route path={`${basePath}/new`}>
+              <NewFromCode {...componentProps} />
+            </Route>
+          )}
+          <Route path={`${basePath}/add`}>
+            <Add {...componentProps} />
           </Route>
           <Route path={`${basePath}/success/:address`}>
             <Success {...componentProps} />
@@ -46,4 +57,4 @@ function DeployApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(DeployApp);
+export default React.memo(InstantiateApp);

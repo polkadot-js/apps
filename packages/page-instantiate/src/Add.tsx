@@ -5,9 +5,10 @@ import store from '@canvas-ui/app/store';
 import { ComponentProps as Props } from '@canvas-ui/app/types';
 import useCodes from '@canvas-ui/app/useCodes';
 import { Button, Input, InputABI, InputName } from '@canvas-ui/react-components';
-import { useAbi, useApi, useCall, useFile, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';
+import { useAbi, useApi, useAppNavigation, useCall, useFile, useHasInstantiateWithCode, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import React, { useCallback, useMemo } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
 import { Option } from '@polkadot/types';
@@ -16,9 +17,12 @@ import { isHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
-function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
+function Add ({ className }: Props): React.ReactElement<Props> {
+  const history = useHistory();
   const { t } = useTranslation();
   const { api } = useApi();
+  const { navigateTo } = useAppNavigation();
+  const hasInstantiateWithCode = useHasInstantiateWithCode();
   const showNotification = useNotification();
   const [codeHash, setCodeHash, , , isCodeHashTouched] = useNonEmptyString();
   const codeStorage = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
@@ -75,7 +79,11 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
             status: 'success'
           });
 
-          navigateTo.uploadSuccess(id)();
+          if (hasInstantiateWithCode) {
+            navigateTo.instantiate();
+          } else {
+            navigateTo.uploadSuccess(id);
+          }
         })
         .catch((error): void => {
           console.error('Unable to save code', error);
@@ -87,7 +95,7 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
           });
         });
     },
-    [abi, codeHash, name, navigateTo, showNotification, t]
+    [abi, codeHash, hasInstantiateWithCode, name, navigateTo, showNotification, t]
   );
 
   return (
@@ -95,13 +103,13 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
       <header>
         <h1>{t<string>('Add Existing Code Hash')}</h1>
         <div className='instructions'>
-          {t<string>('Using the unique code hash you can add on-chain contract code for you to deploy.')}
+          {t<string>('Using the unique code hash, you can add an on-chain contract code for you to instantiate.')}
         </div>
       </header>
       <section className={className}>
         <Input
           autoFocus
-          help={t<string>('Code hash for the on-chain deployed code')}
+          help={t<string>('Code hash for the on-chain uploaded code')}
           isError={isCodeHashTouched && !isCodeHashValid}
           label={t<string>('Code Hash')}
           onChange={setCodeHash}
@@ -134,7 +142,7 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
           />
           <Button
             label={t<string>('Cancel')}
-            onClick={navigateTo.upload}
+            onClick={history.goBack}
           />
         </Button.Group>
       </section>

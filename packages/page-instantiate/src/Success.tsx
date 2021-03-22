@@ -1,23 +1,24 @@
-// Copyright 2017-2021 @canvas-ui/app-deploy authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-instantiate authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/app/types';
 import { Button, ContractCard } from '@canvas-ui/react-components';
-import { useContract } from '@canvas-ui/react-hooks';
+import { useAppNavigation, useContract } from '@canvas-ui/react-hooks';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useTranslation } from './translate';
 
-function Success ({ basePath, navigateTo }: Props): React.ReactElement<Props> | null {
+function Success ({ basePath }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { address }: { address: string } = useParams();
+  const { navigateTo } = useAppNavigation();
   const contract = useContract(address);
 
   useEffect(
     (): void => {
       if (!contract) {
-        navigateTo.deploy();
+        navigateTo.instantiate();
       }
     },
     [contract, navigateTo]
@@ -30,16 +31,15 @@ function Success ({ basePath, navigateTo }: Props): React.ReactElement<Props> | 
   return (
     <>
       <header>
-        <h1>{t<string>('Contract successfully deployed')}</h1>
+        <h1>{t<string>('Contract successfully instantiated')}</h1>
         <div className='instructions'>
-          {t<string>('Your contract has been successfully deployed on chain.')}
+          {t<string>('Your contract has been successfully instantiated on chain.')}
         </div>
       </header>
       <section>
         <ContractCard
           basePath={basePath}
           contract={contract}
-          navigateTo={navigateTo}
         />
         <Button.Group>
           <Button
@@ -48,8 +48,8 @@ function Success ({ basePath, navigateTo }: Props): React.ReactElement<Props> | 
             onClick={navigateTo.executeCall(address)}
           />
           <Button
-            label={t<string>('Deploy Another Contract')}
-            onClick={navigateTo.deploy}
+            label={t<string>('Instantiate Another Contract')}
+            onClick={navigateTo.instantiate}
           />
         </Button.Group>
       </section>

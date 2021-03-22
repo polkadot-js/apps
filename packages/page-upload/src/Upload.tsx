@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import store from '@canvas-ui/app/store';
-import { ComponentProps as Props } from '@canvas-ui/app/types';
 import { registry } from '@canvas-ui/react-api';
 import { Button, Input, InputABI, InputAddress, InputFile, TxButton } from '@canvas-ui/react-components';
 import PendingTx from '@canvas-ui/react-components/PendingTx';
-import { useAbi, useAccountId, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
+import { useAbi, useAccountId, useApi, useAppNavigation, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -17,8 +16,9 @@ import { compactAddLength, isNull, isWasm } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
-function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
+function Upload (): React.ReactElement {
   const { t } = useTranslation();
+  const { navigateTo, pathTo } = useAppNavigation();
   const { api } = useApi();
   const [accountId, setAccountId] = useAccountId();
   const [name, setName, isNameValid, isNameError] = useNonEmptyString();
@@ -111,14 +111,14 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
         <h1>{t<string>('Upload Contract Bundle')}</h1>
         <div className='instructions'>
           {t<string>('You can upload an existing Wasm blob here. Already have a blob on chain? ')}
-          <Link to={`${basePath}/add`}>
+          <Link to={pathTo.instantiateAdd}>
             {t<string>('Add an existing code hash.')}
           </Link>
         </div>
       </header>
       <section>
         <InputAddress
-          help={t<string>('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
+          help={t<string>('Specify the user account to use for this code bundle upload. Any fees will be deducted from this account.')}
           isInput={false}
           label={t<string>('Account')}
           onChange={setAccountId}
@@ -145,7 +145,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
         />
         {abi?.project.source.wasm && abi.project.source.wasm.length === 0 && (
           <InputFile
-            help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
+            help={t<string>('The compiled WASM for the contract that you wish to upload. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
             isError={isWasmFromFileSupplied && !isWasmFromFileValid}
             label={t<string>('Upload Wasm Blob')}
             onChange={setWasmFromFile}

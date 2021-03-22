@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Button, ContractCard } from '@canvas-ui/react-components';
-import { useApi } from '@canvas-ui/react-hooks';
+import { useApi, useAppNavigation } from '@canvas-ui/react-hooks';
 import { getContractForAddress } from '@canvas-ui/react-util';
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
@@ -19,9 +19,10 @@ import { ComponentProps as Props } from './types';
 //     .filter((contract): contract is Contract => !!contract);
 // }
 
-function Contracts ({ accounts, basePath, className, contracts: contractAddresses, hasContracts, navigateTo }: Props): React.ReactElement<Props> {
+function Contracts ({ accounts, basePath, className, contracts: contractAddresses, hasContracts }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { navigateTo, pathTo } = useAppNavigation();
   const contracts = useMemo(
     (): Contract[] | null => {
       return accounts && contractAddresses && contractAddresses
@@ -37,16 +38,16 @@ function Contracts ({ accounts, basePath, className, contracts: contractAddresse
         <h1>{t(hasContracts ? 'Execute Contract' : 'No contracts available')}</h1>
         <div className='instructions'>
           {hasContracts
-            ? t<string>('Call messages on deployed contracts.')
+            ? t<string>('Call messages on instantiated contracts.')
             : (
               <>
                 {t<string>('You can add an existing contract by')}
                 {' '}
-                <Link to={'/execute/add'}>
-                  {t<string>('adding its address')}
+                <Link to={pathTo.executeAdd}>
+                  {t<string>('entering its address')}
                 </Link>
-                {`. ${t<string>('Or deploy from a')} `}
-                <Link to={'/deploy'}>
+                {`. ${t<string>('Or instantiate from a')} `}
+                <Link to={pathTo.instantiate}>
                   {t<string>('code bundle')}
                 </Link>
                 {'.'}
@@ -58,14 +59,13 @@ function Contracts ({ accounts, basePath, className, contracts: contractAddresse
       <section>
         <div className='content'>
           {hasContracts && (
-            <h3>{t<string>('Deployed Contracts')}</h3>
+            <h3>{t<string>('Instantiated Contracts')}</h3>
           )}
           {contracts?.map((contract): React.ReactNode => ((
             <ContractCard
               basePath={basePath}
               contract={contract}
               key={contract.address.toString()}
-              navigateTo={navigateTo}
             />
           )))}
           <Button.Group>

@@ -9,28 +9,36 @@ import { VoidFn } from '@canvas-ui/react-util/types';
 import { AnyJson } from '@polkadot/types/types';
 
 export interface AppNavigation {
-  deploy: VoidFn;
-  deployNew: (_: string, __?: number) => VoidFn;
-  deploySuccess: (_: string) => VoidFn;
+  instantiate: VoidFn;
+  instantiateAdd: VoidFn;
+  instantiateNew: (_?: string, __?: number) => VoidFn;
+  instantiateSuccess: (_: string) => VoidFn;
   execute: VoidFn;
   executeAdd: VoidFn;
   executeCall: (_: string, __?: number) => VoidFn;
   upload: VoidFn;
-  uploadAdd: VoidFn;
   uploadSuccess: (_: string) => VoidFn;
 }
 
-interface WithAppNavigation {
-  navigateTo: AppNavigation;
+export interface AppPaths {
+  instantiate: string;
+  instantiateAdd: string;
+  instantiateNew: (_?: string, __?: number) => string;
+  instantiateSuccess: (_: string) => string;
+  execute: string;
+  executeAdd: string;
+  executeCall: (_: string, __?: number) => string;
+  upload: string;
+  uploadSuccess: (_: string) => string;
 }
 
 export interface WithBasePath {
   basePath: string;
 }
 
-export interface ComponentProps extends BareProps, WithBasePath, WithAppNavigation {}
+export interface ComponentProps extends BareProps, WithBasePath {}
 
-export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
+export interface AppProps extends BareProps, WithBasePath {
   onStatusChange: (status: ActionStatus) => void;
 }
 

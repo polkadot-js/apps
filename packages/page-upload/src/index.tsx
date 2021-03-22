@@ -3,32 +3,40 @@
 
 import { AppProps as Props } from '@canvas-ui/app/types';
 import useCodes from '@canvas-ui/app/useCodes';
-import React, { useMemo } from 'react';
+import { useAppNavigation, useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
+import React, { useEffect, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
-import Add from './Add';
 import Success from './Success';
 import { ComponentProps } from './types';
 import Upload from './Upload';
 
-function UploadApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
+function UploadApp ({ basePath }: Props): React.ReactElement<Props> {
+  const hasInstantiateWithCode = useHasInstantiateWithCode();
+  const { navigateTo } = useAppNavigation();
   const useCodesHook = useCodes();
   const componentProps = useMemo(
-    (): ComponentProps => ({ ...useCodesHook, basePath, navigateTo }),
-    [useCodesHook, basePath, navigateTo]
+    (): ComponentProps => ({ ...useCodesHook, basePath }),
+    [useCodesHook, basePath]
+  );
+
+  useEffect(
+    (): void => {
+      if (hasInstantiateWithCode) {
+        navigateTo.instantiate();
+      }
+    },
+    [hasInstantiateWithCode, navigateTo]
   );
 
   return (
     <main className='upload--App'>
       <Switch>
-        <Route path={`${basePath}/add`}>
-          <Add {...componentProps} />
-        </Route>
         <Route path={`${basePath}/success/:id`}>
           <Success {...componentProps} />
         </Route>
         <Route exact>
-          <Upload {...componentProps} />
+          <Upload />
         </Route>
       </Switch>
     </main>

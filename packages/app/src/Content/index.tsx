@@ -15,7 +15,6 @@ import styled from 'styled-components';
 
 import HelpWidget from '../HelpWidget';
 import { useTranslation } from '../translate';
-import useAppNavigation from '../useAppNavigation';
 import NotFound from './NotFound';
 import Status from './Status';
 
@@ -39,7 +38,6 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
-  const navigateTo = useAppNavigation();
   const { queueAction, stqueue, txqueue } = useContext(StatusContext);
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
@@ -90,7 +88,6 @@ function Content ({ className }: Props): React.ReactElement<Props> {
             <Component
               basePath={`/${name}`}
               location={location}
-              navigateTo={navigateTo}
               onStatusChange={queueAction}
             />
             {!sawGuide && !isLoading && (

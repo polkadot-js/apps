@@ -3,6 +3,7 @@
 
 import { ComponentProps } from '@canvas-ui/app/types';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+import { useAppNavigation } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -18,8 +19,9 @@ interface Props extends ComponentProps {
   contract: Contract;
 }
 
-function ContractCard ({ className, contract: { abi, address }, navigateTo }: Props): React.ReactElement<Props> {
+function ContractCard ({ className, contract: { abi, address } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { navigateTo } = useAppNavigation();
 
   const onExecute = useCallback(
     (): void => {

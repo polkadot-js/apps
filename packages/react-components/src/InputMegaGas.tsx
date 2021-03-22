@@ -49,7 +49,7 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
   const isDisabled = !!estimatedMg && withEstimate;
 
   return (
-    <div className={classes(className, isCall ? 'isCall' : 'isDeploy')}>
+    <div className={classes(className, isCall ? 'isCall' : 'isInstantiate')}>
       <InputNumber
         defaultValue={estimatedMg && isDisabled ? estimatedMg.toString() : undefined}
         help={help}
@@ -95,7 +95,7 @@ export default React.memo(
       display: flex;
     }
 
-    &.isDeploy {
+    &.isInstantiate {
       .ui.input {
         flex-grow: 1;
         margin-right: 0;

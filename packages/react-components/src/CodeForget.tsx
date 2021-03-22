@@ -56,7 +56,7 @@ function CodeForget ({ className, code, onForget }: Props): React.ReactElement<P
             {t<string>('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}
           </p>
           <p>
-            {t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}
+            {t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any instantiated contracts. The forget operation only limits your access to the code on this browser.')}
           </p>
           <CodeInfo
             className='forget-code'
