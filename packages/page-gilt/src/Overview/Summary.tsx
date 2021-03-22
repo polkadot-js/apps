@@ -15,12 +15,13 @@ import { useTranslation } from '../translate';
 interface Props {
   activeTotal?: ActiveGiltsTotal;
   className?: string;
+  isDisabled: boolean;
 }
 
 const DIVIDOR_NU = 10_000;
 const DIVISOR_BN = new BN(10_000);
 
-function Summary ({ activeTotal, className }: Props): React.ReactElement<Props> {
+function Summary ({ activeTotal, className, isDisabled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
@@ -28,6 +29,9 @@ function Summary ({ activeTotal, className }: Props): React.ReactElement<Props> 
   return (
     <SummaryBox className={className}>
       <section>
+        <CardSummary label={t<string>('active')}>
+          {isDisabled ? t('no') : t('yes')}
+        </CardSummary>
         {activeTotal && (
           <CardSummary label={t<string>('index')}>
             {formatNumber(activeTotal.index)}

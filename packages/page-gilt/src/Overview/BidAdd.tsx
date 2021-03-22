@@ -14,9 +14,10 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isDisabled: boolean;
 }
 
-function Bid ({ className }: Props): React.ReactElement<Props> {
+function Bid ({ className, isDisabled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -32,7 +33,7 @@ function Bid ({ className }: Props): React.ReactElement<Props> {
     <>
       <Button
         icon='plus'
-        isDisabled={!hasAccounts}
+        isDisabled={!hasAccounts || isDisabled}
         label={t<string>('Submit Bid')}
         onClick={toggleOpen}
       />
