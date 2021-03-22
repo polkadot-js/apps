@@ -5,7 +5,7 @@
   "app-contracts.json",
   "app-council.json",
   "app-democracy.json",
-  "app-deploy.json",
+  "app-instantiate.json",
   "app-execute.json",
   "app-explorer.json",
   "app-extrinsics.json",

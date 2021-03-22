@@ -2,10 +2,16 @@
 // and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiProps } from '@canvas-ui/react-api/types';
+
 import { Route } from '@canvas-ui/app-routing/types';
 import { Badge, Icon, Menu, Tooltip } from '@canvas-ui/react-components';
+import { useAccounts, useApi } from '@canvas-ui/react-hooks';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
+import { ApiPromise } from '@polkadot/api';
+import { isFunction } from '@polkadot/util';
 
 const DUMMY_COUNTER = (): null => null;
 
@@ -17,8 +23,66 @@ interface Props {
 
 const TOOLTIP_OFFSET = { right: -4 };
 
+const disabledLog = new Map<string, string>();
+
+function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
+  const [area, section, method] = endpoint.split('.');
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return isFunction((api as any)[area][section][method]);
+  } catch (error) {
+    return false;
+  }
+}
+
+export function findMissingApis (api: ApiPromise, needsApi?: (string | string[])[]): (string | string[])[] {
+  if (!needsApi) {
+    return [];
+  }
+
+  return needsApi.filter((endpoint: string | string[]): boolean => {
+    const hasApi = Array.isArray(endpoint)
+      ? endpoint.reduce((hasApi, endpoint) => hasApi || hasEndpoint(api, endpoint), false)
+      : hasEndpoint(api, endpoint);
+
+    return !hasApi;
+  });
+}
+
+function logDisabled (route: string, message: string): void {
+  if (!disabledLog.get(route)) {
+    disabledLog.set(route, message);
+
+    console.warn(`Disabling ${route}: ${message}`);
+  }
+}
+
+function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, { isHidden, needsAccounts, needsApi }: Route['display']): boolean {
+  if (isHidden) {
+    return false;
+  } else if (needsAccounts && !hasAccounts) {
+    return false;
+  } else if (!needsApi) {
+    return true;
+  } else if (!isApiReady || !isApiConnected) {
+    return false;
+  }
+
+  const notFound = findMissingApis(api, needsApi);
+
+  if (notFound.length !== 0) {
+    logDisabled(name, `API not available: ${notFound.toString()}`);
+  }
+
+  return notFound.length === 0;
+}
+
 function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
-  if (route.isIgnored) {
+  const api = useApi();
+  const { hasAccounts } = useAccounts();
+
+  if (route.isIgnored || !checkVisible(route.name, api, hasAccounts, route.display)) {
     return null;
   }
 

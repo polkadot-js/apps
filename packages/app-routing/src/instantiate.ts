@@ -2,7 +2,7 @@
 // and @canvas-ui/app-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Component from '@canvas-ui/app-deploy';
+import Component from '@canvas-ui/app-instantiate';
 
 import { Route } from './types';
 
@@ -14,7 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsApi: [],
       needsCodes: true
     },
-    name: 'deploy',
-    text: t<string>('nav.deploy', 'Deploy', { ns: 'app-routing' })
+    name: 'instantiate',
+    text: t<string>('nav.instantiate', 'Instantiate', { ns: 'app-routing' })
   };
 }

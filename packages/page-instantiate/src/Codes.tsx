@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @canvas-ui/app-deploy authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-instantiate authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Button, CodeCard } from '@canvas-ui/react-components';
+import { useAppNavigation, useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,24 +10,28 @@ import styled from 'styled-components';
 import { useTranslation } from './translate';
 import { ComponentProps as Props } from './types';
 
-function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props): React.ReactElement<Props> {
+function Codes ({ allCodes, basePath, className, hasCodes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { navigateTo, pathTo } = useAppNavigation();
+  const hasInstantiateWithCode = useHasInstantiateWithCode();
+
+  const uploadPath = hasInstantiateWithCode ? pathTo.instantiateNew() : pathTo.upload;
 
   return (
     <div className={className}>
       <header>
-        <h1>{t(hasCodes ? 'Deploy New Contract' : 'No code bundle available')}</h1>
+        <h1>{t(hasCodes ? 'Instantiate New Contract' : 'No code bundle available')}</h1>
         <div className='instructions'>
           {hasCodes
             ? (
               <>
-                {t<string>('Choose an on-chain code bundle to deploy from below. Don’t see what you’re looking for?')}
+                {t<string>('Choose an on-chain code bundle to instantiate from below. Don’t see what you’re looking for?')}
                 {' '}
-                <Link to={'/upload/add'}>
+                <Link to={pathTo.instantiateAdd}>
                   {t<string>('Add an existing code hash')}
                 </Link>
                 {` ${t<string>('or')} `}
-                <Link to={'/upload'}>
+                <Link to={uploadPath}>
                   {t<string>('upload a new contract bundle')}
                 </Link>
                 {'.'}
@@ -36,11 +41,11 @@ function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props):
               <>
                 {t<string>('You can add an existing code bundle by')}
                 {' '}
-                <Link to={'/upload/add'}>
+                <Link to={pathTo.instantiateAdd}>
                   {t<string>('using its code hash')}
                 </Link>
                 {` ${t<string>('or by')} `}
-                <Link to={'/upload'}>
+                <Link to={uploadPath}>
                   {t<string>('uploading a new contract bundle')}
                 </Link>
                 {'.'}
@@ -59,17 +64,26 @@ function Codes ({ allCodes, basePath, className, hasCodes, navigateTo }: Props):
               basePath={basePath}
               code={code}
               key={code.codeHash}
-              navigateTo={navigateTo}
             />
           )))}
           <Button.Group>
-            <Button
-              label={t<string>('Upload New Contract Bundle')}
-              onClick={navigateTo.upload}
-            />
+            {hasInstantiateWithCode
+              ? (
+                <Button
+                  isPrimary
+                  label={t<string>('Upload & Instantiate Contract')}
+                  onClick={navigateTo.instantiateNew()}
+                />
+              )
+              : (
+                <Button
+                  label={t<string>('Upload New Contract Bundle')}
+                  onClick={navigateTo.upload}
+                />
+              )}
             <Button
               label={t<string>('Add Existing Code Hash')}
-              onClick={navigateTo.uploadAdd}
+              onClick={navigateTo.instantiateAdd}
             />
           </Button.Group>
         </div>

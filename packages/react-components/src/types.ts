@@ -112,11 +112,11 @@ export interface Contract extends ContractBase {
   address: null;
 }
 
-export interface ContractDeployed extends ContractBase {
+export interface ContractInstantiated extends ContractBase {
   address: string;
 }
 
-export type CallContract = ContractDeployed;
+export type CallContract = ContractInstantiated;
 
 export interface NullContract {
   abi: null;

@@ -62,8 +62,9 @@ function PendingTx ({ additionalDetails, children, className, currentItem, instr
       const { meta, method, section } = baseRegistry.findMetaCall(extrinsic.callIndex);
 
       let details: React.ReactNode = null;
+      const sig = `${section}.${method}`;
 
-      switch (`${section}.${method}`) {
+      switch (sig) {
         case 'contracts.putCode':
           details = (
             <div className='details'>
@@ -88,6 +89,7 @@ function PendingTx ({ additionalDetails, children, className, currentItem, instr
           );
           break;
         case 'contracts.instantiate':
+        case 'contracts.instantiateWithCode':
           details = (
             <div className='details'>
               <Labelled label={t<string>('Account')}>
@@ -98,8 +100,22 @@ function PendingTx ({ additionalDetails, children, className, currentItem, instr
                   withLabel={false}
                 />
               </Labelled>
+
+              {sig === 'contracts.instantiateWithCode' && (
+                <>
+                  <Labelled label={t<string>('Code Bundle Name')}>
+                    {additionalDetails.codeName}
+                  </Labelled>
+                  <Labelled
+                    isMonospace
+                    label={t<string>('Code Bytes')}
+                  >
+                    {truncate(extrinsic.args[0].toString())}
+                  </Labelled>
+                </>
+              )}
               <Labelled label={t<string>('Contract Name')}>
-                {additionalDetails.name}
+                {additionalDetails.contractName}
               </Labelled>
 
               <Labelled

@@ -13,7 +13,7 @@ import Call from './Call';
 import Contracts from './Contracts';
 import { ComponentProps } from './types';
 
-function ExecuteApp ({ basePath, className, navigateTo }: Props): React.ReactElement<Props> {
+function ExecuteApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { allAccounts, isReady: isAccountsReady } = useAccounts();
   const { allContracts, hasContracts, isContract, isReady: isContractsReady } = useContracts();
 
@@ -23,10 +23,9 @@ function ExecuteApp ({ basePath, className, navigateTo }: Props): React.ReactEle
       basePath,
       contracts: allContracts,
       hasContracts,
-      isContract,
-      navigateTo
+      isContract
     }),
-    [allAccounts, allContracts, basePath, hasContracts, isContract, navigateTo]
+    [allAccounts, allContracts, basePath, hasContracts, isContract]
   );
   const isLoading = useMemo(
     (): boolean => !isContractsReady || !isAccountsReady,

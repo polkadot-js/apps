@@ -28,7 +28,7 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
       className={className}
       help={t(
         isContract
-          ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
+          ? 'A name for the instantiated contract to help users distinguish. Only used for display purposes.'
           : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
       )}
       isDisabled={isBusy}

@@ -151,7 +151,6 @@ export interface UseWeight {
   setIsEmpty: React.Dispatch<boolean>
   setMegaGas: React.Dispatch<BN | undefined>;
   weight: BN;
-  weightToString: string;
 }
 
 export interface FileState {

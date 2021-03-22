@@ -2,6 +2,12 @@
 // and @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
+import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
+import type { KeyringStore } from '@polkadot/ui-keyring/types';
+import type { ApiProps, ApiState } from './types';
+
 import { typesChain, typesSpec } from '@canvas-ui/app-config/api';
 import { TokenUnit } from '@canvas-ui/react-components/InputNumber';
 import { StatusContext } from '@canvas-ui/react-components/Status';
@@ -11,11 +17,8 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { InjectedExtension } from '@polkadot/extension-inject/types';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import keyring from '@polkadot/ui-keyring';
-import { KeyringStore } from '@polkadot/ui-keyring/types';
 import uiSettings from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
@@ -23,7 +26,6 @@ import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defau
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
-import { ApiProps, ApiState } from './types';
 
 interface Props {
   children: React.ReactNode;
@@ -104,7 +106,7 @@ async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiS
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
-  const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
+  const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
   const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
@@ -117,7 +119,7 @@ async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiS
 
   // first setup the UI helpers
   formatBalance.setDefaults({
-    decimals: tokenDecimals,
+    decimals: (tokenDecimals as BN[]).map((b) => b.toNumber()),
     unit: tokenSymbol
   });
   TokenUnit.setAbbr(tokenSymbol);

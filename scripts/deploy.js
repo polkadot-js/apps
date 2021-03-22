@@ -10,8 +10,6 @@ const options = {
   repo: `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`
 };
 
-console.log(options);
-
 ghpages.publish('packages/app/build', options, (error) => {
   if (error) {
     process.stderr.write(`${error.message}\n`, () => process.exit(1));

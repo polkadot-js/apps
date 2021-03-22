@@ -78,7 +78,7 @@ function Message ({ className, isConstructor, message, onSelect, registry }: Pro
                 className='execute'
                 icon={isConstructor ? 'cloud-upload' : 'play'}
                 onClick={onSelect}
-                tooltip={t<string>(isConstructor ? 'Deploy with this constructor' : 'Call this message')}
+                tooltip={t<string>(isConstructor ? 'Instantiate with this constructor' : 'Call this message')}
               />
             </div>
           )}

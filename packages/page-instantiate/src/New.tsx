@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @canvas-ui/app-deploy authors & contributors
+// Copyright 2017-2021 @canvas-ui/app-instantiate authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Code } from '@canvas-ui/app/types';
 import { Button, ContractParams, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
+import { useAbi, useAccountId, useApi, useAppNavigation, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
 import { useTxParams } from '@canvas-ui/react-params';
 import { extractValues } from '@canvas-ui/react-params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
@@ -33,10 +33,11 @@ function defaultContractName (name?: string) {
   return name ? `${name} (instance)` : '';
 }
 
-function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Props> | null {
+function New ({ allCodes, className }: Props): React.ReactElement<Props> | null {
   const { id, index = '0' }: { id: string, index?: string } = useParams();
   const { t } = useTranslation();
   const { api } = useApi();
+  const { navigateTo } = useAppNavigation();
   const code = useMemo(
     (): Code | null => {
       return allCodes.find((code: Code) => id === code.id) || null;
@@ -44,7 +45,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
     [allCodes, id]
   );
   const useWeightHook = useGasWeight();
-  const { isValid: isWeightValid, weight, weightToString } = useWeightHook;
+  const { isValid: isWeightValid, weight } = useWeightHook;
   const [accountId, setAccountId] = useAccountId();
   const [endowment, setEndowment, isEndowmentValid] = useNonZeroBn(ENDOWMENT);
   const [constructorIndex, setConstructorIndex] = useState(parseInt(index, 10) || 0);
@@ -99,7 +100,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
         try {
           const identifier = abi?.constructors[constructorIndex].identifier;
 
-          return identifier ? blueprint.tx[identifier]({ gasLimit: weightToString, salt: withSalt ? salt : null, value: endowment }, ...extractValues(values)) : null;
+          return identifier ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...extractValues(values)) : null;
         } catch (error) {
           console.error(error);
 
@@ -109,7 +110,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
 
       return null;
     });
-  }, [abi, blueprint, constructorIndex, endowment, values, weightToString, salt, withSalt]);
+  }, [abi, blueprint, constructorIndex, endowment, values, weight, salt, withSalt]);
 
   useEffect(
     (): void => {
@@ -137,7 +138,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
           tags: []
         });
 
-        navigateTo.deploySuccess(address.toString())();
+        navigateTo.instantiateSuccess(address.toString())();
       }
     },
     [abi, api, name, navigateTo]
@@ -166,7 +167,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   useEffect(
     (): void => {
       if (!abi) {
-        navigateTo.deploy();
+        navigateTo.instantiate();
       }
     },
     [abi, navigateTo]
@@ -181,16 +182,16 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
     >
       <div className={className}>
         <header>
-          <h1>{t<string>('Deploy {{contractName}}', { replace: { contractName: code?.name || 'Contract' } })}</h1>
+          <h1>{t<string>('Instantiate {{contractName}}', { replace: { contractName: code?.name || 'Contract' } })}</h1>
           <div className='instructions'>
-            {t<string>('Choose an account to deploy the contract from, give it a descriptive name and set the endowment amount.')}
+            {t<string>('Choose an account to instantiate the contract from, give it a descriptive name and set the endowment amount.')}
           </div>
         </header>
         <section>
           <InputAddress
-            help={t<string>('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
+            help={t<string>('Specify the user account to use for this instantiation. Any fees will be deducted from this account.')}
             isInput={false}
-            label={t<string>('deployment account')}
+            label={t<string>('instantiation account')}
             onChange={setAccountId}
             type='account'
             value={accountId}
@@ -214,9 +215,9 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
           {abi && (
             <>
               <Dropdown
-                help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
+                help={t<string>('The instantiation constructor information for this contract, as provided by the ABI.')}
                 isDisabled={abi.constructors.length <= 1}
-                label={t<string>('Deployment Constructor')}
+                label={t<string>('Instantiation Constructor')}
                 onChange={setConstructorIndex}
                 options={constructOptions}
                 value={`${constructorIndex}`}
@@ -236,9 +237,9 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             value={endowment}
           />
           <Input
-            help={t<string>('A hex or string value that acts as a salt for this deployment.')}
+            help={t<string>('A hex or string value that acts as a salt for this instantiation.')}
             isDisabled={!withSalt}
-            label={t<string>('Unique Deployment Salt')}
+            label={t<string>('Unique Instantiation Salt')}
             onChange={setSalt}
             placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
             value={withSalt ? salt : t<string>('<none>')}
@@ -246,13 +247,13 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             <Toggle
               className='toggle'
               isOverlay
-              label={t<string>('use deployment salt')}
+              label={t<string>('use salt')}
               onChange={setWithSalt}
               value={withSalt}
             />
           </Input>
           <InputMegaGas
-            help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+            help={t<string>('The maximum amount of gas that can be used by this transaction, if the code requires more, the transaction will fail.')}
             weight={useWeightHook}
           />
           <Button.Group>
@@ -262,7 +263,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
               icon='cloud-upload-alt'
               isDisabled={!isValid}
               isPrimary
-              label={t<string>('Deploy')}
+              label={t<string>('Instantiate')}
               onSuccess={_onSuccess}
               withSpinner
             />

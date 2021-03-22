@@ -4,7 +4,7 @@
 import store from '@canvas-ui/app/store';
 import { Code, ComponentProps } from '@canvas-ui/app/types';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useAbi, useToggle } from '@canvas-ui/react-hooks';
+import { useAbi, useAppNavigation, useToggle } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import React, { useCallback } from 'react';
@@ -23,14 +23,15 @@ interface Props extends ComponentProps {
   onForget?: VoidFn;
 }
 
-function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onForget }: Props): React.ReactElement<Props> {
+function CodeCard ({ className, code, code: { id }, onForget: _onForget }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { navigateTo } = useAppNavigation();
   const [, , setIsAbiOpen] = useToggle();
   const { abi, isAbiSupplied, onChangeAbi } = useAbi(code);
 
-  const onDeploy = useCallback(
+  const onInstantiate = useCallback(
     (): void => {
-      navigateTo.deployNew(id)();
+      navigateTo.instantiateNew(id)();
     },
     [id, navigateTo]
   );
@@ -83,8 +84,8 @@ function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onFor
           <Button
             isDisabled={!isAbiSupplied}
             isPrimary
-            label={t<string>('Deploy')}
-            onClick={onDeploy}
+            label={t<string>('Instantiate')}
+            onClick={onInstantiate}
           />
         </Button.Group>
       </div>
