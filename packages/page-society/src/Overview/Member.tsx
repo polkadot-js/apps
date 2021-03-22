@@ -46,7 +46,7 @@ function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): J
   ));
 }
 
-function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, payouts, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, key, payouts, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -57,16 +57,12 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
   );
 
   const isMember = useMemo(
-    (): boolean => {
-      const address = accountId.toString();
-
-      return allAccounts.some((accountId) => accountId === address);
-    },
-    [allAccounts, accountId]
+    () => allAccounts.some((a) => a === key),
+    [allAccounts, key]
   );
 
   const availablePayout = useMemo(
-    () => bestNumber && payouts.find(([bn]) => bestNumber.gt(bn)),
+    () => bestNumber && payouts.find(([b]) => bestNumber.gt(b)),
     [bestNumber, payouts]
   );
 
