@@ -2,7 +2,7 @@
 // and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useApi, useAppNavigation, useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
+import { useAppNavigation, useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
 import React from 'react';
 import { Redirect } from 'react-router';
 
