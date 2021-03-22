@@ -1448,15 +1448,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/db@workspace:packages/db":
-  version: 0.0.0-use.local
-  resolution: "@canvas-ui/db@workspace:packages/db"
-  dependencies:
-    "@babel/runtime": ^7.10.2
-    edgeware-node-types: ^2.3.3
-  languageName: unknown
-  linkType: soft
-
 "@canvas-ui/react-api@0.0.1, @canvas-ui/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-api@workspace:packages/react-api"
