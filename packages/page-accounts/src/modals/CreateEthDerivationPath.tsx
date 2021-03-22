@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal } from '@polkadot/react-components';
 
@@ -30,14 +30,12 @@ function CreateEthDerivationPath ({ addressFromSeed,
   seedType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [addIndex, setAddIndex] = useState(0);
-  const [customIndex, setCustomIndex] = useState(0);
-  const addressList = new Array(5).fill(0).map((_, i) => ({
-    key: i,
-    text: t('Address index {{index}} - {{address}}', {
-      replace: { address: addressFromSeed(seed, `m/44'/60'/0'/0/${i}`, 'ethereum'), index: i }
-    }),
-    value: i
-  }));
+  const [customIndex, setCustomIndex] = useState(new BN(0));
+  const [addressList, setAddressList] = useState<{ key: number; text: ReactNode; value: number; }[]>([{
+    key: 0,
+    text: t('Address index 0'),
+    value: 0
+  }]);
   const [useCustomPath, setUseCustomPath] = useState(false);
   const [useCustomIndex, setUseCustomIndex] = useState(false);
 
@@ -50,25 +48,39 @@ function CreateEthDerivationPath ({ addressFromSeed,
     )
   });
 
-  const _toggleCustomPath = () => {
+  const _toggleCustomPath = useCallback(() => {
     setUseCustomPath(!useCustomPath);
-  };
+  }, [setUseCustomPath, useCustomPath]);
 
-  const _toggleCustomIndex = () => {
+  const _toggleCustomIndex = useCallback(() => {
     setUseCustomIndex(!useCustomIndex);
-  };
+  }, [useCustomIndex, setUseCustomIndex]);
 
-  const onChangeCustomIndex = (e: BN) => {
-    setCustomIndex(Number(e));
-  };
-
-  useEffect((): void => {
-    onChange(`m/44'/60'/0'/0/${addIndex}`);
-  }, [addIndex, useCustomIndex, onChange]);
+  const _onChangeCustomIndex = useCallback((e: BN) => {
+    setCustomIndex(e);
+  }, [setCustomIndex]);
 
   useEffect((): void => {
-    onChange(`m/44'/60'/0'/0/${customIndex}`);
-  }, [customIndex, onChange]);
+    if (!useCustomIndex) {
+      console.log(1);
+      onChange(`m/44'/60'/0'/0/${addIndex}`);
+    } else {
+      console.log(2);
+      onChange(`m/44'/60'/0'/0/${Number(customIndex)}`);
+    }
+  }, [customIndex, onChange, useCustomIndex, addIndex]);
+
+  useEffect((): void => {
+    const list = new Array(5).fill(0).map((_, i) => ({
+      key: i,
+      text: t('Address index {{index}} - {{address}}', {
+        replace: { address: addressFromSeed(seed, `m/44'/60'/0'/0/${i}`, 'ethereum'), index: i }
+      }),
+      value: i
+    }));
+
+    setAddressList(list);
+  }, [seed, setAddressList, addressFromSeed, t]);
 
   return (
     <Modal.Columns
@@ -95,8 +107,8 @@ function CreateEthDerivationPath ({ addressFromSeed,
                   help={t<string>('You can set a custom derivation index for this account')}
                   isDecimal={false}
                   label={t<string>('Custom index')}
-                  onChange={onChangeCustomIndex}
-                  value={new BN(customIndex)}
+                  onChange={_onChangeCustomIndex}
+                  value={customIndex}
                 />
               )
               : (
