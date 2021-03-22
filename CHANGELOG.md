@@ -1,5 +1,139 @@
 # CHANGELOG
 
+## 0.85.1 Mar 22, 2021
+
+Contributed:
+
+- Adjust dusty spec name (Thanks to https://github.com/akru)
+- Update Galois types (Thanks to https://github.com/hging)
+- Update Crust types (Thanks to https://github.com/zikunfan)
+- Add Vln testnet (thanks to https://github.com/stanly-johnson)
+- Update Datahighway types (Thanks to https://github.com/cgroeschel)
+- Language fixes (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Display validator votes on parachains
+- Adjust society (display split, expand member/candidate info & payouts)
+- Adjust inflation calculation for zero staked/issuance
+- Display call hash on signer modal
+- Cleanup Modal layouts & de-dupe tags
+- Cleanup global tabs displays (optimize elements)
+
+
+## 0.84.1 Mar 15, 2021
+
+Contributed:
+
+- Added ReAlis network & types (Thanks to https://github.com/Daelon02)
+- Added OnFinality endpoint for Moonbeam (Thanks to https://github.com/joelamouche)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update PolkaBTC types (Thanks to https://github.com/savudani8)
+- Update Kilt types (Thanks to https://github.com/wischli)
+- Update Bitfrost types (Thanks to https://github.com/awesomepan)
+- Update Bit.Country paraId (Thanks to https://github.com/justinphamnz)
+- Update Dusty types (Thanks to https://github.com/akru)
+- Update Zenlink types (Thanks to https://github.com/Hayden0323)
+- Update Sgc node types (Thanks to https://github.com/Zombieliu)
+- Update DataHighway chain colors (Thanks to https://github.com/cgroeschel)
+- Update specName for ChainX & Zenlink (Thanks to https://github.com/icodezjb)
+- Update it i18n (thanks to https://github.com/fomod-in)
+
+Changes:
+
+- Add display of blocking stashes (& removal from nomination lists)
+- Cater for Rococo reset (genesisHash updates)
+- Add support for parachain auctions
+- Add support for contributions in crowdloan app
+- Update crowdloan app for latest Polkadot types
+- Fix upcoming retrievals for new parachain interfaces
+- Display lease period countdown for parachains
+- show parachain lifecycles (& action countdowns as applicable)
+- Flatten Modal layouts (explicit hint, single column data only)
+- Move theme definitions to CSS variables
+- Add correct keys for account menu (rendering warnings)
+- Add additional errors on invalid keypair retrieval
+
+
+## 0.83.1 Mar 8, 2021
+
+Contributed:
+
+- Update Jupiter networks alongside Rococo (Thanks to https://github.com/zzcwoshizz)
+- Add ChainX support on Rococo (Thanks to https://github.com/qinghuan-chain)
+- Update Kulupu types for next upgrade (Thanks to https://github.com/sorpaas)
+- Bump Acala types package (Thanks to https://github.com/ntduan)
+- Update HydraDX types (Thanks to https://github.com/lumir-mrkva)
+- Add ETH dev accounts on Frontier-like networks (Thanks to https://github.com/joelamouche)
+- Fix Unique type injection (Thanks to https://github.com/gregzaitsev)
+- Update account help around ED (Thanks to https://github.com/NukeManDan)
+
+Changes:
+
+- Fix address ion display in explorer (compatibility with `MultiAddress`)
+- Add block status to validator preferences setup
+- Allow validators to remove nominators (currently active-only)
+- Stash derives now check for events for refresh triggers
+- Adjust Electron CSP to allow workers as used in QR operations
+- Swap code-generation to ESM modules
+- Adjust funding warnings with explicit free balance mention
+
+
+## 0.82.1 Mar 1, 2021
+
+Contributed:
+
+- Start of Polish i18n (Thanks to https://github.com/jimmy-tudeski)
+- Adjust display of table buttons with gradient themes (Thanks to https://github.com/superpw)
+- Update PolkaBTC network URL (Thanks to https://github.com/savudani8)
+- Add network types for Snowbridge (Thanks to https://github.com/vgeddes)
+- Update Btfrost types (Thanks to https://github.com/awesomepan)
+- Update Litentry collator name (Thanks to https://github.com/chenzongxiong)
+- Add MathChain PC1 support (Thanks to https://github.com/hging)
+- Update Ternoa types (thanks to https://github.com/ETeissonniere)
+- Update Scg types (Thanks to https://github.com/Zombieliu)
+- Add derivation path support for ETH-compatible accounts (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Explicit messages around extension phishing support
+- Adjust parachain validators to always show stashes
+- Adjust block links display on a per-contract view
+- Adjust display of disabled items on popup menus (dark-mode driven)
+- Align bounty row display with the rest of the UI
+
+
+## 0.81.1 Feb 22, 2021
+
+Contributed:
+
+- Add Unique network (Thanks to https://github.com/gregzaitsev)
+- Add Sgc testnet (Thanks to https://github.com/Zombieliu)
+- Add all known Moonbeam spec names (Thanks to https://github.com/joelamouche)
+- Adjust Moonbeam types for v6 upgrade (Thanks to https://github.com/joelamouche)
+- Adjust DOTmog logo (Thanks to https://github.com/darkfriend77)
+- Add Vedran provider for Westend (Thanks to https://github.com/mpetrunic)
+- Fix typo in accounts overlays (Thanks to https://github.com/marksthespots)
+- Fix typo in JavaScript app (Thanks to https://github.com/shaunxw)
+- Update types for Darwinia Crab (Thanks to https://github.com/WoeOm)
+- Update provider for Darwinia (Thanks to https://github.com/WoeOm)
+- Updata paraId for Bit.Country (Thanks to https://github.com/justinphamnz)
+
+Changes:
+
+- Display validators for all connected parachains
+- Adjust included block parachain calculation
+- Align bounties display with UI styling
+- Rework calculation for min-available balance warning in signer
+- Adjust slashed validators display (check against known eras)
+- Cleanup JS console app examples for system.account usage
+- Adjust JS console app sending example (incl. Signer fix)
+- Display error on contracts deploy pre-3.0 Substrate with no utility.batch
+- Adjust table displays with bottom-borders
+- Adjust Governance proxy checks to include tips
+- Reworks digits formatting for explorer blocks
+
+
 ## 0.80.1 Feb 15, 2021
 
 Contributed:

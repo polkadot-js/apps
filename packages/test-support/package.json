@@ -1,14 +1,10 @@
 {
   "name": "@polkadot/test-support",
-  "version": "0.80.2-14",
-  "main": "index.js",
-  "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
+  "private": true,
+  "version": "0.85.1",
   "license": "Apache-2.0",
   "dependencies": {
-    "@testing-library/react": "^11.2.3",
+    "@testing-library/react": "^11.2.5",
     "testcontainers": "^6.4.2"
   },
   "devDependencies": {

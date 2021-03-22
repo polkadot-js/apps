@@ -17,9 +17,9 @@ import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useBestNumber, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
 import Backup from '../modals/Backup';
 import ChangePass from '../modals/ChangePass';
@@ -92,7 +92,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const { getLedger } = useLedger();
-  const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
@@ -208,8 +208,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   );
 
   const menuItems = useMemo(() => [
-    createMenuGroup([
-      api.api.tx.identity?.setIdentity && !isHardware && (
+    createMenuGroup('identityGroup', [
+      isFunction(api.api.tx.identity?.setIdentity) && !isHardware && (
         <Menu.Item
           key='identityMain'
           onClick={toggleIdentityMain}
@@ -217,7 +217,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           {t('Set on-chain identity')}
         </Menu.Item>
       ),
-      api.api.tx.identity?.setSubs && identity?.display && !isHardware && (
+      isFunction(api.api.tx.identity?.setSubs) && identity?.display && !isHardware && (
         <Menu.Item
           key='identitySub'
           onClick={toggleIdentitySub}
@@ -225,7 +225,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           {t('Set on-chain sub-identities')}
         </Menu.Item>
       ),
-      api.api.tx.democracy?.unlock && democracyUnlockTx && (
+      isFunction(api.api.tx.democracy?.unlock) && democracyUnlockTx && (
         <Menu.Item
           key='clearDemocracy'
           onClick={_clearDemocracyLocks}
@@ -233,7 +233,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           {t('Clear expired democracy locks')}
         </Menu.Item>
       ),
-      api.api.tx.vesting?.vest && vestingVestTx && (
+      isFunction(api.api.tx.vesting?.vest) && vestingVestTx && (
         <Menu.Item
           key='vestingVest'
           onClick={_vestingVest}
@@ -242,7 +242,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </Menu.Item>
       )
     ]),
-    createMenuGroup([
+    createMenuGroup('deriveGroup', [
       !(isExternal || isHardware || isInjected || isMultisig) && (
         <Menu.Item
           key='deriveAccount'
@@ -260,7 +260,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </Menu.Item>
       )
     ]),
-    createMenuGroup([
+    createMenuGroup('backupGroup', [
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
           key='backupJson'
@@ -286,7 +286,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </Menu.Item>
       )
     ]),
-    api.api.tx.recovery?.createRecovery && createMenuGroup([
+    isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
       !recoveryInfo && (
         <Menu.Item
           key='makeRecoverable'
@@ -302,7 +302,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         {t('Initiate recovery for another')}
       </Menu.Item>
     ]),
-    api.api.tx.multisig?.asMulti && isMultisig && createMenuGroup([
+    isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         disabled={!multiInfos || !multiInfos.length}
         key='multisigApprovals'
@@ -311,7 +311,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         {t('Multisig approvals')}
       </Menu.Item>
     ]),
-    api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
+    isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
       <Menu.Item
         key='changeDelegate'
         onClick={toggleDelegate}
@@ -325,7 +325,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         {t('Undelegate')}
       </Menu.Item>
     ]),
-    api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
+    isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && createMenuGroup('delegateGroup', [
       <Menu.Item
         key='delegate'
         onClick={toggleDelegate}
@@ -333,7 +333,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         {t('Delegate democracy votes')}
       </Menu.Item>
     ]),
-    api.api.query.proxy?.proxies && createMenuGroup([
+    isFunction(api.api.query.proxy?.proxies) && createMenuGroup('proxyGroup', [
       <Menu.Item
         key='proxy-overview'
         onClick={toggleProxyOverview}
@@ -344,7 +344,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         }
       </Menu.Item>
     ]),
-    isEditable && !api.isDevelopment && createMenuGroup([
+    isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'
         genesisHash={genesisHash}
@@ -590,7 +590,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       </td>
       <td className='button'>
-        {api.api.tx.balances?.transfer && (
+        {isFunction(api.api.tx.balances?.transfer) && (
           <Button
             icon='paper-plane'
             label={t<string>('send')}

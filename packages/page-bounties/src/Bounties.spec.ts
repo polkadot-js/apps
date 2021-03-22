@@ -46,7 +46,7 @@ jest.mock('./hooks/useBounties', () => ({
 let aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nays?: string[]) => DeriveCollectiveProposal;
 let augmentedApi: ApiPromise;
 let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
-let aBountyIndex: (index?:number) => BountyIndex;
+let aBountyIndex: (index?: number) => BountyIndex;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
 

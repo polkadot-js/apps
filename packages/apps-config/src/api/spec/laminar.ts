@@ -5,4 +5,4 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import { typesBundleForPolkadot } from '@laminar/type-definitions';
 
-export default typesBundleForPolkadot.spec.acala as OverrideBundleDefinition;
+export default typesBundleForPolkadot.spec.laminar as unknown as OverrideBundleDefinition;

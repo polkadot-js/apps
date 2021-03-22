@@ -18,9 +18,9 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     votes && setVoteSplit({
-      allAye: votes.filter(([, vote]): boolean => vote.isApprove),
-      allNay: votes.filter(([, vote]): boolean => vote.isReject),
-      allSkeptic: votes.filter(([, vote]): boolean => vote.isSkeptic)
+      allAye: votes.filter(([, vote]) => vote.isApprove),
+      allNay: votes.filter(([, vote]) => vote.isReject),
+      allSkeptic: votes.filter(([, vote]) => vote.isSkeptic)
     });
   }, [votes]);
 

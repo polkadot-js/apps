@@ -58,6 +58,7 @@ import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeRealis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -69,6 +70,7 @@ import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.png';
+import nodeVln from './nodes/valiu.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 // last-resort fallback, just something empty
@@ -90,11 +92,14 @@ export const chainLogos: Record<string, unknown> = [
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
+  ['Jupiter A1', nodeJupiter],
+  ['Jupiter PC1', nodeJupiter],
   ['KILT PC1', nodeKilt],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
@@ -102,6 +107,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['Phala PC1', nodePhala],
+  ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
   ['Sgc', nodeSgc],
   ['Tick', chainRococoTick],
@@ -109,7 +115,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Trick', chainRococoTrick],
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
-  ['Unique', chainUnique]
+  ['Unique', chainUnique],
+  ['Vln', nodeVln]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -151,14 +158,14 @@ export const nodeLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
-  ['Jupiter Node', nodeJupiter],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
-  ['Litentry Parachain Collator', nodeLitentry],
+  ['Litentry Collator', nodeLitentry],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
+  ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
@@ -167,6 +174,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['phala-substrate-node', nodePhala],
   ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -183,7 +191,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
-  ['Unique Node', nodeUnique]
+  ['Unique Node', nodeUnique],
+  ['Vln', nodeVln]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -230,11 +239,13 @@ export const namedLogos: Record<string, unknown> = {
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
+  realis: nodeRealis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
+  rococoChainX: nodeChainx,
   rococoClover: nodeClover,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
@@ -243,9 +254,11 @@ export const namedLogos: Record<string, unknown> = {
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoIntegritee: nodeIntegritee,
+  rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
+  rococoMathChain: nodeMath,
   rococoPhala: nodePhala,
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,
@@ -265,6 +278,7 @@ export const namedLogos: Record<string, unknown> = {
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,
+  vln: nodeVln,
   westend: nodePolkadot,
   zero: nodeZero
 };

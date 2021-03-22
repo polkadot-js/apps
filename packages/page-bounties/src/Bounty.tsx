@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
 import { getProposalToDisplay } from './helpers/extendedStatuses';
@@ -30,12 +31,13 @@ interface Props {
   className?: string;
   description: string;
   index: BountyIndex;
+  isEven: boolean;
   proposals?: DeriveCollectiveProposal[];
 }
 
 const EMPTY_CELL = '-';
 
-function Bounty ({ bestNumber, bounty, className = '', description, index, proposals }: Props): React.ReactElement<Props> {
+function Bounty ({ bestNumber, bounty, className = '', description, index, isEven, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -64,18 +66,18 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''} isOdd`}>
-        <td>
-          <BountyStatusView bountyStatus={bountyStatus}/>
-        </td>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
+        <td className='number'><h1>{formatNumber(index)}</h1></td>
         <td
           className='description-column'
-          colSpan={2}
           data-testid='description'
         >
           <div title={description}>
             {description}
           </div>
+        </td>
+        <td>
+          <BountyStatusView bountyStatus={bountyStatus}/>
         </td>
         <td><FormatBalance value={value} /></td>
         <td>
@@ -153,15 +155,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} isOdd`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2}>
           <div className='label-column-left'>
             <div className='label'>{t('Proposer')}</div>
             <AddressSmall value={proposer} />
-          </div>
-          <div className='label-column-left'>
-            <div className='label'>{t('Id')}</div>
-            {index.toString()}
           </div>
         </td>
         <td colSpan={2}>
@@ -245,7 +243,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       justify-content: center;
       width: 1.7rem;
       height: 1.7rem;
-      border: 1px solid ${theme.borderTable};
+      border: 1px solid var(--border-table);
       border-radius: 4px;
       cursor: pointer;
     }

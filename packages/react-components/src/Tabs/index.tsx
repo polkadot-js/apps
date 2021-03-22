@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
 import type { TabItem } from './types';
 
 import React, { useEffect } from 'react';
@@ -42,7 +41,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
     : items;
 
   return (
-    <div className={`ui--Tabs ${className}`}>
+    <header className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
         {filtered.map((tab, index) => (
           <Tab
@@ -53,20 +52,20 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
           />
         ))}
       </div>
-    </div>
+    </header>
   );
 }
 
-export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Tabs)`
   align-items: flex-end;
-  background: ${theme.bgTabs};
-  border-bottom: 1px solid ${theme.borderTabs};
+  background: var(--bg-tabs);
+  border-bottom: 1px solid var(--border-tabs);
 
   text-align: left;
   z-index: 1;
 
   & .tabs-container {
-    max-width: ${theme.contentMaxWidth};
+    max-width: var(--width-full);
     margin: 0 auto;
     width: 100%;
     display: flex;
@@ -77,4 +76,4 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     display: none;
     width: 0px;
   }
-`));
+`);

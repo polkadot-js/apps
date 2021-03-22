@@ -49,35 +49,25 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={members}
-                  help={t<string>('Select the account you wish to submit the tip from.')}
-                  label={t<string>('submit with account')}
-                  onChange={setAccountId}
-                  type='account'
-                  withLabel
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Your endorsement will be applied for this account.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('Your endorsement will be applied for this account.')}>
+              <InputAddress
+                filter={members}
+                help={t<string>('Select the account you wish to submit the tip from.')}
+                label={t<string>('submit with account')}
+                onChange={setAccountId}
+                type='account'
+                withLabel
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputBalance
-                  autoFocus
-                  defaultValue={median}
-                  help={t<string>('The tip amount that should be allocated')}
-                  isZeroable
-                  label={t<string>('value')}
-                  onChange={setValue}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.')}>
+              <InputBalance
+                autoFocus
+                defaultValue={median}
+                help={t<string>('The tip amount that should be allocated')}
+                isZeroable
+                label={t<string>('value')}
+                onChange={setValue}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

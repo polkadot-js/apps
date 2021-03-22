@@ -12,8 +12,24 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        LookupSource: 'MultiAddress',
         Address: 'MultiAddress',
-        LookupSource: 'MultiAddress'
+        FullIdentification: 'AccountId',
+        AuthorityState: {
+          _enum: [
+            'Working',
+            'Waiting'
+          ]
+        },
+        EraIndex: 'u32',
+        ActiveEraInfo: {
+          index: 'EraIndex',
+          start: 'Option<u64>'
+        },
+        UnappliedSlash: {
+          validator: 'AccountId',
+          reporters: 'Vec<AccountId>'
+        }
       }
     }
   ]

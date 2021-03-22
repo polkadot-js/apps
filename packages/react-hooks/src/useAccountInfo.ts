@@ -9,6 +9,7 @@ import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 import { useCallback, useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
+import { isFunction } from '@polkadot/util';
 
 import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
@@ -86,7 +87,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
 
     let name;
 
-    if (api.query.identity && api.query.identity.identityOf) {
+    if (isFunction(api.query.identity?.identityOf)) {
       if (identity?.display) {
         name = identity.display;
       }

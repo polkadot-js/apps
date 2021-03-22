@@ -26,6 +26,14 @@ interface Props {
   onChange: (info: BondInfo) => void;
 }
 
+const EMPTY_INFO = {
+  bondOwnTx: null,
+  bondTx: null,
+  controllerId: null,
+  controllerTx: null,
+  stashId: null
+};
+
 function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -76,13 +84,7 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
           controllerTx: api.tx.staking.setController(controllerId),
           stashId
         }
-        : {
-          bondOwnTx: null,
-          bondTx: null,
-          controllerId: null,
-          controllerTx: null,
-          stashId: null
-        }
+        : EMPTY_INFO
     );
   }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, stashId, onChange]);
 
@@ -91,95 +93,88 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
 
   return (
     <div className={className}>
-      <Modal.Columns>
-        <Modal.Column>
-          <InputAddress
-            label={t<string>('stash account')}
-            onChange={setStashId}
-            type='account'
-            value={stashId}
-          />
-          <InputAddress
-            help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            label={t<string>('controller account')}
-            onChange={setControllerId}
-            type='account'
-            value={controllerId}
-          />
-          <InputValidationController
-            accountId={stashId}
-            controllerId={controllerId}
-            onError={_setError}
-          />
-        </Modal.Column>
-        <Modal.Column>
+      <Modal.Columns hint={
+        <>
           <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
           <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
-        </Modal.Column>
+        </>
+      }>
+        <InputAddress
+          label={t<string>('stash account')}
+          onChange={setStashId}
+          type='account'
+          value={stashId}
+        />
+        <InputAddress
+          help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
+          label={t<string>('controller account')}
+          onChange={setControllerId}
+          type='account'
+          value={controllerId}
+        />
+        <InputValidationController
+          accountId={stashId}
+          controllerId={controllerId}
+          onError={_setError}
+        />
       </Modal.Columns>
       {startBalance && (
-        <Modal.Columns>
-          <Modal.Column>
-            <InputBalance
-              autoFocus
-              defaultValue={startBalance}
-              help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
-              isError={!hasValue || !!amountError?.error}
-              label={t<string>('value bonded')}
-              labelExtra={
-                <BalanceFree
-                  label={<span className='label'>{t<string>('balance')}</span>}
-                  params={stashId}
-                />
-              }
-              onChange={setAmount}
-            />
-            <InputValidateAmount
-              controllerId={controllerId}
-              isNominating={isNominating}
-              minNomination={minNomination}
-              onError={setAmountError}
-              stashId={stashId}
-              value={amount}
-            />
-            {bondedBlocks?.gtn(0) && (
-              <Static
-                help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
-                label={t<string>('on-chain bonding duration')}
-              >
-                <BlockToTime blocks={bondedBlocks} />
-              </Static>
-            )}
-          </Modal.Column>
-          <Modal.Column>
+        <Modal.Columns hint={
+          <>
             <p>{t<string>('The amount placed at-stake should not be your full available available amount to allow for transaction fees.')}</p>
             <p>{t<string>('Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
-          </Modal.Column>
+          </>
+        }>
+          <InputBalance
+            autoFocus
+            defaultValue={startBalance}
+            help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
+            isError={!hasValue || !!amountError?.error}
+            label={t<string>('value bonded')}
+            labelExtra={
+              <BalanceFree
+                label={<span className='label'>{t<string>('balance')}</span>}
+                params={stashId}
+              />
+            }
+            onChange={setAmount}
+          />
+          <InputValidateAmount
+            controllerId={controllerId}
+            isNominating={isNominating}
+            minNomination={minNomination}
+            onError={setAmountError}
+            stashId={stashId}
+            value={amount}
+          />
+          {bondedBlocks?.gtn(0) && (
+            <Static
+              help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
+              label={t<string>('on-chain bonding duration')}
+            >
+              <BlockToTime value={bondedBlocks} />
+            </Static>
+          )}
         </Modal.Columns>
       )}
-      <Modal.Columns>
-        <Modal.Column>
-          <Dropdown
-            defaultValue={0}
-            help={t<string>('The destination account for any payments as either a nominator or validator')}
-            label={t<string>('payment destination')}
-            onChange={setDestination}
-            options={options}
-            value={destination}
+      <Modal.Columns hint={t<string>('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}>
+        <Dropdown
+          defaultValue={0}
+          help={t<string>('The destination account for any payments as either a nominator or validator')}
+          label={t<string>('payment destination')}
+          onChange={setDestination}
+          options={options}
+          value={destination}
+        />
+        {isAccount && (
+          <InputAddress
+            help={t('An account that is to receive the rewards')}
+            label={t('the payment account')}
+            onChange={setDestAccount}
+            type='account'
+            value={destAccount}
           />
-          {isAccount && (
-            <InputAddress
-              help={t('An account that is to receive the rewards')}
-              label={t('the payment account')}
-              onChange={setDestAccount}
-              type='account'
-              value={destAccount}
-            />
-          )}
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t<string>('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}</p>
-        </Modal.Column>
+        )}
       </Modal.Columns>
     </div>
   );

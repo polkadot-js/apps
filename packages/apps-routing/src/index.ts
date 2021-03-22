@@ -6,16 +6,15 @@ import type { Routes } from './types';
 
 import accounts from './accounts';
 import addresses from './addresses';
-import auctions from './auctions';
 import bounties from './bounties';
 import calendar from './calendar';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
-import crowdloan from './crowdloan';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import gilt from './gilt';
 import js from './js';
 import parachains from './parachains';
 import poll from './poll';
@@ -45,8 +44,7 @@ export default function create (t: TFunction): Routes {
     bounties(t),
     techcomm(t),
     parachains(t),
-    auctions(t),
-    crowdloan(t),
+    gilt(t),
     society(t),
     calendar(t),
     contracts(t),

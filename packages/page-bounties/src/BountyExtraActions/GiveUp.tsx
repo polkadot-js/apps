@@ -28,23 +28,15 @@ function BountyGiveUpCurator ({ curatorId, description, index, toggleOpen }: Pro
       size='large'
     >
       <Modal.Content>
-        <Modal.Column>
-          <p>{t<string>('This action will unassign you from the curator role.')}</p>
-        </Modal.Column>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              help={t<string>('The Curator account that will give up on it\'s role.')}
-              isDisabled
-              label={t<string>('curator account')}
-              type='account'
-              value={curatorId.toString()}
-              withLabel
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}>
+          <InputAddress
+            help={t<string>('The Curator account that will give up on it\'s role.')}
+            isDisabled
+            label={t<string>('curator account')}
+            type='account'
+            value={curatorId.toString()}
+            withLabel
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={toggleOpen}>
