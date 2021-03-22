@@ -2,16 +2,15 @@
 // and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useApi, useAppNavigation } from '@canvas-ui/react-hooks';
+import { useApi, useAppNavigation, useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
 import React from 'react';
 import { Redirect } from 'react-router';
 
 function NotFound (): React.ReactElement {
-  const { api } = useApi();
   const { pathTo } = useAppNavigation();
-  const hasPutCode = !api.tx.contracts.putCode;
+  const hasInstantiateWithCode = useHasInstantiateWithCode();
 
-  return <Redirect to={hasPutCode ? pathTo.upload : pathTo.instantiate} />;
+  return <Redirect to={hasInstantiateWithCode ? pathTo.instantiate : pathTo.upload} />;
 }
 
 export default React.memo(NotFound);
