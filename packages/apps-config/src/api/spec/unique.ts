@@ -41,7 +41,7 @@ const definitions: OverrideBundleDefinition = {
           ConstData: 'Vec<u8>',
           VariableData: 'Vec<u8>'
         },
-        CollectionType: {
+        Collection: {
           Owner: 'AccountId',
           Mode: 'CollectionMode',
           Access: 'AccessMode',
@@ -103,7 +103,8 @@ const definitions: OverrideBundleDefinition = {
         },
         CollectionLimits: {
           AccountTokenOwnershipLimit: 'u32',
-          SponsoredMintSize: 'u32',
+          SponsoredDataSize: 'u32',
+          SponsoredDataRateLimit: 'Option<BlockNumber>',
           TokenLimit: 'u32',
           SponsorTimeout: 'u32',
           OwnerCanTransfer: 'bool',
