@@ -22,7 +22,7 @@ interface Props {
   bitLength?: BitLength;
   children?: React.ReactNode;
   className?: string;
-  defaultValue?: string;
+  defaultValue?: string | BN;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
@@ -192,7 +192,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   );
 
   useEffect((): void => {
-    defaultValue && _onChange(defaultValue);
+    defaultValue && _onChange(defaultValue.toString());
   }, [_onChange, defaultValue]);
 
   const _onKeyDown = useCallback(

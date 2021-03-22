@@ -3,7 +3,6 @@
 
 import type BN from 'bn.js';
 import type { DeriveSociety } from '@polkadot/api-derive/types';
-import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -48,8 +47,8 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
             <CardSummary
               label={t<string>('rotation')}
               progress={{
-                total: api.consts.society.rotationPeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber),
+                total: api.consts.society.rotationPeriod,
+                value: bestNumber.mod(api.consts.society.rotationPeriod),
                 withTime: true
               }}
             />
@@ -58,8 +57,8 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
             <CardSummary
               label={t<string>('challenge')}
               progress={{
-                total: api.consts.society.challengePeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber),
+                total: api.consts.society.challengePeriod,
+                value: bestNumber.mod(api.consts.society.challengePeriod),
                 withTime: true
               }}
             />
