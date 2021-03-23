@@ -12,8 +12,8 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useProposal } from '../useProposals';
 import { sliceHex } from '../util';
-import { useProposal } from './useProposals';
 
 interface Props {
   approvedIds: ParaId[];

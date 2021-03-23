@@ -4,6 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { OwnedId } from '../types';
 
 import React from 'react';
 
@@ -17,6 +18,7 @@ import useWinningData from './useWinningData';
 
 interface Props {
   className?: string;
+  ownedIds: OwnedId[];
 }
 
 interface QueryState {
@@ -35,7 +37,7 @@ const optionsMulti = {
   })
 };
 
-function Auctions ({ className }: Props): React.ReactElement<Props> {
+function Auctions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { auctionInfo, numAuctions } = useCallMulti<QueryState>([
     api.query.auctions.auctionCounter,
@@ -53,7 +55,8 @@ function Auctions ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Bid
           auctionInfo={auctionInfo}
-          id={ numAuctions}
+          id={numAuctions}
+          ownedIds={ownedIds}
         />
       </Button.Group>
       <Auction

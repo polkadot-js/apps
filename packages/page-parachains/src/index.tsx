@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,12 +9,13 @@ import styled from 'styled-components';
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import useProposals from './Proposals/useProposals';
 import Auctions from './Auctions';
 import Crowdloan from './Crowdloan';
 import Overview from './Overview';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
+import useOwnedIds from './useOwnedIds';
+import useProposals from './useProposals';
 
 interface Props {
   basePath: string;
@@ -25,9 +26,10 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
+  const ownedIds = useOwnedIds();
   const proposals = useProposals();
 
-  const items = useMemo(() => [
+  const items = useRef([
     {
       isRoot: true,
       name: 'overview',
@@ -45,20 +47,20 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       name: 'crowdloan',
       text: t<string>('Crowdloan')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
+  ].filter((q): q is { name: string; text: string } => !!q));
 
   return (
     <main className={className}>
       <Tabs
         basePath={basePath}
-        items={items}
+        items={items.current}
       />
       <Switch>
         <Route path={`${basePath}/auctions`}>
-          <Auctions />
+          <Auctions ownedIds={ownedIds} />
         </Route>
         <Route path={`${basePath}/crowdloan`}>
-          <Crowdloan />
+          <Crowdloan ownedIds={ownedIds} />
         </Route>
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />

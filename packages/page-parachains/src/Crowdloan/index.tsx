@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OwnedId } from '../types';
+
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
@@ -13,9 +15,10 @@ import useFunds from './useFunds';
 
 interface Props {
   className?: string;
+  ownedIds: OwnedId[];
 }
 
-function Crowdloan ({ className }: Props): React.ReactElement<Props> {
+function Crowdloan ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const bestNumber = useBestNumber();
   const { activeCap, activeRaised, funds, totalCap, totalRaised } = useFunds();
 
@@ -29,7 +32,10 @@ function Crowdloan ({ className }: Props): React.ReactElement<Props> {
         totalRaised={totalRaised}
       />
       <Button.Group>
-        <FundAdd bestNumber={bestNumber} />
+        <FundAdd
+          bestNumber={bestNumber}
+          ownedIds={ownedIds}
+        />
       </Button.Group>
       <Funds
         bestNumber={bestNumber}
