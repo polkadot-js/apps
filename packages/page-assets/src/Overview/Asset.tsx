@@ -5,6 +5,7 @@ import type { AssetInfo } from './types';
 
 import React from 'react';
 
+import { AddressSmall } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -12,13 +13,16 @@ interface Props {
   value: AssetInfo;
 }
 
-function Asset ({ className, value: { id, metadata } }: Props): React.ReactElement<Props> {
+function Asset ({ className, value: { details, id, metadata } }: Props): React.ReactElement<Props> {
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='together'>{metadata?.name.toUtf8()}</td>
+      <td className='address'>{details && <AddressSmall value={details.admin} />}</td>
+      <td className='address'>{details && <AddressSmall value={details.issuer} />}</td>
+      <td className='address'>{details && <AddressSmall value={details.freezer} />}</td>
+      <td className='number all'>{formatNumber(metadata?.decimals)}</td>
       <td className='upper'>{metadata?.symbol.toUtf8()}</td>
-      <td className='all' />
       <td className='button' />
     </tr>
   );
