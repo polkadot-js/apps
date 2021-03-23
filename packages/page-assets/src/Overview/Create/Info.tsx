@@ -16,11 +16,10 @@ import { useTranslation } from '../../translate';
 interface Props {
   assetIds: AssetId[];
   className?: string;
-  isVisible: boolean;
   onChange: (info: InfoState | null) => void;
 }
 
-function Info ({ assetIds, className = '', isVisible, onChange }: Props): React.ReactElement<Props> {
+function Info ({ assetIds, className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -44,7 +43,7 @@ function Info ({ assetIds, className = '', isVisible, onChange }: Props): React.
   }, [api, accountId, assetId, assetIds, isIdValid, onChange]);
 
   return (
-    <div className={`${className}${isVisible ? '' : ' stepHidden'}`}>
+    <Modal.Content className={className}>
       <Modal.Columns hint={t<string>('The account that is to be used to create this asset and setup the initial metadata.')}>
         <InputAddress
           label={t<string>('admin account')}
@@ -60,7 +59,7 @@ function Info ({ assetIds, className = '', isVisible, onChange }: Props): React.
           onChange={setAssetId}
         />
       </Modal.Columns>
-    </div>
+    </Modal.Content>
   );
 }
 

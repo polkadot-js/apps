@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AssetId } from '@polkadot/types/interfaces';
-import type { InfoState } from './types';
+import type { InfoState, MetadataState } from './types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -13,6 +13,7 @@ import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import Info from './Info';
+import Metadata from './Metadata';
 
 interface Props {
   assetIds?: AssetId[];
@@ -31,6 +32,7 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
   const [step, nextStep, prevStep] = useStepper();
   const [isOpen, toggleOpen] = useToggle();
   const [assetInfo, setAssetInfo] = useState<InfoState | null>(null);
+  const [metadata, setMetadata] = useState<MetadataState | null>(null);
 
   return (
     <>
@@ -45,13 +47,16 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
           header={t<string>('create asset')}
           size='large'
         >
-          <Modal.Content>
-            <Info
-              assetIds={assetIds}
-              isVisible={step === 1}
-              onChange={setAssetInfo}
-            />
-          </Modal.Content>
+          <Info
+            assetIds={assetIds}
+            className={step === 1 ? '' : 'stepHidden'}
+            onChange={setAssetInfo}
+          />
+          <Metadata
+            assetId={assetInfo?.assetId}
+            className={step === 2 ? '' : 'stepHidden'}
+            onChange={setMetadata}
+          />
           <Modal.Actions onCancel={toggleOpen}>
             {step === 1 &&
               <Button
@@ -61,7 +66,7 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
                 onClick={nextStep}
               />
             }
-            {/* {step === 2 && (
+            {step === 2 && (
               <>
                 <Button
                   icon='step-backward'
@@ -70,13 +75,13 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
                 />
                 <Button
                   icon='step-forward'
-                  isDisabled={!isSecondStepValid}
+                  isDisabled={!metadata}
                   label={t<string>('Next')}
                   onClick={nextStep}
                 />
               </>
             )}
-            {step === 3 && (
+            {/* {step === 3 && (
               <>
                 <Button
                   icon='step-backward'

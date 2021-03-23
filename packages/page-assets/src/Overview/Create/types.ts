@@ -9,3 +9,7 @@ export interface InfoState {
   assetId: BN;
   infoTx: SubmittableExtrinsic<'promise'>;
 }
+
+export interface MetadataState {
+  metadataTx: SubmittableExtrinsic<'promise'>;
+}
