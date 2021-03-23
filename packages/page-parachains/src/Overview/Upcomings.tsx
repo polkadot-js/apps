@@ -22,7 +22,7 @@ function Upcomings ({ actionsQueue, currentPeriod, ids }: Props): React.ReactEle
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('upcoming'), 'start', 2],
+    [t('upcoming'), 'start', 3],
     [t('head'), 'start'],
     [t('lifecycle'), 'start'],
     [],

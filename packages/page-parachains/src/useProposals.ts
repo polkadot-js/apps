@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { ProposalExt, Proposals, ScheduledProposals } from '../types';
+import type { ProposalExt, Proposals, ScheduledProposals } from './types';
 
 import { useEffect, useMemo, useState } from 'react';
 
