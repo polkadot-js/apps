@@ -1,19 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { bool, Option } from '@polkadot/types';
+import type { Option } from '@polkadot/types';
 import type { ParaId, ParaInfo } from '@polkadot/types/interfaces';
 import type { OwnedId } from './types';
 
 import { useEffect, useState } from 'react';
 
 import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
-
-// Current Rococo returns a bool value for this entry
-function isParaInfo (info: ParaInfo | bool): info is ParaInfo {
-  return !isFunction((info as bool).isTrue);
-}
 
 export default function useOwnedIds (): OwnedId[] {
   const { api } = useApi();
@@ -24,23 +18,21 @@ export default function useOwnedIds (): OwnedId[] {
   useEffect((): void => {
     allAccounts && trigger &&
       api.query.registrar?.paras
-        .entries<Option<ParaInfo | bool>, [ParaId]>()
+        .entries<Option<ParaInfo>, [ParaId]>()
         .then((entries) => setState(() =>
           entries
             .map(([{ args: [paraId] }, optInfo]): OwnedId | null => {
-              if (!optInfo.isSome) {
+              if (optInfo.isNone) {
                 return null;
               }
 
               const paraInfo = optInfo.unwrap();
 
-              return isParaInfo(paraInfo)
-                ? {
-                  manager: paraInfo.manager.toString(),
-                  paraId,
-                  paraInfo
-                }
-                : null;
+              return {
+                manager: paraInfo.manager.toString(),
+                paraId,
+                paraInfo
+              };
             })
             .filter((info): info is OwnedId => !!info && allAccounts.some((a) => a === info.manager))
         ))

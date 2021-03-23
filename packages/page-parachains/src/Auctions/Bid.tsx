@@ -41,14 +41,12 @@ function Bid ({ auctionInfo, className, id, ownedIds }: Props): React.ReactEleme
     (): Option[] => {
       const [leasePeriod] = auctionInfo || [null, null];
 
-      if (!leasePeriod) {
-        return [];
-      }
-
-      return RANGES.map(([first, last], value): Option => ({
-        text: `${formatNumber(leasePeriod.addn(first))} - ${formatNumber(leasePeriod.addn(last))}`,
-        value
-      }));
+      return leasePeriod
+        ? RANGES.map(([first, last], value): Option => ({
+          text: `${formatNumber(leasePeriod.addn(first))} - ${formatNumber(leasePeriod.addn(last))}`,
+          value
+        }))
+        : [];
     },
     [auctionInfo]
   );

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { bool, Option, Vec } from '@polkadot/types';
+import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { EventMapInfo, QueuedAction } from './types';
@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber, isFunction } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
@@ -31,7 +31,7 @@ interface Props {
   validators?: AccountId[];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo | bool>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>];
 
 interface QueryState {
   headHex: string | null;
@@ -44,12 +44,6 @@ interface QueryState {
   qHrmpE: number;
   qHrmpI: number;
   watermark: BlockNumber | null;
-}
-
-function getParaInfo (info: ParaInfo | bool | null): ParaInfo | null {
-  return !info || isFunction((info as bool).isTrue)
-    ? null
-    : info as ParaInfo;
 }
 
 const transformHeader = {
@@ -74,7 +68,7 @@ const optionsMulti = {
       ? sliceHex(headData.unwrap())
       : null,
     lifecycle: optLifecycle.unwrapOr(null),
-    paraInfo: getParaInfo(optInfo.unwrapOr(null)),
+    paraInfo: optInfo.unwrapOr(null),
     pendingAvail: optPending.unwrapOr(null),
     qDmp: dmp.length,
     qHrmpE: hrmpE.length,
