@@ -10,12 +10,11 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      isHidden: true,
       needsApi: [
-        'tx.assets.create'
+        'tx.assets.setMetadata'
       ]
     },
-    group: 'accounts',
+    group: 'network',
     icon: 'shopping-basket',
     name: 'assets',
     text: t('nav.assets', 'Assets', { ns: 'apps-routing' })
