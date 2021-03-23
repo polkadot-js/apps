@@ -1,0 +1,23 @@
+// Copyright 2017-2021 @polkadot/apps-routing authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { TFunction } from 'i18next';
+import type { Route } from './types';
+
+import Component from '@polkadot/app-assets';
+
+export default function create (t: TFunction): Route {
+  return {
+    Component,
+    display: {
+      isHidden: true,
+      needsApi: [
+        'tx.assets.create'
+      ]
+    },
+    group: 'accounts',
+    icon: 'shopping-basket',
+    name: 'assets',
+    text: t('nav.assets', 'Assets', { ns: 'apps-routing' })
+  };
+}
