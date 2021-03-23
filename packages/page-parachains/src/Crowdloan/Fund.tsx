@@ -7,8 +7,8 @@ import type { Campaign } from './types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, Digits, ParaLink } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { AddressMini, Digits, ParaLink, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -25,6 +25,16 @@ interface Props {
 function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
+
+  const isDepositor = useMemo(
+    (): boolean => {
+      const address = depositor.toString();
+
+      return allAccounts.some((a) => a === address);
+    },
+    [allAccounts, depositor]
+  );
 
   const blocksLeft = useMemo(
     () => bestNumber && end.gt(bestNumber) && end.sub(bestNumber),
@@ -42,6 +52,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
   );
 
   const canContribute = blocksLeft && !isCapped && retiring.isFalse;
+  const canDissolve = raised.isZero();
 
   return (
     <tr className={className}>
@@ -58,7 +69,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
         }
       </td>
       <td className='address'><AddressMini value={depositor} /></td>
-      <td className='number together'>
+      <td className='all number together'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
@@ -81,6 +92,16 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
               cap={cap}
               paraId={paraId}
               raised={raised}
+            />
+          )}
+          {canDissolve && (
+            <TxButton
+              accountId={depositor}
+              icon='times'
+              isDisabled={!isDepositor}
+              label={t<string>('Dissolve')}
+              params={[paraId]}
+              tx={api.tx.crowdloan.dissolve}
             />
           )}
         </td>
