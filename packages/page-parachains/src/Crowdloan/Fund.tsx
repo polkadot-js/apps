@@ -99,7 +99,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
               accountId={depositor}
               icon='times'
               isDisabled={!isDepositor}
-              label={t<string>('Cancel')}
+              label={t<string>('Dissolve')}
               params={[paraId]}
               tx={api.tx.crowdloan.dissolve}
             />
