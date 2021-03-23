@@ -166,6 +166,10 @@ export default React.memo(styled(Body)`
       }
     }
 
+    &.upper {
+      text-transform: uppercase;
+    }
+
     &.favorite .ui--Icon.isSelected {
       color: darkorange;
     }
