@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { bool, Option, Vec } from '@polkadot/types';
+import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { EventMapInfo, QueuedAction } from './types';
 
@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
@@ -31,11 +31,12 @@ interface Props {
   validators?: AccountId[];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo | bool>];
 
 interface QueryState {
   headHex: string | null;
   lifecycle: ParaLifecycle | null;
+  paraInfo: ParaInfo | null;
   pendingAvail: CandidatePendingAvailability | null;
   updateAt: BlockNumber | null;
   qDmp: number;
@@ -43,6 +44,12 @@ interface QueryState {
   qHrmpE: number;
   qHrmpI: number;
   watermark: BlockNumber | null;
+}
+
+function getParaInfo (info: ParaInfo | bool | null): ParaInfo | null {
+  return !info || isFunction((info as bool).isTrue)
+    ? null
+    : info as ParaInfo;
 }
 
 const transformHeader = {
@@ -53,6 +60,7 @@ const optionsMulti = {
   defaultValue: {
     headHex: null,
     lifecycle: null,
+    paraInfo: null,
     pendingAvail: null,
     qDmp: 0,
     qHrmpE: 0,
@@ -61,11 +69,12 @@ const optionsMulti = {
     updateAt: null,
     watermark: null
   },
-  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo]: QueryResult): QueryState => ({
     headHex: headData.isSome
       ? sliceHex(headData.unwrap())
       : null,
     lifecycle: optLifecycle.unwrapOr(null),
+    paraInfo: getParaInfo(optInfo.unwrapOr(null)),
     pendingAvail: optPending.unwrapOr(null),
     qDmp: dmp.length,
     qHrmpE: hrmpE.length,
@@ -99,7 +108,8 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
     [api.query.hrmp.hrmpEgressChannelsIndex, id],
     [api.query.hrmp.hrmpIngressChannelsIndex, id],
     [api.query.hrmp.hrmpWatermarks, id],
-    [api.query.inclusion.pendingAvailability, id]
+    [api.query.inclusion.pendingAvailability, id],
+    [api.query.registrar.paras, id]
   ], optionsMulti);
   const [nonBacked, setNonBacked] = useState<AccountId[]>([]);
 
