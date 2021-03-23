@@ -2193,6 +2193,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-assets@workspace:packages/page-assets":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-assets@workspace:packages/page-assets"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@polkadot/react-components": ^0.85.2-4
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-bounties@workspace:packages/page-bounties":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-bounties@workspace:packages/page-bounties"
