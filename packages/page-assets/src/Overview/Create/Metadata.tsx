@@ -67,7 +67,6 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
       <Modal.Columns hint={t<string>('The number of decimals for this token. Max allowed via the UI is set to 20.')}>
         <InputNumber
           isError={!isValidDecimals}
-          isZeroable={false}
           label={t<string>('asset decimals')}
           onChange={setAssetDecimals}
         />

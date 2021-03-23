@@ -63,7 +63,6 @@ function Info ({ assetIds, className = '', onChange }: Props): React.ReactElemen
       </Modal.Columns>
       <Modal.Columns hint={t<string>('The minimum balance for the asset.')}>
         <InputNumber
-          autoFocus
           isZeroable={false}
           label={t<string>('minimum balance')}
           onChange={setMinBalance}
