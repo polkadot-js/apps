@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { DeriveValidationOutput, PairType } from '../types';
@@ -36,8 +37,8 @@ function CreateEthDerivationPath ({ addressFromSeed,
     text: t('Address index 0'),
     value: 0
   }]);
-  const [useCustomPath, setUseCustomPath] = useState(false);
-  const [useCustomIndex, setUseCustomIndex] = useState(false);
+  const [useCustomPath, toggleCustomPath] = useToggle();
+  const [useCustomIndex, toggleCustomIndex] = useToggle();
 
   const errorIndex = useRef<Record<string, string>>({
     INVALID_DERIVATION_PATH: t<string>('This is an invalid derivation path.'),
@@ -46,26 +47,8 @@ function CreateEthDerivationPath ({ addressFromSeed,
     WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
   });
 
-  const _toggleCustomPath = useCallback(() => {
-    setUseCustomPath(!useCustomPath);
-  }, [setUseCustomPath, useCustomPath]);
-
-  const _toggleCustomIndex = useCallback(() => {
-    setUseCustomIndex(!useCustomIndex);
-  }, [useCustomIndex, setUseCustomIndex]);
-
-  const _onChangeCustomIndex = useCallback((e: BN) => {
-    setCustomIndex(e);
-  }, [setCustomIndex]);
-
   useEffect((): void => {
-    if (!useCustomIndex) {
-      console.log(1);
-      onChange(`m/44'/60'/0'/0/${addIndex}`);
-    } else {
-      console.log(2);
-      onChange(`m/44'/60'/0'/0/${Number(customIndex)}`);
-    }
+    onChange(`m/44'/60'/0'/0/${useCustomIndex ? Number(customIndex) : addIndex}`);
   }, [customIndex, onChange, useCustomIndex, addIndex]);
 
   useEffect((): void => {
@@ -95,7 +78,7 @@ function CreateEthDerivationPath ({ addressFromSeed,
             <div className='saveToggle'>
               <Checkbox
                 label={<>{t<string>('Use custom address index')}</>}
-                onChange={_toggleCustomIndex}
+                onChange={toggleCustomIndex}
                 value={useCustomIndex}
               />
             </div>
@@ -105,7 +88,7 @@ function CreateEthDerivationPath ({ addressFromSeed,
                   help={t<string>('You can set a custom derivation index for this account')}
                   isDecimal={false}
                   label={t<string>('Custom index')}
-                  onChange={_onChangeCustomIndex}
+                  onChange={setCustomIndex}
                   value={customIndex}
                 />
               )
@@ -121,7 +104,7 @@ function CreateEthDerivationPath ({ addressFromSeed,
             <div className='saveToggle'>
               <Checkbox
                 label={<>{t<string>('Use custom derivation path')}</>}
-                onChange={_toggleCustomPath}
+                onChange={toggleCustomPath}
                 value={useCustomPath}
               />
             </div>
