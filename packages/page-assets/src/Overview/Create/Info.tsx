@@ -53,6 +53,7 @@ function Info ({ assetIds, className = '', onChange }: Props): React.ReactElemen
       </Modal.Columns>
       <Modal.Columns hint={t<string>('The selected id for the asset. Should not match an already-existing id.')}>
         <InputNumber
+          autoFocus
           isError={!isIdValid}
           isZeroable={false}
           label={t<string>('asset id')}

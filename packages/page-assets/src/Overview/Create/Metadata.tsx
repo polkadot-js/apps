@@ -24,6 +24,11 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
   const [assetName, setAssetName] = useState<string | null>(null);
   const [assetSymbol, setAssetSymbol] = useState<string | null>(null);
 
+  const isValidDecimals = useMemo(
+    () => !!assetDecimals && assetDecimals.lten(20),
+    [assetDecimals]
+  );
+
   const isValidName = useMemo(
     () => !!assetName && assetName.length >= 3 && assetName.length <= 32,
     [assetName]
@@ -32,11 +37,6 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
   const isValidSymbol = useMemo(
     () => !!assetSymbol && assetSymbol.length >= 3,
     [assetSymbol]
-  );
-
-  const isValidDecimals = useMemo(
-    () => !!assetDecimals && assetDecimals.lten(20),
-    [assetDecimals]
   );
 
   useEffect((): void => {
@@ -49,21 +49,30 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
 
   return (
     <Modal.Content className={className}>
-      {/* <Modal.Columns hint={t<string>('The account that is to be used to create this asset and setup the initial metadata.')}>
-        <InputAddress
-          label={t<string>('admin account')}
-          onChange={setAccountId}
-          type='account'
+      <Modal.Columns hint={t<string>('The descriptive name for this asset.')}>
+        <Input
+          autoFocus
+          isError={!isValidName}
+          label={t<string>('asset name')}
+          onChange={setAssetName}
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The selected id for the asset. Should not match an already-existing id.')}>
-        <InputNumber
-          isError={!isIdValid}
-          isZeroable={false}
-          label={t<string>('asset id')}
-          onChange={setAssetId}
+      <Modal.Columns hint={t<string>('The symbol that will represent this asset.')}>
+        <Input
+          autoFocus
+          isError={!isValidSymbol}
+          label={t<string>('asset symbol')}
+          onChange={setAssetSymbol}
         />
-      </Modal.Columns> */}
+      </Modal.Columns>
+      <Modal.Columns hint={t<string>('The number of decimals for this token. Max allowed via the UI is set to 20.')}>
+        <InputNumber
+          isError={!isValidDecimals}
+          isZeroable={false}
+          label={t<string>('asset decimals')}
+          onChange={setAssetDecimals}
+        />
+      </Modal.Columns>
     </Modal.Content>
   );
 }
