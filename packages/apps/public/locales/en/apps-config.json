@@ -45,6 +45,7 @@
   "rpc.kusama.patractlabs": "Kusama",
   "rpc.kusama.w3f": "Kusama",
   "rpc.local": "Local Node",
+  "rpc.litentry.test": "Litentry",
   "rpc.mandala": "Mandala",
   "rpc.moonbeam": "Moonbase Alpha",
   "rpc.nodle-arcadia": "Arcadia",
