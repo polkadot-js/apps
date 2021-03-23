@@ -356,9 +356,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   />
                 )
                 : (
-                  <Modal.Columns hint={
-                    t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
-                  }>
+                  <Modal.Columns hint={t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}>
                     <Input
                       help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
                       isDisabled={seedType === 'raw'}
