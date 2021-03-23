@@ -36,7 +36,7 @@ function Info ({ assetIds, className = '', onChange }: Props): React.ReactElemen
         ? {
           accountId,
           assetId,
-          infoTx: api.tx.assets.create(assetId, accountId, 0)
+          createTx: api.tx.assets.create(assetId, accountId, 0)
         }
         : null
     );

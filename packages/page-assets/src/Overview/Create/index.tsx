@@ -1,38 +1,47 @@
 // Copyright 2017-2021 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AssetId } from '@polkadot/types/interfaces';
-import type { InfoState, MetadataState } from './types';
+import type { InfoState, MetadataState, TeamState } from './types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Modal } from '@polkadot/react-components';
+import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useStepper, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import Info from './Info';
 import Metadata from './Metadata';
+import Team from './Team';
 
 interface Props {
   assetIds?: AssetId[];
   className?: string;
 }
 
-// 3 steps -
-//  - create
-//  - metadata
-//  - team
-
-function Create ({ assetIds }: Props): React.ReactElement<Props> {
+function Create ({ assetIds, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [step, nextStep, prevStep] = useStepper();
   const [isOpen, toggleOpen] = useToggle();
-  const [assetInfo, setAssetInfo] = useState<InfoState | null>(null);
+  const [asset, setAsset] = useState<InfoState | null>(null);
   const [metadata, setMetadata] = useState<MetadataState | null>(null);
+  const [team, setTeam] = useState<TeamState | null>(null);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+
+  useEffect((): void => {
+    setExtrinsic(
+      () => asset && metadata && team
+        ? team.teamTx
+          ? api.tx.utility.batchAll([asset.createTx, metadata.metadataTx, team.teamTx])
+          : api.tx.utility.batchAll([asset.createTx, metadata.metadataTx])
+        : null
+    );
+  }, [api, asset, metadata, team]);
 
   return (
     <>
@@ -44,24 +53,34 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
       />
       {isOpen && assetIds && (
         <Modal
-          header={t<string>('create asset')}
+          className={className}
+          header={t<string>('create asset {{step}}/{{steps}}', { replace: { step, steps: 3 } })}
           size='large'
         >
-          <Info
-            assetIds={assetIds}
-            className={step === 1 ? '' : 'stepHidden'}
-            onChange={setAssetInfo}
-          />
-          <Metadata
-            assetId={assetInfo?.assetId}
-            className={step === 2 ? '' : 'stepHidden'}
-            onChange={setMetadata}
-          />
+          {step === 1 && (
+            <Info
+              assetIds={assetIds}
+              onChange={setAsset}
+            />
+          )}
+          {step === 2 && (
+            <Metadata
+              assetId={asset?.assetId}
+              onChange={setMetadata}
+            />
+          )}
+          {step === 3 && (
+            <Team
+              accountId={asset?.accountId}
+              assetId={asset?.assetId}
+              onChange={setTeam}
+            />
+          )}
           <Modal.Actions onCancel={toggleOpen}>
             {step === 1 &&
               <Button
                 icon='step-forward'
-                isDisabled={!assetInfo}
+                isDisabled={!asset}
                 label={t<string>('Next')}
                 onClick={nextStep}
               />
@@ -81,21 +100,22 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
                 />
               </>
             )}
-            {/* {step === 3 && (
+            {step === 3 && (
               <>
                 <Button
                   icon='step-backward'
                   label={t<string>('Prev')}
                   onClick={prevStep}
                 />
-                <Button
+                <TxButton
+                  accountId={asset?.accountId}
+                  extrinsic={extrinsic}
                   icon='plus'
-                  isBusy={isBusy}
                   label={t<string>('Create')}
-                  onClick={_onCommit}
+                  onStart={toggleOpen}
                 />
               </>
-            )} */}
+            )}
           </Modal.Actions>
         </Modal>
       )}
@@ -104,7 +124,7 @@ function Create ({ assetIds }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Create)`
-  .stepHidden {
-    display: none;
+  .stepHidden.content {
+    display: none !important;
   }
 `);

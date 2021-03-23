@@ -59,7 +59,6 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
       </Modal.Columns>
       <Modal.Columns hint={t<string>('The symbol that will represent this asset.')}>
         <Input
-          autoFocus
           isError={!isValidSymbol}
           label={t<string>('asset symbol')}
           onChange={setAssetSymbol}
