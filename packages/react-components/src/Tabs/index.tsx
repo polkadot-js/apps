@@ -47,7 +47,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
   const { icon, text } = React.useContext(SectionContext);
 
   return (
-    <div className={`ui--Tabs ${className}`}>
+    <header className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
         {
           text && icon && <CurrentSection icon={icon}
@@ -67,7 +67,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
           ))}
         </ul>
       </div>
-    </div>
+    </header>
   );
 }
 

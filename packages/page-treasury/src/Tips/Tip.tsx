@@ -142,16 +142,15 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         {closesAt
           ? (bestNumber && closesAt.gt(bestNumber)) && (
             <div className='closingTimer'>
-              <BlockToTime blocks={closesAt.sub(bestNumber)} />
+              <BlockToTime value={closesAt.sub(bestNumber)} />
               #{formatNumber(closesAt)}
             </div>
           )
-          : finder && (
+          : finder && isFinder && (
             <TxButton
               accountId={finder}
               className='media--1400'
               icon='times'
-              isDisabled={!isFinder}
               label={t('Cancel')}
               onSuccess={onRefresh}
               params={[hash]}

@@ -34,7 +34,7 @@ export default React.memo(styled(Body)`
 
   td {
     border-bottom: 1px solid var(--border-table);
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
     text-align: left;
     vertical-align: middle;
 
@@ -74,7 +74,7 @@ export default React.memo(styled(Body)`
     }
 
     &.button {
-      padding: 0.5rem;
+      padding: 0.25rem 0.5rem;
       text-align: right;
       white-space: nowrap;
 
@@ -166,6 +166,10 @@ export default React.memo(styled(Body)`
       }
     }
 
+    &.upper {
+      text-transform: uppercase;
+    }
+
     &.favorite .ui--Icon.isSelected {
       color: darkorange;
     }
@@ -211,6 +215,7 @@ export default React.memo(styled(Body)`
 
     &.noBorder td {
       border-bottom: 1px solid transparent;
+      padding-bottom: 0 !important;
     }
 
     .ui--Button-Group {

@@ -87,52 +87,41 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddressMulti
-              available={availableSignatories}
-              availableLabel={t<string>('available signatories')}
-              help={t<string>('The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.', { replace: { maxHelpers: MAX_SIGNATORIES } })}
-              maxCount={MAX_SIGNATORIES}
-              onChange={setSignatories}
-              value={signatories}
-              valueLabel={t<string>('selected signatories')}
-            />
-          </Modal.Column>
-          <Modal.Column>
+        <Modal.Columns hint={
+          <>
             <p>{t<string>('The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.')}</p>
             <p>{t<string>('Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.')}</p>
-          </Modal.Column>
+          </>
+        }>
+          <InputAddressMulti
+            available={availableSignatories}
+            availableLabel={t<string>('available signatories')}
+            help={t<string>('The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.', { replace: { maxHelpers: MAX_SIGNATORIES } })}
+            maxCount={MAX_SIGNATORIES}
+            onChange={setSignatories}
+            value={signatories}
+            valueLabel={t<string>('selected signatories')}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputNumber
-              help={t<string>('The threshold for this multisig')}
-              isError={!isThresholdValid}
-              label={t<string>('threshold')}
-              onChange={_onChangeThreshold}
-              value={threshold}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}>
+          <InputNumber
+            help={t<string>('The threshold for this multisig')}
+            isError={!isThresholdValid}
+            label={t<string>('threshold')}
+            onChange={_onChangeThreshold}
+            value={threshold}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              className='full'
-              help={t<string>('Name given to this multisig. You can edit it at any later point in time.')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              placeholder={t<string>('multisig name')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The name is for unique identification of the account in your owner lists.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
+          <Input
+            autoFocus
+            className='full'
+            help={t<string>('Name given to this multisig. You can edit it at any later point in time.')}
+            isError={!isNameValid}
+            label={t<string>('name')}
+            onChange={_onChangeName}
+            placeholder={t<string>('multisig name')}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

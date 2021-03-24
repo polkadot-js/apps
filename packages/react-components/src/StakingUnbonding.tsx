@@ -75,8 +75,8 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
               {api.consts.babe?.epochDuration
                 ? (
                   <BlockToTime
-                    blocks={blocks}
                     label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                    value={blocks}
                   />
                 )
                 : t<string>('{{eras}} eras remaining', { replace: { eras: formatNumber(eras) } })

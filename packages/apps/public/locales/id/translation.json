@@ -662,7 +662,7 @@
   "The compiled runtime WASM for the parachain you wish to register.": "Runtime WASM yang dikompilasi untuk parachain yang ingin anda daftarkan.",
   "The compiled runtime WASM for this parachain.": "WASM runtime yang dikompilasi untuk parachain ini.",
   "The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.": "Kontrak WASM digunakan sebelumnya. Secara internal ini diidentifikasi oleh hash kode, baik yang dibuat atau dilampirkan.",
-  "The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "Pengontrol tidak memiliki dana yang cukup untuk menutupi biaya transaksi. Pastikan bahwa pengontrol yang didanai digunakan.",
+  "The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.": "Pengontrol tidak memiliki dana yang cukup untuk menutupi biaya transaksi. Pastikan bahwa pengontrol yang didanai digunakan.",
   "The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.": "Pengontrol adalah akun yang digunakan untuk mengontrol setiap tindakan nominasi atau validasi. Saya akan menandatangani transaksi ini.",
   "The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.": "Pengontrol adalah akun yang akan digunakan untuk mengontrol setiap tindakan pencalonan atau validasi. Tidak boleh cocok dengan simpanan atau pengontrol lain.",
   "The conviction that will be used for each delegated vote.": "Keyakinan yang akan digunakan untuk setiap suara yang didelegasikan.",

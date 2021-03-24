@@ -1,9 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { OwnedId } from '../types';
 
 import React from 'react';
 
@@ -13,9 +14,11 @@ import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import Auction from './Auction';
 import Bid from './Bid';
 import Summary from './Summary';
+import useWinningData from './useWinningData';
 
 interface Props {
   className?: string;
+  ownedIds: OwnedId[];
 }
 
 interface QueryState {
@@ -34,25 +37,32 @@ const optionsMulti = {
   })
 };
 
-function Auctions ({ className }: Props): React.ReactElement<Props> {
+function Auctions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { auctionInfo, numAuctions } = useCallMulti<QueryState>([
     api.query.auctions.auctionCounter,
     api.query.auctions.auctionInfo
   ], optionsMulti);
+  const winningData = useWinningData(auctionInfo);
 
   return (
     <div className={className}>
       <Summary
         auctionInfo={auctionInfo}
+        lastWinner={winningData && winningData[0]}
         numAuctions={numAuctions}
       />
       <Button.Group>
-        <Bid id={auctionInfo && numAuctions} />
+        <Bid
+          auctionInfo={auctionInfo}
+          id={numAuctions}
+          ownedIds={ownedIds}
+        />
       </Button.Group>
       <Auction
         auctionInfo={auctionInfo}
         numAuctions={numAuctions}
+        winningData={winningData}
       />
     </div>
   );

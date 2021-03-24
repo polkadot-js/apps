@@ -63,7 +63,7 @@ export default React.memo(styled(Head)`
   th {
     font: var(--font-sans);
     font-weight: var(--font-weight-normal);
-    padding: 0.75rem 1rem 0.25rem;
+    padding: 0.5rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
     white-space: nowrap;
@@ -108,6 +108,14 @@ export default React.memo(styled(Head)`
 
     &.mini {
       padding: 0 !important;
+    }
+
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
     }
 
     &.start {

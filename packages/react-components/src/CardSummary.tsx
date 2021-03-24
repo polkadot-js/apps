@@ -14,12 +14,12 @@ import Labelled from './Labelled';
 import Progress from './Progress';
 
 interface ProgressProps {
+  hideGraph?: boolean;
   hideValue?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
   withTime?: boolean;
-  withTimeNumber?: boolean;
 }
 
 interface Props {
@@ -65,10 +65,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         {children}{
           progress && !progress.hideValue && (
             <>
-              {isTimed && (
-                progress.withTimeNumber
-                  ? formatNumber(progress.total)
-                  : <BlockToTime blocks={progress.total} />
+              {isTimed && !children && (
+                <BlockToTime value={progress.total} />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -81,8 +79,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        blocks={progress.total.sub(progress.value)}
                         className='timer'
+                        value={progress.total.sub(progress.value)}
                       />
                     )
                 }
@@ -91,7 +89,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           )
         }
       </Labelled>
-      {progress && <Progress {...progress} />}
+      {progress && !progress.hideGraph && <Progress {...progress} />}
     </article>
   );
 }
@@ -124,7 +122,7 @@ export default React.memo(styled(CardSummary)`
     text-align: right;
 
     > * {
-      margin: 0.5rem 0;
+      margin: 0.25rem 0;
 
       &:first-child {
         margin-top: 0;

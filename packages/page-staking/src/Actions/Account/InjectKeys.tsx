@@ -84,52 +84,37 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              isError={publicKey.length !== 66}
-              label={t<string>('suri (seed & derivation)')}
-              onChange={setSuri}
-              value={suri}
-            />
-            <MarkWarning content={t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')} />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}>
+          <Input
+            autoFocus
+            isError={publicKey.length !== 66}
+            label={t<string>('suri (seed & derivation)')}
+            onChange={setSuri}
+            value={suri}
+          />
+          <MarkWarning content={t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')} />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              label={t<string>('key type to set')}
-              onChange={setKeyType}
-              options={keyTypeOptRef.current}
-              value={keyType}
-            />
-            <Dropdown
-              isDisabled={_cryptoOptions.length === 1}
-              label={t<string>('crypto type to use')}
-              onChange={setCrypto}
-              options={_cryptoOptions}
-              value={crypto}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The key type and crypto type to use for this key. Be aware that different keys have different crypto requirements. You should be familiar with the type requirements for the different keys.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The key type and crypto type to use for this key. Be aware that different keys have different crypto requirements. You should be familiar with the type requirements for the different keys.')}>
+          <Dropdown
+            label={t<string>('key type to set')}
+            onChange={setKeyType}
+            options={keyTypeOptRef.current}
+            value={keyType}
+          />
+          <Dropdown
+            isDisabled={_cryptoOptions.length === 1}
+            label={t<string>('crypto type to use')}
+            onChange={setCrypto}
+            options={_cryptoOptions}
+            value={crypto}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              isDisabled
-              label={t<string>('generated public key')}
-              value={publicKey}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('This pubic key is what will be visible in your queued keys list. It is generated based on the seed and the crypto used.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('This pubic key is what will be visible in your queued keys list. It is generated based on the seed and the crypto used.')}>
+          <Input
+            isDisabled
+            label={t<string>('generated public key')}
+            value={publicKey}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

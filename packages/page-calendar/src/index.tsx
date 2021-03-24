@@ -116,12 +116,10 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <div className='calendarFlex'>
         <Month
           hasNextMonth={hasNextMonth}

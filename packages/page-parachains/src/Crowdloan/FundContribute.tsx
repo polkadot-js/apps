@@ -1,9 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-crowdloan authors & contributors
+// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { UInt } from '@polkadot/types';
-import type { Balance, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
@@ -31,8 +30,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
   // TODO verifier signature
 
   const remaining = cap.sub(raised);
-  const allowContribute = remaining.gte(api.consts.crowdloan.minContribution as UInt);
-  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as UInt);
+  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as BalanceOf);
   const isAmountOver = !!(amount && amount.gt(remaining));
   const isAmountError = isAmountBelow || isAmountOver;
 
@@ -40,49 +38,40 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
     <>
       <Button
         icon='plus'
-        isDisabled={!hasAccounts || !allowContribute}
+        isDisabled={!hasAccounts}
         label={t<string>('Contribute')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Contribute to campaign')}
+          header={t<string>('Contribute to fund')}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('contribute from')}
-                  onChange={setAccountId}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('This account will contribute to the crowdloan.')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('This account will contribute to the crowdloan.')}>
+              <InputAddress
+                label={t<string>('contribute from')}
+                onChange={setAccountId}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputBalance
-                  autoFocus
-                  isError={isAmountError}
-                  isZeroable={false}
-                  label={t<string>('contribution')}
-                  onChange={setAmount}
-                />
-                {isAmountBelow && (
-                  <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{value}}', { replace: { value: formatBalance(api.consts.crowdloan.minContribution as UInt) } })} />
-                )}
-                {isAmountOver && (
-                  <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
-                )}
-              </Modal.Column>
-              <Modal.Column>
-                {t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}>
+              <InputBalance
+                autoFocus
+                defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
+                isError={isAmountError}
+                isZeroable={false}
+                label={t<string>('contribution')}
+                onChange={setAmount}
+              />
+              {isAmountBelow && (
+                <MarkWarning content={t<string>('The amount is less than the minimum allowed contribution of {{value}}', { replace: { value: formatBalance(api.consts.crowdloan.minContribution as BlockNumber) } })} />
+              )}
+              {isAmountOver && (
+                <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
+              )}
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 
@@ -263,7 +263,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
               {bestNumber.lt((balancesAll as DeriveBalancesAll).vestingEndBlock) && (
                 <>
                   <div>
-                    <BlockToTime blocks={(balancesAll as DeriveBalancesAll).vestingEndBlock.sub(bestNumber)} />
+                    <BlockToTime value={(balancesAll as DeriveBalancesAll).vestingEndBlock.sub(bestNumber)} />
                     <div className='faded'>{t('until block')} {formatNumber((balancesAll as DeriveBalancesAll).vestingEndBlock)}</div>
                   </div>
                   <div>
@@ -413,8 +413,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   const lookup = useRef<Record<string, string>>({
