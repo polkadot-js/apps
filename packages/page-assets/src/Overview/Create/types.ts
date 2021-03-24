@@ -8,12 +8,19 @@ export interface InfoState {
   accountId: string;
   assetId: BN;
   createTx: SubmittableExtrinsic<'promise'>;
+  minBalance: BN;
 }
 
 export interface MetadataState {
+  assetDecimals: BN;
+  assetName: string;
+  assetSymbol: string;
   metadataTx: SubmittableExtrinsic<'promise'>;
 }
 
 export interface TeamState {
+  adminId: string;
+  issuerId: string;
+  freezerId: string;
   teamTx: SubmittableExtrinsic<'promise'> | null;
 }
