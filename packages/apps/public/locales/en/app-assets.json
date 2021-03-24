@@ -12,6 +12,7 @@
   "The minimum balance for the asset.": "The minimum balance for the asset.",
   "The number of decimals for this token. Max allowed via the UI is set to 20.": "The number of decimals for this token. Max allowed via the UI is set to 20.",
   "The selected id for the asset. Should not match an already-existing id.": "The selected id for the asset. Should not match an already-existing id.",
+  "The selected id for the asset. This should not match an already-existing asset id.": "The selected id for the asset. This should not match an already-existing asset id.",
   "The symbol that will represent this asset.": "The symbol that will represent this asset.",
   "admin": "admin",
   "admin account": "admin account",
@@ -28,5 +29,6 @@
   "issuer": "issuer",
   "issuer account": "issuer account",
   "minimum balance": "minimum balance",
+  "owner": "owner",
   "symbol": "symbol"
 }
