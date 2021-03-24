@@ -9,6 +9,13 @@ import { useMemo } from 'react';
 
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
+const EMPTY_FLAGS = {
+  isAdminMe: false,
+  isFreezerMe: false,
+  isIssuerMe: false,
+  isOwnerMe: false
+};
+
 function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   const address = accountId.toString();
 
@@ -19,12 +26,17 @@ function extractInfo (allAccounts: string[], id: AssetId, optDetails: Option<Ass
   const details = optDetails.unwrapOr(null);
 
   return {
+    ...(details
+      ? {
+        isAdminMe: isAccount(allAccounts, details.admin),
+        isFreezerMe: isAccount(allAccounts, details.freezer),
+        isIssuerMe: isAccount(allAccounts, details.issuer),
+        isOwnerMe: isAccount(allAccounts, details.owner)
+      }
+      : EMPTY_FLAGS
+    ),
     details,
     id,
-    isAdmin: !!details && isAccount(allAccounts, details.admin),
-    isFreezer: !!details && isAccount(allAccounts, details.freezer),
-    isIssuer: !!details && isAccount(allAccounts, details.issuer),
-    isOwner: !!details && isAccount(allAccounts, details.owner),
     key: id.toString(),
     metadata: metadata.isEmpty
       ? null
