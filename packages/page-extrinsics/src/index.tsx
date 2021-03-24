@@ -16,7 +16,7 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const itemsRef = useRef([{
     isRoot: true,
     name: 'create',
-    text: t<string>('Extrinsic submission')
+    text: t<string>('Submission')
   }]);
 
   return (

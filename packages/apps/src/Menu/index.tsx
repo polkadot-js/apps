@@ -219,7 +219,7 @@ export default React.memo(styled(Menu)`
     }
 
     > li + li {
-      margin-left: 0.5rem
+      margin-left: 0.375rem
     }
   }
 

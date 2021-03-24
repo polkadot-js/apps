@@ -22,6 +22,7 @@ interface Props {
 
 function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
+  const { icon, text } = React.useContext(SectionContext);
 
   // redirect on invalid tabs
   useEffect((): void => {
@@ -44,15 +45,15 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
     ? items.filter(({ name }) => !hidden.includes(name))
     : items;
 
-  const { icon, text } = React.useContext(SectionContext);
-
   return (
     <header className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
-        {
-          text && icon && <CurrentSection icon={icon}
-            text={text}/>
-        }
+        {text && icon && (
+          <CurrentSection
+            icon={icon}
+            text={text}
+          />
+        )}
         <TabsSectionDelimiter />
         <ul className='ui--TabsList'>
           {filtered.map((tab, index) => (
@@ -81,8 +82,9 @@ export default React.memo(styled(Tabs)`
     display: flex;
     align-items: center;
     width: 100%;
-    margin: 0 auto;    max-width: var(--width-full);
-    padding: 0 1.5rem;
+    margin: 0 auto;
+    max-width: var(--width-full);
+    padding: 0 1.5rem 0 0;
     height: 3.286rem;
   }
 
