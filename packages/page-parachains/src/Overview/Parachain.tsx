@@ -9,7 +9,7 @@ import type { EventMapInfo, QueuedAction } from './types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
+import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -88,7 +88,7 @@ function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
   ));
 }
 
-function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
@@ -148,14 +148,6 @@ function Parachain ({ bestNumber, className = '', id, isScheduled, lastBacked, l
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge'>
-        {isScheduled && (
-          <Badge
-            color='green'
-            icon='clock'
-          />
-        )}
-      </td>
       <td className='badge together'><ParaLink id={id} /></td>
       <td className='number media--1500'>
         {validators && validators.length !== 0 && (

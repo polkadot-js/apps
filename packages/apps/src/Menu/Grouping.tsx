@@ -103,6 +103,8 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr {
       box-shadow: 0px 4px 37px rgba(0, 0, 0, 0.08);
+      padding-bottom: 2rem;
+      margin-bottom: -2rem;
     }
 
     .groupMenu {
