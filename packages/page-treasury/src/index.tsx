@@ -37,7 +37,7 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Treasury overview')
+      text: t<string>('Overview')
     },
     isFunction((api.query.tips || api.query.treasury)?.tips) && {
       count: tipHashes?.length,

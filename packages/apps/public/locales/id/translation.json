@@ -157,6 +157,7 @@
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Salin string berikut dan tandatangani dengan akun Ethereum yang anda gunakan selama pra-penjualan di dompet pilihan anda, gunakan string sebagai muatan, lalu tempel objek tanda tangan transaksi di bawah ini:",
   "Council": "Dewan",
   "Council overview": "Tinjauan dewan",
+  "Overview": "Tinjauan",
   "Create": "Membuat",
   "Create a backup file for this account": "Membuat sebuah file cadangan untuk akun ini",
   "Create an account now.": "Buat sebuah akun sekarang.",
