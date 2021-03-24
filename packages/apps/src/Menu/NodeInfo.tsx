@@ -18,7 +18,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
-    <div className={`${className} media--1400 highlight--color-contrast`}>
+    <div className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
       {isApiReady && (
         <div>
           <NodeName />&nbsp;

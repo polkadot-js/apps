@@ -27,11 +27,15 @@ export default React.memo(styled(FilterOverlay)`
   }
   right: calc(50% - var(--width-half) + 1.5rem);
 
+  && .ui--Input {
+    margin: 0.29rem 0;
+  }
+
   ${media.DESKTOP`
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    top: 0.25rem;
+    top: 0rem;
 
     > div {
       max-width: 35rem !important;
@@ -44,8 +48,7 @@ export default React.memo(styled(FilterOverlay)`
     .ui.selection.dropdown {
       white-space: nowrap;
     }
-
-  `}
+  `};
 
   @media (max-width: var(--width-full)) {
     right: 1.5rem;
