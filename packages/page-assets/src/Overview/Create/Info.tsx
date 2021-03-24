@@ -9,19 +9,28 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
 interface Props {
   assetIds: AssetId[];
   className?: string;
+  defaultValue: InfoState | null;
   onChange: (info: InfoState | null) => void;
 }
 
-function Info ({ assetIds, className = '', onChange }: Props): React.ReactElement<Props> {
+function findAvailbleId (assetIds: AssetId[]): BN {
+  return assetIds.length
+    ? assetIds[assetIds.length - 1].add(BN_ONE)
+    : BN_ONE;
+}
+
+function Info ({ assetIds, className = '', defaultValue, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [initial] = useState(() => defaultValue);
+  const [initialId] = useState(() => findAvailbleId(assetIds));
   const [accountId, setAccountId] = useState<string | null>(null);
   const [assetId, setAssetId] = useState<BN | null>(null);
   const [minBalance, setMinBalance] = useState<BN | null>(null);
@@ -34,11 +43,7 @@ function Info ({ assetIds, className = '', onChange }: Props): React.ReactElemen
   useEffect((): void => {
     onChange(
       assetId && accountId && minBalance && isIdValid && !minBalance.isZero()
-        ? {
-          accountId,
-          assetId,
-          createTx: api.tx.assets.create(assetId, accountId, minBalance)
-        }
+        ? { accountId, assetId, createTx: api.tx.assets.create(assetId, accountId, minBalance), minBalance }
         : null
     );
   }, [api, accountId, assetId, assetIds, isIdValid, minBalance, onChange]);
@@ -47,14 +52,16 @@ function Info ({ assetIds, className = '', onChange }: Props): React.ReactElemen
     <Modal.Content className={className}>
       <Modal.Columns hint={t<string>('The account that is to be used to create this asset and setup the initial metadata.')}>
         <InputAddress
+          defaultValue={initial?.accountId}
           label={t<string>('creator account')}
           onChange={setAccountId}
           type='account'
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The selected id for the asset. Should not match an already-existing id.')}>
+      <Modal.Columns hint={t<string>('The selected id for the asset. This should not match an already-existing asset id.')}>
         <InputNumber
           autoFocus
+          defaultValue={initial?.assetId || initialId}
           isError={!isIdValid}
           isZeroable={false}
           label={t<string>('asset id')}
@@ -63,6 +70,7 @@ function Info ({ assetIds, className = '', onChange }: Props): React.ReactElemen
       </Modal.Columns>
       <Modal.Columns hint={t<string>('The minimum balance for the asset.')}>
         <InputNumber
+          defaultValue={initial?.minBalance || BN_ONE}
           isZeroable={false}
           label={t<string>('minimum balance')}
           onChange={setMinBalance}

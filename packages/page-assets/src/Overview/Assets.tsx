@@ -22,9 +22,10 @@ function Assets ({ assetIds, className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef([
     [t('assets'), 'start', 2],
-    [t('admin'), 'start'],
-    [t('issuer'), 'start'],
-    [t('freezer'), 'start'],
+    [t('owner'), 'address'],
+    [t('admin'), 'address'],
+    [t('issuer'), 'address'],
+    [t('freezer'), 'address'],
     [t('decimals')],
     [t('symbol'), 'start'],
     []
