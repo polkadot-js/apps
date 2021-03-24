@@ -278,7 +278,7 @@
   "Not updated in the last block": "Не обновлено в последнем блоке",
   "Nothing queued for execution": "Очередь пуста",
   "Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.": "Минимум {{bondPercentage}} от запрошенной суммы требуется в качестве депозита. Большее из этого значения и минимального депозита будет использовано для обеспечения, возвращаемого если предложение будет одобрено.",
-  "Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Депонируемые средства будут недоступны как минимум на срок депозита, и требуют операции освобождения.",
+  "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Депонируемые средства будут недоступны как минимум на срок депозита, и требуют операции освобождения.",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": "Новый подбор будет действительным через 2 эры. До этого номинации будут показаны как неактивные.",
   "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.": "Один из Ваших доступных аккаунтов номинации занят аккаунтом-копилкой. Транзакция будет отправлена с аккаунта-контроллера.",
   "Only applicable if the proposal has already passed and is ready for dispatch.": "Валидно только для одобренных предложений, готовых для отправки.",
