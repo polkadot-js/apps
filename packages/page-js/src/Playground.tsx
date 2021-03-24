@@ -90,7 +90,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'playground',
-      text: t<string>('JavaScript')
+      text: t<string>('Console')
     }
   ]);
 

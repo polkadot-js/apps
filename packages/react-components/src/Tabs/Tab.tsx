@@ -80,6 +80,7 @@ export default React.memo(styled(Tab)`
   &.tabLinkActive {
     color: var(--color-text) !important;
     font-weight: 400;
+
     &:hover {
       cursor: default;
     }
