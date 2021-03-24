@@ -73,6 +73,7 @@ import nodeUnique from './nodes/unique.png';
 import nodeVln from './nodes/valiu.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodePolygon from './nodes/polygon.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -280,7 +281,8 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   vln: nodeVln,
   westend: nodePolkadot,
-  zero: nodeZero
+  zero: nodeZero,
+  matic: nodePolygon
 };
 
 // extension logos
