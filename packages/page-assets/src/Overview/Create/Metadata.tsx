@@ -14,15 +14,17 @@ import { useTranslation } from '../../translate';
 interface Props {
   assetId?: BN | null;
   className?: string;
+  defaultValue: MetadataState | null;
   onChange: (info: MetadataState | null) => void;
 }
 
-function Metadata ({ assetId, className = '', onChange }: Props): React.ReactElement<Props> {
+function Metadata ({ assetId, className = '', defaultValue, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [initial] = useState(() => defaultValue);
   const [assetDecimals, setAssetDecimals] = useState<BN | null>(null);
-  const [assetName, setAssetName] = useState<string | null>(null);
-  const [assetSymbol, setAssetSymbol] = useState<string | null>(null);
+  const [assetName, setAssetName] = useState<string | null | undefined>(() => defaultValue?.assetName);
+  const [assetSymbol, setAssetSymbol] = useState<string | null | undefined>(() => defaultValue?.assetSymbol);
 
   const isValidDecimals = useMemo(
     () => !!assetDecimals && assetDecimals.lten(20),
@@ -42,7 +44,7 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
   useEffect((): void => {
     onChange(
       assetId && assetName && assetSymbol && assetDecimals && isValidName && isValidSymbol && isValidDecimals
-        ? { metadataTx: api.tx.assets.setMetadata(assetId, assetName, assetSymbol, assetDecimals) }
+        ? { assetDecimals, assetName, assetSymbol, metadataTx: api.tx.assets.setMetadata(assetId, assetName, assetSymbol, assetDecimals) }
         : null
     );
   }, [api, assetDecimals, assetId, assetName, assetSymbol, isValidName, isValidSymbol, isValidDecimals, onChange]);
@@ -52,6 +54,7 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
       <Modal.Columns hint={t<string>('The descriptive name for this asset.')}>
         <Input
           autoFocus
+          defaultValue={initial?.assetName}
           isError={!isValidName}
           label={t<string>('asset name')}
           onChange={setAssetName}
@@ -59,6 +62,7 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
       </Modal.Columns>
       <Modal.Columns hint={t<string>('The symbol that will represent this asset.')}>
         <Input
+          defaultValue={initial?.assetSymbol}
           isError={!isValidSymbol}
           label={t<string>('asset symbol')}
           onChange={setAssetSymbol}
@@ -66,6 +70,7 @@ function Metadata ({ assetId, className = '', onChange }: Props): React.ReactEle
       </Modal.Columns>
       <Modal.Columns hint={t<string>('The number of decimals for this token. Max allowed via the UI is set to 20.')}>
         <InputNumber
+          defaultValue={initial?.assetDecimals}
           isError={!isValidDecimals}
           label={t<string>('asset decimals')}
           onChange={setAssetDecimals}

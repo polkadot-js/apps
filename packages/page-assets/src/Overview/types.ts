@@ -6,10 +6,10 @@ import type { AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/inter
 export interface AssetInfo {
   details: AssetDetails | null;
   id: AssetId;
-  isAdmin: boolean;
-  isOwner: boolean;
-  isIssuer: boolean;
-  isFreezer: boolean;
+  isAdminMe: boolean;
+  isIssuerMe: boolean;
+  isFreezerMe: boolean;
+  isOwnerMe: boolean;
   key: string;
   metadata: AssetMetadata | null;
 }

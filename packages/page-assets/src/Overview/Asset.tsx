@@ -18,6 +18,7 @@ function Asset ({ className, value: { details, id, metadata } }: Props): React.R
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='together'>{metadata?.name.toUtf8()}</td>
+      <td className='address'>{details && <AddressSmall value={details.owner} />}</td>
       <td className='address'>{details && <AddressSmall value={details.admin} />}</td>
       <td className='address'>{details && <AddressSmall value={details.issuer} />}</td>
       <td className='address'>{details && <AddressSmall value={details.freezer} />}</td>
