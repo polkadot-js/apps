@@ -66,7 +66,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Staking overview')
+      text: t<string>('Overview')
     },
     {
       name: 'actions',

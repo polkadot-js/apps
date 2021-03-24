@@ -56,13 +56,11 @@ export default React.memo(styled(Item)`
     font-weight: 400;
     line-height: 1.214rem;
     border-radius: 0.15rem;
-    margin-bottom: -5px;
 
     a {
-      padding: 0.857rem 0.857em 0.786rem 1rem;
-      margin-bottom: 1.071rem;
+      padding: 0.857rem 0.857em 0.857rem 1rem;
       line-height: 1.214rem;
-      border-radius: 0.285rem;
+      border-radius: 0.25rem;
     }
 
     &.isActive.highlight--color-contrast {
@@ -77,11 +75,9 @@ export default React.memo(styled(Item)`
 
     &.isActive {
       border-radius: 0.15rem 0.15rem 0 0;
-      margin-bottom: -5px;
 
       a {
-        padding: 0.857rem 1.429rem 1.857rem;
-        margin-bottom: 0;
+        padding: 0.857rem 1.429rem 0.857rem;
         cursor: default;
       }
 
