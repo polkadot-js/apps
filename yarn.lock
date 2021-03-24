@@ -2082,13 +2082,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:^0.6.0-beta.26":
-  version: 0.6.1
-  resolution: "@open-web3/orml-type-definitions@npm:0.6.1"
-  checksum: 9755b0bdfc78d62bad79d2fb5cd555fb16e613b94847c5a5d2ce105c3339832de2dc54ab5b77d07d791e63cb4b85c95b19b2b131ce234ae7cd07dd7b7fda4426
-  languageName: node
-  linkType: hard
-
 "@open-web3/orml-type-definitions@npm:^0.8.2-9":
   version: 0.8.2-11
   resolution: "@open-web3/orml-type-definitions@npm:0.8.2-11"
@@ -2419,7 +2412,7 @@ __metadata:
     "@laminar/type-definitions": ^0.3.1
     "@polkadot/networks": ^6.0.5
     "@snowfork/snowbridge-types": ^0.2.3
-    "@sora-substrate/type-definitions": ^0.5.1
+    "@sora-substrate/type-definitions": ^0.6.11
     "@subsocial/types": ^0.4.35-beta.2
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.1.10
@@ -3196,12 +3189,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:^0.5.1":
-  version: 0.5.1
-  resolution: "@sora-substrate/type-definitions@npm:0.5.1"
+"@sora-substrate/type-definitions@npm:^0.6.11":
+  version: 0.6.11
+  resolution: "@sora-substrate/type-definitions@npm:0.6.11"
   dependencies:
-    "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: 826cc1593e4dcacfc46b816b057df52bb2af485296d83a7ac61a1bc66d1884feb9c0d33fc073d5564eccf5c94c76fd35d72df9c8cff897ddb74add9326847d20
+    "@open-web3/orml-type-definitions": ^0.8.2-9
+  checksum: 207faa1c103a4b046788c5bb1120e592688158aaba25ec7aa51b8dda4b657b77c1fa7440bfdf50f79296637ab58d10ff63f590229cc59b59ac15227682dfecce
   languageName: node
   linkType: hard
 
