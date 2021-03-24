@@ -7,7 +7,6 @@ import React from 'react';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { BestNumber } from '@polkadot/react-query';
 import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -41,25 +40,24 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
           </CardSummary>
         )}
       </section>
-      {leasePeriod && (
-        <CardSummary
-          label={t<string>('lease period')}
-          progress={{
-            total: leasePeriod.length,
-            value: leasePeriod.remainder,
-            withTime: true
-          }}
-        >
-          {formatNumber(leasePeriod.currentPeriod)}
-        </CardSummary>
-      )}
       <section>
-        <CardSummary
-          className='media--1000'
-          label={t<string>('best block')}
-        >
-          <BestNumber isFinalized={false} />
-        </CardSummary>
+        {leasePeriod && (
+          <CardSummary label={t<string>('current lease')}>
+            {formatNumber(leasePeriod.currentPeriod)}
+          </CardSummary>
+        )}
+      </section>
+      <section>
+        {leasePeriod && (
+          <CardSummary
+            label={t<string>('lease period')}
+            progress={{
+              total: leasePeriod.length,
+              value: leasePeriod.remainder,
+              withTime: true
+            }}
+          />
+        )}
         <SummarySession
           className='media--800'
           withEra={false}
