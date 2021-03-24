@@ -109,6 +109,7 @@
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Copie a seguinte string e assine-a na conta Ethereum usada durante a pré-venda na carteira de sua escolha, usando a string como carga útil e cole o objeto de assinatura da transação abaixo:",
   "Council": "Conselho",
   "Council overview": "Visão geral do Conselho",
+  "Overview": "Visão geral",
   "Create": "Criar",
   "Create a backup file for this account": "Criar um arquivo de backup para esta conta",
   "Create an account now.": "Criar uma conta agora.",

@@ -122,6 +122,7 @@
   "Decimals decides the smallest unit of the token, which is 1/10^decimals": "Los decimales deciden la unidad más pequeña del token, que es 1/10^decimales",
   "Delete this custom example": "Eliminar este ejemplo personalizado",
   "Democracy overview": "Resumen de la democracia",
+  "Overview": "Resumen",
   "Deploy": "Despliegue",
   "Deploy a code hash": "Despliegue el hash del código",
   "Deploy this code hash as a smart contract": "Despliegue este hash del código como un contrato inteligente",

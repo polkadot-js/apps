@@ -164,12 +164,12 @@ export default React.memo(styled(Menu)`
 
   & .menuContainer {
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     display: flex;
     justify-content: space-between;
     padding: 0 1.5rem;
     width: 100%;
-    max-width: 1750px;
+    max-width: var(--width-full);
     margin: 0 auto;
   }
 
@@ -190,7 +190,7 @@ export default React.memo(styled(Menu)`
   }
 
   .menuSection {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
   }
 
@@ -212,14 +212,14 @@ export default React.memo(styled(Menu)`
     flex: 1 1;
     list-style: none;
     margin: 0 1rem 0 0;
-    padding: 0.786rem 0 0;
+    padding: 0;
 
     > li {
       display: inline-block;
     }
 
     > li + li {
-      margin-left: 0.25rem
+      margin-left: 0.5rem
     }
   }
 

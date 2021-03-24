@@ -110,6 +110,7 @@
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Скопируйте следующую строку и подпишите ее учетной записью Ethereum, которую Вы использовали во время предпродажи, используя строку как \\payload\\. Вставьте полученную подпись ниже:",
   "Council": "Совет",
   "Council overview": "Обзор Совета",
+  "Overview": "Обзор",
   "Create": "Создать",
   "Create a backup file for this account": "Создать резервную копиюл для этого аккаунта",
   "Create an account now.": "Создать аккаунт сейчас.",

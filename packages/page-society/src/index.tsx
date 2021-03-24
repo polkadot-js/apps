@@ -100,7 +100,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Society overview')
+      text: t<string>('Overview')
     },
     {
       count: candidateCount,

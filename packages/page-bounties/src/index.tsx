@@ -22,7 +22,7 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Bounties')
+      text: t<string>('Overview')
     }
   ]);
 

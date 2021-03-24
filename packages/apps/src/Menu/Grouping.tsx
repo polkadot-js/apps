@@ -50,12 +50,10 @@ function Grouping ({ className = '', isActive, name, routes }: Props): React.Rea
 export default React.memo(styled(Grouping)`
   cursor: pointer;
   position: relative;
-  margin-bottom: -5px;
 
   .groupHdr {
-    border-radius: 0.285rem;
-    padding: 0.857rem 0.857em 0.786rem 1rem;
-    margin-bottom: 1.071rem;
+    border-radius: 0.25rem;
+    padding: 0.857rem 0.857em 0.857rem 1rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.214rem;
@@ -69,17 +67,16 @@ export default React.memo(styled(Grouping)`
     background-color: var(--bg-tabs);
     font-size: 1rem;
     font-weight: 400;
-    padding: 0.857rem 1.429rem 1.857rem;
+    padding: 0.857rem 1.429rem;
     margin-bottom: 0;
 
     &:hover {
-      padding: 0.857rem 1.429rem 0.786rem 1.429rem;
-      margin-bottom: 1.071rem;
+      padding: 0.857rem 1.429rem;
     }
   }
 
   .groupMenu {
-    border-radius: 0.286rem;
+    border-radius: 0.25rem;
     box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     display: none;
     margin: 0;

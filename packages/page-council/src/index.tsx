@@ -41,7 +41,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Council overview')
+      text: t<string>('Overview')
     },
     {
       count: numMotions,

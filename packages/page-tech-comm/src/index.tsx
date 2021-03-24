@@ -36,7 +36,7 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Tech. committee')
+      text: t<string>('Overview')
     },
     {
       name: 'proposals',

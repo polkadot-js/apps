@@ -33,7 +33,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Parachains overview')
+      text: t<string>('Overview')
     },
     api.query.proposeParachain && {
       name: 'proposals',
