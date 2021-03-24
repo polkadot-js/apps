@@ -117,7 +117,8 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
   ['Unique', chainUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['Polygon-DA-Testnet', nodePolygon]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -193,7 +194,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
   ['Unique Node', nodeUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['Polygon DA Node', nodePolygon]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo

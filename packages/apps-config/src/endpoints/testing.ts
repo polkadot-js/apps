@@ -265,9 +265,10 @@ export function createTesting (t: TFunction): LinkOption[] {
     {
       info: 'matic',
       isDevelopment: false,
-      text: t('rpc.matic', 'Matic', { ns: 'apps-config' }),
+      text: t('rpc.matic', 'Polygon', { ns: 'apps-config' }),
       providers: {
-        MATIC: 'ws://54.160.87.220:8001'
+        MATIC_1: 'ws://54.160.87.220:8001',
+        MATIC_2: 'ws://3.218.2.152:8001'
       }
     }
   ]);
