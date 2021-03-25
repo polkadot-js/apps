@@ -37,20 +37,22 @@ function Auction ({ auctionInfo, className, winningData }: Props): React.ReactEl
         )
       }
       header={headerRef.current}
+      noBodyTag
     >
-      {auctionInfo && winningData?.map(({ blockNumber, winners }, round) =>
-        winners.map((value, index) => (
-          <WinRange
-            auctionInfo={auctionInfo}
-            blockNumber={blockNumber}
-            className={`${(round % 2) ? 'isEven' : 'isOdd'} ${index === (winners.length - 1) ? '' : 'noBorder'}`}
-            isFirst={index === 0}
-            isLatest={round === 0}
-            key={`${blockNumber.toString()}:${index}`}
-            value={value}
-          />
-        ))
-      )}
+      {auctionInfo && winningData?.map(({ blockNumber, winners }, round) => (
+        <tbody key={round}>
+          {winners.map((value, index) => (
+            <WinRange
+              auctionInfo={auctionInfo}
+              blockNumber={blockNumber}
+              isFirst={index === 0}
+              isLatest={round === 0}
+              key={`${blockNumber.toString()}:${index}`}
+              value={value}
+            />
+          ))}
+        </tbody>
+      ))}
     </Table>
   );
 }
