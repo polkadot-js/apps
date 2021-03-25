@@ -1,101 +1,177 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
-import type { bool } from '@polkadot/types';
+import type BN from 'bn.js';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { MapMember } from '../types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import styled from 'styled-components';
 
-import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { AddressSmall, Columar, Expander, Tag, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
-import drawCanary from '../draw/canary';
 import { useTranslation } from '../translate';
+import DesignKusama from './DesignKusama';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
-  isHead?: boolean;
-  value: DeriveSocietyMember;
+  value: MapMember;
 }
 
-const CANVAS_STYLE = {
-  display: 'block',
-  margin: '0 auto'
-};
+function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): JSX.Element[] {
+  return payouts.map(([bn, value], index) => (
+    <div
+      className='payout'
+      key={index}
+    >
+      <Columar>
+        <Columar.Column>
+          <FormatBalance value={value} />
+        </Columar.Column>
+        <Columar.Column>
+          <div>#{formatNumber(bn)}</div>
+          {bn.gt(bestNumber) && (
+            <BlockToTime
+              key={index}
+              value={bn.sub(bestNumber)}
+            />
+          )}
+        </Columar.Column>
+      </Columar>
+    </div>
+  ));
+}
 
-function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, key, payouts, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const suspended = useCall<bool>(api.query.society.suspendedMembers, [accountId]);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canInk] = useState(() => api.genesisHash.eq('0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe'));
-  const [isInkShowing, toggleInk] = useToggle();
+  const { allAccounts } = useAccounts();
 
-  useEffect((): void => {
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext('2d');
+  const renderPayouts = useCallback(
+    () => bestNumber && payouts && renderJSXPayouts(bestNumber, payouts),
+    [bestNumber, payouts]
+  );
 
-      if (ctx) {
-        drawCanary(ctx, accountId);
-      }
-    }
-  });
+  const isMember = useMemo(
+    () => allAccounts.some((a) => a === key),
+    [allAccounts, key]
+  );
+
+  const availablePayout = useMemo(
+    () => bestNumber && payouts.find(([b]) => bestNumber.gt(b)),
+    [bestNumber, payouts]
+  );
+
+  const votedOn = useMemo(
+    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')]
+      .filter((s): s is string => !!s)
+      .join(', '),
+    [isCandidateVoter, isDefenderVoter, t]
+  );
 
   return (
     <tr className={className}>
       <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td>
+      <td className='all'>
         {isHead && (
           <Tag
             color='green'
-            hover={t<string>('Current society head, exempt')}
             label={t<string>('society head')}
           />
         )}
-        {suspended?.isTrue && (
+        {isFounder && (
+          <Tag
+            color='green'
+            label={t<string>('founder')}
+          />
+        )}
+        {isSkeptic && (
           <Tag
             color='yellow'
+            label={t<string>('skeptic')}
+          />
+        )}
+        {(isCandidateVoter || isDefenderVoter) && (
+          <Tag
+            color='blue'
+            label={t<string>('voted')}
+          />
+        )}
+        {isWarned && (
+          <Tag
+            color='orange'
+            label={t<string>('strikes')}
+          />
+        )}
+        {isSuspended && (
+          <Tag
+            color='red'
             label={t<string>('suspended')}
           />
         )}
+        {availablePayout && (
+          <Tag
+            color='grey'
+            label={t<string>('payout')}
+          />
+        )}
       </td>
-      <td className='all'>&nbsp;</td>
-      <td className='number'>
-        {strikes.toString()}
+      <td className='number together'>
+        {!!payouts?.length && (
+          <Expander
+            className='payoutExpander'
+            renderChildren={renderPayouts}
+            summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
+          />
+        )}
       </td>
-      <td>
-        {canInk && (
-          <>
-            <Icon
-              icon='pen-nib'
-              onClick={toggleInk}
-            />
-            {isInkShowing && (
-              <Modal
-                header={t('design samples')}
-                size='large'
-              >
-                <Modal.Content>
-                  <canvas
-                    height={525}
-                    ref={canvasRef}
-                    style={CANVAS_STYLE}
-                    width={800}
-                  />
-                </Modal.Content>
-                <Modal.Actions
-                  cancelLabel={t<string>('Close')}
-                  onCancel={toggleInk}
-                />
-              </Modal>
-            )}
-          </>
+      <td className='together'>{votedOn}</td>
+      <td className='number'>{formatNumber(strikes)}</td>
+      <td className='button start'>
+        <DesignKusama accountId={accountId} />
+        {availablePayout && (
+          <TxButton
+            accountId={accountId}
+            icon='ellipsis-h'
+            isDisabled={!isMember}
+            label='Payout'
+            params={[]}
+            tx={api.tx.society.payout}
+          />
         )}
       </td>
     </tr>
   );
 }
 
-export default React.memo(Member);
+export default React.memo(styled(Member)`
+  .payoutExpander {
+    .payout+.payout {
+      margin-top: 0.5rem;
+    }
+
+    .ui--Columnar {
+      flex-wrap: unset;
+
+      .ui--Column {
+        min-width: 15ch;
+
+        &:first-child {
+          max-width: 100% !important;
+        }
+
+        &:last-child {
+          min-width: 15ch;
+          max-width: 15ch;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+`);

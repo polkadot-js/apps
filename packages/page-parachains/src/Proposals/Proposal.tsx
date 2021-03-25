@@ -4,16 +4,16 @@
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { ScheduledProposals } from '../types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Expander, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
-import { useProposal } from './useProposals';
+import useProposal from './useProposal';
 
 interface Props {
   approvedIds: ParaId[];
@@ -47,6 +47,16 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
     [proposal]
   );
 
+  const renderVals = useCallback(
+    () => proposal.proposal?.validators.map((validatorId) => (
+      <AddressMini
+        key={validatorId.toString()}
+        value={validatorId}
+      />
+    )),
+    [proposal.proposal]
+  );
+
   return (
     <tr>
       <td className='number together'><h1>{formatNumber(id)}</h1></td>
@@ -58,17 +68,19 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           />
         )}
       </td>
-      <td className='badge together'><ParaLink id={id} /></td>
+      <td className='badge'><ParaLink id={id} /></td>
       <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
+      <td className='address'>
+        {proposal.proposal?.validators && (
+          <Expander
+            renderChildren={renderVals}
+            summary={t<string>('Validators ({{count}})', { replace: { count: formatNumber(proposal.proposal?.validators.length) } })}
+          />
+        )}
+      </td>
       <td className='address'>{proposal.proposal && <AddressSmall value={proposal.proposal.proposer} />}</td>
       <td className='number media--1100'>{proposal.proposal && <FormatBalance value={proposal.proposal.balance} />}</td>
-      <td className='start hash together media--1400'>{initialHex}</td>
-      <td className='address all'>{proposal.proposal?.validators.map((validatorId) => (
-        <AddressMini
-          key={validatorId.toString()}
-          value={validatorId}
-        />
-      ))}</td>
+      <td className='start hash together all'>{initialHex}</td>
       <td className='button'>
         {!(proposal.isApproved || proposal.isScheduled) && (
           <>

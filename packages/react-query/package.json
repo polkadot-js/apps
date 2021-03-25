@@ -1,15 +1,8 @@
 {
   "name": "@polkadot/react-query",
-  "version": "0.84.2-2",
-  "description": "A collection of RxJs React components the Polkadot JS API",
-  "main": "index.js",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
+  "private": true,
+  "version": "0.85.2-19",
   "license": "Apache-2.0",
-  "repository": "github:polkadot-js/apps",
-  "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-query#readme",
   "dependencies": {
     "@babel/runtime": "^7.13.10"
   }

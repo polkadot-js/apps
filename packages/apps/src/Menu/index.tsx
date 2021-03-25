@@ -12,7 +12,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { Icon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -125,46 +124,54 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
-      <div className='menuSection'>
-        <ChainInfo />
-        {activeRoute && (
-          <div className='menuActive'>
-            <Icon icon={activeRoute.icon} />
-            <span>{activeRoute.text}</span>
-          </div>
-        )}
-        <ul className='menuItems'>
-          {visibleGroups.map(({ name, routes }): React.ReactNode => (
-            <Grouping
-              key={name}
-              name={name}
-              routes={routes}
-            />
-          ))}
-        </ul>
+      <div className='menuContainer'>
+        <div className='menuSection'>
+          <ChainInfo />
+          <ul className='menuItems'>
+            {visibleGroups.map(({ name, routes }): React.ReactNode => (
+              <Grouping
+                isActive={ activeRoute && activeRoute.group === name.toLowerCase()}
+                key={name}
+                name={name}
+                routes={routes}
+              />
+            ))}
+          </ul>
+        </div>
+        <div className='menuSection media--1200'>
+          <ul className='menuItems'>
+            {externalRef.current.map((route): React.ReactNode => (
+              <Item
+                isLink
+                isToplevel
+                key={route.name}
+                route={route}
+              />
+            ))}
+          </ul>
+        </div>
+        <NodeInfo className='media--1400' />
       </div>
-      <div className='menuSection media--1200'>
-        <ul className='menuItems'>
-          {externalRef.current.map((route): React.ReactNode => (
-            <Item
-              isToplevel
-              key={route.name}
-              route={route}
-            />
-          ))}
-        </ul>
-      </div>
-      <NodeInfo />
     </div>
   );
 }
 
 export default React.memo(styled(Menu)`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
   padding: 0;
   z-index: 220;
+  position: relative;
+
+  & .menuContainer {
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    width: 100%;
+    max-width: var(--width-full);
+    margin: 0 auto;
+  }
 
   &.isLoading {
     background: #999 !important;
@@ -183,8 +190,7 @@ export default React.memo(styled(Menu)`
   }
 
   .menuSection {
-    align-items: flex-end;
-    align-self: flex-end;
+    align-items: center;
     display: flex;
   }
 
@@ -211,5 +217,14 @@ export default React.memo(styled(Menu)`
     > li {
       display: inline-block;
     }
+
+    > li + li {
+      margin-left: 0.375rem
+    }
   }
+
+  .ui--NodeInfo {
+    align-self: center;
+  }
+
 `);

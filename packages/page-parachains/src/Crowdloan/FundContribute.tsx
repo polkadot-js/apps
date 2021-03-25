@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { Balance, BlockNumber, ParaId } from '@polkadot/types/interfaces';
+import type { Balance, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
@@ -30,7 +30,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
   // TODO verifier signature
 
   const remaining = cap.sub(raised);
-  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as BlockNumber);
+  const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as BalanceOf);
   const isAmountOver = !!(amount && amount.gt(remaining));
   const isAmountError = isAmountBelow || isAmountOver;
 
@@ -57,9 +57,10 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}>
+            <Modal.Columns hint={t<string>('The amount to contribute from this account.')}>
               <InputBalance
                 autoFocus
+                defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
                 isError={isAmountError}
                 isZeroable={false}
                 label={t<string>('contribution')}
@@ -71,6 +72,18 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
               {isAmountOver && (
                 <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
               )}
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The above contribution should more than minimum contribution amount and less than the remaining value.')}>
+              <InputBalance
+                defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
+                isDisabled
+                label={t<string>('minimum allowed')}
+              />
+              <InputBalance
+                defaultValue={remaining}
+                isDisabled
+                label={t<string>('remaining till cap')}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

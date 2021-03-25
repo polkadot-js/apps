@@ -1,6 +1,7 @@
 [
   "app-accounts.json",
   "app-addresses.json",
+  "app-assets.json",
   "app-bounties.json",
   "app-calendar.json",
   "app-claims.json",
@@ -10,7 +11,7 @@
   "app-democracy.json",
   "app-explorer.json",
   "app-extrinsics.json",
-  "app-generic-asset.json",
+  "app-gilt.json",
   "app-js.json",
   "app-parachains.json",
   "app-poll.json",
