@@ -22,7 +22,7 @@ function Auction ({ auctionInfo, className, winningData }: Props): React.ReactEl
 
   const headerRef = useRef([
     [t('bids'), 'start', 4],
-    [t('slots')],
+    [t('periods')],
     [t('value')]
   ]);
 

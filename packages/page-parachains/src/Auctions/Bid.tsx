@@ -66,16 +66,16 @@ function Bid ({ auctionInfo, className, ownedIds }: Props): React.ReactElement<P
               onChange={setOwnerInfo}
               ownedIds={ownedIds}
             />
-            <Modal.Columns hint={t<string>('The amount to to bid for this parachain slot')}>
+            <Modal.Columns hint={t<string>('The amount to to bid for this parachain period range.')}>
               <InputBalance
                 isZeroable={false}
                 label={t<string>('bid amount')}
                 onChange={setAmount}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The first and last slots for this bid. The last slot should be after the first and a maximum of 3 slots more than the first')}>
+            <Modal.Columns hint={t<string>('The first and last lease period for this bid. The last lease period should be after the first and a maximum of 3 more than the first.')}>
               <Dropdown
-                label={t<string>('bid slot range (first slot - last slot)')}
+                label={t<string>('bid period range (first period - last period)')}
                 onChange={setRange}
                 options={rangeOpts}
                 value={range}
