@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, HeadData, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { LeasePeriod } from '../types';
 import type { LeaseInfo, QueuedAction } from './types';
 
 import React from 'react';
@@ -15,11 +15,12 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
+import LeaseBlocks from './LeaseBlocks';
 import Lifecycle from './Lifecycle';
 
 interface Props {
-  currentPeriod: BN | null;
   id: ParaId;
+  leasePeriod: LeasePeriod | null;
   nextAction?: QueuedAction;
 }
 
@@ -67,7 +68,7 @@ const optMulti = {
   })
 };
 
-function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement<Props> {
+function Upcoming ({ id, leasePeriod, nextAction }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { headHex, leases, lifecycle, manager } = useCallMulti<MultiState>([
@@ -90,11 +91,18 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
           nextAction={nextAction}
         />
       </td>
-      <td className='all' />
-      <td className='start together'>
-        {currentPeriod && leases && (
+      <td className='all number together'>
+        {leasePeriod && leasePeriod.currentPeriod && leases && (
           leases.length
-            ? leases.map(({ period }) => formatNumber(currentPeriod.addn(period))).join(', ')
+            ? (
+              <>
+                <div>{leases.map(({ period }) => formatNumber(leasePeriod.currentPeriod.addn(period))).join(', ')}</div>
+                <LeaseBlocks
+                  leasePeriod={leasePeriod}
+                  value={leases[0]?.period}
+                />
+              </>
+            )
             : t('None')
         )}
       </td>

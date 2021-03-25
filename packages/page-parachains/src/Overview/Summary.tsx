@@ -53,7 +53,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
             label={t<string>('lease period')}
             progress={{
               total: leasePeriod.length,
-              value: leasePeriod.remainder,
+              value: leasePeriod.progress,
               withTime: true
             }}
           />

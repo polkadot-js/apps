@@ -15,11 +15,13 @@ export default function useLeasePeriod (): LeasePeriod | null {
   return useMemo((): LeasePeriod | null => {
     if (api.consts.slots?.leasePeriod && bestNumber) {
       const length = api.consts.slots.leasePeriod as BlockNumber;
+      const progress = bestNumber.mod(length);
 
       return {
         currentPeriod: bestNumber.div(length),
         length,
-        remainder: bestNumber.mod(length)
+        progress,
+        remainder: length.sub(progress)
       };
     }
 
