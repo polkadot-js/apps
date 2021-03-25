@@ -22,7 +22,7 @@ interface Props {
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isEnded, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -87,21 +87,25 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
       </td>
       {isOngoing && (
         <td className='button'>
-          {canContribute && (
-            <FundContribute
-              cap={cap}
-              paraId={paraId}
-              raised={raised}
-            />
-          )}
           {canDissolve && (
             <TxButton
               accountId={depositor}
               icon='times'
               isDisabled={!isDepositor}
-              label={t<string>('Dissolve')}
+              label={
+                isEnded
+                  ? t<string>('Dissolve')
+                  : t<string>('Cancel')
+              }
               params={[paraId]}
               tx={api.tx.crowdloan.dissolve}
+            />
+          )}
+          {canContribute && (
+            <FundContribute
+              cap={cap}
+              paraId={paraId}
+              raised={raised}
             />
           )}
         </td>
