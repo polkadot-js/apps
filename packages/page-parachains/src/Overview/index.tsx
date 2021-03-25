@@ -45,8 +45,8 @@ function Overview ({ className, leasePeriod, proposals }: Props): React.ReactEle
           />
           <Upcomings
             actionsQueue={actionsQueue}
-            currentPeriod={leasePeriod && leasePeriod.currentPeriod}
             ids={upcomingIds}
+            leasePeriod={leasePeriod}
           />
         </>
       )}
