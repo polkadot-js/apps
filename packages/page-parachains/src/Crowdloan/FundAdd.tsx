@@ -32,7 +32,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
   const [isOpen, toggleOpen] = useToggle();
 
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
-  const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lt(leasePeriod.currentPeriod));
+  const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lte(leasePeriod.currentPeriod));
   const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
   const defaultSlot = auctionInfo.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE);
 
