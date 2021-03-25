@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
+import type { AuctionInfo } from '../types';
 import type { Winning } from './types';
 
 import React, { useRef } from 'react';
@@ -12,13 +12,12 @@ import { useTranslation } from '../translate';
 import WinRange from './WinRange';
 
 interface Props {
-  auctionInfo: [LeasePeriodOf, BlockNumber] | null;
+  auctionInfo: AuctionInfo;
   className?: string;
-  numAuctions: AuctionIndex | null;
   winningData: Winning[] | null;
 }
 
-function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): React.ReactElement<Props> {
+function Auction ({ auctionInfo, className, winningData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -31,8 +30,8 @@ function Auction ({ auctionInfo, className, numAuctions, winningData }: Props): 
     <Table
       className={className}
       empty={
-        numAuctions && winningData && (
-          auctionInfo && auctionInfo[1] && !winningData.length
+        auctionInfo.numAuctions && winningData && (
+          auctionInfo.endBlock && !winningData.length
             ? t<string>('No winners in this auction')
             : t<string>('No ongoing auction')
         )
