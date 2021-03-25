@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 import { Button, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_THREE, BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_THREE, BN_ZERO } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
@@ -34,7 +34,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
   const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lt(leasePeriod.currentPeriod));
   const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
-  const defaultSlot = auctionInfo.leasePeriod || leasePeriod?.currentPeriod;
+  const defaultSlot = auctionInfo.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE);
 
   // TODO Add verifier
 
@@ -71,7 +71,12 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
                 onChange={setEndBlock}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}>
+            <Modal.Columns hint={
+              <>
+                <p>{t<string>('The first and last slots for this funding campaign.')}</p>
+                <p>{t<string>('The last slot should be after the first and a maximum of 3 slots more than the first')}</p>
+              </>
+            }>
               <InputNumber
                 defaultValue={defaultSlot}
                 isError={isFirstError}

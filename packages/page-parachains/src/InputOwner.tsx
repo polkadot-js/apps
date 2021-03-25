@@ -36,28 +36,29 @@ function InputOwner ({ onChange, ownedIds }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <>
-      <Modal.Columns hint={t<string>('This account that has been used to register the parachain. This will pay all associated fees.')}>
-        <InputAddress
-          filter={owners}
-          label={t<string>('parachain owner')}
-          onChange={setAccountId}
-          type='account'
-          value={accountId}
-        />
-      </Modal.Columns>
+    <Modal.Columns hint={
+      <>
+        <p>{t<string>('This account that has been used to register the parachain. This will pay all associated fees.')}</p>
+        <p>{t<string>('The parachain id is associated with the selected account via parathread registration.')}</p>
+      </>
+    }>
+      <InputAddress
+        filter={owners}
+        label={t<string>('parachain owner')}
+        onChange={setAccountId}
+        type='account'
+        value={accountId}
+      />
       {accountId && (
-        <Modal.Columns hint={t<string>('The parachain id, as associated with the account on the registrar')}>
-          <Dropdown
-            defaultValue={optIds[0].value}
-            key={accountId}
-            label={t<string>('parachain id')}
-            onChange={setParaId}
-            options={optIds}
-          />
-        </Modal.Columns>
+        <Dropdown
+          defaultValue={optIds[0].value}
+          key={accountId}
+          label={t<string>('parachain id')}
+          onChange={setParaId}
+          options={optIds}
+        />
       )}
-    </>
+    </Modal.Columns>
   );
 }
 
