@@ -4,7 +4,7 @@
 import type BN from 'bn.js';
 import type { Campaign } from './types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
@@ -15,6 +15,12 @@ interface Props {
   bestNumber?: BN;
   className?: string;
   value: Campaign[] | null;
+}
+
+function extractLists (value: Campaign[] | null): [Campaign[] | null, Campaign[] | null] {
+  return value
+    ? [value.filter(({ isEnded }) => !isEnded), value.filter(({ isEnded }) => isEnded)]
+    : [null, null];
 }
 
 function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Props> {
@@ -35,31 +41,36 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
     [t('raised')]
   ]);
 
+  const [active, ended] = useMemo(
+    () => extractLists(value),
+    [value]
+  );
+
   return (
     <>
       <Table
         className={className}
-        empty={value && t<string>('No active campaigns found')}
+        empty={active && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
-        {value?.filter(({ isEnded }) => !isEnded).map((fund) => (
+        {active?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
             isOngoing
-            key={fund.paraId.toString()}
+            key={fund.key}
             value={fund}
           />
         ))}
       </Table>
       <Table
         className={className}
-        empty={value && t<string>('No completed campaigns found')}
+        empty={ended && t<string>('No completed campaigns found')}
         header={headedEndedRef.current}
       >
-        {value?.filter(({ isEnded }) => isEnded).map((fund) => (
+        {ended?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
-            key={fund.paraId.toString()}
+            key={fund.key}
             value={fund}
           />
         ))}

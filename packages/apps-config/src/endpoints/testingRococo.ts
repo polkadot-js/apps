@@ -4,6 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
 
+import { ROCOCO_GENESIS } from '../api/constants';
 import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
@@ -18,7 +19,7 @@ import { expandEndpoints } from './util';
 export function createRococo (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [{
     dnslink: 'rococo',
-    genesisHash: '0x19c0e4fa8ab75f5ac7865e0b8f74ff91eb9a100d336f423cd013a8befba40299',
+    genesisHash: ROCOCO_GENESIS,
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {

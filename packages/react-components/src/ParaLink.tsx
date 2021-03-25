@@ -41,6 +41,7 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
 
 export default React.memo(styled(ParaLink)`
   vertical-align: middle;
+  white-space: nowrap;
 
   a.chainAlign {
     display: inline-block;

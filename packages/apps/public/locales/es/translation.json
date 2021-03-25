@@ -279,6 +279,7 @@
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "Anular los valores aplicables para la salida firmada específica. Estos se utilizarán para construir y mostrar la transacción firmada.",
   "Override the default identity icon display with a specific theme": "Sustituir la visualización del icono de identidad por defecto por un tema específico",
   "Override the default ss58 prefix for address generation": "Sustituir el prefijo ss58 por defecto para la generación de direcciones",
+  "Overview": "Resumen",
   "Owned": "Propiedad de",
   "Parachains": "Parachains",
   "Parachains overview": "Resumen de parachains",

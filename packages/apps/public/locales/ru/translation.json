@@ -285,6 +285,7 @@
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "Переопределите все применимые значения для данного подписанного вывода. Они будут использоваться для построения и отображения подписанной транзакции.",
   "Override the default identity icon display with a specific theme": "Заменить базовый вариант иконки личности",
   "Override the default ss58 prefix for address generation": "Заменить базовый ss58 префикс для генерации адреса",
+  "Overview": "Обзор",
   "Owned": "В собственности",
   "Parachains": "Парачейны",
   "Parachains overview": "Обзор парачейна",

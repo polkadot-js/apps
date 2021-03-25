@@ -22,18 +22,16 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Bounties')
+      text: t<string>('Overview')
     }
   ]);
 
   return (
     <main className={`bounties--App ${className}`}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Bounties/>
     </main>
   );
