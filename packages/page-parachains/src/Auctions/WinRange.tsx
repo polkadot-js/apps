@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
+import type { AuctionInfo } from '../types';
 import type { WinnerData } from './types';
 
 import React from 'react';
@@ -14,7 +14,7 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  auctionInfo: [LeasePeriodOf, BlockNumber];
+  auctionInfo: AuctionInfo;
   blockNumber: BN;
   className?: string;
   isFirst: boolean;
@@ -24,7 +24,6 @@ interface Props {
 
 function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLatest, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [leasePeriod, endBlock] = auctionInfo;
 
   return (
     <tr className={className}>
@@ -32,14 +31,16 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
         {isFirst && (
           <h1>{isLatest
             ? t<string>('latest')
-            : <>#{formatNumber(blockNumber.isZero() ? endBlock : blockNumber)}</>
+            : <>#{formatNumber(blockNumber.isZero() ? auctionInfo.endBlock : blockNumber)}</>
           }</h1>
         )}
       </td>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td className='badge'><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>
-      <td className='all number'><Digits value={`${formatNumber(leasePeriod.addn(range[0]))} - ${formatNumber(leasePeriod.addn(range[1]))}`} /></td>
+      <td className='all number'>{auctionInfo.leasePeriod && (
+        <Digits value={`${formatNumber(auctionInfo.leasePeriod.addn(range[0]))} - ${formatNumber(auctionInfo.leasePeriod.addn(range[1]))}`} />
+      )}</td>
       <td className='number'><FormatBalance value={value} /></td>
     </tr>
   );

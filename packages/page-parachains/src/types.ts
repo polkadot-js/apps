@@ -1,7 +1,14 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
+import type BN from 'bn.js';
+import type { AuctionIndex, BlockNumber, LeasePeriodOf, ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
+
+export interface AuctionInfo {
+  endBlock: BlockNumber | null;
+  leasePeriod: LeasePeriodOf | null;
+  numAuctions: AuctionIndex | null;
+}
 
 export interface ProposalExt {
   id: ParaId;
@@ -13,6 +20,12 @@ export interface ProposalExt {
 export interface ScheduledProposals {
   scheduledIds: ParaId[];
   sessionIndex: SessionIndex;
+}
+
+export interface LeasePeriod {
+  currentPeriod: BN;
+  length: BN;
+  remainder: BN;
 }
 
 export interface Proposals {
