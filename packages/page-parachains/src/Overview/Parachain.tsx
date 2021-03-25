@@ -148,7 +148,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge together'><ParaLink id={id} /></td>
+      <td className='badge'><ParaLink id={id} /></td>
       <td className='number media--1500'>
         {validators && validators.length !== 0 && (
           <Expander
