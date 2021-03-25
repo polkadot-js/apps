@@ -68,7 +68,8 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         </Route>
         <Route path={`${basePath}/crowdloan`}>
           <Crowdloan
-            leasePeriod={null}
+            auctionInfo={auctionInfo}
+            leasePeriod={leasePeriod}
             ownedIds={ownedIds}
           />
         </Route>

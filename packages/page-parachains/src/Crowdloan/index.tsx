@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LeasePeriod, OwnedId } from '../types';
+import type { AuctionInfo, LeasePeriod, OwnedId } from '../types';
 
 import React from 'react';
 
@@ -14,12 +14,13 @@ import Summary from './Summary';
 import useFunds from './useFunds';
 
 interface Props {
+  auctionInfo: AuctionInfo;
   className?: string;
   leasePeriod: LeasePeriod | null;
   ownedIds: OwnedId[];
 }
 
-function Crowdloan ({ className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
+function Crowdloan ({ auctionInfo, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const bestNumber = useBestNumber();
   const { activeCap, activeRaised, funds, totalCap, totalRaised } = useFunds();
 
@@ -34,6 +35,7 @@ function Crowdloan ({ className, leasePeriod, ownedIds }: Props): React.ReactEle
       />
       <Button.Group>
         <FundAdd
+          auctionInfo={auctionInfo}
           bestNumber={bestNumber}
           leasePeriod={leasePeriod}
           ownedIds={ownedIds}

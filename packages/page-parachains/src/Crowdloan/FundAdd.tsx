@@ -2,25 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { LeasePeriod, OwnedId, OwnerInfo } from '../types';
+import type { AuctionInfo, LeasePeriod, OwnedId, OwnerInfo } from '../types';
 
 import React, { useState } from 'react';
 
 import { Button, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_THREE, BN_ZERO } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
 
 interface Props {
+  auctionInfo: AuctionInfo;
   bestNumber?: BN;
   className?: string;
   leasePeriod: LeasePeriod | null;
   ownedIds: OwnedId[];
 }
 
-function FundAdd ({ bestNumber, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
+function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>({ accountId: null, paraId: 0 });
@@ -31,7 +32,9 @@ function FundAdd ({ bestNumber, className, leasePeriod, ownedIds }: Props): Reac
   const [isOpen, toggleOpen] = useToggle();
 
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
-  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.addn(3));
+  const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lt(leasePeriod.currentPeriod));
+  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
+  const defaultSlot = auctionInfo.leasePeriod || leasePeriod?.currentPeriod;
 
   // TODO Add verifier
 
@@ -70,30 +73,24 @@ function FundAdd ({ bestNumber, className, leasePeriod, ownedIds }: Props): Reac
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}>
               <InputNumber
+                defaultValue={defaultSlot}
+                isError={isFirstError}
                 label={t<string>('first slot')}
                 onChange={setFirstSlot}
               />
               <InputNumber
+                defaultValue={defaultSlot}
                 isError={isLastError}
                 label={t<string>('last slot')}
                 onChange={setLastSlot}
               />
             </Modal.Columns>
-            {leasePeriod && (
-              <Modal.Columns hint={t<string>('The current on-chain details for current leases')}>
-                <InputNumber
-                  defaultValue={leasePeriod.currentPeriod}
-                  isDisabled
-                  label={t<string>('current lease period')}
-                />
-              </Modal.Columns>
-            )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!paraId || !cap?.gt(BN_ZERO) || !firstSlot?.gte(BN_ZERO) || isEndError || isLastError}
+              isDisabled={!paraId || !cap?.gt(BN_ZERO) || !firstSlot?.gte(BN_ZERO) || isEndError || isFirstError || isLastError}
               label={t<string>('Add')}
               onStart={toggleOpen}
               params={[paraId, cap, firstSlot, lastSlot, endBlock, null]}
