@@ -334,7 +334,7 @@
   "Not updated in the last block": "لم يتم التحديث في الكتلة الأخيرة",
   "Nothing queued for execution": "لا شيء في قائمة الانتظار للتنفيذ",
   "Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.": ".من مبلغ المستفيد، يجب تقديم {{نسبة السند}} على الأقل كضمان. سيتم استخدام الحد الأقصى من هذا السند والحد الأدنى للسند لتأمين المقترح، ويمكن استرداد المبلغ إذا تم تمريره",
-  "Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.": ". بمجرد الرهن، يجب إلغاء قفله/سحبه وقفله لمدة لا تقل عن مدة الرهن",
+  "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": ". بمجرد الرهن، يجب إلغاء قفله/سحبه وقفله لمدة لا تقل عن مدة الرهن",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": ".بمجرد انتقال الاختيار الجديد فسوف يصبح نافذا في عصرين فقط منذ تم تنفيذ معايير الاختيار في العصر التالي في نهاية العصر السابق. وحتى ذلك الحين، ستظهر الترشيحات على أنها غير نشطة",
   "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.": ".أحد حسابات الترشيح المتاحة الخاصة بك، والذي يقوم بفتح التخزين. سيتم إرسال المعاملة من وحدة التحكم",
   "One or more extensions are detected in your browser, however no accounts has been injected.": "تم اكتشاف واحدة من الإضافات في متصفحك ، ولكن لم يتم إدخال أي حسابات",
