@@ -56,10 +56,12 @@ settings.set({ apiUrl });
 console.log('WS endpoint=', apiUrl);
 
 try {
+  const accountType = registry.hasType('MultiAddress') ? 'MultiAddress' : 'AccountId';
+
   const types = {
     ...store.get('types') as Record<string, Record<string, string>> || {},
-    Address: 'AccountId',
-    LookupSource: 'AccountId'
+    Address: accountType,
+    LookupSource: accountType
   };
   const names = Object.keys(types);
 
