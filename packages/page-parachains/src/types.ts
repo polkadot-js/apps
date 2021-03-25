@@ -25,6 +25,7 @@ export interface ScheduledProposals {
 export interface LeasePeriod {
   currentPeriod: BN;
   length: BN;
+  progress: BN;
   remainder: BN;
 }
 
