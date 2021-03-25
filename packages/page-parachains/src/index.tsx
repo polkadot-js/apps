@@ -14,6 +14,8 @@ import Crowdloan from './Crowdloan';
 import Overview from './Overview';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
+import useAuctionInfo from './useAuctionInfo';
+import useLeasePeriod from './useLeasePeriod';
 import useOwnedIds from './useOwnedIds';
 import useProposals from './useProposals';
 
@@ -26,6 +28,8 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
+  const auctionInfo = useAuctionInfo();
+  const leasePeriod = useLeasePeriod();
   const ownedIds = useOwnedIds();
   const proposals = useProposals();
 
@@ -57,10 +61,17 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       />
       <Switch>
         <Route path={`${basePath}/auctions`}>
-          <Auctions ownedIds={ownedIds} />
+          <Auctions
+            auctionInfo={auctionInfo}
+            ownedIds={ownedIds}
+          />
         </Route>
         <Route path={`${basePath}/crowdloan`}>
-          <Crowdloan ownedIds={ownedIds} />
+          <Crowdloan
+            auctionInfo={auctionInfo}
+            leasePeriod={leasePeriod}
+            ownedIds={ownedIds}
+          />
         </Route>
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />
@@ -68,6 +79,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       </Switch>
       <Overview
         className={basePath === pathname ? '' : 'parachains--hidden'}
+        leasePeriod={leasePeriod}
         proposals={proposals}
       />
     </main>

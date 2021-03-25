@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { BlockNumber, LeasePeriodOf, WinningData } from '@polkadot/types/interfaces';
+import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
+import type { AuctionInfo } from '../types';
 import type { WinnerData, Winning } from './types';
 
 import BN from 'bn.js';
@@ -89,7 +90,7 @@ function mergeFirst (prev: Winning[] | null, optFirstData: Option<WinningData>):
   return prev;
 }
 
-export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber] | null): Winning[] | null {
+export default function useWinningData (auctionInfo: AuctionInfo): Winning[] | null {
   const { api } = useApi();
   const [result, setResult] = useState<Winning[] | null>(null);
   const bestNumber = useBestNumber();
@@ -101,7 +102,7 @@ export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber
   // should be fired once, all entries as an initial round
   useEffect((): void => {
     allEntries && setResult(
-      extractData(auctionInfo && auctionInfo[1], allEntries)
+      extractData(auctionInfo.endBlock, allEntries)
     );
   }, [allEntries, auctionInfo]);
 
@@ -116,7 +117,7 @@ export default function useWinningData (auctionInfo: [LeasePeriodOf, BlockNumber
   // and add it to the list when not duplicated. Additionally we cleanup after ourselves when endBlock
   // gets cleared
   useEffect((): void => {
-    const [, endBlock] = auctionInfo || [null, null];
+    const { endBlock } = auctionInfo;
 
     if (!endBlock) {
       setResult((prev) => prev && prev.length ? [] : prev);
