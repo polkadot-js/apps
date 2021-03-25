@@ -180,7 +180,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
-          Acala: 'wss://rococo-1.acala.laminar.one/ws'
+          Acala: 'wss://mandala-pc2.laminar.codes/ws'
         }
       },
       {
