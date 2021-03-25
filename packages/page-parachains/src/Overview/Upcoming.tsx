@@ -81,7 +81,7 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
   return (
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge together'><ParaLink id={id} /></td>
+      <td className='badge'><ParaLink id={id} /></td>
       <td className='address'>{manager && <AddressSmall value={manager} />}</td>
       <td className='start together hash'>{headHex}</td>
       <td className='start'>

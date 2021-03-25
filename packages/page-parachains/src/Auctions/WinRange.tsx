@@ -37,7 +37,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
         )}
       </td>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
-      <td><ParaLink id={paraId} /></td>
+      <td className='badge'><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>
       <td className='all number'><Digits value={`${formatNumber(leasePeriod.addn(range[0]))} - ${formatNumber(leasePeriod.addn(range[1]))}`} /></td>
       <td className='number'><FormatBalance value={value} /></td>

@@ -57,7 +57,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
-      <td><ParaLink id={paraId} /></td>
+      <td className='badge'><ParaLink id={paraId} /></td>
       <td>
         {retiring.isTrue
           ? t<string>('Retiring')

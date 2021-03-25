@@ -68,7 +68,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
           />
         )}
       </td>
-      <td className='badge together'><ParaLink id={id} /></td>
+      <td className='badge'><ParaLink id={id} /></td>
       <td className='start together'>{proposal.proposal?.name.toUtf8()}</td>
       <td className='address'>
         {proposal.proposal?.validators && (
