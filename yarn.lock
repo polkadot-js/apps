@@ -1585,10 +1585,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/polkabtc-types@npm:^0.5.3":
-  version: 0.5.3
-  resolution: "@interlay/polkabtc-types@npm:0.5.3"
-  checksum: ccd70c386787fac3d50e256902f2e2f3bc678be694c21029f21e50f35cc152e9f4425ae73e3eea43517c913b79e6fd3e5ac4345474386f60617a2cfa7015c5f9
+"@interlay/polkabtc-types@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "@interlay/polkabtc-types@npm:0.6.2"
+  checksum: 0c95c93a8b8f63db7f6d2624070dbb61d940a460f64a3ea1705cb2088fe859ffb6ae820e048aa74c6b0170834457dfe81fa588c5420040b5a61b80d21d6f9891
   languageName: node
   linkType: hard
 
@@ -2408,7 +2408,7 @@ __metadata:
     "@crustio/type-definitions": 0.0.5
     "@darwinia/types": ^1.1.0-alpha.1
     "@edgeware/node-types": ^3.3.2
-    "@interlay/polkabtc-types": ^0.5.3
+    "@interlay/polkabtc-types": ^0.6.2
     "@laminar/type-definitions": ^0.3.1
     "@polkadot/networks": ^6.0.5
     "@snowfork/snowbridge-types": ^0.2.3
