@@ -57,7 +57,7 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount to contribute. Should be less than the remaining value and more than the minimum contribution amount.')}>
+            <Modal.Columns hint={t<string>('The amount to contribute from this account.')}>
               <InputBalance
                 autoFocus
                 defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
@@ -72,6 +72,18 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
               {isAmountOver && (
                 <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
               )}
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The above contribution should more than minimum contribution amount and less than the remaining value.')}>
+              <InputBalance
+                defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
+                isDisabled
+                label={t<string>('minimum allowed')}
+              />
+              <InputBalance
+                defaultValue={remaining}
+                isDisabled
+                label={t<string>('remaining till cap')}
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
