@@ -375,7 +375,7 @@
   "Not updated in the last block": "Tidak ada perubahan di blok terakhir",
   "Nothing queued for execution": "Tidak ada antrean untuk eksekusi",
   "Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.": "Dari jumlah penerima, setidaknya {{bondPercentage}} perlu disiapkan sebagai jaminan. Jumlah maksimum ini dan obligasi minimum akan digunakan untuk mengamankan proposal, dapat dikembalikan jika lolos.",
-  "Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Setelah terikat, itu harus dibuka / ditarik dan akan dikunci setidaknya selama durasi pengikatan.",
+  "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Setelah terikat, itu harus dibuka / ditarik dan akan dikunci setidaknya selama durasi pengikatan.",
   "Once transferred the amount will become available on the chain for use.": "Setelah ditransfer, jumlahnya akan tersedia di rantai untuk digunakan.",
   "Once transferred the amount will become available on the parachain for use.": "Setelah ditransfer, jumlahnya akan tersedia di parachain untuk digunakan.",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": "Setelah ditransmisikan seleksi baru hanya akan berlaku dalam 2 era karena kriteria seleksi untuk era berikutnya dilakukan di akhir era sebelumnya. Sampai saat itu, nominasi akan ditampilkan sebagai tidak aktif.",

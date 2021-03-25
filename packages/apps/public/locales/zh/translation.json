@@ -361,7 +361,7 @@
   "Not updated in the last block": "在最后一个块中未更新",
   "Nothing queued for execution": "没有排队等待中的执行",
   "Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.": "在受益人金额中，至少{{bondPercentage}} 需要作为抵押品。最高保证金和最低保证金将用于担保该提案，如果通过，可退还。",
-  "Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "一旦绑定，则需要解锁/取出，并至少在绑定时间内锁定",
+  "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "一旦绑定，则需要解锁/取出，并至少在绑定时间内锁定",
   "Once transferred the amount will become available on the chain for use.": "一旦进行了转账，该金额将可在链上使用。",
   "Once transferred the amount will become available on the parachain for use.": "一旦进行了转账，该金额将在平行链上可用。",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": "一旦提交，新的选择将在两个 era 生效，因为下一个 era 的选择标准是在上一个 era 结束时完成的。在此之前，提名将显示为不活跃。",

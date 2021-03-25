@@ -122,7 +122,7 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
         <Modal.Columns hint={
           <>
             <p>{t<string>('The amount placed at-stake should not be your full available available amount to allow for transaction fees.')}</p>
-            <p>{t<string>('Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
+            <p>{t<string>('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
           </>
         }>
           <InputBalance
