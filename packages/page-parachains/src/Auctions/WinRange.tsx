@@ -22,7 +22,7 @@ interface Props {
   value: WinnerData;
 }
 
-function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLatest, value: { accountId, firstPeriod, lastPeriod, paraId, value } }: Props): React.ReactElement<Props> {
+function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLatest, value: { accountId, firstSlot, lastSlot, paraId, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -39,7 +39,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
       <td className='badge'><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>
       <td className='all number'>
-        <Digits value={`${formatNumber(firstPeriod)} - ${formatNumber(lastPeriod)}`} />
+        <Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} />
       </td>
       <td className='number'><FormatBalance value={value} /></td>
     </tr>

@@ -130,8 +130,8 @@ const optFundMulti = {
       }))
       .sort((a, b) =>
         a.info.end.cmp(b.info.end) ||
-        a.info.firstPeriod.cmp(b.info.firstPeriod) ||
-        a.info.lastPeriod.cmp(b.info.lastPeriod) ||
+        a.info.firstSlot.cmp(b.info.firstSlot) ||
+        a.info.lastSlot.cmp(b.info.lastSlot) ||
         a.paraId.cmp(b.paraId)
       ),
   withParamsTransform: true

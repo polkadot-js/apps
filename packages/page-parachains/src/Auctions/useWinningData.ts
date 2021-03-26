@@ -21,10 +21,10 @@ function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
 }
 
 function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
-  return a.length !== b.length || a.some(({ firstPeriod, lastPeriod, paraId }, index) =>
+  return a.length !== b.length || a.some(({ firstSlot, lastSlot, paraId }, index) =>
     !paraId.eq(b[index].paraId) ||
-    firstPeriod !== b[index].firstPeriod ||
-    lastPeriod !== b[index].lastPeriod
+    firstSlot !== b[index].firstSlot ||
+    lastSlot !== b[index].lastSlot
   );
 }
 
@@ -37,7 +37,7 @@ function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>)
         const period = auctionInfo.leasePeriod?.toNumber() || 0;
         const [first, last] = RANGES[index];
 
-        winners.push({ accountId, firstPeriod: first + period, lastPeriod: last + period, paraId, value });
+        winners.push({ accountId, firstSlot: first + period, lastSlot: last + period, paraId, value });
       }
 
       return winners;

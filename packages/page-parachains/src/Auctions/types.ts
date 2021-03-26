@@ -6,8 +6,8 @@ import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 
 export interface WinnerData {
   accountId: AccountId;
-  firstPeriod: number;
-  lastPeriod: number;
+  firstSlot: number;
+  lastSlot: number;
   paraId: ParaId;
   value: BalanceOf;
 }
