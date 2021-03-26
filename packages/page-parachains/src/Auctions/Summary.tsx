@@ -17,10 +17,10 @@ import { useTranslation } from '../translate';
 interface Props {
   auctionInfo: AuctionInfo;
   className?: string;
-  lastWinner: Winning | null;
+  lastWinners: Winning | null;
 }
 
-function Summary ({ auctionInfo, className, lastWinner }: Props): React.ReactElement<Props> {
+function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
@@ -41,18 +41,18 @@ function Summary ({ auctionInfo, className, lastWinner }: Props): React.ReactEle
                 {formatNumber(auctionInfo.leasePeriod)} - {formatNumber(auctionInfo.leasePeriod.add(BN_THREE))}
               </CardSummary>
             )}
-            {totalIssuance && lastWinner && (
+            {totalIssuance && lastWinners && (
               <CardSummary
                 label={t<string>('total')}
                 progress={{
                   hideValue: true,
                   total: totalIssuance,
-                  value: lastWinner.total,
+                  value: lastWinners.total,
                   withTime: true
                 }}
               >
                 <FormatBalance
-                  value={lastWinner.total}
+                  value={lastWinners.total}
                   withSi
                 />
               </CardSummary>

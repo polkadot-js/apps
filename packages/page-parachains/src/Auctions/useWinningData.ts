@@ -20,6 +20,14 @@ function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
   return JSON.stringify({ w: a }) !== JSON.stringify({ w: b });
 }
 
+function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
+  return a.length !== b.length || a.some(({ paraId, range }, index) =>
+    !paraId.eq(b[index].paraId) ||
+    range[0] !== b[index].range[0] ||
+    range[1] !== b[index].range[1]
+  );
+}
+
 function extractWinners (optData: Option<WinningData>): WinnerData[] {
   return optData.isNone
     ? []
@@ -64,8 +72,20 @@ function extractData (endBlock: BlockNumber | null, values: [StorageKey<[BlockNu
 function mergeCurrent (prev: Winning[] | null, optCurrent: Option<WinningData>, endBlock: BlockNumber, blockOffset: BN): Winning[] | null {
   const current = createWinning(endBlock, blockOffset, extractWinners(optCurrent));
 
-  if (current.winners.length && (!prev?.length || isNewWinners(current.winners, prev[0].winners))) {
-    return [current, ...(prev || [])];
+  if (current.winners.length) {
+    if (!prev || !prev.length) {
+      return [current];
+    }
+
+    if (isNewWinners(current.winners, prev[0].winners)) {
+      if (isNewOrdering(current.winners, prev[0].winners)) {
+        return [current, ...prev];
+      }
+
+      prev[0] = current;
+
+      return [...prev];
+    }
   }
 
   return prev;

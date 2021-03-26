@@ -21,15 +21,18 @@ interface Props {
 function Auctions ({ auctionInfo, className, ownedIds }: Props): React.ReactElement<Props> {
   const winningData = useWinningData(auctionInfo);
 
+  const lastWinners = winningData && winningData[0];
+
   return (
     <div className={className}>
       <Summary
         auctionInfo={auctionInfo}
-        lastWinner={winningData && winningData[0]}
+        lastWinners={lastWinners}
       />
       <Button.Group>
         <Bid
           auctionInfo={auctionInfo}
+          lastWinners={lastWinners}
           ownedIds={ownedIds}
         />
       </Button.Group>
