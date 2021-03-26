@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AuctionInfo, Winning } from '../types';
+import type { AuctionInfo, Campaigns, WinnerData, Winning } from '../types';
 
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
@@ -12,18 +12,35 @@ import WinRange from './WinRange';
 
 interface Props {
   auctionInfo?: AuctionInfo;
+  campaigns: Campaigns;
   className?: string;
   winningData?: Winning[];
 }
 
-function Auction ({ auctionInfo, className, winningData }: Props): React.ReactElement<Props> {
+function Auction ({ auctionInfo, campaigns, className, winningData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('bids'), 'start', 4],
+    [t('bids'), 'start', 3],
+    [t('bidder'), 'address'],
+    [t('crowdloan')],
     [t('periods')],
     [t('value')]
   ]);
+
+  const interleave = useCallback(
+    (winners: WinnerData[], asIs: boolean): WinnerData[] =>
+      asIs
+        ? winners
+        : winners.map((w): WinnerData =>
+          campaigns.funds?.find(({ firstSlot, lastSlot, value }) =>
+            w.firstSlot === firstSlot &&
+            w.lastSlot === lastSlot &&
+            w.value.lt(value)
+          ) || w
+        ),
+    [campaigns]
+  );
 
   return (
     <Table
@@ -40,7 +57,7 @@ function Auction ({ auctionInfo, className, winningData }: Props): React.ReactEl
     >
       {auctionInfo && winningData?.map(({ blockNumber, winners }, round) => (
         <tbody key={round}>
-          {winners.map((value, index) => (
+          {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
             <WinRange
               auctionInfo={auctionInfo}
               blockNumber={blockNumber}

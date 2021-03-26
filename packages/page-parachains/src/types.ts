@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, FundInfo, LeasePeriodOf, ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
+import type { AuctionIndex, BlockNumber, FundInfo, LeasePeriodOf, ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
 
 export interface AuctionInfo {
   endBlock: BlockNumber | null;
@@ -30,14 +30,12 @@ export interface Campaigns {
   totalRaised: BN;
 }
 
-export interface Campaign {
+export interface Campaign extends WinnerData {
   info: FundInfo;
   isCapped?: boolean;
   isEnded?: boolean;
   isRetired?: boolean;
   isWinner?: boolean;
-  key: string;
-  paraId: ParaId;
   retireEnd?: BN;
 }
 
@@ -66,11 +64,12 @@ export interface OwnerInfo {
 }
 
 export interface WinnerData {
-  accountId: AccountId;
+  accountId: string;
   firstSlot: number;
+  isCrowdloan: boolean;
   lastSlot: number;
   paraId: ParaId;
-  value: BalanceOf;
+  value: BN;
 }
 
 export interface Winning {
