@@ -21,7 +21,7 @@ interface Props {
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstPeriod, lastPeriod, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -94,7 +94,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
         )}
         #{formatNumber(end)}
       </td>
-      <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
+      <td className='number'><Digits value={`${formatNumber(firstPeriod)} - ${formatNumber(lastPeriod)}`} /></td>
       <td className='number together'>
         <FormatBalance
           value={raised}

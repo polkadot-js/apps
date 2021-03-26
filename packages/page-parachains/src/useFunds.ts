@@ -4,21 +4,14 @@
 import type { Option } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Campaign } from './types';
+import type { Fund, FundResult } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
 import { BN_ZERO, stringToU8a, u8aConcat } from '@polkadot/util';
-
-interface FundResult {
-  activeCap: BN;
-  activeRaised: BN;
-  funds: Campaign[] | null;
-  totalCap: BN;
-  totalRaised: BN;
-}
+import { encodeAddress } from '@polkadot/util-crypto';
 
 const EMPTY: FundResult = {
   activeCap: BN_ZERO,
@@ -31,8 +24,12 @@ const EMPTY: FundResult = {
 const PREFIX = stringToU8a('modlpy/cfund');
 const EMPTY_U8A = new Uint8Array(32);
 
+function createAccount (paraId: ParaId): Uint8Array {
+  return u8aConcat(PREFIX, paraId.toU8a(), EMPTY_U8A).subarray(0, 32);
+}
+
 function isCrowdloadAccount (paraId: ParaId, accountId: AccountId): boolean {
-  return accountId.eq(u8aConcat(PREFIX, paraId.toU8a(), EMPTY_U8A).subarray(0, 32));
+  return accountId.eq(createAccount(paraId));
 }
 
 function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
@@ -40,7 +37,7 @@ function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
 }
 
 // map into a campaign
-function updateFund (bestNumber: BN, minContribution: BN, retirementPeriod: BN, data: Campaign, leased: ParaId[]): Campaign {
+function updateFund (bestNumber: BN, minContribution: BN, retirementPeriod: BN, data: Fund, leased: ParaId[]): Fund {
   data.isCapped = data.info.cap.sub(data.info.raised).lt(minContribution);
   data.isEnded = bestNumber.gt(data.info.end);
   data.retireEnd = data.info.end.add(retirementPeriod);
@@ -50,7 +47,7 @@ function updateFund (bestNumber: BN, minContribution: BN, retirementPeriod: BN, 
   return data;
 }
 
-function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, paraId }: Campaign, leased: ParaId[], allPrev: FundResult): boolean {
+function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, paraId }: Fund, leased: ParaId[], allPrev: FundResult): boolean {
   const prev = allPrev.funds?.find((p) => p.paraId.eq(paraId));
 
   return !prev ||
@@ -61,7 +58,7 @@ function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirement
 }
 
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
-function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Campaign[], leased: ParaId[], prev: FundResult): FundResult {
+function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Fund[], leased: ParaId[], prev: FundResult): FundResult {
   const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
     bestNumber.gt(end) ? ar : ar.iadd(raised),
     bestNumber.gt(end) ? ac : ac.iadd(cap),
@@ -119,14 +116,17 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, retirementP
 }
 
 const optFundMulti = {
-  transform: ([[paraIds], optFunds]: [[ParaId[]], Option<FundInfo>[]]): Campaign[] =>
+  transform: ([[paraIds], optFunds]: [[ParaId[]], Option<FundInfo>[]]): Fund[] =>
     paraIds
       .map((paraId, i): [ParaId, FundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
       .filter((v): v is [ParaId, FundInfo] => !!v[1])
-      .map(([paraId, info]): Campaign => ({
+      .map(([paraId, info]): Fund => ({
+        accountId: encodeAddress(createAccount(paraId)),
         info,
         key: paraId.toString(),
-        paraId
+        paraId,
+        range: [info.firstPeriod.toNumber(), info.lastPeriod.toNumber()],
+        value: info.raised
       }))
       .sort((a, b) =>
         a.info.end.cmp(b.info.end) ||
@@ -154,7 +154,7 @@ export default function useFunds (): FundResult {
   const bestNumber = useBestNumber();
   const [paraIds, setParaIds] = useState<ParaId[]>([]);
   const trigger = useEventTrigger([api.events.crowdloan.Created]);
-  const campaigns = useCall<Campaign[]>(api.query.crowdloan.funds.multi, [paraIds], optFundMulti);
+  const campaigns = useCall<Fund[]>(api.query.crowdloan.funds.multi, [paraIds], optFundMulti);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
   const [result, setResult] = useState<FundResult>(EMPTY);
 

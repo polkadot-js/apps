@@ -27,13 +27,13 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
   const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>({ accountId: null, paraId: 0 });
   const [cap, setCap] = useState<BN | undefined>();
   const [endBlock, setEndBlock] = useState<BN | undefined>();
-  const [firstSlot, setFirstSlot] = useState<BN | undefined>();
-  const [lastSlot, setLastSlot] = useState<BN | undefined>();
+  const [firstPeriod, setFirstSlot] = useState<BN | undefined>();
+  const [lastPeriod, setLastSlot] = useState<BN | undefined>();
   const [isOpen, toggleOpen] = useToggle();
 
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
-  const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lte(leasePeriod.currentPeriod));
-  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
+  const isFirstError = !firstPeriod || (!!leasePeriod && firstPeriod.lte(leasePeriod.currentPeriod));
+  const isLastError = !lastPeriod || !firstPeriod || lastPeriod.lt(firstPeriod) || lastPeriod.gt(firstPeriod.add(BN_THREE));
   const defaultSlot = (auctionInfo.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE) || 1).toString();
 
   // TODO Add verifier
@@ -95,10 +95,10 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!paraId || !cap?.gt(BN_ZERO) || !firstSlot?.gte(BN_ZERO) || isEndError || isFirstError || isLastError}
+              isDisabled={!paraId || !cap?.gt(BN_ZERO) || !firstPeriod?.gte(BN_ZERO) || isEndError || isFirstError || isLastError}
               label={t<string>('Add')}
               onStart={toggleOpen}
-              params={[paraId, cap, firstSlot, lastSlot, endBlock, null]}
+              params={[paraId, cap, firstPeriod, lastPeriod, endBlock, null]}
               tx={api.tx.crowdloan.create}
             />
           </Modal.Actions>
