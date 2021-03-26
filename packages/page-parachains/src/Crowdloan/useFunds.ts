@@ -4,15 +4,15 @@
 import type { Option } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Campaign, Lease } from './types';
+import type { Campaign } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
-import { BN_ZERO, stringToU8a, u8aConcat, u8aEq } from '@polkadot/util';
+import { BN_ZERO, stringToU8a, u8aConcat } from '@polkadot/util';
 
-interface Result {
+interface FundResult {
   activeCap: BN;
   activeRaised: BN;
   funds: Campaign[] | null;
@@ -20,7 +20,7 @@ interface Result {
   totalRaised: BN;
 }
 
-const EMPTY: Result = {
+const EMPTY: FundResult = {
   activeCap: BN_ZERO,
   activeRaised: BN_ZERO,
   funds: null,
@@ -29,55 +29,39 @@ const EMPTY: Result = {
 };
 
 const PREFIX = stringToU8a('modlpy/cfund');
+const EMPTY_U8A = new Uint8Array(32);
 
-function hasLease (paraId: ParaId, leases: Lease[]): boolean {
-  const info = leases.find((l) => paraId.eq(l.paraId));
+function isCrowdloadAccount (paraId: ParaId, accountId: AccountId): boolean {
+  return accountId.eq(u8aConcat(PREFIX, paraId.toU8a(), EMPTY_U8A).subarray(0, 32));
+}
 
-  if (info) {
-    const paraAccountId = u8aConcat(PREFIX, paraId.toU8a());
-
-    return info.leases.some(({ accountId }) =>
-      u8aEq(paraAccountId, accountId.toU8a().slice(0, paraAccountId.length))
-    );
-  }
-
-  return false;
+function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
+  return leased.some((l) => l.eq(paraId));
 }
 
 // map into a campaign
-function updateCampaign (bestNumber: BN, minContribution: BN, retirementPeriod: BN, data: Campaign, leases: Lease[]): Campaign {
-  if (!data.isEnded && bestNumber.gt(data.info.end)) {
-    data.isEnded = true;
-  }
-
-  if (!data.isCapped && data.info.cap.sub(data.info.raised).lt(minContribution)) {
-    data.isCapped = true;
-  }
-
-  if (!data.retireEnd) {
-    data.retireEnd = data.info.end.add(retirementPeriod);
-  }
-
-  if (!data.isRetired && bestNumber.gt(data.retireEnd)) {
-    data.isRetired = true;
-  }
-
-  if (!data.isWinner && hasLease(data.paraId, leases)) {
-    data.isWinner = true;
-  }
+function updateFund (bestNumber: BN, minContribution: BN, retirementPeriod: BN, data: Campaign, leased: ParaId[]): Campaign {
+  data.isCapped = data.info.cap.sub(data.info.raised).lt(minContribution);
+  data.isEnded = bestNumber.gt(data.info.end);
+  data.retireEnd = data.info.end.add(retirementPeriod);
+  data.isRetired = bestNumber.gt(data.retireEnd);
+  data.isWinner = hasLease(data.paraId, leased);
 
   return data;
 }
 
-function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, isCapped, isEnded, isRetired, isWinner, paraId }: Campaign, leases: Lease[]): boolean {
-  return (!isEnded && bestNumber.gt(end)) ||
-    (!isCapped && cap.sub(raised).lt(minContribution)) ||
-    (!isRetired && bestNumber.gt(end.add(retirementPeriod))) ||
-    (!isWinner && hasLease(paraId, leases));
+function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, paraId }: Campaign, leased: ParaId[], allPrev: FundResult): boolean {
+  const prev = allPrev.funds?.find((p) => p.paraId.eq(paraId));
+
+  return !prev ||
+    (!prev.isEnded && bestNumber.gt(end)) ||
+    (!prev.isCapped && cap.sub(raised).lt(minContribution)) ||
+    (!prev.isRetired && bestNumber.gt(end.add(retirementPeriod))) ||
+    (!prev.isWinner && hasLease(paraId, leased));
 }
 
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
-function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Campaign[], leases: Lease[], prev: Result): Result {
+function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Campaign[], leased: ParaId[], prev: FundResult): FundResult {
   const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
     bestNumber.gt(end) ? ar : ar.iadd(raised),
     bestNumber.gt(end) ? ac : ac.iadd(cap),
@@ -90,10 +74,8 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, retirementP
   const hasNewTotalRaised = !prev.totalRaised.eq(totalRaised);
   const hasChanged =
     !prev.funds || prev.funds.length !== funds.length ||
-    hasNewActiveCap || hasNewActiveRaised ||
-    hasNewTotalCap || hasNewTotalRaised ||
-    funds.some((c) => isFundUpdated(bestNumber, minContribution, retirementPeriod, c, leases)) ||
-    true;
+    hasNewActiveCap || hasNewActiveRaised || hasNewTotalCap || hasNewTotalRaised ||
+    funds.some((c) => isFundUpdated(bestNumber, minContribution, retirementPeriod, c, leased, prev));
 
   if (!hasChanged) {
     return prev;
@@ -107,7 +89,7 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, retirementP
       ? activeRaised
       : prev.activeRaised,
     funds: funds
-      .map((c) => updateCampaign(bestNumber, minContribution, retirementPeriod, c, leases))
+      .map((c) => updateFund(bestNumber, minContribution, retirementPeriod, c, leased))
       .sort((a, b) =>
         a.isWinner !== b.isWinner
           ? a.isWinner
@@ -141,31 +123,40 @@ const optFundMulti = {
     paraIds
       .map((paraId, i): [ParaId, FundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
       .filter((v): v is [ParaId, FundInfo] => !!v[1])
-      .map(([paraId, info]) => ({ info, key: paraId.toString(), paraId }))
-      .sort((a, b) => a.info.firstSlot.cmp(b.info.firstSlot) || a.info.lastSlot.cmp(b.info.lastSlot) || a.paraId.cmp(b.paraId)),
+      .map(([paraId, info]): Campaign => ({
+        info,
+        key: paraId.toString(),
+        paraId
+      }))
+      .sort((a, b) =>
+        a.info.end.cmp(b.info.end) ||
+        a.info.firstSlot.cmp(b.info.firstSlot) ||
+        a.info.lastSlot.cmp(b.info.lastSlot) ||
+        a.paraId.cmp(b.paraId)
+      ),
   withParamsTransform: true
 };
 
 const optLeaseMulti = {
-  transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): Lease[] =>
-    paraIds.map((paraId, i): Lease => ({
-      leases: leases[i]
+  transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaId[] =>
+    paraIds.filter((paraId, i) =>
+      leases[i]
         .map((o) => o.unwrapOr(null))
         .filter((v): v is ITuple<[AccountId, BalanceOf]> => !!v)
-        .map(([accountId, balance]) => ({ accountId, balance })),
-      paraId
-    })),
+        .filter(([accountId]) => isCrowdloadAccount(paraId, accountId))
+        .length !== 0
+    ),
   withParamsTransform: true
 };
 
-export default function useFunds (): Result {
+export default function useFunds (): FundResult {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const [paraIds, setParaIds] = useState<ParaId[]>([]);
   const trigger = useEventTrigger([api.events.crowdloan.Created]);
   const campaigns = useCall<Campaign[]>(api.query.crowdloan.funds.multi, [paraIds], optFundMulti);
-  const leases = useCall<Lease[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
-  const [result, setResult] = useState<Result>(EMPTY);
+  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
+  const [result, setResult] = useState<FundResult>(EMPTY);
 
   // on event triggers, update the available paraIds
   useEffect((): void => {
