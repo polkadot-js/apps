@@ -3,6 +3,7 @@
 
 import type BN from 'bn.js';
 import type { Campaign } from '../types';
+import type { Contributed } from './types';
 
 import React, { useMemo } from 'react';
 
@@ -17,11 +18,12 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
+  contributed?: Contributed;
   isOngoing?: boolean;
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, contributed, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -105,6 +107,11 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
           value={cap}
         />
         <div>{percentage}</div>
+      </td>
+      <td className='number'>
+        {contributed && (
+          formatNumber(contributed.count)
+        )}
       </td>
       <td className='button'>
         {canDissolve && (
