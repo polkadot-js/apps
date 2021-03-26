@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
-import type { AuctionInfo } from '../types';
-import type { Winning } from './types';
+import type { AuctionInfo, Winning } from '../types';
 
 import React from 'react';
 
@@ -15,9 +14,9 @@ import { BN_THREE, formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  auctionInfo: AuctionInfo;
+  auctionInfo?: AuctionInfo;
   className?: string;
-  lastWinners: Winning | null;
+  lastWinners?: Winning;
 }
 
 function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactElement<Props> {
@@ -30,10 +29,10 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('auctions')}>
-          {formatNumber(auctionInfo.numAuctions)}
+          {formatNumber(auctionInfo?.numAuctions)}
         </CardSummary>
       </section>
-      {auctionInfo.endBlock && (
+      {auctionInfo && (
         <>
           <section>
             {auctionInfo.leasePeriod && (
@@ -59,7 +58,7 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
             )}
           </section>
           <section>
-            {bestNumber && (
+            {auctionInfo?.endBlock && bestNumber && (
               bestNumber.lt(auctionInfo.endBlock)
                 ? (
                   <CardSummary

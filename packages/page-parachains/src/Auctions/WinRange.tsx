@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AuctionInfo } from '../types';
-import type { WinnerData } from './types';
+import type { AuctionInfo, WinnerData } from '../types';
 
 import React from 'react';
 

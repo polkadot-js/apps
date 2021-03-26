@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { Campaign } from './types';
+import type { Campaign } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
