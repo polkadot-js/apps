@@ -8,23 +8,23 @@ import { useMemo } from 'react';
 
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
 
-export default function useLeasePeriod (): LeasePeriod | null {
+export default function useLeasePeriod (): LeasePeriod | undefined {
   const { api } = useApi();
   const bestNumber = useBestNumber();
 
-  return useMemo((): LeasePeriod | null => {
-    if (api.consts.slots?.leasePeriod && bestNumber) {
-      const length = api.consts.slots.leasePeriod as BlockNumber;
-      const progress = bestNumber.mod(length);
-
-      return {
-        currentPeriod: bestNumber.div(length),
-        length,
-        progress,
-        remainder: length.sub(progress)
-      };
+  return useMemo((): LeasePeriod | undefined => {
+    if (!api.consts.slots?.leasePeriod || !bestNumber) {
+      return;
     }
 
-    return null;
+    const length = api.consts.slots.leasePeriod as BlockNumber;
+    const progress = bestNumber.mod(length);
+
+    return {
+      currentPeriod: bestNumber.div(length),
+      length,
+      progress,
+      remainder: length.sub(progress)
+    };
   }, [api, bestNumber]);
 }

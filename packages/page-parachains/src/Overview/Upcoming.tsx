@@ -20,7 +20,7 @@ import Lifecycle from './Lifecycle';
 
 interface Props {
   id: ParaId;
-  leasePeriod: LeasePeriod | null;
+  leasePeriod: LeasePeriod;
   nextAction?: QueuedAction;
 }
 
@@ -92,7 +92,7 @@ function Upcoming ({ id, leasePeriod, nextAction }: Props): React.ReactElement<P
         />
       </td>
       <td className='all number together'>
-        {leasePeriod && leasePeriod.currentPeriod && leases && (
+        {leasePeriod && leases && (
           leases.length
             ? (
               <>

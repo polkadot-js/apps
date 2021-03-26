@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AuctionInfo, OwnedId } from '../types';
+import type { AuctionInfo, OwnedId, Winning } from '../types';
 
 import React from 'react';
 
@@ -10,17 +10,15 @@ import { Button } from '@polkadot/react-components';
 import Auction from './Auction';
 import Bid from './Bid';
 import Summary from './Summary';
-import useWinningData from './useWinningData';
 
 interface Props {
-  auctionInfo: AuctionInfo;
+  auctionInfo?: AuctionInfo;
   className?: string;
   ownedIds: OwnedId[];
+  winningData?: Winning[];
 }
 
-function Auctions ({ auctionInfo, className, ownedIds }: Props): React.ReactElement<Props> {
-  const winningData = useWinningData(auctionInfo);
-
+function Auctions ({ auctionInfo, className, ownedIds, winningData }: Props): React.ReactElement<Props> {
   const lastWinners = winningData && winningData[0];
 
   return (

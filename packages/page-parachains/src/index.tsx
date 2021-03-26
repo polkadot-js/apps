@@ -15,9 +15,11 @@ import Overview from './Overview';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
 import useAuctionInfo from './useAuctionInfo';
+import useFunds from './useFunds';
 import useLeasePeriod from './useLeasePeriod';
 import useOwnedIds from './useOwnedIds';
 import useProposals from './useProposals';
+import useWinningData from './useWinningData';
 
 interface Props {
   basePath: string;
@@ -29,8 +31,10 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const { api } = useApi();
   const { pathname } = useLocation();
   const auctionInfo = useAuctionInfo();
+  const campaigns = useFunds();
   const leasePeriod = useLeasePeriod();
   const ownedIds = useOwnedIds();
+  const winningData = useWinningData(auctionInfo);
   const proposals = useProposals();
 
   const items = useRef([
@@ -64,11 +68,13 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
           <Auctions
             auctionInfo={auctionInfo}
             ownedIds={ownedIds}
+            winningData={winningData}
           />
         </Route>
         <Route path={`${basePath}/crowdloan`}>
           <Crowdloan
             auctionInfo={auctionInfo}
+            campaigns={campaigns}
             leasePeriod={leasePeriod}
             ownedIds={ownedIds}
           />

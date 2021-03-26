@@ -17,7 +17,7 @@ import useUpcomingIds from './useUpcomingIds';
 
 interface Props {
   className?: string;
-  leasePeriod: LeasePeriod | null;
+  leasePeriod?: LeasePeriod;
   proposals?: Proposals;
 }
 

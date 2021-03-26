@@ -3,8 +3,7 @@
 
 import type BN from 'bn.js';
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { AuctionInfo, OwnedId, OwnerInfo } from '../types';
-import type { Winning } from './types';
+import type { AuctionInfo, OwnedId, OwnerInfo, Winning } from '../types';
 
 import React, { useMemo, useState } from 'react';
 
@@ -12,14 +11,14 @@ import { Button, Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react
 import { useAccounts, useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
+import { RANGES } from '../constants';
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
-import { RANGES } from './constants';
 
 interface Props {
-  auctionInfo: AuctionInfo;
+  auctionInfo?: AuctionInfo;
   className?: string;
-  lastWinners: Winning | null;
+  lastWinners?: Winning;
   ownedIds: OwnedId[];
 }
 
@@ -30,19 +29,21 @@ interface Option {
   value: number;
 }
 
+const EMPTY_OWNER: OwnerInfo = { accountId: null, paraId: 0 };
+
 function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const bestNumber = useBestNumber();
-  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>({ accountId: null, paraId: 0 });
+  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [range, setRange] = useState(0);
   const [isOpen, toggleOpen] = useToggle();
 
   const rangeOpts = useMemo(
     (): Option[] => {
-      if (!auctionInfo.leasePeriod) {
+      if (!auctionInfo?.leasePeriod) {
         return [];
       }
 
@@ -73,7 +74,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
     <>
       <Button
         icon='plus'
-        isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
+        isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo?.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
         label={t<string>('Bid')}
         onClick={toggleOpen}
       />
@@ -121,10 +122,10 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!paraId || isAmountError || !auctionInfo.leasePeriod}
+              isDisabled={!paraId || isAmountError || !auctionInfo?.leasePeriod}
               label={t<string>('Bid')}
               onStart={toggleOpen}
-              params={[paraId, auctionInfo.numAuctions, auctionInfo.leasePeriod?.addn(RANGES[range][0]), auctionInfo.leasePeriod?.addn(RANGES[range][1]), amount]}
+              params={[paraId, auctionInfo?.numAuctions, auctionInfo?.leasePeriod?.addn(RANGES[range][0]), auctionInfo?.leasePeriod?.addn(RANGES[range][1]), amount]}
               tx={api.tx.auctions.bid}
             />
           </Modal.Actions>
