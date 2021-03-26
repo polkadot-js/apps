@@ -254,6 +254,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
         }
+      },
+      {
+        info: 'rococoPhoenix',
+        paraId: 6806,
+        text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
+        providers: {
+          'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
+        }
       }
     ]
   }]);

@@ -1264,6 +1264,7 @@
   "rpc.local": "Node Lokal (Pribadi, 127.0.0.1:9944)",
   "rpc.mandala": "Mandala (Acala Testnet, dihosting oleh Acala)",
   "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, dihosting oleh Nodle)",
+  "rpc.phoenix": "PHOENIX Protocol (PHOENIX Mashnet, dihosting oleh PHOENIX Protocol)",
   "rpc.turbulence": "Turbulence (Laminar Testnet, dihosting oleh Laminar)",
   "rpc.westend": "Westend (Polkadot Testnet, dihosting oleh Parity)",
   "runners up": "runner up",

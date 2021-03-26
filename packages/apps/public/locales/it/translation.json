@@ -1309,6 +1309,7 @@
   "rpc.local": "Nodo locale (proprio, 127.0.0.0.1:9944)",
   "rpc.mandala": "Mandala (Acala Testnet, ospitato by Acala)",
   "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, ospitato da Nodle)",
+  "rpc.phoenix": "PHOENIX Protocol (PHOENIX Mashnet, ospitato da PHOENIX Protocol)",
   "rpc.turbulence": "Turbulence (Laminar Testnet, ospitato da Laminar)",
   "rpc.westend": "Westend (Polkadot Testnet, ospitato da Parity)",
   "runners up": "finalisti",

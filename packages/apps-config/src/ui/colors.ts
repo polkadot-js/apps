@@ -21,6 +21,7 @@ const chainHydrate = '#000000';
 const chainIntegritee = '#080808';
 const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
+const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
 const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
@@ -138,7 +139,8 @@ export const chainColors: Record<string, any> = [
   ['Unique Node', chainUnique],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
-  ['ZΞRO Alphaville', chainZero]
+  ['ZΞRO Alphaville', chainZero],
+  ['PHOENIX', chainPhoenix]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color

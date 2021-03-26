@@ -53,6 +53,7 @@ import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
+import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
@@ -116,7 +117,8 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
   ['Unique', chainUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['PHOENIX PC1', nodePhoenix]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -192,7 +194,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
   ['Unique Node', nodeUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['PHOENIX Node', nodePhoenix],
+  ['PHOENIX Collator', nodePhoenix]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -235,6 +239,7 @@ export const namedLogos: Record<string, unknown> = {
   moonbaseAlpha: moonbeam,
   nodle: nodeNodle,
   phala: nodePhala,
+  phoenix: nodePhoenix,
   plasm: nodePlasm,
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
@@ -261,6 +266,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoLitentry: nodeLitentry,
   rococoMathChain: nodeMath,
   rococoPhala: nodePhala,
+  rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
