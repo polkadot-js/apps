@@ -170,6 +170,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'litentry',
+      text: t('rpc.litentry.test', 'Litentry Testnet', { ns: 'apps-config' }),
+      providers: {
+        Litentry: 'wss://testnet.litentry.io'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
