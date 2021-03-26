@@ -45,7 +45,9 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
 
   const [percentage, isCapped] = useMemo(
     () => [
-      `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
+      cap.isZero()
+        ? '100.00%'
+        : `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
       cap.sub(raised).lt(api.consts.crowdloan.minContribution as BlockNumber)
     ],
     [api, cap, raised]
