@@ -97,6 +97,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'phoenix',
+      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
+      providers: {
+        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
+      }
+    },
+    {
       info: 'dusty',
       text: t('rpc.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
