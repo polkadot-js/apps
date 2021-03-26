@@ -22,8 +22,8 @@ function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
 function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
   return a.length !== b.length || a.some(({ firstSlot, lastSlot, paraId }, index) =>
     !paraId.eq(b[index].paraId) ||
-    firstSlot !== b[index].firstSlot ||
-    lastSlot !== b[index].lastSlot
+    !firstSlot.eq(b[index].firstSlot) ||
+    !lastSlot.eq(b[index].lastSlot)
   );
 }
 
@@ -33,14 +33,14 @@ function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>)
     : optData.unwrap().reduce<WinnerData[]>((winners, optEntry, index): WinnerData[] => {
       if (optEntry.isSome) {
         const [accountId, paraId, value] = optEntry.unwrap();
-        const period = auctionInfo.leasePeriod?.toNumber() || 0;
+        const period = auctionInfo.leasePeriod || BN_ZERO;
         const [first, last] = RANGES[index];
 
         winners.push({
           accountId: accountId.toString(),
-          firstSlot: first + period,
+          firstSlot: period.addn(first),
           isCrowdloan: u8aEq(CROWD_PREFIX, accountId.subarray(0, CROWD_PREFIX.length)),
-          lastSlot: last + period,
+          lastSlot: period.addn(last),
           paraId,
           value
         });

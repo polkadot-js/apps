@@ -61,8 +61,8 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
 
   const currentWinner = useMemo(
     () => lastWinners && lastWinners.winners.find(({ firstSlot, lastSlot }) =>
-      rangeOpts[range].firstSlot === firstSlot &&
-      rangeOpts[range].lastSlot === lastSlot
+      firstSlot.eqn(rangeOpts[range].firstSlot) &&
+      lastSlot.eqn(rangeOpts[range].lastSlot)
     ),
     [lastWinners, range, rangeOpts]
   );

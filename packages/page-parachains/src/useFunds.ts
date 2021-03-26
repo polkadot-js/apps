@@ -30,7 +30,7 @@ function createAddress (paraId: ParaId): Uint8Array {
 }
 
 function isCrowdloadAccount (paraId: ParaId, accountId: AccountId): boolean {
-  return accountId.eq();
+  return accountId.eq(createAddress(paraId));
 }
 
 function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
@@ -123,10 +123,10 @@ const optFundMulti = {
       .filter((v): v is [ParaId, FundInfo] => !!v[1])
       .map(([paraId, info]): Campaign => ({
         accountId: encodeAddress(createAddress(paraId)),
-        firstSlot: info.firstSlot.toNumber(),
+        firstSlot: info.firstSlot,
         info,
         isCrowdloan: true,
-        lastSlot: info.lastSlot.toNumber(),
+        lastSlot: info.lastSlot,
         paraId,
         value: info.raised
       }))

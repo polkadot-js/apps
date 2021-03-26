@@ -65,9 +65,9 @@ export interface OwnerInfo {
 
 export interface WinnerData {
   accountId: string;
-  firstSlot: number;
+  firstSlot: BN;
   isCrowdloan: boolean;
-  lastSlot: number;
+  lastSlot: BN;
   paraId: ParaId;
   value: BN;
 }
