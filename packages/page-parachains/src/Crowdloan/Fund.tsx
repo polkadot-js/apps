@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { Campaign } from './types';
 
 import React, { useMemo } from 'react';
@@ -22,7 +21,7 @@ interface Props {
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isEnded, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -43,17 +42,14 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
 
   // TODO Dissolve should look at retirement and the actual period
 
-  const [percentage, isCapped] = useMemo(
-    () => [
-      cap.isZero()
-        ? '100.00%'
-        : `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
-      cap.sub(raised).lt(api.consts.crowdloan.minContribution as BlockNumber)
-    ],
-    [api, cap, raised]
+  const percentage = useMemo(
+    () => cap.isZero()
+      ? '100.00%'
+      : `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
+    [cap, raised]
   );
 
-  const canContribute = blocksLeft && !isCapped && retiring.isFalse;
+  const canContribute = blocksLeft && !isCapped && !isWinner && retiring.isFalse;
   const canDissolve = raised.isZero();
 
   return (
@@ -63,11 +59,13 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
       <td>
         {retiring.isTrue
           ? t<string>('Retiring')
-          : blocksLeft
-            ? isCapped
-              ? t<string>('Capped')
-              : t<string>('Active')
-            : t<string>('Ended')
+          : isWinner
+            ? t<string>('Winner')
+            : blocksLeft
+              ? isCapped
+                ? t<string>('Capped')
+                : t<string>('Active')
+              : t<string>('Ended')
         }
       </td>
       <td className='address'><AddressMini value={depositor} /></td>
