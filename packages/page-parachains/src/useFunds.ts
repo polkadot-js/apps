@@ -10,7 +10,10 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
-import { BN_ZERO, stringToU8a, u8aConcat } from '@polkadot/util';
+import { BN_ZERO, u8aConcat } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
+
+import { CROWD_PREFIX } from './constants';
 
 const EMPTY: Campaigns = {
   activeCap: BN_ZERO,
@@ -20,11 +23,14 @@ const EMPTY: Campaigns = {
   totalRaised: BN_ZERO
 };
 
-const PREFIX = stringToU8a('modlpy/cfund');
 const EMPTY_U8A = new Uint8Array(32);
 
+function createAddress (paraId: ParaId): Uint8Array {
+  return u8aConcat(CROWD_PREFIX, paraId.toU8a(), EMPTY_U8A).subarray(0, 32);
+}
+
 function isCrowdloadAccount (paraId: ParaId, accountId: AccountId): boolean {
-  return accountId.eq(u8aConcat(PREFIX, paraId.toU8a(), EMPTY_U8A).subarray(0, 32));
+  return accountId.eq();
 }
 
 function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
@@ -116,9 +122,13 @@ const optFundMulti = {
       .map((paraId, i): [ParaId, FundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
       .filter((v): v is [ParaId, FundInfo] => !!v[1])
       .map(([paraId, info]): Campaign => ({
+        accountId: encodeAddress(createAddress(paraId)),
+        firstSlot: info.firstSlot.toNumber(),
         info,
-        key: paraId.toString(),
-        paraId
+        isCrowdloan: true,
+        lastSlot: info.lastSlot.toNumber(),
+        paraId,
+        value: info.raised
       }))
       .sort((a, b) =>
         a.info.end.cmp(b.info.end) ||

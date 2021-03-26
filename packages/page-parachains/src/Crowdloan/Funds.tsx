@@ -62,7 +62,7 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
           <Fund
             bestNumber={bestNumber}
             isOngoing
-            key={fund.key}
+            key={fund.accountId}
             value={fund}
           />
         ))}
@@ -75,7 +75,7 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
         {ended?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
-            key={fund.key}
+            key={fund.accountId}
             value={fund}
           />
         ))}

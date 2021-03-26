@@ -9,9 +9,9 @@ import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
 import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
-import { RANGES } from './constants';
+import { CROWD_PREFIX, RANGES } from './constants';
 
 const FIRST_PARAM = [0];
 
@@ -36,7 +36,14 @@ function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>)
         const period = auctionInfo.leasePeriod?.toNumber() || 0;
         const [first, last] = RANGES[index];
 
-        winners.push({ accountId, firstSlot: first + period, lastSlot: last + period, paraId, value });
+        winners.push({
+          accountId: accountId.toString(),
+          firstSlot: first + period,
+          isCrowdloan: u8aEq(CROWD_PREFIX, accountId.subarray(0, CROWD_PREFIX.length)),
+          lastSlot: last + period,
+          paraId,
+          value
+        });
       }
 
       return winners;
