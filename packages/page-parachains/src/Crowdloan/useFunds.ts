@@ -111,12 +111,12 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, retirementP
       .sort((a, b) =>
         a.isWinner !== b.isWinner
           ? a.isWinner
-            ? 1
-            : -1
+            ? -1
+            : 1
           : a.isCapped !== b.isCapped
             ? a.isCapped
-              ? 1
-              : -1
+              ? -1
+              : 1
             : a.isRetired !== b.isRetired
               ? a.isRetired
                 ? 1

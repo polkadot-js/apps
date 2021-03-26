@@ -85,11 +85,11 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
           {retiringLeft && retiring.isTrue && (
             <BlockToTime value={retiringLeft} />
           )}
-          #{formatNumber(retireEnd)}
+          {!blocksLeft && <>#{formatNumber(retireEnd)}</>}
         </td>
       )}
       <td className='all number together'>
-        {isOngoing && blocksLeft && (
+        {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
         #{formatNumber(end)}

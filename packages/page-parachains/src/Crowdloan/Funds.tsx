@@ -19,7 +19,10 @@ interface Props {
 
 function extractLists (value: Campaign[] | null): [Campaign[] | null, Campaign[] | null] {
   return value
-    ? [value.filter(({ isEnded }) => !isEnded), value.filter(({ isEnded }) => isEnded)]
+    ? [
+      value.filter(({ isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner)),
+      value.filter(({ isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner))
+    ]
     : [null, null];
 }
 
@@ -37,7 +40,7 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
   const headedEndedRef = useRef([
     [t('completed'), 'start', 4],
     [t('retired')],
-    [t('ended')],
+    [t('ending')],
     [t('periods')],
     [t('raised')],
     []
