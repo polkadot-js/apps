@@ -20,12 +20,12 @@ export default function useActionsQueue (): QueuedAction[] {
   const { api } = useApi();
   const currentIndex = useCall<SessionIndex>(api.query.session.currentIndex);
   const queryIndexes = useMemo(() => currentIndex && INC.map((i) => currentIndex.add(i)), [currentIndex]);
-  const nextActions = useCall<[BN[], ParaId[][]]>(queryIndexes && api.query.paras.actionsQueue.multi, [queryIndexes], callOpts);
+  const nextActions = useCall<[[BN[]], ParaId[][]]>(queryIndexes && api.query.paras.actionsQueue.multi, [queryIndexes], callOpts);
 
   return useMemo(
     (): QueuedAction[] =>
       nextActions
-        ? nextActions[0]
+        ? nextActions[0][0]
           .map((sessionIndex, index) => ({
             paraIds: nextActions[1][index],
             sessionIndex
