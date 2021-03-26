@@ -36,7 +36,7 @@ function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>)
         const period = auctionInfo.leasePeriod?.toNumber() || 0;
         const [first, last] = RANGES[index];
 
-        winners.push({ accountId, firstSlot: first + period, lastSlot: last + period, paraId, value });
+        winners.push({ accountId: accountId.toString(), firstSlot: first + period, lastSlot: last + period, paraId, value });
       }
 
       return winners;

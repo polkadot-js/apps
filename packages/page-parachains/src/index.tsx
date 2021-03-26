@@ -67,6 +67,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         <Route path={`${basePath}/auctions`}>
           <Auctions
             auctionInfo={auctionInfo}
+            campaigns={campaigns}
             ownedIds={ownedIds}
             winningData={winningData}
           />
