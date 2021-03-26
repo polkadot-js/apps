@@ -34,8 +34,8 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
         ? winners
         : winners.map((w): WinnerData =>
           campaigns.funds?.find(({ firstSlot, lastSlot, value }) =>
-            w.firstSlot === firstSlot &&
-            w.lastSlot === lastSlot &&
+            w.firstSlot.eq(firstSlot) &&
+            w.lastSlot.eq(lastSlot) &&
             w.value.lt(value)
           ) || w
         ),
