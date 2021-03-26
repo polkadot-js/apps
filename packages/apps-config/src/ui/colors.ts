@@ -28,6 +28,7 @@ const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainKilt = '#8c175b';
 const chainKusama = '#000000';
+const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
@@ -114,6 +115,7 @@ export const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
+  ['Litentry', chainLitentry],
   ['MathChain PC1', chainGalois],
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
