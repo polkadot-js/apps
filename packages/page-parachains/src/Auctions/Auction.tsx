@@ -21,7 +21,9 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('bids'), 'start', 4],
+    [t('bids'), 'start', 3],
+    [t('bidder'), 'address'],
+    [t('crowdloan')],
     [t('periods')],
     [t('value')]
   ]);
