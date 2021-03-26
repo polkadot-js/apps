@@ -38,7 +38,8 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
     [t('completed'), 'start', 4],
     [t('ended')],
     [t('periods')],
-    [t('raised')]
+    [t('raised')],
+    []
   ]);
 
   const [active, ended] = useMemo(
