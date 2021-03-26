@@ -17,7 +17,6 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  currentPeriod?: BN;
   isOngoing?: boolean;
   value: Campaign;
 }

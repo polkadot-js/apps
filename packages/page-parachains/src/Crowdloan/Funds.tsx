@@ -61,7 +61,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         empty={active && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
-        {leasePeriod && active?.map((fund) => (
+        {active?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
             isOngoing
