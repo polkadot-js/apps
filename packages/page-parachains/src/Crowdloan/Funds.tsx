@@ -35,7 +35,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   const { t } = useTranslation();
   const { api } = useApi();
   const trigger = useEventTrigger([api.events.crowdloan.Contributed]);
-  const [totals, setTotals] = useState<Contributed[]>([]);
+  const [contributors, setContributors] = useState<Contributed[]>([]);
 
   const headerActiveRef = useRef([
     [t('ongoing'), 'start', 4],
@@ -60,7 +60,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     trigger && value &&
       Promise
         .all(value.map(({ childKey }) => api.rpc.childstate.getKeys(childKey, '0x')))
-        .then((all) => setTotals(
+        .then((all) => setContributors(
           all.map((keys, index) => ({
             accountIds: [], // keys.map((a) => encodeAddress(a)),
             count: keys.length,
@@ -71,8 +71,8 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   }, [api, trigger, value]);
 
   const findContributions = useCallback(
-    (trieIndex: BN) => totals.find((c) => trieIndex.eq(c.trieIndex)),
-    [totals]
+    (trieIndex: BN) => contributors.find((c) => trieIndex.eq(c.trieIndex)),
+    [contributors]
   );
 
   const [active, ended] = useMemo(
