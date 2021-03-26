@@ -42,6 +42,7 @@ function Crowdloan ({ auctionInfo, campaigns: { activeCap, activeRaised, funds, 
       </Button.Group>
       <Funds
         bestNumber={bestNumber}
+        leasePeriod={leasePeriod}
         value={funds}
       />
     </div>

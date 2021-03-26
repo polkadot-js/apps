@@ -17,11 +17,12 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
+  currentPeriod?: BN;
   isOngoing?: boolean;
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, currentPeriod, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -58,7 +59,8 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
     [cap, raised]
   );
 
-  const canContribute = blocksLeft && !isCapped && !isWinner && retiring.isFalse;
+  const isNewPeriod = !!currentPeriod && currentPeriod.lt(firstSlot);
+  const canContribute = blocksLeft && !isCapped && !isWinner && retiring.isFalse && isNewPeriod;
   const canDissolve = raised.isZero() || isRetired;
 
   return (
@@ -75,7 +77,9 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
               : blocksLeft
                 ? isCapped
                   ? t<string>('Capped')
-                  : t<string>('Active')
+                  : isNewPeriod
+                    ? t<string>('Active')
+                    : t<string>('Past')
                 : t<string>('Ended')
         }
       </td>
