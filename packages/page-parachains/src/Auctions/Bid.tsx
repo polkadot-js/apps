@@ -24,6 +24,8 @@ interface Props {
 }
 
 interface Option {
+  firstSlot: number;
+  lastSlot: number;
   text: string;
   value: number;
 }
@@ -39,19 +41,29 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
   const [isOpen, toggleOpen] = useToggle();
 
   const rangeOpts = useMemo(
-    (): Option[] =>
-      auctionInfo.leasePeriod
-        ? RANGES.map(([first, last], value): Option => ({
-          text: `${formatNumber(auctionInfo.leasePeriod?.addn(first))} - ${formatNumber(auctionInfo.leasePeriod?.addn(last))}`,
-          value
-        }))
-        : [],
+    (): Option[] => {
+      if (!auctionInfo.leasePeriod) {
+        return [];
+      }
+
+      const leasePeriod = auctionInfo.leasePeriod.toNumber();
+
+      return RANGES.map(([first, last], value): Option => ({
+        firstSlot: leasePeriod + first,
+        lastSlot: leasePeriod + last,
+        text: `${formatNumber(leasePeriod + first)} - ${formatNumber(leasePeriod + last)}`,
+        value
+      }));
+    },
     [auctionInfo]
   );
 
   const currentWinner = useMemo(
-    () => lastWinners && lastWinners.winners.find(({ range: [first, last] }) => RANGES[range][0] === first && RANGES[range][1] === last),
-    [lastWinners, range]
+    () => lastWinners && lastWinners.winners.find(({ firstSlot, lastSlot }) =>
+      rangeOpts[range].firstSlot === firstSlot &&
+      rangeOpts[range].lastSlot === lastSlot
+    ),
+    [lastWinners, range, rangeOpts]
   );
 
   const isAmountLess = !!(amount && currentWinner) && amount.lte(currentWinner.value);
