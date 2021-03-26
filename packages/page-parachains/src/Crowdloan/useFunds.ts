@@ -45,13 +45,21 @@ function hasLease (paraId: ParaId, leases: Lease[]): boolean {
 }
 
 // map into a campaign
-function updateCampaign (bestNumber: BN, minContribution: BN, data: Campaign, leases: Lease[]): Campaign {
+function updateCampaign (bestNumber: BN, minContribution: BN, retirementPeriod: BN, data: Campaign, leases: Lease[]): Campaign {
   if (!data.isEnded && bestNumber.gt(data.info.end)) {
     data.isEnded = true;
   }
 
   if (!data.isCapped && data.info.cap.sub(data.info.raised).lt(minContribution)) {
     data.isCapped = true;
+  }
+
+  if (!data.retireEnd) {
+    data.retireEnd = data.info.end.add(retirementPeriod);
+  }
+
+  if (!data.isRetired && bestNumber.gt(data.retireEnd)) {
+    data.isRetired = true;
   }
 
   if (!data.isWinner && hasLease(data.paraId, leases)) {
@@ -61,14 +69,15 @@ function updateCampaign (bestNumber: BN, minContribution: BN, data: Campaign, le
   return data;
 }
 
-function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, { info: { cap, end, raised }, isCapped, isEnded, isWinner, paraId }: Campaign, leases: Lease[]): boolean {
+function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, isCapped, isEnded, isRetired, isWinner, paraId }: Campaign, leases: Lease[]): boolean {
   return (!isEnded && bestNumber.gt(end)) ||
     (!isCapped && cap.sub(raised).lt(minContribution)) ||
+    (!isRetired && bestNumber.gt(end.add(retirementPeriod))) ||
     (!isWinner && hasLease(paraId, leases));
 }
 
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
-function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Campaign[], leases: Lease[], prev: Result): Result {
+function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Campaign[], leases: Lease[], prev: Result): Result {
   const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
     bestNumber.gt(end) ? ar : ar.iadd(raised),
     bestNumber.gt(end) ? ac : ac.iadd(cap),
@@ -83,7 +92,7 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
     !prev.funds || prev.funds.length !== funds.length ||
     hasNewActiveCap || hasNewActiveRaised ||
     hasNewTotalCap || hasNewTotalRaised ||
-    funds.some((c) => isFundUpdated(bestNumber, minContribution, c, leases)) ||
+    funds.some((c) => isFundUpdated(bestNumber, minContribution, retirementPeriod, c, leases)) ||
     true;
 
   if (!hasChanged) {
@@ -98,21 +107,25 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
       ? activeRaised
       : prev.activeRaised,
     funds: funds
-      .map((c) => updateCampaign(bestNumber, minContribution, c, leases))
+      .map((c) => updateCampaign(bestNumber, minContribution, retirementPeriod, c, leases))
       .sort((a, b) =>
         a.isWinner !== b.isWinner
           ? a.isWinner
-            ? 1
-            : -1
+            ? -1
+            : 1
           : a.isCapped !== b.isCapped
             ? a.isCapped
-              ? 1
-              : -1
-            : a.isEnded !== b.isEnded
-              ? a.isEnded
+              ? -1
+              : 1
+            : a.isRetired !== b.isRetired
+              ? a.isRetired
                 ? 1
                 : -1
-              : 0
+              : a.isEnded !== b.isEnded
+                ? a.isEnded
+                  ? 1
+                  : -1
+                : 0
       ),
     totalCap: hasNewTotalCap
       ? totalCap
@@ -168,7 +181,7 @@ export default function useFunds (): Result {
   // here we manually add the actual ending status and calculate the totals
   useEffect((): void => {
     bestNumber && campaigns && leases && setResult((prev) =>
-      createResult(bestNumber, api.consts.crowdloan.minContribution as BlockNumber, campaigns, leases, prev)
+      createResult(bestNumber, api.consts.crowdloan.minContribution as BlockNumber, api.consts.crowdloan.retirementPeriod as BlockNumber, campaigns, leases, prev)
     );
   }, [api, bestNumber, campaigns, leases]);
 
