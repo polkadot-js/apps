@@ -37,6 +37,7 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
   const headedEndedRef = useRef([
     [t('completed'), 'start', 4],
     [t('retired')],
+    [t('ended')],
     [t('periods')],
     [t('raised')],
     []
