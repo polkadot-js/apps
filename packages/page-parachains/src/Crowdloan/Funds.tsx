@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { Campaign } from '../types';
+import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
@@ -14,19 +14,22 @@ import Fund from './Fund';
 interface Props {
   bestNumber?: BN;
   className?: string;
+  leasePeriod?: LeasePeriod;
   value: Campaign[] | null;
 }
 
-function extractLists (value: Campaign[] | null): [Campaign[] | null, Campaign[] | null] {
-  return value
+function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Campaign[] | null, Campaign[] | null] {
+  const currentPeriod = leasePeriod?.currentPeriod;
+
+  return value && currentPeriod
     ? [
-      value.filter(({ isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner)),
-      value.filter(({ isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner))
+      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lt(firstSlot)),
+      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gte(firstSlot))
     ]
     : [null, null];
 }
 
-function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Props> {
+function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerActiveRef = useRef([
@@ -47,8 +50,8 @@ function Funds ({ bestNumber, className, value }: Props): React.ReactElement<Pro
   ]);
 
   const [active, ended] = useMemo(
-    () => extractLists(value),
-    [value]
+    () => extractLists(value, leasePeriod),
+    [leasePeriod, value]
   );
 
   return (
