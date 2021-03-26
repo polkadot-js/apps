@@ -14,10 +14,10 @@ import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
 
 interface Props {
-  auctionInfo: AuctionInfo;
+  auctionInfo?: AuctionInfo;
   bestNumber?: BN;
   className?: string;
-  leasePeriod: LeasePeriod | null;
+  leasePeriod?: LeasePeriod;
   ownedIds: OwnedId[];
 }
 
@@ -34,7 +34,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
   const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lte(leasePeriod.currentPeriod));
   const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
-  const defaultSlot = (auctionInfo.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE) || 1).toString();
+  const defaultSlot = (auctionInfo?.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE) || 1).toString();
 
   // TODO Add verifier
 

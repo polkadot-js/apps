@@ -4,7 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { Campaign } from './types';
+import type { Campaign, Campaigns } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
@@ -12,15 +12,7 @@ import { useEffect, useState } from 'react';
 import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
 import { BN_ZERO, stringToU8a, u8aConcat } from '@polkadot/util';
 
-interface FundResult {
-  activeCap: BN;
-  activeRaised: BN;
-  funds: Campaign[] | null;
-  totalCap: BN;
-  totalRaised: BN;
-}
-
-const EMPTY: FundResult = {
+const EMPTY: Campaigns = {
   activeCap: BN_ZERO,
   activeRaised: BN_ZERO,
   funds: null,
@@ -50,7 +42,7 @@ function updateFund (bestNumber: BN, minContribution: BN, retirementPeriod: BN, 
   return data;
 }
 
-function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, paraId }: Campaign, leased: ParaId[], allPrev: FundResult): boolean {
+function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, { info: { cap, end, raised }, paraId }: Campaign, leased: ParaId[], allPrev: Campaigns): boolean {
   const prev = allPrev.funds?.find((p) => p.paraId.eq(paraId));
 
   return !prev ||
@@ -61,7 +53,7 @@ function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, retirement
 }
 
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
-function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Campaign[], leased: ParaId[], prev: FundResult): FundResult {
+function createResult (bestNumber: BlockNumber, minContribution: BN, retirementPeriod: BN, funds: Campaign[], leased: ParaId[], prev: Campaigns): Campaigns {
   const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
     bestNumber.gt(end) ? ar : ar.iadd(raised),
     bestNumber.gt(end) ? ac : ac.iadd(cap),
@@ -149,14 +141,14 @@ const optLeaseMulti = {
   withParamsTransform: true
 };
 
-export default function useFunds (): FundResult {
+export default function useFunds (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const [paraIds, setParaIds] = useState<ParaId[]>([]);
   const trigger = useEventTrigger([api.events.crowdloan.Created]);
   const campaigns = useCall<Campaign[]>(api.query.crowdloan.funds.multi, [paraIds], optFundMulti);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
-  const [result, setResult] = useState<FundResult>(EMPTY);
+  const [result, setResult] = useState<Campaigns>(EMPTY);
 
   // on event triggers, update the available paraIds
   useEffect((): void => {

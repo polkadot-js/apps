@@ -15,14 +15,14 @@ import Upcoming from './Upcoming';
 interface Props {
   actionsQueue: QueuedAction[];
   ids?: ParaId[];
-  leasePeriod: LeasePeriod | null;
+  leasePeriod?: LeasePeriod;
 }
 
 function Upcomings ({ actionsQueue, ids, leasePeriod }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('upcoming'), 'start', 3],
+    [t('parathreads'), 'start', 3],
     [t('head'), 'start'],
     [t('lifecycle'), 'start'],
     [t('leases')]
@@ -30,10 +30,10 @@ function Upcomings ({ actionsQueue, ids, leasePeriod }: Props): React.ReactEleme
 
   return (
     <Table
-      empty={ids && t<string>('There are no upcoming parachains')}
+      empty={leasePeriod && ids && t<string>('There are no upcoming parachains')}
       header={headerRef.current}
     >
-      {ids?.map((id): React.ReactNode => (
+      {leasePeriod && ids?.map((id): React.ReactNode => (
         <Upcoming
           id={id}
           key={id.toString()}

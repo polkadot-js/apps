@@ -8,14 +8,7 @@ import type { AuctionInfo } from './types';
 
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
 
-const defaultValue: AuctionInfo = {
-  endBlock: null,
-  leasePeriod: null,
-  numAuctions: null
-};
-
 const optionsMulti = {
-  defaultValue,
   transform: ([numAuctions, optInfo]: [AuctionIndex, Option<ITuple<[LeasePeriodOf, BlockNumber]>>]): AuctionInfo => {
     const [leasePeriod, endBlock] = optInfo.unwrapOr([null, null]);
 
@@ -27,7 +20,7 @@ const optionsMulti = {
   }
 };
 
-export default function useAuctionInfo (): AuctionInfo {
+export default function useAuctionInfo (): AuctionInfo | undefined {
   const { api } = useApi();
 
   return useCallMulti<AuctionInfo>([

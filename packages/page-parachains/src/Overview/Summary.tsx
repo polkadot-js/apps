@@ -12,7 +12,7 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  leasePeriod: LeasePeriod | null;
+  leasePeriod?: LeasePeriod;
   parachainCount?: number;
   proposalCount?: number;
   upcomingCount?: number;
@@ -30,7 +30,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
           </CardSummary>
         )}
         {isNumber(upcomingCount) && (
-          <CardSummary label={t<string>('upcoming')}>
+          <CardSummary label={t<string>('parathreads')}>
             {formatNumber(upcomingCount)}
           </CardSummary>
         )}

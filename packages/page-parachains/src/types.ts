@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AuctionIndex, BlockNumber, LeasePeriodOf, ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
+import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, FundInfo, LeasePeriodOf, ParachainProposal, ParaId, ParaInfo, SessionIndex } from '@polkadot/types/interfaces';
 
 export interface AuctionInfo {
   endBlock: BlockNumber | null;
   leasePeriod: LeasePeriodOf | null;
-  numAuctions: AuctionIndex | null;
+  numAuctions: AuctionIndex;
 }
 
 export interface ProposalExt {
@@ -20,6 +20,25 @@ export interface ProposalExt {
 export interface ScheduledProposals {
   scheduledIds: ParaId[];
   sessionIndex: SessionIndex;
+}
+
+export interface Campaigns {
+  activeCap: BN;
+  activeRaised: BN;
+  funds: Campaign[] | null;
+  totalCap: BN;
+  totalRaised: BN;
+}
+
+export interface Campaign {
+  info: FundInfo;
+  isCapped?: boolean;
+  isEnded?: boolean;
+  isRetired?: boolean;
+  isWinner?: boolean;
+  key: string;
+  paraId: ParaId;
+  retireEnd?: BN;
 }
 
 export interface LeasePeriod {
@@ -44,4 +63,19 @@ export interface OwnedId {
 export interface OwnerInfo {
   accountId: string | null;
   paraId: number;
+}
+
+export interface WinnerData {
+  accountId: AccountId;
+  firstSlot: number;
+  lastSlot: number;
+  paraId: ParaId;
+  value: BalanceOf;
+}
+
+export interface Winning {
+  blockNumber: BN;
+  blockOffset: BN;
+  total: BN;
+  winners: WinnerData[];
 }
