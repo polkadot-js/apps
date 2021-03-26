@@ -58,7 +58,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
     [cap, raised]
   );
 
-  const canContribute = blocksLeft && !isCapped && !isWinner && retiring.isFalse;
+  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
   const canDissolve = raised.isZero() || isRetired;
 
   return (
@@ -75,7 +75,9 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
               : blocksLeft
                 ? isCapped
                   ? t<string>('Capped')
-                  : t<string>('Active')
+                  : isOngoing
+                    ? t<string>('Active')
+                    : t<string>('Past')
                 : t<string>('Ended')
         }
       </td>
