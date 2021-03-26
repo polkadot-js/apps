@@ -17,8 +17,6 @@ interface Props {
 }
 
 function LeaseBlocks ({ children, className, leasePeriod, value }: Props): React.ReactElement<Props> | null {
-  console.log(JSON.stringify({ leasePeriod, value }));
-
   const blocks = useMemo(
     () => leasePeriod && value &&
       bnToBn(value)
