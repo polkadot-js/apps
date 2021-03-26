@@ -78,17 +78,26 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
                   : t<string>('Active')
                 : t<string>('Ended')
         }
-        {retiring.isTrue && retiringLeft && (
-          <BlockToTime value={retiringLeft} />
-        )}
       </td>
       <td className='address'><AddressMini value={depositor} /></td>
-      <td className='all number together'>
-        {blocksLeft && (
-          <BlockToTime value={blocksLeft} />
-        )}
-        #{formatNumber(end)}
-      </td>
+      {isOngoing
+        ? (
+          <td className='all number together'>
+            {blocksLeft && (
+              <BlockToTime value={blocksLeft} />
+            )}
+            #{formatNumber(end)}
+          </td>
+        )
+        : (
+          <td className='all number together'>
+            {retiringLeft && retiring.isTrue && (
+              <BlockToTime value={retiringLeft} />
+            )}
+            #{formatNumber(retireEnd)}
+          </td>
+        )
+      }
       <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
       <td className='number together'>
         <FormatBalance
