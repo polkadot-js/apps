@@ -109,6 +109,7 @@
   "Unknown": "Unknown",
   "Updated in the latest block": "Updated in the latest block",
   "Validators ({{count}})": "Validators ({{count}})",
+  "Winner": "Winner",
   "Yes": "Yes",
   "You have duplicated validator entries, ensure each is unique.": "You have duplicated validator entries, ensure each is unique.",
   "You need to supply at last one running validator for your parachain alongside this request.": "You need to supply at last one running validator for your parachain alongside this request.",
