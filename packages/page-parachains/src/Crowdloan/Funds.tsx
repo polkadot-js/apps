@@ -18,11 +18,13 @@ interface Props {
   value: Campaign[] | null;
 }
 
-function extractLists (value: Campaign[] | null): [Campaign[] | null, Campaign[] | null] {
-  return value
+function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Campaign[] | null, Campaign[] | null] {
+  const currentPeriod = leasePeriod?.currentPeriod;
+
+  return value && currentPeriod
     ? [
-      value.filter(({ isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner)),
-      value.filter(({ isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner))
+      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lt(firstSlot)),
+      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gte(firstSlot))
     ]
     : [null, null];
 }
@@ -48,21 +50,20 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   ]);
 
   const [active, ended] = useMemo(
-    () => extractLists(value),
-    [value]
+    () => extractLists(value, leasePeriod),
+    [leasePeriod, value]
   );
 
   return (
     <>
       <Table
         className={className}
-        empty={leasePeriod && active && t<string>('No active campaigns found')}
+        empty={active && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
         {leasePeriod && active?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
-            currentPeriod={leasePeriod.currentPeriod}
             isOngoing
             key={fund.accountId}
             value={fund}

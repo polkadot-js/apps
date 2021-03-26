@@ -22,7 +22,7 @@ interface Props {
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, currentPeriod, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -59,8 +59,7 @@ function Fund ({ bestNumber, className, currentPeriod, isOngoing, value: { info:
     [cap, raised]
   );
 
-  const isNewPeriod = !!currentPeriod && currentPeriod.lt(firstSlot);
-  const canContribute = blocksLeft && !isCapped && !isWinner && retiring.isFalse && isNewPeriod;
+  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
   const canDissolve = raised.isZero() || isRetired;
 
   return (
@@ -77,7 +76,7 @@ function Fund ({ bestNumber, className, currentPeriod, isOngoing, value: { info:
               : blocksLeft
                 ? isCapped
                   ? t<string>('Capped')
-                  : isNewPeriod
+                  : isOngoing
                     ? t<string>('Active')
                     : t<string>('Past')
                 : t<string>('Ended')
