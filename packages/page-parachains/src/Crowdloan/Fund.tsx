@@ -7,10 +7,11 @@ import type { Campaign } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Digits, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Digits, Icon, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import FundContribute from './FundContribute';
@@ -22,11 +23,16 @@ interface Props {
   value: Campaign;
 }
 
+interface Contributions {
+  contributors?: string[];
+  myAccounts?: string[];
+}
+
 function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [contributors, setContributors] = useState<string[] | null>();
+  const [{ contributors, myAccounts }, setContributors] = useState<Contributions>({});
   const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
       (fundIndex as ParaId).eq(paraId),
@@ -37,9 +43,16 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
     trigger &&
       api.rpc.childstate
         .getKeys(childKey, '0x')
-        .then((keys) => setContributors(keys.map((k) => k.toHex())))
+        .then((keys) => setContributors((): Contributions => {
+          const contributors = keys.map((k) => encodeAddress(k));
+
+          return {
+            contributors,
+            myAccounts: contributors.filter((c) => allAccounts.includes(c))
+          };
+        }))
         .catch(console.error);
-  }, [api, childKey, trigger]);
+  }, [allAccounts, api, childKey, trigger]);
 
   const isDepositor = useMemo(
     (): boolean => {
@@ -96,7 +109,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
                 : t<string>('Ended')
         }
       </td>
-      <td className='address'><AddressMini value={depositor} /></td>
+      <td className='address media--1400'><AddressMini value={depositor} /></td>
       {!isOngoing && (
         <td className='all number together'>
           {retiringLeft && retiring.isTrue && (
@@ -105,7 +118,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
           {!blocksLeft && <>#{formatNumber(retireEnd)}</>}
         </td>
       )}
-      <td className='all number together'>
+      <td className={`all number together${isOngoing ? '' : 'media--1200'}`}>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
@@ -125,6 +138,12 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
         {contributors && (
           formatNumber(contributors.length)
         )}
+      </td>
+      <td className='badge'>
+        <Icon
+          color={myAccounts?.length ? 'green' : 'gray'}
+          icon='asterisk'
+        />
       </td>
       <td className='button'>
         {canDissolve && (

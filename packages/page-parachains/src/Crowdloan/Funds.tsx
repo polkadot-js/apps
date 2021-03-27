@@ -33,21 +33,27 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   const { t } = useTranslation();
 
   const headerActiveRef = useRef([
-    [t('ongoing'), 'start', 4],
+    [t('ongoing'), 'start', 2],
+    [undefined, 'media--1400'],
+    [],
     [t('ending')],
     [t('periods')],
     [t('raised')],
     [t('count')],
+    [undefined, 'badge'],
     []
   ]);
 
   const headedEndedRef = useRef([
-    [t('completed'), 'start', 4],
+    [t('completed'), 'start', 2],
+    [undefined, 'media--1400'],
+    [],
     [t('retired')],
-    [t('ending')],
+    [t('ending'), 'media--1200'],
     [t('periods')],
     [t('raised')],
     [t('count')],
+    [undefined, 'badge'],
     []
   ]);
 
