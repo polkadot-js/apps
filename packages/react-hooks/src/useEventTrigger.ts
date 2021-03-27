@@ -15,21 +15,23 @@ import { useIsMountedRef } from './useIsMountedRef';
 
 type EventCheck = AugmentedEvent<'promise'> | string | false | undefined | null;
 
-export function useEventTrigger (checks: EventCheck[]): string {
+const IDENTITY_FILTER = () => true;
+
+export function useEventTrigger (checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): string {
   const { api } = useApi();
   const [trigger, setTrigger] = useState('0x00');
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
 
   useEffect((): void => {
-    mountedRef.current && eventRecords && eventRecords.filter(({ event }) =>
-      event && checks.some((check) => check && (
+    mountedRef.current && eventRecords && eventRecords.filter((r) =>
+      r.event && checks.some((check) => check && (
         isString(check)
-          ? event.section === check
-          : check.is(event)
-      ))
+          ? r.event.section === check
+          : check.is(r.event)
+      )) && filter(r)
     ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || '0x00');
-  }, [eventRecords, checks, mountedRef]);
+  }, [eventRecords, checks, filter, mountedRef]);
 
   return trigger;
 }

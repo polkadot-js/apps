@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign } from '../types';
-import type { Contributed } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Digits, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { AddressMini, Digits, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import FundContribute from './FundContribute';
@@ -18,15 +19,40 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  contributed?: Contributed;
   isOngoing?: boolean;
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, contributed, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+interface Contributions {
+  uniqueCount?: number;
+  myAccounts?: string[];
+}
+
+function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const [{ myAccounts, uniqueCount }, setContributors] = useState<Contributions>({});
+  const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
+    ({ event: { data: [, fundIndex] } }: EventRecord) =>
+      (fundIndex as ParaId).eq(paraId),
+    [paraId]
+  ));
+
+  useEffect((): void => {
+    trigger &&
+      api.rpc.childstate
+        .getKeys(childKey, '0x')
+        .then((keys) => setContributors((): Contributions => {
+          const contributors = keys.map((k) => encodeAddress(k));
+
+          return {
+            myAccounts: contributors.filter((c) => allAccounts.includes(c)),
+            uniqueCount: contributors.length
+          };
+        }))
+        .catch(console.error);
+  }, [allAccounts, api, childKey, trigger]);
 
   const isDepositor = useMemo(
     (): boolean => {
@@ -83,16 +109,20 @@ function Fund ({ bestNumber, className, contributed, isOngoing, value: { info: {
                 : t<string>('Ended')
         }
       </td>
-      <td className='address'><AddressMini value={depositor} /></td>
+      <td className='address media--1400'><AddressMini value={depositor} /></td>
       {!isOngoing && (
         <td className='all number together'>
-          {retiringLeft && retiring.isTrue && (
-            <BlockToTime value={retiringLeft} />
+          {isEnded && (
+            <>
+              {retiringLeft && (
+                <BlockToTime value={retiringLeft} />
+              )}
+              #{formatNumber(retireEnd)}
+            </>
           )}
-          {!blocksLeft && <>#{formatNumber(retireEnd)}</>}
         </td>
       )}
-      <td className='all number together'>
+      <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
@@ -109,9 +139,15 @@ function Fund ({ bestNumber, className, contributed, isOngoing, value: { info: {
         <div>{percentage}</div>
       </td>
       <td className='number'>
-        {contributed && (
-          formatNumber(contributed.count)
+        {uniqueCount && (
+          formatNumber(uniqueCount)
         )}
+      </td>
+      <td className='badge'>
+        <Icon
+          color={myAccounts?.length ? 'green' : 'gray'}
+          icon='asterisk'
+        />
       </td>
       <td className='button'>
         {canDissolve && (
