@@ -24,7 +24,7 @@ interface Props {
 }
 
 interface Contributions {
-  contributors?: string[];
+  uniqueCount?: number;
   myAccounts?: string[];
 }
 
@@ -32,7 +32,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [{ contributors, myAccounts }, setContributors] = useState<Contributions>({});
+  const [{ myAccounts, uniqueCount }, setContributors] = useState<Contributions>({});
   const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
       (fundIndex as ParaId).eq(paraId),
@@ -47,8 +47,8 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
           const contributors = keys.map((k) => encodeAddress(k));
 
           return {
-            contributors,
-            myAccounts: contributors.filter((c) => allAccounts.includes(c))
+            myAccounts: contributors.filter((c) => allAccounts.includes(c)),
+            uniqueCount: contributors.length
           };
         }))
         .catch(console.error);
@@ -139,8 +139,8 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
         <div>{percentage}</div>
       </td>
       <td className='number'>
-        {contributors && (
-          formatNumber(contributors.length)
+        {uniqueCount && (
+          formatNumber(uniqueCount)
         )}
       </td>
       <td className='badge'>
