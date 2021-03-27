@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign } from '../types';
-import type { Contributed } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Digits, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -18,15 +18,28 @@ import FundContribute from './FundContribute';
 interface Props {
   bestNumber?: BN;
   className?: string;
-  contributed?: Contributed;
   isOngoing?: boolean;
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, contributed, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const [contributors, setContributors] = useState<string[] | null>();
+  const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
+    ({ event: { data: [, fundIndex] } }: EventRecord) =>
+      (fundIndex as ParaId).eq(paraId),
+    [paraId]
+  ));
+
+  useEffect((): void => {
+    trigger &&
+      api.rpc.childstate
+        .getKeys(childKey, '0x')
+        .then((keys) => setContributors(keys.map((k) => k.toHex())))
+        .catch(console.error);
+  }, [api, childKey, trigger]);
 
   const isDepositor = useMemo(
     (): boolean => {
@@ -109,8 +122,8 @@ function Fund ({ bestNumber, className, contributed, isOngoing, value: { info: {
         <div>{percentage}</div>
       </td>
       <td className='number'>
-        {contributed && (
-          formatNumber(contributed.count)
+        {contributors && (
+          formatNumber(contributors.length)
         )}
       </td>
       <td className='button'>
