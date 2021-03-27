@@ -112,10 +112,14 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
       <td className='address media--1400'><AddressMini value={depositor} /></td>
       {!isOngoing && (
         <td className='all number together'>
-          {retiringLeft && retiring.isTrue && (
-            <BlockToTime value={retiringLeft} />
+          {isEnded && (
+            <>
+              {retiringLeft && (
+                <BlockToTime value={retiringLeft} />
+              )}
+              #{formatNumber(retireEnd)}
+            </>
           )}
-          {!blocksLeft && <>#{formatNumber(retireEnd)}</>}
         </td>
       )}
       <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
