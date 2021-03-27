@@ -118,7 +118,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
           {!blocksLeft && <>#{formatNumber(retireEnd)}</>}
         </td>
       )}
-      <td className={`all number together${isOngoing ? '' : 'media--1200'}`}>
+      <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
