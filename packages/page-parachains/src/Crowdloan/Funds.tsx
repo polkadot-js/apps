@@ -66,7 +66,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     <>
       <Table
         className={className}
-        empty={active && t<string>('No active campaigns found')}
+        empty={value && active && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
         {active?.map((fund) => (
@@ -80,7 +80,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
       </Table>
       <Table
         className={className}
-        empty={ended && t<string>('No completed campaigns found')}
+        empty={value && ended && t<string>('No completed campaigns found')}
         header={headedEndedRef.current}
       >
         {ended?.map((fund) => (
