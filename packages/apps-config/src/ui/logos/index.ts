@@ -84,6 +84,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
+  ['Darwinia Crab PC2', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
