@@ -90,9 +90,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       {
         info: 'rococoCrab',
         paraId: 9,
-        text: t('rpc.rococo.darwinia', 'Darwinia Crab PC2', { ns: 'apps-config' }),
+        text: t('rpc.rococo.crab', 'Darwinia Crab PC2', { ns: 'apps-config' }),
         providers: {
-          Darwinia: 'wss://parachain-rpc.darwinia.network'
+          Darwinia: 'wss://crab-pc2-rpc.darwinia.network'
         }
       },
       {
@@ -116,7 +116,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
-          Darwinia: 'wss://parachain-rpc.darwinia.network'
+          Darwinia: 'wss://pc2-rpc.darwinia.network'
         }
       },
       {

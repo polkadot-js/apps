@@ -67,6 +67,8 @@ import zero from './zero';
 const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
+  'Darwinia Crab PC2': darwiniaParachain,
+  'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   VLN: vln,
   acala,
@@ -84,7 +86,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
-  'darwinia-parachain': darwiniaParachain,
   'datahighway-parachain': datahighwayParachain,
   'dev-parachain': zenlink,
   'dock-main-runtime': dock,
