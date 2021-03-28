@@ -29,19 +29,22 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   ]);
 
   const interleave = useCallback(
-    (winners: WinnerData[], asIs: boolean): WinnerData[] =>
-      asIs
-        ? winners
-        : winners.map((w): WinnerData =>
-          campaigns.funds
-            ?.sort((a, b) => b.value.cmp(a.value))
-            .find(({ firstSlot, isWinner, lastSlot, value }) =>
-              w.firstSlot.eq(firstSlot) &&
-              w.lastSlot.eq(lastSlot) &&
-              w.value.lt(value) &&
-              !isWinner
-            ) || w
-        ),
+    (winners: WinnerData[], asIs: boolean): WinnerData[] => {
+      if (asIs) {
+        return winners;
+      }
+
+      const sorted = (campaigns.funds || []).sort((a, b) => b.value.cmp(a.value));
+
+      return winners.map((w): WinnerData =>
+        sorted.find(({ firstSlot, isWinner, lastSlot, value }) =>
+          w.firstSlot.eq(firstSlot) &&
+          w.lastSlot.eq(lastSlot) &&
+          w.value.lt(value) &&
+          !isWinner
+        ) || w
+      );
+    },
     [campaigns]
   );
 
