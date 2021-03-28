@@ -23,8 +23,8 @@ function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Ca
 
   return value && currentPeriod
     ? [
-      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lt(firstSlot)),
-      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gte(firstSlot))
+      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lte(firstSlot)),
+      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gt(firstSlot))
     ]
     : [null, null];
 }
@@ -39,7 +39,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('ending')],
     [t('periods')],
     [t('raised')],
-    [t('unique')],
+    [t('unique'), 'media--1100'],
     [undefined, 'badge'],
     []
   ]);
@@ -52,7 +52,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('ending'), 'media--1200'],
     [t('periods')],
     [t('raised')],
-    [t('unique')],
+    [t('unique'), 'media--1100'],
     [undefined, 'badge'],
     []
   ]);

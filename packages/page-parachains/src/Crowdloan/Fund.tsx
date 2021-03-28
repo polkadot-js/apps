@@ -112,7 +112,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
       <td className='address media--1400'><AddressMini value={depositor} /></td>
       {!isOngoing && (
         <td className='all number together'>
-          {isEnded && (
+          {(isRetired || retiring.isTrue) && (
             <>
               {retiringLeft && (
                 <BlockToTime value={retiringLeft} />
@@ -138,7 +138,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
         />
         <div>{percentage}</div>
       </td>
-      <td className='number'>
+      <td className='number media--1100'>
         {uniqueCount && (
           formatNumber(uniqueCount)
         )}
