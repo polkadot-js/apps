@@ -1,11 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { AuctionInfo, Campaigns, WinnerData, Winning } from '../types';
 
 import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import WinRange from './WinRange';
@@ -19,6 +21,8 @@ interface Props {
 
 function Auction ({ auctionInfo, campaigns, className, winningData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
 
   const headerRef = useRef([
     [t('bids'), 'start', 3],
@@ -29,19 +33,20 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   ]);
 
   const interleave = useCallback(
-    (winners: WinnerData[], asIs: boolean): WinnerData[] => {
+    (winners: WinnerData[], newRaise: ParaId[], asIs: boolean): WinnerData[] => {
       if (asIs) {
         return winners;
       }
 
-      const sorted = (campaigns.funds || []).sort((a, b) => b.value.cmp(a.value));
+      const sorted = (campaigns.funds || [])
+        .filter(({ paraId }) => newRaise.some((n) => n.eq(paraId)))
+        .sort((a, b) => b.value.cmp(a.value));
 
       return winners.map((w): WinnerData =>
-        sorted.find(({ firstSlot, isWinner, lastSlot, value }) =>
+        sorted.find(({ firstSlot, lastSlot, value }) =>
           w.firstSlot.eq(firstSlot) &&
           w.lastSlot.eq(lastSlot) &&
-          w.value.lt(value) &&
-          !isWinner
+          w.value.lt(value)
         ) || w
       );
     },
@@ -52,7 +57,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
     <Table
       className={className}
       empty={
-        auctionInfo && auctionInfo.numAuctions && winningData && (
+        newRaise && auctionInfo && auctionInfo.numAuctions && winningData && (
           auctionInfo.endBlock && !winningData.length
             ? t<string>('No winners in this auction')
             : t<string>('No ongoing auction')
@@ -61,9 +66,9 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       header={headerRef.current}
       noBodyTag
     >
-      {auctionInfo && winningData?.map(({ blockNumber, winners }, round) => (
+      {auctionInfo && newRaise && winningData?.map(({ blockNumber, winners }, round) => (
         <tbody key={round}>
-          {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
+          {interleave(winners, newRaise, round !== 0 || winningData.length !== 1).map((value, index) => (
             <WinRange
               auctionInfo={auctionInfo}
               blockNumber={blockNumber}
