@@ -48,7 +48,7 @@ const definitions: OverrideBundleDefinition = {
         RarityType: {
           _enum: [
             'Minor',
-            'Normal',
+             'Normal',
             'Rare',
             'Epic',
             'Legendary'
