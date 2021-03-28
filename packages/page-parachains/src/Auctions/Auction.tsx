@@ -33,10 +33,11 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       asIs
         ? winners
         : winners.map((w): WinnerData =>
-          campaigns.funds?.find(({ firstSlot, lastSlot, value }) =>
+          campaigns.funds?.find(({ firstSlot, isWinner, lastSlot, value }) =>
             w.firstSlot.eq(firstSlot) &&
             w.lastSlot.eq(lastSlot) &&
-            w.value.lt(value)
+            w.value.lt(value) &&
+            !isWinner
           ) || w
         ),
     [campaigns]
