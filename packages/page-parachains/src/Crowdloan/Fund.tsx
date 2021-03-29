@@ -34,7 +34,7 @@ const NO_CONTRIB: Contributions = { myAccounts: [], uniqueKeys: [] };
 function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
+  const { allAccounts, isAccount } = useAccounts();
   const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
   const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
@@ -59,12 +59,8 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   }, [allAccounts, api, childKey, trigger]);
 
   const isDepositor = useMemo(
-    (): boolean => {
-      const address = depositor.toString();
-
-      return allAccounts.some((a) => a === address);
-    },
-    [allAccounts, depositor]
+    () => isAccount(depositor.toString()),
+    [depositor, isAccount]
   );
 
   const [blocksLeft, retiringLeft] = useMemo(
