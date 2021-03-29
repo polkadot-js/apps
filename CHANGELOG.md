@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.86.2 Mar 29, 2021
+
+Contributed:
+
+- Adjustments for Crust pinning Tthanks to https://github.com/zikunfan)
+- Adjustments for KILT XCM types (Thanks to https://github.com/wischli)
+
+
 ## 0.86.1 Mar 29, 2021
 
 Contributed:
@@ -19,7 +27,7 @@ Contributed:
 - Add Litentry testnet (Thanks to https://github.com/chenzongxiong)
 - Update types for DOTMog (Thanks to https://github.com/darkfriend77)
 - Fix language on staking (Thanks to https://github.com/SimonKraus)
-- Add pinning of apps UI IPFS to Crust (thanks to https://github.com/zikunfan)
+- Add pinning of apps UI IPFS to Crust (Thanks to https://github.com/zikunfan)
 
 Changes:
 
