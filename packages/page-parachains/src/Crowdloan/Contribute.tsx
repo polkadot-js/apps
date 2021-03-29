@@ -19,7 +19,7 @@ interface Props {
   raised: Balance;
 }
 
-function FundContribute ({ cap, className, paraId, raised }: Props): React.ReactElement<Props> {
+function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -103,4 +103,4 @@ function FundContribute ({ cap, className, paraId, raised }: Props): React.React
   );
 }
 
-export default React.memo(FundContribute);
+export default React.memo(Contribute);
