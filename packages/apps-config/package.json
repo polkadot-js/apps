@@ -1,24 +1,25 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.85.2-15",
+  "version": "0.86.1",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
   "dependencies": {
-    "@acala-network/type-definitions": "^0.7.1",
+    "@acala-network/type-definitions": "^0.7.2-4",
     "@babel/runtime": "^7.13.10",
     "@crustio/type-definitions": "0.0.5",
-    "@darwinia/types": "^1.1.0-alpha.1",
+    "@darwinia/types": "^1.1.0-alpha.6",
     "@edgeware/node-types": "^3.3.2",
-    "@interlay/polkabtc-types": "^0.5.3",
+    "@equilab/definitions": "1.0.3",
+    "@interlay/polkabtc-types": "^0.6.2",
     "@laminar/type-definitions": "^0.3.1",
     "@polkadot/networks": "^6.0.5",
     "@snowfork/snowbridge-types": "^0.2.3",
     "@sora-substrate/type-definitions": "^0.6.11",
     "@subsocial/types": "^0.4.35-beta.2",
-    "moonbeam-types-bundle": "1.1.10"
+    "moonbeam-types-bundle": "1.1.12"
   },
   "devDependencies": {
     "i18next": "^19.9.2"

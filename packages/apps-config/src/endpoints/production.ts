@@ -90,7 +90,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://tge.equilibrium.io'
+        Equilibrium: 'wss://node.equilibrium.io'
       }
     },
     {

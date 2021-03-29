@@ -53,6 +53,7 @@ import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
+import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
@@ -83,6 +84,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
+  ['Darwinia Crab PC2', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
@@ -99,6 +101,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Litentry', nodeLitentry],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
@@ -116,7 +119,8 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
   ['Unique', chainUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['PHOENIX PC1', nodePhoenix]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -162,6 +166,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
+  ['Litentry', nodeLitentry],
   ['Litentry Collator', nodeLitentry],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
@@ -192,7 +197,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
   ['Unique Node', nodeUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['PHOENIX Node', nodePhoenix],
+  ['PHOENIX Collator', nodePhoenix]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -232,9 +239,11 @@ export const namedLogos: Record<string, unknown> = {
   kulupu: nodeKulupu,
   kusama: chainKusama,
   laminar: nodeLaminar,
+  litentry: nodeLitentry,
   moonbaseAlpha: moonbeam,
   nodle: nodeNodle,
   phala: nodePhala,
+  phoenix: nodePhoenix,
   plasm: nodePlasm,
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
@@ -247,6 +256,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoBitCountry: nodeBitCountry,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
+  rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
   rococoDataHighway: nodeDataHighway,
@@ -260,6 +270,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoLitentry: nodeLitentry,
   rococoMathChain: nodeMath,
   rococoPhala: nodePhala,
+  rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,

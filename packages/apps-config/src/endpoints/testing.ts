@@ -97,6 +97,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'phoenix',
+      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
+      providers: {
+        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
+      }
+    },
+    {
       info: 'dusty',
       text: t('rpc.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
@@ -121,7 +128,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://api.mvp.testnet.equilibrium.io'
+        Equilibrium: 'wss://testnet.equilibrium.io'
       }
     },
     {
@@ -163,6 +170,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'litentry',
+      text: t('rpc.litentry.test', 'Litentry Testnet', { ns: 'apps-config' }),
+      providers: {
+        Litentry: 'wss://testnet.litentry.io'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
@@ -193,9 +207,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'realis',
-      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
+      text: t('rpc.realis', 'Realis.Network', { ns: 'apps-config' }),
       providers: {
-        'Realis Network': 'wss://rpc.realis.network/'
+        'Realis.Network': 'wss://rpc.realis.network/'
       }
     },
     {

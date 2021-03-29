@@ -88,6 +88,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoCrab',
+        paraId: 9,
+        text: t('rpc.rococo.crab', 'Darwinia Crab PC2', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://crab-pc2-rpc.darwinia.network'
+        }
+      },
+      {
         info: 'rococoCrust',
         paraId: 7777,
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
@@ -108,7 +116,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
-          Darwinia: 'wss://parachain-rpc.darwinia.network'
+          Darwinia: 'wss://pc2-rpc.darwinia.network'
         }
       },
       {
@@ -180,7 +188,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 666,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
-          Acala: 'wss://rococo-1.acala.laminar.one/ws'
+          Acala: 'wss://rococo-1.acala.laminar.one'
         }
       },
       {
@@ -245,6 +253,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
+        }
+      },
+      {
+        info: 'rococoPhoenix',
+        paraId: 6806,
+        text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
+        providers: {
+          'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
         }
       }
     ]

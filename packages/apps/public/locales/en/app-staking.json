@@ -61,7 +61,7 @@
   "Nominators": "Nominators",
   "Nominators ({{count}})": "Nominators ({{count}})",
   "Nominators can be selected manually from the list of all currently available validators.": "Nominators can be selected manually from the list of all currently available validators.",
-  "Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.",
+  "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.",
   "Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.": "Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.",
   "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.": "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.",

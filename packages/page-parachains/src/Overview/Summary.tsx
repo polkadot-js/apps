@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LeasePeriod } from './types';
+import type { LeasePeriod } from '../types';
 
 import React from 'react';
 
@@ -12,7 +12,7 @@ import { formatNumber, isNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  leasePeriod: LeasePeriod | null;
+  leasePeriod?: LeasePeriod;
   parachainCount?: number;
   proposalCount?: number;
   upcomingCount?: number;
@@ -30,7 +30,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
           </CardSummary>
         )}
         {isNumber(upcomingCount) && (
-          <CardSummary label={t<string>('upcoming')}>
+          <CardSummary label={t<string>('parathreads')}>
             {formatNumber(upcomingCount)}
           </CardSummary>
         )}
@@ -53,7 +53,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
             label={t<string>('lease period')}
             progress={{
               total: leasePeriod.length,
-              value: leasePeriod.remainder,
+              value: leasePeriod.progress,
               withTime: true
             }}
           />

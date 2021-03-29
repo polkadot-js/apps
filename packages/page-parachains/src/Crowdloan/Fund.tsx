@@ -2,74 +2,139 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { Campaign } from './types';
+import type { StorageKey } from '@polkadot/types';
+import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
+import type { Campaign, LeasePeriod } from '../types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Digits, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { AddressMini, Digits, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import FundContribute from './FundContribute';
+import Contribute from './Contribute';
+import Withdraw from './Withdraw';
 
 interface Props {
   bestNumber?: BN;
   className?: string;
   isOngoing?: boolean;
+  leasePeriod?: LeasePeriod;
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, paraId } }: Props): React.ReactElement<Props> {
+interface Contributions {
+  uniqueKeys: string[];
+  myAccounts: string[];
+}
+
+const NO_CONTRIB: Contributions = { myAccounts: [], uniqueKeys: [] };
+
+function extractContributors (allAccounts: string[], keys: StorageKey[]): Contributions {
+  const uniqueKeys = keys.map((k) => k.toHex());
+  const contributors = keys.map((k) => encodeAddress(k));
+
+  return {
+    myAccounts: contributors.filter((c) => allAccounts.includes(c)),
+    uniqueKeys
+  };
+}
+
+function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
+  const { allAccounts, isAccount } = useAccounts();
+  const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
+  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew], useCallback(
+    ({ event: { data: [, fundIndex] } }: EventRecord) =>
+      (fundIndex as ParaId).eq(paraId),
+    [paraId]
+  ));
+
+  useEffect((): void => {
+    trigger &&
+      api.rpc.childstate
+        .getKeys(childKey, '0x')
+        .then((keys) => setContributors(
+          extractContributors(allAccounts, keys))
+        )
+        .catch(console.error);
+  }, [allAccounts, api, childKey, trigger]);
 
   const isDepositor = useMemo(
-    (): boolean => {
-      const address = depositor.toString();
-
-      return allAccounts.some((a) => a === address);
-    },
-    [allAccounts, depositor]
+    () => isAccount(depositor.toString()),
+    [depositor, isAccount]
   );
 
-  const blocksLeft = useMemo(
-    () => bestNumber && end.gt(bestNumber) && end.sub(bestNumber),
-    [bestNumber, end]
+  const [blocksLeft, retiringLeft] = useMemo(
+    () => bestNumber
+      ? [
+        end.gt(bestNumber)
+          ? end.sub(bestNumber)
+          : null,
+        retireEnd?.gt(bestNumber)
+          ? retireEnd.sub(bestNumber)
+          : null
+      ]
+      : [null, null],
+    [bestNumber, end, retireEnd]
   );
 
   // TODO Dissolve should look at retirement and the actual period
 
-  const [percentage, isCapped] = useMemo(
-    () => [
-      `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
-      cap.sub(raised).lt(api.consts.crowdloan.minContribution as BlockNumber)
-    ],
-    [api, cap, raised]
+  const percentage = useMemo(
+    () => cap.isZero()
+      ? '100.00%'
+      : `${(raised.muln(10000).div(cap).toNumber() / 100).toFixed(2)}%`,
+    [cap, raised]
   );
 
-  const canContribute = blocksLeft && !isCapped && retiring.isFalse;
-  const canDissolve = raised.isZero();
+  const isLeaseOver = !!leasePeriod && (
+    isWinner
+      ? leasePeriod.currentPeriod.gt(lastSlot)
+      : leasePeriod.currentPeriod.gt(firstSlot)
+  );
+  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
+  const canDissolve = raised.isZero() || (isRetired && isLeaseOver);
+  const canWithdraw = canDissolve || (!!(bestNumber && bestNumber.gt(end)) && isLeaseOver);
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td className='badge'><ParaLink id={paraId} /></td>
       <td>
-        {retiring.isTrue
-          ? t<string>('Retiring')
-          : blocksLeft
-            ? isCapped
-              ? t<string>('Capped')
-              : t<string>('Active')
-            : t<string>('Ended')
+        {isWinner
+          ? t<string>('Winner')
+          : isRetired
+            ? t<string>('Retired')
+            : retiring.isTrue
+              ? t<string>('Retiring')
+              : blocksLeft
+                ? isCapped
+                  ? t<string>('Capped')
+                  : isOngoing
+                    ? t<string>('Active')
+                    : t<string>('Past')
+                : t<string>('Ended')
         }
       </td>
-      <td className='address'><AddressMini value={depositor} /></td>
-      <td className='all number together'>
+      <td className='address media--1400'><AddressMini value={depositor} /></td>
+      {!isOngoing && (
+        <td className='all number together'>
+          {(isRetired || retiring.isTrue) && (
+            <>
+              {retiringLeft && (
+                <BlockToTime value={retiringLeft} />
+              )}
+              #{formatNumber(retireEnd)}
+            </>
+          )}
+        </td>
+      )}
+      <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
@@ -85,27 +150,47 @@ function Fund ({ bestNumber, className, isOngoing, value: { info: { cap, deposit
         />
         <div>{percentage}</div>
       </td>
-      {isOngoing && (
-        <td className='button'>
-          {canContribute && (
-            <FundContribute
-              cap={cap}
-              paraId={paraId}
-              raised={raised}
-            />
-          )}
-          {canDissolve && (
-            <TxButton
-              accountId={depositor}
-              icon='times'
-              isDisabled={!isDepositor}
-              label={t<string>('Dissolve')}
-              params={[paraId]}
-              tx={api.tx.crowdloan.dissolve}
-            />
-          )}
-        </td>
-      )}
+      <td className='number media--1100'>
+        {uniqueKeys.length !== 0 && (
+          formatNumber(uniqueKeys.length)
+        )}
+      </td>
+      <td className='badge'>
+        <Icon
+          color={myAccounts.length ? 'green' : 'gray'}
+          icon='asterisk'
+        />
+      </td>
+      <td className='button'>
+        {canWithdraw && uniqueKeys.length !== 0 && (
+          <Withdraw
+            allAccounts={uniqueKeys}
+            myAccounts={myAccounts}
+            paraId={paraId}
+          />
+        )}
+        {canDissolve && (
+          <TxButton
+            accountId={depositor}
+            icon='times'
+            isDisabled={!isDepositor}
+            label={
+              isEnded
+                ? t<string>('Dissolve')
+                : t<string>('Cancel')
+            }
+            params={[paraId]}
+            tx={api.tx.crowdloan.dissolve}
+          />
+        )}
+        {isOngoing && canContribute && (
+          <Contribute
+            cap={cap}
+            paraId={paraId}
+            raised={raised}
+          />
+        )}
+      </td>
     </tr>
   );
 }

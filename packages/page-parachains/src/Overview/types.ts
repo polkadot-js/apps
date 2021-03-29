@@ -10,12 +10,6 @@ export interface LeaseInfo {
   period: number;
 }
 
-export interface LeasePeriod {
-  currentPeriod: BN;
-  length: BN;
-  remainder: BN;
-}
-
 export interface QueuedAction {
   paraIds: ParaId[];
   sessionIndex: BN;

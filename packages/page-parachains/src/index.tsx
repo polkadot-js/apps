@@ -14,8 +14,12 @@ import Crowdloan from './Crowdloan';
 import Overview from './Overview';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
+import useAuctionInfo from './useAuctionInfo';
+import useFunds from './useFunds';
+import useLeasePeriod from './useLeasePeriod';
 import useOwnedIds from './useOwnedIds';
 import useProposals from './useProposals';
+import useWinningData from './useWinningData';
 
 interface Props {
   basePath: string;
@@ -26,7 +30,11 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
+  const auctionInfo = useAuctionInfo();
+  const campaigns = useFunds();
+  const leasePeriod = useLeasePeriod();
   const ownedIds = useOwnedIds();
+  const winningData = useWinningData(auctionInfo);
   const proposals = useProposals();
 
   const items = useRef([
@@ -57,10 +65,20 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       />
       <Switch>
         <Route path={`${basePath}/auctions`}>
-          <Auctions ownedIds={ownedIds} />
+          <Auctions
+            auctionInfo={auctionInfo}
+            campaigns={campaigns}
+            ownedIds={ownedIds}
+            winningData={winningData}
+          />
         </Route>
         <Route path={`${basePath}/crowdloan`}>
-          <Crowdloan ownedIds={ownedIds} />
+          <Crowdloan
+            auctionInfo={auctionInfo}
+            campaigns={campaigns}
+            leasePeriod={leasePeriod}
+            ownedIds={ownedIds}
+          />
         </Route>
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />
@@ -68,6 +86,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       </Switch>
       <Overview
         className={basePath === pathname ? '' : 'parachains--hidden'}
+        leasePeriod={leasePeriod}
         proposals={proposals}
       />
     </main>
