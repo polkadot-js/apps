@@ -67,6 +67,7 @@
     "@babel/core": "^7.13.10",
     "@babel/register": "^7.13.8",
     "@babel/runtime": "^7.13.10",
+    "@crustio/crust-pin": "^0.0.1",
     "@pinata/sdk": "^1.1.13",
     "@polkadot/dev": "^0.62.7",
     "@polkadot/ts": "^0.3.62",
