@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
-import type { Campaign } from '../types';
+import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -20,6 +20,7 @@ interface Props {
   bestNumber?: BN;
   className?: string;
   isOngoing?: boolean;
+  leasePeriod?: LeasePeriod;
   value: Campaign;
 }
 
@@ -28,7 +29,7 @@ interface Contributions {
   myAccounts?: string[];
 }
 
-function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -87,7 +88,7 @@ function Fund ({ bestNumber, className, isOngoing, value: { childKey, info: { ca
   );
 
   const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
-  const canDissolve = raised.isZero() || isRetired;
+  const canDissolve = raised.isZero() || (isRetired && (!isWinner || !leasePeriod || lastSlot.lt(leasePeriod.currentPeriod)));
 
   return (
     <tr className={className}>
