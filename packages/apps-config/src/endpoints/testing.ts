@@ -128,7 +128,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://api.mvp.testnet.equilibrium.io'
+        Equilibrium: 'wss://testnet.equilibrium.io'
       }
     },
     {
