@@ -8,7 +8,7 @@ import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-component
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { Ledger } from '@polkadot/ui-keyring';
-import type { AddressProxy, QrState } from './types';
+import type { AddressFlags, AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -19,6 +19,7 @@ import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@po
 import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
+import { addressEq } from '@polkadot/util-crypto';
 
 import Address from './Address';
 import Qr from './Qr';
@@ -35,7 +36,14 @@ interface Props {
   requestAddress: string;
 }
 
+interface InnerTx {
+  innerHash: string | null;
+  innerTx: string | null;
+}
+
 const NOOP = () => undefined;
+
+const EMPTY_INNER: InnerTx = { innerHash: null, innerTx: null };
 
 let qrId = 0;
 
@@ -154,7 +162,17 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
     return ['signing', address, { ...options, signer: injected.signer }];
   }
 
-  return ['signing', pair.address, { ...options, signer: new AccountSigner(api.registry, pair) }];
+  assert(addressEq(address, pair.address), `Unable to retrieve keypair for ${address}`);
+
+  return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }];
+}
+
+function tryExtract (address: string | null): AddressFlags {
+  try {
+    return extractExternal(address);
+  } catch {
+    return {} as AddressFlags;
+  }
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -162,7 +180,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { api } = useApi();
   const { getLedger } = useLedger();
   const { queueSetTxStatus } = useContext(StatusContext);
-  const [flags, setFlags] = useState(() => extractExternal(requestAddress));
+  const [flags, setFlags] = useState(() => tryExtract(requestAddress));
   const [error, setError] = useState<Error | null>(null);
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [isBusy, setBusy] = useState(false);
@@ -172,22 +190,31 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [senderInfo, setSenderInfo] = useState<AddressProxy>({ isMultiCall: false, isUnlockCached: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
-  const [multiCall, setMultiCall] = useState<string | null>(null);
+  const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
   const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
-    setFlags(extractExternal(senderInfo.signAddress));
+    setFlags(tryExtract(senderInfo.signAddress));
     setPasswordError(null);
   }, [senderInfo]);
 
   // when we are sending the hash only, get the wrapped call for display (proxies if required)
   useEffect((): void => {
-    setMultiCall(
-      currentItem.extrinsic && senderInfo.multiRoot
-        ? senderInfo.proxyRoot
-          ? api.tx.proxy.proxy(senderInfo.proxyRoot, null, currentItem.extrinsic).method.toHex()
-          : currentItem.extrinsic.method.toHex()
-        : null
+    const method = currentItem.extrinsic && (
+      senderInfo.proxyRoot
+        ? api.tx.proxy.proxy(senderInfo.proxyRoot, null, currentItem.extrinsic)
+        : currentItem.extrinsic
+    ).method;
+
+    setCallInfo(
+      method
+        ? {
+          innerHash: method.hash.toHex(),
+          innerTx: senderInfo.multiRoot
+            ? method.toHex()
+            : null
+        }
+        : EMPTY_INNER
     );
   }, [api, currentItem, senderInfo]);
 
@@ -354,20 +381,26 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                     signedTx={signedTx}
                   />
                 )}
-                {isSubmit && !senderInfo.isMultiCall && multiCall && (
-                  <Modal.Columns>
-                    <Modal.Column>
-                      <Output
-                        isFull
-                        isTrimmed
-                        label={t<string>('multisig call data')}
-                        value={multiCall}
-                        withCopy
-                      />
-                    </Modal.Column>
-                    <Modal.Column>
-                      {t('The call data that can be supplied to a final call to multi approvals')}
-                    </Modal.Column>
+                {isSubmit && !senderInfo.isMultiCall && innerTx && (
+                  <Modal.Columns hint={t('The full call data that can be supplied to a final call to multi approvals')}>
+                    <Output
+                      isDisabled
+                      isTrimmed
+                      label={t<string>('multisig call data')}
+                      value={innerTx}
+                      withCopy
+                    />
+                  </Modal.Columns>
+                )}
+                {isSubmit && innerHash && (
+                  <Modal.Columns hint={t('The call hash as calculated for this transaction')}>
+                    <Output
+                      isDisabled
+                      isTrimmed
+                      label={t<string>('call hash')}
+                      value={innerHash}
+                      withCopy
+                    />
                   </Modal.Columns>
                 )}
               </>

@@ -3,9 +3,10 @@
 
 import type { ThemeDef } from '../types';
 
-export default (theme: ThemeDef): string => `
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default (_theme: ThemeDef): string => `
   .ui--output {
-    background: ${theme.bgInput};
+    background: var(--bg-input);
     border-radius: 4px;
     border: 1px dashed #eee;
     box-sizing: border-box;
@@ -17,7 +18,7 @@ export default (theme: ThemeDef): string => `
     word-break: break-all;
 
     &.error {
-      background: ${theme.bgInputError};
+      background: var(--bg-input-error);
       border-color: #e0b4b4;
     }
 
@@ -44,7 +45,7 @@ export default (theme: ThemeDef): string => `
   }
 
   button.ui--Button {
-    font: ${theme.fontSans};
+    font: var(--font-sans);
   }
 
   .editable {

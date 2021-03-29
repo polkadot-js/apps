@@ -9,7 +9,7 @@ import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useBlockTime, useCall } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
 interface DateExt {
@@ -184,7 +184,7 @@ function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]
 export default function useScheduled (): EntryInfo[] {
   const { api } = useApi();
   const [blockTime] = useBlockTime();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const councilMotions = useCall<DeriveCollectiveProposal[]>(api.derive.council?.proposals);
   const dispatches = useCall<DeriveDispatch[]>(api.derive.democracy?.dispatchQueue);
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy?.referendums);

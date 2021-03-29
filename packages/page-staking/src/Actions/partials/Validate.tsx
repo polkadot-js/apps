@@ -58,52 +58,37 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
   return (
     <div className={className}>
       {withSenders && (
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={stashId}
-              isDisabled
-              label={t<string>('stash account')}
-            />
-            <InputAddress
-              defaultValue={controllerId}
-              isDisabled
-              label={t<string>('controller account')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The stash and controller pair. This transaction, managing preferences, will be sent from the controller.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The stash and controller pair. This transaction, managing preferences, will be sent from the controller.')}>
+          <InputAddress
+            defaultValue={stashId}
+            isDisabled
+            label={t<string>('stash account')}
+          />
+          <InputAddress
+            defaultValue={controllerId}
+            isDisabled
+            label={t<string>('controller account')}
+          />
         </Modal.Columns>
       )}
-      <Modal.Columns>
-        <Modal.Column>
-          <InputNumber
-            help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
-            isZeroable
-            label={t<string>('reward commission percentage')}
-            maxValue={MAX_COMM}
-            onChange={_setCommission}
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
-        </Modal.Column>
+      <Modal.Columns hint={t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}>
+        <InputNumber
+          help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
+          isZeroable
+          label={t<string>('reward commission percentage')}
+          maxValue={MAX_COMM}
+          onChange={_setCommission}
+        />
       </Modal.Columns>
       {isFunction(api.tx.staking.kick) && (
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              defaultValue={true}
-              help={t<string>('Does this validator allow nominations or is it blocked for all')}
-              label={t<string>('allows new nominations')}
-              onChange={setAllowNoms}
-              options={blockedOptions.current}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}>
+          <Dropdown
+            defaultValue={true}
+            help={t<string>('Does this validator allow nominations or is it blocked for all')}
+            label={t<string>('allows new nominations')}
+            onChange={setAllowNoms}
+            options={blockedOptions.current}
+          />
         </Modal.Columns>
       )}
     </div>

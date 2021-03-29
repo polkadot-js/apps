@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,10 +9,17 @@ import styled from 'styled-components';
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import useProposals from './Proposals/useProposals';
+import Auctions from './Auctions';
+import Crowdloan from './Crowdloan';
 import Overview from './Overview';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
+import useAuctionInfo from './useAuctionInfo';
+import useFunds from './useFunds';
+import useLeasePeriod from './useLeasePeriod';
+import useOwnedIds from './useOwnedIds';
+import useProposals from './useProposals';
+import useWinningData from './useWinningData';
 
 interface Props {
   basePath: string;
@@ -23,35 +30,63 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
+  const auctionInfo = useAuctionInfo();
+  const campaigns = useFunds();
+  const leasePeriod = useLeasePeriod();
+  const ownedIds = useOwnedIds();
+  const winningData = useWinningData(auctionInfo);
   const proposals = useProposals();
 
-  const items = useMemo(() => [
+  const items = useRef([
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Parachains overview')
+      text: t<string>('Overview')
     },
     api.query.proposeParachain && {
       name: 'proposals',
       text: t<string>('Proposals')
+    },
+    api.query.auctions && {
+      name: 'auctions',
+      text: t<string>('Auctions')
+    },
+    api.query.crowdloan && {
+      name: 'crowdloan',
+      text: t<string>('Crowdloan')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
+  ].filter((q): q is { name: string; text: string } => !!q));
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items.current}
+      />
       <Switch>
+        <Route path={`${basePath}/auctions`}>
+          <Auctions
+            auctionInfo={auctionInfo}
+            campaigns={campaigns}
+            ownedIds={ownedIds}
+            winningData={winningData}
+          />
+        </Route>
+        <Route path={`${basePath}/crowdloan`}>
+          <Crowdloan
+            auctionInfo={auctionInfo}
+            campaigns={campaigns}
+            leasePeriod={leasePeriod}
+            ownedIds={ownedIds}
+          />
+        </Route>
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />
         </Route>
       </Switch>
       <Overview
         className={basePath === pathname ? '' : 'parachains--hidden'}
+        leasePeriod={leasePeriod}
         proposals={proposals}
       />
     </main>

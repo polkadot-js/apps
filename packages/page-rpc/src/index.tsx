@@ -24,12 +24,10 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
 
   return (
     <main className='toolbox--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route><Rpc /></Route>
       </Switch>

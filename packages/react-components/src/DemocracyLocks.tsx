@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
@@ -59,8 +59,8 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] 
                 {isCountdown
                   ? (
                     <BlockToTime
-                      blocks={blocks}
                       label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                      value={blocks}
                     />
                   )
                   : isFinished
@@ -84,8 +84,7 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] 
 
 function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const [trigger] = useState(() => `${Date.now()}-democracy-locks-${++id}`);
   const [{ maxBalance, sorted }, setState] = useState<State>({ maxBalance: BN_ZERO, sorted: [] });
 

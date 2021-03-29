@@ -34,13 +34,13 @@ export default React.memo(styled(Digits)`
   display: inline-block;
   white-space: nowrap;
 
-  .digit {
-    display: inline-block;
-    text-align: center;
-    width: 1ch;
-  }
-
   .group {
     display: inline-block;
+
+    .digit {
+      display: inline-block;
+      text-align: center;
+      width: 1ch;
+    }
   }
 `);

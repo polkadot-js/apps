@@ -209,10 +209,6 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
     visibility: visible;
   }
 
-  &.noBorder td {
-    border-bottom: 1px solid transparent;
-  }
-
   .description-column {
     max-width: 200px;
 
@@ -247,7 +243,7 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
       justify-content: center;
       width: 1.7rem;
       height: 1.7rem;
-      border: 1px solid ${theme.borderTable};
+      border: 1px solid var(--border-table);
       border-radius: 4px;
       cursor: pointer;
     }

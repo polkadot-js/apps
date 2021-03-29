@@ -18,7 +18,7 @@ function DueBlocks ({ dueBlocks, endBlock, label }: Props): React.ReactElement<P
     <>
       {dueBlocks.gtn(0) && (
         <>
-          <BlockToTime blocks={dueBlocks}>
+          <BlockToTime value={dueBlocks}>
             &nbsp;({label})
           </BlockToTime>
           #{formatNumber(endBlock)}

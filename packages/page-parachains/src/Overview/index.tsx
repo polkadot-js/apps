@@ -2,30 +2,35 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { Proposals } from '../types';
+import type { LeasePeriod, Proposals } from '../types';
 
 import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Actions from './Actions';
-import Parachains from './ParachainList';
+import Parachains from './Parachains';
 import Summary from './Summary';
-import Upcoming from './UpcomingList';
+import Upcomings from './Upcomings';
+import useActionsQueue from './useActionsQueue';
+import useUpcomingIds from './useUpcomingIds';
 
 interface Props {
   className?: string;
+  leasePeriod?: LeasePeriod;
   proposals?: Proposals;
 }
 
-function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
+function Overview ({ className, leasePeriod, proposals }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
-  const upcomingIds = useCall<ParaId[]>(api.query.paras?.upcomingParas);
+  const actionsQueue = useActionsQueue();
+  const upcomingIds = useUpcomingIds();
 
   return (
     <div className={className}>
       <Summary
+        leasePeriod={leasePeriod}
         parachainCount={paraIds?.length}
         proposalCount={proposals?.proposalIds.length}
         upcomingCount={upcomingIds?.length}
@@ -34,10 +39,15 @@ function Overview ({ className, proposals }: Props): React.ReactElement<Props> {
       {api.query.paras && (
         <>
           <Parachains
+            actionsQueue={actionsQueue}
             ids={paraIds}
             scheduled={proposals?.scheduled}
           />
-          <Upcoming ids={upcomingIds} />
+          <Upcomings
+            actionsQueue={actionsQueue}
+            ids={upcomingIds}
+            leasePeriod={leasePeriod}
+          />
         </>
       )}
     </div>
