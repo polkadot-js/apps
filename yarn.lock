@@ -1412,7 +1412,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crustio/type-definitions@npm:0.0.5":
+"@crustio/crust-pin@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@crustio/crust-pin@npm:0.0.1"
+  dependencies:
+    "@crustio/type-definitions": ^0.0.5
+    "@polkadot/api": ^3.11.1
+  checksum: 036cec0b77385b1ed0d8fa3fb91e8921b998a994ef1f45983911b473be4bedf259ae56babb581466bad588670a574580ce38d15ceeba35686ee4cc56312bdc4d
+  languageName: node
+  linkType: hard
+
+"@crustio/type-definitions@npm:0.0.5, @crustio/type-definitions@npm:^0.0.5":
   version: 0.0.5
   resolution: "@crustio/type-definitions@npm:0.0.5"
   dependencies:
@@ -14559,6 +14569,7 @@ fsevents@~2.1.2:
     "@babel/core": ^7.13.10
     "@babel/register": ^7.13.8
     "@babel/runtime": ^7.13.10
+    "@crustio/crust-pin": ^0.0.1
     "@pinata/sdk": ^1.1.13
     "@polkadot/dev": ^0.62.7
     "@polkadot/ts": ^0.3.62
