@@ -1541,6 +1541,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@equilab/definitions@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@equilab/definitions@npm:1.0.3"
+  checksum: a569faeacf4499b456e383840b7d7e1be81e8fdf40d7f436fc6456057eaafe91ce7ff6812e46a53f09ae3d26e519216cee580a1c079047a7abb337a05b17edc1
+  languageName: node
+  linkType: hard
+
 "@eslint/eslintrc@npm:^0.4.0":
   version: 0.4.0
   resolution: "@eslint/eslintrc@npm:0.4.0"
@@ -2418,6 +2425,7 @@ __metadata:
     "@crustio/type-definitions": 0.0.5
     "@darwinia/types": ^1.1.0-alpha.6
     "@edgeware/node-types": ^3.3.2
+    "@equilab/definitions": 1.0.3
     "@interlay/polkabtc-types": ^0.6.2
     "@laminar/type-definitions": ^0.3.1
     "@polkadot/networks": ^6.0.5

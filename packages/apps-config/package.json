@@ -12,6 +12,7 @@
     "@crustio/type-definitions": "0.0.5",
     "@darwinia/types": "^1.1.0-alpha.6",
     "@edgeware/node-types": "^3.3.2",
+    "@equilab/definitions": "1.0.3",
     "@interlay/polkabtc-types": "^0.6.2",
     "@laminar/type-definitions": "^0.3.1",
     "@polkadot/networks": "^6.0.5",
