@@ -25,15 +25,17 @@ interface Props {
 }
 
 interface Contributions {
-  uniqueCount?: number;
-  myAccounts?: string[];
+  uniqueKeys: string[];
+  myAccounts: string[];
 }
+
+const NO_CONTRIB: Contributions = { myAccounts: [], uniqueKeys: [] };
 
 function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [{ myAccounts, uniqueCount }, setContributors] = useState<Contributions>({});
+  const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
   const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
       (fundIndex as ParaId).eq(paraId),
@@ -45,11 +47,12 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       api.rpc.childstate
         .getKeys(childKey, '0x')
         .then((keys) => setContributors((): Contributions => {
+          const uniqueKeys = keys.map((k) => k.toHex());
           const contributors = keys.map((k) => encodeAddress(k));
 
           return {
             myAccounts: contributors.filter((c) => allAccounts.includes(c)),
-            uniqueCount: contributors.length
+            uniqueKeys
           };
         }))
         .catch(console.error);
@@ -87,8 +90,10 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [cap, raised]
   );
 
+  const isLeaseEnded = !!(leasePeriod && lastSlot.lt(leasePeriod.currentPeriod));
   const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
-  const canDissolve = raised.isZero() || (isRetired && (!isWinner || !leasePeriod || lastSlot.lt(leasePeriod.currentPeriod)));
+  const canDissolve = raised.isZero() || (isRetired && isLeaseEnded);
+  const canWithdraw = !!(bestNumber && bestNumber.gt(end) && isLeaseEnded);
 
   return (
     <tr className={className}>
@@ -140,17 +145,22 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         <div>{percentage}</div>
       </td>
       <td className='number media--1100'>
-        {uniqueCount && (
-          formatNumber(uniqueCount)
+        {uniqueKeys.length !== 0 && (
+          formatNumber(uniqueKeys.length)
         )}
       </td>
       <td className='badge'>
         <Icon
-          color={myAccounts?.length ? 'green' : 'gray'}
+          color={myAccounts.length ? 'green' : 'gray'}
           icon='asterisk'
         />
       </td>
       <td className='button'>
+        {canWithdraw && (
+          {myAccounts.length !== 0 && (
+
+          )}
+        )}
         {canDissolve && (
           <TxButton
             accountId={depositor}
