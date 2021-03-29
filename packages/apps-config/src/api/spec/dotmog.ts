@@ -20,7 +20,7 @@ const definitions: OverrideBundleDefinition = {
           genesis: 'BlockNumber',
           price: 'Balance',
           gen: 'u32',
-		  rarity: 'RarityType'
+          rarity: 'RarityType'
         },
         MogwaiBios: {
           mogwai_id: 'Hash',
