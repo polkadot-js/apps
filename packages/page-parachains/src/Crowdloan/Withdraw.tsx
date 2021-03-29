@@ -9,6 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,7 +20,7 @@ interface Props {
   paraId: ParaId;
 }
 
-function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId, maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {
+function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId, maxPayouts: number): SubmittableExtrinsic<'promise'>[] {
   return addresses
     .reduce((batches: SubmittableExtrinsic<'promise'>[][], address): SubmittableExtrinsic<'promise'>[][] => {
       const tx = api.tx.crowdloan.withdraw(address, paraId);
@@ -33,11 +34,17 @@ function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId,
 
       return batches;
     }, [[]])
-    .map((batch) =>
-      batch.length === 1
-        ? batch[0]
-        : api.tx.utility.batch(batch)
-    );
+    .reduce((extrinsics: SubmittableExtrinsic<'promise'>[], batch): SubmittableExtrinsic<'promise'>[] => {
+      if (batch.length === 1) {
+        extrinsics.push(batch[0]);
+      } else if (isFunction(api.tx.utility?.batch)) {
+        extrinsics.push(api.tx.utility.batch(batch));
+      } else {
+        extrinsics.push(...batch);
+      }
+
+      return extrinsics;
+    }, []);
 }
 
 function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React.ReactElement<Props> {
@@ -68,12 +75,16 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
     api.tx.crowdloan
       .withdraw(allAccounts[0], paraId)
       .paymentInfo(allAccounts[0])
-      .then((info) => setBatchSize(Math.floor(
-        api.consts.system.blockWeights.maxBlock
-          .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-          .div(info.weight)
-          .toNumber() / 100
-      )))
+      .then((info) => setBatchSize(
+        info.weight.isZero()
+          ? 128
+          : Math.floor(
+            api.consts.system.blockWeights.maxBlock
+              .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
+              .div(info.weight)
+              .toNumber() / 100
+          )
+      ))
       .catch(console.error);
   }, [api, allAccounts, paraId]);
 
@@ -81,6 +92,8 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
     const addresses = withdrawType === 0
       ? allAccounts
       : myAccounts;
+
+    console.log('batchSize=', batchSize);
 
     setExtrinsics(() =>
       batchSize && addresses.length
@@ -117,6 +130,7 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
                 label={t<string>('withdrawal type')}
                 onChange={setWithdrawType}
                 options={typeOptions}
+                value={withdrawType}
               />
             </Modal.Columns>
           </Modal.Content>
