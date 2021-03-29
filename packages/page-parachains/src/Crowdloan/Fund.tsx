@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { StorageKey } from '@polkadot/types';
 import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign, LeasePeriod } from '../types';
 
@@ -14,7 +15,8 @@ import { formatNumber } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import FundContribute from './FundContribute';
+import Contribute from './Contribute';
+import Withdraw from './Withdraw';
 
 interface Props {
   bestNumber?: BN;
@@ -31,12 +33,22 @@ interface Contributions {
 
 const NO_CONTRIB: Contributions = { myAccounts: [], uniqueKeys: [] };
 
+function extractContributors (allAccounts: string[], keys: StorageKey[]): Contributions {
+  const uniqueKeys = keys.map((k) => k.toHex());
+  const contributors = keys.map((k) => encodeAddress(k));
+
+  return {
+    myAccounts: contributors.filter((c) => allAccounts.includes(c)),
+    uniqueKeys
+  };
+}
+
 function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
   const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan.Contributed], useCallback(
+  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
       (fundIndex as ParaId).eq(paraId),
     [paraId]
@@ -46,15 +58,9 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     trigger &&
       api.rpc.childstate
         .getKeys(childKey, '0x')
-        .then((keys) => setContributors((): Contributions => {
-          const uniqueKeys = keys.map((k) => k.toHex());
-          const contributors = keys.map((k) => encodeAddress(k));
-
-          return {
-            myAccounts: contributors.filter((c) => allAccounts.includes(c)),
-            uniqueKeys
-          };
-        }))
+        .then((keys) => setContributors(
+          extractContributors(allAccounts, keys))
+        )
         .catch(console.error);
   }, [allAccounts, api, childKey, trigger]);
 
@@ -152,10 +158,12 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         />
       </td>
       <td className='button'>
-        {canWithdraw && (
-          {myAccounts.length !== 0 && (
-
-          )}
+        {canWithdraw && uniqueKeys.length !== 0 && (
+          <Withdraw
+            allAccounts={uniqueKeys}
+            myAccounts={myAccounts}
+            paraId={paraId}
+          />
         )}
         {canDissolve && (
           <TxButton
@@ -172,7 +180,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
           />
         )}
         {isOngoing && canContribute && (
-          <FundContribute
+          <Contribute
             cap={cap}
             paraId={paraId}
             raised={raised}
