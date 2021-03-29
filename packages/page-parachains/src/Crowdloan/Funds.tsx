@@ -87,6 +87,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
           <Fund
             bestNumber={bestNumber}
             key={fund.accountId}
+            leasePeriod={leasePeriod}
             value={fund}
           />
         ))}
