@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 0.86.1 Mar 29, 2021
+
+Contributed:
+
+- Change global menu styling (Thanks to https://github.com/MiZiet)
+- Update Unique colors & types (Thanks to https://github.com/gregzaitsev)
+- Update Sora types (Thanks to https://github.com/modbrin)
+- Update Realis network (Thanks to https://github.com/Daelon02)
+- Update PolkaBtc types (thanks to https://github.com/gregdhill)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update Acala endpoints (Thanks to https://github.com/xlc)
+- Update Darwinia Crab logo (Thanks to https://github.com/sxlwar)
+- Update Darwinia Crab RPC & types (thanks to https://github.com/WoeOm)
+- Update Clover types (Thanks to https://github.com/pangwa & https://github.com/superpw)
+- Updata Equilibrium types (Thanks to https://github.com/pr0fedt)
+- Add Phoenix chain to Rococo (Thanks to https://github.com/yuyunhong)
+- Add Litentry testnet (Thanks to https://github.com/chenzongxiong)
+- Update types for DOTMog (Thanks to https://github.com/darkfriend77)
+- Fix language on staking (Thanks to https://github.com/SimonKraus)
+- Add pinning of apps UI IPFS to Crust (thanks to https://github.com/zikunfan)
+
+Changes:
+
+- Display justifications in block explorer
+- Expansion of crowdloan, auctions & parachain views
+- Basic functionality for asset module
+- Adjust ordering of democracy & tips buttons
+- Cater for new Rococo chain reset/deployment
+- Ensure treasury does not depend on council or tips
+
+
 ## 0.85.1 Mar 22, 2021
 
 Contributed:
