@@ -19,7 +19,8 @@ const definitions: OverrideBundleDefinition = {
           dna: 'Hash',
           genesis: 'BlockNumber',
           price: 'Balance',
-          gen: 'u64'
+          gen: 'u32',
+          rarity: 'RarityType'
         },
         MogwaiBios: {
           mogwai_id: 'Hash',
@@ -42,6 +43,34 @@ const definitions: OverrideBundleDefinition = {
           _enum: [
             'Default',
             'Hatch'
+          ]
+        },
+        RarityType: {
+          _enum: [
+            'Minor',
+            'Normal',
+            'Rare',
+            'Epic',
+            'Legendary'
+          ]
+        },
+        MogwaicoinAddress: {
+          address: 'Vec<u8>',
+          account: 'AccountId',
+          signature: 'Vec<u8>',
+          state: 'ClaimState',
+          balance: 'Balance'
+        },
+        ClaimState: {
+          _enum: [
+            'None',
+            'Registred',
+            'Verified',
+            'Secured',
+            'Processed',
+            'Holded',
+            'Failed',
+            'Cancelled'
           ]
         }
       }
