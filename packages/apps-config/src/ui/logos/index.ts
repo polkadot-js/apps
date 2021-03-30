@@ -188,7 +188,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
-  ['SUBZΞRO', nodeZero],
+  ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['TrustBase Node', nodeTrustBase],
   ['TrustBase Collator', nodeTrustBase],
