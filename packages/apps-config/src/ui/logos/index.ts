@@ -278,6 +278,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
   rococoPolkabtc: chainPolkaBTC,
+  rococoPolkaFoundry: nodePolkaFoundry,
   rococoRobonomics: nodeRobonomics,
   rococoSubDAO: nodeSubDAO,
   rococoTick: chainRococoTick,
