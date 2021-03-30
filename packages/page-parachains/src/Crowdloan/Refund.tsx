@@ -47,7 +47,7 @@ function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId,
     }, []);
 }
 
-function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React.ReactElement<Props> {
+function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -125,24 +125,38 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The type of withdrawal, all accounts or only own accounts (if available)')}>
-              <Dropdown
-                label={t<string>('withdrawal type')}
-                onChange={setWithdrawType}
-                options={typeOptions}
-                value={withdrawType}
-              />
-            </Modal.Columns>
+            {api.tx.crowdloan.refund && (
+              <Modal.Columns hint={t<string>('The type of withdrawal, all accounts or only own accounts (if available)')}>
+                <Dropdown
+                  label={t<string>('withdrawal type')}
+                  onChange={setWithdrawType}
+                  options={typeOptions}
+                  value={withdrawType}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
-            <TxButton
-              accountId={accountId}
-              extrinsic={extrinsics}
-              icon='credit-card'
-              isDisabled={!extrinsics || !extrinsics.length || !accountId}
-              label={t<string>('Withdraw')}
-              onStart={toggleOpen}
-            />
+            {api.tx.crowdloan.refund
+              ? (
+                <TxButton
+                  accountId={accountId}
+                  icon='credit-card'
+                  label={t<string>('Refund')}
+                  onStart={toggleOpen}
+                  tx={api.tx.crowdloan.refund}
+                />
+              )
+              : (
+                <TxButton
+                  accountId={accountId}
+                  extrinsic={extrinsics}
+                  icon='credit-card'
+                  isDisabled={!extrinsics || !extrinsics.length || !accountId}
+                  label={t<string>('Refund')}
+                  onStart={toggleOpen}
+                />
+              )}
           </Modal.Actions>
         </Modal>
       )}
@@ -150,4 +164,4 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
   );
 }
 
-export default React.memo(Withdraw);
+export default React.memo(Refund);

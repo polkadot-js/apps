@@ -16,7 +16,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
-import Withdraw from './Withdraw';
+import Refund from './Refund';
 
 interface Props {
   bestNumber?: BN;
@@ -43,7 +43,7 @@ function extractContributors (allAccounts: string[], keys: StorageKey[]): Contri
   };
 }
 
-function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
@@ -69,18 +69,11 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [depositor, isAccount]
   );
 
-  const [blocksLeft, retiringLeft] = useMemo(
-    () => bestNumber
-      ? [
-        end.gt(bestNumber)
-          ? end.sub(bestNumber)
-          : null,
-        retireEnd?.gt(bestNumber)
-          ? retireEnd.sub(bestNumber)
-          : null
-      ]
-      : [null, null],
-    [bestNumber, end, retireEnd]
+  const blocksLeft = useMemo(
+    () => bestNumber && end.gt(bestNumber)
+      ? end.sub(bestNumber)
+      : null,
+    [bestNumber, end]
   );
 
   // TODO Dissolve should look at retirement and the actual period
@@ -97,9 +90,9 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       ? leasePeriod.currentPeriod.gt(lastSlot)
       : leasePeriod.currentPeriod.gt(firstSlot)
   );
-  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
-  const canDissolve = raised.isZero() || (retiring.isTrue && isLeaseOver);
-  const canWithdraw = canDissolve || (!!(bestNumber && bestNumber.gt(end)) && isLeaseOver);
+  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner;
+  const canDissolve = raised.isZero() || !!(bestNumber && bestNumber.gt(end));
+  const canWithdraw = !raised.isZero() && (canDissolve || isLeaseOver);
 
   return (
     <tr className={className}>
@@ -108,34 +101,16 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       <td>
         {isWinner
           ? t<string>('Winner')
-          : isRetired
-            ? retiring.isTrue
-              ? t<string>('Retired')
-              : t<string>('Completed')
-            : retiring.isTrue
-              ? t<string>('Retiring')
-              : blocksLeft
-                ? isCapped
-                  ? t<string>('Capped')
-                  : isOngoing
-                    ? t<string>('Active')
-                    : t<string>('Past')
-                : t<string>('Ended')
+          : blocksLeft
+            ? isCapped
+              ? t<string>('Capped')
+              : isOngoing
+                ? t<string>('Active')
+                : t<string>('Past')
+            : t<string>('Ended')
         }
       </td>
       <td className='address media--1400'><AddressMini value={depositor} /></td>
-      {!isOngoing && (
-        <td className='all number together'>
-          {(isRetired || retiring.isTrue) && (
-            <>
-              {retiringLeft && (
-                <BlockToTime value={retiringLeft} />
-              )}
-              #{formatNumber(retireEnd)}
-            </>
-          )}
-        </td>
-      )}
       <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
@@ -165,7 +140,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       </td>
       <td className='button'>
         {canWithdraw && uniqueKeys.length !== 0 && (
-          <Withdraw
+          <Refund
             allAccounts={uniqueKeys}
             myAccounts={myAccounts}
             paraId={paraId}
