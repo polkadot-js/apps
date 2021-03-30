@@ -109,7 +109,9 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         {isWinner
           ? t<string>('Winner')
           : isRetired
-            ? t<string>('Retired')
+            ? retiring.isTrue
+              ? t<string>('Retired')
+              : t<string>('Completed')
             : retiring.isTrue
               ? t<string>('Retiring')
               : blocksLeft
