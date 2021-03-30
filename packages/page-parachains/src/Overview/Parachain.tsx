@@ -192,7 +192,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
       <td className='number media--1300'>
         {paraInfo.updateAt && bestNumber && (
           <>
-            <BlockToTime value={bestNumber.sub(paraInfo.updateAt)} />
+            <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
             #{formatNumber(paraInfo.updateAt)}
           </>
         )}
