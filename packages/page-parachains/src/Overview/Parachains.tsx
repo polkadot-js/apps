@@ -6,7 +6,7 @@ import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
 import type { ScheduledProposals } from '../types';
-import type { EventMapInfo, QueuedAction } from './types';
+import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -31,10 +31,12 @@ interface LastEvents {
   lastTimeout: EventMap;
 }
 
+type MultiResult = [AccountId[] | null, ParaValidatorIndex[][] | null, ParaValidatorIndex[] | null];
+
 const EMPTY_EVENTS: LastEvents = { lastBacked: {}, lastIncluded: {}, lastTimeout: {} };
 
 const optionsMulti = {
-  defaultValue: [null, null] as [AccountId[] | null, ParaValidatorIndex[][] | null]
+  defaultValue: [null, null, null] as MultiResult
 };
 
 function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
@@ -57,12 +59,17 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
     }), all), {});
 }
 
-function mapValidators (ids?: ParaId[], validators?: AccountId[] | null, validatorGroups?: ParaValidatorIndex[][] | null): AccountId[][] {
-  return validators && validatorGroups && ids && ids.length === validatorGroups.length
-    ? validatorGroups.map((ids) =>
-      ids
-        .map((id) => validators[id.toNumber()])
-        .filter((a) => a)
+function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): ValidatorInfo[][] {
+  return activeIndices && validators && validatorGroups && ids && ids.length === validatorGroups.length
+    ? validatorGroups.map((indices) =>
+      indices
+        .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
+        .filter(([, a]) => a)
+        .map(([indexActive, indexValidator]) => ({
+          indexActive,
+          indexValidator,
+          validatorId: validators[indexValidator.toNumber()]
+        }))
     )
     : [];
 }
@@ -122,9 +129,10 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
   const bestNumber = useBestNumber();
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded, lastTimeout }, setLastEvents] = useState<LastEvents>(EMPTY_EVENTS);
-  const [validators, validatorGroups] = useCallMulti<[AccountId[] | null, ParaValidatorIndex[][] | null]>([
+  const [validators, validatorGroups, activeIndices] = useCallMulti<MultiResult>([
     api.query.session?.validators,
-    api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups
+    api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups,
+    api.query.shared?.activeValidatorIndices
   ], optionsMulti);
 
   const headerRef = useRef([
@@ -147,8 +155,8 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
   );
 
   const validatorMap = useMemo(
-    () => mapValidators(ids, validators, validatorGroups),
-    [ids, validators, validatorGroups]
+    () => mapValidators(ids, validators, validatorGroups, activeIndices),
+    [activeIndices, ids, validators, validatorGroups]
   );
 
   const knownIds = useMemo(
