@@ -83,6 +83,7 @@
   "rpc.rococo.phoenix": "PHOENIX PC1",
   "rpc.rococo.plasm": "Plasm PC2",
   "rpc.rococo.polkabtc": "PolkaBTC PC1",
+  "rpc.rococo.polkafoundry": "PolkaFoundry PC1",
   "rpc.rococo.robonomics": "Robonomics PC2",
   "rpc.rococo.subdao": "SubDAO PC1",
   "rpc.rococo.tick": "Tick",
