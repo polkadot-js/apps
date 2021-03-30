@@ -274,7 +274,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'zero',
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
-        ZERO: 'wss://alphaville-0.zero.io'
+        ZERO: 'wss://alphaville.zero.io'
       }
     }
   ]);
