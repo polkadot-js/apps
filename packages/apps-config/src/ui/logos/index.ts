@@ -59,6 +59,7 @@ import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodeRealis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
@@ -109,6 +110,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
+  ['PolkaFoundry PC1', nodePolkaFoundry],
   ['Phala PC1', nodePhala],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
@@ -179,6 +181,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['phala-substrate-node', nodePhala],
   ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['PolkaFoundry Node', nodePolkaFoundry],
+  ['PolkaFoundry Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
@@ -248,6 +252,7 @@ export const namedLogos: Record<string, unknown> = {
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
+  polkafoundry: nodePolkaFoundry,
   realis: nodeRealis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
@@ -272,6 +277,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
+  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
   rococoSubDAO: nodeSubDAO,
