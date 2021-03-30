@@ -12,16 +12,28 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'AccountId',
-        LookupSource: 'AccountId',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
         Campaign: {
           id: 'Hash',
-          manager: 'AccountId',
+          owner: 'AccountId',
+          admin: 'AccountId',
           deposit: 'Balance',
           expiry: 'BlockNumber',
           cap: 'Balance',
           name: 'Vec<u8>',
           protocol: 'u8',
+          governance: 'u8',
+          cid: 'Vec<u8>',
+          created: 'Timestamp'
+        },
+        Governance: {
+          proposal_id: 'Hash',
+          campaign_id: 'Hash',
+          purpose: 'Vec<u8>',
+          cid: 'Vec<u8>',
+          amount: 'Balance',
+          expiry: 'BlockNumber',
           status: 'u8'
         },
         EventMessage: 'Vec<u8>',
