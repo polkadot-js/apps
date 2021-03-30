@@ -98,7 +98,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       : leasePeriod.currentPeriod.gt(firstSlot)
   );
   const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
-  const canDissolve = raised.isZero() || (isRetired && isLeaseOver);
+  const canDissolve = raised.isZero() || (retiring.isTrue && isLeaseOver);
   const canWithdraw = canDissolve || (!!(bestNumber && bestNumber.gt(end)) && isLeaseOver);
 
   return (

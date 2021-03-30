@@ -4,7 +4,7 @@
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-import type { EventMapInfo, QueuedAction } from './types';
+import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -28,7 +28,7 @@ interface Props {
   lastTimeout?: EventMapInfo;
   nextAction?: QueuedAction;
   sessionValidators?: AccountId[] | null;
-  validators?: AccountId[];
+  validators?: ValidatorInfo[];
 }
 
 type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>];
@@ -119,7 +119,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   );
 
   const valRender = useCallback(
-    () => renderAddresses(validators),
+    () => renderAddresses(validators?.map(({ validatorId }) => validatorId)),
     [validators]
   );
 
