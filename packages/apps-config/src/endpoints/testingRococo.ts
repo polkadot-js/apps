@@ -224,6 +224,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoPolkaFoundry',
+        paraId: 14,
+        text: t('rpc.rococo.polkafoundry', 'PolkaFoundry PC1', { ns: 'apps-config' }),
+        providers: {
+          PolkaFoundry: 'wss://rococo.polkafoundry.com'
+        }
+      },
+      {
         info: 'rococoRobonomics',
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
