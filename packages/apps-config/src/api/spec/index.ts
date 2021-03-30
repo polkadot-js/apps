@@ -15,7 +15,6 @@ import clover from './clover';
 import cloverRococo from './clover-rococo';
 import crab from './crab';
 import crust from './crust';
-import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
