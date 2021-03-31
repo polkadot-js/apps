@@ -28,7 +28,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
     [t('bids'), 'start', 3],
     [t('bidder'), 'address'],
     [t('crowdloan')],
-    [t('periods')],
+    [t('leases')],
     [t('value')]
   ]);
 
