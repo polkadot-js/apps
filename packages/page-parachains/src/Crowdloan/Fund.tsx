@@ -85,14 +85,14 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [cap, raised]
   );
 
-  const isLeaseOver = !!leasePeriod && (
+  const hasEnded = !blocksLeft && !!leasePeriod && (
     isWinner
       ? leasePeriod.currentPeriod.gt(lastSlot)
       : leasePeriod.currentPeriod.gt(firstSlot)
   );
-  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner;
-  const canDissolve = raised.isZero() || !!(bestNumber && bestNumber.gt(end));
-  const canWithdraw = !raised.isZero() && (canDissolve || isLeaseOver);
+  const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
+  const canDissolve = raised.isZero() || hasEnded;
+  const canWithdraw = !raised.isZero() && hasEnded;
 
   return (
     <tr className={className}>
