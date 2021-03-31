@@ -16,15 +16,15 @@ const definitions: OverrideBundleDefinition = {
         Application: {
           candidate: 'AccountId',
           candidate_deposit: 'Balance',
-          challenged_block: 'BlockNumber',
-          challenger: 'Option<AccountId>',
-          challenger_deposit: 'Option<Balance>',
-          created_block: 'BlockNumber',
           metadata: 'Vec<u8>',
-          voters_against: 'Vec<(AccountId, Balance)>',
+          challenger: 'Option<AccountId>',
+          challenger_deposit: 'Balance',
+          votes_for: 'Balance',
           voters_for: 'Vec<(AccountId, Balance)>',
-          votes_against: 'Option<Balance>',
-          votes_for: 'Option<Balance>'
+          votes_against: 'Balance',
+          voters_against: 'Vec<(AccountId, Balance)>',
+          created_block: 'BlockNumber',
+          challenged_block: 'BlockNumber'
         },
         CertificateId: 'AccountId',
         RootCertificate: {
