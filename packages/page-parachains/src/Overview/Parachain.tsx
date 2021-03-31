@@ -175,10 +175,21 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
       </td>
       <td className='start together hash'>{paraInfo.headHex}</td>
       <td className='start media--1100'>
-        <Lifecycle
-          lifecycle={paraInfo.lifecycle}
-          nextAction={nextAction}
-        />
+        {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
+          ? (
+            <>
+              {t<string>('Upgrading')}
+              <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
+              #{formatNumber(paraInfo.updateAt)}
+            </>
+          )
+          : (
+            <Lifecycle
+              lifecycle={paraInfo.lifecycle}
+              nextAction={nextAction}
+            />
+          )
+        }
       </td>
       <td className='all' />
       <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
@@ -199,16 +210,12 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
         }
       </td>
       <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
-      <td className='number media--1200'>
-        {paraInfo.updateAt && bestNumber && (
-          <>
-            <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
-            #{formatNumber(paraInfo.updateAt)}
-          </>
-        )}
-      </td>
       <td className='number media--1300'>
-        {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])})
+        {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
+        {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
+      </td>
+      <td className='number media--1300 no-pad-left'>
+        {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
       </td>
     </tr>
   );
