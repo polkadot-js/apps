@@ -136,6 +136,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoEquilibrium',
+        paraId: 42,
+        text: t('rpc.rococo.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://rococo.equilibrium.io'
+        }
+      },
+      {
         info: 'rococoHydrate',
         paraId: 82406,
         text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
