@@ -266,6 +266,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDarwinia: nodeDarwinia,
   rococoDataHighway: nodeDataHighway,
   rococoEncointer: nodeEncointerNotee,
+  rococoEquilibrium: nodeEquilibrium,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoIntegritee: nodeIntegritee,
