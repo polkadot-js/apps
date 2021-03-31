@@ -22,7 +22,7 @@ interface State {
 
 const DEFAULT_STATUS = { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null };
 
-function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee'): State {
+function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee' = 'council'): State {
   if (!votes.end) {
     return {
       hasFailed: false,
