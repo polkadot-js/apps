@@ -182,7 +182,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['PolkaFoundry Node', nodePolkaFoundry],
-  ['PolkaFoundry Collator', nodePolkaFoundry],
+  ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
