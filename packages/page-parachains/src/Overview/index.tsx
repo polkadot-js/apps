@@ -41,6 +41,7 @@ function Overview ({ className, leasePeriod, proposals }: Props): React.ReactEle
           <Parachains
             actionsQueue={actionsQueue}
             ids={paraIds}
+            leasePeriod={leasePeriod}
             scheduled={proposals?.scheduled}
           />
           <Upcomings
