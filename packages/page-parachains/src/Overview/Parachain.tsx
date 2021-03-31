@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
 
@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
 import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
@@ -20,6 +20,8 @@ import Lifecycle from './Lifecycle';
 
 interface Props {
   bestNumber?: BN;
+  channelDst?: [HrmpChannelId, HrmpChannel][];
+  channelSrc?: [HrmpChannelId, HrmpChannel][];
   className?: string;
   id: ParaId;
   isScheduled?: boolean;
@@ -88,7 +90,7 @@ function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
   ));
 }
 
-function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
@@ -106,6 +108,14 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
     [api.query.registrar.paras, id]
   ], optionsMulti);
   const [nonBacked, setNonBacked] = useState<AccountId[]>([]);
+
+  const channelCounts = useMemo(
+    () => [
+      channelDst ? channelDst.reduce((count, [, channel]) => count.iadd(channel.msgCount), new BN(0)) : BN_ZERO,
+      channelSrc ? channelSrc.reduce((count, [, channel]) => count.iadd(channel.msgCount), new BN(0)) : BN_ZERO
+    ],
+    [channelDst, channelSrc]
+  );
 
   const blockDelay = useMemo(
     () => bestNumber && (
@@ -198,7 +208,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         )}
       </td>
       <td className='number media--1300'>
-        {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}
+        {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])})
       </td>
     </tr>
   );
