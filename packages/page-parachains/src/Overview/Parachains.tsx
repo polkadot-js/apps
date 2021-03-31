@@ -145,8 +145,8 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
     [t('backed'), 'no-pad-left'],
     [t('timeout'), 'no-pad-left'],
     [t('chain best'), 'media--900 no-pad-left'],
-    [t('upgrade'), 'media--1300'],
-    [t('ump/dmp/hrmp'), 'media--1200']
+    [t('upgrade'), 'media--1200'],
+    [t('ump/dmp/hrmp'), 'media--1300']
   ]);
 
   const scheduledIds = useMemo(

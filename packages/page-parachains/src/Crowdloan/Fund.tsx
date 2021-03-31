@@ -151,7 +151,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
             isDisabled={!isDepositor}
             label={
               isEnded
-                ? t<string>('Dissolve')
+                ? t<string>('Close')
                 : t<string>('Cancel')
             }
             params={[paraId]}
