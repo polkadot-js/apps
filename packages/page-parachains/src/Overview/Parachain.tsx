@@ -207,8 +207,12 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
           </>
         )}
       </td>
-      <td className='number media--1300'>
-        {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])})
+      <td className='number badge media--1300'>
+        {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
+        {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
+      </td>
+      <td className='number badge media--1300'>
+        {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
       </td>
     </tr>
   );
