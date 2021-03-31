@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
+
+import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { AddressMini, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -31,7 +32,7 @@ const transformVotes = {
   transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
 };
 
-function Proposal ({ className = '', imageHash, members, prime }: Props): React.ReactElement<Props> | null {
+function Proposal({ className = '', imageHash, members, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -68,7 +69,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
       <td className='number together'>
         {remainingBlocks && end && (
           <>
-            <BlockToTime blocks={remainingBlocks} />
+            <BlockToTime value={remainingBlocks} />
             #{formatNumber(end)}
           </>
         )}
@@ -123,7 +124,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
                       : [imageHash, index, proposalWeight, proposalLength]
                     : [imageHash, index]
                 }
-                tx='financialCommittee.close'
+                tx={api.tx.financialCommittee.closeOperational || api.tx.financialCommittee.close}
               />
             )
         )}
