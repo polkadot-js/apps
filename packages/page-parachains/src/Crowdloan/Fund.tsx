@@ -48,7 +48,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
   const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew], useCallback(
+  const trigger = useEventTrigger([api.events.crowdloan?.Contributed, api.events.crowdloan?.Withdrew], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
       (fundIndex as ParaId).eq(paraId),
     [paraId]

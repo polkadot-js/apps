@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
-import type { ScheduledProposals } from '../types';
+import type { LeasePeriod, ScheduledProposals } from '../types';
 import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
@@ -21,6 +21,7 @@ import useHrmp from './useHrmp';
 interface Props {
   actionsQueue: QueuedAction[];
   ids?: ParaId[];
+  leasePeriod?: LeasePeriod;
   scheduled?: ScheduledProposals[];
 }
 
@@ -124,7 +125,7 @@ function extractActions (actionsQueue: QueuedAction[], knownIds?: [ParaId, strin
     : {};
 }
 
-function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElement<Props> {
+function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
@@ -139,7 +140,7 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
-    ['', 'media--1500'],
+    ['', 'media--1400'],
     [t('head'), 'start'],
     [t('lifecycle'), 'start media--1100'],
     [],
@@ -147,7 +148,8 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
     [t('backed'), 'no-pad-left'],
     [t('timeout'), 'no-pad-left'],
     [t('chain best'), 'media--900 no-pad-left'],
-    [t('in/out (msg)'), 'media--1300', 2]
+    [t('in/out (msg)'), 'media--1300', 2],
+    [t('leases'), 'media--1500']
   ]);
 
   const scheduledIds = useMemo(
@@ -192,6 +194,7 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
           lastBacked={lastBacked[key]}
           lastInclusion={lastIncluded[key]}
           lastTimeout={lastTimeout[key]}
+          leasePeriod={leasePeriod}
           nextAction={nextActions[key]}
           sessionValidators={validators}
           validators={validatorMap[index]}
