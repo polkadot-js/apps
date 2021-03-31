@@ -125,7 +125,7 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
                 value={accountId}
               />
             </Modal.Columns>
-            {api.tx.crowdloan.refund && (
+            {!api.tx.crowdloan.refund && (
               <Modal.Columns hint={t<string>('The type of withdrawal, all accounts or only own accounts (if available)')}>
                 <Dropdown
                   label={t<string>('withdrawal type')}
