@@ -7,7 +7,7 @@ import type { ITuple } from '@polkadot/types/types';
 import type { LeasePeriod } from '../types';
 import type { LeaseInfo, QueuedAction } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { AddressSmall, ParaLink } from '@polkadot/react-components';
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
@@ -15,8 +15,8 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
-import LeaseBlocks from './LeaseBlocks';
 import Lifecycle from './Lifecycle';
+import Periods from './Periods';
 
 interface Props {
   id: ParaId;
@@ -79,6 +79,12 @@ function Upcoming ({ id, leasePeriod, nextAction }: Props): React.ReactElement<P
     [api.query.slots?.leases, id]
   ], optMulti);
 
+  const periods = useMemo(
+    () => leasePeriod?.currentPeriod && leases &&
+      leases.map(({ period }) => period),
+    [leasePeriod?.currentPeriod, leases]
+  );
+
   return (
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
@@ -92,16 +98,14 @@ function Upcoming ({ id, leasePeriod, nextAction }: Props): React.ReactElement<P
         />
       </td>
       <td className='all number together'>
-        {leasePeriod && leases && (
+        {leasePeriod && leases && periods && (
           leases.length
             ? (
-              <>
-                <div>{leases.map(({ period }) => formatNumber(leasePeriod.currentPeriod.addn(period))).join(', ')}</div>
-                <LeaseBlocks
-                  leasePeriod={leasePeriod}
-                  value={leases[0]?.period}
-                />
-              </>
+              <Periods
+                fromFirst
+                leasePeriod={leasePeriod}
+                periods={periods}
+              />
             )
             : t('None')
         )}

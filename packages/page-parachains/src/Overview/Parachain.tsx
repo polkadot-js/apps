@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
+import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, Header, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { Codec, ITuple } from '@polkadot/types/types';
+import type { LeasePeriod } from '../types';
 import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
@@ -17,6 +18,7 @@ import { BN_ZERO, formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
+import Periods from './Periods';
 
 interface Props {
   bestNumber?: BN;
@@ -28,15 +30,17 @@ interface Props {
   lastBacked?: EventMapInfo;
   lastInclusion?: EventMapInfo;
   lastTimeout?: EventMapInfo;
+  leasePeriod?: LeasePeriod;
   nextAction?: QueuedAction;
   sessionValidators?: AccountId[] | null;
   validators?: ValidatorInfo[];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
 
 interface QueryState {
   headHex: string | null;
+  leases: number[];
   lifecycle: ParaLifecycle | null;
   paraInfo: ParaInfo | null;
   pendingAvail: CandidatePendingAvailability | null;
@@ -55,6 +59,7 @@ const transformHeader = {
 const optionsMulti = {
   defaultValue: {
     headHex: null,
+    leases: [],
     lifecycle: null,
     paraInfo: null,
     pendingAvail: null,
@@ -65,10 +70,13 @@ const optionsMulti = {
     updateAt: null,
     watermark: null
   },
-  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo, leases]: QueryResult): QueryState => ({
     headHex: headData.isSome
       ? sliceHex(headData.unwrap())
       : null,
+    leases: leases
+      .map((opt, index) => opt.isSome ? index : -1)
+      .filter((period) => period !== -1),
     lifecycle: optLifecycle.unwrapOr(null),
     paraInfo: optInfo.unwrapOr(null),
     pendingAvail: optPending.unwrapOr(null),
@@ -90,7 +98,7 @@ function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
   ));
 }
 
-function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { api: paraApi } = useParaApi(id);
@@ -105,7 +113,8 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
     [api.query.hrmp.hrmpIngressChannelsIndex, id],
     [api.query.hrmp.hrmpWatermarks, id],
     [api.query.inclusion.pendingAvailability, id],
-    [api.query.registrar.paras, id]
+    [api.query.registrar.paras, id],
+    [api.query.slots.leases, id]
   ], optionsMulti);
   const [nonBacked, setNonBacked] = useState<AccountId[]>([]);
 
@@ -159,7 +168,7 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
-      <td className='number media--1500'>
+      <td className='number media--1400'>
         {validators && validators.length !== 0 && (
           <Expander
             renderChildren={valRender}
@@ -216,6 +225,12 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
       </td>
       <td className='number media--1300 no-pad-left'>
         {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
+      </td>
+      <td className='number together media--1500'>
+        <Periods
+          leasePeriod={leasePeriod}
+          periods={paraInfo.leases}
+        />
       </td>
     </tr>
   );
