@@ -32,7 +32,11 @@ function Periods ({ className, fromFirst, leasePeriod, periods }: Props): React.
 
           return all;
         }, [])
-        .map(([a, b]) => `${formatNumber(a)} - ${formatNumber(b)}`)
+        .map(([a, b]) =>
+          a.eq(b)
+            ? formatNumber(a)
+            : `${formatNumber(a)} - ${formatNumber(b)}`
+        )
         .join(', '),
     [leasePeriod?.currentPeriod, periods]
   );

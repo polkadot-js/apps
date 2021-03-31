@@ -39,7 +39,11 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
       <td className='address'><AddressMini value={accountId} /></td>
       <td className='all number'>{isCrowdloan ? t<string>('Yes') : t<string>('No')}</td>
       <td className='all number'>
-        <Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} />
+        <Digits value={
+          firstSlot.eq(lastSlot)
+            ? formatNumber(firstSlot)
+            : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        } />
       </td>
       <td className='number'><FormatBalance value={value} /></td>
     </tr>
