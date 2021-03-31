@@ -142,7 +142,13 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         )}
         #{formatNumber(end)}
       </td>
-      <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
+      <td className='number'>
+        <Digits value={
+          firstSlot.eq(lastSlot)
+            ? formatNumber(firstSlot)
+            : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        } />
+      </td>
       <td className='number together'>
         <FormatBalance
           value={raised}
