@@ -47,7 +47,7 @@ function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId,
     }, []);
 }
 
-function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React.ReactElement<Props> {
+function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -140,7 +140,7 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
               extrinsic={extrinsics}
               icon='credit-card'
               isDisabled={!extrinsics || !extrinsics.length || !accountId}
-              label={t<string>('Withdraw')}
+              label={t<string>('Refund')}
               onStart={toggleOpen}
             />
           </Modal.Actions>
@@ -150,4 +150,4 @@ function Withdraw ({ allAccounts, className, myAccounts, paraId }: Props): React
   );
 }
 
-export default React.memo(Withdraw);
+export default React.memo(Refund);

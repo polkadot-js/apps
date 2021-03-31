@@ -189,7 +189,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         }
       </td>
       <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
-      <td className='number media--1300'>
+      <td className='number media--1200'>
         {paraInfo.updateAt && bestNumber && (
           <>
             <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
@@ -197,7 +197,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           </>
         )}
       </td>
-      <td className='number media--1200'>
+      <td className='number media--1300'>
         {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}
       </td>
     </tr>

@@ -16,7 +16,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
-import Withdraw from './Withdraw';
+import Refund from './Refund';
 
 interface Props {
   bestNumber?: BN;
@@ -92,14 +92,14 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [cap, raised]
   );
 
-  const isLeaseOver = !!leasePeriod && (
+  const isLeaseOver = !blocksLeft && !!leasePeriod && (
     isWinner
       ? leasePeriod.currentPeriod.gt(lastSlot)
       : leasePeriod.currentPeriod.gt(firstSlot)
   );
-  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
+  const canContribute = !!blocksLeft && isOngoing && !isCapped && !isWinner && retiring.isFalse;
   const canDissolve = raised.isZero() || (retiring.isTrue && isLeaseOver);
-  const canWithdraw = canDissolve || (!!(bestNumber && bestNumber.gt(end)) && isLeaseOver);
+  const canWithdraw = !raised.isZero() && isLeaseOver;
 
   return (
     <tr className={className}>
@@ -165,7 +165,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       </td>
       <td className='button'>
         {canWithdraw && uniqueKeys.length !== 0 && (
-          <Withdraw
+          <Refund
             allAccounts={uniqueKeys}
             myAccounts={myAccounts}
             paraId={paraId}
@@ -178,7 +178,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
             isDisabled={!isDepositor}
             label={
               isEnded
-                ? t<string>('Dissolve')
+                ? t<string>('Close')
                 : t<string>('Cancel')
             }
             params={[paraId]}
