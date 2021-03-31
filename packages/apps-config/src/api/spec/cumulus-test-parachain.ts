@@ -13,8 +13,7 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: 'AccountId',
-        LookupSource: 'AccountId',
-        RefCount: 'u8'
+        LookupSource: 'AccountId'
       }
     }
   ]
