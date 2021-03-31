@@ -76,8 +76,6 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [bestNumber, end]
   );
 
-  // TODO Dissolve should look at retirement and the actual period
-
   const percentage = useMemo(
     () => cap.isZero()
       ? '100.00%'
