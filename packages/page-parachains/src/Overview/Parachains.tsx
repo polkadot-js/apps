@@ -3,11 +3,10 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, CandidateReceipt, Event, HrmpChannel, HrmpChannelId, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
+import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
 import type { ScheduledProposals } from '../types';
-import type { ChannelMap, EventMapInfo, QueuedAction, ValidatorInfo } from './types';
+import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -17,6 +16,7 @@ import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-ho
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
+import useHrmp from './useHrmp';
 
 interface Props {
   actionsQueue: QueuedAction[];
@@ -115,29 +115,6 @@ function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: L
     : prev;
 }
 
-const optChannelKeys = {
-  transform: (keys: StorageKey<[HrmpChannelId]>[]): HrmpChannelId[] =>
-    keys.map(({ args: [id] }) => id)
-};
-
-const optChannels = {
-  transform: ([[channelIds], channels]: [[HrmpChannelId[]], Option<HrmpChannel>[]]): [ChannelMap, ChannelMap] =>
-    channelIds
-      .map((id, index): [HrmpChannelId, Option<HrmpChannel>] => [id, channels[index]])
-      .filter(([, opt]) => opt.isSome)
-      .map(([id, opt]): [HrmpChannelId, HrmpChannel] => [id, opt.unwrap()])
-      .reduce(([src, dst]: [ChannelMap, ChannelMap], [id, channel]): [ChannelMap, ChannelMap] => {
-        dst[id.receiver.toNumber()] ||= [];
-        src[id.sender.toNumber()] ||= [];
-
-        dst[id.receiver.toNumber()].push([id, channel]);
-        src[id.sender.toNumber()].push([id, channel]);
-
-        return [src, dst];
-      }, [{}, {}]),
-  withParamsTransform: true
-};
-
 function extractActions (actionsQueue: QueuedAction[], knownIds?: [ParaId, string][]): Record<string, QueuedAction | undefined> {
   return actionsQueue && knownIds
     ? knownIds.reduce((all: Record<string, QueuedAction | undefined>, [id, key]) => ({
@@ -158,8 +135,7 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
     api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups,
     api.query.shared?.activeValidatorIndices
   ], optionsMulti);
-  const channelIds = useCall<HrmpChannelId[]>(api.query.hrmp?.hrmpChannels.keys, undefined, optChannelKeys);
-  const allChannels = useCall<[ChannelMap, ChannelMap]>(channelIds && api.query.hrmp.hrmpChannels.multi, [channelIds], optChannels);
+  const hrmp = useHrmp();
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
@@ -171,8 +147,7 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
     [t('backed'), 'no-pad-left'],
     [t('timeout'), 'no-pad-left'],
     [t('chain best'), 'media--900 no-pad-left'],
-    [t('upgrade'), 'media--1200'],
-    [t('ump/dmp/hrmp'), 'media--1300']
+    [t('in/out (msg)'), 'media--1300', 2]
   ]);
 
   const scheduledIds = useMemo(
@@ -209,8 +184,8 @@ function Parachains ({ actionsQueue, ids, scheduled }: Props): React.ReactElemen
       {knownIds?.map(([id, key], index): React.ReactNode => (
         <Parachain
           bestNumber={bestNumber}
-          channelDst={allChannels?.[1][id.toNumber()]}
-          channelSrc={allChannels?.[0][id.toNumber()]}
+          channelDst={hrmp?.dst[id.toString()]}
+          channelSrc={hrmp?.src[id.toString()]}
           id={id}
           isScheduled={scheduledIds[key]}
           key={key}

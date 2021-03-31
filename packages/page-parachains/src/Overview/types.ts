@@ -4,7 +4,7 @@
 import type BN from 'bn.js';
 import type { AccountId, BalanceOf, HrmpChannel, HrmpChannelId, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 
-export type ChannelMap = Record<number, [HrmpChannelId, HrmpChannel][]>;
+export type ChannelMap = Record<string, [HrmpChannelId, HrmpChannel][]>;
 
 export interface LeaseInfo {
   accountId: AccountId;
