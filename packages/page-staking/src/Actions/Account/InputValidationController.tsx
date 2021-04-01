@@ -61,7 +61,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
         newError = t('A controller account should not be set to manage multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
       } else if (allBalances?.freeBalance.isZero()) {
         isFatal = true;
-        newError = t('The controller does no have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.');
+        newError = t('The controller does not have sufficient funds available to cover transaction fees. Ensure that a funded controller is used.');
       } else if (controllerId === accountId) {
         newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
       }

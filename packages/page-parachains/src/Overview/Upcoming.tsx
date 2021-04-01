@@ -1,40 +1,44 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, HeadData, ParaGenesisArgs, ParaId, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, HeadData, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { LeasePeriod } from '../types';
 import type { LeaseInfo, QueuedAction } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { ParaLink } from '@polkadot/react-components';
+import { AddressSmall, ParaLink } from '@polkadot/react-components';
 import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
+import Periods from './Periods';
 
 interface Props {
-  currentPeriod: BN | null;
   id: ParaId;
+  leasePeriod: LeasePeriod;
   nextAction?: QueuedAction;
 }
 
 interface MultiState {
   headHex: string | null;
-  leases: LeaseInfo[];
+  leases: LeaseInfo[] | null;
   lifecycle: ParaLifecycle | null;
+  manager: AccountId | null;
 }
 
 const optMulti = {
   defaultValue: {
     headHex: null,
-    leases: [],
-    lifecycle: null
+    leases: null,
+    lifecycle: null,
+    manager: null
   },
-  transform: ([optHead, optGenesis, optLifecycle, leases]: [Option<HeadData>, Option<ParaGenesisArgs>, Option<ParaLifecycle>, Vec<Option<ITuple<[AccountId, BalanceOf]>>>]): MultiState => ({
+  transform: ([optHead, optGenesis, optLifecycle, optInfo, leases]: [Option<HeadData>, Option<ParaGenesisArgs>, Option<ParaLifecycle>, Option<ParaInfo>, Vec<Option<ITuple<[AccountId, BalanceOf]>>>]): MultiState => ({
     headHex: optHead.isSome
       ? sliceHex(optHead.unwrap())
       : optGenesis.isSome
@@ -57,23 +61,35 @@ const optMulti = {
         })
         .filter((item): item is LeaseInfo => !!item)
       : [],
-    lifecycle: optLifecycle.unwrapOr(null)
+    lifecycle: optLifecycle.unwrapOr(null),
+    manager: optInfo.isSome
+      ? optInfo.unwrap().manager
+      : null
   })
 };
 
-function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement<Props> {
+function Upcoming ({ id, leasePeriod, nextAction }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const { headHex, leases, lifecycle } = useCallMulti<MultiState>([
+  const { headHex, leases, lifecycle, manager } = useCallMulti<MultiState>([
     [api.query.paras.heads, id],
     [api.query.paras.upcomingParasGenesis, id],
     [api.query.paras.paraLifecycles, id],
+    [api.query.registrar?.paras, id],
     [api.query.slots?.leases, id]
   ], optMulti);
+
+  const periods = useMemo(
+    () => leasePeriod?.currentPeriod && leases &&
+      leases.map(({ period }) => period),
+    [leasePeriod?.currentPeriod, leases]
+  );
 
   return (
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='badge together'><ParaLink id={id} /></td>
+      <td className='badge'><ParaLink id={id} /></td>
+      <td className='address'>{manager && <AddressSmall value={manager} />}</td>
       <td className='start together hash'>{headHex}</td>
       <td className='start'>
         <Lifecycle
@@ -81,11 +97,18 @@ function Upcoming ({ currentPeriod, id, nextAction }: Props): React.ReactElement
           nextAction={nextAction}
         />
       </td>
-      <td className='all' />
-      <td className='start together'>
-        {currentPeriod &&
-          leases.map(({ period }) => formatNumber(currentPeriod.addn(period))).join(', ')
-        }
+      <td className='all number together'>
+        {leasePeriod && leases && periods && (
+          leases.length
+            ? (
+              <Periods
+                fromFirst
+                leasePeriod={leasePeriod}
+                periods={periods}
+              />
+            )
+            : t('None')
+        )}
       </td>
     </tr>
   );

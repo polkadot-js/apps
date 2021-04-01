@@ -15,7 +15,7 @@ import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 import chainSnakenet from './chains/snakenet.svg';
-import chainUnique from './chains/unique.png';
+import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
@@ -53,11 +53,13 @@ import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
+import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodeRealis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
@@ -69,7 +71,7 @@ import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
-import nodeUnique from './nodes/unique.png';
+import nodeUnique from './nodes/unique.svg';
 import nodeVln from './nodes/valiu.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -83,6 +85,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
+  ['Darwinia Crab PC2', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
@@ -99,6 +102,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Litentry', nodeLitentry],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
@@ -106,6 +110,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
+  ['PolkaFoundry PC1', nodePolkaFoundry],
   ['Phala PC1', nodePhala],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
@@ -116,7 +121,8 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['Uniarts', nodeUniarts],
   ['Unique', chainUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['PHOENIX PC1', nodePhoenix]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -162,6 +168,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
+  ['Litentry', nodeLitentry],
   ['Litentry Collator', nodeLitentry],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
@@ -174,6 +181,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['phala-substrate-node', nodePhala],
   ['Phala Collator', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['PolkaFoundry Node', nodePolkaFoundry],
+  ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
@@ -183,7 +192,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
-  ['SUBZΞRO', nodeZero],
+  ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['TrustBase Node', nodeTrustBase],
   ['TrustBase Collator', nodeTrustBase],
@@ -192,7 +201,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['SubDAO Collator', nodeSubDAO],
   ['Uniarts', nodeUniarts],
   ['Unique Node', nodeUnique],
-  ['Vln', nodeVln]
+  ['Vln', nodeVln],
+  ['PHOENIX Node', nodePhoenix],
+  ['PHOENIX Collator', nodePhoenix]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -232,13 +243,16 @@ export const namedLogos: Record<string, unknown> = {
   kulupu: nodeKulupu,
   kusama: chainKusama,
   laminar: nodeLaminar,
+  litentry: nodeLitentry,
   moonbaseAlpha: moonbeam,
   nodle: nodeNodle,
   phala: nodePhala,
+  phoenix: nodePhoenix,
   plasm: nodePlasm,
   polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
+  polkafoundry: nodePolkaFoundry,
   realis: nodeRealis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
@@ -247,10 +261,12 @@ export const namedLogos: Record<string, unknown> = {
   rococoBitCountry: nodeBitCountry,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
+  rococoCrab: nodeCrab,
   rococoCrust: nodeCrust,
   rococoDarwinia: nodeDarwinia,
   rococoDataHighway: nodeDataHighway,
   rococoEncointer: nodeEncointerNotee,
+  rococoEquilibrium: nodeEquilibrium,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoIntegritee: nodeIntegritee,
@@ -260,7 +276,9 @@ export const namedLogos: Record<string, unknown> = {
   rococoLitentry: nodeLitentry,
   rococoMathChain: nodeMath,
   rococoPhala: nodePhala,
+  rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
+  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
   rococoSubDAO: nodeSubDAO,

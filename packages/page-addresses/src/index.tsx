@@ -24,12 +24,10 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
 
   return (
     <main>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route>
           <Contacts

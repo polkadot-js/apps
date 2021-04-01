@@ -116,12 +116,10 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <div className='calendarFlex'>
         <Month
           hasNextMonth={hasNextMonth}
@@ -191,6 +189,7 @@ export default React.memo(styled(CalendarApp)`
 
     h1 {
       align-items: center;
+      border-bottom: 0.25rem solid var(--bg-page);
       display: flex;
       justify-content: space-between;
       padding: 0.5rem 0.5rem 0 1rem;

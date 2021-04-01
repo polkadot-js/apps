@@ -16,17 +16,15 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const itemsRef = useRef([{
     isRoot: true,
     name: 'create',
-    text: t<string>('Extrinsic submission')
+    text: t<string>('Submission')
   }]);
 
   return (
     <main className='extrinsics--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Selection />
     </main>
   );

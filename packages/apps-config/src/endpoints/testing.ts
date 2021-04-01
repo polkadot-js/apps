@@ -97,6 +97,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'phoenix',
+      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
+      providers: {
+        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
+      }
+    },
+    {
       info: 'dusty',
       text: t('rpc.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
@@ -121,7 +128,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://api.mvp.testnet.equilibrium.io'
+        Equilibrium: 'wss://testnet.equilibrium.io'
       }
     },
     {
@@ -151,7 +158,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws',
+        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://mandala.elara.patract.io'
       }
     },
@@ -160,6 +167,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
+      }
+    },
+    {
+      info: 'litentry',
+      text: t('rpc.litentry.test', 'Litentry Testnet', { ns: 'apps-config' }),
+      providers: {
+        Litentry: 'wss://testnet.litentry.io'
       }
     },
     {
@@ -193,9 +207,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'realis',
-      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
+      text: t('rpc.realis', 'Realis.Network', { ns: 'apps-config' }),
       providers: {
-        'Realis Network': 'wss://rpc.realis.network/'
+        'Realis.Network': 'wss://rpc.realis.network/'
       }
     },
     {
@@ -260,7 +274,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'zero',
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
-        ZERO: 'wss://alphaville-0.zero.io'
+        ZERO: 'wss://alphaville.zero.io'
       }
     }
   ]);

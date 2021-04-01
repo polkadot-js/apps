@@ -42,6 +42,7 @@ import moonbeam from './moonbeam';
 import nodle from './nodle';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
+import phoenix from './phoenix';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
 import polkabtc from './polkabtc';
@@ -66,6 +67,8 @@ import zero from './zero';
 const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
+  'Darwinia Crab PC2': darwiniaParachain,
+  'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   VLN: vln,
   acala,
@@ -83,7 +86,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
-  'darwinia-parachain': darwiniaParachain,
   'datahighway-parachain': datahighwayParachain,
   'dev-parachain': zenlink,
   'dock-main-runtime': dock,
@@ -117,6 +119,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'nodle-chain': nodle,
   'phala-collator': phalaParachain,
   'phala-node': phala,
+  'phoenix-node': phoenix,
+  'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
   realis,

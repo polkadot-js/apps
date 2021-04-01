@@ -1,7 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveSociety } from '@polkadot/api-derive/types';
+import type { MapMember } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -14,19 +16,24 @@ interface Props {
   className?: string;
   info?: DeriveSociety;
   isMember: boolean;
+  mapMembers?: MapMember[];
   ownMembers: string[];
+  payoutTotal?: BN;
 }
 
-function Overview ({ className, info, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Overview ({ className, info, isMember, mapMembers, ownMembers, payoutTotal }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      <Summary info={info} />
+      <Summary
+        info={info}
+        payoutTotal={payoutTotal}
+      />
       <Defender
         info={info}
         isMember={isMember}
         ownMembers={ownMembers}
       />
-      <Members info={info} />
+      <Members mapMembers={mapMembers} />
     </div>
   );
 }

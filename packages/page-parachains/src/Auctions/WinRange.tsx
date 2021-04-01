@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
-import type { WinnerData } from './types';
+import type { AuctionInfo, WinnerData } from '../types';
 
 import React from 'react';
 
@@ -14,7 +13,7 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  auctionInfo: [LeasePeriodOf, BlockNumber];
+  auctionInfo: AuctionInfo;
   blockNumber: BN;
   className?: string;
   isFirst: boolean;
@@ -22,9 +21,8 @@ interface Props {
   value: WinnerData;
 }
 
-function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLatest, value: { accountId, paraId, range, value } }: Props): React.ReactElement<Props> {
+function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLatest, value: { accountId, firstSlot, isCrowdloan, lastSlot, paraId, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [leasePeriod, endBlock] = auctionInfo;
 
   return (
     <tr className={className}>
@@ -32,14 +30,21 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
         {isFirst && (
           <h1>{isLatest
             ? t<string>('latest')
-            : <>#{formatNumber(blockNumber.isZero() ? endBlock : blockNumber)}</>
+            : <>#{formatNumber(blockNumber.isZero() ? auctionInfo.endBlock : blockNumber)}</>
           }</h1>
         )}
       </td>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
-      <td><ParaLink id={paraId} /></td>
+      <td className='badge'><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>
-      <td className='number'><Digits value={`${formatNumber(leasePeriod.addn(range[0]))} - ${formatNumber(leasePeriod.addn(range[1]))}`} /></td>
+      <td className='all number'>{isCrowdloan ? t<string>('Yes') : t<string>('No')}</td>
+      <td className='all number'>
+        <Digits value={
+          firstSlot.eq(lastSlot)
+            ? formatNumber(firstSlot)
+            : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        } />
+      </td>
       <td className='number'><FormatBalance value={value} /></td>
     </tr>
   );

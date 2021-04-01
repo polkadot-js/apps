@@ -21,12 +21,15 @@ const chainHydrate = '#000000';
 const chainIntegritee = '#080808';
 const chainKulupu = '#003366';
 const chainPhala = '#a7e300';
+const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
 const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
+const chainPolkaFoundry = '#ff527c';
 const chainKilt = '#8c175b';
 const chainKusama = '#000000';
+const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
@@ -45,7 +48,7 @@ const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
-const chainUnique = 'linear-gradient(180deg, #000219 0%, #000219 7%, #77903b 7%, #77903b 100%)';
+const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainTrustBase = '#ff43aa';
@@ -66,7 +69,7 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodePolkadex = '#7C30DD';
-const nodeRealis = '#FFD700';
+const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -113,6 +116,7 @@ export const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
+  ['Litentry', chainLitentry],
   ['MathChain PC1', chainGalois],
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
@@ -126,6 +130,7 @@ export const chainColors: Record<string, any> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['Halongbay Testnet', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['Sgc ', chainSgc],
@@ -138,7 +143,8 @@ export const chainColors: Record<string, any> = [
   ['Unique Node', chainUnique],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
-  ['ZΞRO Alphaville', chainZero]
+  ['ZERO.IO', chainZero],
+  ['PHOENIX', chainPhoenix]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -167,7 +173,7 @@ export const nodeColors: Record<string, any> = [
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
-  ['SUBZΞRO', nodeZero],
+  ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['Unique Node', nodeUnique],
   ['Zenlink Collator', nodeZenlink],

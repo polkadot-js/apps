@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, HrmpChannel, HrmpChannelId, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
+
+export type ChannelMap = Record<string, [HrmpChannelId, HrmpChannel][]>;
 
 export interface LeaseInfo {
   accountId: AccountId;
@@ -10,13 +12,19 @@ export interface LeaseInfo {
   period: number;
 }
 
-export interface LeasePeriod {
-  currentPeriod: BN;
-  length: BN;
-  remainder: BN;
-}
-
 export interface QueuedAction {
   paraIds: ParaId[];
   sessionIndex: BN;
+}
+
+export interface EventMapInfo {
+  blockHash: string;
+  blockNumber: BN;
+  relayParent: string;
+}
+
+export interface ValidatorInfo {
+  indexActive: ParaValidatorIndex;
+  indexValidator: ParaValidatorIndex;
+  validatorId: AccountId;
 }

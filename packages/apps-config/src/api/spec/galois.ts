@@ -57,7 +57,8 @@ const definitions: OverrideBundleDefinition = {
           daily_limit: 'Balance',
           monthly_limit: 'Balance',
           yearly_limit: 'Balance'
-        }
+        },
+        Keys: 'SessionKeys2'
       }
     }
   ]

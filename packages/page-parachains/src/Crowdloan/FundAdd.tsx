@@ -2,34 +2,39 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { AuctionInfo, LeasePeriod, OwnedId, OwnerInfo } from '../types';
 
 import React, { useState } from 'react';
 
-import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { Button, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ONE, BN_THREE, BN_ZERO } from '@polkadot/util';
 
+import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
 
 interface Props {
+  auctionInfo?: AuctionInfo;
   bestNumber?: BN;
   className?: string;
+  leasePeriod?: LeasePeriod;
+  ownedIds: OwnedId[];
 }
 
-function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
+function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { hasAccounts } = useAccounts();
-  const [accountId, setAccountId] = useState<string | null>(null);
+  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>({ accountId: null, paraId: 0 });
   const [cap, setCap] = useState<BN | undefined>();
   const [endBlock, setEndBlock] = useState<BN | undefined>();
   const [firstSlot, setFirstSlot] = useState<BN | undefined>();
   const [lastSlot, setLastSlot] = useState<BN | undefined>();
-  const [paraId, setParaId] = useState<BN | undefined>();
   const [isOpen, toggleOpen] = useToggle();
 
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
-  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.addn(3));
+  const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lt(leasePeriod.currentPeriod));
+  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
+  const defaultSlot = (auctionInfo?.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE) || 1).toString();
 
   // TODO Add verifier
 
@@ -37,7 +42,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
     <>
       <Button
         icon='plus'
-        isDisabled={!hasAccounts}
+        isDisabled={!ownedIds.length}
         label={t<string>('Add fund')}
         onClick={toggleOpen}
       />
@@ -48,44 +53,40 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('This account will be associated with the fund and pay the deposit. This should match the registrar for the parachain.')}>
-              <InputAddress
-                label={t<string>('propose from')}
-                onChange={setAccountId}
-                type='account'
-                value={accountId}
-              />
-            </Modal.Columns>
-            <Modal.Columns hint={t<string>('The parachain id this fund applies to')}>
-              <InputNumber
-                autoFocus
-                isZeroable={false}
-                label={t<string>('parachain id')}
-                onChange={setParaId}
-              />
-            </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount to be raised in this funding campaign')}>
+            <InputOwner
+              onChange={setOwnerInfo}
+              ownedIds={ownedIds}
+            />
+            <Modal.Columns hint={t<string>('The amount to be raised in this funding campaign.')}>
               <InputBalance
                 isZeroable={false}
                 label={t<string>('crowdfund cap')}
                 onChange={setCap}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The block until which this fund is active for')}>
+            <Modal.Columns hint={t<string>('The end block for contributions to this fund.')}>
               <InputNumber
                 isError={isEndError}
                 label={t<string>('ending block')}
                 onChange={setEndBlock}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The first and last slots for this funding campaign. The last slot should be after the first and a maximum of 3 slots more than the first')}>
+            <Modal.Columns hint={
+              <>
+                <p>{t<string>('The first and last lease periods for this funding campaign.')}</p>
+                <p>{t<string>('The ending lease period should be after the first and a maximum of 3 periods more than the first')}</p>
+              </>
+            }>
               <InputNumber
-                label={t<string>('first slot')}
+                defaultValue={defaultSlot}
+                isError={isFirstError}
+                label={t<string>('first period')}
                 onChange={setFirstSlot}
               />
               <InputNumber
+                defaultValue={defaultSlot}
                 isError={isLastError}
-                label={t<string>('last slot')}
+                label={t<string>('last period')}
                 onChange={setLastSlot}
               />
             </Modal.Columns>
@@ -94,7 +95,7 @@ function FundAdd ({ bestNumber, className }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!paraId?.gt(BN_ZERO) || !cap?.gt(BN_ZERO) || !firstSlot?.gte(BN_ZERO) || isEndError || isLastError}
+              isDisabled={!paraId || !cap?.gt(BN_ZERO) || isEndError || isFirstError || isLastError}
               label={t<string>('Add')}
               onStart={toggleOpen}
               params={[paraId, cap, firstSlot, lastSlot, endBlock, null]}
