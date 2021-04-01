@@ -147,7 +147,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     [t('included'), undefined, 2],
     [t('backed'), 'no-pad-left'],
     [t('timeout'), 'no-pad-left'],
-    [t('chain best'), 'media--900 no-pad-left'],
+    [t('chain'), 'media--900 no-pad-left'],
     [t('in/out (msg)'), 'media--1300', 2],
     [t('leases'), 'media--1500']
   ]);
