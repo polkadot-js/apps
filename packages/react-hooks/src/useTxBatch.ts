@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Weight } from '@polkadot/types/interfaces';
 
 import { useEffect, useMemo, useState } from 'react';
 
@@ -61,7 +62,11 @@ export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null, opti
           info.weight.isZero()
             ? prev
             : Math.floor(
-              api.consts.system.blockWeights.maxBlock
+              (
+                api.consts.system.blockWeights
+                  ? api.consts.system.blockWeights.maxBlock
+                  : api.consts.system.maximumBlockWeight as Weight
+              )
                 .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
                 .div(info.weight)
                 .toNumber() / 100
