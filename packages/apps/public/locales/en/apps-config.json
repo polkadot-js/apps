@@ -103,6 +103,7 @@
   "rpc.unique": "Unique",
   "rpc.vln": "Valiu Liquidity Network",
   "rpc.westend": "Westend",
+  "rpc.zeitgeist": "Zeitgeist Battery Park",
   "rpc.zero": "Zero",
   "ss58.default": "Default for the connected node"
 }
