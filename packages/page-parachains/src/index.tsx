@@ -1,24 +1,29 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ParaId } from '@polkadot/types/interfaces';
+
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Auctions from './Auctions';
 import Crowdloan from './Crowdloan';
 import Overview from './Overview';
+import Parathreads from './Parathreads';
 import Proposals from './Proposals';
 import { useTranslation } from './translate';
+import useActionsQueue from './useActionsQueue';
 import useAuctionInfo from './useAuctionInfo';
 import useFunds from './useFunds';
 import useLeasePeriod from './useLeasePeriod';
 import useOwnedIds from './useOwnedIds';
 import useProposals from './useProposals';
+import useUpcomingIds from './useUpcomingIds';
 import useWinningData from './useWinningData';
 
 interface Props {
@@ -36,12 +41,19 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const ownedIds = useOwnedIds();
   const winningData = useWinningData(auctionInfo);
   const proposals = useProposals();
+  const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
+  const actionsQueue = useActionsQueue();
+  const upcomingIds = useUpcomingIds();
 
   const items = useRef([
     {
       isRoot: true,
       name: 'overview',
       text: t<string>('Overview')
+    },
+    {
+      name: 'parathreads',
+      text: t<string>('Parathreads')
     },
     api.query.proposeParachain && {
       name: 'proposals',
@@ -85,9 +97,18 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         </Route>
       </Switch>
       <Overview
-        className={basePath === pathname ? '' : 'parachains--hidden'}
+        actionsQueue={actionsQueue}
+        className={pathname === basePath ? '' : 'parachains--hidden'}
         leasePeriod={leasePeriod}
+        paraIds={paraIds}
         proposals={proposals}
+        threadIds={upcomingIds}
+      />
+      <Parathreads
+        actionsQueue={actionsQueue}
+        className={pathname === `${basePath}/parathreads` ? '' : 'parachains--hidden'}
+        ids={upcomingIds}
+        leasePeriod={leasePeriod}
       />
     </main>
   );
