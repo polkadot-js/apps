@@ -13,7 +13,7 @@ export default function useLeasePeriod (): LeasePeriod | undefined {
   const bestNumber = useBestNumber();
 
   return useMemo((): LeasePeriod | undefined => {
-    if (!api.consts.slots?.leasePeriod || !bestNumber) {
+    if (!api.consts.slots.leasePeriod || !bestNumber) {
       return;
     }
 

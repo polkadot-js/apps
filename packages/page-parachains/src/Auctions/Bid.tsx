@@ -91,7 +91,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
             />
             <Modal.Columns hint={t<string>('The first and last lease period for this bid. The last lease period should be after the first and a maximum of 3 more than the first.')}>
               <Dropdown
-                label={t<string>('bid period range (first period - last period)')}
+                label={t<string>('bid period range (first lease - last lease)')}
                 onChange={setRange}
                 options={rangeOpts}
                 value={range}
@@ -99,7 +99,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
             </Modal.Columns>
             <Modal.Columns hint={
               <>
-                <p>{t<string>('The amount to to bid for this parachain period range.')}</p>
+                <p>{t<string>('The amount to to bid for this parachain lease period range.')}</p>
                 <p>{t<string>('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
             }>

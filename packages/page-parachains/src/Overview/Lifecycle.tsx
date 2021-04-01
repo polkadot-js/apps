@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaLifecycle } from '@polkadot/types/interfaces';
-import type { QueuedAction } from './types';
+import type { QueuedAction } from '../types';
 
 import React from 'react';
 

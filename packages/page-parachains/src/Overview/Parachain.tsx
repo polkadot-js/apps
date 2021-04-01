@@ -4,8 +4,8 @@
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, Header, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec, ITuple } from '@polkadot/types/types';
-import type { LeasePeriod } from '../types';
-import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
+import type { LeasePeriod, QueuedAction } from '../types';
+import type { EventMapInfo, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';

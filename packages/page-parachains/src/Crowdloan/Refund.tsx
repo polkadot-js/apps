@@ -107,7 +107,7 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
       <Button
         icon='minus'
         isDisabled={!hasAccounts}
-        label={t<string>('Withdraw')}
+        label={t<string>('Refund')}
         onClick={toggleOpen}
       />
       {isOpen && (

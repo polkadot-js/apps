@@ -5,8 +5,8 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
-import type { LeasePeriod, ScheduledProposals } from '../types';
-import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
+import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types';
+import type { EventMapInfo, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -15,8 +15,8 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import useHrmp from '../useHrmp';
 import Parachain from './Parachain';
-import useHrmp from './useHrmp';
 
 interface Props {
   actionsQueue: QueuedAction[];

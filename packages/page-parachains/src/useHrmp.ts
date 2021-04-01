@@ -3,24 +3,19 @@
 
 import type { Option } from '@polkadot/types';
 import type { HrmpChannel, HrmpChannelId } from '@polkadot/types/interfaces';
-import type { ChannelMap } from './types';
+import type { AllChannels } from './types';
 
 import { useEffect, useState } from 'react';
 
 import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
 
-interface Result {
-  dst: ChannelMap;
-  src: ChannelMap;
-}
-
 const optChannels = {
-  transform: ([[channelIds], channels]: [[HrmpChannelId[]], Option<HrmpChannel>[]]): Result =>
+  transform: ([[channelIds], channels]: [[HrmpChannelId[]], Option<HrmpChannel>[]]): AllChannels =>
     channelIds
       .map((id, index): [HrmpChannelId, Option<HrmpChannel>] => [id, channels[index]])
       .filter(([, opt]) => opt.isSome)
       .map(([id, opt]): [HrmpChannelId, HrmpChannel] => [id, opt.unwrap()])
-      .reduce((all: Result, [id, channel]): Result => {
+      .reduce((all: AllChannels, [id, channel]): AllChannels => {
         all.dst[id.receiver.toString()] ||= [];
         all.src[id.sender.toString()] ||= [];
 
@@ -32,11 +27,11 @@ const optChannels = {
   withParamsTransform: true
 };
 
-export default function useHrmp (): Result | undefined {
+export default function useHrmp (): AllChannels | undefined {
   const { api } = useApi();
   const [channelIds, setChannelIds] = useState<HrmpChannelId[] | null>(null);
   const trigger = useEventTrigger([api.events.hrmp?.OpenChannelAccepted, api.events.hrmp?.ChannelClosed]);
-  const allChannels = useCall<Result>(channelIds && api.query.hrmp?.hrmpChannels.multi, [channelIds], optChannels);
+  const allChannels = useCall<AllChannels>(channelIds && api.query.hrmp?.hrmpChannels.multi, [channelIds], optChannels);
 
   useEffect((): void => {
     trigger &&
