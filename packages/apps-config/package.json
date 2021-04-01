@@ -19,6 +19,7 @@
     "@snowfork/snowbridge-types": "^0.2.3",
     "@sora-substrate/type-definitions": "^0.6.11",
     "@subsocial/types": "^0.4.35-beta.2",
+    "@zeitgeistpm/type-defs": "^0.1.35",
     "moonbeam-types-bundle": "1.1.12"
   },
   "devDependencies": {
