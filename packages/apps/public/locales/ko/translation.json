@@ -1263,7 +1263,7 @@
   "rpc.custom": "특수 설정",
   "rpc.custom.entry": "커스텀 {{WS_URL}}",
   "rpc.custom.own": "커스텀",
-  "rpc.datahighway.harbour": "항구",
+  "rpc.datahighway.spreehafen": "Spreehafen",
   "rpc.dock-mainnet": "독 메인넷",
   "rpc.dock-testnet": "독 테스트넷",
   "rpc.dusty": "더스티",
