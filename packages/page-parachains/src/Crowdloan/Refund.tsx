@@ -20,13 +20,13 @@ interface Props {
   paraId: ParaId;
 }
 
-function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId, maxPayouts: number): SubmittableExtrinsic<'promise'>[] {
+function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId, batchSize: number): SubmittableExtrinsic<'promise'>[] {
   return addresses
     .reduce((batches: SubmittableExtrinsic<'promise'>[][], address): SubmittableExtrinsic<'promise'>[][] => {
       const tx = api.tx.crowdloan.withdraw(address, paraId);
       const batch = batches[batches.length - 1];
 
-      if (batch.length >= maxPayouts) {
+      if (batch.length >= batchSize) {
         batches.push([tx]);
       } else {
         batch.push(tx);
@@ -93,11 +93,9 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
       ? allAccounts
       : myAccounts;
 
-    console.log('batchSize=', batchSize);
-
     setExtrinsics(() =>
       batchSize && addresses.length
-        ? createExtrinsics(api, allAccounts, paraId, batchSize)
+        ? createExtrinsics(api, addresses, paraId, batchSize)
         : null
     );
   }, [api, allAccounts, batchSize, myAccounts, paraId, withdrawType]);
