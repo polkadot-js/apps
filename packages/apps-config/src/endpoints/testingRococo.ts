@@ -124,7 +124,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 2,
         text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
         providers: {
-          DataHighway: 'wss://testnet-harbour.datahighway.com'
+          DataHighway: 'wss://spreehafen.datahighway.com'
         }
       },
       {
