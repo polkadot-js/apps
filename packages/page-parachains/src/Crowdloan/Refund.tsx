@@ -93,11 +93,9 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
       ? allAccounts
       : myAccounts;
 
-    console.log('batchSize=', batchSize);
-
     setExtrinsics(() =>
       batchSize && addresses.length
-        ? createExtrinsics(api, allAccounts, paraId, batchSize)
+        ? createExtrinsics(api, addresses, paraId, batchSize)
         : null
     );
   }, [api, allAccounts, batchSize, myAccounts, paraId, withdrawType]);
