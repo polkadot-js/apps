@@ -17,7 +17,7 @@
   "rpc.custom.own": "Custom",
   "rpc.darwinia": "Darwinia",
   "rpc.datahighway": "DataHighway",
-  "rpc.datahighway.harbour": "Harbour",
+  "rpc.datahighway.spreehafen": "Spreehafen",
   "rpc.dock-mainnet": "Dock",
   "rpc.dock-testnet": "Dock",
   "rpc.dotmog": "DOTMog",
@@ -103,6 +103,7 @@
   "rpc.unique": "Unique",
   "rpc.vln": "Valiu Liquidity Network",
   "rpc.westend": "Westend",
+  "rpc.zeitgeist": "Zeitgeist Battery Park",
   "rpc.zero": "Zero",
   "ss58.default": "Default for the connected node"
 }
