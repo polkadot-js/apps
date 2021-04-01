@@ -10,8 +10,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { BatchWarning, Button, Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { useApi, useTxBatch } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -41,18 +41,16 @@ interface PrevProxyProps extends ValueProps {
   onRemove: (accountId: AccountId, type: ProxyType, index: number) => void;
 }
 
+const optTxBatch = { isBatchAll: true };
+
 const EMPTY_EXISTING: [ProxyDefinition[], BN] = [[], BN_ZERO];
 
-function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'> | null {
-  if (batchPrevious.length + batchAdded.length === 1) {
-    return batchPrevious.length
-      ? batchPrevious[0]
-      : batchAdded[0];
-  }
-
-  return isFunction(api.tx.utility.batchAll)
-    ? api.tx.utility.batchAll([...batchPrevious, ...batchAdded])
-    : api.tx.utility.batch([...batchPrevious, ...batchAdded]);
+function createExtrinsics (batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'>[] | null {
+  return (batchPrevious.length + batchAdded.length === 1)
+    ? batchPrevious.length
+      ? [batchPrevious[0]]
+      : [batchAdded[0]]
+    : [...batchPrevious, ...batchAdded];
 }
 
 function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
@@ -161,11 +159,12 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const { api } = useApi();
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const [previous, setPrevious] = useState<PrevProxy[]>(
     existing.map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType])
   );
   const [added, setAdded] = useState<PrevProxy[]>([]);
+  const extrinsics = useTxBatch(txs, optTxBatch);
 
   const typeOpts = useRef(
     api.createType('ProxyType').defKeys.map((text, value) => ({ text, value }))
@@ -179,8 +178,8 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
 
   useEffect((): void => {
     (batchPrevious.length || batchAdded.length) &&
-      setExtrinsic(() => createExtrinsic(api, batchPrevious, batchAdded));
-  }, [api, batchPrevious, batchAdded]);
+      setTxs(() => createExtrinsics(batchPrevious, batchAdded));
+  }, [batchPrevious, batchAdded]);
 
   const _addProxy = useCallback(
     () => setAdded((added) =>
@@ -295,7 +294,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
         )}
         <TxButton
           accountId={proxiedAccount}
-          extrinsic={extrinsic}
+          extrinsic={extrinsics}
           icon='sign-in-alt'
           isDisabled={isSameAdd || (!batchPrevious.length && !batchAdded.length)}
           onStart={onClose}
