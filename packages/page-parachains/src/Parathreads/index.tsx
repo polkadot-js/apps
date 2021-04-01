@@ -22,10 +22,12 @@ interface Props {
   leasePeriod?: LeasePeriod;
 }
 
+type ParaMap = [ParaId, LeaseInfo[]][];
+
 const optLeases = {
-  transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): [ParaId, LeaseInfo[]][] =>
+  transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaMap =>
     paraIds
-      .reduce((all: [ParaId, LeaseInfo[]][], id, index): [ParaId, LeaseInfo[]][] => {
+      .reduce((all: ParaMap, id, index): ParaMap => {
         all.push([
           id,
           leases[index]
@@ -62,7 +64,7 @@ const optLeases = {
 function Parathreads ({ actionsQueue, className, ids, leasePeriod }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const leaseMap = useCall<[ParaId, LeaseInfo[]][]>(ids && api.query.slots.leases.multi, [ids], optLeases);
+  const leaseMap = useCall<ParaMap>(ids && api.query.slots.leases.multi, [ids], optLeases);
 
   const headerRef = useRef([
     [t('parathreads'), 'start', 3],
