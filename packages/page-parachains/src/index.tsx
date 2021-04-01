@@ -92,24 +92,23 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
             ownedIds={ownedIds}
           />
         </Route>
-        <Route path={`${basePath}/parathreads`}>
-          <Parathreads
-            actionsQueue={actionsQueue}
-            ids={upcomingIds}
-            leasePeriod={leasePeriod}
-          />
-        </Route>
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />
         </Route>
       </Switch>
       <Overview
         actionsQueue={actionsQueue}
-        className={basePath === pathname ? '' : 'parachains--hidden'}
+        className={pathname === basePath ? '' : 'parachains--hidden'}
         leasePeriod={leasePeriod}
         paraIds={paraIds}
         proposals={proposals}
         threadIds={upcomingIds}
+      />
+      <Parathreads
+        actionsQueue={actionsQueue}
+        className={pathname === `${basePath}/parathreads` ? '' : 'parachains--hidden'}
+        ids={upcomingIds}
+        leasePeriod={leasePeriod}
       />
     </main>
   );

@@ -7,8 +7,8 @@ import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, ParaLink } from '@polkadot/react-components';
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
+import { AddressSmall, ParaLink, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useCallMulti } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Lifecycle from '../Overview/Lifecycle';
@@ -51,6 +51,7 @@ const optMulti = {
 function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { isAccount } = useAccounts();
   const { headHex, lifecycle, manager } = useCallMulti<MultiState>([
     [api.query.paras.heads, id],
     [api.query.paras.upcomingParasGenesis, id],
@@ -63,6 +64,8 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
       leases.map(({ period }) => period),
     [leasePeriod?.currentPeriod, leases]
   );
+
+  const isManager = isAccount(manager?.toString());
 
   return (
     <tr>
@@ -88,6 +91,16 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
             )
             : t('None')
         )}
+      </td>
+      <td className='button'>
+        <TxButton
+          accountId={manager}
+          icon='times'
+          isDisabled={!isManager}
+          label={t<string>('Deregister')}
+          params={[id]}
+          tx={api.tx.registrar.deregister}
+        />
       </td>
     </tr>
   );

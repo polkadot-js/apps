@@ -68,7 +68,8 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod }: Props): Rea
     [t('parathreads'), 'start', 3],
     [t('head'), 'start'],
     [t('lifecycle'), 'start'],
-    [t('leases')]
+    [t('leases')],
+    []
   ]);
 
   return (
