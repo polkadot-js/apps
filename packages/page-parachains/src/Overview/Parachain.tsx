@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, Header, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec, ITuple } from '@polkadot/types/types';
 import type { LeasePeriod, QueuedAction } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
@@ -11,13 +11,14 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
-import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
+import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
+import ParachainInfo from './ParachainInfo';
 import Periods from './Periods';
 
 interface Props {
@@ -51,10 +52,6 @@ interface QueryState {
   qHrmpI: number;
   watermark: BlockNumber | null;
 }
-
-const transformHeader = {
-  transform: (header: Header) => header.number.unwrap()
-};
 
 const optionsMulti = {
   defaultValue: {
@@ -101,8 +98,6 @@ function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
 function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { api: paraApi } = useParaApi(id);
-  const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
@@ -218,7 +213,9 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
           <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
       </td>
-      <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
+      <td className='number media--900 no-pad-left'>
+        <ParachainInfo id={id} />
+      </td>
       <td className='number media--1300'>
         {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
         {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
