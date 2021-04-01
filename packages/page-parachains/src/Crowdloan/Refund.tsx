@@ -77,7 +77,7 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
       .paymentInfo(allAccounts[0])
       .then((info) => setBatchSize(
         info.weight.isZero()
-          ? 128
+          ? 64
           : Math.floor(
             api.consts.system.blockWeights.maxBlock
               .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
