@@ -77,6 +77,7 @@ const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeUnique = chainUnique;
+const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
@@ -176,6 +177,8 @@ export const nodeColors: Record<string, any> = [
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['Unique Node', nodeUnique],
+  ['Zeitgeist Node', nodeZeitgeist],
+  ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO]
   // ['node template', emptyColor],

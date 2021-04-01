@@ -271,6 +271,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'zeitgeist',
+      text: t('rpc.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      providers: {
+        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
+      }
+    },
+    {
       info: 'zero',
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {

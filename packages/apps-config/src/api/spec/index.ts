@@ -60,6 +60,7 @@ import trustbase from './trustbase';
 import uniarts from './uniarts';
 import unique from './unique';
 import vln from './vln';
+import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
 
@@ -134,7 +135,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subzero: zero,
   ternoa,
   trustbase,
-  uniarts
+  uniarts,
+  zeitgeist: zeitgeist
 };
 
 export default spec;

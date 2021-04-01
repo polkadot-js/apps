@@ -73,6 +73,7 @@ import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
 import nodeVln from './nodes/valiu.png';
+import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 // last-resort fallback, just something empty
@@ -203,7 +204,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['Unique Node', nodeUnique],
   ['Vln', nodeVln],
   ['PHOENIX Node', nodePhoenix],
-  ['PHOENIX Collator', nodePhoenix]
+  ['PHOENIX Collator', nodePhoenix],
+  ['Zeitgeist Node', nodeZeitgeist],
+  ['Zeitgeist Collator', nodeZeitgeist]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -298,6 +301,7 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   vln: nodeVln,
   westend: nodePolkadot,
+  zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
 
