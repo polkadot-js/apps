@@ -2432,6 +2432,7 @@ __metadata:
     "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^0.6.11
     "@subsocial/types": ^0.4.35-beta.2
+    "@zeitgeistpm/type-defs": ^0.1.31
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.1.12
   languageName: unknown
@@ -4321,6 +4322,13 @@ __metadata:
   version: 4.2.2
   resolution: "@xtuc/long@npm:4.2.2"
   checksum: ec09a359f98e9f8c47bf6c965e73b520a1a65e93f1febf6472babc8b6b0b425a2084452be103da5be11aec8c502ecfa29400713d55ef774579d04f691db44a2d
+  languageName: node
+  linkType: hard
+
+"@zeitgeistpm/type-defs@npm:^0.1.31":
+  version: 0.1.31
+  resolution: "@zeitgeistpm/type-defs@npm:0.1.31"
+  checksum: e6b27d2083f701b72a0722131c0a9d785f53fbc44ed19f7ab6573746903fb02736902c7781ccba444d6d787e9ac9027b264f00fc50f1cc562adb49e9dc33d1a1
   languageName: node
   linkType: hard
 
