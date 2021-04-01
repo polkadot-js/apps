@@ -60,10 +60,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const extrinsics = useTxBatch(txs, {
-    batchSize: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64),
-    isBatchAll: true
-  });
+  const extrinsics = useTxBatch(txs, { batchSize: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64) });
 
   useEffect((): void => {
     payout && setTxs(

@@ -45,14 +45,6 @@ const optTxBatch = { isBatchAll: true };
 
 const EMPTY_EXISTING: [ProxyDefinition[], BN] = [[], BN_ZERO];
 
-function createExtrinsics (batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'>[] | null {
-  return (batchPrevious.length + batchAdded.length === 1)
-    ? batchPrevious.length
-      ? [batchPrevious[0]]
-      : [batchAdded[0]]
-    : [...batchPrevious, ...batchAdded];
-}
-
 function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -177,8 +169,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   }, [api, added]);
 
   useEffect((): void => {
-    (batchPrevious.length || batchAdded.length) &&
-      setTxs(() => createExtrinsics(batchPrevious, batchAdded));
+    setTxs(() => [...batchPrevious, ...batchAdded]);
   }, [batchPrevious, batchAdded]);
 
   const _addProxy = useCallback(
