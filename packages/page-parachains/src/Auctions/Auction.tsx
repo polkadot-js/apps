@@ -42,13 +42,26 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       const leasePeriod = auctionInfo.leasePeriod;
       const leasePeriodEnd = leasePeriod.add(BN_THREE);
       const sorted = (campaigns.funds || [])
-        .filter(({ firstSlot, lastSlot, paraId }) => newRaise.some((n) => n.eq(paraId)) && firstSlot.gte(leasePeriod) && lastSlot.lte(leasePeriodEnd))
+        .filter(({ firstSlot, lastSlot, paraId }) =>
+          newRaise.some((n) => n.eq(paraId)) &&
+          firstSlot.gte(leasePeriod) &&
+          lastSlot.lte(leasePeriodEnd)
+        )
         .sort((a, b) => b.value.cmp(a.value));
-      const excluded = sorted.filter(({ firstSlot, lastSlot }) =>
-        !winners.some((w) => w.firstSlot.eq(firstSlot) && w.lastSlot.eq(lastSlot))
-      );
 
       return winners
+        .concat(...sorted.filter(({ firstSlot, lastSlot, paraId, value }) =>
+          !winners.some((w) =>
+            w.firstSlot.eq(firstSlot) &&
+            w.lastSlot.eq(lastSlot)
+          ) &&
+          !sorted.some((e) =>
+            !paraId.eq(e.paraId) &&
+            firstSlot.eq(e.firstSlot) &&
+            lastSlot.eq(e.lastSlot) &&
+            value.lt(e.value)
+          )
+        ))
         .map((w): WinnerData =>
           sorted.find(({ firstSlot, lastSlot, value }) =>
             w.firstSlot.eq(firstSlot) &&
@@ -56,7 +69,6 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
             w.value.lt(value)
           ) || w
         )
-        .concat(...excluded)
         .sort((a, b) =>
           a.firstSlot.eq(b.firstSlot)
             ? a.lastSlot.cmp(b.lastSlot)
