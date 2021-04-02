@@ -19,7 +19,8 @@ const definitions: OverrideBundleDefinition = {
         Rate: 'FixedU128',
         Ratio: 'FixedU128',
         EcdsaSignature: '[u8; 65]',
-        EvmAddress: 'H160'
+        EvmAddress: 'H160',
+        EthereumTxHash: 'H256'
       }
     }
   ]
