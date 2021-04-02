@@ -20,6 +20,7 @@ const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#080808';
 const chainKulupu = '#003366';
+const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
@@ -69,6 +70,7 @@ const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
+const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
@@ -123,6 +125,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
+  ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
@@ -169,6 +172,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['Litentry Collator', nodeLitentry],
   ['nodle chain node', nodeNodle],
+  ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['ReAlis Network', nodeRealis],

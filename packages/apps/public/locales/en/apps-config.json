@@ -80,6 +80,7 @@
   "rpc.rococo.jupiter": "Patract Jupiter R1",
   "rpc.rococo.kilt": "KILT PC1",
   "rpc.rococo.mathchain": "MathChain PC1",
+  "rpc.rococo.parami": "Parami PC2",
   "rpc.rococo.phala": "Phala PC1",
   "rpc.rococo.phoenix": "PHOENIX PC1",
   "rpc.rococo.plasm": "Plasm PC2",
