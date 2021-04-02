@@ -12,7 +12,7 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useCallMulti, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useHrmp from '../useHrmp';
@@ -61,10 +61,11 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
     }), all), {});
 }
 
-function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): ValidatorInfo[][] {
+function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): Record<string, ValidatorInfo[]> {
   return activeIndices && validators && validatorGroups && ids && ids.length === validatorGroups.length
-    ? validatorGroups.map((indices) =>
-      indices
+    ? validatorGroups.reduce((all: Record<string, ValidatorInfo[]>, indices, index) => ({
+      ...all,
+      [ids[index].toString()]: indices
         .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
         .filter(([, a]) => a)
         .map(([indexActive, indexValidator]) => ({
@@ -72,8 +73,8 @@ function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | nul
           indexValidator,
           validatorId: validators[indexValidator.toNumber()]
         }))
-    )
-    : [];
+    }), {})
+    : {};
 }
 
 function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: LastEvents): LastEvents {
@@ -125,6 +126,21 @@ function extractActions (actionsQueue: QueuedAction[], knownIds?: [ParaId, strin
     : {};
 }
 
+function extractIds (hasLinksMap: Record<string, boolean>, ids?: ParaId[]): [ParaId, string][] | undefined {
+  return ids
+    ?.map((id): [ParaId, string] => [id, id.toString()])
+    .sort(([aId, aIds], [bId, bIds]): number => {
+      const aKnown = hasLinksMap[aIds] || false;
+      const bKnown = hasLinksMap[bIds] || false;
+
+      return aKnown === bKnown
+        ? aId.cmp(bId)
+        : aKnown
+          ? -1
+          : 1;
+    });
+}
+
 function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -137,6 +153,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     api.query.shared?.activeValidatorIndices
   ], optionsMulti);
   const hrmp = useHrmp();
+  const hasLinksMap = useIsParasLinked(ids);
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
@@ -163,8 +180,8 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   );
 
   const knownIds = useMemo(
-    () => ids?.map((id): [ParaId, string] => [id, id.toString()]),
-    [ids]
+    () => extractIds(hasLinksMap, ids),
+    [ids, hasLinksMap]
   );
 
   const nextActions = useMemo(
@@ -183,7 +200,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
       empty={knownIds && t<string>('There are no registered parachains')}
       header={headerRef.current}
     >
-      {knownIds?.map(([id, key], index): React.ReactNode => (
+      {knownIds?.map(([id, key]): React.ReactNode => (
         <Parachain
           bestNumber={bestNumber}
           channelDst={hrmp?.dst[id.toString()]}
@@ -197,7 +214,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
           leasePeriod={leasePeriod}
           nextAction={nextActions[key]}
           sessionValidators={validators}
-          validators={validatorMap[index]}
+          validators={validatorMap[key]}
         />
       ))}
     </Table>

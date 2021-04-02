@@ -99,7 +99,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
               blockNumber={blockNumber}
               isFirst={index === 0}
               isLatest={round === 0}
-              key={`${blockNumber.toString()}:${index}`}
+              key={`${blockNumber.toString()}:${value.key}`}
               value={value}
             />
           ))}
