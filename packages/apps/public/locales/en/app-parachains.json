@@ -129,6 +129,7 @@
   "Yes": "Yes",
   "You have duplicated validator entries, ensure each is unique.": "You have duplicated validator entries, ensure each is unique.",
   "You need to supply at last one running validator for your parachain alongside this request.": "You need to supply at last one running validator for your parachain alongside this request.",
+  "active": "active",
   "active raised / cap": "active raised / cap",
   "amount": "amount",
   "auctions": "auctions",
