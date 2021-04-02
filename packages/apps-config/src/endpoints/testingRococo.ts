@@ -208,6 +208,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoParami',
+        paraId: 18888,
+        text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococo.parami.io'
+        }
+      },
+      {
         info: 'rococoPhala',
         paraId: 30,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),

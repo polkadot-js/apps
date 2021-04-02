@@ -52,6 +52,7 @@ import nodeLitentry from './nodes/litentry.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
+import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
@@ -178,6 +179,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['parity-polkadot', nodePolkadot],
+  ['Parami', nodeParami],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
   ['Plasm Parachain Collator', nodePlasm],
@@ -282,6 +284,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoMathChain: nodeMath,
+  rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,

@@ -40,6 +40,7 @@ import laminar from './laminar';
 import litentry from './litentry';
 import moonbeam from './moonbeam';
 import nodle from './nodle';
+import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
@@ -118,6 +119,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
   'phoenix-node': phoenix,
