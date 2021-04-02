@@ -294,6 +294,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         providers: {
           'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
         }
+      },
+      {
+        info: 'rococoSunrock',
+        paraId: 499,
+        text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
+        providers: {
+          Sunrock: 'ws://sunrock.kaki.dev:9944'
+        }
       }
     ]
   }]);
