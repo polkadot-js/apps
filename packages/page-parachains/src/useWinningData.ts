@@ -20,11 +20,12 @@ function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
 }
 
 function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
-  return a.length !== b.length || a.some(({ firstSlot, lastSlot, paraId }, index) =>
-    !paraId.eq(b[index].paraId) ||
-    !firstSlot.eq(b[index].firstSlot) ||
-    !lastSlot.eq(b[index].lastSlot)
-  );
+  return a.length !== b.length ||
+    a.some(({ firstSlot, lastSlot, paraId }, index) =>
+      !paraId.eq(b[index].paraId) ||
+      !firstSlot.eq(b[index].firstSlot) ||
+      !lastSlot.eq(b[index].lastSlot)
+    );
 }
 
 function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>): WinnerData[] {
@@ -124,15 +125,15 @@ export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | 
   const bestNumber = useBestNumber();
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
   const triggerRef = useRef(trigger);
-  const allEntries = useCall<[StorageKey<[BlockNumber]>, Option<WinningData>][]>(api.query.auctions?.winning.entries);
+  const initialEntries = useCall<[StorageKey<[BlockNumber]>, Option<WinningData>][]>(api.query.auctions?.winning.entries);
   const optFirstData = useCall<Option<WinningData>>(api.query.auctions?.winning, FIRST_PARAM);
 
   // should be fired once, all entries as an initial round
   useEffect((): void => {
-    auctionInfo && allEntries && setResult(
-      extractData(auctionInfo, allEntries)
+    auctionInfo && initialEntries && setResult(
+      extractData(auctionInfo, initialEntries)
     );
-  }, [allEntries, auctionInfo]);
+  }, [auctionInfo, initialEntries]);
 
   // when block 0 changes, update (typically in non-ending-period, static otherwise)
   useEffect((): void => {

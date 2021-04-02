@@ -41,9 +41,9 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const ownedIds = useOwnedIds();
   const winningData = useWinningData(auctionInfo);
   const proposals = useProposals();
-  const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
   const actionsQueue = useActionsQueue();
   const upcomingIds = useUpcomingIds();
+  const paraIds = useCall<ParaId[]>(api.query.paras?.parachains);
 
   const items = useRef([
     {
@@ -67,7 +67,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
       name: 'crowdloan',
       text: t<string>('Crowdloan')
     }
-  ].filter((q): q is { name: string; text: string } => !!q));
+  ].filter((q) => !!q));
 
   return (
     <main className={className}>
