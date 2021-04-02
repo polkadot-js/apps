@@ -41,6 +41,7 @@ import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
+import nodeGalital from './nodes/galital-logo.png';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
@@ -91,6 +92,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
+  ['Galital', nodeGalital],
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
@@ -165,6 +167,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['Galital Parachain Collator', nodeGalital],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
@@ -244,6 +247,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
+  galital: nodeGalital,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
@@ -276,6 +280,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDataHighway: nodeDataHighway,
   rococoEncointer: nodeEncointerNotee,
   rococoEquilibrium: nodeEquilibrium,
+  rococoGalital: nodeGalital,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoIntegritee: nodeIntegritee,
