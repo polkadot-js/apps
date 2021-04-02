@@ -256,6 +256,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoSubsocial',
+        paraId: 28,
+        text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
+        providers: {
+          DappForce: 'wss://roc.subsocial.network'
+        }
+      },
+      {
         info: 'rococoTrustBase',
         paraId: 6633,
         text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),

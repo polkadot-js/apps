@@ -51,6 +51,7 @@ const chainUniarts = '#b39ef7';
 const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
+const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 
 // based on node name
@@ -136,6 +137,7 @@ export const chainColors: Record<string, any> = [
   ['Rococo', chainRocco],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
+  ['Subsocial PC1', chainSubsocial],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
