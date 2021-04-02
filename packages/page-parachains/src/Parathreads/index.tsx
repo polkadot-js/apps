@@ -52,17 +52,17 @@ function extractParaMap (hasLinksMap: Record<string, boolean>, paraIds: ParaId[]
       const aKnown = hasLinksMap[aId.toString()] || false;
       const bKnown = hasLinksMap[bId.toString()] || false;
 
-      return aKnown === bKnown
-        ? aLeases.length && bLeases.length
-          ? (aLeases[0].period - bLeases[0].period) || aId.cmp(bId)
-          : aLeases.length
-            ? -1
-            : bLeases.length
-              ? 1
-              : aId.cmp(bId)
-        : aKnown
+      return aLeases.length && bLeases.length
+        ? (aLeases[0].period - bLeases[0].period) || aId.cmp(bId)
+        : aLeases.length
           ? -1
-          : 1;
+          : bLeases.length
+            ? 1
+            : aKnown === bKnown
+              ? aId.cmp(bId)
+              : aKnown
+                ? -1
+                : 1;
     });
 }
 
