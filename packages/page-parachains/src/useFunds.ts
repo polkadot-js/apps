@@ -138,6 +138,7 @@ const optFundMulti = {
         firstSlot: info.firstSlot,
         info,
         isCrowdloan: true,
+        key: paraId.toString(),
         lastSlot: info.lastSlot,
         paraId,
         value: info.raised
