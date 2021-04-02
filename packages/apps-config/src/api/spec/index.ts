@@ -87,6 +87,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crust,
+  'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   'datahighway-parachain': datahighwayParachain,
   'dev-parachain': zenlink,
