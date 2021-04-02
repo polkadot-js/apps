@@ -86,6 +86,7 @@ export interface WinnerData {
   accountId: string;
   firstSlot: BN;
   isCrowdloan: boolean;
+  key: string;
   lastSlot: BN;
   paraId: ParaId;
   value: BN;

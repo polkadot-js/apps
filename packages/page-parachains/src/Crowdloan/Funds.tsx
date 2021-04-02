@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
+import { useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Fund from './Fund';
@@ -18,19 +20,45 @@ interface Props {
   value: Campaign[] | null;
 }
 
-function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Campaign[] | null, Campaign[] | null] {
+function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Campaign[] | null, Campaign[] | null, ParaId[] | null] {
   const currentPeriod = leasePeriod?.currentPeriod;
+  let active: Campaign[] | null = null;
+  let ended: Campaign[] | null = null;
+  let allIds: ParaId[] | null = null;
 
-  return value && currentPeriod
-    ? [
-      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lte(firstSlot)),
-      value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gt(firstSlot))
-    ]
-    : [null, null];
+  if (value && currentPeriod) {
+    active = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lte(firstSlot));
+    ended = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gt(firstSlot));
+    allIds = value.map(({ paraId }) => paraId);
+  }
+
+  return [active, ended, allIds];
+}
+
+function sortList (hasLinksMap: Record<string, boolean>, list?: Campaign[] | null): Campaign[] | null | undefined {
+  return list?.sort(({ key: a }, { key: b }): number => {
+    const aKnown = hasLinksMap[a] || false;
+    const bKnown = hasLinksMap[b] || false;
+
+    return aKnown === bKnown
+      ? 0
+      : aKnown
+        ? -1
+        : 1;
+  });
 }
 
 function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [active, ended, allIds] = useMemo(
+    () => extractLists(value, leasePeriod),
+    [leasePeriod, value]
+  );
+  const hasLinksMap = useIsParasLinked(allIds);
+  const [activeSorted, endedSorted] = useMemo(
+    () => [sortList(hasLinksMap, active), sortList(hasLinksMap, ended)],
+    [active, ended, hasLinksMap]
+  );
 
   const headerActiveRef = useRef([
     [t('ongoing'), 'start', 2],
@@ -57,19 +85,14 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     []
   ]);
 
-  const [active, ended] = useMemo(
-    () => extractLists(value, leasePeriod),
-    [leasePeriod, value]
-  );
-
   return (
     <>
       <Table
         className={className}
-        empty={value && active && t<string>('No active campaigns found')}
+        empty={value && activeSorted && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
-        {active?.map((fund) => (
+        {activeSorted?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
             isOngoing
@@ -80,10 +103,10 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
       </Table>
       <Table
         className={className}
-        empty={value && ended && t<string>('No completed campaigns found')}
+        empty={value && endedSorted && t<string>('No completed campaigns found')}
         header={headedEndedRef.current}
       >
-        {ended?.map((fund) => (
+        {endedSorted?.map((fund) => (
           <Fund
             bestNumber={bestNumber}
             key={fund.accountId}

@@ -41,6 +41,7 @@ function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>)
           accountId: accountId.toString(),
           firstSlot: period.addn(first),
           isCrowdloan: u8aEq(CROWD_PREFIX, accountId.subarray(0, CROWD_PREFIX.length)),
+          key: paraId.toString(),
           lastSlot: period.addn(last),
           paraId,
           value
