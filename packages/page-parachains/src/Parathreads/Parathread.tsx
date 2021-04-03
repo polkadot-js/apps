@@ -71,8 +71,8 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
-      <td className='address'>{manager && <AddressSmall value={manager} />}</td>
-      <td className='start together hash'>{headHex}</td>
+      <td className='address media--1100'>{manager && <AddressSmall value={manager} />}</td>
+      <td className='start together hash media--1500'>{headHex}</td>
       <td className='start'>
         <Lifecycle
           lifecycle={lifecycle}
@@ -92,7 +92,7 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
             : t('None')
         )}
       </td>
-      <td className='button'>
+      <td className='button media--900'>
         <TxButton
           accountId={manager}
           icon='times'

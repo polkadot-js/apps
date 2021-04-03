@@ -80,11 +80,12 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod }: Props): Rea
   });
 
   const headerRef = useRef([
-    [t('parathreads'), 'start', 3],
-    [t('head'), 'start'],
+    [t('parathreads'), 'start', 2],
+    ['', 'media--1100'],
+    [t('head'), 'start media--1500'],
     [t('lifecycle'), 'start'],
     [t('leases')],
-    []
+    ['', 'media--900']
   ]);
 
   return (
