@@ -158,15 +158,15 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     ['', 'media--1400'],
-    [t('head'), 'start'],
-    [t('lifecycle'), 'start media--1100'],
+    [t('head'), 'start media--1500'],
+    [t('lifecycle'), 'start'],
     [],
     [t('included'), undefined, 2],
-    [t('backed'), 'no-pad-left'],
-    [t('timeout'), 'no-pad-left'],
-    [t('chain'), 'media--900 no-pad-left'],
-    [t('in/out (msg)'), 'media--1300', 2],
-    [t('leases'), 'media--1500']
+    [t('backed'), 'no-pad-left media--800'],
+    [t('timeout'), 'no-pad-left media--900'],
+    [t('chain'), 'no-pad-left'],
+    [t('in/out (msg)'), 'media--1200', 2],
+    [t('leases'), 'media--1000']
   ]);
 
   const scheduledIds = useMemo(
