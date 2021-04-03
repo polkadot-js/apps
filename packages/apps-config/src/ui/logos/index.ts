@@ -41,6 +41,7 @@ import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
+import nodeGalital from './nodes/galital-logo.png';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
@@ -52,6 +53,7 @@ import nodeLitentry from './nodes/litentry.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeNodle from './nodes/nodle.svg';
+import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
@@ -90,6 +92,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
+  ['Galital', nodeGalital],
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
@@ -116,6 +119,8 @@ export const chainLogos: Record<string, unknown> = [
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
   ['Sgc', nodeSgc],
+  ['Subsocial', nodeSubsocial],
+  ['Subsocial PC', nodeSubsocial],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],
@@ -162,6 +167,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['Galital Parachain Collator', nodeGalital],
   ['Galois', nodeMath],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
@@ -176,6 +182,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['parity-polkadot', nodePolkadot],
+  ['Parami', nodeParami],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
   ['Plasm Parachain Collator', nodePlasm],
@@ -190,6 +197,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
+  ['Subsocial Node', nodeSubsocial],
+  ['Subsocial PC', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
@@ -238,6 +247,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
+  galital: nodeGalital,
   galois: nodeMath,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
@@ -270,6 +280,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDataHighway: nodeDataHighway,
   rococoEncointer: nodeEncointerNotee,
   rococoEquilibrium: nodeEquilibrium,
+  rococoGalital: nodeGalital,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
   rococoIntegritee: nodeIntegritee,
@@ -278,6 +289,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoMathChain: nodeMath,
+  rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
@@ -285,6 +297,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPolkabtc: chainPolkaBTC,
   rococoRobonomics: nodeRobonomics,
   rococoSubDAO: nodeSubDAO,
+  rococoSubsocial: nodeSubsocial,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,

@@ -144,6 +144,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoGalital',
+        paraId: 230,
+        text: t('rpc.rococo.galital', 'Galital', { ns: 'apps-config' }),
+        providers: {
+          StarkleyTech: 'wss://galital-rpc.starkleytech.com'
+        }
+      },
+      {
         info: 'rococoHydrate',
         paraId: 82406,
         text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
@@ -169,8 +177,8 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoJupiter',
-        paraId: 1,
-        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
+        paraId: 24,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
           jupiter: 'wss://ws.rococo.jupiter.patract.cn'
         }
@@ -205,6 +213,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
           MathWallet: 'wss://testpara.maiziqianbao.net/ws'
+        }
+      },
+      {
+        info: 'rococoParami',
+        paraId: 18888,
+        text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococo.parami.io'
         }
       },
       {
@@ -253,6 +269,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
         providers: {
           SubDAONetwork: 'wss://parachain.subdao.network'
+        }
+      },
+      {
+        info: 'rococoSubsocial',
+        paraId: 28,
+        text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
+        providers: {
+          DappForce: 'wss://roc.subsocial.network'
         }
       },
       {

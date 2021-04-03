@@ -33,7 +33,7 @@ export { useOwnEraRewards } from './useOwnEraRewards';
 export { useOwnStashes, useOwnStashIds } from './useOwnStashes';
 export { useOwnStashInfos } from './useOwnStashInfos';
 export { useParaApi } from './useParaApi';
-export { useParaEndpoints } from './useParaEndpoints';
+export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints';
 export { usePassword } from './usePassword';
 export { useRegistrars } from './useRegistrars';
 export { useSavedFlags } from './useSavedFlags';

@@ -16,10 +16,12 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
+const chainGalital = '#00063F';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#080808';
 const chainKulupu = '#003366';
+const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
@@ -51,6 +53,7 @@ const chainUniarts = '#b39ef7';
 const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
+const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 
 // based on node name
@@ -64,10 +67,12 @@ const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
+const nodeGalital = '#00063F;';
 const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
+const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
@@ -101,6 +106,7 @@ export const chainColors: Record<string, any> = [
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Galital', chainGalital],
   ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
@@ -122,6 +128,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
+  ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
@@ -136,6 +143,7 @@ export const chainColors: Record<string, any> = [
   ['Rococo', chainRocco],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
+  ['Subsocial PC1', chainSubsocial],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
@@ -165,8 +173,10 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
+  ['Galital Parachain Collator', nodeGalital],
   ['Litentry Collator', nodeLitentry],
   ['nodle chain node', nodeNodle],
+  ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['ReAlis Network', nodeRealis],

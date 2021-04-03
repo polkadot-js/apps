@@ -27,6 +27,7 @@ import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
+import galital from './galital';
 import galois from './galois';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
@@ -40,6 +41,7 @@ import laminar from './laminar';
 import litentry from './litentry';
 import moonbeam from './moonbeam';
 import nodle from './nodle';
+import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
@@ -86,6 +88,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crust,
+  'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   'datahighway-parachain': datahighwayParachain,
   'dev-parachain': zenlink,
@@ -97,6 +100,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
+  'galital-collator': galital,
   'hack-hydra-dx': hydrate,
   hanonycash,
   'hydra-dx': hydrate,
@@ -118,6 +122,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
   'phoenix-node': phoenix,

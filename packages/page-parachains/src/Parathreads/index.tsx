@@ -6,10 +6,10 @@ import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
 
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Actions from './Actions';
@@ -24,47 +24,60 @@ interface Props {
 
 type ParaMap = [ParaId, LeaseInfo[]][];
 
-const optLeases = {
-  transform: ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaMap =>
-    paraIds
-      .reduce((all: ParaMap, id, index): ParaMap => {
-        all.push([
-          id,
-          leases[index]
-            .map((optLease, period): LeaseInfo | null => {
-              if (optLease.isNone) {
-                return null;
-              }
+function extractParaMap (hasLinksMap: Record<string, boolean>, paraIds: ParaId[], leases: Option<ITuple<[AccountId, BalanceOf]>>[][]): ParaMap {
+  return paraIds
+    .reduce((all: ParaMap, id, index): ParaMap => {
+      all.push([
+        id,
+        leases[index]
+          .map((optLease, period): LeaseInfo | null => {
+            if (optLease.isNone) {
+              return null;
+            }
 
-              const [accountId, balance] = optLease.unwrap();
+            const [accountId, balance] = optLease.unwrap();
 
-              return {
-                accountId,
-                balance,
-                period
-              };
-            })
-            .filter((item): item is LeaseInfo => !!item)
-        ]);
+            return {
+              accountId,
+              balance,
+              period
+            };
+          })
+          .filter((item): item is LeaseInfo => !!item)
+      ]);
 
-        return all;
-      }, [])
-      .sort(([aId, aLeases], [bId, bLeases]) =>
-        aLeases.length && bLeases.length
-          ? (aLeases[0].period - bLeases[0].period) || aId.cmp(bId)
-          : aLeases.length
-            ? -1
-            : bLeases.length
-              ? 1
-              : aId.cmp(bId)
-      ),
-  withParamsTransform: true
-};
+      return all;
+    }, [])
+    .sort(([aId, aLeases], [bId, bLeases]): number => {
+      const aKnown = hasLinksMap[aId.toString()] || false;
+      const bKnown = hasLinksMap[bId.toString()] || false;
+
+      return aLeases.length && bLeases.length
+        ? (aLeases[0].period - bLeases[0].period) || aId.cmp(bId)
+        : aLeases.length
+          ? -1
+          : bLeases.length
+            ? 1
+            : aKnown === bKnown
+              ? aId.cmp(bId)
+              : aKnown
+                ? -1
+                : 1;
+    });
+}
 
 function Parathreads ({ actionsQueue, className, ids, leasePeriod }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const leaseMap = useCall<ParaMap>(ids && api.query.slots.leases.multi, [ids], optLeases);
+  const hasLinksMap = useIsParasLinked(ids);
+  const leaseMap = useCall<ParaMap>(ids && api.query.slots.leases.multi, [ids], {
+    transform: useCallback(
+      ([[paraIds], leases]: [[ParaId[]], Option<ITuple<[AccountId, BalanceOf]>>[][]]): ParaMap =>
+        extractParaMap(hasLinksMap, paraIds, leases),
+      [hasLinksMap]
+    ),
+    withParamsTransform: true
+  });
 
   const headerRef = useRef([
     [t('parathreads'), 'start', 3],
