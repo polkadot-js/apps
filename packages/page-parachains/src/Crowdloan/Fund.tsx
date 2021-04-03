@@ -51,9 +51,9 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   const trigger = useEventTrigger([api.events.crowdloan?.Contributed, api.events.crowdloan?.Withdrew, api.events.crowdloan?.AllRefunded, api.events.crowdloan?.PartiallyRefunded], useCallback(
     ({ event: { data } }: EventRecord) =>
       ((data.length === 1
-        // AllRefunded, PartiallyRefunded
+        // AllRefunded, PartiallyRefunded [ParaId]
         ? data[0]
-        // Contributed, Withdrew
+        // Contributed, Withdrew [AccountId, ParaId, Balance]
         : data[1]
       ) as ParaId).eq(paraId),
     [paraId]
