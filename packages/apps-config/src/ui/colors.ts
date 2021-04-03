@@ -16,6 +16,7 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
+const chainGalital = '#00063F';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#080808';
@@ -66,6 +67,7 @@ const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
+const nodeGalital = '#00063F;';
 const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
@@ -104,6 +106,7 @@ export const chainColors: Record<string, any> = [
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Galital', chainGalital],
   ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
@@ -170,6 +173,7 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
+  ['Galital Parachain Collator', nodeGalital],
   ['Litentry Collator', nodeLitentry],
   ['nodle chain node', nodeNodle],
   ['Parami Collator', nodeParami],

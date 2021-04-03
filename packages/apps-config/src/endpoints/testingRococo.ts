@@ -144,6 +144,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoGalital',
+        paraId: 230,
+        text: t('rpc.rococo.galital', 'Galital', { ns: 'apps-config' }),
+        providers: {
+          StarkleyTech: 'wss://galital-rpc.starkleytech.com'
+        }
+      },
+      {
         info: 'rococoHydrate',
         paraId: 82406,
         text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
