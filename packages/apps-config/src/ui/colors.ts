@@ -44,6 +44,7 @@ const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
+const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -144,6 +145,7 @@ export const chainColors: Record<string, any> = [
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
+  ['Sunrock', chainSunrock],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],

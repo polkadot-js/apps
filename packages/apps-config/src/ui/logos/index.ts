@@ -70,6 +70,7 @@ import nodeStafi from './nodes/stafi.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeSunrock from './nodes/sunrock.png';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
@@ -123,6 +124,7 @@ export const chainLogos: Record<string, unknown> = [
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
+  ['Sunrock', nodeSunrock],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],
@@ -202,6 +204,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Subsocial Node', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
+  ['sunrock', nodeSunrock],
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
   ['subzero node', nodeZero],
@@ -300,6 +303,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoRobonomics: nodeRobonomics,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
+  rococoSunrock: nodeSunrock,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
@@ -311,6 +315,7 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
+  sunrock: nodeSunrock,
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,
