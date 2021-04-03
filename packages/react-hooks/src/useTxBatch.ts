@@ -34,25 +34,19 @@ function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[],
 
       return batches;
     }, [[]])
-    .reduce((extrinsics: SubmittableExtrinsic<'promise'>[], batch): SubmittableExtrinsic<'promise'>[] => {
-      if (batch.length === 1) {
-        extrinsics.push(batch[0]);
-      } else {
-        extrinsics.push(
-          isBatchAll && isFunction(api.tx.utility.batchAll)
-            ? api.tx.utility.batchAll(batch)
-            : api.tx.utility.batch(batch)
-        );
-      }
-
-      return extrinsics;
-    }, []);
+    .map((batch): SubmittableExtrinsic<'promise'> =>
+      batch.length === 1
+        ? batch[0]
+        : isBatchAll && isFunction(api.tx.utility.batchAll)
+          ? api.tx.utility.batchAll(batch)
+          : api.tx.utility.batch(batch)
+    );
 }
 
-export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null, options: Options = {}): SubmittableExtrinsic<'promise'>[] | null {
+export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null, options?: Options): SubmittableExtrinsic<'promise'>[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [batchSize, setBatchSize] = useState(Math.floor(options.batchSize || 64));
+  const [batchSize, setBatchSize] = useState(Math.floor(options?.batchSize || 64));
 
   useEffect((): void => {
     txs && txs.length &&
@@ -77,7 +71,7 @@ export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null, opti
 
   return useMemo(
     () => txs && txs.length
-      ? createBatches(api, txs, batchSize, options.isBatchAll)
+      ? createBatches(api, txs, batchSize, options?.isBatchAll)
       : null,
     [api, batchSize, options, txs]
   );
