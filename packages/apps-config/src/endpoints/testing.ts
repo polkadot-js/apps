@@ -77,9 +77,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     {
       info: 'datahighway',
       isDisabled: true,
-      text: t('rpc.datahighway.harbour', 'Harbour', { ns: 'apps-config' }),
+      text: t('rpc.datahighway.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
       providers: {
-        MXC: 'wss://testnet-harbour.datahighway.com'
+        MXC: 'wss://spreehafen.datahighway.com'
       }
     },
     {
@@ -268,6 +268,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         Parity: 'wss://westend-rpc.polkadot.io',
         'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws'
+      }
+    },
+    {
+      info: 'zeitgeist',
+      text: t('rpc.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      providers: {
+        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
       }
     },
     {

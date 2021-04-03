@@ -48,7 +48,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
   const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew], useCallback(
+  const trigger = useEventTrigger([api.events.crowdloan?.Contributed, api.events.crowdloan?.Withdrew], useCallback(
     ({ event: { data: [, fundIndex] } }: EventRecord) =>
       (fundIndex as ParaId).eq(paraId),
     [paraId]
@@ -115,7 +115,13 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         )}
         #{formatNumber(end)}
       </td>
-      <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
+      <td className='number'>
+        <Digits value={
+          firstSlot.eq(lastSlot)
+            ? formatNumber(firstSlot)
+            : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        } />
+      </td>
       <td className='number together'>
         <FormatBalance
           value={raised}

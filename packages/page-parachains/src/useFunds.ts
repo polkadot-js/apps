@@ -131,6 +131,7 @@ const optFundMulti = {
         firstSlot: info.firstSlot,
         info,
         isCrowdloan: true,
+        key: paraId.toString(),
         lastSlot: info.lastSlot,
         paraId,
         value: info.raised
@@ -160,8 +161,8 @@ export default function useFunds (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const [paraIds, setParaIds] = useState<ParaId[]>([]);
-  const trigger = useEventTrigger([api.events.crowdloan.Created]);
-  const campaigns = useCall<Campaign[]>(api.query.crowdloan.funds.multi, [paraIds], optFundMulti);
+  const trigger = useEventTrigger([api.events.crowdloan?.Created]);
+  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 
