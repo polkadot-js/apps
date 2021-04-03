@@ -31,12 +31,18 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
           </CardSummary>
         )}
         {isNumber(upcomingCount) && (
-          <CardSummary label={t<string>('parathreads')}>
+          <CardSummary
+            className='media--1000'
+            label={t<string>('parathreads')}
+          >
             {formatNumber(upcomingCount)}
           </CardSummary>
         )}
         {isNumber(proposalCount) && (
-          <CardSummary label={t<string>('proposals')}>
+          <CardSummary
+            className='media--1000'
+            label={t<string>('proposals')}
+          >
             {formatNumber(proposalCount)}
           </CardSummary>
         )}
@@ -48,6 +54,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
               {formatNumber(leasePeriod.currentPeriod)}
             </CardSummary>
             <CardSummary
+              className='media--1200'
               label={t<string>('lease period')}
               progress={{
                 total: leasePeriod.length,
@@ -63,7 +70,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
           <BestFinalized />
         </CardSummary>
         <SummarySession
-          className='media--800'
+          className='media--1200'
           withEra={false}
         />
       </section>
