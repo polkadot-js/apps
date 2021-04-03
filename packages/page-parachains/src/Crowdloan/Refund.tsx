@@ -1,15 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { useAccounts, useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -20,32 +18,7 @@ interface Props {
   paraId: ParaId;
 }
 
-function createExtrinsics (api: ApiPromise, addresses: string[], paraId: ParaId, batchSize: number): SubmittableExtrinsic<'promise'>[] {
-  return addresses
-    .reduce((batches: SubmittableExtrinsic<'promise'>[][], address): SubmittableExtrinsic<'promise'>[][] => {
-      const tx = api.tx.crowdloan.withdraw(address, paraId);
-      const batch = batches[batches.length - 1];
-
-      if (batch.length >= batchSize) {
-        batches.push([tx]);
-      } else {
-        batch.push(tx);
-      }
-
-      return batches;
-    }, [[]])
-    .reduce((extrinsics: SubmittableExtrinsic<'promise'>[], batch): SubmittableExtrinsic<'promise'>[] => {
-      if (batch.length === 1) {
-        extrinsics.push(batch[0]);
-      } else if (isFunction(api.tx.utility?.batch)) {
-        extrinsics.push(api.tx.utility.batch(batch));
-      } else {
-        extrinsics.push(...batch);
-      }
-
-      return extrinsics;
-    }, []);
-}
+const optTxs = { batchSize: 128 };
 
 function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -53,9 +26,9 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
   const { hasAccounts } = useAccounts();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [extrinsics, setExtrinsics] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const [batchSize, setBatchSize] = useState(0);
+  const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const [withdrawType, setWithdrawType] = useState(0);
+  const extrinsics = useTxBatch(txs, optTxs);
 
   const typeOptions = useMemo(
     () => [
@@ -72,33 +45,16 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
   );
 
   useEffect((): void => {
-    api.tx.crowdloan
-      .withdraw(allAccounts[0], paraId)
-      .paymentInfo(allAccounts[0])
-      .then((info) => setBatchSize(
-        info.weight.isZero()
-          ? 128
-          : Math.floor(
-            api.consts.system.blockWeights.maxBlock
-              .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
-              .div(info.weight)
-              .toNumber() / 100
-          )
-      ))
-      .catch(console.error);
-  }, [api, allAccounts, paraId]);
-
-  useEffect((): void => {
     const addresses = withdrawType === 0
       ? allAccounts
       : myAccounts;
 
-    setExtrinsics(() =>
-      batchSize && addresses.length
-        ? createExtrinsics(api, addresses, paraId, batchSize)
+    setTxs(() =>
+      addresses.length
+        ? addresses.map((a) => api.tx.crowdloan.withdraw(a, paraId))
         : null
     );
-  }, [api, allAccounts, batchSize, myAccounts, paraId, withdrawType]);
+  }, [api, allAccounts, myAccounts, paraId, withdrawType]);
 
   return (
     <>
