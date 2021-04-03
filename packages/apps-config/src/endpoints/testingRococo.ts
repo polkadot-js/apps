@@ -177,8 +177,8 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoJupiter',
-        paraId: 1,
-        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
+        paraId: 24,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
           jupiter: 'wss://ws.rococo.jupiter.patract.cn'
         }
