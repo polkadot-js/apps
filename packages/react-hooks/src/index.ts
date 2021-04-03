@@ -41,5 +41,6 @@ export { useStepper } from './useStepper';
 export { useSudo } from './useSudo';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';
+export { useTxBatch } from './useTxBatch';
 export { useVotingStatus } from './useVotingStatus';
 export { useWeight } from './useWeight';
