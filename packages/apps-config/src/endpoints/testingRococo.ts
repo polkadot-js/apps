@@ -300,7 +300,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 499,
         text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
         providers: {
-          Sunrock: 'ws://sunrock.kaki.dev:9944'
+          Sunrock: 'wss://sunrock.kaki.dev'
         }
       }
     ]
