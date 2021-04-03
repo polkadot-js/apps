@@ -69,7 +69,7 @@ import nodeStafi from './nodes/stafi.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
-import nodeSunrock from './nodes/sunrock.svg';
+import nodeSunrock from './nodes/sunrock.png';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
