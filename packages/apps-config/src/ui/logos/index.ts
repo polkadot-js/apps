@@ -120,6 +120,7 @@ export const chainLogos: Record<string, unknown> = [
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
   ['Sgc', nodeSgc],
+  ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
   ['Tick', chainRococoTick],
