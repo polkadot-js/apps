@@ -40,6 +40,7 @@ import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
 import moonbeam from './moonbeam';
+import mybank from './mybank';
 import nodle from './nodle';
 import parami from './parami';
 import phala from './phala';
@@ -118,6 +119,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
+  'mybank.network Testnet': mybank,
   nft: unique,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
