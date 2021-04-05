@@ -38,6 +38,7 @@ const chainRoccoAres = '#70FF8B';
 const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
+const chainRococoEave = '#900048';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
@@ -106,6 +107,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
+  ['Steam PC', chainRococoEave],
   ['Encointer PC1', nodeEncointerNotee],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
