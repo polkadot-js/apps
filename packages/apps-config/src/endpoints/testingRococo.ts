@@ -264,6 +264,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoEave',
+        paraId: 77,
+        text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
+        providers: {
+          EAVE: 'wss://steamcollator.eave.network'
+        }
+      },
+      {
         info: 'rococoSubDAO',
         paraId: 888,
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
