@@ -283,6 +283,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville.zero.io'
       }
+    },
+    {
+      info: 'mybank',
+      text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
+      providers: {
+        MYBANK: 'wss://app.mybank.network/substrate'
+      }
     }
   ]);
 }
