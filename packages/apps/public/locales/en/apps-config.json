@@ -48,6 +48,7 @@
   "rpc.local": "Local Node",
   "rpc.mandala": "Mandala",
   "rpc.moonbeam": "Moonbase Alpha",
+  "rpc.mybank": "mybank.network",
   "rpc.nodle-arcadia": "Arcadia",
   "rpc.nodle-main": "Nodle",
   "rpc.phala": "Phala PoC-3",
