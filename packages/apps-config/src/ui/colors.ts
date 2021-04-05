@@ -89,6 +89,7 @@ const nodeUnique = chainUnique;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
+
 export { emptyColor };
 
 // Alphabetical overrides based on the actual matched chain name

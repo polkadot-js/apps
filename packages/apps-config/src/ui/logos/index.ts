@@ -138,7 +138,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Vln', nodeVln],
   ['PHOENIX PC1', nodePhoenix],
   ['mybank.network PC1', mybank],
-  ['Unit Network', nodeUnitv],
+  ['Unit Network', nodeUnitv]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
