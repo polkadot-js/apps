@@ -86,10 +86,11 @@ const optionsMulti = {
   })
 };
 
-function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
-  return list?.map((id) => (
+function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
+  return list?.map((id, index) => (
     <AddressMini
       key={id.toString()}
+      nameExtra={indices && <>&nbsp;{`(${formatNumber(indices[index])})`}</>}
       value={id}
     />
   ));
@@ -133,7 +134,7 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
   );
 
   const valRender = useCallback(
-    () => renderAddresses(validators?.map(({ validatorId }) => validatorId)),
+    () => renderAddresses(validators?.map(({ validatorId }) => validatorId), validators?.map(({ indexValidator }) => indexValidator)),
     [validators]
   );
 
