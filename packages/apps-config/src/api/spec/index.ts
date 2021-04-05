@@ -22,6 +22,7 @@ import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dotmog from './dotmog';
 import dusty from './dusty';
+import eave from './eave';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
@@ -96,6 +97,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-testnet': dock,
   'dotmog-node': dotmog,
   dusty4: dusty,
+  eave: eave,
+  'dawn':eave,
   edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
