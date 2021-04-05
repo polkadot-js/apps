@@ -22,6 +22,7 @@ import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dotmog from './dotmog';
 import dusty from './dusty';
+import eave from './eave';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
@@ -92,6 +93,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   'datahighway-parachain': datahighwayParachain,
+  dawn: eave,
   'dev-parachain': zenlink,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
