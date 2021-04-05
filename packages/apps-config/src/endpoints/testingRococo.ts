@@ -318,6 +318,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         providers: {
           Sunrock: 'wss://sunrock.kaki.dev'
         }
+      },
+      {
+        info: 'rococoUnitv',
+        paraId: 3,
+        text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
+        providers: {
+          'Unit Network': 'wss://unitp.io'
+        }
       }
     ]
   }]);

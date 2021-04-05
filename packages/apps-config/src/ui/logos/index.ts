@@ -77,6 +77,7 @@ import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
+import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
@@ -136,7 +137,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Unique', chainUnique],
   ['Vln', nodeVln],
   ['PHOENIX PC1', nodePhoenix],
-  ['mybank.network PC1', mybank]
+  ['mybank.network PC1', mybank],
+  ['Unit Network', nodeUnitv]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -224,6 +226,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Vln', nodeVln],
   ['PHOENIX Node', nodePhoenix],
   ['PHOENIX Collator', nodePhoenix],
+  ['Unit Node', nodeUnitv],
+  ['Unit Collator', nodeUnitv],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['mybank.network', mybank]
@@ -317,6 +321,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
+  rococoUnitv: nodeUnitv,
   rococoZenlink: nodeZenlink,
   sgc: nodeSgc,
   snakenet: chainSnakenet,
@@ -328,6 +333,7 @@ export const namedLogos: Record<string, unknown> = {
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,
+  unitv: nodeUnitv,
   vln: nodeVln,
   westend: nodePolkadot,
   zeitgeist: nodeZeitgeist,

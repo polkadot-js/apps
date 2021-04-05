@@ -63,6 +63,7 @@ import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uniarts from './uniarts';
 import unique from './unique';
+import unitv from './unitv';
 import vln from './vln';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
@@ -145,6 +146,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   trustbase,
   uniarts,
+  'unit-node': unitv,
+  'unit-parachain': unitv,
   zeitgeist: zeitgeist
 };
 
