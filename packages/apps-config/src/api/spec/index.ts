@@ -98,7 +98,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dotmog-node': dotmog,
   dusty4: dusty,
   eave: eave,
-  'dawn':eave,
+  dawn: eave,
   edgeware,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
