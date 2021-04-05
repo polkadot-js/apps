@@ -290,6 +290,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         MYBANK: 'wss://app.mybank.network/substrate'
       }
+    },
+    {
+      info: 'unitv',
+      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
+      providers: {
+        'Unit Network': 'wss://unitventures.io/'
+      }
     }
   ]);
 }

@@ -58,7 +58,7 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
-
+const chainUnitv = '#1452F0';
 // based on node name
 // alphabetical
 const nodeBitCountry = '#191a2e';
@@ -160,7 +160,8 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
-  ['PHOENIX', chainPhoenix]
+  ['PHOENIX', chainPhoenix],
+  ['UNIT', chainUnitv]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
