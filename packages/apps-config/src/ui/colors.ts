@@ -58,7 +58,7 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
-
+const chainUnitv = '#1452F0';
 // based on node name
 // alphabetical
 const nodeBitCountry = '#191a2e';
@@ -89,7 +89,6 @@ const nodeUnique = chainUnique;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
-
 export { emptyColor };
 
 // Alphabetical overrides based on the actual matched chain name
@@ -160,7 +159,8 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
-  ['PHOENIX', chainPhoenix]
+  ['PHOENIX', chainPhoenix],
+  ['UNIT', chainUnitv]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
