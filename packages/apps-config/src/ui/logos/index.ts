@@ -52,6 +52,7 @@ import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
+import mybank from './nodes/mybank.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -132,7 +133,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Uniarts', nodeUniarts],
   ['Unique', chainUnique],
   ['Vln', nodeVln],
-  ['PHOENIX PC1', nodePhoenix]
+  ['PHOENIX PC1', nodePhoenix],
+  ['mybank.network PC1', mybank]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -220,7 +222,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['PHOENIX Node', nodePhoenix],
   ['PHOENIX Collator', nodePhoenix],
   ['Zeitgeist Node', nodeZeitgeist],
-  ['Zeitgeist Collator', nodeZeitgeist]
+  ['Zeitgeist Collator', nodeZeitgeist],
+  ['mybank.network', mybank]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -263,6 +266,7 @@ export const namedLogos: Record<string, unknown> = {
   laminar: nodeLaminar,
   litentry: nodeLitentry,
   moonbaseAlpha: moonbeam,
+  mybank: mybank,
   nodle: nodeNodle,
   phala: nodePhala,
   phoenix: nodePhoenix,
