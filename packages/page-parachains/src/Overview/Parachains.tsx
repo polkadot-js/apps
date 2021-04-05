@@ -62,10 +62,12 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
 }
 
 function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): Record<string, ValidatorInfo[]> {
-  return activeIndices && validators && validatorGroups && ids && ids.length === validatorGroups.length
-    ? validatorGroups.reduce((all: Record<string, ValidatorInfo[]>, indices, index) => ({
+  console.log(ids && ids.length, validatorGroups && validatorGroups.length);
+
+  return activeIndices && validators && validatorGroups && ids && ids.length <= validatorGroups.length
+    ? ids.reduce((all: Record<string, ValidatorInfo[]>, id, index) => ({
       ...all,
-      [ids[index].toString()]: indices
+      [id.toString()]: validatorGroups[index]
         .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
         .filter(([, a]) => a)
         .map(([indexActive, indexValidator]) => ({
