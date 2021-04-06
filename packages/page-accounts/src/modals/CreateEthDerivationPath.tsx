@@ -8,7 +8,7 @@ import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal }
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { DeriveValidationOutput, PairType } from '../types';
+import { DeriveValidationOutput } from '../types';
 
 interface Props {
   className?: string;
@@ -17,26 +17,25 @@ interface Props {
   derivePath: string;
   deriveValidation: DeriveValidationOutput | undefined;
   seed: string;
-  addressFromSeed: (seed: string, derivePath: string, pairType: PairType) => string;
 }
 
 export const ETH_DEFAULT_PATH = "m/44'/60'/0'/0/0";
 
-function CreateEthDerivationPath ({ addressFromSeed,
-  className,
+function CreateEthDerivationPath ({ className,
   derivePath,
   deriveValidation,
   onChange,
-  seed,
   seedType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [addIndex, setAddIndex] = useState(0);
   const [customIndex, setCustomIndex] = useState(new BN(0));
-  const [addressList, setAddressList] = useState<{ key: number; text: ReactNode; value: number; }[]>([{
-    key: 0,
-    text: t('Address index 0'),
-    value: 0
-  }]);
+  const [addressList] = useState<{ key: number; text: ReactNode; value: number; }[]>(new Array(10).fill(0).map((_, i) => ({
+    key: i,
+    text: t('Address index {{index}}', {
+      replace: { index: i }
+    }),
+    value: i
+  })));
   const [useCustomPath, toggleCustomPath] = useToggle();
   const [useCustomIndex, toggleCustomIndex] = useToggle();
 
@@ -50,18 +49,6 @@ function CreateEthDerivationPath ({ addressFromSeed,
   useEffect((): void => {
     onChange(`m/44'/60'/0'/0/${useCustomIndex ? Number(customIndex) : addIndex}`);
   }, [customIndex, onChange, useCustomIndex, addIndex]);
-
-  useEffect((): void => {
-    const list = new Array(5).fill(0).map((_, i) => ({
-      key: i,
-      text: t('Address index {{index}} - {{address}}', {
-        replace: { address: addressFromSeed(seed, `m/44'/60'/0'/0/${i}`, 'ethereum'), index: i }
-      }),
-      value: i
-    }));
-
-    setAddressList(list);
-  }, [seed, setAddressList, addressFromSeed, t]);
 
   return (
     <Modal.Columns

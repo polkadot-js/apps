@@ -347,7 +347,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               : pairType === 'ethereum'
                 ? (
                   <CreateEthDerivationPath
-                    addressFromSeed={addressFromSeed}
                     derivePath={derivePath}
                     deriveValidation={deriveValidation}
                     onChange={_onChangePath}
