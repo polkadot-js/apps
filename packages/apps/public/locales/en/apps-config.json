@@ -1,7 +1,7 @@
 {
   "lng.detect": "Default browser language (auto-detect)",
-  "rpc.apron": "Apron",
   "rpc.amber": "Amber",
+  "rpc.apron": "Apron",
   "rpc.ares": "Ares",
   "rpc.ava.summary": "user-run public nodes; see https://status.cloud.ava.do/",
   "rpc.beresheet": "Beresheet",
@@ -66,7 +66,7 @@
   "rpc.rocco.litentry": "Litentry Rostock",
   "rpc.rococo": "Rococo",
   "rpc.rococo.acala": "Mandala PC2",
-  "rpc.rococo.apron":"Apron PC1",
+  "rpc.rococo.apron": "Apron PC1",
   "rpc.rococo.ares": "Ares PC1",
   "rpc.rococo.bifrost": "Bifrost PC1",
   "rpc.rococo.bitcountry": "Bit.Country PC1",
