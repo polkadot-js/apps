@@ -53,9 +53,7 @@ export interface Campaign extends WinnerData {
   info: FundInfo;
   isCapped?: boolean;
   isEnded?: boolean;
-  isRetired?: boolean;
   isWinner?: boolean;
-  retireEnd?: BN;
 }
 
 export interface LeasePeriod {

@@ -76,7 +76,6 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
-    [t('retired'), 'media--1000'],
     [t('ending'), 'media--1000'],
     [t('leases')],
     [t('raised')],
