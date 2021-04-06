@@ -49,6 +49,7 @@
   "rpc.litentry.test": "Litentry",
   "rpc.local": "Local Node",
   "rpc.mandala": "Mandala",
+  "rpc.manta": "Manta",
   "rpc.moonbeam": "Moonbase Alpha",
   "rpc.mybank": "mybank.network",
   "rpc.nodle-arcadia": "Arcadia",

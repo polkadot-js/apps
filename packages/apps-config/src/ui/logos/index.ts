@@ -53,6 +53,7 @@ import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeMath from './nodes/math.svg';
+import nodeManta from './nodes/manta.png';
 import moonbeam from './nodes/moonbeam.png';
 import mybank from './nodes/mybank.png';
 import nodeNodle from './nodes/nodle.svg';
@@ -192,6 +193,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Laminar Node', nodeLaminar],
   ['Litentry', nodeLitentry],
   ['Litentry Collator', nodeLitentry],
+  ['Manta Node', nodeManta],
+  ['Manta Parachain Collator', nodeManta],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Patract Node', nodeJupiter],
@@ -277,6 +280,7 @@ export const namedLogos: Record<string, unknown> = {
   kusama: chainKusama,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
+  manta: nodeManta,
   moonbaseAlpha: moonbeam,
   mybank: mybank,
   nodle: nodeNodle,
