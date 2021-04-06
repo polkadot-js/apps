@@ -146,7 +146,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       {
         info: 'rococoGalital',
         paraId: 230,
-        text: t('rpc.rococo.galital', 'Galital', { ns: 'apps-config' }),
+        text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
           StarkleyTech: 'wss://galital-rpc.starkleytech.com'
         }
