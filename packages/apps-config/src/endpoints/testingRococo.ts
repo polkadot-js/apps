@@ -56,6 +56,14 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoApron',
+        paraId: 128,
+        text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
+        providers: {
+          'Apron Network': 'wss://rococo.apron.network'
+        }
+      },
+      {
         info: 'rococoAres',
         paraId: 6,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
@@ -146,7 +154,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       {
         info: 'rococoGalital',
         paraId: 230,
-        text: t('rpc.rococo.galital', 'Galital', { ns: 'apps-config' }),
+        text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
           StarkleyTech: 'wss://galital-rpc.starkleytech.com'
         }
@@ -264,6 +272,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoEave',
+        paraId: 77,
+        text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
+        providers: {
+          EAVE: 'wss://steamcollator.eave.network'
+        }
+      },
+      {
         info: 'rococoSubDAO',
         paraId: 888,
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
@@ -301,6 +317,22 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
         providers: {
           'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
+        }
+      },
+      {
+        info: 'rococoSunrock',
+        paraId: 499,
+        text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
+        providers: {
+          Sunrock: 'wss://sunrock.kaki.dev'
+        }
+      },
+      {
+        info: 'rococoUnitv',
+        paraId: 3,
+        text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
+        providers: {
+          'Unit Network': 'wss://unitp.io'
         }
       }
     ]

@@ -86,10 +86,11 @@ const optionsMulti = {
   })
 };
 
-function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
-  return list?.map((id) => (
+function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
+  return list?.map((id, index) => (
     <AddressMini
       key={id.toString()}
+      nameExtra={indices && <>&nbsp;{`(${formatNumber(indices[index])})`}</>}
       value={id}
     />
   ));
@@ -133,7 +134,7 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
   );
 
   const valRender = useCallback(
-    () => renderAddresses(validators?.map(({ validatorId }) => validatorId)),
+    () => renderAddresses(validators?.map(({ validatorId }) => validatorId), validators?.map(({ indexValidator }) => indexValidator)),
     [validators]
   );
 
@@ -177,8 +178,8 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
           />
         )}
       </td>
-      <td className='start together hash'>{paraInfo.headHex}</td>
-      <td className='start media--1100'>
+      <td className='start together hash media--1500'>{paraInfo.headHex}</td>
+      <td className='start'>
         {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
           ? (
             <>
@@ -203,27 +204,27 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
-      <td className='number no-pad-left'>
+      <td className='number no-pad-left media--800'>
         {lastBacked &&
           <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
         }
       </td>
-      <td className='number no-pad-left'>
+      <td className='number no-pad-left media--900'>
         {lastTimeout &&
           <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
       </td>
-      <td className='number media--900 no-pad-left'>
+      <td className='number no-pad-left'>
         <ParachainInfo id={id} />
       </td>
-      <td className='number media--1300'>
+      <td className='number media--1200'>
         {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
         {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
       </td>
-      <td className='number media--1300 no-pad-left'>
+      <td className='number no-pad-left media--1200'>
         {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
       </td>
-      <td className='number together media--1500'>
+      <td className='number together media--1000'>
         <Periods
           leasePeriod={leasePeriod}
           periods={paraInfo.leases}

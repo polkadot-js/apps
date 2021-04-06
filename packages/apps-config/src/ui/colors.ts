@@ -9,6 +9,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
@@ -19,7 +20,7 @@ const chainDotMog = '#020609';
 const chainGalital = '#00063F';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
-const chainIntegritee = '#080808';
+const chainIntegritee = '#15bcff';
 const chainKulupu = '#003366';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
@@ -32,18 +33,21 @@ const chainPolkaFoundry = '#ff527c';
 const chainKilt = '#8c175b';
 const chainKusama = '#000000';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
+const chainMybank = '#282736';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainRoccoBifrost = '#002cc3';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
+const chainRococoEave = '#900048';
 const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
+const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -55,9 +59,10 @@ const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
-
+const chainUnitv = '#1452F0';
 // based on node name
 // alphabetical
+const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
@@ -71,6 +76,7 @@ const nodeGalital = '#00063F;';
 const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeMoonbeam = '#53cbc9';
+const nodeMybank = '#282736';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
@@ -93,6 +99,7 @@ export { emptyColor };
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
+  ['Apron PC1', chainApron],
   ['Ares PC1', chainRoccoAres],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Bit.Country Tewai Chain', chainBitCountry],
@@ -105,6 +112,7 @@ export const chainColors: Record<string, any> = [
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
+  ['Steam PC', chainRococoEave],
   ['Encointer PC1', nodeEncointerNotee],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
@@ -128,6 +136,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
+  ['mybank.network Testnet', chainMybank],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala poc 3', chainPhala],
@@ -144,6 +153,7 @@ export const chainColors: Record<string, any> = [
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
+  ['Sunrock', chainSunrock],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
@@ -153,7 +163,8 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
-  ['PHOENIX', chainPhoenix]
+  ['PHOENIX', chainPhoenix],
+  ['UNIT', chainUnitv]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -162,6 +173,7 @@ export const chainColors: Record<string, any> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, any> = [
+  ['Apron Node', nodeApron],
   ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
@@ -175,6 +187,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['Galital Parachain Collator', nodeGalital],
   ['Litentry Collator', nodeLitentry],
+  ['mybank.network node', nodeMybank],
   ['nodle chain node', nodeNodle],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],

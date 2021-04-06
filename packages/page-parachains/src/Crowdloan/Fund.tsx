@@ -8,7 +8,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Digits, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Icon, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -99,7 +99,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     <tr className={className}>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td className='badge'><ParaLink id={paraId} /></td>
-      <td>
+      <td className='media--800'>
         {isWinner
           ? t<string>('Winner')
           : blocksLeft
@@ -112,18 +112,17 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         }
       </td>
       <td className='address media--1400'><AddressMini value={depositor} /></td>
-      <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
+      <td className='all number together media--1100'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
         #{formatNumber(end)}
       </td>
-      <td className='number'>
-        <Digits value={
-          firstSlot.eq(lastSlot)
-            ? formatNumber(firstSlot)
-            : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
-        } />
+      <td className='number all together'>
+        {firstSlot.eq(lastSlot)
+          ? formatNumber(firstSlot)
+          : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        }
       </td>
       <td className='number together'>
         <FormatBalance
@@ -134,7 +133,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         />
         <div>{percentage}</div>
       </td>
-      <td className='number media--1100'>
+      <td className='number'>
         {uniqueKeys.length !== 0 && (
           formatNumber(uniqueKeys.length)
         )}
@@ -145,7 +144,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
           icon='asterisk'
         />
       </td>
-      <td className='button'>
+      <td className='button media--1300'>
         {canWithdraw && uniqueKeys.length !== 0 && (
           <Refund
             allAccounts={uniqueKeys}
