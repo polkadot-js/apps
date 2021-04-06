@@ -46,7 +46,7 @@ import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
-import nodeIntegritee from './nodes/integritee.svg';
+import nodeIntegritee from './nodes/integritee.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
