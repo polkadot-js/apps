@@ -52,8 +52,8 @@ import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
-import nodeMath from './nodes/math.svg';
 import nodeManta from './nodes/manta.png';
+import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import mybank from './nodes/mybank.png';
 import nodeNodle from './nodes/nodle.svg';
@@ -315,8 +315,8 @@ export const namedLogos: Record<string, unknown> = {
   rococoKilt: nodeKilt,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
-  rococoMathChain: nodeMath,
   rococoManta: nodeManta,
+  rococoMathChain: nodeMath,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
