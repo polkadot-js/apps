@@ -9,6 +9,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
@@ -61,6 +62,7 @@ const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
 // based on node name
 // alphabetical
+const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
@@ -97,6 +99,7 @@ export { emptyColor };
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
+  ['Apron PC1', chainApron],
   ['Ares PC1', chainRoccoAres],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Bit.Country Tewai Chain', chainBitCountry],
@@ -170,6 +173,7 @@ export const chainColors: Record<string, any> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, any> = [
+  ['Apron Node', nodeApron],
   ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],

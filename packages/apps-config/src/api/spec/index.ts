@@ -4,6 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import apron from './apron';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
@@ -78,6 +79,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   Equilibrium: equilibrium,
   VLN: vln,
   acala,
+  apron,
   'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,

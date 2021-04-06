@@ -23,6 +23,7 @@ import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
+import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
@@ -88,6 +89,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Apron PC1', nodeApron],
   ['Ares PC1', nodeAres],
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
@@ -148,6 +150,8 @@ export const chainLogos: Record<string, unknown> = [
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos: Record<string, unknown> = [
   ['Acala Node', nodeAcala],
+  ['Apron Node', nodeApron],
+  ['Apron Parachain Collator', nodeApron],
   ['Ares Node', nodeAres],
   ['Ares Parachain Collator', nodeAres],
   ['mandala node', nodeAcala],
@@ -286,6 +290,7 @@ export const namedLogos: Record<string, unknown> = {
   realis: nodeRealis,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
+  rococoApron: nodeApron,
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,

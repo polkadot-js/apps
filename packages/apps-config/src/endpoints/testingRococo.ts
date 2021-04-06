@@ -56,6 +56,14 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoApron',
+        paraId: 128,
+        text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
+        providers: {
+          'Apron Network': 'wss://rococo.apron.network'
+        }
+      },
+      {
         info: 'rococoAres',
         paraId: 6,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
