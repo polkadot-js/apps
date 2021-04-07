@@ -22,6 +22,7 @@ const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainKulupu = '#003366';
+const chainManta = '#2070a6';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -75,6 +76,7 @@ const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
+const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
 const nodeMybank = '#282736';
 const nodeNodle = '#1ab394';
@@ -132,6 +134,7 @@ export const chainColors: Record<string, any> = [
   ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
+  ['MantaChain PC1', chainManta],
   ['MathChain PC1', chainGalois],
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
@@ -187,6 +190,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['Galital Parachain Collator', nodeGalital],
   ['Litentry Collator', nodeLitentry],
+  ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
   ['nodle chain node', nodeNodle],
   ['Parami Collator', nodeParami],
