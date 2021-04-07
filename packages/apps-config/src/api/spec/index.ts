@@ -92,7 +92,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   'datahighway-parachain': datahighwayParachain,
-  dawn: eave,
   'dev-parachain': zenlink,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
