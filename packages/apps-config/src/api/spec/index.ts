@@ -41,6 +41,7 @@ import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
+import manta from './manta';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import nodle from './nodle';
@@ -119,6 +120,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   laminar,
   litentry,
   mandala: acala,
+  manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
   'moonbase-alphanet': moonbeam,

@@ -224,6 +224,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoManta',
+        paraId: 777,
+        text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://rococo.manta.network'
+        }
+      },
+      {
         info: 'rococoParami',
         paraId: 18888,
         text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
