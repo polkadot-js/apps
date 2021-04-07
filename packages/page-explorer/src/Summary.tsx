@@ -14,7 +14,6 @@ function Summary (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
   const [ validatorCount, setValidatorCount ] = useState(0);
-  const [ treasuryBalance, setTreasuryBalance ] = useState();
   const [ remainingSupply, setRemainingSupply ] = useState();
   const [ currentEpoch, setCurrentEpoch ] = useState(0);
 
@@ -28,13 +27,6 @@ function Summary (): React.ReactElement {
     }
   }
 
-  async function getTreasuryBalance() {
-    if (api.rpc.poa) {
-      const tb = await api.rpc.poa.treasuryBalance();
-      setTreasuryBalance(tb);
-    }
-  }
-
   async function getRemainingSupply() {
     if (api.query.poAModule) {
       const tb = await api.query.poAModule.emissionSupply();
@@ -45,9 +37,6 @@ function Summary (): React.ReactElement {
   useEffect(() => {
     if (validatorCount === 0) {
       loadValidators();
-    }
-    if (treasuryBalance === undefined) {
-      getTreasuryBalance();
     }
     if (remainingSupply === undefined) {
       getRemainingSupply();
@@ -72,17 +61,6 @@ function Summary (): React.ReactElement {
             label={t<string>('total issuance')}
           >
             <TotalIssuance />
-          </CardSummary>
-        )}
-        {treasuryBalance && (
-          <CardSummary
-            className='media--800'
-            label={t<string>('treasury balance')}
-          >
-            <FormatBalance
-              value={treasuryBalance}
-              withSi
-            />
           </CardSummary>
         )}
         {remainingSupply && (
