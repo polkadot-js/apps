@@ -63,7 +63,7 @@ import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
-import uniarts from './uniarts';
+import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
@@ -149,7 +149,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subzero: zero,
   ternoa,
   trustbase,
-  uniarts,
+  uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
   zeitgeist: zeitgeist
