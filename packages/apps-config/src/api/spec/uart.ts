@@ -201,7 +201,7 @@ const definitions: OverrideBundleDefinition = {
         },
         ReFungibleItemType: {
           Collection: 'u64',
-          Owner: 'Vec<Ownership<AccountId>>',
+          Owner: 'Vec<Ownership>',
           Data: 'Vec<u8>',
           item_hash: 'H160'
         },
