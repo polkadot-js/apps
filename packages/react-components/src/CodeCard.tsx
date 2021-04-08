@@ -5,7 +5,7 @@ import store from '@canvas-ui/react-store/store';
 import { Code } from '@canvas-ui/react-store/types';
 import { ComponentProps } from './types';
 import { ELEV_2_CSS } from './styles/constants';
-import { useAbi, useToggle } from '@canvas-ui/react-hooks';
+import { useAbi, useToggle, useAppNavigation } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import React, { useCallback } from 'react';
