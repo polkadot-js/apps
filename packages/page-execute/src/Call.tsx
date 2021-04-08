@@ -5,7 +5,7 @@ import { ComponentProps as Props } from '@canvas-ui/react-components/types';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, TxButton } from '@canvas-ui/react-components';
 import PendingTx from '@canvas-ui/react-signer/PendingTx'
 import { ContractParams } from '@canvas-ui/react-params'
-import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
+import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight, useAppNavigation } from '@canvas-ui/react-hooks';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
 import { extractValues } from '@canvas-ui/react-components/Params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
