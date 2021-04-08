@@ -34,6 +34,8 @@
       "@canvas-ui/react-query": [ "packages/react-query/src" ],
       "@canvas-ui/react-query/*": [ "packages/react-query/src/*" ],
       "@canvas-ui/react-signer": [ "packages/react-signer/src" ],
+      "@canvas-ui/react-store/*": [ "packages/react-store/src/*" ],
+      "@canvas-ui/react-store": [ "packages/react-store/src" ],
       "@canvas-ui/react-signer/*": [ "packages/react-signer/src/*" ],
       "@canvas-ui/react-util": [ "packages/react-util/src" ],
       "@canvas-ui/react-util/*": [ "packages/react-util/src/*" ],
