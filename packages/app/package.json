@@ -15,10 +15,10 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/apps-config": "workspace:packages/apps-config",
-    "@canvas-ui/apps-routing": "workspace:packages/apps-routing",
+    "@canvas-ui/app-config": "workspace:packages/app-config",
+    "@canvas-ui/app-routing": "workspace:packages/app-routing",
     "@canvas-ui/react-api": "workspace:packages/react-api",
-    "@canvas-ui/react-components": "0.45.0-beta.33",
+    "@canvas-ui/react-components": "workspace:packages/react-components",
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
     "@canvas-ui/react-query": "workspace:packages/react-query",
     "@canvas-ui/react-util": "workspace:packages/react-util",

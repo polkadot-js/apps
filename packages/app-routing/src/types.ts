@@ -1,13 +1,8 @@
-// Copyright 2017-2021 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2021 @polkadot/app-routing authors & contributors
 // and @canvas-ui/app-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-<<<<<<< HEAD:packages/apps-routing/src/types.ts
 import { AppProps, BareProps } from '@canvas-ui/react-components/types';
-=======
-import { AppProps } from '@canvas-ui/app/types';
-import { BareProps } from '@canvas-ui/react-components/types';
->>>>>>> parity/master:packages/app-routing/src/types.ts
 
 export interface RouteProps extends AppProps, BareProps {
   location: any;
