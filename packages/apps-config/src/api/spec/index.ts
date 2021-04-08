@@ -144,6 +144,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   snowbridge,
   'sora-substrate': soraSubstrate,
   stafi,
+  steam: eave,
   subdao,
   subsocial,
   subzero: zero,
