@@ -5,7 +5,7 @@ import store from '@canvas-ui/react-store/store';
 import { registry } from '@canvas-ui/react-api';
 import { Button, Input, InputABI, InputAddress, InputFile, TxButton } from '@canvas-ui/react-components';
 import PendingTx from '@canvas-ui/react-signer/PendingTx';
-import { useAbi, useAccountId, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
+import { useAbi, useAccountId, useApi, useFile, useNonEmptyString, useAppNavigation } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';

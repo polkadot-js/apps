@@ -6,7 +6,7 @@ import { Button, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, Inpu
 import PendingTx from '@canvas-ui/react-signer/PendingTx'
 import { ContractParams } from '@canvas-ui/react-params'
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
+import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn, useAppNavigation } from '@canvas-ui/react-hooks';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
 import { extractValues } from '@canvas-ui/react-components/Params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
