@@ -36,12 +36,6 @@ export interface WithBasePath {
   basePath: string;
 }
 
-export interface ComponentProps extends BareProps, WithBasePath {}
-
-export interface AppProps extends BareProps, WithBasePath {
-  onStatusChange: (status: ActionStatus) => void;
-}
-
 interface CodeBase {
   id: string;
   codeHash: string;
@@ -52,22 +46,6 @@ interface CodeBase {
 
 export interface Code extends CodeBase {
   abi?: AnyJson | null;
-}
-
-// export interface Code extends CodeBase {
-//   abi: InkAbi | null;
-// }
-
-// export interface CodeStored {
-//   id: string;
-//   contractAbi?: InkAbi;
-// }
-
-export interface ContractJsonOld {
-  genesisHash: string;
-  abi: string;
-  address: string;
-  name: string;
 }
 
 export interface WithCodes {
