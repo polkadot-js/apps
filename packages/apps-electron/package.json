@@ -4,23 +4,23 @@
   "version": "0.86.3-49",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/core": "^7.13.14",
     "@babel/polyfill": "^7.12.1",
     "@polkadot/dev": "^0.62.7",
     "@polkadot/react-components": "^0.86.3-49",
-    "electron-log": "^4.3.2",
+    "electron-log": "^4.3.3",
     "electron-updater": "^4.3.8"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.2",
+    "@types/react-dom": "^17.0.3",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^7.0.0",
     "html-webpack-plugin": "^4.5.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "thread-loader": "^3.0.1",
     "tmp": "^0.2.1",
-    "webpack": "^5.25.1"
+    "webpack": "^5.31.0"
   }
 }
