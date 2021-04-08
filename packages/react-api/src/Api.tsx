@@ -9,9 +9,8 @@ import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
 import { typesChain, typesSpec } from '@canvas-ui/app-config/api';
-import { TokenUnit } from '@canvas-ui/react-components/InputNumber';
 import { StatusContext } from '@canvas-ui/react-components/Status';
-import ApiSigner from '@canvas-ui/react-signer/ApiSigner';
+import ApiSigner from './ApiSigner';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api/promise';
