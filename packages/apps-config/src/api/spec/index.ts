@@ -4,6 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import apron from './apron';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
@@ -40,7 +41,9 @@ import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
+import manta from './manta';
 import moonbeam from './moonbeam';
+import mybank from './mybank';
 import nodle from './nodle';
 import parami from './parami';
 import phala from './phala';
@@ -60,8 +63,9 @@ import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
-import uniarts from './uniarts';
+import uart from './uart';
 import unique from './unique';
+import unitv from './unitv';
 import vln from './vln';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
@@ -76,6 +80,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   Equilibrium: equilibrium,
   VLN: vln,
   acala,
+  apron,
   'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
@@ -92,6 +97,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   'datahighway-parachain': datahighwayParachain,
+  dawn: eave,
   'dev-parachain': zenlink,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
@@ -114,11 +120,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   laminar,
   litentry,
   mandala: acala,
+  manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
+  'mybank.network Testnet': mybank,
   nft: unique,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
@@ -142,7 +150,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subzero: zero,
   ternoa,
   trustbase,
-  uniarts,
+  uart,
+  'unit-node': unitv,
+  'unit-parachain': unitv,
   zeitgeist: zeitgeist
 };
 

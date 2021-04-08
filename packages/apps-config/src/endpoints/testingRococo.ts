@@ -56,6 +56,14 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoApron',
+        paraId: 128,
+        text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
+        providers: {
+          'Apron Network': 'wss://rococo.apron.network'
+        }
+      },
+      {
         info: 'rococoAres',
         paraId: 6,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
@@ -146,7 +154,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       {
         info: 'rococoGalital',
         paraId: 230,
-        text: t('rpc.rococo.galital', 'Galital', { ns: 'apps-config' }),
+        text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
           StarkleyTech: 'wss://galital-rpc.starkleytech.com'
         }
@@ -213,6 +221,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
           MathWallet: 'wss://testpara.maiziqianbao.net/ws'
+        }
+      },
+      {
+        info: 'rococoManta',
+        paraId: 777,
+        text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://rococo.manta.network'
         }
       },
       {
@@ -317,6 +333,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
         providers: {
           Sunrock: 'wss://sunrock.kaki.dev'
+        }
+      },
+      {
+        info: 'rococoUnitv',
+        paraId: 3,
+        text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
+        providers: {
+          'Unit Network': 'wss://unitp.io'
         }
       }
     ]
