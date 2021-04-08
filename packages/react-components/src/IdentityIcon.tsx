@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { getSystemIcon } from '@canvas-ui/apps-config/ui';
+import { getSystemIcon } from '@canvas-ui/app-config/ui';
 import { useApi, useNotification } from '@canvas-ui/react-hooks';
 import { ValidatorsContext } from './BlockAuthors';
 import React, { useCallback, useContext, useEffect, useState } from 'react';

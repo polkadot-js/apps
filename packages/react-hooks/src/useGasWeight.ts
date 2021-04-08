@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Weight } from '@polkadot/types/interfaces';
@@ -8,16 +8,14 @@ import { useApi, useBlockTime } from '.';
 import BN from 'bn.js';
 import { useCallback, useMemo, useState } from 'react';
 
-import { BN_TEN, BN_ZERO } from '@polkadot/util';
-
-const BN_MILLION = new BN(1_000_000);
+import { BN_MILLION, BN_TEN, BN_ZERO } from '@polkadot/util';
 
 export default function useWeight (): UseWeight {
   const { api } = useApi();
   const [blockTime] = useBlockTime();
   const [megaGas, _setMegaGas] = useState<BN>(
     (api.consts.system.blockWeights
-      ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic
+      ? api.consts.system.blockWeights.maxBlock
       : api.consts.system.maximumBlockWeight as Weight
     ).div(BN_MILLION).div(BN_TEN)
   );
@@ -26,7 +24,7 @@ export default function useWeight (): UseWeight {
   const setMegaGas = useCallback(
     (value?: BN | undefined) => _setMegaGas(value || (
       (api.consts.system.blockWeights
-        ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic
+        ? api.consts.system.blockWeights.maxBlock
         : api.consts.system.maximumBlockWeight as Weight
       ).div(BN_MILLION).div(BN_TEN)
     )),
@@ -43,7 +41,7 @@ export default function useWeight (): UseWeight {
       weight = megaGas.mul(BN_MILLION);
       executionTime = weight.muln(blockTime).div(
         api.consts.system.blockWeights
-          ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic
+          ? api.consts.system.blockWeights.maxBlock
           : api.consts.system.maximumBlockWeight as Weight
       ).toNumber();
       percentage = (executionTime / blockTime) * 100;
@@ -61,8 +59,7 @@ export default function useWeight (): UseWeight {
       percentage,
       setIsEmpty,
       setMegaGas,
-      weight,
-      weightToString: weight.toString()
+      weight
     };
   }, [api, blockTime, isEmpty, megaGas, setIsEmpty, setMegaGas]);
 }

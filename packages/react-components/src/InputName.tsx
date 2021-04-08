@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @polkadot/app-execute authors & contributors
+// and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from './types';
@@ -27,7 +28,7 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
       className={className}
       help={t(
         isContract
-          ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
+          ? 'A name for the instantiated contract to help users distinguish. Only used for display purposes.'
           : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
       )}
       isDisabled={isBusy}

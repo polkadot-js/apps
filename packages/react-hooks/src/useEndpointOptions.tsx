@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @canvas-ui/app-settings authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-util authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { createEndpoints } from '@canvas-ui/apps-config/settings';
+import { createEndpoints } from '@canvas-ui/app-config/settings';
 import { useApi } from '.';
 import { UseEndpoints } from './types';
 import { classes } from '@canvas-ui/react-util';

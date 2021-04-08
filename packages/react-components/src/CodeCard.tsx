@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import store from '@canvas-ui/react-store/store';
@@ -24,14 +24,15 @@ interface Props extends ComponentProps {
   onForget?: VoidFn;
 }
 
-function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onForget }: Props): React.ReactElement<Props> {
+function CodeCard ({ className, code, code: { id }, onForget: _onForget }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { navigateTo } = useAppNavigation();
   const [, , setIsAbiOpen] = useToggle();
   const { abi, isAbiSupplied, onChangeAbi } = useAbi(code);
 
-  const onDeploy = useCallback(
+  const onInstantiate = useCallback(
     (): void => {
-      navigateTo.deployNew(id)();
+      navigateTo.instantiateNew(id)();
     },
     [id, navigateTo]
   );
@@ -84,8 +85,8 @@ function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onFor
           <Button
             isDisabled={!isAbiSupplied}
             isPrimary
-            label={t<string>('Deploy')}
-            onClick={onDeploy}
+            label={t<string>('Instantiate')}
+            onClick={onInstantiate}
           />
         </Button.Group>
       </div>

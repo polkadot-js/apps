@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @polkadot/app-execute authors & contributors
+// and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from './types';
@@ -48,7 +49,7 @@ function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { exe
   const isDisabled = !!estimatedMg && withEstimate;
 
   return (
-    <div className={classes(className, isCall ? 'isCall' : 'isDeploy')}>
+    <div className={classes(className, isCall ? 'isCall' : 'isInstantiate')}>
       <InputNumber
         defaultValue={estimatedMg && isDisabled ? estimatedMg.toString() : undefined}
         help={help}
@@ -94,7 +95,7 @@ export default React.memo(
       display: flex;
     }
 
-    &.isDeploy {
+    &.isInstantiate {
       .ui.input {
         flex-grow: 1;
         margin-right: 0;

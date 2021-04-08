@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @polkadot/app authors & contributors
+// and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const config = require('@polkadot/dev/config/jest');
@@ -6,7 +7,7 @@ const config = require('@polkadot/dev/config/jest');
 const findPackages = require('./scripts/findPackages');
 
 const internalModules = findPackages()
-  .filter(({ name }) => !['@canvas-ui/apps'].includes(name))
+  .filter(({ name }) => !['@canvas-ui/app'].includes(name))
   .reduce((modules, { dir, name }) => {
     modules[`${name}(.*)$`] = `<rootDir>/packages/${dir}/src/$1`;
 

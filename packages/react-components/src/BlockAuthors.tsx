@@ -30,11 +30,25 @@ const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>
 const ValidatorsContext: React.Context<string[]> = React.createContext<string[]>([]);
 
 function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useApi();
+  const { api, isApiReady, systemChain } = useApi();
   const queryPoints = useCall<EraRewardPoints>(isApiReady && api.derive.staking?.currentPoints, []);
   const [state, setState] = useState<Authors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
   const [validators, setValidators] = useState<string[]>([]);
   const [isChainPurged, setIsChainPurged] = useState(false);
+
+  useEffect((): void => {
+    // Set block one hash to check if contract/code purge needed
+    if (isApiReady && !!systemChain) {
+      api.query.system.blockHash(1, (blockOneHash): void => {
+        const blockOneHashRef = window.localStorage.getItem('blockOneHash');
+
+        if (!blockOneHashRef && systemChain === 'Development') {
+          window.localStorage.setItem('blockOneHash', blockOneHash.toString());
+        }
+      }
+      ).catch(console.error);
+    }
+  }, [api, isApiReady, systemChain]);
 
   useEffect((): void => {
     // No unsub, global context - destroyed on app close
@@ -48,16 +62,6 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
         setValidators(validatorIds.map((validatorId) => validatorId.toString()));
       }).catch(console.error);
 
-      // Set block one hash to check if contract/code purge needed
-      api.queryMulti(
-        [api.query.system.chain, [api.query.system.blockHash, 1]],
-        ([chainName, blockOneHash]) => {
-          if (chainName.toString() === 'Development') {
-            window.localStorage.setItem('blockOneHash', blockOneHash.toString());
-          }
-        }
-      ).catch(console.error);
-
       // subscribe to new headers
       api.derive.chain.subscribeNewHeads(async (lastHeader): Promise<void> => {
         if (lastHeader?.number) {
@@ -69,13 +73,10 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
           const blockOneHash = (await api.query.system.blockHash(1));
           const blockOneHashRef = window.localStorage.getItem('blockOneHash');
 
-          console.log(blockOneHash.toString());
-          console.log(blockOneHashRef);
-
           if (
             chainName === 'Development' &&
             blockOneHashRef &&
-            JSON.parse(blockOneHashRef) as string !== blockOneHash.toString()
+            blockOneHashRef !== blockOneHash.toString()
           ) {
             setIsChainPurged(true);
           }

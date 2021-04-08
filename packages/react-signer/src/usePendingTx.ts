@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
@@ -9,8 +9,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { DefinitionRpcExt } from '@polkadot/types/types';
-import { assert, isFunction } from '@polkadot/util';
-import { format } from '@polkadot/util/logger';
+import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
 export interface ItemState {
   currentItem: QueueTx | null;
@@ -25,7 +24,7 @@ async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt
 
     const result = await rpc[section][method](...values);
 
-    console.log('submitRpc: result ::', format(result));
+    console.log('submitRpc: result ::', loggerFormat(result));
 
     return {
       result,

@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-democracy authors & contributors
+// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// and @canvas-ui/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-call */

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Button, Input, InputABI, InputName } from '@canvas-ui/react-components';
-import { useAbi, useApi, useCall, useFile, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';
+import { useAbi, useApi, useAppNavigation, useCall, useFile, useNonEmptyString, useNotification } from '@canvas-ui/react-hooks';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -13,9 +13,10 @@ import keyring from '@polkadot/ui-keyring';
 import { useTranslation } from './translate';
 import { ComponentProps as Props } from './types';
 
-function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<Props> {
+function Add ({ className, isContract }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { navigateTo } = useAppNavigation();
   const showNotification = useNotification();
   const [address, setAddress, , , isAddressTouched] = useNonEmptyString();
   const contractInfo = useCall<Option<ContractInfo>>(api.query.contracts.contractInfoOf, [address]);
@@ -51,7 +52,7 @@ function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<
         if (!isAddress) {
           status = t<string>('The value is not in a valid address format');
         } else if (!isStored) {
-          status = t<string>('Unable to find deployed contract code at the specified address');
+          status = t<string>('Unable to find instantiated contract code at the specified address');
         } else if (!isNotAdded) {
           status = t<string>('You have already added this contract address');
         } else if (isAddressValid) {
@@ -117,7 +118,7 @@ function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<
       <header>
         <h1>{t<string>('Add Existing Contract')}</h1>
         <div className='instructions'>
-          {t<string>('Using the existing contract address of a deployed contract instance you can add a contract to call to the UI.')}
+          {t<string>('Using the existing contract address of an instantiated contract instance you can add a contract to call to the UI.')}
         </div>
       </header>
       <section>

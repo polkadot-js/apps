@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { availableExtensions } from '@canvas-ui/apps-config/extensions';
+import { availableExtensions } from '@canvas-ui/app-config/extensions';
 import { withMulti, withObservable } from '@canvas-ui/react-api/hoc';
 import { useApi } from '@canvas-ui/react-hooks';
 import { classes, getAddressName, toAddress as addressToAddress } from '@canvas-ui/react-util';

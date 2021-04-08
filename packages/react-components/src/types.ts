@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StringOrNull } from '@canvas-ui/react-util/types';
@@ -115,11 +116,11 @@ export interface Contract extends ContractBase {
   address: null;
 }
 
-export interface ContractDeployed extends ContractBase {
+export interface ContractInstantiated extends ContractBase {
   address: string;
 }
 
-export type CallContract = ContractDeployed;
+export type CallContract = ContractInstantiated;
 
 export interface NullContract {
   abi: null;

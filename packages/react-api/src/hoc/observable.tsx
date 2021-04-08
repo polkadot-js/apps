@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/react-api authors & contributors
+// Copyright 2017-2021 @polkadot/react-api authors & contributors
+// and @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?

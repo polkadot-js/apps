@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/apps authors & contributors
+// Copyright 2017-2021 @polkadot/apps authors & contributors
+// and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const base = require('@polkadot/dev/config/eslint.cjs');
@@ -29,8 +30,7 @@ module.exports = {
     // this seems very broken atm, false positives
     '@typescript-eslint/unbound-method': 'off',
     'header/header': [2, 'line', [
-      { pattern: ' Copyright \\d{4}(-\\d{4})? @canvas-ui/' },
-      ' SPDX-License-Identifier: Apache-2.0'
+      { pattern: ' Copyright \\d{4}(-\\d{4})? @(polkadot|canvas-ui)/.* authors & contributors' },
     ]],
   }
 };

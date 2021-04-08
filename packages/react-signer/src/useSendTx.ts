@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @canvas-ui/react-hooks authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';

@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps } from './types';
 import { ELEV_2_CSS } from './styles/constants';
+import { useAppNavigation } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -18,8 +19,9 @@ interface Props extends ComponentProps {
   contract: Contract;
 }
 
-function ContractCard ({ className, contract: { abi, address }, navigateTo }: Props): React.ReactElement<Props> {
+function ContractCard ({ className, contract: { abi, address } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { navigateTo } = useAppNavigation();
 
   const onExecute = useCallback(
     (): void => {

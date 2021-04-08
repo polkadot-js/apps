@@ -1,8 +1,9 @@
-// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import linked from '@canvas-ui/apps-config/links';
-import { LinkTypes } from '@canvas-ui/apps-config/links/types';
+import linked from '@canvas-ui/app-config/links';
+import { LinkTypes } from '@canvas-ui/app-config/links/types';
 import { useApi } from '@canvas-ui/react-hooks';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';

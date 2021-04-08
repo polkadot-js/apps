@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
@@ -151,7 +152,6 @@ export interface UseWeight {
   setIsEmpty: React.Dispatch<boolean>
   setMegaGas: React.Dispatch<BN | undefined>;
   weight: BN;
-  weightToString: string;
 }
 
 export interface FileState {

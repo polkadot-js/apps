@@ -41,9 +41,10 @@ function getCallMessageOptions (callContract: Contract | null): Options {
     : [];
 }
 
-function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | null {
+function Call ({ className }: Props): React.ReactElement<Props> | null {
   const pageParams: { address?: string, messageIndex?: string } = useParams();
   const { api } = useApi();
+  const { navigateTo } = useAppNavigation();
   const { t } = useTranslation();
   const { name } = useAccountInfo(pageParams.address?.toString() || null, true);
   const pendingTx = usePendingTx('contracts.call');
@@ -94,7 +95,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].isMutating);
   const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
   const useWeightHook = useGasWeight();
-  const { isValid: isWeightValid, setMegaGas, weightToString } = useWeightHook;
+  const { isValid: isWeightValid, setMegaGas, weight } = useWeightHook;
 
   useEffect((): void => {
     if (!accountId || !contract?.abi?.messages[messageIndex] || !values || !payment) return;
@@ -135,17 +136,17 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         return [];
       }
 
-      return [contract.address.toString(), payment, weightToString, data];
+      return [contract.address.toString(), payment, weight.toString(), data];
     },
-    [accountId, contract, encoder, payment, weightToString]
+    [accountId, contract, encoder, payment, weight]
   );
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !contract || !payment || !weightToString) return;
+      if (!accountId || !contract || !payment || !weight) return;
 
       !!contract && contract
-        .read(messageIndex, 0, weightToString, ...extractValues(values))
+        .read(messageIndex, 0, weight.toString(), ...extractValues(values))
         .send(accountId)
         .then((result): void => {
           setOutcomes([{
@@ -157,7 +158,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
           }, ...outcomes]);
         });
     },
-    [accountId, contract, messageIndex, payment, weightToString, outcomes, values]
+    [accountId, contract, messageIndex, payment, weight, outcomes, values]
   );
 
   const _onClearOutcome = useCallback(
@@ -188,9 +189,9 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         type: param.type,
         value: values[index]?.value
       })),
-      weight: weightToString
+      weight: weight.toString()
     }),
-    [contract?.registry, name, messageOptions, messageIndex, params, values, weightToString]
+    [contract?.registry, name, messageOptions, messageIndex, params, values, weight]
   );
 
   if (isNull(contract) || isNull(messageIndex) || !contract?.abi?.messages[messageIndex]) {
@@ -208,7 +209,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         <header>
           <h1>{t<string>('Execute {{name}}', { replace: { name } })}</h1>
           <div className='instructions'>
-            {t<string>('Using the unique code hash you can add on-chain contract code for you to deploy.')}
+            {t<string>('Execute contract calls via signed transactions or RPC.')}
           </div>
         </header>
         <section className={className}>

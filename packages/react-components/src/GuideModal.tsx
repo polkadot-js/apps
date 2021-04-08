@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @polkadot/app-execute authors & contributors
+// and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useToggle } from '@canvas-ui/react-hooks';
@@ -59,7 +60,7 @@ function GuideModal ({ className, onClose }: Props): React.ReactElement<Props> {
         content: (
           <>
             <p>
-              {t<string>('This quick intro will take you through the working flow of uploading, deploying and interacting with smart contracts via the Canvas UI.')}
+              {t<string>('This quick intro will take you through the working flow of uploading, instantiating, and interacting with smart contracts via the Canvas UI.')}
             </p>
             <p>
               {t<string>('You will need to have a built contract ready to upload. If you’re new to ink! smart contracts,')}
@@ -94,14 +95,14 @@ function GuideModal ({ className, onClose }: Props): React.ReactElement<Props> {
         content: (
           <>
             <p>
-              {t<string>('With the code uploaded to the chain, it is time to deploy it and instantiate a contract.')}
+              {t<string>('With the code uploaded to the chain, it is time to instantiate it and instantiate a contract.')}
             </p>
             <p>
-              {t<string>('This quick intro will take you through the working flow of uploading, deploying and interacting with smart contracts on the Canvas chain.')}
+              {t<string>('This quick intro will take you through the working flow of uploading, instantiating and interacting with smart contracts on the Canvas chain.')}
             </p>
           </>
         ),
-        header: t<string>('Deploy')
+        header: t<string>('Instantiate')
       },
       {
         content: (
@@ -110,7 +111,7 @@ function GuideModal ({ className, onClose }: Props): React.ReactElement<Props> {
               {t<string>('You can now interact with your contract on chain. The uploaded ABI provides you with messages to call.')}
             </p>
             <p>
-              {t<string>('Using a contract’s unique code hash, you can also add and interact with already deployed contracts via the Canvas UI.')}
+              {t<string>('Using a contract’s unique code hash, you can also add and interact with already instantiated contracts via the Canvas UI.')}
             </p>
           </>
         ),

@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @polkadot/app-execute authors & contributors
+// and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import store from '@canvas-ui/react-store/store';
@@ -34,6 +35,8 @@ function ResetStorageModal ({ className }: BareProps): React.ReactElement<BarePr
 
       store.forgetAll();
 
+      window.localStorage.removeItem('blockOneHash');
+
       _onClose();
     },
     [_onClose]
@@ -50,7 +53,7 @@ function ResetStorageModal ({ className }: BareProps): React.ReactElement<BarePr
       </Modal.Header>
       <Modal.Content>
         <p>
-          {t('It appears your currently running development chain and the UI artifacts are out of sync. This can happen after purging and restarting the chain. Do you want to reset your browser storage? This will remove all previously added code bundles and deployed contracts.')}
+          {t('It appears your currently running development chain and the UI artifacts are out of sync. This can happen after purging and restarting the chain. Do you want to reset your browser storage? This will remove all previously added code bundles and instantiated contracts.')}
         </p>
       </Modal.Content>
       <Modal.Actions

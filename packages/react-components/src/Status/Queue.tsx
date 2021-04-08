@@ -1,4 +1,5 @@
-// Copyright 2017-2021 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
@@ -10,6 +11,7 @@ import { createType } from '@polkadot/types';
 import { DispatchError } from '@polkadot/types/interfaces';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
+import { u8aToString } from '@polkadot/util';
 
 import { BareProps } from '../types';
 import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
@@ -56,7 +58,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
       .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
-      .map(({ event: { data, method, section } }): ActionStatus => {
+      .map(({ event: { data, method, section }, topics }): ActionStatus => {
         if (section === 'system' && method === 'ExtrinsicFailed') {
           const [dispatchError] = data as unknown as ITuple<[DispatchError]>;
           let message = dispatchError.type;
@@ -76,6 +78,19 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             action: `${section}.${method}`,
             message,
             status: 'error'
+          };
+        }
+
+        if (section === 'contracts' && method === 'ContractExecution' && topics.length > 0) {
+          // find the name of the contract event. Needs improvement.
+          const message = topics.map(u8aToString)
+            .filter((topic: string) => topic.includes('::'))
+            ?.pop() ?? '';
+
+          return {
+            action: `${section}.${method}`,
+            message,
+            status: 'event'
           };
         }
 

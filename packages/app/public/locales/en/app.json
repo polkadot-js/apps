@@ -1,0 +1,9 @@
+{
+  "Ensure that your node is running and that your Websocket endpoint is reachable.": "Ensure that your node is running and that your Websocket endpoint is reachable.",
+  "Initializing connection": "Initializing connection",
+  "Loading": "Loading",
+  "Settings": "Settings",
+  "You are not connected to a node.": "You are not connected to a node.",
+  "transfer received": "transfer received",
+  "update on #{{index}}": "update on #{{index}}"
+}
