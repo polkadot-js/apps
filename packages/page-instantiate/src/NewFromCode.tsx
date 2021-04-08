@@ -7,12 +7,14 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { ComponentProps as Props } from './types';
 
 import store from '@canvas-ui/app/store';
-import { Button, ContractParams, Dropdown, Input, InputABI, InputAddress, InputBalance, InputMegaGas, InputName, MessageArg, MessageSignature, PendingTx, Toggle, TxButton } from '@canvas-ui/react-components';
+import { Button, Dropdown, Input, InputABI, InputAddress, InputBalance, InputMegaGas, InputName, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useApi, useAppNavigation, useFile, useGasWeight, useNonEmptyString, useNonZeroBn, useStepper } from '@canvas-ui/react-hooks';
-import { RawParam } from '@canvas-ui/react-params/types';
-import { extractValues } from '@canvas-ui/react-params/values';
+import { RawParam } from '@canvas-ui/react-components/types';
+import { extractValues } from '@canvas-ui/react-components/Params/values';
+import { ContractParams } from '@canvas-ui/react-params'
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
+import PendingTx from '@canvas-ui/react-signer/PendingTx';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
