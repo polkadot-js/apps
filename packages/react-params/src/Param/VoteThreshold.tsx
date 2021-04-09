@@ -12,19 +12,11 @@ import { bnToBn } from '@polkadot/util';
 import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
-type TextMap = Record<number, string>;
-
 const options = [
   { text: 'Super majority approval', value: 0 },
   { text: 'Super majority rejection', value: 1 },
   { text: 'Simple majority', value: 2 }
 ];
-
-export const textMap = options.reduce((textMap, { text, value }): TextMap => {
-  textMap[value] = text;
-
-  return textMap;
-}, {} as unknown as TextMap);
 
 function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
