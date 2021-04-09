@@ -41,22 +41,10 @@ interface OnChangeCbObs {
 type OnChangeCbFn = (value?: any) => any;
 export type OnChangeCb = OnChangeCbObs | OnChangeCbFn;
 
-interface ChangeProps {
-  callOnResult?: OnChangeCb;
-}
-
 export interface CallState {
   callResult?: unknown;
   callUpdated?: boolean;
   callUpdatedAt?: number;
 }
-
-type CallProps = ApiProps & CallState;
-
-export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
-  children?: React.ReactNode;
-  label?: string;
-  render?: (value?: T) => React.ReactNode;
-};
 
 export type Environment = 'web' | 'app';

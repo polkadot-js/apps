@@ -1,8 +1,7 @@
-packages/react-api/src/hoc/callDiv.tsx:16 - default
-packages/react-api/src/hoc/calls.ts:13 - default
-packages/react-api/src/hoc/index.ts:18 - onlyOnWeb
-packages/react-api/src/hoc/index.ts:19 - onlyOnApp
-packages/react-api/src/util/index.ts:12 - getHistoric (used in module)
+packages/react-api/src/types.ts:56 - BaseProps
+packages/react-api/src/hoc/call.tsx:42 - default
+packages/react-api/src/util/historic.ts:10 - default
+packages/react-api/src/util/index.ts:14 - getEnvironment (used in module)
 packages/react-components/src/Button/types.ts:8 - Button$Callback (used in module)
 packages/react-components/src/Button/types.ts:33 - DividerProps
 packages/react-components/src/Chart/index.ts:15 - default

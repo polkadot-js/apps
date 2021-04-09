@@ -2,7 +2,6 @@
 // and @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import getEnvironment from './getEnvironment';
 import intervalObservable from './intervalObservable';
 import isEqual from './isEqual';
 import triggerChange from './triggerChange';
@@ -10,6 +9,5 @@ import triggerChange from './triggerChange';
 export {
   intervalObservable,
   isEqual,
-  triggerChange,
-  getEnvironment
+  triggerChange
 };
