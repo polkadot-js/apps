@@ -1,4 +1,3 @@
-packages/react-query/src/Elapsed.tsx:80 - default
 packages/react-signer/src/LedgerSigner.ts:13 - LedgerSigner (used in module)
 packages/react-signer/src/translate.ts:9 - useTranslation (used in module)
 packages/react-signer/src/types.ts:27 - QrState
