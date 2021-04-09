@@ -20,12 +20,6 @@ export interface CallOptions <T> {
   withParams?: boolean;
 }
 
-export interface ModalState {
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-}
-
 export interface AddressFlags extends DeriveAccountFlags {
   isDevelopment: boolean;
   isEditable: boolean;
