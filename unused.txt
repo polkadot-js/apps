@@ -1,17 +1,16 @@
-packages/react-query/src/index.ts:5 - BalanceFree
-packages/react-query/src/index.ts:6 - BalanceVoting
-packages/react-query/src/index.ts:7 - BlockToTime
-packages/react-query/src/index.ts:8 - BestFinalized
-packages/react-query/src/index.ts:9 - BestNumber
-packages/react-query/src/index.ts:10 - Chain
-packages/react-query/src/index.ts:11 - Elapsed
-packages/react-query/src/index.ts:12 - EventsContext
-packages/react-query/src/index.ts:13 - LockedVote
-packages/react-query/src/index.ts:14 - NodeName
-packages/react-query/src/index.ts:15 - NodeVersion
-packages/react-query/src/index.ts:16 - Nonce
-packages/react-query/src/index.ts:17 - TimeNow
-packages/react-query/src/index.ts:18 - TotalIssuance
+packages/react-query/src/BalanceFree.tsx:35 - default
+packages/react-query/src/BalanceVoting.tsx:35 - default
+packages/react-query/src/BestFinalized.tsx:32 - default
+packages/react-query/src/BestNumber.tsx:33 - default
+packages/react-query/src/BlockToTime.tsx:30 - default
+packages/react-query/src/Chain.tsx:24 - default
+packages/react-query/src/Events.tsx:87 - EventsContext (used in module)
+packages/react-query/src/LockedVote.tsx:39 - default
+packages/react-query/src/NodeName.tsx:24 - default
+packages/react-query/src/NodeVersion.tsx:24 - default
+packages/react-query/src/Nonce.tsx:31 - default
+packages/react-query/src/TimeNow.tsx:41 - default
+packages/react-query/src/TotalIssuance.tsx:32 - default
 packages/react-signer/src/LedgerSigner.ts:13 - LedgerSigner (used in module)
 packages/react-signer/src/translate.ts:9 - useTranslation (used in module)
 packages/react-signer/src/types.ts:27 - QrState
