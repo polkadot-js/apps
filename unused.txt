@@ -1,10 +1,3 @@
-packages/app-config/src/links/commonwealth.ts:9 - default
-packages/app-config/src/links/polkascan.ts:7 - default
-packages/app-config/src/links/polkassembly.ts:7 - default
-packages/app-config/src/links/subscan.ts:7 - default
-packages/app-config/src/links/types.ts:9 - ExternalDef
-packages/app-config/src/settings/languages.ts:7 - default
-packages/app-config/src/settings/ss58.ts:11 - default
 packages/react-api/src/hoc/index.ts:5 - withApi
 packages/react-api/src/hoc/index.ts:6 - withCall
 packages/react-api/src/hoc/index.ts:7 - withCalls

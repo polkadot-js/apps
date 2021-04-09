@@ -12,12 +12,10 @@ const defaultState: Partial<QueueProps> = {
 };
 
 const StatusContext: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState as QueueProps);
-const QueueConsumer: React.Consumer<QueueProps> = StatusContext.Consumer;
 const QueueProvider: React.Provider<QueueProps> = StatusContext.Provider;
 
 export default StatusContext;
 
 export {
-  QueueConsumer,
   QueueProvider
 };
