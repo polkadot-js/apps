@@ -7,8 +7,7 @@ import BN from 'bn.js';
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { IExtrinsic } from '@polkadot/types/types';
+import { AccountId, Balance, BlockNumber, Exposure, Hash, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export type CallParam = any;
@@ -22,14 +21,6 @@ export interface CallOptions <T> {
   transform?: (value: any) => T;
   withParams?: boolean;
 }
-
-export type TxDef = [string, any[] | ConstructTxFn];
-
-export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
-
-export type TxSource<T extends TxDefs> = [T, boolean];
-
-export type ConstructTxFn = () => any[];
 
 export interface ModalState {
   isOpen: boolean;
