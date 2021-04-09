@@ -2,6 +2,7 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { FileState } from '@canvas-ui/react-hooks/types';
 import { classes } from '@canvas-ui/react-util';
 import React, { createRef, MouseEvent, useCallback } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
@@ -14,6 +15,26 @@ import FileSupplied from './FileSupplied';
 import Icon from './Icon';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
+
+interface InputFileProps extends BareProps {
+  // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
+  // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
+  accept?: string;
+  clearContent?: boolean;
+  convertHex?: boolean;
+  errorText?: React.ReactNode;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (file: FileState | null) => void;
+  onRemove?: () => void;
+  placeholder?: React.ReactNode | null;
+  value: FileState | null;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+}
 
 const BYTE_STR_0 = '0'.charCodeAt(0);
 const BYTE_STR_X = 'x'.charCodeAt(0);
