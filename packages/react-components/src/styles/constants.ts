@@ -17,4 +17,9 @@ export const ELEV_3_CSS = `
   background: var(--grey20);
 `;
 
+export const ELEV_4_CSS = `
+  ${ELEV_CSS}
+  background: var(--grey30);
+`;
+
 
