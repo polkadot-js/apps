@@ -209,7 +209,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoAcala',
-        paraId: 666,
+        paraId: 1000,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
           Acala: 'wss://rococo-1.acala.laminar.one'
