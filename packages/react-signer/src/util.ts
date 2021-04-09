@@ -40,7 +40,7 @@ export function extractExternal (accountId: string | null): AddressFlags {
   };
 }
 
-export function recodeAddress (address: string | Uint8Array): string {
+function recodeAddress (address: string | Uint8Array): string {
   return keyring.encodeAddress(keyring.decodeAddress(address));
 }
 

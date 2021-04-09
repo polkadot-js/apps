@@ -1,7 +1,3 @@
-packages/react-signer/src/LedgerSigner.ts:13 - LedgerSigner (used in module)
-packages/react-signer/src/translate.ts:9 - useTranslation (used in module)
-packages/react-signer/src/types.ts:27 - QrState
-packages/react-signer/src/types.ts:35 - Signed
 packages/react-signer/src/usePendingTx.ts:14 - ItemState (used in module)
 packages/react-signer/src/util.ts:43 - recodeAddress (used in module)
 packages/react-store/src/index.ts:4 - store
