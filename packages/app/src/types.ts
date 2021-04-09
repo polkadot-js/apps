@@ -32,10 +32,6 @@ export interface AppPaths {
   uploadSuccess: (_: string) => string;
 }
 
-export interface WithBasePath {
-  basePath: string;
-}
-
 interface CodeBase {
   id: string;
   codeHash: string;
@@ -48,9 +44,3 @@ export interface Code extends CodeBase {
   abi?: AnyJson | null;
 }
 
-export interface WithCodes {
-  allCodes: Code[];
-  hasCodes: boolean;
-  isLoading: boolean;
-  updated: number;
-}

@@ -1,11 +1,7 @@
 packages/app/src/types.ts:35 - WithBasePath
 packages/app/src/types.ts:51 - WithCodes
 packages/app-routing/src/types.ts:7 - RouteProps (used in module)
-packages/page-settings/src/types.ts:7 - ChainInfo
-packages/page-settings/src/util.tsx:13 - createOption
-packages/page-settings/src/util.tsx:36 - createIdenticon
-packages/page-settings/src/util.tsx:60 - save (used in module)
-packages/page-settings/src/util.tsx:64 - saveAndReload
+packages/page-settings/src/util.tsx:9 - save
 packages/react-api/src/ApiContext.ts:17 - ApiProvider (used in module)
 packages/react-api/src/index.ts:16 - withApi (used in module)
 packages/react-api/src/index.ts:17 - withCalls (used in module)
