@@ -12,9 +12,17 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'AccountId',
-        LookupSource: 'AccountId',
-        Keys: 'SessionKeys2',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
+        Keys: 'SessionKeys4',
+        PerDispatchClassU32: {
+          normal: 'u32',
+          operational: 'u32',
+          mandatory: 'u32'
+        },
+        BlockLength: {
+          max: 'PerDispatchClassU32'
+        },
         Did: '[u8;32]',
         Bytes32: {
           value: '[u8;32]'
@@ -97,7 +105,6 @@ const definitions: OverrideBundleDefinition = {
           starting_slot: 'SlotNo',
           expected_ending_slot: 'SlotNo',
           ending_slot: 'Option<SlotNo>',
-          total_emission: 'Option<Balance>',
           emission_for_treasury: 'Option<Balance>',
           emission_for_validators: 'Option<Balance>'
         },
@@ -119,6 +126,41 @@ const definitions: OverrideBundleDefinition = {
           swap_bonuses: 'Vec<(Balance, BlockNumber)>',
           vesting_bonuses: 'Vec<(Balance, Balance, BlockNumber)>'
         },
+        Attestation: {
+          priority: 'Compact<u64>',
+          iri: 'Option<Vec<u8>>'
+        },
+        Account: {
+          nonce: 'U256',
+          balance: 'U256'
+        },
+        Transaction: {
+          nonce: 'U256',
+          action: 'String',
+          gas_price: 'u64',
+          gas_limit: 'u64',
+          value: 'U256',
+          input: 'Vec<u8>',
+          signature: 'Signature'
+        },
+        Signature: {
+          v: 'u64',
+          r: 'H256',
+          s: 'H256'
+        },
+        ParamType: {
+          _enum: {
+            Address: null,
+            Int: 'u16',
+            Uint: 'u16'
+          }
+        },
+        ContractConfig: {
+          address: 'H160',
+          query_aggregator_call_encoded: 'Vec<u8>',
+          query_price_abi_encoded: 'Vec<u8>',
+          return_val_abi: 'Vec<ParamType>'
+        },
         StateChange: {
           _enum: {
             KeyUpdate: 'KeyUpdate',
@@ -127,7 +169,8 @@ const definitions: OverrideBundleDefinition = {
             UnRevoke: 'UnRevoke',
             RemoveRegistry: 'RemoveRegistry',
             Blob: 'Blob',
-            MasterVote: 'Payload'
+            MasterVote: 'Payload',
+            Attestation: '(Did, Attestation)'
           }
         }
       }
