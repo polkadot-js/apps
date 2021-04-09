@@ -1,11 +1,5 @@
-packages/react-hooks/src/types.ts:23 - ModalState
-packages/react-params/src/Call.tsx:20 - Props (used in module)
-packages/react-params/src/Event.tsx:15 - Props (used in module)
-packages/react-params/src/index.tsx:6 - useTxParams
-packages/react-params/src/index.tsx:7 - CallParams
-packages/react-params/src/index.tsx:9 - Event
-packages/react-params/src/index.tsx:10 - Extrinsic
-packages/react-params/src/index.tsx:11 - Call
+packages/react-params/src/CallParams.tsx:44 - default
+packages/react-params/src/Event.tsx:41 - default
 packages/react-params/src/valueToText.tsx:49 - default
 packages/react-query/src/index.ts:5 - BalanceFree
 packages/react-query/src/index.ts:6 - BalanceVoting
