@@ -1,6 +1,3 @@
-packages/react-params/src/CallParams.tsx:44 - default
-packages/react-params/src/Event.tsx:41 - default
-packages/react-params/src/valueToText.tsx:49 - default
 packages/react-query/src/index.ts:5 - BalanceFree
 packages/react-query/src/index.ts:6 - BalanceVoting
 packages/react-query/src/index.ts:7 - BlockToTime

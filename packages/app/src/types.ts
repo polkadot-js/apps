@@ -2,8 +2,6 @@
 // and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@canvas-ui/react-api/Status/types';
-import { BareProps } from '@canvas-ui/react-components/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 
 import { AnyJson } from '@polkadot/types/types';
