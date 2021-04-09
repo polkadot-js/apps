@@ -1,16 +1,6 @@
-packages/react-api/src/index.ts:16 - withApi (used in module)
-packages/react-api/src/index.ts:17 - withCalls (used in module)
-packages/react-api/src/index.ts:18 - withCallDiv (used in module)
-packages/react-api/src/index.ts:19 - withMulti (used in module)
-packages/react-api/src/index.ts:20 - withObservable (used in module)
-packages/react-api/src/index.ts:21 - clearLedger (used in module)
-packages/react-api/src/index.ts:23 - isLedger (used in module)
-packages/react-api/src/index.ts:24 - isLedgerCapable (used in module)
-packages/react-api/src/types.ts:10 - OmitProps (used in module)
-packages/react-api/src/types.ts:37 - OnChangeCbObs (used in module)
-packages/react-api/src/types.ts:41 - OnChangeCbFn (used in module)
-packages/react-api/src/types.ts:44 - ChangeProps (used in module)
-packages/react-api/src/types.ts:54 - CallProps (used in module)
+packages/react-api/src/ledger.ts:20 - isLedgerCapable (used in module)
+packages/react-api/src/ledger.ts:28 - isLedger
+packages/react-api/src/ledger.ts:32 - clearLedger
 packages/react-components/src/AddressToggle.tsx:86 - default
 packages/react-components/src/Balance.tsx:17 - RenderProps (used in module)
 packages/react-components/src/Balance.tsx:23 - Props (used in module)
@@ -139,7 +129,10 @@ packages/app-config/src/api/index.ts:8 - getChainTypes
 packages/app-config/src/api/util.ts:5 - typesFromDefs
 packages/app-config/src/settings/index.ts:11 - createLanguages (used in module)
 packages/app-config/src/settings/index.ts:12 - createSs58 (used in module)
+packages/react-api/src/hoc/index.ts:5 - withApi
 packages/react-api/src/hoc/index.ts:6 - withCall
+packages/react-api/src/hoc/index.ts:7 - withCalls
+packages/react-api/src/hoc/index.ts:8 - withCallDiv
 packages/react-api/src/hoc/index.ts:18 - onlyOnWeb
 packages/react-api/src/hoc/index.ts:19 - onlyOnApp
 packages/react-api/src/hoc/types.ts:9 - Transform (used in module)
