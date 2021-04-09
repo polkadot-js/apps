@@ -7,8 +7,6 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import { InjectedExtension } from '@polkadot/extension-inject/types';
 
 // helpers for HOC props
-type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
-export type SubtractProps<T, K> = OmitProps<T, keyof K>;
 
 export interface BareProps {
   className?: string;
@@ -47,4 +45,3 @@ export interface CallState {
   callUpdatedAt?: number;
 }
 
-export type Environment = 'web' | 'app';
