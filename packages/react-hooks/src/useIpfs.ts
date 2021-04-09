@@ -2,8 +2,6 @@
 // and @canvas-ui/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useState } from 'react';
-
 const KNOWN = ['ipfs', 'ipns'];
 const SECTIONS = KNOWN.map((part) => `/${part}/`);
 const LOCAL_IPFS = '.ipfs.localhost';
@@ -112,8 +110,3 @@ export function extractIpfsDetails (): State {
       : extractOther(url);
 }
 
-export default function useIpfs (): State {
-  const [state] = useState(extractIpfsDetails());
-
-  return state;
-}
