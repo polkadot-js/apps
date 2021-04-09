@@ -11,7 +11,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
-import { CROWD_PREFIX, RANGES } from './constants';
+import { CROWD_PREFIX } from './constants';
+import useRanges from './useRanges';
 
 const FIRST_PARAM = [0];
 
@@ -28,14 +29,14 @@ function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
     );
 }
 
-function extractWinners (auctionInfo: AuctionInfo, optData: Option<WinningData>): WinnerData[] {
+function extractWinners (ranges: [number, number][], auctionInfo: AuctionInfo, optData: Option<WinningData>): WinnerData[] {
   return optData.isNone
     ? []
     : optData.unwrap().reduce<WinnerData[]>((winners, optEntry, index): WinnerData[] => {
       if (optEntry.isSome) {
         const [accountId, paraId, value] = optEntry.unwrap();
         const period = auctionInfo.leasePeriod || BN_ZERO;
-        const [first, last] = RANGES[index];
+        const [first, last] = ranges[index];
 
         winners.push({
           accountId: accountId.toString(),
@@ -63,11 +64,11 @@ function createWinning ({ endBlock }: AuctionInfo, blockOffset: BN | null | unde
   };
 }
 
-function extractData (auctionInfo: AuctionInfo, values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] {
+function extractData (ranges: [number, number][], auctionInfo: AuctionInfo, values: [StorageKey<[BlockNumber]>, Option<WinningData>][]): Winning[] {
   return values
     .sort(([{ args: [a] }], [{ args: [b] }]) => a.cmp(b))
     .reduce((all: Winning[], [{ args: [blockOffset] }, optData]): Winning[] => {
-      const winners = extractWinners(auctionInfo, optData);
+      const winners = extractWinners(ranges, auctionInfo, optData);
 
       winners.length && (
         all.length === 0 ||
@@ -79,8 +80,8 @@ function extractData (auctionInfo: AuctionInfo, values: [StorageKey<[BlockNumber
     .reverse();
 }
 
-function mergeCurrent (auctionInfo: AuctionInfo, prev: Winning[] | undefined, optCurrent: Option<WinningData>, blockOffset: BN): Winning[] | undefined {
-  const current = createWinning(auctionInfo, blockOffset, extractWinners(auctionInfo, optCurrent));
+function mergeCurrent (ranges: [number, number][], auctionInfo: AuctionInfo, prev: Winning[] | undefined, optCurrent: Option<WinningData>, blockOffset: BN): Winning[] | undefined {
+  const current = createWinning(auctionInfo, blockOffset, extractWinners(ranges, auctionInfo, optCurrent));
 
   if (current.winners.length) {
     if (!prev || !prev.length) {
@@ -101,10 +102,10 @@ function mergeCurrent (auctionInfo: AuctionInfo, prev: Winning[] | undefined, op
   return prev;
 }
 
-function mergeFirst (auctionInfo: AuctionInfo, prev: Winning[] | undefined, optFirstData: Option<WinningData>): Winning[] | undefined {
+function mergeFirst (ranges: [number, number][], auctionInfo: AuctionInfo, prev: Winning[] | undefined, optFirstData: Option<WinningData>): Winning[] | undefined {
   if (prev && prev.length <= 1) {
     const updated: Winning[] = prev || [];
-    const firstEntry = createWinning(auctionInfo, null, extractWinners(auctionInfo, optFirstData));
+    const firstEntry = createWinning(auctionInfo, null, extractWinners(ranges, auctionInfo, optFirstData));
 
     if (!firstEntry.winners.length) {
       return updated;
@@ -122,6 +123,7 @@ function mergeFirst (auctionInfo: AuctionInfo, prev: Winning[] | undefined, optF
 
 export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | undefined {
   const { api } = useApi();
+  const ranges = useRanges();
   const [result, setResult] = useState<Winning[] | undefined>();
   const bestNumber = useBestNumber();
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
@@ -132,16 +134,16 @@ export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | 
   // should be fired once, all entries as an initial round
   useEffect((): void => {
     auctionInfo && initialEntries && setResult(
-      extractData(auctionInfo, initialEntries)
+      extractData(ranges, auctionInfo, initialEntries)
     );
-  }, [auctionInfo, initialEntries]);
+  }, [auctionInfo, initialEntries, ranges]);
 
   // when block 0 changes, update (typically in non-ending-period, static otherwise)
   useEffect((): void => {
     auctionInfo && optFirstData && setResult((prev) =>
-      mergeFirst(auctionInfo, prev, optFirstData)
+      mergeFirst(ranges, auctionInfo, prev, optFirstData)
     );
-  }, [auctionInfo, optFirstData]);
+  }, [auctionInfo, optFirstData, ranges]);
 
   // on a bid event, get the new entry (assuming the event really triggered, i.e. not just a block)
   // and add it to the list when not duplicated. Additionally we cleanup after ourselves when endBlock
@@ -155,11 +157,11 @@ export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | 
       api.query.auctions
         ?.winning<Option<WinningData>>(blockOffset)
         .then((optCurrent) => setResult((prev) =>
-          mergeCurrent(auctionInfo, prev, optCurrent, blockOffset)
+          mergeCurrent(ranges, auctionInfo, prev, optCurrent, blockOffset)
         ))
         .catch(console.error);
     }
-  }, [api, bestNumber, auctionInfo, trigger, triggerRef]);
+  }, [api, bestNumber, auctionInfo, ranges, trigger, triggerRef]);
 
   return result;
 }

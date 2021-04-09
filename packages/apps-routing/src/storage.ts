@@ -10,7 +10,7 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      needsAccounts: true,
+      needsAccounts: false,
       needsApi: []
     },
     group: 'developer',
