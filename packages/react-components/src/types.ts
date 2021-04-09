@@ -171,7 +171,7 @@ export interface AppNavigation {
 }
 
 interface WithAppNavigation {
-  navigateTo: AppNavigation;
+  navigateTo ?: AppNavigation;
 }
 
 export interface WithBasePath {
