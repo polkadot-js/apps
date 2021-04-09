@@ -17,7 +17,7 @@ import Static from '@canvas-ui/react-components/Static';
 import { useTranslation } from '@canvas-ui/react-components/translate';
 import { BareProps } from '@canvas-ui/react-components/types';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
   labelHash?: React.ReactNode;
   mortality?: string;

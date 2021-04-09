@@ -12,7 +12,7 @@ import { Codec, TypeDef } from '@polkadot/types/types';
 
 import { BareProps } from '@canvas-ui/react-components/types';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
   value: Event;
 }
