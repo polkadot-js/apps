@@ -1,16 +1,9 @@
-packages/react-components/src/Chart/Doughnut.tsx:53 - default
-packages/react-components/src/Chart/HorizBar.tsx:110 - default
-packages/react-components/src/Chart/Line.tsx:107 - default
-packages/react-components/src/InputRpc/SelectMethod.tsx:48 - default
-packages/react-components/src/InputRpc/SelectSection.tsx:36 - default
-packages/react-components/src/InputStorage/SelectKey.tsx:53 - default
-packages/react-components/src/InputStorage/SelectSection.tsx:36 - default
+packages/react-components/src/Chart/Base.tsx:27 - default
+packages/react-components/src/Chart/types.ts:15 - HorizBarValue (used in module)
+packages/react-components/src/Chart/types.ts:26 - DoughnutProps
+packages/react-components/src/Chart/types.ts:31 - HorizBarProps
+packages/react-components/src/Chart/types.ts:39 - LineProps
 packages/react-components/src/styles/index.ts:5 - ELEV_CSS
-packages/react-components/src/styles/index.ts:10 - ELEV_0_CSS
-packages/react-components/src/styles/index.ts:16 - ELEV_1_CSS
-packages/react-components/src/styles/index.ts:21 - ELEV_2_CSS
-packages/react-components/src/styles/index.ts:26 - ELEV_3_CSS (used in module)
-packages/react-components/src/styles/index.ts:31 - ELEV_4_CSS
 packages/react-params/src/Param/Balance.tsx:50 - Balance (used in module)
 packages/react-params/src/Param/Params.tsx:34 - Holder (used in module)
 packages/react-params/src/Param/VoteThreshold.tsx:23 - textMap (used in module)

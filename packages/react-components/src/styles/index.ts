@@ -5,7 +5,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 import cssComponents from './components';
-import { ELEV_3_CSS } from './constants';
 import cssForm from './form';
 import cssMedia from './media';
 import cssRx from './rx';
@@ -20,8 +19,6 @@ const defaultHighlight = '#2477B3'; // #999
 
 const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
-
-export * from './constants';
 
 export default createGlobalStyle<Props>`
   .ui--highlight--all {
