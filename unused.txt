@@ -1,14 +1,5 @@
-packages/react-components/src/AccountIndex.tsx:44 - default
-packages/react-components/src/Columar.tsx:90 - default
-packages/react-components/src/CryptoType.tsx:54 - default
-packages/react-components/src/Divider.tsx:16 - default
-packages/react-components/src/Editor.tsx:73 - default
-packages/react-components/src/HelpOverlay.tsx:45 - default
-packages/react-components/src/InputAddressSimple.tsx:64 - default
-packages/react-components/src/Label.tsx:28 - default
-packages/react-components/src/LinkExternal.tsx:85 - default
-packages/react-components/src/Password.tsx:55 - default
-packages/react-components/src/Tags.tsx:85 - default
+packages/react-components/src/InputTags.tsx:81 - default
+packages/react-components/src/Tag.tsx:47 - default
 packages/react-hooks/src/index.ts:9 - useAddresses
 packages/react-hooks/src/index.ts:14 - useCodec
 packages/react-hooks/src/index.ts:19 - useDebounce
@@ -70,6 +61,8 @@ packages/app-config/src/api/constants.ts:10 - POLKADOT_DENOM_BLOCK
 packages/app-config/src/api/constants.ts:12 - KULUPU_GENESIS
 packages/app-config/src/api/index.ts:8 - getChainTypes
 packages/app-config/src/api/util.ts:5 - typesFromDefs
+packages/app-config/src/links/index.ts:18 - default
+packages/app-config/src/links/types.ts:7 - LinkTypes (used in module)
 packages/app-config/src/settings/index.ts:11 - createLanguages (used in module)
 packages/app-config/src/settings/index.ts:12 - createSs58 (used in module)
 packages/react-api/src/hoc/index.ts:5 - withApi
