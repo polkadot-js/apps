@@ -1,9 +1,4 @@
-packages/react-components/src/Chart/Base.tsx:27 - default
-packages/react-components/src/Chart/types.ts:15 - HorizBarValue (used in module)
-packages/react-components/src/Chart/types.ts:26 - DoughnutProps
-packages/react-components/src/Chart/types.ts:31 - HorizBarProps
-packages/react-components/src/Chart/types.ts:39 - LineProps
-packages/react-components/src/styles/index.ts:5 - ELEV_CSS
+packages/react-components/src/Chart/types.ts:7 - BaseProps
 packages/react-params/src/Param/Balance.tsx:50 - Balance (used in module)
 packages/react-params/src/Param/Params.tsx:34 - Holder (used in module)
 packages/react-params/src/Param/VoteThreshold.tsx:23 - textMap (used in module)
