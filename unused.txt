@@ -1,21 +1,7 @@
-packages/react-api/src/hoc/index.ts:5 - withApi
-packages/react-api/src/hoc/index.ts:6 - withCall
-packages/react-api/src/hoc/index.ts:7 - withCalls
-packages/react-api/src/hoc/index.ts:8 - withCallDiv
+packages/react-api/src/hoc/callDiv.tsx:16 - default
+packages/react-api/src/hoc/calls.ts:13 - default
 packages/react-api/src/hoc/index.ts:18 - onlyOnWeb
 packages/react-api/src/hoc/index.ts:19 - onlyOnApp
-packages/react-api/src/hoc/types.ts:9 - Transform (used in module)
-packages/react-api/src/hoc/types.ts:34 - StorageTransform
-packages/react-api/src/hoc/types.ts:38 - ApiMethod
-packages/react-api/src/hoc/types.ts:43 - ComponentRenderer
-packages/react-api/src/hoc/types.ts:45 - OmitProps (used in module)
-packages/react-api/src/hoc/types.ts:46 - SubtractProps
-packages/react-api/src/Status/Context.ts:21 - QueueConsumer (used in module)
-packages/react-api/src/Status/types.ts:11 - Actions (used in module)
-packages/react-api/src/Status/types.ts:20 - AccountInfo (used in module)
-packages/react-api/src/Status/types.ts:71 - PartialAccountInfo (used in module)
-packages/react-api/src/Status/types.ts:91 - QueueTxRpcAdd (used in module)
-packages/react-api/src/Status/types.ts:93 - QueueTxExtrinsicAdd (used in module)
 packages/react-api/src/util/index.ts:12 - getHistoric (used in module)
 packages/react-components/src/Button/types.ts:8 - Button$Callback (used in module)
 packages/react-components/src/Button/types.ts:33 - DividerProps
