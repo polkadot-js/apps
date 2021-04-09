@@ -4,7 +4,7 @@
 
 import { AppProps, BareProps } from '@canvas-ui/react-components/types';
 
-export interface RouteProps extends AppProps, BareProps {
+interface RouteProps extends AppProps, BareProps {
   location: any;
 }
 

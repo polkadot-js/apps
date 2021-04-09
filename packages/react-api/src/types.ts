@@ -7,7 +7,7 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import { InjectedExtension } from '@polkadot/extension-inject/types';
 
 // helpers for HOC props
-export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
+type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type SubtractProps<T, K> = OmitProps<T, keyof K>;
 
 export interface BareProps {
@@ -34,14 +34,14 @@ export interface ApiProps extends ApiState {
   isWaitingInjected: boolean;
 }
 
-export interface OnChangeCbObs {
+interface OnChangeCbObs {
   next: (value?: any) => any;
 }
 
-export type OnChangeCbFn = (value?: any) => any;
+type OnChangeCbFn = (value?: any) => any;
 export type OnChangeCb = OnChangeCbObs | OnChangeCbFn;
 
-export interface ChangeProps {
+interface ChangeProps {
   callOnResult?: OnChangeCb;
 }
 
@@ -51,14 +51,12 @@ export interface CallState {
   callUpdatedAt?: number;
 }
 
-export type CallProps = ApiProps & CallState;
+type CallProps = ApiProps & CallState;
 
 export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
   children?: React.ReactNode;
   label?: string;
   render?: (value?: T) => React.ReactNode;
 };
-
-export type Formatter = (value?: any) => string;
 
 export type Environment = 'web' | 'app';
