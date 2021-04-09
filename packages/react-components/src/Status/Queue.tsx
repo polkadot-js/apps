@@ -18,7 +18,7 @@ import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
 import { QueueProvider } from '@canvas-ui/react-api/Status/Context';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@canvas-ui/react-api/Status/types';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   children: React.ReactNode;
 }
 

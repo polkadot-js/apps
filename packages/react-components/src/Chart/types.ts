@@ -6,7 +6,7 @@ import BN from 'bn.js';
 
 import { BareProps } from '../types';
 
-export interface DoughnutValue {
+interface DoughnutValue {
   colors: string[];
   label: string;
   value: number | BN;

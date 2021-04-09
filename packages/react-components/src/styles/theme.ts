@@ -7,7 +7,7 @@ import { css } from 'styled-components';
 import { ELEV_2_CSS, ELEV_3_CSS } from './constants';
 
 /* highlighted buttons, orange */
-export const colorBtnHighlight = '#2477B3';
+const colorBtnHighlight = '#2477B3';
 
 export default css`
   :root {
