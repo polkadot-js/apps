@@ -3,13 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import createEndpoints from './endpoints';
-import createLanguages from './languages';
-import createSs58 from './ss58';
 
 export {
-  createEndpoints,
-  createLanguages,
-  createSs58
+  createEndpoints
 };
 
 export const PORTAL_ID = 'portals';
