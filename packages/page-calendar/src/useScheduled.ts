@@ -1,16 +1,17 @@
 // Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
-import type { BlockNumber, EraIndex, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
+import type { BlockNumber, EraIndex, LeasePeriodOf, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
 import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
-import { BN_ONE } from '@polkadot/util';
+import { useApi, useBestNumber, useBlockTime, useCall } from '@polkadot/react-hooks';
+import { BN_ONE, BN_THREE } from '@polkadot/util';
 
 interface DateExt {
   date: Date;
@@ -39,7 +40,7 @@ function createConstDurations (bestNumber: BlockNumber, blockTime: number, items
       ...newDate(blocks, blockTime),
       blockNumber: bestNumber.add(blocks),
       blocks,
-      info: null
+      info: bestNumber.div(duration)
     }]];
   });
 }
@@ -80,8 +81,8 @@ function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatche
 
 function createReferendums (bestNumber: BlockNumber, blockTime: number, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
   return referendums.reduce((result: [EntryType, EntryInfo[]][], { index, status }): [EntryType, EntryInfo[]][] => {
-    const enactBlocks = status.end.add(status.delay).sub(bestNumber);
-    const voteBlocks = status.end.sub(bestNumber).subn(1);
+    const enactBlocks = status.end.add(status.delay).isub(bestNumber);
+    const voteBlocks = status.end.sub(bestNumber).isub(BN_ONE);
 
     result.push(['referendumVote', [{
       ...newDate(voteBlocks, blockTime),
@@ -110,7 +111,7 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
       .filter(([, values]) => values.length)
       .map(([key]): EntryInfo => {
         const eraIndex = key.args[0];
-        const blockProgress = sessionInfo.activeEra.sub(eraIndex).subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress);
+        const blockProgress = sessionInfo.activeEra.sub(eraIndex).isub(BN_ONE).imul(sessionInfo.eraLength).iadd(sessionInfo.eraProgress);
         const blocks = slashDuration.sub(blockProgress);
 
         return {
@@ -168,6 +169,19 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
     }, [])]];
 }
 
+function createAuctionInfo (bestNumber: BlockNumber, blockTime: number, [leasePeriod, endBlock]: [LeasePeriodOf, BlockNumber]): [EntryType, EntryInfo[]][] {
+  const blocks = endBlock.sub(bestNumber);
+
+  return [
+    ['parachainAuction', [{
+      ...newDate(blocks, blockTime),
+      blockNumber: endBlock,
+      blocks,
+      info: `${leasePeriod.toString()} - ${leasePeriod.add(BN_THREE).toString()}`
+    }]]
+  ];
+}
+
 function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]): EntryInfoTyped[] {
   return types.reduce((state: EntryInfoTyped[], [typeFilter, items]): EntryInfoTyped[] => {
     return state
@@ -184,12 +198,13 @@ function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]
 export default function useScheduled (): EntryInfo[] {
   const { api } = useApi();
   const [blockTime] = useBlockTime();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
+  const auctionInfo = useCall<Option<ITuple<[LeasePeriodOf, BlockNumber]>>>(api.query.auctions?.auctionInfo);
   const councilMotions = useCall<DeriveCollectiveProposal[]>(api.derive.council?.proposals);
   const dispatches = useCall<DeriveDispatch[]>(api.derive.democracy?.dispatchQueue);
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy?.referendums);
-  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda.entries);
-  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
+  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda?.entries);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
   const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries);
   const [state, setState] = useState<EntryInfoTyped[]>([]);
 
@@ -218,16 +233,23 @@ export default function useScheduled (): EntryInfo[] {
   }, [bestNumber, blockTime, scheduled]);
 
   useEffect((): void => {
-    bestNumber && sessionInfo?.sessionLength.gt(BN_ONE) && slashes && setState((state) =>
-      addFiltered(state, createStakingInfo(bestNumber, blockTime, sessionInfo, slashes, api.consts.staking.slashDeferDuration))
+    bestNumber && sessionInfo?.sessionLength.gt(BN_ONE) && setState((state) =>
+      addFiltered(state, createStakingInfo(bestNumber, blockTime, sessionInfo, slashes || [], api.consts.staking?.slashDeferDuration))
     );
   }, [api, bestNumber, blockTime, sessionInfo, slashes]);
+
+  useEffect((): void => {
+    bestNumber && auctionInfo?.isSome && setState((state) =>
+      addFiltered(state, createAuctionInfo(bestNumber, blockTime, auctionInfo.unwrap()))
+    );
+  }, [auctionInfo, bestNumber, blockTime]);
 
   useEffect((): void => {
     bestNumber && setState((state) =>
       addFiltered(state, createConstDurations(bestNumber, blockTime, [
         ['councilElection', (api.consts.elections || api.consts.electionsPhragmen)?.termDuration],
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
+        ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber],
         ['societyChallenge', api.consts.society?.challengePeriod],
         ['societyRotate', api.consts.society?.rotationPeriod],
         ['treasurySpend', api.consts.treasury?.spendPeriod]

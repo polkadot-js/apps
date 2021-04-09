@@ -4,13 +4,12 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { Bytes } from '@polkadot/types';
 import type { DispatchError } from '@polkadot/types/interfaces';
-import type { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
+import type { ITuple, Registry, SignerPayloadJSON } from '@polkadot/types/types';
 import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
 
 import { SubmittableResult } from '@polkadot/api';
-import { useApi } from '@polkadot/react-hooks';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
@@ -145,7 +144,6 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
 }
 
 function Queue ({ children }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
   const [stqueue, _setStQueue] = useState<QueueStatus[]>([]);
   const [txqueue, _setTxQueue] = useState<QueueTx[]>([]);
   const stRef = useRef(stqueue);
@@ -158,6 +156,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
     },
     []
   );
+
   const setTxQueue = useCallback(
     (tx: QueueTx[]): void => {
       txRef.current = tx;
@@ -165,15 +164,17 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
     },
     []
   );
+
   const addToTxQueue = useCallback(
     (value: QueueTxExtrinsic | QueueTxRpc | QueueTx): void => {
       const id = ++nextId;
-      const removeItem = (): void =>
-        setTxQueue([...txRef.current.map((item): QueueTx =>
+      const removeItem = () => setTxQueue([
+        ...txRef.current.map((item): QueueTx =>
           item.id === id
             ? { ...item, status: 'completed' }
             : item
-        )]);
+        )
+      ]);
 
       setTxQueue([...txRef.current, {
         ...value,
@@ -185,6 +186,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
     },
     [setTxQueue]
   );
+
   const queueAction = useCallback(
     (_status: ActionStatus | ActionStatus[]): void => {
       const status = Array.isArray(_status) ? _status : [_status];
@@ -209,52 +211,55 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
     },
     [setStQueue]
   );
+
   const queueExtrinsic = useCallback(
-    (value: PartialQueueTxExtrinsic): void =>
-      addToTxQueue({ ...value }),
+    (value: PartialQueueTxExtrinsic) => addToTxQueue({ ...value }),
     [addToTxQueue]
   );
+
   const queuePayload = useCallback(
-    (payload: SignerPayloadJSON, signerCb: SignerCallback): void =>
+    (registry: Registry, payload: SignerPayloadJSON, signerCb: SignerCallback): void => {
       addToTxQueue({
         accountId: payload.address,
-        // this is not great, but the Extrinsic we don't need a submittable
-        extrinsic: api.createType('Extrinsic',
-          { method: api.createType('Call', payload.method) },
+        // this is not great, but the Extrinsic doesn't need a submittable
+        extrinsic: registry.createType('Extrinsic',
+          { method: registry.createType('Call', payload.method) },
           { version: payload.version }
         ) as unknown as SubmittableExtrinsic,
         payload,
         signerCb
-      }),
-    [api, addToTxQueue]
-  );
-  const queueRpc = useCallback(
-    (value: PartialQueueTxRpc): void =>
-      addToTxQueue({ ...value }),
+      });
+    },
     [addToTxQueue]
   );
+
+  const queueRpc = useCallback(
+    (value: PartialQueueTxRpc) => addToTxQueue({ ...value }),
+    [addToTxQueue]
+  );
+
   const queueSetTxStatus = useCallback(
     (id: number, status: QueueTxStatus, result?: SubmittableResult, error?: Error): void => {
-      setTxQueue([...txRef.current.map((item): QueueTx =>
-        item.id === id
-          ? {
-            ...item,
-            error: error === undefined
-              ? item.error
-              : error,
-            result: result === undefined
-              ? item.result as SubmittableResult
-              : result,
-            status: item.status === 'completed'
-              ? item.status
-              : status
-          }
-          : item
-      )]);
+      setTxQueue([
+        ...txRef.current.map((item): QueueTx =>
+          item.id === id
+            ? {
+              ...item,
+              error: error === undefined
+                ? item.error
+                : error,
+              result: result === undefined
+                ? item.result as SubmittableResult
+                : result,
+              status: item.status === 'completed'
+                ? item.status
+                : status
+            }
+            : item
+        )
+      ]);
 
-      queueAction(
-        extractEvents(result)
-      );
+      queueAction(extractEvents(result));
 
       if (STATUS_COMPLETE.includes(status)) {
         setTimeout((): void => {

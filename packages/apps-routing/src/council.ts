@@ -11,6 +11,7 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
+        'query.council.prime',
         [
           // SD: Commented lines below
           // 'query.electionsPhragmen.candidates',

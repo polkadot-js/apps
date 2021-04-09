@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/react-components/i18n';
@@ -45,10 +45,10 @@ describe('--SLOW--: Bounties', () => {
   it('list shows an existing bounty', async () => {
     const api = await createApi();
 
-    await execute(api.tx.bounties.proposeBounty(new BN(500_000_000_000_000), 'new bounty hello hello more bytes'), aliceSigner());
+    await execute(api.tx.bounties.proposeBounty(new BN(500_000_000_000_000), 'a short bounty title'), aliceSigner());
 
     const { findByText } = renderBounties();
 
-    expect(await findByText('new bounty hello hello more bytes', {}, { timeout: 20_000 })).toBeTruthy();
+    expect(await findByText('a short bounty title', {}, { timeout: 20_000 })).toBeTruthy();
   });
 });

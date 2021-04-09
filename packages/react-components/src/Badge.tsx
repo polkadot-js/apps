@@ -11,7 +11,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'blue' | 'counter' | 'counterInvert' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
+  color: 'blue' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent' | 'white';
   hover?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
@@ -19,21 +19,19 @@ interface Props {
   onClick?: () => void;
 }
 
-const HIGHLIGHTS = ['counter', 'highlight'];
-
 let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
-  const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
+  const [trigger] = useState(() => `badge-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};
-  const isHighlight = HIGHLIGHTS.includes(color);
+  const isHighlight = color === 'highlight';
 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''}${color === 'counterInvert' ? ' highlight--bg-contrast highlight--color' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       <div className={isHighlight ? 'highlight--color-contrast' : ''}>{info || (icon && <Icon icon={icon} />)}</div>
@@ -95,8 +93,7 @@ export default React.memo(styled(Badge)`
     background: steelblue;
   }
 
-  &.counterColor,
-  &.counterInvertColor {
+  &.counterColor {
     margin: 0 0.5rem;
     vertical-align: middle;
   }
@@ -114,6 +111,10 @@ export default React.memo(styled(Badge)`
     background: green;
   }
 
+  &.orangeColor {
+    background: darkorange;
+  }
+
   &.purpleColor {
     background: indigo;
   }
@@ -121,5 +122,9 @@ export default React.memo(styled(Badge)`
   &.transparentColor {
     background: transparent;
     box-shadow: none;
+  }
+
+  &.whiteColor {
+    background: rgba(255, 255, 255, 0.3);
   }
 `);

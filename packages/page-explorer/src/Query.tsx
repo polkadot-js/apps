@@ -30,7 +30,7 @@ function stateFromValue (value: string): State {
 
 function Query ({ className = '', value: propsValue, redirectPath = '/explorer/query/', placeholder = 'block hash or number to query' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
+  const [{ isValid, value }, setState] = useState(() => stateFromValue(propsValue || ''));
 
   const _setHash = useCallback(
     (value: string): void => setState(stateFromValue(value)),

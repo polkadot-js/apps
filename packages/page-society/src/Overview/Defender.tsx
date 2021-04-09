@@ -22,11 +22,10 @@ interface Props {
 }
 
 const transformVotes = {
-  transform: (members: DeriveSocietyMember[]): VoteType[] => {
-    return members
+  transform: (members: DeriveSocietyMember[]): VoteType[] =>
+    members
       .filter(({ vote }): boolean => !!vote)
-      .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote]);
-  }
+      .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote])
 };
 
 function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
@@ -36,7 +35,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
 
   const headerRef = useRef([
     [t('defender'), 'start'],
-    [t('votes'), 'expand'],
+    [undefined, 'expand'],
     []
   ]);
 

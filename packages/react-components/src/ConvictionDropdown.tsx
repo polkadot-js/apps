@@ -8,6 +8,7 @@ import React, { useRef } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { useApi, useBlockTime } from '@polkadot/react-hooks';
+import { BN_THOUSAND } from '@polkadot/util';
 
 import Dropdown from './Dropdown';
 import { useTranslation } from './translate';
@@ -16,7 +17,7 @@ export interface Props {
   className?: string;
   help?: string
   label?: React.ReactNode;
-  onChange?:(value: number) => void;
+  onChange?: (value: number) => void;
   value?: number;
 }
 
@@ -30,7 +31,7 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: number): { tex
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
-          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.muln(blockTime).divn(1000)).toNumber() / SEC_DAY).toFixed(2),
+          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.muln(blockTime).div(BN_THOUSAND)).toNumber() / SEC_DAY).toFixed(2),
           value
         }
       }),

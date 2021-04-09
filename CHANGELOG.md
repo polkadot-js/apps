@@ -1,5 +1,365 @@
 # CHANGELOG
 
+## 0.86.2 Mar 29, 2021
+
+Contributed:
+
+- Adjustments for Crust pinning Tthanks to https://github.com/zikunfan)
+- Adjustments for KILT XCM types (Thanks to https://github.com/wischli)
+
+
+## 0.86.1 Mar 29, 2021
+
+Contributed:
+
+- Change global menu styling (Thanks to https://github.com/MiZiet)
+- Update Unique colors & types (Thanks to https://github.com/gregzaitsev)
+- Update Sora types (Thanks to https://github.com/modbrin)
+- Update Realis network (Thanks to https://github.com/Daelon02)
+- Update PolkaBtc types (thanks to https://github.com/gregdhill)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update Acala endpoints (Thanks to https://github.com/xlc)
+- Update Darwinia Crab logo (Thanks to https://github.com/sxlwar)
+- Update Darwinia Crab RPC & types (thanks to https://github.com/WoeOm)
+- Update Clover types (Thanks to https://github.com/pangwa & https://github.com/superpw)
+- Updata Equilibrium types (Thanks to https://github.com/pr0fedt)
+- Add Phoenix chain to Rococo (Thanks to https://github.com/yuyunhong)
+- Add Litentry testnet (Thanks to https://github.com/chenzongxiong)
+- Update types for DOTMog (Thanks to https://github.com/darkfriend77)
+- Fix language on staking (Thanks to https://github.com/SimonKraus)
+- Add pinning of apps UI IPFS to Crust (Thanks to https://github.com/zikunfan)
+
+Changes:
+
+- Display justifications in block explorer
+- Expansion of crowdloan, auctions & parachain views
+- Basic functionality for asset module
+- Adjust ordering of democracy & tips buttons
+- Cater for new Rococo chain reset/deployment
+- Ensure treasury does not depend on council or tips
+
+
+## 0.85.1 Mar 22, 2021
+
+Contributed:
+
+- Adjust dusty spec name (Thanks to https://github.com/akru)
+- Update Galois types (Thanks to https://github.com/hging)
+- Update Crust types (Thanks to https://github.com/zikunfan)
+- Add Vln testnet (thanks to https://github.com/stanly-johnson)
+- Update Datahighway types (Thanks to https://github.com/cgroeschel)
+- Language fixes (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Display validator votes on parachains
+- Adjust society (display split, expand member/candidate info & payouts)
+- Adjust inflation calculation for zero staked/issuance
+- Display call hash on signer modal
+- Cleanup Modal layouts & de-dupe tags
+- Cleanup global tabs displays (optimize elements)
+
+
+## 0.84.1 Mar 15, 2021
+
+Contributed:
+
+- Added ReAlis network & types (Thanks to https://github.com/Daelon02)
+- Added OnFinality endpoint for Moonbeam (Thanks to https://github.com/joelamouche)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update PolkaBTC types (Thanks to https://github.com/savudani8)
+- Update Kilt types (Thanks to https://github.com/wischli)
+- Update Bifrost types (Thanks to https://github.com/awesomepan)
+- Update Bit.Country paraId (Thanks to https://github.com/justinphamnz)
+- Update Dusty types (Thanks to https://github.com/akru)
+- Update Zenlink types (Thanks to https://github.com/Hayden0323)
+- Update Sgc node types (Thanks to https://github.com/Zombieliu)
+- Update DataHighway chain colors (Thanks to https://github.com/cgroeschel)
+- Update specName for ChainX & Zenlink (Thanks to https://github.com/icodezjb)
+- Update it i18n (thanks to https://github.com/fomod-in)
+
+Changes:
+
+- Add display of blocking stashes (& removal from nomination lists)
+- Cater for Rococo reset (genesisHash updates)
+- Add support for parachain auctions
+- Add support for contributions in crowdloan app
+- Update crowdloan app for latest Polkadot types
+- Fix upcoming retrievals for new parachain interfaces
+- Display lease period countdown for parachains
+- show parachain lifecycles (& action countdowns as applicable)
+- Flatten Modal layouts (explicit hint, single column data only)
+- Move theme definitions to CSS variables
+- Add correct keys for account menu (rendering warnings)
+- Add additional errors on invalid keypair retrieval
+
+
+## 0.83.1 Mar 8, 2021
+
+Contributed:
+
+- Update Jupiter networks alongside Rococo (Thanks to https://github.com/zzcwoshizz)
+- Add ChainX support on Rococo (Thanks to https://github.com/qinghuan-chain)
+- Update Kulupu types for next upgrade (Thanks to https://github.com/sorpaas)
+- Bump Acala types package (Thanks to https://github.com/ntduan)
+- Update HydraDX types (Thanks to https://github.com/lumir-mrkva)
+- Add ETH dev accounts on Frontier-like networks (Thanks to https://github.com/joelamouche)
+- Fix Unique type injection (Thanks to https://github.com/gregzaitsev)
+- Update account help around ED (Thanks to https://github.com/NukeManDan)
+
+Changes:
+
+- Fix address ion display in explorer (compatibility with `MultiAddress`)
+- Add block status to validator preferences setup
+- Allow validators to remove nominators (currently active-only)
+- Stash derives now check for events for refresh triggers
+- Adjust Electron CSP to allow workers as used in QR operations
+- Swap code-generation to ESM modules
+- Adjust funding warnings with explicit free balance mention
+
+
+## 0.82.1 Mar 1, 2021
+
+Contributed:
+
+- Start of Polish i18n (Thanks to https://github.com/jimmy-tudeski)
+- Adjust display of table buttons with gradient themes (Thanks to https://github.com/superpw)
+- Update PolkaBTC network URL (Thanks to https://github.com/savudani8)
+- Add network types for Snowbridge (Thanks to https://github.com/vgeddes)
+- Update Btfrost types (Thanks to https://github.com/awesomepan)
+- Update Litentry collator name (Thanks to https://github.com/chenzongxiong)
+- Add MathChain PC1 support (Thanks to https://github.com/hging)
+- Update Ternoa types (thanks to https://github.com/ETeissonniere)
+- Update Scg types (Thanks to https://github.com/Zombieliu)
+- Add derivation path support for ETH-compatible accounts (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Explicit messages around extension phishing support
+- Adjust parachain validators to always show stashes
+- Adjust block links display on a per-contract view
+- Adjust display of disabled items on popup menus (dark-mode driven)
+- Align bounty row display with the rest of the UI
+
+
+## 0.81.1 Feb 22, 2021
+
+Contributed:
+
+- Add Unique network (Thanks to https://github.com/gregzaitsev)
+- Add Sgc testnet (Thanks to https://github.com/Zombieliu)
+- Add all known Moonbeam spec names (Thanks to https://github.com/joelamouche)
+- Adjust Moonbeam types for v6 upgrade (Thanks to https://github.com/joelamouche)
+- Adjust DOTmog logo (Thanks to https://github.com/darkfriend77)
+- Add Vedran provider for Westend (Thanks to https://github.com/mpetrunic)
+- Fix typo in accounts overlays (Thanks to https://github.com/marksthespots)
+- Fix typo in JavaScript app (Thanks to https://github.com/shaunxw)
+- Update types for Darwinia Crab (Thanks to https://github.com/WoeOm)
+- Update provider for Darwinia (Thanks to https://github.com/WoeOm)
+- Updata paraId for Bit.Country (Thanks to https://github.com/justinphamnz)
+
+Changes:
+
+- Display validators for all connected parachains
+- Adjust included block parachain calculation
+- Align bounties display with UI styling
+- Rework calculation for min-available balance warning in signer
+- Adjust slashed validators display (check against known eras)
+- Cleanup JS console app examples for system.account usage
+- Adjust JS console app sending example (incl. Signer fix)
+- Display error on contracts deploy pre-3.0 Substrate with no utility.batch
+- Adjust table displays with bottom-borders
+- Adjust Governance proxy checks to include tips
+- Reworks digits formatting for explorer blocks
+
+
+## 0.80.1 Feb 15, 2021
+
+Contributed:
+
+- Add Trustbase networks (thanks to https://github.com/jizer)
+- Add DOTMog network (Thanks to https://github.com/darkfriend77)
+- Add Bit.Country PC1 (Thanks to https://github.com/justinphamnz)
+- Add Litentry parachain (Thanks to https://github.com/chenzongxiong)
+- Update Plasm network types (Thanks to https://github.com/akru)
+- Update Nodle network types (Thanks to https://github.com/ETeissonniere)
+- Update Sora library version (Thanks to https://github.com/stefashkaa)
+- Adjust Moonbeam themes (Thanks to https://github.com/joelamouche)
+- Bounties list display enhancements (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Adjust explorer block display to not show unsigned as immortal (no era info)
+- Protect against overflows in staking returns calculations
+- Add warning on none bonded to not send to validators, but rather bond
+- Adjust staking min-bonded overall calculations
+- Cleanup accounts loading display (no initial flash)
+- Add Register action for parachains (non-proposal mode)
+- Adjust council display to cater for new Substrate version
+- Adjust bounties pages to align better with UI look and feel
+- Start of parachain auctions interface (skeleton-only)
+- Adjust `useFavorites` to not re-read storage on re-renders
+- Adjust `useLoading` hooks to only fire once
+- Convert all spec types to use bundles (single adjustment)
+- Consistent sorting for all RPC nodes (live & testing)
+- Update Rococo genesis after reset
+- Split test parachains into own section on network selector
+
+
+## 0.79.1 Feb 8, 2021
+
+Contributed:
+
+- Display Validator/Nominator flags on account sidebar (Thanks to https://github.com/jhonalino)
+- Add ChainX endpoints from Patract Elana (Thanks to https://github.com/toxotguo)
+- Add Ternoa network (Thanks to https://github.com/ETeissonniere)
+- Add Idavoll network (Thanks to https://github.com/jasonberger0)
+- Add SubDAO network (Thanks to https://github.com/chenwei767)
+- Add HydraDX snakenet (Thanks to https://github.com/lumir-mrkva)
+- Update Acala types package (Thanks to https://github.com/ntduan)
+- Update bounty summaries (Thanks to https://github.com/MiZiet)
+- Additional bounties info display (Thanks to https://github.com/MiZiet)
+- Adjust bounties account types in dropdowns (Thanks to https://github.com/MiZiet)
+- Adjust popup display to match theme (Thanks to https://github.com/MiZiet)
+- Adjust bounties texts (Thanks to https://github.com/MiZiet & https://github.com/rrtti)
+- Add curator acceptance modal for bounties (Thanks to https://github.com/ekowalsk)
+- Distinguish slash/assign curator in bounties status (Thanks to https://github.com/ekowalsk)
+- Show bounty date on extend modal (Thanks to https://github.com/ekowalsk)
+- Extract give up curator modal on bounties (Thanks to https://github.com/ekowalsk)
+- Link from bounties to council vote (Thanks to https://github.com/ekowalsk)
+- Refactor bounties tests (Thanks to https://github.com/krzysztof-jelski)
+
+Changes:
+
+- Allow for Ledger-compatible bip32+ed25519 accounts on creation dialog
+- Display overall min. nominated amount on staking targets
+- Warn with check of to-be-bonded against current min nominated
+- Wan on fees dropping below existential to transaction signing dialog
+- Don't display account menus where there are no available items
+- Adjust mnemonic copy location on account creation (no overlaps)
+- Extend contracts to upload & deploy in one step (aligns with newest contract module)
+- Add initial support for the crowdloan module
+- Adjust best head extraction for parachains
+- Adjust extrinsic apps to clear previous errors on creation
+- Ensure calendar works with non-standard schedulers (like in Rococo)
+- Pass registry with `Call` decoding, allowing decoding at that point in time
+- Adjust popup menu dividers to ignore empty sections
+- Don't re-initialize useState, use callbacks for init as applicable
+- Cleanup TypeScript `as any` usages
+
+
+## 0.78.1 Feb 1, 2021
+
+Contributed:
+
+- Adjust zh i18n translations (Thanks to https://github.com/zhangjun725)
+- Adjust settings metadata view for consistency (Thanks to https://github.com/jhonalino)
+- Use PolkaBTC definitions from vendor (Thanks to https://github.com/savudani8)
+- Upgrade Moonbeam vendor definitions (Thanks to https://github.com/joelamouche)
+- Crust Maxwell type upgrades (Thanks to https://github.com/zikunfan)
+- Expand network coverage for Patract Elara (Thanks to https://github.com/toxotguo)
+- Added ChainX endpoints & logo (thanks to https://github.com/qinghuan-chain)
+- Add Ares Rococo relay endpoints (Thanks to https://github.com/jiyilanzhou)
+- Adjust Rococo types for Plasm (Thanks to https://github.com/akru)
+- Add Rococo Ares parachain (https://github.com/jiyilanzhou)
+- Add Rococo PolkaBTC endpoint (Thanks to https://github.com/savudani8)
+- Add Rococo Hydrate parachain (thanks to https://github.com/lumir-mrkva)
+- Adjust Darwinia for new chain properties (Thanks to https://github.com/WoeOm)
+- Adjust Kilt on Rococo (Thanks to https://github.com/wischli)
+- Add Rococo Datahighway parachain (Thanks to https://github.com/cgroeschel)
+- Add Rococo IntegriTEE parachain (Thanks to https://github.com/brenzi)
+- Add Rococo Zenlink parachain (Thanks to https://github.com/Hayden0323)
+- Add Rococo & test Clover chains (Thanks to https://github.com/superpw)
+- Add slash creator action to bounties (Thanks to https://github.com/MiZiet)
+- Add award action to bounties (Thanks to https://github.com/MiZiet)
+- Use `utility.batch` in bounty test script (Thanks to https://github.com/MiZiet)
+- Display bounty id (Thanks to https://github.com/MiZiet)
+- Hide unhappy bounty actions (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Additional check for `isEditable` to make network swap available (i.e. non-injected only)
+- Allow for the addition of account name when adding Ledger
+- Adjust staking rendering for incremental display (instead of waiting for all)
+- Ensure `InputAddress` only returns filtered/available values
+- Explicit warnings on inactive staking (when none are active)
+- Allow for state app to operate without accounts
+- Adjust badges for non-specific and development accounts (including tooltips)
+- Adjust `ChainImg` to not fallback on current selected
+- Adjust Rococo proposal displays (align with new types)
+- Display parachain logo alongside parachain links
+- Update Rococo genesisHash
+- Bump Edgeware definitions
+- Bump Rococo definitions
+
+
+## 0.77.1 Jan 25, 2021
+
+Contributed:
+
+- Add Darwinia on Rococo (Thanks to https://github.com/WoeOm)
+- Add Phala on Rococo (Thanks to https://github.com/tolak)
+- Add Encointer on Rococo (Thanks to https://github.com/brenzi)
+- Add Crust on Rococo (Thanks to https://github.com/zikunfan)
+- Add Bit.Country testnet (Thanks to https://github.com/justinphamnz)
+- Allow for bounty extension (Thanks to https://github.com/MiZiet)
+- Add tooltips to bounties (Thanks to https://github.com/MiZiet)
+- Adjust styling for bounties (thanks to https://github.com/MiZiet)
+- Allow using bounties without default treasury (https://github.com/ekowalsk)
+- Add close bounty action (Thanks to https://github.com/ekowalsk)
+- Fix Chinese i18n (Thanks to https://github.com/pfcoder)
+- Update chain types for Galois (Thanks to https://github.com/hging)
+- Adjust Equilibrium derives for new derives (thanks to https://github.com/pr0fedt)
+- Adjust IdentityIcon styling for dark theme (Thanks to https://github.com/jhonalino)
+
+Changes:
+
+- Allow Ledger accounts to be visible even when unplugged
+- Add warning where transfer fees are not covered by balance
+- Check transfer recipients against phishing list
+- Addition of hardware accounts always tie to genesis
+- Hide identity account operations on hardware devices
+- Allow for display of multiple balance instances
+- Adjust PolkaBTC definitions to indicate balance instances
+- Display extrinsic signatures (with type) on explorer
+
+
+## 0.76.1 Jan 18, 2021
+
+Contributed:
+
+- Add Plasm Rococo endpoint (thanks to https://github.com/akru)
+- Add Robonomics Rococo endpoint (Thanks to https://github.com/akru)
+- Add Mandala Rococo endpoint (Thanks to https://github.com/ntduan)
+- Add Bifrost Rococo endpoint (thanks to https://github.com/awesomepan)
+- Add Kilt Rococo endpoint (Thanks to https://github.com/wischli)
+- Patract Elara Rococo endpoints (Thanks to https://github.com/toxotguo)
+- Add types for upcoming Rococo Encointer (Thanks to https://github.com/brenzi)
+- Add link to Rococo for Subscan (Thanks to https://github.com/freehere107)
+- Add support for Polymesh Ledger app (Thanks to https://github.com/adamdossa)
+- Update types for Galois & re-enable (Thanks to https://github.com/hging)
+- Add Uniarts types & endpoints (Thanks to https://github.com/tianxiemaochiyu)
+- Add bounty script for easier testing setup (Thanks to https://github.com/MiZiet)
+- Add curator propose to bounties (Thanks to https://github.com/MiZiet)
+- Adjust bounty sorting (Thanks to https://github.com/ekowalsk)
+- Update ledger types usage (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Update Ledger usage with hooks (Thanks to https://github.com/Tbaut for final testing)
+- Add Parachain proposal support for Rococo
+- Add ability to propose new parachains (via modal)
+- Expand parachain information (including from-chain numbers/issuance)
+- Remove Web3 Foundation endpoints for Kusama and Polkadot
+- Add small border on QR codes for dark-ode support
+- Update Polkascan & Subscan links with all available chains
+- Add hook for multi queries, apply use as applicable
+- Ensure epoch/session is displayed (when no staking module)
+- Bump Electron to latest version (security fix on V8)
+- check for availability of `query.council` on council app
+- Use latest `@polkadot.networks` with `hasLedgerSupport` flag
+
+
 ## 0.75.1 Jan 11, 2021
 
 Contributed:
@@ -151,7 +511,7 @@ Contributed:
 - Add first area around bounties, the existing display (Thanks to https://github.com/krzysztof-jelski)
 - Adjust import ordering with plugin (Thanks to https://github.com/ekowalsk)
 - Add Polkadot/Kusama endpoints via PatractLabs (Thanks to https://github.com/toxotguo)
-- Add types for Bitfrost testnet (Thaks to https://github.com/janpo)
+- Add types for Bifrost testnet (Thaks to https://github.com/janpo)
 - Adjust Crust network types & logo (Thanks to https://github.com/zikunfan)
 - Adjust types for Phala poc-3 (Thanks to https://github.com/LusWar)
 - Move to typesBundle for Moonbeam (Thanks to https://github.com/joelamouche)
@@ -230,7 +590,7 @@ Contributed:
 - Update types of Cantillon testnet (Thanks to https://github.com/brenzi)
 - Update types of Gesell testnet (Thanks to https://github.com/brenzi)
 - Add Darwinia network (Thanks to https://github.com/WoeOm)
-- Add Bitfrost Asgard testnet (Thanks to https://github.com/janpo)
+- Add Bifrost Asgard testnet (Thanks to https://github.com/janpo)
 
 Changes:
 

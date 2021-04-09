@@ -37,7 +37,7 @@ export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
 
   .ui--Param .ui--Labelled label {
     text-transform: none !important;
-    font: ${theme.fontMono};
+    font: var(--font-mono);
   }
 
   .ui--row {
@@ -45,7 +45,7 @@ export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
   }
 
   .ui--Param-Address {
-    font: ${theme.fontMono};
+    font: var(--font-mono);
   }
 
   .ui--Params-Content {

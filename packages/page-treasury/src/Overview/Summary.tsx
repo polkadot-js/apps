@@ -1,14 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Balance } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { useTreasury } from '@polkadot/react-hooks/useTreasury';
+import { useApi, useBestNumber, useCall, useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,7 +19,7 @@ interface Props {
 function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
 
   const { burn, spendPeriod, value } = useTreasury();

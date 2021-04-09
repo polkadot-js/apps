@@ -44,7 +44,7 @@ export default React.memo(styled(KeyPair)(({ theme }: ThemeProps) => `
   > .address {
     display: inline-block;
     flex: 1;
-    font: ${theme.fontMono};
+    font: var(--font-mono);
     margin-left: 1rem;
     opacity: 0.5;
     overflow: hidden;

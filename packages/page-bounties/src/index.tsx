@@ -12,27 +12,26 @@ export { default as useCounter } from './useCounter';
 
 interface Props {
   basePath: string;
+  className?: string;
 }
 
-function BountiesApp ({ basePath }: Props): React.ReactElement<Props> {
+function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const itemsRef = useRef([
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Bounties')
+      text: t<string>('Overview')
     }
   ]);
 
   return (
-    <main className='bounties--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+    <main className={`bounties--App ${className}`}>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Bounties/>
     </main>
   );

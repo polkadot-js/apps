@@ -8,6 +8,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Row from './Row';
@@ -65,7 +66,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       <Summary slash={slash} />
       <Button.Group>
         {buttons}
-        {api.tx.council?.propose && (
+        {isFunction(api.tx.council?.propose) && (
           <>
             <TxButton
               accountId={councilId}

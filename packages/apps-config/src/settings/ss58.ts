@@ -6,6 +6,12 @@ import type { Option } from './types';
 
 import known from '@polkadot/networks';
 
+const networks = known.map(({ displayName, network, prefix }) => ({
+  info: network,
+  text: displayName,
+  value: prefix
+}));
+
 // Definitions here are with the following values -
 //   info: the name of a logo as defined in ../logos, specifically in namedLogos
 //   text: The text you wish to display in the dropdown
@@ -18,10 +24,6 @@ export function createSs58 (t: TFunction): Option[] {
       text: t('ss58.default', 'Default for the connected node', { ns: 'apps-config' }),
       value: -1
     },
-    ...known.map(({ displayName, network, prefix }): Option => ({
-      info: network,
-      text: displayName,
-      value: prefix
-    }))
+    ...networks
   ];
 }

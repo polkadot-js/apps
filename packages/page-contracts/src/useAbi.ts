@@ -47,7 +47,7 @@ const EMPTY: AbiState = {
 };
 
 export default function useAbi (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: string | null = null, isRequired = false): UseAbi {
-  const [state, setAbi] = useState<AbiState>(fromInitial(initialValue, isRequired));
+  const [state, setAbi] = useState<AbiState>(() => fromInitial(initialValue, isRequired));
 
   useEffect(
     () => setAbi((state) =>

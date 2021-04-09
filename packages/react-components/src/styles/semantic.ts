@@ -3,7 +3,8 @@
 
 import type { ThemeDef } from '../types';
 
-export default (theme: ThemeDef): string => `
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default (_theme: ThemeDef): string => `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }
@@ -22,14 +23,14 @@ export default (theme: ThemeDef): string => `
   .ui.selection.dropdown,
   .ui.input > input,
   .ui.selection.dropdown > input {
-    background: ${theme.bgInput};
-    color: ${theme.color};
-    font: ${theme.fontSans};
+    background: var(--bg-input);
+    color: var(--color-text);
+    font: var(--font-sans);
     font-size: 1rem;
 
     &:focus {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: var(--bg-input);
+      color: var(--color-text);
     }
   }
 
@@ -49,17 +50,17 @@ export default (theme: ThemeDef): string => `
     }
 
     &.selection.visible {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: var(--bg-input);
+      color: var(--color-text);
     }
 
     .menu {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: var(--bg-input);
+      color: var(--color-text);
 
       > .item {
         border-color: transparent !important;
-        color: ${theme.color} !important;
+        color: var(--color-text) !important;
 
         &.header.disabled {
           margin: 1em 0 0 0;
@@ -67,7 +68,7 @@ export default (theme: ThemeDef): string => `
 
           &:hover,
           &.selected {
-            background: ${theme.bgInput};
+            background: var(--bg-input);
           }
         }
       }
@@ -77,7 +78,7 @@ export default (theme: ThemeDef): string => `
       min-height: 1em;
 
       &:not(.default) {
-        color: ${theme.color} !important;
+        color: var(--color-text) !important;
       }
     }
   }
@@ -106,7 +107,7 @@ export default (theme: ThemeDef): string => `
     }
 
     &.error input {
-      background-color: ${theme.bgInputError};
+      background-color: var(--bg-input-error);
       border-color: #e0b4b4;
     }
 
@@ -117,16 +118,16 @@ export default (theme: ThemeDef): string => `
 
   .ui.label {
     background: transparent;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
     position: relative;
     z-index: 1;
   }
 
   .ui.modal {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
     box-shadow: none;
-    color: ${theme.color};
-    font: ${theme.fontSans};
+    color: var(--color-text);
+    font: var(--font-sans);
 
     > .actions,
     > .content {
@@ -143,22 +144,26 @@ export default (theme: ThemeDef): string => `
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: ${theme.colorSummary};
-      font: ${theme.fontSans};
+      color: var(--color-summary);
+      font: var(--font-sans);
       font-size: 1.75rem;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
       line-height: 1.25rem;
-      padding: 1.5rem 1.75rem 0;
+      padding: 0.75rem 1.5rem 0;
       text-transform: lowercase;
 
       > label {
         margin-top: 0.5rem;
       }
+
+      > h1 {
+        line-height: 1;
+      }
     }
 
     .description {
       margin: 1.5em 0;
-      font-weight: ${theme.fontWeightNormal};
+      font-weight: var(--font-weight-normal);
     }
   }
 
@@ -167,11 +172,19 @@ export default (theme: ThemeDef): string => `
   }
 
   .ui.popup {
-    background: ${theme.bgMenu};
-    color: ${theme.color};
+    background: var(--bg-menu);
+    color: var(--color-text);
 
     .ui.text.menu .item {
-      color: ${theme.color};
+      color: var(--color-text) !important;
+
+      &.disabled {
+        opacity: 0.3;
+      }
+    }
+
+    &&::before {
+      background: var(--bg-menu);
     }
   }
 
@@ -190,7 +203,7 @@ export default (theme: ThemeDef): string => `
 
   /* modals aligned to top, not center */
   .ui.dimmer {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(96, 96, 96, 0.5);
     justify-content: flex-start;
   }
 

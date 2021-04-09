@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { Button, Extrinsic, Icon, InputNumber, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -44,7 +44,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
           label={t<string>('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
-        {api.tx.sudo.sudoUncheckedWeight && (
+        {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
           <InputNumber
             help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
             isDisabled={!withWeight}

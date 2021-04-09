@@ -38,31 +38,22 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={idNumber}
-                  proposal={proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted to council for a subsequent voting round.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted to council for a subsequent voting round.')}>
+              <ProposedAction
+                idNumber={idNumber}
+                proposal={proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  // SD: Commented filter below
+            <Modal.Columns hint={t<string>('The council account that will apply the close for the current round.')}>
+              <InputAddress
+                // SD: Commented filter below
                   // filter={members}
                   help={t<string>('Select the account you wish close the proposal with.')}
                   label={t<string>('sending account')}
                   onChange={setAccountId}
                   type='account'
                 />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The council account that will apply the close for the current round.')}</p>
-              </Modal.Column>
+
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
