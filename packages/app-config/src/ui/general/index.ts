@@ -45,6 +45,5 @@ const nodeColors: Record<string, any> = [
 export {
   defaultColor,
   chainColors,
-  emptyColor,
   nodeColors
 };
