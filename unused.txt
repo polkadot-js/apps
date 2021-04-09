@@ -1,6 +1,5 @@
-packages/react-util/src/index.ts:5 - getAddressMeta
-packages/react-util/src/index.ts:7 - getAddressTags
-packages/react-util/src/index.ts:10 - isTreasuryProposalVote
+packages/react-util/src/getAddressTags.ts:8 - default
+packages/react-util/src/isTreasuryProposalVote.ts:8 - default
 packages/app/src/SideBar/Item.tsx:39 - findMissingApis (used in module)
 packages/app-config/src/api/constants.ts:10 - POLKADOT_DENOM_BLOCK
 packages/app-config/src/api/constants.ts:12 - KULUPU_GENESIS
