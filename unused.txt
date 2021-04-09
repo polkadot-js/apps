@@ -1,11 +1,10 @@
-packages/app-config/src/api/constants.ts:10 - POLKADOT_DENOM_BLOCK
-packages/app-config/src/api/constants.ts:12 - KULUPU_GENESIS
-packages/app-config/src/api/index.ts:8 - getChainTypes
-packages/app-config/src/api/util.ts:5 - typesFromDefs
-packages/app-config/src/links/index.ts:18 - default
-packages/app-config/src/links/types.ts:7 - LinkTypes (used in module)
-packages/app-config/src/settings/index.ts:11 - createLanguages (used in module)
-packages/app-config/src/settings/index.ts:12 - createSs58 (used in module)
+packages/app-config/src/links/commonwealth.ts:9 - default
+packages/app-config/src/links/polkascan.ts:7 - default
+packages/app-config/src/links/polkassembly.ts:7 - default
+packages/app-config/src/links/subscan.ts:7 - default
+packages/app-config/src/links/types.ts:9 - ExternalDef
+packages/app-config/src/settings/languages.ts:7 - default
+packages/app-config/src/settings/ss58.ts:11 - default
 packages/react-api/src/hoc/index.ts:5 - withApi
 packages/react-api/src/hoc/index.ts:6 - withCall
 packages/react-api/src/hoc/index.ts:7 - withCalls
