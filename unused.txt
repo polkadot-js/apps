@@ -1,4 +1,3 @@
-packages/react-components/src/Chart/types.ts:7 - BaseProps
 packages/react-params/src/Param/Balance.tsx:50 - Balance (used in module)
 packages/react-params/src/Param/Params.tsx:34 - Holder (used in module)
 packages/react-params/src/Param/VoteThreshold.tsx:23 - textMap (used in module)
