@@ -17,7 +17,7 @@ interface Meta {
   documentation: Text[];
 }
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
   isOpen?: boolean;
   summary?: React.ReactNode;

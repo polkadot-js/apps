@@ -9,7 +9,7 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { EraRewardPoints } from '@polkadot/types/interfaces';
 import { formatNumber } from '@polkadot/util';
 
-export interface Authors {
+interface Authors {
   byAuthor: Record<string, string>;
   eraPoints: Record<string, string>;
   lastBlockAuthors: string[];
@@ -143,4 +143,4 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
 const BlockAuthors = React.memo(BlockAuthorsBase);
 
-export { BlockAuthorsContext, BlockAuthors, ValidatorsContext };
+export { BlockAuthors, ValidatorsContext };

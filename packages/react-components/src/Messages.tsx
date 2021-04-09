@@ -11,7 +11,7 @@ import { Abi } from '@polkadot/api-contract';
 
 import Message from './Message';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   abi: Abi;
   address?: string;
   isLabelled?: boolean;

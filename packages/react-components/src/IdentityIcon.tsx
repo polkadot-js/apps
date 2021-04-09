@@ -14,7 +14,7 @@ import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate';
 
-export function getIdentityTheme (systemName: string): 'substrate' {
+function getIdentityTheme (systemName: string): 'substrate' {
   return ((uiSettings.icon === 'default' && getSystemIcon(systemName)) || uiSettings.icon) as 'substrate';
 }
 

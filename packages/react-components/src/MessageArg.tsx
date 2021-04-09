@@ -10,7 +10,7 @@ import { CodecArg, Registry } from '@polkadot/types/types';
 
 import Data from './Data';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   arg?: ParamDef;
   param?: CodecArg;
   registry?: Registry;

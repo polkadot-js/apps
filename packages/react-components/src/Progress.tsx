@@ -13,7 +13,7 @@ import { bnToBn, isBn, isUndefined } from '@polkadot/util';
 import { BareProps } from './types';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
-export type Colors = 'auto' | 'autoReverse' | BaseColors;
+type Colors = 'auto' | 'autoReverse' | BaseColors;
 
 interface Props extends BareProps {
   color?: Colors;
