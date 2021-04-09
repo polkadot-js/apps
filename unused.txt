@@ -1,27 +1,20 @@
-packages/react-components/src/InputTags.tsx:81 - default
-packages/react-components/src/Tag.tsx:47 - default
-packages/react-hooks/src/index.ts:9 - useAddresses
-packages/react-hooks/src/index.ts:14 - useCodec
-packages/react-hooks/src/index.ts:19 - useDebounce
-packages/react-hooks/src/index.ts:23 - useIncrement
-packages/react-hooks/src/index.ts:24 - useIpfs
-packages/react-hooks/src/index.ts:26 - useModal
-packages/react-hooks/src/index.ts:30 - usePassword
-packages/react-hooks/src/index.ts:31 - useRegistrars
-packages/react-hooks/src/index.ts:36 - useWeight
-packages/react-hooks/src/types.ts:26 - TxDef (used in module)
-packages/react-hooks/src/types.ts:28 - TxDefs (used in module)
-packages/react-hooks/src/types.ts:30 - TxSource
-packages/react-hooks/src/types.ts:32 - ConstructTxFn (used in module)
-packages/react-hooks/src/types.ts:40 - Slash (used in module)
-packages/react-hooks/src/types.ts:45 - SessionRewards
-packages/react-hooks/src/types.ts:54 - ExtrinsicAndSenders (used in module)
-packages/react-hooks/src/types.ts:61 - TxProps
-packages/react-hooks/src/types.ts:70 - TxState
-packages/react-hooks/src/types.ts:76 - UseSudo
-packages/react-hooks/src/types.ts:127 - StakerState
+packages/react-hooks/src/types.ts:31 - Slash (used in module)
+packages/react-hooks/src/types.ts:36 - SessionRewards
+packages/react-hooks/src/types.ts:45 - ExtrinsicAndSenders (used in module)
+packages/react-hooks/src/types.ts:52 - TxProps
+packages/react-hooks/src/types.ts:61 - TxState
+packages/react-hooks/src/types.ts:67 - UseSudo
+packages/react-hooks/src/types.ts:118 - StakerState
+packages/react-hooks/src/useCodec.ts:14 - default
+packages/react-hooks/src/useDebounce.ts:12 - default
+packages/react-hooks/src/useIncrement.ts:9 - default
+packages/react-hooks/src/useIpfs.ts:115 - default
+packages/react-hooks/src/useModal.ts:10 - default
+packages/react-hooks/src/usePassword.ts:16 - default
+packages/react-hooks/src/useRegistrars.ts:30 - default
 packages/react-hooks/src/useSettings.ts:20 - save (used in module)
 packages/react-hooks/src/useSettings.ts:24 - saveAndReload (used in module)
+packages/react-hooks/src/useWeight.ts:18 - default
 packages/react-params/src/Call.tsx:20 - Props (used in module)
 packages/react-params/src/Event.tsx:15 - Props (used in module)
 packages/react-params/src/index.tsx:6 - useTxParams
