@@ -1,9 +1,5 @@
-packages/app/src/constants.ts:15 - SIDEBAR_TRANSITION_DURATION
-packages/app/src/types.ts:35 - WithBasePath (used in module)
-packages/app/src/types.ts:39 - ComponentProps
-packages/app/src/types.ts:41 - AppProps
-packages/app/src/types.ts:66 - ContractJsonOld
-packages/app/src/useCodes.ts:10 - default
+packages/app/src/types.ts:35 - WithBasePath
+packages/app/src/types.ts:51 - WithCodes
 packages/app-routing/src/types.ts:7 - RouteProps (used in module)
 packages/page-settings/src/types.ts:7 - ChainInfo
 packages/page-settings/src/util.tsx:13 - createOption
