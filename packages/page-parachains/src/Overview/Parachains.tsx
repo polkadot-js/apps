@@ -150,9 +150,9 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded, lastTimeout }, setLastEvents] = useState<LastEvents>(EMPTY_EVENTS);
   const [validators, validatorGroups, activeIndices] = useCallMulti<MultiResult>([
-    api.query.session?.validators,
+    api.query.session.validators,
     api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups,
-    api.query.shared?.activeValidatorIndices
+    api.query.shared.activeValidatorIndices
   ], optionsMulti);
   const hrmp = useHrmp();
   const hasLinksMap = useIsParasLinked(ids);

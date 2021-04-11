@@ -24,7 +24,7 @@ export default function useAuctionInfo (): AuctionInfo | undefined {
   const { api } = useApi();
 
   return useCallMulti<AuctionInfo>([
-    api.query.auctions?.auctionCounter,
-    api.query.auctions?.auctionInfo
+    api.query.auctions.auctionCounter,
+    api.query.auctions.auctionInfo
   ], optionsMulti);
 }
