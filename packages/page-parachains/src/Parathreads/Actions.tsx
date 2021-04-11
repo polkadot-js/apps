@@ -20,7 +20,7 @@ function Actions ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <Button.Group className={className}>
-      {api.tx.registrar?.register && (
+      {api.tx.registrar.register && (
         <>
           <Button
             icon='plus'

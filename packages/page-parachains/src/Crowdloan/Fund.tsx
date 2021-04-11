@@ -48,7 +48,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
   const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan?.Contributed, api.events.crowdloan?.Withdrew, api.events.crowdloan?.AllRefunded, api.events.crowdloan?.PartiallyRefunded], useCallback(
+  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
     ({ event: { data } }: EventRecord) =>
       ((data.length === 1
         ? data[0] // AllRefunded, PartiallyRefunded [ParaId]
@@ -92,7 +92,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       : leasePeriod.currentPeriod.gt(firstSlot)
   );
   const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
-  const canDissolve = raised.isZero() && hasEnded;
+  const canDissolve = raised.isZero();
   const canWithdraw = !raised.isZero() && hasEnded;
 
   return (
