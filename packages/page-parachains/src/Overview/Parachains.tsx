@@ -205,8 +205,8 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
       {knownIds?.map(([id, key]): React.ReactNode => (
         <Parachain
           bestNumber={bestNumber}
-          channelDst={hrmp.dst[id.toString()]}
-          channelSrc={hrmp.src[id.toString()]}
+          channelDst={hrmp?.dst[id.toString()]}
+          channelSrc={hrmp?.src[id.toString()]}
           id={id}
           isScheduled={scheduledIds[key]}
           key={key}
