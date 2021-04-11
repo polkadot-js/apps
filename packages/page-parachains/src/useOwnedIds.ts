@@ -12,12 +12,12 @@ import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 export default function useOwnedIds (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const trigger = useEventTrigger([api.events.registrar?.Registered]);
+  const trigger = useEventTrigger([api.events.registrar.Registered]);
   const [state, setState] = useState<OwnedId[]>([]);
 
   useEffect((): void => {
     allAccounts && trigger &&
-      api.query.registrar?.paras
+      api.query.registrar.paras
         .entries<Option<ParaInfo>, [ParaId]>()
         .then((entries) => setState(() =>
           entries

@@ -10,7 +10,7 @@ import { useApi, useEventTrigger } from '@polkadot/react-hooks';
 
 export default function useUpomingIds (): ParaId[] | undefined {
   const { api } = useApi();
-  const trigger = useEventTrigger([api.events.session.NewSession, api.events.registrar?.Registered]);
+  const trigger = useEventTrigger([api.events.session.NewSession, api.events.registrar.Registered]);
   const [result, setResult] = useState<ParaId[] | undefined>();
 
   useEffect((): void => {
