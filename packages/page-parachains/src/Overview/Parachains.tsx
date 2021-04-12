@@ -62,9 +62,7 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
 }
 
 function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): Record<string, ValidatorInfo[]> {
-  console.log(ids && ids.length, validatorGroups && validatorGroups.length);
-
-  return activeIndices && validators && validatorGroups && ids && ids.length <= validatorGroups.length
+  return activeIndices && validators && validatorGroups && ids && (ids.length <= validatorGroups.length)
     ? ids.reduce((all: Record<string, ValidatorInfo[]>, id, index) => ({
       ...all,
       [id.toString()]: validatorGroups[index]
