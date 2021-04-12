@@ -1,10 +1,49 @@
 # CHANGELOG
 
+## 0.87.1 Apr 12, 2021
+
+Contributed:
+
+- Update Kilt types (Thanks to https://github.com/wischli)
+- Update Zero types (Thanks to https://github.com/2075)
+- Add Polkafoundry chain (Thanks to https://github.com/thanhtung6824)
+- Update Acala endpoint (Thanks to https://github.com/qwer951123)
+- Add Equilibrium Rococo endpoint (Thanks to https://github.com/mn13)
+- Add Galois SessionKey type (Thanks to https://github.com/hging)
+- Update Datahighway endpoint (Thanks to https://github.com/cgroeschel)
+- Add Zeitgeist (Thanks to https://github.com/lsaether)
+- Add Subsocial Rococo parachain (Thanks to https://github.com/siman)
+- Add Parami Rococo parachain (Thanks to https://github.com/chenwei767)
+- Update Robonomics types (Thanks to https://github.com/akru)
+- Add Galitial Rococo parachain (Thanks to https://github.com/masterdubs)
+- Update Jupiter types (Thanks to https://github.com/ii-ii-ii)
+- Update SubDAO logo (Thanks https://github.com/chenwei767)
+- Add Sunrock Rococo parachain (Thanks to https://github.com/crystalin)
+- Update Edgeware live endpoint (Thanks to https://github.com/ShankarWarang)
+- Add Mybank network (Thanks to https://github.com/armatrix)
+- Add Steam & Beast Rococo parachain (Thanks to https://github.com/johnwhitton)
+- Update Unit network logo (Thanks to https://github.com/paulhealy09)
+- Update Encointer types (Thanks to https://github.com/brenzi)
+- Add Apron network (Thanks to https://github.com/Apron2050)
+- Add Manta Rococo parachain (Thanks to https://github.com/zhenfeizhang)
+- Correct Bifrost usage (Thanks to https://github.com/awesomepan)
+- Update Uart test types (Thanks to https://github.com/tianxiemaochiyu)
+- Update Mandala paraId (Thanks to https://github.com/xlc)
+- Update PolkaFoundry paraId (Thanks to https://github.com/hoangnl2112)
+- Update Clover types (Thanks to https://github.com/pangwa)
+
+Changes:
+
+- Extend parachain support to cater for new Rococo usages
+- Display parachain specVersion (in addition to best block)
+- Move batch transaction creation into hook (& apply to all uses)
+
+
 ## 0.86.2 Mar 29, 2021
 
 Contributed:
 
-- Adjustments for Crust pinning Tthanks to https://github.com/zikunfan)
+- Adjustments for Crust pinning (Thanks to https://github.com/zikunfan)
 - Adjustments for KILT XCM types (Thanks to https://github.com/wischli)
 
 
