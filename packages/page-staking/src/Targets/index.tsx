@@ -162,10 +162,10 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function selectProfitable (list: ValidatorInfo[]): string[] {
+function selectProfitable (list: ValidatorInfo[], maxNominations: number): string[] {
   const result: string[] = [];
 
-  for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
+  for (let i = 0; i < list.length && result.length < maxNominations; i++) {
     const { isBlocking, isFavorite, key, stakedReturnCmp } = list[i];
 
     (!isBlocking && (isFavorite || (stakedReturnCmp > 0))) &&
@@ -174,6 +174,19 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
 
   return result;
 }
+
+const DEFAULT_FLAGS = {
+  withElected: false,
+  withGroup: true,
+  withIdentity: false,
+  withPayout: false,
+  withoutComm: true,
+  withoutOver: true
+};
+
+const DEFAULT_NAME = { isQueryFiltered: false, nameFilter: '' };
+
+const DEFAULT_SORT: SortState = { sortBy: 'rankOverall', sortFromMax: true };
 
 function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -184,16 +197,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const nominatedBy = useNominations(true);
   const allIdentity = useIdentities(validatorIds);
   const [selected, setSelected] = useState<string[]>([]);
-  const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
-  const [toggles, setToggle] = useSavedFlags('staking:targets', {
-    withElected: false,
-    withGroup: true,
-    withIdentity: false,
-    withPayout: false,
-    withoutComm: true,
-    withoutOver: true
-  });
-  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState(DEFAULT_NAME);
+  const [toggles, setToggle] = useSavedFlags('staking:targets', DEFAULT_FLAGS);
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>(DEFAULT_SORT);
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
 
   const labelsRef = useRef({
@@ -215,7 +221,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const filtered = useMemo(
-    () => allIdentity && validators && nominatedBy && applyFilter(validators, medianComm, allIdentity, flags, nominatedBy),
+    () => allIdentity && validators && nominatedBy &&
+      applyFilter(validators, medianComm, allIdentity, flags, nominatedBy),
     [allIdentity, flags, medianComm, nominatedBy, validators]
   );
 
@@ -238,10 +245,10 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const _sort = useCallback(
-    (newSortBy: TargetSortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
-      sortBy: newSortBy,
-      sortFromMax: newSortBy === sortBy
-        ? !sortFromMax
+    (sortBy: TargetSortBy) => setSortBy((p) => ({
+      sortBy,
+      sortFromMax: sortBy === p.sortBy
+        ? !p.sortFromMax
         : true
     })),
     []
@@ -250,7 +257,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const _toggleSelected = useCallback(
     (address: string) => setSelected(
       selected.includes(address)
-        ? selected.filter((accountId) => address !== accountId)
+        ? selected.filter((a) => address !== a)
         : [...selected, address]
     ),
     [selected]
@@ -258,9 +265,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => filtered && setSelected(
-      selectProfitable(filtered)
+      selectProfitable(
+        filtered,
+        api.consts.staking.maxNominations
+          ? api.consts.staking.maxNominations.toNumber()
+          : MAX_NOMINATIONS
+      )
     ),
-    [filtered]
+    [api, filtered]
   );
 
   const _setNameFilter = useCallback(
@@ -339,6 +351,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const displayList = isQueryFiltered
     ? validators
     : sorted;
+  const maxNominations = api.consts.staking.maxNominations
+    ? api.consts.staking.maxNominations.toNumber()
+    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>
@@ -381,7 +396,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
-            canSelect={selected.length < MAX_NOMINATIONS}
+            canSelect={selected.length < maxNominations}
             filterName={nameFilter}
             info={info}
             isNominated={myNominees.includes(info.key)}
