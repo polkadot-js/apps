@@ -56,6 +56,7 @@ import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import realis from './realis';
 import robonomics from './robonomics';
+import riochain from './riochain';
 import sgc from './sgc';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
@@ -142,6 +143,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'plasm-parachain': plasmParachain,
   realis,
   robonomics,
+  'riochain-runtime': riochain,
   'sgc-node': sgc,
   snowbridge,
   'sora-substrate': soraSubstrate,

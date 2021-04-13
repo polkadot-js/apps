@@ -70,6 +70,7 @@ import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodeRealis from './nodes/realis.png';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeRiochain from './nodes/riochain.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -132,6 +133,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Phala PC1', nodePhala],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -218,6 +220,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -343,6 +346,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrustBase: nodeTrustBase,
   rococoUnitv: nodeUnitv,
   rococoZenlink: nodeZenlink,
+  riochain: nodeRiochain,
   sgc: nodeSgc,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
