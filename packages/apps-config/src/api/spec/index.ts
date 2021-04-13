@@ -44,6 +44,7 @@ import litentry from './litentry';
 import manta from './manta';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
+import nftmart from './nftmart';
 import nodle from './nodle';
 import parami from './parami';
 import phala from './phala';
@@ -128,6 +129,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'moonbeam-standalone': moonbeam,
   'mybank.network Testnet': mybank,
   nft: unique,
+  nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,

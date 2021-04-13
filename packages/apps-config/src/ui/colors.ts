@@ -24,6 +24,7 @@ const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
+const chainNftmart = '#815287';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -80,6 +81,7 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
 const nodeMybank = '#282736';
+const nodeNftmart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
@@ -143,6 +145,8 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
+  ['Nftmart Testnet', chainNftmart],
+  ['Nftmart Staging', chainNftmart],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala poc 3', chainPhala],
@@ -195,6 +199,8 @@ export const nodeColors: Record<string, any> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['nodle chain node', nodeNodle],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
