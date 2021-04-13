@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/app-config": "workspace:packages/app-config",
+    "@canvas-ui/app-instantiate": "workspace:packages/page-instantiate",
     "@canvas-ui/app-execute": "workspace:packages/page-execute",
     "@canvas-ui/app-settings": "workspace:packages/page-settings",
     "@canvas-ui/app-upload": "workspace:packages/page-upload",
