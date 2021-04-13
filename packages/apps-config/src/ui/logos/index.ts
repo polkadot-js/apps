@@ -69,8 +69,8 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodeRealis from './nodes/realis.png';
-import nodeRobonomics from './nodes/robonomics.svg';
 import nodeRiochain from './nodes/riochain.svg';
+import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -305,6 +305,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
   realis: nodeRealis,
+  riochain: nodeRiochain,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoApron: nodeApron,
@@ -346,7 +347,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrustBase: nodeTrustBase,
   rococoUnitv: nodeUnitv,
   rococoZenlink: nodeZenlink,
-  riochain: nodeRiochain,
   sgc: nodeSgc,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
