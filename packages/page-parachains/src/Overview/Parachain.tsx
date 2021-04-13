@@ -2,22 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, Header, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec, ITuple } from '@polkadot/types/types';
-import type { LeasePeriod } from '../types';
-import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
+import type { LeasePeriod, QueuedAction } from '../types';
+import type { EventMapInfo, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
-import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
+import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
+import ParachainInfo from './ParachainInfo';
 import Periods from './Periods';
 
 interface Props {
@@ -52,10 +53,6 @@ interface QueryState {
   watermark: BlockNumber | null;
 }
 
-const transformHeader = {
-  transform: (header: Header) => header.number.unwrap()
-};
-
 const optionsMulti = {
   defaultValue: {
     headHex: null,
@@ -89,10 +86,11 @@ const optionsMulti = {
   })
 };
 
-function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
-  return list?.map((id) => (
+function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
+  return list?.map((id, index) => (
     <AddressMini
       key={id.toString()}
+      nameExtra={indices && <>&nbsp;{`(${formatNumber(indices[index])})`}</>}
       value={id}
     />
   ));
@@ -101,8 +99,6 @@ function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
 function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { api: paraApi } = useParaApi(id);
-  const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
@@ -138,7 +134,7 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
   );
 
   const valRender = useCallback(
-    () => renderAddresses(validators?.map(({ validatorId }) => validatorId)),
+    () => renderAddresses(validators?.map(({ validatorId }) => validatorId), validators?.map(({ indexValidator }) => indexValidator)),
     [validators]
   );
 
@@ -182,8 +178,8 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
           />
         )}
       </td>
-      <td className='start together hash'>{paraInfo.headHex}</td>
-      <td className='start media--1100'>
+      <td className='start together hash media--1500'>{paraInfo.headHex}</td>
+      <td className='start'>
         {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
           ? (
             <>
@@ -208,25 +204,27 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
-      <td className='number no-pad-left'>
+      <td className='number no-pad-left media--800'>
         {lastBacked &&
           <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
         }
       </td>
-      <td className='number no-pad-left'>
+      <td className='number no-pad-left media--900'>
         {lastTimeout &&
           <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
       </td>
-      <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
-      <td className='number media--1300'>
+      <td className='number no-pad-left'>
+        <ParachainInfo id={id} />
+      </td>
+      <td className='number media--1200'>
         {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
         {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
       </td>
-      <td className='number media--1300 no-pad-left'>
+      <td className='number no-pad-left media--1200'>
         {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
       </td>
-      <td className='number together media--1500'>
+      <td className='number together media--1000'>
         <Periods
           leasePeriod={leasePeriod}
           periods={paraInfo.leases}

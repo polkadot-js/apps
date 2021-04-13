@@ -5,18 +5,18 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { AccountId, CandidateReceipt, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
-import type { LeasePeriod, ScheduledProposals } from '../types';
-import type { EventMapInfo, QueuedAction, ValidatorInfo } from './types';
+import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types';
+import type { EventMapInfo, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useCallMulti } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useCallMulti, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import useHrmp from '../useHrmp';
 import Parachain from './Parachain';
-import useHrmp from './useHrmp';
 
 interface Props {
   actionsQueue: QueuedAction[];
@@ -61,10 +61,11 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
     }), all), {});
 }
 
-function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): ValidatorInfo[][] {
-  return activeIndices && validators && validatorGroups && ids && ids.length === validatorGroups.length
-    ? validatorGroups.map((indices) =>
-      indices
+function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null): Record<string, ValidatorInfo[]> {
+  return activeIndices && validators && validatorGroups && ids && (ids.length <= validatorGroups.length)
+    ? ids.reduce((all: Record<string, ValidatorInfo[]>, id, index) => ({
+      ...all,
+      [id.toString()]: validatorGroups[index]
         .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
         .filter(([, a]) => a)
         .map(([indexActive, indexValidator]) => ({
@@ -72,8 +73,8 @@ function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | nul
           indexValidator,
           validatorId: validators[indexValidator.toNumber()]
         }))
-    )
-    : [];
+    }), {})
+    : {};
 }
 
 function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: LastEvents): LastEvents {
@@ -125,6 +126,21 @@ function extractActions (actionsQueue: QueuedAction[], knownIds?: [ParaId, strin
     : {};
 }
 
+function extractIds (hasLinksMap: Record<string, boolean>, ids?: ParaId[]): [ParaId, string][] | undefined {
+  return ids
+    ?.map((id): [ParaId, string] => [id, id.toString()])
+    .sort(([aId, aIds], [bId, bIds]): number => {
+      const aKnown = hasLinksMap[aIds] || false;
+      const bKnown = hasLinksMap[bIds] || false;
+
+      return aKnown === bKnown
+        ? aId.cmp(bId)
+        : aKnown
+          ? -1
+          : 1;
+    });
+}
+
 function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -132,24 +148,25 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded, lastTimeout }, setLastEvents] = useState<LastEvents>(EMPTY_EVENTS);
   const [validators, validatorGroups, activeIndices] = useCallMulti<MultiResult>([
-    api.query.session?.validators,
+    api.query.session.validators,
     api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups,
-    api.query.shared?.activeValidatorIndices
+    api.query.shared.activeValidatorIndices
   ], optionsMulti);
   const hrmp = useHrmp();
+  const hasLinksMap = useIsParasLinked(ids);
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
     ['', 'media--1400'],
-    [t('head'), 'start'],
-    [t('lifecycle'), 'start media--1100'],
+    [t('head'), 'start media--1500'],
+    [t('lifecycle'), 'start'],
     [],
     [t('included'), undefined, 2],
-    [t('backed'), 'no-pad-left'],
-    [t('timeout'), 'no-pad-left'],
-    [t('chain best'), 'media--900 no-pad-left'],
-    [t('in/out (msg)'), 'media--1300', 2],
-    [t('leases'), 'media--1500']
+    [t('backed'), 'no-pad-left media--800'],
+    [t('timeout'), 'no-pad-left media--900'],
+    [t('chain'), 'no-pad-left'],
+    [t('in/out (msg)'), 'media--1200', 2],
+    [t('leases'), 'media--1000']
   ]);
 
   const scheduledIds = useMemo(
@@ -163,8 +180,8 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   );
 
   const knownIds = useMemo(
-    () => ids?.map((id): [ParaId, string] => [id, id.toString()]),
-    [ids]
+    () => extractIds(hasLinksMap, ids),
+    [ids, hasLinksMap]
   );
 
   const nextActions = useMemo(
@@ -183,7 +200,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
       empty={knownIds && t<string>('There are no registered parachains')}
       header={headerRef.current}
     >
-      {knownIds?.map(([id, key], index): React.ReactNode => (
+      {knownIds?.map(([id, key]): React.ReactNode => (
         <Parachain
           bestNumber={bestNumber}
           channelDst={hrmp?.dst[id.toString()]}
@@ -197,7 +214,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
           leasePeriod={leasePeriod}
           nextAction={nextActions[key]}
           sessionValidators={validators}
-          validators={validatorMap[index]}
+          validators={validatorMap[key]}
         />
       ))}
     </Table>

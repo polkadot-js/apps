@@ -56,6 +56,14 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       // add any additional parachains here, alphabetical
       {
+        info: 'rococoApron',
+        paraId: 128,
+        text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
+        providers: {
+          'Apron Network': 'wss://rococo.apron.network'
+        }
+      },
+      {
         info: 'rococoAres',
         paraId: 6,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
@@ -144,6 +152,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoGalital',
+        paraId: 230,
+        text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
+        providers: {
+          StarkleyTech: 'wss://galital-rpc.starkleytech.com'
+        }
+      },
+      {
         info: 'rococoHydrate',
         paraId: 82406,
         text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
@@ -169,8 +185,8 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoJupiter',
-        paraId: 1,
-        text: t('rpc.rococo.jupiter', 'Patract Jupiter R1', { ns: 'apps-config' }),
+        paraId: 24,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
           jupiter: 'wss://ws.rococo.jupiter.patract.cn'
         }
@@ -193,7 +209,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoAcala',
-        paraId: 666,
+        paraId: 1000,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
           Acala: 'wss://rococo-1.acala.laminar.one'
@@ -205,6 +221,22 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
           MathWallet: 'wss://testpara.maiziqianbao.net/ws'
+        }
+      },
+      {
+        info: 'rococoManta',
+        paraId: 777,
+        text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://rococo.manta.network'
+        }
+      },
+      {
+        info: 'rococoParami',
+        paraId: 18888,
+        text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://rococo.parami.io'
         }
       },
       {
@@ -233,7 +265,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoPolkaFoundry',
-        paraId: 14,
+        paraId: 1111,
         text: t('rpc.rococo.polkafoundry', 'PolkaFoundry PC1', { ns: 'apps-config' }),
         providers: {
           PolkaFoundry: 'wss://rococo.polkafoundry.com'
@@ -248,11 +280,27 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoEave',
+        paraId: 77,
+        text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
+        providers: {
+          EAVE: 'wss://steamcollator.eave.network'
+        }
+      },
+      {
         info: 'rococoSubDAO',
         paraId: 888,
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
         providers: {
           SubDAONetwork: 'wss://parachain.subdao.network'
+        }
+      },
+      {
+        info: 'rococoSubsocial',
+        paraId: 28,
+        text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
+        providers: {
+          DappForce: 'wss://roc.subsocial.network'
         }
       },
       {
@@ -277,6 +325,22 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
         providers: {
           'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
+        }
+      },
+      {
+        info: 'rococoSunrock',
+        paraId: 499,
+        text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
+        providers: {
+          Sunrock: 'wss://sunrock.kaki.dev'
+        }
+      },
+      {
+        info: 'rococoUnitv',
+        paraId: 3,
+        text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
+        providers: {
+          'Unit Network': 'wss://unitp.io'
         }
       }
     ]
