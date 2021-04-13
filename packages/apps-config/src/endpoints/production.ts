@@ -18,6 +18,20 @@ export function createProduction (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     // fixed, polkadot
     {
+      info: 'spanner',
+      text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
+      providers: {
+        Spanner: 'wss://spannerchain.ddns.net/spanner'
+      }
+    },
+    {
+      info: 'hammer',
+      text: t('rpc.hammer', 'Hammer', { ns: 'apps-config' }),
+      providers: {
+        Hammer: 'wss://spannerchain.ddns.net/hammer'
+      }
+    },
+    {
       dnslink: 'polkadot',
       info: 'polkadot',
       text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),

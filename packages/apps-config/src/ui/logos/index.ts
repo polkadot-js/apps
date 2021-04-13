@@ -7,6 +7,7 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import chainDusty from './chains/dusty.png';
+import chainHammer from './chains/hammer.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainPolkaBTC from './chains/polkabtc.png';
@@ -14,6 +15,7 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
+import chainSpanner from './chains/spanner.svg';
 import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -104,6 +106,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Steam PC', nodeEave],
   ['Galital', nodeGalital],
   ['Galois', nodeMath],
+  ['Hammer', chainHammer],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['Encointer PC1', nodeEncointerNotee],
@@ -130,6 +133,7 @@ export const chainLogos: Record<string, unknown> = [
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
   ['Sgc', nodeSgc],
+  ['Spanner', chainSpanner],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -276,6 +280,7 @@ export const namedLogos: Record<string, unknown> = {
   equilibrium: nodeEquilibrium,
   galital: nodeGalital,
   galois: nodeMath,
+  hammer: chainHammer,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
   jupiter: nodeJupiter,
@@ -339,6 +344,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoZenlink: nodeZenlink,
   sgc: nodeSgc,
   snakenet: chainSnakenet,
+  spanner: chainSpanner,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   subsocial: nodeSubsocial,

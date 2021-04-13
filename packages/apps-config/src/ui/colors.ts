@@ -19,6 +19,7 @@ const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
 const chainGalital = '#00063F';
+const chainHammer = '#ec3d3d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
@@ -49,6 +50,7 @@ const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
+const chainSpanner = '#ffbe2e';
 const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -122,6 +124,7 @@ export const chainColors: Record<string, any> = [
   ['Galital', chainGalital],
   ['Galois', chainGalois],
   ['hanonycash', chainHanonycash],
+  ['Hammer', chainHammer],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['Idavoll', chainIdavoll],
@@ -157,6 +160,7 @@ export const chainColors: Record<string, any> = [
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['Sgc ', chainSgc],
+  ['Spanner', chainSpanner],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
   ['Sunrock', chainSunrock],
