@@ -34,10 +34,6 @@
     "@canvas-ui/app-config": "workspace:packages/app-config",
     "@canvas-ui/react-api": "workspace:packages/react-api",
     "@canvas-ui/react-store": "workspace:packages/react-store",
-    "@canvas-ui/react-util": "workspace:packages/react-util",
-    "memoizee": "^0.4.14"
-  },
-  "devDependencies": {
-    "@types/memoizee": "^0.4.4"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
   }
 }

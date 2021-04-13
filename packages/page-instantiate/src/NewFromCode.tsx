@@ -6,7 +6,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { ComponentProps as Props } from './types';
 
-import store from '@canvas-ui/app/store';
+import store from '@canvas-ui/react-store/store';
 import { Button, Dropdown, Input, InputABI, InputAddress, InputBalance, InputMegaGas, InputName, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useApi, useAppNavigation, useFile, useGasWeight, useNonEmptyString, useNonZeroBn, useStepper } from '@canvas-ui/react-hooks';

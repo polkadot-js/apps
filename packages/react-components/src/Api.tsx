@@ -6,11 +6,11 @@ import type BN from 'bn.js';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import type { ApiProps, ApiState } from './types';
+import type { ApiProps, ApiState } from '@canvas-ui/react-api/types';
 
 import { typesChain, typesSpec } from '@canvas-ui/app-config/api';
-import StatusContext from './Status/Context';
-import ApiSigner from './ApiSigner';
+import { StatusContext } from '@canvas-ui/react-components/Status';
+import ApiSigner from '@canvas-ui/react-api/ApiSigner';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api/promise';
@@ -23,8 +23,8 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import ApiContext from './ApiContext';
-import registry from './typeRegistry';
+import ApiContext from '@canvas-ui/react-api/ApiContext';
+import registry from '@canvas-ui/react-api/typeRegistry';
 
 interface Props {
   children: React.ReactNode;
