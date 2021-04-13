@@ -16,7 +16,6 @@
     "@canvas-ui/react-components": "workspace:packages/react-components",
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
     "@canvas-ui/react-signer": "workspace:packages/react-signer",
-    "@canvas-ui/react-store": "workspace:packages/react-store",
-    "@canvas-ui/react-util": "workspace:packages/react-util"
+    "@canvas-ui/react-store": "workspace:packages/react-store"
   }
 }
