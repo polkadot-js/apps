@@ -297,6 +297,14 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         'Unit Network': 'wss://unitventures.io/'
       }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.nftmart', 'Nftmart', { ns: 'apps-config' }),
+      providers: {
+        NftmartDev: 'ws://8.136.111.191:9944',
+        NftmartStaging: 'ws://82.157.37.77:9944'
+      }
     }
   ]);
 }
