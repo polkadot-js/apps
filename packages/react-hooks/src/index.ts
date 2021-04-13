@@ -34,3 +34,4 @@ export { default as useSettings } from './useSettings';
 export { default as useStepper } from './useStepper';
 export { default as useToggle } from './useToggle';
 export { default as useWeight } from './useWeight';
+export { default as useEndpointOptions } from './useEndpointOptions';

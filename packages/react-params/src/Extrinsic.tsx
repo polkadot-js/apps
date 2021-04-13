@@ -2,10 +2,10 @@
 // and @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InputExtrinsic } from '@canvas-ui/react-components';
+import InputExtrinsic from '@canvas-ui/react-components/InputExtrinsic';
 import { BareProps } from '@canvas-ui/react-components/types';
-import Params from '@canvas-ui/react-params';
-import { RawParam } from '@canvas-ui/react-params/types';
+import Params from './Param/Params';
+import { RawParam } from '@canvas-ui/react-components/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -13,7 +13,7 @@ import { GenericCall, getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 import { isUndefined } from '@polkadot/util';
 
-import paramComponents from './Params';
+import paramComponents from './Param';
 
 interface Props extends BareProps {
   defaultValue: SubmittableExtrinsicFunction<'promise'>;

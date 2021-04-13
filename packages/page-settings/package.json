@@ -12,9 +12,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/app-config": "0.0.1",
-    "@canvas-ui/react-components": "0.0.1",
-    "@canvas-ui/react-query": "0.0.1",
+    "@canvas-ui/app-config": "workspace:packages/app-config",
+    "@canvas-ui/react-components": "workspace:packages/react-components",
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
+    "@canvas-ui/react-util": "workspace:packages/react-util",
     "file-saver": "^2.0.2",
     "query-string": "^6.13.1"
   }

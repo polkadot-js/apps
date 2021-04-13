@@ -2,8 +2,8 @@
 // and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
-import { BareProps } from '@canvas-ui/react-components/types';
+import { ELEV_3_CSS } from './styles/constants';
+import { BareProps } from './types';
 import { useToggle } from '@canvas-ui/react-hooks';
 import React from 'react';
 import styled from 'styled-components';

@@ -30,6 +30,9 @@
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
-    "@babel/runtime": "^7.10.2"
+    "@babel/runtime": "^7.10.2",
+    "@canvas-ui/react-api": "workspace:packages/react-api",
+    "@canvas-ui/react-components": "workspace:packages/react-components",
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
   }
 }

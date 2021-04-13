@@ -2,9 +2,9 @@
 // and @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/app/store';
-import { Code } from '@canvas-ui/app/types';
-import { useApi } from '@canvas-ui/react-hooks';
+import store from '@canvas-ui/react-store/store';
+import { Code } from '@canvas-ui/react-store/types';
+import { useApi } from '.';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import { useCallback, useEffect, useState } from 'react';
 

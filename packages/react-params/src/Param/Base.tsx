@@ -5,7 +5,7 @@
 import { Labelled } from '@canvas-ui/react-components';
 import React from 'react';
 
-import { Size } from '../types';
+import { Size } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 interface Props {

@@ -2,7 +2,6 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ConstructTxFn } from '@canvas-ui/react-components/types';
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import BN from 'bn.js';
 
@@ -29,6 +28,8 @@ export type TxDef = [string, any[] | ConstructTxFn];
 export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
 
 export type TxSource<T extends TxDefs> = [T, boolean];
+
+export type ConstructTxFn = () => any[];
 
 export interface ModalState {
   isOpen: boolean;

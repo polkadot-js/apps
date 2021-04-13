@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps as BaseComponentProps } from '@canvas-ui/app/types';
+import { ComponentProps as BaseComponentProps } from '@canvas-ui/react-components/types';
 
 import { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 

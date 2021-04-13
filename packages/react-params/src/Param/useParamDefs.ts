@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
-import { ParamDef } from '../types';
+import { ParamDef } from '@canvas-ui/react-components/types';
 
 function expandDef (td: TypeDef): TypeDef {
   try {

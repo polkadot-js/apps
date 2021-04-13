@@ -2,39 +2,39 @@
 // and @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Call, Static } from '@canvas-ui/react-components';
+import { useApi } from '@canvas-ui/react-hooks';
+import { Props } from '@canvas-ui/react-components/types';
 import React from 'react';
 
-import { Extrinsic } from '@polkadot/types/interfaces';
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
-import { Props } from '../types';
-import Bare from './Bare';
-import Unknown from './Unknown';
+import Extrinsic from './Extrinsic';
 
-function CallDisplay (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue: { value }, isDisabled, label, withLabel } = props;
+function Call ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+  const { api, apiDefaultTx } = useApi();
 
-  if (!isDisabled) {
-    return (
-      <Unknown {...props} />
-    );
-  }
-
-  const call = value as Extrinsic;
-  const { method, section } = call.registry.findMetaCall(call.callIndex);
+  const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
+    try {
+      return api.tx.balances.transfer;
+    } catch (error) {
+      return apiDefaultTx;
+    }
+  })();
 
   return (
-    <Bare>
-      <Static
-        className={`${className} full`}
-        label={label}
-        withLabel={withLabel}
-      >
-        {section}.{method}
-      </Static>
-      <Call value={call} />
-    </Bare>
+    <Extrinsic
+      className={className}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
+      isError={isError}
+      isPrivate={false}
+      label={label}
+      onChange={onChange}
+      onEnter={onEnter}
+      onEscape={onEscape}
+      withLabel={withLabel}
+    />
   );
 }
 
-export default React.memo(CallDisplay);
+export default React.memo(Call);

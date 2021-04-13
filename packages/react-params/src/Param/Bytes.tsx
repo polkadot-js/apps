@@ -8,8 +8,8 @@ import styled from 'styled-components';
 
 import { compactAddLength } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { Props } from '../types';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { Props } from '@canvas-ui/react-components/types';
 import BaseBytes from './BaseBytes';
 import File from './File';
 

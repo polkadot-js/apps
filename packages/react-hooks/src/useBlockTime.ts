@@ -4,7 +4,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import { useApi } from '@canvas-ui/react-hooks';
+import { useApi } from '.';
 import { timeToString } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import { useMemo } from 'react';

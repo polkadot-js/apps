@@ -15,9 +15,14 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/react-components": "0.0.1",
-    "@canvas-ui/react-signer": "0.0.1",
-    "@polkadot/api-contract": "^3.11.2-3",
+    "@canvas-ui/app-config": "workspace:packages/app-config",
+    "@canvas-ui/app-routing": "workspace:packages/app-routing",
+    "@canvas-ui/react-api": "workspace:packages/react-api",
+    "@canvas-ui/react-components": "workspace:packages/react-components",
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
+    "@canvas-ui/react-query": "workspace:packages/react-query",
+    "@canvas-ui/react-util": "workspace:packages/react-util",
+    "@polkadot/api-contract": "^3.4.2-3",
     "@polkadot/dev": "^0.61.24",
     "nanoid": "^3.1.10",
     "query-string": "^6.13.1"

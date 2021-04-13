@@ -16,6 +16,7 @@ import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
 import { BareProps, BitLength } from './types';
+import { TokenUnit } from '@canvas-ui/react-api/Api'
 
 interface Props extends BareProps {
   autoFocus?: boolean;
@@ -43,14 +44,6 @@ interface Props extends BareProps {
 }
 
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
-
-export class TokenUnit {
-  public static abbr = 'Unit';
-
-  public static setAbbr (abbr: string = TokenUnit.abbr): void {
-    TokenUnit.abbr = abbr;
-  }
-}
 
 function getGlobalMaxValue (bitLength?: number): BN {
   return new BN(2).pow(new BN(bitLength || DEFAULT_BITLENGTH)).subn(1);

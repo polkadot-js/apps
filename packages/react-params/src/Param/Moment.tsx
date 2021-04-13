@@ -5,7 +5,7 @@
 import { Static } from '@canvas-ui/react-components';
 import React, { useCallback } from 'react';
 
-import { Props, RawParamOnChangeValue } from '../types';
+import { Props, RawParamOnChangeValue } from '@canvas-ui/react-components/types';
 import Amount from './Amount';
 
 function Moment ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {

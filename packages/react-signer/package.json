@@ -11,7 +11,11 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/react-components": "0.0.1",
+    "@canvas-ui/react-api": "workspace:packages/react-api",
+    "@canvas-ui/react-components": "workspace:packages/react-components",
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
+    "@canvas-ui/react-params": "workspace:packages/react-params",
+    "@canvas-ui/react-util": "workspace:packages/react-util",
     "@polkadot/react-qr": "^0.65.2-2"
   }
 }

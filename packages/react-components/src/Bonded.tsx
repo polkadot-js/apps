@@ -2,7 +2,7 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Bonded } from '@canvas-ui/react-query';
+import Bonded from './BondedParent';
 import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React from 'react';

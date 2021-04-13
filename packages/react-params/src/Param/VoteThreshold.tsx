@@ -9,7 +9,7 @@ import React, { useCallback } from 'react';
 import { ClassOf } from '@polkadot/types';
 import { bnToBn } from '@polkadot/util';
 
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 type TextMap = Record<number, string>;

@@ -7,10 +7,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from '../initValue';
-import { useTranslation } from '../translate';
-import { ParamDef, Props, RawParam } from '../types';
-import Params from '../';
+import getInitValue from '@canvas-ui/react-components/Params/initValue';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
+import Params from './Params';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 

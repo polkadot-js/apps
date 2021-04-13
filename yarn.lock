@@ -1362,7 +1362,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@canvas-ui/app-config@0.0.1, @canvas-ui/app-config@workspace:packages/app-config":
+"@canvas-ui/app-config@workspace:packages/app-config":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/app-config@workspace:packages/app-config"
   dependencies:
@@ -1376,6 +1376,11 @@ __metadata:
   resolution: "@canvas-ui/app-execute@workspace:packages/page-execute"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-params": "workspace:packages/react-params"
+    "@canvas-ui/react-signer": "workspace:packages/react-signer"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
   languageName: unknown
   linkType: soft
 
@@ -1384,6 +1389,12 @@ __metadata:
   resolution: "@canvas-ui/app-instantiate@workspace:packages/page-instantiate"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-params": "workspace:packages/react-params"
+    "@canvas-ui/react-signer": "workspace:packages/react-signer"
+    "@canvas-ui/react-store": "workspace:packages/react-store"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
   languageName: unknown
   linkType: soft
 
@@ -1392,6 +1403,11 @@ __metadata:
   resolution: "@canvas-ui/app-routing@workspace:packages/app-routing"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/app-config": "workspace:packages/app-config"
+    "@canvas-ui/app-execute": "workspace:packages/page-execute"
+    "@canvas-ui/app-settings": "workspace:packages/page-settings"
+    "@canvas-ui/app-upload": "workspace:packages/page-upload"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
   languageName: unknown
   linkType: soft
 
@@ -1400,9 +1416,10 @@ __metadata:
   resolution: "@canvas-ui/app-settings@workspace:packages/page-settings"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/app-config": 0.0.1
-    "@canvas-ui/react-components": 0.0.1
-    "@canvas-ui/react-query": 0.0.1
+    "@canvas-ui/app-config": "workspace:packages/app-config"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     file-saver: ^2.0.2
     query-string: ^6.13.1
   languageName: unknown
@@ -1413,6 +1430,12 @@ __metadata:
   resolution: "@canvas-ui/app-upload@workspace:packages/page-upload"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-signer": "workspace:packages/react-signer"
+    "@canvas-ui/react-store": "workspace:packages/react-store"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
   languageName: unknown
   linkType: soft
 
@@ -1422,9 +1445,14 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.10.1
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/react-components": 0.0.1
-    "@canvas-ui/react-signer": 0.0.1
-    "@polkadot/api-contract": ^3.11.2-3
+    "@canvas-ui/app-config": "workspace:packages/app-config"
+    "@canvas-ui/app-routing": "workspace:packages/app-routing"
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-query": "workspace:packages/react-query"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
+    "@polkadot/api-contract": ^3.4.2-3
     "@polkadot/dev": ^0.61.24
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.0.2
@@ -1448,24 +1476,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/react-api@0.0.1, @canvas-ui/react-api@workspace:packages/react-api":
+"@canvas-ui/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-api@workspace:packages/react-api"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@polkadot/api": ^3.11.2-3
+    "@canvas-ui/app-config": "workspace:packages/app-config"
+    "@polkadot/api": ^3.4.2-3
     "@polkadot/extension-dapp": ^0.26.0-beta.26
     rxjs-compat: ^6.5.5
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/react-components@0.0.1, @canvas-ui/react-components@workspace:packages/react-components":
+"@canvas-ui/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-components@workspace:packages/react-components"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/react-api": 0.0.1
-    "@canvas-ui/react-query": 0.0.1
+    "@canvas-ui/app-config": "workspace:packages/app-config"
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-store": "workspace:packages/react-store"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     "@fortawesome/fontawesome-svg-core": ^1.2.32
     "@fortawesome/free-regular-svg-icons": ^5.15.1
     "@fortawesome/free-solid-svg-icons": ^5.15.1
@@ -1506,6 +1538,10 @@ __metadata:
   resolution: "@canvas-ui/react-hooks@workspace:packages/react-hooks"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/app-config": "workspace:packages/app-config"
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-store": "workspace:packages/react-store"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     "@types/memoizee": ^0.4.4
     memoizee: ^0.4.14
   languageName: unknown
@@ -1516,25 +1552,48 @@ __metadata:
   resolution: "@canvas-ui/react-params@workspace:packages/react-params"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/react-components": 0.0.1
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/react-query@0.0.1, @canvas-ui/react-query@workspace:packages/react-query":
+"@canvas-ui/react-query@workspace:packages/react-query":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-query@workspace:packages/react-query"
   dependencies:
     "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
   languageName: unknown
   linkType: soft
 
-"@canvas-ui/react-signer@0.0.1, @canvas-ui/react-signer@workspace:packages/react-signer":
+"@canvas-ui/react-signer@workspace:packages/react-signer":
   version: 0.0.0-use.local
   resolution: "@canvas-ui/react-signer@workspace:packages/react-signer"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/react-components": 0.0.1
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    "@canvas-ui/react-components": "workspace:packages/react-components"
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
+    "@canvas-ui/react-params": "workspace:packages/react-params"
+    "@canvas-ui/react-util": "workspace:packages/react-util"
     "@polkadot/react-qr": ^0.65.2-2
+  languageName: unknown
+  linkType: soft
+
+"@canvas-ui/react-store@workspace:packages/react-store":
+  version: 0.0.0-use.local
+  resolution: "@canvas-ui/react-store@workspace:packages/react-store"
+  dependencies:
+    "@babel/runtime": ^7.10.2
+    "@canvas-ui/react-api": "workspace:packages/react-api"
+    eventemitter3: ^4.0.7
+    nanoid: ^3.1.10
+    react: ^16.13.1
+    store: ^2.0.12
   languageName: unknown
   linkType: soft
 
@@ -1543,7 +1602,7 @@ __metadata:
   resolution: "@canvas-ui/react-util@workspace:packages/react-util"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/react-api": 0.0.1
+    "@canvas-ui/react-api": "workspace:packages/react-api"
     "@polkadot/keyring": ^5.9.3-0
     "@polkadot/ui-keyring": ^0.65.2-2
     i18next: ^19.4.5
@@ -1554,6 +1613,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@canvas-ui/test-support@workspace:packages/test-support"
   dependencies:
+    "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@testing-library/react": ^11.2.3
     testcontainers: ^6.4.1
   languageName: unknown

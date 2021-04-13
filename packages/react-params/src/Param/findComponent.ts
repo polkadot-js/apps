@@ -8,13 +8,14 @@ import { getTypeDef } from '@polkadot/types';
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
-import { ComponentMap, Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
+import { ComponentMap } from '@canvas-ui/react-components/types'
 import Account from './Account';
 import Amount from './Amount';
 import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
-import Call from './Call';
+import Call from './CallDisplay';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import Enum from './Enum';

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // import { PromiseContract as Contract } from '@polkadot/api-contract';
-// import { CodeStored } from '@canvas-ui/app/types';
-import { IdentityIcon } from '@canvas-ui/react-components';
+// import { CodeStored } from '@canvas-ui/react-store/types';
+import { IdentityIcon } from '.';
 import { useAccountInfo } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import React from 'react';

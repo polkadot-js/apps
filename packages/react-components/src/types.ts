@@ -5,6 +5,7 @@
 import type { StringOrNull } from '@canvas-ui/react-util/types';
 import type { Icon as IconType, IconName } from '@fortawesome/fontawesome-svg-core';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { ConstructTxFn } from '@canvas-ui/react-hooks/types';
 
 import { TxState } from '@canvas-ui/react-hooks/types';
 import { WithTranslation } from 'react-i18next';
@@ -15,7 +16,12 @@ import { AccountId, Index } from '@polkadot/types/interfaces';
 
 import { ButtonProps } from './Button/types';
 import { InputAddressProps } from './InputAddress/types';
-import { TxCallback, TxFailedCallback } from './Status/types';
+import { TxCallback, TxFailedCallback } from '@canvas-ui/react-api/Status/types';
+
+import { ActionStatus } from '@canvas-ui/react-api/Status/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
+
+import { TypeDef } from '@polkadot/types/types';
 
 export interface BareProps {
   children?: React.ReactNode;
@@ -24,8 +30,6 @@ export interface BareProps {
 }
 
 export type I18nProps = BareProps & WithTranslation;
-
-export type ConstructTxFn = () => any[];
 
 export type TxTrigger = React.ComponentType<TxTriggerProps>;
 
@@ -152,3 +156,90 @@ export interface ThemeDef {
 export interface ThemeProps {
   theme: ThemeDef;
 }
+// New
+
+export interface AppNavigation {
+  deploy: VoidFn;
+  deployNew: (_: string, __?: number) => VoidFn;
+  deploySuccess: (_: string) => VoidFn;
+  execute: VoidFn;
+  executeAdd: VoidFn;
+  executeCall: (_: string, __?: number) => VoidFn;
+  upload: VoidFn;
+  uploadAdd: VoidFn;
+  uploadSuccess: (_: string) => VoidFn;
+}
+
+interface WithAppNavigation {
+  navigateTo ?: AppNavigation;
+}
+
+export interface WithBasePath {
+  basePath: string;
+}
+
+export interface ComponentProps extends BareProps, WithBasePath, WithAppNavigation {}
+
+export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
+  onStatusChange: (status: ActionStatus) => void;
+}
+
+export type ComponentMap = Record<string, React.ComponentType<Props>>;
+
+export type RawParamValue = unknown | undefined;
+
+export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
+
+export type RawParamValues = RawParamValue | RawParamValueArray;
+
+export interface RawParam {
+  isValid: boolean;
+  value: RawParamValues;
+}
+
+export type RawParams = RawParam[];
+
+export interface Props {
+  className?: string;
+  defaultValue: RawParam;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isInOption?: boolean;
+  isReadOnly?: boolean;
+  isOptional?: boolean;
+  label?: React.ReactNode;
+  name?: string;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  onEscape?: RawParamOnEscape;
+  // eslint-disable-next-line no-use-before-define
+  overrides?: ComponentMap;
+  type: TypeDef & { withOptionActive?: boolean };
+  withLabel?: boolean;
+}
+
+export interface RawParamOnChangeValue {
+  isValid: boolean;
+  value: RawParamValues;
+}
+
+export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
+export type RawParamOnEnter = () => void;
+export type RawParamOnEscape = () => void;
+
+
+export type Size = 'full' | 'large' | 'medium' | 'small';
+
+export interface ParamDef {
+  length?: number;
+  name?: string;
+  type: TypeDef;
+}
+
+export interface UseTxParams {
+  params: ParamDef[];
+  values: RawParams;
+  onChange: React.Dispatch<RawParams>;
+}
+
+export type UseTxParamsHook = [ParamDef[], RawParams, React.Dispatch<RawParams>];

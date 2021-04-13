@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import BaseBytes from './BaseBytes';
 import Static from './Static';
 

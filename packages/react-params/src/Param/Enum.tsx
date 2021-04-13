@@ -8,8 +8,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Enum } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
-import { ParamDef, Props, RawParam } from '../types';
-import Params from '../';
+import { ParamDef, Props } from '@canvas-ui/react-components/types';
+import { RawParam } from '@canvas-ui/react-components/types';
+import Params from './Params';
 import Bare from './Bare';
 import Static from './Static';
 

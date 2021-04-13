@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 
 import { isWasm } from '@polkadot/util';
 
-import { Props } from '../types';
+import { Props } from '@canvas-ui/react-components/types';
 import Bytes from './Bytes';
 import BytesFile from './File';
 

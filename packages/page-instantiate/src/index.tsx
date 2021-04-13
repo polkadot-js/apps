@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/app-instantiate authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props } from '@canvas-ui/app/types';
-import useCodes from '@canvas-ui/app/useCodes';
+import { AppProps as Props } from '@canvas-ui/react-components/types';
+import useCodes from '@canvas-ui/react-store/useCodes';
 import { WithLoader } from '@canvas-ui/react-components';
 import { useHasInstantiateWithCode } from '@canvas-ui/react-hooks';
 import React, { useMemo } from 'react';

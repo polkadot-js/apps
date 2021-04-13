@@ -3,7 +3,7 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { StatusContext } from '@canvas-ui/react-components';
-import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@canvas-ui/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@canvas-ui/react-api/Status/types';
 import { useApi, useScrollToTop } from '@canvas-ui/react-hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 

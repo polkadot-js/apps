@@ -3,9 +3,13 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { StatusContext } from '@canvas-ui/react-components';
-import { QueueTx, QueueTxMessageSetStatus } from '@canvas-ui/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus } from '@canvas-ui/react-api/Status/types';
 import { useApi } from '@canvas-ui/react-hooks';
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
+import ledgerSigner from './LedgerSigner';
+import { AddressFlags, AddressProxy } from './types';
+import { extractExternal, handleTxResults } from './util';
+
 import BN from 'bn.js';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -20,10 +24,6 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import keyring from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
-
-import ledgerSigner from './LedgerSigner';
-import { AddressFlags, AddressProxy } from './types';
-import { extractExternal, handleTxResults } from './util';
 
 interface UseSendTx {
   addQrSignature: (_: { signature: string }) => void;

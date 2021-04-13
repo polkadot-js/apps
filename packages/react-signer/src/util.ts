@@ -2,7 +2,7 @@
 // and @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@canvas-ui/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@canvas-ui/react-api/Status/types';
 
 import { SubmittableResult } from '@polkadot/api';
 import keyring from '@polkadot/ui-keyring';

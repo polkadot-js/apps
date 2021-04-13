@@ -5,7 +5,8 @@
 import { Button, Dropdown, Input, Toggle } from '@canvas-ui/react-components';
 import { BareProps as Props } from '@canvas-ui/react-components/types';
 import { useEndpoints, useSettings } from '@canvas-ui/react-hooks';
-import { classes, useEndpointOptions } from '@canvas-ui/react-util';
+import { classes } from '@canvas-ui/react-util';
+import { useEndpointOptions } from '@canvas-ui/react-hooks';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 

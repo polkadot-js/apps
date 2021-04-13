@@ -2,7 +2,7 @@
 // and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from '@canvas-ui/react-components/types';
+import { BareProps } from './types';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import React from 'react';
 import styled from 'styled-components';

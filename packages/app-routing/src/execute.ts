@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2021 @polkadot/app-routing authors & contributors
 // and @canvas-ui/app-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 

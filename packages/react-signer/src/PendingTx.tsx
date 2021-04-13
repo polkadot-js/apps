@@ -3,8 +3,8 @@
 
 import { registry as baseRegistry } from '@canvas-ui/react-api';
 import { Button, Data, InputAddress, Labelled } from '@canvas-ui/react-components';
-import { QueueTx } from '@canvas-ui/react-components/Status/types';
-import useSendTx from '@canvas-ui/react-signer/useSendTx';
+import { QueueTx } from '@canvas-ui/react-api/Status/types';
+import useSendTx from './useSendTx';
 import { truncate } from '@canvas-ui/react-util';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
@@ -12,9 +12,9 @@ import styled from 'styled-components';
 import { TypeRegistry } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
-import { ELEV_2_CSS } from './styles/constants';
-import { useTranslation } from './translate';
-import { BareProps } from './types';
+import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+import { useTranslation } from '@canvas-ui/react-components/translate';
+import { BareProps } from '@canvas-ui/react-components/types';
 
 interface Props extends BareProps {
   additionalDetails: Record<string, any>;

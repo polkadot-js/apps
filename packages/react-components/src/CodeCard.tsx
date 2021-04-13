@@ -1,10 +1,11 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/app/store';
-import { Code, ComponentProps } from '@canvas-ui/app/types';
-import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useAbi, useAppNavigation, useToggle } from '@canvas-ui/react-hooks';
+import store from '@canvas-ui/react-store/store';
+import { Code } from '@canvas-ui/react-store/types';
+import { ComponentProps } from './types';
+import { ELEV_2_CSS } from './styles/constants';
+import { useAbi, useToggle, useAppNavigation } from '@canvas-ui/react-hooks';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import React, { useCallback } from 'react';

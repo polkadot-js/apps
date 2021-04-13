@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @canvas-ui/react-util authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { getContractAbi } from '@canvas-ui/react-util';
+import { getContractAbi } from '.';
 
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise as Contract } from '@polkadot/api-contract';
