@@ -1403,8 +1403,8 @@ __metadata:
   resolution: "@canvas-ui/app-routing@workspace:packages/app-routing"
   dependencies:
     "@babel/runtime": ^7.10.2
-    "@canvas-ui/app-config": "workspace:packages/app-config"
     "@canvas-ui/app-execute": "workspace:packages/page-execute"
+    "@canvas-ui/app-instantiate": "workspace:packages/page-instantiate"
     "@canvas-ui/app-settings": "workspace:packages/page-settings"
     "@canvas-ui/app-upload": "workspace:packages/page-upload"
     "@canvas-ui/react-components": "workspace:packages/react-components"
@@ -1435,7 +1435,6 @@ __metadata:
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-signer": "workspace:packages/react-signer"
     "@canvas-ui/react-store": "workspace:packages/react-store"
-    "@canvas-ui/react-util": "workspace:packages/react-util"
   languageName: unknown
   linkType: soft
 
@@ -1451,6 +1450,7 @@ __metadata:
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-query": "workspace:packages/react-query"
+    "@canvas-ui/react-store": "workspace:packages/react-store"
     "@canvas-ui/react-util": "workspace:packages/react-util"
     "@polkadot/api-contract": ^3.4.2-3
     "@polkadot/dev": ^0.61.24
@@ -1578,7 +1578,6 @@ __metadata:
     "@canvas-ui/react-api": "workspace:packages/react-api"
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
-    "@canvas-ui/react-params": "workspace:packages/react-params"
     "@canvas-ui/react-util": "workspace:packages/react-util"
     "@polkadot/react-qr": ^0.65.2-2
   languageName: unknown
