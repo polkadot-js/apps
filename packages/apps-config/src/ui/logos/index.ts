@@ -57,6 +57,7 @@ import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import mybank from './nodes/mybank.png';
+import nodeNftmart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -121,6 +122,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['Parami PC2', nodeParami],
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
@@ -198,6 +201,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Node', nodeManta],
   ['Manta Parachain Collator', nodeManta],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Patract Node', nodeJupiter],
@@ -287,6 +292,7 @@ export const namedLogos: Record<string, unknown> = {
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
   mybank: mybank,
+  nftmart: nodeNftmart,
   nodle: nodeNodle,
   phala: nodePhala,
   phoenix: nodePhoenix,
