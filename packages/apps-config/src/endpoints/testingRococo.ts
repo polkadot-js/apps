@@ -73,7 +73,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoBifrost',
-        paraId: 107,
+        paraId: 1024,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
         providers: {
           Bifrost: 'wss://rococo-1.testnet.liebi.com'
