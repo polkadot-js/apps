@@ -2,7 +2,7 @@
 // and @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AppNavigation, AppPaths } from '@canvas-ui/app/types';
+import type { AppNavigation, AppPaths } from './types';
 
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';

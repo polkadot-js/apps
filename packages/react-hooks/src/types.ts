@@ -97,3 +97,27 @@ export interface UseEndpoints extends Endpoint {
   onChangeUrl: (_: string) => void;
   onChangeCustom: (_: boolean) => void;
 }
+
+export interface AppNavigation {
+  instantiate: VoidFn;
+  instantiateAdd: VoidFn;
+  instantiateNew: (_?: string, __?: number) => VoidFn;
+  instantiateSuccess: (_: string) => VoidFn;
+  execute: VoidFn;
+  executeAdd: VoidFn;
+  executeCall: (_: string, __?: number) => VoidFn;
+  upload: VoidFn;
+  uploadSuccess: (_: string) => VoidFn;
+}
+
+export interface AppPaths {
+  instantiate: string;
+  instantiateAdd: string;
+  instantiateNew: (_?: string, __?: number) => string;
+  instantiateSuccess: (_: string) => string;
+  execute: string;
+  executeAdd: string;
+  executeCall: (_: string, __?: number) => string;
+  upload: string;
+  uploadSuccess: (_: string) => string;
+}
