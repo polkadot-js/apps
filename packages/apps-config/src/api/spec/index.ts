@@ -69,6 +69,7 @@ import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
+import westlake from './westlake';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -157,6 +158,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  westlake: westlake,
   zeitgeist: zeitgeist
 };
 

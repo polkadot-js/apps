@@ -64,6 +64,7 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
+const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -96,6 +97,7 @@ const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
+const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -174,6 +176,7 @@ export const chainColors: Record<string, any> = [
   ['uni arts staging network', chainUniarts],
   ['Unique Node', chainUnique],
   ['Westend', chainWestend],
+  ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
   ['PHOENIX', chainPhoenix],
@@ -218,6 +221,7 @@ export const nodeColors: Record<string, any> = [
   ['Ternoa Node', nodeTernoa],
   ['uni arts node', nodeUniarts],
   ['Unique Node', nodeUnique],
+  ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink],

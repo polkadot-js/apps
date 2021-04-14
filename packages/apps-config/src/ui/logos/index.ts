@@ -84,6 +84,7 @@ import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
+import nodeWestlake from './nodes/datahighway.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -146,6 +147,7 @@ export const chainLogos: Record<string, unknown> = [
   ['uni arts staging network', nodeUniarts],
   ['Unique', chainUnique],
   ['Vln', nodeVln],
+  ['Westlake', nodeWestlake],
   ['PHOENIX PC1', nodePhoenix],
   ['mybank.network PC1', mybank],
   ['Unit Network', nodeUnitv]
@@ -246,6 +248,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['PHOENIX Collator', nodePhoenix],
   ['Unit Node', nodeUnitv],
   ['Unit Collator', nodeUnitv],
+  ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['mybank.network', mybank]
@@ -360,6 +363,7 @@ export const namedLogos: Record<string, unknown> = {
   unitv: nodeUnitv,
   vln: nodeVln,
   westend: nodePolkadot,
+  westlake: nodeWestlake,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
