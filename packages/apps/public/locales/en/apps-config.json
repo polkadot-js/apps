@@ -106,6 +106,7 @@
   "rpc.rococo.trustbase": "TrustBase PC1",
   "rpc.rococo.unitv": "Unit Network",
   "rpc.rococo.zenlink": "Zenlink PC1",
+  "rpc.riochain": "Riochain",
   "rpc.sgc": "Sgc",
   "rpc.sora-substrate": "SORA-staging",
   "rpc.stafi": "Stafi",

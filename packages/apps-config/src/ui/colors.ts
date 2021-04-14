@@ -48,6 +48,7 @@ const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
+const chainRiochain = '#4d87f6';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
 const chainSunrock = '#ffd13b';
@@ -86,6 +87,7 @@ const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
+const nodeRiochain = '#1A3BB3';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -160,6 +162,7 @@ export const chainColors: Record<string, any> = [
   ['Halongbay Testnet', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
+  ['Riochain Staging', chainRiochain],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
@@ -206,6 +209,7 @@ export const nodeColors: Record<string, any> = [
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['ReAlis Network', nodeRealis],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
