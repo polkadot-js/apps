@@ -2262,7 +2262,7 @@ __metadata:
   resolution: "@polkadot/app-custom-signature@workspace:packages/page-custom-signature"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@polkadot/react-components": ^0.78.2-41
+    "@polkadot/react-components": ^0.87.2-2
     ethereumjs-util: ^7.0.7
     secp256k1: ^3.8.0
   languageName: unknown
@@ -5469,6 +5469,13 @@ __metadata:
   version: 4.11.9
   resolution: "bn.js@npm:4.11.9"
   checksum: 31630d3560b28931010980886a0f657b37ce818ba237867cd838e89a1a0b71044fb4977aa56376616997b372bbb3f55d3bb25e5378c48c1d24a47bfb4235b60e
+  languageName: node
+  linkType: hard
+
+"bn.js@npm:^4.11.1":
+  version: 4.12.0
+  resolution: "bn.js@npm:4.12.0"
+  checksum: cfe7494de9c8a472c3534418f64f9c30a3f18134a8ad0c3ba4e0e934feb5d1a9110bba049a47ec6b79a1d649467df212f64ba6b22aaccbea0c3c208bef0b4110
   languageName: node
   linkType: hard
 
