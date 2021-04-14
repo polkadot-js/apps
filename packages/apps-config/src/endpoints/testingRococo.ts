@@ -57,6 +57,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 128,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
@@ -65,6 +68,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoAres',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 6,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
         providers: {
@@ -81,6 +87,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoBitCountry',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 8,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
@@ -89,6 +98,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoClover',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 229,
         text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
         providers: {
@@ -97,6 +109,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoCrab',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 9,
         text: t('rpc.rococo.crab', 'Darwinia Crab PC2', { ns: 'apps-config' }),
         providers: {
@@ -113,6 +128,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoChainX',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 59,
         text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
         providers: {
@@ -121,6 +139,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoDarwinia',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
@@ -129,6 +150,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoDataHighway',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 2,
         text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
         providers: {
@@ -145,6 +169,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoEquilibrium',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 42,
         text: t('rpc.rococo.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
         providers: {
@@ -153,6 +180,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoGalital',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 230,
         text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
@@ -185,6 +215,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoJupiter',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 24,
         text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
@@ -217,6 +250,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoMathChain',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 40,
         text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
@@ -225,6 +261,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoManta',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 777,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
@@ -241,6 +280,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoPhala',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 30,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
@@ -257,6 +299,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoPolkabtc',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 21,
         text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
         providers: {
@@ -281,6 +326,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoEave',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 77,
         text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
         providers: {
@@ -289,6 +337,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoSubDAO',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 888,
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
         providers: {
@@ -297,6 +348,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoSubsocial',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 28,
         text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
         providers: {
@@ -313,6 +367,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoZenlink',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 188,
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {
@@ -329,6 +386,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoSunrock',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 499,
         text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
         providers: {
@@ -337,6 +397,9 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoUnitv',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
         paraId: 3,
         text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
         providers: {
