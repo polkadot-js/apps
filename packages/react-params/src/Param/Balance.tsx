@@ -46,6 +46,3 @@ function Balance ({ className = '', defaultValue: { value }, isDisabled, isError
 
 export default React.memo(Balance);
 
-export {
-  Balance
-};

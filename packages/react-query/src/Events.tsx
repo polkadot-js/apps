@@ -84,4 +84,4 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
 
 const Events = React.memo(EventsBase);
 
-export { EventsContext, Events };
+export { Events };

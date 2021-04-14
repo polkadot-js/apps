@@ -17,11 +17,11 @@ interface UseSettings {
   settings: SettingsStruct;
 }
 
-export function save (settings: SettingsStruct): void {
+function save (settings: SettingsStruct): void {
   uiSettings.set(settings);
 }
 
-export function saveAndReload (settings: SettingsStruct): void {
+function saveAndReload (settings: SettingsStruct): void {
   save(settings);
 
   // HACK This is terribe, but since the API needs to re-connect, but since

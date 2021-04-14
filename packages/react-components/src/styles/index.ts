@@ -21,8 +21,6 @@ const defaultHighlight = '#2477B3'; // #999
 const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
 
-export * from './constants';
-
 export default createGlobalStyle<Props>`
   .ui--highlight--all {
     background: ${getHighlight} !important;

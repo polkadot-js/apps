@@ -11,7 +11,7 @@ import { ApiPromise } from '@polkadot/api';
 import { DefinitionRpcExt } from '@polkadot/types/types';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
-export interface ItemState {
+interface ItemState {
   currentItem: QueueTx | null;
   requestAddress: string | null;
 }

@@ -36,7 +36,7 @@ function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
   }
 }
 
-export function findMissingApis (api: ApiPromise, needsApi?: (string | string[])[]): (string | string[])[] {
+function findMissingApis (api: ApiPromise, needsApi?: (string | string[])[]): (string | string[])[] {
   if (!needsApi) {
     return [];
   }

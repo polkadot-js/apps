@@ -40,7 +40,7 @@ interface Props<Option> extends BareProps {
   withLabel?: boolean;
 }
 
-export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
+type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 

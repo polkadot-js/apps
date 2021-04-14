@@ -5,10 +5,7 @@
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import BN from 'bn.js';
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { IExtrinsic } from '@polkadot/types/types';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export type CallParam = any;
@@ -21,62 +18,6 @@ export interface CallOptions <T> {
   paramMap?: (params: any) => CallParams;
   transform?: (value: any) => T;
   withParams?: boolean;
-}
-
-export type TxDef = [string, any[] | ConstructTxFn];
-
-export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
-
-export type TxSource<T extends TxDefs> = [T, boolean];
-
-export type ConstructTxFn = () => any[];
-
-export interface ModalState {
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-}
-
-export interface Slash {
-  accountId: AccountId;
-  amount: Balance;
-}
-
-export interface SessionRewards {
-  blockHash: Hash;
-  blockNumber: BlockNumber;
-  isEventsEmpty: boolean;
-  reward: Balance;
-  sessionIndex: SessionIndex;
-  slashes: Slash[];
-}
-
-export interface ExtrinsicAndSenders {
-  extrinsic: SubmittableExtrinsic | null;
-  isSubmittable: boolean;
-  sendTx: () => void;
-  sendUnsigned: () => void;
-}
-
-export interface TxProps {
-  accountId?: StringOrNull;
-  onChangeAccountId?: (_: StringOrNull) => void;
-  onSuccess?: () => void;
-  onFailed?: () => void;
-  onStart?: () => void;
-  onUpdate?: () => void;
-}
-
-export interface TxState extends ExtrinsicAndSenders {
-  isSending: boolean;
-  accountId?: StringOrNull;
-  onChangeAccountId: (_: StringOrNull) => void;
-}
-
-export interface UseSudo {
-  allAccounts: string[];
-  sudoKey?: string;
-  isMine: boolean;
 }
 
 export interface AddressFlags extends DeriveAccountFlags {
@@ -122,25 +63,6 @@ export interface UseAccountInfo {
   onSaveTags: VoidFn;
   onSetGenesisHash: (genesisHash: string | null) => void;
   onForgetAddress: VoidFn;
-}
-
-export interface StakerState {
-  controllerId: string | null;
-  destination?: string;
-  destinationId: number;
-  exposure?: Exposure;
-  hexSessionIdNext: string | null;
-  hexSessionIdQueue: string | null;
-  isLoading: boolean;
-  isOwnController: boolean;
-  isOwnStash: boolean;
-  isStashNominating: boolean;
-  isStashValidating: boolean;
-  nominating?: string[];
-  sessionIds: string[];
-  stakingLedger?: StakingLedger;
-  stashId: string;
-  validatorPrefs?: ValidatorPrefs;
 }
 
 export interface UseWeight {

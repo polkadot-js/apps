@@ -12,8 +12,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@canvas-ui/app-instantiate": "workspace:packages/page-instantiate",
     "@canvas-ui/app-execute": "workspace:packages/page-execute",
+    "@canvas-ui/app-instantiate": "workspace:packages/page-instantiate",
     "@canvas-ui/app-settings": "workspace:packages/page-settings",
     "@canvas-ui/app-upload": "workspace:packages/page-upload",
     "@canvas-ui/react-components": "workspace:packages/react-components"

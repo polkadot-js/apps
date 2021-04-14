@@ -19,7 +19,7 @@ import Docs from './Docs';
 import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   isConstructor?: boolean;
   onSelect?: VoidFn;
   message: AbiMessage;

@@ -12,4 +12,3 @@ export enum SideBarTransition {
 }
 
 export const SIDEBAR_MENU_THRESHOLD = ScreenSizes.DESKTOP;
-export const SIDEBAR_TRANSITION_DURATION = 300;

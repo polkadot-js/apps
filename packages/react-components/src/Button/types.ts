@@ -3,9 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Icon as IconType, IconName } from '@fortawesome/fontawesome-svg-core';
-import type { BareProps } from '../types';
 
-export type Button$Callback = () => void | Promise<void>;
+type Button$Callback = () => void | Promise<void>;
 
 export interface ButtonProps {
   children?: React.ReactNode;
@@ -29,8 +28,6 @@ export interface ButtonProps {
   tooltip?: React.ReactNode;
   withoutLink?: boolean;
 }
-
-export type DividerProps = BareProps;
 
 export interface GroupProps {
   children?: React.ReactNode;

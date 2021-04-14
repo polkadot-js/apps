@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 const defaultColor = undefined; // '#f19135'
-const emptyColor = '#999';
 
 const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
@@ -45,6 +44,5 @@ const nodeColors: Record<string, any> = [
 export {
   defaultColor,
   chainColors,
-  emptyColor,
   nodeColors
 };

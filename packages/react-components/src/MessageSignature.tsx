@@ -16,7 +16,7 @@ import MessageArg from './MessageArg';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   message: AbiMessage;
   params?: CodecArg[];
   registry: TypeRegistry;

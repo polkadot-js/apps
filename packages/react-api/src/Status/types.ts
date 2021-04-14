@@ -8,7 +8,7 @@ import { SignerResult } from '@polkadot/api/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
-export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
+type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
 export interface ActionStatus {
   account?: AccountId | Address | string;
@@ -17,7 +17,7 @@ export interface ActionStatus {
   status: 'error' | 'event' | 'queued' | 'received' | 'success';
 }
 
-export interface AccountInfo {
+interface AccountInfo {
   accountId?: string | null;
 }
 
@@ -68,7 +68,7 @@ export interface QueueTxRpc extends AccountInfo {
   values: any[];
 }
 
-export interface PartialAccountInfo {
+interface PartialAccountInfo {
   accountId?: string | null;
 }
 
@@ -88,9 +88,9 @@ export interface PartialQueueTxRpc extends PartialAccountInfo {
   values: any[];
 }
 
-export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => void;
+type QueueTxRpcAdd = (value: PartialQueueTxRpc) => void;
 
-export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => void;
+type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => void;
 
 export type QueueTxPayloadAdd = (payload: SignerPayloadJSON, signerCb: SignerCallback) => void;
 

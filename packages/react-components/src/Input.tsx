@@ -80,19 +80,6 @@ const KEYS = {
 
 const KEYS_PRE: any[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
 
-// reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
-const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
-  isPreKeyDown && key === KEYS.C;
-
-const isCut = (key: string, isPreKeyDown: boolean): boolean =>
-  isPreKeyDown && key === KEYS.X;
-
-const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
-  isPreKeyDown && key === KEYS.V;
-
-const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
-  isPreKeyDown && key === KEYS.A;
-
 let counter = 0;
 
 function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, status, tabIndex, type = 'text', value, withEllipsis, withLabel, withStatus = false }: Props): React.ReactElement<Props> {
@@ -225,10 +212,6 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
 export default React.memo(Input);
 
 export {
-  isCopy,
-  isCut,
-  isPaste,
-  isSelectAll,
   KEYS,
   KEYS_PRE
 };

@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { ELEV_2_CSS, ELEV_3_CSS } from './styles/constants';
 import { useTranslation } from './translate';
 
-export interface Props extends BareProps {
+interface Props extends BareProps {
   docs?: string[];
   signature: React.ReactNode;
 }

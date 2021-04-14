@@ -17,7 +17,7 @@ import Labelled from './Labelled';
 import { useTranslation } from './translate';
 import { BareProps } from './types';
 
-export interface InputFileProps extends BareProps {
+interface InputFileProps extends BareProps {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string;

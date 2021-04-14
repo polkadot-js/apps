@@ -28,13 +28,6 @@ export interface Code extends CodeBase {
 //   contractAbi?: InkAbi;
 // }
 
-export interface ContractJsonOld {
-  genesisHash: string;
-  abi: string;
-  address: string;
-  name: string;
-}
-
 export interface WithCodes {
   allCodes: Code[];
   hasCodes: boolean;

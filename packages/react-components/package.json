@@ -25,30 +25,20 @@
     "@polkadot/ui-keyring": "^0.65.2-2",
     "@polkadot/ui-settings": "^0.65.2-2",
     "@tippyjs/react": "^4.2.0",
-    "chart.js": "^2.9.3",
-    "codeflask": "^1.4.1",
     "detect-browser": "^5.1.1",
     "i18next": "^19.4.5",
     "i18next-browser-languagedetector": "^4.2.0",
     "react": "^16.13.1",
-    "react-beautiful-dnd": "^13.0.0",
-    "react-chartjs-2": "^2.9.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
     "react-i18next": "^11.5.1",
     "react-is": "^16.13.1",
     "react-markdown": "^5.0.3",
-    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-tooltip": "^4.2.11",
-    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "store": "^2.0.12",
-    "styled-components": "^5.2.0",
-    "styled-theming": "^2.2.0"
-  },
-  "devDependencies": {
-    "@types/codeflask": "^1.4.1"
+    "styled-components": "^5.2.0"
   }
 }
