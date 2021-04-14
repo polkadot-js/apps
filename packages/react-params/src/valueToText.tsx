@@ -52,7 +52,7 @@ export default function valueToText (type: string, value: Codec | undefined | nu
 
   return div(
     {},
-    ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type)
+    ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type) && isFunction(value.toU8a)
       ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
       // HACK Handle Keys as hex-only (this should go away once the node value is
       // consistently swapped to `Bytes`)

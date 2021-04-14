@@ -25,6 +25,7 @@ import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
+import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCanvas from './nodes/canvas-2.png';
@@ -56,6 +57,7 @@ import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import mybank from './nodes/mybank.png';
+import nodeNftmart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -67,6 +69,7 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodeRealis from './nodes/realis.png';
+import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -92,6 +95,7 @@ import emptyLogo from './empty.svg';
 export const chainLogos: Record<string, unknown> = [
   ['Apron PC1', nodeApron],
   ['Ares PC1', nodeAres],
+  ['Beast Developer', nodeBeast],
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
   ['darwinia crab', nodeCrab],
@@ -119,6 +123,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['Parami PC2', nodeParami],
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
@@ -127,6 +133,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Phala PC1', nodePhala],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -136,7 +143,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],
   ['TrustBase PC1', nodeTrustBase],
-  ['Uniarts', nodeUniarts],
+  ['uni arts staging network', nodeUniarts],
   ['Unique', chainUnique],
   ['VLN PC', nodeVln],
   ['PHOENIX PC1', nodePhoenix],
@@ -157,6 +164,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Ares Parachain Collator', nodeAres],
   ['mandala node', nodeAcala],
   ['airalab-robonomics', nodeRobonomics],
+  ['Beast Node', nodeBeast],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
   ['BitCountry Node', nodeBitCountry],
@@ -195,6 +203,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Node', nodeManta],
   ['Manta Parachain Collator', nodeManta],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Patract Node', nodeJupiter],
@@ -210,6 +220,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -228,7 +239,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
-  ['Uniarts', nodeUniarts],
+  ['uni arts node', nodeUniarts],
   ['Unique Node', nodeUnique],
   ['Vln', nodeVln],
   ['VLN PC', nodeVln],
@@ -251,6 +262,7 @@ export const nodeLogos: Record<string, unknown> = [
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,
   canvas: nodeCanvas,
@@ -284,6 +296,7 @@ export const namedLogos: Record<string, unknown> = {
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
   mybank: mybank,
+  nftmart: nodeNftmart,
   nodle: nodeNodle,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -293,6 +306,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
   realis: nodeRealis,
+  riochain: nodeRiochain,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoApron: nodeApron,

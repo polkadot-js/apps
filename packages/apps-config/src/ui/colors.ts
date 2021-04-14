@@ -11,6 +11,7 @@ const emptyColor = '#99999';
 // alphabetical
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
+const chainBeastEave = '#900048';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
@@ -23,6 +24,7 @@ const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
+const chainNftmart = '#815287';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -46,6 +48,7 @@ const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
+const chainRiochain = '#4d87f6';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
 const chainSunrock = '#ffd13b';
@@ -54,7 +57,7 @@ const chainGalois = '#000000';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
-const chainUniarts = '#b39ef7';
+const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
@@ -80,16 +83,19 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
 const nodeMybank = '#282736';
+const nodeNftmart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
+const nodeRiochain = '#1A3BB3';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
+const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
@@ -106,6 +112,7 @@ export const chainColors: Record<string, any> = [
   ['Ares PC1', chainRoccoAres],
   ['Bifrost PC1', chainRoccoBifrost],
   ['Bit.Country Tewai Chain', chainBitCountry],
+  ['Beast Developer', chainBeastEave],
   ['ChainX', chainChainx],
   ['Clover', chainClover],
   ['crust maxwell', chainCrust],
@@ -141,6 +148,8 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
+  ['Nftmart Testnet', chainNftmart],
+  ['Nftmart Staging', chainNftmart],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala poc 3', chainPhala],
@@ -154,6 +163,7 @@ export const chainColors: Record<string, any> = [
   ['Halongbay Testnet', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
+  ['Riochain Staging', chainRiochain],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
@@ -162,7 +172,7 @@ export const chainColors: Record<string, any> = [
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
   ['TrustBase PC1', chainTrustBase],
-  ['Uniarts', chainUniarts],
+  ['uni arts staging network', chainUniarts],
   ['Unique Node', chainUnique],
   ['VLN PC', chainVln],
   ['Westend', chainWestend],
@@ -194,17 +204,21 @@ export const nodeColors: Record<string, any> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['nodle chain node', nodeNodle],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
   ['ReAlis Network', nodeRealis],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
+  ['uni arts node', nodeUniarts],
   ['Unique Node', nodeUnique],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],

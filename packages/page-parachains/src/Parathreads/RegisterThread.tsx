@@ -5,7 +5,7 @@ import type BN from 'bn.js';
 
 import React, { useCallback, useState } from 'react';
 
-import { InputAddress, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO, compactAddLength } from '@polkadot/util';
 
@@ -16,17 +16,12 @@ interface Props {
   onClose: () => void;
 }
 
-interface CodeState {
-  isWasmValid: boolean;
-  wasm: Uint8Array | null;
-}
-
 function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [paraId, setParaId] = useState<BN | undefined>();
-  const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
+  const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
   const _setGenesisState = useCallback(
@@ -35,7 +30,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
   );
 
   const _setWasm = useCallback(
-    (wasm: Uint8Array, isWasmValid: boolean) => setWasm({ isWasmValid, wasm }),
+    (data: Uint8Array) => setWasm(compactAddLength(data)),
     []
   );
 
@@ -63,12 +58,11 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
-          <InputWasm
+          <InputFile
             help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
-            isError={!isWasmValid}
+            isError={!wasm}
             label={t<string>('code')}
             onChange={_setWasm}
-            placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The genesis state for this parachain.')}>
@@ -84,7 +78,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!isWasmValid || !genesisState || !paraId?.gt(BN_ZERO)}
+          isDisabled={!wasm || !genesisState || !paraId?.gt(BN_ZERO)}
           onStart={onClose}
           params={[paraId, genesisState, wasm]}
           tx={api.tx.registrar.register}

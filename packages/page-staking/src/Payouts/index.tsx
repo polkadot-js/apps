@@ -159,7 +159,6 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
   const stakerPayoutsAfter = useStakerPayouts();
-  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
   const eraSelection = useMemo(
     () => getOptions(api, eraLength, historyDepth, t),
@@ -205,6 +204,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   ), [stashTotal]);
 
   const hasPayouts = isFunction(api.tx.staking.payoutStakers);
+  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
   return (
     <div className={className}>
@@ -222,7 +222,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
           />
           <PayButton
             isAll
-            isDisabled={isDisabled}
+            isDisabled={isInElection}
             payout={validators}
           />
         </Button.Group>
