@@ -30,10 +30,23 @@
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
+    "bn.js": "^4.11.9",
+    "react": "^16.13.1",
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/app-config": "workspace:packages/app-config",
     "@canvas-ui/react-api": "workspace:packages/react-api",
     "@canvas-ui/react-store": "workspace:packages/react-store",
-    "@canvas-ui/react-util": "workspace:packages/react-util"
+    "@canvas-ui/react-util": "workspace:packages/react-util",
+    "@canvas-ui/app": "workspace:packages/app",
+    "@polkadot/types": "^3.11.2-3",
+    "i18next": "^19.4.5",
+    "react-i18next": "^11.5.1",
+    "@polkadot/api-derive": "3.11.2-4",
+    "@polkadot/keyring": "^5.9.2",
+    "@polkadot/util": "^5.9.3-0",
+    "@polkadot/ui-keyring": "^0.65.2-2",
+    "@polkadot/api-contract": "^3.4.2-3",
+    "react-router-dom": "^5.2.0",
+    "@polkadot/ui-settings": "^0.65.2-2"
   }
 }
