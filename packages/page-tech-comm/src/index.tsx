@@ -36,7 +36,7 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Tech. committee')
+      text: t<string>('Overview')
     },
     {
       name: 'proposals',
@@ -46,12 +46,10 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/proposals`}>
           <Proposals

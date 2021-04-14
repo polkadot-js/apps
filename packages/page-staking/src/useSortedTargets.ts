@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { arrayFlatten, BN_MILLION, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
   activeEra: BN;
@@ -79,8 +79,8 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
-  const nominators: Record<string, boolean> = {};
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], Record<string, BN>] {
+  const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
@@ -125,12 +125,13 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       commissionPer: validatorPrefs.commission.unwrap().toNumber() / 10_000_000,
       exposure,
       isActive: !skipRewards,
+      isBlocking: !!(validatorPrefs.blocked && validatorPrefs.blocked.isTrue),
       isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),
       isFavorite: favorites.includes(key),
       isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
-        nominators[nominator] = true;
+        nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value.toBn());
 
         return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key)),
@@ -155,7 +156,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     };
   });
 
-  return [list, Object.keys(nominators)];
+  return [list, nominators];
 }
 
 function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
@@ -172,15 +173,18 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   // add the explicit stakedReturn
   !avgStaked.isZero() && elected.forEach((e): void => {
     if (!e.skipRewards) {
-      e.stakedReturn = inflation.stakedReturn * avgStaked.mul(BN_MILLION).div(e.bondTotal).toNumber() / BN_MILLION.toNumber();
+      const adjusted = avgStaked.mul(BN_HUNDRED).imuln(inflation.stakedReturn).div(e.bondTotal);
+
+      // in some cases, we may have overflows... protect against those
+      e.stakedReturn = (adjusted.gt(BN_MAX_INTEGER) ? BN_MAX_INTEGER : adjusted).toNumber() / BN_HUNDRED.toNumber();
       e.stakedReturnCmp = e.stakedReturn * (100 - e.commissionPer) / 100;
     }
   });
 
   // all validators, calc median commission
-  const minNominated = elected.reduce((min: BN, { minNominated }) => {
-    return min.isZero() || minNominated.lt(min)
-      ? minNominated
+  const minNominated = Object.values(nominators).reduce((min: BN, value) => {
+    return min.isZero() || value.lt(min)
+      ? value
       : min;
   }, BN_ZERO);
   const validators = sortValidators(arrayFlatten([elected, waiting]));
@@ -193,9 +197,15 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     : 0;
 
   // ids
-  const electedIds = elected.map(({ key }) => key);
   const waitingIds = waiting.map(({ key }) => key);
-  const validatorIds = arrayFlatten([electedIds, waitingIds]);
+  const validatorIds = arrayFlatten([
+    elected.map(({ key }) => key),
+    waitingIds
+  ]);
+  const nominateIds = arrayFlatten([
+    elected.filter(({ isBlocking }) => !isBlocking).map(({ key }) => key),
+    waiting.filter(({ isBlocking }) => !isBlocking).map(({ key }) => key)
+  ]);
 
   return {
     avgStaked,
@@ -203,7 +213,8 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
     minNominated,
-    nominators,
+    nominateIds,
+    nominators: Object.keys(nominators),
     totalIssuance,
     totalStaked,
     validatorIds,

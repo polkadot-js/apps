@@ -50,7 +50,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'crab',
       text: t('rpc.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
@@ -65,7 +65,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'darwinia',
       text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://cc1.darwinia.network',
+        'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
       }
     },
@@ -82,7 +82,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet4.edgewa.re',
+        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io'
       }
     },
@@ -90,7 +90,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://tge.equilibrium.io'
+        Equilibrium: 'wss://node.equilibrium.io'
       }
     },
     {
@@ -98,6 +98,14 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
+      }
+    },
+    {
+      info: 'snakenet',
+      text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
+      providers: {
+        HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io'
       }
     },
     {
@@ -113,7 +121,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'nodle',
       text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main1.nodleprotocol.io',
+        Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
       }
     },

@@ -2,24 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 type bountyTheme = {
-  dark:string;
-  light:string;
+  dark: string;
+  light: string;
 }
-
-export const bountyBorderColor: bountyTheme = {
-  dark: '#2f313c',
-  light: '#dfdfdf'
-};
-
-export const bountyColor: bountyTheme = {
-  dark: '#BDBDBD',
-  light: '#1a1b20'
-};
-
-export const bountyOddRowBackground: bountyTheme = {
-  dark: '#111218',
-  light: '#fff'
-};
 
 export const bountyLabelColor: bountyTheme = {
   dark: '#757575',

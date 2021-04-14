@@ -81,7 +81,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
       <td className='number together'>
         {remainingBlocks && end && (
           <>
-            <BlockToTime blocks={remainingBlocks} />
+            <BlockToTime value={remainingBlocks} />
             #{formatNumber(end)}
           </>
         )}

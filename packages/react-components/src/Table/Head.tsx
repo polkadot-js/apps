@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -15,10 +13,9 @@ interface Props {
   filter?: React.ReactNode;
   header?: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
-  hasTitle: boolean;
 }
 
-function Head ({ className = '', filter, hasTitle, header, isEmpty }: Props): React.ReactElement<Props> | null {
+function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!header?.length) {
     return null;
   }
@@ -38,7 +35,7 @@ function Head ({ className = '', filter, hasTitle, header, isEmpty }: Props): Re
             key={index}
             onClick={onClick}
           >
-            {index === 0 && hasTitle
+            {index === 0
               ? (
                 <h1>
                   <Icon
@@ -59,16 +56,16 @@ function Head ({ className = '', filter, hasTitle, header, isEmpty }: Props): Re
   );
 }
 
-export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Head)`
   position: relative;
   z-index: 1;
 
   th {
-    font: ${theme.fontSans};
-    font-weight: ${theme.fontWeightNormal};
-    padding: 0.75rem 1rem 0.25rem;
+    font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    padding: 0.375rem 1rem;
     text-align: right;
-    vertical-align: baseline;
+    vertical-align: middle;
     white-space: nowrap;
 
     h1, h2 {
@@ -76,6 +73,9 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
     }
 
     h1 {
+      display: table-cell;
+      vertical-align: middle;
+
       .ui--Icon {
         font-size: 1rem;
         margin-right: 0.5rem;
@@ -84,11 +84,11 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
     }
 
     &:first-child {
-      border-left: 1px solid ${theme.borderTable};
+      border-left: 1px solid var(--border-table);
     }
 
     &:last-child {
-      border-right: 1px solid ${theme.borderTable};
+      border-right: 1px solid var(--border-table);
     }
 
     &.address {
@@ -113,18 +113,26 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
       padding: 0 !important;
     }
 
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
+    }
+
     &.start {
       text-align: left;
     }
   }
 
   tr {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     text-transform: lowercase;
 
     &:first-child {
       th {
-        border-top: 1px solid ${theme.borderTable};
+        border-top: 1px solid var(--border-table);
       }
     }
 
@@ -144,8 +152,8 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
     &:not(.filter) {
       th {
-        color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+        color: var(--color-table-head);
       }
     }
   }
-`));
+`);
