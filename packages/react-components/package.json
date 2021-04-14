@@ -10,6 +10,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
+    "bn.js": "^4.11.9",
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/app-config": "workspace:packages/app-config",
     "@canvas-ui/react-api": "workspace:packages/react-api",
@@ -24,6 +25,8 @@
     "@polkadot/react-identicon": "^0.65.2-2",
     "@polkadot/ui-keyring": "^0.65.2-2",
     "@polkadot/ui-settings": "^0.65.2-2",
+    "@polkadot/api": "^3.4.2-3",
+    "@polkadot/api-contract": "^3.11.2-3",
     "@tippyjs/react": "^4.2.0",
     "detect-browser": "^5.1.1",
     "i18next": "^19.4.5",
@@ -39,6 +42,11 @@
     "react-tooltip": "^4.2.11",
     "semantic-ui-react": "^0.88.2",
     "store": "^2.0.12",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "@polkadot/api-derive": "3.11.2-4",
+    "@polkadot/types": "^3.11.2-3",
+    "@polkadot/util": "^5.9.3-0",
+    "tippy.js": "^6.2.0",
+    "@fortawesome/fontawesome-common-types": "^0.2.34"
   }
 }
