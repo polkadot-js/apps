@@ -408,6 +408,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoVln',
+        paraId: 3586,
         text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
         providers: {
           Valiu: 'wss://vln.valiu.dev'
