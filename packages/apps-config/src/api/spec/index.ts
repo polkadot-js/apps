@@ -67,6 +67,7 @@ import uniarts from './uniarts';
 import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
+import vlnrococo from './vln-rococo';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -79,6 +80,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   VLN: vln,
+  'VLN-PC': vlnrococo,
   acala,
   apron,
   'ares-parachain': aresParachain,

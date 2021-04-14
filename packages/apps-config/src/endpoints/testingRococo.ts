@@ -342,6 +342,13 @@ export function createRococo (t: TFunction): LinkOption[] {
         providers: {
           'Unit Network': 'wss://unitp.io'
         }
+      },
+      {
+        info: 'rococoVln',
+        text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
+        providers: {
+          Valiu: 'wss://vln.valiu.dev'
+        }
       }
     ]
   }]);
