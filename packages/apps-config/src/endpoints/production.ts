@@ -153,7 +153,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'westlake',
       text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
-        'DataHighway': 'wss://westlake.datahighway.com',
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ]);

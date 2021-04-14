@@ -197,7 +197,7 @@ const definitions: OverrideBundleDefinition = {
           hardware_auditor_account_id: 'u64'
         },
         MiningEligibilityProxy: '[u8; 16]',
-        'MiningEligibilityProxyIndex': 'u64',
+        MiningEligibilityProxyIndex: 'u64',
         MiningEligibilityProxyRewardRequest: {
           proxy_claim_requestor_account_id: 'AccountId',
           proxy_claim_total_reward_amount: 'Balance',
