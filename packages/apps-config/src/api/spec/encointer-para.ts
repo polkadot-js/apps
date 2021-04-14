@@ -25,14 +25,14 @@ const definitions: OverrideBundleDefinition = {
         ParticipantIndexType: 'u64',
         MeetupIndexType: 'u64',
         AttestationIndexType: 'u64',
-        CurrencyIdentifier: 'Hash',
+        CommunityIdentifier: 'Hash',
         BalanceType: 'i128',
         BalanceEntry: {
           principal: 'i128',
           last_update: 'BlockNumber'
         },
-        CurrencyCeremony: {
-          cid: 'CurrencyIdentifier',
+        CommunityCeremony: {
+          cid: 'CommunityIdentifier',
           cindex: 'CeremonyIndexType'
         },
         Location: {
@@ -47,14 +47,14 @@ const definitions: OverrideBundleDefinition = {
             'VerifiedLinked'
           ]
         },
-        CurrencyPropertiesType: {
+        CommunityPropertiesType: {
           name_utf8: 'Text',
           demurrage_per_block: 'i128'
         },
         ClaimOfAttendance: {
           claimant_public: 'AccountId',
           ceremony_index: 'CeremonyIndexType',
-          currency_identifier: 'CurrencyIdentifier',
+          community_identifier: 'CommunityIdentifier',
           meetup_index: 'MeetupIndexType',
           location: 'Location',
           timestamp: 'Moment',
@@ -68,12 +68,19 @@ const definitions: OverrideBundleDefinition = {
         ProofOfAttendance: {
           prover_public: 'AccountId',
           ceremony_index: 'CeremonyIndexType',
-          currency_identifier: 'CurrencyIdentifier',
+          community_identifier: 'CommunityIdentifier',
           attendee_public: 'AccountId',
           attendee_signature: 'Signature'
         },
         ShopIdentifier: 'Text',
-        ArticleIdentifier: 'Text'
+        ArticleIdentifier: 'Text',
+        PersonhoodUniquenessRating: 'Vec<u8>',
+        SybilResponse: {
+          _enum: [
+            'Unused',
+            'Faucet'
+          ]
+        }
       }
     }
   ]

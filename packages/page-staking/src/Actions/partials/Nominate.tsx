@@ -32,13 +32,14 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => nominateIds.includes(acc)),
+      ...favorites.filter((a) => nominateIds.includes(a)),
       // make sure the nominee is not in our favorites already
-      ...(nominating || []).filter((acc) => !favorites.includes(acc))
+      ...(nominating || []).filter((a) => !favorites.includes(a))
     ];
 
-    return shortlist
-      .concat(...(nominateIds.filter((acc) => !shortlist.includes(acc))));
+    return shortlist.concat(
+      ...(nominateIds.filter((a) => !shortlist.includes(a)))
+    );
   });
 
   useEffect((): void => {
@@ -52,6 +53,10 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
       onChange({ nominateTx: null });
     }
   }, [api, onChange, selected]);
+
+  const maxNominations = api.consts.staking.maxNominations
+    ? api.consts.staking.maxNominations.toNumber()
+    : MAX_NOMINATIONS;
 
   return (
     <div className={className}>
@@ -72,7 +77,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
           availableLabel={t<string>('candidate accounts')}
           defaultValue={nominating}
           help={t<string>('Filter available candidates based on name, address or short account index.')}
-          maxCount={MAX_NOMINATIONS}
+          maxCount={maxNominations}
           onChange={setSelected}
           valueLabel={t<string>('nominated accounts')}
         />

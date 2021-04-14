@@ -79,24 +79,38 @@ function Refund ({ allAccounts, className, myAccounts, paraId }: Props): React.R
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The type of withdrawal, all accounts or only own accounts (if available)')}>
-              <Dropdown
-                label={t<string>('withdrawal type')}
-                onChange={setWithdrawType}
-                options={typeOptions}
-                value={withdrawType}
-              />
-            </Modal.Columns>
+            {!api.tx.crowdloan.refund && (
+              <Modal.Columns hint={t<string>('The type of withdrawal, all accounts or only own accounts (if available)')}>
+                <Dropdown
+                  label={t<string>('withdrawal type')}
+                  onChange={setWithdrawType}
+                  options={typeOptions}
+                  value={withdrawType}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
-            <TxButton
-              accountId={accountId}
-              extrinsic={extrinsics}
-              icon='credit-card'
-              isDisabled={!extrinsics || !extrinsics.length || !accountId}
-              label={t<string>('Refund')}
-              onStart={toggleOpen}
-            />
+            {api.tx.crowdloan.refund
+              ? (
+                <TxButton
+                  accountId={accountId}
+                  icon='credit-card'
+                  label={t<string>('Refund')}
+                  onStart={toggleOpen}
+                  tx={api.tx.crowdloan.refund}
+                />
+              )
+              : (
+                <TxButton
+                  accountId={accountId}
+                  extrinsic={extrinsics}
+                  icon='credit-card'
+                  isDisabled={!extrinsics || !extrinsics.length || !accountId}
+                  label={t<string>('Refund')}
+                  onStart={toggleOpen}
+                />
+              )}
           </Modal.Actions>
         </Modal>
       )}
