@@ -213,6 +213,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'riochain',
+      text: t('rpc.riochain', 'Riochain', { ns: 'apps-config' }),
+      providers: {
+        RiochainStaging: 'wss://node.v1.staging.riochain.io'
+      }
+    },
+    {
       info: 'sgc',
       text: t('rpc.sgc', 'Sgc', { ns: 'apps-config' }),
       providers: {
@@ -289,6 +296,21 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
       providers: {
         MYBANK: 'wss://app.mybank.network/substrate'
+      }
+    },
+    {
+      info: 'unitv',
+      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
+      providers: {
+        'Unit Network': 'wss://unitventures.io/'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.nftmart', 'Nftmart', { ns: 'apps-config' }),
+      providers: {
+        NftmartDev: 'ws://8.136.111.191:9944',
+        NftmartStaging: 'ws://82.157.37.77:9944'
       }
     }
   ]);

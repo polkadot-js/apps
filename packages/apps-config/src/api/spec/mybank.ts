@@ -74,7 +74,7 @@ const definitions: OverrideBundleDefinition = {
           total_shares: 'Compact<u128>',
           total_rewards: 'Compact<u128>',
           total_withdrawn_rewards: 'Compact<u128>'
-        }
+        },
       }
     }
   ]
