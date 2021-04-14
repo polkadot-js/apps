@@ -1,5 +1,5 @@
 // Copyright 2017-2021 @polkadot/app-contracts authors & contributors
-// and @canvas-ui/app-contracts authors & contributors
+// and @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { StringOrNull } from '@canvas-ui/react-util/types';

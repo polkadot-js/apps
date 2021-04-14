@@ -1,5 +1,5 @@
-// Copyright 2017-2021 @polkadot/app-execute authors & contributors
-// and @canvas-ui/app-execute authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// and @canvas-ui/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppNavigation, AppPaths } from './types';
