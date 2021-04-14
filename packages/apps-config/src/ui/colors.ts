@@ -64,6 +64,7 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
+const chainVln = '#33cc33';
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -173,6 +174,7 @@ export const chainColors: Record<string, any> = [
   ['TrustBase PC1', chainTrustBase],
   ['uni arts staging network', chainUniarts],
   ['Unique Node', chainUnique],
+  ['VLN PC', chainVln],
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
