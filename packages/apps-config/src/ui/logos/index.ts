@@ -146,6 +146,7 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['uni arts staging network', nodeUniarts],
   ['Unique', chainUnique],
+  ['VLN PC', nodeVln],
   ['Vln', nodeVln],
   ['Westlake', nodeWestlake],
   ['PHOENIX PC1', nodePhoenix],

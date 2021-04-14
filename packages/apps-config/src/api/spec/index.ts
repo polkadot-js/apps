@@ -69,6 +69,7 @@ import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
+import vlnrococo from './vln-rococo';
 import westlake from './westlake';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
