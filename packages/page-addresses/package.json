@@ -1,11 +1,11 @@
 {
   "name": "@polkadot/app-addresses",
   "private": true,
-  "version": "0.87.2-7",
+  "version": "0.87.2-8",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.10",
-    "@polkadot/react-components": "^0.87.2-7",
+    "@polkadot/react-components": "^0.87.2-8",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
