@@ -1,5 +1,5 @@
 // Copyright 2017-2021 @polkadot/react-query authors & contributors
-// and @canvas-ui/react-query authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-api/types';

@@ -1,5 +1,5 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
-// and @canvas-ui/react-hooks authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';

@@ -1,5 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
-// and @canvas-ui/react-components authors & contributors
+// Copyright 2017-2021 @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import * as moment from 'moment';

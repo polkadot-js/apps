@@ -1,5 +1,5 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
-// and @canvas-ui/app-staking authors & contributors
+// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { classes, toShortAddress } from '@canvas-ui/react-util';
