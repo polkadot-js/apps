@@ -30,24 +30,24 @@
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
-    "bn.js": "^4.11.9",
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/app-config": "workspace:packages/app-config",
     "@polkadot/api": "^3.4.2-3",
+    "@polkadot/api-derive": "3.11.2-4",
     "@polkadot/api-rx": "^0.30.45",
     "@polkadot/extension-dapp": "^0.26.0-beta.26",
+    "@polkadot/extension-inject": "0.26.0-beta.27",
     "@polkadot/keyring": "^5.9.3-0",
+    "@polkadot/rpc-provider": "3.11.2-4",
     "@polkadot/types": "^3.11.2-3",
-    "@polkadot/util": "^5.9.3-0",
-    "@polkadot/util-crypto": "^5.9.3-0",
-    "rxjs": "^6.6.3",
-    "react": "^16.13.1",
     "@polkadot/ui-keyring": "^0.65.2-2",
     "@polkadot/ui-settings": "^0.65.2-2",
-    "@polkadot/extension-inject": "0.26.0-beta.27",
-    "@polkadot/api-derive": "3.11.2-4",
-    "@polkadot/rpc-provider": "3.11.2-4",
+    "@polkadot/util": "^5.9.3-0",
+    "@polkadot/util-crypto": "^5.9.3-0",
+    "bn.js": "^4.11.9",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6"
+    "enzyme-adapter-react-16": "^1.15.6",
+    "react": "^16.13.1",
+    "rxjs": "^6.6.3"
   }
 }
