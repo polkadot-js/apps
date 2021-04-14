@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Fix Elapsed formatting (previously would only show s units)
+
+
 ## 0.87.1 Apr 12, 2021
 
 Contributed:
