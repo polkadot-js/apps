@@ -175,6 +175,7 @@ export const chainColors: Record<string, any> = [
   ['TrustBase PC1', chainTrustBase],
   ['uni arts staging network', chainUniarts],
   ['Unique Node', chainUnique],
+  ['VLN PC', chainVln],
   ['Westend', chainWestend],
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],

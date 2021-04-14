@@ -82,6 +82,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   VLN: vln,
+  'VLN-PC': vlnrococo,
   acala,
   apron,
   'ares-parachain': aresParachain,
