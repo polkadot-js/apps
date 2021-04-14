@@ -2,39 +2,46 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, CandidatePendingAvailability, HeadData, Header, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
-import type { Codec } from '@polkadot/types/types';
-import type { EventMapInfo, QueuedAction } from './types';
+import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { Codec, ITuple } from '@polkadot/types/types';
+import type { LeasePeriod, QueuedAction } from '../types';
+import type { EventMapInfo, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
-import { useApi, useCall, useCallMulti, useParaApi } from '@polkadot/react-hooks';
+import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
+import ParachainInfo from './ParachainInfo';
+import Periods from './Periods';
 
 interface Props {
   bestNumber?: BN;
+  channelDst?: [HrmpChannelId, HrmpChannel][];
+  channelSrc?: [HrmpChannelId, HrmpChannel][];
   className?: string;
   id: ParaId;
   isScheduled?: boolean;
   lastBacked?: EventMapInfo;
   lastInclusion?: EventMapInfo;
   lastTimeout?: EventMapInfo;
+  leasePeriod?: LeasePeriod;
   nextAction?: QueuedAction;
   sessionValidators?: AccountId[] | null;
-  validators?: AccountId[];
+  validators?: ValidatorInfo[];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
 
 interface QueryState {
   headHex: string | null;
+  leases: number[];
   lifecycle: ParaLifecycle | null;
   paraInfo: ParaInfo | null;
   pendingAvail: CandidatePendingAvailability | null;
@@ -46,13 +53,10 @@ interface QueryState {
   watermark: BlockNumber | null;
 }
 
-const transformHeader = {
-  transform: (header: Header) => header.number.unwrap()
-};
-
 const optionsMulti = {
   defaultValue: {
     headHex: null,
+    leases: [],
     lifecycle: null,
     paraInfo: null,
     pendingAvail: null,
@@ -63,10 +67,13 @@ const optionsMulti = {
     updateAt: null,
     watermark: null
   },
-  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo]: QueryResult): QueryState => ({
+  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo, leases]: QueryResult): QueryState => ({
     headHex: headData.isSome
       ? sliceHex(headData.unwrap())
       : null,
+    leases: leases
+      .map((opt, index) => opt.isSome ? index : -1)
+      .filter((period) => period !== -1),
     lifecycle: optLifecycle.unwrapOr(null),
     paraInfo: optInfo.unwrapOr(null),
     pendingAvail: optPending.unwrapOr(null),
@@ -79,20 +86,19 @@ const optionsMulti = {
   })
 };
 
-function renderAddresses (list?: AccountId[]): JSX.Element[] | undefined {
-  return list?.map((id) => (
+function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
+  return list?.map((id, index) => (
     <AddressMini
       key={id.toString()}
+      nameExtra={indices && <>&nbsp;{`(${formatNumber(indices[index])})`}</>}
       value={id}
     />
   ));
 }
 
-function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion, lastTimeout, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { api: paraApi } = useParaApi(id);
-  const paraBest = useCall<BlockNumber>(paraApi?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const paraInfo = useCallMulti<QueryState>([
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
@@ -103,9 +109,18 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
     [api.query.hrmp.hrmpIngressChannelsIndex, id],
     [api.query.hrmp.hrmpWatermarks, id],
     [api.query.inclusion.pendingAvailability, id],
-    [api.query.registrar.paras, id]
+    [api.query.registrar.paras, id],
+    [api.query.slots.leases, id]
   ], optionsMulti);
   const [nonBacked, setNonBacked] = useState<AccountId[]>([]);
+
+  const channelCounts = useMemo(
+    () => [
+      channelDst ? channelDst.reduce((count, [, channel]) => count.iadd(channel.msgCount), new BN(0)) : BN_ZERO,
+      channelSrc ? channelSrc.reduce((count, [, channel]) => count.iadd(channel.msgCount), new BN(0)) : BN_ZERO
+    ],
+    [channelDst, channelSrc]
+  );
 
   const blockDelay = useMemo(
     () => bestNumber && (
@@ -119,7 +134,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   );
 
   const valRender = useCallback(
-    () => renderAddresses(validators),
+    () => renderAddresses(validators?.map(({ validatorId }) => validatorId), validators?.map(({ indexValidator }) => indexValidator)),
     [validators]
   );
 
@@ -149,7 +164,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
-      <td className='number media--1500'>
+      <td className='number media--1400'>
         {validators && validators.length !== 0 && (
           <Expander
             renderChildren={valRender}
@@ -163,12 +178,23 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           />
         )}
       </td>
-      <td className='start together hash'>{paraInfo.headHex}</td>
-      <td className='start media--1100'>
-        <Lifecycle
-          lifecycle={paraInfo.lifecycle}
-          nextAction={nextAction}
-        />
+      <td className='start together hash media--1500'>{paraInfo.headHex}</td>
+      <td className='start'>
+        {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
+          ? (
+            <>
+              {t<string>('Upgrading')}
+              <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
+              #{formatNumber(paraInfo.updateAt)}
+            </>
+          )
+          : (
+            <Lifecycle
+              lifecycle={paraInfo.lifecycle}
+              nextAction={nextAction}
+            />
+          )
+        }
       </td>
       <td className='all' />
       <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
@@ -178,27 +204,31 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           : paraInfo.watermark && formatNumber(paraInfo.watermark)
         }
       </td>
-      <td className='number no-pad-left'>
+      <td className='number no-pad-left media--800'>
         {lastBacked &&
           <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
         }
       </td>
-      <td className='number no-pad-left'>
+      <td className='number no-pad-left media--900'>
         {lastTimeout &&
           <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
         }
       </td>
-      <td className='number media--900 no-pad-left'>{paraBest && <>{formatNumber(paraBest)}</>}</td>
-      <td className='number media--1300'>
-        {paraInfo.updateAt && bestNumber && (
-          <>
-            <BlockToTime value={bestNumber.sub(paraInfo.updateAt)} />
-            #{formatNumber(paraInfo.updateAt)}
-          </>
-        )}
+      <td className='number no-pad-left'>
+        <ParachainInfo id={id} />
       </td>
       <td className='number media--1200'>
-        {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}
+        {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
+        {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
+      </td>
+      <td className='number no-pad-left media--1200'>
+        {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
+      </td>
+      <td className='number together media--1000'>
+        <Periods
+          leasePeriod={leasePeriod}
+          periods={paraInfo.leases}
+        />
       </td>
     </tr>
   );

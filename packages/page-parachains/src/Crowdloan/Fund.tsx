@@ -8,7 +8,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Digits, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Icon, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -16,7 +16,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
-import Withdraw from './Withdraw';
+import Refund from './Refund';
 
 interface Props {
   bestNumber?: BN;
@@ -43,14 +43,17 @@ function extractContributors (allAccounts: string[], keys: StorageKey[]): Contri
   };
 }
 
-function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised, retiring }, isCapped, isEnded, isRetired, isWinner, paraId, retireEnd } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
   const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew], useCallback(
-    ({ event: { data: [, fundIndex] } }: EventRecord) =>
-      (fundIndex as ParaId).eq(paraId),
+  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
+    ({ event: { data } }: EventRecord) =>
+      ((data.length === 1
+        ? data[0] // AllRefunded, PartiallyRefunded [ParaId]
+        : data[1] // Contributed, Withdrew [AccountId, ParaId, Balance]
+      ) as ParaId).eq(paraId),
     [paraId]
   ));
 
@@ -69,21 +72,12 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [depositor, isAccount]
   );
 
-  const [blocksLeft, retiringLeft] = useMemo(
-    () => bestNumber
-      ? [
-        end.gt(bestNumber)
-          ? end.sub(bestNumber)
-          : null,
-        retireEnd?.gt(bestNumber)
-          ? retireEnd.sub(bestNumber)
-          : null
-      ]
-      : [null, null],
-    [bestNumber, end, retireEnd]
+  const blocksLeft = useMemo(
+    () => bestNumber && end.gt(bestNumber)
+      ? end.sub(bestNumber)
+      : null,
+    [bestNumber, end]
   );
-
-  // TODO Dissolve should look at retirement and the actual period
 
   const percentage = useMemo(
     () => cap.isZero()
@@ -92,55 +86,44 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
     [cap, raised]
   );
 
-  const isLeaseOver = !!leasePeriod && (
+  const hasEnded = !blocksLeft && !!leasePeriod && (
     isWinner
       ? leasePeriod.currentPeriod.gt(lastSlot)
       : leasePeriod.currentPeriod.gt(firstSlot)
   );
-  const canContribute = isOngoing && blocksLeft && !isCapped && !isWinner && retiring.isFalse;
-  const canDissolve = raised.isZero() || (isRetired && isLeaseOver);
-  const canWithdraw = canDissolve || (!!(bestNumber && bestNumber.gt(end)) && isLeaseOver);
+  const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
+  const canDissolve = raised.isZero();
+  const canWithdraw = !raised.isZero() && hasEnded;
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(paraId)}</h1></td>
       <td className='badge'><ParaLink id={paraId} /></td>
-      <td>
+      <td className='media--800'>
         {isWinner
           ? t<string>('Winner')
-          : isRetired
-            ? t<string>('Retired')
-            : retiring.isTrue
-              ? t<string>('Retiring')
-              : blocksLeft
-                ? isCapped
-                  ? t<string>('Capped')
-                  : isOngoing
-                    ? t<string>('Active')
-                    : t<string>('Past')
-                : t<string>('Ended')
+          : blocksLeft
+            ? isCapped
+              ? t<string>('Capped')
+              : isOngoing
+                ? t<string>('Active')
+                : t<string>('Past')
+            : t<string>('Ended')
         }
       </td>
       <td className='address media--1400'><AddressMini value={depositor} /></td>
-      {!isOngoing && (
-        <td className='all number together'>
-          {(isRetired || retiring.isTrue) && (
-            <>
-              {retiringLeft && (
-                <BlockToTime value={retiringLeft} />
-              )}
-              #{formatNumber(retireEnd)}
-            </>
-          )}
-        </td>
-      )}
-      <td className={`all number together${isOngoing ? '' : ' media--1200'}`}>
+      <td className='all number together media--1100'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
         #{formatNumber(end)}
       </td>
-      <td className='number'><Digits value={`${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`} /></td>
+      <td className='number all together'>
+        {firstSlot.eq(lastSlot)
+          ? formatNumber(firstSlot)
+          : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        }
+      </td>
       <td className='number together'>
         <FormatBalance
           value={raised}
@@ -150,7 +133,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         />
         <div>{percentage}</div>
       </td>
-      <td className='number media--1100'>
+      <td className='number'>
         {uniqueKeys.length !== 0 && (
           formatNumber(uniqueKeys.length)
         )}
@@ -161,9 +144,9 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
           icon='asterisk'
         />
       </td>
-      <td className='button'>
+      <td className='button media--1300'>
         {canWithdraw && uniqueKeys.length !== 0 && (
-          <Withdraw
+          <Refund
             allAccounts={uniqueKeys}
             myAccounts={myAccounts}
             paraId={paraId}
@@ -176,7 +159,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
             isDisabled={!isDepositor}
             label={
               isEnded
-                ? t<string>('Dissolve')
+                ? t<string>('Close')
                 : t<string>('Cancel')
             }
             params={[paraId]}

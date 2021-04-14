@@ -11,9 +11,9 @@ import { Button, Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react
 import { useAccounts, useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { RANGES } from '../constants';
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
+import useRanges from '../useRanges';
 
 interface Props {
   auctionInfo?: AuctionInfo;
@@ -36,6 +36,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const bestNumber = useBestNumber();
+  const ranges = useRanges();
   const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [range, setRange] = useState(0);
@@ -49,14 +50,14 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
 
       const leasePeriod = auctionInfo.leasePeriod.toNumber();
 
-      return RANGES.map(([first, last], value): Option => ({
+      return ranges.map(([first, last], value): Option => ({
         firstSlot: leasePeriod + first,
         lastSlot: leasePeriod + last,
         text: `${formatNumber(leasePeriod + first)} - ${formatNumber(leasePeriod + last)}`,
         value
       }));
     },
-    [auctionInfo]
+    [auctionInfo, ranges]
   );
 
   const currentWinner = useMemo(
@@ -89,9 +90,9 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               onChange={setOwnerInfo}
               ownedIds={ownedIds}
             />
-            <Modal.Columns hint={t<string>('The first and last lease period for this bid. The last lease period should be after the first and a maximum of 3 more than the first.')}>
+            <Modal.Columns hint={t<string>('The first and last lease period for this bid. The last lease period should be after the first with the maximum determined by the auction config.')}>
               <Dropdown
-                label={t<string>('bid period range (first period - last period)')}
+                label={t<string>('bid period range (first lease - last lease)')}
                 onChange={setRange}
                 options={rangeOpts}
                 value={range}
@@ -99,7 +100,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
             </Modal.Columns>
             <Modal.Columns hint={
               <>
-                <p>{t<string>('The amount to to bid for this parachain period range.')}</p>
+                <p>{t<string>('The amount to to bid for this parachain lease period range.')}</p>
                 <p>{t<string>('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
             }>
@@ -125,7 +126,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               isDisabled={!paraId || isAmountError || !auctionInfo?.leasePeriod}
               label={t<string>('Bid')}
               onStart={toggleOpen}
-              params={[paraId, auctionInfo?.numAuctions, auctionInfo?.leasePeriod?.addn(RANGES[range][0]), auctionInfo?.leasePeriod?.addn(RANGES[range][1]), amount]}
+              params={[paraId, auctionInfo?.numAuctions, auctionInfo?.leasePeriod?.addn(ranges[range][0]), auctionInfo?.leasePeriod?.addn(ranges[range][1]), amount]}
               tx={api.tx.auctions.bid}
             />
           </Modal.Actions>

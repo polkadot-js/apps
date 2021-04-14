@@ -1,5 +1,90 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Fix Elapsed formatting (previously would only show s units)
+
+
+## 0.87.1 Apr 12, 2021
+
+Contributed:
+
+- Update Kilt types (Thanks to https://github.com/wischli)
+- Update Zero types (Thanks to https://github.com/2075)
+- Add Polkafoundry chain (Thanks to https://github.com/thanhtung6824)
+- Update Acala endpoint (Thanks to https://github.com/qwer951123)
+- Add Equilibrium Rococo endpoint (Thanks to https://github.com/mn13)
+- Add Galois SessionKey type (Thanks to https://github.com/hging)
+- Update Datahighway endpoint (Thanks to https://github.com/cgroeschel)
+- Add Zeitgeist (Thanks to https://github.com/lsaether)
+- Add Subsocial Rococo parachain (Thanks to https://github.com/siman)
+- Add Parami Rococo parachain (Thanks to https://github.com/chenwei767)
+- Update Robonomics types (Thanks to https://github.com/akru)
+- Add Galitial Rococo parachain (Thanks to https://github.com/masterdubs)
+- Update Jupiter types (Thanks to https://github.com/ii-ii-ii)
+- Update SubDAO logo (Thanks https://github.com/chenwei767)
+- Add Sunrock Rococo parachain (Thanks to https://github.com/crystalin)
+- Update Edgeware live endpoint (Thanks to https://github.com/ShankarWarang)
+- Add Mybank network (Thanks to https://github.com/armatrix)
+- Add Steam & Beast Rococo parachain (Thanks to https://github.com/johnwhitton)
+- Update Unit network logo (Thanks to https://github.com/paulhealy09)
+- Update Encointer types (Thanks to https://github.com/brenzi)
+- Add Apron network (Thanks to https://github.com/Apron2050)
+- Add Manta Rococo parachain (Thanks to https://github.com/zhenfeizhang)
+- Correct Bifrost usage (Thanks to https://github.com/awesomepan)
+- Update Uart test types (Thanks to https://github.com/tianxiemaochiyu)
+- Update Mandala paraId (Thanks to https://github.com/xlc)
+- Update PolkaFoundry paraId (Thanks to https://github.com/hoangnl2112)
+- Update Clover types (Thanks to https://github.com/pangwa)
+
+Changes:
+
+- Extend parachain support to cater for new Rococo usages
+- Display parachain specVersion (in addition to best block)
+- Move batch transaction creation into hook (& apply to all uses)
+
+
+## 0.86.2 Mar 29, 2021
+
+Contributed:
+
+- Adjustments for Crust pinning (Thanks to https://github.com/zikunfan)
+- Adjustments for KILT XCM types (Thanks to https://github.com/wischli)
+
+
+## 0.86.1 Mar 29, 2021
+
+Contributed:
+
+- Change global menu styling (Thanks to https://github.com/MiZiet)
+- Update Unique colors & types (Thanks to https://github.com/gregzaitsev)
+- Update Sora types (Thanks to https://github.com/modbrin)
+- Update Realis network (Thanks to https://github.com/Daelon02)
+- Update PolkaBtc types (thanks to https://github.com/gregdhill)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update Acala endpoints (Thanks to https://github.com/xlc)
+- Update Darwinia Crab logo (Thanks to https://github.com/sxlwar)
+- Update Darwinia Crab RPC & types (thanks to https://github.com/WoeOm)
+- Update Clover types (Thanks to https://github.com/pangwa & https://github.com/superpw)
+- Updata Equilibrium types (Thanks to https://github.com/pr0fedt)
+- Add Phoenix chain to Rococo (Thanks to https://github.com/yuyunhong)
+- Add Litentry testnet (Thanks to https://github.com/chenzongxiong)
+- Update types for DOTMog (Thanks to https://github.com/darkfriend77)
+- Fix language on staking (Thanks to https://github.com/SimonKraus)
+- Add pinning of apps UI IPFS to Crust (Thanks to https://github.com/zikunfan)
+
+Changes:
+
+- Display justifications in block explorer
+- Expansion of crowdloan, auctions & parachain views
+- Basic functionality for asset module
+- Adjust ordering of democracy & tips buttons
+- Cater for new Rococo chain reset/deployment
+- Ensure treasury does not depend on council or tips
+
+
 ## 0.85.1 Mar 22, 2021
 
 Contributed:
@@ -30,7 +115,7 @@ Contributed:
 - Update Moonbeam types (Thanks to https://github.com/joelamouche)
 - Update PolkaBTC types (Thanks to https://github.com/savudani8)
 - Update Kilt types (Thanks to https://github.com/wischli)
-- Update Bitfrost types (Thanks to https://github.com/awesomepan)
+- Update Bifrost types (Thanks to https://github.com/awesomepan)
 - Update Bit.Country paraId (Thanks to https://github.com/justinphamnz)
 - Update Dusty types (Thanks to https://github.com/akru)
 - Update Zenlink types (Thanks to https://github.com/Hayden0323)
@@ -292,7 +377,7 @@ Contributed:
 - Add Plasm Rococo endpoint (thanks to https://github.com/akru)
 - Add Robonomics Rococo endpoint (Thanks to https://github.com/akru)
 - Add Mandala Rococo endpoint (Thanks to https://github.com/ntduan)
-- Add Bitfrost Rococo endpoint (thanks to https://github.com/awesomepan)
+- Add Bifrost Rococo endpoint (thanks to https://github.com/awesomepan)
 - Add Kilt Rococo endpoint (Thanks to https://github.com/wischli)
 - Patract Elara Rococo endpoints (Thanks to https://github.com/toxotguo)
 - Add types for upcoming Rococo Encointer (Thanks to https://github.com/brenzi)
@@ -472,7 +557,7 @@ Contributed:
 - Add first area around bounties, the existing display (Thanks to https://github.com/krzysztof-jelski)
 - Adjust import ordering with plugin (Thanks to https://github.com/ekowalsk)
 - Add Polkadot/Kusama endpoints via PatractLabs (Thanks to https://github.com/toxotguo)
-- Add types for Bitfrost testnet (Thaks to https://github.com/janpo)
+- Add types for Bifrost testnet (Thaks to https://github.com/janpo)
 - Adjust Crust network types & logo (Thanks to https://github.com/zikunfan)
 - Adjust types for Phala poc-3 (Thanks to https://github.com/LusWar)
 - Move to typesBundle for Moonbeam (Thanks to https://github.com/joelamouche)
@@ -551,7 +636,7 @@ Contributed:
 - Update types of Cantillon testnet (Thanks to https://github.com/brenzi)
 - Update types of Gesell testnet (Thanks to https://github.com/brenzi)
 - Add Darwinia network (Thanks to https://github.com/WoeOm)
-- Add Bitfrost Asgard testnet (Thanks to https://github.com/janpo)
+- Add Bifrost Asgard testnet (Thanks to https://github.com/janpo)
 
 Changes:
 

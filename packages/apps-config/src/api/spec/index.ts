@@ -4,6 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import apron from './apron';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
@@ -22,11 +23,13 @@ import datahighwayParachain from './datahighway';
 import dock from './dock';
 import dotmog from './dotmog';
 import dusty from './dusty';
+import eave from './eave';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
+import galital from './galital';
 import galois from './galois';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
@@ -38,8 +41,12 @@ import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
+import manta from './manta';
 import moonbeam from './moonbeam';
+import mybank from './mybank';
+import nftmart from './nftmart';
 import nodle from './nodle';
+import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
@@ -48,6 +55,7 @@ import plasmParachain from './plasm-parachain';
 import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import realis from './realis';
+import riochain from './riochain';
 import robonomics from './robonomics';
 import sgc from './sgc';
 import snowbridge from './snowbridge';
@@ -57,9 +65,13 @@ import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
-import uniarts from './uniarts';
+import uart from './uart';
 import unique from './unique';
+import unitv from './unitv';
 import vln from './vln';
+import vlnrococo from './vln-rococo';
+import westlake from './westlake';
+import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
 
@@ -71,7 +83,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   VLN: vln,
+  'VLN-PC': vlnrococo,
   acala,
+  apron,
   'ares-parachain': aresParachain,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
@@ -85,8 +99,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'clover-rococo': cloverRococo,
   crust,
   'crust-parachain': crust,
+  'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   'datahighway-parachain': datahighwayParachain,
+  dawn: eave,
   'dev-parachain': zenlink,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
@@ -96,6 +112,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
+  'galital-collator': galital,
   'hack-hydra-dx': hydrate,
   hanonycash,
   'hydra-dx': hydrate,
@@ -108,15 +125,19 @@ const spec: Record<string, OverrideBundleDefinition> = {
   laminar,
   litentry,
   mandala: acala,
+  manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
+  'mybank.network Testnet': mybank,
   nft: unique,
+  nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
   'phoenix-node': phoenix,
@@ -124,17 +145,23 @@ const spec: Record<string, OverrideBundleDefinition> = {
   plasm,
   'plasm-parachain': plasmParachain,
   realis,
+  'riochain-runtime': riochain,
   robonomics,
   'sgc-node': sgc,
   snowbridge,
   'sora-substrate': soraSubstrate,
   stafi,
+  steam: eave,
   subdao,
   subsocial,
   subzero: zero,
   ternoa,
   trustbase,
-  uniarts
+  uart,
+  'unit-node': unitv,
+  'unit-parachain': unitv,
+  westlake: westlake,
+  zeitgeist: zeitgeist
 };
 
 export default spec;

@@ -82,7 +82,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet4.edgewa.re',
+        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io'
       }
     },
@@ -147,6 +147,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network'
+      }
+    },
+    {
+      info: 'westlake',
+      text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ]);
