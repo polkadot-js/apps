@@ -580,7 +580,7 @@
   "The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.": "Связанная пара стэша и контроллера. Эта операция, устанавливающая ключи сессии, будет выполнена через контроллер",
   "The stash that is to be affected. The transaction will be sent from the associated controller account.": "Используемый стэш аккаунт. Транзакция будет выполнена через привязанный контроллер аккаунт.",
   "The suggested value for this tip": "Предложенная сумма для чаевых",
-  "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "Адрес Ethereum, который Вы использовали на предпродаже (начинается с \"0x\")",
+  "The Ethereum address you used during the pre-sale (starting by \"0x\")": "Адрес Ethereum, который Вы использовали на предпродаже (начинается с \"0x\")",
   "The threshold for approval should be less or equal to the number of signatories for this multisig.": "Порог одобрения должна быть меньше или равна количеству подписантов этой мультиподписи",
   "The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.": "Порог одобрения и заддержка служат защите аккаунта. Заддержка должна быть достаточной для предотвращения нелегитимных процедур восстановления",
   "The threshold for this multisig": "Порог для этого мультисига",
