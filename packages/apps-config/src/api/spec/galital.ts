@@ -32,7 +32,36 @@ const definitions: OverrideBundleDefinition = {
           r: 'H256',
           s: 'H256'
         },
-        Keys: 'SessionKeys5'
+        ClassId: 'u64',
+        TokenId: 'u64',
+        ClassData: 'Vec<u8>',
+        TokenData: 'Vec<u8>',
+        ReportReason: {
+          _enum: [
+            'None',
+            'Illigal',
+            'Plagiarism',
+            'Duplicate',
+            'Reported'
+          ]
+        },
+        ClassInfoOf: {
+          metadata: 'Vec<u8>',
+          total_issuance: 'TokenId',
+
+          owner: 'AccountId',
+          class_data: 'ClassData'
+        },
+        ExtendedInfo: {
+          display_flag: 'bool',
+          report: 'ReportReason',
+          frozen: 'bool'
+        },
+        TokenInfoOf: {
+          metadata: 'Vec<u8>',
+          owner: 'AccountId',
+          class_data: 'ClassData'
+        }
       }
     }
   ]
