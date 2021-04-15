@@ -133,6 +133,7 @@ export const chainColors: Record<string, any> = [
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
+  ['HydraDX Snakenet Gen2', chainSnakenet],
   ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
   ['Jupiter A1', chainJupiter],
