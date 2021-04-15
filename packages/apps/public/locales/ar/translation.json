@@ -696,7 +696,7 @@
   "The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.": ".زوج وحدة التحكم والتخزين . سيتم إرسال هذه المعاملة، التي تقوم بتعيين مفاتيح الجلسة، من وحدة التحكم",
   "The stash that is to be affected. The transaction will be sent from the associated controller account.": ".التخزين الذي يجب أن يتأثر. سيتم إرسال المعاملة من حساب وحدة التحكم المرتبط",
   "The suggested value for this tip": "القيمة المقترحة  لهذه البقشيش",
-  "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "(\\\"0x\\\"عنوان إيثريوم الذي استخدمته أثناء فترة ما قبل البيع (بدءًا من",
+  "The Ethereum address you used during the pre-sale (starting by \"0x\")": "(\\\"0x\\\"عنوان إيثريوم الذي استخدمته أثناء فترة ما قبل البيع (بدءًا من",
   "The threshold for approval should be less or equal to the number of signatories for this multisig.": ".ينبغي أن تكون عتبة الموافقة أقل أو مساوية لعدد الموقعين على هذا الاتفاق المتعدد الأطراف",
   "The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.": ".الحد الأقصى للموافقات والتأخير هو الحماية المرتبطة بالحساب.  ينبغي أن يكون التأخير إلى الحد الذي يسمح لأي محاولات اختراق بعرض نافذة التوقف",
   "The threshold for this multisig": "عتبة  الاتفاق  المتعدد الأطراف",

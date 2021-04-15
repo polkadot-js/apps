@@ -766,7 +766,7 @@
   "The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.": "Pasangan simpanan dan pengontrol. Transaksi ini, pengaturan kunci sesi, akan dikirim dari pengontrol.",
   "The stash that is to be affected. The transaction will be sent from the associated controller account.": "Simpanan yang akan terpengaruh. Transaksi akan dikirim dari akun pengontrol terkait.",
   "The suggested value for this tip": "Nilai yang disarankan untuk tip ini",
-  "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "Alamat Ethereum yang Anda gunakan selama pra-penjualan (dimulai dengan \"0x\")",
+  "The Ethereum address you used during the pre-sale (starting by \"0x\")": "Alamat Ethereum yang Anda gunakan selama pra-penjualan (dimulai dengan \"0x\")",
   "The threshold for approval should be less or equal to the number of signatories for this multisig.": "Ambang persetujuan harus kurang atau sama dengan jumlah penandatangan multisig ini.",
   "The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.": "Ambang persetujuan dan penundaan adalah perlindungan yang terkait dengan akun. Penundaan harus sedemikian rupa sehingga setiap upaya pemulihan yang berkolusi memiliki jendela untuk berhenti.",
   "The threshold for this multisig": "Ambang multisig ini",

@@ -786,7 +786,7 @@
   "The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.": "La coppia stash - controller. Questa transazione, configurando le chiavi di sessione, può essere inviata dal controller",
   "The stash that is to be affected. The transaction will be sent from the associated controller account.": "Lo stash che sarà coinvolto. La transazione sarà inviata dal controller associato",
   "The suggested value for this tip": "Il valore suggerito per questa mancia",
-  "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "L'indirizzo Ethereum che avete usato durante la prevendita (a partire da \"0x\")",
+  "The Ethereum address you used during the pre-sale (starting by \"0x\")": "L'indirizzo Ethereum che avete usato durante la prevendita (a partire da \"0x\")",
   "The threshold for approval should be less or equal to the number of signatories for this multisig.": "La soglia per l'approvazione deve essere minore o uguale al numero totale dei firmatari del multisig",
   "The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.": "La soglia per gli approvals e la latenza è la protezione associata all'account.",
   "The threshold for this multisig": "La soglia di questo multisig",
