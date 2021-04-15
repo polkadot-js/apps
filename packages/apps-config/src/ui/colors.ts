@@ -33,6 +33,7 @@ const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
+const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKilt = '#8c175b';
 const chainKusama = '#000000';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
@@ -88,6 +89,7 @@ const nodeNftmart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
+const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
 const nodeRiochain = '#1A3BB3';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
@@ -162,6 +164,8 @@ export const chainColors: Record<string, any> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['Prism Testnet', chainPrism],
+  ['Prism PC1', chainPrism],
   ['Halongbay Testnet', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
@@ -214,6 +218,8 @@ export const nodeColors: Record<string, any> = [
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Prism Node', nodePrism],
+  ['Prism Collator', nodePrism],
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
