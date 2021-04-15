@@ -214,9 +214,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'riochain',
-      text: t('rpc.riochain', 'Riochain', { ns: 'apps-config' }),
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
-        RiochainStaging: 'wss://node.v1.staging.riochain.io'
+        'RioChain Staging': 'wss://node.v1.staging.riochain.io'
       }
     },
     {
