@@ -761,7 +761,7 @@
   "The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.": "스태시 르기고 콘트롤러 페어. 이번 거래, 콘트롤러가 세션키 설정을 보냅니다",
   "The stash that is to be affected. The transaction will be sent from the associated controller account.": "영향을 받은 스태시. 이번 거래를 관련 콘트롤러 계정 에서 보냅니다.",
   "The suggested value for this tip": "팀의 제안하는 값",
-  "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "프리세일에 참가한  (\"0x\"로 시작하는) 이더리움 주소",
+  "The Ethereum address you used during the pre-sale (starting by \"0x\")": "프리세일에 참가한  (\"0x\"로 시작하는) 이더리움 주소",
   "The threshold for approval should be less or equal to the number of signatories for this multisig.": "승인이 되기 위해 달성해야하는 승인치 기준은 다중 서명에 참여하는 서명인의 수보다 작거나 같아야 합니다.",
   "The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.": "승인을 위한 승인치 기준과 지연시간은 계정의 보호를 위한 것입니다. 지연시간은 어떤 종류의 복구시도가 들어와도 해당 시도를 중지할 수 있는 창을 가지고 있어야 합니다.",
   "The threshold for this multisig": "다중 서명을 위한 승인치",

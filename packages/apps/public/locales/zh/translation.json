@@ -741,7 +741,7 @@
   "The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.": "存储和控制账户对。这个设置 session 密钥的交易将从控制账户发送。",
   "The stash that is to be affected. The transaction will be sent from the associated controller account.": "受影响的存储账户。交易将从关联的控制帐户发送。",
   "The suggested value for this tip": "这个小费的建议值",
-  "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "你在售前使用的以太坊地址(以\"0x\"开始)",
+  "The Ethereum address you used during the pre-sale (starting by \"0x\")": "你在售前使用的以太坊地址(以\"0x\"开始)",
   "The threshold for approval should be less or equal to the number of signatories for this multisig.": "批准阈值应该少于或等于此多重签名的签署人数量。",
   "The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.": "批准阈值和延迟是对此账户的保护。延迟应该是这样的：任何合谋的行为都有一个被叫停的时间窗口。",
   "The threshold for this multisig": "用于此多重签名的阈值",
