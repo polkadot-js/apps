@@ -1,17 +1,17 @@
 {
   "name": "@polkadot/app-accounts",
   "private": true,
-  "version": "0.87.2-13",
+  "version": "0.87.2-14",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@polkadot/phishing": "^0.6.88",
-    "@polkadot/react-components": "^0.87.2-13",
+    "@polkadot/react-components": "^0.87.2-14",
     "@polkadot/vanitygen": "^0.31.1",
     "detect-browser": "^5.2.0",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.87.2-13"
+    "@polkadot/test-support": "0.87.2-14"
   }
 }
