@@ -206,6 +206,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'prism',
+      text: t('rpc.prism', 'Prism', { ns: 'apps-config' }),
+      providers: {
+        Prism: 'wss://testnet.psm.link'
+      }
+    },
+    {
       info: 'realis',
       text: t('rpc.realis', 'Realis.Network', { ns: 'apps-config' }),
       providers: {
