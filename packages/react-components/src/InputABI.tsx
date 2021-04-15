@@ -2,7 +2,6 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import React from 'react';
 import styled from 'styled-components';
@@ -12,6 +11,7 @@ import { Abi } from '@polkadot/api-contract';
 import InputFile from './InputFile';
 import Messages from './Messages';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   abi?: Abi | null;

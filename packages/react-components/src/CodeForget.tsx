@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code } from '@canvas-ui/react-store/types';
 import { useNotification, useToggle } from '@canvas-ui/react-hooks';
+import { Code } from '@canvas-ui/react-store/types';
 import { truncate } from '@canvas-ui/react-util';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import React, { useCallback } from 'react';

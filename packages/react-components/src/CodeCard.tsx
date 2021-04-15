@@ -1,16 +1,15 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useAbi, useAppNavigation, useToggle } from '@canvas-ui/react-hooks';
+import { FileState } from '@canvas-ui/react-hooks/types';
 import store from '@canvas-ui/react-store/store';
 import { Code } from '@canvas-ui/react-store/types';
-import { ComponentProps } from './types';
-import { ELEV_2_CSS } from './styles/constants';
-import { useAbi, useToggle, useAppNavigation } from '@canvas-ui/react-hooks';
-import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
+import { ELEV_2_CSS } from './styles/constants';
 import Abi from './Abi';
 import Button from './Button';
 import Card from './Card';
@@ -18,6 +17,7 @@ import CodeForget from './CodeForget';
 import CodeInfo from './CodeInfo';
 import CodeUploadABI from './CodeUploadABI';
 import { useTranslation } from './translate';
+import { ComponentProps } from './types';
 
 interface Props extends ComponentProps {
   code: Code;

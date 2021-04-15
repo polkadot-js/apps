@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
-import { useApi } from '@canvas-ui/react-hooks';
 import { Props, RawParam } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 
 import ExtrinsicDisplay from './Extrinsic';

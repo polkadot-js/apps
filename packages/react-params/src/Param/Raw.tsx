@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Input } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useCallback, useState } from 'react';
 
 import { Codec } from '@polkadot/types/types';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {

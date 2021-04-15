@@ -2,10 +2,10 @@
 // and @canvas-ui/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SUBSTRATE_PORT } from '../substrate';
-
 import { ApiPromise } from '@polkadot/api/promise';
 import { WsProvider } from '@polkadot/rpc-provider';
+
+import { SUBSTRATE_PORT } from '../substrate';
 
 export async function createApi (): Promise<ApiPromise> {
   process.env.NODE_ENV = 'test';

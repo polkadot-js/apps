@@ -2,8 +2,6 @@
 // and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { VoidFn } from '@canvas-ui/react-util/types';
-
 import { AnyJson } from '@polkadot/types/types';
 
 interface CodeBase {
@@ -17,4 +15,3 @@ interface CodeBase {
 export interface Code extends CodeBase {
   abi?: AnyJson | null;
 }
-

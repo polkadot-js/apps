@@ -4,7 +4,6 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import { useApi } from '.';
 import { timeToString } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import { useMemo } from 'react';
@@ -12,6 +11,7 @@ import { useMemo } from 'react';
 import { BN_ONE, extractTime } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+import { useApi } from '.';
 
 type Result = [number, string];
 

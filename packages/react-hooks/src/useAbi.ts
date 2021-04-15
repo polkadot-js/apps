@@ -4,7 +4,6 @@
 
 import store from '@canvas-ui/react-store/store';
 import { Code } from '@canvas-ui/react-store/types';
-import { useApi } from '.';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -14,6 +13,7 @@ import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import { FileState } from './types';
+import { useApi } from '.';
 
 interface UseAbi {
   abi: Abi | null;

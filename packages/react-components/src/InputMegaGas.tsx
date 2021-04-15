@@ -2,7 +2,6 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
 import { UseWeight } from '@canvas-ui/react-hooks/types';
 import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
@@ -15,6 +14,7 @@ import InputNumber from './InputNumber';
 import Progress from './Progress';
 import Toggle from './Toggle';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   estimatedWeight?: BN;

@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { InputAddress } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useCallback, useState } from 'react';
 
 import keyring from '@polkadot/ui-keyring';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 function Account ({ className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, withLabel }: Props): React.ReactElement<Props> {

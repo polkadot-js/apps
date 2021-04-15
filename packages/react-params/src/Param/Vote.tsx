@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Dropdown } from '@canvas-ui/react-components';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { Props } from '@canvas-ui/react-components/types';
 import BN from 'bn.js';
 import React, { useRef } from 'react';
 
 import { GenericVote } from '@polkadot/types';
 
-import { useTranslation } from '@canvas-ui/react-components/Params/translate';
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 function doChange (onChange?: (value: any) => void): (_: number) => void {

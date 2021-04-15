@@ -1,15 +1,15 @@
 // Copyright 2017-2021 @canvas-ui/app-instantiate authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Code } from '@canvas-ui/react-store/types';
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
-import PendingTx from '@canvas-ui/react-signer/PendingTx'
-import { ContractParams } from '@canvas-ui/react-params'
-import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useAbi, useAccountId, useApi, useGasWeight, useNonEmptyString, useNonZeroBn, useAppNavigation } from '@canvas-ui/react-hooks';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
 import { extractValues } from '@canvas-ui/react-components/Params/values';
+import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
+import { useAbi, useAccountId, useApi, useAppNavigation, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
+import { ContractParams } from '@canvas-ui/react-params';
+import PendingTx from '@canvas-ui/react-signer/PendingTx';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
+import { Code } from '@canvas-ui/react-store/types';
 import { truncate } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';

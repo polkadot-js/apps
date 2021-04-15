@@ -31,12 +31,4 @@ export interface Options {
 
 export type RenderFn = (value?: any) => React.ReactNode;
 
-
 export type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<any>;
-
-
-
-
-
-
-

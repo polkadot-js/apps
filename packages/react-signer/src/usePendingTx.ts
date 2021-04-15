@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
-import { StatusContext } from '@canvas-ui/react-components';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@canvas-ui/react-api/Status/types';
+import { StatusContext } from '@canvas-ui/react-components';
 import { useApi, useScrollToTop } from '@canvas-ui/react-hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 

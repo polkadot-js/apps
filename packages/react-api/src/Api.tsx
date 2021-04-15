@@ -9,8 +9,6 @@ import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
 import { typesChain, typesSpec } from '@canvas-ui/app-config/api';
-import StatusContext from './Status/Context';
-import ApiSigner from './ApiSigner';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api/promise';
@@ -23,7 +21,9 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
+import StatusContext from './Status/Context';
 import ApiContext from './ApiContext';
+import ApiSigner from './ApiSigner';
 import registry from './typeRegistry';
 
 interface Props {

@@ -2,7 +2,6 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
 import { classes } from '@canvas-ui/react-util';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import Tippy from '@tippyjs/react';
@@ -18,6 +17,7 @@ import Button from './Button';
 import Docs from './Docs';
 import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   isConstructor?: boolean;

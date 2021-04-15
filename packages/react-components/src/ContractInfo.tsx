@@ -3,7 +3,6 @@
 
 // import { PromiseContract as Contract } from '@polkadot/api-contract';
 // import { CodeStored } from '@canvas-ui/react-store/types';
-import { IdentityIcon } from '.';
 import { useAccountInfo } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import React from 'react';
@@ -14,6 +13,7 @@ import EditButton from './EditButton';
 import Input from './Input';
 import ItemInfo from './ItemInfo';
 import { BareProps } from './types';
+import { IdentityIcon } from '.';
 
 interface Props extends BareProps {
   address: string;

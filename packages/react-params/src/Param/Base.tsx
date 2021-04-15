@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Labelled } from '@canvas-ui/react-components';
+import { Size } from '@canvas-ui/react-components/types';
 import React from 'react';
 
-import { Size } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 interface Props {

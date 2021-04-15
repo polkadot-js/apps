@@ -4,13 +4,13 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { Input, InputNumber } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
 import { ClassOf } from '@polkadot/types';
 import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, type, withLabel }: Props): React.ReactElement<Props> {

@@ -2,13 +2,13 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BitLengthOption } from './constants';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
 
+import { BitLengthOption } from './constants';
 import InputNumber from './InputNumber';
 import { BareProps, BitLength } from './types';
 

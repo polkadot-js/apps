@@ -9,9 +9,9 @@ import 'tippy.js/dist/tippy.css'; // optional
 import '@canvas-ui/react-components/i18n';
 
 import { Api } from '@canvas-ui/react-api';
+import { BlockAuthors } from '@canvas-ui/react-components/BlockAuthors';
 import Queue from '@canvas-ui/react-components/Status/Queue';
 import { Events } from '@canvas-ui/react-query';
-import { BlockAuthors } from '@canvas-ui/react-components/BlockAuthors'
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';

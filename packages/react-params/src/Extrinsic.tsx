@@ -3,9 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import InputExtrinsic from '@canvas-ui/react-components/InputExtrinsic';
-import { BareProps } from '@canvas-ui/react-components/types';
-import Params from './Param/Params';
-import { RawParam } from '@canvas-ui/react-components/types';
+import { BareProps, RawParam } from '@canvas-ui/react-components/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -13,6 +11,7 @@ import { GenericCall, getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 import { isUndefined } from '@polkadot/util';
 
+import Params from './Param/Params';
 import paramComponents from './Param';
 
 interface Props extends BareProps {

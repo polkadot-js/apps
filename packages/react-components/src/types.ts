@@ -5,16 +5,12 @@
 import type { Icon as IconType, IconName } from '@fortawesome/fontawesome-svg-core';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
+import { ActionStatus, TxCallback, TxFailedCallback } from '@canvas-ui/react-api/Status/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 import { WithTranslation } from 'react-i18next';
 
 // import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { AccountId, Index } from '@polkadot/types/interfaces';
-
-import { TxCallback, TxFailedCallback } from '@canvas-ui/react-api/Status/types';
-
-import { ActionStatus } from '@canvas-ui/react-api/Status/types';
-import { VoidFn } from '@canvas-ui/react-util/types';
-
 import { TypeDef } from '@polkadot/types/types';
 
 export interface BareProps {
@@ -24,7 +20,6 @@ export interface BareProps {
 }
 
 export type I18nProps = BareProps & WithTranslation;
-
 
 export interface TxButtonProps {
   accountId?: AccountId | string | null;
@@ -153,7 +148,6 @@ export interface RawParamOnChangeValue {
 export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
 export type RawParamOnEnter = () => void;
 export type RawParamOnEscape = () => void;
-
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
 

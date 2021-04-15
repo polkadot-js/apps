@@ -2,8 +2,8 @@
 // and @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useApi } from '@canvas-ui/react-hooks';
 import { Props } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React from 'react';
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';

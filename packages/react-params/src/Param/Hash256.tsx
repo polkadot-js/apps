@@ -2,9 +2,9 @@
 // and @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Props } from '@canvas-ui/react-components/types';
 import React from 'react';
 
-import { Props } from '@canvas-ui/react-components/types';
 import BaseBytes from './BaseBytes';
 
 function Hash256 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {

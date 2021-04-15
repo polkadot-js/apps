@@ -5,8 +5,6 @@
 
 import { AnyJson } from '@polkadot/types/types';
 
-
-
 interface CodeBase {
   id: string;
   codeHash: string;

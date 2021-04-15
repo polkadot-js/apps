@@ -3,12 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
+import { ParamDef } from '@canvas-ui/react-components/types';
 import { useEffect, useState } from 'react';
 
 import { getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
-
-import { ParamDef } from '@canvas-ui/react-components/types';
 
 function expandDef (td: TypeDef): TypeDef {
   try {

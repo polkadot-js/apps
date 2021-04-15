@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Input } from '@canvas-ui/react-components';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useEffect, useState } from 'react';
 
 import { DispatchError } from '@polkadot/types/interfaces';
 
-import { useTranslation } from '@canvas-ui/react-components/Params/translate';
-import { Props } from '@canvas-ui/react-components/types';
 import Static from './Static';
 import Unknown from './Unknown';
 

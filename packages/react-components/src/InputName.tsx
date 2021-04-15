@@ -2,12 +2,12 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import React from 'react';
 
 import Input from './Input';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   isBusy?: boolean;

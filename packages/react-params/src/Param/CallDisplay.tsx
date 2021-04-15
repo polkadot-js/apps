@@ -1,13 +1,13 @@
 // Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Call from '../Call'
 import { Static } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import React from 'react';
 
 import { Extrinsic } from '@polkadot/types/interfaces';
 
-import { Props } from '@canvas-ui/react-components/types';
+import Call from '../Call';
 import Bare from './Bare';
 import Unknown from './Unknown';
 

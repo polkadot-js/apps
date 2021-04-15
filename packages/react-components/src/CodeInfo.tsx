@@ -2,9 +2,9 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useNonEmptyString, useToggle } from '@canvas-ui/react-hooks';
 import store from '@canvas-ui/react-store/store';
 import { Code } from '@canvas-ui/react-store/types';
-import { useNonEmptyString, useToggle } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import { faFile } from '@fortawesome/free-regular-svg-icons';
 import React, { useCallback } from 'react';

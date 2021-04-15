@@ -3,15 +3,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Input } from '@canvas-ui/react-components';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '@canvas-ui/react-components/types';
 import React, { useCallback, useState } from 'react';
 
 import { TypeDef } from '@polkadot/types/types';
 import { compactAddLength, hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useTranslation } from '@canvas-ui/react-components/Params/translate';
-import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '@canvas-ui/react-components/types';
-import { RawParam } from '@canvas-ui/react-components/types'
 import Bare from './Bare';
 
 interface Props {

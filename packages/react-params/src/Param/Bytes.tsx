@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Toggle } from '@canvas-ui/react-components';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { compactAddLength } from '@polkadot/util';
 
-import { useTranslation } from '@canvas-ui/react-components/Params/translate';
-import { Props } from '@canvas-ui/react-components/types';
 import BaseBytes from './BaseBytes';
 import File from './File';
 

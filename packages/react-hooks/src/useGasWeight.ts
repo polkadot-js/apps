@@ -4,11 +4,12 @@
 import type { Weight } from '@polkadot/types/interfaces';
 import type { UseWeight } from './types';
 
-import { useApi, useBlockTime } from '.';
 import BN from 'bn.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { BN_MILLION, BN_TEN, BN_ZERO } from '@polkadot/util';
+
+import { useApi, useBlockTime } from '.';
 
 export default function useWeight (): UseWeight {
   const { api } = useApi();

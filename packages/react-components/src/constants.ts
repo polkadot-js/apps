@@ -12,4 +12,3 @@ export const ScreenSizes = {
   PHONE: 576,
   TABLET: 768
 };
-

@@ -2,8 +2,8 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import store from '@canvas-ui/react-store/store';
 import { useToggle } from '@canvas-ui/react-hooks';
+import store from '@canvas-ui/react-store/store';
 import React, { useCallback } from 'react';
 
 // import { VoidFn } from '@canvas-ui/react-util/types';

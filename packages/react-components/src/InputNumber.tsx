@@ -2,6 +2,7 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { TokenUnit } from '@canvas-ui/react-api/Api';
 import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -16,7 +17,6 @@ import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
 import { BareProps, BitLength } from './types';
-import { TokenUnit } from '@canvas-ui/react-api/Api'
 
 interface Props extends BareProps {
   autoFocus?: boolean;

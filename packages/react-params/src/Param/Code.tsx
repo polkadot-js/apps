@@ -2,11 +2,11 @@
 // and @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useCallback, useState } from 'react';
 
 import { isWasm } from '@polkadot/util';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bytes from './Bytes';
 import BytesFile from './File';
 

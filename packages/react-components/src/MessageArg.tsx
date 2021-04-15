@@ -2,13 +2,13 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps, ParamDef } from './types';
 import React from 'react';
 
 import { encodeTypeDef } from '@polkadot/types';
 import { CodecArg, Registry } from '@polkadot/types/types';
 
 import Data from './Data';
+import { BareProps, ParamDef } from './types';
 
 interface Props extends BareProps {
   arg?: ParamDef;

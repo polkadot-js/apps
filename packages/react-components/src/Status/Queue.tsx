@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry } from '@canvas-ui/react-api';
+import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
+import { QueueProvider } from '@canvas-ui/react-api/Status/Context';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@canvas-ui/react-api/Status/types';
 import React, { useCallback, useRef, useState } from 'react';
 
 import { SubmittableResult } from '@polkadot/api';
@@ -14,9 +17,6 @@ import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
 import { u8aToString } from '@polkadot/util';
 
 import { BareProps } from '../types';
-import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
-import { QueueProvider } from '@canvas-ui/react-api/Status/Context';
-import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@canvas-ui/react-api/Status/types';
 
 interface Props extends BareProps {
   children: React.ReactNode;

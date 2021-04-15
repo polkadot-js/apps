@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createEndpoints } from '@canvas-ui/app-config/settings';
-import { useApi } from '.';
-import { UseEndpoints } from './types';
 import { classes } from '@canvas-ui/react-util';
 import { TFunction } from 'i18next';
 import React, { useMemo } from 'react';
+
+import { UseEndpoints } from './types';
+import { useApi } from '.';
 
 export default function useEndpointOptions ({ isCustom, url }: UseEndpoints, t: TFunction, useShortText?: boolean): React.ReactNode[] {
   const { isApiConnected } = useApi();

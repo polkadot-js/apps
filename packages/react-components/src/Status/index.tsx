@@ -2,9 +2,11 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { QueueStatus, QueueTx, QueueTxStatus } from '@canvas-ui/react-api/Status/types';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
+import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
+import StatusContext from '@canvas-ui/react-api/Status/Context';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -14,8 +16,6 @@ import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { ELEV_4_CSS } from '../styles/constants';
 import { useTranslation } from '../translate';
-import { STATUS_COMPLETE } from '@canvas-ui/react-api/Status/constants';
-import StatusContext from '@canvas-ui/react-api/Status/Context';
 
 export { StatusContext };
 

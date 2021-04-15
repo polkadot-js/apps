@@ -1,19 +1,19 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps } from './types';
-import { ELEV_2_CSS } from './styles/constants';
 import { useAppNavigation } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { ContractPromise as Contract } from '@polkadot/api-contract';
 
+import { ELEV_2_CSS } from './styles/constants';
 import Abi from './Abi';
 import Button from './Button';
 import ContractForget from './ContractForget';
 import ContractInfo from './ContractInfo';
 import { useTranslation } from './translate';
+import { ComponentProps } from './types';
 
 interface Props extends ComponentProps {
   contract: Contract;

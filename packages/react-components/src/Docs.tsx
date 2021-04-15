@@ -2,13 +2,13 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
 import React from 'react';
 import Markdown from 'react-markdown';
 import styled from 'styled-components';
 
 import { ELEV_2_CSS, ELEV_3_CSS } from './styles/constants';
 import { useTranslation } from './translate';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   docs?: string[];

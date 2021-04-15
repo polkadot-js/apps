@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
-import { RawParam } from '@canvas-ui/react-components/types'
 
 import { Static } from '@canvas-ui/react-components';
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { RawParam } from '@canvas-ui/react-components/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from '@canvas-ui/react-components/Params/translate';
 import Bare from './Bare';
 
 interface Props {

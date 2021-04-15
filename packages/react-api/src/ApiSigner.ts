@@ -2,14 +2,14 @@
 // and @canvas-ui/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { registry } from '.';
-import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from './Status/types';
-
 import { SubmittableResult } from '@polkadot/api';
 import { Signer, SignerResult } from '@polkadot/api/types';
 import { ClassOf } from '@polkadot/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
+
+import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from './Status/types';
+import { registry } from '.';
 
 export default class ApiSigner implements Signer {
   readonly #queuePayload: QueueTxPayloadAdd;

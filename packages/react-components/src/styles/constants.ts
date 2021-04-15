@@ -21,5 +21,3 @@ export const ELEV_4_CSS = `
   ${ELEV_CSS}
   background: var(--grey30);
 `;
-
-

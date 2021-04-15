@@ -5,8 +5,8 @@
 import { CodecArg, TypeDef } from '@polkadot/types/types';
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from './initValue';
 import { RawParam } from '../types';
+import getInitValue from './initValue';
 
 export function createValue (param: { type: TypeDef }): RawParam {
   const value = getInitValue(param.type);

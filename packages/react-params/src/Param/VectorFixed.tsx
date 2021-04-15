@@ -2,14 +2,14 @@
 // and @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import getInitValue from '@canvas-ui/react-components/Params/initValue';
+import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
 import React, { useEffect, useState } from 'react';
 
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from '@canvas-ui/react-components/Params/initValue';
-import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
-import Params from './Params';
 import Base from './Base';
+import Params from './Params';
 import useParamDefs from './useParamDefs';
 
 function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {

@@ -109,4 +109,3 @@ export function extractIpfsDetails (): State {
       ? extractLocalIpns(url)
       : extractOther(url);
 }
-

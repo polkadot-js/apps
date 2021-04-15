@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import UIParams from './Param/Params';
 import { UseTxParams } from '@canvas-ui/react-components/types';
 import React from 'react';
+
+import UIParams from './Param/Params';
 
 interface Props extends UseTxParams {
   isDisabled?: boolean;

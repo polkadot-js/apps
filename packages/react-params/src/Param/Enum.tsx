@@ -3,15 +3,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Dropdown } from '@canvas-ui/react-components';
+import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Enum } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
 
-import { ParamDef, Props } from '@canvas-ui/react-components/types';
-import { RawParam } from '@canvas-ui/react-components/types';
-import Params from './Params';
 import Bare from './Bare';
+import Params from './Params';
 import Static from './Static';
 
 interface Option {

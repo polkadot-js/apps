@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { InputBalance } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
@@ -45,4 +45,3 @@ function Balance ({ className = '', defaultValue: { value }, isDisabled, isError
 }
 
 export default React.memo(Balance);
-

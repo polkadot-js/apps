@@ -4,7 +4,7 @@
 
 import Api, { api } from './Api';
 import ApiContext from './ApiContext';
-import {  getLedger } from './ledger';
+import { getLedger } from './ledger';
 import registry from './typeRegistry';
 
 export {

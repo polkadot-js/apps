@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Input } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { compactAddLength, hexToU8a, u8aConcat } from '@polkadot/util';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 interface StateParam {

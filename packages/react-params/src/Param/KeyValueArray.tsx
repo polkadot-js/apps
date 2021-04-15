@@ -2,15 +2,14 @@
 // and @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useTranslation } from '@canvas-ui/react-components/Params/translate';
+import { Props, RawParam } from '@canvas-ui/react-components/types';
 import React, { useCallback, useState } from 'react';
 
 import { Vec } from '@polkadot/types';
 import { KeyValue as Pair } from '@polkadot/types/interfaces';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '@canvas-ui/react-components/Params/translate';
-import { Props } from '@canvas-ui/react-components/types';
-import { RawParam } from '@canvas-ui/react-components/types'
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';

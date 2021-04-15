@@ -2,6 +2,7 @@
 // and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { PORTAL_ID } from '@canvas-ui/app-config/settings';
 import { getSystemChainColor } from '@canvas-ui/app-config/ui';
 import { defaultColor } from '@canvas-ui/app-config/ui/general';
 import { ScrollToTop } from '@canvas-ui/react-components';
@@ -23,8 +24,6 @@ interface SidebarState {
   isMenuOpen: boolean;
   transition: SideBarTransition;
 }
-
-import { PORTAL_ID } from '@canvas-ui/app-config/settings'
 
 function saveSidebar (sidebar: SidebarState): SidebarState {
   return store.set('sidebar', sidebar) as SidebarState;

@@ -9,4 +9,3 @@ export { default as timeToString } from './timeToString';
 export { default as toAddress } from './toAddress';
 export { default as toShortAddress } from './toShortAddress';
 export { default as truncate } from './truncate';
-

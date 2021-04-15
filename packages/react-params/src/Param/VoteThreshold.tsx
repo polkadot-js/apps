@@ -4,12 +4,12 @@
 
 import { registry } from '@canvas-ui/react-api';
 import { Dropdown } from '@canvas-ui/react-components';
+import { Props } from '@canvas-ui/react-components/types';
 import React, { useCallback } from 'react';
 
 import { ClassOf } from '@polkadot/types';
 import { bnToBn } from '@polkadot/util';
 
-import { Props } from '@canvas-ui/react-components/types';
 import Bare from './Bare';
 
 const options = [

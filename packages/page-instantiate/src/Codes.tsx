@@ -30,7 +30,7 @@ function Codes ({ allCodes, basePath, className, hasCodes }: Props): React.React
                 <Link to={pathTo.instantiateAdd}>
                   {t<string>('Add an existing code hash')}
                 </Link>
-                
+
                 {` ${t<string>('or')} `}
                 <Link to={uploadPath}>
                   {t<string>('upload a new contract bundle')}

@@ -2,13 +2,12 @@
 // and @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@canvas-ui/react-components/types';
+import { BareProps, RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@canvas-ui/react-components/types';
 import React, { useCallback } from 'react';
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import BaseExtrinsic from '../Extrinsic';
-import { BareProps } from '@canvas-ui/react-components/types';
 
 interface Props extends BareProps {
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
