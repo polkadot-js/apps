@@ -134,6 +134,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
