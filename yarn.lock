@@ -1442,6 +1442,9 @@ __metadata:
     "@canvas-ui/react-components": "workspace:packages/react-components"
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks"
     "@canvas-ui/react-util": "workspace:packages/react-util"
+    react: ^16.13.1
+    react-i18next: ^11.5.1
+    styled-components: ^5.2.0
   languageName: unknown
   linkType: soft
 

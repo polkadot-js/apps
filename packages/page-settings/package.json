@@ -11,12 +11,12 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "react": "^16.13.1",
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/react-components": "workspace:packages/react-components",
     "@canvas-ui/react-hooks": "workspace:packages/react-hooks",
     "@canvas-ui/react-util": "workspace:packages/react-util",
-    "styled-components": "^5.2.0",
-    "react-i18next": "^11.5.1"
+    "react": "^16.13.1",
+    "react-i18next": "^11.5.1",
+    "styled-components": "^5.2.0"
   }
 }
