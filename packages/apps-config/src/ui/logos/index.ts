@@ -68,6 +68,7 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -109,6 +110,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
+  ['HydraDX Snakenet Gen2', chainSnakenet],
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
@@ -131,10 +133,13 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['PolkaFoundry PC1', nodePolkaFoundry],
+  ['Prism Testnet', nodePrism],
+  ['Prism PC1', nodePrism],
   ['Phala PC1', nodePhala],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
-  ['Riochain Staging', nodeRiochain],
+  ['RioChain CC-1', nodeRiochain],
+  ['RioChain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -212,6 +217,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Nodle Chain Node', nodeNodle],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Prism Node', nodePrism],
+  ['Prism Collator', nodePrism],
   ['parity-polkadot', nodePolkadot],
   ['Parami', nodeParami],
   ['Plasm', nodePlasm],
@@ -223,7 +230,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
-  ['Riochain Staging', nodeRiochain],
+  ['Rio Defi Chain Node', nodeRiochain],
+  ['RioChain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SORA-staging Node', nodeSora],
   ['Stafi Node', nodeStafi],
@@ -309,6 +317,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
   rococo: chainRococo,
