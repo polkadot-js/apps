@@ -134,6 +134,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
@@ -147,6 +154,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network'
+      }
+    },
+    {
+      info: 'westlake',
+      text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ]);

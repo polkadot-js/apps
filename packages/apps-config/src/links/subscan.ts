@@ -8,7 +8,7 @@ import { externalLogos } from '../ui/logos';
 export default {
   chains: {
     'Acala Mandala TC5': 'acala-testnet',
-    'Bifrost Asgard Nightly': 'bitfrost',
+    'Bifrost Asgard Nightly': 'bifrost',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
     'Crust Maxwell': 'crust',

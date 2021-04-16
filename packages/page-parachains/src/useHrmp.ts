@@ -30,12 +30,12 @@ const optChannels = {
 export default function useHrmp (): AllChannels | undefined {
   const { api } = useApi();
   const [channelIds, setChannelIds] = useState<HrmpChannelId[] | null>(null);
-  const trigger = useEventTrigger([api.events.hrmp?.OpenChannelAccepted, api.events.hrmp?.ChannelClosed]);
-  const allChannels = useCall<AllChannels>(channelIds && api.query.hrmp?.hrmpChannels.multi, [channelIds], optChannels);
+  const trigger = useEventTrigger([api.events.hrmp.OpenChannelAccepted, api.events.hrmp.ChannelClosed]);
+  const allChannels = useCall<AllChannels>(channelIds && api.query.hrmp.hrmpChannels.multi, [channelIds], optChannels);
 
   useEffect((): void => {
     trigger &&
-      api.query.hrmp?.hrmpChannels
+      api.query.hrmp.hrmpChannels
         .keys<[HrmpChannelId]>()
         .then((keys) => setChannelIds(keys.map(({ args: [id] }) => id)))
         .catch(console.error);
