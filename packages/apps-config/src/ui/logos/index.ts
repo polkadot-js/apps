@@ -233,7 +233,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Rio Defi Chain Node', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
-  ['SORA-staging Node', nodeSora],
+  ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],

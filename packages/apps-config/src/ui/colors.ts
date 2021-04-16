@@ -225,7 +225,7 @@ export const nodeColors: Record<string, any> = [
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
-  ['SORA-staging Node', nodeSora],
+  ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
