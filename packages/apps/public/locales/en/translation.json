@@ -91,6 +91,7 @@
   "Oversubscribed": "",
   "Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.": "",
   "Please read these terms and conditions carefully. By submitting this statement, you are deemed to have accepted these Terms and Conditions. If you do not agree to these terms, please refrain from accessing or proceeding. You can also find them at:": "",
+  "Prior locked voting": "",
   "Produced blocks": "",
   "Proposer": "",
   "Retrieving data": "",
