@@ -370,7 +370,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     } else if (votingOf && votingOf.isDirect) {
       const { prior: [unlockAt, balance] } = votingOf.asDirect;
 
-      allItems.push(
+      balance.gt(BN_ZERO) && unlockAt.gt(BN_ZERO) && allItems.push(
         <React.Fragment key={8}>
           <Label label={t<string>('democracy')} />
           <div className='result'>
