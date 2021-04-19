@@ -1,10 +1,33 @@
 # CHANGELOG
 
-## master
+## 0.88.1 Apr 19, 2021
+
+Contributed:
+
+- Added Nftmart config (Thanks to https://github.com/caosbad)
+- Update Zenlink config (Thanks to https://github.com/icodezjb)
+- Update Darwinia Crab config (Thanks to https://github.com/WoeOm)
+- Added Riochain config (Thanks to https://github.com/david-rio)
+- Update Bifrost Rococo config (Thanks to https://github.com/yooml)
+- Added VLN Rococo config (Thanks to https://github.com/stanly-johnson)
+- Added Datahighway Westlake config (Thanks to https://github.com/cgroeschel)
+- Update Polkafoundry config (Thanks to https://github.com/hoangnl2112)
+- Adjust Parami logo (thanks to https://github.com/hellotrongo)
+- Update Galital config (thanks to https://github.com/masterdubs)
+- Add Prism Rococo parachain (Thanks to https://github.com/chrissoso)
+- Add HydraDx Snakenet Gen 2 (Thanks to https://github.com/lumir-mrkva)
+- Update Apron Rococo paraId (thanks to https://github.com/Apron2050)
+- Update Clover logo (Thanks to https://github.com/pangwa)
+- Update Sora spec name (Thanks to https://github.com/KalitaAlexey)
+- Add Galital Rococo config (Thanks to  https://github.com/masterdubs)
+- Update Mybank config (Thanks to https://github.com/armatrix)
 
 Changes:
 
 - Fix Elapsed formatting (previously would only show s units)
+- Show unlocking when democracy has been undelegated
+- Disable all parachain < 1000 networks (now reserved)
+- Params now deals defaults to hex-only for H160/256/512
 
 
 ## 0.87.1 Apr 12, 2021
