@@ -24,6 +24,7 @@ const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
+const chainNftmart = '#815287';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -32,6 +33,7 @@ const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
+const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKilt = '#8c175b';
 const chainKusama = '#000000';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
@@ -47,6 +49,7 @@ const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
+const chainRiochain = '#4d87f6';
 const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
 const chainSunrock = '#ffd13b';
@@ -62,6 +65,8 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
+const chainVln = '#33cc33';
+const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -80,10 +85,13 @@ const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
 const nodeMybank = '#282736';
+const nodeNftmart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
+const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
+const nodeRiochain = '#1A3BB3';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
@@ -92,6 +100,7 @@ const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
+const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -124,6 +133,7 @@ export const chainColors: Record<string, any> = [
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
+  ['HydraDX Snakenet Gen2', chainSnakenet],
   ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
   ['Jupiter A1', chainJupiter],
@@ -143,6 +153,8 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
+  ['Nftmart Testnet', chainNftmart],
+  ['Nftmart Staging', chainNftmart],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala poc 3', chainPhala],
@@ -153,9 +165,13 @@ export const chainColors: Record<string, any> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['Prism Testnet', chainPrism],
+  ['Prism PC1', chainPrism],
   ['Halongbay Testnet', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
+  ['RioChain CC-1', chainRiochain],
+  ['Riochain Staging', chainRiochain],
   ['Sgc ', chainSgc],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
@@ -166,7 +182,9 @@ export const chainColors: Record<string, any> = [
   ['TrustBase PC1', chainTrustBase],
   ['uni arts staging network', chainUniarts],
   ['Unique Node', chainUnique],
+  ['VLN PC', chainVln],
   ['Westend', chainWestend],
+  ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
   ['PHOENIX', chainPhoenix],
@@ -195,19 +213,26 @@ export const nodeColors: Record<string, any> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['nodle chain node', nodeNodle],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Prism Node', nodePrism],
+  ['Prism Collator', nodePrism],
   ['ReAlis Network', nodeRealis],
+  ['Rio Defi Chain Node', nodeRiochain],
+  ['Riochain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
-  ['SORA-staging Node', nodeSora],
+  ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['uni arts node', nodeUniarts],
   ['Unique Node', nodeUnique],
+  ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink],

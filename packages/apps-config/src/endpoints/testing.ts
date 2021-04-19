@@ -206,10 +206,24 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'prism',
+      text: t('rpc.prism', 'Prism', { ns: 'apps-config' }),
+      providers: {
+        Prism: 'wss://testnet.psm.link'
+      }
+    },
+    {
       info: 'realis',
       text: t('rpc.realis', 'Realis.Network', { ns: 'apps-config' }),
       providers: {
         'Realis.Network': 'wss://rpc.realis.network/'
+      }
+    },
+    {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        'RioChain Staging': 'wss://node.v1.staging.riochain.io'
       }
     },
     {
@@ -296,6 +310,14 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
         'Unit Network': 'wss://unitventures.io/'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.nftmart', 'Nftmart', { ns: 'apps-config' }),
+      providers: {
+        NftmartDev: 'ws://8.136.111.191:9944',
+        NftmartStaging: 'ws://82.157.37.77:9944'
       }
     }
   ]);

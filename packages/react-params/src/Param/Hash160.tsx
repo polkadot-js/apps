@@ -10,6 +10,7 @@ import BaseBytes from './BaseBytes';
 function Hash160 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   return (
     <BaseBytes
+      asHex
       className={className}
       defaultValue={defaultValue}
       isDisabled={isDisabled}

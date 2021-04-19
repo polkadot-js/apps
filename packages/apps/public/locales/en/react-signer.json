@@ -34,7 +34,7 @@
   "The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.": "The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.",
   "This could either be an approval for the hash or with full call details. The call as last approval triggers execution.": "This could either be an approval for the hash or with full call details. The call as last approval triggers execution.",
   "Tip (optional)": "Tip (optional)",
-  "Unable to connect the the Ledger. {{error}}": "Unable to connect the the Ledger. {{error}}",
+  "Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{error}}": "Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{error}}",
   "Unlock the sending account to allow signing of this transaction.": "Unlock the sending account to allow signing of this transaction.",
   "Use a proxy for this call": "Use a proxy for this call",
   "call hash": "call hash",

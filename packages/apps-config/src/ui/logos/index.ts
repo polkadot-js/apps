@@ -57,6 +57,7 @@ import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import mybank from './nodes/mybank.png';
+import nodeNftmart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -67,7 +68,9 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
+import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
@@ -82,6 +85,7 @@ import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
+import nodeWestlake from './nodes/westlake.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -106,6 +110,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
+  ['HydraDX Snakenet Gen2', chainSnakenet],
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
@@ -121,14 +126,20 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['Parami PC2', nodeParami],
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['PolkaFoundry PC1', nodePolkaFoundry],
+  ['Prism Testnet', nodePrism],
+  ['Prism PC1', nodePrism],
   ['Phala PC1', nodePhala],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRococo],
+  ['RioChain CC-1', nodeRiochain],
+  ['RioChain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -140,7 +151,9 @@ export const chainLogos: Record<string, unknown> = [
   ['TrustBase PC1', nodeTrustBase],
   ['uni arts staging network', nodeUniarts],
   ['Unique', chainUnique],
+  ['VLN PC', nodeVln],
   ['Vln', nodeVln],
+  ['Westlake', nodeWestlake],
   ['PHOENIX PC1', nodePhoenix],
   ['mybank.network PC1', mybank],
   ['Unit Network', nodeUnitv]
@@ -198,10 +211,14 @@ export const nodeLogos: Record<string, unknown> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Node', nodeManta],
   ['Manta Parachain Collator', nodeManta],
+  ['Nftmart Testnet', nodeNftmart],
+  ['Nftmart Staging', nodeNftmart],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Prism Node', nodePrism],
+  ['Prism Collator', nodePrism],
   ['parity-polkadot', nodePolkadot],
   ['Parami', nodeParami],
   ['Plasm', nodePlasm],
@@ -213,8 +230,10 @@ export const nodeLogos: Record<string, unknown> = [
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
   ['ReAlis Network', nodeRealis],
+  ['Rio Defi Chain Node', nodeRiochain],
+  ['RioChain Staging', nodeRiochain],
   ['Sgc', nodeSgc],
-  ['SORA-staging Node', nodeSora],
+  ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
@@ -234,10 +253,12 @@ export const nodeLogos: Record<string, unknown> = [
   ['uni arts node', nodeUniarts],
   ['Unique Node', nodeUnique],
   ['Vln', nodeVln],
+  ['VLN PC', nodeVln],
   ['PHOENIX Node', nodePhoenix],
   ['PHOENIX Collator', nodePhoenix],
   ['Unit Node', nodeUnitv],
   ['Unit Collator', nodeUnitv],
+  ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['mybank.network', mybank]
@@ -287,6 +308,7 @@ export const namedLogos: Record<string, unknown> = {
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
   mybank: mybank,
+  nftmart: nodeNftmart,
   nodle: nodeNodle,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -295,7 +317,9 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  prism: nodePrism,
   realis: nodeRealis,
+  riochain: nodeRiochain,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoApron: nodeApron,
@@ -336,6 +360,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoUnitv: nodeUnitv,
+  rococoVln: nodeVln,
   rococoZenlink: nodeZenlink,
   sgc: nodeSgc,
   snakenet: chainSnakenet,
@@ -350,6 +375,7 @@ export const namedLogos: Record<string, unknown> = {
   unitv: nodeUnitv,
   vln: nodeVln,
   westend: nodePolkadot,
+  westlake: nodeWestlake,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
