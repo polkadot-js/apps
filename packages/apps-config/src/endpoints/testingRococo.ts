@@ -54,6 +54,14 @@ export function createRococo (t: TFunction): LinkOption[] {
           Parity: 'wss://track-rpc.polkadot.io'
         }
       },
+      {
+        info: 'rococoStatemint',
+        paraId: 1,
+        text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://statemint-rococo-rpc.parity.io'
+        }
+      },
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
