@@ -48,7 +48,7 @@ export type SeedType = 'bip' | 'raw' | 'dev';
 export interface AddressState {
   address: string | null;
   derivePath: string;
-  deriveValidation? : DeriveValidationOutput
+  deriveValidation?: DeriveValidationOutput
   isSeedValid: boolean;
   pairType: PairType;
   seed: string;
