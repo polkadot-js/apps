@@ -277,10 +277,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoPhala',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 30,
+        paraId: 1030,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://rococov1.phala.network/ws'
