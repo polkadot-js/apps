@@ -111,6 +111,10 @@ export default {
     swap_bonuses: 'Vec<(Balance, BlockNumber)>',
     vesting_bonuses: 'Vec<(Balance, Balance, BlockNumber)>'
   },
+  Attestation: {
+    priority: 'Compact<u64>',
+    iri: 'Option<Vec<u8>>'
+  },
   StateChange: {
     _enum: {
       KeyUpdate: 'KeyUpdate',
@@ -119,7 +123,8 @@ export default {
       UnRevoke: 'UnRevoke',
       RemoveRegistry: 'RemoveRegistry',
       Blob: 'Blob',
-      MasterVote: 'Payload'
+      MasterVote: 'Payload',
+      Attestation: '(Did, Attestation)'
     }
   }
 };
