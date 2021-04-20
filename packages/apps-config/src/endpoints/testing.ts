@@ -139,6 +139,14 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'rococoGalital',
+      paraId: 1230,
+      text: t('rpc.rococo.galital', 'Galital PC2', { ns: 'apps-config' }),
+      providers: {
+        StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
+      }
+    },
+    {
       info: 'galois',
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       providers: {
@@ -206,10 +214,24 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'prism',
+      text: t('rpc.prism', 'Prism', { ns: 'apps-config' }),
+      providers: {
+        Prism: 'wss://testnet.psm.link'
+      }
+    },
+    {
       info: 'realis',
       text: t('rpc.realis', 'Realis.Network', { ns: 'apps-config' }),
       providers: {
         'Realis.Network': 'wss://rpc.realis.network/'
+      }
+    },
+    {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        'RioChain Staging': 'wss://node.v1.staging.riochain.io'
       }
     },
     {
@@ -288,7 +310,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'mybank',
       text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
       providers: {
-        MYBANK: 'wss://app.mybank.network/substrate'
+        MYBANK: 'wss://mybank.network/substrate'
       }
     },
     {

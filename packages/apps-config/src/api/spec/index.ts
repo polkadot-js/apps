@@ -54,7 +54,10 @@ import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
 import polkabtc from './polkabtc';
 import polkadex from './polkadex';
+import polkafoundry from './polkafoundry';
+import prism from './prism';
 import realis from './realis';
+import riochain from './riochain';
 import robonomics from './robonomics';
 import sgc from './sgc';
 import snowbridge from './snowbridge';
@@ -68,6 +71,8 @@ import uart from './uart';
 import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
+import vlnrococo from './vln-rococo';
+import westlake from './westlake';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -80,6 +85,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   VLN: vln,
+  'VLN-PC': vlnrococo,
   acala,
   apron,
   'ares-parachain': aresParachain,
@@ -140,7 +146,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
+  polkafoundry,
+  prism,
   realis,
+  'riochain-runtime': riochain,
   robonomics,
   'sgc-node': sgc,
   snowbridge,
@@ -155,6 +164,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  westlake: westlake,
   zeitgeist: zeitgeist
 };
 
