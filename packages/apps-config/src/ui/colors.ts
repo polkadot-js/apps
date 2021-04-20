@@ -95,6 +95,7 @@ const nodeRiochain = '#1A3BB3';
 const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
+const nodeStatemint = '#98ff98';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
@@ -173,6 +174,7 @@ export const chainColors: Record<string, any> = [
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
   ['Sgc ', chainSgc],
+  ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
   ['Sunrock', chainSunrock],
@@ -227,6 +229,7 @@ export const nodeColors: Record<string, any> = [
   ['Sgc', nodeSgc],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
+  ['Statemint Collator', nodeStatemint],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
