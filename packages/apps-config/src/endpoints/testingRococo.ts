@@ -277,7 +277,6 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoPhala',
-        isDisabled: true,
         paraId: 1030,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
