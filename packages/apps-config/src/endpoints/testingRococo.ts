@@ -212,10 +212,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoJupiter',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 24,
+        paraId: 1010,
         text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
           jupiter: 'wss://ws.rococo.jupiter.patract.cn'
