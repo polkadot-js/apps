@@ -99,6 +99,7 @@
   "rpc.rococo.polkabtc": "PolkaBTC PC1",
   "rpc.rococo.polkafoundry": "PolkaFoundry PC1",
   "rpc.rococo.robonomics": "Robonomics PC2",
+  "rpc.rococo.statemint": "Statemint",
   "rpc.rococo.subdao": "SubDAO PC1",
   "rpc.rococo.subsocial": "Subsocial PC1",
   "rpc.rococo.sunrock": "Sunrock",
