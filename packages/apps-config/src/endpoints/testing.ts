@@ -322,10 +322,10 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'nftmart',
-      text: t('rpc.nftmart', 'Nftmart', { ns: 'apps-config' }),
+      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
       providers: {
-        NftmartDev: 'ws://8.136.111.191:9944',
-        NftmartStaging: 'ws://82.157.37.77:9944'
+        NFTMartDev: 'wss://dev-ws.nftmart.io',
+        NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
     }
   ]);
