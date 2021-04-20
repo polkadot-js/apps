@@ -19,12 +19,12 @@ function VotesExpander ({ label, votes }: Props): React.ReactElement<Props> | nu
 
   return (
     <Expander summary={`${label} (${votes.length})`}>
-      {votes.map(([who]): React.ReactNode =>
+      {votes.map(([who]): React.ReactNode => (
         <AddressMini
           key={who.toString()}
           value={who}
         />
-      )}
+      ))}
     </Expander>
   );
 }

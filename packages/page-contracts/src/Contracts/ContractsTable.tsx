@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { SignedBlockExtended } from '@polkadot/api-derive/type';
+import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';

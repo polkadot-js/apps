@@ -77,9 +77,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     {
       info: 'datahighway',
       isDisabled: true,
-      text: t('rpc.datahighway.harbour', 'Harbour', { ns: 'apps-config' }),
+      text: t('rpc.datahighway.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
       providers: {
-        MXC: 'wss://testnet-harbour.datahighway.com'
+        MXC: 'wss://spreehafen.datahighway.com'
       }
     },
     {
@@ -94,6 +94,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
       providers: {
         DOTMog: 'wss://mogiway-01.dotmog.com'
+      }
+    },
+    {
+      info: 'phoenix',
+      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
+      providers: {
+        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
       }
     },
     {
@@ -121,7 +128,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://api.mvp.testnet.equilibrium.io'
+        Equilibrium: 'wss://testnet.equilibrium.io'
       }
     },
     {
@@ -132,10 +139,19 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'rococoGalital',
+      paraId: 1230,
+      text: t('rpc.rococo.galital', 'Galital PC2', { ns: 'apps-config' }),
+      providers: {
+        StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
+      }
+    },
+    {
       info: 'galois',
       text: t('rpc.galois', 'Galois', { ns: 'apps-config' }),
       providers: {
-        MathWallet: 'wss://galois.maiziqianbao.net/ws'
+        MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
+        'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
       }
     },
     {
@@ -150,7 +166,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://node-6714447553211260928.rz.onfinality.io/ws',
+        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://mandala.elara.patract.io'
       }
     },
@@ -159,6 +175,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
+      }
+    },
+    {
+      info: 'litentry',
+      text: t('rpc.litentry.test', 'Litentry Testnet', { ns: 'apps-config' }),
+      providers: {
+        Litentry: 'wss://testnet.litentry.io'
       }
     },
     {
@@ -191,10 +214,24 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'realis',
-      text: t('rpc.realis', 'Realis Network', { ns: 'apps-config' }),
+      info: 'prism',
+      text: t('rpc.prism', 'Prism', { ns: 'apps-config' }),
       providers: {
-        'Realis Network': 'wss://rpc.realis.network/'
+        Prism: 'wss://testnet.psm.link'
+      }
+    },
+    {
+      info: 'realis',
+      text: t('rpc.realis', 'Realis.Network', { ns: 'apps-config' }),
+      providers: {
+        'Realis.Network': 'wss://rpc.realis.network/'
+      }
+    },
+    {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        'RioChain Staging': 'wss://node.v1.staging.riochain.io'
       }
     },
     {
@@ -240,6 +277,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'vln',
+      text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
+      providers: {
+        Valiu: 'wss://vln.valiu.dev'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
@@ -249,10 +293,39 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'zeitgeist',
+      text: t('rpc.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      providers: {
+        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
+      }
+    },
+    {
       info: 'zero',
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
-        ZERO: 'wss://alphaville-0.zero.io'
+        ZERO: 'wss://alphaville.zero.io'
+      }
+    },
+    {
+      info: 'mybank',
+      text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
+      providers: {
+        MYBANK: 'wss://mybank.network/substrate'
+      }
+    },
+    {
+      info: 'unitv',
+      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
+      providers: {
+        'Unit Network': 'wss://unitventures.io/'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
+      providers: {
+        NFTMartDev: 'wss://dev-ws.nftmart.io',
+        NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
     }
   ]);

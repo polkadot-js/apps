@@ -90,7 +90,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'playground',
-      text: t<string>('JavaScript')
+      text: t<string>('Console')
     }
   ]);
 
@@ -234,12 +234,10 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
 
   return (
     <main className={`js--App ${className}`}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={tabsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={tabsRef.current}
+      />
       <section className='js--Selection'>
         <Dropdown
           className='js--Dropdown'

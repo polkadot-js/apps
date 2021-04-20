@@ -1,13 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { HeaderExtended } from '@polkadot/api-derive';
 import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -15,6 +15,7 @@ import { formatNumber } from '@polkadot/util';
 import Events from '../Events';
 import { useTranslation } from '../translate';
 import Extrinsics from './Extrinsics';
+import Justifications from './Justifications';
 import Logs from './Logs';
 
 interface Props {
@@ -122,6 +123,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             </Columar.Column>
             <Columar.Column>
               <Logs value={getHeader.digest.logs} />
+              <Justifications value={getBlock.justifications} />
             </Columar.Column>
           </Columar>
         </>

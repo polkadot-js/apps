@@ -1,64 +1,43 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
-import type { ITuple } from '@polkadot/types/types';
+import type { AuctionInfo, Campaigns, OwnedId, Winning } from '../types';
 
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
 
 import Auction from './Auction';
 import Bid from './Bid';
 import Summary from './Summary';
-import useWinningData from './useWinningData';
 
 interface Props {
+  auctionInfo?: AuctionInfo;
+  campaigns: Campaigns;
   className?: string;
+  ownedIds: OwnedId[];
+  winningData?: Winning[];
 }
 
-interface QueryState {
-  auctionInfo: [LeasePeriodOf, BlockNumber] | null;
-  numAuctions: AuctionIndex | null;
-}
-
-const optionsMulti = {
-  defaultValue: {
-    auctionInfo: null,
-    numAuctions: null
-  },
-  transform: ([numAuctions, optInfo]: [AuctionIndex, Option<ITuple<[LeasePeriodOf, BlockNumber]>>]) => ({
-    auctionInfo: optInfo.unwrapOr(null),
-    numAuctions
-  })
-};
-
-function Auctions ({ className }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const { auctionInfo, numAuctions } = useCallMulti<QueryState>([
-    api.query.auctions.auctionCounter,
-    api.query.auctions.auctionInfo
-  ], optionsMulti);
-  const winningData = useWinningData(auctionInfo);
+function Auctions ({ auctionInfo, campaigns, className, ownedIds, winningData }: Props): React.ReactElement<Props> {
+  const lastWinners = winningData && winningData[0];
 
   return (
     <div className={className}>
       <Summary
         auctionInfo={auctionInfo}
-        lastWinner={winningData && winningData[0]}
-        numAuctions={numAuctions}
+        lastWinners={lastWinners}
       />
       <Button.Group>
         <Bid
           auctionInfo={auctionInfo}
-          id={ numAuctions}
+          lastWinners={lastWinners}
+          ownedIds={ownedIds}
         />
       </Button.Group>
       <Auction
         auctionInfo={auctionInfo}
-        numAuctions={numAuctions}
+        campaigns={campaigns}
         winningData={winningData}
       />
     </div>

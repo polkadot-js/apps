@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
+
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
@@ -13,12 +15,13 @@ import AllCandidates from './Candidates';
 
 interface Props {
   allMembers: string[];
+  candidates?: DeriveSocietyCandidate[];
   className?: string;
   isMember: boolean;
   ownMembers: string[];
 }
 
-function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Candidates ({ allMembers, candidates, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isBidOpen, toggleBidOpen] = useToggle();
 
@@ -36,6 +39,7 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
       </Button.Group>
       <AllCandidates
         allMembers={allMembers}
+        candidates={candidates}
         isMember={isMember}
         ownMembers={ownMembers}
       />

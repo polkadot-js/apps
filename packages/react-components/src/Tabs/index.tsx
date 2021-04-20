@@ -1,13 +1,17 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TabItem } from './types';
+import type { SectionType, TabItem } from './types';
 
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import CurrentSection from './CurrentSection';
 import Tab from './Tab';
+import TabsSectionDelimiter from './TabsSectionDelimiter';
+
+export const SectionContext = React.createContext<SectionType>({});
 
 interface Props {
   className?: string;
@@ -18,6 +22,7 @@ interface Props {
 
 function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
+  const { icon, text } = React.useContext(SectionContext);
 
   // redirect on invalid tabs
   useEffect((): void => {
@@ -41,39 +46,63 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
     : items;
 
   return (
-    <div className={`ui--Tabs ${className}`}>
+    <header className={`ui--Tabs ${className}`}>
       <div className='tabs-container'>
-        {filtered.map((tab, index) => (
-          <Tab
-            {...tab}
-            basePath={basePath}
-            index={index}
-            key={tab.name}
+        {text && icon && (
+          <CurrentSection
+            icon={icon}
+            text={text}
           />
-        ))}
+        )}
+        <TabsSectionDelimiter />
+        <ul className='ui--TabsList'>
+          {filtered.map((tab, index) => (
+            <li key={index}>
+              <Tab
+                {...tab}
+                basePath={basePath}
+                index={index}
+                key={tab.name}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
+    </header>
   );
 }
 
 export default React.memo(styled(Tabs)`
-  align-items: flex-end;
   background: var(--bg-tabs);
   border-bottom: 1px solid var(--border-tabs);
-
   text-align: left;
   z-index: 1;
 
   & .tabs-container {
-    max-width: var(--width-full);
-    margin: 0 auto;
-    width: 100%;
     display: flex;
-    padding: 1.25rem 1.5rem 0;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    max-width: var(--width-full);
+    padding: 0 1.5rem 0 0;
+    height: 3.286rem;
   }
 
   &::-webkit-scrollbar {
     display: none;
     width: 0px;
+  }
+
+  .ui--TabsList {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    margin: 0 1.4rem;
+    white-space: nowrap;
+    padding: 0;
+
+    @media only screen and (max-width: 900px) {
+      margin: 0 2.72rem 0 2.35rem;
+    }
   }
 `);

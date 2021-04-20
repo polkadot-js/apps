@@ -1,20 +1,19 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LeasePeriod } from './types';
+import type { LeasePeriod } from '../types';
 
 import React from 'react';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BestNumber } from '@polkadot/react-query';
+import { BestFinalized } from '@polkadot/react-query';
 import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
-  leasePeriod: LeasePeriod | null;
+  leasePeriod?: LeasePeriod;
   parachainCount?: number;
   proposalCount?: number;
   upcomingCount?: number;
@@ -22,54 +21,56 @@ interface Props {
 
 function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('relay')}>
-          {api.query.paras
-            ? t<string>('yes')
-            : t<string>('no')
-          }
-        </CardSummary>
         {isNumber(parachainCount) && (
           <CardSummary label={t<string>('parachains')}>
             {formatNumber(parachainCount)}
           </CardSummary>
         )}
         {isNumber(upcomingCount) && (
-          <CardSummary label={t<string>('upcoming')}>
+          <CardSummary
+            className='media--1000'
+            label={t<string>('parathreads')}
+          >
             {formatNumber(upcomingCount)}
           </CardSummary>
         )}
         {isNumber(proposalCount) && (
-          <CardSummary label={t<string>('proposals')}>
+          <CardSummary
+            className='media--1000'
+            label={t<string>('proposals')}
+          >
             {formatNumber(proposalCount)}
           </CardSummary>
         )}
       </section>
-      {leasePeriod && (
-        <CardSummary
-          label={t<string>('lease period')}
-          progress={{
-            total: leasePeriod.length,
-            value: leasePeriod.remainder,
-            withTime: true
-          }}
-        >
-          {formatNumber(leasePeriod.currentPeriod)}
-        </CardSummary>
-      )}
       <section>
-        <CardSummary
-          className='media--1000'
-          label={t<string>('best block')}
-        >
-          <BestNumber isFinalized={false} />
+        {leasePeriod && (
+          <>
+            <CardSummary label={t<string>('current lease')}>
+              {formatNumber(leasePeriod.currentPeriod)}
+            </CardSummary>
+            <CardSummary
+              className='media--1200'
+              label={t<string>('lease period')}
+              progress={{
+                total: leasePeriod.length,
+                value: leasePeriod.progress,
+                withTime: true
+              }}
+            />
+          </>
+        )}
+      </section>
+      <section>
+        <CardSummary label={t<string>('finalized')}>
+          <BestFinalized />
         </CardSummary>
         <SummarySession
-          className='media--800'
+          className='media--1200'
           withEra={false}
         />
       </section>

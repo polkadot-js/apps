@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 
-export type EntryType = 'councilElection' | 'councilMotion' | 'democracyDispatch' | 'democracyLaunch' | 'referendumDispatch' | 'referendumVote' | 'scheduler' | 'societyChallenge' | 'societyRotate'| 'stakingEpoch' | 'stakingEra' | 'stakingSlash' | 'treasurySpend';
+export type EntryType = 'councilElection' | 'councilMotion' | 'democracyDispatch' | 'democracyLaunch' | 'parachainAuction' | 'parachainLease' | 'referendumDispatch' | 'referendumVote' | 'scheduler' | 'societyChallenge' | 'societyRotate'| 'stakingEpoch' | 'stakingEra' | 'stakingSlash' | 'treasurySpend';
 
 export interface EntryInfo {
   blockNumber: BN;

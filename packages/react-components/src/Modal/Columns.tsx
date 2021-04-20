@@ -18,7 +18,7 @@ function Columns ({ children, className = '', hint }: ColumnsProps): React.React
 }
 
 export default React.memo(styled(Columns)`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   justify-content: space-between;
 
@@ -52,7 +52,7 @@ export default React.memo(styled(Columns)`
         flex: 0 34%;
         font-size: 0.95rem;
         opacity: 0.75;
-        padding: 0.25em 0.5rem;
+        padding: 0.75rem 0 0.25rem 0.5rem;
       }
     }
   }

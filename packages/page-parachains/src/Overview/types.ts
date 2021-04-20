@@ -2,21 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 
-export interface LeaseInfo {
-  accountId: AccountId;
-  balance: BalanceOf;
-  period: number;
+export interface EventMapInfo {
+  blockHash: string;
+  blockNumber: BN;
+  relayParent: string;
 }
 
-export interface LeasePeriod {
-  currentPeriod: BN;
-  length: BN;
-  remainder: BN;
-}
-
-export interface QueuedAction {
-  paraIds: ParaId[];
-  sessionIndex: BN;
+export interface ValidatorInfo {
+  indexActive: ParaValidatorIndex;
+  indexValidator: ParaValidatorIndex;
+  validatorId: AccountId;
 }

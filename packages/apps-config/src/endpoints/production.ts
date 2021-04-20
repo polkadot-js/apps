@@ -82,7 +82,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet4.edgewa.re',
+        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io'
       }
     },
@@ -90,7 +90,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://tge.equilibrium.io'
+        Equilibrium: 'wss://node.equilibrium.io'
       }
     },
     {
@@ -134,6 +134,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
@@ -147,6 +154,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network'
+      }
+    },
+    {
+      info: 'westlake',
+      text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ]);

@@ -66,7 +66,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Staking overview')
+      text: t<string>('Overview')
     },
     {
       name: 'actions',
@@ -100,17 +100,15 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   return (
     <main className={`staking--App ${className}`}>
       <HelpOverlay md={basicMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={
-            hasAccounts
-              ? undefined
-              : HIDDEN_ACC
-          }
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        hidden={
+          hasAccounts
+            ? undefined
+            : HIDDEN_ACC
+        }
+        items={items}
+      />
       <Summary
         isVisible={pathname === basePath}
         stakingOverview={stakingOverview}

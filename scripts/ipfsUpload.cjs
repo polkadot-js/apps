@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
+const CrustPinner = require('@crustio/crust-pin').default;
 const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync.cjs');
 
@@ -19,6 +20,7 @@ const PINMETA = { name: DOMAIN };
 
 const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
+const crust = new CrustPinner(process.env.CRUST_SEEDS);
 
 function writeFiles (name, content) {
   [DST, SRC].forEach((root) =>
@@ -36,6 +38,7 @@ skip-checks: true"`);
 }
 
 async function pin () {
+  // 1. Pin on pinata
   const result = await pinata.pinFromFS(DST, { pinataMetadata: PINMETA });
   const url = `${GATEWAY}${result.IpfsHash}/`;
   const html = `<!DOCTYPE html>
@@ -57,6 +60,9 @@ async function pin () {
   writeFiles('index.html', html);
   writeFiles('pin.json', JSON.stringify(result));
   updateGh(result.IpfsHash);
+
+  // 2. Decentralized pin on Crust
+  await crust.pin(result.IpfsHash);
 
   console.log(`Pinned ${result.IpfsHash}`);
 
