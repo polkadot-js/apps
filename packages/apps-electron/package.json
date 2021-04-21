@@ -4,11 +4,11 @@
   "version": "0.88.2-8",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.13.14",
+    "@babel/core": "^7.13.16",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.62.8",
+    "@polkadot/dev": "^0.62.9",
     "@polkadot/react-components": "^0.88.2-8",
-    "electron-log": "^4.3.3",
+    "electron-log": "^4.3.4",
     "electron-updater": "^4.3.8"
   },
   "devDependencies": {
@@ -19,8 +19,8 @@
     "html-webpack-plugin": "^4.5.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "thread-loader": "^3.0.1",
+    "thread-loader": "^3.0.3",
     "tmp": "^0.2.1",
-    "webpack": "^5.31.0"
+    "webpack": "^5.35.0"
   }
 }
