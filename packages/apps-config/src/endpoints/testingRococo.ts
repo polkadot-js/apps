@@ -136,10 +136,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoChainX',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 59,
+        paraId: 1059,
         text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
         providers: {
           ChainX: 'wss://sherpax.chainx.org'
@@ -366,10 +363,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoZenlink',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 188,
+        paraId: 1188,
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'
