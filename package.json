@@ -12,13 +12,13 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^4.6.3-0",
-    "@polkadot/api-contract": "^4.6.3-0",
+    "@polkadot/api": "^4.6.3-6",
+    "@polkadot/api-contract": "^4.6.3-6",
     "@polkadot/hw-ledger": "^6.2.1",
     "@polkadot/keyring": "^6.2.1",
     "@polkadot/networks": "^6.2.1",
-    "@polkadot/phishing": "^0.6.100",
-    "@polkadot/types": "^4.6.3-0",
+    "@polkadot/phishing": "^0.6.101",
+    "@polkadot/types": "^4.6.3-6",
     "@polkadot/util": "^6.2.1",
     "@polkadot/util-crypto": "^6.2.1",
     "@polkadot/wasm-crypto": "^4.0.2",
@@ -64,16 +64,16 @@
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.14",
-    "@babel/register": "^7.13.14",
-    "@babel/runtime": "^7.13.10",
+    "@babel/core": "^7.13.16",
+    "@babel/register": "^7.13.16",
+    "@babel/runtime": "^7.13.17",
     "@crustio/crust-pin": "^0.0.1",
     "@pinata/sdk": "^1.1.13",
-    "@polkadot/dev": "^0.62.8",
-    "@polkadot/ts": "^0.3.62",
+    "@polkadot/dev": "^0.62.9",
+    "@polkadot/ts": "^0.3.63",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.32",
-    "@types/file-saver": "^2.0.1",
+    "@types/file-saver": "^2.0.2",
     "@types/jest": "^26.0.22",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-copy-to-clipboard": "^5.0.0",
@@ -85,7 +85,7 @@
     "concurrently": "^5.3.0",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
-    "electron": "^12.0.2",
+    "electron": "^12.0.5",
     "electron-builder": "^22.10.5",
     "electron-builder-notarize": "^1.2.0",
     "i18next-scanner": "^3.0.0",
@@ -97,7 +97,7 @@
     "stylelint": "^13.12.0",
     "stylelint-config-recommended": "^4.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "webpack": "^5.31.0",
+    "webpack": "^5.35.0",
     "webpack-cli": "^4.6.0"
   }
 }

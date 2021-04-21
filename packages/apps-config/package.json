@@ -7,9 +7,9 @@
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
   "dependencies": {
-    "@acala-network/type-definitions": "^0.7.2-4",
-    "@babel/runtime": "^7.13.10",
-    "@crustio/type-definitions": "0.0.5",
+    "@acala-network/type-definitions": "^0.7.3",
+    "@babel/runtime": "^7.13.17",
+    "@crustio/type-definitions": "0.0.6",
     "@darwinia/types": "^1.1.0-alpha.7",
     "@edgeware/node-types": "^3.3.4",
     "@equilab/definitions": "1.0.3",
@@ -17,8 +17,8 @@
     "@laminar/type-definitions": "^0.3.1",
     "@polkadot/networks": "^6.2.1",
     "@snowfork/snowbridge-types": "^0.2.3",
-    "@sora-substrate/type-definitions": "^0.8.0",
-    "@subsocial/types": "^0.4.36",
+    "@sora-substrate/type-definitions": "^0.8.9",
+    "@subsocial/types": "^0.5.0-substrate2.0",
     "@zeitgeistpm/type-defs": "^0.1.36",
     "moonbeam-types-bundle": "1.1.12"
   },
