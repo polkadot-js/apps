@@ -2440,6 +2440,7 @@ __metadata:
     "@equilab/definitions": 1.0.3
     "@interlay/polkabtc-types": ^0.6.2
     "@laminar/type-definitions": ^0.3.1
+    "@phala/typedefs": ^0.0.9
     "@polkadot/networks": ^6.2.1
     "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^0.8.9
@@ -14689,7 +14690,6 @@ fsevents@~2.1.2:
     "@babel/register": ^7.13.16
     "@babel/runtime": ^7.13.17
     "@crustio/crust-pin": ^0.0.1
-    "@phala/typedefs": ^0.0.9
     "@pinata/sdk": ^1.1.13
     "@polkadot/dev": ^0.62.9
     "@polkadot/ts": ^0.3.63
