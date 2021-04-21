@@ -194,9 +194,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'phala',
-      text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
+      text: t('rpc.phala', 'Phala PoC-4', { ns: 'apps-config' }),
       providers: {
-        'Phala Network': 'wss://poc3a.phala.network/ws'
+        'Phala Network': 'wss://poc4.phala.network/ws'
       }
     },
     {
