@@ -158,7 +158,7 @@ export const chainColors: Record<string, any> = [
   ['NFTMart Staging', chainNFTMart],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
-  ['Phala poc 3', chainPhala],
+  ['Phala PoC 4', chainPhala],
   ['Plasm', chainPlasm],
   ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
