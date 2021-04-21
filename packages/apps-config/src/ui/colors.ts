@@ -26,7 +26,7 @@ const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainNFTMart = '#815287';
 const chainParami = '#ee06e2';
-const chainPhala = '#a7e300';
+const chainPhala = '#d1ff52';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
 const chainPolkabtc = '#510101';
@@ -158,7 +158,7 @@ export const chainColors: Record<string, any> = [
   ['NFTMart Staging', chainNFTMart],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
-  ['Phala poc 3', chainPhala],
+  ['Phala PoC 4', chainPhala],
   ['Plasm', chainPlasm],
   ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],

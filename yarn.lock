@@ -2111,6 +2111,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@phala/typedefs@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@phala/typedefs@npm:0.0.9"
+  checksum: a33e33675c7fcbc49f1bf6ba43d57e1967d7c61704d152588daba662e31701db1eaf0d50fdad4bcffcc168ef0390ffae183f5f2ef8d0836e53b7bd2152c4f6bd
+  languageName: node
+  linkType: hard
+
 "@pinata/sdk@npm:^1.1.13":
   version: 1.1.13
   resolution: "@pinata/sdk@npm:1.1.13"
@@ -14676,6 +14683,7 @@ fsevents@~2.1.2:
     "@babel/register": ^7.13.14
     "@babel/runtime": ^7.13.10
     "@crustio/crust-pin": ^0.0.1
+    "@phala/typedefs": ^0.0.9
     "@pinata/sdk": ^1.1.13
     "@polkadot/dev": ^0.62.8
     "@polkadot/ts": ^0.3.62

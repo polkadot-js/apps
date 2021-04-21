@@ -99,5 +99,8 @@
     "stylelint-config-styled-components": "^0.1.1",
     "webpack": "^5.31.0",
     "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "@phala/typedefs": "^0.0.9"
   }
 }
