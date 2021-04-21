@@ -4,7 +4,7 @@
 import { useApi, useCall } from '@canvas-ui/react-hooks';
 import React, { useEffect, useState } from 'react';
 
-import { HeaderExtended } from '@polkadot/api-derive';
+import { HeaderExtended } from '@polkadot/api-derive/type/types';
 import { EraRewardPoints } from '@polkadot/types/interfaces';
 import { formatNumber } from '@polkadot/util';
 
