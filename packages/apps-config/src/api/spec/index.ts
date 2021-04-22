@@ -35,6 +35,7 @@ import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
+import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
@@ -120,6 +121,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
+  ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
