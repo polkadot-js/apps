@@ -43,6 +43,13 @@ const definitions: OverrideBundleDefinition = {
       types: {
         CampaignIdentifier: '[u8; 4]'
       }
+    },
+    {
+      // enable dual refcount in runtime 20
+      minmax: [20, undefined],
+      types: {
+        AccountInfo: 'AccountInfoWithDualRefCount'
+      }
     }
   ]
 };
