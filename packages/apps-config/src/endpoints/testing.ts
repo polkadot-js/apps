@@ -155,6 +155,15 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'ipse',
+      text: t('rpc.ipse', 'IPSE', { ns: 'apps-config' }),
+      providers: {
+        'IPSE China': 'wss://testnet-china.ipse.io',
+        'IPSE USA': 'wss://testnet-usa.ipse.io',
+        'IPSE Europe': 'wss://testnet-europe.ipse.io'
+      }
+    },
+    {
       info: 'jupiter',
       text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {

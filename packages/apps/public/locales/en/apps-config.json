@@ -39,6 +39,7 @@
   "rpc.header.test.relay": "Test relays & parachains",
   "rpc.hosted.by": "hosted by {{host}}",
   "rpc.hydra": "HydraDX",
+  "rpc.ipse": "IPSE",
   "rpc.jupiter": "Jupiter",
   "rpc.kilt": "KILT Mashnet",
   "rpc.kulupu": "Kulupu",
