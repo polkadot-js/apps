@@ -5,7 +5,6 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
 import apron from './apron';
-import ipse from './ipse';
 import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
@@ -36,6 +35,7 @@ import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
+import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';

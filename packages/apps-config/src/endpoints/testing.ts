@@ -160,7 +160,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         'IPSE China': 'wss://testnet-china.ipse.io',
         'IPSE USA': 'wss://testnet-usa.ipse.io',
-        'IPSE Europe': 'wss://testnet-europe.ipse.io',
+        'IPSE Europe': 'wss://testnet-europe.ipse.io'
       }
     },
     {
