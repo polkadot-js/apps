@@ -22,6 +22,7 @@ const chainGalital = '#00063F';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
+const chainIpse = '#08a1e8';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainNFTMart = '#815287';
@@ -80,6 +81,7 @@ const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
+const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
@@ -137,6 +139,7 @@ export const chainColors: Record<string, any> = [
   ['HydraDX Snakenet Gen2', chainSnakenet],
   ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
+  ['IPSE', chainIpse],
   ['Jupiter A1', chainJupiter],
   ['Jupiter PC1', chainJupiter],
   ['KILT Collator Rococo', chainKilt],
@@ -212,6 +215,7 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['Galital Parachain Collator', nodeGalital],
+  ['IPSE', nodeIpse],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
