@@ -24,17 +24,17 @@ function Asset ({ className, value: { details, id, metadata } }: Props): React.R
     <tr className={className}>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='together'>{metadata?.name.toUtf8()}</td>
-      <td className='address media--1100'>{details && <AddressSmall value={details.owner} />}</td>
-      <td className='address media--1300'>{details && <AddressSmall value={details.admin} />}</td>
-      <td className='address media--1400'>{details && <AddressSmall value={details.issuer} />}</td>
-      <td className='address media--1500'>{details && <AddressSmall value={details.freezer} />}</td>
+      <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
+      <td className='address media--1200'>{details && <AddressSmall value={details.admin} />}</td>
+      <td className='address media--1300'>{details && <AddressSmall value={details.issuer} />}</td>
+      <td className='address media--1400'>{details && <AddressSmall value={details.freezer} />}</td>
       <td className='number all'>{details && format && (
         <FormatBalance
           format={format}
           value={details.supply}
         />
       )}</td>
-      <td className='number'>{formatNumber(metadata?.decimals)}</td>
+      {/* <td className='number'>{formatNumber(metadata?.decimals)}</td> */}
       {/* <td className='upper'>{metadata?.symbol.toUtf8()}</td> */}
     </tr>
   );
