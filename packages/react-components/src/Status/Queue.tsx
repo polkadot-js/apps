@@ -97,6 +97,8 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             } catch (error) {
               // swallow
             }
+          } else if (dispatchError.isToken) {
+            message = `${dispatchError.type}.${dispatchError.asToken.type}`;
           }
 
           return {
