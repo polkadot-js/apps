@@ -9,12 +9,14 @@ import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import Mint from './Mint';
+
 interface Props {
   className?: string;
   value: AssetInfo;
 }
 
-function Asset ({ className, value: { details, id, metadata } }: Props): React.ReactElement<Props> {
+function Asset ({ className, value: { details, id, isIssuerMe, metadata } }: Props): React.ReactElement<Props> {
   const format = useMemo(
     () => metadata && [metadata.decimals.toNumber(), metadata.symbol.toUtf8()],
     [metadata]
@@ -36,6 +38,13 @@ function Asset ({ className, value: { details, id, metadata } }: Props): React.R
       )}</td>
       {/* <td className='number'>{formatNumber(metadata?.decimals)}</td> */}
       {/* <td className='upper'>{metadata?.symbol.toUtf8()}</td> */}
+      <td className='button'>{details && metadata && isIssuerMe && (
+        <Mint
+          details={details}
+          id={id}
+          metadata={metadata}
+        />
+      )}</td>
     </tr>
   );
 }
