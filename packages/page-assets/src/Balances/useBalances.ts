@@ -16,11 +16,11 @@ interface Result {
 const queryOptions = {
   transform: ([[params], results]: [[[AssetId, string][]], AssetBalance[]]): Result[] =>
     results
-      .filter(({ balance }) => !balance.isZero())
       .map((balance, index) => ({
         accountId: params[index][1],
         balance
-      })),
+      }))
+      .filter(({ balance: { balance } }) => !balance.isZero()),
   withParamsTransform: true
 };
 

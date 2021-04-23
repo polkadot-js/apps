@@ -9,7 +9,7 @@ import { Dropdown, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import Balance from './Balance';
+import Account from './Account';
 import useBalances from './useBalances';
 
 interface Props {
@@ -27,6 +27,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
     [t('accounts'), 'start'],
     [t('frozen'), 'start'],
     [t('sufficient'), 'start'],
+    [],
     []
   ]);
 
@@ -79,8 +80,9 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
         header={headerRef.current}
       >
         {info && balances?.map(({ accountId, balance }) => (
-          <Balance
+          <Account
             accountId={accountId}
+            assetId={info.id}
             balance={balance}
             key={accountId}
             siFormat={siFormat}
