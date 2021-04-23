@@ -17,7 +17,7 @@ const definitions: OverrideBundleDefinition = {
       }
     },
     {
-      // updsated to Substrate master
+      // updated to Substrate master
       minmax: [9, undefined],
       types: {}
     }
