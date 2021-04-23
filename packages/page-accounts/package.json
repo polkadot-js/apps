@@ -7,7 +7,7 @@
     "@babel/runtime": "^7.13.17",
     "@polkadot/phishing": "^0.6.104",
     "@polkadot/react-components": "^0.88.2-25",
-    "@polkadot/vanitygen": "^0.32.1",
+    "@polkadot/vanitygen": "^0.32.2-0",
     "detect-browser": "^5.2.0",
     "file-saver": "^2.0.5"
   },
