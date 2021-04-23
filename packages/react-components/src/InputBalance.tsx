@@ -30,6 +30,8 @@ interface Props {
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
+  siDecimals?: number;
+  siSymbol?: string;
   value?: BN;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -68,7 +70,7 @@ function reformat (value: string | BN, isDisabled?: boolean): string {
   return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
 }
 
-function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const defaultValue = useMemo(
     () => inDefault ? reformat(inDefault, isDisabled) : undefined,
     [inDefault, isDisabled]
@@ -94,6 +96,8 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       onEnter={onEnter}
       onEscape={onEscape}
       placeholder={placeholder}
+      siDecimals={siDecimals}
+      siSymbol={siSymbol}
       value={value}
       withEllipsis={withEllipsis}
       withLabel={withLabel}

@@ -6,7 +6,7 @@ import type { SiDef } from '@polkadot/util/types';
 import type { BitLength } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
@@ -39,6 +39,8 @@ interface Props {
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
+  siDecimals?: number;
+  siSymbol?: string;
   value?: BN | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -69,10 +71,10 @@ function getRegex (isDecimal: boolean): RegExp {
   );
 }
 
-function getSiOptions (): { text: string; value: string }[] {
-  return formatBalance.getOptions().map(({ power, text, value }): { text: string; value: string } => ({
+function getSiOptions (symbol: string, decimals?: number): { text: string; value: string }[] {
+  return formatBalance.getOptions(decimals).map(({ power, text, value }): { text: string; value: string } => ({
     text: power === 0
-      ? TokenUnit.abbr
+      ? symbol
       : text,
     value
   }));
@@ -166,13 +168,18 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isZeroable, maxValue);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
   const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(
     getValues(api, propsValue || defaultValue, si, bitLength, isZeroable, maxValue)
+  );
+
+  const siOptions = useMemo(
+    () => getSiOptions(siSymbol || TokenUnit.abbr, siDecimals),
+    [siDecimals, siSymbol]
   );
 
   useEffect((): void => {
@@ -279,7 +286,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
           dropdownClassName='ui--SiDropdown'
           isButton
           onChange={_onSelectSiUnit}
-          options={getSiOptions()}
+          options={siOptions}
         />
       )}
       {children}
