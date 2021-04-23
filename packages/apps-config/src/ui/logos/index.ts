@@ -48,7 +48,7 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.png';
-import nodeIpse from './nodes/ipse.svg';
+import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -116,7 +116,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
-  ['IPSE', nodeIpse],
+  ['IpseTestnet', nodeIpse],
   ['Jupiter A1', nodeJupiter],
   ['Jupiter PC1', nodeJupiter],
   ['KILT PC1', nodeKilt],
@@ -200,7 +200,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['DOTMog Node', nodeDotMog],
   ['Eave Node', nodeEave],
   ['Edgeware Node', nodeEdgeware],
-  ['IPSE', nodeIpse],
+  ['IpseTestnet', nodeIpse],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
