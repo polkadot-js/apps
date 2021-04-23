@@ -43,7 +43,7 @@ function Team ({ accountId, className = '', defaultValue, onChange }: Props): Re
           type='account'
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The account that is to be used for issuing for this token.')}>
+      <Modal.Columns hint={t<string>('The account that is to be used for issuing this token.')}>
         <InputAddress
           defaultValue={initial?.issuerId || accountId}
           label={t<string>('issuer account')}
