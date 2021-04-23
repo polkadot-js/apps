@@ -1830,9 +1830,9 @@ __metadata:
   linkType: hard
 
 "@kiltprotocol/type-definitions@npm:latest":
-  version: 0.1.2
-  resolution: "@kiltprotocol/type-definitions@npm:0.1.2"
-  checksum: 138e4065c265cdae72beda3f2a35f9410601de3aa3b758e2ed48f5f0d01e7ef0aaf6e246e2838011daa67e62c1eea6f2545f991952bd77463c91cdbd278aad41
+  version: 0.1.3
+  resolution: "@kiltprotocol/type-definitions@npm:0.1.3"
+  checksum: 095d2b614bc757b8478654d0bc4e1fea61c28816580919ea9e520c794b8ed94ee54262de3f984354b0b7bdf8961bc80c2c055e81da8560f56256c015bb955251
   languageName: node
   linkType: hard
 
