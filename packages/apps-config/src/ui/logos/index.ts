@@ -73,7 +73,6 @@ import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
-import nodeSgc from './nodes/sgc.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemint from './nodes/statemint-3.png';
@@ -87,6 +86,7 @@ import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
+import nodeWeb3games from './nodes/web3games.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
@@ -143,7 +143,6 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
-  ['Sgc', nodeSgc],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -157,6 +156,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Unique', chainUnique],
   ['VLN PC', nodeVln],
   ['Vln', nodeVln],
+  ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['PHOENIX PC1', nodePhoenix],
   ['mybank.network PC1', mybank],
@@ -237,7 +237,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
-  ['Sgc', nodeSgc],
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
@@ -264,6 +263,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['PHOENIX Collator', nodePhoenix],
   ['Unit Node', nodeUnitv],
   ['Unit Collator', nodeUnitv],
+  ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
@@ -370,7 +370,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoUnitv: nodeUnitv,
   rococoVln: nodeVln,
   rococoZenlink: nodeZenlink,
-  sgc: nodeSgc,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
@@ -382,6 +381,7 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   unitv: nodeUnitv,
   vln: nodeVln,
+  web3games: nodeWeb3games,
   westend: nodePolkadot,
   westlake: nodeWestlake,
   zeitgeist: nodeZeitgeist,

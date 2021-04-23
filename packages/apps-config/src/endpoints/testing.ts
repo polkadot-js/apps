@@ -244,13 +244,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'sgc',
-      text: t('rpc.sgc', 'Sgc', { ns: 'apps-config' }),
-      providers: {
-        SGC: 'wss://substrate.org.cn:4443'
-      }
-    },
-    {
       info: 'sora-substrate',
       text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
@@ -290,6 +283,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
       providers: {
         Valiu: 'wss://vln.valiu.dev'
+      }
+    },
+    {
+      info: 'web3games',
+      text: t('rpc.web3games', 'Web3Games', { ns: 'apps-config' }),
+      providers: {
+        Web3Games: 'wss://substrate.org.cn:4443'
       }
     },
     {
