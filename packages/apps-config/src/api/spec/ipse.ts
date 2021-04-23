@@ -90,7 +90,6 @@ const definitions: OverrideBundleDefinition = {
           ]
         },
         MiningHistory: {
-          miner: 'AccountId',
           total_num: 'u64',
           history: 'Vec<(BlockNumber, Balance)>'
         },
