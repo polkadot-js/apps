@@ -12,14 +12,17 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, 8],
       types: {
         Address: 'AccountId',
+        Keys: 'SessionKeys2',
         LookupSource: 'AccountId',
         Schedule: 'ScheduleTo258'
       }
     },
     {
-      // updsated to Substrate master
+      // updated to Substrate master
       minmax: [9, undefined],
-      types: {}
+      types: {
+        Keys: 'SessionKeys2'
+      }
     }
   ]
 };
