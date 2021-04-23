@@ -12,19 +12,13 @@ import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';
 
-interface ErrorDefault {
-  isModule?: boolean
-  isToken?: boolean;
-  type: string;
-}
-
 interface Details {
   details?: string | null;
   type?: string;
 }
 
-function isDispatchError (value?: ErrorDefault): value is DispatchError {
-  return !!(value && (value.isModule || value.isToken));
+function isDispatchError (value?: unknown): value is DispatchError {
+  return !!(value && ((value as DispatchError).isModule || (value as DispatchError).isToken));
 }
 
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
@@ -34,10 +28,10 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const { value } = props.defaultValue || {};
 
-    if (isDispatchError(value as ErrorDefault)) {
+    if (isDispatchError(value)) {
       if (value.isModule) {
         try {
-          const mod = (value as DispatchError).asModule;
+          const mod = value.asModule;
           const { documentation, name, section } = mod.registry.findMetaError(mod);
 
           return setDetails({
@@ -51,7 +45,7 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
       } else if (value.isToken) {
         return setDetails({
           details: value.asToken.type,
-          type: value.type;
+          type: value.type
         });
       }
     }
