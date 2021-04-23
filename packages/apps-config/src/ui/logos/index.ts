@@ -381,7 +381,7 @@ export const namedLogos: Record<string, unknown> = {
   unique: nodeUnique,
   unitv: nodeUnitv,
   vln: nodeVln,
-  Web3games: nodeWeb3games,
+  web3games: nodeWeb3games,
   westend: nodePolkadot,
   westlake: nodeWestlake,
   zeitgeist: nodeZeitgeist,
