@@ -22,13 +22,12 @@ function Assets ({ assetIds, className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef([
     [t('assets'), 'start', 2],
-    [t('owner'), 'address'],
-    [t('admin'), 'address'],
-    [t('issuer'), 'address'],
-    [t('freezer'), 'address'],
-    [t('decimals')],
-    [t('symbol'), 'start'],
-    []
+    [t('owner'), 'address media--1100'],
+    [t('admin'), 'address media--1300'],
+    [t('issuer'), 'address media--1400'],
+    [t('freezer'), 'address media--1500'],
+    [t('supply')],
+    [t('decimals'), 'start']
   ]);
 
   return (
