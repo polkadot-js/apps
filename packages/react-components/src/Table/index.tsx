@@ -68,7 +68,7 @@ export default React.memo(styled(Table)`
   table {
     border-spacing: 0;
     max-width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
     position: relative;
     width: 100%;
     z-index: 1;
