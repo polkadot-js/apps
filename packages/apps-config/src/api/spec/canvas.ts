@@ -9,12 +9,19 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 const definitions: OverrideBundleDefinition = {
   types: [
     {
-      // on all versions
-      minmax: [0, undefined],
+      minmax: [0, 8],
       types: {
         Address: 'AccountId',
+        Keys: 'SessionKeys2',
         LookupSource: 'AccountId',
         Schedule: 'ScheduleTo258'
+      }
+    },
+    {
+      // updated to Substrate master
+      minmax: [9, undefined],
+      types: {
+        Keys: 'SessionKeys2'
       }
     }
   ]
