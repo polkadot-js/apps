@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetBalance } from '@polkadot/types/interfaces';
+import type { AssetBalance, AssetId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
@@ -9,15 +9,17 @@ import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
+import Transfer from './Transfer';
 
 interface Props {
   accountId: string;
+  assetId: AssetId;
   balance: AssetBalance;
   className?: string;
   siFormat: [number, string];
 }
 
-function Balance ({ accountId, balance: { balance, isFrozen, isSufficient }, className, siFormat }: Props): React.ReactElement<Props> {
+function Account ({ accountId, assetId, balance: { balance, isFrozen, isSufficient }, className, siFormat }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -37,8 +39,15 @@ function Balance ({ accountId, balance: { balance, isFrozen, isSufficient }, cla
           value={balance}
         />
       </td>
+      <td className='button'>
+        <Transfer
+          accountId={accountId}
+          assetId={assetId}
+          siFormat={siFormat}
+        />
+      </td>
     </tr>
   );
 }
 
-export default React.memo(Balance);
+export default React.memo(Account);
