@@ -1,8 +1,11 @@
 {
   "Asset overview": "Asset overview",
+  "Balances": "Balances",
   "Create": "Create",
   "Mint": "Mint",
   "Next": "Next",
+  "No": "No",
+  "No accounts with balances found for the asset": "No accounts with balances found for the asset",
   "No assets found": "No assets found",
   "Overview": "Overview",
   "Prev": "Prev",
@@ -20,6 +23,8 @@
   "The selected id for the asset. Should not match an already-existing id.": "The selected id for the asset. Should not match an already-existing id.",
   "The selected id for the asset. This should not match an already-existing asset id.": "The selected id for the asset. This should not match an already-existing asset id.",
   "The symbol that will represent this asset.": "The symbol that will represent this asset.",
+  "Yes": "Yes",
+  "accounts": "accounts",
   "admin": "admin",
   "admin account": "admin account",
   "amount to issue": "amount to issue",
@@ -33,12 +38,15 @@
   "decimals": "decimals",
   "freezer": "freezer",
   "freezer account": "freezer account",
+  "frozen": "frozen",
   "issuer": "issuer",
   "issuer account": "issuer account",
   "minimum balance": "minimum balance",
   "mint asset": "mint asset",
   "mint to address": "mint to address",
   "owner": "owner",
+  "sufficient": "sufficient",
   "supply": "supply",
-  "symbol": "symbol"
+  "symbol": "symbol",
+  "the asset to query for balances": "the asset to query for balances"
 }
