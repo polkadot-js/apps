@@ -35,6 +35,7 @@ import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
+import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
@@ -59,7 +60,6 @@ import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
-import sgc from './sgc';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
@@ -72,6 +72,7 @@ import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
+import web3games from './web3games';
 import westlake from './westlake';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
@@ -120,6 +121,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
+  ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
@@ -151,7 +153,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   realis,
   'riochain-runtime': riochain,
   robonomics,
-  'sgc-node': sgc,
   snowbridge,
   'sora-substrate': soraSubstrate,
   stafi,
@@ -164,6 +165,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  'web3games-node': web3games,
   westlake: westlake,
   zeitgeist: zeitgeist
 };

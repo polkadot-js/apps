@@ -22,6 +22,7 @@ const chainGalital = '#00063F';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
+const chainIpse = '#08a1e8';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainNFTMart = '#815287';
@@ -50,7 +51,6 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
-const chainSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainSnakenet = '#f653a2';
 const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
@@ -66,6 +66,7 @@ const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
 const chainVln = '#33cc33';
+const chainWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
@@ -80,6 +81,7 @@ const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
+const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
@@ -92,7 +94,6 @@ const nodePolkadex = '#7C30DD';
 const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
 const nodeRiochain = '#1A3BB3';
-const nodeSgc = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeStatemint = '#86e62a'; // '#98ff98';
@@ -101,6 +102,7 @@ const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
+const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
@@ -137,6 +139,7 @@ export const chainColors: Record<string, any> = [
   ['HydraDX Snakenet Gen2', chainSnakenet],
   ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
+  ['IpseTestnet', chainIpse],
   ['Jupiter A1', chainJupiter],
   ['Jupiter PC1', chainJupiter],
   ['KILT Collator Rococo', chainKilt],
@@ -173,7 +176,6 @@ export const chainColors: Record<string, any> = [
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
-  ['Sgc ', chainSgc],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
@@ -185,6 +187,7 @@ export const chainColors: Record<string, any> = [
   ['uni arts staging network', chainUniarts],
   ['Unique Node', chainUnique],
   ['VLN PC', chainVln],
+  ['Web3games ', chainWeb3games],
   ['Westend', chainWestend],
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
@@ -212,6 +215,7 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['Galital Parachain Collator', nodeGalital],
+  ['IpseTestnet', nodeIpse],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
@@ -226,7 +230,6 @@ export const nodeColors: Record<string, any> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
-  ['Sgc', nodeSgc],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['Statemint Collator', nodeStatemint],
@@ -235,6 +238,7 @@ export const nodeColors: Record<string, any> = [
   ['Ternoa Node', nodeTernoa],
   ['uni arts node', nodeUniarts],
   ['Unique Node', nodeUnique],
+  ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
