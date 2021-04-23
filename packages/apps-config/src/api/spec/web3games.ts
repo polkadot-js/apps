@@ -19,7 +19,7 @@ const definitions: OverrideBundleDefinition = {
         ExchangeId: 'u32',
         TokenSymbol: {
           _enum: {
-            SGC: 0,
+            W3G: 0,
             DOT: 1,
             ACA: 2,
             AUSD: 3
