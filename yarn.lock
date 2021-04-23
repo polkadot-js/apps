@@ -2118,10 +2118,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@phala/typedefs@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@phala/typedefs@npm:0.0.9"
-  checksum: a33e33675c7fcbc49f1bf6ba43d57e1967d7c61704d152588daba662e31701db1eaf0d50fdad4bcffcc168ef0390ffae183f5f2ef8d0836e53b7bd2152c4f6bd
+"@phala/typedefs@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@phala/typedefs@npm:0.1.0"
+  checksum: b3a06ee2aae63d7fcc1027d893b3f7ed82883990aef71b48eaf71deed08f58fe2f612cde915e27ef081d25eac9322e9f6a569723d5883c4c59fe6a4ffa1d61c8
   languageName: node
   linkType: hard
 
@@ -2440,7 +2440,7 @@ __metadata:
     "@equilab/definitions": 1.0.3
     "@interlay/polkabtc-types": ^0.6.2
     "@laminar/type-definitions": ^0.3.1
-    "@phala/typedefs": ^0.0.9
+    "@phala/typedefs": 0.1.0
     "@polkadot/networks": ^6.2.2-7
     "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^0.8.9
