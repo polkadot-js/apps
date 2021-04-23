@@ -21,6 +21,7 @@ interface Props extends BareProps {
   registry?: Registry;
   type?: TypeDef;
   value?: AnyJson | null;
+  isError?:boolean;
 }
 
 const TRUNCATE_TO = 16;
@@ -42,9 +43,10 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
   );
 }
 
-function Data ({ asJson = false, className, registry = baseRegistry, type, value }: Props): React.ReactElement<Props> | null {
+function Data ({ asJson = false, className, registry = baseRegistry, type, value, isError }: Props): React.ReactElement<Props> | null {
   const content = useMemo(
     (): React.ReactNode => {
+      if(isError) return value;
       if (isNull(value) || (Array.isArray(value) && value.length === 0)) {
         return '()';
       }
