@@ -19,7 +19,7 @@ const IDENTITY_FILTER = () => true;
 
 export function useEventTrigger (checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): string {
   const { api } = useApi();
-  const [trigger, setTrigger] = useState('0x00');
+  const [trigger, setTrigger] = useState('0');
   const mountedRef = useIsMountedRef();
   const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
 
@@ -30,7 +30,7 @@ export function useEventTrigger (checks: EventCheck[], filter: (record: EventRec
           ? r.event.section === check
           : check.is(r.event)
       )) && filter(r)
-    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || '0x00');
+    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || `${Date.now()}`);
   }, [eventRecords, checks, filter, mountedRef]);
 
   return trigger;
