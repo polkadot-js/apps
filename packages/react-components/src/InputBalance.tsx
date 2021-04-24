@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { BN_TEN, formatBalance, isBn } from '@polkadot/util';
+import { BN_TEN, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -41,12 +41,16 @@ interface Props {
 const BN_TEN_THOUSAND = new BN(10_000);
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function reformat (value: string | BN, isDisabled?: boolean): string {
+function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number): string {
+  const decimals = isUndefined(siDecimals)
+    ? formatBalance.getDefaults().decimals
+    : siDecimals;
+
   if (isBn(value)) {
     // format for 4 decimals (align with util)
     const valStr = value
       .mul(BN_TEN_THOUSAND)
-      .div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals)))
+      .div(BN_TEN.pow(new BN(decimals)))
       .toString()
       .padStart(5, '0'); // 4 after decimal, 1 before, min 5
 
@@ -67,13 +71,13 @@ function reformat (value: string | BN, isDisabled?: boolean): string {
     return fmt;
   }
 
-  return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
+  return formatBalance(value, { decimals, forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
 }
 
 function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const defaultValue = useMemo(
-    () => inDefault ? reformat(inDefault, isDisabled) : undefined,
-    [inDefault, isDisabled]
+    () => inDefault ? reformat(inDefault, isDisabled, siDecimals) : undefined,
+    [inDefault, isDisabled, siDecimals]
   );
 
   return (

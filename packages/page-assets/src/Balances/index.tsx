@@ -85,6 +85,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
             assetId={info.id}
             balance={balance}
             key={accountId}
+            minBalance={info.details.minBalance}
             siFormat={siFormat}
           />
         ))}
