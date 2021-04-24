@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AssetBalance, AssetId } from '@polkadot/types/interfaces';
-import type { AssetInfoComplete } from '../types';
 
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
@@ -29,10 +28,10 @@ const queryOptions = {
   withParamsTransform: true
 };
 
-export default function useBalances (info?: AssetInfoComplete | null): BalanceResult[] | null {
+export default function useBalances (id?: AssetId | null): BalanceResult[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const query = useCall(info && api.query.assets.account.multi, info && [allAccounts.map((a) => [info.id, a])], queryOptions);
+  const query = useCall(id && api.query.assets.account.multi, id && [allAccounts.map((a) => [id, a])], queryOptions);
 
-  return (query && info && (query.assetId === info.id) && query.balances) || null;
+  return (query && id && (query.assetId === id) && query.balances) || null;
 }

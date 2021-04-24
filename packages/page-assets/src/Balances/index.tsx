@@ -21,7 +21,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const { t } = useTranslation();
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<AssetInfoComplete | null>(null);
-  const balances = useBalances(info);
+  const balances = useBalances(info?.id);
 
   const headerRef = useRef([
     [t('accounts'), 'start'],
