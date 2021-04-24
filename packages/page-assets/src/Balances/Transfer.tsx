@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AssetId } from '@polkadot/types/interfaces';
+import type { AssetId, TAssetBalance } from '@polkadot/types/interfaces';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -15,21 +15,17 @@ interface Props {
   accountId: string;
   assetId: AssetId;
   className?: string;
+  minBalance: TAssetBalance;
   siFormat: [number, string];
 }
 
-function Transfer ({ accountId, assetId, className, siFormat: [siDecimals, siSymbol] }: Props): React.ReactElement<Props> {
+function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDecimals, siSymbol] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [amount, setAmount] = useState<BN | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [isProtected, setIsProtected] = useState(true);
-
-  const isAmountValid = useMemo(
-    () => !!amount && !amount.isZero(),
-    [amount]
-  );
 
   return (
     <>
@@ -59,13 +55,20 @@ function Transfer ({ accountId, assetId, className, siFormat: [siDecimals, siSym
                 type='allPlus'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount of tokens to issue to the account.')}>
+            <Modal.Columns hint={t<string>('The amount of tokens to transfer to the account.')}>
               <InputBalance
                 autoFocus
-                isError={!isAmountValid}
-                isZeroable={false}
                 label={t<string>('amount to transfer')}
                 onChange={setAmount}
+                siDecimals={siDecimals}
+                siSymbol={siSymbol}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The minimum balance allowed for the asset.')}>
+              <InputBalance
+                defaultValue={minBalance}
+                isDisabled
+                label={t<string>('minimum balance')}
                 siDecimals={siDecimals}
                 siSymbol={siSymbol}
               />
@@ -87,7 +90,7 @@ function Transfer ({ accountId, assetId, className, siFormat: [siDecimals, siSym
             <TxButton
               accountId={accountId}
               icon='paper-plane'
-              isDisabled={!recipientId || !isAmountValid}
+              isDisabled={!recipientId || !amount}
               label={t<string>('Send')}
               onStart={toggleOpen}
               params={[assetId, recipientId, amount]}

@@ -137,7 +137,8 @@ export default React.memo(styled(Head)`
     }
 
     &.filter {
-      .ui.input {
+      .ui.input,
+      .ui.selection.dropdown {
         background: transparent;
 
         &:first-child {

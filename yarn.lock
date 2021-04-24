@@ -2145,7 +2145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-contract@npm:^4.6.3-9":
+"@polkadot/api-contract@npm:^4.6.3-10":
   version: 4.6.3-10
   resolution: "@polkadot/api-contract@npm:4.6.3-10"
   dependencies:
@@ -2175,7 +2175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^4.6.3-9":
+"@polkadot/api@npm:^4.6.3-10":
   version: 4.6.3-10
   resolution: "@polkadot/api@npm:4.6.3-10"
   dependencies:
@@ -2265,7 +2265,7 @@ __metadata:
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"
   dependencies:
     "@babel/runtime": ^7.13.17
-    "@polkadot/api-contract": ^4.6.3-9
+    "@polkadot/api-contract": ^4.6.3-10
   languageName: unknown
   linkType: soft
 
@@ -2725,7 +2725,7 @@ __metadata:
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
     "@babel/runtime": ^7.13.17
-    "@polkadot/api": ^4.6.3-9
+    "@polkadot/api": ^4.6.3-10
     "@polkadot/extension-dapp": ^0.37.3-16
     "@polkadot/x-rxjs": ^6.2.2-7
     fflate: ^0.6.9
@@ -2921,7 +2921,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^4.6.3-9":
+"@polkadot/types@npm:^4.6.3-10":
   version: 4.6.3-10
   resolution: "@polkadot/types@npm:4.6.3-10"
   dependencies:
