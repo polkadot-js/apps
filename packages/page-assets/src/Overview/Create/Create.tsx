@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AssetId } from '@polkadot/types/interfaces';
 import type { InfoState, TeamState } from './types';
 
@@ -17,13 +18,14 @@ interface Props {
   assetIds: AssetId[];
   className?: string;
   onClose: () => void;
+  openId: BN;
 }
 
 const BATCH_OPTIONS = {
   isBatchAll: true
 };
 
-function Create ({ assetIds, className, onClose }: Props): React.ReactElement<Props> {
+function Create ({ assetIds, className, onClose, openId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [step, nextStep, prevStep] = useStepper();
@@ -69,6 +71,7 @@ function Create ({ assetIds, className, onClose }: Props): React.ReactElement<Pr
           assetIds={assetIds}
           defaultValue={asset}
           onChange={setAsset}
+          openId={openId}
         />
       )}
       {step === 2 && asset && (
