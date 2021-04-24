@@ -4,48 +4,35 @@
 import type { AssetBalance, AssetId } from '@polkadot/types/interfaces';
 import type { AssetInfoComplete } from '../types';
 
-import { useEffect, useState } from 'react';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
-import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-
-interface Result {
+interface BalanceResult {
   accountId: string;
   balance: AssetBalance;
 }
 
+interface Result {
+  assetId: AssetId;
+  balances: BalanceResult[];
+}
+
 const queryOptions = {
-  transform: ([[params], results]: [[[AssetId, string][]], AssetBalance[]]): Result[] =>
-    results
-      .map((balance, index) => ({
-        accountId: params[index][1],
-        balance
+  transform: ([[params], balances]: [[[AssetId, string][]], AssetBalance[]]): Result => ({
+    assetId: params[0][0],
+    balances: params
+      .map(([, accountId], index) => ({
+        accountId,
+        balance: balances[index]
       }))
-      .filter(({ balance: { balance } }) => !balance.isZero()),
+      .filter(({ balance: { balance } }) => !balance.isZero())
+  }),
   withParamsTransform: true
 };
 
-export default function useBalances (info?: AssetInfoComplete | null): Result[] | null {
+export default function useBalances (info?: AssetInfoComplete | null): BalanceResult[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<Result[] | null>(null);
   const query = useCall(info && api.query.assets.account.multi, info && [allAccounts.map((a) => [info.id, a])], queryOptions);
 
-  useEffect((): void => {
-    if (mountedRef.current) {
-      setState(null);
-
-      if (info) {
-        // dummy
-      }
-    }
-  }, [info, mountedRef]);
-
-  useEffect((): void => {
-    if (mountedRef.current && query) {
-      setState(query);
-    }
-  }, [query, mountedRef]);
-
-  return state;
+  return (query && info && (query.assetId === info.id) && query.balances) || null;
 }
