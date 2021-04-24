@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Input, InputAddress, InputBalance, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -18,19 +18,14 @@ interface Props {
   className?: string;
   defaultValue: InfoState | null;
   onChange: (info: InfoState | null) => void;
+  openId: BN;
 }
 
-function findAvailbleId (assetIds: AssetId[]): BN {
-  return assetIds.length
-    ? assetIds[assetIds.length - 1].add(BN_ONE)
-    : BN_ONE;
-}
-
-function Info ({ assetIds, className = '', defaultValue, onChange }: Props): React.ReactElement<Props> {
+function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [initial] = useState(() => defaultValue);
-  const [initialId] = useState(() => findAvailbleId(assetIds));
+  const [initialId] = useState(() => openId);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [assetId, setAssetId] = useState<BN | null>(null);
   const [assetDecimals, setAssetDecimals] = useState<BN | null>(null);
