@@ -25,10 +25,6 @@ interface Props {
 function findOpenId (ids?: AssetId[]): BN {
   if (!ids || !ids.length) {
     return BN_ONE;
-  } else if (ids.length === 1) {
-    return ids[0].eq(BN_ONE)
-      ? BN_TWO
-      : BN_ONE;
   }
 
   const lastTaken = ids.find((id, index) =>
