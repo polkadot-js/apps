@@ -67,6 +67,15 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
             siSymbol={siSymbol}
           />
         </Modal.Columns>
+        <Modal.Columns hint={t<string>('The minimum balance allowed for the asset.')}>
+          <InputBalance
+            defaultValue={minBalance}
+            isDisabled
+            label={t<string>('minimum balance')}
+            siDecimals={siDecimals}
+            siSymbol={siSymbol}
+          />
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
