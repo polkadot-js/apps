@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
-import { BN_ONE, BN_TWO } from '@polkadot/util';
+import { BN_ONE } from '@polkadot/util';
 
 import Balances from './Balances';
 import Overview from './Overview';
