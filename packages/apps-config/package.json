@@ -10,7 +10,7 @@
     "@acala-network/type-definitions": "^0.7.3",
     "@babel/runtime": "^7.13.17",
     "@crustio/type-definitions": "0.0.6",
-    "@darwinia/types": "^1.1.0-alpha.7",
+    "@darwinia/types": "^1.1.0-alpha.9",
     "@edgeware/node-types": "^3.3.4",
     "@equilab/definitions": "1.0.3",
     "@interlay/polkabtc-types": "^0.6.2",
