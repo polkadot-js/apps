@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 
-import { externalLogos } from '../ui/logos';
+import {externalLogos} from '../ui/logos';
 
 export default {
   chains: {
