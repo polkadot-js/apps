@@ -8,9 +8,11 @@ import Polkascan from './polkascan';
 import Polkassembly from './polkassembly';
 import Polkastats from './polkastats';
 import Subscan from './subscan';
+import DotScanner from './dotscanner';
 
 export const externalLinks: Record<string, ExternalDef> = {
   Commonwealth,
+  DotScanner,
   Polkascan,
   Polkassembly,
   Polkastats,
