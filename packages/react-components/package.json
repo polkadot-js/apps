@@ -33,7 +33,7 @@
     "react-markdown": "^5.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-tooltip": "^4.2.17",
+    "react-tooltip": "^4.2.18",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "store": "^2.0.12",
