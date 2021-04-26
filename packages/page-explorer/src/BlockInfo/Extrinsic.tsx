@@ -40,12 +40,14 @@ function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?
     phase.isApplyExtrinsic &&
     phase.asApplyExtrinsic.eq(index)
   );
-  const withInfo = filtered.filter(({ record: { event: { method, section } } }) =>
+  const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
     section === 'system' &&
     ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
   );
-  const dispatchInfo = withInfo.length
-    ? withInfo[0].record.event.data[0] as DispatchInfo
+  const dispatchInfo = infoRecord
+    ? infoRecord.record.event.method === 'ExtrinsicSuccess'
+      ? infoRecord.record.event.data[0] as DispatchInfo
+      : infoRecord.record.event.data[1] as DispatchInfo
     : undefined;
 
   return [
