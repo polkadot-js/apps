@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import App from './App';
+import App from '@polkadot/app-tech-comm/App';
 
 export { default as useCounter } from './useCounter';
 
@@ -17,7 +17,7 @@ function TechComm ({ basePath, className }: Props): React.ReactElement<Props> {
     <App
       basePath={basePath}
       className={className}
-      type='technicalCommittee'
+      type='membership'
     />
   );
 }
