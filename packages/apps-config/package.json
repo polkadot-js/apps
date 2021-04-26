@@ -19,9 +19,9 @@
     "@phala/typedefs": "0.1.0",
     "@polkadot/networks": "^6.3.1",
     "@snowfork/snowbridge-types": "^0.2.3",
-    "@sora-substrate/type-definitions": "^0.8.9",
+    "@sora-substrate/type-definitions": "^0.8.12",
     "@subsocial/types": "^0.5.0-substrate2.0",
-    "@zeitgeistpm/type-defs": "^0.1.36",
+    "@zeitgeistpm/type-defs": "^0.1.45",
     "moonbeam-types-bundle": "1.1.12"
   },
   "devDependencies": {
