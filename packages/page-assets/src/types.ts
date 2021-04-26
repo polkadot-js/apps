@@ -13,3 +13,8 @@ export interface AssetInfo {
   key: string;
   metadata: AssetMetadata | null;
 }
+
+export interface AssetInfoComplete extends AssetInfo {
+  details: AssetDetails;
+  metadata: AssetMetadata;
+}
