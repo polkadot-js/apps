@@ -73,7 +73,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               [t('parent'), 'start'],
               [t('extrinsics'), 'start'],
               [t('state'), 'start'],
-              []
+              [undefined, 'media--1200']
             ]
             : [['...', 'start', 6]]
         }
@@ -96,7 +96,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               }</td>
               <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
-              <td>
+              <td className='media--1200'>
                 <LinkExternal
                   data={value}
                   type='block'
