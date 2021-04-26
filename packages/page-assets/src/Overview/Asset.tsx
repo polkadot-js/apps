@@ -18,7 +18,9 @@ interface Props {
 
 function Asset ({ className, value: { details, id, isIssuerMe, metadata } }: Props): React.ReactElement<Props> {
   const format = useMemo(
-    () => metadata && [metadata.decimals.toNumber(), metadata.symbol.toUtf8()],
+    () => metadata
+      ? [metadata.decimals.toNumber(), metadata.symbol.toUtf8()]
+      : [0, '---'],
     [metadata]
   );
 
@@ -36,8 +38,6 @@ function Asset ({ className, value: { details, id, isIssuerMe, metadata } }: Pro
           value={details.supply}
         />
       )}</td>
-      {/* <td className='number'>{formatNumber(metadata?.decimals)}</td> */}
-      {/* <td className='upper'>{metadata?.symbol.toUtf8()}</td> */}
       <td className='button'>{details && metadata && isIssuerMe && (
         <Mint
           details={details}

@@ -57,7 +57,9 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   ]);
 
   const hidden = useMemo(
-    () => (hasAccounts && infos?.length) ? [] : ['balances'],
+    () => (hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)))
+      ? []
+      : ['balances'],
     [hasAccounts, infos]
   );
 
