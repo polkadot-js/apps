@@ -2327,6 +2327,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-membership@workspace:packages/page-membership":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-membership@workspace:packages/page-membership"
+  dependencies:
+    "@babel/runtime": ^7.13.17
+    "@polkadot/react-components": ^0.89.2-2
+    "@polkadot/react-query": ^0.89.2-2
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-parachains@workspace:packages/page-parachains":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-parachains@workspace:packages/page-parachains"

@@ -16,16 +16,17 @@ interface Props {
   idNumber: ProposalIndex;
   members: string[];
   proposal: Proposal;
+  type: 'membership' | 'technicalCommittee';
 }
 
-function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.ReactElement<Props> | null {
+function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
-  if (!api.tx.technicalCommittee.close) {
+  if (!api.tx[type].close) {
     return null;
   }
 
@@ -58,13 +59,13 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
               accountId={accountId}
               onStart={toggleOpen}
               params={
-                api.tx.technicalCommittee.close.meta.args.length === 4
+                api.tx[type].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
                     : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
-              tx={api.tx.technicalCommittee.closeOperational || api.tx.technicalCommittee.close}
+              tx={api.tx[type].closeOperational || api.tx[type].close}
             />
           </Modal.Actions>
         </Modal>

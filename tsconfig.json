@@ -42,6 +42,8 @@
       "@polkadot/app-i18n/*": [ "packages/page-i18n/src/*" ],
       "@polkadot/app-js": [ "packages/page-js/src" ],
       "@polkadot/app-js/*": [ "packages/page-js/src/*" ],
+      "@polkadot/app-membership": [ "packages/page-membership/src" ],
+      "@polkadot/app-membership/*": [ "packages/page-membership/src/*" ],
       "@polkadot/app-parachains": [ "packages/page-parachains/src" ],
       "@polkadot/app-parachains/*": [ "packages/page-parachains/src/*" ],
       "@polkadot/app-poll": [ "packages/page-poll/src" ],
