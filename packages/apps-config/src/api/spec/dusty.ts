@@ -76,6 +76,12 @@ const definitions: OverrideBundleDefinition = {
           putCodePerByteCost: 'Weight',
           version: 'u32'
         },
+        SmartContract: {
+          _enum: {
+            Wasm: 'AccountId',
+            Evm: 'H160'
+          }
+        },
         StakingParameters: {
           canBeNominated: 'bool',
           optionExpired: 'u128',
