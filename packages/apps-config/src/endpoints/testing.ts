@@ -299,7 +299,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         Parity: 'wss://westend-rpc.polkadot.io',
         'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws',
-        'Patract Elara': 'wss://westend.elara.patract.io'
+        'Patract Elara': 'wss://westend.elara.patract.io',
+        OnFinality: 'wss://westend.api.onfinality.io/public-ws'
       }
     },
     {
