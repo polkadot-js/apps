@@ -65,9 +65,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        // paraId >= 1000, below that is reserved for system parachains
         paraId: 2048,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
