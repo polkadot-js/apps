@@ -46,7 +46,8 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
 function Data ({ asJson = false, className, registry = baseRegistry, type, value, isError }: Props): React.ReactElement<Props> | null {
   const content = useMemo(
     (): React.ReactNode => {
-      if(isError) return value;
+      if (isError) return value;
+
       if (isNull(value) || (Array.isArray(value) && value.length === 0)) {
         return '()';
       }
@@ -218,7 +219,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
 
       return truncate(codec.toHex(), TRUNCATE_TO);
     },
-    [asJson, value, registry, type]
+    [asJson, isError, value, registry, type]
   );
 
   return (
