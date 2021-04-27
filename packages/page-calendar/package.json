@@ -1,10 +1,10 @@
 {
   "name": "@polkadot/app-calendar",
   "private": true,
-  "version": "0.89.2-4",
+  "version": "0.89.2-5",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.13.17",
-    "@polkadot/react-components": "^0.89.2-4"
+    "@polkadot/react-components": "^0.89.2-5"
   }
 }
