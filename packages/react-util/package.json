@@ -12,12 +12,12 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@canvas-ui/react-api": "workspace:packages/react-api",
-    "@polkadot/api": "^3.11.2-3",
-    "@polkadot/api-contract": "^3.11.2-3",
-    "@polkadot/keyring": "^5.9.3-0",
-    "@polkadot/types": "^3.11.2-3",
-    "@polkadot/ui-keyring": "^0.65.2-2",
-    "@polkadot/util": "^5.9.3-0",
+    "@polkadot/api": "^4.6.2",
+    "@polkadot/api-contract": "^4.6.2",
+    "@polkadot/keyring": "^6.2.1",
+    "@polkadot/types": "^4.6.2",
+    "@polkadot/ui-keyring": "^0.74.1",
+    "@polkadot/util": "^6.2.1",
     "i18next": "^19.4.5"
   }
 }
