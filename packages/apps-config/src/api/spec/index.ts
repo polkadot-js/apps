@@ -133,7 +133,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   trustbase,
   uniarts,
   zenlink,
-  'polygon-da-node': matic
+  'node-template': matic
 };
 
 export default spec;

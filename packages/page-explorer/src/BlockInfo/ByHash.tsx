@@ -18,7 +18,7 @@ import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 import axios from 'axios';
 
-const LightClientURI = 'http://localhost:7000/v1/json-rpc';
+const LightClientURI = 'https://polygon-da-light.matic.today/v1/json-rpc';
 
 interface Props {
   className?: string;
