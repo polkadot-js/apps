@@ -15,16 +15,16 @@ const definitions: OverrideBundleDefinition = {
         Address: 'AccountId',
         LookupSource: 'AccountId',
         CurrencyId: {
-          "_enum": [
-            "Native",
-            "DOT",
-            "KSM",
-            "BTC"
+          _enum: [
+            'Native',
+            'DOT',
+            'KSM',
+            'BTC'
           ]
         },
         CurrencyIdOf: 'CurrencyId',
         AmountOf: 'Amount',
-        Amount: "i128"
+        Amount: 'i128'
       }
     }
   ]
