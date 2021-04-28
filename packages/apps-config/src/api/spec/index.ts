@@ -121,7 +121,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
-  ipse,
+  'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
