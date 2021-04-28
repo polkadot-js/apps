@@ -260,8 +260,8 @@ export function createRococo (t: TFunction): LinkOption[] {
         info: 'rococoManta',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 777,
+        // isDisabled: true,
+        paraId: 2021,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
           Manta: 'wss://rococo.manta.network'
