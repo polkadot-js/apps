@@ -17,7 +17,6 @@ import extrinsics from './extrinsics';
 import masterSubmission from './master-proposals';
 import tokenSwap from './token-swap';
 import anchor from './anchor';
-import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
 import poll from './poll';
