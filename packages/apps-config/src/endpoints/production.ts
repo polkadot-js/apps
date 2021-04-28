@@ -142,6 +142,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      providers: {
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
