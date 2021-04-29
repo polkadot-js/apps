@@ -74,10 +74,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoAres',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 6,
+        paraId: 1006,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
         providers: {
           'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
