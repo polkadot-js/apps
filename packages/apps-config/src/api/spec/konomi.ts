@@ -13,38 +13,7 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: "AccountId",
-        AssetId: "u64",
-        FeeRate: "u64",
         LookupSource: "AccountId",
-        Balance: "u128",
-        User: {
-          "borrowLimit": "Balance",
-          "supplyBalance": "Balance",
-          "debtBalance": "Balance"
-        },
-        Pool: {
-          enabled: "bool",
-          canBeCollateral: "bool",
-          asset: "AssetId",
-          supply: "Balance",
-          debt: "Balance",
-          safeFactor: "u128",
-          closeFactor: "u128",
-          discountFactor: "u128",
-          totalSupplyIndex: "u128",
-          totalDebtIndex: "u128",
-          lastUpdated: "BlockNumber",
-          utilizationFactor: "u128",
-          initialInterestRate: "u128"
-        },
-        UserSupply: {
-          "amount": "Balance",
-          "index": "u128"
-        },
-        UserDebt: {
-          "amount": "Balance",
-          "index": "u128"
-        }
       }
     }
   ]
