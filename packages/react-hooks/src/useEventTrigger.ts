@@ -7,13 +7,11 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
-import { isString } from '@polkadot/util';
-
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
 
-type EventCheck = AugmentedEvent<'promise'> | string | false | undefined | null;
+type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 
 const IDENTITY_FILTER = () => true;
 
@@ -25,18 +23,10 @@ export function useEventTrigger (checks: EventCheck[], filter: (record: EventRec
 
   useEffect((): void => {
     mountedRef.current && eventRecords && eventRecords.filter((r) =>
-      r.event && checks.some((c) => c && (
-        isString(c)
-          ? c.includes('.')
-            ? c.split('.').every((c, index) =>
-              index
-                ? r.event.method === c
-                : r.event.section === c
-            )
-            : r.event.section === c
-          : c.is(r.event)
-      )) && filter(r)
-    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || '');
+      r.event &&
+      checks.some((c) => c && c.is(r.event)) &&
+      filter(r)
+    ).length && setTrigger(eventRecords.createdAtHash?.toHex() || '');
   }, [eventRecords, checks, filter, mountedRef]);
 
   return trigger;

@@ -31,7 +31,7 @@ export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
   const [state, setState] = useState<Proposals | undefined>();
   const mountedRef = useIsMountedRef();
-  const trigger = useEventTrigger(['proposeParachain']);
+  const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);
   const [sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.session.currentIndex,
     api.query.proposeParachain?.approvedProposals
