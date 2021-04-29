@@ -25,12 +25,18 @@ export function useEventTrigger (checks: EventCheck[], filter: (record: EventRec
 
   useEffect((): void => {
     mountedRef.current && eventRecords && eventRecords.filter((r) =>
-      r.event && checks.some((check) => check && (
-        isString(check)
-          ? r.event.section === check
-          : check.is(r.event)
+      r.event && checks.some((c) => c && (
+        isString(c)
+          ? c.includes('.')
+            ? c.split('.').every((c, index) =>
+              index
+                ? r.event.method === c
+                : r.event.section === c
+            )
+            : r.event.section === c
+          : c.is(r.event)
       )) && filter(r)
-    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || `${Date.now()}`);
+    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || '');
   }, [eventRecords, checks, filter, mountedRef]);
 
   return trigger;
