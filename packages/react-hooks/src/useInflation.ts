@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { Inflation } from './types';
 
 import BN from 'bn.js';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { getInflationParams } from '@polkadot/apps-config';
 import { BN_MILLION } from '@polkadot/util';
@@ -38,13 +38,11 @@ export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: 
 export function useInflation (totalStaked?: BN): Inflation {
   const { api } = useApi();
   const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
-  const [state, setState] = useState<Inflation>(EMPTY);
 
-  useEffect((): void => {
-    totalIssuance && totalStaked && setState(
-      calcInflation(api, totalStaked, totalIssuance)
-    );
-  }, [api, totalIssuance, totalStaked]);
-
-  return state;
+  return useMemo(
+    () => totalIssuance && totalStaked
+      ? calcInflation(api, totalStaked, totalIssuance)
+      : EMPTY,
+    [api, totalIssuance, totalStaked]
+  );
 }

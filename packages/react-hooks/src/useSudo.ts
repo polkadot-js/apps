@@ -4,7 +4,7 @@
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { UseSudo } from './types';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
@@ -18,11 +18,12 @@ export function useSudo (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, transformSudo);
-  const [hasSudoKey, setHasSudoKey] = useState(false);
 
-  useEffect((): void => {
-    setHasSudoKey(!!sudoKey && !!allAccounts && allAccounts.some((key) => key === sudoKey));
-  }, [allAccounts, sudoKey]);
-
-  return { allAccounts, hasSudoKey, sudoKey };
+  return useMemo(
+    () => ({
+      hasSudoKey: !!sudoKey && allAccounts.some((a) => a === sudoKey),
+      sudoKey
+    }),
+    [allAccounts, sudoKey]
+  );
 }
