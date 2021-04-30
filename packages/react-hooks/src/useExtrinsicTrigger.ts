@@ -20,7 +20,8 @@ export function useExtrinsicTrigger (checks: ExtrinsicCheck[]): string {
 
   useEffect((): void => {
     mountedRef.current && block && block.extrinsics && block.extrinsics.filter(({ extrinsic }) =>
-      extrinsic && checks.some((c) => c && c.is(extrinsic))
+      extrinsic &&
+      checks.some((c) => c && c.is(extrinsic))
     ).length && setTrigger(() => block.createdAtHash?.toHex() || '');
   }, [block, checks, mountedRef]);
 
