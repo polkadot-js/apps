@@ -30,7 +30,7 @@ export function useEventTrigger (checks: EventCheck[], filter: (record: EventRec
           ? r.event.section === check
           : check.is(r.event)
       )) && filter(r)
-    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || `${Date.now()}`);
+    ).length && setTrigger(() => eventRecords.createdAtHash?.toHex() || '');
   }, [eventRecords, checks, filter, mountedRef]);
 
   return trigger;
