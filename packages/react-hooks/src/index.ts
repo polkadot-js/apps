@@ -25,6 +25,8 @@ export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useLedger } from './useLedger';
 export { useLoadingDelay } from './useLoadingDelay';
+export { useMapEntries } from './useMapEntries';
+export { useMapKeys } from './useMapKeys';
 export { useMembers } from './useMembers';
 export { useModal } from './useModal';
 export { useNonEmptyString } from './useNonEmptyString';

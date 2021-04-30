@@ -245,7 +245,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
+      text: t('rpc.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
       }

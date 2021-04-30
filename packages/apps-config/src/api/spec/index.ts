@@ -39,6 +39,7 @@ import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
+import konomi from './konomi';
 import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
@@ -125,6 +126,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
+  konomi,
   kulupu,
   laminar,
   litentry,
