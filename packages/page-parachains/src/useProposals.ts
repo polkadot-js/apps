@@ -34,7 +34,7 @@ function extractScheduled (entries: [StorageKey<[SessionIndex]>, ParaId[]][]): S
 export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const trigger = useEventTrigger(['proposeParachain']);
+  const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);
   const proposalIds = useMapKeys(api.query.proposeParachain?.proposals, { at: trigger, transform: extractProposalIds });
   const scheduled = useMapEntries(api.query.proposeParachain?.scheduledProposals, { at: trigger, transform: extractScheduled });
   const [sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
