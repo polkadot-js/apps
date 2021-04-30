@@ -73,6 +73,7 @@ import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
+import vodka from './vodka';
 import web3games from './web3games';
 import westlake from './westlake';
 import zeitgeist from './zeitgeist';
@@ -167,6 +168,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  vodka,
   'web3games-node': web3games,
   westlake: westlake,
   zeitgeist: zeitgeist
