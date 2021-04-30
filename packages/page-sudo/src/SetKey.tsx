@@ -4,21 +4,21 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { AddressMini, InputAddress, Labelled, MarkWarning, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 
 interface Props {
-  allAccounts: string[];
   className?: string;
   isMine?: boolean;
   sudoKey?: string;
 }
 
-function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
+function SetKey ({ className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -28,7 +28,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
   const willLose = isMine &&
     !!selected &&
     selected !== sudoKey &&
-    allAccounts.some((s): boolean => s === selected);
+    allAccounts.some((s) => s === selected);
 
   return (
     <section>
@@ -66,9 +66,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
         }
       </section>
       {willLose && (
-        <article className='warning padded'>
-          <div>{t<string>('You will no longer have sudo access')}</div>
-        </article>
+        <MarkWarning content={t<string>('You will no longer have sudo access')} />
       )}
     </section>
   );

@@ -6,7 +6,7 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
-import { Icon, Tabs } from '@polkadot/react-components';
+import { MarkError, Tabs } from '@polkadot/react-components';
 import { useSudo } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
@@ -15,7 +15,7 @@ import { useTranslation } from './translate';
 
 function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts, hasSudoKey, sudoKey } = useSudo();
+  const { hasSudoKey, sudoKey } = useSudo();
 
   const itemsRef = useRef([
     {
@@ -40,28 +40,19 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
           <Switch>
             <Route path={`${basePath}/key`}>
               <SetKey
-                allAccounts={allAccounts}
                 isMine={hasSudoKey}
                 sudoKey={sudoKey}
               />
             </Route>
             <Route>
               <Sudo
-                allAccounts={allAccounts}
                 isMine={hasSudoKey}
                 sudoKey={sudoKey}
               />
             </Route>
           </Switch>
         )
-        : (
-          <article className='error padded'>
-            <div>
-              <Icon icon='ban' />
-              {t<string>('You do not have access to the current sudo key')}
-            </div>
-          </article>
-        )
+        : <MarkError content={t<string>('You do not have access to the current sudo key')} />
       }
     </main>
   );
