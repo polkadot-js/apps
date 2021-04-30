@@ -227,6 +227,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoKonomi',
+        paraId: 18403,
+        text: t('rpc.rococo.konomi', 'Komomi Network', { ns: 'apps-config' }),
+        providers: {
+          'Konomi Network': 'wss://rococo.konomi.tech'
+        }
+      },
+      {
         info: 'rococoLitentry',
         paraId: 1984,
         text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
