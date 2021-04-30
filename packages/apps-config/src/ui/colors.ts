@@ -36,6 +36,7 @@ const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKilt = '#8c175b';
+const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainMybank = '#282736';
@@ -83,6 +84,7 @@ const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
+const nodeKonomi = '#007aff';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
@@ -144,6 +146,7 @@ export const chainColors: Record<string, any> = [
   ['Jupiter PC1', chainJupiter],
   ['KILT Collator Rococo', chainKilt],
   ['KILT Testnet', chainKilt],
+  ['Konomi', chainKonomi],
   ['Kulupu', chainKulupu],
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -216,6 +219,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['Galital Parachain Collator', nodeGalital],
   ['IpseTestnet', nodeIpse],
+  ['Konomi Collator', nodeKonomi],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],
