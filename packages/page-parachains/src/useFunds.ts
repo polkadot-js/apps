@@ -66,6 +66,22 @@ function isFundUpdated (bestNumber: BlockNumber, minContribution: BN, { info: { 
     (!prev.isWinner && hasLease(paraId, leased));
 }
 
+function sortCampaigns (a: Campaign, b: Campaign): number {
+  return a.isWinner !== b.isWinner
+    ? a.isWinner
+      ? -1
+      : 1
+    : a.isCapped !== b.isCapped
+      ? a.isCapped
+        ? -1
+        : 1
+      : a.isEnded !== b.isEnded
+        ? a.isEnded
+          ? 1
+          : -1
+        : 0;
+}
+
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
 function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Campaign[], leased: ParaId[], prev: Campaigns): Campaigns {
   const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
@@ -96,21 +112,7 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
       : prev.activeRaised,
     funds: funds
       .map((c) => updateFund(bestNumber, minContribution, c, leased))
-      .sort((a, b) =>
-        a.isWinner !== b.isWinner
-          ? a.isWinner
-            ? -1
-            : 1
-          : a.isCapped !== b.isCapped
-            ? a.isCapped
-              ? -1
-              : 1
-            : a.isEnded !== b.isEnded
-              ? a.isEnded
-                ? 1
-                : -1
-              : 0
-      ),
+      .sort(sortCampaigns),
     totalCap: hasNewTotalCap
       ? totalCap
       : prev.totalCap,

@@ -27,19 +27,18 @@ interface Props {
 }
 
 interface Contributions {
-  uniqueKeys: string[];
+  contributors: string[];
   myAccounts: string[];
 }
 
-const NO_CONTRIB: Contributions = { myAccounts: [], uniqueKeys: [] };
+const NO_CONTRIB: Contributions = { contributors: [], myAccounts: [] };
 
 function extractContributors (allAccounts: string[], keys: StorageKey[]): Contributions {
-  const uniqueKeys = keys.map((k) => k.toHex());
   const contributors = keys.map((k) => encodeAddress(k));
 
   return {
-    myAccounts: contributors.filter((c) => allAccounts.includes(c)),
-    uniqueKeys
+    contributors,
+    myAccounts: contributors.filter((c) => allAccounts.includes(c))
   };
 }
 
@@ -47,7 +46,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
-  const [{ myAccounts, uniqueKeys }, setContributors] = useState<Contributions>(NO_CONTRIB);
+  const [{ contributors, myAccounts }, setContributors] = useState<Contributions>(NO_CONTRIB);
   const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
     ({ event: { data } }: EventRecord) =>
       ((data.length === 1
@@ -134,8 +133,8 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         <div>{percentage}</div>
       </td>
       <td className='number'>
-        {uniqueKeys.length !== 0 && (
-          formatNumber(uniqueKeys.length)
+        {contributors.length !== 0 && (
+          formatNumber(contributors.length)
         )}
       </td>
       <td className='badge'>
@@ -145,12 +144,8 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         />
       </td>
       <td className='button media--1300'>
-        {canWithdraw && uniqueKeys.length !== 0 && (
-          <Refund
-            allAccounts={uniqueKeys}
-            myAccounts={myAccounts}
-            paraId={paraId}
-          />
+        {canWithdraw && contributors.length !== 0 && (
+          <Refund paraId={paraId} />
         )}
         {canDissolve && (
           <TxButton
