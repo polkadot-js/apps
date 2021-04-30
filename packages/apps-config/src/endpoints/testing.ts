@@ -286,6 +286,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'vodka',
+      text: t('rpc.vodka', 'Vodka', { ns: 'apps-config' }),
+      providers: {
+        Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
+      }
+    },
+    {
       info: 'web3games',
       text: t('rpc.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
