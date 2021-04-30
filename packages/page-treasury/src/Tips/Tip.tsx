@@ -118,7 +118,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='expand'>
+      <td className='expand media--1100'>
         {tips.length !== 0 && (
           <Expander summary={
             <>

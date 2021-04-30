@@ -92,6 +92,7 @@ export default React.memo(styled(Table)`
         }
 
         &.all {
+          word-break: break-word;
           width: 100%;
 
           summary {
