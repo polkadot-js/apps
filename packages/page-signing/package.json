@@ -1,10 +1,10 @@
 {
   "name": "@polkadot/app-signing",
   "private": true,
-  "version": "0.89.2-25",
+  "version": "0.89.2-26",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.89.2-25"
+    "@polkadot/react-components": "^0.89.2-26"
   }
 }
