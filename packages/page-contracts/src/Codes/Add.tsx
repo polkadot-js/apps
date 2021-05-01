@@ -29,12 +29,8 @@ function Add ({ onClose }: Props): React.ReactElement {
         return;
       }
 
-      store
-        .saveCode(codeHash, { abi, name, tags: [] })
-        .then(() => onClose())
-        .catch((error): void => {
-          console.error('Unable to save code', error);
-        });
+      store.saveCode(codeHash, { abi, name, tags: [] });
+      onClose();
     },
     [abi, codeHash, name, onClose]
   );
