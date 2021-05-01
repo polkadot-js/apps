@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { AbiParam } from '@polkadot/api-contract/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -11,7 +12,7 @@ import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Mod
 import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isFunction, isNull, isWasm } from '@polkadot/util';
+import { isNull, isWasm, stringify } from '@polkadot/util';
 
 import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
@@ -30,9 +31,10 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [accountId, setAccountId] = useAccountId();
   const [step, nextStep, prevStep] = useStepper();
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
-  const [constructorIndex, setConstructorIndex] = useState(0);
+  const [constructorId, setConstructorId] = useState<string | null>();
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
   const [params, setParams] = useState<any[]>([]);
+  const [abiParams, setAbiParams] = useState<AbiParam[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
@@ -47,30 +49,31 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
-        info: message.identifier,
-        key: `${index}`,
+      ? contractAbi.constructors.map((c) => ({
+        info: c.identifier,
+        key: c.identifier,
         text: (
           <MessageSignature
             asConstructor
-            message={message}
+            message={c}
           />
         ),
-        value: index
+        value: c.method
       }))
       : [],
     [contractAbi]
   );
 
   useEffect((): void => {
-    setConstructorIndex(() =>
-      constructOptions.find(({ info }) => info === 'default')?.value || 0
+    setConstructorId(
+      (constructOptions.find(({ info }) => info === 'default') || constructOptions[0]).value
     );
   }, [constructOptions]);
 
   useEffect((): void => {
     setParams([]);
-  }, [constructorIndex]);
+    constructorId && contractAbi && setAbiParams(contractAbi.findConstructor(constructorId).args);
+  }, [contractAbi, constructorId]);
 
   useEffect((): void => {
     setWasm(
@@ -89,15 +92,15 @@ function Upload ({ onClose }: Props): React.ReactElement {
     let error: string | null = null;
 
     try {
-      contract = code && contractAbi && endowment
-        ? code.createContract(constructorIndex, { gasLimit: weight.weight, value: endowment }, params)
+      contract = code && contractAbi && endowment && constructorId
+        ? code.tx[constructorId]({ gasLimit: weight.weight, value: endowment }, params)
         : null;
     } catch (e) {
       error = (e as Error).message;
     }
 
     setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
+  }, [code, contractAbi, constructorId, endowment, params, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -109,16 +112,14 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const _onSuccess = useCallback(
     (result: CodeSubmittableResult): void => {
-      result.blueprint && store
-        .saveCode(result.blueprint.codeHash, {
-          abi: JSON.stringify(result.blueprint.abi.json),
-          name: name || '<>',
-          tags: []
-        })
-        .catch(console.error);
+      result.blueprint && store.saveCode(result.blueprint.codeHash, {
+        abi: stringify(result.blueprint.abi.json),
+        name: name || '<>',
+        tags: []
+      });
       result.contract && keyring.saveContract(result.contract.address.toString(), {
         contract: {
-          abi: JSON.stringify(result.contract.abi.json),
+          abi: stringify(result.contract.abi.json),
           genesisHash: api.genesisHash.toHex()
         },
         name: name || '<>',
@@ -130,7 +131,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid && !!uploadTx && step === 2;
   const invalidAbi = isAbiError || !isAbiSupplied;
-  const hasBatchDeploy = isFunction(api.tx.contracts.instantiateWithCode) || isFunction(api.tx.utility?.batch);
 
   return (
     <Modal header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}>
@@ -162,9 +162,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
               onRemove={onRemoveAbi}
               withWasm
             />
-            {!hasBatchDeploy && (
-              <MarkError content={t<string>('Your environment does not support the latest instantiateWithCode contracts call, nor does it have utility.batch functionality available. This operation is not available.')} />
-            )}
             {!invalidAbi && contractAbi && (
               <>
                 {!contractAbi.project.source.wasm.length && (
@@ -191,13 +188,13 @@ function Upload ({ onClose }: Props): React.ReactElement {
               help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
               isDisabled={contractAbi.constructors.length <= 1}
               label={t('deployment constructor')}
-              onChange={setConstructorIndex}
+              onChange={setConstructorId}
               options={constructOptions}
-              value={constructorIndex}
+              value={constructorId}
             />
             <Params
               onChange={setParams}
-              params={contractAbi.constructors[constructorIndex].args}
+              params={abiParams}
               registry={contractAbi.registry}
             />
             <InputBalance
@@ -222,7 +219,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
           ? (
             <Button
               icon='step-forward'
-              isDisabled={!code || !contractAbi || !hasBatchDeploy}
+              isDisabled={!code || !contractAbi}
               label={t<string>('Next')}
               onClick={nextStep}
             />
