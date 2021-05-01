@@ -12,7 +12,7 @@ import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Mod
 import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isFunction, isNull, isWasm, stringify } from '@polkadot/util';
+import { isNull, isWasm, stringify } from '@polkadot/util';
 
 import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
@@ -131,7 +131,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid && !!uploadTx && step === 2;
   const invalidAbi = isAbiError || !isAbiSupplied;
-  const hasBatchDeploy = isFunction(api.tx.contracts.instantiateWithCode) || isFunction(api.tx.utility?.batch);
 
   return (
     <Modal header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}>
@@ -163,9 +162,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
               onRemove={onRemoveAbi}
               withWasm
             />
-            {!hasBatchDeploy && (
-              <MarkError content={t<string>('Your environment does not support the latest instantiateWithCode contracts call, nor does it have utility.batch functionality available. This operation is not available.')} />
-            )}
             {!invalidAbi && contractAbi && (
               <>
                 {!contractAbi.project.source.wasm.length && (
@@ -223,7 +219,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
           ? (
             <Button
               icon='step-forward'
-              isDisabled={!code || !contractAbi || !hasBatchDeploy}
+              isDisabled={!code || !contractAbi}
               label={t<string>('Next')}
               onClick={nextStep}
             />
