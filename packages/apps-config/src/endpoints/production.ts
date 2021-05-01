@@ -120,6 +120,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'neatcoin',
+      text: t('rpc.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
+      providers: {
+        Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      }
+    },
+    {
       info: 'nodle',
       text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
