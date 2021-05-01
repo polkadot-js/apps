@@ -91,6 +91,7 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
 
   const hasValue = !!amount?.gtn(0);
   const isAccount = destination === 'Account';
+  const isDestError = isAccount && destBalance && destBalance.accountId.eq(destAccount) && destBalance.freeBalance.isZero();
 
   return (
     <div className={className}>
@@ -176,7 +177,7 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
             value={destAccount}
           />
         )}
-        {isAccount && destBalance && destBalance.accountId.eq(destAccount) && destBalance.freeBalance.isZero() && (
+        {isDestError && (
           <MarkError content={t<string>('The selected destination account does not exist and cannot be used to receive rewards')} />
         )}
       </Modal.Columns>
