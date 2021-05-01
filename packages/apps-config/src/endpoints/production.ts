@@ -83,7 +83,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
-        'Patract Elara': 'wss://edgeware.elara.patract.io'
+        'Patract Elara': 'wss://edgeware.elara.patract.io',
+        OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
     {
@@ -139,6 +140,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      providers: {
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
       }
     },
     {

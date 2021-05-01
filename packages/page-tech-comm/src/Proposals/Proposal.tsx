@@ -22,6 +22,7 @@ interface Props {
   isMember: boolean;
   members: string[];
   prime?: AccountId | null;
+  type: 'membership' | 'technicalCommittee';
 }
 
 const transformProposal = {
@@ -32,13 +33,13 @@ const transformVotes = {
   transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
 };
 
-function Proposal ({ className = '', imageHash, members, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className = '', imageHash, members, prime, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const proposal = useCall<ProposalType | null>(api.query.technicalCommittee.proposalOf, [imageHash], transformProposal);
-  const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], transformVotes);
-  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
+  const proposal = useCall<ProposalType | null>(api.query[type].proposalOf, [imageHash], transformProposal);
+  const votes = useCall<Votes | null>(api.query[type].voting, [imageHash], transformVotes);
+  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, type);
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
   const [councilId, isMultiMembers] = useMemo(
@@ -99,6 +100,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
             members={members}
             prime={prime}
             proposalId={index}
+            type={type}
           />
         )}
         {isCloseable && (
@@ -110,6 +112,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
                 idNumber={index}
                 members={members}
                 proposal={proposal}
+                type={type}
               />
             )
             : (
@@ -118,13 +121,13 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
                 icon='times'
                 label={t<string>('Close')}
                 params={
-                  api.tx.technicalCommittee.close?.meta.args.length === 4
+                  api.tx[type].close?.meta.args.length === 4
                     ? hasFailed
                       ? [imageHash, index, 0, 0]
                       : [imageHash, index, proposalWeight, proposalLength]
                     : [imageHash, index]
                 }
-                tx={api.tx.technicalCommittee.closeOperational || api.tx.technicalCommittee.close}
+                tx={api.tx[type].closeOperational || api.tx[type].close}
               />
             )
         )}

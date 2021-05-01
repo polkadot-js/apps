@@ -245,7 +245,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
+      text: t('rpc.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
       }
@@ -286,6 +286,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'vodka',
+      text: t('rpc.vodka', 'Vodka', { ns: 'apps-config' }),
+      providers: {
+        Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
+      }
+    },
+    {
       info: 'web3games',
       text: t('rpc.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
@@ -299,7 +306,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         Parity: 'wss://westend-rpc.polkadot.io',
         'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws',
-        'Patract Elara': 'wss://westend.elara.patract.io'
+        'Patract Elara': 'wss://westend.elara.patract.io',
+        OnFinality: 'wss://westend.api.onfinality.io/public-ws'
       }
     },
     {

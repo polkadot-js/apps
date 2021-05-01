@@ -39,6 +39,7 @@ import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
+import konomi from './konomi';
 import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
@@ -72,6 +73,7 @@ import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
+import vodka from './vodka';
 import web3games from './web3games';
 import westlake from './westlake';
 import zeitgeist from './zeitgeist';
@@ -121,10 +123,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
-  ipse,
+  'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
+  konomi,
   kulupu,
   laminar,
   litentry,
@@ -165,6 +168,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  vodka,
   'web3games-node': web3games,
   westlake: westlake,
   zeitgeist: zeitgeist

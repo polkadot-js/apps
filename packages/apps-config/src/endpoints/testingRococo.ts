@@ -65,9 +65,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        // paraId >= 1000, below that is reserved for system parachains
         paraId: 2048,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
@@ -76,10 +74,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoAres',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 6,
+        paraId: 1006,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
         providers: {
           'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
@@ -232,6 +227,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoKonomi',
+        paraId: 18403,
+        text: t('rpc.rococo.konomi', 'Komomi Network', { ns: 'apps-config' }),
+        providers: {
+          'Konomi Network': 'wss://rococo.konomi.tech'
+        }
+      },
+      {
         info: 'rococoLitentry',
         paraId: 1984,
         text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
@@ -262,8 +265,8 @@ export function createRococo (t: TFunction): LinkOption[] {
         info: 'rococoManta',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 777,
+        // isDisabled: true,
+        paraId: 2021,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
           Manta: 'wss://rococo.manta.network'

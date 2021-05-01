@@ -94,6 +94,10 @@ export default React.memo(styled(Table)`
         &.all {
           width: 100%;
 
+          &:not(.overflow) {
+            word-break: break-word;
+          }
+
           summary {
             white-space: normal;
           }
@@ -209,6 +213,7 @@ export default React.memo(styled(Table)`
         max-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: none;
       }
 
       &.start {

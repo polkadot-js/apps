@@ -1,5 +1,37 @@
 # CHANGELOG
 
+## 0.89.1 Apr 26, 2021
+
+Contributed:
+
+- Update Phala Rococo paraId (Thanks to https://github.com/h4x3rotab)
+- Update config for Phala Poc-4 (Thanks to https://github.com/Anonymous-Hentai)
+- Update Jupiter Rococo paraId (Thanks to https://github.com/zzcwoshizz)
+- Update ChainX & Zenlink Rococo paraIds (hanks to https://github.com/icodezjb)
+- Update Nftmart config (Thanks to https://github.com/caosbad)
+- Update balances retrieval on Equilibrium (Thanks to https://github.com/alexdniep)
+- Update HydraDx config with archive nodes (Thanks to https://github.com/lumir-mrkva)
+- Update Web3Games config (from Sgc, Thanks to https://github.com/Zombieliu)
+- Update Darwinia Crab config (Thanks to https://github.com/WoeOm)
+- Update Parami text (Thanks to https://github.com/hellotrongo)
+- Swap Kilt types to npm package (Thanks to https://github.com/Dudleyneedham)
+- Added Patract Elara support for Westend (Thanks to https://github.com/zzcwoshizz)
+- Added IPSE network config (Thanks to https://github.com/shareven)
+- Fr i18n fixes (thanks to https://github.com/n3wborn)
+
+Changes:
+
+- Remove display for empty prior democracy locks
+- Add endpoint for Statemint to Rococo
+- Adjust asset create to use batch hook
+- Adjust signer fee calc & displays
+- Adjust canvas types for `Address` usage
+- Show asset total supply
+- Allow balance inputs to take configurable decimal/symbol
+- Add support for asset minting
+- Add support for asset transfers
+
+
 ## 0.88.1 Apr 19, 2021
 
 Contributed:
