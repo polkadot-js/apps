@@ -13,7 +13,6 @@ export { useBlocksPerDays } from './useBlocksPerDays';
 export { useCacheKey } from './useCacheKey';
 export { useCall } from './useCall';
 export { useCallMulti } from './useCallMulti';
-export { useContracts } from './useContracts';
 export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useEventTrigger } from './useEventTrigger';
