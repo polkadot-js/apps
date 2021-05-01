@@ -126,6 +126,7 @@
   "The address index (derivation on account) to use": "",
   "The address index on the account that you wish to add. This is the second-level derivation.": "",
   "The amount to allocate and the conviction that will be applied to all votes made on a referendum.": "",
+  "The amount will be reserved for the duration of your vote": "",
   "The bond will be reserved for the duration of your candidacy and membership.": "",
   "The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate": "",
   "The bonded amount is less than the minimum bond amount of {{existentialDeposit}}": "",
