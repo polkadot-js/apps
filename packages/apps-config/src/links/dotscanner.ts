@@ -14,7 +14,8 @@ export default {
   isActive: true,
   logo: externalLogos.dotscanner as string,
   paths: {
-    address: 'account'
+    address: 'account',
+    block: 'block'
   },
   url: 'https://dotscanner.com/'
 };
