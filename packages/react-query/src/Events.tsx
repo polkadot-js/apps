@@ -12,7 +12,10 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { stringify, stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-type Events = KeyedEvent[];
+interface Events {
+  eventCount: number;
+  events: KeyedEvent[];
+}
 
 interface Props {
   children: React.ReactNode;
@@ -23,9 +26,10 @@ interface PrevHashes {
   event: string | null;
 }
 
+const DEFAULT_EVENTS: Events = { eventCount: 0, events: [] };
 const MAX_EVENTS = 75;
 
-const EventsContext: React.Context<Events> = React.createContext<Events>([]);
+const EventsContext: React.Context<Events> = React.createContext<Events>(DEFAULT_EVENTS);
 
 async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<EventRecord>, setState: React.Dispatch<React.SetStateAction<Events>>): Promise<void> {
   const newEvents: IndexedEvent[] = records
@@ -63,24 +67,32 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
     if (blockHash !== prev.block) {
       prev.block = blockHash;
 
-      setState((events) => [
-        ...newEvents.map(({ indexes, record }): KeyedEvent => ({
-          blockHash,
-          blockNumber,
-          indexes,
-          key: `${blockNumber.toNumber()}-${blockHash}-${indexes.join('.')}`,
-          record
-        })),
-        // remove all events for the previous same-height blockNumber
-        ...events.filter((p) => !p.blockNumber?.eq(blockNumber))
-      ].slice(0, MAX_EVENTS));
+      setState(({ events }) => ({
+        eventCount: records.length,
+        events: [
+          ...newEvents.map(({ indexes, record }): KeyedEvent => ({
+            blockHash,
+            blockNumber,
+            indexes,
+            key: `${blockNumber.toNumber()}-${blockHash}-${indexes.join('.')}`,
+            record
+          })),
+          // remove all events for the previous same-height blockNumber
+          ...events.filter((p) => !p.blockNumber?.eq(blockNumber))
+        ].slice(0, MAX_EVENTS)
+      }));
     }
+  } else {
+    setState(({ events }) => ({
+      eventCount: records.length,
+      events
+    }));
   }
 }
 
 function EventsBase ({ children }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const [state, setState] = useState<Events>([]);
+  const [state, setState] = useState<Events>(DEFAULT_EVENTS);
   const records = useCall<Vec<EventRecord>>(isApiReady && api.query.system.events);
   const prevHashes = useRef({ block: null, event: null });
 
