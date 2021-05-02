@@ -17,6 +17,7 @@ import { useTranslation } from '../translate';
 import Extrinsics from './Extrinsics';
 import Justifications from './Justifications';
 import Logs from './Logs';
+import Summary from './Summary';
 
 interface Props {
   className?: string;
@@ -80,6 +81,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
 
   return (
     <div className={className}>
+      <Summary
+        events={events}
+        signedBlock={getBlock}
+      />
       <Table
         header={header}
         isFixed
