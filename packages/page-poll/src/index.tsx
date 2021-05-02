@@ -37,7 +37,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const [totalIssuance, totals] = useCallMulti<MultiResult>([
-    api.query.balances.totalIssuance,
+    api.query.balances?.totalIssuance,
     api.query.poll.totals
   ], optMulti);
   const [accountId, setAccountId] = useState<string | null>(null);

@@ -236,7 +236,7 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
-  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
+  const totalIssuance = useCall<BN>(api.query.balances?.totalIssuance);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);

@@ -25,7 +25,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   const { api } = useApi();
   const [destination, setDestination] = useState<DestinationType>(() => ((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
   const [destAccount, setDestAccount] = useState<string | null>(() => defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
-  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [destAccount]);
+  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
 
   const options = useMemo(
     () => createDestCurr(t),
