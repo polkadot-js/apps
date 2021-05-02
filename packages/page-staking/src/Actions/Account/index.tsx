@@ -60,7 +60,7 @@ const transformSpan = {
 
 function useStashCalls (api: ApiPromise, stashId: string) {
   const params = useMemo(() => [stashId], [stashId]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, params);
+  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances?.all, params);
   const spanCount = useCall<number>(api.query.staking.slashingSpans, params, transformSpan);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, params);
 

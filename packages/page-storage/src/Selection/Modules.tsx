@@ -102,7 +102,7 @@ function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): Key
 function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] });
   const [{ isValid, values }, setValues] = useState<ValState>({ isValid: true, values: [] });
 
   const _onAdd = useCallback(
@@ -138,7 +138,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     <section className='storage--actionrow'>
       <div className='storage--actionrow-value'>
         <InputStorage
-          defaultValue={api.query.timestamp.now}
+          defaultValue={api.query.timestamp?.now || api.query.system.events}
           help={meta?.documentation.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}

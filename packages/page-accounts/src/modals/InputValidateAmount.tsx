@@ -22,7 +22,7 @@ interface Props {
 function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const delegatingAccountBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [delegatingAccount]);
+  const delegatingAccountBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [delegatingAccount]);
   const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
 
   useEffect((): void => {

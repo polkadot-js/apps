@@ -5,7 +5,7 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
@@ -23,6 +23,8 @@ interface Props {
   error?: Error | null;
   value?: string | null;
 }
+
+const EMPTY_HEADER = [['...', 'start', 6]];
 
 function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
   return [
@@ -58,6 +60,20 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       });
   }, [api, mountedRef, value]);
 
+  const header = useMemo(
+    () => getHeader
+      ? [
+        [formatNumber(getHeader.number.unwrap()), 'start', 1],
+        [t('hash'), 'start'],
+        [t('parent'), 'start'],
+        [t('extrinsics'), 'start'],
+        [t('state'), 'start'],
+        [undefined, 'media--1200']
+      ]
+      : EMPTY_HEADER,
+    [getHeader, t]
+  );
+
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
@@ -65,23 +81,12 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   return (
     <div className={className}>
       <Table
-        header={
-          getHeader
-            ? [
-              [formatNumber(blockNumber), 'start', 1],
-              [t('hash'), 'start'],
-              [t('parent'), 'start'],
-              [t('extrinsics'), 'start'],
-              [t('state'), 'start'],
-              [undefined, 'media--1200']
-            ]
-            : [['...', 'start', 6]]
-        }
+        header={header}
         isFixed
       >
         {myError
           ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: myError.message } })}</td></tr>
-          : getBlock && !getBlock.isEmpty && getHeader && !getHeader.isEmpty && (
+          : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
                 {getHeader.author && (
