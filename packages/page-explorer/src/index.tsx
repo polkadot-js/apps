@@ -24,7 +24,7 @@ interface Props {
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
+  const { eventCount, events } = useContext(EventsContext);
 
   const itemsRef = useRef([
     {
@@ -60,6 +60,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
         <Route>
           <Main
+            eventCount={eventCount}
             events={events}
             headers={lastHeaders}
           />
