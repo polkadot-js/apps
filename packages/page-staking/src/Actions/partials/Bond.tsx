@@ -45,8 +45,8 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
   const [destAccount, setDestAccount] = useState<string | null>(null);
   const [stashId, setStashId] = useState<string | null>(null);
   const [startBalance, setStartBalance] = useState<BN | null>(null);
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
-  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [destAccount]);
+  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
+  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
   const bondedBlocks = useUnbondDuration();
 
   const options = useMemo(
