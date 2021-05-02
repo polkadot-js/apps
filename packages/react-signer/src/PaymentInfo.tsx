@@ -28,7 +28,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {

@@ -9,5 +9,5 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 export function useBalance (accountId: string | null): Balance | undefined {
   const { api } = useApi();
 
-  return useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId])?.availableBalance;
+  return useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId])?.availableBalance;
 }
