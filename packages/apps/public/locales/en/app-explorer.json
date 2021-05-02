@@ -27,6 +27,7 @@
   "index": "index",
   "justifications": "justifications",
   "last block": "last block",
+  "last events": "last events",
   "logs": "logs",
   "mortal, valid from #{{startAt}} to #{{endsAt}}": "mortal, valid from #{{startAt}} to #{{endsAt}}",
   "no": "no",
