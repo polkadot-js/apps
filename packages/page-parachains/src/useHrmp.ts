@@ -31,8 +31,11 @@ function extractChannelIds (keys: StorageKey<[HrmpChannelId]>[]): HrmpChannelId[
 
 export default function useHrmp (): AllChannels | undefined {
   const { api } = useApi();
-  const trigger = useEventTrigger([api.events.hrmp.OpenChannelAccepted, api.events.hrmp.ChannelClosed]);
-  const channelIds = useMapKeys(api.query.hrmp.hrmpChannels, { at: trigger, transform: extractChannelIds });
+  const trigger = useEventTrigger([
+    (api.events.parasHrmp || api.events.hrmp)?.OpenChannelAccepted,
+    (api.events.parasHrmp || api.events.hrmp)?.ChannelClosed
+  ]);
+  const channelIds = useMapKeys((api.query.parasHrmp || api.query.hrmp)?.hrmpChannels, { at: trigger, transform: extractChannelIds });
 
-  return useCall<AllChannels>(channelIds && api.query.hrmp.hrmpChannels.multi, [channelIds], optChannels);
+  return useCall<AllChannels>(channelIds && (api.query.parasHrmp || api.query.hrmp)?.hrmpChannels.multi, [channelIds], optChannels);
 }
