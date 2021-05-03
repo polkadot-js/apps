@@ -19,51 +19,27 @@ interface Props {
   signedBlock?: SignedBlock;
 }
 
+function extractEventDetails (events?: KeyedEvent[]): [BN?, BN?, BN?] {
+  return events
+    ? events.reduce(([deposits, transfers, weight], { record: { event: { data, method, section } } }) => [
+      section === 'balances' && method === 'Deposit'
+        ? deposits.iadd(data[1] as Balance)
+        : deposits,
+      section === 'balances' && method === 'Transfer'
+        ? transfers.iadd(data[2] as Balance)
+        : transfers,
+      section === 'system' && ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
+        ? weight.iadd(((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo).weight)
+        : weight
+    ], [new BN(0), new BN(0), new BN(0)])
+    : [];
+}
+
 function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const totalWeight = useMemo(
-    () => events
-      ?.filter(({ record: { event: { method, section } } }) =>
-        section === 'system' &&
-        ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
-      )
-      .reduce((weight: BN, { record: { event: { data, method } } }) =>
-        weight.iadd(
-          (method === 'ExtrinsicSuccess'
-            ? data[0] as DispatchInfo
-            : data[1] as DispatchInfo
-          ).weight
-        ), new BN(0)
-      ),
-    [events]
-  );
-
-  const deposits = useMemo(
-    () => events
-      ?.filter(({ record: { event: { method, section } } }) =>
-        section === 'balances' &&
-        ['Deposit'].includes(method)
-      )
-      .reduce((deposits: BN, { record: { event: { data } } }) =>
-        deposits.iadd(
-          data[1] as Balance
-        ), new BN(0)
-      ),
-    [events]
-  );
-
-  const transfers = useMemo(
-    () => events
-      ?.filter(({ record: { event: { method, section } } }) =>
-        section === 'balances' &&
-        ['Transfer'].includes(method)
-      )
-      .reduce((deposits: BN, { record: { event: { data } } }) =>
-        deposits.iadd(
-          data[2] as Balance
-        ), new BN(0)
-      ),
+  const [deposits, transfers, weight] = useMemo(
+    () => extractEventDetails(events),
     [events]
   );
 
@@ -88,10 +64,10 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
             progress={{
               hideValue: true,
               total: maxBlockWeight,
-              value: totalWeight
+              value: weight
             }}
           >
-            {formatNumber(totalWeight)}
+            {formatNumber(weight)}
           </CardSummary>
         </section>
       )}
