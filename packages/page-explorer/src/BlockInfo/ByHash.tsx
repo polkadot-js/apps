@@ -83,6 +83,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     <div className={className}>
       <Summary
         events={events}
+        maxBlockWeight={api.consts.system.blockWeights?.maxBlock}
         signedBlock={getBlock}
       />
       <Table

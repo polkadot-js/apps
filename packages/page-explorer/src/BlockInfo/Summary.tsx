@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
-import type { Balance, DispatchInfo, SignedBlock } from '@polkadot/types/interfaces';
+import type { Balance, DispatchInfo, SignedBlock, Weight } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -15,10 +15,11 @@ import { useTranslation } from '../translate';
 
 interface Props {
   events?: KeyedEvent[];
+  maxBlockWeight?: Weight;
   signedBlock?: SignedBlock;
 }
 
-function Summary ({ events, signedBlock }: Props): React.ReactElement<Props> | null {
+function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const totalWeight = useMemo(
@@ -80,11 +81,20 @@ function Summary ({ events, signedBlock }: Props): React.ReactElement<Props> | n
           <FormatBalance value={transfers} />
         </CardSummary>
       </section>
-      <section>
-        <CardSummary label={t<string>('block weight')}>
-          {formatNumber(totalWeight)}
-        </CardSummary>
-      </section>
+      {maxBlockWeight && (
+        <section>
+          <CardSummary
+            label={t<string>('block weight')}
+            progress={{
+              hideValue: true,
+              total: maxBlockWeight,
+              value: totalWeight
+            }}
+          >
+            {formatNumber(totalWeight)}
+          </CardSummary>
+        </section>
+      )}
       <section>
         <CardSummary label={t<string>('event count')}>
           {formatNumber(events.length)}
