@@ -1,5 +1,46 @@
 # CHANGELOG
 
+## 0.90.1 May 3, 2021
+
+Contributed:
+
+- Simplify derivation for ETH-like accounts (Thanks to https://github.com/joelamouche)
+- Added Westend OnFinality endpoint (Thanks to https://github.com/454076513)
+- Update Apron Rococo config (Thanks to https://github.com/guenit)
+- Add support for Dotscanner links (Thanks to https://github.com/Deekor)
+- Update Dusty types (Thanks to https://github.com/akru)
+- Upgrade Zeitgeist types (Thanks to https://github.com/lsaether)
+- Update Manta Rococo config (Thanks to https://github.com/zhenfeizhang & https://github.com/Dengjianping)
+- Update Darwinia types (Thanks to https://github.com/WoeOm)
+- Update IPSE config (Thanks to https://github.com/shareven)
+- Update Ares paraId on Rococo (Thanks to https://github.com/lyxyx)
+- Add Sora mainnet (Thanks to https://github.com/Nikita-Polyakov)
+- Add Konomi config for Rococo (Thanks to https://github.com/willeslau)
+- Added Edgeware OnFinality endpoint (Thanks to https://github.com/454076513)
+- Added Vodka testnet (Thanks to https://github.com/sorpaas)
+- Add Netcoin mainnet (Thanks to https://github.com/sorpaas)
+- Optimize staking accounts tabs with loaded flag (Thanks to https://github.com/krzysztof-jelski)
+- Update Realis network logo (Thanks to https://github.com/Daelon02)
+
+Changes:
+
+- Display extrinsic weights in explorer details
+- Display block stats in explorer block details
+- Allow for asset display when no metadata is present
+- Add app for Membership (as deployed on Rococo)
+- Reworks global events extraction
+- Adjust line breaks on Table columns at 100%
+- Added `useMap{Entries, Keys}` hooks
+- Optimize crowdloan data extraction
+- Adjust event trigger hooks with explicit blockhash
+- Show reserved amounts for council voting
+- Add error when reward destination account doesn't exist
+- Remove support for v2 contracts
+- Fix copy on explorer expanded block page
+- Make balances & timestamp optional for chains
+- Align bounty display with UI colors
+
+
 ## 0.89.1 Apr 26, 2021
 
 Contributed:
