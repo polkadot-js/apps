@@ -8,7 +8,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
-import { ThemeProps } from '@polkadot/react-components/types';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -21,7 +20,6 @@ import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
 import DueBlocks from './DueBlocks';
 import { useBountyStatus } from './hooks';
-import { bountyLabelColor } from './theme';
 import { useTranslation } from './translate';
 import VotersColumn from './VotersColumn';
 
@@ -200,7 +198,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
   );
 }
 
-export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Bounty)`
   &.isCollapsed {
     visibility: collapse;
   }
@@ -258,11 +256,9 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   .label {
     text-align: right;
     padding: 0 1.7rem 0 0;
-    font-weight: 500;
-    font-size: 0.7rem;
     line-height: normal;
-    color: ${bountyLabelColor[theme.theme]};
-    text-transform: uppercase;
+    color: var(--color-label);
+    text-transform: lowercase;
   }
 
   .label-column-right, .label-column-left{
@@ -275,11 +271,11 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   }
 
   .label-column-right {
-    padding: 0 0 0.75rem;
+    padding: 0 0 0.5rem;
   }
 
   .label-column-left {
-    padding: 0 0 0.75rem;
+    padding: 0 0 0.5rem;
   }
 
   & .td-info-action-row {
@@ -309,11 +305,11 @@ export default React.memo(styled(Bounty)(({ theme }: ThemeProps) => `
   .block-to-time {
     font-size: 0.7rem;
     line-height: 1.5rem;
-    color: ${bountyLabelColor[theme.theme]};
+    color: var(--color-label);
   }
 
   & .votes-table {
     display: flex;
     justify-content: space-between;
   }
-`));
+`);
