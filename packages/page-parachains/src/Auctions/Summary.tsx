@@ -83,7 +83,7 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
                   <CardSummary
                     label={t<string>('ending period')}
                     progress={{
-                      total: api.consts.auctions.endingPeriod as BlockNumber,
+                      total: api.consts.auctions?.endingPeriod as BlockNumber,
                       value: bestNumber.sub(auctionInfo.endBlock),
                       withTime: true
                     }}
