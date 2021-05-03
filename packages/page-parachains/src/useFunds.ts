@@ -166,9 +166,9 @@ function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
 export default function useFunds (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const trigger = useEventTrigger([api.events.crowdloan.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan.funds, { at: trigger, transform: extractFundIds });
-  const campaigns = useCall<Campaign[]>(api.query.crowdloan.funds.multi, [paraIds], optFundMulti);
+  const trigger = useEventTrigger([api.events.crowdloan?.Created]);
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger, transform: extractFundIds });
+  const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 

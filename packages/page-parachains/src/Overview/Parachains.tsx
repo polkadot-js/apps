@@ -89,13 +89,13 @@ function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: L
 
   lastBlock.events.forEach(({ event, phase }) => {
     if (phase.isApplyExtrinsic) {
-      if (api.events.inclusion.CandidateBacked.is(event)) {
+      if ((api.events.parasInclusion || api.events.inclusion)?.CandidateBacked.is(event)) {
         includeEntry(backed, event, blockHash, blockNumber);
         wasBacked = true;
-      } else if (api.events.inclusion.CandidateIncluded.is(event)) {
+      } else if ((api.events.parasInclusion || api.events.inclusion)?.CandidateIncluded.is(event)) {
         includeEntry(included, event, blockHash, blockNumber);
         wasIncluded = true;
-      } else if (api.events.inclusion.CandidateTimedOut.is(event)) {
+      } else if ((api.events.parasInclusion || api.events.inclusion)?.CandidateTimedOut.is(event)) {
         includeEntry(timeout, event, blockHash, blockNumber);
         wasTimeout = true;
       }
@@ -149,8 +149,8 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const [{ lastBacked, lastIncluded, lastTimeout }, setLastEvents] = useState<LastEvents>(EMPTY_EVENTS);
   const [validators, validatorGroups, activeIndices] = useCallMulti<MultiResult>([
     api.query.session.validators,
-    api.query.paraScheduler?.validatorGroups || api.query.scheduler?.validatorGroups,
-    api.query.shared.activeValidatorIndices
+    (api.query.parasScheduler || api.query.paraScheduler || api.query.scheduler)?.validatorGroups,
+    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
   ], optionsMulti);
   const hrmp = useHrmp();
   const hasLinksMap = useIsParasLinked(ids);
