@@ -158,7 +158,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'gamepower',
       text: t('rpc.gamepower', 'GamePower', { ns: 'apps-config' }),
       providers: {
-        GamePower: 'wss://gamepower.io',
+        GamePower: 'wss://gamepower.io'
       }
     },
     {
