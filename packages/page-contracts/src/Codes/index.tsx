@@ -10,7 +10,7 @@ import { useTranslation } from '../translate';
 import Code from './Code';
 
 interface Props {
-  onShowDeploy: (codeHash: string, constructorIndex: number) => void;
+  onShowDeploy: (codeHash: string, constructorId: string) => void;
   updated: number;
 }
 

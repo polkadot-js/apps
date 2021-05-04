@@ -29,12 +29,12 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const [isHashOpen, toggleHash] = useToggle();
   const [isUploadOpen, toggleUpload] = useToggle();
   const [codeHash, setCodeHash] = useState<string | undefined>();
-  const [constructorIndex, setConstructorIndex] = useState(0);
+  const [constructorId, setConstructorId] = useState<string | null>(null);
 
   const _onShowDeploy = useCallback(
-    (codeHash: string, constructorIndex: number): void => {
+    (codeHash: string, constructorId: string): void => {
       setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
-      setConstructorIndex(constructorIndex);
+      setConstructorId(constructorId);
       toggleDeploy();
     },
     [allCodes, toggleDeploy]
@@ -76,9 +76,9 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       {codeHash && isDeployOpen && (
         <Deploy
           codeHash={codeHash}
-          constructorIndex={constructorIndex}
+          constructorId={constructorId}
           onClose={_onCloseDeploy}
-          setConstructorIndex={setConstructorIndex}
+          setConstructorId={setConstructorId}
         />
       )}
       {isUploadOpen && (

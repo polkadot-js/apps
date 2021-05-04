@@ -19,7 +19,7 @@ import useAbi from '../useAbi';
 interface Props {
   className?: string;
   code: CodeStored;
-  onShowDeploy: (codeHash: string, constructorIndex: number) => void;
+  onShowDeploy: (codeHash: string, constructorId: string) => void;
 }
 
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
@@ -30,7 +30,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
   const { contractAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 
   const _onShowDeploy = useCallback(
-    () => onShowDeploy(code.json.codeHash, 0),
+    () => onShowDeploy(code.json.codeHash, code.contractAbi?.constructors[0].method || 'default'),
     [code, onShowDeploy]
   );
 

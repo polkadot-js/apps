@@ -23,12 +23,12 @@ import useWeight from '../useWeight';
 
 interface Props {
   codeHash: string;
-  constructorIndex: number;
+  constructorId: string | null;
   onClose: () => void;
-  setConstructorIndex: React.Dispatch<number>;
+  setConstructorId: React.Dispatch<string>;
 }
 
-function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
+function Deploy ({ codeHash, constructorId, onClose, setConstructorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const weight = useWeight();
@@ -41,7 +41,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   useEffect((): void => {
     setParams([]);
-  }, [constructorIndex]);
+  }, [constructorId]);
 
   const code = useMemo(
     () => store.getCode(codeHash),
@@ -60,16 +60,16 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
+      ? contractAbi.constructors.map((message) => ({
         info: message.identifier,
-        key: `${index}`,
+        key: message.method,
         text: (
           <MessageSignature
             asConstructor
             message={message}
           />
         ),
-        value: index
+        value: message.method
       }))
       : [],
     [contractAbi]
@@ -77,9 +77,9 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   useEffect((): void => {
     endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
-      if (blueprint) {
+      if (blueprint && constructorId) {
         try {
-          return blueprint.createContract(constructorIndex, { gasLimit: weight.weight, salt: withSalt ? salt : null, value: endowment }, ...params);
+          return blueprint.tx[constructorId]({ gasLimit: weight.weight, salt: withSalt ? salt : null, value: endowment }, ...params);
         } catch (error) {
           return null;
         }
@@ -87,7 +87,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, constructorIndex, endowment, params, salt, weight, withSalt]);
+  }, [blueprint, constructorId, endowment, params, salt, weight, withSalt]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
@@ -105,6 +105,11 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
       }
     },
     [api, name, onClose]
+  );
+
+  const abiParams = useMemo(
+    () => (constructorId && contractAbi && contractAbi.findConstructor(constructorId).args) || [],
+    [constructorId, contractAbi]
   );
 
   const isSaltValid = !withSalt || (salt && (!salt.startsWith('0x') || isHex(salt)));
@@ -150,13 +155,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
               help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
               isDisabled={contractAbi.constructors.length <= 1}
               label={t('deployment constructor')}
-              onChange={setConstructorIndex}
+              onChange={setConstructorId}
               options={constructOptions}
-              value={constructorIndex}
+              value={constructorId}
             />
             <Params
               onChange={setParams}
-              params={contractAbi.constructors[constructorIndex].args}
+              params={abiParams}
               registry={contractAbi.registry}
             />
           </>
