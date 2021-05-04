@@ -3,7 +3,6 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types';
-import type { AbiParam } from '@polkadot/api-contract/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -34,7 +33,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [constructorId, setConstructorId] = useState<string | null>();
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
   const [params, setParams] = useState<any[]>([]);
-  const [abiParams, setAbiParams] = useState<AbiParam[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
@@ -65,14 +63,13 @@ function Upload ({ onClose }: Props): React.ReactElement {
   );
 
   useEffect((): void => {
-    setConstructorId(
+    constructOptions[0] && setConstructorId(
       (constructOptions.find(({ info }) => info === 'default') || constructOptions[0]).value
     );
   }, [constructOptions]);
 
   useEffect((): void => {
     setParams([]);
-    constructorId && contractAbi && setAbiParams(contractAbi.findConstructor(constructorId).args);
   }, [contractAbi, constructorId]);
 
   useEffect((): void => {
@@ -93,7 +90,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
     try {
       contract = code && contractAbi && endowment && constructorId
-        ? code.tx[constructorId]({ gasLimit: weight.weight, value: endowment }, params)
+        ? code.tx[constructorId]({ gasLimit: weight.weight, value: endowment }, ...params)
         : null;
     } catch (e) {
       error = (e as Error).message;
@@ -101,6 +98,11 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
     setUploadTx(() => [contract, error]);
   }, [code, contractAbi, constructorId, endowment, params, weight]);
+
+  const abiParams = useMemo(
+    () => (constructorId && contractAbi && contractAbi.findConstructor(constructorId).args) || [],
+    [constructorId, contractAbi]
+  );
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
