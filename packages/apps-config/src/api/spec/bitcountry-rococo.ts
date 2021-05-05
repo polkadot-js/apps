@@ -47,7 +47,6 @@ const definitions: OverrideBundleDefinition = {
           price_per_block: 'Balance'
         },
         CountryId: 'u64',
-        CountryCurrencyId: 'u32',
         CollectionId: 'u64',
         ClassId: 'u32',
         TokenId: 'u64',
@@ -67,9 +66,56 @@ const definitions: OverrideBundleDefinition = {
           owner: 'AccountId',
           properties: 'Vec<u8>'
         },
-        CurrencyId: 'u32',
+        TokenType: {
+          _enum: [
+            'Transferrable',
+            'BoundToAddress'
+          ]
+        },
+        NftAssetData: {
+          name: 'Vec<u8>',
+          description: 'Vec<u8>',
+          properties: 'Vec<u8>'
+        },
+        NftClassData: {
+          deposit: 'Balance',
+          properties: 'Vec<u8>',
+          token_type: 'TokenType'
+        },
+        NetworkId: {
+          _enum: {
+            Any: 'Null',
+            Named: 'Vec<u8>',
+            Polkadot: 'Null',
+            Kusama: 'Null'
+          }
+        },
+        CurrencyId: {
+          _enum: {
+            Token: 'TokenSymbol'
+          }
+        },
+        TokenSymbol: {
+          _enum: [
+            'NUUM',
+            'AUSD',
+            'ACA',
+            'DOT'
+          ]
+        },
+        CountryCurrencyId: 'u32',
         CurrencyIdOf: 'CurrencyId',
         BalanceIdOf: 'Balance',
+        ChainId: {
+          _enum: {
+            RelayChain: 'Null',
+            ParaChain: 'ParaId'
+          }
+        },
+        XCurrencyId: {
+          chain_id: 'ChainId',
+          currency_id: 'CurrencyId'
+        },
         GroupCollectionId: 'u64',
         ClassIdOf: 'u32',
         TokenIdOf: 'u32',
