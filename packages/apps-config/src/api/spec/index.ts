@@ -9,6 +9,7 @@ import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
+import bitcountryParachain from './bitcountry-rococo';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
@@ -96,6 +97,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
+  'bitcountry-parachain': bitcountryParachain,
   'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,

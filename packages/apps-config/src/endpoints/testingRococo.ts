@@ -16,7 +16,7 @@ import { expandEndpoints } from './util';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): LinkOption[] {
+export function createRococo(t: TFunction): LinkOption[] {
   return expandEndpoints(t, [{
     dnslink: 'rococo',
     genesisHash: ROCOCO_GENESIS,
@@ -92,8 +92,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         info: 'rococoBitCountry',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 8,
+        paraId: 1008,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
           BitCountry: 'wss://tewai-parachain.bit.country:9955'
