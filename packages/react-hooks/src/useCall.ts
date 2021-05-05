@@ -72,8 +72,9 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 
   setTimeout((): void => {
     if (mountedRef.current) {
+      // FIXME NMap support
       if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
-        // swap to acive mode
+        // swap to active mode
         tracker.current.isActive = true;
 
         tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<VoidFn>)(...params, (value: Codec): void => {
