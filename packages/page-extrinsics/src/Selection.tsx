@@ -3,9 +3,9 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, MarkError, Output, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 
@@ -28,6 +28,13 @@ function Selection (): React.ReactElement {
     []
   );
 
+  const [extrinsicHex, extrinsicHash] = useMemo(
+    () => extrinsic
+      ? [extrinsic.toHex(), extrinsic.hash.toHex()]
+      : ['0x', '0x'],
+    [extrinsic]
+  );
+
   return (
     <div className='extrinsics--Selection'>
       <InputAddress
@@ -46,6 +53,19 @@ function Selection (): React.ReactElement {
         label={t<string>('submit the following extrinsic')}
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}
+      />
+      <Output
+        isDisabled
+        isTrimmed
+        label='encoded call data'
+        value={extrinsicHex}
+        withCopy
+      />
+      <Output
+        isDisabled
+        label='encoded call hash'
+        value={extrinsicHash}
+        withCopy
       />
       {error && !extrinsic && (
         <MarkError content={error} />
