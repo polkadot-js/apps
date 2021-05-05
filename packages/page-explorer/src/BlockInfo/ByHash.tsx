@@ -18,8 +18,6 @@ import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 import axios from 'axios';
 
-const LightClientURI = 'https://polygon-da-light.matic.today/v1/json-rpc';
-
 interface Props {
   className?: string;
   error?: Error | null;
@@ -57,7 +55,16 @@ function BlockByHash({ className = '', error, value }: Props): React.ReactElemen
         mountedRef.current && setState(transformResult(result));
 
         const number = result[2]?.number.unwrap().toNumber();
-
+        var LightClientURI = 'https://polygon-da-light.matic.today/v1/json-rpc';
+        
+        var url = new URL(window.location.href);
+        let searchParams = new URLSearchParams(url.search);
+        var c = searchParams.get("light");
+        if (c) {
+          LightClientURI = c;
+          console.log('Using Light Client at ', LightClientURI);
+        }
+        
         axios.post(LightClientURI,
           {
             "id": 1,
@@ -75,7 +82,7 @@ function BlockByHash({ className = '', error, value }: Props): React.ReactElemen
 
           if (v.status != 200) {
 
-            setConfidence('ℹ️ Make sure Light Client runs on :7000');
+            setConfidence('ℹ️ Make sure Light Client runs on ' + LightClientURI);
             return;
 
           }
@@ -84,7 +91,7 @@ function BlockByHash({ className = '', error, value }: Props): React.ReactElemen
 
         }).catch(_ => {
 
-          setConfidence('ℹ️ Make sure Light Client runs on :7000');
+          setConfidence('ℹ️ Make sure Light Client runs on ' + LightClientURI);
           console.log('Light client: Called, but failed');
 
         });
