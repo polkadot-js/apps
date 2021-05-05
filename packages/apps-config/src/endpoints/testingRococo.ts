@@ -92,8 +92,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         info: 'rococoBitCountry',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 8,
+        paraId: 1008,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
           BitCountry: 'wss://tewai-parachain.bit.country:9955'
