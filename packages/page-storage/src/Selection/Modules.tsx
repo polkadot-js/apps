@@ -43,11 +43,15 @@ function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<
       !isUndefined(value) &&
       !isUndefined(value.value) &&
       value.isValid;
-  }, (
-    type.isDoubleMap
-      ? values.length === 2
-      : values.length === (type.isMap ? 1 : 0)
-  ));
+  }, (values.length === (
+    type.isPlain
+      ? 0
+      : type.isMap
+        ? 1
+        : type.isDoubleMap
+          ? 2
+          : type.asNMap.keyVec.length
+  )));
 }
 
 function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
@@ -57,6 +61,8 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
     types = [st.asDoubleMap.key1.toString(), st.asDoubleMap.key2.toString()];
   } else if (st.isMap) {
     types = [st.asMap.key.toString()];
+  } else if (st.isNMap) {
+    types = st.asNMap.keyVec.map((k) => k.toString());
   }
 
   return types.map((str, index) => {
@@ -74,15 +80,15 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
 }
 
 function checkIterable (type: StorageEntryTypeLatest): boolean {
-  const def = type.isMap
-    ? getTypeDef(type.asMap.key.toString())
-    : type.isDoubleMap
-      ? getTypeDef(type.asDoubleMap.key2.toString())
-      : null;
-
   // in the case of Option<type> keys, we don't allow map iteration, in this case
   // we would have option for the iterable and then option for the key value
-  return !!def && def.info !== TypeDefInfo.Option;
+  return type.isPlain || (
+    type.isMap
+      ? getTypeDef(type.asMap.key.toString())
+      : type.isDoubleMap
+        ? getTypeDef(type.asDoubleMap.key2.toString())
+        : getTypeDef(type.asNMap.keyVec[type.asNMap.keyVec.length - 1].toString())
+  ).info !== TypeDefInfo.Option;
 }
 
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
