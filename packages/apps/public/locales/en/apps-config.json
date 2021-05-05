@@ -114,6 +114,7 @@
   "rpc.rococo.unitv": "Unit Network",
   "rpc.rococo.vln": "VLN PC",
   "rpc.rococo.zenlink": "Zenlink PC1",
+  "rpc.rococo.zeitgeist": "Zeitgeist PC",
   "rpc.sora-substrate": "SORA",
   "rpc.sora-substrate-staging": "SORA-staging",
   "rpc.stafi": "Stafi",

@@ -374,6 +374,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoUnitv: nodeUnitv,
   rococoVln: nodeVln,
   rococoZenlink: nodeZenlink,
+  rococoZeitgeist: nodeZeitgeist,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
