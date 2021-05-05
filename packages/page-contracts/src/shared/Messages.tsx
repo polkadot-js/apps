@@ -22,8 +22,8 @@ export interface Props {
   contractAbi: Abi;
   isLabelled?: boolean;
   isWatching?: boolean;
-  onSelect?: (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => void;
-  onSelectConstructor?: (constructorIndex: number) => void;
+  onSelect?: (messageId: string, resultCb: (messageId: string, result?: ContractCallOutcome) => void) => void;
+  onSelectConstructor?: (constructorId: string) => void;
   withConstructors?: boolean;
   withMessages?: boolean;
   withWasm?: boolean;
@@ -70,7 +70,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
 
   const _setMessageResult = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (messageIndex: number, result?: ContractCallOutcome): void => {
+    (messageId: string, result?: ContractCallOutcome): void => {
       // ignore... for now
       // setLastResults((all) => all.map((r, index) => index === messageIndex ? result : r));
     },
@@ -78,7 +78,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
   );
 
   const _onSelect = useCallback(
-    (index: number) => onSelect && onSelect(index, _setMessageResult),
+    (id: string) => onSelect && onSelect(id, _setMessageResult),
     [_setMessageResult, onSelect]
   );
 

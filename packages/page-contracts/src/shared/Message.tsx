@@ -17,7 +17,7 @@ export interface Props {
   index: number;
   lastResult?: ContractCallOutcome;
   message: AbiConstructor | AbiMessage;
-  onSelect?: (index: number) => void;
+  onSelect?: (id: string) => void;
 }
 
 function filterDocs (docs: string[]): string[] {
@@ -43,8 +43,8 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
   const { t } = useTranslation();
 
   const _onSelect = useCallback(
-    () => onSelect && onSelect(index),
-    [index, onSelect]
+    () => onSelect && onSelect(message.method),
+    [message, onSelect]
   );
 
   return (
