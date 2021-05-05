@@ -11,7 +11,7 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isHex } from '@polkadot/util';
+import { isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ENDOWMENT } from '../constants';
@@ -94,7 +94,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
       if (result.contract) {
         keyring.saveContract(result.contract.address.toString(), {
           contract: {
-            abi: JSON.stringify(result.contract.abi.json),
+            abi: stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
           name,

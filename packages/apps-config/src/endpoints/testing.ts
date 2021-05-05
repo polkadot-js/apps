@@ -155,6 +155,15 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'ipse',
+      text: t('rpc.ipse', 'IPSE', { ns: 'apps-config' }),
+      providers: {
+        'IPSE China': 'wss://testnet-china.ipse.io',
+        'IPSE USA': 'wss://testnet-usa.ipse.io',
+        'IPSE Europe': 'wss://testnet-europe.ipse.io'
+      }
+    },
+    {
       info: 'jupiter',
       text: t('rpc.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
@@ -194,9 +203,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'phala',
-      text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
+      text: t('rpc.phala', 'Phala PoC-4', { ns: 'apps-config' }),
       providers: {
-        'Phala Network': 'wss://poc3a.phala.network/ws'
+        'Phala Network': 'wss://poc4.phala.network/ws'
       }
     },
     {
@@ -235,15 +244,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'sgc',
-      text: t('rpc.sgc', 'Sgc', { ns: 'apps-config' }),
-      providers: {
-        SGC: 'wss://substrate.org.cn:4443'
-      }
-    },
-    {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
+      text: t('rpc.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
       }
@@ -284,12 +286,28 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'vodka',
+      text: t('rpc.vodka', 'Vodka', { ns: 'apps-config' }),
+      providers: {
+        Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
+      }
+    },
+    {
+      info: 'web3games',
+      text: t('rpc.web3games', 'Web3Games', { ns: 'apps-config' }),
+      providers: {
+        Web3Games: 'wss://substrate.org.cn:4443'
+      }
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://westend-rpc.polkadot.io',
-        'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws'
+        'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws',
+        'Patract Elara': 'wss://westend.elara.patract.io',
+        OnFinality: 'wss://westend.api.onfinality.io/public-ws'
       }
     },
     {
@@ -310,7 +328,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'mybank',
       text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
       providers: {
-        MYBANK: 'wss://app.mybank.network/substrate'
+        MYBANK: 'wss://mybank.network/substrate'
       }
     },
     {
@@ -322,10 +340,10 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'nftmart',
-      text: t('rpc.nftmart', 'Nftmart', { ns: 'apps-config' }),
+      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
       providers: {
-        NftmartDev: 'ws://8.136.111.191:9944',
-        NftmartStaging: 'ws://82.157.37.77:9944'
+        NFTMartDev: 'wss://dev-ws.nftmart.io',
+        NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
     }
   ]);

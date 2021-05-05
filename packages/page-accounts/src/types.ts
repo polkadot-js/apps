@@ -32,3 +32,36 @@ export interface SortedAccount {
   delegation?: Delegation;
   isFavorite: boolean;
 }
+
+export type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
+
+export interface CreateProps extends ModalProps {
+  className?: string;
+  onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
+  seed?: string;
+  type?: PairType;
+}
+
+export type SeedType = 'bip' | 'raw' | 'dev';
+
+export interface AddressState {
+  address: string | null;
+  derivePath: string;
+  deriveValidation?: DeriveValidationOutput
+  isSeedValid: boolean;
+  pairType: PairType;
+  seed: string;
+  seedType: SeedType;
+}
+
+export interface CreateOptions {
+  genesisHash?: string;
+  name: string;
+  tags?: string[];
+}
+
+export interface DeriveValidationOutput {
+  error?: string;
+  warning?: string;
+}

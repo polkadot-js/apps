@@ -20,7 +20,7 @@ interface Props {
 
 function BalanceVoting ({ children, className = '', isCouncil, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [params]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [params]);
 
   return (
     <FormatBalance

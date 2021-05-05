@@ -54,12 +54,18 @@ export function createRococo (t: TFunction): LinkOption[] {
           Parity: 'wss://track-rpc.polkadot.io'
         }
       },
+      {
+        info: 'rococoStatemint',
+        paraId: 1,
+        text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://statemint-rococo-rpc.parity.io'
+        }
+      },
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        // paraId >= 1000, below that is reserved for system parachains
         paraId: 2048,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
@@ -68,10 +74,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoAres',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 6,
+        paraId: 1006,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
         providers: {
           'Ares Protocol': 'wss://rococo.parachain.aresprotocol.com'
@@ -128,10 +131,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoChainX',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 59,
+        paraId: 1059,
         text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
         providers: {
           ChainX: 'wss://sherpax.chainx.org'
@@ -212,10 +212,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoJupiter',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 24,
+        paraId: 1010,
         text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
           jupiter: 'wss://ws.rococo.jupiter.patract.cn'
@@ -227,6 +224,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoKonomi',
+        paraId: 18403,
+        text: t('rpc.rococo.konomi', 'Komomi Network', { ns: 'apps-config' }),
+        providers: {
+          'Konomi Network': 'wss://rococo.konomi.tech'
         }
       },
       {
@@ -260,8 +265,8 @@ export function createRococo (t: TFunction): LinkOption[] {
         info: 'rococoManta',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 777,
+        // isDisabled: true,
+        paraId: 2021,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
           Manta: 'wss://rococo.manta.network'
@@ -272,15 +277,12 @@ export function createRococo (t: TFunction): LinkOption[] {
         paraId: 18888,
         text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
         providers: {
-          Phala: 'wss://rococo.parami.io'
+          Parami: 'wss://rococo.parami.io'
         }
       },
       {
         info: 'rococoPhala',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 30,
+        paraId: 1030,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://rococov1.phala.network/ws'
@@ -364,10 +366,7 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoZenlink',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 188,
+        paraId: 1188,
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {
           Zenlink: 'wss://rococo-parachain.zenlink.pro'

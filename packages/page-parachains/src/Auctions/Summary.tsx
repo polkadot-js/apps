@@ -23,7 +23,7 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
+  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
 
   return (
     <SummaryBox className={className}>
@@ -83,7 +83,7 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
                   <CardSummary
                     label={t<string>('ending period')}
                     progress={{
-                      total: api.consts.auctions.endingPeriod as BlockNumber,
+                      total: api.consts.auctions?.endingPeriod as BlockNumber,
                       value: bestNumber.sub(auctionInfo.endBlock),
                       withTime: true
                     }}

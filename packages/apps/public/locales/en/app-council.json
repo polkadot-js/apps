@@ -28,6 +28,8 @@
   "Submit candidacy": "Submit candidacy",
   "Submit your council candidacy": "Submit your council candidacy",
   "The actual proposal to make, based on the selected call and parameters thereof.": "The actual proposal to make, based on the selected call and parameters thereof.",
+  "The amount that is reserved": "The amount that is reserved",
+  "The amount will be reserved for the duration of your vote": "The amount will be reserved for the duration of your vote",
   "The bond that is reserved": "The bond that is reserved",
   "The bond will be reserved for the duration of your candidacy and membership.": "The bond will be reserved for the duration of your candidacy and membership.",
   "The council account for the proposal. The selection is filtered by the current members.": "The council account for the proposal. The selection is filtered by the current members.",
@@ -75,6 +77,7 @@
   "threshold": "threshold",
   "votes": "votes",
   "voting account": "voting account",
+  "voting bond": "voting bond",
   "voting end": "voting end",
   "voting round": "voting round"
 }

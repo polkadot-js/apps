@@ -35,15 +35,18 @@ import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
+import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
+import konomi from './konomi';
 import kulupu from './kulupu';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
+import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import parami from './parami';
@@ -59,7 +62,6 @@ import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
-import sgc from './sgc';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
@@ -72,6 +74,8 @@ import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
+import vodka from './vodka';
+import web3games from './web3games';
 import westlake from './westlake';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
@@ -120,9 +124,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
+  'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
+  konomi,
   kulupu,
   laminar,
   litentry,
@@ -134,6 +140,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   'moonbeam-standalone': moonbeam,
   'mybank.network Testnet': mybank,
+  neatcoin,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
@@ -151,7 +158,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   realis,
   'riochain-runtime': riochain,
   robonomics,
-  'sgc-node': sgc,
   snowbridge,
   'sora-substrate': soraSubstrate,
   stafi,
@@ -164,6 +170,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  vodka,
+  'web3games-node': web3games,
   westlake: westlake,
   zeitgeist: zeitgeist
 };

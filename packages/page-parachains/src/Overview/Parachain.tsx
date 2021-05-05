@@ -103,12 +103,12 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
     [api.query.paras.paraLifecycles, id],
-    [api.query.dmp.downwardMessageQueues, id],
-    [api.query.ump.relayDispatchQueues, id],
-    [api.query.hrmp.hrmpEgressChannelsIndex, id],
-    [api.query.hrmp.hrmpIngressChannelsIndex, id],
-    [api.query.hrmp.hrmpWatermarks, id],
-    [api.query.inclusion.pendingAvailability, id],
+    [(api.query.parasDmp || api.query.dmp)?.downwardMessageQueues, id],
+    [(api.query.parasUmp || api.query.ump)?.relayDispatchQueues, id],
+    [(api.query.parasHrmp || api.query.hrmp)?.hrmpEgressChannelsIndex, id],
+    [(api.query.parasHrmp || api.query.hrmp)?.hrmpIngressChannelsIndex, id],
+    [(api.query.parasHrmp || api.query.hrmp)?.hrmpWatermarks, id],
+    [(api.query.parasInclusion || api.query.inclusion)?.pendingAvailability, id],
     [api.query.registrar.paras, id],
     [api.query.slots.leases, id]
   ], optionsMulti);

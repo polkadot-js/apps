@@ -17,7 +17,7 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
-export function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
+export function useMembers (collective: 'council' | 'membership' | 'technicalCommittee' = 'council'): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);
