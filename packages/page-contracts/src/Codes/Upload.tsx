@@ -30,7 +30,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [accountId, setAccountId] = useAccountId();
   const [step, nextStep, prevStep] = useStepper();
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
-  const [constructorId, setConstructorId] = useState<string | null>();
+  const [constructorIndex, setConstructorIndex] = useState<number>(0);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
   const [params, setParams] = useState<any[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
@@ -47,7 +47,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((c) => ({
+      ? contractAbi.constructors.map((c, index) => ({
         info: c.identifier,
         key: c.identifier,
         text: (
@@ -56,21 +56,19 @@ function Upload ({ onClose }: Props): React.ReactElement {
             message={c}
           />
         ),
-        value: c.method
+        value: index
       }))
       : [],
     [contractAbi]
   );
 
   useEffect((): void => {
-    constructOptions[0] && setConstructorId(
-      (constructOptions.find(({ info }) => info === 'default') || constructOptions[0]).value
-    );
+    setConstructorIndex(0);
   }, [constructOptions]);
 
   useEffect((): void => {
     setParams([]);
-  }, [contractAbi, constructorId]);
+  }, [contractAbi, constructorIndex]);
 
   useEffect((): void => {
     setWasm(
@@ -89,20 +87,18 @@ function Upload ({ onClose }: Props): React.ReactElement {
     let error: string | null = null;
 
     try {
-      contract = code && contractAbi && endowment && constructorId
-        ? code.tx[constructorId]({ gasLimit: weight.weight, value: endowment }, ...params)
+      contract = code && contractAbi?.constructors[constructorIndex]?.method && endowment
+        ? code.tx[contractAbi.constructors[constructorIndex].method]({
+          gasLimit: weight.weight,
+          value: endowment
+        }, ...params)
         : null;
     } catch (e) {
       error = (e as Error).message;
     }
 
     setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorId, endowment, params, weight]);
-
-  const abiParams = useMemo(
-    () => (constructorId && contractAbi && contractAbi.findConstructor(constructorId).args) || [],
-    [constructorId, contractAbi]
-  );
+  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -190,13 +186,13 @@ function Upload ({ onClose }: Props): React.ReactElement {
               help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
               isDisabled={contractAbi.constructors.length <= 1}
               label={t('deployment constructor')}
-              onChange={setConstructorId}
+              onChange={setConstructorIndex}
               options={constructOptions}
-              value={constructorId}
+              value={constructorIndex}
             />
             <Params
               onChange={setParams}
-              params={abiParams}
+              params={contractAbi.constructors[constructorIndex].args}
               registry={contractAbi.registry}
             />
             <InputBalance
