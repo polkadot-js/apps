@@ -10,7 +10,7 @@ import { typesFromDefs } from '../util';
 const bundle = {
   alias: {
     tokens: {
-      AccountData: "TokensAccountData"
+      AccountData: 'TokensAccountData'
     }
   },
   types: [{
@@ -18,10 +18,10 @@ const bundle = {
     types: {
       ...typesFromDefs(typeDefs),
       TokensAccountData: {
-        free: "Balance",
-        reserved: "Balance",
-        frozen: "Balance",
-      },
+        free: 'Balance',
+        frozen: 'Balance',
+        reserved: 'Balance'
+      }
     }
   }]
 };
