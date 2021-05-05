@@ -60,13 +60,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
-        info: message.identifier,
-        key: `${index}`,
+      ? contractAbi.constructors.map((c, index) => ({
+        info: c.identifier,
+        key: c.identifier,
         text: (
           <MessageSignature
             asConstructor
-            message={message}
+            message={c}
           />
         ),
         value: index
@@ -77,9 +77,15 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   useEffect((): void => {
     endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
-      if (blueprint) {
+      if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
-          return blueprint.createContract(constructorIndex, { gasLimit: weight.weight, salt: withSalt ? salt : null, value: endowment }, ...params);
+          return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
+            gasLimit: weight.weight,
+            salt: withSalt
+              ? salt
+              : null,
+            value: endowment
+          }, ...params);
         } catch (error) {
           return null;
         }
@@ -87,7 +93,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, constructorIndex, endowment, params, salt, weight, withSalt]);
+  }, [blueprint, contractAbi, constructorIndex, endowment, params, salt, weight, withSalt]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
@@ -156,7 +162,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
             <Params
               onChange={setParams}
-              params={contractAbi.constructors[constructorIndex].args}
+              params={contractAbi.constructors[constructorIndex]?.args}
               registry={contractAbi.registry}
             />
           </>

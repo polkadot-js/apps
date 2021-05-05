@@ -62,7 +62,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
       .all(messages.map((m) =>
         m.isMutating || m.args.length !== 0
           ? Promise.resolve(undefined)
-          : contract.read(m, 0, -1).send(READ_ADDR).catch(() => undefined)
+          : contract.query[m.method](READ_ADDR, 0, -1).catch(() => undefined)
       ))
       .then(setLastResults)
       .catch(console.error);
