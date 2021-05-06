@@ -272,6 +272,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoMoonrock',
+        paraId: 1286,
+        text: t('rpc.rococo.moonrock', 'Moonrock', { ns: 'apps-config' }),
+        providers: {
+          Moonrock: 'wss://wss-moonrock.gcp.purestake.run'
+        }
+      },
+      {
         info: 'rococoParami',
         paraId: 18888,
         text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
@@ -380,17 +388,6 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
-        info: 'rococoSunrock',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 499,
-        text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
-        providers: {
-          Sunrock: 'wss://sunrock.kaki.dev'
-        }
-      },
-      {
         info: 'rococoUnitv',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
@@ -407,6 +404,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
         providers: {
           Valiu: 'wss://vln.valiu.dev'
+        }
+      },
+      {
+        info: 'rococoZeitgeist',
+        paraId: 9123,
+        text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
+        providers: {
+          Zeitgeist: 'wss://roc.zeitgeist.pm'
         }
       }
     ]
