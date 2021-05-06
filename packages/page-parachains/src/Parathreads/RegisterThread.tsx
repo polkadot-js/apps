@@ -55,7 +55,6 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           {api.tx.registrar.registerNext
             ? (
               <InputNumber
-                autoFocus
                 defaultValue={nextParaId}
                 isDisabled
                 isZeroable={false}
