@@ -408,6 +408,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         providers: {
           Valiu: 'wss://vln.valiu.dev'
         }
+      },
+      {
+        info: 'rococoZeitgeist',
+        paraId: 9123,
+        text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
+        providers: {
+          Zeitgeist: 'wss://roc.zeitgeist.pm'
+        }
       }
     ]
   }]);
