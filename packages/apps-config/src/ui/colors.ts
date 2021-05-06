@@ -19,6 +19,7 @@ const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
 const chainGalital = '#00063F';
+const chainGamePower = '#5d21a5';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
@@ -82,6 +83,7 @@ const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
+const nodeGamePower = '#5d21a5';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -135,6 +137,7 @@ export const chainColors: Record<string, any> = [
   ['Encointer PC1', nodeEncointerNotee],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
+  ['GamePower Network', chainGamePower],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
@@ -218,6 +221,7 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
   ['Galital Parachain Collator', nodeGalital],
+  ['GamePower Node', nodeGamePower],
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Litentry Collator', nodeLitentry],
