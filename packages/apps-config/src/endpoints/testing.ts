@@ -155,6 +155,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'gamepower',
+      text: t('rpc.gamepower', 'GamePower', { ns: 'apps-config' }),
+      providers: {
+        GamePower: 'wss://gamepower.io'
+      }
+    },
+    {
       info: 'ipse',
       text: t('rpc.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
