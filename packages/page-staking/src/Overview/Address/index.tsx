@@ -15,6 +15,7 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
@@ -54,7 +55,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState 
 
   if (exposure && exposure.total) {
     nominators = exposure.others.map(({ value, who }) => ({ nominatorId: who.toString(), value: value.unwrap() }));
-    stakeTotal = exposure.total.unwrap();
+    stakeTotal = exposure.total?.unwrap() || BN_ZERO;
     stakeOwn = exposure.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
   }
