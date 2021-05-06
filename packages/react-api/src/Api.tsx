@@ -5,6 +5,7 @@ import type BN from 'bn.js';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
@@ -41,6 +42,7 @@ interface InjectedAccountExt {
     source: string;
     whenCreated: number;
   };
+  type: KeypairType
 }
 
 interface ChainData {
@@ -82,14 +84,17 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
     await injectedPromise;
 
     const accounts = await web3Accounts();
-    console.log("web3Accounts",accounts)
-    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+
+    console.log('web3Accounts', accounts);
+
+    return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
       meta: {
         ...meta,
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
-      }
+      },
+      type
     }));
   } catch (error) {
     console.error('web3Enable', error);
@@ -113,7 +118,9 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   // HACK Horrible hack to try and give some window to the DOT denomination
   const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
   const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
-console.log("injectedAccounts",injectedAccounts)
+
+  console.log('injectedAccounts', injectedAccounts);
+
   return {
     injectedAccounts,
     properties,
