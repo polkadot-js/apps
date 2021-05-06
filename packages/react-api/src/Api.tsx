@@ -82,7 +82,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
     await injectedPromise;
 
     const accounts = await web3Accounts();
-
+    console.log("web3Accounts",accounts)
     return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
       address,
       meta: {
@@ -113,7 +113,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   // HACK Horrible hack to try and give some window to the DOT denomination
   const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
   const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
-
+console.log("injectedAccounts",injectedAccounts)
   return {
     injectedAccounts,
     properties,

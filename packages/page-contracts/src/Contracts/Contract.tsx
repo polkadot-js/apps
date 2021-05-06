@@ -50,7 +50,8 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
   }, [api, contract, info]);
 
   const _onCall = useCallback(
-    (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => onCall(index, messageIndex, resultCb),
+    (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) =>
+      onCall(index, messageIndex, resultCb),
     [index, onCall]
   );
 
