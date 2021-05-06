@@ -92,8 +92,7 @@ export function createRococo (t: TFunction): LinkOption[] {
         info: 'rococoBitCountry',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 8,
+        paraId: 1008,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
           BitCountry: 'wss://tewai-parachain.bit.country:9955'
@@ -408,6 +407,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
         providers: {
           Valiu: 'wss://vln.valiu.dev'
+        }
+      },
+      {
+        info: 'rococoZeitgeist',
+        paraId: 9123,
+        text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
+        providers: {
+          Zeitgeist: 'wss://roc.zeitgeist.pm'
         }
       }
     ]

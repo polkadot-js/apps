@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u32 } from '@polkadot/types';
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { AuctionInfo, Winning } from '../types';
 
@@ -9,7 +10,7 @@ import React from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN_THREE, formatNumber } from '@polkadot/util';
+import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -43,7 +44,7 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
           <section>
             {auctionInfo.leasePeriod && (
               <CardSummary label={t<string>('first - last')}>
-                {formatNumber(auctionInfo.leasePeriod)} - {formatNumber(auctionInfo.leasePeriod.add(BN_THREE))}
+                {formatNumber(auctionInfo.leasePeriod)} - {formatNumber(auctionInfo.leasePeriod.add(api.consts.auctions.leasePeriodsPerSlot as u32).isub(BN_ONE))}
               </CardSummary>
             )}
             {totalIssuance && lastWinners && (

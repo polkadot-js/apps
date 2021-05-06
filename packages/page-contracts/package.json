@@ -1,10 +1,10 @@
 {
   "name": "@polkadot/app-contracts",
   "private": true,
-  "version": "0.90.2-8",
+  "version": "0.90.2-16",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/api-contract": "^4.8.2-9"
+    "@polkadot/api-contract": "^4.9.3-0"
   }
 }
