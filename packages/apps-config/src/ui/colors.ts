@@ -26,6 +26,7 @@ const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
+const chainMoonrock = '#3d1d5a';
 const chainNFTMart = '#815287';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
@@ -54,7 +55,6 @@ const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
 const chainSnakenet = '#f653a2';
-const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -162,6 +162,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
+  ['Moonrock', chainMoonrock],
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
@@ -185,7 +186,6 @@ export const chainColors: Record<string, any> = [
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
-  ['Sunrock', chainSunrock],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
