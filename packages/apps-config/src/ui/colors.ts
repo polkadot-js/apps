@@ -19,12 +19,14 @@ const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
 const chainGalital = '#00063F';
+const chainGamePower = '#5d21a5';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
+const chainMoonrock = '#3d1d5a';
 const chainNFTMart = '#815287';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
@@ -53,7 +55,6 @@ const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
 const chainSnakenet = '#f653a2';
-const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -82,6 +83,7 @@ const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
+const nodeGamePower = '#5d21a5';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -135,6 +137,7 @@ export const chainColors: Record<string, any> = [
   ['Encointer PC1', nodeEncointerNotee],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
+  ['GamePower Network', chainGamePower],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
@@ -159,6 +162,7 @@ export const chainColors: Record<string, any> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
+  ['Moonrock', chainMoonrock],
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
@@ -182,7 +186,6 @@ export const chainColors: Record<string, any> = [
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
-  ['Sunrock', chainSunrock],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
@@ -217,7 +220,9 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
+  ['Galital', nodeGalital],
   ['Galital Parachain Collator', nodeGalital],
+  ['GamePower Node', nodeGamePower],
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Litentry Collator', nodeLitentry],

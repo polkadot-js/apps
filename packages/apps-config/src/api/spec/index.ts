@@ -31,7 +31,9 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import galital from './galital';
+import galitalParachain from './galital-parachain';
 import galois from './galois';
+import gamepower from './gamepower';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
@@ -120,7 +122,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
-  'galital-collator': galital,
+  galital: galital,
+  'galital-collator': galitalParachain,
+  gamepower,
   'hack-hydra-dx': hydrate,
   hanonycash,
   'hydra-dx': hydrate,
