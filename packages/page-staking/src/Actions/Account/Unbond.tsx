@@ -26,7 +26,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
-  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active.unwrap() || null);
+  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
   const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
   const [withMax, setWithMax] = useState(false);
 
