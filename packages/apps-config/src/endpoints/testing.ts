@@ -139,8 +139,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'rococoGalital',
-      paraId: 1230,
+      info: 'Galital',
       text: t('rpc.rococo.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {
         StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
