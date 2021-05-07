@@ -12,8 +12,8 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'MultiAddress',
-        LookupSource: 'MultiAddress',
+        Address: 'AccountId',
+        LookupSource: 'AccountId',
         Account: {
           nonce: 'U256',
           balance: 'U256'
@@ -27,14 +27,10 @@ const definitions: OverrideBundleDefinition = {
           input: 'Vec<u8>',
           signature: 'Signature'
         },
-        ChainId: 'u8',
-        ResourceId: '[u8; 32]',
-        DepositNonce: 'u64',
-        ProposalVotes: {
-          votes_for: 'Vec<AccountId>',
-          votes_against: 'Vec<AccountId>',
-          status: 'u8',
-          expiry: 'U256'
+        Signature: {
+          v: 'u64',
+          r: 'H256',
+          s: 'H256'
         },
         ClassId: 'u64',
         TokenId: 'u64',
