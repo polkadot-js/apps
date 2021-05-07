@@ -102,7 +102,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
     [api, controllerId, queueExtrinsic, spanCount]
   );
 
-  const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active.isEmpty;
+  const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active?.isEmpty;
 
   return (
     <tr className={className}>
@@ -292,7 +292,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   {t<string>('Bond more funds')}
                 </Menu.Item>
                 <Menu.Item
-                  disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active.isEmpty}
+                  disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
                   onClick={toggleUnbond}
                 >
                   {t<string>('Unbond funds')}
