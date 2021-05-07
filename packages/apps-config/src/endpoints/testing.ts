@@ -140,7 +140,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'Galital',
-      text: t('rpc.rococo.galital', 'Galital PC2', { ns: 'apps-config' }),
+      text: t('rpc.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {
         StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
       }
