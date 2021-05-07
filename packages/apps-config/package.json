@@ -22,7 +22,7 @@
     "@sora-substrate/type-definitions": "^0.8.14",
     "@subsocial/types": "^0.5.0-substrate2.0",
     "@zeitgeistpm/type-defs": "^0.1.47",
-    "moonbeam-types-bundle": "1.1.12"
+    "moonbeam-types-bundle": "1.1.13"
   },
   "devDependencies": {
     "i18next": "^19.9.2"
