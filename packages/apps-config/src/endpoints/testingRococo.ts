@@ -99,6 +99,14 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoCentrifuge',
+        paraId: 10001,
+        text: t('rpc.rococo.centrifuge', 'Centrifuge Charcoal', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
+        }
+      },
+      {
         info: 'rococoClover',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
