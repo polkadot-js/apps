@@ -99,7 +99,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }, BN_ZERO);
 
     if (bondTotal.isZero()) {
-      bondTotal = bondOwn = stakingLedger.total.unwrap();
+      bondTotal = bondOwn = stakingLedger.total?.unwrap() || BN_ZERO;
     }
 
     const key = accountId.toString();
@@ -131,7 +131,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
-        nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value.toBn());
+        nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value?.toBn() || BN_ZERO);
 
         return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key)),
