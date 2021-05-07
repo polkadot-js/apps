@@ -2514,7 +2514,7 @@ __metadata:
     "@phala/typedefs": 0.1.0
     "@polkadot/networks": ^6.3.1
     "@snowfork/snowbridge-types": ^0.2.3
-    "@sora-substrate/type-definitions": ^0.8.14
+    "@sora-substrate/type-definitions": ^1.2.1
     "@subsocial/types": ^0.5.0-substrate2.0
     "@zeitgeistpm/type-defs": ^0.1.47
     i18next: ^19.9.2
@@ -3292,12 +3292,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:^0.8.14":
-  version: 0.8.14
-  resolution: "@sora-substrate/type-definitions@npm:0.8.14"
+"@sora-substrate/type-definitions@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@sora-substrate/type-definitions@npm:1.2.1"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.8.2-9
-  checksum: 0e23b8245a9b90e3523bfd0d445c771622c7a6ec89110ec84533fe270e2bf412e7cfd2aa0e3e9e1ab0499a7ee06dc9253c47db55105610059fbd8fb1e727db2a
+  checksum: 731f1507911bdfc36ffbcc812932a72e4a83044409e15dc192de57d839173803f7934fd93deba5cc13a1782c34838e80da3ebd393c9fdd38fa0c6758dc3c9529
   languageName: node
   linkType: hard
 
