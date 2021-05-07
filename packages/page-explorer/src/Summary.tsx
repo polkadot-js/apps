@@ -17,8 +17,8 @@ function Summary (): React.ReactElement {
   const [ remainingSupply, setRemainingSupply ] = useState();
 
   async function getRemainingSupply() {
-    if (api.query.poAModule) {
-      const tb = await api.query.poAModule.emissionSupply();
+    if (api.query.stakingRewards) {
+      const tb = await api.query.stakingRewards.stakingEmissionSupply();
       setRemainingSupply(tb);
     }
   }
@@ -62,7 +62,7 @@ function Summary (): React.ReactElement {
         )}
       </section>
       <section className='media--1200'>
-        <SummarySession withEra={false} />
+        <SummarySession />
       </section>
       <section>
         {api.query.grandpa && (

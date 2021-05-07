@@ -28,7 +28,7 @@ function BlockHeaders ({ headers, title = 'recent blocks' }: Props): React.React
       header={headerRef.current}
     >
       {headers
-        .slice(0, 10)
+        .slice(0, 20) // Show last 20 block headers
         .filter((header) => !!header)
         .map((header): React.ReactNode => (
           <BlockHeader
