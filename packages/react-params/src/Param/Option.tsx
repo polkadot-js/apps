@@ -12,7 +12,7 @@ import { Toggle } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Param from './index';
 
-function Option ({ className = '', defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
+function Option ({ className = '', defaultValue, isDisabled, isInOption, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isActive, setIsActive] = useState(withOptionActive || false);
 
@@ -37,7 +37,7 @@ function Option ({ className = '', defaultValue, isDisabled, name, onChange, onE
         registry={registry}
         type={sub as TypeDef}
       />
-      {!isDisabled && (
+      {!isDisabled && !isInOption && (
         <Toggle
           isOverlay
           label={t<string>('include option')}
