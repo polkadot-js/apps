@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.90.2-18",
+  "version": "0.90.2-24",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
@@ -19,10 +19,10 @@
     "@phala/typedefs": "0.1.0",
     "@polkadot/networks": "^6.3.1",
     "@snowfork/snowbridge-types": "^0.2.3",
-    "@sora-substrate/type-definitions": "^0.8.14",
+    "@sora-substrate/type-definitions": "^1.2.1",
     "@subsocial/types": "^0.5.0-substrate2.0",
     "@zeitgeistpm/type-defs": "^0.1.47",
-    "moonbeam-types-bundle": "1.1.12"
+    "moonbeam-types-bundle": "1.1.13"
   },
   "devDependencies": {
     "i18next": "^19.9.2"
