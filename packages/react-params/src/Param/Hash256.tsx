@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-function Hash256 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
+function Hash256 ({ className = '', defaultValue, isDisabled, isError, isInOption, label, name, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isFileDrop, setFileInput] = useState(false);
   const [placeholder, setPlaceholder] = useState<string | null>(null);
@@ -68,7 +68,7 @@ function Hash256 ({ className = '', defaultValue, isDisabled, isError, label, na
             withLabel={withLabel}
           />
         )}
-      {!isDisabled && (
+      {!isDisabled && !isInOption && (
         <Toggle
           isOverlay
           label={t<string>('hash a file')}
