@@ -220,6 +220,7 @@ export const nodeColors: Record<string, any> = [
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Equilibrium node', nodeEquilibrium],
+  ['Galital', nodeGalital],
   ['Galital Parachain Collator', nodeGalital],
   ['GamePower Node', nodeGamePower],
   ['IpseTestnet', nodeIpse],
