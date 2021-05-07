@@ -138,7 +138,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
       .filter((value): boolean => value.gtn(0));
 
     own = bonded[0];
-  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.accountId.eq(stakingInfo.stashId)) {
+  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.stakingLedger.active && stakingInfo.accountId.eq(stakingInfo.stashId)) {
     own = stakingInfo.stakingLedger.active.unwrap();
   }
 
@@ -297,7 +297,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         <Tooltip
           text={(balancesAll as DeriveBalancesAll).lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
             <div key={index}>
-              {amount.isMax()
+              {amount?.isMax()
                 ? t<string>('everything')
                 : formatBalance(amount, { forceUnit: '-' })
               }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
@@ -418,7 +418,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
   }
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
-  const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount.isMax());
+  const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
   const baseOpts = { address, balanceDisplay, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle };
   const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
 

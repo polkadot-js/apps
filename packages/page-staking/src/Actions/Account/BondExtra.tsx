@@ -27,7 +27,7 @@ function calcBalance (api: ApiPromise, stakingInfo?: DeriveStakingAccount, stash
   if (stakingInfo && stakingInfo.stakingLedger && stashBalance) {
     const sumUnlocking = (stakingInfo.unlocking || []).reduce((acc, { value }) => acc.iadd(value), new BN(0));
     const redeemable = stakingInfo.redeemable || BN_ZERO;
-    const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active.unwrap()).sub(sumUnlocking).sub(redeemable);
+    const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active?.unwrap() || BN_ZERO).sub(sumUnlocking).sub(redeemable);
 
     return available.gt(api.consts.balances.existentialDeposit)
       ? available.sub(api.consts.balances.existentialDeposit)
@@ -44,7 +44,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
   const currentAmount = useMemo(
-    () => stakingInfo && stakingInfo.stakingLedger?.active.unwrap(),
+    () => stakingInfo && stakingInfo.stakingLedger?.active?.unwrap(),
     [stakingInfo]
   );
 
