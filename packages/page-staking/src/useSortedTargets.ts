@@ -79,8 +79,8 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
-  const nominators: Record<string, boolean> = {};
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], Record<string, BN>] {
+  const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
@@ -99,7 +99,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }, BN_ZERO);
 
     if (bondTotal.isZero()) {
-      bondTotal = bondOwn = stakingLedger.total.unwrap();
+      bondTotal = bondOwn = stakingLedger.total?.unwrap() || BN_ZERO;
     }
 
     const key = accountId.toString();
@@ -125,12 +125,13 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       commissionPer: validatorPrefs.commission.unwrap().toNumber() / 10_000_000,
       exposure,
       isActive: !skipRewards,
+      isBlocking: !!(validatorPrefs.blocked && validatorPrefs.blocked.isTrue),
       isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),
       isFavorite: favorites.includes(key),
       isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
-        nominators[nominator] = true;
+        nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value?.toBn() || BN_ZERO);
 
         return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key)),
@@ -155,7 +156,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     };
   });
 
-  return [list, Object.keys(nominators)];
+  return [list, nominators];
 }
 
 function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
@@ -181,9 +182,9 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   });
 
   // all validators, calc median commission
-  const minNominated = elected.reduce((min: BN, { minNominated }) => {
-    return min.isZero() || minNominated.lt(min)
-      ? minNominated
+  const minNominated = Object.values(nominators).reduce((min: BN, value) => {
+    return min.isZero() || value.lt(min)
+      ? value
       : min;
   }, BN_ZERO);
   const validators = sortValidators(arrayFlatten([elected, waiting]));
@@ -196,9 +197,15 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     : 0;
 
   // ids
-  const electedIds = elected.map(({ key }) => key);
   const waitingIds = waiting.map(({ key }) => key);
-  const validatorIds = arrayFlatten([electedIds, waitingIds]);
+  const validatorIds = arrayFlatten([
+    elected.map(({ key }) => key),
+    waitingIds
+  ]);
+  const nominateIds = arrayFlatten([
+    elected.filter(({ isBlocking }) => !isBlocking).map(({ key }) => key),
+    waiting.filter(({ isBlocking }) => !isBlocking).map(({ key }) => key)
+  ]);
 
   return {
     avgStaked,
@@ -206,7 +213,8 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
     minNominated,
-    nominators,
+    nominateIds,
+    nominators: Object.keys(nominators),
     totalIssuance,
     totalStaked,
     validatorIds,
@@ -228,7 +236,7 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
-  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
+  const totalIssuance = useCall<BN>(api.query.balances?.totalIssuance);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);

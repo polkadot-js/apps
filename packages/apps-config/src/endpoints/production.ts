@@ -50,7 +50,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'crab',
       text: t('rpc.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://crab.darwinia.network'
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
@@ -65,7 +65,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'darwinia',
       text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://cc1.darwinia.network',
+        'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
       }
     },
@@ -82,15 +82,16 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet4.edgewa.re',
-        'Patract Elara': 'wss://edgeware.elara.patract.io'
+        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
+        'Patract Elara': 'wss://edgeware.elara.patract.io',
+        OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
     {
       info: 'equilibrium',
       text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: 'wss://tge.equilibrium.io'
+        Equilibrium: 'wss://node.equilibrium.io'
       }
     },
     {
@@ -105,7 +106,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io'
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
+        Archives: 'wss://archive.snakenet.hydradx.io'
       }
     },
     {
@@ -118,10 +120,17 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'neatcoin',
+      text: t('rpc.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
+      providers: {
+        Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      }
+    },
+    {
       info: 'nodle',
       text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main1.nodleprotocol.io',
+        Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
       }
     },
@@ -131,6 +140,20 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         'Stake Technologies': 'wss://rpc.plasmnet.io/',
         'Patract Elara': 'wss://plasm.elara.patract.io'
+      }
+    },
+    {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      providers: {
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
       }
     },
     {
@@ -147,6 +170,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network'
+      }
+    },
+    {
+      info: 'westlake',
+      text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ]);

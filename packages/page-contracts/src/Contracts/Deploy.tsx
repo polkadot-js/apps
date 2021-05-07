@@ -11,7 +11,7 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isHex } from '@polkadot/util';
+import { isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ENDOWMENT } from '../constants';
@@ -60,13 +60,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
-        info: message.identifier,
-        key: `${index}`,
+      ? contractAbi.constructors.map((c, index) => ({
+        info: c.identifier,
+        key: c.identifier,
         text: (
           <MessageSignature
             asConstructor
-            message={message}
+            message={c}
           />
         ),
         value: index
@@ -77,9 +77,15 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   useEffect((): void => {
     endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
-      if (blueprint) {
+      if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
-          return blueprint.createContract(constructorIndex, { gasLimit: weight.weight, salt: withSalt ? salt : null, value: endowment }, ...params);
+          return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
+            gasLimit: weight.weight,
+            salt: withSalt
+              ? salt
+              : null,
+            value: endowment
+          }, ...params);
         } catch (error) {
           return null;
         }
@@ -87,14 +93,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, constructorIndex, endowment, params, salt, weight, withSalt]);
+  }, [blueprint, contractAbi, constructorIndex, endowment, params, salt, weight, withSalt]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
       if (result.contract) {
         keyring.saveContract(result.contract.address.toString(), {
           contract: {
-            abi: JSON.stringify(result.contract.abi.json),
+            abi: stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
           name,
@@ -156,7 +162,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
             <Params
               onChange={setParams}
-              params={contractAbi.constructors[constructorIndex].args}
+              params={contractAbi.constructors[constructorIndex]?.args}
               registry={contractAbi.registry}
             />
           </>

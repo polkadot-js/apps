@@ -31,7 +31,7 @@ export function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
       // any <= activeEra (we include activeEra since slashes are immediately reflected)
       while (start.lte(indexes.activeEra)) {
         range.push(start);
-        start = start.iadd(BN_ONE);
+        start = start.add(BN_ONE);
       }
 
       if (range.length) {

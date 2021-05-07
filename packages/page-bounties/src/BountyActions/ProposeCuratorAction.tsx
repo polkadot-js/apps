@@ -67,54 +67,36 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
             size='large'
           >
             <Modal.Content>
-              <Modal.Column>
-                <p>{t<string>('This action will create a Council motion to propose a Curator for the Bounty.')}</p>
-              </Modal.Column>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    filter={members}
-                    help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
-                    label={t<string>('proposing account')}
-                    onChange={setAccountId}
-                    type='account'
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The council member that will create the motion.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('The council member that will create the motion.')}>
+                <InputAddress
+                  filter={members}
+                  help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
+                  label={t<string>('proposing account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
-                    label={t<string>('select curator')}
-                    onChange={setCuratorId}
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}>
+                <InputAddress
+                  help={t<string>('Select an account which (after a successful vote) will act as a curator.')}
+                  label={t<string>('select curator')}
+                  onChange={setCuratorId}
+                  withLabel
+                />
               </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputBalance
-                    help={t<string>('A reward for a curator, this amount is included in the total value of the bounty.')}
-                    isError={!isFeeValid}
-                    isZeroable
-                    label={t<string>("curator's fee")}
-                    onChange={setFee}
-                    value={fee}
-                  />
-                  {!isFeeValid && (
-                    <MarkError content={t<string>("Curator's fee can't be higher than bounty value.")} />
-                  )}
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('Part of the bounty value that will go to the Curator as a reward for their work')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('Part of the bounty value that will go to the Curator as a reward for their work')}>
+                <InputBalance
+                  help={t<string>('A reward for a curator, this amount is included in the total value of the bounty.')}
+                  isError={!isFeeValid}
+                  isZeroable
+                  label={t<string>("curator's fee")}
+                  onChange={setFee}
+                  value={fee}
+                />
+                {!isFeeValid && (
+                  <MarkError content={t<string>("Curator's fee can't be higher than bounty value.")} />
+                )}
               </Modal.Columns>
             </Modal.Content>
             <Modal.Actions onCancel={toggleOpen}>

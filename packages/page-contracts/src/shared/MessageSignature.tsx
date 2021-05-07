@@ -2,14 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 
 import { Icon, Tooltip } from '@polkadot/react-components';
 import { encodeTypeDef } from '@polkadot/types/create';
-import { stringCamelCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -29,12 +27,12 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, isConstructor, isMutating, method, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <div className={className}>
-      <span className='ui--MessageSignature-name'>{stringCamelCase(identifier)}</span>
+      <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
@@ -64,12 +62,12 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           <Icon
             className='ui--MessageSignature-mutates'
             icon='database'
-            tooltip={`mutates-${identifier}`}
+            tooltip={`mutates-${method}`}
           />
           {withTooltip && (
             <Tooltip
               text={t<string>('Mutates contract state')}
-              trigger={`mutates-${identifier}`}
+              trigger={`mutates-${method}`}
             />
           )}
         </>
@@ -78,9 +76,9 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
   );
 }
 
-export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
-  font: ${theme.fontMono};
-  font-weight: ${theme.fontWeightNormal};
+export default React.memo(styled(MessageSignature)`
+  font: var(--font-mono);
+  font-weight: var(--font-weight-normal);
   flex-grow: 1;
 
   .ui--MessageSignature-mutates {
@@ -91,7 +89,7 @@ export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
 
   .ui--MessageSignature-name {
     color: #2f8ddb;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
   }
 
   .ui--MessageSignature-type {
@@ -101,4 +99,4 @@ export default React.memo(styled(MessageSignature)(({ theme }: ThemeProps) => `
   .ui--MessageSignature-returnType {
     color: #ff8600;
   }
-`));
+`);

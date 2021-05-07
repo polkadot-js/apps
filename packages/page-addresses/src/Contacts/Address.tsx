@@ -13,7 +13,7 @@ import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -34,7 +34,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
@@ -60,7 +60,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   useEffect((): void => {
     const { identity, nickname } = info || {};
 
-    if (api.api.query.identity && api.api.query.identity.identityOf) {
+    if (isFunction(api.api.query.identity?.identityOf)) {
       if (identity?.display) {
         setAccName(identity.display);
       }
@@ -197,7 +197,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         />
       </td>
       <td className='button'>
-        {api.api.tx.balances?.transfer && (
+        {isFunction(api.api.tx.balances?.transfer) && (
           <Button
             icon='paper-plane'
             key='send'

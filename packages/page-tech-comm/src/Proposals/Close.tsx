@@ -16,16 +16,17 @@ interface Props {
   idNumber: ProposalIndex;
   members: string[];
   proposal: Proposal;
+  type: 'membership' | 'technicalCommittee';
 }
 
-function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.ReactElement<Props> | null {
+function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
-  if (!api.tx.technicalCommittee.close) {
+  if (!api.tx[type].close) {
     return null;
   }
 
@@ -37,30 +38,20 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={idNumber}
-                  proposal={proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.')}>
+              <ProposedAction
+                idNumber={idNumber}
+                proposal={proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={members}
-                  help={t<string>('Select the account you wish close the proposal with.')}
-                  label={t<string>('sending account')}
-                  onChange={setAccountId}
-                  type='account'
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The committee account that will apply the close for the current round.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The committee account that will apply the close for the current round.')}>
+              <InputAddress
+                filter={members}
+                help={t<string>('Select the account you wish close the proposal with.')}
+                label={t<string>('sending account')}
+                onChange={setAccountId}
+                type='account'
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
@@ -68,13 +59,13 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
               accountId={accountId}
               onStart={toggleOpen}
               params={
-                api.tx.technicalCommittee.close.meta.args.length === 4
+                api.tx[type].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
                     : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
-              tx={api.tx.technicalCommittee.closeOperational || api.tx.technicalCommittee.close}
+              tx={api.tx[type].closeOperational || api.tx[type].close}
             />
           </Modal.Actions>
         </Modal>

@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
 import type { TabItem } from './types';
 
 import React from 'react';
@@ -34,7 +33,10 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
       strict={tabIsExact}
       to={to}
     >
-      {text}{!!count && (
+      <div className='tabLinkText'>
+        {text}
+      </div>
+      {!!count && (
         <Badge
           className='tabCounter'
           color='counter'
@@ -45,22 +47,50 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   );
 }
 
-export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
-  border-bottom: 2px solid transparent;
-  color: ${theme.color} !important;
-  margin-bottom: -3px;
-  padding: 0.5rem 1.5rem 0.75rem;
+export default React.memo(styled(Tab)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #8B8B8B;
+  padding: 0 1.5rem;
+  height: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+
+
+    &:hover {
+      color: #8B8B8B;
+
+      .tabLinkText::after{
+        background-color: #8B8B8B;
+      }
+    }
+
+    &:hover .tabLinkText::after,
+    &.tabLinkActive .tabLinkText::after {
+      content: '';
+      position: absolute;
+      width: 3.14rem;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
   &.tabLinkActive {
-    border-bottom-color: #e6e6e6;
+    color: var(--color-text) !important;
+    font-weight: 400;
+
+    &:hover {
+      cursor: default;
+    }
   }
 
-  &:hover {
-    filter: highlight(120%);
-
-    &:not(.tabLinkActive) {
-      border-bottom-color: #e6e6e6;
-    }
+  .tabLinkText {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .tabCounter {
@@ -70,4 +100,4 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   .tabIcon {
     margin-left: 0.75rem;
   }
-`));
+`);

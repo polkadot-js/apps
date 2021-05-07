@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
 import React, { createRef, useCallback, useState } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
@@ -136,8 +134,8 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
     : dropZone;
 }
 
-export default React.memo(styled(InputFile)(({ theme }: ThemeProps) => `
-  background: ${theme.bgInput};
+export default React.memo(styled(InputFile)`
+  background: var(--bg-input);
   border: 1px solid rgba(34, 36, 38, 0.15);
   border-radius: 0.28571429rem;
   font-size: 1rem;
@@ -146,11 +144,11 @@ export default React.memo(styled(InputFile)(({ theme }: ThemeProps) => `
   width: 100% !important;
 
   &.error {
-    background: ${theme.bgInputError};
+    background: var(--bg-input-error);
     border-color: #e0b4b4;
   }
 
   &:hover {
     cursor: pointer;
   }
-`));
+`);

@@ -58,23 +58,15 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
             size='large'
           >
             <Modal.Content>
-              <Modal.Column>
-                <p>{t<string>('This action will create a Council motion to either approve or reject the Bounty.')}</p>
-              </Modal.Column>
-              <Modal.Columns>
-                <Modal.Column>
-                  <InputAddress
-                    filter={members}
-                    help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
-                    label={t<string>('vote with account')}
-                    onChange={setAccountId}
-                    type='account'
-                    withLabel
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}</p>
-                </Modal.Column>
+              <Modal.Columns hint={t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}>
+                <InputAddress
+                  filter={members}
+                  help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
+                  label={t<string>('vote with account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
               </Modal.Columns>
             </Modal.Content>
             <Modal.Actions onCancel={toggleOpen}>

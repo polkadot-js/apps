@@ -40,30 +40,20 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={idNumber}
-                  proposal={proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}>
+              <ProposedAction
+                idNumber={idNumber}
+                proposal={proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteAccount
-                  filter={members}
-                  onChange={setAccountId}
-                />
-                {isPrime && (
-                  <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
-                )}
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The council account for this vote. The selection is filtered by the current members.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The council account for this vote. The selection is filtered by the current members.')}>
+              <VoteAccount
+                filter={members}
+                onChange={setAccountId}
+              />
+              {isPrime && (
+                <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
+              )}
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVoting}>

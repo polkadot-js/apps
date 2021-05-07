@@ -77,35 +77,25 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddressSimple
-              autoFocus
-              help={t<string>('The address that you have a valid proxy setup for.')}
-              isError={!hasOwned}
-              label={t<string>('proxied account')}
-              onChange={setStashAddress}
-              placeholder={t<string>('stash address')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}>
+          <InputAddressSimple
+            autoFocus
+            help={t<string>('The address that you have a valid proxy setup for.')}
+            isError={!hasOwned}
+            label={t<string>('proxied account')}
+            onChange={setStashAddress}
+            placeholder={t<string>('stash address')}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              className='full'
-              help={t<string>('Name given to this proxied account. You can edit it at any later point in time.')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              placeholder={t<string>('proxied name')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The name is for unique identification of the account in your owner lists.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
+          <Input
+            className='full'
+            help={t<string>('Name given to this proxied account. You can edit it at any later point in time.')}
+            isError={!isNameValid}
+            label={t<string>('name')}
+            onChange={_onChangeName}
+            placeholder={t<string>('proxied name')}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

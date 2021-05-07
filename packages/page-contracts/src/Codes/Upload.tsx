@@ -7,11 +7,11 @@ import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CodePromise } from '@polkadot/api-contract';
-import { Button, Dropdown, InputAddress, InputBalance, InputFile, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isNull, isWasm } from '@polkadot/util';
+import { isNull, isWasm, stringify } from '@polkadot/util';
 
 import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
@@ -29,8 +29,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const { api } = useApi();
   const [accountId, setAccountId] = useAccountId();
   const [step, nextStep, prevStep] = useStepper();
-  const [uploadTx, setUploadTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [constructorIndex, setConstructorIndex] = useState(0);
+  const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
+  const [constructorIndex, setConstructorIndex] = useState<number>(0);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
   const [params, setParams] = useState<any[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
@@ -47,13 +47,13 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const constructOptions = useMemo(
     () => contractAbi
-      ? contractAbi.constructors.map((message, index) => ({
-        info: message.identifier,
-        key: `${index}`,
+      ? contractAbi.constructors.map((c, index) => ({
+        info: c.identifier,
+        key: c.identifier,
         text: (
           <MessageSignature
             asConstructor
-            message={message}
+            message={c}
           />
         ),
         value: index
@@ -63,14 +63,12 @@ function Upload ({ onClose }: Props): React.ReactElement {
   );
 
   useEffect((): void => {
-    setConstructorIndex(() =>
-      constructOptions.find(({ info }) => info === 'default')?.value || 0
-    );
+    setConstructorIndex(0);
   }, [constructOptions]);
 
   useEffect((): void => {
     setParams([]);
-  }, [constructorIndex]);
+  }, [contractAbi, constructorIndex]);
 
   useEffect((): void => {
     setWasm(
@@ -86,16 +84,20 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   useEffect((): void => {
     let contract: SubmittableExtrinsic<'promise'> | null = null;
+    let error: string | null = null;
 
     try {
-      contract = code && contractAbi && endowment
-        ? code.createContract(constructorIndex, { gasLimit: weight.weight, value: endowment }, params)
+      contract = code && contractAbi?.constructors[constructorIndex]?.method && endowment
+        ? code.tx[contractAbi.constructors[constructorIndex].method]({
+          gasLimit: weight.weight,
+          value: endowment
+        }, ...params)
         : null;
-    } catch (error) {
-      // ignore, is null
+    } catch (e) {
+      error = (e as Error).message;
     }
 
-    setUploadTx(() => contract);
+    setUploadTx(() => [contract, error]);
   }, [code, contractAbi, constructorIndex, endowment, params, weight]);
 
   const _onAddWasm = useCallback(
@@ -108,16 +110,14 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const _onSuccess = useCallback(
     (result: CodeSubmittableResult): void => {
-      result.blueprint && store
-        .saveCode(result.blueprint.codeHash, {
-          abi: JSON.stringify(result.blueprint.abi.json),
-          name: name || '<>',
-          tags: []
-        })
-        .catch(console.error);
+      result.blueprint && store.saveCode(result.blueprint.codeHash, {
+        abi: stringify(result.blueprint.abi.json),
+        name: name || '<>',
+        tags: []
+      });
       result.contract && keyring.saveContract(result.contract.address.toString(), {
         contract: {
-          abi: JSON.stringify(result.contract.abi.json),
+          abi: stringify(result.contract.abi.json),
           genesisHash: api.genesisHash.toHex()
         },
         name: name || '<>',
@@ -206,6 +206,9 @@ function Upload ({ onClose }: Props): React.ReactElement {
               help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
               weight={weight}
             />
+            {error && (
+              <MarkError content={error} />
+            )}
           </>
         )}
       </Modal.Content>

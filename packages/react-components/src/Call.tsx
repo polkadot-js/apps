@@ -57,7 +57,7 @@ function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
   return (value as any)._raw?.signature?.multiSignature as ExtrinsicSignature;
 }
 
-function extractState (value:IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean): Extracted {
+function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean): Extracted {
   const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): Param => ({
     name: name.toString(),
     type: getTypeDef(type.toString())
@@ -108,35 +108,31 @@ function Call ({ children, className = '', labelHash, labelSignature, mortality,
           <Static
             className='hash'
             label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
+            value={signature}
             withCopy
-          >
-            {signature}
-          </Static>
+          />
         )}
         {hash && (
           <Static
             className='hash'
             label={labelHash || t<string>('extrinsic hash')}
+            value={hash}
             withCopy
-          >
-            {hash}
-          </Static>
+          />
         )}
         {mortality && (
           <Static
             className='mortality'
             label={t<string>('lifetime')}
-          >
-            {mortality}
-          </Static>
+            value={mortality}
+          />
         )}
         {tip?.gtn(0) && (
           <Static
             className='tip'
             label={t<string>('tip')}
-          >
-            <FormatBalance value={tip} />
-          </Static>
+            value={<FormatBalance value={tip} />}
+          />
         )}
       </div>
     </div>

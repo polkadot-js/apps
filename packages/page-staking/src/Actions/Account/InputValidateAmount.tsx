@@ -42,7 +42,7 @@ function formatExistential (value: BN): string {
 function ValidateAmount ({ currentAmount, isNominating, minNomination, onError, stashId, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
+  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
   const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
 
   useEffect((): void => {

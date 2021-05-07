@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 interface Inactives {
   nomsActive?: string[];
@@ -18,7 +19,7 @@ interface Inactives {
   nomsWaiting?: string[];
 }
 
-function extractState (api: ApiPromise, stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
+function extractState (api: ApiPromise, stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], { activeEra }: DeriveSessionIndexes, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
   const max = api.consts.staking?.maxNominatorRewardedPerValidator;
 
   // chilled
@@ -34,7 +35,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
 
   // all nominations that are oversubscribed
   const nomsOver = exposures
-    .map(({ others }) => others.sort((a, b) => b.value.unwrap().cmp(a.value.unwrap())))
+    .map(({ others }) => others.sort((a, b) => (b.value?.unwrap() || BN_ZERO).cmp(a.value?.unwrap() || BN_ZERO)))
     .map((others, index) =>
       !max || max.gtn(others.map(({ who }) => who.toString()).indexOf(stashId))
         ? null
@@ -54,7 +55,11 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   // waiting if validator is inactive or we have not submitted long enough ago
   const nomsWaiting = exposures
     .map((exposure, index) =>
-      exposure.total.unwrap().isZero() || (nomsInactive.includes(nominees[index]) && submittedIn.eq(activeEra))
+      exposure.total?.unwrap().isZero() || (
+        nomsInactive.includes(nominees[index]) &&
+        // it could be activeEra + 1 (currentEra for last session)
+        submittedIn.gte(activeEra)
+      )
         ? nominees[index]
         : null
     )
@@ -102,7 +107,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
             const slashes = exposuresAndSpans.slice(nominees.length) as Option<SlashingSpans>[];
 
             mountedRef.current && setState(
-              extractState(api, stashId, slashes, nominees, indexes.activeEra, optNominators.unwrapOrDefault().submittedIn, exposures)
+              extractState(api, stashId, slashes, nominees, indexes, optNominators.unwrapOrDefault().submittedIn, exposures)
             );
           }
         )
