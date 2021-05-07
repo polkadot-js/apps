@@ -24,6 +24,11 @@ const definitions: OverrideBundleDefinition = {
         NFTDetails: {
           offchain_uri: 'Vec<u8>'
         },
+        NFTSeriesDetails: {
+          owner: 'AccountId',
+          nfts: 'Vec<NFTId>'
+        },
+        NFTSeriesId: 'u32',
         LookupSource: 'AccountId'
       }
     }
