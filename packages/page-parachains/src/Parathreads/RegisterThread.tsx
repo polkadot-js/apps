@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useState } from 'react';
 
 import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO, compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -21,6 +22,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [paraId, setParaId] = useState<BN | undefined>();
+  const nextParaId = useCall<ParaId>(api.query.registrar?.nextFreeParaId);
   const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -50,15 +52,28 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
-          <InputNumber
-            autoFocus
-            isZeroable={false}
-            label={t<string>('parachain id')}
-            onChange={setParaId}
-          />
+          {api.tx.registrar.registerNext
+            ? (
+              <InputNumber
+                defaultValue={nextParaId}
+                isDisabled
+                isZeroable={false}
+                label={t<string>('parachain id')}
+              />
+            )
+            : (
+              <InputNumber
+                autoFocus
+                isZeroable={false}
+                label={t<string>('parachain id')}
+                onChange={setParaId}
+              />
+            )
+          }
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
           <InputFile
+            autoFocus={!!api.tx.registrar.registerNext}
             help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
             isError={!wasm}
             label={t<string>('code')}
@@ -78,10 +93,14 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!wasm || !genesisState || !paraId?.gt(BN_ZERO)}
+          isDisabled={!wasm || !genesisState || !(paraId || nextParaId)?.gt(BN_ZERO)}
           onStart={onClose}
-          params={[paraId, genesisState, wasm]}
-          tx={api.tx.registrar.register}
+          params={
+            api.tx.registrar.registerNext
+              ? [genesisState, wasm]
+              : [paraId, genesisState, wasm]
+          }
+          tx={api.tx.registrar.registerNext || api.tx.registrar.register}
         />
       </Modal.Actions>
     </Modal>
