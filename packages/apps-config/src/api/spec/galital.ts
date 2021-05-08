@@ -14,6 +14,7 @@ const definitions: OverrideBundleDefinition = {
       types: {
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress',
+        AccountInfo: 'AccountInfoWithTripleRefCount',
         Account: {
           nonce: 'U256',
           balance: 'U256'
