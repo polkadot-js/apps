@@ -169,7 +169,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'subsocial',
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://rpc.subsocial.network'
+        DappForce: 'wss://rpc.subsocial.network',
+        'Patract Elara': 'wss://subsocial.elara.patract.io'
       }
     },
     {
