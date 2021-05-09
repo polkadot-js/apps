@@ -10,7 +10,7 @@
     "@babel/runtime": "^7.14.0",
     "@polkadot/apps-config": "^0.90.2-29",
     "@polkadot/apps-routing": "^0.90.2-29",
-    "@polkadot/dev": "^0.62.12",
+    "@polkadot/dev": "^0.62.13",
     "@polkadot/react-api": "^0.90.2-29",
     "@polkadot/react-components": "^0.90.2-29",
     "@polkadot/react-hooks": "^0.90.2-29",
