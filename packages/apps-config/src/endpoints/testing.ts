@@ -139,9 +139,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'rococoGalital',
-      paraId: 1230,
-      text: t('rpc.rococo.galital', 'Galital PC2', { ns: 'apps-config' }),
+      info: 'Galital',
+      text: t('rpc.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {
         StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
       }
@@ -152,6 +151,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
         'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
+      }
+    },
+    {
+      info: 'gamepower',
+      text: t('rpc.gamepower', 'GamePower', { ns: 'apps-config' }),
+      providers: {
+        GamePower: 'wss://gamepower.io'
       }
     },
     {
@@ -198,7 +204,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
         'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
-        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+        'Patract Elara': 'wss://moonbase.moonbeam.elara.patract.io'
       }
     },
     {
@@ -252,7 +259,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
+      text: t('rpc.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
       }
@@ -290,6 +297,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
       providers: {
         Valiu: 'wss://vln.valiu.dev'
+      }
+    },
+    {
+      info: 'vodka',
+      text: t('rpc.vodka', 'Vodka', { ns: 'apps-config' }),
+      providers: {
+        Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
       }
     },
     {

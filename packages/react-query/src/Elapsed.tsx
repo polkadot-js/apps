@@ -61,7 +61,7 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNo
   return (elapsed < 60)
     ? formatValue(elapsed, 's', elapsed < 15)
     : (elapsed < 3600)
-      ? formatValue(elapsed, 'min')
+      ? formatValue(elapsed / 60, 'min')
       : formatValue(elapsed / 3600, 'hr');
 }
 

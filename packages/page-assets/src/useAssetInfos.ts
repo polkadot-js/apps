@@ -16,6 +16,8 @@ const EMPTY_FLAGS = {
   isOwnerMe: false
 };
 
+const QUERY_OPTS = { withParams: true };
+
 function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   const address = accountId.toString();
 
@@ -47,15 +49,15 @@ function extractInfo (allAccounts: string[], id: AssetId, optDetails: Option<Ass
 export default function useAssetInfos (ids?: AssetId[]): AssetInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<AssetMetadata[]>(api.query.assets.metadata.multi, [ids]);
-  const details = useCall<Option<AssetDetails>[]>(api.query.assets.asset.multi, [ids]);
+  const metadata = useCall<[[AssetId[]], AssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
+  const details = useCall<[[AssetId[]], Option<AssetDetails>[]]>(api.query.assets.asset.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<AssetInfo[] | undefined>();
 
   useEffect((): void => {
-    details && metadata && ids && (details.length === ids.length) && (metadata.length === ids.length) &&
+    details && metadata && (details[0][0].length === metadata[0][0].length) &&
       setState(
-        ids.map((id, index) =>
-          extractInfo(allAccounts, id, details[index], metadata[index])
+        details[0][0].map((id, index) =>
+          extractInfo(allAccounts, id, details[1][index], metadata[1][index])
         )
       );
   }, [allAccounts, details, ids, metadata]);

@@ -83,7 +83,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
-        'Patract Elara': 'wss://edgeware.elara.patract.io'
+        'Patract Elara': 'wss://edgeware.elara.patract.io',
+        OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
     {
@@ -119,6 +120,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'neatcoin',
+      text: t('rpc.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
+      providers: {
+        Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      }
+    },
+    {
       info: 'nodle',
       text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
@@ -142,6 +150,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      providers: {
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
@@ -154,7 +169,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'subsocial',
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://rpc.subsocial.network'
+        DappForce: 'wss://rpc.subsocial.network',
+        'Patract Elara': 'wss://subsocial.elara.patract.io'
       }
     },
     {

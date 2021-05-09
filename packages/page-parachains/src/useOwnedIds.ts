@@ -1,43 +1,38 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { Option, StorageKey } from '@polkadot/types';
 import type { ParaId, ParaInfo } from '@polkadot/types/interfaces';
 import type { OwnedId } from './types';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
-import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
+
+function extractIds (entries: [StorageKey<[ParaId]>, Option<ParaInfo>][]): (OwnedId | null)[] {
+  return entries.map(([{ args: [paraId] }, optInfo]): OwnedId | null => {
+    if (optInfo.isNone) {
+      return null;
+    }
+
+    const paraInfo = optInfo.unwrap();
+
+    return {
+      manager: paraInfo.manager.toString(),
+      paraId,
+      paraInfo
+    };
+  });
+}
 
 export default function useOwnedIds (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const trigger = useEventTrigger([api.events.registrar.Registered]);
-  const [state, setState] = useState<OwnedId[]>([]);
+  const unfiltered = useMapEntries(api.query.registrar.paras, { at: trigger, transform: extractIds });
 
-  useEffect((): void => {
-    allAccounts && trigger &&
-      api.query.registrar.paras
-        .entries<Option<ParaInfo>, [ParaId]>()
-        .then((entries) => setState(() =>
-          entries
-            .map(([{ args: [paraId] }, optInfo]): OwnedId | null => {
-              if (optInfo.isNone) {
-                return null;
-              }
-
-              const paraInfo = optInfo.unwrap();
-
-              return {
-                manager: paraInfo.manager.toString(),
-                paraId,
-                paraInfo
-              };
-            })
-            .filter((info): info is OwnedId => !!info && allAccounts.some((a) => a === info.manager))
-        ))
-        .catch(console.error);
-  }, [allAccounts, api, trigger]);
-
-  return state;
+  return useMemo(
+    () => (unfiltered || []).filter((id): id is OwnedId => !!id && allAccounts.some((a) => a === id.manager)),
+    [allAccounts, unfiltered]
+  );
 }
