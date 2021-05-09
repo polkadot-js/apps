@@ -91,6 +91,7 @@ const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
+const nodePolymesh = '#1348e4';
 const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRealis = 'linear-gradient(45deg, #6CFBE9 0%, #CFB241 100%)';
 const nodeRiochain = '#1A3BB3';
@@ -225,6 +226,7 @@ export const nodeColors: Record<string, any> = [
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Polymesh Node', nodePolymesh],
   ['Prism Node', nodePrism],
   ['Prism Collator', nodePrism],
   ['ReAlis Network', nodeRealis],
