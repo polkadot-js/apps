@@ -6,6 +6,7 @@ import type { LinkOption } from '../settings/types';
 
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
+import { createProductionRelays } from './productionRelays';
 import { createTesting } from './testing';
 import { createTestingRelays } from './testingRelays';
 
@@ -14,6 +15,14 @@ export { CUSTOM_ENDPOINT_KEY } from './development';
 export function createWsEndpoints (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
+    {
+      isDisabled: false,
+      isHeader: true,
+      text: t('rpc.header.live.relay', 'Live relays & parachains', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createProductionRelays(t),
     {
       isDisabled: false,
       isHeader: true,
