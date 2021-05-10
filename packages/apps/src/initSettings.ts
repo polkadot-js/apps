@@ -50,9 +50,40 @@ function getApiUrl (): string {
       : 'ws://127.0.0.1:9944'; // nothing found, go local
 }
 
+function getLightClientUrl (): string {
+  // we split here so that both these forms are allowed
+  //  - http://localhost:3000/?light=https://polygon-da-light.matic.today/#/explorer
+  //  - http://localhost:3000/#/explorer?light=https://polygon-da-light.matic.today
+  const urlOptions = queryString.parse(location.href.split('?')[1]);
+
+  // if specified, this takes priority
+  if (urlOptions.light) {
+    assert(!Array.isArray(urlOptions.light), 'Invalid LC endpoint specified');
+
+    // https://polygon-da-explorer.matic.today?light=ws://127.0.0.1:7000/v1/json-rpc#/explorer;
+    const url = decodeURIComponent(urlOptions.light.split('#')[0]);
+
+    assert(url.startsWith('http://') || url.startsWith('https://'), 'Non-prefixed http/https url');
+
+    return url;
+  }
+
+  const stored = window.localStorage.getItem('lcUrl');
+
+  const fallbackUrl = 'https://polygon-da-light.matic.today/v1/json-rpc';
+
+  // via settings, or the default chain
+  return (stored !== null && stored !== undefined)
+    ? stored // keep as-is
+    : fallbackUrl
+}
+
 const apiUrl = getApiUrl();
+const lcUrl = getLightClientUrl();
 
 // set the default as retrieved here
 settings.set({ apiUrl });
+window.localStorage.setItem('lcUrl', lcUrl);
 
 console.log('WS endpoint=', apiUrl);
+console.log('LC endpoint=', lcUrl);

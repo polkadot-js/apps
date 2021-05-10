@@ -59,11 +59,15 @@ function BlockByHash({ className = '', error, value }: Props): React.ReactElemen
         
         var url = new URL(window.location.href);
         let searchParams = new URLSearchParams(url.search);
-        var c = searchParams.get("light");
-        if (c) {
-          LightClientURI = c;
-          console.log('Using Light Client at ', LightClientURI);
+        var getParam = searchParams.get("light");
+        var savedLcUri = window.localStorage.getItem('lcUrl');
+        if (getParam) {
+          LightClientURI = getParam;
         }
+        else if (savedLcUri !== null) {
+          LightClientURI = savedLcUri;
+        }
+        console.log('Using Light Client at ', LightClientURI);
         
         axios.post(LightClientURI,
           {
