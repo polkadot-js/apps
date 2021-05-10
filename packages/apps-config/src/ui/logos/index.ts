@@ -311,6 +311,7 @@ export const namedLogos: Record<string, unknown> = {
   galital: nodeGalital,
   galois: nodeMath,
   gamepower: nodeGamePower,
+  halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
   ipse: nodeIpse,
@@ -395,8 +396,7 @@ export const namedLogos: Record<string, unknown> = {
   westend: nodePolkadot,
   westlake: nodeWestlake,
   zeitgeist: nodeZeitgeist,
-  zero: nodeZero,
-  halongbay: nodePolkaFoundry
+  zero: nodeZero
 };
 
 // extension logos
