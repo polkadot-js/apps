@@ -46,7 +46,7 @@ function isValidUrl (url: string): boolean {
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
-      result.push({ header: e.text, isDevelopment: e.isDevelopment, networks: [] });
+      result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
     } else {
       const prev = result[result.length - 1];
       const prov = { name: e.textBy, url: e.value as string };

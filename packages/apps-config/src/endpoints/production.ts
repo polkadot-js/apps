@@ -14,30 +14,9 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
+// alphabetical based on chain name
 export function createProduction (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
-    // fixed, polkadot
-    {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://rpc.polkadot.io',
-        OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://polkadot.elara.patract.io'
-      }
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://kusama-rpc.polkadot.io',
-        OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://kusama.elara.patract.io'
-      }
-    },
-    // alphabetical based on chain name
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
