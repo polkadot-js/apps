@@ -352,6 +352,13 @@ export function createTesting (t: TFunction): LinkOption[] {
         NFTMartDev: 'wss://dev-ws.nftmart.io',
         NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
+    },
+    {
+      info: 'halongbay',
+      text: 'Halongbay Testnet',
+      providers: {
+        Halongbay: 'wss://halongbay.polkafoundry.com'
+      }
     }
   ]);
 }
