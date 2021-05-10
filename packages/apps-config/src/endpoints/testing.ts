@@ -161,6 +161,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'halongbay',
+      text: 'Halongbay Testnet',
+      providers: {
+        Halongbay: 'wss://halongbay.polkafoundry.com'
+      }
+    },
+    {
       info: 'ipse',
       text: t('rpc.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
@@ -206,6 +213,21 @@ export function createTesting (t: TFunction): LinkOption[] {
         'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
         OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://moonbase.moonbeam.elara.patract.io'
+      }
+    },
+    {
+      info: 'mybank',
+      text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
+      providers: {
+        MYBANK: 'wss://mybank.network/substrate'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
+      providers: {
+        NFTMartDev: 'wss://dev-ws.nftmart.io',
+        NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
     },
     {
@@ -293,6 +315,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'unitv',
+      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
+      providers: {
+        'Unit Network': 'wss://unitventures.io/'
+      }
+    },
+    {
       info: 'vln',
       text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
       providers: {
@@ -336,35 +365,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville.zero.io'
-      }
-    },
-    {
-      info: 'mybank',
-      text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
-      providers: {
-        MYBANK: 'wss://mybank.network/substrate'
-      }
-    },
-    {
-      info: 'unitv',
-      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
-      providers: {
-        'Unit Network': 'wss://unitventures.io/'
-      }
-    },
-    {
-      info: 'nftmart',
-      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
-      providers: {
-        NFTMartDev: 'wss://dev-ws.nftmart.io',
-        NFTMartStaging: 'wss://staging-ws.nftmart.io'
-      }
-    },
-    {
-      info: 'halongbay',
-      text: 'Halongbay Testnet',
-      providers: {
-        Halongbay: 'wss://halongbay.polkafoundry.com'
       }
     }
   ]);
