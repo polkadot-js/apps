@@ -180,7 +180,7 @@ export const chainColors: Record<string, any> = [
   ['Polkadot', chainPolkadot],
   ['Prism Testnet', chainPrism],
   ['Prism PC1', chainPrism],
-  ['Halongbay Testnet', chainPolkaFoundry],
+  ['Halongbay PC1', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
