@@ -6,14 +6,14 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import schema from '@polymathnetwork/polymesh-types';
 
 const definitions: OverrideBundleDefinition = {
-    types: [
-      {
-        // on all versions
-        minmax: [0, undefined],
-        types: schema.types
-      }
-    ],
-    rpc: schema.rpc
-}
+  rpc: schema.rpc,
+  types: [
+    {
+      // on all versions
+      minmax: [0, undefined],
+      types: schema.types
+    }
+  ]
+};
 
 export default definitions;
