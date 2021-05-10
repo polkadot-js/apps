@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ParaId } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
 import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
@@ -16,6 +16,8 @@ interface Props {
   className?: string;
   onClose: () => void;
 }
+
+const LOWEST_PUBLIC_ID = new BN(2_000);
 
 function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -55,7 +57,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           {api.tx.registrar.registerNext
             ? (
               <InputNumber
-                defaultValue={nextParaId}
+                defaultValue={(nextParaId && !nextParaId.isZero()) ? nextParaId : LOWEST_PUBLIC_ID}
                 isDisabled
                 isZeroable={false}
                 label={t<string>('parachain id')}
