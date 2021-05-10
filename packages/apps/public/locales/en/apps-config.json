@@ -37,6 +37,7 @@
   "rpc.hanonycash": "Hanonycash",
   "rpc.header.dev": "Development",
   "rpc.header.live": "Live networks",
+  "rpc.header.live.relay": "Live relays & parachains",
   "rpc.header.test": "Test networks",
   "rpc.header.test.relay": "Test relays & parachains",
   "rpc.hosted.by": "hosted by {{host}}",
