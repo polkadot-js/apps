@@ -230,6 +230,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'polymesh',
+      text: t('rpc.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://itn-rpc.polymesh.live'
+      }
+    },
+    {
       info: 'prism',
       text: t('rpc.prism', 'Prism', { ns: 'apps-config' }),
       providers: {
