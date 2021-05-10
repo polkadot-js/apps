@@ -10,8 +10,6 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      // SD: Commented line below
-      // needsAccounts: true,
       needsApi: [
         'query.technicalCommittee.members'
       ]

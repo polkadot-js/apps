@@ -7,7 +7,6 @@ import type { LinkOption } from '../settings/types';
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
 import { createTesting } from './testing';
-import { createRococo } from './testingRococo';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
@@ -22,14 +21,6 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       value: ''
     },
     ...createProduction(t),
-    {
-      isDisabled: false,
-      isHeader: true,
-      text: t('rpc.header.test.relay', 'Test relays & parachains', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createRococo(t),
     {
       isDisabled: false,
       isHeader: true,

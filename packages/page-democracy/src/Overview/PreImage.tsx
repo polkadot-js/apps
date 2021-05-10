@@ -112,13 +112,11 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           label={t<string>('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}
-          tx={isImminent ? 'simpleDemocracy.noteImminentPreimage' : 'simpleDemocracy.notePreimage'}
-          // SD: Commented line below
-          // tx={
-          //   isImminent
-          //     ? api.tx.democracy.noteImminentPreimage
-          //     : api.tx.democracy.notePreimage
-          // }
+          tx={
+            isImminent
+              ? api.tx.democracy.noteImminentPreimage
+              : api.tx.democracy.notePreimage
+          }
         />
       </Modal.Actions>
     </Modal>

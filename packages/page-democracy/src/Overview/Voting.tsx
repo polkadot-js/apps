@@ -3,10 +3,11 @@
 
 import type { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
-import { Button, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
-import {useAccounts, useApi, useMembers, useToggle} from '@polkadot/react-hooks';
+import { Button, Modal, ProposedAction, TxButton, VoteAccount, VoteValue, ConvictionDropdown } from '@polkadot/react-components';
+import {useAccounts, useApi, useToggle} from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -20,10 +21,8 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const { isMember, members } = useMembers();
-  // SD: Commented lines below
-  // const [balance, setBalance] = useState<BN | undefined>();
-  // const [conviction, setConviction] = useState(0);
+  const [balance, setBalance] = useState<BN | undefined>();
+  const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
 
   const isCurrentVote = useMemo(
@@ -35,9 +34,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
     return null;
   }
 
-  const isDisabled = !isCurrentVote;
-  // SD: Commented line below
-  // const isDisabled = isCurrentVote ? !balance : false;
+  const isDisabled = isCurrentVote ? !balance : false;
 
   return (
     <>
@@ -53,19 +50,10 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 proposal={proposal}
               />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                {/*SD: Add filter */}
-                <VoteAccount
-                  filter={members}
-                  onChange={setAccountId} />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
+              <VoteAccount onChange={setAccountId} />
             </Modal.Columns>
-            {/*SD: Commented components below*/}
-            {/*<Modal.Columns hint={
+            <Modal.Columns hint={
               <>
                 <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
                 <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
@@ -84,7 +72,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 onChange={setConviction}
                 value={conviction}
               />
-            </Modal.Columns>*/}
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVoting}>
             <TxButton
@@ -94,15 +82,11 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={
-                [api.tx.simpleDemocracy.vote(referendumId, false), 200]
-                // SD: Commented lines below
-                // isCurrentVote
-                  // ? [referendumId, { Standard: { balance, vote: { aye: false, conviction } } }]
-                  // : [referendumId, { aye: false, conviction }]
+                isCurrentVote
+                  ? [referendumId, { Standard: { balance, vote: { aye: false, conviction } } }]
+                  : [referendumId, { aye: false, conviction }]
               }
-              tx='council.execute'
-              // SD: Commented line below
-              // tx='democracy.vote'
+              tx={api.tx.democracy.vote}
             />
             <TxButton
               accountId={accountId}
@@ -111,15 +95,11 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={
-                [api.tx.simpleDemocracy.vote(referendumId, true), 200]
-                // SD: Commented lines below
-                // isCurrentVote
-                //   ? [referendumId, { Standard: { balance, vote: { aye: true, conviction } } }]
-                //   : [referendumId, { aye: true, conviction }]
+                isCurrentVote
+                  ? [referendumId, { Standard: { balance, vote: { aye: true, conviction } } }]
+                  : [referendumId, { aye: true, conviction }]
               }
-              tx='council.execute'
-              // SD: Commented line below
-              // tx='democracy.vote'
+              tx={api.tx.democracy.vote}
             />
           </Modal.Actions>
         </Modal>
