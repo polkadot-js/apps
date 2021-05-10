@@ -2513,6 +2513,7 @@ __metadata:
     "@laminar/type-definitions": ^0.3.1
     "@phala/typedefs": 0.1.0
     "@polkadot/networks": ^6.3.2-9
+    "@polymathnetwork/polymesh-types": ^0.0.2
     "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^1.2.1
     "@subsocial/types": ^0.5.0-substrate2.0
@@ -3233,6 +3234,13 @@ __metadata:
     "@types/websocket": ^1.0.2
     websocket: ^1.0.34
   checksum: f9ace684e4dea14e2c330d7022c1fde872073047fc0bba556f95f672eda79c02b7335baf575bc1451a9e49c5808422457c01e00c414f292a44a713f2ac969ecf
+  languageName: node
+  linkType: hard
+
+"@polymathnetwork/polymesh-types@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "@polymathnetwork/polymesh-types@npm:0.0.2"
+  checksum: 5dd78f39c4a1216e34dfe311c46bd892de2061db16899c8d8d9345d31f607ecec63a1a65bd9d79b6bacb7ae105597fefd7187f039216adc4d81049018f2e0f8b
   languageName: node
   linkType: hard
 
