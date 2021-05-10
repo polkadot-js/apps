@@ -71,7 +71,7 @@ export default React.memo(styled(GroupDisplay)`
     }
 
     &.isSpaced {
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
 
     .ui--Icon {
