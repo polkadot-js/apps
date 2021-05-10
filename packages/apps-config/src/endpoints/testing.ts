@@ -61,6 +61,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'clover',
+      isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
       providers: {
         Clover: 'wss://api.clover.finance/'
@@ -94,13 +95,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
       providers: {
         DOTMog: 'wss://mogiway-01.dotmog.com'
-      }
-    },
-    {
-      info: 'phoenix',
-      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
-      providers: {
-        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
       }
     },
     {
@@ -238,6 +232,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'phoenix',
+      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
+      providers: {
+        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
+      }
+    },
+    {
       info: 'polkadex',
       text: t('rpc.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
@@ -319,13 +320,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
         'Unit Network': 'wss://unitventures.io/'
-      }
-    },
-    {
-      info: 'vln',
-      text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
-      providers: {
-        Valiu: 'wss://vln.valiu.dev'
       }
     },
     {
