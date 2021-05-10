@@ -7,7 +7,7 @@ import type { LinkOption } from '../settings/types';
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
 import { createTesting } from './testing';
-import { createRococo } from './testingRococo';
+import { createTestingRelays } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
@@ -29,7 +29,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createRococo(t),
+    ...createTestingRelays(t),
     {
       isDisabled: false,
       isHeader: true,

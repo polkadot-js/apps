@@ -185,14 +185,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'acala',
-      text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
-      providers: {
-        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://mandala.elara.patract.io'
-      }
-    },
-    {
       info: 'kilt',
       text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
@@ -204,6 +196,14 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.litentry.test', 'Litentry Testnet', { ns: 'apps-config' }),
       providers: {
         Litentry: 'wss://testnet.litentry.io'
+      }
+    },
+    {
+      info: 'acala',
+      text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
+      providers: {
+        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
+        'Patract Elara': 'wss://mandala.elara.patract.io'
       }
     },
     {
@@ -340,17 +340,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: 'wss://substrate.org.cn:4443'
-      }
-    },
-    {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://westend-rpc.polkadot.io',
-        'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws',
-        'Patract Elara': 'wss://westend.elara.patract.io',
-        OnFinality: 'wss://westend.api.onfinality.io/public-ws'
       }
     },
     {
