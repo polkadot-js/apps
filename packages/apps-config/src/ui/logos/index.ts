@@ -142,7 +142,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
-  ['PolkaFoundry PC1', nodePolkaFoundry],
+  ['Halongbay PC1', nodePolkaFoundry],
   ['Prism Testnet', nodePrism],
   ['Prism PC1', nodePrism],
   ['Phala PC1', nodePhala],
@@ -395,7 +395,8 @@ export const namedLogos: Record<string, unknown> = {
   westend: nodePolkadot,
   westlake: nodeWestlake,
   zeitgeist: nodeZeitgeist,
-  zero: nodeZero
+  zero: nodeZero,
+  halongbay: nodePolkaFoundry
 };
 
 // extension logos

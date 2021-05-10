@@ -159,7 +159,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
-  polkafoundry,
+  'halongbay': polkafoundry,
   prism,
   realis,
   'riochain-runtime': riochain,
