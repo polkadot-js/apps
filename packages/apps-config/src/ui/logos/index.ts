@@ -73,6 +73,7 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePolymesh from './nodes/polymesh.svg';
 import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
@@ -143,6 +144,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['PolkaFoundry PC1', nodePolkaFoundry],
+  ['Polymesh', nodePolymesh],
   ['Prism Testnet', nodePrism],
   ['Prism PC1', nodePrism],
   ['Phala PC1', nodePhala],
@@ -333,6 +335,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  polymesh: nodePolymesh,
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
