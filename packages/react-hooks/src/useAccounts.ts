@@ -27,7 +27,6 @@ export function useAccounts (): UseAccounts {
         const hasAccounts = allAccounts.length !== 0;
         const isAccount = (address?: string | null) => !!address && allAccounts.includes(address);
 
-        console.log('allAccounts', allAccounts);
         setState({ allAccounts, areAccountsLoaded: true, hasAccounts, isAccount });
       }
     });

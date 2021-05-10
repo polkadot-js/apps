@@ -86,7 +86,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     const sortedAccounts = sortAccounts(allAccounts, favorites);
     const sortedAddresses = sortedAccounts.map((a) => a.account.address);
 
-    console.log('sortedAccounts', sortedAccounts);
     setSorted({ sortedAccounts, sortedAddresses });
   }, [allAccounts, favorites]);
 
