@@ -51,6 +51,7 @@ const chainSunrock = '#ffd13b';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
+const chainKlug = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = '#b39ef7';
@@ -90,6 +91,7 @@ const nodeTernoa = '#d622ff';
 const nodeUnique = chainUnique;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
+const nodeKlug = '#663399';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 export { emptyColor };
@@ -163,6 +165,7 @@ export const chainColors: Record<string, any> = [
   ['Westend', chainWestend],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero],
+  ['KLUGDOSSIER.NET', chainKlug],
   ['PHOENIX', chainPhoenix],
   ['UNIT', chainUnitv]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
@@ -203,7 +206,8 @@ export const nodeColors: Record<string, any> = [
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO]
+  ['SubDAO Collator', nodeSubDAO],
+  ['Klug Dossier Node',nodeKlug]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],
   // ['substrate node', emptyColor]

@@ -297,6 +297,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         'Unit Network': 'wss://unitventures.io/'
       }
+    },
+    {
+      info: 'KlugDossier',
+      text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
+      providers: {
+        'Klug Dossier': 'wss://klugdossier.net/'
+      }
     }
   ]);
 }

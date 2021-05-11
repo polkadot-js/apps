@@ -83,6 +83,7 @@ import nodeVln from './nodes/valiu.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeKlug from './nodes/klug.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -140,7 +141,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Vln', nodeVln],
   ['PHOENIX PC1', nodePhoenix],
   ['mybank.network PC1', mybank],
-  ['Unit Network', nodeUnitv]
+  ['Unit Network', nodeUnitv],
+  ['KlugDossier',nodeKlug]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -234,7 +236,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Unit Collator', nodeUnitv],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
-  ['mybank.network', mybank]
+  ['mybank.network', mybank],
+  ['Klug Dossier Node',nodeKlug]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -342,7 +345,8 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   westend: nodePolkadot,
   zeitgeist: nodeZeitgeist,
-  zero: nodeZero
+  zero: nodeZero,
+  KlugDossier: nodeKlug
 };
 
 // extension logos
