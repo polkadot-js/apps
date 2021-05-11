@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        AccountInfo: 'AccountInfoWithDualRefCount',
         AssetId: 'u64',
         SeriesId: 'u64',
         ClassId: 'u32',
