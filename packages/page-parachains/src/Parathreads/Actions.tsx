@@ -4,9 +4,10 @@
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import RegisterId from './RegisterId';
 import RegisterThread from './RegisterThread';
 
 interface Props {
@@ -15,13 +16,24 @@ interface Props {
 
 function Actions ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isRegisterOpen, toggleRegisterOpen] = useToggle();
+  const [isReserveOpen, toggleReserveOpen] = useToggle();
 
   return (
     <Button.Group className={className}>
       <Button
         icon='plus'
-        label={t<string>('Register')}
+        isDisabled={!api.tx.registrar.reserve}
+        label={t<string>('ParaId')}
+        onClick={toggleReserveOpen}
+      />
+      {isReserveOpen && (
+        <RegisterId onClose={toggleReserveOpen} />
+      )}
+      <Button
+        icon='plus'
+        label={t<string>('ParaThread')}
         onClick={toggleRegisterOpen}
       />
       {isRegisterOpen && (
