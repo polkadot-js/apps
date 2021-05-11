@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        AccountInfo: 'AccountInfoWithRefCount',
         Keys: 'SessionKeys2',
         Address: 'AccountId',
         LookupSource: 'AccountId',
@@ -163,6 +164,7 @@ const definitions: OverrideBundleDefinition = {
           }
         },
         SaleOrder: {
+          order_id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
           value: 'u64',
@@ -170,9 +172,11 @@ const definitions: OverrideBundleDefinition = {
           price: 'u64'
         },
         SplitSaleOrder: {
+          order_id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
           value: 'u64',
+          balance: 'u64',
           owner: 'AccountId',
           price: 'u64'
         },
@@ -180,7 +184,6 @@ const definitions: OverrideBundleDefinition = {
           collection_id: 'u64',
           item_id: 'u64',
           value: 'u64',
-          balance: 'u64',
           seller: 'AccountId',
           buyer: 'AccountId',
           price: 'u64',
@@ -270,7 +273,7 @@ const definitions: OverrideBundleDefinition = {
           draw_start: 'u64',
           draw_end: 'u64'
         },
-        BlindBox: {
+        BlindboxItem: {
           id: 'u64',
           owner: 'AccountId',
           card_group: 'Vec<u64>',
