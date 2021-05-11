@@ -167,6 +167,7 @@ const definitions: OverrideBundleDefinition = {
           order_id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
           owner: 'AccountId',
           price: 'u64'
@@ -175,6 +176,7 @@ const definitions: OverrideBundleDefinition = {
           order_id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
           balance: 'u64',
           owner: 'AccountId',
@@ -183,6 +185,7 @@ const definitions: OverrideBundleDefinition = {
         SaleOrderHistory: {
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
           seller: 'AccountId',
           buyer: 'AccountId',
@@ -225,6 +228,7 @@ const definitions: OverrideBundleDefinition = {
           id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
           owner: 'AccountId',
           start_price: 'u64',
@@ -235,6 +239,7 @@ const definitions: OverrideBundleDefinition = {
         },
         BidHistory: {
           auction_id: 'u64',
+          currency_id: 'CurrencyId',
           bidder: 'AccountId',
           bid_price: 'u64',
           bid_time: 'BlockNumber'
@@ -279,6 +284,7 @@ const definitions: OverrideBundleDefinition = {
           card_group: 'Vec<u64>',
           total_count: 'u64',
           remaind_count: 'u64',
+          currency_id: 'CurrencyId',
           price: 'u64',
           start_time: 'BlockNumber',
           end_time: 'BlockNumber',
