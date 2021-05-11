@@ -303,9 +303,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'uniarts',
-      text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
+      text: t('rpc.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
-        Uniarts: 'wss://testnet.uniarts.me'
+        UniArts: 'wss://testnet.uniarts.me'
       }
     },
     {
