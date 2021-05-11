@@ -21,7 +21,7 @@ interface Result {
 
 export function useTreasury (): Result {
   const { api } = useApi();
-  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
+  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances?.account, [TREASURY_ACCOUNT]);
 
   return useMemo(
     () => api.consts.treasury

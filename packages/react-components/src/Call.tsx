@@ -108,35 +108,31 @@ function Call ({ children, className = '', labelHash, labelSignature, mortality,
           <Static
             className='hash'
             label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
+            value={signature}
             withCopy
-          >
-            {signature}
-          </Static>
+          />
         )}
         {hash && (
           <Static
             className='hash'
             label={labelHash || t<string>('extrinsic hash')}
+            value={hash}
             withCopy
-          >
-            {hash}
-          </Static>
+          />
         )}
         {mortality && (
           <Static
             className='mortality'
             label={t<string>('lifetime')}
-          >
-            {mortality}
-          </Static>
+            value={mortality}
+          />
         )}
         {tip?.gtn(0) && (
           <Static
             className='tip'
             label={t<string>('tip')}
-          >
-            <FormatBalance value={tip} />
-          </Static>
+            value={<FormatBalance value={tip} />}
+          />
         )}
       </div>
     </div>

@@ -61,6 +61,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'clover',
+      isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.clover.finance', 'Clover', { ns: 'apps-config' }),
       providers: {
         Clover: 'wss://api.clover.finance/'
@@ -94,13 +95,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.dotmog', 'DOTMog', { ns: 'apps-config' }),
       providers: {
         DOTMog: 'wss://mogiway-01.dotmog.com'
-      }
-    },
-    {
-      info: 'phoenix',
-      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
-      providers: {
-        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
       }
     },
     {
@@ -139,9 +133,8 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'rococoGalital',
-      paraId: 1230,
-      text: t('rpc.rococo.galital', 'Galital PC2', { ns: 'apps-config' }),
+      info: 'Galital',
+      text: t('rpc.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {
         StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
       }
@@ -152,6 +145,20 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
         'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
+      }
+    },
+    {
+      info: 'gamepower',
+      text: t('rpc.gamepower', 'GamePower', { ns: 'apps-config' }),
+      providers: {
+        GamePower: 'wss://gamepower.io'
+      }
+    },
+    {
+      info: 'halongbay',
+      text: 'Halongbay Testnet',
+      providers: {
+        Halongbay: 'wss://halongbay.polkafoundry.com'
       }
     },
     {
@@ -172,14 +179,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'acala',
-      text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
-      providers: {
-        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://mandala.elara.patract.io'
-      }
-    },
-    {
       info: 'kilt',
       text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
@@ -194,11 +193,35 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'acala',
+      text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
+      providers: {
+        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
+        'Patract Elara': 'wss://mandala.elara.patract.io'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
         'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
-        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+        'Patract Elara': 'wss://moonbase.moonbeam.elara.patract.io'
+      }
+    },
+    {
+      info: 'mybank',
+      text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
+      providers: {
+        MYBANK: 'wss://mybank.network/substrate'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
+      providers: {
+        NFTMartDev: 'wss://dev-ws.nftmart.io',
+        NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
     },
     {
@@ -206,6 +229,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.phala', 'Phala PoC-4', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://poc4.phala.network/ws'
+      }
+    },
+    {
+      info: 'phoenix',
+      text: t('rpc.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
+      providers: {
+        'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
       }
     },
     {
@@ -220,6 +250,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
       providers: {
         Interlay: 'wss://beta.polkabtc.io/api/parachain'
+      }
+    },
+    {
+      info: 'polymesh',
+      text: t('rpc.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://itn-rpc.polymesh.live'
       }
     },
     {
@@ -245,7 +282,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA-staging', { ns: 'apps-config' }),
+      text: t('rpc.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
       }
@@ -266,9 +303,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'uniarts',
-      text: t('rpc.uniarts', 'Uniarts', { ns: 'apps-config' }),
+      text: t('rpc.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
-        Uniarts: 'wss://testnet.uniarts.me'
+        UniArts: 'wss://testnet.uniarts.me'
       }
     },
     {
@@ -279,10 +316,17 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'vln',
-      text: t('rpc.vln', 'Valiu Liquidity Network', { ns: 'apps-config' }),
+      info: 'unitv',
+      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
-        Valiu: 'wss://vln.valiu.dev'
+        'Unit Network': 'wss://unitventures.io/'
+      }
+    },
+    {
+      info: 'vodka',
+      text: t('rpc.vodka', 'Vodka', { ns: 'apps-config' }),
+      providers: {
+        Vodka: 'wss://vodka.rpc.neatcoin.org/ws'
       }
     },
     {
@@ -290,17 +334,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: 'wss://substrate.org.cn:4443'
-      }
-    },
-    {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://westend-rpc.polkadot.io',
-        'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws',
-        'Patract Elara': 'wss://westend.elara.patract.io',
-        OnFinality: 'wss://westend.api.onfinality.io/public-ws'
       }
     },
     {
@@ -315,28 +348,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville.zero.io'
-      }
-    },
-    {
-      info: 'mybank',
-      text: t('rpc.mybank', 'mybank.network', { ns: 'apps-config' }),
-      providers: {
-        MYBANK: 'wss://mybank.network/substrate'
-      }
-    },
-    {
-      info: 'unitv',
-      text: t('rpc.unitv', 'Unit Network', { ns: 'apps-config' }),
-      providers: {
-        'Unit Network': 'wss://unitventures.io/'
-      }
-    },
-    {
-      info: 'nftmart',
-      text: t('rpc.nftmart', 'NFTMart', { ns: 'apps-config' }),
-      providers: {
-        NFTMartDev: 'wss://dev-ws.nftmart.io',
-        NFTMartStaging: 'wss://staging-ws.nftmart.io'
       }
     }
   ]);

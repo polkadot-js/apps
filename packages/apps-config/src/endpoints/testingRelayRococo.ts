@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
+import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
-import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -16,8 +15,8 @@ import { expandEndpoints } from './util';
 //   value: The actual hosted secure websocket endpoint
 
 // Based on history, this will expand so keep it as a singular chunk
-export function createRococo (t: TFunction): LinkOption[] {
-  return expandEndpoints(t, [{
+export function createRococo (t: TFunction): EndpointOption {
+  return {
     dnslink: 'rococo',
     genesisHash: ROCOCO_GENESIS,
     info: 'rococo',
@@ -65,7 +64,6 @@ export function createRococo (t: TFunction): LinkOption[] {
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
-        // paraId >= 1000, below that is reserved for system parachains
         paraId: 2048,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
@@ -90,13 +88,18 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoBitCountry',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 8,
+        paraId: 1008,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
           BitCountry: 'wss://tewai-parachain.bit.country:9955'
+        }
+      },
+      {
+        info: 'rococoCentrifuge',
+        paraId: 10001,
+        text: t('rpc.rococo.centrifuge', 'Centrifuge Charcoal', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
         }
       },
       {
@@ -160,6 +163,17 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoEave',
+        // Needs paraId >= 1000, below that is reserved for system parachains
+        // Update paraId to new selection, remove this flag to enable
+        isDisabled: true,
+        paraId: 77,
+        text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
+        providers: {
+          EAVE: 'wss://steamcollator.eave.network'
+        }
+      },
+      {
         info: 'rococoEncointer',
         paraId: 1862,
         text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
@@ -211,19 +225,19 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
-        info: 'rococoJupiter',
-        paraId: 1010,
-        text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
-        providers: {
-          jupiter: 'wss://ws.rococo.jupiter.patract.cn'
-        }
-      },
-      {
         info: 'rococoKilt',
         paraId: 12623,
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://para.rococo-v1.kilt.io'
+        }
+      },
+      {
+        info: 'rococoKonomi',
+        paraId: 18403,
+        text: t('rpc.rococo.konomi', 'Komomi Network', { ns: 'apps-config' }),
+        providers: {
+          'Konomi Network': 'wss://rococo.konomi.tech'
         }
       },
       {
@@ -255,13 +269,18 @@ export function createRococo (t: TFunction): LinkOption[] {
       },
       {
         info: 'rococoManta',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        // isDisabled: true,
         paraId: 2021,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
           Manta: 'wss://rococo.manta.network'
+        }
+      },
+      {
+        info: 'rococoMoonrock',
+        paraId: 1286,
+        text: t('rpc.rococo.moonrock', 'Moonrock', { ns: 'apps-config' }),
+        providers: {
+          Moonrock: 'wss://wss-moonrock.gcp.purestake.run'
         }
       },
       {
@@ -273,11 +292,27 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
+        info: 'rococoJupiter',
+        paraId: 1010,
+        text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
+        providers: {
+          jupiter: 'wss://ws.rococo.jupiter.patract.cn'
+        }
+      },
+      {
         info: 'rococoPhala',
         paraId: 1030,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
           Phala: 'wss://rococov1.phala.network/ws'
+        }
+      },
+      {
+        info: 'rococoPhoenix',
+        paraId: 6806,
+        text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
+        providers: {
+          'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
         }
       },
       {
@@ -316,17 +351,6 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
-        info: 'rococoEave',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 77,
-        text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
-        providers: {
-          EAVE: 'wss://steamcollator.eave.network'
-        }
-      },
-      {
         info: 'rococoSubDAO',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
@@ -357,33 +381,6 @@ export function createRococo (t: TFunction): LinkOption[] {
         }
       },
       {
-        info: 'rococoZenlink',
-        paraId: 1188,
-        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
-        providers: {
-          Zenlink: 'wss://rococo-parachain.zenlink.pro'
-        }
-      },
-      {
-        info: 'rococoPhoenix',
-        paraId: 6806,
-        text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
-        providers: {
-          'PHOENIX Protocol': 'wss://phoenix-ws.coinid.pro'
-        }
-      },
-      {
-        info: 'rococoSunrock',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 499,
-        text: t('rpc.rococo.sunrock', 'Sunrock', { ns: 'apps-config' }),
-        providers: {
-          Sunrock: 'wss://sunrock.kaki.dev'
-        }
-      },
-      {
         info: 'rococoUnitv',
         // Needs paraId >= 1000, below that is reserved for system parachains
         // Update paraId to new selection, remove this flag to enable
@@ -401,7 +398,23 @@ export function createRococo (t: TFunction): LinkOption[] {
         providers: {
           Valiu: 'wss://vln.valiu.dev'
         }
+      },
+      {
+        info: 'rococoZeitgeist',
+        paraId: 9123,
+        text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
+        providers: {
+          Zeitgeist: 'wss://roc.zeitgeist.pm'
+        }
+      },
+      {
+        info: 'rococoZenlink',
+        paraId: 1188,
+        text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
+        providers: {
+          Zenlink: 'wss://rococo-parachain.zenlink.pro'
+        }
       }
     ]
-  }]);
+  };
 }

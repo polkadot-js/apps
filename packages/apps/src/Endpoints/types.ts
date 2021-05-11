@@ -16,5 +16,6 @@ export interface Network {
 export interface Group {
   header: React.ReactNode;
   isDevelopment?: boolean;
+  isSpaced?: boolean;
   networks: Network[];
 }

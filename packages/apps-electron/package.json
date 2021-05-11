@@ -1,14 +1,14 @@
 {
   "name": "@polkadot/apps-electron",
   "private": true,
-  "version": "0.89.2-15",
+  "version": "0.90.2-43",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.13.16",
+    "@babel/core": "^7.14.0",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.62.10",
-    "@polkadot/react-components": "^0.89.2-15",
-    "electron-log": "^4.3.4",
+    "@polkadot/dev": "^0.62.13",
+    "@polkadot/react-components": "^0.90.2-43",
+    "electron-log": "^4.3.5",
     "electron-updater": "^4.3.8"
   },
   "devDependencies": {
@@ -21,6 +21,6 @@
     "react-dom": "^17.0.2",
     "thread-loader": "^3.0.3",
     "tmp": "^0.2.1",
-    "webpack": "^5.35.1"
+    "webpack": "^5.36.2"
   }
 }

@@ -46,18 +46,21 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeGalital from './nodes/galital-logo.png';
+import nodeGamePower from './nodes/gamepower.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKilt from './nodes/kilt.svg';
+import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
+import nodeMoonrock from './nodes/moonrock.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
@@ -70,6 +73,7 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePolymesh from './nodes/polymesh.svg';
 import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
@@ -80,7 +84,6 @@ import nodeStatemint from './nodes/statemint-3.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
-import nodeSunrock from './nodes/sunrock.png';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
@@ -111,9 +114,11 @@ export const chainLogos: Record<string, unknown> = [
   ['Steam PC', nodeEave],
   ['Galital', nodeGalital],
   ['Galois', nodeMath],
+  ['GamePower Network', nodeGamePower],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['HydraDX Snakenet Gen2', chainSnakenet],
+  ['HydraDX Snakenet Gen3', chainSnakenet],
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
   ['IntegriTEE PC1', nodeIntegritee],
@@ -121,6 +126,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Jupiter A1', nodeJupiter],
   ['Jupiter PC1', nodeJupiter],
   ['KILT PC1', nodeKilt],
+  ['Konomi', nodeKonomi],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -130,6 +136,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Moonrock', nodeMoonrock],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['Parami PC2', nodeParami],
@@ -148,12 +155,12 @@ export const chainLogos: Record<string, unknown> = [
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
-  ['Sunrock', nodeSunrock],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],
   ['TrustBase PC1', nodeTrustBase],
   ['uni arts staging network', nodeUniarts],
+  ['UniArts Mainnet', nodeUniarts],
   ['Unique', chainUnique],
   ['VLN PC', nodeVln],
   ['Vln', nodeVln],
@@ -207,6 +214,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galital Parachain Collator', nodeGalital],
   ['Galois', nodeMath],
+  ['GamePower Node', nodeGamePower],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
   ['KILT Node', nodeKilt],
@@ -217,6 +225,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Litentry Collator', nodeLitentry],
   ['Manta Node', nodeManta],
   ['Manta Parachain Collator', nodeManta],
+  ['Moonrock', nodeMoonrock],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['node-template', nodeSubstrate],
@@ -246,7 +255,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['Subsocial Node', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
-  ['sunrock', nodeSunrock],
   ['Equilibrium Node', nodeEquilibrium],
   ['Equilibrium', nodeEquilibrium],
   ['subzero node', nodeZero],
@@ -257,6 +265,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['SubDAO Collator', nodeSubDAO],
   ['uni arts node', nodeUniarts],
+  ['UniArts Node', nodeUniarts],
   ['Unique Node', nodeUnique],
   ['Vln', nodeVln],
   ['VLN PC', nodeVln],
@@ -304,6 +313,8 @@ export const namedLogos: Record<string, unknown> = {
   equilibrium: nodeEquilibrium,
   galital: nodeGalital,
   galois: nodeMath,
+  gamepower: nodeGamePower,
+  halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
   ipse: nodeIpse,
@@ -315,6 +326,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
+  moonrock: nodeMoonrock,
   mybank: mybank,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
@@ -325,6 +337,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  polymesh: nodePolymesh,
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
@@ -349,10 +362,12 @@ export const namedLogos: Record<string, unknown> = {
   rococoIntegritee: nodeIntegritee,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
+  rococoKonomi: nodeKonomi,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
+  rococoMoonrock: nodeMoonrock,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
@@ -363,20 +378,19 @@ export const namedLogos: Record<string, unknown> = {
   rococoStatemint: nodeStatemint,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
-  rococoSunrock: nodeSunrock,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoUnitv: nodeUnitv,
   rococoVln: nodeVln,
+  rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  sunrock: nodeSunrock,
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,

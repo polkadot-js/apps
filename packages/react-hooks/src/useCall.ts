@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Codec } from '@polkadot/types/types';
+import type { RpcPromiseResult } from '@polkadot/api/types';
+import type { AnyFunction, Codec } from '@polkadot/types/types';
 import type { CallOptions, CallParam, CallParams } from './types';
 import type { MountedRef } from './useIsMountedRef';
 
@@ -20,14 +20,16 @@ type VoidFn = () => void;
 // to cater for our usecase.
 type TrackFnResult = Promise<unknown>;
 
-interface TrackFn {
+interface QueryTrackFn {
   (...params: CallParam[]): TrackFnResult;
   meta?: {
-    type: {
+    type?: {
       isDoubleMap: boolean;
     };
   };
 }
+
+type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
 
 export interface Tracker {
   isActive: boolean;
@@ -72,8 +74,9 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 
   setTimeout((): void => {
     if (mountedRef.current) {
-      if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
-        // swap to acive mode
+      // FIXME NMap support
+      if (fn && (!(fn as QueryTrackFn).meta?.type?.isDoubleMap || validParams.length === 2)) {
+        // swap to active mode
         tracker.current.isActive = true;
 
         tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<VoidFn>)(...params, (value: Codec): void => {

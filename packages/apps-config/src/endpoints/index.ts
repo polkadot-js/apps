@@ -6,8 +6,9 @@ import type { LinkOption } from '../settings/types';
 
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
+import { createProductionRelays } from './productionRelays';
 import { createTesting } from './testing';
-import { createRococo } from './testingRococo';
+import { createTestingRelays } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
@@ -17,11 +18,12 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
     {
       isDisabled: false,
       isHeader: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      isSpaced: true,
+      text: t('rpc.header.live.relay', 'Live relays & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createProduction(t),
+    ...createProductionRelays(t),
     {
       isDisabled: false,
       isHeader: true,
@@ -29,7 +31,16 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createRococo(t),
+    ...createTestingRelays(t),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createProduction(t),
     {
       isDisabled: false,
       isHeader: true,
@@ -42,6 +53,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       isDevelopment: true,
       isDisabled: false,
       isHeader: true,
+      isSpaced: true,
       text: t('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       textBy: '',
       value: ''

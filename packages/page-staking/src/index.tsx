@@ -37,7 +37,7 @@ const transformElection = {
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { hasAccounts } = useAccounts();
+  const { areAccountsLoaded, hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
@@ -103,9 +103,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <Tabs
         basePath={basePath}
         hidden={
-          hasAccounts
-            ? undefined
-            : HIDDEN_ACC
+          areAccountsLoaded && !hasAccounts
+            ? HIDDEN_ACC
+            : undefined
         }
         items={items}
       />
