@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useTxBatch } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -29,24 +29,22 @@ interface EraInfo {
   oldestEra?: BN;
 }
 
-function createPrevPayoutType (api: ApiPromise, { era, isValidator, nominating }: DeriveStakerReward): SubmittableExtrinsic<'promise'> {
-  return isValidator
-    ? api.tx.staking.payoutValidator(era)
-    : api.tx.staking.payoutNominator(era, nominating.map(({ validatorId, validatorIndex }): [string, number] =>
-      [validatorId, validatorIndex]
-    ));
-}
-
-function createPrevPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[]): SubmittableExtrinsic<'promise'> {
-  return payoutRewards.length === 1
-    ? createPrevPayoutType(api, payoutRewards[0])
-    : api.tx.utility.batch(payoutRewards.map((reward) => createPrevPayoutType(api, reward)));
+// TODO This is pre Substrate 2.0, remove
+function createPrevPayouts (api: ApiPromise, payoutRewards: DeriveStakerReward[]): SubmittableExtrinsic<'promise'>[] {
+  return payoutRewards.map(({ era, isValidator, nominating }) =>
+    isValidator
+      ? api.tx.staking.payoutValidator(era)
+      : api.tx.staking.payoutNominator(era, nominating.map(({ validatorId, validatorIndex }): [string, number] =>
+        [validatorId, validatorIndex]
+      ))
+  );
 }
 
 function Stash ({ className = '', isDisabled, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [payoutTxs, setPayoutTxs] = useState<SubmittableExtrinsic<'promise'>[]>([]);
+  const batchTx = useTxBatch(payoutTxs);
   const [{ eraStr, oldestEra }, setEraInfo] = useState<EraInfo>({ eraStr: '' });
   const eraBlocks = useEraBlocks(oldestEra);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
@@ -59,15 +57,9 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
   }, [rewards]);
 
   useEffect((): void => {
-    if (rewards) {
-      const available = rewards.filter(({ era }) => era.lt(stakerPayoutsAfter));
-
-      setExtrinsic(
-        api.tx.utility && available.length
-          ? createPrevPayout(api, available)
-          : null
-      );
-    }
+    rewards && setPayoutTxs(
+      createPrevPayouts(api, rewards.filter(({ era }) => era.lt(stakerPayoutsAfter)))
+    );
   }, [api, rewards, stakerPayoutsAfter]);
 
   if (available.isZero()) {
@@ -91,12 +83,12 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
         className='button'
         colSpan={3}
       >
-        {extrinsic && stakingAccount && (
+        {batchTx && stakingAccount && (
           <TxButton
             accountId={stakingAccount.controllerId}
-            extrinsic={extrinsic}
+            extrinsic={batchTx}
             icon='credit-card'
-            isDisabled={!extrinsic || isDisabled}
+            isDisabled={!batchTx || isDisabled}
             label={t<string>('Payout')}
           />
         )}

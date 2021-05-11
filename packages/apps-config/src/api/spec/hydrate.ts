@@ -38,7 +38,11 @@ const definitions: OverrideBundleDefinition = {
         },
         LookupSource: 'AccountId',
         OrderedSet: 'Vec<AssetId>',
-        Price: 'Balance'
+        Price: 'Balance',
+        Chain: {
+          genesisHash: 'Vec<u8>',
+          lastBlockHash: 'Vec<u8>'
+        }
       }
     }
   ]

@@ -336,6 +336,7 @@ const definitions: OverrideBundleDefinition = {
             WaitForUnbonding: 'Null'
           }
         },
+        RelaychainAccountId: 'AccountId',
         RiskManagementParams: {
           maximumTotalDebitValue: 'Balance',
           stabilityFee: 'Option<Rate>',
@@ -397,7 +398,8 @@ const definitions: OverrideBundleDefinition = {
             IUSD: 129,
             KSM: 130,
             LKSM: 131,
-            SDN: 135
+            SDN: 135,
+            KILT: 138
           }
         },
         TradingPair: '(CurrencyId,  CurrencyId)',

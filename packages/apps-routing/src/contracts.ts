@@ -12,7 +12,7 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.contracts.call'
+        'tx.contracts.instantiateWithCode'
       ]
     },
     group: 'developer',

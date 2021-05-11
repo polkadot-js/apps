@@ -56,7 +56,7 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
     [api.query.paras.heads, id],
     [api.query.paras.upcomingParasGenesis, id],
     [api.query.paras.paraLifecycles, id],
-    [api.query.registrar?.paras, id]
+    [api.query.registrar.paras, id]
   ], optMulti);
 
   const periods = useMemo(
