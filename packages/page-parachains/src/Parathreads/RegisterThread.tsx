@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ZERO, compactAddLength } from '@polkadot/util';
+import { compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,12 +19,19 @@ interface Props {
 
 const LOWEST_PUBLIC_ID = new BN(2_000);
 
+const transformId = {
+  transform: (nextId: ParaId) =>
+    nextId.isZero()
+      ? LOWEST_PUBLIC_ID
+      : nextId
+};
+
 function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [paraId, setParaId] = useState<BN | undefined>();
-  const nextParaId = useCall<ParaId>(api.query.registrar?.nextFreeParaId);
+  const nextParaId = useCall<ParaId | BN>(api.query.registrar?.nextFreeParaId, [], transformId);
   const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -37,6 +44,10 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
     (data: Uint8Array) => setWasm(compactAddLength(data)),
     []
   );
+
+  const isIdValid = api.tx.registrar.registerNext
+    ? !!nextParaId
+    : !!(paraId && paraId.gte(LOWEST_PUBLIC_ID));
 
   return (
     <Modal
@@ -57,7 +68,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           {api.tx.registrar.registerNext
             ? (
               <InputNumber
-                defaultValue={(nextParaId && !nextParaId.isZero()) ? nextParaId : LOWEST_PUBLIC_ID}
+                defaultValue={nextParaId || LOWEST_PUBLIC_ID}
                 isDisabled
                 isZeroable={false}
                 label={t<string>('parachain id')}
@@ -95,7 +106,7 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!wasm || !genesisState || !(paraId || nextParaId)?.gt(BN_ZERO)}
+          isDisabled={!wasm || !genesisState || !isIdValid}
           onStart={onClose}
           params={
             api.tx.registrar.registerNext
