@@ -95,6 +95,7 @@ const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
+const nodePolymesh = '#1348e4';
 const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRealis = 'linear-gradient(45deg, #E8AAC9 0%, #C4D9E7 50%, #EFD6E0 100%)';
 const nodeRiochain = '#1A3BB3';
@@ -142,6 +143,7 @@ export const chainColors: Record<string, any> = [
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['HydraDX Snakenet Gen2', chainSnakenet],
+  ['HydraDX Snakenet Gen3', chainSnakenet],
   ['Idavoll', chainIdavoll],
   ['IntegriTEE PC1', chainIntegritee],
   ['IpseTestnet', chainIpse],
@@ -178,7 +180,7 @@ export const chainColors: Record<string, any> = [
   ['Polkadot', chainPolkadot],
   ['Prism Testnet', chainPrism],
   ['Prism PC1', chainPrism],
-  ['Halongbay Testnet', chainPolkaFoundry],
+  ['Halongbay PC1', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
@@ -234,6 +236,7 @@ export const nodeColors: Record<string, any> = [
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Polymesh Node', nodePolymesh],
   ['Prism Node', nodePrism],
   ['Prism Collator', nodePrism],
   ['ReAlis Network', nodeRealis],

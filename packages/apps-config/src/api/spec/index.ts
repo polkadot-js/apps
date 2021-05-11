@@ -61,6 +61,7 @@ import plasmParachain from './plasm-parachain';
 import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
+import polymesh from './polymesh';
 import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
@@ -126,6 +127,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'galital-collator': galitalParachain,
   gamepower,
   'hack-hydra-dx': hydrate,
+  halongbay: polkafoundry,
   hanonycash,
   'hydra-dx': hydrate,
   idavoll,
@@ -159,7 +161,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
-  polkafoundry,
+  polymesh,
   prism,
   realis,
   'riochain-runtime': riochain,
