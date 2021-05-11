@@ -1,13 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { Option, StorageKey } from '@polkadot/types';
 import type { HrmpChannel, HrmpChannelId } from '@polkadot/types/interfaces';
 import type { AllChannels } from './types';
 
-import { useEffect, useState } from 'react';
-
-import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
+import { useApi, useCall, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
 
 const optChannels = {
   transform: ([[channelIds], channels]: [[HrmpChannelId[]], Option<HrmpChannel>[]]): AllChannels =>
@@ -27,19 +25,17 @@ const optChannels = {
   withParamsTransform: true
 };
 
+function extractChannelIds (keys: StorageKey<[HrmpChannelId]>[]): HrmpChannelId[] {
+  return keys.map(({ args: [id] }) => id);
+}
+
 export default function useHrmp (): AllChannels | undefined {
   const { api } = useApi();
-  const [channelIds, setChannelIds] = useState<HrmpChannelId[] | null>(null);
-  const trigger = useEventTrigger([api.events.hrmp?.OpenChannelAccepted, api.events.hrmp?.ChannelClosed]);
-  const allChannels = useCall<AllChannels>(channelIds && api.query.hrmp?.hrmpChannels.multi, [channelIds], optChannels);
+  const trigger = useEventTrigger([
+    (api.events.parasHrmp || api.events.hrmp)?.OpenChannelAccepted,
+    (api.events.parasHrmp || api.events.hrmp)?.ChannelClosed
+  ]);
+  const channelIds = useMapKeys((api.query.parasHrmp || api.query.hrmp)?.hrmpChannels, { at: trigger, transform: extractChannelIds });
 
-  useEffect((): void => {
-    trigger &&
-      api.query.hrmp?.hrmpChannels
-        .keys<[HrmpChannelId]>()
-        .then((keys) => setChannelIds(keys.map(({ args: [id] }) => id)))
-        .catch(console.error);
-  }, [api, trigger]);
-
-  return allChannels;
+  return useCall<AllChannels>(channelIds && (api.query.parasHrmp || api.query.hrmp)?.hrmpChannels.multi, [channelIds], optChannels);
 }

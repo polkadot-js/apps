@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
-function Proposals ({ className = '', isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', isMember, members, prime, proposals, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -30,6 +30,7 @@ function Proposals ({ className = '', isMember, members, prime, proposals }: Pro
         <Propose
           isMember={isMember}
           members={members}
+          type={type}
         />
       </Button.Group>
       <Table
@@ -43,6 +44,7 @@ function Proposals ({ className = '', isMember, members, prime, proposals }: Pro
             key={hash.toHex()}
             members={members}
             prime={prime}
+            type={type}
           />
         ))}
       </Table>

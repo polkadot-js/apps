@@ -37,7 +37,7 @@ export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: 
 
 export function useInflation (totalStaked?: BN): Inflation {
   const { api } = useApi();
-  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
+  const totalIssuance = useCall<BN>(api.query.balances?.totalIssuance);
   const [state, setState] = useState<Inflation>(EMPTY);
 
   useEffect((): void => {

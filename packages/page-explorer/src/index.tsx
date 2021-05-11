@@ -7,7 +7,6 @@ import React, { useContext, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import Tabs from '@polkadot/react-components/Tabs';
-import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
 
 import BlockInfo from './BlockInfo';
@@ -22,13 +21,10 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-const HIDDESN_NOBABE = ['forks'];
-
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
+  const { eventCount, events } = useContext(EventsContext);
 
   const itemsRef = useRef([
     {
@@ -55,7 +51,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     <main className={className}>
       <Tabs
         basePath={basePath}
-        hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
         items={itemsRef.current}
       />
       <Switch>
@@ -65,6 +60,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
         <Route>
           <Main
+            eventCount={eventCount}
             events={events}
             headers={lastHeaders}
           />

@@ -253,7 +253,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           } catch (error) {
             console.error(error);
 
-            passwordError = t<string>('Unable to connect the the Ledger. {{error}}', { replace: { error: (error as Error).message } });
+            passwordError = t<string>('Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{error}}', { replace: { error: (error as Error).message } });
           }
         }
       }
@@ -361,6 +361,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             : (
               <>
                 <Transaction
+                  accountId={senderInfo.signAddress}
                   currentItem={currentItem}
                   onError={toggleRenderError}
                 />

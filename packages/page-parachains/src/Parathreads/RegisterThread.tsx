@@ -1,13 +1,14 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { ParaId } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
-import { InputAddress, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, compactAddLength } from '@polkadot/util';
+import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -16,17 +17,22 @@ interface Props {
   onClose: () => void;
 }
 
-interface CodeState {
-  isWasmValid: boolean;
-  wasm: Uint8Array | null;
-}
+const LOWEST_PUBLIC_ID = new BN(2_000);
+
+const transformId = {
+  transform: (nextId: ParaId) =>
+    nextId.isZero()
+      ? LOWEST_PUBLIC_ID
+      : nextId
+};
 
 function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [paraId, setParaId] = useState<BN | undefined>();
-  const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
+  const nextParaId = useCall<ParaId | BN>(api.query.registrar?.nextFreeParaId, [], transformId);
+  const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
   const _setGenesisState = useCallback(
@@ -35,9 +41,13 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
   );
 
   const _setWasm = useCallback(
-    (wasm: Uint8Array, isWasmValid: boolean) => setWasm({ isWasmValid, wasm }),
+    (data: Uint8Array) => setWasm(compactAddLength(data)),
     []
   );
+
+  const isIdValid = api.tx.registrar.registerNext
+    ? !!nextParaId
+    : !!(paraId && paraId.gte(LOWEST_PUBLIC_ID));
 
   return (
     <Modal
@@ -55,20 +65,32 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
-          <InputNumber
-            autoFocus
-            isZeroable={false}
-            label={t<string>('parachain id')}
-            onChange={setParaId}
-          />
+          {api.tx.registrar.registerNext
+            ? (
+              <InputNumber
+                defaultValue={nextParaId || LOWEST_PUBLIC_ID}
+                isDisabled
+                isZeroable={false}
+                label={t<string>('parachain id')}
+              />
+            )
+            : (
+              <InputNumber
+                autoFocus
+                isZeroable={false}
+                label={t<string>('parachain id')}
+                onChange={setParaId}
+              />
+            )
+          }
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
-          <InputWasm
+          <InputFile
+            autoFocus={!!api.tx.registrar.registerNext}
             help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
-            isError={!isWasmValid}
+            isError={!wasm}
             label={t<string>('code')}
             onChange={_setWasm}
-            placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The genesis state for this parachain.')}>
@@ -84,10 +106,14 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!isWasmValid || !genesisState || !paraId?.gt(BN_ZERO)}
+          isDisabled={!wasm || !genesisState || !isIdValid}
           onStart={onClose}
-          params={[paraId, genesisState, wasm]}
-          tx={api.tx.registrar.register}
+          params={
+            api.tx.registrar.registerNext
+              ? [genesisState, wasm]
+              : [paraId, genesisState, wasm]
+          }
+          tx={api.tx.registrar.registerNext || api.tx.registrar.register}
         />
       </Modal.Actions>
     </Modal>

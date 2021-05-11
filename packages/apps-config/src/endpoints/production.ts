@@ -14,30 +14,9 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
+// alphabetical based on chain name
 export function createProduction (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
-    // fixed, polkadot
-    {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://rpc.polkadot.io',
-        OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://polkadot.elara.patract.io'
-      }
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://kusama-rpc.polkadot.io',
-        OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://kusama.elara.patract.io'
-      }
-    },
-    // alphabetical based on chain name
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
@@ -83,7 +62,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
-        'Patract Elara': 'wss://edgeware.elara.patract.io'
+        'Patract Elara': 'wss://edgeware.elara.patract.io',
+        OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
     {
@@ -105,7 +85,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
-        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io'
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
+        Archives: 'wss://archive.snakenet.hydradx.io'
       }
     },
     {
@@ -115,6 +96,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
         'Patract Elara': 'wss://kulupu.elara.patract.io'
+      }
+    },
+    {
+      info: 'neatcoin',
+      text: t('rpc.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
+      providers: {
+        Neatcoin: 'wss://rpc.neatcoin.org/ws'
       }
     },
     {
@@ -134,6 +122,20 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'riochain',
+      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      providers: {
+        RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      providers: {
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
@@ -146,7 +148,22 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'subsocial',
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://rpc.subsocial.network'
+        DappForce: 'wss://rpc.subsocial.network',
+        'Patract Elara': 'wss://subsocial.elara.patract.io'
+      }
+    },
+    {
+      info: 'uniarts',
+      text: t('rpc.uniarts', 'UniArts', { ns: 'apps-config' }),
+      providers: {
+        UniArts: 'wss://mainnet.uniarts.vip:9443'
+      }
+    },
+    {
+      info: 'westlake',
+      text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ]);

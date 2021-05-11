@@ -17,14 +17,18 @@ interface Props {
   value?: Moment;
 }
 
-function TimeNow ({ children, className = '', label, value }: Props): React.ReactElement<Props> {
+function TimeNow ({ children, className = '', label, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const timestamp = useCall<Moment>(!value && api.query.timestamp.now);
+  const timestamp = useCall<Moment>(!value && api.query.timestamp?.now);
   const [now, setNow] = useState<BN | undefined>();
 
   useEffect((): void => {
     setNow(value || timestamp);
   }, [timestamp, value]);
+
+  if (!now) {
+    return null;
+  }
 
   return (
     <div className={className}>

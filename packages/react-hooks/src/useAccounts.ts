@@ -9,11 +9,12 @@ import { useIsMountedRef } from './useIsMountedRef';
 
 interface UseAccounts {
   allAccounts: string[];
+  areAccountsLoaded: boolean
   hasAccounts: boolean;
   isAccount: (address?: string | null) => boolean;
 }
 
-const EMPTY: UseAccounts = { allAccounts: [], hasAccounts: false, isAccount: () => false };
+const EMPTY: UseAccounts = { allAccounts: [], areAccountsLoaded: false, hasAccounts: false, isAccount: () => false };
 
 export function useAccounts (): UseAccounts {
   const mountedRef = useIsMountedRef();
@@ -26,7 +27,7 @@ export function useAccounts (): UseAccounts {
         const hasAccounts = allAccounts.length !== 0;
         const isAccount = (address?: string | null) => !!address && allAccounts.includes(address);
 
-        setState({ allAccounts, hasAccounts, isAccount });
+        setState({ allAccounts, areAccountsLoaded: true, hasAccounts, isAccount });
       }
     });
 

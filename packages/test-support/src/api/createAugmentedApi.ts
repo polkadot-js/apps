@@ -4,7 +4,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Metadata } from '@polkadot/metadata';
 import metaStatic from '@polkadot/metadata/static';
-import { TypeRegistry } from '@polkadot/types/create';
+import { TypeRegistry } from '@polkadot/types';
 
 export function createAugmentedApi (): ApiPromise {
   const registry = new TypeRegistry();

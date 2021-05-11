@@ -9,4 +9,5 @@ export interface ComponentProps {
   prime?: AccountId | null;
   proposals?: Hash[];
   members: string[];
+  type: 'membership' | 'technicalCommittee';
 }

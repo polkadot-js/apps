@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        AccountInfo: 'AccountInfoWithRefCount',
         Keys: 'SessionKeys2',
         Address: 'AccountId',
         LookupSource: 'AccountId',
@@ -21,6 +22,9 @@ const definitions: OverrideBundleDefinition = {
         Value: 'Vec<u8>',
         ReasonIndex: 'u32',
         LottoIndex: 'u32',
+        MemberId: 'u64',
+        ProposalId: 'u64',
+        TokenBalance: 'Balance',
         LotteryKind: {
           _enum: {
             Routine: 'Null',
@@ -42,6 +46,25 @@ const definitions: OverrideBundleDefinition = {
           tickets: 'BTreeMap<u32, AccountId>',
           result: 'Option<LottoResult>'
         },
+        CurrencyId: {
+          _enum: {
+            Native: 'Null',
+            UINK: 'Null',
+            DOT: 'Null',
+            KSM: 'Null',
+            ETH: 'Null',
+            Token: 'TokenSymbol'
+          }
+        },
+        TokenSymbol: {
+          _enum: {
+            USDT: 'Null',
+            DAI: 'Null'
+          }
+        },
+        CurrencyIdOf: 'CurrencyId',
+        Amount: 'i128',
+        AmountOf: 'Amount',
         NameData: {
           value: 'Value',
           owner: 'AccountId',
@@ -53,10 +76,18 @@ const definitions: OverrideBundleDefinition = {
           total_supply: 'Balance'
         },
         OrderType: {
-          _enum: ['Buy', 'Sell']
+          _enum: {
+            Buy: 'Null',
+            Sell: 'Null'
+          }
         },
         OrderStatus: {
-          _enum: ['Created', 'PartialFilled', 'Filled', 'Canceled']
+          _enum: {
+            Created: 'Null',
+            PartialFilled: 'Null',
+            Filled: 'Null',
+            Canceled: 'Null'
+          }
         },
         TradePair: {
           hash: 'H256',
@@ -119,25 +150,42 @@ const definitions: OverrideBundleDefinition = {
         FungibleItemType: {
           Collection: 'u64',
           Owner: 'AccountId',
-          value: 'u128'
+          value: 'u128',
+          item_hash: 'H160'
         },
         ApprovePermissions: {
           approved: 'AccountId',
           amount: 'u64'
         },
         AccessMode: {
-          _enum: ['Normal', 'WhiteList']
+          _enum: {
+            Normal: 'Null',
+            WhiteList: 'Null'
+          }
         },
         SaleOrder: {
+          order_id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
+          owner: 'AccountId',
+          price: 'u64'
+        },
+        SplitSaleOrder: {
+          order_id: 'u64',
+          collection_id: 'u64',
+          item_id: 'u64',
+          currency_id: 'CurrencyId',
+          value: 'u64',
+          balance: 'u64',
           owner: 'AccountId',
           price: 'u64'
         },
         SaleOrderHistory: {
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
           seller: 'AccountId',
           buyer: 'AccountId',
@@ -160,7 +208,8 @@ const definitions: OverrideBundleDefinition = {
         ReFungibleItemType: {
           Collection: 'u64',
           Owner: 'Vec<Ownership>',
-          Data: 'Vec<u8>'
+          Data: 'Vec<u8>',
+          item_hash: 'H160'
         },
         CollectionType: {
           Owner: 'AccountId',
@@ -179,6 +228,7 @@ const definitions: OverrideBundleDefinition = {
           id: 'u64',
           collection_id: 'u64',
           item_id: 'u64',
+          currency_id: 'CurrencyId',
           value: 'u64',
           owner: 'AccountId',
           start_price: 'u64',
@@ -189,6 +239,7 @@ const definitions: OverrideBundleDefinition = {
         },
         BidHistory: {
           auction_id: 'u64',
+          currency_id: 'CurrencyId',
           bidder: 'AccountId',
           bid_price: 'u64',
           bid_time: 'BlockNumber'
@@ -205,6 +256,39 @@ const definitions: OverrideBundleDefinition = {
           amount: 'Balance',
           reward: 'Balance',
           debt: 'Balance'
+        },
+        Limits: {
+          max_tx_value: 'u128',
+          day_max_limit: 'u128',
+          day_max_limit_for_one_address: 'u128',
+          max_pending_tx_limit: 'u128',
+          min_tx_value: 'u128'
+        },
+        Royalty: {
+          owner: 'AccountId',
+          rate: 'u64',
+          expired_at: 'BlockNumber'
+        },
+        NftCard: {
+          group_id: 'u64',
+          collection_id: 'u64',
+          item_id: 'u64',
+          value: 'u64',
+          remaind_value: 'u64',
+          draw_start: 'u64',
+          draw_end: 'u64'
+        },
+        BlindboxItem: {
+          id: 'u64',
+          owner: 'AccountId',
+          card_group: 'Vec<u64>',
+          total_count: 'u64',
+          remaind_count: 'u64',
+          currency_id: 'CurrencyId',
+          price: 'u64',
+          start_time: 'BlockNumber',
+          end_time: 'BlockNumber',
+          has_ended: 'bool'
         }
       }
     }

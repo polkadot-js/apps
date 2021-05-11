@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
-import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+import type { BlockNumber, DispatchInfo, Extrinsic, Weight } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -18,8 +19,11 @@ interface Props {
   className?: string;
   events?: KeyedEvent[];
   index: number;
+  maxBlockWeight?: Weight;
   value: Extrinsic;
 }
+
+const BN_TEN_THOUSAND = new BN(10_000);
 
 function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number] | null {
   if (blockNumber && era.isMortalEra) {
@@ -31,11 +35,31 @@ function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number
   return null;
 }
 
-function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
-  return events.filter(({ record: { phase } }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index));
+function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
+  const filtered = events.filter(({ record: { phase } }) =>
+    phase.isApplyExtrinsic &&
+    phase.asApplyExtrinsic.eq(index)
+  );
+  const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
+    section === 'system' &&
+    ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
+  );
+  const dispatchInfo = infoRecord
+    ? infoRecord.record.event.method === 'ExtrinsicSuccess'
+      ? infoRecord.record.event.data[0] as DispatchInfo
+      : infoRecord.record.event.data[1] as DispatchInfo
+    : undefined;
+
+  return [
+    dispatchInfo,
+    dispatchInfo && maxBlockWeight
+      ? dispatchInfo.weight.mul(BN_TEN_THOUSAND).div(maxBlockWeight).toNumber() / 100
+      : 0,
+    filtered
+  ];
 }
 
-function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBlockWeight, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const { meta, method, section } = useMemo(
@@ -63,9 +87,9 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
     [blockNumber, t, value]
   );
 
-  const thisEvents = useMemo(
-    () => filterEvents(index, events),
-    [index, events]
+  const [dispatchInfo, weightPercentage, thisEvents] = useMemo(
+    () => filterEvents(index, events, maxBlockWeight),
+    [index, events, maxBlockWeight]
   );
 
   return (
@@ -92,7 +116,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
         </Expander>
       </td>
       <td
-        className='top'
+        className='top media--1000'
         colSpan={2}
       >
         {thisEvents.map(({ key, record }) =>
@@ -103,7 +127,15 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
           />
         )}
       </td>
-      <td className='top'>
+      <td className='top number media--1400'>
+        {dispatchInfo && (
+          <>
+            <>{formatNumber(dispatchInfo.weight)}</>
+            <div>{weightPercentage.toFixed(2)}%</div>
+          </>
+        )}
+      </td>
+      <td className='top media--1200'>
         {value.isSigned && (
           <>
             <AddressMini value={value.signer} />
