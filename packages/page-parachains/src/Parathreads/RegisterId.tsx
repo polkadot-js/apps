@@ -6,7 +6,7 @@ import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
-import { InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -50,6 +50,13 @@ function RegisterId ({ className, onClose }: Props): React.ReactElement<Props> {
             defaultValue={nextParaId}
             isDsiabled
             label={t<string>('parachain id')}
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t<string>('The reservation fee for this Id')}>
+          <InputBalance
+            defaultValue={api.consts.registrar.paraDeposit}
+            isDisabled
+            label={t<string>('reserved deposit')}
           />
         </Modal.Columns>
       </Modal.Content>

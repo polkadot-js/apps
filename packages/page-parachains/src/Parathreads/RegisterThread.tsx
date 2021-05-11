@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { BalanceOf } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactAddLength } from '@polkadot/util';
 
@@ -33,6 +34,13 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
   const _setWasm = useCallback(
     (data: Uint8Array) => setWasm(compactAddLength(data)),
     []
+  );
+
+  const reservedDeposit = useMemo(
+    () => (api.consts.registrar.paraDeposit as BalanceOf)
+      .add((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(wasm ? wasm.length : 0))
+      .iadd((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(genesisState ? genesisState.length : 0)),
+    [api, wasm, genesisState]
   );
 
   const isIdError = !paraId || !paraId.gt(LOWEST_INVALID_ID);
@@ -76,6 +84,13 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
             isError={!genesisState}
             label={t<string>('initial state')}
             onChange={_setGenesisState}
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t<string>('The reservation fee for this parachain, including base fee and per-byte fees')}>
+          <InputBalance
+            defaultValue={reservedDeposit}
+            isDisabled
+            label={t<string>('reserved deposit')}
           />
         </Modal.Columns>
       </Modal.Content>
