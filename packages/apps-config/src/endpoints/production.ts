@@ -153,6 +153,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'uniarts',
+      text: t('rpc.uniarts', 'UniArts', { ns: 'apps-config' }),
+      providers: {
+        UniArts: 'wss://mainnet.uniarts.vip:9443'
+      }
+    },
+    {
       info: 'westlake',
       text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
