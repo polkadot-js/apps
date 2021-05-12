@@ -4,7 +4,5 @@
 import usePolkadotPreclaims from './usePolkadotPreclaims';
 
 export default function useCounter (): number {
-  const needAttest = usePolkadotPreclaims();
-
-  return needAttest.length;
+  return usePolkadotPreclaims().length;
 }

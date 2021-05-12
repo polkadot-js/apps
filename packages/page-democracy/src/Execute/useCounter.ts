@@ -5,7 +5,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api } = useApi();
-  const queued = useCall<unknown[]>(api.derive.democracy.dispatchQueue);
 
-  return queued?.length || 0;
+  return useCall<unknown[]>(api.derive.democracy.dispatchQueue)?.length || 0;
 }

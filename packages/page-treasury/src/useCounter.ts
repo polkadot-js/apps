@@ -3,17 +3,11 @@
 
 import type { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 
-import { useMemo } from 'react';
-
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { hasAccounts } = useAccounts();
   const { api, isApiReady } = useApi();
-  const proposals = useCall<DeriveTreasuryProposals>(isApiReady && hasAccounts && api.derive.treasury?.proposals);
 
-  return useMemo(
-    () => proposals?.proposals.length || 0,
-    [proposals]
-  );
+  return useCall<DeriveTreasuryProposals>(isApiReady && hasAccounts && api.derive.treasury?.proposals)?.proposals.length || 0;
 }

@@ -7,7 +7,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api } = useApi();
-  const bids = useCall<Bid[]>(api.query.society?.candidates);
 
-  return bids?.length || 0;
+  return useCall<Bid[]>(api.query.society?.candidates)?.length || 0;
 }
