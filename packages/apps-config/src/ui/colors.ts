@@ -139,6 +139,7 @@ export const chainColors: Record<string, any> = [
   ['Galital', chainGalital],
   ['Galois', chainGalois],
   ['GamePower Network', chainGamePower],
+  ['Halongbay PC1', chainPolkaFoundry],
   ['hanonycash', chainHanonycash],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
@@ -171,6 +172,7 @@ export const chainColors: Record<string, any> = [
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala PoC 4', chainPhala],
+  ['PHOENIX', chainPhoenix],
   ['Plasm', chainPlasm],
   ['Plasm PC2', chainPlasm],
   ['PolkaBTC', chainPolkabtc],
@@ -180,7 +182,6 @@ export const chainColors: Record<string, any> = [
   ['Polkadot', chainPolkadot],
   ['Prism Testnet', chainPrism],
   ['Prism PC1', chainPrism],
-  ['Halongbay PC1', chainPolkaFoundry],
   ['ReAlis Network', nodeRealis],
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
@@ -195,14 +196,13 @@ export const chainColors: Record<string, any> = [
   ['uni arts staging network', chainUniarts],
   ['UniArts Mainnet', chainUniarts],
   ['Unique Node', chainUnique],
+  ['UNIT', chainUnitv],
   ['VLN PC', chainVln],
   ['Web3games ', chainWeb3games],
   ['Westend', chainWestend],
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
-  ['ZERO.IO', chainZero],
-  ['PHOENIX', chainPhoenix],
-  ['UNIT', chainUnitv]
+  ['ZERO.IO', chainZero]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
@@ -246,6 +246,7 @@ export const nodeColors: Record<string, any> = [
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['Statemint Collator', nodeStatemint],
+  ['SubDAO Collator', nodeSubDAO],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
@@ -256,11 +257,7 @@ export const nodeColors: Record<string, any> = [
   ['Westlake', nodeWestlake],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
-  ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO]
-  // ['node template', emptyColor],
-  // ['parity polkadot', emptyColor],
-  // ['substrate node', emptyColor]
+  ['Zenlink Collator', nodeZenlink]
 ].reduce((colors, [node, color]): Record<string, any> => ({
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
