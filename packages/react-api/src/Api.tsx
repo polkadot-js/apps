@@ -21,7 +21,6 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
-import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -139,9 +138,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
-
-  // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
-  setSS58Format(ss58Format);
 
   // first setup the UI helpers
   formatBalance.setDefaults({
