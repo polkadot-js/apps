@@ -146,7 +146,7 @@ export function createTesting (t: TFunction): LinkOption[] {
         MathWallet: 'wss://galois-hk.maiziqianbao.net/ws',
         'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
       }
-    },    
+    },
     {
       info: 'gamepower',
       text: t('rpc.gamepower', 'GamePower', { ns: 'apps-config' }),

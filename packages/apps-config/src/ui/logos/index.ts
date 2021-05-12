@@ -116,7 +116,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galital', nodeGalital],
   ['Galois', nodeMath],
   ['GamePower Network', nodeGamePower],
-  ['GeekCash', nodeGeek],
+  ['GEEK', nodeGeek],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['HydraDX Snakenet Gen2', chainSnakenet],
