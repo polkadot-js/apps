@@ -60,6 +60,7 @@
   "Retiring": "Retiring",
   "Send": "Send",
   "The Id of this parachain as known on the network": "The Id of this parachain as known on the network",
+  "The Id of this parachain as known on the network (selected from nextFreeId)": "The Id of this parachain as known on the network (selected from nextFreeId)",
   "The WASM validation function as well as the genesis state for this parachain.": "The WASM validation function as well as the genesis state for this parachain.",
   "The WASM validation function for this parachain.": "The WASM validation function for this parachain.",
   "The above contribution should more than minimum contribution amount and less than the remaining value.": "The above contribution should more than minimum contribution amount and less than the remaining value.",
