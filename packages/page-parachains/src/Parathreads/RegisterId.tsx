@@ -45,10 +45,10 @@ function RegisterId ({ className, onClose }: Props): React.ReactElement<Props> {
             value={accountId}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The Id of this parachain as known on the network')}>
+        <Modal.Columns hint={t<string>('The Id of this parachain as known on the network (selected from nextFreeId)')}>
           <InputNumber
             defaultValue={nextParaId}
-            isDsiabled
+            isDisabled
             label={t<string>('parachain id')}
           />
         </Modal.Columns>
