@@ -3,9 +3,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { useIsMountedRef } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-
-import { useIsMountedRef } from './useIsMountedRef';
 
 interface UseContracts {
   allContracts: string[];
@@ -13,16 +12,18 @@ interface UseContracts {
   isContract: (address: string) => boolean;
 }
 
+const DEFAULT_STATE: UseContracts = { allContracts: [], hasContracts: false, isContract: () => false };
+
 export function useContracts (): UseContracts {
   const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<UseContracts>({ allContracts: [], hasContracts: false, isContract: () => false });
+  const [state, setState] = useState<UseContracts>(DEFAULT_STATE);
 
   useEffect((): () => void => {
     const subscription = keyring.contracts.subject.subscribe((contracts): void => {
       if (mountedRef.current) {
         const allContracts = contracts ? Object.keys(contracts) : [];
         const hasContracts = allContracts.length !== 0;
-        const isContract = (address: string): boolean => allContracts.includes(address);
+        const isContract = (address: string) => allContracts.includes(address);
 
         setState({ allContracts, hasContracts, isContract });
       }
@@ -31,7 +32,8 @@ export function useContracts (): UseContracts {
     return (): void => {
       setTimeout(() => subscription.unsubscribe(), 0);
     };
-  }, [mountedRef]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return state;
 }

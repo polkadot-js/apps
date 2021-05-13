@@ -5,7 +5,7 @@ import type { Option } from '@polkadot/types';
 import type { AccountId, AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/interfaces';
 import type { AssetInfo } from './types';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
@@ -15,6 +15,8 @@ const EMPTY_FLAGS = {
   isIssuerMe: false,
   isOwnerMe: false
 };
+
+const QUERY_OPTS = { withParams: true };
 
 function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   const address = accountId.toString();
@@ -47,13 +49,18 @@ function extractInfo (allAccounts: string[], id: AssetId, optDetails: Option<Ass
 export default function useAssetInfos (ids?: AssetId[]): AssetInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const allMetadata = useCall<AssetMetadata[]>(api.query.assets.metadata.multi, [ids]);
-  const allDetails = useCall<Option<AssetDetails>[]>(api.query.assets.asset.multi, [ids]);
+  const metadata = useCall<[[AssetId[]], AssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
+  const details = useCall<[[AssetId[]], Option<AssetDetails>[]]>(api.query.assets.asset.multi, [ids], QUERY_OPTS);
+  const [state, setState] = useState<AssetInfo[] | undefined>();
 
-  return useMemo(
-    () => allDetails && allMetadata && ids && (allDetails.length === ids.length) && (allMetadata.length === ids.length)
-      ? ids.map((id, index) => extractInfo(allAccounts, id, allDetails[index], allMetadata[index]))
-      : undefined,
-    [allAccounts, allDetails, allMetadata, ids]
-  );
+  useEffect((): void => {
+    details && metadata && (details[0][0].length === metadata[0][0].length) &&
+      setState(
+        details[0][0].map((id, index) =>
+          extractInfo(allAccounts, id, details[1][index], metadata[1][index])
+        )
+      );
+  }, [allAccounts, details, ids, metadata]);
+
+  return state;
 }

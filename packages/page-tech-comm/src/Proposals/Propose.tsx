@@ -14,6 +14,7 @@ import { useTranslation } from '../translate';
 interface Props {
   isMember: boolean;
   members: string[];
+  type: 'membership' | 'technicalCommittee';
 }
 
 interface ProposalState {
@@ -21,7 +22,7 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
+function Propose ({ isMember, members, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
@@ -87,11 +88,11 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
               isDisabled={!hasThreshold || !proposal}
               onStart={onClose}
               params={
-                api.tx.technicalCommittee.propose.meta.args.length === 3
+                api.tx[type].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx.technicalCommittee.propose}
+              tx={api.tx[type].propose}
             />
           </Modal.Actions>
         </Modal>

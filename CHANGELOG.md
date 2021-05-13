@@ -1,10 +1,106 @@
 # CHANGELOG
 
-## master
+## 0.90.1 May 3, 2021
+
+Contributed:
+
+- Simplify derivation for ETH-like accounts (Thanks to https://github.com/joelamouche)
+- Added Westend OnFinality endpoint (Thanks to https://github.com/454076513)
+- Update Apron Rococo config (Thanks to https://github.com/guenit)
+- Add support for Dotscanner links (Thanks to https://github.com/Deekor)
+- Update Dusty types (Thanks to https://github.com/akru)
+- Upgrade Zeitgeist types (Thanks to https://github.com/lsaether)
+- Update Manta Rococo config (Thanks to https://github.com/zhenfeizhang & https://github.com/Dengjianping)
+- Update Darwinia types (Thanks to https://github.com/WoeOm)
+- Update IPSE config (Thanks to https://github.com/shareven)
+- Update Ares paraId on Rococo (Thanks to https://github.com/lyxyx)
+- Add Sora mainnet (Thanks to https://github.com/Nikita-Polyakov)
+- Add Konomi config for Rococo (Thanks to https://github.com/willeslau)
+- Added Edgeware OnFinality endpoint (Thanks to https://github.com/454076513)
+- Added Vodka testnet (Thanks to https://github.com/sorpaas)
+- Add Netcoin mainnet (Thanks to https://github.com/sorpaas)
+- Optimize staking accounts tabs with loaded flag (Thanks to https://github.com/krzysztof-jelski)
+- Update Realis network logo (Thanks to https://github.com/Daelon02)
+
+Changes:
+
+- Display extrinsic weights in explorer details
+- Display block stats in explorer block details
+- Allow for asset display when no metadata is present
+- Add app for Membership (as deployed on Rococo)
+- Reworks global events extraction
+- Adjust line breaks on Table columns at 100%
+- Added `useMap{Entries, Keys}` hooks
+- Optimize crowdloan data extraction
+- Adjust event trigger hooks with explicit blockhash
+- Show reserved amounts for council voting
+- Add error when reward destination account doesn't exist
+- Remove support for v2 contracts
+- Fix copy on explorer expanded block page
+- Make balances & timestamp optional for chains
+- Align bounty display with UI colors
+
+
+## 0.89.1 Apr 26, 2021
+
+Contributed:
+
+- Update Phala Rococo paraId (Thanks to https://github.com/h4x3rotab)
+- Update config for Phala Poc-4 (Thanks to https://github.com/Anonymous-Hentai)
+- Update Jupiter Rococo paraId (Thanks to https://github.com/zzcwoshizz)
+- Update ChainX & Zenlink Rococo paraIds (hanks to https://github.com/icodezjb)
+- Update Nftmart config (Thanks to https://github.com/caosbad)
+- Update balances retrieval on Equilibrium (Thanks to https://github.com/alexdniep)
+- Update HydraDx config with archive nodes (Thanks to https://github.com/lumir-mrkva)
+- Update Web3Games config (from Sgc, Thanks to https://github.com/Zombieliu)
+- Update Darwinia Crab config (Thanks to https://github.com/WoeOm)
+- Update Parami text (Thanks to https://github.com/hellotrongo)
+- Swap Kilt types to npm package (Thanks to https://github.com/Dudleyneedham)
+- Added Patract Elara support for Westend (Thanks to https://github.com/zzcwoshizz)
+- Added IPSE network config (Thanks to https://github.com/shareven)
+- Fr i18n fixes (thanks to https://github.com/n3wborn)
+
+Changes:
+
+- Remove display for empty prior democracy locks
+- Add endpoint for Statemint to Rococo
+- Adjust asset create to use batch hook
+- Adjust signer fee calc & displays
+- Adjust canvas types for `Address` usage
+- Show asset total supply
+- Allow balance inputs to take configurable decimal/symbol
+- Add support for asset minting
+- Add support for asset transfers
+
+
+## 0.88.1 Apr 19, 2021
+
+Contributed:
+
+- Added Nftmart config (Thanks to https://github.com/caosbad)
+- Update Zenlink config (Thanks to https://github.com/icodezjb)
+- Update Darwinia Crab config (Thanks to https://github.com/WoeOm)
+- Added Riochain config (Thanks to https://github.com/david-rio)
+- Update Bifrost Rococo config (Thanks to https://github.com/yooml)
+- Added VLN Rococo config (Thanks to https://github.com/stanly-johnson)
+- Added Datahighway Westlake config (Thanks to https://github.com/cgroeschel)
+- Update Polkafoundry config (Thanks to https://github.com/hoangnl2112)
+- Adjust Parami logo (thanks to https://github.com/hellotrongo)
+- Update Galital config (thanks to https://github.com/masterdubs)
+- Add Prism Rococo parachain (Thanks to https://github.com/chrissoso)
+- Add HydraDx Snakenet Gen 2 (Thanks to https://github.com/lumir-mrkva)
+- Update Apron Rococo paraId (thanks to https://github.com/Apron2050)
+- Update Clover logo (Thanks to https://github.com/pangwa)
+- Update Sora spec name (Thanks to https://github.com/KalitaAlexey)
+- Add Galital Rococo config (Thanks to  https://github.com/masterdubs)
+- Update Mybank config (Thanks to https://github.com/armatrix)
 
 Changes:
 
 - Fix Elapsed formatting (previously would only show s units)
+- Show unlocking when democracy has been undelegated
+- Disable all parachain < 1000 networks (now reserved)
+- Params now deals defaults to hex-only for H160/256/512
 
 
 ## 0.87.1 Apr 12, 2021

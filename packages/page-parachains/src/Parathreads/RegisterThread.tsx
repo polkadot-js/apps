@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { BalanceOf } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, compactAddLength } from '@polkadot/util';
+import { compactAddLength } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { LOWEST_INVALID_ID } from './constants';
 
 interface Props {
   className?: string;
@@ -34,6 +36,15 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
     []
   );
 
+  const reservedDeposit = useMemo(
+    () => (api.consts.registrar.paraDeposit as BalanceOf)
+      .add((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(wasm ? wasm.length : 0))
+      .iadd((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(genesisState ? genesisState.length : 0)),
+    [api, wasm, genesisState]
+  );
+
+  const isIdError = !paraId || !paraId.gt(LOWEST_INVALID_ID);
+
   return (
     <Modal
       className={className}
@@ -52,6 +63,8 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
         <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
           <InputNumber
             autoFocus
+            defaultValue={LOWEST_INVALID_ID}
+            isError={isIdError}
             isZeroable={false}
             label={t<string>('parachain id')}
             onChange={setParaId}
@@ -73,12 +86,19 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
             onChange={_setGenesisState}
           />
         </Modal.Columns>
+        <Modal.Columns hint={t<string>('The reservation fee for this parachain, including base fee and per-byte fees')}>
+          <InputBalance
+            defaultValue={reservedDeposit}
+            isDisabled
+            label={t<string>('reserved deposit')}
+          />
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!wasm || !genesisState || !paraId?.gt(BN_ZERO)}
+          isDisabled={!wasm || !genesisState || isIdError}
           onStart={onClose}
           params={[paraId, genesisState, wasm]}
           tx={api.tx.registrar.register}
