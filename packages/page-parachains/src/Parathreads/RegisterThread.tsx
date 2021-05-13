@@ -1,24 +1,27 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { BalanceOf } from '@polkadot/types/interfaces';
+import type { OwnedId, OwnerInfo } from '../types';
 
+import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactAddLength } from '@polkadot/util';
 
+import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
 import { LOWEST_INVALID_ID } from './constants';
 
 interface Props {
   className?: string;
   onClose: () => void;
+  ownedIds: OwnedId[];
 }
 
-function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
+function RegisterThread ({ className, onClose, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -33,6 +36,14 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
 
   const _setWasm = useCallback(
     (data: Uint8Array) => setWasm(compactAddLength(data)),
+    []
+  );
+
+  const _setOwner = useCallback(
+    ({ accountId, paraId }: OwnerInfo) => {
+      setAccountId(accountId);
+      setParaId(new BN(paraId));
+    },
     []
   );
 
@@ -52,24 +63,37 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
-          <InputAddress
-            label={t<string>('register from')}
-            onChange={setAccountId}
-            type='account'
-            value={accountId}
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
-          <InputNumber
-            autoFocus
-            defaultValue={LOWEST_INVALID_ID}
-            isError={isIdError}
-            isZeroable={false}
-            label={t<string>('parachain id')}
-            onChange={setParaId}
-          />
-        </Modal.Columns>
+        {api.tx.registrar.reserve
+          ? (
+            <InputOwner
+              noCodeCheck
+              onChange={_setOwner}
+              ownedIds={ownedIds}
+            />
+          )
+          : (
+            <>
+              <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
+                <InputAddress
+                  label={t<string>('register from')}
+                  onChange={setAccountId}
+                  type='account'
+                  value={accountId}
+                />
+              </Modal.Columns>
+              <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
+                <InputNumber
+                  autoFocus
+                  defaultValue={LOWEST_INVALID_ID}
+                  isError={isIdError}
+                  isZeroable={false}
+                  label={t<string>('parachain id')}
+                  onChange={setParaId}
+                />
+              </Modal.Columns>
+            </>
+          )
+        }
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
           <InputFile
             help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
