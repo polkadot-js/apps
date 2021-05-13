@@ -8,6 +8,7 @@
   "Add validator": "Add validator",
   "Approve": "Approve",
   "Auctions": "Auctions",
+  "Before using this registered paraId, you need to have a WASM validation function registered on-chain": "Before using this registered paraId, you need to have a WASM validation function registered on-chain",
   "Bid": "Bid",
   "Cancel": "Cancel",
   "Capped": "Capped",
