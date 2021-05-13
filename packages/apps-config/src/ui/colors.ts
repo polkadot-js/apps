@@ -54,6 +54,7 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
+const chainShell = '#0596FC';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -186,6 +187,7 @@ export const chainColors: Record<string, any> = [
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
+  ['Shell', chainShell],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
