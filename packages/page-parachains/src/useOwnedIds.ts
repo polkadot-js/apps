@@ -43,8 +43,8 @@ function extractIds (entries: [StorageKey<[ParaId]>, Option<ParaInfo>][]): Owned
 }
 
 const hashesOption = {
-  transform: ([[keys], optHashes]: [[StorageKey<[ParaId]>[]], Option<Hash>[]]) =>
-    keys.map(({ args: [paraId] }, index): CodeHash => ({
+  transform: ([[paraIds], optHashes]: [[ParaId[]], Option<Hash>[]]) =>
+    paraIds.map((paraId, index): CodeHash => ({
       hash: optHashes[index].unwrapOr(null),
       paraId
     })),
@@ -54,7 +54,7 @@ const hashesOption = {
 export default function useOwnedIds (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const trigger = useEventTrigger([api.events.registrar.Registered]);
+  const trigger = useEventTrigger([api.events.registrar.Registered, api.events.registrar.Reserved]);
   const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, { at: trigger, transform: extractIds });
   const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], hashesOption);
 
