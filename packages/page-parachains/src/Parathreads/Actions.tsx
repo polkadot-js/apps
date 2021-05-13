@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OwnedId } from '../types';
+
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
@@ -12,9 +14,10 @@ import RegisterThread from './RegisterThread';
 
 interface Props {
   className?: string;
+  ownedIds: OwnedId[];
 }
 
-function Actions ({ className }: Props): React.ReactElement<Props> {
+function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isRegisterOpen, toggleRegisterOpen] = useToggle();
@@ -33,11 +36,15 @@ function Actions ({ className }: Props): React.ReactElement<Props> {
       )}
       <Button
         icon='plus'
+        isDisabled={api.tx.registrar.reserve ? !ownedIds.length : false}
         label={t<string>('ParaThread')}
         onClick={toggleRegisterOpen}
       />
       {isRegisterOpen && (
-        <RegisterThread onClose={toggleRegisterOpen} />
+        <RegisterThread
+          onClose={toggleRegisterOpen}
+          ownedIds={ownedIds}
+        />
       )}
     </Button.Group>
   );
