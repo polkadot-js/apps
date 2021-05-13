@@ -12,13 +12,13 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^4.9.3-15",
-    "@polkadot/api-contract": "^4.9.3-15",
+    "@polkadot/api": "^4.9.3-18",
+    "@polkadot/api-contract": "^4.9.3-18",
     "@polkadot/hw-ledger": "^6.3.2-13",
     "@polkadot/keyring": "^6.3.2-13",
     "@polkadot/networks": "^6.3.2-13",
-    "@polkadot/phishing": "^0.6.138",
-    "@polkadot/types": "^4.9.3-15",
+    "@polkadot/phishing": "^0.6.139",
+    "@polkadot/types": "^4.9.3-18",
     "@polkadot/util": "^6.3.2-13",
     "@polkadot/util-crypto": "^6.3.2-13",
     "@polkadot/wasm-crypto": "^4.0.2",
