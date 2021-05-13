@@ -7,11 +7,11 @@ import { useEffect, useState } from 'react';
 
 interface Options <T> {
   at?: string | null | false;
-  transform?: (value: any[]) => T[];
+  transform?: (value: any[]) => T;
 }
 
-export function useMapEntries <T = any> (entry?: QueryableStorageEntry<'promise'> | null | false, { at, transform }: Options<T> = {}): T[] | undefined {
-  const [state, setState] = useState<T[] | undefined>();
+export function useMapEntries <T = any> (entry?: QueryableStorageEntry<'promise'> | null | false, { at, transform }: Options<T> = {}): T | undefined {
+  const [state, setState] = useState<T | undefined>();
 
   useEffect((): void => {
     entry && (
@@ -21,7 +21,7 @@ export function useMapEntries <T = any> (entry?: QueryableStorageEntry<'promise'
     ).then((entries) => setState(
       transform
         ? transform(entries)
-        : entries as unknown as T[]
+        : entries as unknown as T
     )).catch(console.error);
   }, [at, entry, transform]);
 
