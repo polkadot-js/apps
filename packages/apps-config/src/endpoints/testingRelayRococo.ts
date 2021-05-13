@@ -126,7 +126,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoCrust',
-        paraId: 7777,
+        paraId: 2001,
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
         providers: {
           Crust: 'wss://api-rococo.crust.network'
