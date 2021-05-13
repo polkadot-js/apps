@@ -43,8 +43,8 @@ function extractIds (entries: [StorageKey<[ParaId]>, Option<ParaInfo>][]): Owned
 }
 
 const hashesOption = {
-  transform: ([[keys], optHashes]: [[StorageKey<[ParaId]>[]], Option<Hash>[]]) =>
-    keys.map(({ args: [paraId] }, index): CodeHash => ({
+  transform: ([[paraIds], optHashes]: [[ParaId[]], Option<Hash>[]]) =>
+    paraIds.map((paraId, index): CodeHash => ({
       hash: optHashes[index].unwrapOr(null),
       paraId
     })),
