@@ -22,15 +22,19 @@ function Summary ({ eventCount }: Props): React.ReactElement {
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('last block')}>
-          <TimeNow />
-        </CardSummary>
-        <CardSummary
-          className='media--800'
-          label={t<string>('target')}
-        >
-          <BlockToTime value={BN_ONE} />
-        </CardSummary>
+        {api.query.timestamp && (
+          <>
+            <CardSummary label={t<string>('last block')}>
+              <TimeNow />
+            </CardSummary>
+            <CardSummary
+              className='media--800'
+              label={t<string>('target')}
+            >
+              <BlockToTime value={BN_ONE} />
+            </CardSummary>
+          </>
+        )}
         {api.query.balances && (
           <CardSummary
             className='media--800'
