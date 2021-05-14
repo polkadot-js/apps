@@ -17,11 +17,12 @@ import { LOWEST_INVALID_ID } from './constants';
 
 interface Props {
   className?: string;
+  nextParaId?: BN;
   onClose: () => void;
   ownedIds: OwnedId[];
 }
 
-function RegisterThread ({ className, onClose, ownedIds }: Props): React.ReactElement<Props> {
+function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -84,7 +85,7 @@ function RegisterThread ({ className, onClose, ownedIds }: Props): React.ReactEl
               <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
                 <InputNumber
                   autoFocus
-                  defaultValue={LOWEST_INVALID_ID}
+                  defaultValue={nextParaId}
                   isError={isIdError}
                   isZeroable={false}
                   label={t<string>('parachain id')}
