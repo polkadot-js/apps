@@ -53,8 +53,8 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
   }, [api, accountId, available]);
 
   const bondValue = useMemo(
-    () => ((api.consts.electionsPhragmen || api.consts.elections).votingBondBase as BalanceOf).add(
-      ((api.consts.electionsPhragmen || api.consts.elections).votingBondFactor as BalanceOf).muln(votes.length)
+    () => ((api.consts.phragmenElection || api.consts.electionsPhragmen || api.consts.elections).votingBondBase as BalanceOf).add(
+      ((api.consts.phragmenElection || api.consts.electionsPhragmen || api.consts.elections).votingBondFactor as BalanceOf).muln(votes.length)
     ),
     [api, votes]
   );
@@ -120,7 +120,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               isDisabled={!defaultVotes.length}
               label={t<string>('Unvote all')}
               onStart={toggleVisible}
-              tx={(api.tx.electionsPhragmen || api.tx.elections).removeVoter}
+              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).removeVoter}
             />
             <TxButton
               accountId={accountId}
@@ -128,7 +128,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[votes, voteValue]}
-              tx={(api.tx.electionsPhragmen || api.tx.elections).vote}
+              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).vote}
             />
           </Modal.Actions>
         </Modal>
