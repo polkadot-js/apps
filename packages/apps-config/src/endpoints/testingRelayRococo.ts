@@ -164,10 +164,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoEave',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 77,
+        paraId: 2003,
         text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
         providers: {
           EAVE: 'wss://steamcollator.eave.network'
