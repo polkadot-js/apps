@@ -85,6 +85,8 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: P
     ['', 'media--1100'],
     [t('head'), 'start media--1500'],
     [t('lifecycle'), 'start'],
+    [],
+    [t('chain'), 'no-pad-left'],
     [t('leases')],
     ['', 'media--900']
   ]);
