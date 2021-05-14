@@ -47,6 +47,7 @@ import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
+import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.png';
@@ -117,6 +118,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Galital', nodeGalital],
   ['Galois', nodeMath],
   ['GamePower Network', nodeGamePower],
+  ['GEEK', nodeGeek],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['HydraDX Snakenet Gen2', chainSnakenet],
@@ -220,6 +222,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Galital Parachain Collator', nodeGalital],
   ['Galois', nodeMath],
   ['GamePower Node', nodeGamePower],
+  ['GEEK', nodeGeek],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
   ['KILT Node', nodeKilt],
@@ -319,6 +322,7 @@ export const namedLogos: Record<string, unknown> = {
   galital: nodeGalital,
   galois: nodeMath,
   gamepower: nodeGamePower,
+  geek: nodeGeek,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
