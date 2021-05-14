@@ -75,7 +75,7 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
         case 'Any':
           return true;
         case 'Governance':
-          return ['council', 'democracy', 'elections', 'electionsPhragmen', 'poll', 'society', 'technicalCommittee', 'tips', 'treasury'].includes(section);
+          return ['council', 'democracy', 'elections', 'electionsPhragmen', 'phragmenElection', 'poll', 'society', 'technicalCommittee', 'tips', 'treasury'].includes(section);
         case 'IdentityJudgement':
           return section === 'identity' && method === 'provideJudgement';
         case 'NonTransfer':
