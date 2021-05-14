@@ -247,7 +247,7 @@ export default function useScheduled (): EntryInfo[] {
   useEffect((): void => {
     bestNumber && setState((state) =>
       addFiltered(state, createConstDurations(bestNumber, blockTime, [
-        ['councilElection', (api.consts.elections || api.consts.electionsPhragmen)?.termDuration],
+        ['councilElection', (api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen)?.termDuration],
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
         ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber],
         ['societyChallenge', api.consts.society?.challengePeriod],
