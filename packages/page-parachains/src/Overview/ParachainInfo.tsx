@@ -26,7 +26,7 @@ function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       {bestNumber && <div>{formatNumber(bestNumber)}</div>}
-      {runtimeVersion && <div className='version'>v{runtimeVersion.specVersion.toString()}</div>}
+      {runtimeVersion && <div className='version'><div className='media--1100'>{runtimeVersion.specName.toString()}</div><div className='media--1100'>/</div><div>{runtimeVersion.specVersion.toString()}</div></div>}
     </div>
   );
 }
@@ -34,5 +34,13 @@ function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
 export default React.memo(styled(ParachainInfo)`
   .version {
     font-size: 0.85rem;
+    white-space: nowrap;
+
+    > div {
+      display: inline-block;
+      overflow: hidden;
+      max-width: 10em;
+      text-overflow: ellipsis;
+    }
   }
 `);
