@@ -86,6 +86,7 @@ const nodeEncointerTeeproxy = '#0000cc';
 const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
+const nodeGeek = '#4f46e5';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -231,6 +232,7 @@ export const nodeColors: Record<string, any> = [
   ['Galital', nodeGalital],
   ['Galital Parachain Collator', nodeGalital],
   ['GamePower Node', nodeGamePower],
+  ['GEEK', nodeGeek],
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Litentry Collator', nodeLitentry],
