@@ -109,6 +109,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         className={pathname === `${basePath}/parathreads` ? '' : 'parachains--hidden'}
         ids={upcomingIds}
         leasePeriod={leasePeriod}
+        ownedIds={ownedIds}
       />
     </main>
   );

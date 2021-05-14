@@ -28,6 +28,15 @@ export function createWestend (t: TFunction): EndpointOption {
       OnFinality: 'wss://westend.api.onfinality.io/public-ws'
     },
     linked: [
+      // common good
+      {
+        info: 'shell',
+        paraId: 1070,
+        text: t('rpc.westend.shell', 'Shell', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://westend-shell-rpc.parity.io'
+        }
+      }
       // all parachains here (with paraId, see Rococo)
     ]
   };
