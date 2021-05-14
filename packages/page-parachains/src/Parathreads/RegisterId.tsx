@@ -2,33 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
 import { InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { LOWEST_PUBLIC_ID } from './constants';
 
 interface Props {
   className?: string;
+  nextParaId?: BN;
   onClose: () => void;
 }
 
-const transformId = {
-  transform: (nextId: ParaId) =>
-    nextId.isZero()
-      ? LOWEST_PUBLIC_ID
-      : nextId
-};
-
-function RegisterId ({ className, onClose }: Props): React.ReactElement<Props> {
+function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const nextParaId = useCall<ParaId | BN>(api.query.registrar?.nextFreeParaId, [], transformId);
 
   return (
     <Modal
