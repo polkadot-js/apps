@@ -340,6 +340,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPrism',
+        paraId: 2002,
+        text: t('rpc.rococo.prism', 'Prism PC1', { ns: 'apps-config' }),
+        providers: {
+          Prism: 'wss://rococo.psm.link'
+        }
+      },
+      {
         info: 'rococoRobonomics',
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
