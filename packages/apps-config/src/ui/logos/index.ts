@@ -384,6 +384,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPlasm: nodePlasm,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
+  rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemint,
   rococoSubDAO: nodeSubDAO,
