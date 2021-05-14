@@ -91,7 +91,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
       }
     }));
   } catch (error) {
-    console.error('web3Enable', error);
+    console.error('web3Accounts', error);
 
     return [];
   }
@@ -109,13 +109,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     getInjectedAccounts(injectedPromise)
   ]);
 
-  // HACK Horrible hack to try and give some window to the DOT denomination
-  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
-  const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
-
   return {
     injectedAccounts,
-    properties,
+    properties: registry.createType('ChainProperties', {
+      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
+      tokenDecimals: chainProperties.tokenDecimals,
+      tokenSymbol: chainProperties.tokenSymbol
+    }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
     systemName: systemName.toString(),
