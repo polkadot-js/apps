@@ -1,14 +1,17 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { OwnedId } from '../types';
 
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { LOWEST_PUBLIC_ID } from './constants';
 import RegisterId from './RegisterId';
 import RegisterThread from './RegisterThread';
 
@@ -17,11 +20,19 @@ interface Props {
   ownedIds: OwnedId[];
 }
 
+const transformId = {
+  transform: (nextId: ParaId) =>
+    nextId.isZero()
+      ? LOWEST_PUBLIC_ID
+      : nextId
+};
+
 function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isRegisterOpen, toggleRegisterOpen] = useToggle();
   const [isReserveOpen, toggleReserveOpen] = useToggle();
+  const nextParaId = useCall<ParaId | BN>(api.query.registrar.nextFreeParaId, [], transformId);
 
   return (
     <Button.Group className={className}>
@@ -32,7 +43,10 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
         onClick={toggleReserveOpen}
       />
       {isReserveOpen && (
-        <RegisterId onClose={toggleReserveOpen} />
+        <RegisterId
+          nextParaId={nextParaId}
+          onClose={toggleReserveOpen}
+        />
       )}
       <Button
         icon='plus'
@@ -42,6 +56,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
       />
       {isRegisterOpen && (
         <RegisterThread
+          nextParaId={nextParaId}
           onClose={toggleRegisterOpen}
           ownedIds={ownedIds}
         />
