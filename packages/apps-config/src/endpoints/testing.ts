@@ -155,6 +155,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'geek',
+      text: t('rpc.geek', 'GeekCash', { ns: 'apps-config' }),
+      providers: {
+        'Geek Team': 'wss://testnet.geekcash.org'
+      }
+    },
+    {
       info: 'halongbay',
       text: 'Halongbay Testnet',
       providers: {
