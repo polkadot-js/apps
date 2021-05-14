@@ -27,6 +27,14 @@ export function createKusama (t: TFunction): EndpointOption {
     linked: [
       // parachains with id, see Rococo
       // alphabetical based on chain name
+      {
+        info: 'khala',
+        paraId: 2004,
+        text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://khala.phala.network/ws'
+        }
+      }
     ]
   };
 }
