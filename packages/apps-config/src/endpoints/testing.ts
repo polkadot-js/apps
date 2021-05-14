@@ -225,6 +225,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'pangolin',
+      text: t('rpc.pangolin', 'Pangolin', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
+      }
+    },
+    {
       info: 'phala',
       text: t('rpc.phala', 'Phala PoC-4', { ns: 'apps-config' }),
       providers: {
