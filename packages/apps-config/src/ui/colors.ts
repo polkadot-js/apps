@@ -28,6 +28,7 @@ const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainMoonrock = '#3d1d5a';
 const chainNFTMart = '#815287';
+const chainPangolin = '#5744ff';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -94,6 +95,7 @@ const nodeMoonbeam = '#53cbc9';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
+const nodePangolin = '#5744ff';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
@@ -170,6 +172,7 @@ export const chainColors: Record<string, any> = [
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
+  ['Pangolin', chainPangolin],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
   ['Phala PoC 4', chainPhala],
@@ -236,6 +239,7 @@ export const nodeColors: Record<string, any> = [
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['nodle chain node', nodeNodle],
+  ['Pangolin', nodePangolin],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
