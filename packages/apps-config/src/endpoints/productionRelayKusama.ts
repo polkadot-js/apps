@@ -13,7 +13,7 @@ import { KUSAMA_GENESIS } from '../api/constants';
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
-export function createKusama (t: TFunction): EndpointOption {
+export function createKusama(t: TFunction): EndpointOption {
   return {
     dnslink: 'kusama',
     genesisHash: KUSAMA_GENESIS,
@@ -32,6 +32,14 @@ export function createKusama (t: TFunction): EndpointOption {
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
+      {
+        info: 'bifrost',
+        paraId: 2001,
+        text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
+        }
+      },
       {
         info: 'crust shadow',
         paraId: 2012,
