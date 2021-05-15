@@ -14,6 +14,7 @@
   "rpc.kusama.kilt": "KILT Mainnet",
   "rpc.kusama.parity": "Kusama",
   "rpc.kusama.shadow": "Crust Shadow",
+  "rpc.kusama.sherpax": "SherpaX",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.prod.centrifuge": "Centrifuge",
   "rpc.prod.chainx": "ChainX",
