@@ -28,6 +28,14 @@ export function createKusama (t: TFunction): EndpointOption {
       // parachains with id, see Rococo
       // alphabetical based on chain name
       {
+        info: 'crust shadow',
+        paraId: 2012,
+        text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://shadow.crust.network/'
+        }
+      },
+      {
         info: 'khala',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
