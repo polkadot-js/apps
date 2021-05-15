@@ -192,6 +192,7 @@ export const chainColors: Record<string, any> = [
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
+  ['sherpax', chainChainx],
   ['Shell', chainShell],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
