@@ -20,21 +20,21 @@ export function createProduction (t: TFunction): LinkOption[] {
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
-      text: t('rpc.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+      text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
       providers: {
         Centrifuge: 'wss://fullnode.centrifuge.io'
       }
     },
     {
       info: 'crab',
-      text: t('rpc.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
       info: 'chainx',
-      text: t('rpc.chainx', 'ChainX', { ns: 'apps-config' }),
+      text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
         ChainX: 'wss://mainnet.chainx.org/ws',
         'Patract Elara': 'wss://chainx.elara.patract.io'
@@ -42,7 +42,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'darwinia',
-      text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
+      text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
@@ -50,7 +50,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-mainnet',
-      text: t('rpc.dock-mainnet', 'Dock', { ns: 'apps-config' }),
+      text: t('rpc.prod.dock-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io',
         'Patract Elara': 'wss://dock.elara.patract.io'
@@ -59,7 +59,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     {
       dnslink: 'edgeware',
       info: 'edgeware',
-      text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
+      text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io',
@@ -68,21 +68,21 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'equilibrium',
-      text: t('rpc.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
+      text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://node.equilibrium.io'
       }
     },
     {
       info: 'hanonycash',
-      text: t('rpc.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
+      text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
       }
     },
     {
       info: 'snakenet',
-      text: t('rpc.hydra', 'HydraDX', { ns: 'apps-config' }),
+      text: t('rpc.prod.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
         'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
@@ -92,7 +92,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     {
       dnslink: 'kulupu',
       info: 'kulupu',
-      text: t('rpc.kulupu', 'Kulupu', { ns: 'apps-config' }),
+      text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
         Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
         'Patract Elara': 'wss://kulupu.elara.patract.io'
@@ -100,14 +100,14 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'neatcoin',
-      text: t('rpc.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
+      text: t('rpc.prod.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
       providers: {
         Neatcoin: 'wss://rpc.neatcoin.org/ws'
       }
     },
     {
       info: 'nodle',
-      text: t('rpc.nodle-main', 'Nodle', { ns: 'apps-config' }),
+      text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
@@ -115,7 +115,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'plasm',
-      text: t('rpc.plasm', 'Plasm', { ns: 'apps-config' }),
+      text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
         'Stake Technologies': 'wss://rpc.plasmnet.io/',
         'Patract Elara': 'wss://plasm.elara.patract.io'
@@ -123,14 +123,14 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'riochain',
-      text: t('rpc.riochain', 'RioChain', { ns: 'apps-config' }),
+      text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         RioChain: 'wss://node.v1.riochain.io'
       }
     },
     {
       info: 'sora-substrate',
-      text: t('rpc.sora-substrate', 'SORA', { ns: 'apps-config' }),
+      text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
       }
@@ -138,7 +138,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
-      text: t('rpc.stafi', 'Stafi', { ns: 'apps-config' }),
+      text: t('rpc.prod.stafi', 'Stafi', { ns: 'apps-config' }),
       providers: {
         'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
         'Patract Elara': 'wss://stafi.elara.patract.io'
@@ -146,7 +146,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'subsocial',
-      text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
+      text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network',
         'Patract Elara': 'wss://subsocial.elara.patract.io'
@@ -154,14 +154,14 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'uniarts',
-      text: t('rpc.uniarts', 'UniArts', { ns: 'apps-config' }),
+      text: t('rpc.prod.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
         UniArts: 'wss://mainnet.uniarts.vip:9443'
       }
     },
     {
       info: 'westlake',
-      text: t('rpc.westlake', 'Westlake', { ns: 'apps-config' }),
+      text: t('rpc.prod.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
         DataHighway: 'wss://westlake.datahighway.com'
       }
