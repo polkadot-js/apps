@@ -25,8 +25,13 @@ export function createKusama (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
     linked: [
-      // parachains with id, see Rococo
-      // alphabetical based on chain name
+      // (1) system parachains (none available yet)
+      // ...
+      // (2) common good, leave as second group (none available yet)
+      // ...
+      /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
       {
         info: 'crust shadow',
         paraId: 2012,
@@ -46,7 +51,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'kilt',
         paraId: 2005,
-        text: t('rpc.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
+        text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://mainnet.kilt.io/'
         }
