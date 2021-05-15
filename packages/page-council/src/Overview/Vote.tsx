@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
+import type { BalanceOf } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputAddressMulti, Modal, TxButton, VoteValue } from '@polkadot/react-components';
+import { Button, InputAddress, InputAddressMulti, InputBalance, Modal, TxButton, VoteValue } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -50,6 +51,13 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
       );
     });
   }, [api, accountId, available]);
+
+  const bondValue = useMemo(
+    () => ((api.consts.phragmenElection || api.consts.electionsPhragmen || api.consts.elections).votingBondBase as BalanceOf).add(
+      ((api.consts.phragmenElection || api.consts.electionsPhragmen || api.consts.elections).votingBondFactor as BalanceOf).muln(votes.length)
+    ),
+    [api, votes]
+  );
 
   return (
     <>
@@ -96,6 +104,14 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
                 valueLabel={t<string>('my ordered votes')}
               />
             </Modal.Columns>
+            <Modal.Columns hint={t('The amount will be reserved for the duration of your vote')}>
+              <InputBalance
+                defaultValue={bondValue}
+                help={t<string>('The amount that is reserved')}
+                isDisabled
+                label={t<string>('voting bond')}
+              />
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
@@ -104,7 +120,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               isDisabled={!defaultVotes.length}
               label={t<string>('Unvote all')}
               onStart={toggleVisible}
-              tx={(api.tx.electionsPhragmen || api.tx.elections).removeVoter}
+              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).removeVoter}
             />
             <TxButton
               accountId={accountId}
@@ -112,7 +128,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[votes, voteValue]}
-              tx={(api.tx.electionsPhragmen || api.tx.elections).vote}
+              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).vote}
             />
           </Modal.Actions>
         </Modal>

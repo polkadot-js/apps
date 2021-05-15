@@ -13,6 +13,7 @@ import PaymentInfo from './PaymentInfo';
 import { useTranslation } from './translate';
 
 interface Props {
+  accountId: string | null;
   className?: string;
   currentItem: QueueTx;
   isSendable: boolean;
@@ -20,7 +21,7 @@ interface Props {
   tip?: BN;
 }
 
-function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsigned, payload }, isSendable, onError, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsigned, payload }, isSendable, onError, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {

@@ -14,15 +14,16 @@ import Query from './Query';
 import Summary from './Summary';
 
 interface Props {
+  eventCount: number;
   events: KeyedEvent[];
   headers: HeaderExtended[];
 }
 
-function Main ({ events, headers }: Props): React.ReactElement<Props> {
+function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props> {
   return (
     <>
       <Query />
-      <Summary />
+      <Summary eventCount={eventCount} />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />

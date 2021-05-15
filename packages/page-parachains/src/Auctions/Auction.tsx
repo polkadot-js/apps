@@ -8,6 +8,7 @@ import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BN_THREE } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import WinRange from './WinRange';
@@ -28,29 +29,53 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
     [t('bids'), 'start', 3],
     [t('bidder'), 'address'],
     [t('crowdloan')],
-    [t('periods')],
+    [t('leases')],
     [t('value')]
   ]);
 
   const interleave = useCallback(
-    (winners: WinnerData[], newRaise: ParaId[], asIs: boolean): WinnerData[] => {
-      if (asIs) {
+    (winners: WinnerData[], asIs: boolean): WinnerData[] => {
+      if (asIs || !newRaise || !auctionInfo?.leasePeriod) {
         return winners;
       }
 
+      const leasePeriod = auctionInfo.leasePeriod;
+      const leasePeriodEnd = leasePeriod.add(BN_THREE);
       const sorted = (campaigns.funds || [])
-        .filter(({ paraId }) => newRaise.some((n) => n.eq(paraId)))
+        .filter(({ firstSlot, lastSlot, paraId }) =>
+          newRaise.some((n) => n.eq(paraId)) &&
+          firstSlot.gte(leasePeriod) &&
+          lastSlot.lte(leasePeriodEnd)
+        )
         .sort((a, b) => b.value.cmp(a.value));
 
-      return winners.map((w): WinnerData =>
-        sorted.find(({ firstSlot, lastSlot, value }) =>
-          w.firstSlot.eq(firstSlot) &&
-          w.lastSlot.eq(lastSlot) &&
-          w.value.lt(value)
-        ) || w
-      );
+      return winners
+        .concat(...sorted.filter(({ firstSlot, lastSlot, paraId, value }) =>
+          !winners.some((w) =>
+            w.firstSlot.eq(firstSlot) &&
+            w.lastSlot.eq(lastSlot)
+          ) &&
+          !sorted.some((e) =>
+            !paraId.eq(e.paraId) &&
+            firstSlot.eq(e.firstSlot) &&
+            lastSlot.eq(e.lastSlot) &&
+            value.lt(e.value)
+          )
+        ))
+        .map((w): WinnerData =>
+          sorted.find(({ firstSlot, lastSlot, value }) =>
+            w.firstSlot.eq(firstSlot) &&
+            w.lastSlot.eq(lastSlot) &&
+            w.value.lt(value)
+          ) || w
+        )
+        .sort((a, b) =>
+          a.firstSlot.eq(b.firstSlot)
+            ? a.lastSlot.cmp(b.lastSlot)
+            : a.firstSlot.cmp(b.firstSlot)
+        );
     },
-    [campaigns]
+    [auctionInfo, campaigns, newRaise]
   );
 
   return (
@@ -68,13 +93,13 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
     >
       {auctionInfo && newRaise && winningData?.map(({ blockNumber, winners }, round) => (
         <tbody key={round}>
-          {interleave(winners, newRaise, round !== 0 || winningData.length !== 1).map((value, index) => (
+          {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
             <WinRange
               auctionInfo={auctionInfo}
               blockNumber={blockNumber}
               isFirst={index === 0}
               isLatest={round === 0}
-              key={`${blockNumber.toString()}:${index}`}
+              key={`${blockNumber.toString()}:${value.key}`}
               value={value}
             />
           ))}

@@ -27,7 +27,7 @@ export function useTreasury (): Result {
       : BN_ZERO
   });
 
-  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
+  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances?.account, [TREASURY_ACCOUNT]);
 
   useEffect(() => {
     if (!api.consts.treasury) {

@@ -9,7 +9,7 @@ import React from 'react';
 import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
 
-export function createOption ({ info, isHeader, text, value }: Option, overrides: string[] = [], override = 'empty'): Option | React.ReactNode {
+export function createOption ({ info, isHeader, text, value }: Option, overrides: string[] = [], override = 'empty', extra?: string): Option | React.ReactNode {
   if (isHeader) {
     return (
       <Dropdown.Header
@@ -33,7 +33,7 @@ export function createOption ({ info, isHeader, text, value }: Option, overrides
               : info
           }
         />
-        <div className='ui--Dropdown-name'>{text}</div>
+        <div className='ui--Dropdown-name'>{text}{extra}</div>
       </div>
     ),
     value

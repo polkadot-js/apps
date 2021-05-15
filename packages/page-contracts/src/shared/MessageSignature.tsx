@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import { Icon, Tooltip } from '@polkadot/react-components';
 import { encodeTypeDef } from '@polkadot/types/create';
-import { stringCamelCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -28,12 +27,12 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, isConstructor, isMutating, method, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <div className={className}>
-      <span className='ui--MessageSignature-name'>{stringCamelCase(identifier)}</span>
+      <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
@@ -63,12 +62,12 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           <Icon
             className='ui--MessageSignature-mutates'
             icon='database'
-            tooltip={`mutates-${identifier}`}
+            tooltip={`mutates-${method}`}
           />
           {withTooltip && (
             <Tooltip
               text={t<string>('Mutates contract state')}
-              trigger={`mutates-${identifier}`}
+              trigger={`mutates-${method}`}
             />
           )}
         </>

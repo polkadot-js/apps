@@ -12,17 +12,13 @@ import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';
 
-interface ModuleErrorDefault {
-  isModule?: boolean
-}
-
 interface Details {
   details?: string | null;
   type?: string;
 }
 
-function isModuleError (value?: ModuleErrorDefault): value is DispatchError {
-  return !!value?.isModule;
+function isDispatchError (value?: unknown): value is DispatchError {
+  return !!(value && ((value as DispatchError).isModule || (value as DispatchError).isToken));
 }
 
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
@@ -32,18 +28,25 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const { value } = props.defaultValue || {};
 
-    if (isModuleError(value as ModuleErrorDefault)) {
-      try {
-        const mod = (value as DispatchError).asModule;
-        const { documentation, name, section } = mod.registry.findMetaError(mod);
+    if (isDispatchError(value)) {
+      if (value.isModule) {
+        try {
+          const mod = value.asModule;
+          const { documentation, name, section } = mod.registry.findMetaError(mod);
 
+          return setDetails({
+            details: documentation.join(', '),
+            type: `${section}.${name}`
+          });
+        } catch (error) {
+          // Errors may not actually be exposed, in this case, just return the default representation
+          console.error(error);
+        }
+      } else if (value.isToken) {
         return setDetails({
-          details: documentation.join(', '),
-          type: `${section}.${name}`
+          details: value.asToken.type,
+          type: value.type
         });
-      } catch (error) {
-        // Errors may not actually be exposed, in this case, just return the default representation
-        console.error(error);
       }
     }
 

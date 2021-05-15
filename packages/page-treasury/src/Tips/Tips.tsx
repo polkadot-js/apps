@@ -64,7 +64,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
     [t('tips'), 'start'],
     [t('finder'), 'address media--1400'],
     [t('reason'), 'start'],
-    [],
+    [undefined, 'media--1100'],
     [],
     [undefined, 'badge media--1700'],
     [],

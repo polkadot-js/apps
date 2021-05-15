@@ -1,56 +1,55 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StorageKey } from '@polkadot/types';
 import type { ParaId, SessionIndex } from '@polkadot/types/interfaces';
 import type { Proposals } from './types';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
-import { useApi, useCallMulti, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCallMulti, useEventTrigger, useIsMountedRef, useMapEntries, useMapKeys } from '@polkadot/react-hooks';
 
 type MultiQuery = [SessionIndex | undefined, ParaId[] | undefined];
 
-function createResult (sessionIndex: SessionIndex, approvedIds: ParaId[], proposalKeys: { args: [ParaId] }[], scheduledProposals: [{ args: [SessionIndex] }, ParaId[]][]): Proposals {
-  return {
-    approvedIds,
-    proposalIds: proposalKeys.map(({ args: [id] }) => id),
-    scheduled: scheduledProposals
-      .map(([{ args: [sessionIndex] }, scheduledIds]) => ({
-        scheduledIds,
-        sessionIndex
-      }))
-      .filter((s) => s.sessionIndex.gt(sessionIndex))
-  };
+interface Scheduled {
+  scheduledIds: ParaId[];
+  sessionIndex: SessionIndex;
 }
 
 const optionsMulti = {
   defaultValue: [undefined, undefined] as MultiQuery
 };
 
+function extractProposalIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
+  return keys.map(({ args: [id] }) => id);
+}
+
+function extractScheduled (entries: [StorageKey<[SessionIndex]>, ParaId[]][]): Scheduled[] {
+  return entries.map(([{ args: [sessionIndex] }, scheduledIds]) => ({
+    scheduledIds,
+    sessionIndex
+  }));
+}
+
 export default function useProposals (): Proposals | undefined {
   const { api } = useApi();
-  const [state, setState] = useState<Proposals | undefined>();
   const mountedRef = useIsMountedRef();
-  const trigger = useEventTrigger(['proposeParachain']);
+  const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);
+  const proposalIds = useMapKeys(api.query.proposeParachain?.proposals, { at: trigger, transform: extractProposalIds });
+  const scheduled = useMapEntries(api.query.proposeParachain?.scheduledProposals, { at: trigger, transform: extractScheduled });
   const [sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.session.currentIndex,
     api.query.proposeParachain?.approvedProposals
   ], optionsMulti);
 
-  // re-get all our entries in the list
-  useEffect((): void => {
-    approvedIds && sessionIndex && trigger &&
-      Promise
-        .all([
-          api.query.proposeParachain.proposals.keys(),
-          api.query.proposeParachain.scheduledProposals.entries()
-        ])
-        .then(([proposals, scheduledProposals]) =>
-          mountedRef.current &&
-            setState(createResult(sessionIndex, approvedIds, proposals as any, scheduledProposals as any))
-        )
-        .catch(console.error);
-  }, [api, approvedIds, mountedRef, sessionIndex, trigger]);
-
-  return state;
+  return useMemo(
+    () => approvedIds && sessionIndex && proposalIds && scheduled && mountedRef.current
+      ? {
+        approvedIds,
+        proposalIds,
+        scheduled: scheduled.filter((s) => s.sessionIndex.gt(sessionIndex))
+      }
+      : undefined,
+    [approvedIds, mountedRef, proposalIds, sessionIndex, scheduled]
+  );
 }

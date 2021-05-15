@@ -8,10 +8,11 @@ import React, { useState } from 'react';
 
 import { Button, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ONE, BN_THREE, BN_ZERO } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
+import useRanges from '../useRanges';
 
 interface Props {
   auctionInfo?: AuctionInfo;
@@ -21,19 +22,23 @@ interface Props {
   ownedIds: OwnedId[];
 }
 
+const EMPTY_OWNER: OwnerInfo = { accountId: null, paraId: 0 };
+
 function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>({ accountId: null, paraId: 0 });
+  const ranges = useRanges();
+  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [cap, setCap] = useState<BN | undefined>();
   const [endBlock, setEndBlock] = useState<BN | undefined>();
   const [firstSlot, setFirstSlot] = useState<BN | undefined>();
   const [lastSlot, setLastSlot] = useState<BN | undefined>();
   const [isOpen, toggleOpen] = useToggle();
 
+  const maxPeriods = ranges[ranges.length - 1][1] - ranges[0][0];
   const isEndError = !bestNumber || !endBlock || endBlock.lt(bestNumber);
   const isFirstError = !firstSlot || (!!leasePeriod && firstSlot.lt(leasePeriod.currentPeriod));
-  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.add(BN_THREE));
+  const isLastError = !lastSlot || !firstSlot || lastSlot.lt(firstSlot) || lastSlot.gt(firstSlot.addn(maxPeriods));
   const defaultSlot = (auctionInfo?.leasePeriod || leasePeriod?.currentPeriod.add(BN_ONE) || 1).toString();
 
   // TODO Add verifier
@@ -74,7 +79,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
             <Modal.Columns hint={
               <>
                 <p>{t<string>('The first and last lease periods for this funding campaign.')}</p>
-                <p>{t<string>('The ending lease period should be after the first and a maximum of 3 periods more than the first')}</p>
+                <p>{t<string>('The ending lease period should be after the first and a maximum of {{maxPeriods}} periods more than the first', { replace: { maxPeriods } })}</p>
               </>
             }>
               <InputNumber

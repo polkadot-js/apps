@@ -1,43 +1,72 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { ParaId, ParaInfo } from '@polkadot/types/interfaces';
-import type { OwnedId } from './types';
+import type { Option, StorageKey } from '@polkadot/types';
+import type { Hash, ParaId, ParaInfo } from '@polkadot/types/interfaces';
+import type { OwnedId, OwnedIdPartial } from './types';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
-import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
+
+interface CodeHash {
+  hash: Hash | null;
+  paraId: ParaId;
+}
+
+interface Owned {
+  ids: ParaId[];
+  owned: OwnedIdPartial[];
+}
+
+function extractIds (entries: [StorageKey<[ParaId]>, Option<ParaInfo>][]): Owned {
+  const owned = entries
+    .map(([{ args: [paraId] }, optInfo]): OwnedIdPartial | null => {
+      if (optInfo.isNone) {
+        return null;
+      }
+
+      const paraInfo = optInfo.unwrap();
+
+      return {
+        manager: paraInfo.manager.toString(),
+        paraId,
+        paraInfo
+      };
+    })
+    .filter((id): id is OwnedIdPartial => !!id);
+
+  return {
+    ids: owned.map(({ paraId }) => paraId),
+    owned
+  };
+}
+
+const hashesOption = {
+  transform: ([[paraIds], optHashes]: [[ParaId[]], Option<Hash>[]]) =>
+    paraIds.map((paraId, index): CodeHash => ({
+      hash: optHashes[index].unwrapOr(null),
+      paraId
+    })),
+  withParamsTransform: true
+};
 
 export default function useOwnedIds (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const trigger = useEventTrigger([api.events.registrar?.Registered]);
-  const [state, setState] = useState<OwnedId[]>([]);
+  const trigger = useEventTrigger([api.events.registrar.Registered, api.events.registrar.Reserved]);
+  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, { at: trigger, transform: extractIds });
+  const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], hashesOption);
 
-  useEffect((): void => {
-    allAccounts && trigger &&
-      api.query.registrar?.paras
-        .entries<Option<ParaInfo>, [ParaId]>()
-        .then((entries) => setState(() =>
-          entries
-            .map(([{ args: [paraId] }, optInfo]): OwnedId | null => {
-              if (optInfo.isNone) {
-                return null;
-              }
-
-              const paraInfo = optInfo.unwrap();
-
-              return {
-                manager: paraInfo.manager.toString(),
-                paraId,
-                paraInfo
-              };
-            })
-            .filter((info): info is OwnedId => !!info && allAccounts.some((a) => a === info.manager))
-        ))
-        .catch(console.error);
-  }, [allAccounts, api, trigger]);
-
-  return state;
+  return useMemo(
+    () => unfiltered && hashes
+      ? unfiltered.owned
+        .filter((id) => allAccounts.some((a) => a === id.manager))
+        .map((data): OwnedId => ({
+          ...data,
+          hasCode: hashes.some(({ hash, paraId }) => !!hash && paraId.eq(data.paraId))
+        }))
+      : [],
+    [allAccounts, hashes, unfiltered]
+  );
 }
