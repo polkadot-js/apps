@@ -269,7 +269,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['subsocial-node', nodeSubsocial],
   ['Subsocial Node', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
-  ['sherpax',nodeChainx],
+  ['sherpax', nodeChainx],
   ['substrate-node', nodeSubstrate],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
