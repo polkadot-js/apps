@@ -203,6 +203,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
   ['Crust Collator', nodeCrust],
+  ['Crust Shadow', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Darwinia Runtime Module Library', nodeDarwinia],
