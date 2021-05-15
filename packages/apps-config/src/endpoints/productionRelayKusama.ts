@@ -42,6 +42,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Phala: 'wss://khala.phala.network/ws'
         }
+      },
+      {
+        info: 'kilt',
+        paraId: 2005,
+        text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://mainnet.kilt.io/'
+        }
       }
     ]
   };
