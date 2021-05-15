@@ -46,7 +46,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'kilt',
         paraId: 2005,
-        text: t('rpc.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
+        text: t('rpc.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://mainnet.kilt.io/'
         }
