@@ -4,7 +4,7 @@
   "version": "0.90.2-71",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.14.0",
+    "@babel/core": "^7.14.2",
     "@babel/polyfill": "^7.12.1",
     "@polkadot/dev": "^0.62.14",
     "@polkadot/react-components": "^0.90.2-71",
@@ -12,7 +12,7 @@
     "electron-updater": "^4.3.9"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.4",
+    "@types/react-dom": "^17.0.5",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^7.0.0",
