@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "homepage": ".",
   "dependencies": {
-    "@babel/core": "^7.14.0",
+    "@babel/core": "^7.14.2",
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.14.0",
     "@polkadot/apps-config": "^0.90.2-71",
