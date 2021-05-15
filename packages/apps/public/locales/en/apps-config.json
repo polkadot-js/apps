@@ -53,6 +53,7 @@
   "rpc.kusama.onfinality": "Kusama",
   "rpc.kusama.parity": "Kusama",
   "rpc.kusama.patractlabs": "Kusama",
+  "rpc.kusama.shadow": "Crust Shadow",
   "rpc.kusama.w3f": "Kusama",
   "rpc.litentry.test": "Litentry",
   "rpc.local": "Local Node",
