@@ -50,6 +50,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           'KILT Protocol': 'wss://mainnet.kilt.io/'
         }
+      },
+      {
+        info: 'sherpax',
+        paraId: 2013,
+        text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
+        }
       }
     ]
   };
