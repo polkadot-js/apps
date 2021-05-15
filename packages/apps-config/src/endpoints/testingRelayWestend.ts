@@ -28,7 +28,9 @@ export function createWestend (t: TFunction): EndpointOption {
       OnFinality: 'wss://westend.api.onfinality.io/public-ws'
     },
     linked: [
-      // common good
+      // (1) system parachains (none available yet)
+      // ...
+      // (2) common good, leave as second group
       {
         info: 'shell',
         paraId: 1070,
@@ -37,7 +39,9 @@ export function createWestend (t: TFunction): EndpointOption {
           Parity: 'wss://westend-shell-rpc.parity.io'
         }
       }
-      // all parachains here (with paraId, see Rococo)
+      // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
     ]
   };
 }

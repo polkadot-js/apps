@@ -1,5 +1,4 @@
 {
-  "Asset overview": "Asset overview",
   "Balances": "Balances",
   "Create": "Create",
   "Mint": "Mint",
@@ -11,7 +10,6 @@
   "Overview": "Overview",
   "Prev": "Prev",
   "Send": "Send",
-  "The account that is to be used for issuing for this token.": "The account that is to be used for issuing for this token.",
   "The account that is to be used for issuing this token.": "The account that is to be used for issuing this token.",
   "The account that is to be used for ongoing admin on the token.": "The account that is to be used for ongoing admin on the token.",
   "The account that is to be used for performing freezing.": "The account that is to be used for performing freezing.",
@@ -22,11 +20,9 @@
   "The beneficiary will have access to the transferred asset when the transaction is included in a block.": "The beneficiary will have access to the transferred asset when the transaction is included in a block.",
   "The descriptive name for this asset.": "The descriptive name for this asset.",
   "The minimum balance allowed for the asset.": "The minimum balance allowed for the asset.",
-  "The minimum balance for the asset.": "The minimum balance for the asset.",
   "The minimum balance for the asset. This is specified in the units and decimals as requested.": "The minimum balance for the asset. This is specified in the units and decimals as requested.",
   "The number of decimals for this token. Max allowed via the UI is set to 20.": "The number of decimals for this token. Max allowed via the UI is set to 20.",
   "The recipient account for this minting operation.": "The recipient account for this minting operation.",
-  "The selected id for the asset. Should not match an already-existing id.": "The selected id for the asset. Should not match an already-existing id.",
   "The selected id for the asset. This should not match an already-existing asset id.": "The selected id for the asset. This should not match an already-existing asset id.",
   "The symbol that will represent this asset.": "The symbol that will represent this asset.",
   "Transfer with account keep-alive checks": "Transfer with account keep-alive checks",
@@ -44,7 +40,6 @@
   "assets": "assets",
   "create asset {{step}}/{{steps}}": "create asset {{step}}/{{steps}}",
   "creator account": "creator account",
-  "decimals": "decimals",
   "freezer": "freezer",
   "freezer account": "freezer account",
   "frozen": "frozen",
@@ -59,7 +54,6 @@
   "send to address": "send to address",
   "sufficient": "sufficient",
   "supply": "supply",
-  "symbol": "symbol",
   "the asset to query for balances": "the asset to query for balances",
   "transfer asset": "transfer asset"
 }
