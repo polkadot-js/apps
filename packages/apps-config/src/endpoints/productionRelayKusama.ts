@@ -41,7 +41,7 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crust shadow',
+        info: 'crust',
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
