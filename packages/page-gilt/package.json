@@ -1,10 +1,10 @@
 {
   "name": "@polkadot/app-gilt",
   "private": true,
-  "version": "0.90.2-75",
+  "version": "0.90.2-76",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.90.2-75"
+    "@polkadot/react-components": "^0.90.2-76"
   }
 }
