@@ -33,6 +33,14 @@ export function createKusama (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'bifrost',
+        paraId: 2001,
+        text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
+        }
+      },
+      {
         info: 'crust shadow',
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
