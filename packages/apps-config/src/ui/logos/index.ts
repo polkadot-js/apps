@@ -53,6 +53,7 @@ import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
+import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -226,6 +227,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['GEEK', nodeGeek],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
+  ['Khala', nodeKhala],
+  ['Khala Node', nodeKhala],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
   ['kulupu', nodeKulupu],
@@ -330,7 +333,7 @@ export const namedLogos: Record<string, unknown> = {
   idavoll: nodeIdavoll,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
-  khala: nodePhala,
+  khala: nodeKhala,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,

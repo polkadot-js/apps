@@ -137,6 +137,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  khala: phalaParachain,
   'kilt-parachain': kilt,
   konomi,
   kulupu,
