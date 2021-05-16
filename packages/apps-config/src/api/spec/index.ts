@@ -138,6 +138,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'kilt-parachain': kilt,
+  khala: phalaParachain,
   konomi,
   kulupu,
   laminar,
