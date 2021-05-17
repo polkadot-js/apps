@@ -136,6 +136,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Kusama Shell 1000', nodeShell],
   ['Litentry', nodeLitentry],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
