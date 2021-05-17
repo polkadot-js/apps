@@ -25,10 +25,17 @@ export function createKusama (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
     linked: [
-      // (1) system parachains (none available yet)
+      // (1) all system parachains (none available yet)
       // ...
-      // (2) common good, leave as second group (none available yet)
-      // ...
+      // (2) all common good parachains
+      {
+        info: 'shell',
+        paraId: 1000,
+        text: t('rpc.kusama.shell', 'Shell', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://kusama-shell-rpc.parity.io'
+        }
+      },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
