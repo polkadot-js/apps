@@ -137,7 +137,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
             <Transfer
               key='modal-transfer'
               onClose={toggleIsTransferOpen}
-              recipientId={address}
+              senderId={address}
             />
           )}
         </div>

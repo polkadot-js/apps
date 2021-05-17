@@ -141,14 +141,11 @@ class InputAddress extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { lastValue, value } = this.state;
-    const lastOption = this.getLastOptionValue();
+    const { value } = this.state;
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
         ? defaultValue
-        : this.hasValue(lastValue)
-          ? lastValue
-          : (lastOption && lastOption.value)
+        : undefined
     );
     const actualOptions: Option[] = options
       ? options.map((o): Option => createItem(o))
