@@ -103,16 +103,18 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
     const message = contract.abi.messages[messageIndex];
 
     contract
-      .read(message, { gasLimit: -1, value: message.isPayable ? payment : 0 }, ...extractValues(values))
-      .send(accountId)
-      .then(({ gasConsumed, result }) => {
-        setEstimatedWeight(
-          result.isOk
-            ? gasConsumed
-            : null
-        );
-        setMegaGas(gasConsumed);
-      })
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      .query[message.method](accountId, {
+        gasLimit: -1,
+        value: message.isPayable
+          ? payment
+          : 0
+      }, ...extractValues(values))
+      .then(({ gasConsumed, result }) => setEstimatedWeight(
+        result.isOk
+          ? gasConsumed
+          : null
+      ))
       .catch((e) => { console.error(e); setEstimatedWeight(null); });
   }, [accountId, contract, contract?.abi?.messages, messageIndex, payment, setMegaGas, values]);
 
@@ -145,9 +147,16 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
     (): void => {
       if (!accountId || !contract || !payment || !weight) return;
 
+      const message = contract.abi.messages[messageIndex];
+
       !!contract && contract
-        .read(messageIndex, 0, weight.toString(), ...extractValues(values))
-        .send(accountId)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        .query[message.method](accountId, {
+          gasLimit: weight.toString(),
+          value: message.isPayable
+            ? payment
+            : 0
+        }, ...extractValues(values))
         .then((result): void => {
           setOutcomes([{
             ...result,
