@@ -165,6 +165,7 @@ export const chainColors: Record<string, any> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Kusama Shell 1000', chainShell],
   ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
