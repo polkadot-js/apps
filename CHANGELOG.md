@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.91.2 May 17, 2021
+
+Changes:
+
+- Update electron-builder dependency, attempting to fix publish from CI
+
+
 ## 0.91.1 May 17, 2021
 
 Contributed:
