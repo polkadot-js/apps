@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { AugmentedEvent } from '@polkadot/api/types';
 import type { Vec } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
@@ -15,11 +16,11 @@ type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 
 const IDENTITY_FILTER = () => true;
 
-export function useEventTrigger (checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER): string {
-  const { api } = useApi();
+export function useEventTrigger (checks: EventCheck[], filter: (record: EventRecord) => boolean = IDENTITY_FILTER, apiOverride?: ApiPromise | null): string {
+  const { api, isApiReady } = useApi();
   const [trigger, setTrigger] = useState('0');
   const mountedRef = useIsMountedRef();
-  const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
+  const eventRecords = useCall<Vec<EventRecord>>(isApiReady && (apiOverride || api).query.system.events);
 
   useEffect((): void => {
     mountedRef.current && eventRecords && eventRecords.filter((r) =>

@@ -53,17 +53,24 @@ const hashesOption = {
 };
 
 export default function useAllIds (isActive: boolean, apiOverride?: ApiPromise | null): OwnedId[] {
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const trigger = useEventTrigger([
-    isActive && (apiOverride || api).events.registrar?.Registered,
-    isActive && (apiOverride || api).events.registrar?.Reserved
-  ]);
-  const unfiltered = useMapEntries<Owned>(isActive && (apiOverride || api).query.registrar?.paras, { at: trigger, transform: extractIds });
-  const paraIds = useCall<ParaId[]>(isActive && (apiOverride || api).query.paras?.parachains);
-  const hashes = useCall(isActive && (apiOverride || api).query.paras?.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], hashesOption);
+    isApiReady && isActive && (apiOverride || api).events.registrar?.Registered,
+    isApiReady && isActive && (apiOverride || api).events.registrar?.Reserved
+  ], undefined, apiOverride);
+  const unfiltered = useMapEntries<Owned>(
+    isApiReady && isActive && (apiOverride || api).query.registrar?.paras,
+    { at: trigger, transform: extractIds }
+  );
+  const paraIds = useCall<ParaId[]>(isApiReady && isActive && (apiOverride || api).query.paras?.parachains);
+  const hashes = useCall(
+    isApiReady && isActive && (apiOverride || api).query.paras?.currentCodeHash.multi,
+    [unfiltered ? unfiltered.ids : []],
+    hashesOption
+  );
 
   return useMemo(
-    () => unfiltered && hashes && isActive && paraIds
+    () => isActive && unfiltered && hashes && paraIds
       ? unfiltered.owned.map((data): OwnedId => ({
         ...data,
         isChain: paraIds.some((paraId) => paraId.eq(data.paraId)),
