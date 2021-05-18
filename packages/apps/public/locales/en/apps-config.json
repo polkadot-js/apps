@@ -11,6 +11,7 @@
   "rpc.header.test.relay": "Test relays & parachains",
   "rpc.hosted.by": "hosted by {{host}}",
   "rpc.kusama.bifrost": "Bifrost",
+  "rpc.kusama.crab": "Darwinia Crab",
   "rpc.kusama.khala": "Khala Network",
   "rpc.kusama.kilt": "KILT Mainnet",
   "rpc.kusama.parity": "Kusama",
