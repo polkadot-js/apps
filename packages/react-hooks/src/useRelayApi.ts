@@ -26,8 +26,8 @@ function useRelayEndpoints (genesisHash?: string): LinkOption[] {
   );
 }
 
-export function useRelayApi (isActive: boolean, genesisHash?: string): Result {
+export function useRelayApi (isActive: boolean, currentUrl?: string, genesisHash?: string): Result {
   const endpoints = useRelayEndpoints(genesisHash);
 
-  return useEndpointApi(isActive, endpoints);
+  return useEndpointApi(isActive, endpoints, currentUrl);
 }

@@ -5,10 +5,12 @@ import React from 'react';
 
 export interface Network {
   genesisHash?: string;
+  genesisHashRelay?: string;
   icon?: string;
   isChild?: boolean;
   isRelay?: boolean;
   name: string;
+  paraId?: number;
   providers: {
     name: string;
     url: string;

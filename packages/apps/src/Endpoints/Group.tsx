@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OwnedId } from '@polkadot/app-parachains/types';
 import type { Group } from './types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { Icon } from '@polkadot/react-components';
@@ -23,9 +24,20 @@ interface Props {
 }
 
 function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
+  const [genesisToParas, setGenesisToParas] = useState<Record<string, OwnedId[]>>({});
+
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
+  );
+
+  const _setLinked = useCallback(
+    (genesisHash: string, paraIds: OwnedId[]) =>
+      setGenesisToParas((prev) => ({
+        ...prev,
+        [genesisHash]: paraIds
+      })),
+    []
   );
 
   return (
@@ -45,7 +57,9 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
                 affinity={affinities[network.name]}
                 apiUrl={apiUrl}
                 key={index}
+                relayParas={genesisToParas[network.genesisHashRelay || '']}
                 setApiUrl={setApiUrl}
+                setLinked={_setLinked}
                 value={network}
               />
             ))}

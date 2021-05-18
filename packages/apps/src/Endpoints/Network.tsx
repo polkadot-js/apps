@@ -1,28 +1,44 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OwnedId } from '@polkadot/app-parachains/types';
 import type { Network } from './types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import useAllIds from '@polkadot/app-parachains/useAllIds';
 import { ChainImg } from '@polkadot/react-components';
 import { useRelayApi } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate';
 import Url from './Url';
 
 interface Props {
   affinity?: string;
   apiUrl: string;
   className?: string;
+  relayParas?: OwnedId[];
   setApiUrl: (network: string, apiUrl: string) => void;
+  setLinked: (genesisHash: string, paraIds: OwnedId[]) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { genesisHash, icon, isChild, isRelay, name, providers } }: Props): React.ReactElement<Props> {
-  const { api: relayApi } = useRelayApi(!!isRelay, genesisHash);
+function NetworkDisplay ({ affinity, apiUrl, className = '', relayParas, setApiUrl, setLinked, value: { genesisHash, icon, isChild, isRelay, name, paraId, providers } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api: relayApi } = useRelayApi(!!isRelay, apiUrl, genesisHash);
   const paraIds = useAllIds(!!relayApi, relayApi);
+
+  useEffect((): void => {
+    genesisHash && paraIds.length && setLinked(genesisHash, paraIds);
+  }, [genesisHash, paraIds, setLinked]);
+
+  const paraInfo = useMemo(
+    () => relayParas
+      ? relayParas.find((p) => p.paraId.eq(paraId))
+      : null,
+    [paraId, relayParas]
+  );
 
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
@@ -57,6 +73,19 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
           withoutHl
         />
         <div className='endpointValue'>{name}</div>
+        {paraInfo && (
+          <div className='endpointExtra'>{
+            // paraInfo.paraId.ltn(1000)
+            //   ? t('system')
+            //   : paraInfo.paraId.ltn(2000)
+            //     ? t('common')
+            paraInfo.isChain
+              ? t('chain')
+              : paraInfo.isThread
+                ? t('thread')
+                : ''
+          }</div>
+        )}
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
@@ -94,8 +123,19 @@ export default React.memo(styled(NetworkDisplay)`
       margin-left: 1.25rem;
     }
 
+    .endpointExtra {
+      font-size: 0.75em;
+      justify-self: flex-end;
+      opacity: 0.65;
+      text-align: right;
+    }
+
     &+.endpointProvider {
       margin-top: -0.125rem;
+    }
+
+    .endpointValue {
+      flex: 1 1;
     }
   }
 `);
