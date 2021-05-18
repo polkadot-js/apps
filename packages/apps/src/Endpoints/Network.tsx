@@ -6,7 +6,9 @@ import type { Network } from './types';
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
+import useAllIds from '@polkadot/app-parachains/useAllIds';
 import { ChainImg } from '@polkadot/react-components';
+import { useRelayApi } from '@polkadot/react-hooks';
 
 import Url from './Url';
 
@@ -18,7 +20,10 @@ interface Props {
   value: Network;
 }
 
-function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { genesisHash, icon, isChild, isRelay, name, providers } }: Props): React.ReactElement<Props> {
+  const { api: relayApi } = useRelayApi(!!isRelay, genesisHash);
+  const paraIds = useAllIds(!!relayApi, relayApi);
+
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]

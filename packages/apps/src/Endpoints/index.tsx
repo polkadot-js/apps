@@ -55,8 +55,10 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks[prev.networks.length - 1].providers.push(prov);
       } else {
         prev.networks.push({
+          genesisHash: e.genesisHash,
           icon: e.info,
-          isChild: e.isChild,
+          isChild: !!e.isChild,
+          isRelay: !!e.genesisHash && !e.isChild,
           name: e.text as string,
           providers: [prov]
         });

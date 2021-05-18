@@ -76,7 +76,8 @@ export interface OwnedIdPartial {
 }
 
 export interface OwnedId extends OwnedIdPartial {
-  hasCode: boolean;
+  isChain: boolean;
+  isThread: boolean;
 }
 
 export interface OwnerInfo {

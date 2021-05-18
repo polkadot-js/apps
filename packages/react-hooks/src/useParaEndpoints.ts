@@ -46,7 +46,10 @@ export function useIsParasLinked (ids?: (BN | number)[] | null): Record<string, 
 
   return useMemo(
     () => ids
-      ? ids.reduce((all: Record<string, boolean>, id) => ({ ...all, [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0 }), {})
+      ? ids.reduce((all: Record<string, boolean>, id) => ({
+        ...all,
+        [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0
+      }), {})
       : {},
     [endpoints, ids]
   );

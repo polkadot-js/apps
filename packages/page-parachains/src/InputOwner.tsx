@@ -42,7 +42,7 @@ function InputOwner ({ noCodeCheck, onChange, ownedIds }: Props): React.ReactEle
 
   const _setParaId = useCallback(
     (id: number) => setParaId(
-      noCodeCheck || ownedIds.some(({ hasCode, paraId }) => paraId.eq(id) && hasCode)
+      noCodeCheck || ownedIds.some(({ isThread, paraId }) => isThread && paraId.eq(id))
         ? id
         : 0
     ),

@@ -37,6 +37,7 @@ export { useParaApi } from './useParaApi';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints';
 export { usePassword } from './usePassword';
 export { useRegistrars } from './useRegistrars';
+export { useRelayApi } from './useRelayApi';
 export { useSavedFlags } from './useSavedFlags';
 export { useStepper } from './useStepper';
 export { useSudo } from './useSudo';

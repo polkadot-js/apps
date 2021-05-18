@@ -4,8 +4,10 @@
 import React from 'react';
 
 export interface Network {
+  genesisHash?: string;
   icon?: string;
   isChild?: boolean;
+  isRelay?: boolean;
   name: string;
   providers: {
     name: string;
