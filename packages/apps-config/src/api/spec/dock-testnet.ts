@@ -5,16 +5,8 @@
 /* eslint-disable sort-keys */
 
 export default {
-  Address: 'MultiAddress',
-  LookupSource: 'MultiAddress',
-  PerDispatchClassU32: {
-    normal: 'u32',
-    operational: 'u32',
-    mandatory: 'u32'
-  },
-  BlockLength: {
-    max: 'PerDispatchClassU32'
-  },
+  Address: 'AccountId',
+  LookupSource: 'AccountId',
   Keys: 'SessionKeys2',
   Did: '[u8;32]',
   Bytes32: {
@@ -122,37 +114,6 @@ export default {
   Attestation: {
     priority: 'Compact<u64>',
     iri: 'Option<Vec<u8>>'
-  },
-  Account: {
-    nonce: 'U256',
-    balance: 'U256'
-  },
-  Transaction: {
-    nonce: 'U256',
-    action: 'String',
-    gas_price: 'u64',
-    gas_limit: 'u64',
-    value: 'U256',
-    input: 'Vec<u8>',
-    signature: 'Signature'
-  },
-  Signature: {
-    v: 'u64',
-    r: 'H256',
-    s: 'H256'
-  },
-  ParamType: {
-    _enum: {
-      Address: null,
-      Int: 'u16',
-      Uint: 'u16'
-    }
-  },
-  ContractConfig: {
-    address: 'H160',
-    query_aggregator_call_encoded: 'Vec<u8>',
-    query_price_abi_encoded: 'Vec<u8>',
-    return_val_abi: 'Vec<ParamType>'
   },
   StateChange: {
     _enum: {
