@@ -15,7 +15,7 @@ import { useCall } from './useCall';
 
 const EMPTY: Inflation = { inflation: 0, stakedReturn: 0 };
 
-export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, numAuctions: BN): Inflation {
+function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, numAuctions: BN): Inflation {
   const { auctionAdjust, auctionMax, falloff, idealStake, maxInflation, minInflation } = getInflationParams(api);
   const stakedFraction = totalStaked.isZero() || totalIssuance.isZero()
     ? 0
@@ -42,7 +42,7 @@ export function useInflation (totalStaked?: BN): Inflation {
   const [state, setState] = useState<Inflation>(EMPTY);
 
   useEffect((): void => {
-    const numAuctions = api.query.auctions
+    const numAuctions = api.query.auctions?.auctionCounter
       ? auctionCounter
       : BN_ZERO;
 
