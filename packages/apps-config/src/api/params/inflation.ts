@@ -24,7 +24,7 @@ const DEFAULT_PARAMS: InflationParams = {
 };
 
 const KNOWN_PARAMS: Record<string, InflationParams> = {
-  [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, auctionAdjust: 0.3, auctionMax: 60, idealStake: 0.75 },
+  [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, auctionAdjust: (0.3 / 60), auctionMax: 60, idealStake: 0.75 },
   [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, idealStake: 0.75 }
 };
 

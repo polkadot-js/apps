@@ -20,8 +20,7 @@ export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: 
   const stakedFraction = totalStaked.isZero() || totalIssuance.isZero()
     ? 0
     : totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
-  const auctionCalc = Math.min(auctionMax, numAuctions.toNumber()) * (auctionAdjust / auctionMax);
-  const idealInterest = maxInflation / (idealStake - auctionCalc);
+  const idealInterest = maxInflation / (idealStake - (Math.min(auctionMax, numAuctions.toNumber()) * auctionAdjust));
   const inflation = 100 * (minInflation + (
     stakedFraction <= idealStake
       ? (stakedFraction * (idealInterest - (minInflation / idealStake)))
