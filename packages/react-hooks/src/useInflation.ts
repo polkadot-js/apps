@@ -16,16 +16,19 @@ import { useCall } from './useCall';
 const EMPTY: Inflation = { inflation: 0, stakedReturn: 0 };
 
 function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, numAuctions: BN): Inflation {
-  const { auctionAdjust, auctionMax, falloff, idealStake, maxInflation, minInflation } = getInflationParams(api);
+  const { auctionAdjust, auctionMax, falloff, maxInflation, minInflation, stakeTarget } = getInflationParams(api);
   const stakedFraction = totalStaked.isZero() || totalIssuance.isZero()
     ? 0
     : totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
-  const idealInterest = maxInflation / (idealStake - (Math.min(auctionMax, numAuctions.toNumber()) * auctionAdjust));
+  const idealStake = stakeTarget - (Math.min(auctionMax, numAuctions.toNumber()) * auctionAdjust);
+  const idealInterest = maxInflation / idealStake;
   const inflation = 100 * (minInflation + (
     stakedFraction <= idealStake
       ? (stakedFraction * (idealInterest - (minInflation / idealStake)))
       : (((idealInterest * idealStake) - minInflation) * Math.pow(2, (idealStake - stakedFraction) / falloff))
   ));
+
+  console.log('calcInflation', inflation, idealStake);
 
   return {
     inflation,
@@ -42,7 +45,7 @@ export function useInflation (totalStaked?: BN): Inflation {
   const [state, setState] = useState<Inflation>(EMPTY);
 
   useEffect((): void => {
-    const numAuctions = api.query.auctions?.auctionCounter
+    const numAuctions = api.query.auctions
       ? auctionCounter
       : BN_ZERO;
 
