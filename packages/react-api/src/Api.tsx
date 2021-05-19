@@ -169,6 +169,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
+    specName: api.runtimeVersion.specName.toString(),
+    specVersion: api.runtimeVersion.specVersion.toString(),
     systemChain,
     systemName,
     systemVersion
