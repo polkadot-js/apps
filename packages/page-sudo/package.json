@@ -1,10 +1,10 @@
 {
   "name": "@polkadot/app-sudo",
   "private": true,
-  "version": "0.91.3-8",
+  "version": "0.91.3-9",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.91.3-8"
+    "@polkadot/react-components": "^0.91.3-9"
   }
 }
