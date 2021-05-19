@@ -136,7 +136,6 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
-  ['Kusama Shell 1000', nodeShell],
   ['Litentry', nodeLitentry],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
@@ -160,7 +159,6 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
-  ['Shell', nodeShell],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -295,6 +293,14 @@ export const nodeLogos: Record<string, unknown> = [
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
+}), {});
+
+// Alphabetical overrides based on the actual specName
+export const specLogos: Record<string, unknown> = [
+  ['shell', nodeShell]
+].reduce((logos, [spec, logo]): Record<string, unknown> => ({
+  ...logos,
+  [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
 // Alphabetical overrides when we pass an explicit logo name

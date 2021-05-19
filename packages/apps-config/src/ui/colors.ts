@@ -56,7 +56,6 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
-const chainShell = '#2e86ab'; // '#0596FC';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -118,11 +117,14 @@ const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
+// based on the spec name
+const specShell = '#2e86ab'; // '#0596FC';
+
 export { emptyColor };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
-export const chainColors: Record<string, any> = [
+export const chainColors: Record<string, string> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['acala mandala pc2', chainRoccoAcala],
   ['Apron PC1', chainApron],
@@ -165,7 +167,6 @@ export const chainColors: Record<string, any> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
-  ['Kusama Shell 1000', chainShell],
   ['Kusama', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
@@ -197,7 +198,6 @@ export const chainColors: Record<string, any> = [
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
   ['sherpax', chainChainx],
-  ['Shell', chainShell],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
@@ -215,14 +215,14 @@ export const chainColors: Record<string, any> = [
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
-].reduce((colors, [chain, color]): Record<string, any> => ({
+].reduce((colors, [chain, color]): Record<string, string> => ({
   ...colors,
   [chain.toLowerCase()]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-export const nodeColors: Record<string, any> = [
+export const nodeColors: Record<string, string> = [
   ['Apron Node', nodeApron],
   ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
@@ -272,7 +272,16 @@ export const nodeColors: Record<string, any> = [
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink]
-].reduce((colors, [node, color]): Record<string, any> => ({
+].reduce((colors, [node, color]): Record<string, string> => ({
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
+}), {});
+
+// Alphabetical overrides based on the actual software node type
+// NOTE: This is as retrieved via the system.name RPC
+export const specColors: Record<string, string> = [
+  ['shell', specShell]
+].reduce((colors, [spec, color]): Record<string, any> => ({
+  ...colors,
+  [spec.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
