@@ -41,7 +41,7 @@ export default {
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   'dock-main-runtime': dock,
-  'dock-testnet': dockTestnet,
+  'dock-test-runtime': dockTestnet,
   dusty3: dusty,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
