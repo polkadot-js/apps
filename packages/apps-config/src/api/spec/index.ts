@@ -52,6 +52,7 @@ import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import oakTestnet from './oak-testnet';
 import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
@@ -157,6 +158,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  'oak-testnet': oakTestnet,
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,

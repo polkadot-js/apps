@@ -96,6 +96,7 @@ const nodeMoonbeam = '#53cbc9';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
+const nodeOakTestnet = '#4f46e5';
 const nodePangolin = '#5744ff';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
@@ -247,6 +248,7 @@ export const nodeColors: Record<string, string> = [
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['nodle chain node', nodeNodle],
+  ['OAK Testnet', nodeOakTestnet],
   ['Pangolin', nodePangolin],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],

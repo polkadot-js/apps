@@ -232,6 +232,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'oak-testnet',
+      text: t('rpc.testnet.oak.tech', 'OAK Testnet', { ns: 'apps-config' }),
+      providers: {
+        'OAK Foundation': 'wss://testnet.oak.tech'
+      }
+    },
+    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
