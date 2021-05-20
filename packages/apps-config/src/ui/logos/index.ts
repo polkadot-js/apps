@@ -66,7 +66,7 @@ import nodeMoonrock from './nodes/moonrock.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
-import nodeOakTestnet from './nodes/oak-testnet.png';
+import oakTestnet from './nodes/oak-testnet.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -146,7 +146,7 @@ export const chainLogos: Record<string, unknown> = [
   ['mybank.network PC1', mybank],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
-  ['OAK Testnet', nodeOakTestnet],
+  ['OAK Testnet', oakTestnet],
   ['Pangolin', nodePangolin],
   ['Parami PC2', nodeParami],
   ['PHOENIX PC1', nodePhoenix],
@@ -245,7 +245,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['NFTMart Staging', nodeNFTMart],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
-  ['OAK Testnet', nodeOakTestnet],
+  ['OAK Testnet', oakTestnet],
   ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
@@ -355,7 +355,7 @@ export const namedLogos: Record<string, unknown> = {
   mybank: mybank,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
-  'oak-testnet': nodeOakTestnet,
+  'oak-testnet': oakTestnet,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
