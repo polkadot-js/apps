@@ -48,19 +48,19 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'shadow',
+        paraId: 2012,
+        text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://shadow.crust.network/'
+        }
+      },
+      {
         info: 'crab',
         paraId: 2006,
         text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-rpc.darwinia.network/'
-        }
-      },
-      {
-        info: 'crust',
-        paraId: 2012,
-        text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
-        providers: {
-          Crust: 'wss://shadow.crust.network/'
         }
       },
       {
