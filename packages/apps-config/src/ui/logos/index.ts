@@ -81,6 +81,7 @@ import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -203,7 +204,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['darwinia crab', nodeCrab],
   ['crust', nodeCrust],
   ['Crust Collator', nodeCrust],
-  ['crust shadow', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Darwinia Runtime Module Library', nodeDarwinia],
@@ -263,6 +263,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Shadow', nodeShadow],
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
@@ -410,6 +411,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoVln: nodeVln,
   rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
+  shadow: nodeShadow,
   shell: nodeShell,
   sherpax: nodeChainx,
   snakenet: chainSnakenet,

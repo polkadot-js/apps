@@ -56,6 +56,7 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
+const chainShadow = '#ffa940';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -137,7 +138,6 @@ export const chainColors: Record<string, string> = [
   ['Clover', chainClover],
   ['crust maxwell', chainCrust],
   ['Crust PC1', chainCrust],
-  ['crust shadow', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia Crab', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
@@ -197,6 +197,7 @@ export const chainColors: Record<string, string> = [
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
+  ['Shadow', chainShadow],
   ['sherpax', chainChainx],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
