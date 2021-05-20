@@ -12,39 +12,39 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        ProjectIndex: 'u32',
-        ProjectOf: 'Project',
-        RoundIndex: 'u32',
-        RoundOf: 'Round',
-        Round: {
-          start: 'BlockNumber',
-          end: 'BlockNumber',
-          matching_fund: 'Balance',
-          grants: 'Vec<Grant>',
-          is_canceled: 'bool',
-          is_finalized: 'bool'
-        },
-        Grant: {
-          project_index: 'ProjectIndex',
-          contributions: 'Vec<Contribution>',
-          is_approved: 'bool',
-          is_canceled: 'bool',
-          is_withdrawn: 'bool',
-          withdrawal_expiration: 'BlockNumber',
-          matching_fund: 'Balance'
-        },
         Contribution: {
           account_id: 'AccountId',
           value: 'Balance'
         },
+        Grant: {
+          contributions: 'Vec<Contribution>',
+          is_approved: 'bool',
+          is_canceled: 'bool',
+          is_withdrawn: 'bool',
+          matching_fund: 'Balance',
+          project_index: 'ProjectIndex',
+          withdrawal_expiration: 'BlockNumber'
+        },
         Project: {
-          name: 'Vec<u8>',
-          logo: 'Vec<u8>',
+          create_block_number: 'BlockNumber',
           description: 'Vec<u8>',
-          website: 'Vec<u8>',
+          logo: 'Vec<u8>',
+          name: 'Vec<u8>',
           owner: 'AccountId',
-          create_block_number: 'BlockNumber'
-        }
+          website: 'Vec<u8>'
+        },
+        ProjectIndex: 'u32',
+        ProjectOf: 'Project',
+        Round: {
+          end: 'BlockNumber',
+          grants: 'Vec<Grant>',
+          is_canceled: 'bool',
+          is_finalized: 'bool',
+          matching_fund: 'Balance',
+          start: 'BlockNumber'
+        },
+        RoundIndex: 'u32',
+        RoundOf: 'Round'
       }
     }
   ]

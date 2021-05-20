@@ -240,9 +240,9 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'oak-testnet',
-      text: t('rpc.testnet.oak.tech', 'OAK Testnet', { ns: 'apps-config' }),
+      text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
       providers: {
-        'OAK Foundation': 'wss://testnet.oak.tech'
+        'OAK Network': 'wss://testnet.oak.tech'
       }
     },
     {
