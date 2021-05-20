@@ -309,6 +309,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'Thales',
+      text: t('rpc.test.thales', 'Thales', { ns: 'apps-config' }),
+      providers: {
+        'Thales Network': 'wss://wss.testnet.thales.network'
+      }
+    },
+    {
       info: 'laminar',
       text: t('rpc.test.turbulence', 'Turbulence', { ns: 'apps-config' }),
       providers: {

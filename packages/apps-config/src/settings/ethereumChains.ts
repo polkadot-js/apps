@@ -4,6 +4,8 @@
 // The list of Ethereum networks, for these the UI will default to Ethereum-only accounts
 
 export const ethereumChains = [
+  'thales',
+  'thales-network',
   'node-moonbeam',
   'moonbase-alphanet',
   'moonbeam-alphanet',
