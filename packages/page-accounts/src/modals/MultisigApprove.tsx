@@ -174,12 +174,15 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The current approvals applied to this multisig')}>
-              <Expander summary={t<string>('Approvals ({{approvals}}/{{threshold}})', {
-                replace: {
-                  approvals: multisig.approvals.length,
-                  threshold
-                }
-              })}>
+              <Expander
+                isPadded
+                summary={t<string>('Existing approvals ({{approvals}}/{{threshold}})', {
+                  replace: {
+                    approvals: multisig.approvals.length,
+                    threshold
+                  }
+                })}
+              >
                 {multisig.approvals.map((a) =>
                   <AddressMini
                     isPadded={false}
