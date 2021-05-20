@@ -85,6 +85,7 @@ import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
+import nodeStatemine from './nodes/statemine.svg';
 import nodeStatemint from './nodes/statemint-3.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
@@ -160,6 +161,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Statemine', nodeStatemine],
+  ['Statemint', nodeStatemint],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -298,7 +301,9 @@ export const nodeLogos: Record<string, unknown> = [
 
 // Alphabetical overrides based on the actual specName
 export const specLogos: Record<string, unknown> = [
-  ['shell', nodeShell]
+  ['shell', nodeShell],
+  ['statemine', nodeStatemine],
+  ['statemint', nodeStatemint]
 ].reduce((logos, [spec, logo]): Record<string, unknown> => ({
   ...logos,
   [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -417,6 +422,8 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
+  statemine: nodeStatemine,
+  statemint: nodeStatemint,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,
