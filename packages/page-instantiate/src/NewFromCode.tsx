@@ -142,13 +142,13 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
       contract = code && identifier && endowment
         ? code.tx[identifier]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...extractValues(params))
         : null;
+
+      setUploadTx(() => [contract, error]);
     } catch (e) {
       error = (e as Error).message;
 
       console.error(error);
     }
-
-    setUploadTx(() => [contract, error]);
   }, [code, abi, constructorIndex, endowment, params, salt, weight, withSalt]);
 
   const _onChangeCodeName = useCallback(
