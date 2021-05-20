@@ -55,7 +55,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoStatemint',
-        paraId: 1,
+        paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rococo-rpc.parity.io'
