@@ -68,7 +68,7 @@ import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
-import nodeOakTestnet from './nodes/oak-testnet.svg';
+import nodeOakTestnet from './nodes/oak-testnet.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
