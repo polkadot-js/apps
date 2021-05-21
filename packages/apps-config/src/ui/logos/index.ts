@@ -57,6 +57,7 @@ import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
+import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
@@ -138,6 +139,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Kylin Testnet', nodeKylin],
   ['Litentry', nodeLitentry],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
@@ -233,6 +235,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Khala Node', nodeKhala],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
+  ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
   ['Litentry', nodeLitentry],
@@ -350,6 +353,7 @@ export const namedLogos: Record<string, unknown> = {
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
   manta: nodeManta,
@@ -392,6 +396,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
+  rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoManta: nodeManta,
