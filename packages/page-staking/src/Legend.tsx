@@ -26,6 +26,13 @@ function Legend ({ className }: Props): React.ReactElement<Props> {
       </span>
       <span>
         <Badge
+          color='purple'
+          icon='vector-square'
+        />
+        {t('Para validator')}
+      </span>
+      <span>
+        <Badge
           color='green'
           info='5'
         />
