@@ -61,7 +61,7 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
     }), all), {});
 }
 
-function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null, assignments: CoreAssignment[] | null): Record<string, ValidatorInfo[]> {
+function mapValidators (startWith: Record<string, ValidatorInfo[]>, ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null, assignments: CoreAssignment[] | null): Record<string, ValidatorInfo[]> {
   return assignments && activeIndices && validators && validatorGroups && ids
     ? ids.reduce((all: Record<string, ValidatorInfo[]>, id) => {
       const assignment = assignments.find(({ paraId }) => paraId.eq(id));
@@ -81,8 +81,8 @@ function mapValidators (ids: ParaId[] | undefined, validators: AccountId[] | nul
             validatorId: validators[indexValidator.toNumber()]
           }))
       };
-    }, {})
-    : {};
+    }, { ...startWith })
+    : startWith;
 }
 
 function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: LastEvents): LastEvents {
@@ -163,6 +163,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   ], optionsMulti);
   const hrmp = useHrmp();
   const hasLinksMap = useIsParasLinked(ids);
+  const [validatorMap, setValidatorMap] = useState<Record<string, ValidatorInfo[]>>({});
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
@@ -183,11 +184,6 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     [scheduled]
   );
 
-  const validatorMap = useMemo(
-    () => mapValidators(ids, validators, validatorGroups, validatorIndices, assignments),
-    [assignments, ids, validators, validatorGroups, validatorIndices]
-  );
-
   const knownIds = useMemo(
     () => extractIds(hasLinksMap, ids),
     [ids, hasLinksMap]
@@ -203,6 +199,12 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
       extractEvents(api, lastBlock, prev)
     );
   }, [api, lastBlock]);
+
+  useEffect((): void => {
+    setValidatorMap((prev) =>
+      mapValidators(prev, ids, validators, validatorGroups, validatorIndices, assignments)
+    );
+  }, [assignments, ids, validators, validatorGroups, validatorIndices]);
 
   return (
     <Table
