@@ -22,6 +22,7 @@ interface Props {
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
+  paraValidators?: Record<string, boolean>;
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
@@ -71,7 +72,9 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+const DEFAULT_PARAS = {};
+
+function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DEFAULT_PARAS, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -126,6 +129,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           isElected={isElected}
           isFavorite={isFavorite}
           isMain={isMain}
+          isPara={paraValidators[address]}
           key={address}
           lastBlock={byAuthor[address]}
           nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
@@ -136,7 +140,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, ta
           withIdentity={toggles.withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, toggles]
+    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, paraValidators, recentlyOnline, toggleFavorite, toggles]
   );
 
   return isIntentions
