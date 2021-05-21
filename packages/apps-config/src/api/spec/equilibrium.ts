@@ -80,7 +80,7 @@ const signedBalancePredicate = (raw: Codec): raw is SignedBalance =>
 
 const definitions: OverrideBundleDefinition = {
   derives: {
-    ...eq.latest.instances.balances.reduce(
+    ...eq.equilibrium.instances.balances.reduce(
       (all, cur) => ({
         ...all,
         [cur]: {
@@ -116,13 +116,13 @@ const definitions: OverrideBundleDefinition = {
     )
   },
 
-  instances: eq.latest.instances,
+  instances: eq.equilibrium.instances,
 
   types: [
     {
       // on all versions
       minmax: [0, undefined],
-      types: eq.latest.types
+      types: eq.equilibrium.types
     }
   ]
 };
