@@ -1,11 +1,11 @@
 {
   "name": "@polkadot/app-parachains",
   "private": true,
-  "version": "0.91.3-14",
+  "version": "0.91.3-15",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.91.3-14",
-    "@polkadot/react-query": "^0.91.3-14"
+    "@polkadot/react-components": "^0.91.3-15",
+    "@polkadot/react-query": "^0.91.3-15"
   }
 }
