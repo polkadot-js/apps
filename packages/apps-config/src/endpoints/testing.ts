@@ -193,13 +193,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'kylin',
-      text: t('rpc.test.kylin', 'Kylin Testnet', { ns: 'apps-config' }),
-      providers: {
-        kylin: 'wss://rpc.kylin-node.co.uk'
-      }
-    },
-    {
       info: 'litentry',
       text: t('rpc.test.litentry', 'Litentry Testnet', { ns: 'apps-config' }),
       providers: {
