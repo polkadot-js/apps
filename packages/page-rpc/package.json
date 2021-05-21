@@ -1,10 +1,10 @@
 {
   "name": "@polkadot/app-rpc",
   "private": true,
-  "version": "0.91.3-17",
+  "version": "0.91.3-18",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.91.3-17"
+    "@polkadot/react-components": "^0.91.3-18"
   }
 }
