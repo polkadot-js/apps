@@ -44,6 +44,7 @@ import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
 import konomi from './konomi';
 import kulupu from './kulupu';
+import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
@@ -139,6 +140,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jupiter-rococo': jupiterRococo,
   khala: phalaParachain,
   'kilt-parachain': kilt,
+  kylin,
   konomi,
   kulupu,
   laminar,
