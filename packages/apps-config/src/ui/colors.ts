@@ -42,6 +42,7 @@ const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107
 const chainKilt = '#8c175b';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
+const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainMybank = '#282736';
 const chainRocco = '#6f36dc';
@@ -58,6 +59,7 @@ const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
 const chainShadow = '#ffa940';
 const chainSnakenet = '#f653a2';
+const chainStatemine = '#111';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -91,6 +93,7 @@ const nodeGeek = '#4f46e5';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
+const nodeKylin = '#ed007e';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
@@ -162,6 +165,7 @@ export const chainColors: Record<string, string> = [
   ['Jupiter PC1', chainJupiter],
   ['KILT Collator Rococo', chainKilt],
   ['KILT Testnet', chainKilt],
+  ['Kylin Testnet', chainKylin],
   ['Khala', chainKhala],
   ['Konomi', chainKonomi],
   ['Kulupu', chainKulupu],
@@ -169,6 +173,7 @@ export const chainColors: Record<string, string> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
+  ['Kylin Testnet', chainKylin],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
   ['MantaChain PC1', chainManta],
@@ -200,6 +205,8 @@ export const chainColors: Record<string, string> = [
   ['Riochain Staging', chainRiochain],
   ['Shadow', chainShadow],
   ['sherpax', chainChainx],
+  ['Statemine', chainStatemine],
+  ['Statemint', nodeStatemint],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
@@ -244,6 +251,7 @@ export const nodeColors: Record<string, string> = [
   ['GEEK', nodeGeek],
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
+  ['Kylin Node', nodeKylin],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['mybank.network node', nodeMybank],

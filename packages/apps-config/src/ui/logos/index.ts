@@ -57,6 +57,7 @@ import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
+import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
@@ -85,6 +86,7 @@ import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
+import nodeStatemine from './nodes/statemine.svg';
 import nodeStatemint from './nodes/statemint-3.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
@@ -138,6 +140,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Kylin Testnet', nodeKylin],
   ['Litentry', nodeLitentry],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
@@ -161,6 +164,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Statemine', nodeStatemine],
+  ['Statemint', nodeStatemint],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
@@ -232,6 +237,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Khala Node', nodeKhala],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
+  ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
   ['Litentry', nodeLitentry],
@@ -300,7 +306,9 @@ export const nodeLogos: Record<string, unknown> = [
 
 // Alphabetical overrides based on the actual specName
 export const specLogos: Record<string, unknown> = [
-  ['shell', nodeShell]
+  ['shell', nodeShell],
+  ['statemine', nodeStatemine],
+  ['statemint', nodeStatemint]
 ].reduce((logos, [spec, logo]): Record<string, unknown> => ({
   ...logos,
   [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -347,6 +355,7 @@ export const namedLogos: Record<string, unknown> = {
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
   manta: nodeManta,
@@ -389,6 +398,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
+  rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoManta: nodeManta,
@@ -419,6 +429,8 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
+  statemine: nodeStatemine,
+  statemint: nodeStatemint,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,
