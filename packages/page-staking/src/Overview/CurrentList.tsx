@@ -187,7 +187,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
           />
         }
         header={headerActiveRef.current}
-        legend={<Legend />}
+        legend={<Legend isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices} />}
       >
         {isLoading ? undefined : _renderRows(validators, true)}
       </Table>

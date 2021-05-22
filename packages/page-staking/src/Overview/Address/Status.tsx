@@ -13,6 +13,7 @@ interface Props {
   isElected: boolean;
   isMain?: boolean;
   isPara?: boolean;
+  isRelay?: boolean;
   nominators?: { nominatorId: string }[];
   onlineCount?: false | BN;
   onlineMessage?: boolean;
@@ -20,7 +21,7 @@ interface Props {
 
 const NO_NOMS: { nominatorId: string }[] = [];
 
-function Status ({ isElected, isMain, isPara, nominators = NO_NOMS, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
+function Status ({ isElected, isMain, isPara, isRelay, nominators = NO_NOMS, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
   const blockCount = onlineCount && onlineCount.toNumber();
 
@@ -40,15 +41,16 @@ function Status ({ isElected, isMain, isPara, nominators = NO_NOMS, onlineCount,
         )
         : <Badge color='transparent' />
       }
-      {isPara
-        ? (
-          <Badge
-            color='purple'
-            icon='vector-square'
-          />
-        )
-        : <Badge color='transparent' />
-      }
+      {isRelay && (
+        isPara
+          ? (
+            <Badge
+              color='purple'
+              icon='vector-square'
+            />
+          )
+          : <Badge color='transparent' />
+      )}
       {isElected
         ? (
           <Badge
