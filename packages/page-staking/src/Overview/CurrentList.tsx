@@ -32,7 +32,6 @@ interface Props {
 type AccountExtend = [string, boolean, boolean];
 
 interface Filtered {
-  elected?: AccountExtend[];
   validators?: AccountExtend[];
   waiting?: AccountExtend[];
 }
@@ -63,9 +62,10 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   const validatorIds = accountsToString(stakingOverview.validators);
 
   return {
-    elected: filterAccounts(allElected, allElected, favorites, validatorIds),
     validators: filterAccounts(validatorIds, allElected, favorites, []),
-    waiting: filterAccounts(next, [], favorites, allElected)
+    waiting: filterAccounts(allElected, allElected, favorites, validatorIds).concat(
+      filterAccounts(next, [], favorites, allElected)
+    )
   };
 }
 
@@ -83,20 +83,9 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
   // we have a very large list, so we use a loading delay
   const isLoading = useLoadingDelay();
 
-  const { elected, validators, waiting } = useMemo(
+  const { validators, waiting } = useMemo(
     () => stakingOverview ? getFiltered(stakingOverview, favorites, targets.waitingIds) : {},
     [favorites, stakingOverview, targets]
-  );
-
-  const addresses = useMemo(
-    () => isIntentions
-      ? (isLoading || !nominatedBy || !elected || !waiting)
-        ? undefined
-        : elected.concat(waiting)
-      : isLoading || !validators
-        ? undefined
-        : validators,
-    [elected, isIntentions, isLoading, nominatedBy, validators, waiting]
   );
 
   const infoMap = useMemo(
@@ -161,7 +150,12 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
         <Legend isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices} />
       }
     >
-      {addresses?.map(([address, isElected, isFavorite]): React.ReactNode => (
+      {!isLoading && (
+        (isIntentions
+          ? nominatedBy && waiting
+          : validators
+        ) || []
+      ).map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}
