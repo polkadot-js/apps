@@ -19,7 +19,7 @@ export { useEventTrigger } from './useEventTrigger';
 export { useExtrinsicTrigger } from './useExtrinsicTrigger';
 export { useFavorites } from './useFavorites';
 export { useIncrement } from './useIncrement';
-export { calcInflation, useInflation } from './useInflation';
+export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useLedger } from './useLedger';
