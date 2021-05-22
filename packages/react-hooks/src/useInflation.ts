@@ -13,7 +13,7 @@ import { BN_MILLION, BN_ZERO } from '@polkadot/util';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
-const EMPTY: Inflation = { inflation: 0, stakedReturn: 0 };
+const EMPTY: Inflation = { idealInterest: 0, idealStake: 0, inflation: 0, stakedFraction: 0, stakedReturn: 0 };
 
 function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, numAuctions: BN): Inflation {
   const { auctionAdjust, auctionMax, falloff, maxInflation, minInflation, stakeTarget } = getInflationParams(api);
@@ -29,7 +29,10 @@ function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, num
   ));
 
   return {
+    idealInterest,
+    idealStake,
     inflation,
+    stakedFraction,
     stakedReturn: stakedFraction
       ? (inflation / stakedFraction)
       : 0
