@@ -123,6 +123,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           isElected={isElected}
           isMain={isMain}
           isPara={isPara}
+          isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
           nominators={isMain ? nominators : nominatedBy}
           onlineCount={recentlyOnline?.blockCount}
           onlineMessage={recentlyOnline?.hasMessage}
