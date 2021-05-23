@@ -44,7 +44,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss-moonshadow.gcp.purestake.run'
+          Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
         }
       },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
