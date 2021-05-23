@@ -152,7 +152,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
-  moonriver: moonbeam,
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
