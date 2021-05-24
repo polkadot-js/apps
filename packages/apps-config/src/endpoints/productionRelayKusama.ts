@@ -72,6 +72,14 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'integritee',
+        paraId: 2015,
+        text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
+        providers: {
+          IntegriTEE: 'wss://mainnet.integritee.network'
+        }
+      },
+      {
         info: 'khala',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
