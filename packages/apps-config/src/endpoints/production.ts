@@ -21,14 +21,14 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'spanner',
       text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
       providers: {
-        Spanner: 'wss://spannerchain.ddns.net/spanner'
+        Spanner: 'wss://wss.spannerprotocol.com'
       }
     },
     {
       info: 'hammer',
       text: t('rpc.hammer', 'Hammer', { ns: 'apps-config' }),
       providers: {
-        Hammer: 'wss://spannerchain.ddns.net/hammer'
+        Hammer: 'wss://hammerwss.spannerprotocol.com'
       }
     },
     {
