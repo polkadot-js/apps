@@ -64,6 +64,14 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'encointer_canary',
+        paraId: 2014,
+        text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://canary.encointer.org'
+        }
+      },
+      {
         info: 'integritee',
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),

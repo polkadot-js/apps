@@ -147,6 +147,7 @@ export const chainColors: Record<string, string> = [
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
   ['Steam PC', chainRococoEave],
+  ['Encointer Canary', nodeEncointerNotee],
   ['Encointer PC1', nodeEncointerNotee],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
