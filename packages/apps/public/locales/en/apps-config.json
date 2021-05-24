@@ -12,6 +12,8 @@
   "rpc.hosted.by": "hosted by {{host}}",
   "rpc.kusama.bifrost": "Bifrost",
   "rpc.kusama.crab": "Darwinia Crab",
+  "rpc.kusama.encointer": "Encointer Canary",
+  "rpc.kusama.integritee": "IntegriTEE Network",
   "rpc.kusama.khala": "Khala Network",
   "rpc.kusama.kilt": "KILT Mainnet",
   "rpc.kusama.parity": "Kusama",
