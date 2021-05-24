@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiInterfaceRx, AugmentedQueryDoubleMap } from '@polkadot/api/types';
+import type { ApiInterfaceRx, AugmentedQuery } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
 import type { Observable } from '@polkadot/x-rxjs';
@@ -31,7 +31,7 @@ interface Currency extends Enum {
 
 type CommonBalanceMap = ApiInterfaceRx['query']['balances']['account'];
 
-type EqBalanceDoubleMap = AugmentedQueryDoubleMap<
+type EqBalanceDoubleMap = AugmentedQuery<
 'rxjs',
 (key1: AccountIndex | AccountId | Address | string, key2: Currency | string) => Observable<SignedBalance>,
 [AccountId, Currency]
