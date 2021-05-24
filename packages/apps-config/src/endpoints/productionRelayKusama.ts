@@ -64,6 +64,14 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'encointer_canary',
+        paraId: 2014,
+        text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://canary.encointer.org'
+        }
+      },
+      {
         info: 'khala',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
