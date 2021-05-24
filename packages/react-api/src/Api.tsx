@@ -20,7 +20,6 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
-import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import * as councilProposals from '@polkadot/api-derive/council/proposals';
@@ -56,6 +55,8 @@ interface ChainData {
 
 export const DEFAULT_DECIMALS = registry.createType('u32', 6);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
+
 let api: ApiPromise;
 
 export { api };
@@ -110,17 +111,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     getInjectedAccounts(injectedPromise)
   ]);
 
-  // HACK Horrible hack to try and give some window to the DOT denomination
-  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
-  const properties = registry.createType('ChainProperties',
-    api.genesisHash.eq(POLKADOT_GENESIS)
-      ? { ...chainProperties, ss58Format, tokenDecimals: 10, tokenSymbol: 'DOT' }
-      : { ...chainProperties, ss58Format }
-  );
-
   return {
     injectedAccounts,
-    properties,
+    properties: registry.createType('ChainProperties', {
+      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
+      tokenDecimals: chainProperties.tokenDecimals,
+      tokenSymbol: chainProperties.tokenSymbol
+    }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
     systemName: systemName.toString(),
@@ -134,8 +131,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : settings.prefix;
-  const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
-  const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
+  const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
+  const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]) ;
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = !isEthereum && (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
@@ -144,15 +141,13 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
 
-  // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
-  setSS58Format(ss58Format);
 
   // first setup the UI helpers
   formatBalance.setDefaults({
-    decimals: tokenDecimals,
-    unit: tokenSymbol
+    decimals: (tokenDecimals as BN[]).map((b) => b.toNumber()),
+    unit: tokenSymbol[0].toString()
   });
-  TokenUnit.setAbbr(tokenSymbol);
+  TokenUnit.setAbbr(tokenSymbol[0].toString());
 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
