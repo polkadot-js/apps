@@ -183,6 +183,7 @@ export const chainColors: Record<string, string> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
+  ['Moonshadow', nodeMoonbeam],
   ['Moonrock', chainMoonrock],
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
