@@ -208,6 +208,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'manta',
+      text: t('rpc.manta', 'Manta Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Manta Testnet': 'wss://ws.f1.testnet.manta.network'
+      }
+    },
+    {
       info: 'moonbaseAlpha',
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {

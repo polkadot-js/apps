@@ -11,20 +11,17 @@ const definitions: OverrideBundleDefinition = {
     {
       // on all versions
       minmax: [0, undefined],
-      types: {
-        Address: 'AccountId',
-        LookupSource: 'AccountId',
+      types:
+      {
         CurrencyId: {
           _enum: [
-            'Native',
-            'DOT',
-            'KSM',
-            'BTC'
+            'MA'
           ]
         },
         CurrencyIdOf: 'CurrencyId',
+        Amount: 'i128',
         AmountOf: 'Amount',
-        Amount: 'i128'
+        AccountInfo: 'AccountInfoWithDualRefCount'
       }
     }
   ]
