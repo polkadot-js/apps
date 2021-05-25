@@ -16,13 +16,13 @@ const definitions: OverrideBundleDefinition = {
         AmountOf: 'Amount',
         Address: 'AccountId',
         OrmlAccountData: {
-          free: "Balance",
-          frozen: "Balance",
-          reserved: "Balance"
+          free: 'Balance',
+          frozen: 'Balance',
+          reserved: 'Balance'
         },
         Fee: {
-          numerator: "u32",
-          denominator: "u32"
+          numerator: 'u32',
+          denominator: 'u32'
         },
         BalanceInfo: {
           amount: 'Balance',
