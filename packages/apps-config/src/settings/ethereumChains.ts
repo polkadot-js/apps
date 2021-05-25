@@ -8,5 +8,6 @@ export const ethereumChains = [
   'moonbase-alphanet',
   'moonbeam-alphanet',
   'moonbeam-standalone',
-  'moonbeam'
+  'moonbeam',
+  'moonshadow'
 ];

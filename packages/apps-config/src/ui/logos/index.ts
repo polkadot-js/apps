@@ -64,6 +64,7 @@ import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
 import nodeMoonrock from './nodes/moonrock.png';
+import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
@@ -149,6 +150,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
   ['Moonrock', nodeMoonrock],
+  ['Moonshadow', moonshadow],
   ['mybank.network PC1', mybank],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
@@ -365,6 +367,7 @@ export const namedLogos: Record<string, unknown> = {
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
   moonrock: nodeMoonrock,
+  moonshadow: moonshadow,
   mybank: mybank,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
