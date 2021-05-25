@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
+import type { AccountId} from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { AddressMini, Digits } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, u8aToHex } from '@polkadot/util';
 
 interface Props {
   value: HeaderExtended;
@@ -19,6 +20,14 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   }
 
   const hashHex = value.hash.toHex();
+  let authorAccountId:AccountId
+  // if (value.author){
+  //   authorAccountId= value.author
+  // } else {
+  //   let authorId=value.digest.logs[0].asConsensus[1]
+  //   //console.log("authorId",authorId, u8aToHex(authorId))
+  // }
+  console.log("BLOCK",value.toHuman())
 
   return (
     <tr>
