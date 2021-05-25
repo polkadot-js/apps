@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { AccountId, CandidateReceipt, CoreAssignment, Event, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
+import type { AccountId, CandidateReceipt, CoreAssignment, Event, GroupIndex, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
 import type { IEvent } from '@polkadot/types/types';
 import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
@@ -61,9 +61,9 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
     }), all), {});
 }
 
-function mapValidators (startWith: Record<string, ValidatorInfo[]>, ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null, assignments: CoreAssignment[] | null): Record<string, ValidatorInfo[]> {
+function mapValidators (startWith: Record<string, [GroupIndex, ValidatorInfo[]]>, ids: ParaId[] | undefined, validators: AccountId[] | null, validatorGroups: ParaValidatorIndex[][] | null, activeIndices: ParaValidatorIndex[] | null, assignments: CoreAssignment[] | null): Record<string, [GroupIndex, ValidatorInfo[]]> {
   return assignments && activeIndices && validators && validatorGroups && ids
-    ? ids.reduce((all: Record<string, ValidatorInfo[]>, id) => {
+    ? ids.reduce((all: Record<string, [GroupIndex, ValidatorInfo[]]>, id) => {
       const assignment = assignments.find(({ paraId }) => paraId.eq(id));
 
       if (!assignment) {
@@ -72,14 +72,17 @@ function mapValidators (startWith: Record<string, ValidatorInfo[]>, ids: ParaId[
 
       return {
         ...all,
-        [id.toString()]: validatorGroups[assignment.groupIdx.toNumber()]
-          .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
-          .filter(([, a]) => a)
-          .map(([indexActive, indexValidator]) => ({
-            indexActive,
-            indexValidator,
-            validatorId: validators[indexValidator.toNumber()]
-          }))
+        [id.toString()]: [
+          assignment.groupIdx,
+          validatorGroups[assignment.groupIdx.toNumber()]
+            .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
+            .filter(([, a]) => a)
+            .map(([indexActive, indexValidator]) => ({
+              indexActive,
+              indexValidator,
+              validatorId: validators[indexValidator.toNumber()]
+            }))
+        ]
       };
     }, { ...startWith })
     : startWith;
@@ -163,7 +166,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   ], optionsMulti);
   const hrmp = useHrmp();
   const hasLinksMap = useIsParasLinked(ids);
-  const [validatorMap, setValidatorMap] = useState<Record<string, ValidatorInfo[]>>({});
+  const [validatorMap, setValidatorMap] = useState<Record<string, [GroupIndex, ValidatorInfo[]]>>({});
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
