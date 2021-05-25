@@ -21,6 +21,7 @@
   "rpc.kusama.shell": "Shell",
   "rpc.kusama.sherpax": "SherpaX",
   "rpc.kylin-node.co.uk": "Kylin Network",
+  "rpc.manta": "Manta Testnet",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.prod.centrifuge": "Centrifuge",
   "rpc.prod.chainx": "ChainX",
