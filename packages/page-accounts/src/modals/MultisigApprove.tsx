@@ -4,10 +4,10 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Dropdown, Input, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressMini, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
@@ -32,11 +32,18 @@ interface Option {
   value: string;
 }
 
+interface CallData {
+  callData: Call | null;
+  callError: string | null;
+}
+
+const EMPTY_CALL: CallData = { callData: null, callError: null };
+
 function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [callData, setCallData] = useState<Call | null>(null);
+  const [{ callData, callError }, setCallData] = useState<CallData>(EMPTY_CALL);
   const [callWeight] = useWeight(callData);
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>({ isMultiCall: false, multisig: null });
@@ -46,13 +53,12 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const [whoFilter, setWhoFilter] = useState<string[]>([]);
   const [type, setType] = useState<string | null>('aye');
   const [tx, setTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const calltypes = useMemo<Option[]>(
-    () => [
-      { text: t<string>('Approve this call hash'), value: 'aye' },
-      { text: t<string>('Cancel this call hash'), value: 'nay' }
-    ],
-    [t]
-  );
+
+  const callOptRef = useRef<Option[]>([
+    { text: t<string>('Approve this call hash'), value: 'aye' },
+    { text: t<string>('Cancel this call hash'), value: 'nay' }
+  ]);
+
   const hashes = useMemo<Option[]>(
     () => ongoing.map(([h]) => ({ text: h.toHex(), value: h.toHex() })),
     [ongoing]
@@ -66,7 +72,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       isMultiCall: !!multisig && (multisig.approvals.length + 1) >= threshold,
       multisig
     });
-    setCallData(null);
+    setCallData(EMPTY_CALL);
   }, [hash, ongoing, threshold]);
 
   // the others are all the who elements, without the current signatory (re-encoded)
@@ -128,13 +134,11 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
 
         const callData = api.createType('Call', callHex);
 
-        setCallData(
-          callData.hash.eq(hash)
-            ? callData
-            : null
-        );
+        assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
+
+        setCallData({ callData, callError: null });
       } catch (error) {
-        setCallData(null);
+        setCallData({ callData: null, callError: (error as Error).message });
       }
     },
     [api, hash]
@@ -152,18 +156,50 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
           <Dropdown
             help={t<string>('The call hashes that have not been executed as of yet.')}
-            label={t<string>('pending hashes')}
+            label={t<string>('pending hashes {{count}}', {
+              replace: { count: hashes.length }
+            })}
             onChange={setHash}
             options={hashes}
             value={hash}
           />
         </Modal.Columns>
+        {multisig && (
+          <>
+            <Modal.Columns hint={t<string>('The creator for this multisig call')}>
+              <InputAddress
+                defaultValue={multisig.depositor}
+                isDisabled
+                label={t<string>('depositor')}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The current approvals applied to this multisig')}>
+              <Expander
+                isPadded
+                summary={t<string>('Existing approvals ({{approvals}}/{{threshold}})', {
+                  replace: {
+                    approvals: multisig.approvals.length,
+                    threshold
+                  }
+                })}
+              >
+                {multisig.approvals.map((a) =>
+                  <AddressMini
+                    isPadded={false}
+                    key={assert.toString()}
+                    value={a}
+                  />
+                )}
+              </Expander>
+            </Modal.Columns>
+          </>
+        )}
         <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
           <Dropdown
             help={t<string>('Either approve or reject this call.')}
             label={t<string>('approval type')}
             onChange={setType}
-            options={calltypes}
+            options={callOptRef.current}
             value={type}
           />
         </Modal.Columns>
@@ -188,6 +224,9 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                       label={t('call data for final approval')}
                       onChange={_setCallData}
                     />
+                    {callError && (
+                      <MarkError content={callError} />
+                    )}
                   </Modal.Columns>
                 )}
                 <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>

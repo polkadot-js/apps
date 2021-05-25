@@ -30,6 +30,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
           controllerId={controllerId}
           onChange={setTx}
           stashId={stashId}
+          withFocus
           withSenders
         />
       </Modal.Content>

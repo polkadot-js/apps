@@ -9,6 +9,7 @@ import aresParachain from './ares-parachain';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
+import bitcountryParachain from './bitcountry-rococo';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
@@ -30,7 +31,9 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import galital from './galital';
+import galitalParachain from './galital-parachain';
 import galois from './galois';
+import gamepower from './gamepower';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
@@ -39,14 +42,18 @@ import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
+import konomi from './konomi';
 import kulupu from './kulupu';
+import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
+import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -56,6 +63,7 @@ import plasmParachain from './plasm-parachain';
 import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
+import polymesh from './polymesh';
 import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
@@ -72,6 +80,7 @@ import unique from './unique';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
+import vodka from './vodka';
 import web3games from './web3games';
 import westlake from './westlake';
 import zeitgeist from './zeitgeist';
@@ -85,6 +94,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
+  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
   acala,
@@ -93,6 +103,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
+  'bitcountry-parachain': bitcountryParachain,
   'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
@@ -115,17 +126,23 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
-  'galital-collator': galital,
+  galital: galital,
+  'galital-collator': galitalParachain,
+  gamepower,
   'hack-hydra-dx': hydrate,
+  halongbay: polkafoundry,
   hanonycash,
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
-  ipse,
+  'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  khala: phalaParachain,
   'kilt-parachain': kilt,
+  konomi,
   kulupu,
+  kylin,
   laminar,
   litentry,
   mandala: acala,
@@ -135,7 +152,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
+  moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
+  neatcoin,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
@@ -148,7 +167,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
-  polkafoundry,
+  polymesh,
   prism,
   realis,
   'riochain-runtime': riochain,
@@ -165,6 +184,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  vodka,
   'web3games-node': web3games,
   westlake: westlake,
   zeitgeist: zeitgeist

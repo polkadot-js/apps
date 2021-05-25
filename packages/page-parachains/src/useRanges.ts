@@ -23,7 +23,7 @@ export default function useRanges (): [number, number][] {
 
   return useMemo(
     (): [number, number][] => {
-      if (isU32(api.consts.auctions.leasePeriodsPerSlot)) {
+      if (isU32(api.consts.auctions?.leasePeriodsPerSlot)) {
         const ranges: [number, number][] = [];
 
         for (let i = 0; api.consts.auctions.leasePeriodsPerSlot.gtn(i); i++) {

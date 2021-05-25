@@ -22,11 +22,13 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .map((value): DropdownOption => {
       const method = section[value] as unknown as StorageEntry;
       const type = method.meta.type;
-      const input = type.isMap
-        ? type.asMap.key.toString()
-        : type.isDoubleMap
-          ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
-          : '';
+      const input = type.isPlain
+        ? ''
+        : type.isMap
+          ? type.asMap.key.toString()
+          : type.isDoubleMap
+            ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
+            : type.asNMap.keyVec.map((k) => k.toString()).join(', ');
       const output = method.meta.modifier.isOptional
         ? `Option<${unwrapStorageType(type)}>`
         : unwrapStorageType(type);

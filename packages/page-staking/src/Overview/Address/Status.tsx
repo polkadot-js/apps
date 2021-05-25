@@ -12,12 +12,16 @@ import MaxBadge from '../../MaxBadge';
 interface Props {
   isElected: boolean;
   isMain?: boolean;
+  isPara?: boolean;
+  isRelay?: boolean;
   nominators?: { nominatorId: string }[];
   onlineCount?: false | BN;
   onlineMessage?: boolean;
 }
 
-function Status ({ isElected, isMain, nominators = [], onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
+const NO_NOMS: { nominatorId: string }[] = [];
+
+function Status ({ isElected, isMain, isPara, isRelay, nominators = NO_NOMS, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
   const blockCount = onlineCount && onlineCount.toNumber();
 
@@ -37,6 +41,16 @@ function Status ({ isElected, isMain, nominators = [], onlineCount, onlineMessag
         )
         : <Badge color='transparent' />
       }
+      {isRelay && (
+        isPara
+          ? (
+            <Badge
+              color='purple'
+              icon='vector-square'
+            />
+          )
+          : <Badge color='transparent' />
+      )}
       {isElected
         ? (
           <Badge

@@ -80,6 +80,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                   controllerId={controllerId}
                   onChange={setSessionInfo}
                   stashId={stashId}
+                  withFocus
                 />
                 <ValidatePartial
                   controllerId={controllerId}
