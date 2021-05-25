@@ -46,7 +46,7 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
         }
-      },
+      }
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
