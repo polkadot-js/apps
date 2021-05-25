@@ -2532,6 +2532,7 @@ __metadata:
     "@zeitgeistpm/type-defs": ^0.1.51
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.1.15
+    thales-types-bundle: ^0.8.2
   languageName: unknown
   linkType: soft
 
@@ -18243,6 +18244,16 @@ resolve@^2.0.0-next.3:
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
   checksum: 373904ce70524ba11ec7e1905c44fb92671132d5e0b0aba2fb48057161f8bf9cbf7f6178f0adf31810150cf44fb52c7b912dc722bff3fddf9688378596dbeb56
+  languageName: node
+  linkType: hard
+
+"thales-types-bundle@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "thales-types-bundle@npm:0.8.2"
+  dependencies:
+    "@polkadot/keyring": ^6.4.1
+    "@polkadot/types": ^4.9.2
+  checksum: b84b288d5fc4b3d561c04e9e7a525a2ebb7431c0ff1d39c1fc5a9443263fe868c8084a55c279257346af1410fa5de33986289357d80906941129c1da1dd22c3c
   languageName: node
   linkType: hard
 
