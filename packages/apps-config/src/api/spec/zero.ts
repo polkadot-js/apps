@@ -14,6 +14,13 @@ const definitions: OverrideBundleDefinition = {
       types: {
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress',
+        AccountInfo: 'AccountInfoWithDualRefCount',
+        AccountInfoWithDualRefCount: {
+          nonce: 'Index',
+          consumers: 'RefCount',
+          providers: 'RefCount',
+          data: 'AccountData'
+        },
         Campaign: {
           id: 'Hash',
           owner: 'AccountId',
@@ -27,7 +34,7 @@ const definitions: OverrideBundleDefinition = {
           cid: 'Vec<u8>',
           created: 'Timestamp'
         },
-        Governance: {
+        Proposal: {
           proposal_id: 'Hash',
           campaign_id: 'Hash',
           purpose: 'Vec<u8>',
@@ -37,7 +44,32 @@ const definitions: OverrideBundleDefinition = {
           status: 'u8'
         },
         EventMessage: 'Vec<u8>',
-        Nonce: 'u64'
+        Nonce: 'u64',
+        Entity: {
+          account: 'AccountId',
+          index: 'u128',
+          cid: 'Vec<u8>',
+          created: 'BlockNumber',
+          mutated: 'BlockNumber'
+        },
+        EntityProperty: {
+          value: 'u64',
+          mutated: 'BlockNumber'
+        },
+        Item: {
+          ItemId: 'ItemId',
+          ItemInfo: 'ItemInfo'
+        },
+        ItemId: 'Hash',
+        ItemInfo: {
+          dob: 'u64',
+          dna: 'Hash'
+        },
+        CID: 'Vec<u8>',
+        HypaspaceInfo: 'Hash',
+        HypaspaceMetadata: {
+          name: 'Vec<u8>'
+        }
       }
     }
   ]
