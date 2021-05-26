@@ -6,7 +6,6 @@ const base = require('@polkadot/dev/config/eslint.cjs');
 // add override for any (a metric ton of them, initial conversion)
 module.exports = {
   ...base,
-  plugins: [...base.plugins, 'simple-import-sort'],
   ignorePatterns: [
     '.eslintrc.cjs',
     '.github/**',
