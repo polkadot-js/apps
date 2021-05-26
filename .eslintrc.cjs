@@ -8,7 +8,7 @@ module.exports = {
   ...base,
   plugins: [...base.plugins, 'simple-import-sort'],
   ignorePatterns: [
-    '.eslintrc.js',
+    '.eslintrc.cjs',
     '.github/**',
     '.vscode/**',
     '.yarn/**',
