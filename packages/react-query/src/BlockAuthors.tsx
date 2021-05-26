@@ -55,11 +55,11 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
           if (lastHeader.author){
             thisBlockAuthor=lastHeader.author.toString()
           } else if (lastHeader.digest.logs&&lastHeader.digest.logs[0] &&lastHeader.digest.logs[0].asConsensus[1]) {
-            //console.log("oh",(await api.query.authorMapping.authorIds()))
+            //console.log("oh",(await api.query.authorMapping.mapping()))
             console.log("ha",lastHeader.digest.logs[0].asConsensus[1].toHuman())
-            // console.log("oh",(await api.query.authorMapping.authorIds(null)))
-            console.log("oh",(await api.query.authorMapping.authorIds(lastHeader.digest.logs[0].asConsensus[1])).toHuman())
-            thisBlockAuthor=(await api.query.authorMapping.authorIds(lastHeader.digest.logs[0].asConsensus[1])).toString()
+            // console.log("oh",(await api.query.authorMapping.mapping(null)))
+            console.log("oh",(await api.query.authorMapping.mapping(lastHeader.digest.logs[0].asConsensus[1])).toHuman())
+            thisBlockAuthor=(await api.query.authorMapping.mapping(lastHeader.digest.logs[0].asConsensus[1])).toString()
             console.log("thisBlockAuthor",thisBlockAuthor)
           }
           const thisBlockNumber = formatNumber(blockNumber);
