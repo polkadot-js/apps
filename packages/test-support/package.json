@@ -5,11 +5,11 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@testing-library/react": "^11.2.7",
-    "testcontainers": "^7.10.0"
+    "testcontainers": "^7.11.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.9.0"
   }
 }
