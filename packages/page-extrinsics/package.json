@@ -1,6 +1,7 @@
 {
   "name": "@polkadot/app-extrinsics",
   "private": true,
+  "type": "module",
   "version": "0.91.3-32",
   "license": "Apache-2.0",
   "dependencies": {

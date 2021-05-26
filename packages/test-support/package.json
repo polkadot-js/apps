@@ -1,6 +1,7 @@
 {
   "name": "@polkadot/test-support",
   "private": true,
+  "type": "module",
   "version": "0.91.3-32",
   "license": "Apache-2.0",
   "dependencies": {
@@ -9,7 +10,6 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",
-    "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.9.0"
   }
 }
