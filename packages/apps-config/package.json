@@ -7,7 +7,7 @@
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
   "dependencies": {
-    "@acala-network/type-definitions": "^0.7.3",
+    "@acala-network/type-definitions": "^0.7.4-11",
     "@babel/runtime": "^7.14.0",
     "@crustio/type-definitions": "0.0.9",
     "@darwinia/types": "^1.1.0-alpha.2",
