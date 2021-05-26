@@ -146,7 +146,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   laminar,
   litentry,
   mandala: acala,
-  manta,
+  'manta-node': manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
   'moonbase-alphanet': moonbeam,
