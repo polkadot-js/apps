@@ -1648,10 +1648,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/polkabtc-types@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@interlay/polkabtc-types@npm:0.7.0"
-  checksum: 18980dffd890008480ce222b299c11c030f8a02deaa6d5325aae5aab7f269f9340166d6f2f55f117ca0010b7da1103e4865e3cfacf92252d2fc436c3c42e1f5d
+"@interlay/polkabtc-types@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "@interlay/polkabtc-types@npm:0.7.2"
+  checksum: f05075b7039da12a21eb5cf73f1a8f045b4d427aa7e10f117cd77b4146b50397887c0309aa891863657f597a3076eba13f178fa184818ba78e98db9f1eeee1b0
   languageName: node
   linkType: hard
 
@@ -2528,7 +2528,7 @@ __metadata:
     "@darwinia/types": ^1.1.0-alpha.2
     "@edgeware/node-types": ^3.3.4
     "@equilab/definitions": 1.1.1
-    "@interlay/polkabtc-types": ^0.7.0
+    "@interlay/polkabtc-types": ^0.7.2
     "@kiltprotocol/type-definitions": ^0.1.5
     "@laminar/type-definitions": ^0.3.1
     "@phala/typedefs": ^0.1.1
