@@ -42,7 +42,7 @@ function extractContributors (allAccounts: string[], keys: StorageKey[]): Contri
   };
 }
 
-function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstSlot, lastSlot, raised }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
@@ -87,8 +87,8 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
 
   const hasEnded = !blocksLeft && !!leasePeriod && (
     isWinner
-      ? leasePeriod.currentPeriod.gt(lastSlot)
-      : leasePeriod.currentPeriod.gt(firstSlot)
+      ? leasePeriod.currentPeriod.gt(lastPeriod)
+      : leasePeriod.currentPeriod.gt(firstPeriod)
   );
   const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
   const canDissolve = raised.isZero();
@@ -118,9 +118,9 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         #{formatNumber(end)}
       </td>
       <td className='number all together'>
-        {firstSlot.eq(lastSlot)
-          ? formatNumber(firstSlot)
-          : `${formatNumber(firstSlot)} - ${formatNumber(lastSlot)}`
+        {firstPeriod.eq(lastPeriod)
+          ? formatNumber(firstPeriod)
+          : `${formatNumber(firstPeriod)} - ${formatNumber(lastPeriod)}`
         }
       </td>
       <td className='number together'>

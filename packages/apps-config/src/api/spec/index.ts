@@ -44,6 +44,7 @@ import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
 import konomi from './konomi';
 import kulupu from './kulupu';
+import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
@@ -52,6 +53,7 @@ import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -92,6 +94,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
+  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
   acala,
@@ -135,18 +138,21 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  khala: phalaParachain,
   'kilt-parachain': kilt,
   konomi,
   kulupu,
+  kylin,
   laminar,
   litentry,
   mandala: acala,
-  manta,
+  'manta-node': manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
+  moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
   nft: unique,

@@ -25,8 +25,84 @@ export function createKusama (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
     linked: [
-      // parachains with id, see Rococo
-      // alphabetical based on chain name
+      // (1) all system parachains (none available yet)
+      // ...
+      // (2) all common good parachains
+      {
+        info: 'shell',
+        paraId: 1000,
+        text: t('rpc.kusama.shell', 'Shell', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://kusama-shell-rpc.parity.io'
+        }
+      },
+      /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
+      {
+        info: 'bifrost',
+        paraId: 2001,
+        text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        providers: {
+          Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
+        }
+      },
+      {
+        info: 'shadow',
+        paraId: 2012,
+        text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://shadow.crust.network/'
+        }
+      },
+      {
+        info: 'crab',
+        paraId: 2006,
+        text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+        providers: {
+          Crab: 'wss://crab-rpc.darwinia.network/'
+        }
+      },
+      {
+        info: 'encointer_canary',
+        paraId: 2014,
+        text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
+        providers: {
+          Encointer: 'wss://canary.encointer.org'
+        }
+      },
+      {
+        info: 'integritee',
+        paraId: 2015,
+        text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
+        providers: {
+          IntegriTEE: 'wss://mainnet.integritee.network'
+        }
+      },
+      {
+        info: 'khala',
+        paraId: 2004,
+        text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://khala.phala.network/ws'
+        }
+      },
+      {
+        info: 'kilt',
+        paraId: 2005,
+        text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://mainnet.kilt.io/'
+        }
+      },
+      {
+        info: 'sherpax',
+        paraId: 2013,
+        text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
+        }
+      }
     ]
   };
 }

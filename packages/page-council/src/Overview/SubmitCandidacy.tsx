@@ -15,7 +15,11 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAcountId] = useState<string | null>(null);
   const { isOpen, onClose, onOpen } = useModal();
-  const modLocation = api.tx.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+  const modLocation = api.tx.phragmenElection
+    ? 'phragmenElection'
+    : api.tx.electionsPhragmen
+      ? 'electionsPhragmen'
+      : 'elections';
 
   return (
     <>
@@ -53,7 +57,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
                   ? [electionsInfo?.candidates.length]
                   : []
               }
-              tx={(api.tx.electionsPhragmen || api.tx.elections).submitCandidacy}
+              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).submitCandidacy}
             />
           </Modal.Actions>
         </Modal>

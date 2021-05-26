@@ -3,12 +3,13 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
+import type { Inflation } from '@polkadot/react-hooks/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useInflation } from '@polkadot/react-hooks';
 import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
@@ -18,7 +19,7 @@ interface LastEra {
   sessionLength: BN;
 }
 
-const EMPTY_PARTIAL = {};
+const EMPTY_PARTIAL: Partial<SortedTargets> = {};
 const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withPrefs: true };
 const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
 
@@ -79,7 +80,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], Record<string, BN>] {
+function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN, withReturns?: boolean): [ValidatorInfo[], Record<string, BN>] {
   const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('Exposure');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
@@ -152,15 +153,37 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       skipRewards,
       stakedReturn: 0,
       stakedReturnCmp: 0,
-      validatorPrefs
+      validatorPrefs,
+      withReturns
     };
   });
 
   return [list, nominators];
 }
 
-function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
-  const [elected, nominators] = extractSingle(api, allAccounts, electedDerive, favorites, lastEraInfo, historyDepth);
+function addReturns (inflation: Inflation, baseInfo: Partial<SortedTargets>): Partial<SortedTargets> {
+  const avgStaked = baseInfo.avgStaked;
+  const validators = baseInfo.validators;
+
+  if (!validators) {
+    return baseInfo;
+  }
+
+  avgStaked && !avgStaked.isZero() && validators.forEach((v): void => {
+    if (!v.skipRewards && v.withReturns) {
+      const adjusted = avgStaked.mul(BN_HUNDRED).imuln(inflation.stakedReturn).div(v.bondTotal);
+
+      // in some cases, we may have overflows... protect against those
+      v.stakedReturn = (adjusted.gt(BN_MAX_INTEGER) ? BN_MAX_INTEGER : adjusted).toNumber() / BN_HUNDRED.toNumber();
+      v.stakedReturnCmp = v.stakedReturn * (100 - v.commissionPer) / 100;
+    }
+  });
+
+  return { ...baseInfo, validators: sortValidators(validators) };
+}
+
+function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
+  const [elected, nominators] = extractSingle(api, allAccounts, electedDerive, favorites, lastEraInfo, historyDepth, true);
   const [waiting] = extractSingle(api, allAccounts, waitingDerive, favorites, lastEraInfo);
   const activeTotals = elected
     .filter(({ isActive }) => isActive)
@@ -168,18 +191,6 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     .sort((a, b) => a.cmp(b));
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
-  const inflation = calcInflation(api, totalStaked, totalIssuance);
-
-  // add the explicit stakedReturn
-  !avgStaked.isZero() && elected.forEach((e): void => {
-    if (!e.skipRewards) {
-      const adjusted = avgStaked.mul(BN_HUNDRED).imuln(inflation.stakedReturn).div(e.bondTotal);
-
-      // in some cases, we may have overflows... protect against those
-      e.stakedReturn = (adjusted.gt(BN_MAX_INTEGER) ? BN_MAX_INTEGER : adjusted).toNumber() / BN_HUNDRED.toNumber();
-      e.stakedReturnCmp = e.stakedReturn * (100 - e.commissionPer) / 100;
-    }
-  });
 
   // all validators, calc median commission
   const minNominated = Object.values(nominators).reduce((min: BN, value) => {
@@ -187,7 +198,7 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
       ? value
       : min;
   }, BN_ZERO);
-  const validators = sortValidators(arrayFlatten([elected, waiting]));
+  const validators = arrayFlatten([elected, waiting]);
   const commValues = validators.map(({ commissionPer }) => commissionPer).sort((a, b) => a - b);
   const midIndex = Math.floor(commValues.length / 2);
   const medianComm = commValues.length
@@ -209,7 +220,6 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
 
   return {
     avgStaked,
-    inflation,
     lowStaked: activeTotals[0] || BN_ZERO,
     medianComm,
     minNominated,
@@ -241,12 +251,21 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
 
-  const partial = useMemo(
+  const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
-      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth)
+      ? extractBaseInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth)
       : EMPTY_PARTIAL,
     [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo]
   );
 
-  return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, minNominated: BN_ZERO, ...partial };
+  const inflation = useInflation(baseInfo?.totalStaked);
+
+  const partial = useMemo(
+    () => inflation
+      ? addReturns(inflation, baseInfo)
+      : baseInfo,
+    [baseInfo, inflation]
+  );
+
+  return { inflation, medianComm: 0, minNominated: BN_ZERO, ...partial };
 }

@@ -4,7 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
+import type { LeaseInfo, LeasePeriod, OwnedId, QueuedAction } from '../types';
 
 import React, { useCallback, useRef } from 'react';
 
@@ -20,6 +20,7 @@ interface Props {
   className?: string;
   ids?: ParaId[];
   leasePeriod?: LeasePeriod;
+  ownedIds: OwnedId[];
 }
 
 type ParaMap = [ParaId, LeaseInfo[]][];
@@ -66,7 +67,7 @@ function extractParaMap (hasLinksMap: Record<string, boolean>, paraIds: ParaId[]
     });
 }
 
-function Parathreads ({ actionsQueue, className, ids, leasePeriod }: Props): React.ReactElement<Props> {
+function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const hasLinksMap = useIsParasLinked(ids);
@@ -84,13 +85,15 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod }: Props): Rea
     ['', 'media--1100'],
     [t('head'), 'start media--1500'],
     [t('lifecycle'), 'start'],
+    [],
+    [t('chain'), 'no-pad-left'],
     [t('leases')],
     ['', 'media--900']
   ]);
 
   return (
     <div className={className}>
-      <Actions />
+      <Actions ownedIds={ownedIds} />
       <Table
         empty={leasePeriod && ids && (ids.length === 0 || leaseMap) && t<string>('There are no available parathreads')}
         header={headerRef.current}

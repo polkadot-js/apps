@@ -21,7 +21,6 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
-import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -92,7 +91,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
       }
     }));
   } catch (error) {
-    console.error('web3Enable', error);
+    console.error('web3Accounts', error);
 
     return [];
   }
@@ -110,13 +109,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     getInjectedAccounts(injectedPromise)
   ]);
 
-  // HACK Horrible hack to try and give some window to the DOT denomination
-  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
-  const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
-
   return {
     injectedAccounts,
-    properties,
+    properties: registry.createType('ChainProperties', {
+      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
+      tokenDecimals: chainProperties.tokenDecimals,
+      tokenSymbol: chainProperties.tokenSymbol
+    }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
     systemName: systemName.toString(),
@@ -139,9 +138,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
-
-  // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
-  setSS58Format(ss58Format);
 
   // first setup the UI helpers
   formatBalance.setDefaults({
@@ -173,6 +169,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
+    specName: api.runtimeVersion.specName.toString(),
+    specVersion: api.runtimeVersion.specVersion.toString(),
     systemChain,
     systemName,
     systemVersion

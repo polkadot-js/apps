@@ -30,6 +30,7 @@ interface Props {
   isElected: boolean;
   isFavorite: boolean;
   isMain?: boolean;
+  isPara?: boolean;
   lastBlock?: string;
   nominatedBy?: NominatedByType[];
   points?: string;
@@ -83,7 +84,7 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
@@ -121,6 +122,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <Status
           isElected={isElected}
           isMain={isMain}
+          isPara={isPara}
+          isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
           nominators={isMain ? nominators : nominatedBy}
           onlineCount={recentlyOnline?.blockCount}
           onlineMessage={recentlyOnline?.hasMessage}

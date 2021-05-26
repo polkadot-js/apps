@@ -16,12 +16,13 @@ interface Props {
   controllerId: string;
   onChange: (info: SessionInfo) => void;
   stashId: string;
+  withFocus?: boolean;
   withSenders?: boolean;
 }
 
 const EMPTY_PROOF = new Uint8Array();
 
-function SessionKey ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
+function SessionKey ({ className = '', controllerId, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [keys, setKeys] = useState<string | null>(null);
@@ -58,7 +59,7 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withSend
       )}
       <Modal.Columns hint={t<string>('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}>
         <Input
-          autoFocus
+          autoFocus={withFocus}
           help={t<string>('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
           isError={!keys}
           label={t<string>('Keys from rotateKeys')}

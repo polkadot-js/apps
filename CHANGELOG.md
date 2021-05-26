@@ -1,5 +1,71 @@
 # CHANGELOG
 
+## 0.91.2 May 17, 2021
+
+Changes:
+
+- Update electron-builder dependency, attempting to fix publish from CI
+
+
+## 0.91.1 May 17, 2021
+
+Contributed:
+
+- Fix elapsed time minute formatting (Thanks to https://github.com/andresilva)
+- Fix i18n loading with no data (Thanks to https://github.com/fadomire)
+- Update BitCountry types (Thanks to https://github.com/justinphamnz)
+- Update VLN types (Thanks to https://github.com/stanly-johnson)
+- Update types for Zeitgeist (Thanks to https://github.com/lsaether)
+- Update types for Darwinia (Thanks to https://github.com/WoeOm)
+- Update types for Galital (Thanks to https://github.com/masterdubs)
+- Update types for Moonbeam (Thanks to https://github.com/joelamouche)
+- Update types for Dusty (Thanks to https://github.com/hoonsubin)
+- Update types for SORA (Thanks to https://github.com/stefashkaa)
+- Update types for Ternoa (Thanks to https://github.com/ETeissonniere)
+- Update types for Polkafoundry (Thanks to https://github.com/hoangnl2112)
+- Update Gamepower types (Thanks to https://github.com/GamePowerDev)
+- Update Uni Arts types (Thanks to https://github.com/tianxiemaochiyu)
+- Update Steam types (Thanks to https://github.com/johnwhitton)
+- Support for Snakenet gen-3 (Thanks to https://github.com/jak-pan)
+- Add Zeitgeist Rococo parachain (Thanks to https://github.com/c410-f3r)
+- Add Moonrock Rococo parachain (Thanks to https://github.com/crystalin)
+- Adjust Crust Rococo paraId (Thanks to https://github.com/yuhui1208)
+- Adjust Eave Rococo paraId (Thanks to https://github.com/johnwhitton)
+- Add GamePower testnet (Thanks to https://github.com/GamePowerDev & https://github.com/MikeHuntington)
+- Add Pangolin testnet (Thanks to https://github.com/sxlwar)
+- Add Geeknet testnet (Thanks to https://github.com/nasa8x)
+- Add Centrifuge Rococo endpoint (Thanks to https://github.com/mikiquantum)
+- Add Khala Kusama parathread (Thanks to https://github.com/h4x3rotab)
+- Add Prism Kusama parathread (Thanks to https://github.com/chrissoso)
+- Add Cust Shadow Kusama parathread (Thanks to https://github.com/zikunfan)
+- Add Kilt Kusama parathread (Thanks to https://github.com/wischli)
+- Add SherpaX Kusama parathread (Thanks to https://github.com/icodezjb)
+- Add Bifrost Kusama parathread (Thanks to https://github.com/awesomepan)
+- Add Patract Elara endpoint for Moonbase (Thanks to https://github.com/zzcwoshizz)
+- Add Patract Elara endpoint for Subsocial (Thanks to https://github.com/zzcwoshizz)
+- Add Polymath provider (Thanks to https://github.com/satyamakgec & https://github.com/Tamir-Polymath)
+
+Changes:
+
+- Display specName/specVersion for current chain
+- Adjust parachains for Westend & Kusama modules
+- Show call data and call hash on extinsics page
+- Fix auction first-last display (based on chain constants)
+- Allow file hash upload to `H256` types
+- Use registration nextId for parachain setup
+- Show treasury details in council proposals
+- Ensure alphabetical chain ordering
+- Show reserved amount for proxy creation
+- Sort by and display ss58 in chain settings
+- Adjust logo/color overrides to be alphabetical
+- Check for registered code for allowing parachain bidding
+- Always populate paraId from owners (after registration)
+- Add Shell parachain to Westend
+- Allow UI to work with no balances/timestamp modules (as per Shell)
+- Display parathread info via para API (in addition to parachain)
+- Cater for electionsPhragmen -> phragmenElection modules
+- Cater for council votes on prev-generation chains
+
 ## 0.90.1 May 3, 2021
 
 Contributed:
