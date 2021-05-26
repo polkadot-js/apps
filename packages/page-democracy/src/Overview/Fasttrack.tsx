@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -23,12 +23,6 @@ interface ProposalState {
   proposalLength: number;
 }
 
-interface ThresholdState {
-  defaultThreshold: BN;
-  isThresholdError: boolean;
-  memberThreshold: BN;
-}
-
 const ONE_MIN = (1 * 60) / 6;
 const DEF_DELAY = new BN(ONE_MIN);
 const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
@@ -39,29 +33,28 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
   const [isFasttrackOpen, toggleFasttrack] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
-  const [{ defaultThreshold, isThresholdError, memberThreshold }, setMemberThreshold] = useState<ThresholdState>(
-    () => ({ defaultThreshold: new BN(Math.ceil(members.length * 0.66)), isThresholdError: !members.length, memberThreshold: new BN(Math.ceil(members.length * 0.66)) })
+  const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(api.consts.democracy.fastTrackVotingPeriod || DEF_VOTING);
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
+
+  const memberThreshold = useMemo(
+    () => new BN(
+      !votingBlocks || api.consts.democracy.fastTrackVotingPeriod.lte(votingBlocks)
+        ? Math.ceil(members.length * 0.66)
+        : members.length
+    ),
+    [api, members, votingBlocks]
   );
-  const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(DEF_VOTING);
-  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
 
   useEffect((): void => {
     const proposal = delayBlocks && !delayBlocks.isZero() && votingBlocks && !votingBlocks.isZero()
       ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
       : null;
 
-    setProposal({ proposal, proposalLength: proposal?.length || 0 });
-  }, [api, delayBlocks, imageHash, votingBlocks]);
-
-  const _setMemberThreshold = useCallback(
-    (memberThreshold?: BN) =>
-      setMemberThreshold(({ defaultThreshold }) =>
-        memberThreshold && !memberThreshold.isZero() && memberThreshold.lten(members.length)
-          ? { defaultThreshold, isThresholdError: false, memberThreshold }
-          : { defaultThreshold, isThresholdError: true, memberThreshold: defaultThreshold }
-      ),
-    [members]
-  );
+    setProposal({
+      proposal,
+      proposalLength: proposal?.length || 0
+    });
+  }, [api, delayBlocks, imageHash, members, votingBlocks]);
 
   return (
     <>
@@ -101,19 +94,16 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
               value={delayBlocks}
             />
             <InputNumber
-              defaultValue={defaultThreshold}
-              help={t<string>('The threshold to apply (default: 66%)')}
-              isError={isThresholdError}
-              isZeroable={false}
-              label={t<string>('required threshold')}
-              onChange={_setMemberThreshold}
+              defaultValue={memberThreshold}
+              isDisabled
+              label={t<string>('threshold')}
             />
           </Modal.Content>
           <Modal.Actions onCancel={toggleFasttrack}>
             <TxButton
               accountId={accountId}
               icon='fast-forward'
-              isDisabled={!accountId || !proposal || isThresholdError}
+              isDisabled={!accountId || !proposal}
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
               params={
