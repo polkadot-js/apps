@@ -8,12 +8,13 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   imageHash: Hash;
+  members: string[];
   threshold: VoteThreshold;
 }
 
@@ -24,7 +25,7 @@ interface ProposalState {
 
 interface ThresholdState {
   defaultThreshold: BN;
-  isThresholdValid: boolean;
+  isThresholdError: boolean;
   memberThreshold: BN;
 }
 
@@ -32,23 +33,17 @@ const ONE_MIN = (1 * 60) / 6;
 const DEF_DELAY = new BN(ONE_MIN);
 const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
 
-function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> | null {
+function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers('technicalCommittee');
   const [isFasttrackOpen, toggleFasttrack] = useToggle();
-  const [allowFast, setAllowFast] = useState(false);
   const [accountId, setAcountId] = useState<string | null>(null);
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
-  const [{ defaultThreshold, isThresholdValid, memberThreshold }, setMemberThreshold] = useState<ThresholdState>(
-    () => ({ defaultThreshold: new BN(Math.ceil(members.length * 0.66)), isThresholdValid: !!members.length, memberThreshold: new BN(Math.ceil(members.length * 0.66)) })
+  const [{ defaultThreshold, isThresholdError, memberThreshold }, setMemberThreshold] = useState<ThresholdState>(
+    () => ({ defaultThreshold: new BN(Math.ceil(members.length * 0.66)), isThresholdError: !members.length, memberThreshold: new BN(Math.ceil(members.length * 0.66)) })
   );
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(DEF_VOTING);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
-
-  useEffect((): void => {
-    setAllowFast(isMember && threshold.isSimplemajority);
-  }, [isMember, threshold]);
 
   useEffect((): void => {
     const proposal = delayBlocks && !delayBlocks.isZero() && votingBlocks && !votingBlocks.isZero()
@@ -62,8 +57,8 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
     (memberThreshold?: BN) =>
       setMemberThreshold(({ defaultThreshold }) =>
         memberThreshold && !memberThreshold.isZero() && memberThreshold.lten(members.length)
-          ? { defaultThreshold, isThresholdValid: false, memberThreshold }
-          : { defaultThreshold, isThresholdValid: false, memberThreshold: defaultThreshold }
+          ? { defaultThreshold, isThresholdError: false, memberThreshold }
+          : { defaultThreshold, isThresholdError: true, memberThreshold: defaultThreshold }
       ),
     [members]
   );
@@ -108,6 +103,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
             <InputNumber
               defaultValue={defaultThreshold}
               help={t<string>('The threshold to apply (default: 66%)')}
+              isError={isThresholdError}
               isZeroable={false}
               label={t<string>('required threshold')}
               onChange={_setMemberThreshold}
@@ -117,7 +113,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
             <TxButton
               accountId={accountId}
               icon='fast-forward'
-              isDisabled={!accountId || !proposal || !memberThreshold || !isThresholdValid}
+              isDisabled={!accountId || !proposal || isThresholdError}
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
               params={
@@ -132,7 +128,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
       )}
       <Button
         icon='fast-forward'
-        isDisabled={!allowFast}
+        isDisabled={!threshold.isSimplemajority}
         label={t<string>('Fast track')}
         onClick={toggleFasttrack}
       />
