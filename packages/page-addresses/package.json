@@ -1,6 +1,7 @@
 {
   "name": "@polkadot/app-addresses",
   "private": true,
+  "type": "module",
   "version": "0.91.3-32",
   "license": "Apache-2.0",
   "dependencies": {
@@ -10,6 +11,6 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.7",
-    "testcontainers": "^7.10.0"
+    "testcontainers": "^7.11.0"
   }
 }
