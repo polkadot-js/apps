@@ -130,18 +130,18 @@ const optFundMulti = {
       .map(([paraId, info]): Campaign => ({
         accountId: encodeAddress(createAddress(paraId)),
         childKey: createChildKey(info.trieIndex),
-        firstSlot: info.firstSlot,
+        firstSlot: info.firstPeriod,
         info,
         isCrowdloan: true,
         key: paraId.toString(),
-        lastSlot: info.lastSlot,
+        lastSlot: info.lastPeriod,
         paraId,
         value: info.raised
       }))
       .sort((a, b) =>
         a.info.end.cmp(b.info.end) ||
-        a.info.firstSlot.cmp(b.info.firstSlot) ||
-        a.info.lastSlot.cmp(b.info.lastSlot) ||
+        a.info.firstPeriod.cmp(b.info.firstPeriod) ||
+        a.info.lastPeriod.cmp(b.info.lastPeriod) ||
         a.paraId.cmp(b.paraId)
       ),
   withParamsTransform: true
