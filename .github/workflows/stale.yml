@@ -10,8 +10,8 @@ jobs:
       - uses: actions/stale@v3
         with:
           repo-token: ${{ secrets.GH_PAT }}
-          stale-issue-message: 'This issue is stale because it has been open 21 days with no activity. Remove the stale label or comment or this will be closed in 7 days.'
+          stale-issue-message: 'This issue has been open for 21 days with no activity and is not labelled as an enhancement. It will be closed in 7 days.'
           stale-issue-label: 'stale'
-          exempt-issue-labels: '-size-l,-size-m,-size-s,-size-xl,-size-xs,<support>,[bug]'
+          exempt-issue-labels: '-size-l,-size-m,-size-s,-size-xl,-size-xs,[bug]'
           days-before-stale: 21
           days-before-close: 7
