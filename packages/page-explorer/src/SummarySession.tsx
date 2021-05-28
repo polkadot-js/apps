@@ -40,7 +40,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
               ? (
                 <CardSummary
                   className={className}
-                  label={sessionLabel}
+                  label={sessionLabel + ' ' + formatNumber(sessionInfo.currentIndex)}
                   progress={{
                     total: sessionInfo.sessionLength,
                     value: sessionInfo.sessionProgress,
@@ -60,7 +60,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
               ? (
                 <CardSummary
                   className={className}
-                  label={eraLabel}
+                  label={eraLabel + ' ' + formatNumber(sessionInfo.activeEra)}
                   progress={{
                     total: forcing.isForceAlways ? sessionInfo.sessionLength : sessionInfo.eraLength,
                     value: forcing.isForceAlways ? sessionInfo.sessionProgress : sessionInfo.eraProgress,

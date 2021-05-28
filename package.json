@@ -105,15 +105,12 @@
     "webpack-plugin-serve": "^1.2.1"
   },
   "dependencies": {
-    "apollo-boost": "^0.4.9",
-    "apollo-client": "^2.6.10",
     "bs58": "^4.0.1",
     "bs58check": "^2.1.2",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "hash-wasm": "^4.3.0",
     "is-extglob": "^2.1.1",
-    "mrklt": "^0.2.0",
-    "react-apollo": "^3.1.5"
+    "mrklt": "^0.2.0"
   }
 }
