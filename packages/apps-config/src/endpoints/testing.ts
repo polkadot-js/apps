@@ -281,6 +281,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'pontem',
+      text: t('rpc.pontem', 'Pontem', { ns: 'apps-config' }),
+      providers: {
+        Pontem: 'wss://testnet.pontem.network/wss'
+      }
+    },
+    {
       info: 'prism',
       text: t('rpc.test.prism', 'Prism', { ns: 'apps-config' }),
       providers: {
