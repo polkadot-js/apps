@@ -127,6 +127,7 @@
   "rpc.test.mybank": "mybank.network",
   "rpc.test.nftmart": "NFTMart",
   "rpc.test.nodle-arcadia": "Arcadia",
+  "rpc.test.oak": "OAK Testnet",
   "rpc.test.pangolin": "Pangolin",
   "rpc.test.phala": "Phala PoC-4",
   "rpc.test.phoenix": "Phoenix Mashnet",
