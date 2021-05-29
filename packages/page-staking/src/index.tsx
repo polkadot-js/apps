@@ -10,8 +10,7 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { HelpOverlay } from '@polkadot/react-components';
-import Tabs from '@polkadot/react-components/Tabs';
+import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
