@@ -39,6 +39,9 @@ export function createWestend (t: TFunction): EndpointOption {
           Parity: 'wss://westend-shell-rpc.parity.io'
         }
       },
+      // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
       {
         info: 'moonshadow',
         paraId: 2002,
@@ -47,9 +50,6 @@ export function createWestend (t: TFunction): EndpointOption {
           Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
         }
       }
-      // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
-      //
-      // NOTE: Added alphabetical based on chain name
     ]
   };
 }
