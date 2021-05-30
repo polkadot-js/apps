@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from './types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -29,11 +28,11 @@ function Validator ({ className = '', validatorId }: Props): React.ReactElement<
   );
 }
 
-export default React.memo(styled(Validator)(({ theme }: ThemeProps) =>`
+export default React.memo(styled(Validator)`
   .staking--Chart {
-    background: ${theme.theme};
-    border: 1px solid #eeecea;
+    background: var(--bg-table);
+    border: 1px solid var(--border-table);
     border-radius: 0.25rem;
     padding: 1rem 1.5rem;
   }
-`));
+`);
