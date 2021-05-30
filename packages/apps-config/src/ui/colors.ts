@@ -259,7 +259,7 @@ export const nodeColors: Record<string, string> = [
   ['GEEK', nodeGeek],
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
-  ['Kylin Node', nodeKylin],
+  ['Kylin Collator', nodeKylin],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['Manta Node', nodeManta],

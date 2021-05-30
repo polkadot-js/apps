@@ -150,5 +150,6 @@
   "rpc.westend": "Westend",
   "rpc.westend.moonshadow": "Moonshadow",
   "rpc.westend.shell": "Shell",
-  "ss58.default": "Default for the connected node"
+  "ss58.default": "Default for the connected node",
+  "testnet.kylin-node.co.uk": "Kylin Testnet"
 }
