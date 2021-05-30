@@ -46,22 +46,30 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeGalital from './nodes/galital-logo.png';
+import nodeGamePower from './nodes/gamepower.svg';
+import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
+import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
+import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
+import nodeMoonrock from './nodes/moonrock.png';
+import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
+import oakTestnet from './nodes/oak-testnet.png';
+import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
@@ -71,17 +79,21 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePolymesh from './nodes/polymesh.svg';
+import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeShadow from './nodes/shadow.svg';
+import nodeShell from './nodes/shell.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
+import nodeStatemine from './nodes/statemine.svg';
 import nodeStatemint from './nodes/statemint-3.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
-import nodeSunrock from './nodes/sunrock.png';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
@@ -112,11 +124,16 @@ export const chainLogos: Record<string, unknown> = [
   ['Steam PC', nodeEave],
   ['Galital', nodeGalital],
   ['Galois', nodeMath],
+  ['GamePower Network', nodeGamePower],
+  ['GEEK', nodeGeek],
   ['HydraDX Hydrate', chainHydrate],
   ['HydraDX Snakenet', chainSnakenet],
   ['HydraDX Snakenet Gen2', chainSnakenet],
+  ['HydraDX Snakenet Gen3', chainSnakenet],
+  ['Encointer Canary', nodeEncointerNotee],
   ['Encointer PC1', nodeEncointerNotee],
   ['Idavoll', nodeIdavoll],
+  ['IntegriTEE Network', nodeIntegritee],
   ['IntegriTEE PC1', nodeIntegritee],
   ['IpseTestnet', nodeIpse],
   ['Jupiter A1', nodeJupiter],
@@ -127,18 +144,27 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Kylin Testnet', nodeKylin],
   ['Litentry', nodeLitentry],
+  ['Manta Testnet', nodeManta],
   ['MathChain PC1', nodeMath],
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Moonrock', nodeMoonrock],
+  ['Moonshadow', moonshadow],
+  ['mybank.network PC1', mybank],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
+  ['OAK Testnet', oakTestnet],
+  ['Pangolin', nodePangolin],
   ['Parami PC2', nodeParami],
+  ['PHOENIX PC1', nodePhoenix],
   ['PolkaBTC', nodePolkaBTC],
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['PolkaFoundry PC1', nodePolkaFoundry],
+  ['Pontem Testnet', nodePontem],
   ['Prism Testnet', nodePrism],
   ['Prism PC1', nodePrism],
   ['Phala PC1', nodePhala],
@@ -146,24 +172,24 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Statemine', nodeStatemine],
+  ['Statemint', nodeStatemint],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
-  ['Sunrock', nodeSunrock],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],
   ['TrustBase PC1', nodeTrustBase],
   ['uni arts staging network', nodeUniarts],
+  ['UniArts Mainnet', nodeUniarts],
   ['Unique', chainUnique],
+  ['Unit Network', nodeUnitv],
   ['VLN PC', nodeVln],
   ['Vln', nodeVln],
   ['Web3games', nodeWeb3games],
-  ['Westlake', nodeWestlake],
-  ['PHOENIX PC1', nodePhoenix],
-  ['mybank.network PC1', mybank],
-  ['Unit Network', nodeUnitv]
+  ['Westlake', nodeWestlake]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -177,7 +203,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['Apron Parachain Collator', nodeApron],
   ['Ares Node', nodeAres],
   ['Ares Parachain Collator', nodeAres],
-  ['mandala node', nodeAcala],
   ['airalab-robonomics', nodeRobonomics],
   ['Beast Node', nodeBeast],
   ['Bifrost Node', nodeBifrost],
@@ -203,28 +228,42 @@ export const nodeLogos: Record<string, unknown> = [
   ['DOTMog Node', nodeDotMog],
   ['Eave Node', nodeEave],
   ['Edgeware Node', nodeEdgeware],
+  ['Equilibrium Node', nodeEquilibrium],
+  ['Equilibrium', nodeEquilibrium],
   ['IpseTestnet', nodeIpse],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['Galital Parachain Collator', nodeGalital],
   ['Galois', nodeMath],
+  ['GamePower Node', nodeGamePower],
+  ['GEEK', nodeGeek],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
+  ['Khala', nodeKhala],
+  ['Khala Node', nodeKhala],
   ['KILT Node', nodeKilt],
   ['KILT Collator', nodeKilt],
+  ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
   ['Laminar Node', nodeLaminar],
   ['Litentry', nodeLitentry],
   ['Litentry Collator', nodeLitentry],
+  ['mandala node', nodeAcala],
+  ['Manta Node', nodeManta],
   ['Manta Node', nodeManta],
   ['Manta Parachain Collator', nodeManta],
+  ['Moonrock', nodeMoonrock],
+  ['mybank.network', mybank],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
+  ['OAK Testnet', oakTestnet],
+  ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Pontem', nodePontem],
   ['Prism Node', nodePrism],
   ['Prism Collator', nodePrism],
   ['parity-polkadot', nodePolkadot],
@@ -234,46 +273,56 @@ export const nodeLogos: Record<string, unknown> = [
   ['Plasm Parachain Collator', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['Phala Collator', nodePhala],
+  ['PHOENIX Node', nodePhoenix],
+  ['PHOENIX Collator', nodePhoenix],
   ['polkadot-js', nodePolkadotJs],
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
+  ['Pontem', nodePontem],
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Shadow', nodeShadow],
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['Statemint Collator', nodeStatemint],
+  ['SubDAO Collator', nodeSubDAO],
   ['subsocial-node', nodeSubsocial],
   ['Subsocial Node', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
+  ['sherpax', nodeChainx],
   ['substrate-node', nodeSubstrate],
-  ['sunrock', nodeSunrock],
-  ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
   ['TrustBase Node', nodeTrustBase],
   ['TrustBase Collator', nodeTrustBase],
-  ['Zenlink', nodeZenlink],
-  ['Zenlink Collator', nodeZenlink],
-  ['SubDAO Collator', nodeSubDAO],
   ['uni arts node', nodeUniarts],
+  ['UniArts Node', nodeUniarts],
+  ['Unit Node', nodeUnitv],
+  ['Unit Collator', nodeUnitv],
   ['Unique Node', nodeUnique],
   ['Vln', nodeVln],
   ['VLN PC', nodeVln],
-  ['PHOENIX Node', nodePhoenix],
-  ['PHOENIX Collator', nodePhoenix],
-  ['Unit Node', nodeUnitv],
-  ['Unit Collator', nodeUnitv],
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
+  ['Zenlink', nodeZenlink],
+  ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
-  ['Zeitgeist Collator', nodeZeitgeist],
-  ['mybank.network', mybank]
+  ['Zeitgeist Collator', nodeZeitgeist]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
+}), {});
+
+// Alphabetical overrides based on the actual specName
+export const specLogos: Record<string, unknown> = [
+  ['shell', nodeShell],
+  ['statemine', nodeStatemine],
+  ['statemint', nodeStatemint]
+].reduce((logos, [spec, logo]): Record<string, unknown> => ({
+  ...logos,
+  [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
 // Alphabetical overrides when we pass an explicit logo name
@@ -301,25 +350,36 @@ export const namedLogos: Record<string, unknown> = {
   eave: nodeEave,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  encointer_canary: nodeEncointerNotee,
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
   equilibrium: nodeEquilibrium,
   galital: nodeGalital,
   galois: nodeMath,
+  gamepower: nodeGamePower,
+  geek: nodeGeek,
+  halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
+  integritee: nodeIntegritee,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
+  khala: nodeKhala,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
+  moonrock: nodeMoonrock,
+  moonshadow: moonshadow,
   mybank: mybank,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
+  'oak-testnet': oakTestnet,
+  pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
   plasm: nodePlasm,
@@ -327,6 +387,8 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  polymesh: nodePolymesh,
+  pontem: nodePontem,
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
@@ -352,34 +414,41 @@ export const namedLogos: Record<string, unknown> = {
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
+  rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
+  rococoMoonrock: nodeMoonrock,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
+  rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemint,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
-  rococoSunrock: nodeSunrock,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
   rococoTrustBase: nodeTrustBase,
   rococoUnitv: nodeUnitv,
   rococoVln: nodeVln,
+  rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
+  shadow: nodeShadow,
+  shell: nodeShell,
+  sherpax: nodeChainx,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
+  statemine: nodeStatemine,
+  statemint: nodeStatemint,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  sunrock: nodeSunrock,
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,

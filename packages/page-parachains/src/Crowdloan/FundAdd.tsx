@@ -22,11 +22,13 @@ interface Props {
   ownedIds: OwnedId[];
 }
 
+const EMPTY_OWNER: OwnerInfo = { accountId: null, paraId: 0 };
+
 function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const ranges = useRanges();
-  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>({ accountId: null, paraId: 0 });
+  const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [cap, setCap] = useState<BN | undefined>();
   const [endBlock, setEndBlock] = useState<BN | undefined>();
   const [firstSlot, setFirstSlot] = useState<BN | undefined>();

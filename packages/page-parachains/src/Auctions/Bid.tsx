@@ -75,7 +75,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
     <>
       <Button
         icon='plus'
-        isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo?.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
+        isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo?.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || !api.consts.auctions || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
         label={t<string>('Bid')}
         onClick={toggleOpen}
       />
