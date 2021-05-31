@@ -69,12 +69,12 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
           : null;
       }
 
-      if (type.info === TypeDefInfo.Option && value instanceof Option) {
-        const isSome = value.isSome;
+      if (type.info === TypeDefInfo.Option && codec instanceof Option) {
+        const isSome = codec.isSome;
         const subType = type.sub as TypeDef;
 
         if (asJson) {
-          return `${isSome ? 'Some' : 'None'}${isSome ? `(${value.toString()})` : ''}`;
+          return `${isSome ? 'Some' : 'None'}${isSome ? `(${codec.unwrap().toString()})` : ''}`;
         }
 
         return (
@@ -87,7 +87,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
                   <Data
                     registry={registry}
                     type={subType}
-                    value={value.toString()}
+                    value={codec.unwrap().toString()}
                   />
                 </div>
                 {')'}
