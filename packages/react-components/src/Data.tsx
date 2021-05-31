@@ -114,7 +114,6 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
         const subType = (type.sub as TypeDef[]).find(({ name }) => name === variant);
 
         if (asJson) {
-          
           return `${variant}: ${JSON.stringify(formatData(registry, subValue, subType).toJSON()) || '()'}`;
         }
 
