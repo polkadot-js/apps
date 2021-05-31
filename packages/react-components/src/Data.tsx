@@ -48,8 +48,6 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
     (): React.ReactNode => {
       if (isError) return value;
 
-      if (isNull(value) || (Array.isArray(value) && value.length === 0)) {
-        return '()';
       try {
         const codec = formatData(registry, value, type);
 
