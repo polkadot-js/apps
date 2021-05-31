@@ -7,6 +7,7 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
+import { Detector } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
@@ -17,7 +18,6 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
-import { WsProvider } from '@polkadot/rpc-provider';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
@@ -192,32 +192,37 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
   // initial initialization
   useEffect((): void => {
-    const provider = new WsProvider(url);
-    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-    const types = getDevTypes();
+    async function apiConnect () {
+      const detect = new Detector('PolkadotJS apps');
+      const network = 'westend';
+      const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
+      const types = getDevTypes();
+      const options = { registry, signer, types, typesBundle, typesChain };
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
+      api = await detect.connect(network, undefined, options);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      api.isReady.then(() => {
+        setIsApiInitialized(true);
+        setIsApiConnected(true);
+        console.log('ready');
+        const injectedPromise = web3Enable('polkadot-js/apps');
 
-    api.on('connected', () => setIsApiConnected(true));
-    api.on('disconnected', () => setIsApiConnected(false));
-    api.on('error', (error: Error) => setApiError(error.message));
-    api.on('ready', (): void => {
-      const injectedPromise = web3Enable('polkadot-js/apps');
+        injectedPromise
+          .then(setExtensions)
+          .catch(console.error);
 
-      injectedPromise
-        .then(setExtensions)
-        .catch(console.error);
+        loadOnReady(api, injectedPromise, store, types)
+          .then(setState)
+          .catch((error): void => {
+            console.error(error);
 
-      loadOnReady(api, injectedPromise, store, types)
-        .then(setState)
-        .catch((error): void => {
-          console.error(error);
+            setApiError((error as Error).message);
+          });
+      });
+    }
 
-          setApiError((error as Error).message);
-        });
-    });
-
-    setIsApiInitialized(true);
+    // eslint-disable-next-line no-void
+    void apiConnect();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

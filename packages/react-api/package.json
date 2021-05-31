@@ -9,5 +9,8 @@
     "@polkadot/extension-dapp": "^0.37.3-19",
     "@polkadot/x-rxjs": "^6.4.1",
     "fflate": "^0.6.10"
+  },
+  "devDependencies": {
+    "@substrate/connect": "0.3.1-test"
   }
 }
