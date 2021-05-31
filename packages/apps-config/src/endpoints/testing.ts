@@ -49,7 +49,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'bifrost',
       text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
-        Bifrost: 'wss://testnet.liebi.com'
+        Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
       }
     },
     {
