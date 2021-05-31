@@ -215,6 +215,7 @@ export const chainColors: Record<string, string> = [
   ['Shadow', chainShadow],
   ['sherpax', chainChainx],
   ['Statemine', chainStatemine],
+  ['Statemine Test', chainStatemine],
   ['Statemint', nodeStatemint],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
@@ -230,6 +231,8 @@ export const chainColors: Record<string, string> = [
   ['VLN PC', chainVln],
   ['Web3games ', chainWeb3games],
   ['Westend', chainWestend],
+  ['Westmint', nodeStatemint],
+  ['Westmint Test', nodeStatemint],
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
@@ -281,6 +284,7 @@ export const nodeColors: Record<string, string> = [
   ['Riochain Staging', nodeRiochain],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
+  ['Statemine Collator', nodeStatemint],
   ['Statemint Collator', nodeStatemint],
   ['SubDAO Collator', nodeSubDAO],
   ['subsocial node', nodeSubsocial],
@@ -291,6 +295,7 @@ export const nodeColors: Record<string, string> = [
   ['Unique Node', nodeUnique],
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
+  ['Westmint Collator', nodeStatemint],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink]
