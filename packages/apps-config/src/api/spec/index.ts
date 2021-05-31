@@ -166,6 +166,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
+  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
