@@ -115,6 +115,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'crust-parachain': crust,
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
+  datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,
@@ -185,7 +186,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
-  'datahighway': westlake,
   zeitgeist: zeitgeist
 };
 
