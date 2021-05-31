@@ -90,7 +90,6 @@ import nodeShell from './nodes/shell.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
-import nodeStatemint from './nodes/statemint-3.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
@@ -173,8 +172,9 @@ export const chainLogos: Record<string, unknown> = [
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
   ['Statemine', nodeStatemine],
-  ['Statemint', nodeStatemint],
-  ['Statemint Test', nodeStatemint],
+  ['Statemine Test', nodeStatemine],
+  ['Statemint', nodeStatemine],
+  ['Statemint Test', nodeStatemine],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -189,7 +189,9 @@ export const chainLogos: Record<string, unknown> = [
   ['VLN PC', nodeVln],
   ['Vln', nodeVln],
   ['Web3games', nodeWeb3games],
-  ['Westlake', nodeWestlake]
+  ['Westlake', nodeWestlake],
+  ['Westmint', nodeStatemine],
+  ['Westmint Test', nodeStatemine]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -286,7 +288,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
-  ['Statemint Collator', nodeStatemint],
+  ['Statemine Collator', nodeStatemine],
+  ['Statemint Collator', nodeStatemine],
   ['SubDAO Collator', nodeSubDAO],
   ['subsocial-node', nodeSubsocial],
   ['Subsocial Node', nodeSubsocial],
@@ -306,6 +309,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['VLN PC', nodeVln],
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
+  ['Westmint Collator', nodeStatemine],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
@@ -319,7 +323,8 @@ export const nodeLogos: Record<string, unknown> = [
 export const specLogos: Record<string, unknown> = [
   ['shell', nodeShell],
   ['statemine', nodeStatemine],
-  ['statemint', nodeStatemint]
+  ['statemint', nodeStatemine],
+  ['westmine', nodeStatemine]
 ].reduce((logos, [spec, logo]): Record<string, unknown> => ({
   ...logos,
   [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -428,7 +433,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPolkabtc: chainPolkaBTC,
   rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
-  rococoStatemint: nodeStatemint,
+  rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
   rococoTick: chainRococoTick,
@@ -446,7 +451,7 @@ export const namedLogos: Record<string, unknown> = {
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   statemine: nodeStatemine,
-  statemint: nodeStatemint,
+  statemint: nodeStatemine,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,
@@ -457,6 +462,7 @@ export const namedLogos: Record<string, unknown> = {
   web3games: nodeWeb3games,
   westend: nodePolkadot,
   westlake: nodeWestlake,
+  westmine: nodeStatemine,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
