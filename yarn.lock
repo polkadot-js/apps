@@ -2274,7 +2274,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.14.0
-    "@polkadot/phishing": ^0.6.164
+    "@polkadot/phishing": ^0.6.165
     "@polkadot/react-components": ^0.91.3-50
     "@polkadot/test-support": 0.91.3-50
     "@polkadot/vanitygen": ^0.36.1
@@ -2550,7 +2550,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.14.3
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.62.24
+    "@polkadot/dev": ^0.62.25
     "@polkadot/react-components": ^0.91.3-50
     "@types/react-dom": ^17.0.5
     "@types/tmp": ^0.2.0
@@ -2584,7 +2584,7 @@ __metadata:
     "@babel/runtime": ^7.14.0
     "@polkadot/apps-config": ^0.91.3-50
     "@polkadot/apps-routing": ^0.91.3-50
-    "@polkadot/dev": ^0.62.24
+    "@polkadot/dev": ^0.62.25
     "@polkadot/react-api": ^0.91.3-50
     "@polkadot/react-components": ^0.91.3-50
     "@polkadot/react-hooks": ^0.91.3-50
@@ -2617,9 +2617,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.62.24":
-  version: 0.62.24
-  resolution: "@polkadot/dev@npm:0.62.24"
+"@polkadot/dev@npm:^0.62.25":
+  version: 0.62.25
+  resolution: "@polkadot/dev@npm:0.62.25"
   dependencies:
     "@babel/cli": ^7.14.3
     "@babel/core": ^7.14.3
@@ -2699,7 +2699,7 @@ __metadata:
     polkadot-exec-prettier: scripts/polkadot-exec-prettier.cjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: ea87348ad013f9ba8c1a0be32519ea63f0290fc7bd2a375ce4212e92f1fbaf3a34d45ac3ae7a13d900c172dac421bfda3bccdc8cae45b8e36a814020862cc88c
+  checksum: 56b2f51cbd35b79765bbd343f179a719edb0530db46771255ac65d7fdb9cf3c4647694835238f848ee31660f4df78e4522e07ff64bddd39238bbb0e20e7395ab
   languageName: node
   linkType: hard
 
@@ -2983,12 +2983,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.3.72":
-  version: 0.3.72
-  resolution: "@polkadot/ts@npm:0.3.72"
+"@polkadot/ts@npm:^0.3.73":
+  version: 0.3.73
+  resolution: "@polkadot/ts@npm:0.3.73"
   dependencies:
     "@types/chrome": ^0.0.143
-  checksum: d2860cb642c2ad084b930ac1dc273a298a823cafff40cff0bc3280165f44faad1363fb14fb8d1dd4790fa3321ce1818fcb31d7c480a8f45729bc5c1c1e382467
+  checksum: e13194c9b509bde9a763a59126b08181d11763b6a6781315a5d5bae47eaea1447c864fb89bfa2f9a8b2fc43bcead61020d8c8e7d92b6b64885b2288a0a75769b
   languageName: node
   linkType: hard
 
@@ -14953,8 +14953,8 @@ fsevents@~2.1.2:
     "@babel/runtime": ^7.14.0
     "@crustio/crust-pin": ^0.0.1
     "@pinata/sdk": ^1.1.20
-    "@polkadot/dev": ^0.62.24
-    "@polkadot/ts": ^0.3.72
+    "@polkadot/dev": ^0.62.25
+    "@polkadot/ts": ^0.3.73
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.32
     "@types/file-saver": ^2.0.2
