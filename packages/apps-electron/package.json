@@ -7,7 +7,7 @@
   "dependencies": {
     "@babel/core": "^7.14.3",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.62.19",
+    "@polkadot/dev": "^0.62.25",
     "@polkadot/react-components": "^0.91.3-50",
     "electron-log": "^4.3.5",
     "electron-updater": "^4.3.9"
@@ -22,6 +22,6 @@
     "react-dom": "^17.0.2",
     "thread-loader": "^3.0.4",
     "tmp": "^0.2.1",
-    "webpack": "^5.37.1"
+    "webpack": "^5.38.1"
   }
 }
