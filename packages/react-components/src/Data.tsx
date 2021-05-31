@@ -26,8 +26,8 @@ interface Props extends BareProps {
 
 const TRUNCATE_TO = 16;
 
-function formatData (registry: Registry, data: AnyJson, type: TypeDef | undefined): Codec {
-  return createTypeUnsafe(registry, type?.displayName || type?.type || 'Raw', [data]);
+function formatData (registry: Registry, data: AnyJson | null, type: TypeDef | undefined): Codec {
+  return createTypeUnsafe(registry, type?.type || type?.displayName || 'Raw', [data]);
 }
 
 function Field ({ name, value }: { name: string, value: React.ReactNode }): React.ReactElement {
