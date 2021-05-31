@@ -185,7 +185,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
-  westlake: westlake,
+  'datahighway': westlake,
   zeitgeist: zeitgeist
 };
 
