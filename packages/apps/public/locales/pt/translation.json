@@ -966,7 +966,6 @@
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hospedado pelo Commonwealth Labs)",
   "rpc.flamingfir": "Fir flamejante (Substrate Testnet, hospedado pela Parity)",
   "rpc.header.dev": "Desenvolvimento",
-  "rpc.header.lighclients": "Light Clients (Substrate Connect)",
   "rpc.header.live": "Redes ativas",
   "rpc.header.test": "Redes de teste",
   "rpc.kulupu": "Grupos (Grupos Mainnet, hospedados por Grupos)",

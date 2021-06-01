@@ -979,7 +979,6 @@
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Substrate Testnet, hosted by Parity)",
   "rpc.header.dev": "Разработка",
-  "rpc.header.lighclients": "Light Clients (Substrate Connect)",
   "rpc.header.live": "Рабочие сети",
   "rpc.header.test": "Тестовые сети",
   "rpc.kulupu": "Kulupu (Kulupu Mainnet, hosted by Kulupu)",

@@ -7,7 +7,6 @@ import type { LinkOption } from '../settings/types';
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
 import { createProductionRelays } from './productionRelays';
-import { createSubstrateConnect } from './substrateConnect';
 import { createTesting } from './testing';
 import { createTestingRelays } from './testingRelays';
 
@@ -50,19 +49,6 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       value: ''
     },
     ...createTesting(t),
-    /** The categorization below is a grouping of substrate connect light clients
-    * As soon as this implementation took place first I will leave it here for the PR
-    * in order to decide if we want it as different category or not
-    **/
-    {
-      isDisabled: false,
-      isHeader: true,
-      isSpaced: true,
-      text: t('rpc.header.lighclients', 'Light Clients (Substrate Connect)', { ns: 'apps-config' }),
-      textBy: '',
-      value: ''
-    },
-    ...createSubstrateConnect(t),
     {
       isDevelopment: true,
       isDisabled: false,
