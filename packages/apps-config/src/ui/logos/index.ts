@@ -60,6 +60,7 @@ import moonbeam from './nodes/moonbeam.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
+import nodeCreatorChain from './nodes/creatorChain.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
@@ -188,6 +189,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['ChainX Node', nodeChainx],
   ['Clover Node', nodeClover],
   ['darwinia crab', nodeCrab],
+  ['Creator Chain', nodeCreatorChain],
   ['crust', nodeCrust],
   ['Crust Collator', nodeCrust],
   ['darwinia', nodeDarwinia],
@@ -287,6 +289,7 @@ export const namedLogos: Record<string, unknown> = {
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
   clover: nodeClover,
+  creatorChain: nodeCreatorChain,
   crab: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,

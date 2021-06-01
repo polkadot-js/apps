@@ -13,6 +13,7 @@
   "rpc.chainx": "ChainX",
   "rpc.clover.finance": "Clover",
   "rpc.crab": "Darwinia Crab",
+  "rpc.creator-chain": "Creator Chain",
   "rpc.crust.network": "Crust Maxwell",
   "rpc.custom": "Custom environment",
   "rpc.custom.entry": "Custom {{WS_URL}}",

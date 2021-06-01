@@ -75,6 +75,7 @@ const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
+const nodeCreatorChain = '#1ab394';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
@@ -208,6 +209,7 @@ export const nodeColors: Record<string, any> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['Creator Chain Node', nodeCreatorChain],
   ['DOTMog Node', nodeDotMog],
   ['edgeware node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
