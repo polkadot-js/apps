@@ -14,8 +14,9 @@ import { settings } from '@polkadot/ui-settings';
 import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
+import { u8aToHex } from '@polkadot/util';
 
-import CreateModal from '../modals/Create';
+import CreateModal, { addressFromSeed } from '../modals/Create';
 import { useTranslation } from '../translate';
 import Match from './Match';
 
@@ -60,7 +61,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
     startAt: 0
   });
   const [{ isMatchValid, match }, setMatch] = useState<Match>({ isMatchValid: true, match: DEFAULT_MATCH });
-  const [type, setType] = useState<KeypairType>('ed25519');
+  const [type, setType] = useState<KeypairType>('sr25519');
   const [withCase, setWithCase] = useState(true);
 
   const _clearSeed = useCallback(
@@ -115,9 +116,14 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
             _checkMatches();
           }
 
-          results.current.push(
-            generator({ match, runs: 10, type, withCase, withHex: true })
-          );
+          const result = generator({ match, runs: 10, type, withCase, withHex: true });
+
+          result.found = result.found.map((item: any) => ({
+            ...item,
+            address: addressFromSeed(u8aToHex(item.seed), '', type),
+          }));
+
+          results.current.push(result);
 
           _executeGeneration();
         }
