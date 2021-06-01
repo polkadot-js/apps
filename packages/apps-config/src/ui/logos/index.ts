@@ -326,7 +326,7 @@ export const specLogos: Record<string, unknown> = [
   ['shell', nodeShell],
   ['statemine', nodeStatemine],
   ['statemint', nodeStatemine],
-  ['westmine', nodeStatemine]
+  ['westmint', nodeStatemine]
 ].reduce((logos, [spec, logo]): Record<string, unknown> => ({
   ...logos,
   [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -465,7 +465,7 @@ export const namedLogos: Record<string, unknown> = {
   web3games: nodeWeb3games,
   westend: nodePolkadot,
   westlake: nodeWestlake,
-  westmine: nodeStatemine,
+  westmint: nodeStatemine,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
