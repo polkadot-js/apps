@@ -140,6 +140,7 @@
   "rpc.test.riochain": "RioChain",
   "rpc.test.sora-substrate-staging": "SORA-staging",
   "rpc.test.ternoa-chaos": "Ternoa Chaos",
+  "rpc.test.thales": "Thales network",
   "rpc.test.turbulence": "Turbulence",
   "rpc.test.uniarts": "UniArts",
   "rpc.test.unique": "Unique",

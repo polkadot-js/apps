@@ -7,5 +7,7 @@ export const ethereumChains = [
   'moonbase',
   'moonbeam',
   'moonriver',
-  'moonshadow'
+  'moonshadow',
+  'thales',
+  'thales-network'
 ];
