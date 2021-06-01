@@ -32,9 +32,9 @@ export function createWestend (t: TFunction): EndpointOption {
       // ...
       // (2) common good, leave as second group
       {
-        info: 'westmine',
+        info: 'westmint',
         paraId: 1000,
-        text: t('rpc.westend.shell', 'Westmine', { ns: 'apps-config' }),
+        text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://westend-shell-rpc.parity.io'
         }
