@@ -60,6 +60,7 @@
   "The reservation fee for this Id": "The reservation fee for this Id",
   "The reservation fee for this parachain, including base fee and per-byte fees": "The reservation fee for this parachain, including base fee and per-byte fees",
   "The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.": "The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.",
+  "The verifier signature that is to be associated with this contribution.": "The verifier signature that is to be associated with this contribution.",
   "There are no available parathreads": "There are no available parathreads",
   "There are no pending proposals": "There are no pending proposals",
   "There are no registered parachains": "There are no registered parachains",
@@ -138,5 +139,6 @@
   "validation code": "validation code",
   "validator {{index}}": "validator {{index}}",
   "value": "value",
+  "verifier signature": "verifier signature",
   "yes": "yes"
 }
