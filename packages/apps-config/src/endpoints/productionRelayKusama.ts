@@ -102,6 +102,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           ChainX: 'wss://sherpax.chainx.org'
         }
+      },
+      {
+        info: 'sakura',
+        paraId: 2016,
+        text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://api-sakura.clover.finance'
+        }
       }
     ]
   };
