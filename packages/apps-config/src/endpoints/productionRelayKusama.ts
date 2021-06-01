@@ -96,19 +96,19 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'sherpax',
-        paraId: 2013,
-        text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
-        providers: {
-          ChainX: 'wss://sherpax.chainx.org'
-        }
-      },
-      {
         info: 'sakura',
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
         providers: {
           Clover: 'wss://api-sakura.clover.finance'
+        }
+      },
+      {
+        info: 'sherpax',
+        paraId: 2013,
+        text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
+        providers: {
+          ChainX: 'wss://sherpax.chainx.org'
         }
       }
     ]
