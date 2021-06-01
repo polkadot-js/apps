@@ -1271,6 +1271,7 @@
   "rpc.equilibrium": "평형",
   "rpc.flamingfir": "Flaming Fir(서브스트레이트 테스트넷, Parity가 운영함)",
   "rpc.header.dev": "개발자 설정",
+  "rpc.header.lighclients": "Light Clients (Substrate Connect)",
   "rpc.header.live": "라이브넷들",
   "rpc.header.test": "테스트넷들",
   "rpc.hosted.by": "운영하다 {{host}}",

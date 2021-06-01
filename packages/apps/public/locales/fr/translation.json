@@ -1308,6 +1308,7 @@
   "rpc.equilibrium": "Equilibrium",
   "rpc.flamingfir": "Flaming Fir (Testnet Substrate, hébergé par Parity)",
   "rpc.header.dev": "Développement",
+  "rpc.header.lighclients": "Light Clients (Substrate Connect)",
   "rpc.header.live": "Réseau Live",
   "rpc.header.test": "Réseaux de test",
   "rpc.hosted.by": "hébergé par {{host}}",

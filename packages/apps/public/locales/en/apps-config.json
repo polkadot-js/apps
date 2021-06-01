@@ -5,6 +5,7 @@
   "rpc.dev.custom.own": "Custom",
   "rpc.dev.local": "Local Node",
   "rpc.header.dev": "Development",
+  "rpc.header.lighclients": "Light Clients (Substrate Connect)",
   "rpc.header.live": "Live networks",
   "rpc.header.live.relay": "Live relays & parachains",
   "rpc.header.test": "Test networks",
@@ -18,7 +19,9 @@
   "rpc.kusama.shadow": "Crust Shadow",
   "rpc.kusama.shell": "Shell",
   "rpc.kusama.sherpax": "SherpaX",
+  "rpc.kusama.substrateconnect": "Kusama (Production)",
   "rpc.polkadot.parity": "Polkadot",
+  "rpc.polkadot.substrateconnect": "Polkadot (Production)",
   "rpc.prod.centrifuge": "Centrifuge",
   "rpc.prod.chainx": "ChainX",
   "rpc.prod.crab": "Darwinia Crab",
@@ -134,5 +137,6 @@
   "rpc.test.zero": "Zero",
   "rpc.westend": "Westend",
   "rpc.westend.shell": "Shell",
+  "rpc.westend.substrateconnect": "Westend (Test)",
   "ss58.default": "Default for the connected node"
 }

@@ -961,6 +961,7 @@
   "rpc.edgeware": "Edgeware (red principal Edgeware, ofrecido por Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Testnet Substrate, ofrecido por Parity)",
   "rpc.header.dev": "Desarrollo",
+  "rpc.header.lighclients": "Light Clients (Substrate Connect)",
   "rpc.header.live": "Redes en funcionamiento",
   "rpc.header.test": "Redes de prueba",
   "rpc.kulupu": "Kulupu (Red principal Kulupu, ofrecido por Kulupu)",

@@ -26,6 +26,7 @@ import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defau
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
+import { WsProvider } from '@polkadot/api';
 
 interface Props {
   children: React.ReactNode;
@@ -190,21 +191,62 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     [apiError, extensions, isApiConnected, isApiInitialized, state]
   );
 
+  const supportedLightNetworks = ['kusama', 'polkadot', 'westend'];
+
   // initial initialization
   useEffect((): void => {
-    async function apiConnect () {
+    async function substrateConnectApi (network: string) {
       const detect = new Detector('PolkadotJS apps');
-      const network = 'westend';
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
       const types = getDevTypes();
       const options = { registry, signer, types, typesBundle, typesChain };
 
-      api = await detect.connect(network, undefined, options);
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      api.isReady.then(() => {
-        setIsApiInitialized(true);
-        setIsApiConnected(true);
-        console.log('ready');
+      try {
+        api = await detect.connect(network, undefined, options);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        api.isReady.then(() => {
+          setIsApiInitialized(true);
+          setIsApiConnected(true);
+          console.log('ready');
+          const injectedPromise = web3Enable('polkadot-js/apps');
+
+          injectedPromise
+            .then(setExtensions)
+            .catch(console.error);
+
+          loadOnReady(api, injectedPromise, store, types)
+            .then(setState)
+            .catch((error): void => {
+              console.error(error);
+
+              setApiError((error as Error).message);
+            });
+        }).catch(console.error);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    if (url?.includes('substrateconnect')) {
+      const network = url?.replace('ws://', '').split('.')[0];
+
+      if (!supportedLightNetworks.includes(network)) {
+        throw Error('Unsupported Light Client Network');
+      }
+
+      // eslint-disable-next-line no-void
+      void substrateConnectApi(network);
+    } else {
+      const provider = new WsProvider(url);
+      const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
+      const types = getDevTypes();
+
+      api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
+
+      api.on('connected', () => setIsApiConnected(true));
+      api.on('disconnected', () => setIsApiConnected(false));
+      api.on('error', (error: Error) => setApiError(error.message));
+      api.on('ready', (): void => {
         const injectedPromise = web3Enable('polkadot-js/apps');
 
         injectedPromise
@@ -219,10 +261,11 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
             setApiError((error as Error).message);
           });
       });
+
+      setIsApiInitialized(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }
 
-    // eslint-disable-next-line no-void
-    void apiConnect();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
