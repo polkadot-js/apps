@@ -81,7 +81,7 @@ function Contribute ({ cap, className, needsSignature, paraId, raised }: Props):
               )}
             </Modal.Columns>
             {needsSignature && (
-              <Modal.Columns hint={t<string>('The verifier signature that is to be associated with this crowdloan.')}>
+              <Modal.Columns hint={t<string>('The verifier signature that is to be associated with this contribution.')}>
                 <Input
                   isError={isSignatureError}
                   label={t<string>('verifier signature')}
