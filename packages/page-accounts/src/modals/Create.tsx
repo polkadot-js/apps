@@ -93,7 +93,7 @@ function rawValidate (seed: string): boolean {
   return ((seed.length > 0) && (seed.length <= 32)) || isHexSeed(seed);
 }
 
-function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
+export function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
   return keyring
     .createFromUri(`${phrase.trim()}${derivePath}`, {}, pairType)
     .address;
