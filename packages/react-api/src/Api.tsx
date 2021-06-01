@@ -191,8 +191,6 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     [apiError, extensions, isApiConnected, isApiInitialized, state]
   );
 
-  const supportedLightNetworks = ['kusama', 'polkadot', 'westend'];
-
   // initial initialization
   useEffect((): void => {
     async function substrateConnectApi (network: string) {
@@ -229,10 +227,6 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
     if (url?.includes('substrateconnect')) {
       const network = url?.replace('ws://', '').split('.')[0];
-
-      if (!supportedLightNetworks.includes(network)) {
-        throw Error('Unsupported Light Client Network');
-      }
 
       // eslint-disable-next-line no-void
       void substrateConnectApi(network);
