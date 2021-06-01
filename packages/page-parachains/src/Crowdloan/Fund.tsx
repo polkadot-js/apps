@@ -42,7 +42,7 @@ function extractContributors (allAccounts: string[], keys: StorageKey[]): Contri
   };
 }
 
-function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
@@ -164,6 +164,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         {isOngoing && canContribute && (
           <Contribute
             cap={cap}
+            needsSignature={verifier.isSome}
             paraId={paraId}
             raised={raised}
           />
