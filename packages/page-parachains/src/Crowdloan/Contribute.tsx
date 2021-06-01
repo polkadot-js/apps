@@ -4,30 +4,37 @@
 import type BN from 'bn.js';
 import type { Balance, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { Button, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Input, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   cap: Balance;
   className?: string;
+  needsSignature: boolean;
   paraId: ParaId;
   raised: Balance;
 }
 
-function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElement<Props> {
+function Contribute ({ cap, className, needsSignature, paraId, raised }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
+  const [signature, setSignature] = useState<string | null>(null);
 
-  // TODO verifier signature
+  const isSignatureError = useMemo(
+    () => needsSignature
+      ? !isHex(signature)
+      : false,
+    [needsSignature, signature]
+  );
 
   const remaining = cap.sub(raised);
   const isAmountBelow = !amount || amount.lt(api.consts.crowdloan.minContribution as BalanceOf);
@@ -73,6 +80,15 @@ function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElem
                 <MarkWarning content={t<string>('The amount is more than the remaining contribution needed {{value}}', { replace: { value: formatBalance(remaining) } })} />
               )}
             </Modal.Columns>
+            {needsSignature && (
+              <Modal.Columns hint={t<string>('The verifier signature that is to be associated with this contribution.')}>
+                <Input
+                  isError={isSignatureError}
+                  label={t<string>('verifier signature')}
+                  onChange={setSignature}
+                />
+              </Modal.Columns>
+            )}
             <Modal.Columns hint={t<string>('The above contribution should more than minimum contribution amount and less than the remaining value.')}>
               <InputBalance
                 defaultValue={api.consts.crowdloan.minContribution as BalanceOf}
@@ -90,10 +106,10 @@ function Contribute ({ cap, className, paraId, raised }: Props): React.ReactElem
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={isAmountError}
+              isDisabled={isAmountError || isSignatureError}
               label={t<string>('Contribute')}
               onStart={toggleOpen}
-              params={[paraId, amount, null]}
+              params={[paraId, amount, signature]}
               tx={api.tx.crowdloan.contribute}
             />
           </Modal.Actions>
