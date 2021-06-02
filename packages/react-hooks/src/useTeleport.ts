@@ -87,7 +87,5 @@ export function useTeleport (): Teleport {
     }
   }, [apiUrl, chainParaId]);
 
-  console.log('useTeleport', JSON.stringify(state));
-
   return state;
 }
