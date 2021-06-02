@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 
 import { useMemo } from 'react';
 
@@ -11,8 +11,10 @@ import { bnToBn } from '@polkadot/util';
 
 import { useApi } from './useApi';
 
+const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
+
 function extractRelayEndpoints (genesisHash: string): LinkOption[] {
-  return createWsEndpoints((key: string, value: string | undefined) => value || key).filter(({ genesisHashRelay }) =>
+  return endpoints.filter(({ genesisHashRelay }) =>
     genesisHash === genesisHashRelay
   );
 }
@@ -23,7 +25,7 @@ function extractParaEndpoints (allEndpoints: LinkOption[], paraId: BN | number):
   return allEndpoints.filter(({ paraId }) => paraId === numId);
 }
 
-function useRelayEndpoints (): LinkOption[] {
+export function useRelayEndpoints (): LinkOption[] {
   const { api } = useApi();
 
   return useMemo(
@@ -46,7 +48,10 @@ export function useIsParasLinked (ids?: (BN | number)[] | null): Record<string, 
 
   return useMemo(
     () => ids
-      ? ids.reduce((all: Record<string, boolean>, id) => ({ ...all, [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0 }), {})
+      ? ids.reduce((all: Record<string, boolean>, id) => ({
+        ...all,
+        [id.toString()]: extractParaEndpoints(endpoints, id).length !== 0
+      }), {})
       : {},
     [endpoints, ids]
   );

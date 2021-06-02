@@ -19,6 +19,7 @@ export interface Route {
     needsAccounts?: boolean;
     needsApi?: (string | string[])[];
     needsSudo?: boolean;
+    needsTeleport?: boolean;
   };
   group: RouteGroup;
   icon: IconName;

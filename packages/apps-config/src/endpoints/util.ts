@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
-import type { EndpointOption } from './types';
+import type { EndpointOption, LinkOption } from './types';
 
 export function expandLinked (input: LinkOption[]): LinkOption[] {
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
@@ -22,9 +21,9 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-export function expandEndpoint (t: TFunction, input: EndpointOption): LinkOption[] {
-  const { dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, text } = input;
+export function expandEndpoint (t: TFunction, { allowTeleport, dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, text }: EndpointOption): LinkOption[] {
   const base = {
+    allowTeleport,
     genesisHash,
     info,
     isChild,
@@ -46,6 +45,13 @@ export function expandEndpoint (t: TFunction, input: EndpointOption): LinkOption
 
     linked.forEach((o) => options.push(...expandEndpoint(t, o)));
     last.linked = options;
+
+    // if one of the children allows teleport, add it to the root as well
+    const allowTeleport = options.some(({ allowTeleport }) => allowTeleport);
+
+    result.forEach((r): void => {
+      r.allowTeleport = allowTeleport;
+    });
   }
 
   return expandLinked(result);

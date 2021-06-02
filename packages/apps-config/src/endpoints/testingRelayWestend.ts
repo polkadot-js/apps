@@ -33,6 +33,7 @@ export function createWestend (t: TFunction): EndpointOption {
       // (2) common good, leave as second group
       {
         info: 'westmint',
+        allowTeleport: true,
         paraId: 1000,
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
