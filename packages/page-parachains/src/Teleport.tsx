@@ -16,7 +16,7 @@ interface Props {
 }
 
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
-const DEFAULT_WEIGHT = 1_000_000_000;
+const DEFAULT_WEIGHT = 100_000_000; // 30_000_000 as per the code, add a margin
 
 function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -51,8 +51,6 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
       ],
     [amount, isParachain, recipientId, recipientParaId, weight]
   );
-
-  console.log('Teleport', allowTeleport, chainOpts);
 
   if (!allowTeleport || !chainOpts.length) {
     return null;
