@@ -44,6 +44,7 @@ import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
 import konomi from './konomi';
 import kulupu from './kulupu';
+import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
@@ -52,6 +53,8 @@ import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import oakTestnet from './oak-testnet';
+import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -62,6 +65,7 @@ import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
+import pontem from './pontem';
 import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
@@ -92,9 +96,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
+  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
-  acala,
+  ...acala,
   apron,
   'ares-parachain': aresParachain,
   bifrost: bifrost,
@@ -112,6 +117,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'crust-parachain': crust,
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
+  datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,
@@ -135,18 +141,20 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  khala: phalaParachain,
   'kilt-parachain': kilt,
   konomi,
   kulupu,
+  kylin,
   laminar,
   litentry,
-  mandala: acala,
-  manta,
+  'manta-node': manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
-  'moonbase-alphanet': moonbeam,
+  moonbase: moonbeam,
   moonbeam,
-  'moonbeam-standalone': moonbeam,
+  moonriver: moonbeam,
+  moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
   nft: unique,
@@ -154,14 +162,17 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  'oak-testnet': oakTestnet,
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
+  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
   polymesh,
+  pontem,
   prism,
   realis,
   'riochain-runtime': riochain,
@@ -180,7 +191,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
-  westlake: westlake,
   zeitgeist: zeitgeist
 };
 

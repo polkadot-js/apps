@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -37,6 +38,7 @@ function extractEventDetails (events?: KeyedEvent[]): [BN?, BN?, BN?] {
 
 function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   const [deposits, transfers, weight] = useMemo(
     () => extractEventDetails(events),
@@ -50,12 +52,16 @@ function Summary ({ events, maxBlockWeight, signedBlock }: Props): React.ReactEl
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('deposits')}>
-          <FormatBalance value={deposits} />
-        </CardSummary>
-        <CardSummary label={t<string>('transfers')}>
-          <FormatBalance value={transfers} />
-        </CardSummary>
+        {api.query.balances && (
+          <>
+            <CardSummary label={t<string>('deposits')}>
+              <FormatBalance value={deposits} />
+            </CardSummary>
+            <CardSummary label={t<string>('transfers')}>
+              <FormatBalance value={transfers} />
+            </CardSummary>
+          </>
+        )}
       </section>
       {maxBlockWeight && (
         <section>

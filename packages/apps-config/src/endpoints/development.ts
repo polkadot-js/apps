@@ -23,13 +23,13 @@ export function createCustom (t: TFunction): LinkOption[] {
     ? [
       {
         isHeader: true,
-        text: t('rpc.custom', 'Custom environment', { ns: 'apps-config' }),
+        text: t('rpc.dev.custom', 'Custom environment', { ns: 'apps-config' }),
         textBy: '',
         value: ''
       },
       {
         info: 'WS_URL',
-        text: t('rpc.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
+        text: t('rpc.dev.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
         textBy: WS_URL,
         value: WS_URL
       }
@@ -47,7 +47,7 @@ export function createOwn (t: TFunction): LinkOption[] {
 
       return items.map((textBy) => ({
         info: 'local',
-        text: t('rpc.custom.own', 'Custom', { ns: 'apps-config' }),
+        text: t('rpc.dev.custom.own', 'Custom', { ns: 'apps-config' }),
         textBy,
         value: textBy
       }));
@@ -64,7 +64,7 @@ export function createDev (t: TFunction): LinkOption[] {
     {
       dnslink: 'local',
       info: 'local',
-      text: t('rpc.local', 'Local Node', { ns: 'apps-config' }),
+      text: t('rpc.dev.local', 'Local Node', { ns: 'apps-config' }),
       textBy: '127.0.0.1:9944',
       value: 'ws://127.0.0.1:9944'
     }

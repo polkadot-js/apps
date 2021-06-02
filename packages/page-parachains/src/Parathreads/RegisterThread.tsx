@@ -1,37 +1,32 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParaId } from '@polkadot/types/interfaces';
+import type { BalanceOf } from '@polkadot/types/interfaces';
+import type { OwnedId, OwnerInfo } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { InputAddress, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { compactAddLength } from '@polkadot/util';
 
+import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
+import { LOWEST_INVALID_ID } from './constants';
 
 interface Props {
   className?: string;
+  nextParaId?: BN;
   onClose: () => void;
+  ownedIds: OwnedId[];
 }
 
-const LOWEST_PUBLIC_ID = new BN(2_000);
-
-const transformId = {
-  transform: (nextId: ParaId) =>
-    nextId.isZero()
-      ? LOWEST_PUBLIC_ID
-      : nextId
-};
-
-function RegisterThread ({ className, onClose }: Props): React.ReactElement<Props> {
+function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [paraId, setParaId] = useState<BN | undefined>();
-  const nextParaId = useCall<ParaId | BN>(api.query.registrar?.nextFreeParaId, [], transformId);
   const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
 
@@ -45,9 +40,22 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
     []
   );
 
-  const isIdValid = api.tx.registrar.registerNext
-    ? !!nextParaId
-    : !!(paraId && paraId.gte(LOWEST_PUBLIC_ID));
+  const _setOwner = useCallback(
+    ({ accountId, paraId }: OwnerInfo) => {
+      setAccountId(accountId);
+      setParaId(new BN(paraId));
+    },
+    []
+  );
+
+  const reservedDeposit = useMemo(
+    () => (api.consts.registrar.paraDeposit as BalanceOf)
+      .add((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(wasm ? wasm.length : 0))
+      .iadd((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(genesisState ? genesisState.length : 0)),
+    [api, wasm, genesisState]
+  );
+
+  const isIdError = !paraId || !paraId.gt(LOWEST_INVALID_ID);
 
   return (
     <Modal
@@ -56,37 +64,39 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
-          <InputAddress
-            label={t<string>('register from')}
-            onChange={setAccountId}
-            type='account'
-            value={accountId}
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
-          {api.tx.registrar.registerNext
-            ? (
-              <InputNumber
-                defaultValue={nextParaId || LOWEST_PUBLIC_ID}
-                isDisabled
-                isZeroable={false}
-                label={t<string>('parachain id')}
-              />
-            )
-            : (
-              <InputNumber
-                autoFocus
-                isZeroable={false}
-                label={t<string>('parachain id')}
-                onChange={setParaId}
-              />
-            )
-          }
-        </Modal.Columns>
+        {api.tx.registrar.reserve
+          ? (
+            <InputOwner
+              noCodeCheck
+              onChange={_setOwner}
+              ownedIds={ownedIds}
+            />
+          )
+          : (
+            <>
+              <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
+                <InputAddress
+                  label={t<string>('register from')}
+                  onChange={setAccountId}
+                  type='account'
+                  value={accountId}
+                />
+              </Modal.Columns>
+              <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
+                <InputNumber
+                  autoFocus
+                  defaultValue={nextParaId}
+                  isError={isIdError}
+                  isZeroable={false}
+                  label={t<string>('parachain id')}
+                  onChange={setParaId}
+                />
+              </Modal.Columns>
+            </>
+          )
+        }
         <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
           <InputFile
-            autoFocus={!!api.tx.registrar.registerNext}
             help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
             isError={!wasm}
             label={t<string>('code')}
@@ -101,19 +111,22 @@ function RegisterThread ({ className, onClose }: Props): React.ReactElement<Prop
             onChange={_setGenesisState}
           />
         </Modal.Columns>
+        <Modal.Columns hint={t<string>('The reservation fee for this parachain, including base fee and per-byte fees')}>
+          <InputBalance
+            defaultValue={reservedDeposit}
+            isDisabled
+            label={t<string>('reserved deposit')}
+          />
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!wasm || !genesisState || !isIdValid}
+          isDisabled={!wasm || !genesisState || isIdError}
           onStart={onClose}
-          params={
-            api.tx.registrar.registerNext
-              ? [genesisState, wasm]
-              : [paraId, genesisState, wasm]
-          }
-          tx={api.tx.registrar.registerNext || api.tx.registrar.register}
+          params={[paraId, genesisState, wasm]}
+          tx={api.tx.registrar.register}
         />
       </Modal.Actions>
     </Modal>

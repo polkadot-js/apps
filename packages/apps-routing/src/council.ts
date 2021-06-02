@@ -13,6 +13,7 @@ export default function create (t: TFunction): Route {
       needsApi: [
         'query.council.prime',
         [
+          'query.phragmenElection.candidates',
           'query.electionsPhragmen.candidates',
           'query.elections.candidates'
         ]

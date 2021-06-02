@@ -25,8 +25,13 @@ export function createPolkadot (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://polkadot.elara.patract.io'
     },
     linked: [
-      // parachains with id, see Rococo
-      // alphabetical based on chain name
+      // (1) system parachains (none available yet)
+      // ...
+      // (2) common good, leave as second group (none available yet)
+      // ...
+      /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
     ]
   };
 }

@@ -28,7 +28,28 @@ export function createWestend (t: TFunction): EndpointOption {
       OnFinality: 'wss://westend.api.onfinality.io/public-ws'
     },
     linked: [
-      // all parachains here (with paraId, see Rococo)
+      // (1) system parachains (none available yet)
+      // ...
+      // (2) common good, leave as second group
+      {
+        info: 'westmint',
+        paraId: 1000,
+        text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://westend-shell-rpc.parity.io'
+        }
+      },
+      // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
+      {
+        info: 'moonshadow',
+        paraId: 2002,
+        text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
+        }
+      }
     ]
   };
 }

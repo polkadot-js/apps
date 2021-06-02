@@ -1,0 +1,15 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+ <rect width="100%" height="100%" fill="black"/>
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <g transform="matrix(5.21101 0 0 5.21101 -10580.6 -11719.7)" id="svg_100">
+   <g id="svg_6">
+    <rect id="svg_1" fill="#03FFFF" height="49.504" width="12.925" y="2273.4014" x="2055.64633"/>
+    <rect id="svg_2" fill="#03FFFF" height="13.024" width="12.939" y="2286.9984" x="2068.47333"/>
+    <rect id="svg_3" fill="#03FFFF" height="13.024" width="12.939" y="2300.0514" x="2081.24033"/>
+    <rect id="svg_4" fill="#03FFFF" height="13.024" width="12.939" y="2309.6614" x="2090.53133"/>
+    <rect id="svg_5" fill="#03FFFF" height="13.024" width="21.863" y="2273.9354" x="2081.09433"/>
+   </g>
+  </g>
+ </g>
+</svg>
