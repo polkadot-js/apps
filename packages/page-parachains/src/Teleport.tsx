@@ -93,7 +93,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> {
               { ConcreteFungible: { amount, id: 'Null' } }
             ],
             // FIXME We need to actually calculate this weight
-            100_000_000
+            1_000_000_000
           ]}
           tx={
             (api.tx.xcm && api.tx.xcm.teleportAssets) ||
