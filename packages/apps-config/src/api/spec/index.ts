@@ -186,7 +186,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subsocial,
   subzero: zero,
   ternoa,
-  'thales-network': moonbeam,
+  'thales-network': thales,
   thales,
   trustbase,
   uart,
