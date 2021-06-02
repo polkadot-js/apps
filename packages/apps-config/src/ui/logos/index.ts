@@ -58,6 +58,7 @@ import nodeKilt from './nodes/kilt.svg';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeKylin from './nodes/kylin.png';
+import nodeKlug from './nodes/klug.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
@@ -105,7 +106,7 @@ import nodeWestlake from './nodes/westlake.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeKlug from './nodes/klug.png';
+
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -146,6 +147,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Kylin Testnet', nodeKylin],
+  ['KlugDossier',nodeKlug],
   ['Litentry', nodeLitentry],
   ['Manta Testnet', nodeManta],
   ['MathChain PC1', nodeMath],
@@ -192,7 +194,6 @@ export const chainLogos: Record<string, unknown> = [
   ['Vln', nodeVln],
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
-  ['KlugDossier',nodeKlug],
   ['Westmint', nodeStatemine],
   ['Westmint Test', nodeStatemine]
 
@@ -252,6 +253,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['KILT Collator', nodeKilt],
   ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
+  ['Klug Dossier Node',nodeKlug],
   ['Laminar Node', nodeLaminar],
   ['Litentry', nodeLitentry],
   ['Litentry Collator', nodeLitentry],
@@ -318,7 +320,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
-  ['Klug Dossier Node',nodeKlug],
   ['Zeitgeist Collator', nodeZeitgeist]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
@@ -380,6 +381,7 @@ export const namedLogos: Record<string, unknown> = {
   kulupu: nodeKulupu,
   kusama: chainKusama,
   kylin: nodeKylin,
+  KlugDossier: nodeKlug
   laminar: nodeLaminar,
   litentry: nodeLitentry,
   manta: nodeManta,
@@ -471,8 +473,7 @@ export const namedLogos: Record<string, unknown> = {
   westlake: nodeWestlake,
   westmint: nodeStatemine,
   zeitgeist: nodeZeitgeist,
-  zero: nodeZero,
-  KlugDossier: nodeKlug
+  zero: nodeZero
 };
 
 // extension logos

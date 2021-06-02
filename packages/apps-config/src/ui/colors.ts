@@ -98,6 +98,7 @@ const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
 const nodeKylin = '#ed007e';
+const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
@@ -125,7 +126,6 @@ const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
-const nodeKlug = '#663399';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 // based on the spec name
@@ -182,6 +182,7 @@ export const chainColors: Record<string, string> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['Kylin Testnet', chainKylin],
+  ['KLUGDOSSIER.NET', chainKlug],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
   ['Manta Testnet', chainManta],
@@ -239,7 +240,6 @@ export const chainColors: Record<string, string> = [
   ['Westmint Test', nodeStatemint],
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
-  ['KLUGDOSSIER.NET', chainKlug],
   ['ZERO.IO', chainZero]
 ].reduce((colors, [chain, color]): Record<string, string> => ({
   ...colors,
@@ -268,6 +268,7 @@ export const nodeColors: Record<string, string> = [
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Kylin Collator', nodeKylin],
+  ['Klug Dossier Node',nodeKlug],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['Manta Node', nodeManta],
@@ -303,7 +304,6 @@ export const nodeColors: Record<string, string> = [
   ['Westmint Collator', nodeStatemint],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
-  ['Klug Dossier Node',nodeKlug]
   ['Zenlink Collator', nodeZenlink]
 ].reduce((colors, [node, color]): Record<string, string> => ({
   ...colors,
