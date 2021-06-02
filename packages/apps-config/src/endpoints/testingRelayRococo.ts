@@ -31,7 +31,6 @@ export function createRococo (t: TFunction): EndpointOption {
       // these are the base chains
       {
         info: 'rococoTick',
-        isDisabled: true, // Rococo reset
         paraId: 100,
         text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
@@ -40,7 +39,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrick',
-        isDisabled: true, // Rococo reset
         paraId: 110,
         text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
         providers: {
@@ -49,7 +47,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrack',
-        isDisabled: true, // Rococo reset
         paraId: 120,
         text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         providers: {
