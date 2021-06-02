@@ -381,7 +381,7 @@ export const namedLogos: Record<string, unknown> = {
   kulupu: nodeKulupu,
   kusama: chainKusama,
   kylin: nodeKylin,
-  KlugDossier: nodeKlug
+  KlugDossier: nodeKlug,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
   manta: nodeManta,
