@@ -23,6 +23,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         CreatorChain: 'ws://3.14.88.201:9944'
       }
-    },
+    }
   ]);
 }
