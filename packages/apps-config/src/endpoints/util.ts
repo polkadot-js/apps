@@ -35,6 +35,7 @@ export function expandEndpoint (t: TFunction, { allowTeleport, dnslink, genesisH
   const result = Object.entries(providers).map(([host, value], index): LinkOption => ({
     ...base,
     dnslink: index === 0 ? dnslink : undefined,
+    isRelay: false,
     textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } }),
     value
   }));
@@ -44,6 +45,7 @@ export function expandEndpoint (t: TFunction, { allowTeleport, dnslink, genesisH
     const options: LinkOption[] = [];
 
     linked.forEach((o) => options.push(...expandEndpoint(t, o)));
+    last.isRelay = true;
     last.linked = options;
 
     // if one of the children allows teleport, add it to the root as well

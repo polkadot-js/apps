@@ -7,7 +7,7 @@ import React, { useMemo, useState } from 'react';
 import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO, isNumber } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -15,29 +15,52 @@ interface Props {
   onClose: () => void;
 }
 
-const INVALID_PARAID = 666_666_666;
+const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
+const DEFAULT_WEIGHT = 1_000_000_000;
 
-function Teleport ({ onClose }: Props): React.ReactElement<Props> {
+function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [hasAvailable] = useState(true);
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
-  const [paraId, setParaId] = useState(INVALID_PARAID);
-  const { destinations } = useTeleport();
+  const [recipientParaId, setParaId] = useState(INVALID_PARAID);
+  // FIXME We need to actually calculate the destination weight
+  const [weight] = useState(DEFAULT_WEIGHT);
+  const { allowTeleport, destinations, isParachain } = useTeleport();
 
   const chainOpts = useMemo(
-    () => destinations
-      .map(({ paraId, text }) => [paraId, text])
-      .filter((v): v is [number, string] => isNumber(v[0]))
-      .map(([value, text]) => ({ text, value })),
+    () => destinations.map(({ paraId, text }, index) => ({ text, value: paraId || index })),
     [destinations]
   );
 
+  const params = useMemo(
+    () => isParachain
+      ? [
+        { X1: 'Parent' },
+        { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
+        [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
+        weight
+      ]
+      : [
+        { X1: { ParaChain: recipientParaId } },
+        { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
+        [{ ConcreteFungible: { amount, id: 'Null' } }],
+        weight
+      ],
+    [amount, isParachain, recipientId, recipientParaId, weight]
+  );
+
+  console.log('Teleport', allowTeleport, chainOpts);
+
+  if (!allowTeleport || !chainOpts.length) {
+    return null;
+  }
+
   return (
     <Modal
-      header={t<string>('Teleport funds')}
+      header={t<string>('Teleport assets')}
       size='large'
     >
       <Modal.Content>
@@ -54,22 +77,22 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> {
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The destination parachain for this asset teleport')}>
+        <Modal.Columns hint={t<string>('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
           <Dropdown
-            defaultValue={chainOpts[0] && chainOpts[0].value}
-            label={t<string>('destination parachain')}
+            defaultValue={chainOpts[0]?.value}
+            label={t<string>('destination chain')}
             onChange={setParaId}
             options={chainOpts}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
+        <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
           <InputAddress
             label={t<string>('send to address')}
             onChange={setRecipientId}
             type='allPlus'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
+        <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}>
           <InputBalance
             autoFocus
             isError={!hasAvailable}
@@ -83,18 +106,10 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> {
         <TxButton
           accountId={senderId}
           icon='share-square'
-          isDisabled={!hasAvailable || !recipientId || !amount || paraId === INVALID_PARAID}
+          isDisabled={!hasAvailable || !recipientId || !amount || (!isParachain && recipientParaId === INVALID_PARAID)}
           label={t<string>('Teleport')}
           onStart={onClose}
-          params={[
-            { X1: { ParaChain: paraId } },
-            { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-            [
-              { ConcreteFungible: { amount, id: 'Null' } }
-            ],
-            // FIXME We need to actually calculate this weight
-            1_000_000_000
-          ]}
+          params={params}
           tx={
             (api.tx.xcm && api.tx.xcm.teleportAssets) ||
             (api.tx.xcmPallet && api.tx.xcmPallet.teleportAssets) ||

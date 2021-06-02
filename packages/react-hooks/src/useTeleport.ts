@@ -20,19 +20,28 @@ interface Teleport {
 
 const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter(({ allowTeleport }) => allowTeleport);
 
-function extractRelayDestinations (relayGenesis: string, chainParaId?: ParaId): LinkOption[] {
+function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption) => boolean): LinkOption[] {
   return endpoints
-    .filter(({ genesisHashRelay, paraId }) =>
-      genesisHashRelay === relayGenesis &&
-      (!chainParaId || !chainParaId.eq(paraId))
+    .filter((l) =>
+      (
+        l.genesisHashRelay === relayGenesis ||
+        l.genesisHash === relayGenesis
+      ) && filter(l)
     )
     .reduce((result: LinkOption[], curr): LinkOption[] => {
-      if (!result.some(({ paraId }) => paraId === curr.paraId)) {
+      if (!result.some(({ genesisHash, paraId }) => paraId === curr.paraId || genesisHash === curr.genesisHash)) {
         result.push(curr);
       }
 
       return result;
-    }, []);
+    }, [])
+    .sort((a, b) =>
+      a.isRelay === b.isRelay
+        ? 0
+        : a.isRelay
+          ? -1
+          : 1
+    );
 }
 
 export function useTeleport (): Teleport {
@@ -46,7 +55,8 @@ export function useTeleport (): Teleport {
 
   useEffect((): void => {
     if (isApiReady) {
-      const destinations = extractRelayDestinations(api.genesisHash.toHex());
+      const relayGenesis = api.genesisHash.toHex();
+      const destinations = extractRelayDestinations(relayGenesis, ({ genesisHash }) => relayGenesis !== genesisHash);
 
       setState((prev) => ({
         ...prev,
@@ -65,10 +75,10 @@ export function useTeleport (): Teleport {
 
       setState((prev) => ({
         ...prev,
-        // FIXME allow from para to other or to relay (needs fix in the modal)
-        allowTeleport: false, // !!endpoint,
+        allowTeleport: !!endpoint,
         destinations: endpoint && endpoint.genesisHashRelay
-          ? extractRelayDestinations(endpoint.genesisHashRelay, chainParaId)
+          // FIXME we probably just want to check for !chainParaId.eq(paraId) || !!genesisHash
+          ? extractRelayDestinations(endpoint.genesisHashRelay, ({ genesisHash }) => !!genesisHash)
           : [],
         isParachain: true,
         paraId: chainParaId

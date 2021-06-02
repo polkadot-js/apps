@@ -24,6 +24,7 @@ export interface LinkOption extends Option {
   genesisHashRelay?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
+  isRelay?: boolean;
   isSpaced?: boolean;
   linked?: LinkOption[];
   paraId?: number;
