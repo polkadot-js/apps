@@ -399,6 +399,5 @@ export function createTesting (t: TFunction): LinkOption[] {
         ZERO: 'wss://alphaville.zero.io'
       }
     }
-   
   ]);
 }

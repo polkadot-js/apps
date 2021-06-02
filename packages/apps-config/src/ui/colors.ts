@@ -268,7 +268,7 @@ export const nodeColors: Record<string, string> = [
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Kylin Collator', nodeKylin],
-  ['Klug Dossier Node',nodeKlug],
+  ['Klug Dossier Node', nodeKlug],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['Manta Node', nodeManta],
