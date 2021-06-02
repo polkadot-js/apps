@@ -1,30 +1,38 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
 import { createWsEndpoints } from '@polkadot/apps-config';
-import { isNumber } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
 interface Teleport {
   allowTeleport: boolean;
-  destinations: number[];
+  destinations: LinkOption[];
   isParachain: boolean;
   paraId?: ParaId;
 }
 
 const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter(({ allowTeleport }) => allowTeleport);
 
-function extractRelayDestinations (relayGenesis: string): number[] {
+function extractRelayDestinations (relayGenesis: string, chainParaId?: ParaId): LinkOption[] {
   return endpoints
-    .filter(({ genesisHashRelay }) => genesisHashRelay === relayGenesis)
-    .map(({ paraId }) => paraId)
-    .filter((paraId): paraId is number => isNumber(paraId));
+    .filter(({ genesisHashRelay, paraId }) =>
+      genesisHashRelay === relayGenesis &&
+      (!chainParaId || !chainParaId.eq(paraId))
+    )
+    .reduce((result: LinkOption[], curr): LinkOption[] => {
+      if (!result.some(({ paraId }) => paraId === curr.paraId)) {
+        result.push(curr);
+      }
+
+      return result;
+    }, []);
 }
 
 export function useTeleport (): Teleport {
@@ -57,9 +65,10 @@ export function useTeleport (): Teleport {
 
       setState((prev) => ({
         ...prev,
-        allowTeleport: !!endpoint,
+        // FIXME allow from para to other or to relay (needs fix in the modal)
+        allowTeleport: false, // !!endpoint,
         destinations: endpoint && endpoint.genesisHashRelay
-          ? extractRelayDestinations(endpoint.genesisHashRelay).filter((paraId) => !chainParaId.eq(paraId))
+          ? extractRelayDestinations(endpoint.genesisHashRelay, chainParaId)
           : [],
         isParachain: true,
         paraId: chainParaId

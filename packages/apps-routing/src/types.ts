@@ -11,8 +11,9 @@ export interface RouteProps extends AppProps, BareProps {
 }
 
 export interface Route {
-  Component: React.ComponentType<RouteProps>;
-  Modal?: React.ComponentType<any>;
+  // FIXME This is weird, we really expect the memo to be there...
+  Component: React.ComponentType<RouteProps> | React.MemoExoticComponent<any>;
+  Modal?: React.ComponentType<any> | React.MemoExoticComponent<any>;
   display: {
     isHidden?: boolean;
     isModal?: boolean;
