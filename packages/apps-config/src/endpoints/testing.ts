@@ -200,6 +200,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'KlugDossier',
+      text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
+      providers: {
+        'Klug Dossier': 'wss://klugdossier.net/'
+      }
+    },
+    {
       info: 'litentry',
       text: t('rpc.test.litentry', 'Litentry Testnet', { ns: 'apps-config' }),
       providers: {
@@ -391,13 +398,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         ZERO: 'wss://alphaville.zero.io'
       }
-    },
-    {
-      info: 'KlugDossier',
-      text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
-      providers: {
-        'Klug Dossier': 'wss://klugdossier.net/'
-      }
     }
+   
   ]);
 }
