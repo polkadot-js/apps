@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
@@ -42,7 +42,7 @@ function createExternals (t: TFunction): ItemRoute[] {
   ];
 }
 
-function checkVisible ({ api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
+function checkVisible ({ api, isApiConnected, isApiReady }: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo, needsTeleport }: Route['display']): boolean {
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
@@ -53,12 +53,14 @@ function checkVisible ({ api, isApiConnected, isApiReady }: ApiProps, hasAccount
     return false;
   } else if (needsSudo && !hasSudo) {
     return false;
+  } else if (needsTeleport && !allowTeleport) {
+    return false;
   }
 
   return findMissingApis(api, needsApi).length === 0;
 }
 
-function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, hasAccounts: boolean, hasSudo: boolean): Group[] {
+function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean): Group[] {
   return Object
     .values(
       routing.reduce((all: Groups, route): Groups => {
@@ -77,7 +79,7 @@ function extractGroups (routing: Routes, groupNames: Record<string, string>, api
     .map(({ name, routes }): Group => ({
       name,
       routes: routes.filter(({ display }) =>
-        checkVisible(apiProps, hasAccounts, hasSudo, display)
+        checkVisible(apiProps, allowTeleport, hasAccounts, hasSudo, display)
       )
     }))
     .filter(({ routes }) => routes.length);
@@ -87,6 +89,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
+  const { allowTeleport } = useTeleport();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
   const location = useLocation();
 
@@ -107,8 +110,8 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const visibleGroups = useMemo(
-    () => extractGroups(routeRef.current, groupRef.current, apiProps, hasAccounts, hasSudo),
-    [apiProps, hasAccounts, hasSudo]
+    () => extractGroups(routeRef.current, groupRef.current, apiProps, allowTeleport, hasAccounts, hasSudo),
+    [allowTeleport, apiProps, hasAccounts, hasSudo]
   );
 
   const activeRoute = useMemo(
