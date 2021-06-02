@@ -93,6 +93,7 @@ const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeGenshiro = '#e8662d';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -154,6 +155,8 @@ export const chainColors: Record<string, string> = [
   ['Steam PC', chainRococoEave],
   ['Encointer Canary', nodeEncointerNotee],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Equilibrium', nodeEquilibrium],
+  ['EquilibriumTestnet', nodeGenshiro],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
   ['GamePower Network', chainGamePower],
@@ -257,7 +260,6 @@ export const nodeColors: Record<string, string> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
-  ['Equilibrium node', nodeEquilibrium],
   ['Galital', nodeGalital],
   ['Galital Parachain Collator', nodeGalital],
   ['GamePower Node', nodeGamePower],
