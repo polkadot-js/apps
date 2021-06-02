@@ -95,6 +95,7 @@ import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
+import nodeThales from './nodes/thales.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
 import nodeUnique from './nodes/unique.svg';
@@ -179,6 +180,7 @@ export const chainLogos: Record<string, unknown> = [
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
+  ['Thales Network', nodeThales],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
   ['Trick', chainRococoTrick],

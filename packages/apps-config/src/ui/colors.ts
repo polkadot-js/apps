@@ -118,6 +118,7 @@ const nodeStatemint = '#86e62a'; // '#98ff98';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
+const nodeThales = '#173288';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
 const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
@@ -222,6 +223,7 @@ export const chainColors: Record<string, string> = [
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
+  ['Thales Network', nodeThales],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],

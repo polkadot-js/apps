@@ -76,6 +76,7 @@ import stafi from './stafi';
 import subdao from './subdao';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
+import thales from './thales';
 import trustbase from './trustbase';
 import uart from './uart';
 import unique from './unique';
@@ -185,6 +186,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subsocial,
   subzero: zero,
   ternoa,
+  'thales-network': moonbeam,
+  thales,
   trustbase,
   uart,
   'unit-node': unitv,
