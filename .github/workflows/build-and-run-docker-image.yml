@@ -1,0 +1,44 @@
+name: Build and run Docker image
+on:
+  push:
+    branches:
+      - dev-cc
+
+env:
+  FOLDER_SERVER: ${{ secrets.DEV_FOLDER_SERVER }}
+  PACKAGE_NAME: creatorchain-block-explorer
+  WS_URL: ${{ secrets.DEV_WS_URL }}
+  BRANCH_NAME: dev-cc
+jobs:
+  build-and-run:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configure SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY" > ~/.ssh/dev.key
+        chmod 600 ~/.ssh/dev.key
+        cat >>~/.ssh/config <<END
+        Host dev
+          HostName $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/dev.key
+          StrictHostKeyChecking no
+        END
+      env:
+        SSH_USER: ${{ secrets.DEV_SSH_USER }}
+        SSH_KEY: ${{ secrets.DEV_SSH_KEY }}
+        SSH_HOST: ${{ secrets.DEV_SSH_HOST }}
+    - name: Fetch the source
+      run: ssh dev "cd $FOLDER_SERVER && git fetch --all && git checkout $BRANCH_NAME && git reset --hard origin/$BRANCH_NAME"
+    - name: Build image
+      run: ssh dev "docker build --file Dockerfile.cc --tag $PACKAGE_NAME $FOLDER_SERVER"
+    - name: Stops running container
+      run: ssh dev "docker stop $PACKAGE_NAME || true"
+    - name: Removes stopped container
+      run: ssh dev "docker rm $PACKAGE_NAME || true"
+    - name: Start the container
+      run: ssh dev "docker run -d -e WS_URL=$WS_URL -p 80:80 --name $PACKAGE_NAME $PACKAGE_NAME"
