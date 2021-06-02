@@ -18197,15 +18197,6 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-  version: 0.8.2
-  resolution: "thales-types-bundle@npm:0.8.2"
-  dependencies:
-    "@polkadot/keyring": ^6.4.1
-    "@polkadot/types": ^4.9.2
-  checksum: b84b288d5fc4b3d561c04e9e7a525a2ebb7431c0ff1d39c1fc5a9443263fe868c8084a55c279257346af1410fa5de33986289357d80906941129c1da1dd22c3c
-  languageName: node
-  linkType: hard
-
 "thread-loader@npm:^3.0.4":
   version: 3.0.4
   resolution: "thread-loader@npm:3.0.4"
