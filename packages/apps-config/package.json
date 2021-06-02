@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.91.3-62",
+  "version": "0.91.3-63",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
