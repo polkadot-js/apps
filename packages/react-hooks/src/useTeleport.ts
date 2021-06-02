@@ -75,7 +75,7 @@ export function useTeleport (): Teleport {
 
       setState((prev) => ({
         ...prev,
-        allowTeleport: !!endpoint,
+        allowTeleport: false, // !!endpoint,
         destinations: endpoint && endpoint.genesisHashRelay
           // FIXME we probably just want to check for !chainParaId.eq(paraId) || !!genesisHash
           ? extractRelayDestinations(endpoint.genesisHashRelay, ({ genesisHash }) => !!genesisHash)
