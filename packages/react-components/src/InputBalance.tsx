@@ -45,7 +45,6 @@ function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
-
   const si = formatBalance.calcSi(value.toString(), decimals);
 
   return [
@@ -61,8 +60,6 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       : [undefined, undefined],
     [inDefault, isDisabled, siDecimals]
   );
-
-  defaultValue && console.log('defaultValue', defaultValue, inDefault?.toString(), typeof inDefault);
 
   return (
     <InputNumber
