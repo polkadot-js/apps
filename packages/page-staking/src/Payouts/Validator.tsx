@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { PayoutValidator } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Expander } from '@polkadot/react-components';

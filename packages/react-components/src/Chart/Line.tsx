@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { LineProps } from './types';
 
-import BN from 'bn.js';
 import ChartJs from 'chart.js';
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';

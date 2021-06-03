@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
