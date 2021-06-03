@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Group } from './types';
 
 // ok, this seems to be an eslint bug, this _is_ a package import

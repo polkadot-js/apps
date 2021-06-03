@@ -72,6 +72,13 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'genshiro',
+        text: t('rpc.test.equilibriumtestnet', 'Genshiro', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://testnet.equilibrium.io'
+        }
+      },
+      {
         info: 'integritee',
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),

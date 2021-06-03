@@ -40,6 +40,7 @@ export { useRegistrars } from './useRegistrars';
 export { useSavedFlags } from './useSavedFlags';
 export { useStepper } from './useStepper';
 export { useSudo } from './useSudo';
+export { useTeleport } from './useTeleport';
 export { useToggle } from './useToggle';
 export { useTreasury } from './useTreasury';
 export { useTxBatch } from './useTxBatch';

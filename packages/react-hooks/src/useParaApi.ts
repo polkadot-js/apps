@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 

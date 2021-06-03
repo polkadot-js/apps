@@ -33,10 +33,11 @@ export function createWestend (t: TFunction): EndpointOption {
       // (2) common good, leave as second group
       {
         info: 'westmint',
+        allowTeleport: true,
         paraId: 1000,
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://westend-shell-rpc.parity.io'
+          Parity: 'wss://westmint-rpc.polkadot.io'
         }
       },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
