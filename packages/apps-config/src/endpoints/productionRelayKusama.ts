@@ -72,6 +72,13 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'genshiro',
+        text: t('rpc.test.equilibriumtestnet', 'Genshiro', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://testnet.equilibrium.io'
+        }
+      },
+      {
         info: 'integritee',
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
@@ -93,6 +100,14 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://mainnet.kilt.io/'
+        }
+      },
+      {
+        info: 'sakura',
+        paraId: 2016,
+        text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://api-sakura.clover.finance'
         }
       },
       {

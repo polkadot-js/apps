@@ -1,0 +1,17 @@
+name: 'Close stale issues and PRs'
+on:
+  schedule:
+    - cron: '2 2 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v3
+        with:
+          repo-token: ${{ secrets.GH_PAT_BOT }}
+          stale-issue-message: 'This issue has been open for 21 days with no activity and is not labelled as an enhancement. It will be closed in 7 days.'
+          stale-issue-label: 'stale'
+          exempt-issue-labels: '-size-l,-size-m,-size-s,-size-xl,-size-xs,[bug]'
+          days-before-stale: 21
+          days-before-close: 7

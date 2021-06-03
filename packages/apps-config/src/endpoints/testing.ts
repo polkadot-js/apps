@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
+import type { LinkOption } from './types';
 
 import { expandEndpoints } from './util';
 
@@ -49,7 +49,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'bifrost',
       text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
-        Bifrost: 'wss://testnet.liebi.com'
+        Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
       }
     },
     {
@@ -193,6 +193,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'kylin',
+      text: t('testnet.kylin-node.co.uk', 'Kylin Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://testnet.kylin-node.co.uk'
+      }
+    },
+    {
       info: 'litentry',
       text: t('rpc.test.litentry', 'Litentry Testnet', { ns: 'apps-config' }),
       providers: {
@@ -239,6 +246,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'oak-testnet',
+      text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
+      providers: {
+        'OAK Network': 'wss://testnet.oak.tech'
+      }
+    },
+    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
@@ -278,6 +292,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.test.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
       providers: {
         Polymath: 'wss://itn-rpc.polymesh.live'
+      }
+    },
+    {
+      info: 'pontem',
+      text: t('rpc.pontem', 'Pontem', { ns: 'apps-config' }),
+      providers: {
+        Pontem: 'wss://testnet.pontem.network/wss'
       }
     },
     {

@@ -7,6 +7,8 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import chainDusty from './chains/dusty.png';
+import chainEquilibrium from './chains/equilibrium.svg';
+import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainPolkaBTC from './chains/polkabtc.png';
@@ -44,7 +46,6 @@ import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
-import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
@@ -68,6 +69,7 @@ import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
+import oakTestnet from './nodes/oak-testnet.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -79,16 +81,17 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
 import nodePolymesh from './nodes/polymesh.svg';
+import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
-import nodeStatemint from './nodes/statemint-3.png';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
@@ -119,6 +122,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Darwinia PC2', nodeDarwinia],
   ['DataHighway', nodeDataHighway],
   ['Dusty', chainDusty],
+  ['EquilibriumTestnet', chainGenshiro],
+  ['Equilibrium', chainEquilibrium],
   ['Steam PC', nodeEave],
   ['Galital', nodeGalital],
   ['Galois', nodeMath],
@@ -154,6 +159,7 @@ export const chainLogos: Record<string, unknown> = [
   ['mybank.network PC1', mybank],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
+  ['OAK Testnet', oakTestnet],
   ['Pangolin', nodePangolin],
   ['Parami PC2', nodeParami],
   ['PHOENIX PC1', nodePhoenix],
@@ -161,6 +167,7 @@ export const chainLogos: Record<string, unknown> = [
   ['PolkaBTC Staging', nodePolkaBTC],
   ['Polkadex Testnet', nodePolkadex],
   ['PolkaFoundry PC1', nodePolkaFoundry],
+  ['Pontem Testnet', nodePontem],
   ['Prism Testnet', nodePrism],
   ['Prism PC1', nodePrism],
   ['Phala PC1', nodePhala],
@@ -169,8 +176,9 @@ export const chainLogos: Record<string, unknown> = [
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
   ['Statemine', nodeStatemine],
-  ['Statemint', nodeStatemint],
-  ['Statemint Test', nodeStatemint],
+  ['Statemine Test', nodeStatemine],
+  ['Statemint', nodeStatemine],
+  ['Statemint Test', nodeStatemine],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -185,7 +193,9 @@ export const chainLogos: Record<string, unknown> = [
   ['VLN PC', nodeVln],
   ['Vln', nodeVln],
   ['Web3games', nodeWeb3games],
-  ['Westlake', nodeWestlake]
+  ['Westlake', nodeWestlake],
+  ['Westmint', nodeStatemine],
+  ['Westmint Test', nodeStatemine]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -224,8 +234,6 @@ export const nodeLogos: Record<string, unknown> = [
   ['DOTMog Node', nodeDotMog],
   ['Eave Node', nodeEave],
   ['Edgeware Node', nodeEdgeware],
-  ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium],
   ['IpseTestnet', nodeIpse],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -255,9 +263,11 @@ export const nodeLogos: Record<string, unknown> = [
   ['NFTMart Staging', nodeNFTMart],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
+  ['OAK Testnet', oakTestnet],
   ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
+  ['Pontem', nodePontem],
   ['Prism Node', nodePrism],
   ['Prism Collator', nodePrism],
   ['parity-polkadot', nodePolkadot],
@@ -272,14 +282,17 @@ export const nodeLogos: Record<string, unknown> = [
   ['polkadot-js', nodePolkadotJs],
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
+  ['Pontem', nodePontem],
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Sakura', nodeSakura],
   ['Shadow', nodeShadow],
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
-  ['Statemint Collator', nodeStatemint],
+  ['Statemine Collator', nodeStatemine],
+  ['Statemint Collator', nodeStatemine],
   ['SubDAO Collator', nodeSubDAO],
   ['subsocial-node', nodeSubsocial],
   ['Subsocial Node', nodeSubsocial],
@@ -299,6 +312,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['VLN PC', nodeVln],
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
+  ['Westmint Collator', nodeStatemine],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
@@ -312,7 +326,8 @@ export const nodeLogos: Record<string, unknown> = [
 export const specLogos: Record<string, unknown> = [
   ['shell', nodeShell],
   ['statemine', nodeStatemine],
-  ['statemint', nodeStatemint]
+  ['statemint', nodeStatemine],
+  ['westmint', nodeStatemine]
 ].reduce((logos, [spec, logo]): Record<string, unknown> => ({
   ...logos,
   [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -346,11 +361,12 @@ export const namedLogos: Record<string, unknown> = {
   encointer_canary: nodeEncointerNotee,
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
-  equilibrium: nodeEquilibrium,
+  equilibrium: chainEquilibrium,
   galital: nodeGalital,
   galois: nodeMath,
   gamepower: nodeGamePower,
   geek: nodeGeek,
+  genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
@@ -371,6 +387,7 @@ export const namedLogos: Record<string, unknown> = {
   mybank: mybank,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
+  'oak-testnet': oakTestnet,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -380,6 +397,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
   polymesh: nodePolymesh,
+  pontem: nodePontem,
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
@@ -397,7 +415,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoDataHighway: nodeDataHighway,
   rococoEave: nodeEave,
   rococoEncointer: nodeEncointerNotee,
-  rococoEquilibrium: nodeEquilibrium,
   rococoGalital: nodeGalital,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
@@ -419,7 +436,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPolkabtc: chainPolkaBTC,
   rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
-  rococoStatemint: nodeStatemint,
+  rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
   rococoTick: chainRococoTick,
@@ -430,6 +447,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoVln: nodeVln,
   rococoZeitgeist: nodeZeitgeist,
   rococoZenlink: nodeZenlink,
+  sakura: nodeSakura,
   shadow: nodeShadow,
   shell: nodeShell,
   sherpax: nodeChainx,
@@ -437,7 +455,7 @@ export const namedLogos: Record<string, unknown> = {
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
   statemine: nodeStatemine,
-  statemint: nodeStatemint,
+  statemint: nodeStatemine,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,
@@ -448,6 +466,7 @@ export const namedLogos: Record<string, unknown> = {
   web3games: nodeWeb3games,
   westend: nodePolkadot,
   westlake: nodeWestlake,
+  westmint: nodeStatemine,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };

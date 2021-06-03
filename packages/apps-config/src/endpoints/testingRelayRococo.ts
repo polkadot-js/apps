@@ -55,6 +55,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoStatemint',
+        isDisabled: true, // Rococo reset
         paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
