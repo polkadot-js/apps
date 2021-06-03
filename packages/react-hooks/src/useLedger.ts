@@ -30,15 +30,19 @@ const EMPTY_STATE: StateBase = {
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 const ledgerChains = networks.filter((n) => !!n.hasLedgerSupport);
 let ledger: Ledger | null = null;
+let ledgerType: LedgerTypes | null = null;
 
 function retrieveLedger (api: ApiPromise): Ledger {
-  if (!ledger) {
+  const currType = uiSettings.ledgerConn as LedgerTypes;
+
+  if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();
     const def = ledgerChains.find(({ genesisHash }) => genesisHash[0] === genesisHex);
 
     assert(def, `Unable to find supported chain for ${genesisHex}`);
 
-    ledger = new Ledger(uiSettings.ledgerConn as LedgerTypes, def.network);
+    ledger = new Ledger(currType, def.network);
+    ledgerType = currType;
   }
 
   return ledger;

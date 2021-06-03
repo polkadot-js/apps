@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { VoteThreshold } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
