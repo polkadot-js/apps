@@ -42,7 +42,15 @@ function Decoder ({ className }: Props): React.ReactElement<Props> {
       try {
         assert(isHex(extrinsicHex), 'Expected a hex-encoded call');
 
-        const extrinsicCall = api.createType('Call', extrinsicHex);
+        let extrinsicCall: Call;
+
+        try {
+          // cater for an extrinsic input...
+          extrinsicCall = api.createType('Call', api.tx(extrinsicHex).method);
+        } catch (e) {
+          extrinsicCall = api.createType('Call', extrinsicHex);
+        }
+
         const extrinsicHash = extrinsicCall.hash.toHex();
         const { method, section } = api.registry.findMetaCall(extrinsicCall.callIndex);
         const extrinsicFn = api.tx[section][method];
