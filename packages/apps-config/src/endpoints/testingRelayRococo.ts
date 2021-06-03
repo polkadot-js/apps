@@ -415,11 +415,10 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoVln',
-        isDisabled: true, // Rococo reset
-        paraId: 3586,
-        text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
+        paraId: 2007,
+        text: t('rpc.rococo.vln', 'Valibre Network PC', { ns: 'apps-config' }),
         providers: {
-          Valiu: 'wss://vln.valiu.dev'
+          Valibre: 'wss://testnet.valibre.dev'
         }
       },
       {
