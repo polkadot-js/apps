@@ -3,11 +3,12 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
+import type { CallFunction } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
@@ -35,15 +36,20 @@ interface Option {
 interface CallData {
   callData: Call | null;
   callError: string | null;
+  callInfo: CallFunction | null;
 }
 
-const EMPTY_CALL: CallData = { callData: null, callError: null };
+const EMPTY_CALL: CallData = {
+  callData: null,
+  callError: null,
+  callInfo: null
+};
 
 function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [{ callData, callError }, setCallData] = useState<CallData>(EMPTY_CALL);
+  const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
   const [callWeight] = useWeight(callData);
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>({ isMultiCall: false, multisig: null });
@@ -136,9 +142,11 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
 
         assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
 
-        setCallData({ callData, callError: null });
+        const callInfo = callData.registry.findMetaCall(callData.callIndex);
+
+        setCallData({ callData, callError: null, callInfo });
       } catch (error) {
-        setCallData({ callData: null, callError: (error as Error).message });
+        setCallData({ callData: null, callError: (error as Error).message, callInfo: null });
       }
     },
     [api, hash]
@@ -224,9 +232,19 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                       label={t('call data for final approval')}
                       onChange={_setCallData}
                     />
-                    {callError && (
-                      <MarkError content={callError} />
-                    )}
+                    {callError
+                      ? <MarkError content={callError} />
+                      : callData && callInfo && (
+                        <Expander
+                          summary={`${callInfo.section}.${callInfo.method}`}
+                          summaryMeta={callInfo.meta}
+                        >
+                          <CallDisplay
+                            className='details'
+                            value={callData}
+                          />
+                        </Expander>
+                      )}
                   </Modal.Columns>
                 )}
                 <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
