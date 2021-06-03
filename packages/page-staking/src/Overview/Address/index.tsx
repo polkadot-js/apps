@@ -1,13 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveAccountInfo, DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
 import type { NominatorValue } from './types';
 
-import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
