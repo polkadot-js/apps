@@ -24,8 +24,8 @@
     "@subsocial/types": "^0.5.2",
     "@zeitgeistpm/type-defs": "^0.1.51",
     "moonbeam-types-bundle": "1.1.20",
-    "thales-types-bundle": "^0.8.2",
-    "pontem-types-bundle": "^1.0.5"
+    "pontem-types-bundle": "^1.0.5",
+    "thales-types-bundle": "^0.8.2"
   },
   "devDependencies": {
     "i18next": "^19.9.2"

@@ -2541,6 +2541,7 @@ __metadata:
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.1.20
     pontem-types-bundle: ^1.0.5
+    thales-types-bundle: ^0.8.2
   languageName: unknown
   linkType: soft
 
