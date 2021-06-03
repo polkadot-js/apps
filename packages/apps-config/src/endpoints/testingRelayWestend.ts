@@ -39,7 +39,7 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io'
         },
-        teleport: [-1] // relay only
+        teleport: [-1] // should be [-1], relay only
       },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
