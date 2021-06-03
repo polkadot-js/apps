@@ -29,10 +29,7 @@ const DEFAULT_STATE: Teleport = {
   isParachain: false
 };
 
-const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter((v): v is ExtLinkOption =>
-  !!v.teleport &&
-  !!v.teleport.length
-);
+const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
 
 function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOption) => boolean): ExtLinkOption[] {
   return endpoints
@@ -60,18 +57,15 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
 
 export function useTeleport (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
-  const chainParaId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
+  const paraId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
   const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
 
   useEffect((): void => {
     if (isApiReady) {
-      const relayGenesis = api.genesisHash.toHex();
-      const endpoint = endpoints.find(({ value }) =>
-        value === apiUrl
-      );
+      const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
       if (endpoint) {
-        const destinations = extractRelayDestinations(relayGenesis, ({ paraId }) =>
+        const destinations = extractRelayDestinations(api.genesisHash.toHex(), ({ paraId }) =>
           isNumber(paraId) &&
           endpoint.teleport.includes(paraId)
         );
@@ -86,25 +80,24 @@ export function useTeleport (): Teleport {
   }, [api, apiUrl, isApiReady]);
 
   useEffect((): void => {
-    if (chainParaId) {
-      const endpoint = endpoints.find(({ paraId, value }) =>
-        chainParaId.eq(paraId) &&
-        value === apiUrl
-      );
+    if (paraId) {
+      const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
-      setState((prev) => ({
-        ...prev,
-        allowTeleport: !!endpoint,
-        destinations: endpoint && endpoint.genesisHashRelay
-          ? extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
-            endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
-          )
-          : [],
-        isParachain: true,
-        paraId: chainParaId
-      }));
+      if (endpoint && endpoint.genesisHashRelay) {
+        const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
+          endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
+        );
+
+        setState((prev) => ({
+          ...prev,
+          allowTeleport: destinations.length !== 0,
+          destinations,
+          isParachain: true,
+          paraId
+        }));
+      }
     }
-  }, [apiUrl, chainParaId]);
+  }, [apiUrl, paraId]);
 
   return state;
 }
