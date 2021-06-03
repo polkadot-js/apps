@@ -6,6 +6,7 @@ import React from 'react';
 export interface Network {
   icon?: string;
   isChild?: boolean;
+  isLightClient?: boolean;
   name: string;
   providers: {
     name: string;

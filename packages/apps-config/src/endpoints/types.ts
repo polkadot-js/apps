@@ -10,6 +10,23 @@ export interface EndpointOption {
   linked?: EndpointOption[];
   info?: string;
   paraId?: number;
-  providers: Record<string, string>;
+  providers: Record<string, Endpoint>;
   text: React.ReactNode;
+}
+
+type Endpoint = JsonRpcEndpoint | SubstrateConnectEndpoint;
+
+interface JsonRpcEndpoint {
+  type: EndpointType.jrpc;
+  url: string;
+}
+
+interface SubstrateConnectEndpoint {
+  type: EndpointType.substrateconnect;
+  chain: string;
+}
+
+export enum EndpointType {
+  jrpc = 'json-rpc',
+  substrateconnect = 'substrate-connect'
 }

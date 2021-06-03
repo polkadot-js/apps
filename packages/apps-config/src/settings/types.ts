@@ -16,6 +16,7 @@ export interface LinkOption extends Option {
   isChild?: boolean;
   isDevelopment?: boolean;
   isSpaced?: boolean;
+  isLightClient?: boolean;
   linked?: LinkOption[];
   paraId?: number;
   textBy: string;
