@@ -18,8 +18,8 @@ interface Props {
   onClose: () => void;
 }
 
+const DEFAULT_WEIGHT = 30_000_000; // 30_000_000 as per the code
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
-const DEFAULT_WEIGHT = 30_000_000 * 2; // 30_000_000 as per the code, add a margin
 
 function createOption ({ info, paraId, text }: LinkOption, index: number): Option {
   return {
@@ -47,8 +47,6 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
-  // FIXME We need to actually calculate the destination weight
-  const [weight] = useState(DEFAULT_WEIGHT);
   const { allowTeleport, destinations, isParachain } = useTeleport();
 
   const chainOpts = useMemo(
@@ -62,15 +60,15 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         { X1: 'Parent' },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        weight
+        DEFAULT_WEIGHT
       ]
       : [
         { X1: { ParaChain: recipientParaId } },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: 'Null' } }],
-        weight
+        DEFAULT_WEIGHT
       ],
-    [amount, isParachain, recipientId, recipientParaId, weight]
+    [amount, isParachain, recipientId, recipientParaId]
   );
 
   if (!allowTeleport || !chainOpts.length) {

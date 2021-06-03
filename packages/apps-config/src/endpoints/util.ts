@@ -21,14 +21,14 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-export function expandEndpoint (t: TFunction, { allowTeleport, dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, text }: EndpointOption): LinkOption[] {
+export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, teleport, text }: EndpointOption): LinkOption[] {
   const base = {
-    allowTeleport,
     genesisHash,
     info,
     isChild,
     isDisabled,
     paraId,
+    teleport,
     text
   };
 
@@ -47,13 +47,6 @@ export function expandEndpoint (t: TFunction, { allowTeleport, dnslink, genesisH
     linked.forEach((o) => options.push(...expandEndpoint(t, o)));
     last.isRelay = true;
     last.linked = options;
-
-    // if one of the children allows teleport, add it to the root as well
-    const allowTeleport = options.some(({ allowTeleport }) => allowTeleport);
-
-    result.forEach((r): void => {
-      r.allowTeleport = allowTeleport;
-    });
   }
 
   return expandLinked(result);
