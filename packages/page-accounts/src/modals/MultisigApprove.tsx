@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
 import type { CallFunction } from '@polkadot/types/types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
@@ -49,6 +49,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const [callHex, setCallHex] = useState<string>('');
   const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
   const [callWeight] = useWeight(callData);
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
@@ -107,6 +108,23 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     );
   }, [api, allAccounts, multisig, threshold, type, who]);
 
+  // when the hex changes, re-evaluate
+  useEffect((): void => {
+    try {
+      assert(isHex(callHex), 'Hex call data required');
+
+      const callData = api.createType('Call', callHex);
+
+      assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
+
+      const callInfo = callData.registry.findMetaCall(callData.callIndex);
+
+      setCallData({ callData, callError: null, callInfo });
+    } catch (error) {
+      setCallData({ callData: null, callError: (error as Error).message, callInfo: null });
+    }
+  }, [api, callHex, hash]);
+
   // based on the type, multisig, others create the tx. This can be either an approval or final call
   useEffect((): void => {
     const multiMod = api.tx.multisig || api.tx.utility;
@@ -131,26 +149,6 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         : null
     );
   }, [api, callData, callWeight, hash, isCallOverride, isMultiCall, others, multisig, threshold, type]);
-
-  // when the actual call input changes, create a call and set it
-  const _setCallData = useCallback(
-    (callHex: string): void => {
-      try {
-        assert(isHex(callHex), 'Hex call data required');
-
-        const callData = api.createType('Call', callHex);
-
-        assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
-
-        const callInfo = callData.registry.findMetaCall(callData.callIndex);
-
-        setCallData({ callData, callError: null, callInfo });
-      } catch (error) {
-        setCallData({ callData: null, callError: (error as Error).message, callInfo: null });
-      }
-    },
-    [api, hash]
-  );
 
   const isAye = type === 'aye';
 
@@ -225,17 +223,10 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
               <>
                 {isCallOverride && (
                   <Modal.Columns hint={t('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
-                    <Input
-                      autoFocus
-                      help={t('For final approvals, the actual full call data is required to execute the transaction')}
-                      isError={!callData}
-                      label={t('call data for final approval')}
-                      onChange={_setCallData}
-                    />
-                    {callError
-                      ? <MarkError content={callError} />
-                      : callData && callInfo && (
+                    {callData && callInfo
+                      ? (
                         <Expander
+                          isPadded
                           summary={`${callInfo.section}.${callInfo.method}`}
                           summaryMeta={callInfo.meta}
                         >
@@ -244,7 +235,19 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                             value={callData}
                           />
                         </Expander>
+                      )
+                      : (
+                        <Input
+                          autoFocus
+                          help={t('For final approvals, the actual full call data is required to execute the transaction')}
+                          isError={!callHex || !!callError}
+                          label={t('call data for final approval')}
+                          onChange={setCallHex}
+                        />
                       )}
+                    {callError && (
+                      <MarkError content={callError} />
+                    )}
                   </Modal.Columns>
                 )}
                 <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
