@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AmountValidateState } from '../Accounts/types';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
 import { MarkError, MarkWarning } from '@polkadot/react-components';
