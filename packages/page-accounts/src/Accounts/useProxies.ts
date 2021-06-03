@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';

@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
