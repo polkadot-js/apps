@@ -110,18 +110,22 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
 
   // when the hex changes, re-evaluate
   useEffect((): void => {
-    try {
-      assert(isHex(callHex), 'Hex call data required');
+    if (callHex) {
+      try {
+        assert(isHex(callHex), 'Hex call data required');
 
-      const callData = api.createType('Call', callHex);
+        const callData = api.createType('Call', callHex);
 
-      assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
+        assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
 
-      const callInfo = callData.registry.findMetaCall(callData.callIndex);
+        const callInfo = callData.registry.findMetaCall(callData.callIndex);
 
-      setCallData({ callData, callError: null, callInfo });
-    } catch (error) {
-      setCallData({ callData: null, callError: (error as Error).message, callInfo: null });
+        setCallData({ callData, callError: null, callInfo });
+      } catch (error) {
+        setCallData({ callData: null, callError: (error as Error).message, callInfo: null });
+      }
+    } else {
+      setCallData(EMPTY_CALL);
     }
   }, [api, callHex, hash]);
 
