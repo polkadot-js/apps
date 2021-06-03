@@ -1,8 +1,12 @@
 {
+  "0x...": "0x...",
+  "Decode": "Decode",
   "Submission": "Submission",
   "Submit Transaction": "Submit Transaction",
   "Submit Unsigned": "Submit Unsigned",
+  "decoded call": "decoded call",
   "free balance": "free balance",
+  "hex-encoded call": "hex-encoded call",
   "submit the following extrinsic": "submit the following extrinsic",
   "using the selected account": "using the selected account"
 }
