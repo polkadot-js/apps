@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
@@ -11,7 +12,6 @@ import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { Delegation } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 

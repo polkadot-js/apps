@@ -7,6 +7,7 @@ import type { ParaId } from '@polkadot/types/interfaces';
 import { useEffect, useState } from 'react';
 
 import { createWsEndpoints } from '@polkadot/apps-config';
+import { isNumber } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
@@ -18,9 +19,22 @@ interface Teleport {
   paraId?: ParaId;
 }
 
-const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter(({ allowTeleport }) => allowTeleport);
+interface ExtLinkOption extends LinkOption {
+  teleport: number[];
+}
 
-function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption) => boolean): LinkOption[] {
+const DEFAULT_STATE: Teleport = {
+  allowTeleport: false,
+  destinations: [],
+  isParachain: false
+};
+
+const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter((v): v is ExtLinkOption =>
+  !!v.teleport &&
+  !!v.teleport.length
+);
+
+function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOption) => boolean): ExtLinkOption[] {
   return endpoints
     .filter((l) =>
       (
@@ -28,7 +42,7 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption)
         l.genesisHash === relayGenesis
       ) && filter(l)
     )
-    .reduce((result: LinkOption[], curr): LinkOption[] => {
+    .reduce((result: ExtLinkOption[], curr): ExtLinkOption[] => {
       if (!result.some(({ genesisHash, paraId }) => paraId === curr.paraId || genesisHash === curr.genesisHash)) {
         result.push(curr);
       }
@@ -47,24 +61,29 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption)
 export function useTeleport (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
   const chainParaId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
-  const [state, setState] = useState<Teleport>(() => ({
-    allowTeleport: false,
-    destinations: [],
-    isParachain: false
-  }));
+  const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
 
   useEffect((): void => {
     if (isApiReady) {
       const relayGenesis = api.genesisHash.toHex();
-      const destinations = extractRelayDestinations(relayGenesis, ({ genesisHash }) => relayGenesis !== genesisHash);
+      const endpoint = endpoints.find(({ value }) =>
+        value === apiUrl
+      );
 
-      setState((prev) => ({
-        ...prev,
-        allowTeleport: destinations.length !== 0,
-        destinations
-      }));
+      if (endpoint) {
+        const destinations = extractRelayDestinations(relayGenesis, ({ paraId }) =>
+          isNumber(paraId) &&
+          endpoint.teleport.includes(paraId)
+        );
+
+        setState((prev) => ({
+          ...prev,
+          allowTeleport: destinations.length !== 0,
+          destinations
+        }));
+      }
     }
-  }, [api, isApiReady]);
+  }, [api, apiUrl, isApiReady]);
 
   useEffect((): void => {
     if (chainParaId) {
@@ -77,8 +96,9 @@ export function useTeleport (): Teleport {
         ...prev,
         allowTeleport: !!endpoint,
         destinations: endpoint && endpoint.genesisHashRelay
-          // FIXME we probably just want to check for !chainParaId.eq(paraId) || !!genesisHash (would affect Teleport modal)
-          ? extractRelayDestinations(endpoint.genesisHashRelay, ({ genesisHash }) => !!genesisHash)
+          ? extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
+            endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
+          )
           : [],
         isParachain: true,
         paraId: chainParaId
