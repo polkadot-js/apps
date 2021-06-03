@@ -29,11 +29,11 @@ export function createKusama (t: TFunction): EndpointOption {
       // ...
       // (2) all common good parachains
       {
-        info: 'shell',
+        info: 'statemine',
         paraId: 1000,
-        text: t('rpc.kusama.shell', 'Shell', { ns: 'apps-config' }),
+        text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://kusama-shell-rpc.parity.io'
+          Parity: 'wss://kusama-statemine-rpc.paritytech.net'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
