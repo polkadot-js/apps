@@ -244,7 +244,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKylin',
-        paraId: 2000,
+        paraId: 2013,
         text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://rpc.kylin-node.co.uk'
