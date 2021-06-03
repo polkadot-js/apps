@@ -41,7 +41,7 @@ interface Props {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number): [string, SiDef?] {
+function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number): [string, SiDef] {
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
