@@ -19,17 +19,22 @@ interface Teleport {
   paraId?: ParaId;
 }
 
+interface ExtLinkOption extends LinkOption {
+  teleport: number[];
+}
+
 const DEFAULT_STATE: Teleport = {
   allowTeleport: false,
   destinations: [],
   isParachain: false
 };
 
-const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter(({ teleport }) =>
-  teleport && teleport.length
+const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter((v): v is ExtLinkOption =>
+  !!v.teleport &&
+  !!v.teleport.length
 );
 
-function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption) => boolean): LinkOption[] {
+function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOption) => boolean): ExtLinkOption[] {
   return endpoints
     .filter((l) =>
       (
@@ -37,7 +42,7 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption)
         l.genesisHash === relayGenesis
       ) && filter(l)
     )
-    .reduce((result: LinkOption[], curr): LinkOption[] => {
+    .reduce((result: ExtLinkOption[], curr): ExtLinkOption[] => {
       if (!result.some(({ genesisHash, paraId }) => paraId === curr.paraId || genesisHash === curr.genesisHash)) {
         result.push(curr);
       }
@@ -68,7 +73,6 @@ export function useTeleport (): Teleport {
       if (endpoint) {
         const destinations = extractRelayDestinations(relayGenesis, ({ paraId }) =>
           isNumber(paraId) &&
-          !!endpoint.teleport &&
           endpoint.teleport.includes(paraId)
         );
 
@@ -92,13 +96,9 @@ export function useTeleport (): Teleport {
         ...prev,
         // FIXME Cannot quite get this working...
         allowTeleport: false, // !!endpoint,
-        destinations: endpoint && endpoint.genesisHashRelay && endpoint.teleport
+        destinations: endpoint && endpoint.genesisHashRelay
           ? extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
-            !!endpoint.teleport &&
-            (
-              !isNumber(paraId) ||
-              endpoint.teleport.includes(paraId)
-            )
+            endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
           )
           : [],
         isParachain: true,
