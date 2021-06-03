@@ -27,7 +27,7 @@ export function createWestend (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://westend.elara.patract.io',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws'
     },
-    teleport: [1000], // statemint only
+    teleport: [1000],
     linked: [
       // (1) system parachains (none available yet)
       // ...
@@ -39,7 +39,7 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io'
         },
-        teleport: [-1] // should be [-1], relay only
+        teleport: [-1]
       },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
