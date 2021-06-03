@@ -7,6 +7,7 @@ import type { ParaId } from '@polkadot/types/interfaces';
 import { useEffect, useState } from 'react';
 
 import { createWsEndpoints } from '@polkadot/apps-config';
+import { isNumber } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
@@ -18,7 +19,15 @@ interface Teleport {
   paraId?: ParaId;
 }
 
-const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter(({ allowTeleport }) => allowTeleport);
+const DEFAULT_STATE: Teleport = {
+  allowTeleport: false,
+  destinations: [],
+  isParachain: false
+};
+
+const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter(({ teleport }) =>
+  teleport && teleport.length
+);
 
 function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption) => boolean): LinkOption[] {
   return endpoints
@@ -47,24 +56,30 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: LinkOption)
 export function useTeleport (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
   const chainParaId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
-  const [state, setState] = useState<Teleport>(() => ({
-    allowTeleport: false,
-    destinations: [],
-    isParachain: false
-  }));
+  const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
 
   useEffect((): void => {
     if (isApiReady) {
       const relayGenesis = api.genesisHash.toHex();
-      const destinations = extractRelayDestinations(relayGenesis, ({ genesisHash }) => relayGenesis !== genesisHash);
+      const endpoint = endpoints.find(({ value }) =>
+        value === apiUrl
+      );
 
-      setState((prev) => ({
-        ...prev,
-        allowTeleport: destinations.length !== 0,
-        destinations
-      }));
+      if (endpoint) {
+        const destinations = extractRelayDestinations(relayGenesis, ({ paraId }) =>
+          isNumber(paraId) &&
+          !!endpoint.teleport &&
+          endpoint.teleport.includes(paraId)
+        );
+
+        setState((prev) => ({
+          ...prev,
+          allowTeleport: destinations.length !== 0,
+          destinations
+        }));
+      }
     }
-  }, [api, isApiReady]);
+  }, [api, apiUrl, isApiReady]);
 
   useEffect((): void => {
     if (chainParaId) {
@@ -77,9 +92,14 @@ export function useTeleport (): Teleport {
         ...prev,
         // FIXME Cannot quite get this working...
         allowTeleport: false, // !!endpoint,
-        destinations: endpoint && endpoint.genesisHashRelay
-          // FIXME we probably just want to check for !chainParaId.eq(paraId) || !!genesisHash (would affect Teleport modal)
-          ? extractRelayDestinations(endpoint.genesisHashRelay, ({ genesisHash }) => !!genesisHash)
+        destinations: endpoint && endpoint.genesisHashRelay && endpoint.teleport
+          ? extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
+            !!endpoint.teleport &&
+            (
+              !isNumber(paraId) ||
+              endpoint.teleport.includes(paraId)
+            )
+          )
           : [],
         isParachain: true,
         paraId: chainParaId
