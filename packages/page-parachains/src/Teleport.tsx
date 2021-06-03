@@ -1,10 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type { Option } from '@polkadot/apps-config/settings/types';
+
 import React, { useMemo, useState } from 'react';
 
-import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { ChainImg, Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -16,7 +19,25 @@ interface Props {
 }
 
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
-const DEFAULT_WEIGHT = 100_000_000; // 30_000_000 as per the code, add a margin
+const DEFAULT_WEIGHT = 30_000_000 * 2; // 30_000_000 as per the code, add a margin
+
+function createOption ({ info, paraId, text }: LinkOption, index: number): Option {
+  return {
+    text: (
+      <div
+        className='ui--Dropdown-item'
+        key={paraId}
+      >
+        <ChainImg
+          className='ui--Dropdown-icon'
+          logo={info}
+        />
+        <div className='ui--Dropdown-name'>{text}</div>
+      </div>
+    ),
+    value: paraId || index
+  };
+}
 
 function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -31,7 +52,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { allowTeleport, destinations, isParachain } = useTeleport();
 
   const chainOpts = useMemo(
-    () => destinations.map(({ paraId, text }, index) => ({ text, value: paraId || index })),
+    () => destinations.map(createOption),
     [destinations]
   );
 
