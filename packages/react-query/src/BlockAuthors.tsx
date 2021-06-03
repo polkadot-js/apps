@@ -9,13 +9,18 @@ import React, { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
+// TODO update HeaderExtended in api-derive
+export interface HeaderExtendedWithMapping extends HeaderExtended {
+  authorFromMapping?: string;
+}
+
 export interface Authors {
   byAuthor: Record<string, string>;
   eraPoints: Record<string, string>;
   lastBlockAuthors: string[];
   lastBlockNumber?: string;
-  lastHeader?: HeaderExtended;
-  lastHeaders: HeaderExtended[];
+  lastHeader?: HeaderExtendedWithMapping;
+  lastHeaders: HeaderExtendedWithMapping[];
 }
 
 interface Props {
@@ -38,7 +43,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     // No unsub, global context - destroyed on app close
     api.isReady.then((): void => {
-      let lastHeaders: HeaderExtended[] = [];
+      let lastHeaders: HeaderExtendedWithMapping[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
 
@@ -48,20 +53,19 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       }).catch(console.error);
 
       // subscribe to new headers
-      api.derive.chain.subscribeNewHeads(async(lastHeader): Promise<void> => {
+      api.derive.chain.subscribeNewHeads(async (lastHeader: HeaderExtendedWithMapping): Promise<void> => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
-          let thisBlockAuthor:string=""; //= lastHeader.author?.toString();
-          if (lastHeader.author){
-            thisBlockAuthor=lastHeader.author.toString()
-          } else if (lastHeader.digest.logs&&lastHeader.digest.logs[0] &&lastHeader.digest.logs[0].asConsensus[1]) {
-            //console.log("oh",(await api.query.authorMapping.mapping()))
-            console.log("ha",lastHeader.digest.logs[0].asConsensus[1].toHuman())
-            // console.log("oh",(await api.query.authorMapping.mapping(null)))
-            console.log("oh",(await api.query.authorMapping.mapping(lastHeader.digest.logs[0].asConsensus[1])).toHuman())
-            thisBlockAuthor=(await api.query.authorMapping.mapping(lastHeader.digest.logs[0].asConsensus[1])).toString()
-            console.log("thisBlockAuthor",thisBlockAuthor)
+          let thisBlockAuthor = ''; //= lastHeader.author?.toString();
+
+          if (lastHeader.author) {
+            thisBlockAuthor = lastHeader.author.toString();
+          } else if (lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].asConsensus[1]) {
+            // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
+            thisBlockAuthor = (await api.query.authorMapping.mapping(lastHeader.digest.logs[0].asConsensus[1])).toString();
+            lastHeader.authorFromMapping = thisBlockAuthor;
           }
+
           const thisBlockNumber = formatNumber(blockNumber);
 
           if (thisBlockAuthor) {
@@ -77,7 +81,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
           lastHeaders = lastHeaders
             .filter((old, index) => index < MAX_HEADERS && old.number.unwrap().lt(blockNumber))
-            .reduce((next, header): HeaderExtended[] => {
+            .reduce((next, header): HeaderExtendedWithMapping[] => {
               next.push(header);
 
               return next;
