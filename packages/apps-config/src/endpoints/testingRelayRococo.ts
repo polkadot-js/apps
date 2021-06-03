@@ -27,7 +27,6 @@ export function createRococo (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://rococo.elara.patract.io',
       'Ares Protocol': 'wss://rococo.aresprotocol.com'
     },
-    teleport: [1000],
     linked: [
       // these are the base chains
       {
