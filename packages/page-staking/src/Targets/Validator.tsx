@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import type { NominatedBy, ValidatorInfo } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
