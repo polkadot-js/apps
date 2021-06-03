@@ -62,7 +62,6 @@ const chainRiochain = '#4d87f6';
 const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainSnakenet = '#f653a2';
-const chainStatemine = '#111';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
 const chainZero = '#000000';
@@ -129,6 +128,7 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
+const specStatemine = '#363';
 
 export { emptyColor };
 
@@ -219,8 +219,8 @@ export const chainColors: Record<string, string> = [
   ['Sakura', chainSakura],
   ['Shadow', chainShadow],
   ['sherpax', chainChainx],
-  ['Statemine', chainStatemine],
-  ['Statemine Test', chainStatemine],
+  ['Statemine', specStatemine],
+  ['Statemine Test', specStatemine],
   ['Statemint', nodeStatemint],
   ['Statemint Test', nodeStatemint],
   ['SubDAO PC1', chainSubDAO],
@@ -311,7 +311,8 @@ export const nodeColors: Record<string, string> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const specColors: Record<string, string> = [
-  ['shell', specShell]
+  ['shell', specShell],
+  ['statemine', specStatemine]
 ].reduce((colors, [spec, color]): Record<string, any> => ({
   ...colors,
   [spec.toLowerCase().replace(/-/g, ' ')]: color
