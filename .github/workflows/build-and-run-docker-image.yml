@@ -35,7 +35,7 @@ jobs:
     - name: Fetch the source
       run: ssh dev "cd $FOLDER_SERVER && git fetch --all && git checkout $BRANCH_NAME && git reset --hard origin/$BRANCH_NAME"
     - name: Build image
-      run: ssh dev "docker build --file Dockerfile.cc --tag $PACKAGE_NAME $FOLDER_SERVER"
+      run: ssh dev "cd $FOLDER_SERVER && docker build --file Dockerfile.cc --tag $PACKAGE_NAME $FOLDER_SERVER"
     - name: Stops running container
       run: ssh dev "docker stop $PACKAGE_NAME || true"
     - name: Removes stopped container
