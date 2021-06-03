@@ -118,7 +118,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
 
         assert(callData.hash.eq(hash), 'Call data does not match the existing call hash');
 
-        const callInfo = callData.registry.findMetaCall(callData.callIndex);
+        const callInfo = api.registry.findMetaCall(callData.callIndex);
 
         setCallData({ callData, callError: null, callInfo });
       } catch (error) {
