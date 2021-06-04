@@ -27,15 +27,17 @@ export function createRococo (t: TFunction): EndpointOption {
       'Patract Elara': 'wss://rococo.elara.patract.io',
       'Ares Protocol': 'wss://rococo.aresprotocol.com'
     },
+    teleport: [1000, 100, 110, 120],
     linked: [
-      // these are the base chains
+      // (1) all system parachains
       {
         info: 'rococoTick',
         paraId: 100,
         text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://tick-rpc.polkadot.io'
-        }
+        },
+        teleport: [-1]
       },
       {
         info: 'rococoTrick',
@@ -43,7 +45,8 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://trick-rpc.polkadot.io'
-        }
+        },
+        teleport: [-1]
       },
       {
         info: 'rococoTrack',
@@ -51,17 +54,22 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://track-rpc.polkadot.io'
-        }
+        },
+        teleport: [-1]
       },
+      // (2) common good, leave as second group
       {
         info: 'rococoStatemint',
         paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rococo-rpc.parity.io'
-        }
+        },
+        teleport: [-1]
       },
-      // add any additional parachains here, alphabetical
+      // (3) parachains with id (info here maps to the actual "named icon")
+      //
+      // NOTE: Added alphabetical based on chain name
       {
         info: 'rococoApron',
         isDisabled: true, // Rococo reset
