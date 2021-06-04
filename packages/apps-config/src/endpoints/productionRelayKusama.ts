@@ -34,7 +34,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://kusama-statemine-rpc.paritytech.net'
+          Parity: 'wss://kusama-statemine-rpc.paritytech.net',
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
         },
         teleport: []
       },
