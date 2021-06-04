@@ -36,7 +36,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://kusama-statemine-rpc.paritytech.net'
         },
-        teleport: []
+        teleport: [-1]
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
