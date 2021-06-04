@@ -38,7 +38,7 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
       ) && filter(l)
     )
     .reduce((result: ExtLinkOption[], curr): ExtLinkOption[] => {
-      if (!result.some(({ genesisHash, paraId }) => paraId === curr.paraId || genesisHash === curr.genesisHash)) {
+      if (!result.some(({ genesisHash, paraId }) => paraId === curr.paraId || (genesisHash && genesisHash === curr.genesisHash))) {
         result.push(curr);
       }
 
