@@ -24,17 +24,19 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
+    teleport: [1000],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
       // (2) all common good parachains
       {
-        info: 'shell',
+        info: 'statemine',
         paraId: 1000,
-        text: t('rpc.kusama.shell', 'Shell', { ns: 'apps-config' }),
+        text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://kusama-shell-rpc.parity.io'
-        }
+          Parity: 'wss://kusama-statemine-rpc.paritytech.net'
+        },
+        teleport: []
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
@@ -84,6 +86,14 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
         providers: {
           IntegriTEE: 'wss://mainnet.integritee.network'
+        }
+      },
+      {
+        info: 'karura',
+        paraId: 2000,
+        text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
+        providers: {
+          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network'
         }
       },
       {

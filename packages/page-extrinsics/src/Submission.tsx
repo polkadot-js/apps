@@ -12,7 +12,11 @@ import { u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
-function Selection (): React.ReactElement {
+interface Props {
+  className?: string;
+}
+
+function Selection ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -44,7 +48,7 @@ function Selection (): React.ReactElement {
   );
 
   return (
-    <div className='extrinsics--Selection'>
+    <div className={className}>
       <InputAddress
         label={t<string>('using the selected account')}
         labelExtra={
