@@ -5,7 +5,7 @@
 // the actual RPC node it is corrected to (system.name RPC)
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
-// alphabetical
+// alphabetical   
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
