@@ -93,7 +93,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          "Acala Foundation": 'wss://karura-rpc-0.aca-api.network'
+          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network'
         }
       },
       {

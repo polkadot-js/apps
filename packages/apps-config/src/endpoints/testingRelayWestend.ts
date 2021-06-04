@@ -49,7 +49,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2005,
         text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
         providers: {
-          "Acala Foundation": 'wss://karura-westend-rpc.aca-staging.network'
+          'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network'
         }
       },
       {
