@@ -56,10 +56,10 @@ import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.svg';
+import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeKylin from './nodes/kylin.png';
-import nodeKlug from './nodes/klug.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
@@ -107,7 +107,6 @@ import nodeWestlake from './nodes/westlake.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -378,11 +377,11 @@ export const namedLogos: Record<string, unknown> = {
   integritee: nodeIntegritee,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
-  khala: nodeKhala,
   KlugDossier: nodeKlug,
+  khala: nodeKhala,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
-  kusama: chainKusama, 
+  kusama: chainKusama,
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
