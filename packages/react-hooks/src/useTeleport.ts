@@ -15,8 +15,7 @@ import { useCall } from './useCall';
 interface Teleport {
   allowTeleport: boolean;
   destinations: LinkOption[];
-  isParachain: boolean;
-  paraId?: ParaId;
+  isParaTeleport?: boolean;
 }
 
 interface ExtLinkOption extends LinkOption {
@@ -25,8 +24,7 @@ interface ExtLinkOption extends LinkOption {
 
 const DEFAULT_STATE: Teleport = {
   allowTeleport: false,
-  destinations: [],
-  isParachain: false
+  destinations: []
 };
 
 const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
@@ -62,22 +60,22 @@ export function useTeleport (): Teleport {
 
   useEffect((): void => {
     if (isApiReady) {
-      const endpoint = endpoints.find(({ value }) => value === apiUrl);
+      const relayGenesis = api.genesisHash.toHex();
+      const endpoint = endpoints.find(({ genesisHash }) => genesisHash === relayGenesis);
 
       if (endpoint) {
-        const destinations = extractRelayDestinations(api.genesisHash.toHex(), ({ paraId }) =>
+        const destinations = extractRelayDestinations(relayGenesis, ({ paraId }) =>
           isNumber(paraId) &&
           endpoint.teleport.includes(paraId)
         );
 
-        setState((prev) => ({
-          ...prev,
+        setState({
           allowTeleport: destinations.length !== 0,
           destinations
-        }));
+        });
       }
     }
-  }, [api, apiUrl, isApiReady]);
+  }, [api, isApiReady]);
 
   useEffect((): void => {
     if (paraId) {
@@ -88,13 +86,11 @@ export function useTeleport (): Teleport {
           endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
         );
 
-        setState((prev) => ({
-          ...prev,
+        setState({
           allowTeleport: destinations.length !== 0,
           destinations,
-          isParachain: true,
-          paraId
-        }));
+          isParaTeleport: true
+        });
       }
     }
   }, [apiUrl, paraId]);
