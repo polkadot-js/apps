@@ -47,7 +47,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
-  const { allowTeleport, destinations, isParachain } = useTeleport();
+  const { allowTeleport, destinations, isParaTeleport } = useTeleport();
 
   const chainOpts = useMemo(
     () => destinations.map(createOption),
@@ -55,7 +55,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   );
 
   const params = useMemo(
-    () => isParachain
+    () => isParaTeleport
       ? [
         { X1: 'Parent' },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
@@ -68,12 +68,8 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         [{ ConcreteFungible: { amount, id: 'Null' } }],
         DEFAULT_WEIGHT
       ],
-    [amount, isParachain, recipientId, recipientParaId]
+    [amount, isParaTeleport, recipientId, recipientParaId]
   );
-
-  if (!allowTeleport || !chainOpts.length) {
-    return null;
-  }
 
   return (
     <Modal
@@ -94,14 +90,16 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
-          <Dropdown
-            defaultValue={chainOpts[0]?.value}
-            label={t<string>('destination chain')}
-            onChange={setParaId}
-            options={chainOpts}
-          />
-        </Modal.Columns>
+        {chainOpts.length !== 0 && (
+          <Modal.Columns hint={t<string>('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
+            <Dropdown
+              defaultValue={chainOpts[0].value}
+              label={t<string>('destination chain')}
+              onChange={setParaId}
+              options={chainOpts}
+            />
+          </Modal.Columns>
+        )}
         <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
           <InputAddress
             label={t<string>('send to address')}
@@ -123,7 +121,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         <TxButton
           accountId={senderId}
           icon='share-square'
-          isDisabled={!hasAvailable || !recipientId || !amount || (!isParachain && recipientParaId === INVALID_PARAID)}
+          isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
           label={t<string>('Teleport')}
           onStart={onClose}
           params={params}
