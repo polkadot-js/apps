@@ -22,11 +22,11 @@ interface Props {
   isError?: boolean;
   isPrivate?: boolean;
   label: React.ReactNode;
-  onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
+  onChange?: (value: SubmittableExtrinsicFunction<'promise'>) => void;
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className = '', defaultValue, help, isDisabled, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
@@ -40,7 +40,7 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
 
       // set this via callback, since the we are setting a function (alternatively... we have issues)
       setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
-      onChange(newValue);
+      onChange && onChange(newValue);
     },
     [onChange, value]
   );
@@ -68,14 +68,18 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
     >
       <SelectSection
         className='small'
-        onChange={_onSectionChange}
+        defaultValue={isDisabled ? value.section : undefined}
+        isDisabled={isDisabled}
+        onChange={isDisabled ? undefined : _onSectionChange}
         options={optionsSection}
         value={value}
       />
       <SelectMethod
         api={api}
         className='large'
-        onChange={_onKeyChange}
+        defaultValue={isDisabled ? value.method : undefined}
+        isDisabled={isDisabled}
+        onChange={isDisabled ? undefined : _onKeyChange}
         options={optionsMethod}
         value={value}
       />

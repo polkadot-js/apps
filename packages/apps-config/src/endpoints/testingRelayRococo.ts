@@ -55,7 +55,6 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoStatemint',
-        isDisabled: true, // Rococo reset
         paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
@@ -245,7 +244,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKylin',
-        paraId: 2000,
+        paraId: 2013,
         text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://rpc.kylin-node.co.uk'
@@ -415,11 +414,10 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoVln',
-        isDisabled: true, // Rococo reset
-        paraId: 3586,
-        text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
+        paraId: 2007,
+        text: t('rpc.rococo.vln', 'Valibre Network PC', { ns: 'apps-config' }),
         providers: {
-          Valiu: 'wss://vln.valiu.dev'
+          Valibre: 'wss://testnet.valibre.dev'
         }
       },
       {

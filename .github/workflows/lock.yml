@@ -2,7 +2,7 @@ name: 'Lock Threads'
 
 on:
   schedule:
-    - cron: '8 8/5 * * *'
+    - cron: '9 2/5 * * *'
 
 jobs:
   lock:
