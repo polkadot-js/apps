@@ -51,6 +51,14 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
         }
+      },
+      {
+        info: 'karura',
+        paraId: 2005,
+        text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
+        providers: {
+          'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network'
+        }
       }
     ]
   };
