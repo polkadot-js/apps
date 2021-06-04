@@ -59,7 +59,7 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network'
         }
-      },
+      }
     ]
   };
 }
