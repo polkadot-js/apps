@@ -89,6 +89,14 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'karura',
+        paraId: 2000,
+        text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
+        providers: {
+          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network'
+        }
+      },
+      {
         info: 'khala',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
