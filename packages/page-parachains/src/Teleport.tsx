@@ -7,7 +7,7 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useMemo, useState } from 'react';
 
-import { ChainImg, Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -47,7 +47,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
-  const { allowTeleport, destinations, isParaTeleport } = useTeleport();
+  const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
 
   const chainOpts = useMemo(
     () => destinations.map(createOption),
@@ -98,6 +98,9 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
               onChange={setParaId}
               options={chainOpts}
             />
+            {oneWay.includes(recipientParaId) && (
+              <MarkWarning content={t<string>('Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.')} />
+            )}
           </Modal.Columns>
         )}
         <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
