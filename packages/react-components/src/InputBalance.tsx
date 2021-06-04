@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SiDef } from '@polkadot/util/types';
 import type { BitLength } from './types';
 
 import BN from 'bn.js';
@@ -8,7 +9,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { BN_TEN, formatBalance, isBn, isUndefined } from '@polkadot/util';
+import { formatBalance, isUndefined } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -38,45 +39,29 @@ interface Props {
   withMax?: boolean;
 }
 
-const BN_TEN_THOUSAND = new BN(10_000);
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number): string {
+function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): [string?, SiDef?] {
+  if (!value) {
+    return [];
+  }
+
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
+  const si = isDisabled
+    ? formatBalance.calcSi(value.toString(), decimals)
+    : formatBalance.findSi('-');
 
-  if (isBn(value)) {
-    // format for 4 decimals (align with util)
-    const valStr = value
-      .mul(BN_TEN_THOUSAND)
-      .div(BN_TEN.pow(new BN(decimals)))
-      .toString()
-      .padStart(5, '0'); // 4 after decimal, 1 before, min 5
-
-    // dive using string format (the value may be too large for 2^53-1)
-    let fmt = `${valStr.substr(0, valStr.length - 4)}.${valStr.slice(-4)}`;
-
-    // remove all trailing 0's until the decimal
-    while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
-      const isLast = fmt.endsWith('.');
-
-      fmt = fmt.substr(0, fmt.length - 1);
-
-      if (isLast) {
-        break;
-      }
-    }
-
-    return fmt;
-  }
-
-  return formatBalance(value, { decimals, forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
+  return [
+    formatBalance(value, { decimals, forceUnit: si.value, withSi: false }).replace(',', isDisabled ? ',' : ''),
+    si
+  ];
 }
 
 function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
-  const defaultValue = useMemo(
-    () => inDefault ? reformat(inDefault, isDisabled, siDecimals) : undefined,
+  const [defaultValue, siDefault] = useMemo(
+    () => reformat(inDefault, isDisabled, siDecimals),
     [inDefault, isDisabled, siDecimals]
   );
 
@@ -101,6 +86,7 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       onEscape={onEscape}
       placeholder={placeholder}
       siDecimals={siDecimals}
+      siDefault={siDefault}
       siSymbol={siSymbol}
       value={value}
       withEllipsis={withEllipsis}
