@@ -128,9 +128,9 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
-const specStatemine = '#363';
+const specStatemine = '#113911';
 const specStatemint = '#86e62a';
-const specWestmint = '#7b7';
+const specWestmint = '#77bb77';
 
 export { emptyColor };
 

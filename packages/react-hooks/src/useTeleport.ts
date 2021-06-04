@@ -16,6 +16,8 @@ interface Teleport {
   allowTeleport: boolean;
   destinations: LinkOption[];
   isParaTeleport?: boolean;
+  isRelayTeleport?: boolean;
+  oneWay: number[]
 }
 
 interface ExtLinkOption extends LinkOption {
@@ -24,7 +26,8 @@ interface ExtLinkOption extends LinkOption {
 
 const DEFAULT_STATE: Teleport = {
   allowTeleport: false,
-  destinations: []
+  destinations: [],
+  oneWay: []
 };
 
 const endpoints = createWsEndpoints((k: string, v: string | undefined) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
@@ -38,7 +41,12 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
       ) && filter(l)
     )
     .reduce((result: ExtLinkOption[], curr): ExtLinkOption[] => {
-      if (!result.some(({ genesisHash, paraId }) => paraId === curr.paraId || genesisHash === curr.genesisHash)) {
+      const isExisting = result.some(({ genesisHash, paraId }) =>
+        paraId === curr.paraId ||
+        (genesisHash && genesisHash === curr.genesisHash)
+      );
+
+      if (!isExisting) {
         result.push(curr);
       }
 
@@ -68,10 +76,16 @@ export function useTeleport (): Teleport {
           isNumber(paraId) &&
           endpoint.teleport.includes(paraId)
         );
+        const oneWay = extractRelayDestinations(relayGenesis, ({ paraId, teleport }) =>
+          isNumber(paraId) &&
+          !teleport.includes(-1)
+        ).map(({ paraId }) => paraId || -1);
 
         setState({
           allowTeleport: destinations.length !== 0,
-          destinations
+          destinations,
+          isRelayTeleport: true,
+          oneWay
         });
       }
     }
@@ -85,11 +99,15 @@ export function useTeleport (): Teleport {
         const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
           endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
         );
+        const oneWay = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId, teleport }) =>
+          !teleport.includes(isNumber(paraId) ? paraId : -1)
+        ).map(({ paraId }) => paraId || -1);
 
         setState({
           allowTeleport: destinations.length !== 0,
           destinations,
-          isParaTeleport: true
+          isParaTeleport: true,
+          oneWay
         });
       }
     }
