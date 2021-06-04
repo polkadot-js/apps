@@ -14,6 +14,7 @@
   "Contribute": "Contribute",
   "Contribute to fund": "Contribute to fund",
   "Crowdloan": "Crowdloan",
+  "Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.": "Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.",
   "Deregister": "Deregister",
   "Ended": "Ended",
   "If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.": "If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.",
