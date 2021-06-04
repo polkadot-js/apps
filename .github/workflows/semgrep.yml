@@ -7,6 +7,7 @@ on:
 jobs:
   semgrep:
     name: Scan
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,3 +16,9 @@ jobs:
           auditOn: push
           publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
           publishDeployment: 1395
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: dummy
+      run: |
+        echo "Dummy skip step"
