@@ -41,7 +41,11 @@ interface Props {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number): [string, SiDef] {
+function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): [string?, SiDef?] {
+  if (!value) {
+    return [];
+  }
+
   const decimals = isUndefined(siDecimals)
     ? formatBalance.getDefaults().decimals
     : siDecimals;
@@ -57,9 +61,7 @@ function reformat (value: string | BN, isDisabled?: boolean, siDecimals?: number
 
 function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const [defaultValue, siDefault] = useMemo(
-    () => inDefault
-      ? reformat(inDefault, isDisabled, siDecimals)
-      : [undefined, undefined],
+    () => reformat(inDefault, isDisabled, siDecimals),
     [inDefault, isDisabled, siDecimals]
   );
 
