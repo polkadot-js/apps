@@ -24,6 +24,7 @@ const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
+const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
@@ -173,6 +174,7 @@ export const chainColors: Record<string, string> = [
   ['IpseTestnet', chainIpse],
   ['Jupiter A1', chainJupiter],
   ['Jupiter PC1', chainJupiter],
+  ['Karura', chainKarura],
   ['KILT Collator Rococo', chainKilt],
   ['KILT Testnet', chainKilt],
   ['Kylin Testnet', chainKylin],

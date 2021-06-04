@@ -10,6 +10,7 @@ import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
+import chainKarura from './chains/karura.svg';
 import chainKusama from './chains/kusama-128.gif';
 import chainPolkaBTC from './chains/polkabtc.png';
 import chainRococo from './chains/rococo.svg';
@@ -142,6 +143,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Jupiter A1', nodeJupiter],
   ['Jupiter PC1', nodeJupiter],
   ['KILT PC1', nodeKilt],
+  ['Karura', chainKarura],
   ['Konomi', nodeKonomi],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
@@ -373,6 +375,7 @@ export const namedLogos: Record<string, unknown> = {
   integritee: nodeIntegritee,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
+  karura: chainKarura,
   khala: nodeKhala,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
