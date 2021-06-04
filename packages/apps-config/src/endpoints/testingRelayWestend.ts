@@ -45,6 +45,14 @@ export function createWestend (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'karura',
+        paraId: 2005,
+        text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
+        providers: {
+          "Acala Foundation": 'wss://karura-westend-rpc.aca-staging.network'
+        }
+      },
+      {
         info: 'moonshadow',
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
