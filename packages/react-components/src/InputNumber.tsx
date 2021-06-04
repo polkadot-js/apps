@@ -183,7 +183,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       : null
   );
   const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(() =>
-    getValues(api, propsValue || defaultValue, isSi ? formatBalance.findSi('-') : null, bitLength, isZeroable, maxValue, siDecimals)
+    getValues(api, propsValue || defaultValue, si, bitLength, isZeroable, maxValue, siDecimals)
   );
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
 
