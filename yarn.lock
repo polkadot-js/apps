@@ -2553,7 +2553,7 @@ __metadata:
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.1.20
     pontem-types-bundle: ^1.0.5
-    thales-types-bundle: 0.8.3
+    thales-types-bundle: 0.8.4
   languageName: unknown
   linkType: soft
 
@@ -18212,13 +18212,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"thales-types-bundle@npm:0.8.3":
-  version: 0.8.3
-  resolution: "thales-types-bundle@npm:0.8.3"
+"thales-types-bundle@npm:0.8.4":
+  version: 0.8.4
+  resolution: "thales-types-bundle@npm:0.8.4"
   dependencies:
     "@polkadot/keyring": ^6.4.1
     "@polkadot/types": ^4.9.2
-  checksum: 63f5a59d4bf8a4856a60dd12b34fb1c4bbb68cfbb623c4462cea4f0c9c7c4ddd80d967c0ecf622d49d8fc586466f2f5af946d9fdaa3897202834d486f0650bd1
+  checksum: 551024c4852bdf072f007af3829b2784dbe25fc350b0d3824bf526295c79c96bfab531173fed8eb580c8881b795ae2c84e988f7524ce12b75ed4dc1cda4d9446
   languageName: node
   linkType: hard
 
