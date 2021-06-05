@@ -24,6 +24,6 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/jest/jest-setup.ts'],
   testEnvironment: 'jsdom',
-  testTimeout: 25000,
+  testTimeout: 60000,
   transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
 };

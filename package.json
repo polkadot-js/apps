@@ -50,6 +50,7 @@
     "packElectron:linux": "yarn build:release:electron && electron-builder build --linux",
     "packElectron": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build -mwl",
     "docs": "echo \"skipping docs\"",
+    "ci:chainTypes": "polkadot-dev-run-test --silent packages/apps-config/src/ciChainTypes",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
     "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
