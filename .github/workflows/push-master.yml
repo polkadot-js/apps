@@ -7,11 +7,11 @@ on:
 jobs:
   # publish to gh-pages (& IPFS when a release is detected)
   www:
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
     strategy:
       matrix:
         step: ['build:release:www']
     name: ${{ matrix.step }}
-    if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -34,8 +34,8 @@ jobs:
 
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   docker:
+    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
     name: docker
-    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'polkadot-js/apps'"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -47,11 +47,11 @@ jobs:
 
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   electron:
+    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'polkadot-js/apps'"
     name: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -85,11 +85,3 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.API_KEY_ID }}
           API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}
-
-  # dummy, GH actions fails outright when all steps are skipped (like it can be above)
-  dummy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: dummy
-      run: |
-        echo "Dummy skip step"
