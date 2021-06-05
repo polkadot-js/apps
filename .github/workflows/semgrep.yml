@@ -1,12 +1,12 @@
 name: Semgrep
 on:
+  pull_request: {}
   push:
     branches:
       - master
 
 jobs:
-  semgrep:
-    name: Scan
+  check:
     if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
     runs-on: ubuntu-latest
     steps:
@@ -16,9 +16,3 @@ jobs:
           auditOn: push
           publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
           publishDeployment: 1395
-  dummy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: dummy
-      run: |
-        echo "Dummy skip step"
