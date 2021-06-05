@@ -193,17 +193,17 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'kylin',
-      text: t('testnet.kylin-node.co.uk', 'Kylin Testnet', { ns: 'apps-config' }),
-      providers: {
-        'Kylin Network': 'wss://testnet.kylin-node.co.uk'
-      }
-    },
-    {
       info: 'klugdossier',
       text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
       providers: {
         'Klug Dossier': 'wss://klugdossier.net/'
+      }
+    },
+    {
+      info: 'kylin',
+      text: t('testnet.kylin-node.co.uk', 'Kylin Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://testnet.kylin-node.co.uk'
       }
     },
     {
