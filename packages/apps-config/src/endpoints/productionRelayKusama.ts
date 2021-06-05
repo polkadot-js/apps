@@ -128,6 +128,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           ChainX: 'wss://sherpax.chainx.org'
         }
+      },
+      {
+        info: 'shiden',
+        paraId: 2007,
+        text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
+        providers: {
+          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
+        }
       }
     ]
   };

@@ -17,6 +17,7 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
+import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -177,6 +178,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Shiden', chainShiden],
+  ['Shiden Shell', chainShiden],
   ['Statemine', nodeStatemine],
   ['Statemine Test', nodeStatemine],
   ['Statemint', nodeStatemine],
@@ -290,6 +293,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['RioChain Staging', nodeRiochain],
   ['Sakura', nodeSakura],
   ['Shadow', nodeShadow],
+  ['Shiden Collator', chainShiden],
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
@@ -454,6 +458,7 @@ export const namedLogos: Record<string, unknown> = {
   shadow: nodeShadow,
   shell: nodeShell,
   sherpax: nodeChainx,
+  shiden: chainShiden,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,
