@@ -23,7 +23,7 @@ const endpoints = createWsEndpoints((k: string, v?: string) => v || k, true)
   .map(({ text, value }): Partial<Endpoint> => ({ name: text as string, ws: value as string }))
   .filter((v): v is Endpoint => !!v.ws);
 
-describe('check configured chain connections', (): void => {
+describe('--SLOW--: check configured chain connections', (): void => {
   endpoints.forEach(({ name, ws }) =>
     it(`${name} @ ${ws}`, async (): Promise<void> => {
       const [,, hostWithPort] = ws.split('/');
