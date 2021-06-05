@@ -24,7 +24,7 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
-    teleport: [1000],
+    teleport: [],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
