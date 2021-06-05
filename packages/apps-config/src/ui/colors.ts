@@ -115,6 +115,7 @@ const nodePontem = '#A92FAC';
 const nodePrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const nodeRealis = 'linear-gradient(45deg, #E8AAC9 0%, #C4D9E7 50%, #EFD6E0 100%)';
 const nodeRiochain = '#1A3BB3';
+const nodeShiden = '#5923B2';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
@@ -247,10 +248,13 @@ export const chainColors: Record<string, string> = [
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
-].reduce((colors, [chain, color]): Record<string, string> => ({
-  ...colors,
-  [chain.toLowerCase()]: color
-}), {});
+].reduce(
+  (colors, [chain, color]): Record<string, string> => ({
+    ...colors,
+    [chain.toLowerCase()]: color
+  }),
+  {}
+);
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -293,6 +297,7 @@ export const nodeColors: Record<string, string> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
+  ['Shiden Collator', nodeShiden],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['Statemine Collator', specStatemint],
@@ -310,10 +315,13 @@ export const nodeColors: Record<string, string> = [
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink]
-].reduce((colors, [node, color]): Record<string, string> => ({
-  ...colors,
-  [node.toLowerCase().replace(/-/g, ' ')]: color
-}), {});
+].reduce(
+  (colors, [node, color]): Record<string, string> => ({
+    ...colors,
+    [node.toLowerCase().replace(/-/g, ' ')]: color
+  }),
+  {}
+);
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -322,7 +330,10 @@ export const specColors: Record<string, string> = [
   ['statemine', specStatemine],
   ['statemint', specStatemint],
   ['westmint', specWestmint]
-].reduce((colors, [spec, color]): Record<string, any> => ({
-  ...colors,
-  [spec.toLowerCase().replace(/-/g, ' ')]: color
-}), {});
+].reduce(
+  (colors, [spec, color]): Record<string, any> => ({
+    ...colors,
+    [spec.toLowerCase().replace(/-/g, ' ')]: color
+  }),
+  {}
+);
