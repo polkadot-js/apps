@@ -26,6 +26,7 @@ const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
+const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainMoonrock = '#3d1d5a';
@@ -98,6 +99,7 @@ const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
 const nodeKylin = '#ed007e';
+const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
@@ -186,6 +188,7 @@ export const chainColors: Record<string, string> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['Kylin Testnet', chainKylin],
+  ['KLUGDOSSIER.NET', chainKlug],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
   ['Manta Testnet', chainManta],
@@ -270,6 +273,7 @@ export const nodeColors: Record<string, string> = [
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Kylin Collator', nodeKylin],
+  ['Klug Dossier Node', nodeKlug],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['Manta Node', nodeManta],
