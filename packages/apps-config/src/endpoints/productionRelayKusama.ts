@@ -24,7 +24,7 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
-    teleport: [1000],
+    teleport: [],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
@@ -34,7 +34,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://kusama-statemine-rpc.paritytech.net'
+          Parity: 'wss://kusama-statemine-rpc.paritytech.net',
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
         },
         teleport: [-1]
       },
