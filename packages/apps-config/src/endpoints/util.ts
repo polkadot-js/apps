@@ -21,7 +21,7 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, teleport, text }: EndpointOption): LinkOption[] {
+export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly?: boolean): LinkOption[] {
   const base = {
     genesisHash,
     info,
@@ -32,19 +32,22 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isCh
     text
   };
 
-  const result = Object.entries(providers).map(([host, value], index): LinkOption => ({
-    ...base,
-    dnslink: index === 0 ? dnslink : undefined,
-    isRelay: false,
-    textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } }),
-    value
-  }));
+  const result = Object
+    .entries(providers)
+    .filter((_, index) => !firstOnly || index === 0)
+    .map(([host, value], index): LinkOption => ({
+      ...base,
+      dnslink: index === 0 ? dnslink : undefined,
+      isRelay: false,
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } }),
+      value
+    }));
 
   if (linked) {
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    linked.forEach((o) => options.push(...expandEndpoint(t, o)));
+    linked.forEach((o) => options.push(...expandEndpoint(t, o, firstOnly)));
     last.isRelay = true;
     last.linked = options;
   }
@@ -52,6 +55,6 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isCh
   return expandLinked(result);
 }
 
-export function expandEndpoints (t: TFunction, input: EndpointOption[]): LinkOption[] {
-  return input.reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input)), []);
+export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnly?: boolean): LinkOption[] {
+  return input.reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input, firstOnly)), []);
 }

@@ -8,9 +8,9 @@ import { createKusama } from './productionRelayKusama';
 import { createPolkadot } from './productionRelayPolkadot';
 import { expandEndpoints } from './util';
 
-export function createProductionRelays (t: TFunction): LinkOption[] {
+export function createProductionRelays (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     createPolkadot(t),
     createKusama(t)
-  ]);
+  ], firstOnly);
 }
