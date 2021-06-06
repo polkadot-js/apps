@@ -53,6 +53,14 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'shibuya',
+        paraId: 2007,
+        text: t('rpc.westend.shibuya', 'Shibuya', { ns: 'apps-config' }),
+        providers: {
+          StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
+        }
+      },
+      {
         info: 'karura',
         paraId: 2005,
         text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
