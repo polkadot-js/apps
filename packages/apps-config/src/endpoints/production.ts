@@ -75,6 +75,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
     },
     {
       info: 'hanonycash',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
@@ -82,6 +83,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
     },
     {
       info: 'snakenet',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
