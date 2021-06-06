@@ -44,6 +44,7 @@ export function createKusama (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'bifrost',
+        isUnreachable: true,
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
@@ -52,6 +53,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shadow',
+        isUnreachable: true,
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
@@ -60,6 +62,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'crab',
+        isUnreachable: true,
         paraId: 2006,
         text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
         providers: {
@@ -68,6 +71,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'encointer_canary',
+        isUnreachable: true,
         paraId: 2014,
         text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
         providers: {
@@ -76,6 +80,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
+        isUnreachable: true,
         text: t('rpc.test.equilibriumtestnet', 'Genshiro', { ns: 'apps-config' }),
         providers: {
           Equilibrium: 'wss://testnet.equilibrium.io'
@@ -83,6 +88,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'integritee',
+        isUnreachable: true,
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
         providers: {
@@ -91,6 +97,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'karura',
+        isUnreachable: true,
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
@@ -99,6 +106,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
+        isUnreachable: true,
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
@@ -107,6 +115,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'kilt',
+        isUnreachable: true,
         paraId: 2005,
         text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
         providers: {
@@ -115,14 +124,16 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'polkasmith',
+        isUnreachable: true,
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
         providers: {
-          Polkasmith: 'wss-polkasmith.polkafoundry.com'
+          Polkasmith: 'wss://polkasmith.polkafoundry.com'
         }
       },
       {
         info: 'sakura',
+        isUnreachable: true,
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
         providers: {
@@ -131,6 +142,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'sherpax',
+        isUnreachable: true,
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
         providers: {
@@ -139,6 +151,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
+        isUnreachable: true,
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {

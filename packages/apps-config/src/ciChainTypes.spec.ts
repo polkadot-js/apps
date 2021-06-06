@@ -18,9 +18,17 @@ interface DnsResponse {
   Question: { name: string }[];
 }
 
+const FAILURES: string[] = [
+  'Cannot construct unknown type',
+  'No DNS entry for',
+  'Timeout connecting to'
+];
+
 const endpoints = createWsEndpoints((k: string, v?: string) => v || k, true)
-  .filter(({ isDisabled, value }) => !isDisabled && value && isString(value) && !value.startsWith('ws://'))
-  .map(({ text, value }): Partial<Endpoint> => ({ name: text as string, ws: value as string }))
+  .filter(({ isDisabled, isUnreachable, value }) =>
+    !isDisabled && !isUnreachable && value && isString(value) && !value.startsWith('ws://')
+  )
+  .map((o): Partial<Endpoint> => ({ name: o.text as string, ws: o.value as string }))
   .filter((v): v is Endpoint => !!v.ws);
 
 describe('--SLOW--: check configured chain connections', (): void => {
@@ -32,12 +40,13 @@ describe('--SLOW--: check configured chain connections', (): void => {
       const response = await fetch(`https://dns.google/resolve?name=${host}`);
       const json = await response.json() as DnsResponse;
 
-      assert(json.Answer, `No DNS entry for ${host}`);
-
       let provider: WsProvider | null = null;
       let api: ApiPromise | null = null;
+      let timerId: NodeJS.Timeout | null = null;
 
       try {
+        assert(json.Answer, `No DNS entry for ${host}`);
+
         provider = new WsProvider(ws, false);
         api = new ApiPromise({
           provider,
@@ -50,12 +59,25 @@ describe('--SLOW--: check configured chain connections', (): void => {
           provider && provider.connect().catch(() => undefined);
         }, 1000);
 
-        await api.isReadyOrError;
+        await Promise.race([
+          // eslint-disable-next-line promise/param-names
+          new Promise((_, reject): void => {
+            timerId = setTimeout((): void => {
+              timerId = null;
+              reject(new Error(`Timeout connecting to ${ws}`));
+            }, 60_000);
+          }),
+          api.isReadyOrError
+        ]);
       } catch (error) {
-        if (isError(error) && error.message.includes('Cannot construct unknown type')) {
+        if (isError(error) && FAILURES.some((f) => (error as Error).message.includes(f))) {
           throw error;
         }
       } finally {
+        if (timerId) {
+          clearTimeout(timerId);
+        }
+
         if (provider) {
           try {
             if (api) {

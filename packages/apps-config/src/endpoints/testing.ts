@@ -85,6 +85,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'dock-testnet',
+      isDisabled: true, // Cannot construct unknown type EpochNo
       text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
@@ -380,6 +381,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'web3games',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: 'wss://substrate.org.cn:4443'

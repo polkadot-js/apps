@@ -9,6 +9,7 @@ export interface EndpointOption {
   isChild?: boolean;
   isDevelopment?: boolean;
   isDisabled?: boolean;
+  isUnreachable?: boolean;
   linked?: EndpointOption[];
   info?: string;
   paraId?: number;
@@ -24,6 +25,7 @@ export interface LinkOption extends Option {
   isChild?: boolean;
   isDevelopment?: boolean;
   isRelay?: boolean;
+  isUnreachable?: boolean;
   isSpaced?: boolean;
   linked?: LinkOption[];
   paraId?: number;
