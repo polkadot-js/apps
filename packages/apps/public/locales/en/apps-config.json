@@ -156,6 +156,7 @@
   "rpc.westend": "Westend",
   "rpc.westend.moonshadow": "Moonshadow",
   "rpc.westend.shell": "Shell",
+  "rpc.westend.shibuya": "Shibuya",
   "rpc.westend.wendala": "Wendala",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet"
