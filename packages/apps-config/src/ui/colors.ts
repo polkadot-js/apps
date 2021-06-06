@@ -63,6 +63,7 @@ const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
 const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
+const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -225,6 +226,8 @@ export const chainColors: Record<string, string> = [
   ['Sakura', chainSakura],
   ['Shadow', chainShadow],
   ['sherpax', chainChainx],
+  ['Shiden', chainShiden],
+  ['Shiden Shell', chainShiden],
   ['Statemine', specStatemine],
   ['Statemine Test', specStatemine],
   ['Statemint', specStatemint],
@@ -293,6 +296,7 @@ export const nodeColors: Record<string, string> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
+  ['Shiden Collator', chainShiden],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['Statemine Collator', specStatemint],
