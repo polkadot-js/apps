@@ -83,6 +83,7 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
 import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
@@ -249,6 +250,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['GamePower Node', nodeGamePower],
   ['GEEK', nodeGeek],
+  ['Halongbay Parachain Collator', nodePolkaFoundry],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
   ['Khala', nodeKhala],
@@ -290,6 +292,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['polkadot-js', nodePolkadotJs],
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
+  ['PolkaSmith Parachain Collator', nodePolkaSmith],
   ['Pontem', nodePontem],
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
@@ -407,6 +410,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  polkasmith: nodePolkaSmith,
   polymesh: nodePolymesh,
   pontem: nodePontem,
   prism: nodePrism,

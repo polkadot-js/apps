@@ -41,6 +41,7 @@ const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
+const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKilt = '#8c175b';
@@ -216,6 +217,7 @@ export const chainColors: Record<string, string> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['PolkaSmith', chainPolkaSmith],
   ['Pontem Testnet', chainPontem],
   ['Prism Testnet', chainPrism],
   ['Prism PC1', chainPrism],

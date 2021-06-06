@@ -114,6 +114,14 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'polkasmith',
+        paraId: 2009,
+        text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
+        providers: {
+          Polkasmith: 'wss-polkasmith.polkafoundry.com'
+        }
+      },
+      {
         info: 'sakura',
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
