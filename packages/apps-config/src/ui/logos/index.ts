@@ -466,6 +466,7 @@ export const namedLogos: Record<string, unknown> = {
   shadow: nodeShadow,
   shell: nodeShell,
   sherpax: nodeChainx,
+  shibuya: chainShiden,
   shiden: chainShiden,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
