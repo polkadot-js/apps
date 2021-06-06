@@ -65,7 +65,7 @@ describe('--SLOW--: check configured chain connections', (): void => {
             timerId = setTimeout((): void => {
               timerId = null;
               reject(new Error(`Timeout connecting to ${ws}`));
-            }, 45_000);
+            }, 60_000);
           }),
           api.isReadyOrError
         ]);
