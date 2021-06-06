@@ -21,12 +21,13 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isChild, isDisabled, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly?: boolean): LinkOption[] {
+export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly?: boolean): LinkOption[] {
   const base = {
     genesisHash,
     info,
     isChild,
     isDisabled,
+    isUnreachable,
     paraId,
     teleport,
     text
