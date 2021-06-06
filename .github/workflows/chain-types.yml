@@ -4,7 +4,7 @@ on:
     - cron:  '30 0 * * *'
 
 jobs:
-  ss58:
+  chains:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
