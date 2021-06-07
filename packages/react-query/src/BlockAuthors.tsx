@@ -56,7 +56,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       api.derive.chain.subscribeNewHeads(async (lastHeader: HeaderExtendedWithMapping): Promise<void> => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
-          let thisBlockAuthor = ''; //= lastHeader.author?.toString();
+          let thisBlockAuthor = '';
 
           if (lastHeader.author) {
             thisBlockAuthor = lastHeader.author.toString();
