@@ -18,8 +18,8 @@ interface Props {
   onClose: () => void;
 }
 
-const DEFAULT_WEIGHT_FROM_P = 3_000_000_000;
-const DEFAULT_WEIGHT_FROM_R = 30_000_000;
+const WEIGHT_TO_RELAY = 3 * 1_000_000_000; // 3 * BaseXcmWeight
+const WEIGHT_TO_PARA = 3 * 10_000_000;
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 
 function createOption ({ info, paraId, text }: LinkOption, index: number): Option {
@@ -61,13 +61,13 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         { X1: 'Parent' },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        DEFAULT_WEIGHT_FROM_P
+        WEIGHT_TO_RELAY
       ]
       : [
         { X1: { ParaChain: recipientParaId } },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: 'Null' } }],
-        DEFAULT_WEIGHT_FROM_R
+        WEIGHT_TO_PARA
       ],
     [amount, isParaTeleport, recipientId, recipientParaId]
   );
