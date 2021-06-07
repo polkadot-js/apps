@@ -62,6 +62,7 @@ describe('--SLOW--: check configured chain connections', (): void => {
         setTimeout((): void => {
           provider && provider.connect().catch(() => undefined);
         }, 1000);
+
         await Promise.race([
           // eslint-disable-next-line promise/param-names
           new Promise((_, reject): void => {
