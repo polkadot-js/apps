@@ -33,6 +33,7 @@
   "blocks": "blocks",
   "connected peers": "connected peers",
   "elapsed": "elapsed",
+  "ending slot": "ending slot",
   "epoch": "epoch",
   "epochs": "epochs",
   "era": "era",
