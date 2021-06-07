@@ -46,6 +46,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       let lastHeaders: HeaderExtendedWithMapping[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
+      const isAuthorMapping: boolean = typeof (api.query.authorMapping?.mapping) === 'function';
 
       // subscribe to all validators
       api.query.session && api.query.session.validators((validatorIds): void => {
@@ -60,7 +61,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
           if (lastHeader.author) {
             thisBlockAuthor = lastHeader.author.toString();
-          } else if (lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].asConsensus[1]) {
+          } else if (isAuthorMapping && lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1]) {
             // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
             thisBlockAuthor = (await api.query.authorMapping.mapping(lastHeader.digest.logs[0].asConsensus[1])).toString();
             lastHeader.authorFromMapping = thisBlockAuthor;
