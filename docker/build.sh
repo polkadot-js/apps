@@ -19,7 +19,7 @@ VERSION=$(cat package.json \
   | sed 's/ //g')
 
 echo "*** Building $NAME"
-docker build -t $NAME .
+docker build -t $NAME -f docker/Dockerfile .
 
 docker login -u $REPO -p $DOCKER_PASS
 
