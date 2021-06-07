@@ -46,7 +46,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       let lastHeaders: HeaderExtendedWithMapping[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
-      const isAuthorMapping: boolean = typeof (api.query.authorMapping?.mapping) === 'function';
+      const isAuthorMapping = isFunction(api.query.authorMapping?.mapping);
 
       // subscribe to all validators
       api.query.session && api.query.session.validators((validatorIds): void => {
