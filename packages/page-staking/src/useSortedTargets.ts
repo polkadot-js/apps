@@ -261,7 +261,7 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
   const inflation = useInflation(baseInfo?.totalStaked);
 
   const partial = useMemo(
-    () => inflation
+    () => inflation && inflation.stakedReturn
       ? addReturns(inflation, baseInfo)
       : baseInfo,
     [baseInfo, inflation]

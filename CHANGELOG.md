@@ -1,5 +1,79 @@
 # CHANGELOG
 
+## 0.92.1 Jun 7, 2021
+
+Contributed:
+
+- Update WarmUp script with isReady checks (Thanks to https://github.com/wirednkod)
+- Update validator graphs to take theme into account (Thanks to https://github.com/gngchrs)
+- Add Darwinia Crab Kusama parachain (Thanks to https://github.com/WoeOm)
+- Add Encointer Kusama parachain (Thanks to https://github.com/brenzi)
+- Add IntegiTEE Kusama parachain (Thanks to https://github.com/brenzi)
+- Add Genshiro Kusama parachain (Thanks to https://github.com/alex-nax)
+- Add Karura Kusama parachain (Thanks to https://github.com/ntduan)
+- Add Shiden Kusama parachain (thanks to https://github.com/akru)
+- Adjust Bifrost branding (Thanks to https://github.com/awesomepan)
+- Adjust Crust Shadow branding (Thanks to https://github.com/zikunfan)
+- Adjust Equilibrium definitions (Thanks to https://github.com/alex-nax & https://github.com/pr0fedt)
+- Add Kylin as Rococo parachain (Thanks to https://github.com/samelamin)
+- Add Moonshadow as Westend parachain (Thanks to https://github.com/crystalin & https://github.com/joelamouche)
+- Add Manta testnet (Thanks to https://github.com/Kevingislason)
+- Add Pontem testnet (Thanks to https://github.com/idimetrix)
+- Add KlugDossier testnet (Thanks to https://github.com/sbnair)
+- Add Oak testnet (Thanks to https://github.com/chrisli30 & https://github.com/imstar15)
+- Add Sakura parachain (Thanks to https://github.com/pangwa)
+- Add Shibuya Westend parachain (Thanks to https://github.com/akru)
+- Update Manta types (Thanks to https://github.com/stechu)
+- Update Zero.io types (Thanks to https://github.com/2075)
+- Update types for HydraDX (Thanks to https://github.com/jak-pan)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update PolkaBTC types (Thanks to https://github.com/savudani8)
+- Update Acala types (thanks to https://github.com/qwer951123)
+- Update Plasm types (Thanks to https://github.com/hoonsubin)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+- Update Phala types (Thanks to https://github.com/krhougs)
+- Update Pangolin types (Thanks to https://github.com/sxlwar)
+- Update Polkafoundry types (Thanks to https://github.com/hoangnl2112)
+- Update DataHighway specName (Thanks to https://github.com/ayushmishra2005)
+- Update Bifrost WSS url (Thanks to https://github.com/awesomepan)
+- Update Westmint WSS url (Thanks to https://github.com/PierreBesson)
+- Update VLN WSS url (Thanks to https://github.com/stanly-johnson)
+- Add OnFinality endpoint for Statemine (Thanks to https://github.com/454076513)
+
+Changes:
+
+- Allow for XCM asset teleport
+- Add support for Kusama Statemine parachain
+- Add support for Kusama Shell parachain
+- Add support for Westend Westmint parachain
+- Adjust branding details for Statemine, Statemint & Westmint
+- Adjust proposal threshold for staking slash cancel
+- Allow for color/logo definition based on specName
+- Adjust autoFocus on Validate & Session key staking partials
+- Fully expand DispatchResult in explorer
+- Display current approvals on multisig modals
+- Display expanded call data on multisig modal
+- Correct validator mapping to assignment groups
+- Display currently selected parachain validators
+- Display current validator group in parachains page
+- Don't display renamed inclusion/backed events
+- Simplify validator list rendering
+- Allow for inflation adjustment based on auctions
+- Display ideal staked info on staking
+- Adjust TC fasttrack thresholds based on voting input
+- Sort Westend parachain ids
+- Adjust Tabs imports (code consistency & usage)
+- Update tests to cater for Jest 27
+- Allow for verifier signature on crowdloan
+- Adjust Rococo parachains (& genesis) after reset
+- Add option for Ledger via WebHID
+- Add call decoder of extrinsics page
+- Use type-only BN imports (as applicable)
+- Always show development chain in dev colors
+- Re-format static Balance displays for detected SI units
+- Add cron detection for invalid WS endpoints
+
+
 ## 0.91.2 May 17, 2021
 
 Changes:
