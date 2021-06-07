@@ -26,6 +26,7 @@ const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
+const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainMoonrock = '#3d1d5a';
@@ -40,6 +41,7 @@ const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
+const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKilt = '#8c175b';
@@ -62,6 +64,7 @@ const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
 const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
+const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
 const chainGalois = '#000000';
@@ -98,6 +101,7 @@ const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
 const nodeKylin = '#ed007e';
+const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
@@ -128,9 +132,9 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
-const specStatemine = '#363';
+const specStatemine = '#113911';
 const specStatemint = '#86e62a';
-const specWestmint = '#7b7';
+const specWestmint = '#77bb77';
 
 export { emptyColor };
 
@@ -186,6 +190,7 @@ export const chainColors: Record<string, string> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['Kylin Testnet', chainKylin],
+  ['KLUGDOSSIER.NET', chainKlug],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
   ['Manta Testnet', chainManta],
@@ -212,6 +217,7 @@ export const chainColors: Record<string, string> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['PolkaSmith', chainPolkaSmith],
   ['Pontem Testnet', chainPontem],
   ['Prism Testnet', chainPrism],
   ['Prism PC1', chainPrism],
@@ -222,6 +228,8 @@ export const chainColors: Record<string, string> = [
   ['Sakura', chainSakura],
   ['Shadow', chainShadow],
   ['sherpax', chainChainx],
+  ['Shiden', chainShiden],
+  ['Shiden Shell', chainShiden],
   ['Statemine', specStatemine],
   ['Statemine Test', specStatemine],
   ['Statemint', specStatemint],
@@ -270,6 +278,7 @@ export const nodeColors: Record<string, string> = [
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Kylin Collator', nodeKylin],
+  ['Klug Dossier Node', nodeKlug],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['Manta Node', nodeManta],
@@ -289,6 +298,7 @@ export const nodeColors: Record<string, string> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
+  ['Shiden Collator', chainShiden],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
   ['Statemine Collator', specStatemint],

@@ -1,5 +1,6 @@
 {
   "lng.detect": "Default browser language (auto-detect)",
+  "rpc.KlugDossier": "Klug Dossier",
   "rpc.dev.custom": "Custom environment",
   "rpc.dev.custom.entry": "Custom {{WS_URL}}",
   "rpc.dev.custom.own": "Custom",
@@ -18,10 +19,12 @@
   "rpc.kusama.khala": "Khala Network",
   "rpc.kusama.kilt": "KILT Mainnet",
   "rpc.kusama.parity": "Kusama",
+  "rpc.kusama.polkasmith": "Polkasmith",
   "rpc.kusama.sakura": "Sakura",
   "rpc.kusama.shadow": "Crust Shadow",
   "rpc.kusama.shell": "Shell",
   "rpc.kusama.sherpax": "SherpaX",
+  "rpc.kusama.shiden": "Shiden",
   "rpc.kusama.statemine": "Statemine",
   "rpc.kylin-node.co.uk": "Kylin Network",
   "rpc.manta": "Manta Testnet",
@@ -153,6 +156,7 @@
   "rpc.westend": "Westend",
   "rpc.westend.moonshadow": "Moonshadow",
   "rpc.westend.shell": "Shell",
+  "rpc.westend.shibuya": "Shibuya",
   "rpc.westend.wendala": "Wendala",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet"

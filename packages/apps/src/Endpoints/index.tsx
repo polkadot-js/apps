@@ -57,6 +57,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks.push({
           icon: e.info,
           isChild: e.isChild,
+          isUnreachable: e.isUnreachable,
           name: e.text as string,
           providers: [prov]
         });

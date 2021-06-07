@@ -18,7 +18,7 @@ interface Props {
   value: Network;
 }
 
-function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, isUnreachable, name, providers } }: Props): React.ReactElement<Props> {
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
@@ -40,10 +40,10 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
+    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={_selectUrl}
+        onClick={isUnreachable ? undefined : _selectUrl}
       >
         <ChainImg
           className='endpointIcon'
@@ -73,6 +73,10 @@ export default React.memo(styled(NetworkDisplay)`
   margin: 0 0 0.25rem 0;
   padding: 0.375rem 0.5rem 0.375rem 1rem;
   position: relative;
+
+  &.isUnreachable {
+    opacity: 0.5;
+  }
 
   &.isSelected,
   &:hover {
