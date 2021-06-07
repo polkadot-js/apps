@@ -6,7 +6,7 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "private": true,
   "type": "module",
-  "version": "0.92.2-1",
+  "version": "0.92.2-2",
   "license": "Apache-2",
   "homepage": ".",
   "workspaces": [
