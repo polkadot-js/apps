@@ -7,7 +7,7 @@ import type { EraRewardPoints } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 // TODO update HeaderExtended in api-derive
 export interface HeaderExtendedWithMapping extends HeaderExtended {
