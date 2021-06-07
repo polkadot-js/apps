@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import fs from 'fs';
+
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { assert, isError, isString } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
@@ -23,6 +25,8 @@ const FAILURES: string[] = [
   'No DNS entry for',
   'Timeout connecting to'
 ];
+
+const TICK = '`';
 
 const endpoints = createWsEndpoints((k: string, v?: string) => v || k, true)
   .filter(({ isDisabled, isUnreachable, value }) =>
@@ -58,7 +62,6 @@ describe('--SLOW--: check configured chain connections', (): void => {
         setTimeout((): void => {
           provider && provider.connect().catch(() => undefined);
         }, 1000);
-
         await Promise.race([
           // eslint-disable-next-line promise/param-names
           new Promise((_, reject): void => {
@@ -71,6 +74,8 @@ describe('--SLOW--: check configured chain connections', (): void => {
         ]);
       } catch (error) {
         if (isError(error) && FAILURES.some((f) => (error as Error).message.includes(f))) {
+          process.env.CI_LOG && fs.appendFileSync('./.github/chain-types.md', `\n${TICK}${ws.padStart(52, ' ')}: ${error.message}${TICK}`);
+
           throw error;
         }
       } finally {
