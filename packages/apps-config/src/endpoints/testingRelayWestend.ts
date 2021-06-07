@@ -38,7 +38,7 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io',
-          'Patract Elara': 'westmint.westend.elara.patract.io'
+          'Patract Elara': 'wss://westmint.westend.elara.patract.io'
         },
         teleport: [-1]
       },
