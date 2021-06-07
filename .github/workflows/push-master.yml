@@ -43,7 +43,7 @@ jobs:
       env:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       run: |
-        ./scripts/docker.sh
+        ./docker/build.sh
 
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   electron:
