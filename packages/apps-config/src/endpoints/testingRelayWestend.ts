@@ -37,7 +37,8 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://westmint-rpc.polkadot.io'
+          Parity: 'wss://westmint-rpc.polkadot.io',
+          'Patract Elara': 'wss://westmint.westend.elara.patract.io'
         },
         teleport: [-1]
       },
@@ -50,6 +51,14 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
           Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
+        }
+      },
+      {
+        info: 'shibuya',
+        paraId: 2007,
+        text: t('rpc.westend.shibuya', 'Shibuya', { ns: 'apps-config' }),
+        providers: {
+          StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
         }
       },
       {

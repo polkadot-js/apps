@@ -12,7 +12,7 @@ import { createTestingRelays } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
-export function createWsEndpoints (t: TFunction): LinkOption[] {
+export function createWsEndpoints (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return [
     ...createCustom(t),
     {
@@ -23,7 +23,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createProductionRelays(t),
+    ...createProductionRelays(t, firstOnly),
     {
       isDisabled: false,
       isHeader: true,
@@ -31,7 +31,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createTestingRelays(t),
+    ...createTestingRelays(t, firstOnly),
     {
       isDisabled: false,
       isHeader: true,
@@ -40,7 +40,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createProduction(t),
+    ...createProduction(t, firstOnly),
     {
       isDisabled: false,
       isHeader: true,
@@ -48,7 +48,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createTesting(t),
+    ...createTesting(t, firstOnly),
     {
       isDevelopment: true,
       isDisabled: false,

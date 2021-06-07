@@ -198,6 +198,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoHalongbay',
+        paraId: 2018,
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        providers: {
+          Halongbay: 'wss://halongbay.polkafoundry.com'
+        }
+      },
+      {
         info: 'rococoHydrate',
         isDisabled: true, // Rococo reset
         paraId: 82406,

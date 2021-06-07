@@ -17,6 +17,7 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
+import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -57,6 +58,7 @@ import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.svg';
+import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeKylin from './nodes/kylin.png';
@@ -81,6 +83,7 @@ import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodePolkaFoundry from './nodes/polkafoundry.svg';
+import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
 import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
@@ -150,6 +153,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['Kylin Testnet', nodeKylin],
+  ['KlugDossier', nodeKlug],
   ['Litentry', nodeLitentry],
   ['Manta Testnet', nodeManta],
   ['MathChain PC1', nodeMath],
@@ -177,6 +181,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Rococo', chainRococo],
   ['RioChain CC-1', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
+  ['Shiden', chainShiden],
+  ['Shiden Shell', chainShiden],
   ['Statemine', nodeStatemine],
   ['Statemine Test', nodeStatemine],
   ['Statemint', nodeStatemine],
@@ -244,6 +250,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Galois', nodeMath],
   ['GamePower Node', nodeGamePower],
   ['GEEK', nodeGeek],
+  ['Halongbay Parachain Collator', nodePolkaFoundry],
   ['hanonycash', nodeHanonycash],
   ['Idavoll Node', nodeIdavoll],
   ['Khala', nodeKhala],
@@ -252,6 +259,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['KILT Collator', nodeKilt],
   ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
+  ['Klug Dossier Node', nodeKlug],
   ['Laminar Node', nodeLaminar],
   ['Litentry', nodeLitentry],
   ['Litentry Collator', nodeLitentry],
@@ -284,12 +292,14 @@ export const nodeLogos: Record<string, unknown> = [
   ['polkadot-js', nodePolkadotJs],
   ['PolkaFoundry Node', nodePolkaFoundry],
   ['PolkaFoundry Parachain Collator', nodePolkaFoundry],
+  ['PolkaSmith Parachain Collator', nodePolkaSmith],
   ['Pontem', nodePontem],
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['RioChain Staging', nodeRiochain],
   ['Sakura', nodeSakura],
   ['Shadow', nodeShadow],
+  ['Shiden Collator', chainShiden],
   ['SORA', nodeSora],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
@@ -378,6 +388,7 @@ export const namedLogos: Record<string, unknown> = {
   karura: chainKarura,
   khala: nodeKhala,
   kilt: nodeKilt,
+  klugdossier: nodeKlug,
   kulupu: nodeKulupu,
   kusama: chainKusama,
   kylin: nodeKylin,
@@ -399,6 +410,7 @@ export const namedLogos: Record<string, unknown> = {
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
+  polkasmith: nodePolkaSmith,
   polymesh: nodePolymesh,
   pontem: nodePontem,
   prism: nodePrism,
@@ -454,6 +466,8 @@ export const namedLogos: Record<string, unknown> = {
   shadow: nodeShadow,
   shell: nodeShell,
   sherpax: nodeChainx,
+  shibuya: chainShiden,
+  shiden: chainShiden,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   stafi: nodeStafi,

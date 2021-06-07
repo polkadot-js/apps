@@ -14,7 +14,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createTesting (t: TFunction): LinkOption[] {
+export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
@@ -85,6 +85,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-testnet',
+      isDisabled: true, // Cannot construct unknown type EpochNo
       text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
@@ -190,6 +191,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.test.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
+      }
+    },
+    {
+      info: 'klugdossier',
+      text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
+      providers: {
+        'Klug Dossier': 'wss://klugdossier.net/'
       }
     },
     {
@@ -373,6 +381,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'web3games',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: 'wss://substrate.org.cn:4443'
@@ -392,5 +401,5 @@ export function createTesting (t: TFunction): LinkOption[] {
         ZERO: 'wss://alphaville.zero.io'
       }
     }
-  ]);
+  ], firstOnly);
 }

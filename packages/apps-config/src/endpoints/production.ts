@@ -15,7 +15,7 @@ import { expandEndpoints } from './util';
 //   value: The actual hosted secure websocket endpoint
 
 // alphabetical based on chain name
-export function createProduction (t: TFunction): LinkOption[] {
+export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     {
       dnslink: 'centrifuge',
@@ -75,6 +75,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'hanonycash',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
@@ -166,5 +167,5 @@ export function createProduction (t: TFunction): LinkOption[] {
         DataHighway: 'wss://westlake.datahighway.com'
       }
     }
-  ]);
+  ], firstOnly);
 }
