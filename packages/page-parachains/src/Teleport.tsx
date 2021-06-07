@@ -119,7 +119,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
-          <MarkWarning content={t<string>('Ensure the value is large enough to pay for the weight fees. Currently these are not yet checked for on the UI cross-chain.')} />
+          <MarkWarning content={t<string>('Ensure the value is large enough to pay for the destination weight fees. Currently the UI does not check or account for these cross-chain.')} />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
