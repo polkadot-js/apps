@@ -1,7 +1,7 @@
 FROM ubuntu:18.04 as builder
 
 # Install any needed packages
-RUN apt-get update && apt-get install -y curl git gnupg
+RUN apt-get update && apt-get install -y curl git gnupg && apt-get clean
 
 # install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
