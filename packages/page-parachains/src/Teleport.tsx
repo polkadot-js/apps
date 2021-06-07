@@ -18,7 +18,8 @@ interface Props {
   onClose: () => void;
 }
 
-const DEFAULT_WEIGHT = 30_000_000; // 30_000_000 as per the code
+const DEFAULT_WEIGHT_FROM_P = 3_000_000_000;
+const DEFAULT_WEIGHT_FROM_R = 30_000_000;
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 
 function createOption ({ info, paraId, text }: LinkOption, index: number): Option {
@@ -60,13 +61,13 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         { X1: 'Parent' },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        DEFAULT_WEIGHT
+        DEFAULT_WEIGHT_FROM_P
       ]
       : [
         { X1: { ParaChain: recipientParaId } },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: 'Null' } }],
-        DEFAULT_WEIGHT
+        DEFAULT_WEIGHT_FROM_R
       ],
     [amount, isParaTeleport, recipientId, recipientParaId]
   );
@@ -110,7 +111,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             type='allPlus'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}>
+        <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain. It always needs to account for destination weight.')}>
           <InputBalance
             autoFocus
             isError={!hasAvailable}
@@ -118,6 +119,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
+          <MarkWarning content={t<string>('Ensure the value is large enough to pay for the weight fees. Currently these are not yet checked for on the UI cross-chain.')} />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
