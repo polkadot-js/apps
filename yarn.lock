@@ -1516,6 +1516,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@docknetwork/node-types@npm:^0.4.6":
+  version: 0.4.6
+  resolution: "@docknetwork/node-types@npm:0.4.6"
+  checksum: 8ed2649a3c11dd3ffb851dc0771a4c7bda673aec4332c86038d96f1c7c25d1a8b21d67b0133f7a15dc189e66b09e62fe4a0c6c0ef080ef8572b9e3a7dfe65217
+  languageName: node
+  linkType: hard
+
 "@edgeware/node-types@npm:^3.5.1-erup-4":
   version: 3.5.1-erup-4
   resolution: "@edgeware/node-types@npm:3.5.1-erup-4"
@@ -2538,6 +2545,7 @@ __metadata:
     "@babel/runtime": ^7.14.0
     "@crustio/type-definitions": 0.0.10
     "@darwinia/types": ^1.1.0-alpha.21
+    "@docknetwork/node-types": ^0.4.6
     "@edgeware/node-types": ^3.5.1-erup-4
     "@equilab/definitions": 1.1.1
     "@interlay/polkabtc-types": ^0.7.3
