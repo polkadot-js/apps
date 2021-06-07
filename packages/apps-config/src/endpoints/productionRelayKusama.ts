@@ -24,7 +24,7 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://kusama.elara.patract.io'
     },
-    teleport: [],
+    teleport: [1000],
     linked: [
       // (1) all system parachains (none available yet)
       // ...
@@ -38,7 +38,7 @@ export function createKusama (t: TFunction): EndpointOption {
           OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://statemine.kusama.elara.patract.io'
         },
-        teleport: []
+        teleport: [-1]
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
