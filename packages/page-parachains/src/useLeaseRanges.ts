@@ -46,7 +46,7 @@ export function useLeaseRangeMax (): BN {
   const ranges = useLeaseRanges();
 
   return useMemo(
-    () => new BN(ranges[ranges.length - 1][1] - ranges[0][0]),
+    () => new BN(ranges[ranges.length - 1][1]),
     [ranges]
   );
 }
