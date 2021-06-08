@@ -37,9 +37,7 @@ const definitions: OverrideBundleDefinition = {
         },
       CurrencyIdOf: 'AssetId',
       CurrencyId: 'AssetId',
-      ShardIdentifier: 'H256',
-      LookupSource: 'AccountId',
-      Address: 'AccountId'
+      ShardIdentifier: 'H256'
       }
     }
   ]
