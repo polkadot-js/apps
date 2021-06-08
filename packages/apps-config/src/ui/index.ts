@@ -2,19 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { chainColors, nodeColors, specColors } from './colors';
-import { identityNodes } from './identityIcons';
+import { identityNodes, identitySpec } from './identityIcons';
 
 export * from './logos';
 
 function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
+  return value?.toLowerCase().replace(/-/g, ' ') || '';
 }
 
-export function getSystemIcon (systemName: string): 'beachball' | 'polkadot' | 'substrate' {
-  return (identityNodes[systemName.toLowerCase().replace(/-/g, ' ')] || 'substrate') as 'substrate';
+export function getSystemIcon (systemName: string, specName: string): 'beachball' | 'polkadot' | 'substrate' {
+  return (
+    identityNodes[sanitize(systemName)] ||
+    identitySpec[sanitize(specName)] ||
+    'substrate'
+  ) as 'substrate';
 }
 
 export function getSystemColor (systemChain: string, systemName: string, specName: string): string | undefined {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)] || specColors[sanitize(specName)];
+  return (
+    chainColors[sanitize(systemChain)] ||
+    nodeColors[sanitize(systemName)] ||
+    specColors[sanitize(specName)]
+  );
 }

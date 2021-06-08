@@ -17,7 +17,7 @@ function createInfo (api: ApiPromise, systemChain: string, systemName: string, s
     chain: systemChain,
     color: getSystemColor(systemChain, systemName, specName),
     genesisHash: api.genesisHash.toHex(),
-    icon: getSystemIcon(systemName),
+    icon: getSystemIcon(systemName, specName),
     metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
     specVersion: api.runtimeVersion.specVersion.toNumber(),
     ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
