@@ -8,8 +8,11 @@ import type { EraIndex, UnappliedSlash } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
+
+import { useApi } from './useApi';
+import { useCall } from './useCall';
+import { useIsMountedRef } from './useIsMountedRef';
 
 type Unsub = () => void;
 
