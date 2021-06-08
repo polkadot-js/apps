@@ -111,7 +111,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         }
       </td>
       <td className='address media--1400'><AddressMini value={depositor} /></td>
-      <td className='all number together media--1100'>
+      <td className='all number together media--1200'>
         {blocksLeft && (
           <BlockToTime value={blocksLeft} />
         )}
@@ -132,7 +132,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         />
         <div>{percentage}</div>
       </td>
-      <td className='number'>
+      <td className='number media--1100'>
         {contributors.length !== 0 && (
           formatNumber(contributors.length)
         )}
@@ -143,7 +143,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
           icon='asterisk'
         />
       </td>
-      <td className='button media--1300'>
+      <td className='button media--1000'>
         {canWithdraw && contributors.length !== 0 && (
           <Refund paraId={paraId} />
         )}
