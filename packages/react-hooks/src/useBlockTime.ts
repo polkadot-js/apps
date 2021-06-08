@@ -7,16 +7,16 @@ import type { Time } from '@polkadot/util/types';
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { useApi } from '@polkadot/react-hooks';
 import { BN_ONE, extractTime } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+import { useApi } from './useApi';
 
 type Result = [number, string, Time];
 
 const DEFAULT_TIME = new BN(6000);
 
-export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise): Result {
+export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise | null): Result {
   const { t } = useTranslation();
   const { api } = useApi();
 
