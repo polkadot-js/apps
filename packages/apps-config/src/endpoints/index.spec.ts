@@ -10,17 +10,21 @@ interface Endpoint {
   ws: string;
 }
 
-const endpoints = createWsEndpoints((k: string, v?: string) => v || k, true)
-  .filter(({ value }) =>
-    value && isString(value) && !value.includes('127.0.0.1')
-  )
-  .map((o): Partial<Endpoint> => ({ name: o.text as string, ws: o.value as string }))
-  .filter((v): v is Endpoint => !!v.ws);
-
 describe('urls are all valid', (): void => {
-  endpoints.forEach(({ name, ws }) =>
-    it(`${name} @ ${ws}`, (): void => {
-      assert(ws.startsWith('wss://'), `Expected ${ws} endpoint to start with wss:// `);
-    })
-  );
+  createWsEndpoints((k: string, v?: string) => v || k)
+    .filter(({ value }) =>
+      value &&
+      isString(value) &&
+      !value.includes('127.0.0.1')
+    )
+    .map(({ text, value }): Partial<Endpoint> => ({
+      name: text as string,
+      ws: value as string
+    }))
+    .filter((v): v is Endpoint => !!v.ws)
+    .forEach(({ name, ws }) =>
+      it(`${name} @ ${ws}`, (): void => {
+        assert(ws.startsWith('wss://'), `${name} @ ${ws} should start with wss://`);
+      })
+    );
 });

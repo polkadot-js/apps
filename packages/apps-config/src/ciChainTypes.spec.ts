@@ -28,74 +28,80 @@ const FAILURES: string[] = [
 
 const TICK = '`';
 
-const endpoints = createWsEndpoints((k: string, v?: string) => v || k, true)
-  .filter(({ isDisabled, isUnreachable, value }) =>
-    !isDisabled && !isUnreachable && value && isString(value) && !value.startsWith('ws://')
-  )
-  .map((o): Partial<Endpoint> => ({ name: o.text as string, ws: o.value as string }))
-  .filter((v): v is Endpoint => !!v.ws);
-
 describe('--SLOW--: check configured chain connections', (): void => {
-  endpoints.forEach(({ name, ws }) =>
-    it(`${name} @ ${ws}`, async (): Promise<void> => {
-      const [,, hostWithPort] = ws.split('/');
-      const [host] = hostWithPort.split(':');
+  createWsEndpoints((k: string, v?: string) => v || k)
+    .filter(({ isDisabled, isUnreachable, value }) =>
+      !isDisabled &&
+      !isUnreachable &&
+      value &&
+      isString(value) &&
+      !value.includes('127.0.0.1')
+    )
+    .map(({ text, value }): Partial<Endpoint> => ({
+      name: text as string,
+      ws: value as string
+    }))
+    .filter((v): v is Endpoint => !!v.ws)
+    .forEach(({ name, ws }) =>
+      it(`${name} @ ${ws}`, async (): Promise<void> => {
+        const [,, hostWithPort] = ws.split('/');
+        const [host] = hostWithPort.split(':');
 
-      const response = await fetch(`https://dns.google/resolve?name=${host}`);
-      const json = await response.json() as DnsResponse;
+        const response = await fetch(`https://dns.google/resolve?name=${host}`);
+        const json = await response.json() as DnsResponse;
 
-      let provider: WsProvider | null = null;
-      let api: ApiPromise | null = null;
-      let timerId: NodeJS.Timeout | null = null;
+        let provider: WsProvider | null = null;
+        let api: ApiPromise | null = null;
+        let timerId: NodeJS.Timeout | null = null;
 
-      try {
-        assert(json.Answer, `No DNS entry for ${host}`);
+        try {
+          assert(json.Answer, `No DNS entry for ${host}`);
 
-        provider = new WsProvider(ws, false);
-        api = new ApiPromise({
-          provider,
-          throwOnConnect: true,
-          typesBundle,
-          typesChain
-        });
+          provider = new WsProvider(ws, false);
+          api = new ApiPromise({
+            provider,
+            throwOnConnect: true,
+            typesBundle,
+            typesChain
+          });
 
-        setTimeout((): void => {
-          provider && provider.connect().catch(() => undefined);
-        }, 1000);
+          setTimeout((): void => {
+            provider && provider.connect().catch(() => undefined);
+          }, 1000);
 
-        await Promise.race([
-          // eslint-disable-next-line promise/param-names
-          new Promise((_, reject): void => {
-            timerId = setTimeout((): void => {
-              timerId = null;
-              reject(new Error(`Timeout connecting to ${ws}`));
-            }, 60_000);
-          }),
-          api.isReadyOrError
-        ]);
-      } catch (error) {
-        if (isError(error) && FAILURES.some((f) => (error as Error).message.includes(f))) {
-          process.env.CI_LOG && fs.appendFileSync('./.github/chain-types.md', `\n${TICK}${ws.padStart(52, ' ')}: ${error.message}${TICK}`);
+          await Promise.race([
+            // eslint-disable-next-line promise/param-names
+            new Promise((_, reject): void => {
+              timerId = setTimeout((): void => {
+                timerId = null;
+                reject(new Error(`Timeout connecting to ${ws}`));
+              }, 60_000);
+            }),
+            api.isReadyOrError
+          ]);
+        } catch (error) {
+          if (isError(error) && FAILURES.some((f) => (error as Error).message.includes(f))) {
+            process.env.CI_LOG && fs.appendFileSync('./.github/chain-types.md', `\n${TICK}${name} @ ${ws} ${error.message}${TICK}`);
 
-          throw error;
-        }
-      } finally {
-        if (timerId) {
-          clearTimeout(timerId);
-        }
+            throw error;
+          }
+        } finally {
+          if (timerId) {
+            clearTimeout(timerId);
+          }
 
-        if (provider) {
-          try {
-            if (api) {
-              await api.disconnect();
-            } else {
-              await provider.disconnect();
+          if (provider) {
+            try {
+              if (api) {
+                await api.disconnect();
+              } else {
+                await provider.disconnect();
+              }
+            } catch {
+              // ignore
             }
-          } catch {
-            // ignore
           }
         }
-      }
-    })
-  );
+      })
+    );
 });
