@@ -29,7 +29,7 @@ const FAILURES: string[] = [
 const TICK = '`';
 
 describe('--SLOW--: check configured chain connections', (): void => {
-  createWsEndpoints((k: string, v?: string) => v || k, true)
+  createWsEndpoints((k: string, v?: string) => v || k)
     .filter(({ isDisabled, isUnreachable, value }) =>
       !isDisabled &&
       !isUnreachable &&
