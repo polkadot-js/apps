@@ -4,6 +4,18 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption, LinkOption } from './types';
 
+interface SortOption {
+  isUnreachable?: boolean;
+}
+
+function sortLinks (a: SortOption, b: SortOption): number {
+  return a.isUnreachable !== b.isUnreachable
+    ? a.isUnreachable
+      ? 1
+      : -1
+    : 0;
+}
+
 export function expandLinked (input: LinkOption[]): LinkOption[] {
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
     result.push(entry);
@@ -48,7 +60,10 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isCh
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    linked.forEach((o) => options.push(...expandEndpoint(t, o, firstOnly)));
+    linked.sort(sortLinks).forEach((o) =>
+      options.push(...expandEndpoint(t, o, firstOnly))
+    );
+
     last.isRelay = true;
     last.linked = options;
   }
@@ -57,5 +72,5 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isCh
 }
 
 export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnly?: boolean): LinkOption[] {
-  return input.reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input, firstOnly)), []);
+  return input.sort(sortLinks).reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input, firstOnly)), []);
 }
