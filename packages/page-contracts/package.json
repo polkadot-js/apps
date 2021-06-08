@@ -2,7 +2,7 @@
   "name": "@polkadot/app-contracts",
   "private": true,
   "type": "module",
-  "version": "0.92.2-11",
+  "version": "0.92.2-12",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
