@@ -48,7 +48,18 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isCh
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    linked.forEach((o) => options.push(...expandEndpoint(t, o, firstOnly)));
+    linked
+      .sort((a, b) =>
+        a.isUnreachable !== b.isUnreachable
+          ? a.isUnreachable
+            ? 1
+            : -1
+          : 0
+      )
+      .forEach((o) =>
+        options.push(...expandEndpoint(t, o, firstOnly))
+      );
+
     last.isRelay = true;
     last.linked = options;
   }
