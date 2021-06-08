@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { useApi } from '@polkadot/react-hooks';
+import { useApi } from './useApi';
 
 const DEFAULT_TIME = new BN(6000);
 const A_DAY = new BN(24 * 60 * 60 * 1000);

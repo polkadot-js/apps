@@ -5,7 +5,9 @@ import type { AccountId } from '@polkadot/types/interfaces';
 
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 interface Result {
   isMember: boolean;

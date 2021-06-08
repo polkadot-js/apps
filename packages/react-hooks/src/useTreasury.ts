@@ -7,9 +7,10 @@ import type { Balance } from '@polkadot/types/interfaces';
 import { useEffect, useState } from 'react';
 
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import { useApi } from '@polkadot/react-hooks/useApi';
-import { useCall } from '@polkadot/react-hooks/useCall';
 import { BN_MILLION, BN_ZERO, stringToU8a } from '@polkadot/util';
+
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
 
