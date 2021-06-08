@@ -13,6 +13,7 @@ interface Endpoint {
 describe('urls are all valid', (): void => {
   createWsEndpoints((k: string, v?: string) => v || k)
     .filter(({ value }) =>
+      value &&
       isString(value) &&
       !value.includes('127.0.0.1')
     )

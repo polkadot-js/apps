@@ -33,6 +33,7 @@ describe('--SLOW--: check configured chain connections', (): void => {
     .filter(({ isDisabled, isUnreachable, value }) =>
       !isDisabled &&
       !isUnreachable &&
+      value &&
       isString(value) &&
       !value.includes('127.0.0.1')
     )
