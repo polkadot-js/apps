@@ -158,6 +158,7 @@
   "rpc.westend.shell": "Shell",
   "rpc.westend.shibuya": "Shibuya",
   "rpc.westend.wendala": "Wendala",
+  "rpc.westend.whala": "Whala Network",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet"
 }

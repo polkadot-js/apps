@@ -67,6 +67,7 @@ const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
+const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -250,6 +251,7 @@ export const chainColors: Record<string, string> = [
   ['Westmint', specWestmint],
   ['Westmint Test', specWestmint],
   ['Westlake', chainWestlake],
+  ['Whala', chainWhala],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
 ].reduce((colors, [chain, color]): Record<string, string> => ({
