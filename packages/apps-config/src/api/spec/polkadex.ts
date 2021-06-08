@@ -16,13 +16,13 @@ const definitions: OverrideBundleDefinition = {
         ResourceId: '[u8; 32]',
         DepositNonce: 'u64',
         ProposalVotes: {
-        votes_for: 'Vec<MultiAddress>',
-        votes_against: 'Vec<MultiAddress>',
-        status: 'enum'
+          votes_for: 'Vec<MultiAddress>',
+          votes_against: 'Vec<MultiAddress>',
+          status: 'enum'
         },
         Erc721Token: {
-            id: 'TokenId',
-            metadata: 'Vec<u8>'
+          id: 'TokenId',
+          metadata: 'Vec<u8>'
         },
         TokenId: 'U256',
         Address: 'MultiAddress',
@@ -33,11 +33,11 @@ const definitions: OverrideBundleDefinition = {
             'BTC',
             'ETH',
             'DOT'
-              ]
+          ]
         },
-      CurrencyIdOf: 'AssetId',
-      CurrencyId: 'AssetId',
-      ShardIdentifier: 'H256'
+        CurrencyIdOf: 'AssetId',
+        CurrencyId: 'AssetId',
+        ShardIdentifier: 'H256'
       }
     }
   ]
