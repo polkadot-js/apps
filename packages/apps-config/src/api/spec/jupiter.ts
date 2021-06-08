@@ -14,6 +14,7 @@ const definitions: OverrideBundleDefinition = {
       types: {
         LookupSource: 'MultiAddress',
         Address: 'MultiAddress',
+        AccountInfo: 'AccountInfoWithDualRefCount',
         FullIdentification: 'AccountId',
         AuthorityState: {
           _enum: [
