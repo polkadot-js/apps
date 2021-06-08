@@ -64,24 +64,24 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('ongoing'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
-    [t('ending'), 'media--1000'],
+    [t('ending'), 'media--1200'],
     [t('leases')],
     [t('raised')],
-    [t('count')],
-    [undefined, 'badge'],
-    [undefined, 'media--1300']
+    [t('count'), 'media--1100'],
+    [undefined, 'badge media--1000'],
+    [undefined, 'media--1000']
   ]);
 
   const headedEndedRef = useRef([
     [t('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
-    [t('ending'), 'media--1000'],
+    [t('ending'), 'media--1200'],
     [t('leases')],
     [t('raised')],
-    [t('count')],
-    [undefined, 'badge'],
-    [undefined, 'media--1300']
+    [t('count'), 'media--1100'],
+    [undefined, 'badge media--1000'],
+    [undefined, 'media--1000']
   ]);
 
   return (
