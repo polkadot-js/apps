@@ -152,7 +152,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
-        isUnreachable: true,
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
