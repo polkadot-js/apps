@@ -98,7 +98,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'karura',
-        isUnreachable: true,
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
