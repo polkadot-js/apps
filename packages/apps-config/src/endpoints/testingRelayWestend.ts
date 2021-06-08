@@ -69,6 +69,14 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network'
         }
+      },
+      {
+        info: 'whala',
+        paraId: 2013,
+        text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://whala.phala.network/ws'
+        }
       }
     ]
   };
