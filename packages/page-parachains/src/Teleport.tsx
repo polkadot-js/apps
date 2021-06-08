@@ -7,7 +7,7 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useMemo, useState } from 'react';
 
-import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
+import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useApiUrl, useTeleport, useWeightFee } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -136,20 +136,28 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
-          {destinationApi && !weightFee.isZero() && (
-            <InputBalance
-              defaultValue={weightFee}
-              isDisabled
-              label={t<string>('destination transfer fee')}
-            />
-          )}
-          {destinationApi && (
-            <InputBalance
-              defaultValue={destinationApi.consts.balances.existentialDeposit}
-              isDisabled
-              label={t<string>('destination existential deposit')}
-            />
-          )}
+          {destinationApi
+            ? (
+              <>
+                <InputBalance
+                  defaultValue={weightFee}
+                  isDisabled
+                  label={t<string>('destination transfer fee')}
+                />
+                <InputBalance
+                  defaultValue={destinationApi.consts.balances.existentialDeposit}
+                  isDisabled
+                  label={t<string>('destination existential deposit')}
+                />
+              </>
+            )
+            : (
+              <Spinner
+                label={t<string>('Retrieving destination chain info')}
+                variant='appPadded'
+              />
+            )
+          }
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

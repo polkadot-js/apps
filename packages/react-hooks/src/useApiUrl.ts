@@ -38,7 +38,9 @@ export function useApiUrl (url?: string | string[]): ApiPromise | null {
   );
 
   useEffect((): void => {
-    if (url && (isString(url) || url.length)) {
+    _setApi(null);
+
+    url && (isString(url) || url.length) &&
       ApiPromise
         .create({
           provider: new WsProvider(url),
@@ -47,9 +49,6 @@ export function useApiUrl (url?: string | string[]): ApiPromise | null {
         })
         .then(_setApi)
         .catch(console.error);
-    } else {
-      _setApi(null);
-    }
   }, [_setApi, url]);
 
   return state;
