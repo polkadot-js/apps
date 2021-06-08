@@ -134,6 +134,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'Subgame', { ns: 'apps-config' }),
+      providers: {
+        Subgame: 'wss://subgamenode.guanfantech.com'
+      }
+    },
+    {
       info: 'Galital',
       text: t('rpc.test.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {

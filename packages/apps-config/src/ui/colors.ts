@@ -129,6 +129,7 @@ const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
+const nodeSubgame = '#EB027D';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -251,6 +252,8 @@ export const chainColors: Record<string, string> = [
   ['Westmint Test', specWestmint],
   ['Westlake', chainWestlake],
   ['Zenlink PC1', chainZenlink],
+  ['subgame', nodeSubgame],
+  ['subgame_testnet', nodeSubgame],
   ['ZERO.IO', chainZero]
 ].reduce((colors, [chain, color]): Record<string, string> => ({
   ...colors,
@@ -315,7 +318,9 @@ export const nodeColors: Record<string, string> = [
   ['Westmint Collator', specWestmint],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
-  ['Zenlink Collator', nodeZenlink]
+  ['Zenlink Collator', nodeZenlink],
+  ['subgame', nodeSubgame],
+  ['subgame_testnet', nodeSubgame]
 ].reduce((colors, [node, color]): Record<string, string> => ({
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color

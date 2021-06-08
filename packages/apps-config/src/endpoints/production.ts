@@ -91,6 +91,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'Subgame', { ns: 'apps-config' }),
+      providers: {
+        Subgame: 'wss://mainnet.subgame.org/'
+      }
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),

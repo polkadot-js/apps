@@ -74,6 +74,7 @@ import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
 import subdao from './subdao';
+import subgame from './subgame';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
@@ -182,6 +183,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   stafi,
   steam: eave,
   subdao,
+  subgame: subgame,
   subsocial,
   subzero: zero,
   ternoa,

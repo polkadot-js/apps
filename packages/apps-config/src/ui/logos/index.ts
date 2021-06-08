@@ -97,6 +97,7 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
+import nodeSubgame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
@@ -203,7 +204,9 @@ export const chainLogos: Record<string, unknown> = [
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Westmint', nodeStatemine],
-  ['Westmint Test', nodeStatemine]
+  ['Westmint Test', nodeStatemine],
+  ['subgame', nodeSubgame],
+  ['subgame_testnet', nodeSubgame]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -328,7 +331,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
-  ['Zeitgeist Collator', nodeZeitgeist]
+  ['Zeitgeist Collator', nodeZeitgeist],
+  ['subgame', nodeSubgame],
+  ['subgame_testnet', nodeSubgame]
 ].reduce((logos, [node, logo]): Record<string, unknown> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -473,6 +478,7 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
+  subgame: nodeSubgame,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,
