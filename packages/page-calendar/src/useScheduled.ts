@@ -10,8 +10,9 @@ import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 
 import { useEffect, useState } from 'react';
 
+import { useLeaseRangeMax } from '@polkadot/app-parachains/useLeaseRanges';
 import { useApi, useBestNumber, useBlockTime, useCall } from '@polkadot/react-hooks';
-import { BN_ONE, BN_THREE } from '@polkadot/util';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface DateExt {
   date: Date;
@@ -28,8 +29,8 @@ function newDate (blocks: BN, blockTime: number): DateExt {
   return { date, dateTime: date.getTime() };
 }
 
-function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?][]): [EntryType, EntryInfo[]][] {
-  return items.map(([type, duration]): [EntryType, EntryInfo[]] => {
+function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?, BN?][]): [EntryType, EntryInfo[]][] {
+  return items.map(([type, duration, additional = BN_ZERO]): [EntryType, EntryInfo[]] => {
     if (!duration) {
       return [type, []];
     }
@@ -40,7 +41,7 @@ function createConstDurations (bestNumber: BlockNumber, blockTime: number, items
       ...newDate(blocks, blockTime),
       blockNumber: bestNumber.add(blocks),
       blocks,
-      info: bestNumber.div(duration)
+      info: bestNumber.div(duration).iadd(additional)
     }]];
   });
 }
@@ -169,7 +170,7 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
     }, [])]];
 }
 
-function createAuctionInfo (bestNumber: BlockNumber, blockTime: number, [leasePeriod, endBlock]: [LeasePeriodOf, BlockNumber]): [EntryType, EntryInfo[]][] {
+function createAuctionInfo (bestNumber: BlockNumber, blockTime: number, rangeMax: BN, [leasePeriod, endBlock]: [LeasePeriodOf, BlockNumber]): [EntryType, EntryInfo[]][] {
   const blocks = endBlock.sub(bestNumber);
 
   return [
@@ -177,7 +178,7 @@ function createAuctionInfo (bestNumber: BlockNumber, blockTime: number, [leasePe
       ...newDate(blocks, blockTime),
       blockNumber: endBlock,
       blocks,
-      info: `${leasePeriod.toString()} - ${leasePeriod.add(BN_THREE).toString()}`
+      info: `${leasePeriod.toString()} - ${leasePeriod.add(rangeMax).toString()}`
     }]]
   ];
 }
@@ -199,6 +200,7 @@ export default function useScheduled (): EntryInfo[] {
   const { api } = useApi();
   const [blockTime] = useBlockTime();
   const bestNumber = useBestNumber();
+  const leaseRangeMax = useLeaseRangeMax();
   const auctionInfo = useCall<Option<ITuple<[LeasePeriodOf, BlockNumber]>>>(api.query.auctions?.auctionInfo);
   const councilMotions = useCall<DeriveCollectiveProposal[]>(api.derive.council?.proposals);
   const dispatches = useCall<DeriveDispatch[]>(api.derive.democracy?.dispatchQueue);
@@ -240,16 +242,16 @@ export default function useScheduled (): EntryInfo[] {
 
   useEffect((): void => {
     bestNumber && auctionInfo?.isSome && setState((state) =>
-      addFiltered(state, createAuctionInfo(bestNumber, blockTime, auctionInfo.unwrap()))
+      addFiltered(state, createAuctionInfo(bestNumber, blockTime, leaseRangeMax, auctionInfo.unwrap()))
     );
-  }, [auctionInfo, bestNumber, blockTime]);
+  }, [auctionInfo, bestNumber, blockTime, leaseRangeMax]);
 
   useEffect((): void => {
     bestNumber && setState((state) =>
       addFiltered(state, createConstDurations(bestNumber, blockTime, [
         ['councilElection', (api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen)?.termDuration],
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
-        ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber],
+        ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber, BN_ONE],
         ['societyChallenge', api.consts.society?.challengePeriod],
         ['societyRotate', api.consts.society?.rotationPeriod],
         ['treasurySpend', api.consts.treasury?.spendPeriod]

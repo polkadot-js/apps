@@ -12,7 +12,7 @@ import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
-import useRanges from '../useRanges';
+import { useLeaseRanges } from '../useLeaseRanges';
 
 interface Props {
   auctionInfo?: AuctionInfo;
@@ -27,7 +27,7 @@ const EMPTY_OWNER: OwnerInfo = { accountId: null, paraId: 0 };
 function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const ranges = useRanges();
+  const ranges = useLeaseRanges();
   const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [cap, setCap] = useState<BN | undefined>();
   const [endBlock, setEndBlock] = useState<BN | undefined>();
