@@ -16,9 +16,9 @@ describe('urls are all valid', (): void => {
       isString(value) &&
       !value.includes('127.0.0.1')
     )
-    .map((o): Partial<Endpoint> => ({
-      name: o.text as string,
-      ws: o.value as string
+    .map(({ text, value }): Partial<Endpoint> => ({
+      name: text as string,
+      ws: value as string
     }))
     .filter((v): v is Endpoint => !!v.ws)
     .forEach(({ name, ws }) =>
