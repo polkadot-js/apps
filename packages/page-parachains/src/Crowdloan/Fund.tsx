@@ -137,7 +137,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
           formatNumber(contributors.length)
         )}
       </td>
-      <td className='badge'>
+      <td className='badge media--1000'>
         <Icon
           color={myAccounts.length ? 'green' : 'gray'}
           icon='asterisk'
