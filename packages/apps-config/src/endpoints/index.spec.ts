@@ -3,7 +3,7 @@
 
 import { assert, isString } from '@polkadot/util';
 
-import { createWsEndpoints } from './endpoints';
+import { createWsEndpoints } from '.';
 
 interface Endpoint {
   name: string;
@@ -17,7 +17,7 @@ const endpoints = createWsEndpoints((k: string, v?: string) => v || k, true)
   .map((o): Partial<Endpoint> => ({ name: o.text as string, ws: o.value as string }))
   .filter((v): v is Endpoint => !!v.ws);
 
-describe('check configured chain urls', (): void => {
+describe('urls are all valid', (): void => {
   endpoints.forEach(({ name, ws }) =>
     it(`${name} @ ${ws}`, (): void => {
       assert(ws.startsWith('wss://'), `Expected ${ws} endpoint to start with wss:// `);
