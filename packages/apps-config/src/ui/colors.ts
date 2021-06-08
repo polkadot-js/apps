@@ -200,7 +200,7 @@ export const chainColors: Record<string, string> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
-  ['Moonsilver', nodeMoonriver],
+  ['Moonriver', nodeMoonriver],
   ['Moonrock', chainMoonrock],
   ['Moonshadow', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
