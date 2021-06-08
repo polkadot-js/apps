@@ -107,6 +107,7 @@ import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
 import nodeWestlake from './nodes/westlake.png';
+import nodeWhala from './nodes/whala.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -325,6 +326,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Westmint Collator', nodeStatemine],
+  ['Whala', nodeWhala],
+  ['Whala Node', nodeWhala],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
