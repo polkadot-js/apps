@@ -24,7 +24,7 @@ describe('urls are all valid', (): void => {
     .filter((v): v is Endpoint => !!v.ws)
     .forEach(({ name, ws }) =>
       it(`${name} @ ${ws}`, (): void => {
-        assert(ws.startsWith('wss://'), `${name} @ ${ws} should start with wss:// `);
+        assert(ws.startsWith('wss://'), `${name} @ ${ws} should start with wss://`);
       })
     );
 });
