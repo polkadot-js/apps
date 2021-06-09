@@ -23,23 +23,34 @@ const NO_CONTRIB: Contributions = {
   myContributions: {}
 };
 
-function extractContributors (allAccountsHex: string[], keys: StorageKey[], ss58Format?: number): Partial<Contributions> {
+function extractContributors (allAccountsHex: string[], keys: StorageKey[], ss58Format?: number): Contributions {
   const contributorsHex = keys.map((k) => k.toHex());
   const myAccountsHex = contributorsHex.filter((c) => allAccountsHex.includes(c));
 
   return {
     contributorsHex,
     myAccounts: myAccountsHex.map((a) => encodeAddress(a, ss58Format)),
-    myAccountsHex
+    myAccountsHex,
+    myContributions: {}
   };
 }
 
-function useMyContributions (childKey: string, keys: string[]): Record<string, Balance> {
+function useMyContributions (paraId: ParaId, childKey: string, keys: string[]): Record<string, Balance> {
   const { api } = useApi();
+  const { allAccountsHex } = useAccounts();
   const [state, setState] = useState<Record<string, Balance>>({});
 
+  const trigger = useEventTrigger([
+    api.events.crowdloan.Contributed
+  ], useCallback(
+    ({ event: { data: [accountId, eventParaId] } }: EventRecord) =>
+      eventParaId.eq(paraId) &&
+      allAccountsHex.some((a) => accountId.eq(a)),
+    [allAccountsHex, paraId]
+  ));
+
   useEffect((): void => {
-    keys.length &&
+    if (trigger && keys.length) {
       Promise
         .all(keys.map((k) => api.rpc.childstate.getStorage(childKey, k)))
         .then((values) => setState(
@@ -53,7 +64,10 @@ function useMyContributions (childKey: string, keys: string[]): Record<string, B
             .reduce((all, b, index) => ({ ...all, [keys[index]]: b }), {})
         ))
         .catch(console.error);
-  }, [api, childKey, keys]);
+    } else {
+      setState({});
+    }
+  }, [api, childKey, keys, trigger]);
 
   return state;
 }
@@ -62,7 +76,7 @@ export default function useContributions (paraId: ParaId, childKey: string): Con
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
   const [state, setState] = useState<Contributions>(() => NO_CONTRIB);
-  const myContributions = useMyContributions(childKey, state.myAccountsHex);
+  const myContributions = useMyContributions(paraId, childKey, state.myAccountsHex);
 
   const trigger = useEventTrigger([
     api.events.crowdloan.Contributed,
@@ -82,10 +96,18 @@ export default function useContributions (paraId: ParaId, childKey: string): Con
     trigger &&
       api.rpc.childstate
         .getKeys(childKey, '0x')
-        .then((keys) => setState((prev) => ({
-          ...prev,
-          ...extractContributors(allAccountsHex, keys, api.registry.chainSS58)
-        })))
+        .then((keys) => setState((prev) => {
+          const { contributorsHex, myAccounts, myAccountsHex } = extractContributors(allAccountsHex, keys, api.registry.chainSS58);
+
+          return {
+            ...prev,
+            contributorsHex,
+            ...(prev.myAccounts.length === myAccounts.length
+              ? {}
+              : { myAccounts, myAccountsHex }
+            )
+          };
+        }))
         .catch(console.error);
   }, [allAccountsHex, api, childKey, trigger]);
 
