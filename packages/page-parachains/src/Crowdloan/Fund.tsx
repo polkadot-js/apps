@@ -2,21 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { StorageKey } from '@polkadot/types';
-import type { EventRecord, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign, LeasePeriod } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { AddressMini, Expander, Icon, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useEventTrigger, useParaEndpoints } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
-import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
 import Refund from './Refund';
+import useContributions from './useContributions';
 
 interface Props {
   bestNumber?: BN;
@@ -27,48 +25,12 @@ interface Props {
   value: Campaign;
 }
 
-interface Contributions {
-  contributors: string[];
-  myAccounts: string[];
-}
-
-const NO_CONTRIB: Contributions = { contributors: [], myAccounts: [] };
-
-function extractContributors (allAccountsHex: string[], keys: StorageKey[], ss58Format?: number): Contributions {
-  const contributors = keys.map((k) => k.toHex());
-
-  return {
-    contributors,
-    myAccounts: contributors
-      .filter((c) => allAccountsHex.includes(c))
-      .map((a) => encodeAddress(a, ss58Format))
-  };
-}
-
 function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccountsHex, isAccount } = useAccounts();
+  const { isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const [{ contributors, myAccounts }, setContributors] = useState<Contributions>(NO_CONTRIB);
-  const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
-    ({ event: { data } }: EventRecord) =>
-      ((data.length === 1
-        ? data[0] // AllRefunded, PartiallyRefunded [ParaId]
-        : data[1] // Contributed, Withdrew [AccountId, ParaId, Balance]
-      ) as ParaId).eq(paraId),
-    [paraId]
-  ));
-
-  useEffect((): void => {
-    trigger &&
-      api.rpc.childstate
-        .getKeys(childKey, '0x')
-        .then((keys) => setContributors(
-          extractContributors(allAccountsHex, keys, api.registry.chainSS58))
-        )
-        .catch(console.error);
-  }, [allAccountsHex, api, childKey, trigger]);
+  const { contributorsHex, myAccounts, myAccountsHex, myContributions } = useContributions(paraId, childKey);
 
   const isDepositor = useMemo(
     () => isAccount(depositor.toString()),
@@ -139,8 +101,8 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
           <div>{percentage}</div>
         </td>
         <td className='number media--1100'>
-          {contributors.length !== 0 && (
-            formatNumber(contributors.length)
+          {contributorsHex.length !== 0 && (
+            formatNumber(contributorsHex.length)
           )}
         </td>
         <td className='badge media--1000'>
@@ -150,7 +112,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
           />
         </td>
         <td className='button media--1000'>
-          {canWithdraw && contributors.length !== 0 && (
+          {canWithdraw && contributorsHex.length !== 0 && (
             <Refund paraId={paraId} />
           )}
           {canDissolve && (
@@ -185,10 +147,12 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
           <td className='no-pad-top media--1400'>
             {myAccounts.length !== 0 && (
               <Expander summary={t<string>('My contributions ({{count}})', { replace: { count: myAccounts.length } })}>
-                {myAccounts.map((a) => (
+                {myAccounts.map((a, index) => (
                   <AddressMini
+                    balance={myContributions[myAccountsHex[index]]}
                     key={a}
                     value={a}
+                    withBalance
                   />
                 ))}
               </Expander>
