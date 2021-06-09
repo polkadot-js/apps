@@ -33,8 +33,8 @@ interface Contributions {
 
 const NO_CONTRIB: Contributions = { contributors: [], myAccounts: [] };
 
-function extractContributors (allAccounts: string[], keys: StorageKey[]): Contributions {
-  const contributors = keys.map((k) => encodeAddress(k));
+function extractContributors (allAccounts: string[], keys: StorageKey[], ss58Format?: number): Contributions {
+  const contributors = keys.map((k) => encodeAddress(k, ss58Format));
 
   return {
     contributors,
@@ -61,7 +61,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
       api.rpc.childstate
         .getKeys(childKey, '0x')
         .then((keys) => setContributors(
-          extractContributors(allAccounts, keys))
+          extractContributors(allAccounts, keys, api.registry.chainSS58))
         )
         .catch(console.error);
   }, [allAccounts, api, childKey, trigger]);
