@@ -49,7 +49,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2021,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.altair.centrifuge.io/ws'
+          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
         }
       },
       {
