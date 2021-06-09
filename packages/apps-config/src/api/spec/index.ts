@@ -119,6 +119,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
   datahighway: westlake,
+  'datahighway-harbour': westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,

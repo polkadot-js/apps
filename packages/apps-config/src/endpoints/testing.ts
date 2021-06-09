@@ -76,6 +76,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'datahighway-harbour',
+      text: t('rpc.test.datahighway-harbour', 'DataHighway Harbour', { ns: 'apps-config' }),
+      providers: {
+        DataHighway: 'wss://testnet-harbour.datahighway.com'
+      }
+    },
+    {
       info: 'datahighway',
       isDisabled: true,
       text: t('rpc.test.datahighway.spreehafen', 'Spreehafen', { ns: 'apps-config' }),

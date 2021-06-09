@@ -160,6 +160,7 @@ export const chainColors: Record<string, string> = [
   ['Darwinia Crab Redirect', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
+  ['DataHighway Harbour Testnet', chainWestlake],
   ['DOTMog.com NET', chainDotMog],
   ['Steam PC', chainRococoEave],
   ['Encointer Canary', nodeEncointerNotee],
@@ -253,7 +254,6 @@ export const chainColors: Record<string, string> = [
   ['Westend', chainWestend],
   ['Westmint', specWestmint],
   ['Westmint Test', specWestmint],
-  ['Westlake', chainWestlake],
   ['Whala', chainWhala],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
@@ -271,6 +271,7 @@ export const nodeColors: Record<string, string> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['DataHighwayChain', nodeWestlake],
   ['DOTMog Node', nodeDotMog],
   ['edgeware node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
