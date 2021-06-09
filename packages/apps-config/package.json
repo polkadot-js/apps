@@ -24,7 +24,7 @@
     "@sora-substrate/type-definitions": "^1.3.17",
     "@subsocial/types": "^0.5.3",
     "@zeitgeistpm/type-defs": "^0.1.51",
-    "moonbeam-types-bundle": "1.1.21",
+    "moonbeam-types-bundle": "1.1.22",
     "pontem-types-bundle": "^1.0.5"
   },
   "devDependencies": {
