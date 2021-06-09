@@ -30,6 +30,7 @@ import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
+import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
@@ -219,6 +220,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Ares Node', nodeAres],
   ['Ares Parachain Collator', nodeAres],
   ['airalab-robonomics', nodeRobonomics],
+  ['Basilisk', nodeBasilisk],
   ['Beast Node', nodeBeast],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
@@ -355,6 +357,7 @@ export const specLogos: Record<string, unknown> = [
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,

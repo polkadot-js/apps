@@ -46,6 +46,14 @@ export function createWestend (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'basilisk',
+        paraId: 2012,
+        text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
+        }
+      },
+      {
         info: 'moonshadow',
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
