@@ -8,10 +8,11 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useEventTrigger, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
@@ -28,17 +29,19 @@ interface Props {
 
 interface Contributions {
   contributors: string[];
-  myAccountsHex: string[];
+  myAccounts: string[];
 }
 
-const NO_CONTRIB: Contributions = { contributors: [], myAccountsHex: [] };
+const NO_CONTRIB: Contributions = { contributors: [], myAccounts: [] };
 
-function extractContributors (allAccountsHex: string[], keys: StorageKey[]): Contributions {
+function extractContributors (allAccountsHex: string[], keys: StorageKey[], ss58Format?: number): Contributions {
   const contributors = keys.map((k) => k.toHex());
 
   return {
     contributors,
-    myAccountsHex: contributors.filter((c) => allAccountsHex.includes(c))
+    myAccounts: contributors
+      .filter((c) => allAccountsHex.includes(c))
+      .map((a) => encodeAddress(a, ss58Format))
   };
 }
 
@@ -47,7 +50,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
   const { api } = useApi();
   const { allAccountsHex, isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const [{ contributors, myAccountsHex }, setContributors] = useState<Contributions>(NO_CONTRIB);
+  const [{ contributors, myAccounts }, setContributors] = useState<Contributions>(NO_CONTRIB);
   const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
     ({ event: { data } }: EventRecord) =>
       ((data.length === 1
@@ -62,7 +65,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
       api.rpc.childstate
         .getKeys(childKey, '0x')
         .then((keys) => setContributors(
-          extractContributors(allAccountsHex, keys))
+          extractContributors(allAccountsHex, keys, api.registry.chainSS58))
         )
         .catch(console.error);
   }, [allAccountsHex, api, childKey, trigger]);
@@ -142,7 +145,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
         </td>
         <td className='badge media--1000'>
           <Icon
-            color={myAccountsHex.length ? 'green' : 'gray'}
+            color={myAccounts.length ? 'green' : 'gray'}
             icon='asterisk'
           />
         </td>
@@ -179,7 +182,18 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
         <tr className={`${className || ''} ${isOdd ? 'isOdd' : 'isEven'} isExpanded`}>
           <td colSpan={2} />
           <td className='media--800' />
-          <td className='media--1400' />
+          <td className='no-pad-top media--1400'>
+            {myAccounts.length !== 0 && (
+              <Expander summary={t<string>('My contributions ({{count}})', { replace: { count: myAccounts.length } })}>
+                {myAccounts.map((a) => (
+                  <AddressMini
+                    key={a}
+                    value={a}
+                  />
+                ))}
+              </Expander>
+            )}
+          </td>
           <td className='media--1200' />
           <td className='all' />
           <td />
