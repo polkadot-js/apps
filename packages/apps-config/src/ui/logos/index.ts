@@ -490,6 +490,7 @@ export const namedLogos: Record<string, unknown> = {
   westend: nodePolkadot,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
+  whala: nodeWhala,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
