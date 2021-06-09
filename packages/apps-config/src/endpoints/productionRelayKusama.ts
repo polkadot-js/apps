@@ -56,7 +56,6 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'shadow',
         homepage: 'https://crust.network/',
-        isUnreachable: true,
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
@@ -172,7 +171,6 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'moonriver',
         homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
-        isUnreachable: true,
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
