@@ -120,6 +120,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Altair', chainAltair],
   ['Apron PC1', nodeApron],
   ['Ares PC1', nodeAres],
   ['Beast Developer', nodeBeast],
