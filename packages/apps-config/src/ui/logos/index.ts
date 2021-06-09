@@ -67,6 +67,7 @@ import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
+import moonriver from './nodes/moonriver.svg';
 import nodeMoonrock from './nodes/moonrock.png';
 import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
@@ -161,6 +162,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Moonriver', moonriver],
   ['Moonrock', nodeMoonrock],
   ['Moonshadow', moonshadow],
   ['mybank.network PC1', mybank],
@@ -399,6 +401,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
+  moonriver: moonriver,
   moonrock: nodeMoonrock,
   moonshadow: moonshadow,
   mybank: mybank,

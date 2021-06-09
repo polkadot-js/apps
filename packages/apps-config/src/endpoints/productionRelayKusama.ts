@@ -157,6 +157,15 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
         }
+      },
+      {
+        info: 'moonriver',
+        isUnreachable: true,
+        paraId: 2023,
+        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.moonriver.moonbeam.network'
+        }
       }
     ]
   };
