@@ -103,6 +103,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ...acala,
   apron,
   'ares-parachain': aresParachain,
+  basilisk: hydrate,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
