@@ -122,11 +122,10 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
-        isUnreachable: true,
         paraId: 2005,
-        text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
+        text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': 'wss://mainnet.kilt.io/'
+          'KILT Protocol': 'wss://spiritnet.kilt.io/'
         }
       },
       {
