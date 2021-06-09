@@ -30,7 +30,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const { contributorsHex, myAccounts, myContributions } = useContributions(paraId, childKey);
+  const { contributorsHex, myAccounts, myAccountsHex, myContributions } = useContributions(paraId, childKey);
 
   const isDepositor = useMemo(
     () => isAccount(depositor.toString()),
@@ -60,7 +60,6 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
   const canDissolve = raised.isZero();
   const canWithdraw = !raised.isZero() && hasEnded;
   const homepage = endpoints.length && endpoints[0].homepage;
-  const hasContributions = myContributions.length === myAccounts.length;
 
   return (
     <>
@@ -150,10 +149,10 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
               <Expander summary={t<string>('My contributions ({{count}})', { replace: { count: myAccounts.length } })}>
                 {myAccounts.map((a, index) => (
                   <AddressMini
-                    balance={myContributions[index]}
+                    balance={myContributions[myAccountsHex[index]]}
                     key={a}
                     value={a}
-                    withBalance={hasContributions}
+                    withBalance
                   />
                 ))}
               </Expander>

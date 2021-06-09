@@ -13,31 +13,30 @@ interface Contributions {
   contributorsHex: string[];
   myAccounts: string[];
   myAccountsHex: string[];
-  myContributions: Balance[];
+  myContributions: Record<string, Balance>;
 }
 
 const NO_CONTRIB: Contributions = {
   contributorsHex: [],
   myAccounts: [],
   myAccountsHex: [],
-  myContributions: []
+  myContributions: {}
 };
 
-function extractContributors (allAccountsHex: string[], keys: StorageKey[], ss58Format?: number): Contributions {
+function extractContributors (allAccountsHex: string[], keys: StorageKey[], ss58Format?: number): Partial<Contributions> {
   const contributorsHex = keys.map((k) => k.toHex());
   const myAccountsHex = contributorsHex.filter((c) => allAccountsHex.includes(c));
 
   return {
     contributorsHex,
     myAccounts: myAccountsHex.map((a) => encodeAddress(a, ss58Format)),
-    myAccountsHex,
-    myContributions: []
+    myAccountsHex
   };
 }
 
-function useMyContributions (childKey: string, keys: string[]): Balance[] {
+function useMyContributions (childKey: string, keys: string[]): Record<string, Balance> {
   const { api } = useApi();
-  const [state, setState] = useState<Balance[]>([]);
+  const [state, setState] = useState<Record<string, Balance>>({});
 
   useEffect((): void => {
     keys.length &&
@@ -51,6 +50,7 @@ function useMyContributions (childKey: string, keys: string[]): Balance[] {
                 ? api.createType('Balance', o.unwrap())
                 : api.createType('Balance')
             )
+            .reduce((all, b, index) => ({ ...all, [keys[index]]: b }), {})
         ))
         .catch(console.error);
   }, [api, childKey, keys]);
@@ -82,18 +82,18 @@ export default function useContributions (paraId: ParaId, childKey: string): Con
     trigger &&
       api.rpc.childstate
         .getKeys(childKey, '0x')
-        .then((keys) => setState(
-          extractContributors(allAccountsHex, keys, api.registry.chainSS58))
-        )
+        .then((keys) => setState((prev) => ({
+          ...prev,
+          ...extractContributors(allAccountsHex, keys, api.registry.chainSS58)
+        })))
         .catch(console.error);
   }, [allAccountsHex, api, childKey, trigger]);
 
   useEffect((): void => {
-    setState((prev) =>
-      prev.myAccountsHex.length === myContributions.length
-        ? { ...prev, myContributions }
-        : prev
-    );
+    setState((prev) => ({
+      ...prev,
+      myContributions
+    }));
   }, [myContributions]);
 
   return state;

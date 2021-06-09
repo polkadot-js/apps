@@ -12,7 +12,7 @@ import { useAccounts, useApi, useCallMulti } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Lifecycle from '../Overview/Lifecycle';
-import ParachainInfo from '../Overview/ParachainInfo';
+// import ParachainInfo from '../Overview/ParachainInfo';
 import Periods from '../Overview/Periods';
 import { useTranslation } from '../translate';
 import { sliceHex } from '../util';
@@ -82,7 +82,7 @@ function Upcoming ({ id, leasePeriod, leases, nextAction }: Props): React.ReactE
       </td>
       <td className='all' />
       <td className='number no-pad-left'>
-        <ParachainInfo id={id} />
+        {/* <!-- ParachainInfo id={id} /--> */}
       </td>
       <td className='number together'>
         {leasePeriod && leases && periods && (
