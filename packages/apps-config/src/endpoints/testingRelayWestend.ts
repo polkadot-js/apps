@@ -74,7 +74,7 @@ export function createWestend (t: TFunction): EndpointOption {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
         paraId: 2009,
-        text: t('rpc.kusama.kilt', 'WILT', { ns: 'apps-config' }),
+        text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
         }
