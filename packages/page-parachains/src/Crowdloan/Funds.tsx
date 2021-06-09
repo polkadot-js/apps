@@ -91,9 +91,10 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         empty={value && activeSorted && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
-        {activeSorted?.map((fund) => (
+        {activeSorted?.map((fund, index) => (
           <Fund
             bestNumber={bestNumber}
+            isOdd={!(index % 2)}
             isOngoing
             key={fund.accountId}
             value={fund}
@@ -105,9 +106,10 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         empty={value && endedSorted && t<string>('No completed campaigns found')}
         header={headedEndedRef.current}
       >
-        {endedSorted?.map((fund) => (
+        {endedSorted?.map((fund, index) => (
           <Fund
             bestNumber={bestNumber}
+            isOdd={!(index % 2)}
             key={fund.accountId}
             leasePeriod={leasePeriod}
             value={fund}

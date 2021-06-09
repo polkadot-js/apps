@@ -45,6 +45,7 @@ export function createKusama (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'bifrost',
+        homepage: 'https://thebifrost.io/',
         isUnreachable: true,
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
@@ -54,6 +55,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shadow',
+        homepage: 'https://crust.network/',
         isUnreachable: true,
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
@@ -63,6 +65,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'crab',
+        homepage: 'https://darwinia.network/',
         isUnreachable: true,
         paraId: 2006,
         text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
@@ -72,6 +75,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'encointer_canary',
+        homepage: 'https://encointer.org/',
         isUnreachable: true,
         paraId: 2014,
         text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
@@ -81,6 +85,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
+        homepage: 'https://equilibrium.io',
         isUnreachable: true,
         text: t('rpc.test.equilibriumtestnet', 'Genshiro', { ns: 'apps-config' }),
         providers: {
@@ -98,6 +103,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'karura',
+        homepage: 'https://acala.network/karura/join-karura',
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
@@ -106,6 +112,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
+        homepage: 'https://phala.network/',
         isUnreachable: true,
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
@@ -115,6 +122,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'kilt',
+        homepage: 'https://www.kilt.io/',
         isUnreachable: true,
         paraId: 2005,
         text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
@@ -124,6 +132,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'polkasmith',
+        homepage: 'https://polkafoundry.com/',
         isUnreachable: true,
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
@@ -133,6 +142,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'sakura',
+        homepage: 'https://clover.finance/',
         isUnreachable: true,
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
@@ -142,6 +152,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'sherpax',
+        homepage: 'https://chainx.org/',
         isUnreachable: true,
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
@@ -151,6 +162,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
+        homepage: 'https://www.plasmnet.io/',
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
@@ -159,6 +171,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'moonriver',
+        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
         isUnreachable: true,
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
