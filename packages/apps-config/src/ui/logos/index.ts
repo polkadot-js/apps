@@ -365,6 +365,7 @@ export const namedLogos: Record<string, unknown> = {
   chainx: nodeChainx,
   clover: nodeClover,
   crab: nodeCrab,
+  crab_redirect: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
