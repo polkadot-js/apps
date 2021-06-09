@@ -6,6 +6,7 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
+import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
@@ -124,6 +125,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Beast Developer', nodeBeast],
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
+  ['Charcoal Testnet', chainAltair],
   ['darwinia crab', nodeCrab],
   ['Darwinia Crab PC2', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
@@ -359,6 +361,7 @@ export const specLogos: Record<string, unknown> = [
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  altair: chainAltair,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
@@ -366,6 +369,7 @@ export const namedLogos: Record<string, unknown> = {
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
+  charcoal: chainAltair,
   clover: nodeClover,
   crab: nodeCrab,
   crab_redirect: nodeCrab,
