@@ -106,6 +106,7 @@ const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
+const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
@@ -200,8 +201,9 @@ export const chainColors: Record<string, string> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
-  ['Moonshadow', nodeMoonbeam],
+  ['Moonriver', nodeMoonriver],
   ['Moonrock', chainMoonrock],
+  ['Moonshadow', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
