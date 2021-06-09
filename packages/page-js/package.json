@@ -2,10 +2,10 @@
   "name": "@polkadot/app-js",
   "private": true,
   "type": "module",
-  "version": "0.92.2-31",
+  "version": "0.92.2-32",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.92.2-31"
+    "@polkadot/react-components": "^0.92.2-32"
   }
 }
