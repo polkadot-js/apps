@@ -2,12 +2,12 @@
   "name": "@polkadot/app-extrinsics",
   "private": true,
   "type": "module",
-  "version": "0.92.2-30",
+  "version": "0.92.2-31",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.92.2-30",
-    "@polkadot/react-params": "^0.92.2-30",
-    "@polkadot/react-signer": "^0.92.2-30"
+    "@polkadot/react-components": "^0.92.2-31",
+    "@polkadot/react-params": "^0.92.2-31",
+    "@polkadot/react-signer": "^0.92.2-31"
   }
 }
