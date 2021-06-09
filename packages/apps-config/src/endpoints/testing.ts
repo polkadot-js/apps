@@ -338,6 +338,14 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'starfleetTestnet',
+      paraId: 2160,
+      text: t('rpc.starfleet', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
+      }
+    },
+    {
       info: 'ternoa-chaos',
       text: t('rpc.test.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
       providers: {

@@ -110,6 +110,7 @@ import nodeWestlake from './nodes/westlake.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import starfleet from './nodes/starfleet.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -187,6 +188,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Statemine Test', nodeStatemine],
   ['Statemint', nodeStatemine],
   ['Statemint Test', nodeStatemine],
+  ['OriginTrail Parachain Testnet', starfleet],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -306,6 +308,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Statemine Collator', nodeStatemine],
   ['Statemint Collator', nodeStatemine],
   ['SubDAO Collator', nodeSubDAO],
+  ['OriginTrail Parachain Testnet', starfleet],
   ['subsocial-node', nodeSubsocial],
   ['Subsocial Node', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -475,6 +478,7 @@ export const namedLogos: Record<string, unknown> = {
   statemint: nodeStatemine,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
+  starfleetTestnet: starfleet,
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,
