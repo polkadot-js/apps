@@ -2,7 +2,7 @@
   "name": "@polkadot/react-query",
   "private": true,
   "type": "module",
-  "version": "0.92.2-22",
+  "version": "0.92.2-23",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0"
