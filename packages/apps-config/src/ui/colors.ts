@@ -85,6 +85,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
+const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
 const nodeCanvas = '#c77cff';
@@ -266,6 +267,7 @@ export const chainColors: Record<string, string> = [
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, string> = [
   ['Apron Node', nodeApron],
+  ['Basilisk', nodeBasilisk],
   ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
