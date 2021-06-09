@@ -21,14 +21,20 @@ interface Props {
   raised: Balance;
 }
 
+// 0x, <enum byte>, hex data
+const VALID_LENGTHS = [
+  2 + 2 + (64 * 2),
+  2 + 2 + (65 * 2)
+];
+
 function verifySignature (api: ApiPromise, signature: string | null): boolean {
-  if (isHex(signature) && [66, 68].includes(signature.length)) {
+  if (isHex(signature) && VALID_LENGTHS.includes(signature.length)) {
     try {
       api.createType('MultiSignature', signature);
 
       return true;
-    } catch {
-      // ignore
+    } catch (error) {
+      console.error(error);
     }
   }
 
