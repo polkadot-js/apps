@@ -104,7 +104,6 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'karura',
         homepage: 'https://acala.network/karura/join-karura',
-        isUnreachable: true,
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
