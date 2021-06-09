@@ -105,7 +105,11 @@ function Contribute ({ cap, className, needsSignature, paraId, raised }: Props):
                   isError={isSignatureError}
                   label={t<string>('verifier signature')}
                   onChange={setSignature}
+                  placeholder={t<string>('0x...')}
                 />
+                {isSignatureError && (
+                  <MarkWarning content={t<string>('The hex-encoded verifier signature should be provided to you by the team running the crowdloan (based on the information you provide).')} />
+                )}
               </Modal.Columns>
             )}
             <Modal.Columns hint={t<string>('The above contribution should more than minimum contribution amount and less than the remaining value.')}>
