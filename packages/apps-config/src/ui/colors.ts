@@ -157,6 +157,7 @@ export const chainColors: Record<string, string> = [
   ['Crust PC1', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia Crab', chainCrab],
+  ['Darwinia Crab Redirect', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],

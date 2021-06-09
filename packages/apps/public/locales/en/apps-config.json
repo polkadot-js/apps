@@ -13,6 +13,7 @@
   "rpc.hosted.by": "hosted by {{host}}",
   "rpc.kusama.bifrost": "Bifrost",
   "rpc.kusama.crab": "Darwinia Crab",
+  "rpc.kusama.crab-redirect": "Darwinia Crab Redirect",
   "rpc.kusama.encointer": "Encointer Canary",
   "rpc.kusama.integritee": "IntegriTEE Network",
   "rpc.kusama.karura": "Karura",
