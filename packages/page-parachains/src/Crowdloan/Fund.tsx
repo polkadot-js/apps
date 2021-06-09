@@ -12,7 +12,6 @@ import { AddressMini, Icon, ParaLink, TxButton } from '@polkadot/react-component
 import { useAccounts, useApi, useEventTrigger, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
-import { encodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 import Contribute from './Contribute';
@@ -29,26 +28,26 @@ interface Props {
 
 interface Contributions {
   contributors: string[];
-  myAccounts: string[];
+  myAccountsHex: string[];
 }
 
-const NO_CONTRIB: Contributions = { contributors: [], myAccounts: [] };
+const NO_CONTRIB: Contributions = { contributors: [], myAccountsHex: [] };
 
-function extractContributors (allAccounts: string[], keys: StorageKey[], ss58Format?: number): Contributions {
-  const contributors = keys.map((k) => encodeAddress(k, ss58Format));
+function extractContributors (allAccountsHex: string[], keys: StorageKey[]): Contributions {
+  const contributors = keys.map((k) => k.toHex());
 
   return {
     contributors,
-    myAccounts: contributors.filter((c) => allAccounts.includes(c))
+    myAccountsHex: contributors.filter((c) => allAccountsHex.includes(c))
   };
 }
 
 function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts, isAccount } = useAccounts();
+  const { allAccountsHex, isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const [{ contributors, myAccounts }, setContributors] = useState<Contributions>(NO_CONTRIB);
+  const [{ contributors, myAccountsHex }, setContributors] = useState<Contributions>(NO_CONTRIB);
   const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
     ({ event: { data } }: EventRecord) =>
       ((data.length === 1
@@ -63,10 +62,10 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
       api.rpc.childstate
         .getKeys(childKey, '0x')
         .then((keys) => setContributors(
-          extractContributors(allAccounts, keys, api.registry.chainSS58))
+          extractContributors(allAccountsHex, keys))
         )
         .catch(console.error);
-  }, [allAccounts, api, childKey, trigger]);
+  }, [allAccountsHex, api, childKey, trigger]);
 
   const isDepositor = useMemo(
     () => isAccount(depositor.toString()),
@@ -143,7 +142,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
         </td>
         <td className='badge media--1000'>
           <Icon
-            color={myAccounts.length ? 'green' : 'gray'}
+            color={myAccountsHex.length ? 'green' : 'gray'}
             icon='asterisk'
           />
         </td>
