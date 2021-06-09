@@ -68,7 +68,7 @@ export function createKusama (t: TFunction): EndpointOption {
         homepage: 'https://darwinia.network/',
         isUnreachable: true,
         paraId: 2006,
-        text: t('rpc.kusama.crab', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
+        text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-redirect-rpc.darwinia.network/'
         }
