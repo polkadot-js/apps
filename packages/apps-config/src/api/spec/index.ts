@@ -21,7 +21,8 @@ import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
-import dock from './dock';
+import dockPoaMainnet from './dock-poa-mainnet';
+import dockPoaTestnet from './dock-poa-testnet';
 import dotmog from './dotmog';
 import dusty from './dusty';
 import eave from './eave';
@@ -102,6 +103,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ...acala,
   apron,
   'ares-parachain': aresParachain,
+  basilisk: hydrate,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
@@ -121,8 +123,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,
-  'dock-main-runtime': dock,
-  'dock-testnet': dock,
+  'dock-main-runtime': dockPoaMainnet,
+  'dock-test-runtime': dockPoaTestnet,
   'dotmog-node': dotmog,
   dusty4: dusty,
   edgeware,
@@ -166,6 +168,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
+  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,

@@ -12,72 +12,32 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        OrderType: {
+        ChainId: 'u8',
+        ResourceId: '[u8; 32]',
+        DepositNonce: 'u64',
+        ProposalVotes: {
+          votes_for: 'Vec<MultiAddress>',
+          votes_against: 'Vec<MultiAddress>',
+          status: 'enum'
+        },
+        Erc721Token: {
+          id: 'TokenId',
+          metadata: 'Vec<u8>'
+        },
+        TokenId: 'U256',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
+        AssetId: {
           _enum: [
-            'BidLimit',
-            'BidMarket',
-            'AskLimit',
-            'AskMarket'
+            'POLKADEX',
+            'BTC',
+            'ETH',
+            'DOT'
           ]
         },
-        Order: {
-          id: 'Hash',
-          trading_pair: 'Hash',
-          trader: 'AccountId',
-          price: 'FixedU128',
-          quantity: 'FixedU128',
-          order_type: 'OrderType'
-        },
-        Order4RPC: {
-          id: '[u8;32]',
-          trading_pair: '[u8;32]',
-          trader: '[u8;32]',
-          price: 'Vec<u8>',
-          quantity: 'Vec<u8>',
-          order_type: 'OrderType'
-        },
-        MarketData: {
-          low: 'FixedU128',
-          high: 'FixedU128',
-          volume: 'FixedU128',
-          open: 'FixedU128',
-          close: 'FixedU128'
-
-        },
-        LinkedPriceLevel: {
-          next: 'Option<FixedU128>',
-          prev: 'Option<FixedU128>',
-          orders: 'Vec<Order>'
-        },
-        LinkedPriceLevelRpc: {
-          next: 'Vec<u8>',
-          prev: 'Vec<u8>',
-          orders: 'Vec<Order4RPC>'
-        },
-        Orderbook: {
-          trading_pair: 'Hash',
-          base_asset_id: 'u32',
-          quote_asset_id: 'u32',
-          best_bid_price: 'FixedU128',
-          best_ask_price: 'FixedU128'
-        },
-        OrderbookRPC: {
-          trading_pair: '[u8;32]',
-          base_asset_id: 'u32',
-          quote_asset_id: 'u32',
-          best_bid_price: 'Vec<u8>',
-          best_ask_price: 'Vec<u8>'
-        },
-        FrontendPricelevel: {
-          price: 'FixedU128',
-          quantity: 'FixedU128'
-        },
-        OrderbookUpdates: {
-          bids: 'Vec<FrontendPricelevel>',
-          asks: 'Vec<FrontendPricelevel>'
-        },
-        LookupSource: 'AccountId',
-        Address: 'AccountId'
+        CurrencyIdOf: 'AssetId',
+        CurrencyId: 'AssetId',
+        ShardIdentifier: 'H256'
       }
     }
   ]

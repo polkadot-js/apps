@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
+import type { LinkOption } from './types';
 
 import { createRococo } from './testingRelayRococo';
 import { createWestend } from './testingRelayWestend';
 import { expandEndpoints } from './util';
 
-export function createTestingRelays (t: TFunction): LinkOption[] {
+export function createTestingRelays (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     createRococo(t),
     createWestend(t)
-  ]);
+  ], firstOnly);
 }

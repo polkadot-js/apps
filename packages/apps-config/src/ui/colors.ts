@@ -24,7 +24,9 @@ const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
+const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
+const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
 const chainMoonrock = '#3d1d5a';
@@ -39,6 +41,7 @@ const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
+const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
 const chainKilt = '#8c175b';
@@ -59,10 +62,12 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRiochain = '#4d87f6';
+const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
+const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
-const chainStatemine = '#111';
 const chainWestend = '#da68a7';
+const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -80,6 +85,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
+const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
 const nodeCanvas = '#c77cff';
@@ -92,13 +98,16 @@ const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeGenshiro = '#e8662d';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
 const nodeKylin = '#ed007e';
+const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
+const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
@@ -113,7 +122,6 @@ const nodeRealis = 'linear-gradient(45deg, #E8AAC9 0%, #C4D9E7 50%, #EFD6E0 100%
 const nodeRiochain = '#1A3BB3';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
-const nodeStatemint = '#86e62a'; // '#98ff98';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
@@ -127,6 +135,9 @@ const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
+const specStatemine = '#113911';
+const specStatemint = '#86e62a';
+const specWestmint = '#77bb77';
 
 export { emptyColor };
 
@@ -147,12 +158,15 @@ export const chainColors: Record<string, string> = [
   ['Crust PC1', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia Crab', chainCrab],
+  ['Darwinia Crab Redirect', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
   ['Steam PC', chainRococoEave],
   ['Encointer Canary', nodeEncointerNotee],
   ['Encointer PC1', nodeEncointerNotee],
+  ['Equilibrium', nodeEquilibrium],
+  ['EquilibriumTestnet', nodeGenshiro],
   ['Galital', chainGalital],
   ['Galois', chainGalois],
   ['GamePower Network', chainGamePower],
@@ -168,6 +182,7 @@ export const chainColors: Record<string, string> = [
   ['IpseTestnet', chainIpse],
   ['Jupiter A1', chainJupiter],
   ['Jupiter PC1', chainJupiter],
+  ['Karura', chainKarura],
   ['KILT Collator Rococo', chainKilt],
   ['KILT Testnet', chainKilt],
   ['Kylin Testnet', chainKylin],
@@ -179,6 +194,7 @@ export const chainColors: Record<string, string> = [
   ['Kusama CC3', chainKusama],
   ['Kusama', chainKusama],
   ['Kylin Testnet', chainKylin],
+  ['KLUGDOSSIER.NET', chainKlug],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Litentry', chainLitentry],
   ['Manta Testnet', chainManta],
@@ -187,8 +203,9 @@ export const chainColors: Record<string, string> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
-  ['Moonshadow', nodeMoonbeam],
+  ['Moonriver', nodeMoonriver],
   ['Moonrock', chainMoonrock],
+  ['Moonshadow', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
@@ -205,6 +222,7 @@ export const chainColors: Record<string, string> = [
   ['Polkadex Testnet', chainPolkadex],
   ['Polkadot CC1', chainPolkadot],
   ['Polkadot', chainPolkadot],
+  ['PolkaSmith', chainPolkaSmith],
   ['Pontem Testnet', chainPontem],
   ['Prism Testnet', chainPrism],
   ['Prism PC1', chainPrism],
@@ -212,11 +230,15 @@ export const chainColors: Record<string, string> = [
   ['Rococo', chainRocco],
   ['RioChain CC-1', chainRiochain],
   ['Riochain Staging', chainRiochain],
+  ['Sakura', chainSakura],
   ['Shadow', chainShadow],
   ['sherpax', chainChainx],
-  ['Statemine', chainStatemine],
-  ['Statemint', nodeStatemint],
-  ['Statemint Test', nodeStatemint],
+  ['Shiden', chainShiden],
+  ['Shiden Shell', chainShiden],
+  ['Statemine', specStatemine],
+  ['Statemine Test', specStatemine],
+  ['Statemint', specStatemint],
+  ['Statemint Test', specStatemint],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
   ['Tick', chainRoccoTick],
@@ -230,7 +252,10 @@ export const chainColors: Record<string, string> = [
   ['VLN PC', chainVln],
   ['Web3games ', chainWeb3games],
   ['Westend', chainWestend],
+  ['Westmint', specWestmint],
+  ['Westmint Test', specWestmint],
   ['Westlake', chainWestlake],
+  ['Whala', chainWhala],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
 ].reduce((colors, [chain, color]): Record<string, string> => ({
@@ -242,6 +267,7 @@ export const chainColors: Record<string, string> = [
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, string> = [
   ['Apron Node', nodeApron],
+  ['Basilisk', nodeBasilisk],
   ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
@@ -252,7 +278,6 @@ export const nodeColors: Record<string, string> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
-  ['Equilibrium node', nodeEquilibrium],
   ['Galital', nodeGalital],
   ['Galital Parachain Collator', nodeGalital],
   ['GamePower Node', nodeGamePower],
@@ -260,6 +285,7 @@ export const nodeColors: Record<string, string> = [
   ['IpseTestnet', nodeIpse],
   ['Konomi Collator', nodeKonomi],
   ['Kylin Collator', nodeKylin],
+  ['Klug Dossier Node', nodeKlug],
   ['Litentry Collator', nodeLitentry],
   ['Manta Collator', nodeManta],
   ['Manta Node', nodeManta],
@@ -279,9 +305,11 @@ export const nodeColors: Record<string, string> = [
   ['ReAlis Network', nodeRealis],
   ['Rio Defi Chain Node', nodeRiochain],
   ['Riochain Staging', nodeRiochain],
+  ['Shiden Collator', chainShiden],
   ['SORA', nodeSora],
   ['Stafi node', nodeStafi],
-  ['Statemint Collator', nodeStatemint],
+  ['Statemine Collator', specStatemint],
+  ['Statemint Collator', specStatemint],
   ['SubDAO Collator', nodeSubDAO],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
@@ -291,6 +319,7 @@ export const nodeColors: Record<string, string> = [
   ['Unique Node', nodeUnique],
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
+  ['Westmint Collator', specWestmint],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink]
@@ -302,7 +331,10 @@ export const nodeColors: Record<string, string> = [
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
 export const specColors: Record<string, string> = [
-  ['shell', specShell]
+  ['shell', specShell],
+  ['statemine', specStatemine],
+  ['statemint', specStatemint],
+  ['westmint', specWestmint]
 ].reduce((colors, [spec, color]): Record<string, any> => ({
   ...colors,
   [spec.toLowerCase().replace(/-/g, ' ')]: color

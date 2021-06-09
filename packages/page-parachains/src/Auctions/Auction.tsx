@@ -8,9 +8,9 @@ import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_THREE } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useLeaseRangeMax } from '../useLeaseRanges';
 import WinRange from './WinRange';
 
 interface Props {
@@ -23,6 +23,7 @@ interface Props {
 function Auction ({ auctionInfo, campaigns, className, winningData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const rangeMax = useLeaseRangeMax();
   const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
 
   const headerRef = useRef([
@@ -40,7 +41,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       }
 
       const leasePeriod = auctionInfo.leasePeriod;
-      const leasePeriodEnd = leasePeriod.add(BN_THREE);
+      const leasePeriodEnd = leasePeriod.add(rangeMax);
       const sorted = (campaigns.funds || [])
         .filter(({ firstSlot, lastSlot, paraId }) =>
           newRaise.some((n) => n.eq(paraId)) &&
@@ -75,7 +76,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
             : a.firstSlot.cmp(b.firstSlot)
         );
     },
-    [auctionInfo, campaigns, newRaise]
+    [auctionInfo, campaigns, newRaise, rangeMax]
   );
 
   return (

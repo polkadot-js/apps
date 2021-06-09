@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveStakerReward, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { PayoutStash } from './types';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';

@@ -10,7 +10,7 @@ import { isClaimable } from './isClaimable';
 describe('Is claimable', () => {
   const registry = new TypeRegistry();
   const accountAddress = '5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUpnhM';
-  const beneficiaryId = registry.createType('AccountId', [registry, accountAddress]);
+  const beneficiaryId = registry.createType('AccountId', accountAddress);
 
   it('returns false, when payout due is greater than 0', () => {
     const accounts = [accountAddress];

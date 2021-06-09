@@ -211,14 +211,14 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
       {hasPayouts && (
         <Button.Group>
           <ToggleGroup
-            onChange={setMyStashesIndex}
-            options={valOptions}
-            value={myStashesIndex}
-          />
-          <ToggleGroup
             onChange={setEraSelectionIndex}
             options={eraSelection}
             value={eraSelectionIndex}
+          />
+          <ToggleGroup
+            onChange={setMyStashesIndex}
+            options={valOptions}
+            value={myStashesIndex}
           />
           <PayButton
             isAll
