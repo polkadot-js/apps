@@ -1,4 +1,5 @@
 {
+  "0x...": "0x...",
   "Active": "Active",
   "Add": "Add",
   "Add campaign": "Add campaign",
@@ -64,6 +65,7 @@
   "The first and last lease periods for this funding campaign.": "The first and last lease periods for this funding campaign.",
   "The genesis state for the parachain.": "The genesis state for the parachain.",
   "The genesis state for this parachain.": "The genesis state for this parachain.",
+  "The hex-encoded verifier signature should be provided to you by the team running the crowdloan (based on the information you provide).": "The hex-encoded verifier signature should be provided to you by the team running the crowdloan (based on the information you provide).",
   "The id of this parachain as known on the network": "The id of this parachain as known on the network",
   "The name for this parachain, the id and the allocated/requested balance.": "The name for this parachain, the id and the allocated/requested balance.",
   "The parachain id is associated with the selected account via parathread registration.": "The parachain id is associated with the selected account via parathread registration.",
