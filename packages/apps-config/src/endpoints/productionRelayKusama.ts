@@ -153,7 +153,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'sherpax',
-        homepage: 'https://chainx.org/en/',
+        homepage: 'https://chainx.org/',
         isUnreachable: true,
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
