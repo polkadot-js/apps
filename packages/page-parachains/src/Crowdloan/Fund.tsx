@@ -6,7 +6,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -105,12 +105,6 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
             formatNumber(contributorsHex.length)
           )}
         </td>
-        <td className='badge media--1000'>
-          <Icon
-            color={myAccounts.length ? 'green' : 'gray'}
-            icon='asterisk'
-          />
-        </td>
         <td className='button media--1000'>
           {canWithdraw && contributorsHex.length !== 0 && (
             <Refund paraId={paraId} />
@@ -144,7 +138,12 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
         <tr className={`${className || ''} ${isOdd ? 'isOdd' : 'isEven'} isExpanded`}>
           <td colSpan={2} />
           <td className='media--800' />
-          <td className='no-pad-top media--1400'>
+          <td className='media--1400' />
+          <td className='media--1200' />
+          <td
+            className='all number no-pad-top'
+            colSpan={2}
+          >
             {myAccounts.length !== 0 && (
               <Expander summary={t<string>('My contributions ({{count}})', { replace: { count: myAccounts.length } })}>
                 {myAccounts.map((a, index) => (
@@ -158,11 +157,7 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
               </Expander>
             )}
           </td>
-          <td className='media--1200' />
-          <td className='all' />
-          <td />
           <td className='media--1100' />
-          <td className='media--1000' />
           <td className='middle no-pad-top media--1000'>
             <a
               href={homepage}
