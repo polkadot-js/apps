@@ -32,6 +32,9 @@ const definitions: OverrideBundleDefinition = {
             'Weapon'
           ]
         },
+        Types: {
+          tapes: 'u8'
+        },
         Params: {
           strength: 'u8',
           agility: 'u8',
