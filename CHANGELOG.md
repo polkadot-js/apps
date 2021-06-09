@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.92.3 Jun 9, 2021
+
+Changes:
+
+- Downgrade electron-builder
+
+
 ## 0.92.2 Jun 9, 2021
 
 Contributed:
