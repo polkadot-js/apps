@@ -9,7 +9,7 @@ import type { Campaign, LeasePeriod } from '../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Icon, ParaLink, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useEventTrigger, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
@@ -21,6 +21,7 @@ import Refund from './Refund';
 interface Props {
   bestNumber?: BN;
   className?: string;
+  isOdd?: boolean;
   isOngoing?: boolean;
   leasePeriod?: LeasePeriod;
   value: Campaign;
@@ -42,10 +43,11 @@ function extractContributors (allAccounts: string[], keys: StorageKey[], ss58For
   };
 }
 
-function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, isAccount } = useAccounts();
+  const endpoints = useParaEndpoints(paraId);
   const [{ contributors, myAccounts }, setContributors] = useState<Contributions>(NO_CONTRIB);
   const trigger = useEventTrigger([api.events.crowdloan.Contributed, api.events.crowdloan.Withdrew, api.events.crowdloan.AllRefunded, api.events.crowdloan.PartiallyRefunded], useCallback(
     ({ event: { data } }: EventRecord) =>
@@ -93,85 +95,107 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
   const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
   const canDissolve = raised.isZero();
   const canWithdraw = !raised.isZero() && hasEnded;
+  const homepage = endpoints.length && endpoints[0].homepage;
 
   return (
-    <tr className={className}>
-      <td className='number'><h1>{formatNumber(paraId)}</h1></td>
-      <td className='badge'><ParaLink id={paraId} /></td>
-      <td className='media--800'>
-        {isWinner
-          ? t<string>('Winner')
-          : blocksLeft
-            ? isCapped
-              ? t<string>('Capped')
-              : isOngoing
-                ? t<string>('Active')
-                : t<string>('Past')
-            : t<string>('Ended')
-        }
-      </td>
-      <td className='address media--1400'><AddressMini value={depositor} /></td>
-      <td className='all number together media--1200'>
-        {blocksLeft && (
-          <BlockToTime value={blocksLeft} />
-        )}
-        #{formatNumber(end)}
-      </td>
-      <td className='number all together'>
-        {firstPeriod.eq(lastPeriod)
-          ? formatNumber(firstPeriod)
-          : `${formatNumber(firstPeriod)} - ${formatNumber(lastPeriod)}`
-        }
-      </td>
-      <td className='number together'>
-        <FormatBalance
-          value={raised}
-          withCurrency={false}
-        />&nbsp;/&nbsp;<FormatBalance
-          value={cap}
-        />
-        <div>{percentage}</div>
-      </td>
-      <td className='number media--1100'>
-        {contributors.length !== 0 && (
-          formatNumber(contributors.length)
-        )}
-      </td>
-      <td className='badge media--1000'>
-        <Icon
-          color={myAccounts.length ? 'green' : 'gray'}
-          icon='asterisk'
-        />
-      </td>
-      <td className='button media--1000'>
-        {canWithdraw && contributors.length !== 0 && (
-          <Refund paraId={paraId} />
-        )}
-        {canDissolve && (
-          <TxButton
-            accountId={depositor}
-            className='media--1400'
-            icon='times'
-            isDisabled={!isDepositor}
-            label={
-              isEnded
-                ? t<string>('Close')
-                : t<string>('Cancel')
-            }
-            params={[paraId]}
-            tx={api.tx.crowdloan.dissolve}
+    <>
+      <tr className={`${className || ''} ${isOdd ? 'isOdd' : 'isEven'} ${isOngoing && homepage ? 'noBorder' : ''}`}>
+        <td className='number'><h1>{formatNumber(paraId)}</h1></td>
+        <td className='badge'><ParaLink id={paraId} /></td>
+        <td className='media--800'>
+          {isWinner
+            ? t<string>('Winner')
+            : blocksLeft
+              ? isCapped
+                ? t<string>('Capped')
+                : isOngoing
+                  ? t<string>('Active')
+                  : t<string>('Past')
+              : t<string>('Ended')
+          }
+        </td>
+        <td className='address media--1400'><AddressMini value={depositor} /></td>
+        <td className='all number together media--1200'>
+          {blocksLeft && (
+            <BlockToTime value={blocksLeft} />
+          )}
+          #{formatNumber(end)}
+        </td>
+        <td className='number all together'>
+          {firstPeriod.eq(lastPeriod)
+            ? formatNumber(firstPeriod)
+            : `${formatNumber(firstPeriod)} - ${formatNumber(lastPeriod)}`
+          }
+        </td>
+        <td className='number together'>
+          <FormatBalance
+            value={raised}
+            withCurrency={false}
+          />&nbsp;/&nbsp;<FormatBalance
+            value={cap}
           />
-        )}
-        {isOngoing && canContribute && (
-          <Contribute
-            cap={cap}
-            needsSignature={verifier.isSome}
-            paraId={paraId}
-            raised={raised}
+          <div>{percentage}</div>
+        </td>
+        <td className='number media--1100'>
+          {contributors.length !== 0 && (
+            formatNumber(contributors.length)
+          )}
+        </td>
+        <td className='badge media--1000'>
+          <Icon
+            color={myAccounts.length ? 'green' : 'gray'}
+            icon='asterisk'
           />
-        )}
-      </td>
-    </tr>
+        </td>
+        <td className='button media--1000'>
+          {canWithdraw && contributors.length !== 0 && (
+            <Refund paraId={paraId} />
+          )}
+          {canDissolve && (
+            <TxButton
+              accountId={depositor}
+              className='media--1400'
+              icon='times'
+              isDisabled={!isDepositor}
+              label={
+                isEnded
+                  ? t<string>('Close')
+                  : t<string>('Cancel')
+              }
+              params={[paraId]}
+              tx={api.tx.crowdloan.dissolve}
+            />
+          )}
+          {isOngoing && canContribute && (
+            <Contribute
+              cap={cap}
+              needsSignature={verifier.isSome}
+              paraId={paraId}
+              raised={raised}
+            />
+          )}
+        </td>
+      </tr>
+      {isOngoing && homepage && (
+        <tr className={`${className || ''} ${isOdd ? 'isOdd' : 'isEven'} isExpanded`}>
+          <td colSpan={2} />
+          <td className='media--800' />
+          <td className='media--1400' />
+          <td className='media--1200' />
+          <td className='all' />
+          <td />
+          <td className='media--1100' />
+          <td className='media--1000' />
+          <td className='middle no-pad-top media--1000'>
+            <a
+              href={homepage}
+              rel='noopener noreferrer'
+              target='_blank'
+            >{t<string>('Homepage')}</a>
+          </td>
+        </tr>
+      )}
+    </>
   );
 }
 

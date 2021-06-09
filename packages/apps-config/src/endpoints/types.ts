@@ -6,6 +6,7 @@ import type { Option } from '../settings/types';
 export interface EndpointOption {
   dnslink?: string;
   genesisHash?: string;
+  homepage?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
   isDisabled?: boolean;
@@ -14,6 +15,7 @@ export interface EndpointOption {
   info?: string;
   paraId?: number;
   providers: Record<string, string>;
+  summary?: string;
   teleport?: number[];
   text: React.ReactNode;
 }
@@ -22,6 +24,7 @@ export interface LinkOption extends Option {
   dnslink?: string;
   genesisHash?: string;
   genesisHashRelay?: string;
+  homepage?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
   isRelay?: boolean;
@@ -29,6 +32,7 @@ export interface LinkOption extends Option {
   isSpaced?: boolean;
   linked?: LinkOption[];
   paraId?: number;
+  summary?: string;
   teleport?: number[];
   textBy: string;
 }
