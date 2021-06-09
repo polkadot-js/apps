@@ -150,6 +150,7 @@ function Fund ({ bestNumber, className, isOngoing, leasePeriod, value: { childKe
         {canDissolve && (
           <TxButton
             accountId={depositor}
+            className='media--1400'
             icon='times'
             isDisabled={!isDepositor}
             label={
