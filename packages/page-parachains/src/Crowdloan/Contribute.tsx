@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { ApiPromise } from '@polkadot/api';
 import type { Balance, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useState } from 'react';
@@ -20,6 +21,26 @@ interface Props {
   raised: Balance;
 }
 
+// 0x, <enum byte>, hex data
+const VALID_LENGTHS = [
+  2 + 2 + (64 * 2),
+  2 + 2 + (65 * 2)
+];
+
+function verifySignature (api: ApiPromise, signature: string | null): boolean {
+  if (isHex(signature) && VALID_LENGTHS.includes(signature.length)) {
+    try {
+      api.createType('MultiSignature', signature);
+
+      return true;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return false;
+}
+
 function Contribute ({ cap, className, needsSignature, paraId, raised }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -30,10 +51,8 @@ function Contribute ({ cap, className, needsSignature, paraId, raised }: Props):
   const [signature, setSignature] = useState<string | null>(null);
 
   const isSignatureError = useMemo(
-    () => needsSignature
-      ? !isHex(signature)
-      : false,
-    [needsSignature, signature]
+    () => needsSignature && !verifySignature(api, signature),
+    [api, needsSignature, signature]
   );
 
   const remaining = cap.sub(raised);
