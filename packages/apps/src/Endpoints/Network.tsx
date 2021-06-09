@@ -11,27 +11,22 @@ import { ChainImg } from '@polkadot/react-components';
 import Url from './Url';
 
 interface Props {
-  affinity?: string;
+  affinity?: string; // unused - previous selection
   apiUrl: string;
   className?: string;
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, isUnreachable, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isUnreachable, name, providers } }: Props): React.ReactElement<Props> {
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
 
   const _selectUrl = useCallback(
-    () => setApiUrl(
-      name,
-      affinity && providers.find(({ url }) => url === affinity)
-        ? affinity
-        : providers[0].url
-    ),
-    [affinity, name, providers, setApiUrl]
+    () => setApiUrl(name, providers[Math.floor(Math.random() * providers.length)].url),
+    [name, providers, setApiUrl]
   );
 
   const _setApiUrl = useCallback(
