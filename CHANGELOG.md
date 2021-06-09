@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## 0.92.2 Jun 9, 2021
+
+Contributed:
+
+- Add OnFinality providers for Statemine & Westmint (Thanks to https://github.com/xsteadybcgo)
+- Extract Moonbeam author ids (Thanks to https://github.com/joelamouche)
+- Add Whala network (Thanks to https://github.com/jasl & https://github.com/limichange)
+- Add Moonriver network (Thanks to https://github.com/crystalin)
+- Add Basilisk Egg network (Thanks to https://github.com/lumir-mrkva)
+- Add Kilt to Westend (Thanks to https://github.com/wischli)
+- Update Crab network (Thanks to https://github.com/WoeOm)
+- Update Jupiter types (Thanks to https://github.com/zzcwoshizz)
+- Update Polkadex types (Thanks to https://github.com/Gauthamastro)
+- Update Dock types (Thanks to https://github.com/lovesh)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+
+Changes:
+
+- Adjust apps-electron, taking care of 0.92.1 launching
+- Allow teleport for Kusama <-> Statemine
+- Calculate and display teleport fees
+- Fix Patract Elara endpoints on Westend
+- Fix calculation of auction end slots
+- Fix crowdloan own contribution extraction
+- Display own contribution on crowdloans
+- Add link to chain homepages on crowdloans
+- Display blocknumber on calendar
+- Adjust Polkadot-icons based on specName
+- Adjust payout button layout (no content shift)
+- Mark endpoints as unreachable (via cron detection)
+- Randomize provider selection
+
+
 ## 0.92.1 Jun 7, 2021
 
 Contributed:
