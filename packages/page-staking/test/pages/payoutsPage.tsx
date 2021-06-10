@@ -81,15 +81,15 @@ export class PayoutsPage {
     if (!this.hasBeenRendered()) {
       this.renderResult = render(content);
     } else {
-      this.renderResult?.rerender(content);
+      this.renderResult.rerender(content);
     }
   }
 
-  private hasBeenRendered () {
+  private hasBeenRendered (): this is { renderResult: RenderResult; } {
     return this.renderResult !== undefined;
   }
 
-  private assertRendered () {
+  private assertRendered (): asserts this is { renderResult: RenderResult; } {
     if (!this.hasBeenRendered()) {
       throw new NotYetRendered();
     }
