@@ -5,30 +5,18 @@ import {render,RenderResult} from '@testing-library/react';
 import React, {Suspense} from 'react';
 import {MemoryRouter} from 'react-router-dom';
 import {ThemeProvider} from 'styled-components';
+import BN from "bn.js";
 
 import {lightTheme} from '@polkadot/apps/themes';
-import {POLKADOT_GENESIS} from '@polkadot/apps-config';
 import {ApiContext} from '@polkadot/react-api';
 import {ApiProps} from '@polkadot/react-api/types';
 import {QueueProvider} from '@polkadot/react-components/Status/Context';
-import {PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd} from '@polkadot/react-components/Status/types';
-import {TypeRegistry} from '@polkadot/types/create';
-
+import {QueueProps, QueueTxExtrinsicAdd} from '@polkadot/react-components/Status/types';
 import Payouts from '@polkadot/app-staking/Payouts';
-import BN from "bn.js";
 import registry from "@polkadot/react-api/typeRegistry";
 import {StakerState} from "@polkadot/react-hooks/types";
 
-function aGenesisHash () {
-  return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
-}
-
-class NotYetRendered extends Error {
-
-}
-
-let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
-const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+class NotYetRendered extends Error {}
 
 export class PayoutsPage {
   renderResult?: RenderResult;
@@ -47,14 +35,12 @@ export class PayoutsPage {
         },
         derive: {
           accounts: {
-            info: () => Promise.resolve(() => { /**/
-            })
+            info: () => Promise.resolve(() => {})
           },
           session: {
             eraLength: () => new BN(1000)
           }
         },
-        genesisHash: aGenesisHash(),
         query: {
           staking: {
             historyDepth: () => new BN(1),
@@ -66,11 +52,8 @@ export class PayoutsPage {
             }
           }
         },
-        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
+        //registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
-          council: {
-            propose
-          },
           staking: {
             payoutStakers: () => {}
           }
@@ -79,10 +62,7 @@ export class PayoutsPage {
       systemName: 'substrate'
     } as unknown as ApiProps;
 
-    queueExtrinsic = jest.fn() as QueueTxExtrinsicAdd;
-    const queue = {
-      queueExtrinsic
-    } as QueueProps;
+    const queue = {queueExtrinsic: jest.fn() as QueueTxExtrinsicAdd} as QueueProps;
 
     let content = <>
       <div id='tooltips'/>
