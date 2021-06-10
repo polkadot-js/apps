@@ -2,13 +2,13 @@
   "name": "@polkadot/app-bounties",
   "private": true,
   "type": "module",
-  "version": "0.92.4-4",
+  "version": "0.92.4-5",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/react-components": "^0.92.4-4"
+    "@polkadot/react-components": "^0.92.4-5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.92.4-4"
+    "@polkadot/test-support": "0.92.4-5"
   }
 }
