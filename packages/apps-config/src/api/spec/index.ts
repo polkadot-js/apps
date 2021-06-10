@@ -145,6 +145,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jupiter-rococo': jupiterRococo,
   khala: phalaParachain,
   'kilt-parachain': kilt,
+  'kilt-spiritnet': kilt,
   konomi,
   kulupu,
   kylin,
