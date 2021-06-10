@@ -44,6 +44,15 @@ export function createKusama (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'altair',
+        isUnreachable: true,
+        paraId: 2021,
+        text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://thebifrost.io/',
         isUnreachable: true,
