@@ -157,11 +157,11 @@ function getMyStashesIndex(api: ApiPromise, hasOwnValidators: boolean) {
 function Payouts ({ className = '', isInElection, ownValidators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const hasOwnValidators = useMemo(() => ownValidators.length !== 0, [ownValidators]);
+  const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
   const [myStashesIndex, setMyStashesIndex] = useState(() => getMyStashesIndex(api, hasOwnValidators));
-  useEffect(() => {
-    setMyStashesIndex(getMyStashesIndex(api, hasOwnValidators));
-  }, [hasOwnValidators]);
+  // useEffect(() => {
+  //   setMyStashesIndex(getMyStashesIndex(api, hasOwnValidators));
+  // }, [hasOwnValidators]);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
