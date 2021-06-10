@@ -120,6 +120,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
+        isUnreachable: true,
         homepage: 'https://phala.network/',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
