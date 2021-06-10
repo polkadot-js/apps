@@ -44,6 +44,15 @@ export function createKusama (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'altair',
+        isUnreachable: true,
+        paraId: 2021,
+        text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://thebifrost.io/',
         isUnreachable: true,
@@ -111,8 +120,8 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
-        homepage: 'https://phala.network/',
         isUnreachable: true,
+        homepage: 'https://phala.network/',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
@@ -160,7 +169,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
-        homepage: 'https://www.plasmnet.io/',
+        homepage: 'https://shiden.plasmnet.io/',
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {

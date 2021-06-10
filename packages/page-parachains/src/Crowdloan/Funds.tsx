@@ -68,7 +68,6 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('leases')],
     [t('raised')],
     [t('count'), 'media--1100'],
-    [undefined, 'badge media--1000'],
     [undefined, 'media--1000']
   ]);
 
@@ -80,7 +79,6 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('leases')],
     [t('raised')],
     [t('count'), 'media--1100'],
-    [undefined, 'badge media--1000'],
     [undefined, 'media--1000']
   ]);
 

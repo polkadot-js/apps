@@ -6,6 +6,7 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
+import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
@@ -119,11 +120,13 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Altair', chainAltair],
   ['Apron PC1', nodeApron],
   ['Ares PC1', nodeAres],
   ['Beast Developer', nodeBeast],
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
+  ['Charcoal Testnet', nodeCentrifuge],
   ['darwinia crab', nodeCrab],
   ['Darwinia Crab PC2', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
@@ -359,6 +362,7 @@ export const specLogos: Record<string, unknown> = [
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  altair: chainAltair,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
@@ -366,6 +370,7 @@ export const namedLogos: Record<string, unknown> = {
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
+  charcoal: nodeCentrifuge,
   clover: nodeClover,
   crab: nodeCrab,
   crab_redirect: nodeCrab,

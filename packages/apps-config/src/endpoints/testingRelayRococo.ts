@@ -99,15 +99,6 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoCentrifuge',
-        isDisabled: true, // Rococo reset
-        paraId: 10001,
-        text: t('rpc.rococo.centrifuge', 'Centrifuge Charcoal', { ns: 'apps-config' }),
-        providers: {
-          Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
-        }
-      },
-      {
         info: 'rococoClover',
         isDisabled: true, // Rococo reset
         paraId: 229,

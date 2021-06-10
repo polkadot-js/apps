@@ -28,5 +28,5 @@ export default function useUpomingIds (): ParaId[] | undefined {
   const { api } = useApi();
   const trigger = useEventTrigger([api.events.session.NewSession, api.events.registrar.Registered]);
 
-  return useMapEntries(api.query.paras.paraLifecycles, { at: trigger, transform: extractIds });
+  return useMapEntries(api.query.paras.paraLifecycles, { at: trigger.blockHash, transform: extractIds });
 }
