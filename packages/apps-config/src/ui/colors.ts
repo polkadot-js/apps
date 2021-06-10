@@ -44,7 +44,7 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const chainKilt = '#8c175b';
+const chainKilt = '#5ab9aa';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKylin = '#ed007e';
@@ -183,7 +183,9 @@ export const chainColors: Record<string, string> = [
   ['Jupiter A1', chainJupiter],
   ['Jupiter PC1', chainJupiter],
   ['Karura', chainKarura],
-  ['KILT Collator Rococo', chainKilt],
+  ['KILT', chainKilt],
+  ['KILT Local', chainKilt],
+  ['KILT Peregrine Testnet', chainKilt],
   ['KILT Testnet', chainKilt],
   ['Kylin Testnet', chainKylin],
   ['Khala', chainKhala],
@@ -256,6 +258,7 @@ export const chainColors: Record<string, string> = [
   ['Westmint Test', specWestmint],
   ['Westlake', chainWestlake],
   ['Whala', chainWhala],
+  ['WILT', chainKilt],
   ['Zenlink PC1', chainZenlink],
   ['ZERO.IO', chainZero]
 ].reduce((colors, [chain, color]): Record<string, string> => ({

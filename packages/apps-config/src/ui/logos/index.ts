@@ -151,7 +151,10 @@ export const chainLogos: Record<string, unknown> = [
   ['IpseTestnet', nodeIpse],
   ['Jupiter A1', nodeJupiter],
   ['Jupiter PC1', nodeJupiter],
-  ['KILT PC1', nodeKilt],
+  ['KILT', nodeKilt],
+  ['KILT Local', nodeKilt],
+  ['KILT Peregrine Testnet', nodeKilt],
+  ['KILT Testnet', nodeKilt],
   ['Karura', chainKarura],
   ['Konomi', nodeKonomi],
   ['Kusama', chainKusama], // new name after CC3
@@ -210,7 +213,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Westmint', nodeStatemine],
-  ['Westmint Test', nodeStatemine]
+  ['Westmint Test', nodeStatemine],
+  ['WILT', nodeKilt]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -263,8 +267,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['Idavoll Node', nodeIdavoll],
   ['Khala', nodeKhala],
   ['Khala Node', nodeKhala],
-  ['KILT Node', nodeKilt],
-  ['KILT Collator', nodeKilt],
+  ['KILT', nodeKilt],
+  ['KILT Local', nodeKilt],
+  ['KILT Peregrine Testnet', nodeKilt],
   ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
   ['Klug Dossier Node', nodeKlug],
@@ -335,6 +340,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Westmint Collator', nodeStatemine],
   ['Whala', nodeWhala],
   ['Whala Node', nodeWhala],
+  ['WILT', nodeKilt],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
