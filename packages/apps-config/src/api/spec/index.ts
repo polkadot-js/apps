@@ -20,8 +20,10 @@ import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
 import dockMainnet from './dock-mainnet';
+import dockPoSMainnet from './dock-pos-mainnet';
 import dotmog from './dotmog';
 import dockTestnet from './dock-testnet';
+import dockPoSTestnet from './dock-pos-testnet';
 import dusty from './dusty';
 import eave from './eave';
 import edgeware from './edgeware';
@@ -99,6 +101,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dev-parachain': zenlink,
   'dock-main-runtime': dockMainnet,
   'dock-test-runtime': dockTestnet,
+  'dock-pos-main-runtime': dockPoSMainnet,
+  'dock-pos-test-runtime': dockPoSTestnet,
   'dotmog-node': dotmog,
   dusty4: dusty,
   edgeware,
