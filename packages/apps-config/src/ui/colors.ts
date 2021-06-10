@@ -119,7 +119,7 @@ const nodeRealis = 'linear-gradient(45deg, #E8AAC9 0%, #C4D9E7 50%, #EFD6E0 100%
 const nodeRiochain = '#1A3BB3';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
-const nodeStarfleet = '#131415';
+const nodeOriginTrail = '#131415';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
@@ -235,7 +235,7 @@ export const chainColors: Record<string, string> = [
   ['Statemine Test', specStatemine],
   ['Statemint', specStatemint],
   ['Statemint Test', specStatemint],
-  ['OriginTrail Parachain Testnet', nodeStarfleet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
   ['Tick', chainRoccoTick],
@@ -306,7 +306,7 @@ export const nodeColors: Record<string, string> = [
   ['Statemine Collator', specStatemint],
   ['Statemint Collator', specStatemint],
   ['SubDAO Collator', nodeSubDAO],
-  ['OriginTrail Parachain Testnet', nodeStarfleet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],

@@ -37,7 +37,7 @@ export const rpcDefinitions: Record<string, Record<string, DefinitionRpc | Defin
 
 
 
-const starfleetDefinitions = {
+const origintrailDefinitions = {
     rpc: rpcDefinitions,
     types: [
         {
@@ -156,10 +156,10 @@ const starfleetDefinitions = {
   } as OverrideBundleDefinition;
 
 
-export default starfleetDefinitions;
+export default origintrailDefinitions;
 
 export const typesBundle = {
     spec: {
-        "origintrail-parachain": starfleetDefinitions,
+        "origintrail-parachain": origintrailDefinitions,
     },
 } as OverrideBundleType;

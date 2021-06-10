@@ -73,6 +73,7 @@ import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import oakTestnet from './nodes/oak-testnet.png';
+import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -110,7 +111,6 @@ import nodeWestlake from './nodes/westlake.png';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import starfleet from './nodes/starfleet.png';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -188,7 +188,7 @@ export const chainLogos: Record<string, unknown> = [
   ['Statemine Test', nodeStatemine],
   ['Statemint', nodeStatemine],
   ['Statemint Test', nodeStatemine],
-  ['OriginTrail Parachain Testnet', starfleet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['SubDAO PC1', nodeSubDAO],
   ['Subsocial', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -308,7 +308,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Statemine Collator', nodeStatemine],
   ['Statemint Collator', nodeStatemine],
   ['SubDAO Collator', nodeSubDAO],
-  ['OriginTrail Parachain Testnet', starfleet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['subsocial-node', nodeSubsocial],
   ['Subsocial Node', nodeSubsocial],
   ['Subsocial PC', nodeSubsocial],
@@ -478,7 +478,7 @@ export const namedLogos: Record<string, unknown> = {
   statemint: nodeStatemine,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  starfleetTestnet: starfleet,
+  origintrail: nodeOriginTrail,
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,

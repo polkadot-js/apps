@@ -49,7 +49,7 @@ import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
 import moonbeam from './moonbeam';
-import starfleet from './starfleet';
+import origintrail from './origintrail';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
@@ -156,7 +156,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
-  'origintrail-parachain': starfleet,
+  'origintrail-parachain': origintrail,
   'mybank.network Testnet': mybank,
   neatcoin,
   nft: unique,
