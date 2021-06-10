@@ -2,12 +2,12 @@
   "name": "@polkadot/app-staking",
   "private": true,
   "type": "module",
-  "version": "0.92.4-5",
+  "version": "0.92.4-6",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/app-explorer": "^0.92.4-5",
-    "@polkadot/react-components": "^0.92.4-5",
-    "@polkadot/react-query": "^0.92.4-5"
+    "@polkadot/app-explorer": "^0.92.4-6",
+    "@polkadot/react-components": "^0.92.4-6",
+    "@polkadot/react-query": "^0.92.4-6"
   }
 }
