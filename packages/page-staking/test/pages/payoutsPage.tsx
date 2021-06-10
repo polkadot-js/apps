@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult } from '@testing-library/react';
+import { render, RenderResult, screen } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -97,12 +97,12 @@ export class PayoutsPage {
 
   async expectText (expected: string): Promise<void> {
     this.assertRendered();
-    expect(await this.renderResult?.findByText(expected)).toBeTruthy();
+    expect(await screen.findByText(expected)).toBeTruthy();
   }
 
   async expectMyValidators (expected: {isDisabled: boolean, isSelected: boolean}): Promise<void> {
     this.assertRendered();
-    const validators = await this.renderResult?.findByText('My validators') as HTMLButtonElement;
+    const validators = await screen.findByText('My validators') as HTMLButtonElement;
 
     expect(validators).toBeVisible();
 
