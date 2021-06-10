@@ -159,7 +159,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'shiden',
-        homepage: 'https://www.plasmnet.io/',
+        homepage: 'https://shiden.plasmnet.io/',
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
