@@ -21,11 +21,7 @@ class NotYetRendered extends Error {}
 export class PayoutsPage {
   renderResult?: RenderResult;
 
-  renderPage (ownValidators: StakerState[] = []) {
-    this.renderPayouts(ownValidators);
-  }
-
-  private renderPayouts (ownValidators: StakerState[]) {
+  renderPage (ownValidators: StakerState[] = []): void {
     const mockApi: ApiProps = {
       api: {
         consts: {
@@ -36,7 +32,8 @@ export class PayoutsPage {
         derive: {
           accounts: {
             info: () => {
-              return Promise.resolve(() => { /**/ });
+              return Promise.resolve(() => { /**/
+              });
             }
           },
           session: {
@@ -56,7 +53,8 @@ export class PayoutsPage {
         },
         tx: {
           staking: {
-            payoutStakers: () => { /**/ }
+            payoutStakers: () => { /**/
+            }
           }
         }
       },
