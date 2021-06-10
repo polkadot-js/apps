@@ -32,7 +32,7 @@ describe('Payouts', () => {
       await payoutsPage.expectText('My stashes');
     });
 
-    it('when no own validators, then `My validators` is disabled and `My stashes` selected', async () => {
+    it('when no own validators, then `My validators` is disabled and not selected, async () => {
       payoutsPage.renderPage();
 
       await payoutsPage.expectMyValidators({ isDisabled: true, isSelected: false });
