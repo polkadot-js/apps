@@ -55,6 +55,7 @@ import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import oakTestnet from './oak-testnet';
+import opportunity from './opportunity'
 import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
@@ -164,6 +165,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
+  'opportunity-node': opportunity,
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
