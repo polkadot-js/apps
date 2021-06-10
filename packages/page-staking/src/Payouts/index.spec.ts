@@ -1,25 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import i18next from '@polkadot/react-components/i18n';
-import {mockHooks} from '@polkadot/test-support/hooks/mockHooks';
-import {MemoryStore} from '@polkadot/test-support/keyring';
-import {keyring} from '@polkadot/ui-keyring';
-
 import {PayoutsPage} from '../../test/pages/payoutsPage';
 import {StakerState} from "@polkadot/react-hooks/types";
-
-jest.mock('@polkadot/react-hooks/useTreasury', () => ({
-  useTreasury: () => mockHooks.treasury
-}));
-
-jest.mock('@polkadot/react-hooks/useMembers', () => ({
-  useMembers: () => mockHooks.members
-}));
-
-jest.mock('@polkadot/react-hooks/useBlockTime', () => ({
-  useBlockTime: () => mockHooks.blockTime
-}));
 
 describe('Payouts', () => {
   let payoutsPage: PayoutsPage;
@@ -35,11 +18,6 @@ describe('Payouts', () => {
     sessionIds: [],
     stashId: 'someStashId'
   }
-
-  beforeAll(async () => {
-    await i18next.changeLanguage('en');
-    keyring.loadAll({isDevelopment: true, store: new MemoryStore()});
-  });
 
   beforeEach(() => {
     payoutsPage = new PayoutsPage();
