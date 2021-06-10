@@ -106,8 +106,16 @@ export class PayoutsPage {
 
     expect(validators).toBeVisible();
 
-    if (expected.isDisabled) { expect(validators.classList).toContain('isDisabled'); }
+    if (expected.isDisabled) {
+      expect(validators).toHaveClass('isDisabled');
+    } else {
+      expect(validators).not.toHaveClass('isDisabled');
+    }
 
-    if (expected.isSelected) { expect(validators.classList).toContain('isSelected'); }
+    if (expected.isSelected) {
+      expect(validators).toHaveClass('isSelected');
+    } else {
+      expect(validators).not.toHaveClass('isSelected');
+    }
   }
 }
