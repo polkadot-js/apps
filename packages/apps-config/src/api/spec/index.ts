@@ -9,8 +9,6 @@ import crust from './crust';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
-import dock from './dock';
-import dockTestnet from './dock-testnet';
 import dusty from './dusty';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
@@ -40,8 +38,6 @@ export default {
   crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
-  'dock-main-runtime': dock,
-  'dock-test-runtime': dockTestnet,
   dusty3: dusty,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,

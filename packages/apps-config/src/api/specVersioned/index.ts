@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import acala from './acala';
+import dockMainnet from './dock-mainnet';
+import dockTestnet from './dock-testnet';
 import edgeware from './edgeware';
 import equilibrium from './equilibrium';
 import kulupu from './kulupu';
@@ -14,6 +16,8 @@ export default {
   Equilibrium: equilibrium,
   acala,
   'btc-parachain': polkabtc,
+  'dock-main-runtime': dockMainnet,
+  'dock-test-runtime': dockTestnet,
   edgeware,
   kulupu,
   laminar,
