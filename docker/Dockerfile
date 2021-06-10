@@ -9,11 +9,11 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install --no-install-recommends -y nodejs npm && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+RUN npm install yarn -g
 
 WORKDIR /apps
 COPY . .
 
-RUN npm install yarn -g
 RUN yarn && NODE_ENV=production yarn build:www
 
 # ===========================================================
