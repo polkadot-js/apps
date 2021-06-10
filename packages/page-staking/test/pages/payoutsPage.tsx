@@ -52,7 +52,6 @@ export class PayoutsPage {
             }
           }
         },
-        //registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
           staking: {
             payoutStakers: () => {}
