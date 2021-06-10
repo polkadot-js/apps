@@ -1,20 +1,20 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import {render,RenderResult} from '@testing-library/react';
-import React, {Suspense} from 'react';
-import {MemoryRouter} from 'react-router-dom';
-import {ThemeProvider} from 'styled-components';
-import BN from "bn.js";
+import { render, RenderResult } from '@testing-library/react';
+import BN from 'bn.js';
+import React, { Suspense } from 'react';
+import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
-import {lightTheme} from '@polkadot/apps/themes';
-import {ApiContext} from '@polkadot/react-api';
-import {ApiProps} from '@polkadot/react-api/types';
-import {QueueProvider} from '@polkadot/react-components/Status/Context';
-import {QueueProps, QueueTxExtrinsicAdd} from '@polkadot/react-components/Status/types';
 import Payouts from '@polkadot/app-staking/Payouts';
-import registry from "@polkadot/react-api/typeRegistry";
-import {StakerState} from "@polkadot/react-hooks/types";
+import { lightTheme } from '@polkadot/apps/themes';
+import { ApiContext } from '@polkadot/react-api';
+import registry from '@polkadot/react-api/typeRegistry';
+import { ApiProps } from '@polkadot/react-api/types';
+import { QueueProvider } from '@polkadot/react-components/Status/Context';
+import { QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { StakerState } from '@polkadot/react-hooks/types';
 
 class NotYetRendered extends Error {}
 
@@ -35,7 +35,9 @@ export class PayoutsPage {
         },
         derive: {
           accounts: {
-            info: () => Promise.resolve(() => {})
+            info: () => {
+              return Promise.resolve(() => { /**/ });
+            }
           },
           session: {
             eraLength: () => new BN(1000)
@@ -43,10 +45,10 @@ export class PayoutsPage {
         },
         query: {
           staking: {
-            historyDepth: () => new BN(1),
             bonded: {
-              multi: () => [],
+              multi: () => []
             },
+            historyDepth: () => new BN(1),
             ledger: {
               multi: () => []
             }
@@ -54,16 +56,16 @@ export class PayoutsPage {
         },
         tx: {
           staking: {
-            payoutStakers: () => {}
+            payoutStakers: () => { /**/ }
           }
         }
       },
       systemName: 'substrate'
     } as unknown as ApiProps;
 
-    const queue = {queueExtrinsic: jest.fn() as QueueTxExtrinsicAdd} as QueueProps;
+    const queue = { queueExtrinsic: jest.fn() as QueueTxExtrinsicAdd } as QueueProps;
 
-    let content = <>
+    const content = <>
       <div id='tooltips'/>
       <Suspense fallback='...'>
         <QueueProvider value={queue}>
@@ -81,7 +83,7 @@ export class PayoutsPage {
     if (!this.hasBeenRendered()) {
       this.renderResult = render(content);
     } else {
-      this.renderResult!.rerender(content);
+      this.renderResult?.rerender(content);
     }
   }
 
@@ -97,18 +99,17 @@ export class PayoutsPage {
 
   async expectText (expected: string): Promise<void> {
     this.assertRendered();
-    expect(await this.renderResult!.findByText(expected)).toBeTruthy();
+    expect(await this.renderResult?.findByText(expected)).toBeTruthy();
   }
 
   async expectMyValidators (expected: {isDisabled: boolean, isSelected: boolean}): Promise<void> {
     this.assertRendered();
-    const validators = await this.renderResult!.findByText('My validators') as HTMLButtonElement;
+    const validators = await this.renderResult?.findByText('My validators') as HTMLButtonElement;
+
     expect(validators).toBeVisible();
 
-    if (expected.isDisabled)
-      expect(validators.classList).toContain('isDisabled');
+    if (expected.isDisabled) { expect(validators.classList).toContain('isDisabled'); }
 
-    if (expected.isSelected)
-      expect(validators.classList).toContain('isSelected');
+    if (expected.isSelected) { expect(validators.classList).toContain('isSelected'); }
   }
 }

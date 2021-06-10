@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import {PayoutsPage} from '../../test/pages/payoutsPage';
-import {StakerState} from "@polkadot/react-hooks/types";
+import { StakerState } from '@polkadot/react-hooks/types';
+
+import { PayoutsPage } from '../../test/pages/payoutsPage';
 
 describe('Payouts', () => {
   let payoutsPage: PayoutsPage;
@@ -17,7 +18,7 @@ describe('Payouts', () => {
     isStashValidating: false,
     sessionIds: [],
     stashId: 'someStashId'
-  }
+  };
 
   beforeEach(() => {
     payoutsPage = new PayoutsPage();
@@ -34,21 +35,21 @@ describe('Payouts', () => {
     it('when no own validators, then `My validators` is disabled and `My stashes` selected', async () => {
       payoutsPage.renderPage();
 
-      await payoutsPage.expectMyValidators({isDisabled: true, isSelected: false});
+      await payoutsPage.expectMyValidators({ isDisabled: true, isSelected: false });
     });
 
     it('when some own validators, then `My validators` is enabled and selected', async () => {
       payoutsPage.renderPage([someOwnedValidator]);
 
-      await payoutsPage.expectMyValidators({isDisabled: false, isSelected: true});
+      await payoutsPage.expectMyValidators({ isDisabled: false, isSelected: true });
     });
 
     it('when some own validators, but after accounts load and rerender, then `My validators` is selected',
       async () => {
         payoutsPage.renderPage();
-        await payoutsPage.expectMyValidators({isDisabled: true, isSelected: false});
-        payoutsPage.renderPage([someOwnedValidator])
-        await payoutsPage.expectMyValidators({isDisabled: false, isSelected: true});
+        await payoutsPage.expectMyValidators({ isDisabled: true, isSelected: false });
+        payoutsPage.renderPage([someOwnedValidator]);
+        await payoutsPage.expectMyValidators({ isDisabled: false, isSelected: true });
       });
   });
 });

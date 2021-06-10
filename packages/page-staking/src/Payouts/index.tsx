@@ -7,7 +7,7 @@ import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
@@ -150,7 +150,7 @@ function getOptions (api: ApiPromise, eraLength: BN | undefined, historyDepth: B
   return [{ text: '', value: 0 }];
 }
 
-function getMyStashesIndex(api: ApiPromise, hasOwnValidators: boolean) {
+function getMyStashesIndex (api: ApiPromise, hasOwnValidators: boolean) {
   return (isFunction(api.tx.staking.payoutStakers) && hasOwnValidators) ? 0 : 1;
 }
 
@@ -159,9 +159,10 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const { api } = useApi();
   const hasOwnValidators = useMemo(() => ownValidators.length !== 0, [ownValidators]);
   const [myStashesIndex, setMyStashesIndex] = useState(() => getMyStashesIndex(api, hasOwnValidators));
+
   useEffect(() => {
     setMyStashesIndex(getMyStashesIndex(api, hasOwnValidators));
-  }, [hasOwnValidators]);
+  }, [api, hasOwnValidators]);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
