@@ -64,7 +64,8 @@ function useMyContributions (paraId: ParaId, childKey: string, keys: string[]): 
   const [state, setState] = useState<Record<string, Balance>>({});
 
   const trigger = useEventTrigger([
-    api.events.crowdloan.Contributed
+    api.events.crowdloan.Contributed,
+    api.events.crowdloan.Withdrew
   ], useCallback(
     ({ event: { data: [accountId, eventParaId] } }: EventRecord) =>
       eventParaId.eq(paraId) &&
@@ -159,7 +160,7 @@ export default function useContributions (paraId: ParaId, childKey: string): Con
   }, [api, allAccountsHex, setState, triggerDelta]);
 
   useEffect((): void => {
-    // no delats, set directly here
+    // no deltas, set directly here
     _setState((prev) => ({
       ...prev,
       myContributions
