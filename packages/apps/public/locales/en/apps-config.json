@@ -31,6 +31,7 @@
   "rpc.kusama.statemine": "Statemine",
   "rpc.kylin-node.co.uk": "Kylin Network",
   "rpc.manta": "Manta Testnet",
+  "rpc.origintrail": "OriginTrail Parachain",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.polkadot.patractlabs": "Polkadot",
   "rpc.polkadot.w3f": "Polkadot",

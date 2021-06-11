@@ -112,6 +112,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
@@ -212,6 +213,7 @@ export const chainColors: Record<string, string> = [
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
   ['OAK Testnet', chainOakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', chainPangolin],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
@@ -297,6 +299,7 @@ export const nodeColors: Record<string, string> = [
   ['NFTMart Staging', nodeNFTMart],
   ['nodle chain node', nodeNodle],
   ['OAK Testnet', nodeOakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
