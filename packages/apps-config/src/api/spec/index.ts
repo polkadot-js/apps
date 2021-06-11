@@ -35,6 +35,7 @@ import galital from './galital';
 import galitalParachain from './galital-parachain';
 import galois from './galois';
 import gamepower from './gamepower';
+import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
@@ -99,6 +100,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
+  Genshiro: genshiro,
   Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
