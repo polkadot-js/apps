@@ -140,12 +140,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'polkasmith',
-        homepage: 'https://polkafoundry.com/',
-        isUnreachable: true,
+        homepage: 'https://polkasmith.polkafoundry.com/',
         paraId: 2009,
-        text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
+        text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
-          Polkasmith: 'wss://polkasmith.polkafoundry.com'
+          PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
         }
       },
       {
