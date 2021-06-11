@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
@@ -76,6 +78,8 @@ import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import oakTestnet from './nodes/oak-testnet.png';
+import nodeOpportunity from './nodes/opportunity.png';
+import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -152,7 +156,10 @@ export const chainLogos: Record<string, unknown> = [
   ['IpseTestnet', nodeIpse],
   ['Jupiter A1', nodeJupiter],
   ['Jupiter PC1', nodeJupiter],
-  ['KILT PC1', nodeKilt],
+  ['KILT', nodeKilt],
+  ['KILT Local', nodeKilt],
+  ['KILT Peregrine Testnet', nodeKilt],
+  ['KILT Testnet', nodeKilt],
   ['Karura', chainKarura],
   ['Konomi', nodeKonomi],
   ['Kusama', chainKusama], // new name after CC3
@@ -174,6 +181,7 @@ export const chainLogos: Record<string, unknown> = [
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['OAK Testnet', oakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Parami PC2', nodeParami],
   ['PHOENIX PC1', nodePhoenix],
@@ -211,7 +219,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Westmint', nodeStatemine],
-  ['Westmint Test', nodeStatemine]
+  ['Westmint Test', nodeStatemine],
+  ['WILT', nodeKilt]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -264,8 +273,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['Idavoll Node', nodeIdavoll],
   ['Khala', nodeKhala],
   ['Khala Node', nodeKhala],
-  ['KILT Node', nodeKilt],
-  ['KILT Collator', nodeKilt],
+  ['KILT', nodeKilt],
+  ['KILT Local', nodeKilt],
+  ['KILT Peregrine Testnet', nodeKilt],
   ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
   ['Klug Dossier Node', nodeKlug],
@@ -283,6 +293,8 @@ export const nodeLogos: Record<string, unknown> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['OAK Testnet', oakTestnet],
+  ['Opportunity', nodeOpportunity],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
@@ -336,6 +348,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Westmint Collator', nodeStatemine],
   ['Whala', nodeWhala],
   ['Whala Node', nodeWhala],
+  ['WILT', nodeKilt],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
@@ -418,6 +431,8 @@ export const namedLogos: Record<string, unknown> = {
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
+  opportunity: nodeOpportunity,
+  origintrail: nodeOriginTrail,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -464,8 +479,8 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
-  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
+  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemine,

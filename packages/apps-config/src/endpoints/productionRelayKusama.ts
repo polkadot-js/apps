@@ -73,7 +73,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'crab_redirect',
-        homepage: 'https://darwinia.network/',
+        homepage: 'https://crab.network/',
         isUnreachable: true,
         paraId: 2006,
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
@@ -115,11 +115,13 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network'
+          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network',
+          OnFinality: 'wss://karura.api.onfinality.io/public-ws'
         }
       },
       {
         info: 'khala',
+        isUnreachable: true,
         homepage: 'https://phala.network/',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
@@ -138,12 +140,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'polkasmith',
-        homepage: 'https://polkafoundry.com/',
-        isUnreachable: true,
+        homepage: 'https://polkasmith.polkafoundry.com/',
         paraId: 2009,
-        text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
+        text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
-          Polkasmith: 'wss://polkasmith.polkafoundry.com'
+          PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
         }
       },
       {
