@@ -257,9 +257,7 @@ export const chainColors: Record<string, string> = [
   (colors, [chain, color]): Record<string, string> => ({
     ...colors,
     [chain.toLowerCase()]: color
-  }),
-  {}
-);
+  }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -325,9 +323,7 @@ export const nodeColors: Record<string, string> = [
   (colors, [node, color]): Record<string, string> => ({
     ...colors,
     [node.toLowerCase().replace(/-/g, ' ')]: color
-  }),
-  {}
-);
+  }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -340,6 +336,4 @@ export const specColors: Record<string, string> = [
   (colors, [spec, color]): Record<string, any> => ({
     ...colors,
     [spec.toLowerCase().replace(/-/g, ' ')]: color
-  }),
-  {}
-);
+  }), {});
