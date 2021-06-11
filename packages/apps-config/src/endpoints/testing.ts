@@ -127,13 +127,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
-      info: 'subgame',
-      text: t('rpc.test.subgame', 'Subgame Staging', { ns: 'apps-config' }),
-      providers: {
-        Subgame: 'wss://staging.subgame.org'
-      }
-    },
-    {
       info: 'substrate',
       text: t('rpc.test.flamingfir', 'Flaming Fir', { ns: 'apps-config' }),
       providers: {
@@ -349,6 +342,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'Subgame Staging', { ns: 'apps-config' }),
+      providers: {
+        Subgame: 'wss://staging.subgame.org'
       }
     },
     {

@@ -37,7 +37,7 @@ const definitions: OverrideBundleDefinition = {
         },
         Template: {
           template_id: 'u32',
-          template_name: 'TemplateName'
+          template_name: 'Vec<u8>'
         },
         GameInstance: {
           game_instance_id: 'u32',

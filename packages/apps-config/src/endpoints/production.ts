@@ -91,13 +91,6 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
-      info: 'subgame',
-      text: t('rpc.prod.subgame', 'Subgame', { ns: 'apps-config' }),
-      providers: {
-        Subgame: 'wss://mainnet.subgame.org/'
-      }
-    },
-    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
@@ -150,6 +143,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
         'Patract Elara': 'wss://stafi.elara.patract.io'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'Subgame', { ns: 'apps-config' }),
+      providers: {
+        Subgame: 'wss://mainnet.subgame.org/'
       }
     },
     {

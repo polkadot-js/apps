@@ -188,7 +188,6 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'subgame',
         homepage: 'http://subgame.org/',
-        isUnreachable: true,
         paraId: 2018,
         text: t('rpc.kusama.subgame', 'Subgame Gamma', { ns: 'apps-config' }),
         providers: {
