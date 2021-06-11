@@ -32,7 +32,7 @@ export function useParaApi (paraId: BN | number): Result {
     mountedRef.current && setState({
       api: null,
       endpoints,
-      urls: endpoints.map(({ value }) => value as string).reverse()
+      urls: endpoints.map(({ value }) => value).reverse()
     });
   }, [endpoints, mountedRef]);
 

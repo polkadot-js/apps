@@ -3,12 +3,9 @@
 
 import { chainColors, nodeColors, specColors } from './colors';
 import { identityNodes, identitySpec } from './identityIcons';
+import { sanitize } from './util';
 
 export * from './logos';
-
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace(/-/g, ' ') || '';
-}
 
 export function getSystemIcon (systemName: string, specName: string): 'beachball' | 'polkadot' | 'substrate' {
   return (

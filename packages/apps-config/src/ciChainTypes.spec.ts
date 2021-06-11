@@ -39,7 +39,7 @@ describe('--SLOW--: check configured chain connections', (): void => {
     )
     .map(({ text, value }): Partial<Endpoint> => ({
       name: text as string,
-      ws: value as string
+      ws: value
     }))
     .filter((v): v is Endpoint => !!v.ws)
     .forEach(({ name, ws }) =>
