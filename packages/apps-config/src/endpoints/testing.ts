@@ -85,7 +85,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'dock-testnet',
-      isDisabled: true, // Cannot construct unknown type EpochNo
+      isDisabled: false,
       text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'

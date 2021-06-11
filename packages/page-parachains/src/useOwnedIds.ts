@@ -55,7 +55,7 @@ export default function useOwnedIds (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const trigger = useEventTrigger([api.events.registrar.Registered, api.events.registrar.Reserved]);
-  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, { at: trigger, transform: extractIds });
+  const unfiltered = useMapEntries<Owned>(api.query.registrar.paras, { at: trigger.blockHash, transform: extractIds });
   const hashes = useCall(api.query.paras.currentCodeHash.multi, [unfiltered ? unfiltered.ids : []], hashesOption);
 
   return useMemo(

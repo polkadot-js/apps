@@ -44,7 +44,7 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const chainKilt = '#8c175b';
+const chainKilt = '#5ab9aa';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKylin = '#ed007e';
@@ -67,6 +67,7 @@ const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
 const chainWestend = '#da68a7';
+const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
 const chainZero = '#000000';
 const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
@@ -84,6 +85,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
+const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
 const nodeCanvas = '#c77cff';
@@ -105,6 +107,7 @@ const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
 const nodeMoonbeam = '#53cbc9';
+const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
@@ -156,6 +159,7 @@ export const chainColors: Record<string, string> = [
   ['Crust PC1', chainCrust],
   ['darwinia cc1', chainDarwinia],
   ['Darwinia Crab', chainCrab],
+  ['Darwinia Crab Redirect', chainCrab],
   ['Darwinia PC2', chainRoccoDarwinia],
   ['DataHighway', chainRoccoDataHighway],
   ['DOTMog.com NET', chainDotMog],
@@ -180,7 +184,9 @@ export const chainColors: Record<string, string> = [
   ['Jupiter A1', chainJupiter],
   ['Jupiter PC1', chainJupiter],
   ['Karura', chainKarura],
-  ['KILT Collator Rococo', chainKilt],
+  ['KILT', chainKilt],
+  ['KILT Local', chainKilt],
+  ['KILT Peregrine Testnet', chainKilt],
   ['KILT Testnet', chainKilt],
   ['Kylin Testnet', chainKylin],
   ['Khala', chainKhala],
@@ -200,8 +206,9 @@ export const chainColors: Record<string, string> = [
   ['Moonbase Alpha', nodeMoonbeam],
   ['Moonbase Stage', nodeMoonbeam],
   ['Moonbase Development Testnet', nodeMoonbeam],
-  ['Moonshadow', nodeMoonbeam],
+  ['Moonriver', nodeMoonriver],
   ['Moonrock', chainMoonrock],
+  ['Moonshadow', nodeMoonbeam],
   ['mybank.network Testnet', chainMybank],
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
@@ -251,6 +258,8 @@ export const chainColors: Record<string, string> = [
   ['Westmint', specWestmint],
   ['Westmint Test', specWestmint],
   ['Westlake', chainWestlake],
+  ['Whala', chainWhala],
+  ['WILT', chainKilt],
   ['Zenlink PC1', chainZenlink],
   ['subgame', nodeSubgame],
   ['subgame_testnet', nodeSubgame],
@@ -264,6 +273,7 @@ export const chainColors: Record<string, string> = [
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, string> = [
   ['Apron Node', nodeApron],
+  ['Basilisk', nodeBasilisk],
   ['Bit.Country Node', nodeBitCountry],
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],

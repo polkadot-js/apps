@@ -12,7 +12,7 @@ import { useApi, useBestNumber, useCall, useEventTrigger } from '@polkadot/react
 import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
 import { CROWD_PREFIX } from './constants';
-import useRanges from './useRanges';
+import { useLeaseRanges } from './useLeaseRanges';
 
 const FIRST_PARAM = [0];
 
@@ -123,7 +123,7 @@ function mergeFirst (ranges: [number, number][], auctionInfo: AuctionInfo, prev:
 
 export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | undefined {
   const { api } = useApi();
-  const ranges = useRanges();
+  const ranges = useLeaseRanges();
   const [result, setResult] = useState<Winning[] | undefined>();
   const bestNumber = useBestNumber();
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
