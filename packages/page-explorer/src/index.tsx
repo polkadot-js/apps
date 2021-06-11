@@ -14,9 +14,7 @@ import BlockInfo from './BlockInfo';
 import Forks from './Forks';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
-import EpochDetails from './EpochDetails';
 import MasterMembersList from './Dock/MasterMembersList';
-import EpochsList from './Dock/EpochsList';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -53,10 +51,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       text: t<string>('Node info')
     },
     {
-      name: 'epochs',
-      text: t<string>('Epochs')
-    },
-    {
       name: 'master-members',
       text: t<string>('Master Members')
     },
@@ -77,8 +71,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={`${basePath}/query`}><BlockInfo /></Route>
         <Route path={`${basePath}/node`}><NodeInfo /></Route>
         <Route path={`${basePath}/master-members`}><MasterMembersList /></Route>
-        <Route path={`${basePath}/epochs/:value`} component={EpochDetails}/>
-        <Route path={`${basePath}/epochs`}><EpochsList /></Route>
         <Route>
           <Main
             events={events}
