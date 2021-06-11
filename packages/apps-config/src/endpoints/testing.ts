@@ -264,7 +264,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'opportunity',
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
-        Opportunity: 'wss://rpc.opportunity.standard.tech',
+        Opportunity: 'wss://rpc.opportunity.standard.tech'
       }
     },
     {
