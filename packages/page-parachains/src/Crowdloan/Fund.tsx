@@ -4,9 +4,9 @@
 import type BN from 'bn.js';
 import type { Campaign, LeasePeriod } from '../types';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -17,6 +17,7 @@ import Refund from './Refund';
 import useContributions from './useContributions';
 
 interface Props {
+  bestHash?: string;
   bestNumber?: BN;
   className?: string;
   isOdd?: boolean;
@@ -25,12 +26,18 @@ interface Props {
   value: Campaign;
 }
 
-function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
+interface LastChange {
+  prevHash: string;
+  prevLength: number;
+}
+
+function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const { contributorsHex, myAccounts, myAccountsHex, myContributions } = useContributions(paraId, childKey);
+  const { blockHash: contribHash, contributorsHex, myAccounts, myAccountsHex, myContributions } = useContributions(paraId, childKey);
+  const [lastChange, setLastChange] = useState<LastChange>(() => ({ prevHash: '', prevLength: 0 }));
 
   const isDepositor = useMemo(
     () => isAccount(depositor.toString()),
@@ -60,6 +67,16 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
   const canDissolve = raised.isZero();
   const canWithdraw = !raised.isZero() && hasEnded;
   const homepage = endpoints.length && endpoints[0].homepage;
+
+  useEffect((): void => {
+    setLastChange((prev): LastChange => {
+      const prevLength = contributorsHex.length;
+
+      return prev.prevLength !== prevLength
+        ? { prevHash: contribHash, prevLength }
+        : prev;
+    });
+  }, [contributorsHex, contribHash]);
 
   return (
     <>
@@ -100,7 +117,18 @@ function Fund ({ bestNumber, className, isOdd, isOngoing, leasePeriod, value: { 
           />
           <div>{percentage}</div>
         </td>
-        <td className='number media--1100'>
+        <td className='number together media--1100'>
+          {bestHash && (
+            <Icon
+              color={
+                lastChange.prevHash === bestHash
+                  ? 'green'
+                  : 'transparent'
+              }
+              icon='chevron-up'
+              isPadded
+            />
+          )}
           {contributorsHex.length !== 0 && (
             formatNumber(contributorsHex.length)
           )}
