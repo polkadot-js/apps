@@ -171,21 +171,20 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoEquilibrium',
-        isDisabled: true, // Rococo reset
-        paraId: 42,
-        text: t('rpc.rococo.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
-        providers: {
-          Equilibrium: 'wss://rococo.equilibrium.io'
-        }
-      },
-      {
         info: 'rococoGalital',
         isDisabled: true, // Rococo reset
         paraId: 1230,
         text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
           StarkleyTech: 'wss://galital-rpc.starkleytech.com'
+        }
+      },
+      {
+        info: 'rococoGenshiro',
+        paraId: 2021,
+        text: t('rpc.rococo.genshiro', 'Genshiro', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://gens-rococo.equilibrium.io'
         }
       },
       {
