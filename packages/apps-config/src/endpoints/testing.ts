@@ -261,6 +261,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'opportunity',
+      text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
+      providers: {
+        Opportunity: 'wss://rpc.opportunity.standard.tech'
+      }
+    },
+    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {

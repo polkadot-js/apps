@@ -114,6 +114,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodeParami = '#ee06e2';
@@ -300,6 +301,7 @@ export const nodeColors: Record<string, string> = [
   ['NFTMart Staging', nodeNFTMart],
   ['nodle chain node', nodeNodle],
   ['OAK Testnet', nodeOakTestnet],
+  ['Opportunity', nodeOpportunity],
   ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Parami Collator', nodeParami],
