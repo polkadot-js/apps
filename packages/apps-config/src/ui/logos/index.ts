@@ -348,7 +348,7 @@ export const specLogos: Record<string, unknown> = [
 }), {});
 
 // Alphabetical overrides when we pass an explicit logo name
-// NOTE: Matches with what is defined as 'info' in settings/endpoints.ts
+// NOTE: Matches with what is defined as "info" in settings/endpoints.ts
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
