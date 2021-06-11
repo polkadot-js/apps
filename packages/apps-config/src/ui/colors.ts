@@ -109,6 +109,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
@@ -119,7 +120,6 @@ const nodeRealis = 'linear-gradient(45deg, #E8AAC9 0%, #C4D9E7 50%, #EFD6E0 100%
 const nodeRiochain = '#1A3BB3';
 const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
-const nodeOriginTrail = '#131415';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
@@ -206,6 +206,7 @@ export const chainColors: Record<string, string> = [
   ['NFTMart Testnet', chainNFTMart],
   ['NFTMart Staging', chainNFTMart],
   ['OAK Testnet', chainOakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', chainPangolin],
   ['Parami PC2', chainParami],
   ['Phala PC1', chainPhala],
@@ -235,7 +236,6 @@ export const chainColors: Record<string, string> = [
   ['Statemine Test', specStatemine],
   ['Statemint', specStatemint],
   ['Statemint Test', specStatemint],
-  ['OriginTrail Parachain', nodeOriginTrail],
   ['SubDAO PC1', chainSubDAO],
   ['Subsocial PC1', chainSubsocial],
   ['Tick', chainRoccoTick],
@@ -289,6 +289,7 @@ export const nodeColors: Record<string, string> = [
   ['NFTMart Staging', nodeNFTMart],
   ['nodle chain node', nodeNodle],
   ['OAK Testnet', nodeOakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Parami Collator', nodeParami],
   ['Patract Node', nodeJupiter],
@@ -306,7 +307,6 @@ export const nodeColors: Record<string, string> = [
   ['Statemine Collator', specStatemint],
   ['Statemint Collator', specStatemint],
   ['SubDAO Collator', nodeSubDAO],
-  ['OriginTrail Parachain', nodeOriginTrail],
   ['subsocial node', nodeSubsocial],
   ['subzero node', nodeZero],
   ['Ternoa Node', nodeTernoa],
