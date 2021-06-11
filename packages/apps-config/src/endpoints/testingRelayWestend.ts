@@ -87,20 +87,20 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'whala',
+        paraId: 2013,
+        text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://whala.phala.network/ws'
+        }
+      },
+      {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
         paraId: 2009,
         text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
-        }
-      },
-      {
-        info: 'whala',
-        paraId: 2013,
-        text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
-        providers: {
-          Phala: 'wss://whala.phala.network/ws'
         }
       }
     ]

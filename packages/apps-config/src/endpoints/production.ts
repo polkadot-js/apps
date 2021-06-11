@@ -26,13 +26,6 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
-      info: 'crab',
-      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
-      providers: {
-        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
-      }
-    },
-    {
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
@@ -46,6 +39,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
+      }
+    },
+    {
+      info: 'crab',
+      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {

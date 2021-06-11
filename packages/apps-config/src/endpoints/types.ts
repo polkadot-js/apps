@@ -35,4 +35,5 @@ export interface LinkOption extends Option {
   summary?: string;
   teleport?: number[];
   textBy: string;
+  value: string;
 }
