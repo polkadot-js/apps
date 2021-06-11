@@ -75,6 +75,7 @@ import riochain from './riochain';
 import robonomics from './robonomics';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
+import subgame from './subgame';
 import stafi from './stafi';
 import subdao from './subdao';
 import subsocial from './subsocial';
@@ -189,6 +190,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   stafi,
   steam: eave,
   subdao,
+  subgame,
   subsocial,
   subzero: zero,
   ternoa,

@@ -105,6 +105,7 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
+import nodeSubgame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
@@ -202,6 +203,9 @@ export const chainLogos = Object.entries({
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
   'Statemint Test': nodeStatemine,
+  'subgame': nodeSubgame,
+  'subgame_staging': nodeSubgame,
+  'subgame_gamma': nodeSubgame,
   'Steam PC': nodeEave,
   'SubDAO PC1': nodeSubDAO,
   Subsocial: nodeSubsocial,
@@ -325,6 +329,9 @@ export const nodeLogos = Object.entries({
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
   'Statemint Collator': nodeStatemine,
+  'subgame': nodeSubgame,
+  'subgame_staging': nodeSubgame,
+  'subgame_gamma': nodeSubgame,
   'SubDAO Collator': nodeSubDAO,
   'Subsocial Node': nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
@@ -504,6 +511,7 @@ export const namedLogos: Record<string, unknown> = {
   statemint: nodeStatemine,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
+  subgame: nodeSubgame,
   'ternoa-chaos': nodeTernoa,
   uniarts: nodeUniarts,
   unique: nodeUnique,

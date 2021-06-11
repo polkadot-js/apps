@@ -127,6 +127,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'Subgame Staging', { ns: 'apps-config' }),
+      providers: {
+        Subgame: 'wss://staging.subgame.org'
+      }
+    },
+    {
       info: 'substrate',
       text: t('rpc.test.flamingfir', 'Flaming Fir', { ns: 'apps-config' }),
       providers: {

@@ -184,6 +184,16 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
         }
+      },
+      {
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        isUnreachable: true,
+        paraId: 2018,
+        text: t('rpc.kusama.subgame', 'Subgame Gamma', { ns: 'apps-config' }),
+        providers: {
+          Subgame: 'wss://gamma.subgame.org/'
+        }
       }
     ]
   };
