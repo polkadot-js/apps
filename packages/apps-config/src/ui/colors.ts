@@ -22,8 +22,10 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
+const chainEquilibrium = '#1792ff';
 const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
+const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
@@ -98,11 +100,9 @@ const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
-const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
-const nodeGenshiro = '#e8662d';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -149,7 +149,7 @@ export { emptyColor };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
-export const chainColors = Object.entries({
+export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
   'Apron PC1': chainApron,
@@ -170,11 +170,12 @@ export const chainColors = Object.entries({
   'DOTMog.com NET': chainDotMog,
   'Encointer Canary': nodeEncointerNotee,
   'Encointer PC1': nodeEncointerNotee,
-  Equilibrium: nodeEquilibrium,
-  EquilibriumTestnet: nodeGenshiro,
+  Equilibrium: chainEquilibrium,
+  EquilibriumTestnet: chainGenshiro,
   Galital: chainGalital,
   Galois: chainGalois,
   'GamePower Network': chainGamePower,
+  'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
   'HydraDX Hydrate': chainHydrate,

@@ -1595,10 +1595,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equilab/definitions@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@equilab/definitions@npm:1.1.1"
-  checksum: f18fc7df822e0421fb0d2f127e2be9004e059f45769610e9df1115291951b153320a00bb28919a3b2c4dd682f6564f47040068f2128171afbfc47d979295de04
+"@equilab/definitions@npm:1.2.2":
+  version: 1.2.2
+  resolution: "@equilab/definitions@npm:1.2.2"
+  checksum: 7ec5fa94337f2a36679ea47509c42968e8ff11b6920b58c7dfec85abd189dca8da44bc28021ccca192486e54710f2a9fda731f025058da6256218873b34054b0
   languageName: node
   linkType: hard
 
@@ -2535,7 +2535,7 @@ __metadata:
     "@darwinia/types": ^1.1.0-alpha.21
     "@docknetwork/node-types": ^0.4.6
     "@edgeware/node-types": ^3.5.1-erup-4
-    "@equilab/definitions": 1.1.1
+    "@equilab/definitions": 1.2.2
     "@interlay/polkabtc-types": ^0.7.3
     "@kiltprotocol/type-definitions": ^0.1.6
     "@laminar/type-definitions": ^0.3.1
