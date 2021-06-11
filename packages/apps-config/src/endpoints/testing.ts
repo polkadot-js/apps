@@ -17,11 +17,11 @@ import { expandEndpoints } from './util';
 export function createTesting (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     {
-      info: 'dock-testnet',
-      text: t('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
+      info: 'dock-pos-testnet',
+      text: t('rpc.dock-pos-testnet', 'Dock PoS Testnet', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://knox-1.dock.io'
       }
-    },
+    }
   ]);
 }

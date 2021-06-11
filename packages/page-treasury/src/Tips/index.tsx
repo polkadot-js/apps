@@ -74,7 +74,6 @@ function TipsEntry ({ className, hashes, isMember, members }: Props): React.Reac
         hashes={hashes}
         isMember={isMember}
         members={members}
-        onRefresh={trigger}
         onSelectTip={_selectTip}
       />
     </div>
