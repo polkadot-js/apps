@@ -12,49 +12,66 @@ import { encodeAddress } from '@polkadot/util-crypto';
 
 interface Contributions {
   contributorsHex: string[];
+  contributorsMap: Record<string, boolean>;
+  hasKeys: boolean;
   myAccounts: string[];
   myAccountsHex: string[];
   myContributions: Record<string, Balance>;
 }
 
-const NO_CONTRIB: Contributions = {
+interface Result extends Contributions {
+  blockHash: string;
+}
+
+const NO_CONTRIB: Result = {
+  blockHash: '-',
   contributorsHex: [],
+  contributorsMap: {},
+  hasKeys: false,
   myAccounts: [],
   myAccountsHex: [],
   myContributions: {}
 };
 
-function extractContributors (keys: StorageKey[], allAccountsHex: string[], ss58Format?: number): Contributions {
-  const contributorsHex = keys.map((k) => k.toHex());
-  const myAccountsHex = contributorsHex.filter((c) => allAccountsHex.includes(c));
+function extractContributors (keys: StorageKey[], { myContributions }: Contributions, allAccountsHex: string[], ss58Format?: number): Contributions {
+  const contributorsMap: Record<string, boolean> = {};
+
+  keys.forEach((k): void => {
+    contributorsMap[k.toHex()] = true;
+  });
+
+  const myAccountsHex = allAccountsHex.filter((h) => contributorsMap[h]);
 
   return {
-    contributorsHex,
+    contributorsHex: Object.keys(contributorsMap),
+    contributorsMap,
+    hasKeys: true,
     myAccounts: myAccountsHex.map((a) => encodeAddress(a, ss58Format)),
     myAccountsHex,
-    myContributions: {}
+    myContributions
   };
 }
 
-function extractDelta (api: ApiPromise, events: EventRecord[], prev: Contributions, allAccountsHex: string[], ss58Format?: number): Contributions {
-  const removed = events
-    .filter(({ event }) => api.events.crowdloan.Withdrew.is(event))
-    .map(({ event: { data: [accountId] } }) => accountId.toHex());
-  const contributorsHex = prev.contributorsHex.filter((h) => !removed.includes(h));
+function extractDelta (api: ApiPromise, records: EventRecord[], { contributorsMap, hasKeys, myContributions }: Contributions, allAccountsHex: string[], ss58Format?: number): Contributions {
+  records.forEach((record): void => {
+    const hex = record.event.data[0].toHex();
 
-  events
-    .filter(({ event }) => api.events.crowdloan.Contributed.is(event))
-    .forEach(({ event: { data: [accountId] } }): void => {
-      contributorsHex.push(accountId.toHex());
-    });
+    if (api.events.crowdloan.Withdrew.is(record.event)) {
+      delete contributorsMap[hex];
+    } else {
+      contributorsMap[hex] = true;
+    }
+  });
 
-  const myAccountsHex = contributorsHex.filter((c) => allAccountsHex.includes(c));
+  const myAccountsHex = allAccountsHex.filter((h) => contributorsMap[h]);
 
   return {
-    contributorsHex,
+    contributorsHex: Object.keys(contributorsMap),
+    contributorsMap,
+    hasKeys,
     myAccounts: myAccountsHex.map((a) => encodeAddress(a, ss58Format)),
     myAccountsHex,
-    myContributions: {}
+    myContributions
   };
 }
 
@@ -96,13 +113,13 @@ function useMyContributions (paraId: ParaId, childKey: string, keys: string[]): 
   return state;
 }
 
-export default function useContributions (paraId: ParaId, childKey: string): Contributions {
+export default function useContributions (paraId: ParaId, childKey: string): Result {
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
-  const [state, _setState] = useState<Contributions>(() => NO_CONTRIB);
+  const [state, _setState] = useState<Result>(() => NO_CONTRIB);
   const myContributions = useMyContributions(paraId, childKey, state.myAccountsHex);
 
-  // these trigger a full refresh of the keys
+  // these trigger a full refresh of the keys [ParaId]
   const triggerAll = useEventTrigger([
     api.events.crowdloan.Dissolved,
     api.events.crowdloan.AllRefunded,
@@ -113,7 +130,7 @@ export default function useContributions (paraId: ParaId, childKey: string): Con
     [paraId]
   ));
 
-  // these trigger a delta adjustment
+  // these trigger a delta adjustment [AccountId, ParaId, Balance]
   const triggerDelta = useEventTrigger([
     api.events.crowdloan.Contributed,
     api.events.crowdloan.Withdrew
@@ -124,43 +141,50 @@ export default function useContributions (paraId: ParaId, childKey: string): Con
   ));
 
   const setState = useCallback(
-    (fn: (prev: Contributions) => Contributions) =>
+    (blockHash: string, fn: (prev: Contributions) => Contributions) =>
       _setState((prev) => {
-        const { contributorsHex, myAccounts, myAccountsHex } = fn(prev);
+        const { contributorsHex, contributorsMap, hasKeys, myAccounts, myAccountsHex } = fn(prev);
 
-        return {
-          ...prev,
-          contributorsHex,
-          ...(prev.myAccounts.length === myAccounts.length
-            ? {}
-            : { myAccounts, myAccountsHex }
-          )
-        };
+        return hasKeys
+          ? {
+            ...prev,
+            blockHash,
+            contributorsHex,
+            contributorsMap,
+            hasKeys,
+            ...(prev.myAccounts.length === myAccounts.length
+              ? {}
+              : { myAccounts, myAccountsHex }
+            )
+          }
+          : prev;
       }),
     []
   );
 
+  // first just adjust deltas
+  useEffect((): void => {
+    triggerDelta && triggerDelta.events.length &&
+      setState(triggerDelta.blockHash, (prev) =>
+        extractDelta(api, triggerDelta.events, prev, allAccountsHex, api.registry.chainSS58)
+      );
+  }, [api, allAccountsHex, setState, triggerDelta]);
+
+  // refreshing the whole map, all keys
   useEffect((): void => {
     triggerAll &&
       api.rpc.childstate
         .getKeys(childKey, '0x')
         .then((keys) =>
-          setState(() =>
-            extractContributors(keys, allAccountsHex, api.registry.chainSS58)
+          setState(triggerAll.blockHash, (prev) =>
+            extractContributors(keys, prev, allAccountsHex, api.registry.chainSS58)
           )
         )
         .catch(console.error);
   }, [allAccountsHex, api, childKey, setState, triggerAll]);
 
+  // update when the contribution amounts have changed
   useEffect((): void => {
-    triggerDelta && triggerDelta.events.length &&
-      setState((prev) =>
-        extractDelta(api, triggerDelta.events, prev, allAccountsHex, api.registry.chainSS58)
-      );
-  }, [api, allAccountsHex, setState, triggerDelta]);
-
-  useEffect((): void => {
-    // no deltas, set directly here
     _setState((prev) => ({
       ...prev,
       myContributions
