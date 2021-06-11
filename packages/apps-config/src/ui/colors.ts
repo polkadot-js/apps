@@ -3,6 +3,8 @@
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
 
+import { sanitize } from './util';
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
@@ -267,7 +269,7 @@ export const chainColors = Object.entries({
   'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
-  [chain.toLowerCase()]: color
+  [sanitize(chain)]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
@@ -334,7 +336,7 @@ export const nodeColors = Object.entries({
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,
-  [node.toLowerCase().replace(/-/g, ' ')]: color
+  [sanitize(node)]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
@@ -346,5 +348,5 @@ export const specColors = Object.entries({
   westmint: specWestmint
 }).reduce<Record<string, string>>((colors, [spec, color]) => ({
   ...colors,
-  [spec.toLowerCase().replace(/-/g, ' ')]: color
+  [sanitize(spec)]: color
 }), {});

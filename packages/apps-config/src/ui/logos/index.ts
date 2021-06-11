@@ -8,6 +8,7 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
+import { sanitize } from '../util';
 import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
@@ -222,7 +223,7 @@ export const chainLogos = Object.entries({
   WILT: nodeKilt
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
-  [chain.toLowerCase()]: logo
+  [sanitize(chain)]: logo
 }), {});
 
 // Alphabetical overrides based on the actual software node type
@@ -352,7 +353,7 @@ export const nodeLogos = Object.entries({
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
   ...logos,
-  [node.toLowerCase().replace(/-/g, ' ')]: logo
+  [sanitize(node)]: logo
 }), {});
 
 // Alphabetical overrides based on the actual specName
@@ -363,7 +364,7 @@ export const specLogos = Object.entries({
   westmint: nodeStatemine
 }).reduce<Record<string, unknown>>((logos, [spec, logo]) => ({
   ...logos,
-  [spec.toLowerCase().replace(/-/g, ' ')]: logo
+  [sanitize(spec)]: logo
 }), {});
 
 // Alphabetical overrides when we pass an explicit logo name
