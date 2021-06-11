@@ -205,11 +205,10 @@ export const chainLogos: Record<string, unknown> = [
   ['Westlake', nodeWestlake],
   ['Westmint', nodeStatemine],
   ['Westmint Test', nodeStatemine]
-].reduce(
-  (logos, [chain, logo]): Record<string, unknown> => ({
-    ...logos,
-    [(chain as string).toLowerCase()]: logo
-  }), {});
+].reduce((logos, [chain, logo]): Record<string, unknown> => ({
+  ...logos,
+  [(chain as string).toLowerCase()]: logo
+}), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
@@ -332,11 +331,10 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist]
-].reduce(
-  (logos, [node, logo]): Record<string, unknown> => ({
-    ...logos,
-    [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
-  }), {});
+].reduce((logos, [node, logo]): Record<string, unknown> => ({
+  ...logos,
+  [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
+}), {});
 
 // Alphabetical overrides based on the actual specName
 export const specLogos: Record<string, unknown> = [
@@ -344,11 +342,10 @@ export const specLogos: Record<string, unknown> = [
   ['statemine', nodeStatemine],
   ['statemint', nodeStatemine],
   ['westmint', nodeStatemine]
-].reduce(
-  (logos, [spec, logo]): Record<string, unknown> => ({
-    ...logos,
-    [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
-  }), {});
+].reduce((logos, [spec, logo]): Record<string, unknown> => ({
+  ...logos,
+  [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
+}), {});
 
 // Alphabetical overrides when we pass an explicit logo name
 // NOTE: Matches with what is defined as 'info' in settings/endpoints.ts
