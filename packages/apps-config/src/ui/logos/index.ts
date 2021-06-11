@@ -76,6 +76,7 @@ import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import oakTestnet from './nodes/oak-testnet.png';
+import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
@@ -289,6 +290,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['OAK Testnet', oakTestnet],
+  ['Opportunity', nodeOpportunity],
   ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
@@ -426,6 +428,7 @@ export const namedLogos: Record<string, unknown> = {
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
+  opportunity: nodeOpportunity,
   origintrail: nodeOriginTrail,
   pangolin: nodePangolin,
   phala: nodePhala,
