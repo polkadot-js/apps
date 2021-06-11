@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
@@ -120,7 +122,7 @@ import emptyLogo from './empty.svg';
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
-export const chainLogos: Record<string, unknown> = [
+export const chainLogos = [
   ['Altair', chainAltair],
   ['Apron PC1', nodeApron],
   ['Ares PC1', nodeAres],
@@ -217,14 +219,14 @@ export const chainLogos: Record<string, unknown> = [
   ['Westmint', nodeStatemine],
   ['Westmint Test', nodeStatemine],
   ['WILT', nodeKilt]
-].reduce((logos, [chain, logo]): Record<string, unknown> => ({
+].reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
 }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
-export const nodeLogos: Record<string, unknown> = [
+export const nodeLogos = [
   ['Acala Node', nodeAcala],
   ['Apron Node', nodeApron],
   ['Apron Parachain Collator', nodeApron],
@@ -348,18 +350,18 @@ export const nodeLogos: Record<string, unknown> = [
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist]
-].reduce((logos, [node, logo]): Record<string, unknown> => ({
+].reduce<Record<string, unknown>>((logos, [node, logo]) => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
 // Alphabetical overrides based on the actual specName
-export const specLogos: Record<string, unknown> = [
+export const specLogos = [
   ['shell', nodeShell],
   ['statemine', nodeStatemine],
   ['statemint', nodeStatemine],
   ['westmint', nodeStatemine]
-].reduce((logos, [spec, logo]): Record<string, unknown> => ({
+].reduce<Record<string, unknown>>((logos, [spec, logo]) => ({
   ...logos,
   [(spec as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
@@ -472,8 +474,8 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
-  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
+  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemine,
