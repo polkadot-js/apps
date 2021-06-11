@@ -76,6 +76,7 @@ import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import oakTestnet from './nodes/oak-testnet.png';
+import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -176,6 +177,7 @@ export const chainLogos: Record<string, unknown> = [
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['OAK Testnet', oakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Parami PC2', nodeParami],
   ['PHOENIX PC1', nodePhoenix],
@@ -287,6 +289,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['OAK Testnet', oakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
@@ -423,6 +426,7 @@ export const namedLogos: Record<string, unknown> = {
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
+  origintrail: nodeOriginTrail,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
