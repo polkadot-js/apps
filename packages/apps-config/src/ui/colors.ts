@@ -336,12 +336,12 @@ export const nodeColors: Record<string, string> = [
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-export const specColors: Record<string, string> = [
-  ['shell', specShell],
-  ['statemine', specStatemine],
-  ['statemint', specStatemint],
-  ['westmint', specWestmint]
-].reduce((colors, [spec, color]): Record<string, any> => ({
+export const specColors = Object.entries({
+  shell: specShell,
+  statemine: specStatemine,
+  statemint: specStatemint,
+  westmint: specWestmint
+}).reduce((colors, [spec, color]): Record<string, any> => ({
   ...colors,
   [spec.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
