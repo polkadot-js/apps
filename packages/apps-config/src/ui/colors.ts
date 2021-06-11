@@ -265,14 +265,14 @@ export const chainColors = Object.entries({
   WILT: chainKilt,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
-}).reduce((colors, [chain, color]): Record<string, string> => ({
+}).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
   [chain.toLowerCase()]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-export const nodeColors: Record<string, string> = [
+export const nodeColors = [
   ['Apron Node', nodeApron],
   ['Basilisk', nodeBasilisk],
   ['Bit.Country Node', nodeBitCountry],
@@ -332,19 +332,19 @@ export const nodeColors: Record<string, string> = [
   ['Zeitgeist Node', nodeZeitgeist],
   ['Zeitgeist Collator', nodeZeitgeist],
   ['Zenlink Collator', nodeZenlink]
-].reduce((colors, [node, color]): Record<string, string> => ({
+].reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-export const specColors: Record<string, string> = [
+export const specColors = [
   ['shell', specShell],
   ['statemine', specStatemine],
   ['statemint', specStatemint],
   ['westmint', specWestmint]
-].reduce((colors, [spec, color]): Record<string, any> => ({
+].reduce<Record<string, string>>((colors, [spec, color]) => ({
   ...colors,
   [spec.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
