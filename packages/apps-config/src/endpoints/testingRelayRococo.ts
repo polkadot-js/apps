@@ -99,15 +99,6 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoCentrifuge',
-        isDisabled: true, // Rococo reset
-        paraId: 10001,
-        text: t('rpc.rococo.centrifuge', 'Centrifuge Charcoal', { ns: 'apps-config' }),
-        providers: {
-          Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
-        }
-      },
-      {
         info: 'rococoClover',
         isDisabled: true, // Rococo reset
         paraId: 229,
@@ -301,6 +292,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.moonrock', 'Moonrock', { ns: 'apps-config' }),
         providers: {
           Moonrock: 'wss://wss-moonrock.gcp.purestake.run'
+        }
+      },
+      {
+        info: 'rococoOriginTrail',
+        paraId: 2024,
+        text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        providers: {
+          'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
         }
       },
       {

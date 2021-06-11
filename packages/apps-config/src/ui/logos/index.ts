@@ -6,6 +6,7 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
+import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
@@ -30,6 +31,7 @@ import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
+import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
@@ -67,6 +69,7 @@ import nodeLitentry from './nodes/litentry.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
+import moonriver from './nodes/moonriver.svg';
 import nodeMoonrock from './nodes/moonrock.png';
 import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
@@ -74,6 +77,7 @@ import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import oakTestnet from './nodes/oak-testnet.png';
 import nodeOpportunity from './nodes/opportunity.png';
+import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
@@ -108,6 +112,7 @@ import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
 import nodeWestlake from './nodes/westlake.png';
+import nodeWhala from './nodes/whala.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -117,11 +122,13 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
+  ['Altair', chainAltair],
   ['Apron PC1', nodeApron],
   ['Ares PC1', nodeAres],
   ['Beast Developer', nodeBeast],
   ['Crust PC1', nodeCrust],
   ['ChainX', nodeChainx],
+  ['Charcoal Testnet', nodeCentrifuge],
   ['darwinia crab', nodeCrab],
   ['Darwinia Crab PC2', nodeCrab],
   ['Darwinia PC2', nodeDarwinia],
@@ -146,7 +153,10 @@ export const chainLogos: Record<string, unknown> = [
   ['IpseTestnet', nodeIpse],
   ['Jupiter A1', nodeJupiter],
   ['Jupiter PC1', nodeJupiter],
-  ['KILT PC1', nodeKilt],
+  ['KILT', nodeKilt],
+  ['KILT Local', nodeKilt],
+  ['KILT Peregrine Testnet', nodeKilt],
+  ['KILT Testnet', nodeKilt],
   ['Karura', chainKarura],
   ['Konomi', nodeKonomi],
   ['Kusama', chainKusama], // new name after CC3
@@ -161,12 +171,14 @@ export const chainLogos: Record<string, unknown> = [
   ['Moonbase Alpha', moonbeam],
   ['Moonbase Stage', moonbeam],
   ['Moonbase Development Testnet', moonbeam],
+  ['Moonriver', moonriver],
   ['Moonrock', nodeMoonrock],
   ['Moonshadow', moonshadow],
   ['mybank.network PC1', mybank],
   ['NFTMart Testnet', nodeNFTMart],
   ['NFTMart Staging', nodeNFTMart],
   ['OAK Testnet', oakTestnet],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Parami PC2', nodeParami],
   ['PHOENIX PC1', nodePhoenix],
@@ -204,7 +216,8 @@ export const chainLogos: Record<string, unknown> = [
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Westmint', nodeStatemine],
-  ['Westmint Test', nodeStatemine]
+  ['Westmint Test', nodeStatemine],
+  ['WILT', nodeKilt]
 ].reduce((logos, [chain, logo]): Record<string, unknown> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -219,6 +232,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Ares Node', nodeAres],
   ['Ares Parachain Collator', nodeAres],
   ['airalab-robonomics', nodeRobonomics],
+  ['Basilisk', nodeBasilisk],
   ['Beast Node', nodeBeast],
   ['Bifrost Node', nodeBifrost],
   ['Bifrost', nodeBifrost],
@@ -256,8 +270,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['Idavoll Node', nodeIdavoll],
   ['Khala', nodeKhala],
   ['Khala Node', nodeKhala],
-  ['KILT Node', nodeKilt],
-  ['KILT Collator', nodeKilt],
+  ['KILT', nodeKilt],
+  ['KILT Local', nodeKilt],
+  ['KILT Peregrine Testnet', nodeKilt],
   ['Kylin Node', nodeKylin],
   ['kulupu', nodeKulupu],
   ['Klug Dossier Node', nodeKlug],
@@ -276,6 +291,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['Nodle Chain Node', nodeNodle],
   ['OAK Testnet', oakTestnet],
   ['Opportunity', nodeOpportunity],
+  ['OriginTrail Parachain', nodeOriginTrail],
   ['Pangolin', nodePangolin],
   ['Patract Node', nodeJupiter],
   ['Polkadex Node', nodePolkadex],
@@ -327,6 +343,9 @@ export const nodeLogos: Record<string, unknown> = [
   ['Web3games', nodeWeb3games],
   ['Westlake', nodeWestlake],
   ['Westmint Collator', nodeStatemine],
+  ['Whala', nodeWhala],
+  ['Whala Node', nodeWhala],
+  ['WILT', nodeKilt],
   ['Zenlink', nodeZenlink],
   ['Zenlink Collator', nodeZenlink],
   ['Zeitgeist Node', nodeZeitgeist],
@@ -354,14 +373,18 @@ export const specLogos: Record<string, unknown> = [
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  altair: chainAltair,
+  basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
+  charcoal: nodeCentrifuge,
   clover: nodeClover,
   crab: nodeCrab,
+  crab_redirect: nodeCrab,
   crust: nodeCrust,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
@@ -398,6 +421,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   manta: nodeManta,
   moonbaseAlpha: moonbeam,
+  moonriver: moonriver,
   moonrock: nodeMoonrock,
   moonshadow: moonshadow,
   mybank: mybank,
@@ -405,6 +429,7 @@ export const namedLogos: Record<string, unknown> = {
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
   opportunity: nodeOpportunity,
+  origintrail: nodeOriginTrail,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -487,6 +512,7 @@ export const namedLogos: Record<string, unknown> = {
   westend: nodePolkadot,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
+  whala: nodeWhala,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };

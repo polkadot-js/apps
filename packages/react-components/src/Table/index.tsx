@@ -201,6 +201,10 @@ export default React.memo(styled(Table)`
         padding-right: 0.125rem;
       }
 
+      &.no-pad-top {
+        padding-top: 0.125rem;
+      }
+
       &.number {
         text-align: right;
       }

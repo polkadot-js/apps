@@ -46,6 +46,22 @@ export function createWestend (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'basilisk',
+        paraId: 2012,
+        text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
+        }
+      },
+      {
+        info: 'charcoal',
+        paraId: 2010,
+        text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
+        }
+      },
+      {
         info: 'moonshadow',
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
@@ -68,6 +84,23 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
         providers: {
           'Acala Foundation': 'wss://karura-westend-rpc.aca-staging.network'
+        }
+      },
+      {
+        info: 'kilt',
+        homepage: 'https://www.kilt.io/',
+        paraId: 2009,
+        text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
+        providers: {
+          'KILT Protocol': 'wss://westend.kilt.io:9977'
+        }
+      },
+      {
+        info: 'whala',
+        paraId: 2013,
+        text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://whala.phala.network/ws'
         }
       }
     ]
