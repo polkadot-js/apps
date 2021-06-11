@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
@@ -472,8 +474,8 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
-  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPolkabtc: chainPolkaBTC,
+  rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemine,
