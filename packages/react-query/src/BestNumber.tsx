@@ -5,25 +5,27 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
+import { Digits } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  isFinalized?: boolean;
   label?: React.ReactNode;
   withPound?: boolean;
 }
 
-function BestNumber ({ children, className = '', label, withPound }: Props): React.ReactElement<Props> {
+function BestNumber ({ children, className = '', isFinalized, label, withPound }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const bestNumber = useCall<BlockNumber>(isApiReady && api.derive.chain.bestNumber);
+  const bestNumber = useCall<BlockNumber>(isApiReady && (isFinalized ? api.derive.chain.bestNumberFinalized : api.derive.chain.bestNumber));
 
   return (
     <div className={className}>
       {label || ''}{withPound && '#'}{
         bestNumber
-          ? formatNumber(bestNumber)
+          ? <Digits value={formatNumber(bestNumber)} />
           : '-'
       }{children}
     </div>

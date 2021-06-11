@@ -8,10 +8,11 @@ import type { BlockNumber, ContractInfo } from '@polkadot/types/interfaces';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
 import { formatNumber, isFunction, isUndefined } from '@polkadot/util';
@@ -34,7 +35,7 @@ function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
 function Contract ({ className, contract, index, links, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
   const [evictAt, setEvictAt] = useState<BlockNumber | null>(null);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
@@ -125,7 +126,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           evictAt
             ? (
               <>
-                <BlockToTime blocks={evictAt.sub(bestNumber)} />
+                <BlockToTime value={evictAt.sub(bestNumber)} />
                 #{formatNumber(evictAt)}
               </>
             )
@@ -142,4 +143,8 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
   );
 }
 
-export default React.memo(Contract);
+export default React.memo(styled(Contract)`
+  td.top a+a {
+    margin-left: 0.75rem;
+  }
+`);

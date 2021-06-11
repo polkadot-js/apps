@@ -69,7 +69,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
       <td className='number together'>
         {remainingBlocks && end && (
           <>
-            <BlockToTime blocks={remainingBlocks} />
+            <BlockToTime value={remainingBlocks} />
             #{formatNumber(end)}
           </>
         )}

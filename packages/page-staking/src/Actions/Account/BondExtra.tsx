@@ -60,46 +60,36 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={stashId}
-              isDisabled
-              label={t<string>('stash account')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Since this transaction deals with funding, the stash account will be used.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t<string>('Since this transaction deals with funding, the stash account will be used.')}>
+          <InputAddress
+            defaultValue={stashId}
+            isDisabled
+            label={t<string>('stash account')}
+          />
         </Modal.Columns>
         {startBalance && (
-          <Modal.Columns>
-            <Modal.Column>
-              <InputBalance
-                autoFocus
-                defaultValue={startBalance}
-                help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-                isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
-                label={t<string>('additional bonded funds')}
-                labelExtra={
-                  <BalanceFree
-                    label={<span className='label'>{t<string>('balance')}</span>}
-                    params={stashId}
-                  />
-                }
-                onChange={setMaxAdditional}
-              />
-              <ValidateAmount
-                controllerId={controllerId}
-                currentAmount={currentAmount}
-                onError={setAmountError}
-                stashId={stashId}
-                value={maxAdditional}
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('The amount placed at-stake should allow some free funds for future transactions.')}</p>
-            </Modal.Column>
+          <Modal.Columns hint={t<string>('The amount placed at-stake should allow some free funds for future transactions.')}>
+            <InputBalance
+              autoFocus
+              defaultValue={startBalance}
+              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
+              isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
+              label={t<string>('additional bonded funds')}
+              labelExtra={
+                <BalanceFree
+                  label={<span className='label'>{t<string>('balance')}</span>}
+                  params={stashId}
+                />
+              }
+              onChange={setMaxAdditional}
+            />
+            <ValidateAmount
+              controllerId={controllerId}
+              currentAmount={currentAmount}
+              onError={setAmountError}
+              stashId={stashId}
+              value={maxAdditional}
+            />
           </Modal.Columns>
         )}
       </Modal.Content>

@@ -13,7 +13,9 @@ export function useLoadingDelay (delay = 100): boolean {
     setTimeout((): void => {
       mountedRef.current && setIsLoading(false);
     }, delay);
-  });
+  // Ignore, this is for the initial setup
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return isLoading;
 }

@@ -12,7 +12,7 @@ import Bare from './Bare';
 
 function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
-  const [defaultValue] = useState(new BN((value as BN || '0').toString()).toString(10));
+  const [defaultValue] = useState(() => new BN((value as BN || '0').toString()).toString(10));
 
   const _onChange = useCallback(
     (value?: BN): void => {

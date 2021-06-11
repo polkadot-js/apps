@@ -8,13 +8,18 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { getInflationParams } from '@polkadot/apps-config';
+import { BN_MILLION } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
+const EMPTY: Inflation = { inflation: 0, stakedReturn: 0 };
+
 export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN): Inflation {
   const { falloff, idealStake, maxInflation, minInflation } = getInflationParams(api);
-  const stakedFraction = totalStaked.muln(1_000_000).div(totalIssuance).toNumber() / 1_000_000;
+  const stakedFraction = totalStaked.isZero() || totalIssuance.isZero()
+    ? 0
+    : totalStaked.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
   const idealInterest = maxInflation / idealStake;
   const inflation = 100 * (minInflation + (
     stakedFraction <= idealStake
@@ -24,14 +29,16 @@ export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: 
 
   return {
     inflation,
-    stakedReturn: inflation / stakedFraction
+    stakedReturn: stakedFraction
+      ? (inflation / stakedFraction)
+      : 0
   };
 }
 
 export function useInflation (totalStaked?: BN): Inflation {
   const { api } = useApi();
   const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
-  const [state, setState] = useState<Inflation>({ inflation: 0, stakedReturn: 0 });
+  const [state, setState] = useState<Inflation>(EMPTY);
 
   useEffect((): void => {
     totalIssuance && totalStaked && setState(

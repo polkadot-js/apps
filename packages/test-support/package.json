@@ -1,14 +1,15 @@
 {
   "name": "@polkadot/test-support",
-  "version": "0.75.2-15",
-  "main": "index.js",
-  "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
+  "private": true,
+  "version": "0.86.3-56",
   "license": "Apache-2.0",
   "dependencies": {
-    "@testing-library/react": "^11.2.3",
-    "testcontainers": "^6.4.1"
+    "@testing-library/react": "^11.2.6",
+    "testcontainers": "^6.4.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.10",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0"
   }
 }

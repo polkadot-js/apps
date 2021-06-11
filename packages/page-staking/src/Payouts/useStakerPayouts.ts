@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { BN_BILLION, BN_ZERO, isFunction } from '@polkadot/util';
 
 export default function useStakerPayouts (): BN {
   const { api } = useApi();
@@ -17,8 +17,8 @@ export default function useStakerPayouts (): BN {
   return useMemo(
     () => (migrateEraOpt && migrateEraOpt.isSome && migrateEraOpt.unwrap()) || (
       isFunction(api.tx.staking.payoutStakers)
-        ? new BN(0)
-        : new BN(1_000_000_000)
+        ? BN_ZERO
+        : BN_BILLION
     ),
     [api, migrateEraOpt]
   );

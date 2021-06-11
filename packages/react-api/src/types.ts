@@ -21,7 +21,6 @@ export interface ApiState {
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;
-  isSubstrateV2: boolean;
   systemChain: string;
   systemName: string;
   systemVersion: string;

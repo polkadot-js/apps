@@ -14,11 +14,13 @@ function getGenesis (name: string): string {
   return network.genesisHash[0];
 }
 
+export const KULUPU_GENESIS = getGenesis('kulupu');
+
 export const KUSAMA_GENESIS = getGenesis('kusama');
 
 export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
-export const KULUPU_GENESIS = getGenesis('kulupu');
+export const ROCOCO_GENESIS = '0x1611e1dbf0405379b861e2e27daa90f480b2e6d3682414a80835a52e8cb8a215';
 
 export const DOCK_GENESIS = getGenesis('dock-mainnet');

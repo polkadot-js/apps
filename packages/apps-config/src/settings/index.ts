@@ -3,5 +3,4 @@
 
 export * from './ethereumChains';
 export * from './languages';
-export * from './ledgerChains';
 export * from './ss58';

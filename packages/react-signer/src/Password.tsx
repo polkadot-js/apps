@@ -49,28 +49,26 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
   }
 
   return (
-    <Modal.Columns className={className}>
-      <Modal.Column>
-        <Password
-          autoFocus
-          isError={!!error}
-          label={t<string>('unlock account with password')}
-          onChange={setPassword}
-          onEnter={onEnter}
-          tabIndex={tabIndex}
-          value={password}
-        >
-          <Toggle
-            isOverlay
-            label={t<string>('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
-            onChange={setIsUnlockCached}
-            value={isUnlockCached}
-          />
-        </Password>
-      </Modal.Column>
-      <Modal.Column>
-        <p>{t('Unlock the sending account to allow signing of this transaction.')}</p>
-      </Modal.Column>
+    <Modal.Columns
+      className={className}
+      hint={t('Unlock the sending account to allow signing of this transaction.')}
+    >
+      <Password
+        autoFocus
+        isError={!!error}
+        label={t<string>('unlock account with password')}
+        onChange={setPassword}
+        onEnter={onEnter}
+        tabIndex={tabIndex}
+        value={password}
+      >
+        <Toggle
+          isOverlay
+          label={t<string>('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
+          onChange={setIsUnlockCached}
+          value={isUnlockCached}
+        />
+      </Password>
     </Modal.Columns>
   );
 }

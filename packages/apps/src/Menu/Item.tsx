@@ -11,18 +11,19 @@ import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
+  isLink?: boolean;
   isToplevel?: boolean;
   route: ItemRoute;
 }
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className = '', isLink, isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
+    <li className={`ui--MenuItem ${className}${count ? ' withCounter' : ''} ${isLink ? 'isLink' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : ''}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
@@ -33,7 +34,7 @@ function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, t
         {text}
         {!!count && (
           <Badge
-            color={isToplevel ? 'counterInvert' : 'counter'}
+            color={'white'}
             info={count}
           />
         )}
@@ -51,32 +52,62 @@ export default React.memo(styled(Item)`
   white-space: nowrap;
 
   &.topLevel {
-    padding: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.214rem;
+    border-radius: 0.15rem;
 
     a {
-      padding: 1rem 1.5rem;
+      padding: 0.857rem 0.857em 0.857rem 1rem;
+      line-height: 1.214rem;
+      border-radius: 0.25rem;
+    }
+
+    &.isActive.highlight--color-contrast {
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--color-text);
+
+      a {
+        background-color: var(--bg-tabs);
+      }
+    }
+
+    &.isActive {
+      border-radius: 0.15rem 0.15rem 0 0;
+
+      a {
+        padding: 0.857rem 1.429rem 0.857rem;
+        cursor: default;
+      }
+
+      &&.withCounter a {
+        padding-right: 3.2rem;
+      }
     }
 
     .ui--Badge {
-      top: 0.95rem;
+      top: 0.7rem;
     }
   }
 
-  &.withCounter a {
-    padding-right: 3rem;
+  &&.withCounter a {
+    padding-right: 3.2rem;
   }
 
   a {
     color: inherit !important;
     display: block;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.15rem 0.57rem;
     text-decoration: none;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .ui--Badge {
     position: absolute;
-    right: 0.25rem;
-    top: 0.7rem;
+    right: 0.5rem;
   }
 
   .ui--Icon {

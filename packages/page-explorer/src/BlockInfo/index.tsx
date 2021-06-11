@@ -1,12 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber } from '@polkadot/types/interfaces';
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useBestNumber } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import Query from '../Query';
@@ -14,8 +12,7 @@ import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
 function Entry (): React.ReactElement | null {
-  const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const { value } = useParams<{ value: string }>();
   const [stateValue, setStateValue] = useState<string | undefined>(value);
 

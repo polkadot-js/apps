@@ -3,10 +3,10 @@
 
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-import { BountyStatusType } from '../types';
+import { BountyStatusType, StatusName } from '../types';
 
 export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
-  const statusAsString = status.type;
+  const statusAsString = status.type as StatusName;
 
   let result: BountyStatusType = {
     beneficiary: undefined,
@@ -19,7 +19,7 @@ export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
   if (status.isCuratorProposed) {
     result = {
       ...result,
-      bountyStatus: 'Curator Proposed',
+      bountyStatus: 'CuratorProposed',
       curator: status.asCuratorProposed.curator
     };
   }
@@ -36,7 +36,7 @@ export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
     result = {
       ...result,
       beneficiary: status.asPendingPayout.beneficiary,
-      bountyStatus: 'Pending Payout',
+      bountyStatus: 'PendingPayout',
       curator: status.asPendingPayout.curator,
       unlockAt: status.asPendingPayout.unlockAt
     };

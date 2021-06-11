@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { InputNumber, Toggle } from '@polkadot/react-components';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_MILLION, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -20,15 +20,13 @@ interface Props {
   weight: UseWeight;
 }
 
-const MEGA = new BN(1_000_000);
-
 function InputMegaGas ({ className, estimatedWeight, help, isCall, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [withEstimate, setWithEstimate] = useState(true);
 
   const estimatedMg = useMemo(
     () => estimatedWeight
-      ? estimatedWeight.div(MEGA).iaddn(1)
+      ? estimatedWeight.div(BN_MILLION).iadd(BN_ONE)
       : null,
     [estimatedWeight]
   );

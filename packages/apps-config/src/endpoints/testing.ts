@@ -20,7 +20,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'dock-testnet',
       text: t('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://danforth-1.dock.io'
+        'Dock Association': 'wss://knox-1.dock.io'
       }
     },
   ]);

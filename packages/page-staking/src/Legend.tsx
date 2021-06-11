@@ -59,6 +59,13 @@ function Legend ({ className }: Props): React.ReactElement<Props> {
         />
         {t('Slashed')}
       </span>
+      <span>
+        <Badge
+          color='red'
+          icon='user-slash'
+        />
+        {t('Blocks nominations')}
+      </span>
     </div>
   );
 }

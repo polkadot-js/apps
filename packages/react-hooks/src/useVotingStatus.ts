@@ -10,7 +10,7 @@ import { ApiPromise } from '@polkadot/api';
 import { isFunction } from '@polkadot/util';
 
 import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { useBestNumber } from './useBestNumber';
 
 interface State {
   hasFailed: boolean;
@@ -54,7 +54,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
 
 export function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
 
   return useMemo(
     () => bestNumber && votes

@@ -31,12 +31,10 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
 
   return (
     <main>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       {hasSudoKey
         ? (
           <Switch>

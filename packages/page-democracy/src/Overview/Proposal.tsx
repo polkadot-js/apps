@@ -54,15 +54,15 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       </td>
       <td className='button'>
         <Button.Group>
+          {!image?.proposal && (
+            <PreImageButton imageHash={imageHash} />
+          )}
           <Seconding
             deposit={balance}
             depositors={seconds || []}
             image={image}
             proposalId={index}
           />
-          {!image?.proposal && (
-            <PreImageButton imageHash={imageHash} />
-          )}
         </Button.Group>
       </td>
       <td className='links media--1000'>

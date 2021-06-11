@@ -37,8 +37,8 @@ function getSetters <T extends Flags> (flags: T, setFlags: React.Dispatch<React.
 }
 
 export function useSavedFlags <T extends Flags> (storageKey: string, initial: T): State<T> {
-  const [flags, setFlags] = useState(getInitial(storageKey, initial));
-  const [setters] = useState(getSetters(initial, setFlags));
+  const [flags, setFlags] = useState(() => getInitial(storageKey, initial));
+  const [setters] = useState(() => getSetters(initial, setFlags));
 
   useEffect(
     (): void => {

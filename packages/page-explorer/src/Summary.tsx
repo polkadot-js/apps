@@ -8,36 +8,22 @@ import { useApi } from '@polkadot/react-hooks';
 import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance, FormatBalance } from '@polkadot/react-query';
 import { BN_ONE } from '@polkadot/util';
 
+import SummarySession from './SummarySession';
 import { useTranslation } from './translate';
 
 function Summary (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [ validatorCount, setValidatorCount ] = useState(0);
   const [ remainingSupply, setRemainingSupply ] = useState();
-  const [ currentEpoch, setCurrentEpoch ] = useState(0);
-
-  async function loadValidators() {
-    if (api.query.poAModule) {
-      const validators = await api.query.poAModule.activeValidators();
-      setValidatorCount(validators.length);
-
-      const currentEpoch = await api.query.poAModule.epoch();
-      setCurrentEpoch(currentEpoch);
-    }
-  }
 
   async function getRemainingSupply() {
-    if (api.query.poAModule) {
-      const tb = await api.query.poAModule.emissionSupply();
+    if (api.query.stakingRewards) {
+      const tb = await api.query.stakingRewards.stakingEmissionSupply();
       setRemainingSupply(tb);
     }
   }
 
   useEffect(() => {
-    if (validatorCount === 0) {
-      loadValidators();
-    }
     if (remainingSupply === undefined) {
       getRemainingSupply();
     }
@@ -53,7 +39,7 @@ function Summary (): React.ReactElement {
           className='media--800'
           label={t<string>('target')}
         >
-          <BlockToTime blocks={BN_ONE} />
+          <BlockToTime value={BN_ONE} />
         </CardSummary>
         {api.query.balances && (
           <CardSummary
@@ -74,24 +60,11 @@ function Summary (): React.ReactElement {
             />
           </CardSummary>
         )}
-        {api.query.poAModule && (
-          <CardSummary
-            className='media--800'
-            label={t<string>('validators')}
-          >
-            {validatorCount}
-          </CardSummary>
-        )}
+      </section>
+      <section className='media--1200'>
+        <SummarySession />
       </section>
       <section>
-        {currentEpoch && (
-          <CardSummary
-            className='media--800'
-            label={t<string>('epoch')}
-          >
-            {currentEpoch.toNumber()}
-          </CardSummary>
-        )}
         {api.query.grandpa && (
           <CardSummary label={t<string>('finalized')}>
             <BestFinalized />
