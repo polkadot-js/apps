@@ -12,33 +12,33 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        AccountInfo: "AccountInfoWithTripleRefCount",
-        Address: "MultiAddress",
-        LookupSource: "MultiAddress",
+        AccountInfo: 'AccountInfoWithTripleRefCount',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
         XCurrencyId: {
-          chain_id: "ChainId",
-          currency_id: "Bytes"
+          chain_id: 'ChainId',
+          currency_id: 'Bytes'
         },
-        CurrencyIdOf: "CurrencyId",
+        CurrencyIdOf: 'CurrencyId',
         CurrencyId: {
           _enum: {
-            Token: "TokenSymbol"
+            Token: 'TokenSymbol'
           }
         },
         TokenSymbol: {
           _enum: [
-            "ACA",
-            "AUSD",
-            "DOT",
-            "XBTC",
-            "LDOT",
-            "RENBTC",
-            "SDN",
-            "PLM"
+            'ACA',
+            'AUSD',
+            'DOT',
+            'XBTC',
+            'LDOT',
+            'RENBTC',
+            'SDN',
+            'PLM'
           ]
         },
-        AmountOf: "Amount",
-        Amount: "i128"
+        AmountOf: 'Amount',
+        Amount: 'i128'
       }
     }
   ]
