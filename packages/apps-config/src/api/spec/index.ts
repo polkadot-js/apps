@@ -49,12 +49,12 @@ import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
 import moonbeam from './moonbeam';
-import origintrail from './origintrail';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import oakTestnet from './oak-testnet';
+import origintrail from './origintrail';
 import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
@@ -156,7 +156,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
-  'origintrail-parachain': origintrail,
   'mybank.network Testnet': mybank,
   neatcoin,
   nft: unique,
@@ -165,6 +164,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
+  'origintrail-parachain': origintrail,
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
