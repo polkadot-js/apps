@@ -81,7 +81,7 @@ describe('--SLOW--: check configured chain connections', (): void => {
           ]);
         } catch (error) {
           if (isError(error) && FAILURES.some((f) => (error as Error).message.includes(f))) {
-            process.env.CI_LOG && fs.appendFileSync('./.github/chain-types.md', `\n${TICK}${name} @ ${ws} ${error.message}${TICK}`);
+            process.env.CI_LOG && fs.appendFileSync('./.github/chain-types.md', `\n${TICK}${name} @ ${ws} ${error.message}${TICK}\n`);
 
             throw error;
           }
