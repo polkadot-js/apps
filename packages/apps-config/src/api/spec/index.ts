@@ -170,7 +170,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
-  'opportunity-node': opportunity,
+  opportunity,
   'origintrail-parachain': origintrail,
   parami,
   'phala-collator': phalaParachain,
