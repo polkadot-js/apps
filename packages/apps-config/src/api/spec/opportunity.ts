@@ -43,9 +43,9 @@ const definitions: OverrideBundleDefinition = {
         RequestIdentifier: 'u64',
         SpecIndex: 'Vec<u8>',
         CDP: {
-          liquidation_fee: ('Balance', 'Balance'),
-          max_collateraization_rate: ('U256', 'U256'),
-          stability_fee: ('Balance', 'Balance')
+          liquidation_fee: ('Balance'),
+          max_collateraization_rate: ('U256'),
+          stability_fee: ('Balance')
         }
       }
     }
