@@ -35,7 +35,7 @@ function getApiUrl (): string {
     const option = endpoints.find(({ dnslink }) => dnslink === ipnsChain);
 
     if (option) {
-      return option.value as string;
+      return option.value;
     }
   }
 
@@ -46,7 +46,7 @@ function getApiUrl (): string {
   return [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl)
     ? settings.apiUrl // keep as-is
     : fallbackUrl
-      ? fallbackUrl.value as string // grab the fallback
+      ? fallbackUrl.value // grab the fallback
       : 'ws://127.0.0.1:9944'; // nothing found, go local
 }
 

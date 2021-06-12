@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
@@ -16,9 +16,10 @@ interface Props {
   members: string[];
   prime?: AccountId | null;
   proposalId: BN | number;
+  type: 'membership' | 'technicalCommittee';
 }
 
-function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, members, prime, proposalId, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -52,7 +53,7 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, proposalId, false]}
-              tx={api.tx.technicalCommittee.vote}
+              tx={api.tx[type].vote}
             />
             <TxButton
               accountId={accountId}
@@ -60,7 +61,7 @@ function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElemen
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, proposalId, true]}
-              tx={api.tx.technicalCommittee.vote}
+              tx={api.tx[type].vote}
             />
           </Modal.Actions>
         </Modal>

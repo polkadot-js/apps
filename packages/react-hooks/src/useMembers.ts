@@ -5,7 +5,9 @@ import type { AccountId } from '@polkadot/types/interfaces';
 
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 interface Result {
   isMember: boolean;
@@ -17,7 +19,7 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
-export function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
+export function useMembers (collective: 'council' | 'membership' | 'technicalCommittee' = 'council'): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);

@@ -8,7 +8,7 @@ import type { Campaign, LeasePeriod } from '../types';
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useIsParasLinked } from '@polkadot/react-hooks';
+import { useBestHash, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Fund from './Fund';
@@ -50,6 +50,7 @@ function sortList (hasLinksMap: Record<string, boolean>, list?: Campaign[] | nul
 
 function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const bestHash = useBestHash();
   const [active, ended, allIds] = useMemo(
     () => extractLists(value, leasePeriod),
     [leasePeriod, value]
@@ -64,24 +65,22 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [t('ongoing'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
-    [t('ending'), 'media--1000'],
+    [t('ending'), 'media--1200'],
     [t('leases')],
     [t('raised')],
-    [t('unique')],
-    [undefined, 'badge'],
-    [undefined, 'media--1300']
+    [t('count'), 'media--1100'],
+    [undefined, 'media--1000']
   ]);
 
   const headedEndedRef = useRef([
     [t('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
-    [t('ending'), 'media--1000'],
+    [t('ending'), 'media--1200'],
     [t('leases')],
     [t('raised')],
-    [t('unique')],
-    [undefined, 'badge'],
-    [undefined, 'media--1300']
+    [t('count'), 'media--1100'],
+    [undefined, 'media--1000']
   ]);
 
   return (
@@ -91,9 +90,11 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         empty={value && activeSorted && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
       >
-        {activeSorted?.map((fund) => (
+        {activeSorted?.map((fund, index) => (
           <Fund
+            bestHash={bestHash}
             bestNumber={bestNumber}
+            isOdd={!(index % 2)}
             isOngoing
             key={fund.accountId}
             value={fund}
@@ -105,9 +106,10 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         empty={value && endedSorted && t<string>('No completed campaigns found')}
         header={headedEndedRef.current}
       >
-        {endedSorted?.map((fund) => (
+        {endedSorted?.map((fund, index) => (
           <Fund
             bestNumber={bestNumber}
+            isOdd={!(index % 2)}
             key={fund.accountId}
             leasePeriod={leasePeriod}
             value={fund}

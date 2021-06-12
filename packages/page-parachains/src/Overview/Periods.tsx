@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { LeasePeriod } from '../types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { BN_ONE, formatNumber } from '@polkadot/util';

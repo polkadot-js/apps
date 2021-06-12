@@ -207,6 +207,7 @@ const definitions: OverrideBundleDefinition = {
         LiquidityPoolConfig_: 'PoolConfig',
         LiquidityPool_: 'LiquidityPool',
         LookupSource: 'MultiAddress',
+        NomineeId: 'AccountId',
         NFTBalance: 'u128',
         OptionRate: 'Option<Rate>',
         OptionRatio: 'Option<Ratio>',
