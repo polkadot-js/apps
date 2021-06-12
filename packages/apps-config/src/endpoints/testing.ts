@@ -128,6 +128,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'substrate',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5571
       text: t('rpc.test.flamingfir', 'Flaming Fir', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://substrate-rpc.parity.io'
