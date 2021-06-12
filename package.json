@@ -5,7 +5,7 @@
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "private": true,
-  "version": "0.92.4-16",
+  "version": "0.92.4-17",
   "license": "Apache-2",
   "homepage": ".",
   "workspaces": [
