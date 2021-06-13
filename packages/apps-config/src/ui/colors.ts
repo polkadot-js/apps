@@ -91,6 +91,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
+const nodeAres = '#70FF8B';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
@@ -206,6 +207,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Litentry: chainLitentry,
   'Manta Testnet': chainManta,
   'MantaChain PC1': chainManta,
+  Mars: nodeAres,
   'MathChain PC1': chainGalois,
   'Moonbase Alpha': nodeMoonbeam,
   'Moonbase Development Testnet': nodeMoonbeam,
