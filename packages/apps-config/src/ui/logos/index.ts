@@ -293,7 +293,7 @@ export const nodeLogos = Object.entries({
   'node-template': nodeSubstrate,
   'Nodle Chain Node': nodeNodle,
   'OAK Testnet': oakTestnet,
-  Opportunity: nodeOpportunity,
+  'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   Parami: nodeParami,
