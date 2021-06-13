@@ -39,17 +39,17 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
-      info: 'bitcountry',
-      text: t('rpc.test.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
-      providers: {
-        'Bit.Country': 'wss://whenua.bit.country'
-      }
-    },
-    {
       info: 'bifrost',
       text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
         Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
+      }
+    },
+    {
+      info: 'bitcountry',
+      text: t('rpc.test.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
+      providers: {
+        'Bit.Country': 'wss://whenua.bit.country'
       }
     },
     {
@@ -128,6 +128,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'substrate',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5571
       text: t('rpc.test.flamingfir', 'Flaming Fir', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://substrate-rpc.parity.io'
@@ -289,17 +290,17 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
-      info: 'polkadex',
-      text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
-      providers: {
-        'Polkadex Team': 'wss://blockchain.polkadex.trade'
-      }
-    },
-    {
       info: 'polkabtc',
       text: t('rpc.test.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
       providers: {
         Interlay: 'wss://beta.polkabtc.io/api/parachain'
+      }
+    },
+    {
+      info: 'polkadex',
+      text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      providers: {
+        'Polkadex Team': 'wss://blockchain.polkadex.trade'
       }
     },
     {

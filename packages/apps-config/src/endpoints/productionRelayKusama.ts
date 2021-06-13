@@ -139,6 +139,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'moonriver',
+        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+        paraId: 2023,
+        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.moonriver.moonbeam.network'
+        }
+      },
+      {
         info: 'polkasmith',
         homepage: 'https://polkasmith.polkafoundry.com/',
         paraId: 2009,
@@ -174,15 +183,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
-        }
-      },
-      {
-        info: 'moonriver',
-        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
-        paraId: 2023,
-        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
-        providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network'
         }
       }
     ]
