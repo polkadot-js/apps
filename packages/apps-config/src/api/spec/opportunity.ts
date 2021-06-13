@@ -38,7 +38,15 @@ const definitions: OverrideBundleDefinition = {
           ]
         },
         AmountOf: 'Amount',
-        Amount: 'i128'
+        Amount: 'i128',
+        DataVersion: 'u64',
+        RequestIdentifier: 'u64',
+        SpecIndex: 'Vec<u8>',
+        CDP: {
+          liquidation_fee: ('Balance'),
+          max_collateraization_rate: ('U256'),
+          stability_fee: ('Balance')
+        }
       }
     }
   ]
