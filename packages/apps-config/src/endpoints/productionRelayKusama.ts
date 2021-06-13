@@ -139,21 +139,21 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'moonriver',
-        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
-        paraId: 2023,
-        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
-        providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network'
-        }
-      },
-      {
         info: 'mars',
         homepage: 'https://www.aresprotocol.io/',
         paraId: 2008,
         text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {
           AresProtocol: 'wss://wss.mars.aresprotocol.io'
+        }
+      },
+      {
+        info: 'moonriver',
+        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+        paraId: 2023,
+        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.moonriver.moonbeam.network'
         }
       },
       {
