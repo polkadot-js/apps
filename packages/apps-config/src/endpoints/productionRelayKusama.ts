@@ -73,7 +73,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'crab_redirect',
-        homepage: 'https://darwinia.network/',
+        homepage: 'https://crab.network/',
         isUnreachable: true,
         paraId: 2006,
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
@@ -139,13 +139,30 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'polkasmith',
-        homepage: 'https://polkafoundry.com/',
-        isUnreachable: true,
-        paraId: 2009,
-        text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
+        info: 'mars',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2008,
+        text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {
-          Polkasmith: 'wss://polkasmith.polkafoundry.com'
+          AresProtocol: 'wss://wss.mars.aresprotocol.io'
+        }
+      },
+      {
+        info: 'moonriver',
+        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+        paraId: 2023,
+        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.moonriver.moonbeam.network'
+        }
+      },
+      {
+        info: 'polkasmith',
+        homepage: 'https://polkasmith.polkafoundry.com/',
+        paraId: 2009,
+        text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
+        providers: {
+          PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
         }
       },
       {
@@ -175,15 +192,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
-        }
-      },
-      {
-        info: 'moonriver',
-        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
-        paraId: 2023,
-        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
-        providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network'
         }
       }
     ]

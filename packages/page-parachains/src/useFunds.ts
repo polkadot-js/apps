@@ -9,7 +9,7 @@ import type { Campaign, Campaigns } from './types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto';
 
@@ -166,6 +166,7 @@ function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
 export default function useFunds (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
+  const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
   const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger.blockHash, transform: extractFundIds });
   const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
@@ -174,10 +175,10 @@ export default function useFunds (): Campaigns {
 
   // here we manually add the actual ending status and calculate the totals
   useEffect((): void => {
-    bestNumber && campaigns && leases && setResult((prev) =>
+    mountedRef.current && bestNumber && campaigns && leases && setResult((prev) =>
       createResult(bestNumber, api.consts.crowdloan.minContribution as BlockNumber, campaigns, leases, prev)
     );
-  }, [api, bestNumber, campaigns, leases]);
+  }, [api, bestNumber, campaigns, leases, mountedRef]);
 
   return result;
 }

@@ -61,9 +61,12 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    linked.sort(sortLinks).forEach((o) =>
-      options.push(...expandEndpoint(t, o, firstOnly))
-    );
+    linked
+      .sort(sortLinks)
+      .filter(({ paraId }) => paraId)
+      .forEach((o) =>
+        options.push(...expandEndpoint(t, o, firstOnly))
+      );
 
     last.isRelay = true;
     last.linked = options;
