@@ -22,7 +22,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://polkadot.elara.patract.io'
+      'Patract Elara': 'wss://polkadot.elara.patract.io',
+      Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer'
     },
     linked: [
       // (1) system parachains (none available yet)
