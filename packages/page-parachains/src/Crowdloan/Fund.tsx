@@ -66,7 +66,7 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
   const canContribute = isOngoing && !isCapped && !isWinner && !!blocksLeft;
   const canDissolve = raised.isZero();
   const canWithdraw = !raised.isZero() && hasEnded;
-  const homepage = endpoints.length && endpoints[0].homepage;
+  const homepage = endpoints.length !== 0 && endpoints[0].homepage;
 
   useEffect((): void => {
     setLastChange((prev): LastChange => {
