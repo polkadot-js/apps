@@ -310,7 +310,7 @@ export const nodeColors = Object.entries({
   'NFTMart Testnet': nodeNFTMart,
   'nodle chain node': nodeNodle,
   'OAK Testnet': nodeOakTestnet,
-  Opportunity: nodeOpportunity,
+  'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   'Parami Collator': nodeParami,
