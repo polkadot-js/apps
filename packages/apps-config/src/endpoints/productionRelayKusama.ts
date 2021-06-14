@@ -54,7 +54,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://thebifrost.io/',
+        homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         isUnreachable: true,
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
