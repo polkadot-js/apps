@@ -139,6 +139,7 @@ const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
+const nodeSubGame = '#EB027D';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -251,6 +252,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Statemint Test': specStatemint,
   'Steam PC': chainRococoEave,
   'SubDAO PC1': chainSubDAO,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
   'Subsocial PC1': chainSubsocial,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
@@ -325,6 +329,9 @@ export const nodeColors = Object.entries({
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,
   'SubDAO Collator': nodeSubDAO,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
   'subsocial node': nodeSubsocial,
   'subzero node': nodeZero,
   'Ternoa Node': nodeTernoa,
