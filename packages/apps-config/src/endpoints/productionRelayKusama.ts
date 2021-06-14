@@ -195,7 +195,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-
         info: 'subgame',
         homepage: 'http://subgame.org/',
         paraId: 2018,
