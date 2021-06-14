@@ -266,6 +266,8 @@ export const namedLogos: Record<string, unknown> = {
   datahighway: nodeDataHighway,
   'dock-mainnet': nodeDockMainnet,
   'dock-testnet': nodeDockTestnet,
+  'dock-pos-mainnet': nodeDockMainnet,
+  'dock-pos-testnet': nodeDockTestnet,
   dotmog: nodeDotMog,
   dusty: chainDusty,
   eave: nodeEave,
