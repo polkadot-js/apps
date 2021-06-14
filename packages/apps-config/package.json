@@ -11,6 +11,7 @@
     "@babel/runtime": "^7.14.0",
     "@crustio/type-definitions": "0.0.10",
     "@darwinia/types": "^1.1.0-alpha.21",
+    "@digitalnative/type-definitions": "^1.1.9",
     "@docknetwork/node-types": "^0.4.6",
     "@edgeware/node-types": "^3.5.1-erup-4",
     "@equilab/definitions": "1.2.2",

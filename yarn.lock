@@ -1509,6 +1509,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@digitalnative/type-definitions@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "@digitalnative/type-definitions@npm:1.1.9"
+  dependencies:
+    "@polkadot/types": ^4.13.1
+  checksum: 7fd8c0a6c6704cc2358efb3949c7062b8a2e1cc18be8df9b64ba51203a0d7d210515c3a7c6978d517e07db1a2059cd034e2f234ab2c234cf7217d253931b030a
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:^0.5.0":
   version: 0.5.2
   resolution: "@discoveryjs/json-ext@npm:0.5.2"
@@ -2533,6 +2542,7 @@ __metadata:
     "@babel/runtime": ^7.14.0
     "@crustio/type-definitions": 0.0.10
     "@darwinia/types": ^1.1.0-alpha.21
+    "@digitalnative/type-definitions": ^1.1.9
     "@docknetwork/node-types": ^0.4.6
     "@edgeware/node-types": ^3.5.1-erup-4
     "@equilab/definitions": 1.2.2
