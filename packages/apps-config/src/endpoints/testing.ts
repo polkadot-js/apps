@@ -21,7 +21,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       info: 'creatorChain',
       text: t('rpc.creator-chain', 'Creator Chain', { ns: 'apps-config' }),
       providers: {
-        CreatorChain: 'ws://3.14.88.201:9944'
+        CreatorChain: 'wss://node-dev.creatorchain.network'
       }
     }
   ]);
