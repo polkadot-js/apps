@@ -427,6 +427,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoLoomNetwork',
+        paraId: 2030,
+        text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://rococo.loomx.io'
+        }
+      },
+      {
         info: 'rococoZeitgeist',
         isDisabled: true, // Rococo reset
         paraId: 9123,

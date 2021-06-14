@@ -184,6 +184,15 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
         }
+      },
+      {
+        info: 'loomNetwork',
+        homepage: 'https://loomx.io/',
+        paraId: 2080,
+        text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://kusama.loomx.io'
+        }
       }
     ]
   };
