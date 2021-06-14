@@ -189,9 +189,9 @@ export function createKusama (t: TFunction): EndpointOption {
         info: 'subgame',
         homepage: 'http://subgame.org/',
         paraId: 2018,
-        text: t('rpc.kusama.subgame', 'Subgame Gamma', { ns: 'apps-config' }),
+        text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
-          Subgame: 'wss://gamma.subgame.org/'
+          SubGame: 'wss://gamma.subgame.org/'
         }
       }
     ]

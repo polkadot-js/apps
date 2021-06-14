@@ -346,9 +346,9 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'subgame',
-      text: t('rpc.test.subgame', 'Subgame Staging', { ns: 'apps-config' }),
+      text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
-        Subgame: 'wss://staging.subgame.org'
+        SubGame: 'wss://staging.subgame.org'
       }
     },
     {

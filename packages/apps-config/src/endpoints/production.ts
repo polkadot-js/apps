@@ -147,9 +147,9 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
     },
     {
       info: 'subgame',
-      text: t('rpc.prod.subgame', 'Subgame', { ns: 'apps-config' }),
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
       providers: {
-        Subgame: 'wss://mainnet.subgame.org/'
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {
