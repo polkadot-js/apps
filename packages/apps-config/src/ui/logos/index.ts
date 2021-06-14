@@ -106,6 +106,7 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
+import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
@@ -173,6 +174,7 @@ export const chainLogos = Object.entries({
   LoomNetwork: nodeLoomNetwork,
   'Loom Network Local': nodeLoomNetwork,
   'Manta Testnet': nodeManta,
+  Mars: nodeAres,
   'MathChain PC1': nodeMath,
   'Moonbase Alpha': moonbeam,
   'Moonbase Development Testnet': moonbeam,
@@ -208,6 +210,9 @@ export const chainLogos = Object.entries({
   'Statemint Test': nodeStatemine,
   'Steam PC': nodeEave,
   'SubDAO PC1': nodeSubDAO,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
   Subsocial: nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
   Tick: chainRococoTick,
@@ -296,7 +301,7 @@ export const nodeLogos = Object.entries({
   'node-template': nodeSubstrate,
   'Nodle Chain Node': nodeNodle,
   'OAK Testnet': oakTestnet,
-  Opportunity: nodeOpportunity,
+  'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   Parami: nodeParami,
@@ -330,6 +335,9 @@ export const nodeLogos = Object.entries({
   'Statemine Collator': nodeStatemine,
   'Statemint Collator': nodeStatemine,
   'SubDAO Collator': nodeSubDAO,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
   'Subsocial Node': nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
   'subsocial-node': nodeSubsocial,
@@ -426,6 +434,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
+  mars: nodeAres,
   moonbaseAlpha: moonbeam,
   moonriver: moonriver,
   moonrock: nodeMoonrock,
@@ -509,6 +518,9 @@ export const namedLogos: Record<string, unknown> = {
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,

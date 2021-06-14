@@ -146,6 +146,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://mainnet.subgame.org/'
+      }
+    },
+    {
       info: 'subsocial',
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {

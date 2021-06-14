@@ -54,7 +54,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://thebifrost.io/',
+        homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         isUnreachable: true,
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
@@ -139,6 +139,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'mars',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2008,
+        text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
+        providers: {
+          AresProtocol: 'wss://wss.mars.aresprotocol.io'
+        }
+      },
+      {
         info: 'moonriver',
         homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
         paraId: 2023,
@@ -183,6 +192,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
+        }
+      },
+      {
+
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        paraId: 2018,
+        text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
+        providers: {
+          SubGame: 'wss://gamma.subgame.org/'
         }
       },
       {

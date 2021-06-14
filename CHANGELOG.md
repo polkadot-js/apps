@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## 0.93.1 Jun 14, 2021
+
+Contributed:
+
+- Fix Electon QR scanning on Mac (Thanks to https://github.com/wachulski)
+- Add Altair & Charcoal networks (Thanks to https://github.com/branan)
+- Add Opportunity network (Thanks to https://github.com/billjhlee & https://github.com/hskang9)
+- Add Genshiro network (Thanks to https://github.com/alex-nax & https://github.com/pr0fedt)
+- Add Ares Mars network (Thanks to https://github.com/jiyilanzhou)
+- Add Subgame networks (Thanks to https://github.com/momo200e)
+- Update types for Realis (Thanks to https://github.com/Daelon02)
+- Update logo/colors for Kilt (Thanks to https://github.com/wischli)
+- Add OnFinality Kuarura endpoint (Thanks to https://github.com/454076513)
+- Update PolkaSmith title (Thanks to https://github.com/hoangnl2112)
+- Update Shiden homepage (Thanks to https://github.com/akru)
+- Update Darwinia Crab Redirect homepage (Thanks to https://github.com/sxlwar)
+
+Changes:
+
+- Fix docker build commands
+- Adjust crowdloan display delays
+- Update network entries with no DNS
+- Update theme config with name-checked records
+- Check endpoint ordering on CI
+- Adjust parachain hooks using mounted references
+- Remove Flaming Fir network (RPCs inoperational)
+
+
 ## 0.92.3 Jun 9, 2021
 
 Changes:
