@@ -63,7 +63,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
             thisBlockAuthor = lastHeader.author.toString();
           } else if (isAuthorMapping && lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1]) {
             // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
-            thisBlockAuthor = (await api.query.authorMapping.mappingWithDeposit(lastHeader.digest.logs[0].asConsensus[1])).toString();
+            thisBlockAuthor = (await api.query.authorMapping.mappingWithDeposit(lastHeader.digest.logs[0].asConsensus[1])).account.toString();
             lastHeader.authorFromMapping = thisBlockAuthor;
           }
 
