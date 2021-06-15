@@ -47,7 +47,7 @@ jobs:
 
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   electron:
-    # if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
+    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
