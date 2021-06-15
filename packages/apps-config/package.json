@@ -14,7 +14,7 @@
     "@digitalnative/type-definitions": "^1.1.9",
     "@docknetwork/node-types": "^0.4.6",
     "@edgeware/node-types": "^3.5.1-erup-4",
-    "@equilab/definitions": "1.2.2",
+    "@equilab/definitions": "1.2.3",
     "@interlay/polkabtc-types": "^0.7.3",
     "@kiltprotocol/type-definitions": "^0.1.6",
     "@laminar/type-definitions": "^0.3.1",
