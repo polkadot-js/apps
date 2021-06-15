@@ -115,7 +115,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
                   auctionInfo={auctionInfo}
                   isFirst={index === 0}
                   isLatest
-                  key='latest-crowd'
+                  key={`latest-crowd:${value.key}`}
                   value={value}
                 />
               ))}
