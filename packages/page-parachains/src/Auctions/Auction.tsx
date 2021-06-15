@@ -7,7 +7,7 @@ import type { AuctionInfo, Campaigns, WinnerData, Winning } from '../types';
 import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { useLeaseRangeMax } from '../useLeaseRanges';
@@ -25,7 +25,6 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const { api } = useApi();
   const rangeMax = useLeaseRangeMax();
   const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
-  const bestNumber = useBestNumber();
 
   const headerRef = useRef([
     [t('bids'), 'start', 3],
@@ -109,15 +108,14 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
               ))}
             </tbody>
           ))
-          : bestNumber && (
-            <tbody>
+          : (
+            <tbody key='latest-crowd'>
               {interleave([], false).map((value, index) => (
                 <WinRange
                   auctionInfo={auctionInfo}
-                  blockNumber={bestNumber}
                   isFirst={index === 0}
                   isLatest
-                  key={`${bestNumber.toString()}:${value.key}`}
+                  key='latest-crowd'
                   value={value}
                 />
               ))}
