@@ -25,7 +25,8 @@ export function createRococo (t: TFunction): EndpointOption {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://rococo.elara.patract.io',
-      'Ares Protocol': 'wss://rococo.aresprotocol.com'
+      'Ares Protocol': 'wss://rococo.aresprotocol.com',
+      Pinknode: 'wss://rpc.pinknode.io/rococo/explorer'
     },
     linked: [
       // these are the base chains
