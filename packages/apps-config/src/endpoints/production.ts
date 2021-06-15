@@ -26,17 +26,10 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
-      info: 'crab',
-      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
-      providers: {
-        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
-      }
-    },
-    {
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        ChainX: 'wss://mainnet.chainx.org/ws',
+        // ChainX: 'wss://mainnet.chainx.org/ws', // https://github.com/polkadot-js/apps/issues/5547
         'Patract Elara': 'wss://chainx.elara.patract.io'
       }
     },
@@ -46,6 +39,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
+      }
+    },
+    {
+      info: 'crab',
+      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
@@ -143,6 +143,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
         'Patract Elara': 'wss://stafi.elara.patract.io'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {

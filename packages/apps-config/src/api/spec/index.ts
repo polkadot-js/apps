@@ -35,6 +35,7 @@ import galital from './galital';
 import galitalParachain from './galital-parachain';
 import galois from './galois';
 import gamepower from './gamepower';
+import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
@@ -55,6 +56,8 @@ import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import oakTestnet from './oak-testnet';
+import opportunity from './opportunity';
+import origintrail from './origintrail';
 import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
@@ -75,6 +78,7 @@ import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
 import subdao from './subdao';
+import subgame from './subgame';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
@@ -97,12 +101,14 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
+  Genshiro: genshiro,
   Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
   apron,
   'ares-parachain': aresParachain,
+  basilisk: hydrate,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
@@ -144,6 +150,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jupiter-rococo': jupiterRococo,
   khala: phalaParachain,
   'kilt-parachain': kilt,
+  'kilt-spiritnet': kilt,
   konomi,
   kulupu,
   kylin,
@@ -164,6 +171,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
+  opportunity,
+  'origintrail-parachain': origintrail,
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
@@ -183,6 +192,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   stafi,
   steam: eave,
   subdao,
+  subgame,
   subsocial,
   subzero: zero,
   ternoa,

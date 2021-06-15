@@ -33,9 +33,10 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly?: boolean): LinkOption[] {
+export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly?: boolean): LinkOption[] {
   const base = {
     genesisHash,
+    homepage,
     info,
     isChild,
     isDisabled,
@@ -60,9 +61,12 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, info, isCh
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    linked.sort(sortLinks).forEach((o) =>
-      options.push(...expandEndpoint(t, o, firstOnly))
-    );
+    linked
+      .sort(sortLinks)
+      .filter(({ paraId }) => paraId)
+      .forEach((o) =>
+        options.push(...expandEndpoint(t, o, firstOnly))
+      );
 
     last.isRelay = true;
     last.linked = options;

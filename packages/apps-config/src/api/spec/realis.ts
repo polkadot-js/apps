@@ -32,6 +32,10 @@ const definitions: OverrideBundleDefinition = {
             'Weapon'
           ]
         },
+        pallet_nfts: 'u8',
+        Types: {
+          tapes: 'u8'
+        },
         Params: {
           strength: 'u8',
           agility: 'u8',

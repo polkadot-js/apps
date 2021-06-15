@@ -1,5 +1,74 @@
 # CHANGELOG
 
+## 0.93.1 Jun 14, 2021
+
+Contributed:
+
+- Fix Electon QR scanning on Mac (Thanks to https://github.com/wachulski)
+- Add Altair & Charcoal networks (Thanks to https://github.com/branan)
+- Add Opportunity network (Thanks to https://github.com/billjhlee & https://github.com/hskang9)
+- Add Genshiro network (Thanks to https://github.com/alex-nax & https://github.com/pr0fedt)
+- Add Ares Mars network (Thanks to https://github.com/jiyilanzhou)
+- Add Subgame networks (Thanks to https://github.com/momo200e)
+- Update types for Realis (Thanks to https://github.com/Daelon02)
+- Update logo/colors for Kilt (Thanks to https://github.com/wischli)
+- Add OnFinality Kuarura endpoint (Thanks to https://github.com/454076513)
+- Update PolkaSmith title (Thanks to https://github.com/hoangnl2112)
+- Update Shiden homepage (Thanks to https://github.com/akru)
+- Update Darwinia Crab Redirect homepage (Thanks to https://github.com/sxlwar)
+
+Changes:
+
+- Fix docker build commands
+- Adjust crowdloan display delays
+- Update network entries with no DNS
+- Update theme config with name-checked records
+- Check endpoint ordering on CI
+- Adjust parachain hooks using mounted references
+- Remove Flaming Fir network (RPCs inoperational)
+
+
+## 0.92.3 Jun 9, 2021
+
+Changes:
+
+- Downgrade electron-builder
+
+
+## 0.92.2 Jun 9, 2021
+
+Contributed:
+
+- Add OnFinality providers for Statemine & Westmint (Thanks to https://github.com/xsteadybcgo)
+- Extract Moonbeam author ids (Thanks to https://github.com/joelamouche)
+- Add Whala network (Thanks to https://github.com/jasl & https://github.com/limichange)
+- Add Moonriver network (Thanks to https://github.com/crystalin)
+- Add Basilisk Egg network (Thanks to https://github.com/lumir-mrkva)
+- Add Kilt to Westend (Thanks to https://github.com/wischli)
+- Update Crab network (Thanks to https://github.com/WoeOm)
+- Update Jupiter types (Thanks to https://github.com/zzcwoshizz)
+- Update Polkadex types (Thanks to https://github.com/Gauthamastro)
+- Update Dock types (Thanks to https://github.com/lovesh)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+
+Changes:
+
+- Adjust apps-electron, taking care of 0.92.1 launching
+- Allow teleport for Kusama <-> Statemine
+- Calculate and display teleport fees
+- Fix Patract Elara endpoints on Westend
+- Fix calculation of auction end slots
+- Fix crowdloan own contribution extraction
+- Display own contribution on crowdloans
+- Add link to chain homepages on crowdloans
+- Display blocknumber on calendar
+- Adjust Polkadot-icons based on specName
+- Adjust payout button layout (no content shift)
+- Mark endpoints as unreachable (via cron detection)
+- Randomize provider selection
+
+
 ## 0.92.1 Jun 7, 2021
 
 Contributed:
