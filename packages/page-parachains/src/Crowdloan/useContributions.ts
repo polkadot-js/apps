@@ -7,7 +7,7 @@ import type { Balance, EventRecord, ParaId } from '@polkadot/types/interfaces';
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useEventTrigger } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 interface Contributions {
@@ -78,6 +78,7 @@ function extractDelta (api: ApiPromise, records: EventRecord[], { contributorsMa
 function useMyContributions (paraId: ParaId, childKey: string, keys: string[]): Record<string, Balance> {
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
+  const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Record<string, Balance>>({});
 
   const trigger = useEventTrigger([
@@ -94,21 +95,23 @@ function useMyContributions (paraId: ParaId, childKey: string, keys: string[]): 
     if (trigger && keys.length) {
       Promise
         .all(keys.map((k) => api.rpc.childstate.getStorage(childKey, k)))
-        .then((values) => setState(
-          values
-            .map((v) => api.createType('Option<StorageData>', v))
-            .map((o) =>
-              o.isSome
-                ? api.createType('Balance', o.unwrap())
-                : api.createType('Balance')
-            )
-            .reduce((all, b, index) => ({ ...all, [keys[index]]: b }), {})
-        ))
+        .then((values) =>
+          mountedRef.current && setState(
+            values
+              .map((v) => api.createType('Option<StorageData>', v))
+              .map((o) =>
+                o.isSome
+                  ? api.createType('Balance', o.unwrap())
+                  : api.createType('Balance')
+              )
+              .reduce((all, b, index) => ({ ...all, [keys[index]]: b }), {})
+          )
+        )
         .catch(console.error);
     } else {
       setState({});
     }
-  }, [api, childKey, keys, trigger]);
+  }, [api, childKey, keys, mountedRef, trigger]);
 
   return state;
 }
@@ -116,6 +119,7 @@ function useMyContributions (paraId: ParaId, childKey: string, keys: string[]): 
 export default function useContributions (paraId: ParaId, childKey: string): Result {
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
+  const mountedRef = useIsMountedRef();
   const [state, _setState] = useState<Result>(() => NO_CONTRIB);
   const myContributions = useMyContributions(paraId, childKey, state.myAccountsHex);
 
@@ -164,11 +168,11 @@ export default function useContributions (paraId: ParaId, childKey: string): Res
 
   // first just adjust deltas
   useEffect((): void => {
-    triggerDelta && triggerDelta.events.length &&
+    mountedRef.current && triggerDelta && triggerDelta.events.length &&
       setState(triggerDelta.blockHash, (prev) =>
         extractDelta(api, triggerDelta.events, prev, allAccountsHex, api.registry.chainSS58)
       );
-  }, [api, allAccountsHex, setState, triggerDelta]);
+  }, [api, allAccountsHex, mountedRef, setState, triggerDelta]);
 
   // refreshing the whole map, all keys
   useEffect((): void => {
@@ -176,12 +180,12 @@ export default function useContributions (paraId: ParaId, childKey: string): Res
       api.rpc.childstate
         .getKeys(childKey, '0x')
         .then((keys) =>
-          setState(triggerAll.blockHash, (prev) =>
+          mountedRef.current && setState(triggerAll.blockHash, (prev) =>
             extractContributors(keys, prev, allAccountsHex, api.registry.chainSS58)
           )
         )
         .catch(console.error);
-  }, [allAccountsHex, api, childKey, setState, triggerAll]);
+  }, [allAccountsHex, api, childKey, mountedRef, setState, triggerAll]);
 
   // update when the contribution amounts have changed
   useEffect((): void => {

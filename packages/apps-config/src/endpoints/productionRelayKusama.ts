@@ -22,7 +22,8 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io'
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      Pinknode: 'wss://rpc.pinknode.io/kusama/explorer'
     },
     teleport: [1000],
     linked: [
@@ -54,7 +55,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://thebifrost.io/',
+        homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         isUnreachable: true,
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
@@ -74,7 +75,6 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'crab_redirect',
         homepage: 'https://crab.network/',
-        isUnreachable: true,
         paraId: 2006,
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
         providers: {
@@ -93,11 +93,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
-        homepage: 'https://equilibrium.io',
-        isUnreachable: true,
-        text: t('rpc.test.equilibriumtestnet', 'Genshiro', { ns: 'apps-config' }),
+        homepage: 'https://genshiro.equilibrium.io',
+        paraId: 2024,
+        text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: 'wss://testnet.equilibrium.io'
+          Equilibrium: 'wss://gens-mainnet.equilibrium.io'
         }
       },
       {
@@ -136,6 +136,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/'
+        }
+      },
+      {
+        info: 'mars',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2008,
+        text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
+        providers: {
+          AresProtocol: 'wss://wss.mars.aresprotocol.io'
         }
       },
       {
@@ -183,6 +192,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
+        }
+      },
+      {
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        paraId: 2018,
+        text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
+        providers: {
+          SubGame: 'wss://gamma.subgame.org/'
         }
       }
     ]
