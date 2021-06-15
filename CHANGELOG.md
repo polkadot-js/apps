@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.93.2-6 Jun 15, 2015
+
+Contributed:
+
+- Fix Electon QR scanning on Mac (Thanks to https://github.com/wachulski)
+
+
 ## 0.93.1 Jun 14, 2021
 
 Contributed:
