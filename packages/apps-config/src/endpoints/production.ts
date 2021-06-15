@@ -133,7 +133,8 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org:4443'
       }
     },
     {
