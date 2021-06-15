@@ -7,7 +7,7 @@ import type { AuctionInfo, Campaigns, WinnerData, Winning } from '../types';
 import React, { useCallback, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { useLeaseRangeMax } from '../useLeaseRanges';
@@ -25,6 +25,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const { api } = useApi();
   const rangeMax = useLeaseRangeMax();
   const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
+  const bestNumber = useBestNumber();
 
   const headerRef = useRef([
     [t('bids'), 'start', 3],
@@ -92,20 +93,37 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       header={headerRef.current}
       noBodyTag
     >
-      {auctionInfo && newRaise && winningData?.map(({ blockNumber, winners }, round) => (
-        <tbody key={round}>
-          {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
-            <WinRange
-              auctionInfo={auctionInfo}
-              blockNumber={blockNumber}
-              isFirst={index === 0}
-              isLatest={round === 0}
-              key={`${blockNumber.toString()}:${value.key}`}
-              value={value}
-            />
-          ))}
-        </tbody>
-      ))}
+      {auctionInfo && newRaise && winningData && (
+        winningData.length
+          ? winningData.map(({ blockNumber, winners }, round) => (
+            <tbody key={round}>
+              {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
+                <WinRange
+                  auctionInfo={auctionInfo}
+                  blockNumber={blockNumber}
+                  isFirst={index === 0}
+                  isLatest={round === 0}
+                  key={`${blockNumber.toString()}:${value.key}`}
+                  value={value}
+                />
+              ))}
+            </tbody>
+          ))
+          : bestNumber && (
+            <tbody>
+              {interleave([], false).map((value, index) => (
+                <WinRange
+                  auctionInfo={auctionInfo}
+                  blockNumber={bestNumber}
+                  isFirst={index === 0}
+                  isLatest
+                  key={`${bestNumber.toString()}:${value.key}`}
+                  value={value}
+                />
+              ))}
+            </tbody>
+          )
+      )}
     </Table>
   );
 }
