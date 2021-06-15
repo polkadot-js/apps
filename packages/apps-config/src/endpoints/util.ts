@@ -53,7 +53,7 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
       ...base,
       dnslink: index === 0 ? dnslink : undefined,
       isRelay: false,
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } }),
+      textBy: t('rpc.hosted.by', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
       value
     }));
 
