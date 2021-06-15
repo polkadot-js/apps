@@ -108,7 +108,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
               ))}
             </tbody>
           ))
-          : (
+          : newRaise && (newRaise.length !== 0) && (
             <tbody key='latest-crowd'>
               {interleave([], false).map((value, index) => (
                 <WinRange
