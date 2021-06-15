@@ -92,20 +92,36 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       header={headerRef.current}
       noBodyTag
     >
-      {auctionInfo && newRaise && winningData?.map(({ blockNumber, winners }, round) => (
-        <tbody key={round}>
-          {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
-            <WinRange
-              auctionInfo={auctionInfo}
-              blockNumber={blockNumber}
-              isFirst={index === 0}
-              isLatest={round === 0}
-              key={`${blockNumber.toString()}:${value.key}`}
-              value={value}
-            />
-          ))}
-        </tbody>
-      ))}
+      {auctionInfo && newRaise && winningData && (
+        winningData.length
+          ? winningData.map(({ blockNumber, winners }, round) => (
+            <tbody key={round}>
+              {interleave(winners, round !== 0 || winningData.length !== 1).map((value, index) => (
+                <WinRange
+                  auctionInfo={auctionInfo}
+                  blockNumber={blockNumber}
+                  isFirst={index === 0}
+                  isLatest={round === 0}
+                  key={`${blockNumber.toString()}:${value.key}`}
+                  value={value}
+                />
+              ))}
+            </tbody>
+          ))
+          : newRaise && (newRaise.length !== 0) && (
+            <tbody key='latest-crowd'>
+              {interleave([], false).map((value, index) => (
+                <WinRange
+                  auctionInfo={auctionInfo}
+                  isFirst={index === 0}
+                  isLatest
+                  key={`latest-crowd:${value.key}`}
+                  value={value}
+                />
+              ))}
+            </tbody>
+          )
+      )}
     </Table>
   );
 }
