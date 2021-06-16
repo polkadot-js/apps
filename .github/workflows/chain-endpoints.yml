@@ -1,7 +1,7 @@
 name: Chain endpoints
 on:
   schedule:
-    - cron:  '45 0 * * *'
+    - cron:  '45 0/12 * * *'
 
 jobs:
   types:
