@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@polkadot/api": "^4.14.1",
+    "@polkadot/api": "^4.14.2-4",
     "@polkadot/extension-dapp": "^0.38.5",
     "@polkadot/x-rxjs": "^6.8.1",
     "fflate": "^0.7.0"
