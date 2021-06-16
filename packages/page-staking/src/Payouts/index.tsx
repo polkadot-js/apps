@@ -49,7 +49,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
         .forEach((reward): void => {
           Object
             .entries(reward.validators)
-            .forEach(([validatorId, { value }]): void => {
+            .forEach(([validatorId, { total, value }]): void => {
               const entry = grouped.find((entry) => entry.validatorId === validatorId);
 
               if (entry) {
@@ -65,6 +65,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
                 }
 
                 entry.available = entry.available.add(value);
+                entry.total = entry.total.add(total);
               } else {
                 grouped.push({
                   available: value,
@@ -72,6 +73,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
                     era: reward.era,
                     stashes: { [stashId]: value }
                   }],
+                  total,
                   validatorId
                 });
               }
@@ -80,7 +82,6 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
 
       return grouped;
     }, [])
-    .filter(({ available }) => !available.isZero())
     .sort((a, b) => b.available.cmp(a.available));
 }
 
@@ -153,7 +154,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const { t } = useTranslation();
   const { api } = useApi();
   const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
-  const [myStashesIndex, setMyStashesIndex] = useState(() => (isFunction(api.tx.staking.payoutStakers) && hasOwnValidators) ? 0 : 1);
+  const [myStashesIndex, setMyStashesIndex] = useState(() => hasOwnValidators ? 0 : 1);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
@@ -201,32 +202,29 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     </tr>
   ), [stashTotal]);
 
-  const hasPayouts = isFunction(api.tx.staking.payoutStakers);
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
   return (
     <div className={className}>
-      {hasPayouts && (
-        <Button.Group>
-          <ToggleGroup
-            onChange={setEraSelectionIndex}
-            options={eraSelection}
-            value={eraSelectionIndex}
-          />
-          <ToggleGroup
-            onChange={setMyStashesIndex}
-            options={valOptions}
-            value={myStashesIndex}
-          />
-          <PayButton
-            isAll
-            isDisabled={isInElection}
-            payout={validators}
-          />
-        </Button.Group>
-      )}
+      <Button.Group>
+        <ToggleGroup
+          onChange={setEraSelectionIndex}
+          options={eraSelection}
+          value={eraSelectionIndex}
+        />
+        <ToggleGroup
+          onChange={setMyStashesIndex}
+          options={valOptions}
+          value={myStashesIndex}
+        />
+        <PayButton
+          isAll
+          isDisabled={isInElection}
+          payout={validators}
+        />
+      </Button.Group>
       <ElectionBanner isInElection={isInElection} />
-      {hasPayouts && !isLoadingRewards && !stashes?.length && (
+      {!isLoadingRewards && !stashes?.length && (
         <article className='warning centered'>
           <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
           <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
@@ -246,7 +244,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
           />
         ))}
       </Table>
-      {hasPayouts && (myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && (
+      {(myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && (
         <Table
           header={headerValidatorsRef.current}
           isFixed

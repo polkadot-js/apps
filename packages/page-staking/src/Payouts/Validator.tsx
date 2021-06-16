@@ -65,7 +65,7 @@ function Validator ({ className = '', isDisabled, payout }: Props): React.ReactE
       <td className='start'>
         <span className='payout-eras'>{eraStr}</span>
       </td>
-      <td className='number'><FormatBalance value={payout.available} /></td>
+      <td className='number together'><FormatBalance value={payout.available} />&nbsp;/&nbsp;<FormatBalance value={payout.total} /></td>
       <td className='number'>{eraBlocks && <BlockToTime value={eraBlocks} />}</td>
       <td
         className='expand'
