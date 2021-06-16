@@ -174,7 +174,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const headerStashes = useMemo(() => [
     [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
     [t('eras'), 'start'],
-    [t('available')],
+    [myStashesIndex ? t('own') : t('total')],
     [('remaining')],
     [undefined, undefined, 3]
   ], [myStashesIndex, t]);
@@ -182,7 +182,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const headerValidatorsRef = useRef([
     [t('payout/validator'), 'start', 2],
     [t('eras'), 'start'],
-    [t('available')],
+    [t('own / total')],
     [('remaining')],
     [undefined, undefined, 3]
   ]);
