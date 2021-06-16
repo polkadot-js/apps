@@ -20,7 +20,6 @@ import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
 import PayButton from './PayButton';
 import Stash from './Stash';
-import useStakerPayouts from './useStakerPayouts';
 import Validator from './Validator';
 
 interface Props {
@@ -42,12 +41,11 @@ interface EraSelection {
 
 const DAY_SECS = new BN(1000 * 60 * 60 * 24);
 
-function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, stakerPayoutsAfter: BN): PayoutValidator[] {
+function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): PayoutValidator[] {
   return Object
     .entries(allRewards)
     .reduce((grouped: PayoutValidator[], [stashId, rewards]): PayoutValidator[] => {
       rewards
-        .filter(({ era }) => era.gte(stakerPayoutsAfter))
         .forEach((reward): void => {
           Object
             .entries(reward.validators)
@@ -82,6 +80,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, sta
 
       return grouped;
     }, [])
+    .filter(({ available }) => !available.isZero())
     .sort((a, b) => b.available.cmp(a.available));
 }
 
@@ -100,7 +99,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function getAvailable (allRewards: Record<string, DeriveStakerReward[]> | null | undefined, stakerPayoutsAfter: BN): Available {
+function getAvailable (allRewards: Record<string, DeriveStakerReward[]> | null | undefined): Available {
   if (allRewards) {
     const stashes = extractStashes(allRewards);
     const stashTotal = stashes.length
@@ -110,7 +109,7 @@ function getAvailable (allRewards: Record<string, DeriveStakerReward[]> | null |
     return {
       stashTotal,
       stashes,
-      validators: groupByValidator(allRewards, stakerPayoutsAfter)
+      validators: groupByValidator(allRewards)
     };
   }
 
@@ -158,7 +157,6 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const historyDepth = useCall<BN>(api.query.staking.historyDepth);
-  const stakerPayoutsAfter = useStakerPayouts();
 
   const eraSelection = useMemo(
     () => getOptions(api, eraLength, historyDepth, t),
@@ -168,8 +166,8 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const { allRewards, isLoadingRewards } = useOwnEraRewards(eraSelection[eraSelectionIndex].value, myStashesIndex ? undefined : ownValidators);
 
   const { stashTotal, stashes, validators } = useMemo(
-    () => getAvailable(allRewards, stakerPayoutsAfter),
-    [allRewards, stakerPayoutsAfter]
+    () => getAvailable(allRewards),
+    [allRewards]
   );
 
   const headerStashes = useMemo(() => [
@@ -243,10 +241,8 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
       >
         {!isLoadingRewards && stashes?.map((payout): React.ReactNode => (
           <Stash
-            isDisabled={isDisabled}
             key={payout.stashId}
             payout={payout}
-            stakerPayoutsAfter={stakerPayoutsAfter}
           />
         ))}
       </Table>
