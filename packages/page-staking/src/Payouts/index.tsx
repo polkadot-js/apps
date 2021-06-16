@@ -14,7 +14,7 @@ import { ApiPromise } from '@polkadot/api';
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
@@ -202,8 +202,6 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     </tr>
   ), [stashTotal]);
 
-  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
-
   return (
     <div className={className}>
       <Button.Group>
@@ -255,7 +253,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
         >
           {!isLoadingRewards && validators.filter(({ available }) => !available.isZero()).map((payout): React.ReactNode => (
             <Validator
-              isDisabled={isDisabled}
+              isDisabled={isInElection}
               key={payout.validatorId}
               payout={payout}
             />
