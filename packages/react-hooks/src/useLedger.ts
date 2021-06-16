@@ -28,8 +28,10 @@ const EMPTY_STATE: StateBase = {
 };
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
-const genesisChains = Object.keys(knownGenesis);
-const genesisHashes = Object.values(knownGenesis).reduce((all, hashes) => [...all, ...hashes], []);
+const ledgerChains = Object
+  .keys(knownGenesis)
+  .filter((n) => knownLedger[n]);
+const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
 let ledger: Ledger | null = null;
 let ledgerType: LedgerTypes | null = null;
 
@@ -38,9 +40,9 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
   if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();
-    const network = genesisChains.find((network) => knownGenesis[network].includes(genesisHex));
+    const network = ledgerChains.find((network) => knownGenesis[network].includes(genesisHex));
 
-    assert(network && knownLedger[network], `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
+    assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
     ledger = new Ledger(currType, network);
     ledgerType = currType;
@@ -50,7 +52,7 @@ function retrieveLedger (api: ApiPromise): Ledger {
 }
 
 function getState (api: ApiPromise): StateBase {
-  const isLedgerCapable = hasWebUsb && genesisHashes.includes(api.genesisHash.toHex());
+  const isLedgerCapable = hasWebUsb && ledgerHashes.includes(api.genesisHash.toHex());
 
   return {
     isLedgerCapable,
