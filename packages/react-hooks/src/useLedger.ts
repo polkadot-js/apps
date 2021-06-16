@@ -29,7 +29,7 @@ const EMPTY_STATE: StateBase = {
 
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 const genesisChains = Object.keys(knownGenesis);
-const genesisHashes = Object.values(knownGenesis).map(([genesisHash]) => genesisHash);
+const genesisHashes = Object.values(knownGenesis).reduce((all, hashes) => [...all, ...hashes], []);
 let ledger: Ledger | null = null;
 let ledgerType: LedgerTypes | null = null;
 
