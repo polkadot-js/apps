@@ -31,7 +31,7 @@ interface Address {
   address: string;
   isAddress: boolean;
   scanned: Scanned | null;
-  warning?:string;
+  warning?: string;
 }
 
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
@@ -56,8 +56,8 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
 
   const _onScan = useCallback(
     (scanned: Scanned): void => {
-      if (isEthereum&&scanned.isAddress&&scanned.content.substring(0,2)!=="0x"){
-        setAddress({ address: '', isAddress: false, scanned: null ,warning:"Ethereum Compatible Parachains must import from an Ethereum Wallet"});
+      if (isEthereum && scanned.isAddress && scanned.content.substring(0, 2) !== '0x') {
+        setAddress({ address: '', isAddress: false, scanned: null, warning: 'Ethereum Compatible Parachains must import from an Ethereum Wallet' });
       } else {
         setAddress({
           address: scanned.isAddress
@@ -72,7 +72,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange]
+    [_onNameChange, isEthereum]
   );
 
   const _onSave = useCallback(
@@ -143,10 +143,11 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           : (
             <Modal.Columns hint={t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}>
               <div className='qr-wrapper'>
-                <QrScanAddress onScan={_onScan} isEthereum={isEthereum} />
+                <QrScanAddress isEthereum={isEthereum}
+                  onScan={_onScan} />
               </div>
               {
-                warning&&<MarkWarning>{warning}</MarkWarning>
+                warning && <MarkWarning>{warning}</MarkWarning>
               }
             </Modal.Columns>
           )
