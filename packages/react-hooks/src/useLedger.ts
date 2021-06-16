@@ -38,7 +38,7 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
   if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();
-    const network = genesisChains.find((network) => knownGenesis[network][0] === genesisHex);
+    const network = genesisChains.find((network) => knownGenesis[network].includes(genesisHex));
 
     assert(network && knownLedger[network], `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
