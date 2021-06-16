@@ -231,7 +231,11 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
         </article>
       )}
       <Table
-        empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}
+        empty={!isLoadingRewards && stashes && (
+          myStashesIndex
+            ? t<string>('No pending payouts for your stashes')
+            : t<string>('No pending payouts for your validators')
+        )}
         emptySpinner={t<string>('Retrieving info for the selected eras, this will take some time')}
         footer={footer}
         header={headerStashes}
@@ -249,7 +253,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
           header={headerValidatorsRef.current}
           isFixed
         >
-          {!isLoadingRewards && validators.map((payout): React.ReactNode => (
+          {!isLoadingRewards && validators.filter(({ available }) => !available.isZero()).map((payout): React.ReactNode => (
             <Validator
               isDisabled={isDisabled}
               key={payout.validatorId}
