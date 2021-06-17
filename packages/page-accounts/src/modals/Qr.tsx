@@ -77,7 +77,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange, isEthereum]
+    [_onNameChange, isEthereum, t]
   );
 
   const _onSave = useCallback(
