@@ -2551,7 +2551,7 @@ __metadata:
     "@polymathnetwork/polymesh-types": ^0.0.2
     "@snowfork/snowbridge-types": ^0.2.3
     "@sora-substrate/type-definitions": ^1.3.17
-    "@subsocial/types": ^0.5.3
+    "@subsocial/types": ^0.5.5
     "@zeitgeistpm/type-defs": ^0.1.51
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.1.22
@@ -3392,14 +3392,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/types@npm:^0.5.3":
-  version: 0.5.3
-  resolution: "@subsocial/types@npm:0.5.3"
+"@subsocial/types@npm:^0.5.5":
+  version: 0.5.5
+  resolution: "@subsocial/types@npm:0.5.5"
   dependencies:
-    "@polkadot/types": ~3.11.1
+    "@polkadot/types": ~4.14.1
     "@subsocial/utils": ^0.4.39
     cids: ^0.7.1
-  checksum: 5cd981c244cdf19ad2594912f1a5ccd52380f1b2ca58fd87335c92644dd065fba5585a4fa94045c79b3f441f9e53289856ba0155d3472cb0c55bdb6b15469ac9
+  checksum: d3da9088657fb1696c96421206153bd266efbc67946e86878b140ce3bf443e5d186dd8bd7dab4c5a005f41483122532d8725d8deabfe60bc7cbeaf4a3067aba8
   languageName: node
   linkType: hard
 
