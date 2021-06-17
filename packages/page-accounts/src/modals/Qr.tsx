@@ -143,8 +143,10 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           : (
             <Modal.Columns hint={t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}>
               <div className='qr-wrapper'>
-                <QrScanAddress isEthereum={isEthereum}
-                  onScan={_onScan} />
+                <QrScanAddress
+                  isEthereum={isEthereum}
+                  onScan={_onScan}
+                />
               </div>
               {warning && <MarkWarning content={warning} />}
             </Modal.Columns>
