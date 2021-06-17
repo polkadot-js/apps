@@ -57,7 +57,12 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const _onScan = useCallback(
     (scanned: Scanned): void => {
       if (isEthereum && scanned.isAddress && scanned.content.substring(0, 2) !== '0x') {
-        setAddress({ address: '', isAddress: false, scanned: null, warning: 'Ethereum Compatible Parachains must import from an Ethereum Wallet' });
+        setAddress({
+          address: '',
+          isAddress: false,
+          scanned: null,
+          warning: t<string>('Ethereum Compatible Parachains must import from an Ethereum Wallet')
+        });
       } else {
         setAddress({
           address: scanned.isAddress
