@@ -146,9 +146,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 <QrScanAddress isEthereum={isEthereum}
                   onScan={_onScan} />
               </div>
-              {
-                warning && <MarkWarning>{warning}</MarkWarning>
-              }
+              {warning && <MarkWarning content={warning} />}
             </Modal.Columns>
           )
         }
