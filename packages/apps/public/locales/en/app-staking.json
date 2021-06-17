@@ -49,6 +49,7 @@
   "No active validators to check": "No active validators to check",
   "No funds staked yet. Bond funds to validate or nominate a validator": "No funds staked yet. Bond funds to validate or nominate a validator",
   "No pending payouts for your stashes": "No pending payouts for your stashes",
+  "No pending payouts for your validators": "No pending payouts for your validators",
   "No waiting validators found": "No waiting validators found",
   "No, block all nominations": "No, block all nominations",
   "Nominate": "Nominate",
