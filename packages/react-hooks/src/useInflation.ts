@@ -35,6 +35,20 @@ export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: 
   };
 }
 
+export function calcDockInflation (totalStaked: BN, totalIssuance: BN, yearlyEmission: BN): Inflation {
+  if (totalStaked.isZero() || totalIssuance.isZero()) {
+    return { inflation: 0, stakedReturn: 0 };
+  }
+
+  const inflation = yearlyEmission.mul(BN_MILLION).div(totalIssuance).toNumber() / BN_MILLION.toNumber();
+  const stakedReturn = yearlyEmission.mul(BN_MILLION).div(totalStaked).toNumber() / BN_MILLION.toNumber();
+
+  return {
+    inflation: inflation * 100,
+    stakedReturn: stakedReturn * 100
+  };
+}
+
 export function useInflation (totalStaked?: BN): Inflation {
   const { api } = useApi();
   const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);

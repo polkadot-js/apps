@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
+import { KUSAMA_GENESIS, POLKADOT_GENESIS, DOCK_POS_TESTNET_GENESIS } from '../constants';
 
 interface InflationParams {
   falloff: number;
@@ -20,6 +20,7 @@ const DEFAULT_PARAMS: InflationParams = {
 };
 
 const KNOWN_PARAMS: Record<string, InflationParams> = {
+  [DOCK_POS_TESTNET_GENESIS]: { ...DEFAULT_PARAMS, idealStake: 0.75 },
   [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, idealStake: 0.75 },
   [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, idealStake: 0.75 }
 };

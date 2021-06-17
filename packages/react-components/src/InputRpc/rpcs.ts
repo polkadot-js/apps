@@ -9,8 +9,9 @@ import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { getSpecRpc } from '@polkadot/types-known';
 
 // TODO: Find a better way
-import { poaRpcDefs } from '@polkadot/apps-config/api/spec/dock-rpc';
+import { poaRpcDefs, stakingRewardsRpcDefs } from '@polkadot/apps-config/api/spec/dock-rpc';
 jsonrpc.poa = poaRpcDefs;
+jsonrpc.staking_rewards = stakingRewardsRpcDefs;
 
 function toExt (section: string, input: Record<string, DefinitionRpc>): Record<string, DefinitionRpcExt> {
   return Object.entries(input).reduce((output: Record<string, DefinitionRpcExt>, [method, def]): Record<string, DefinitionRpcExt> => {

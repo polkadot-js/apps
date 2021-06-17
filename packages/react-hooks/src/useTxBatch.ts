@@ -61,7 +61,7 @@ export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null, opti
                   ? api.consts.system.blockWeights.maxBlock
                   : api.consts.system.maximumBlockWeight as Weight
               )
-                .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
+                .muln(75) // 75% of the block weight on a single extrinsic
                 .div(info.weight)
                 .toNumber() / 100
             )

@@ -23,9 +23,7 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import * as councilProposals from '@polkadot/api-derive/council/proposals';
-
-import { rpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
+import { poaRpcDefs, stakingRewardsRpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
@@ -111,9 +109,6 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     api.rpc.system.version(),
     getInjectedAccounts(injectedPromise)
   ]);
-
-  // HACK Horrible hack to try and give some window to the DOT denomination
-  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
 
   return {
     injectedAccounts,
@@ -202,7 +197,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const types = getDevTypes();
 
     // api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
-    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesBundle, typesChain });
+    api = new ApiPromise({ provider, registry, rpc: { poa: poaRpcDefs, staking_rewards: stakingRewardsRpcDefs }, signer, types, typesBundle, typesChain });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

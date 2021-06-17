@@ -8,7 +8,7 @@ import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { calcDockInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
@@ -159,7 +159,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
   return [list, nominators];
 }
 
-function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
+function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN, yearlyEmission: BN): Partial<SortedTargets> {
   const [elected, nominators] = extractSingle(api, allAccounts, electedDerive, favorites, lastEraInfo, historyDepth);
   const [waiting] = extractSingle(api, allAccounts, waitingDerive, favorites, lastEraInfo);
   const activeTotals = elected
@@ -168,7 +168,8 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     .sort((a, b) => a.cmp(b));
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
-  const inflation = calcInflation(api, totalStaked, totalIssuance);
+  // const inflation = calcInflation(api, totalStaked, totalIssuance);
+  const inflation = calcDockInflation(totalStaked, totalIssuance, yearlyEmission);
 
   // add the explicit stakedReturn
   !avgStaked.isZero() && elected.forEach((e): void => {
@@ -241,11 +242,25 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
 
+  let totalStaked = BN_ZERO;
+
+  if (electedInfo && lastEraInfo && historyDepth) {
+    const [elected] = extractSingle(api, allAccounts, electedInfo, favorites, lastEraInfo, historyDepth);
+    const activeTotals = elected
+      .filter(({ isActive }) => isActive)
+      .map(({ bondTotal }) => bondTotal)
+      .sort((a, b) => a.cmp(b));
+
+    totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
+  }
+
+  const yearly = useCall<BN>(totalIssuance && totalStaked && api.rpc.staking_rewards.yearlyEmission, [totalStaked?.toString(), totalIssuance?.toString()]);
+
   const partial = useMemo(
-    () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
-      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth)
+    () => electedInfo && lastEraInfo && totalIssuance && waitingInfo && yearly
+      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth, yearly)
       : EMPTY_PARTIAL,
-    [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo]
+    [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo, yearly]
   );
 
   return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, minNominated: BN_ZERO, ...partial };
