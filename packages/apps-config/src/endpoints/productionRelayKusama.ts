@@ -22,7 +22,8 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io'
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      Pinknode: 'wss://rpc.pinknode.io/kusama/explorer'
     },
     teleport: [1000],
     linked: [
@@ -54,8 +55,8 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        homepage: 'https://thebifrost.io/',
-        isUnreachable: true,
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619 (duplicated in testing networks)
+        homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
@@ -73,8 +74,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'crab_redirect',
-        homepage: 'https://darwinia.network/',
-        isUnreachable: true,
+        homepage: 'https://crab.network/',
         paraId: 2006,
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
         providers: {
@@ -93,11 +93,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
-        homepage: 'https://equilibrium.io',
-        isUnreachable: true,
-        text: t('rpc.test.equilibriumtestnet', 'Genshiro', { ns: 'apps-config' }),
+        homepage: 'https://genshiro.equilibrium.io',
+        paraId: 2024,
+        text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: 'wss://testnet.equilibrium.io'
+          Equilibrium: 'wss://gens-mainnet.equilibrium.io'
         }
       },
       {
@@ -139,13 +139,30 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'polkasmith',
-        homepage: 'https://polkafoundry.com/',
-        isUnreachable: true,
-        paraId: 2009,
-        text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
+        info: 'mars',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2008,
+        text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {
-          Polkasmith: 'wss://polkasmith.polkafoundry.com'
+          AresProtocol: 'wss://wss.mars.aresprotocol.io'
+        }
+      },
+      {
+        info: 'moonriver',
+        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
+        paraId: 2023,
+        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.moonriver.moonbeam.network'
+        }
+      },
+      {
+        info: 'polkasmith',
+        homepage: 'https://polkasmith.polkafoundry.com/',
+        paraId: 2009,
+        text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
+        providers: {
+          PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
         }
       },
       {
@@ -178,12 +195,12 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'moonriver',
-        homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
-        paraId: 2023,
-        text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        paraId: 2018,
+        text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network'
+          SubGame: 'wss://gamma.subgame.org/'
         }
       }
     ]

@@ -1,6 +1,10 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
+
+import { sanitize } from './util';
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
 
@@ -18,8 +22,10 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
+const chainEquilibrium = '#1792ff';
 const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
+const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
 const chainIntegritee = '#15bcff';
@@ -85,6 +91,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
+const nodeAres = '#70FF8B';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
@@ -94,11 +101,9 @@ const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
-const nodeEquilibrium = '#1792ff';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
-const nodeGenshiro = '#e8662d';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -112,6 +117,8 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOpportunity = '#6143bc';
+const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
@@ -132,6 +139,7 @@ const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
+const nodeSubGame = '#EB027D';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -143,202 +151,212 @@ export { emptyColor };
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
-export const chainColors: Record<string, string> = [
-  ['acala mandala pc1', chainRoccoAcala],
-  ['acala mandala pc2', chainRoccoAcala],
-  ['Apron PC1', chainApron],
-  ['Ares PC1', chainRoccoAres],
-  ['Bifrost PC1', chainRoccoBifrost],
-  ['bifrost', chainRoccoBifrost],
-  ['Bit.Country Tewai Chain', chainBitCountry],
-  ['Beast Developer', chainBeastEave],
-  ['ChainX', chainChainx],
-  ['Clover', chainClover],
-  ['crust maxwell', chainCrust],
-  ['Crust PC1', chainCrust],
-  ['darwinia cc1', chainDarwinia],
-  ['Darwinia Crab', chainCrab],
-  ['Darwinia Crab Redirect', chainCrab],
-  ['Darwinia PC2', chainRoccoDarwinia],
-  ['DataHighway', chainRoccoDataHighway],
-  ['DOTMog.com NET', chainDotMog],
-  ['Steam PC', chainRococoEave],
-  ['Encointer Canary', nodeEncointerNotee],
-  ['Encointer PC1', nodeEncointerNotee],
-  ['Equilibrium', nodeEquilibrium],
-  ['EquilibriumTestnet', nodeGenshiro],
-  ['Galital', chainGalital],
-  ['Galois', chainGalois],
-  ['GamePower Network', chainGamePower],
-  ['Halongbay PC1', chainPolkaFoundry],
-  ['hanonycash', chainHanonycash],
-  ['HydraDX Hydrate', chainHydrate],
-  ['HydraDX Snakenet', chainSnakenet],
-  ['HydraDX Snakenet Gen2', chainSnakenet],
-  ['HydraDX Snakenet Gen3', chainSnakenet],
-  ['Idavoll', chainIdavoll],
-  ['IntegriTEE Network', chainIntegritee],
-  ['IntegriTEE PC1', chainIntegritee],
-  ['IpseTestnet', chainIpse],
-  ['Jupiter A1', chainJupiter],
-  ['Jupiter PC1', chainJupiter],
-  ['Karura', chainKarura],
-  ['KILT', chainKilt],
-  ['KILT Local', chainKilt],
-  ['KILT Peregrine Testnet', chainKilt],
-  ['KILT Testnet', chainKilt],
-  ['Kylin Testnet', chainKylin],
-  ['Khala', chainKhala],
-  ['Konomi', chainKonomi],
-  ['Kulupu', chainKulupu],
-  ['Kusama CC1', chainKusama],
-  ['Kusama CC2', chainKusama],
-  ['Kusama CC3', chainKusama],
-  ['Kusama', chainKusama],
-  ['Kylin Testnet', chainKylin],
-  ['KLUGDOSSIER.NET', chainKlug],
-  ['laminar turbulence pc1', chainRococoLaminar],
-  ['Litentry', chainLitentry],
-  ['Manta Testnet', chainManta],
-  ['MantaChain PC1', chainManta],
-  ['MathChain PC1', chainGalois],
-  ['Moonbase Alpha', nodeMoonbeam],
-  ['Moonbase Stage', nodeMoonbeam],
-  ['Moonbase Development Testnet', nodeMoonbeam],
-  ['Moonriver', nodeMoonriver],
-  ['Moonrock', chainMoonrock],
-  ['Moonshadow', nodeMoonbeam],
-  ['mybank.network Testnet', chainMybank],
-  ['NFTMart Testnet', chainNFTMart],
-  ['NFTMart Staging', chainNFTMart],
-  ['OAK Testnet', chainOakTestnet],
-  ['Pangolin', chainPangolin],
-  ['Parami PC2', chainParami],
-  ['Phala PC1', chainPhala],
-  ['Phala PoC 4', chainPhala],
-  ['PHOENIX', chainPhoenix],
-  ['Plasm', chainPlasm],
-  ['Plasm PC2', chainPlasm],
-  ['PolkaBTC', chainPolkabtc],
-  ['PolkaBTC Staging', chainPolkabtc],
-  ['Polkadex Testnet', chainPolkadex],
-  ['Polkadot CC1', chainPolkadot],
-  ['Polkadot', chainPolkadot],
-  ['PolkaSmith', chainPolkaSmith],
-  ['Pontem Testnet', chainPontem],
-  ['Prism Testnet', chainPrism],
-  ['Prism PC1', chainPrism],
-  ['ReAlis Network', nodeRealis],
-  ['Rococo', chainRocco],
-  ['RioChain CC-1', chainRiochain],
-  ['Riochain Staging', chainRiochain],
-  ['Sakura', chainSakura],
-  ['Shadow', chainShadow],
-  ['sherpax', chainChainx],
-  ['Shiden', chainShiden],
-  ['Shiden Shell', chainShiden],
-  ['Statemine', specStatemine],
-  ['Statemine Test', specStatemine],
-  ['Statemint', specStatemint],
-  ['Statemint Test', specStatemint],
-  ['SubDAO PC1', chainSubDAO],
-  ['Subsocial PC1', chainSubsocial],
-  ['Tick', chainRoccoTick],
-  ['Track', chainRoccoTrack],
-  ['Trick', chainRoccoTrick],
-  ['TrustBase PC1', chainTrustBase],
-  ['uni arts staging network', chainUniarts],
-  ['UniArts Mainnet', chainUniarts],
-  ['Unique Node', chainUnique],
-  ['UNIT', chainUnitv],
-  ['VLN PC', chainVln],
-  ['Web3games ', chainWeb3games],
-  ['Westend', chainWestend],
-  ['Westmint', specWestmint],
-  ['Westmint Test', specWestmint],
-  ['Westlake', chainWestlake],
-  ['Whala', chainWhala],
-  ['WILT', chainKilt],
-  ['Zenlink PC1', chainZenlink],
-  ['ZERO.IO', chainZero]
-].reduce((colors, [chain, color]): Record<string, string> => ({
+export const chainColors: Record<string, string> = Object.entries({
+  'acala mandala pc1': chainRoccoAcala,
+  'acala mandala pc2': chainRoccoAcala,
+  'Apron PC1': chainApron,
+  'Ares PC1': chainRoccoAres,
+  'Beast Developer': chainBeastEave,
+  bifrost: chainRoccoBifrost,
+  'Bifrost PC1': chainRoccoBifrost,
+  'Bit.Country Tewai Chain': chainBitCountry,
+  ChainX: chainChainx,
+  Clover: chainClover,
+  'crust maxwell': chainCrust,
+  'Crust PC1': chainCrust,
+  'darwinia cc1': chainDarwinia,
+  'Darwinia Crab': chainCrab,
+  'Darwinia Crab Redirect': chainCrab,
+  'Darwinia PC2': chainRoccoDarwinia,
+  DataHighway: chainRoccoDataHighway,
+  'DOTMog.com NET': chainDotMog,
+  'Encointer Canary': nodeEncointerNotee,
+  'Encointer PC1': nodeEncointerNotee,
+  Equilibrium: chainEquilibrium,
+  EquilibriumTestnet: chainGenshiro,
+  Galital: chainGalital,
+  Galois: chainGalois,
+  'GamePower Network': chainGamePower,
+  'Genshiro Rococo Testnet': chainGenshiro,
+  'Halongbay PC1': chainPolkaFoundry,
+  hanonycash: chainHanonycash,
+  'HydraDX Hydrate': chainHydrate,
+  'HydraDX Snakenet': chainSnakenet,
+  'HydraDX Snakenet Gen2': chainSnakenet,
+  'HydraDX Snakenet Gen3': chainSnakenet,
+  Idavoll: chainIdavoll,
+  'IntegriTEE Network': chainIntegritee,
+  'IntegriTEE PC1': chainIntegritee,
+  IpseTestnet: chainIpse,
+  'Jupiter A1': chainJupiter,
+  'Jupiter PC1': chainJupiter,
+  Karura: chainKarura,
+  Khala: chainKhala,
+  KILT: chainKilt,
+  'KILT Local': chainKilt,
+  'KILT Peregrine Testnet': chainKilt,
+  'KILT Testnet': chainKilt,
+  'KLUGDOSSIER.NET': chainKlug,
+  Konomi: chainKonomi,
+  Kulupu: chainKulupu,
+  Kusama: chainKusama,
+  'Kusama CC1': chainKusama,
+  'Kusama CC2': chainKusama,
+  'Kusama CC3': chainKusama,
+  'Kylin Testnet': chainKylin,
+  'laminar turbulence pc1': chainRococoLaminar,
+  Litentry: chainLitentry,
+  'Manta Testnet': chainManta,
+  'MantaChain PC1': chainManta,
+  Mars: nodeAres,
+  'MathChain PC1': chainGalois,
+  'Moonbase Alpha': nodeMoonbeam,
+  'Moonbase Development Testnet': nodeMoonbeam,
+  'Moonbase Stage': nodeMoonbeam,
+  Moonriver: nodeMoonriver,
+  Moonrock: chainMoonrock,
+  Moonshadow: nodeMoonbeam,
+  'mybank.network Testnet': chainMybank,
+  'NFTMart Staging': chainNFTMart,
+  'NFTMart Testnet': chainNFTMart,
+  'OAK Testnet': chainOakTestnet,
+  'OriginTrail Parachain': nodeOriginTrail,
+  Pangolin: chainPangolin,
+  'Parami PC2': chainParami,
+  'Phala PC1': chainPhala,
+  'Phala PoC 4': chainPhala,
+  PHOENIX: chainPhoenix,
+  Plasm: chainPlasm,
+  'Plasm PC2': chainPlasm,
+  PolkaBTC: chainPolkabtc,
+  'PolkaBTC Staging': chainPolkabtc,
+  'Polkadex Testnet': chainPolkadex,
+  Polkadot: chainPolkadot,
+  'Polkadot CC1': chainPolkadot,
+  PolkaSmith: chainPolkaSmith,
+  'Pontem Testnet': chainPontem,
+  'Prism PC1': chainPrism,
+  'Prism Testnet': chainPrism,
+  'ReAlis Network': nodeRealis,
+  'RioChain CC-1': chainRiochain,
+  'Riochain Staging': chainRiochain,
+  Rococo: chainRocco,
+  Sakura: chainSakura,
+  Shadow: chainShadow,
+  sherpax: chainChainx,
+  Shiden: chainShiden,
+  'Shiden Shell': chainShiden,
+  Statemine: specStatemine,
+  'Statemine Test': specStatemine,
+  Statemint: specStatemint,
+  'Statemint Test': specStatemint,
+  'Steam PC': chainRococoEave,
+  'SubDAO PC1': chainSubDAO,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
+  'Subsocial PC1': chainSubsocial,
+  Tick: chainRoccoTick,
+  Track: chainRoccoTrack,
+  Trick: chainRoccoTrick,
+  'TrustBase PC1': chainTrustBase,
+  'uni arts staging network': chainUniarts,
+  'UniArts Mainnet': chainUniarts,
+  'Unique Node': chainUnique,
+  UNIT: chainUnitv,
+  'VLN PC': chainVln,
+  Web3games: chainWeb3games,
+  Westend: chainWestend,
+  Westlake: chainWestlake,
+  Westmint: specWestmint,
+  'Westmint Test': specWestmint,
+  Whala: chainWhala,
+  WILT: chainKilt,
+  'Zenlink PC1': chainZenlink,
+  'ZERO.IO': chainZero
+}).reduce<Record<string, string>>((colors, [chain, color]) => ({
   ...colors,
-  [chain.toLowerCase()]: color
+  [sanitize(chain)]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-export const nodeColors: Record<string, string> = [
-  ['Apron Node', nodeApron],
-  ['Basilisk', nodeBasilisk],
-  ['Bit.Country Node', nodeBitCountry],
-  ['Bifrost Node', nodeBifrost],
-  ['Canvas Node', nodeCanvas],
-  ['centrifuge chain', nodeCentrifuge],
-  ['Centrifuge Chain Node', nodeCentrifuge],
-  ['DOTMog Node', nodeDotMog],
-  ['edgeware node', nodeEdgeware],
-  ['Encointer Node', nodeEncointerNotee],
-  ['Encointer Node noTEE', nodeEncointerNotee],
-  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
-  ['Galital', nodeGalital],
-  ['Galital Parachain Collator', nodeGalital],
-  ['GamePower Node', nodeGamePower],
-  ['GEEK', nodeGeek],
-  ['IpseTestnet', nodeIpse],
-  ['Konomi Collator', nodeKonomi],
-  ['Kylin Collator', nodeKylin],
-  ['Klug Dossier Node', nodeKlug],
-  ['Litentry Collator', nodeLitentry],
-  ['Manta Collator', nodeManta],
-  ['Manta Node', nodeManta],
-  ['mybank.network node', nodeMybank],
-  ['NFTMart Testnet', nodeNFTMart],
-  ['NFTMart Staging', nodeNFTMart],
-  ['nodle chain node', nodeNodle],
-  ['OAK Testnet', nodeOakTestnet],
-  ['Pangolin', nodePangolin],
-  ['Parami Collator', nodeParami],
-  ['Patract Node', nodeJupiter],
-  ['Polkadex Node', nodePolkadex],
-  ['Polymesh Node', nodePolymesh],
-  ['Pontem', nodePontem],
-  ['Prism Node', nodePrism],
-  ['Prism Collator', nodePrism],
-  ['ReAlis Network', nodeRealis],
-  ['Rio Defi Chain Node', nodeRiochain],
-  ['Riochain Staging', nodeRiochain],
-  ['Shiden Collator', chainShiden],
-  ['SORA', nodeSora],
-  ['Stafi node', nodeStafi],
-  ['Statemine Collator', specStatemint],
-  ['Statemint Collator', specStatemint],
-  ['SubDAO Collator', nodeSubDAO],
-  ['subsocial node', nodeSubsocial],
-  ['subzero node', nodeZero],
-  ['Ternoa Node', nodeTernoa],
-  ['uni arts node', nodeUniarts],
-  ['UniArts Node', nodeUniarts],
-  ['Unique Node', nodeUnique],
-  ['Web3games', nodeWeb3games],
-  ['Westlake', nodeWestlake],
-  ['Westmint Collator', specWestmint],
-  ['Zeitgeist Node', nodeZeitgeist],
-  ['Zeitgeist Collator', nodeZeitgeist],
-  ['Zenlink Collator', nodeZenlink]
-].reduce((colors, [node, color]): Record<string, string> => ({
+export const nodeColors = Object.entries({
+  'Apron Node': nodeApron,
+  Basilisk: nodeBasilisk,
+  'Bifrost Node': nodeBifrost,
+  'Bit.Country Node': nodeBitCountry,
+  'Canvas Node': nodeCanvas,
+  'centrifuge chain': nodeCentrifuge,
+  'Centrifuge Chain Node': nodeCentrifuge,
+  'DOTMog Node': nodeDotMog,
+  'edgeware node': nodeEdgeware,
+  'Encointer Node': nodeEncointerNotee,
+  'Encointer Node noTEE': nodeEncointerNotee,
+  'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  Galital: nodeGalital,
+  'Galital Parachain Collator': nodeGalital,
+  'GamePower Node': nodeGamePower,
+  GEEK: nodeGeek,
+  IpseTestnet: nodeIpse,
+  'Klug Dossier Node': nodeKlug,
+  'Konomi Collator': nodeKonomi,
+  'Kylin Collator': nodeKylin,
+  'Litentry Collator': nodeLitentry,
+  'Manta Collator': nodeManta,
+  'Manta Node': nodeManta,
+  'mybank.network node': nodeMybank,
+  'NFTMart Staging': nodeNFTMart,
+  'NFTMart Testnet': nodeNFTMart,
+  'nodle chain node': nodeNodle,
+  'OAK Testnet': nodeOakTestnet,
+  'Opportunity Standalone Testnet': nodeOpportunity,
+  'OriginTrail Parachain': nodeOriginTrail,
+  Pangolin: nodePangolin,
+  'Parami Collator': nodeParami,
+  'Patract Node': nodeJupiter,
+  'Polkadex Node': nodePolkadex,
+  'Polymesh Node': nodePolymesh,
+  Pontem: nodePontem,
+  'Prism Collator': nodePrism,
+  'Prism Node': nodePrism,
+  'ReAlis Network': nodeRealis,
+  'Rio Defi Chain Node': nodeRiochain,
+  'Riochain Staging': nodeRiochain,
+  'Shiden Collator': chainShiden,
+  SORA: nodeSora,
+  'Stafi node': nodeStafi,
+  'Statemine Collator': specStatemint,
+  'Statemint Collator': specStatemint,
+  'SubDAO Collator': nodeSubDAO,
+  subgame: nodeSubGame,
+  'SubGame Gamma': nodeSubGame,
+  'SubGame Staging': nodeSubGame,
+  'subsocial node': nodeSubsocial,
+  'subzero node': nodeZero,
+  'Ternoa Node': nodeTernoa,
+  'uni arts node': nodeUniarts,
+  'UniArts Node': nodeUniarts,
+  'Unique Node': nodeUnique,
+  Web3games: nodeWeb3games,
+  Westlake: nodeWestlake,
+  'Westmint Collator': specWestmint,
+  'Zeitgeist Collator': nodeZeitgeist,
+  'Zeitgeist Node': nodeZeitgeist,
+  'Zenlink Collator': nodeZenlink
+}).reduce<Record<string, string>>((colors, [node, color]) => ({
   ...colors,
-  [node.toLowerCase().replace(/-/g, ' ')]: color
+  [sanitize(node)]: color
 }), {});
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-export const specColors: Record<string, string> = [
-  ['shell', specShell],
-  ['statemine', specStatemine],
-  ['statemint', specStatemint],
-  ['westmint', specWestmint]
-].reduce((colors, [spec, color]): Record<string, any> => ({
+export const specColors = Object.entries({
+  shell: specShell,
+  statemine: specStatemine,
+  statemint: specStatemint,
+  westmint: specWestmint
+}).reduce<Record<string, string>>((colors, [spec, color]) => ({
   ...colors,
-  [spec.toLowerCase().replace(/-/g, ' ')]: color
+  [sanitize(spec)]: color
 }), {});

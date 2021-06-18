@@ -23,9 +23,10 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws',
+      // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
       'Patract Elara': 'wss://westend.elara.patract.io',
-      OnFinality: 'wss://westend.api.onfinality.io/public-ws'
+      OnFinality: 'wss://westend.api.onfinality.io/public-ws',
+      Pinknode: 'wss://rpc.pinknode.io/westend/explorer'
     },
     teleport: [1000],
     linked: [
@@ -87,20 +88,20 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'whala',
+        paraId: 2013,
+        text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://whala.phala.network/ws'
+        }
+      },
+      {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
         paraId: 2009,
         text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
-        }
-      },
-      {
-        info: 'whala',
-        paraId: 2013,
-        text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
-        providers: {
-          Phala: 'wss://whala.phala.network/ws'
         }
       }
     ]

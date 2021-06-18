@@ -53,7 +53,7 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
       ...base,
       dnslink: index === 0 ? dnslink : undefined,
       isRelay: false,
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } }),
+      textBy: t('rpc.hosted.by', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
       value
     }));
 
@@ -61,9 +61,12 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
     const last = result[result.length - 1];
     const options: LinkOption[] = [];
 
-    linked.sort(sortLinks).forEach((o) =>
-      options.push(...expandEndpoint(t, o, firstOnly))
-    );
+    linked
+      .sort(sortLinks)
+      .filter(({ paraId }) => paraId)
+      .forEach((o) =>
+        options.push(...expandEndpoint(t, o, firstOnly))
+      );
 
     last.isRelay = true;
     last.linked = options;
