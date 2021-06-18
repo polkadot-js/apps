@@ -1,13 +1,13 @@
 {
   "name": "@polkadot/apps-electron",
   "private": true,
-  "version": "0.93.2-19",
+  "version": "0.93.2-20",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/core": "^7.14.3",
     "@babel/polyfill": "^7.12.1",
     "@polkadot/dev": "^0.62.42",
-    "@polkadot/react-components": "^0.93.2-19",
+    "@polkadot/react-components": "^0.93.2-20",
     "electron-log": "^4.3.5",
     "electron-updater": "^4.3.9"
   },
