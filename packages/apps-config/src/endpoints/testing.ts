@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
+import type { LinkOption } from './types';
 
 import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { expandEndpoints } from './util';
@@ -15,7 +15,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createTesting (t: TFunction): LinkOption[] {
+export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
@@ -40,17 +40,18 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'bifrost',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619
+      text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
+      providers: {
+        Bifrost: { type: 'json-rpc' as EndpointType, param: 'wss://bifrost-rpc.liebi.com/ws' }
+      }
+    },
+    {
       info: 'bitcountry',
       text: t('rpc.test.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
       providers: {
         'Bit.Country': { type: 'json-rpc' as EndpointType, param: 'wss://whenua.bit.country' }
-      }
-    },
-    {
-      info: 'bifrost',
-      text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
-      providers: {
-        Bifrost: { type: 'json-rpc' as EndpointType, param: 'wss://testnet.liebi.com' }
       }
     },
     {
@@ -86,6 +87,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'dock-testnet',
+      isDisabled: false,
       text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': { type: 'json-rpc' as EndpointType, param: 'wss://danforth-1.dock.io' }
@@ -128,6 +130,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'substrate',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5571
       text: t('rpc.test.flamingfir', 'Flaming Fir', { ns: 'apps-config' }),
       providers: {
         Parity: { type: 'json-rpc' as EndpointType, param: 'wss://substrate-rpc.parity.io' }
@@ -194,6 +197,20 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'klugdossier',
+      text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
+      providers: {
+        'Klug Dossier': 'wss://klugdossier.net/'
+      }
+    },
+    {
+      info: 'kylin',
+      text: t('testnet.kylin-node.co.uk', 'Kylin Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://testnet.kylin-node.co.uk'
+      }
+    },
+    {
       info: 'litentry',
       text: t('rpc.test.litentry', 'Litentry Testnet', { ns: 'apps-config' }),
       providers: {
@@ -206,6 +223,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       providers: {
         Acala: { type: 'json-rpc' as EndpointType, param: 'wss://acala-mandala.api.onfinality.io/public-ws' },
         'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://mandala.elara.patract.io' }
+      }
+    },
+    {
+      info: 'manta',
+      text: t('rpc.manta', 'Manta Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Manta Testnet': 'wss://ws.f1.testnet.manta.network'
       }
     },
     {
@@ -233,6 +257,20 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'oak-testnet',
+      text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
+      providers: {
+        'OAK Network': 'wss://rpc.testnet.oak.tech'
+      }
+    },
+    {
+      info: 'opportunity',
+      text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
+      providers: {
+        Opportunity: 'wss://rpc.opportunity.standard.tech'
+      }
+    },
+    {
       info: 'pangolin',
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
@@ -254,13 +292,6 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'polkadex',
-      text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
-      providers: {
-        'Polkadex Team': { type: 'json-rpc' as EndpointType, param: 'wss://blockchain.polkadex.trade' }
-      }
-    },
-    {
       info: 'polkabtc',
       text: t('rpc.test.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
       providers: {
@@ -268,10 +299,24 @@ export function createTesting (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'polkadex',
+      text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      providers: {
+        'Polkadex Team': { type: 'json-rpc' as EndpointType, param: 'wss://blockchain.polkadex.trade' }
+      }
+    },
+    {
       info: 'polymesh',
       text: t('rpc.test.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
       providers: {
         Polymath: { type: 'json-rpc' as EndpointType, param: 'wss://itn-rpc.polymesh.live' }
+      }
+    },
+    {
+      info: 'pontem',
+      text: t('rpc.pontem', 'Pontem', { ns: 'apps-config' }),
+      providers: {
+        Pontem: 'wss://testnet.pontem.network/wss'
       }
     },
     {
@@ -300,6 +345,13 @@ export function createTesting (t: TFunction): LinkOption[] {
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: { type: 'json-rpc' as EndpointType, param: 'wss://ws.stage.sora2.soramitsu.co.jp' }
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://staging.subgame.org'
       }
     },
     {
@@ -346,6 +398,7 @@ export function createTesting (t: TFunction): LinkOption[] {
     },
     {
       info: 'web3games',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: { type: 'json-rpc' as EndpointType, param: 'wss://substrate.org.cn:4443' }
@@ -365,5 +418,5 @@ export function createTesting (t: TFunction): LinkOption[] {
         ZERO: { type: 'json-rpc' as EndpointType, param: 'wss://alphaville.zero.io' }
       }
     }
-  ]);
+  ], firstOnly);
 }

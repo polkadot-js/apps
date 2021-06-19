@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
+
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';

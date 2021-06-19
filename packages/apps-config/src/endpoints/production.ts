@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from '../settings/types';
+import type { LinkOption } from './types';
 
 import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { expandEndpoints } from './util';
@@ -16,7 +16,7 @@ import { expandEndpoints } from './util';
 //   value: The actual hosted secure websocket endpoint
 
 // alphabetical based on chain name
-export function createProduction (t: TFunction): LinkOption[] {
+export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     {
       dnslink: 'centrifuge',
@@ -27,19 +27,11 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'crab',
-      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
-      providers: {
-        'Darwinia Network': { type: 'json-rpc' as EndpointType, param: 'wss://crab-rpc.darwinia.network' }
-      }
-    },
-    {
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        ChainX: { type: 'json-rpc' as EndpointType, param: 'wss://mainnet.chainx.org/ws' },
+        // ChainX: { type: 'json-rpc' as EndpointType, param: 'wss://mainnet.chainx.org/ws' }, // https://github.com/polkadot-js/apps/issues/5547
         'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://chainx.elara.patract.io' }
-      }
     },
     {
       info: 'darwinia',
@@ -47,6 +39,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         'Darwinia Network': { type: 'json-rpc' as EndpointType, param: 'wss://rpc.darwinia.network' },
         'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://darwinia.elara.patract.io' }
+      }
+    },
+    {
+      info: 'crab',
+      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
@@ -76,6 +75,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'hanonycash',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.hanonycash.com' }
@@ -133,7 +133,8 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: { type: 'json-rpc' as EndpointType, param: 'wss://ws.sora2.soramitsu.co.jp' }
+        Soramitsu: { type: 'json-rpc' as EndpointType, param: 'wss://ws.sora2.soramitsu.co.jp' },
+        'SORA Parliament Ministry of Finance': { type: 'json-rpc' as EndpointType, param: 'wss://ws.mof.sora.org:4443' }
       }
     },
     {
@@ -143,6 +144,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         'Stafi Foundation': { type: 'json-rpc' as EndpointType, param: 'wss://mainnet-rpc.stafi.io' },
         'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://stafi.elara.patract.io' }
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {
@@ -167,5 +175,5 @@ export function createProduction (t: TFunction): LinkOption[] {
         DataHighway: { type: 'json-rpc' as EndpointType, param: 'wss://westlake.datahighway.com' }
       }
     }
-  ]);
+  ], firstOnly);
 }

@@ -24,7 +24,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
       Parity: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.polkadot.io' },
       OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://polkadot.api.onfinality.io/public-ws' },
       'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://polkadot.elara.patract.io' },
-      'light client': { type: 'substrate-connect' as EndpointType, param: 'polkadot-substrate-connect' }
+      'light client': { type: 'substrate-connect' as EndpointType, param: 'polkadot-substrate-connect' },
+      Pinknode: { type: 'substrate-connect' as EndpointType, param: 'wss://rpc.pinknode.io/polkadot/explorer' }
     },
     linked: [
       // (1) system parachains (none available yet)

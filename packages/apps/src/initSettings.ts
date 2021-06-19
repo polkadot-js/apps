@@ -52,7 +52,11 @@ function getApiType (): Endpoint {
     const option = endpoints.find(({ dnslink }) => dnslink === ipnsChain);
 
     if (option) {
+<<<<<<< HEAD
       return { param: option.value as string, type: 'json-rpc' as EndpointType };
+=======
+      return option.value;
+>>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
     }
   }
 
@@ -63,8 +67,13 @@ function getApiType (): Endpoint {
   return [stored.apiType, process.env.WS_URL].includes(settings.apiType)
     ? settings.apiType // keep as-is
     : fallbackUrl
+<<<<<<< HEAD
       ? { param: fallbackUrl.value as string, type: 'json-rpc' as EndpointType } // grab the fallback
       : { param: 'ws://127.0.0.1:9944', type: 'json-rpc' as EndpointType }; // nothing found, go local
+=======
+      ? fallbackUrl.value // grab the fallback
+      : 'ws://127.0.0.1:9944'; // nothing found, go local
+>>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
 }
 
 // There cannot be a Substrate Connect light client default (expect only jrpc EndpointType)

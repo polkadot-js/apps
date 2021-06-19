@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
