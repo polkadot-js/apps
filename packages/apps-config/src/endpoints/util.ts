@@ -5,7 +5,7 @@ import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
 import type { EndpointOption } from './types';
 
-import { EndpointType } from './types';
+import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 
 export function expandLinked (input: LinkOption[]): LinkOption[] {
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
@@ -38,11 +38,11 @@ export function expandEndpoint (t: TFunction, input: EndpointOption): LinkOption
   const result = Object.entries(providers).map(([host, value], index): LinkOption => ({
     ...base,
     dnslink: index === 0 ? dnslink : undefined,
-    isLightClient: value.type === EndpointType.substrateconnect,
-    textBy: (value.type === EndpointType.jrpc)
+    isLightClient: value.type === 'substrate-connect' as EndpointType,
+    textBy: (value.type === 'json-rpc' as EndpointType)
       ? t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } })
       : t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' }),
-    value: (value.type === EndpointType.jrpc) ? value.url : value.chain
+    value: value.param as string
   }));
 
   if (linked) {

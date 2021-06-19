@@ -11,6 +11,7 @@ import { Detector } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
+import { WsProvider } from '@polkadot/api';
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
@@ -20,17 +21,17 @@ import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
+import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
-import { WsProvider } from '@polkadot/api';
 
 interface Props {
   children: React.ReactNode;
-  url?: string;
+  apiType?: Endpoint;
   store?: KeyringStore;
 }
 
@@ -178,7 +179,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   };
 }
 
-function Api ({ children, store, url }: Props): React.ReactElement<Props> | null {
+function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -205,7 +206,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
         api.isReady.then(() => {
           setIsApiInitialized(true);
           setIsApiConnected(true);
-          console.log('ready');
+
           const injectedPromise = web3Enable('polkadot-js/apps');
 
           injectedPromise
@@ -225,13 +226,11 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
       }
     }
 
-    if (url?.includes('substrateconnect')) {
-      const network = url?.replace('ws://', '').split('.')[0];
-
+    if (apiType?.type === 'substrate-connect' as EndpointType) {
       // eslint-disable-next-line no-void
-      void substrateConnectApi(network);
-    } else {
-      const provider = new WsProvider(url);
+      void substrateConnectApi(apiType.param);
+    } else if (apiType?.type === 'json-rpc' as EndpointType) {
+      const provider = new WsProvider(apiType.param);
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
       const types = getDevTypes();
 
@@ -257,11 +256,8 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
       });
 
       setIsApiInitialized(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiType, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;

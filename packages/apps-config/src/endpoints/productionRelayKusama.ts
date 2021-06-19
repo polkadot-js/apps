@@ -4,8 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
+import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { KUSAMA_GENESIS } from '../api/constants';
-import { EndpointType } from './types';
 
 /* eslint-disable sort-keys */
 
@@ -21,10 +21,10 @@ export function createKusama (t: TFunction): EndpointOption {
     info: 'kusama',
     text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
     providers: {
-      Parity: { type: EndpointType.jrpc, url: 'wss://kusama-rpc.polkadot.io' },
-      OnFinality: { type: EndpointType.jrpc, url: 'wss://kusama.api.onfinality.io/public-ws' },
-      'Patract Elara': { type: EndpointType.jrpc, url: 'wss://kusama.elara.patract.io' },
-      'light client': { type: EndpointType.substrateconnect, chain: 'kusama-substrate-connect' }
+      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://kusama-rpc.polkadot.io' },
+      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://kusama.api.onfinality.io/public-ws' },
+      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://kusama.elara.patract.io' },
+      'light client': { type: 'substrate-connect' as EndpointType, param: 'kusama-substrate-connect' }
     },
     linked: [
       // (1) all system parachains (none available yet)
@@ -35,7 +35,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.shell', 'Shell', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: EndpointType.jrpc, url: 'wss://kusama-shell-rpc.parity.io' }
+          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://kusama-shell-rpc.parity.io' }
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
@@ -46,7 +46,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Bifrost: { type: EndpointType.jrpc, url: 'wss://bifrost-rpc.liebi.com/ws' }
+          Bifrost: { type: 'json-rpc' as EndpointType, param: 'wss://bifrost-rpc.liebi.com/ws' }
         }
       },
       {
@@ -54,7 +54,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2006,
         text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
         providers: {
-          Crab: { type: EndpointType.jrpc, url: 'wss://crab-rpc.darwinia.network/' }
+          Crab: { type: 'json-rpc' as EndpointType, param: 'wss://crab-rpc.darwinia.network/' }
         }
       },
       {
@@ -62,7 +62,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
-          Crust: { type: EndpointType.jrpc, url: 'wss://shadow.crust.network/' }
+          Crust: { type: 'json-rpc' as EndpointType, param: 'wss://shadow.crust.network/' }
         }
       },
       {
@@ -70,7 +70,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: { type: EndpointType.jrpc, url: 'wss://khala.phala.network/ws' }
+          Phala: { type: 'json-rpc' as EndpointType, param: 'wss://khala.phala.network/ws' }
         }
       },
       {
@@ -78,7 +78,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2005,
         text: t('rpc.kusama.kilt', 'KILT Mainnet', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': { type: EndpointType.jrpc, url: 'wss://mainnet.kilt.io/' }
+          'KILT Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://mainnet.kilt.io/' }
         }
       },
       {
@@ -86,7 +86,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
         providers: {
-          ChainX: { type: EndpointType.jrpc, url: 'wss://sherpax.chainx.org' }
+          ChainX: { type: 'json-rpc' as EndpointType, param: 'wss://sherpax.chainx.org' }
         }
       }
     ]

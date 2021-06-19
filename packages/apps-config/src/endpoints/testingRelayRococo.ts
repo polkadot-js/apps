@@ -4,8 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
+import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { ROCOCO_GENESIS } from '../api/constants';
-import { EndpointType } from './types';
 
 /* eslint-disable sort-keys */
 
@@ -23,10 +23,10 @@ export function createRococo (t: TFunction): EndpointOption {
     info: 'rococo',
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
-      Parity: { type: EndpointType.jrpc, url: 'wss://rococo-rpc.polkadot.io' },
-      OnFinality: { type: EndpointType.jrpc, url: 'wss://rococo.api.onfinality.io/public-ws' },
-      'Patract Elara': { type: EndpointType.jrpc, url: 'wss://rococo.elara.patract.io' },
-      'Ares Protocol': { type: EndpointType.jrpc, url: 'wss://rococo.aresprotocol.com' }
+      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://rococo-rpc.polkadot.io' },
+      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.api.onfinality.io/public-ws' },
+      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://rococo.elara.patract.io' },
+      'Ares Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://rococo.aresprotocol.com' }
     },
     linked: [
       // these are the base chains
@@ -35,7 +35,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 100,
         text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: EndpointType.jrpc, url: 'wss://tick-rpc.polkadot.io' }
+          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://tick-rpc.polkadot.io' }
         }
       },
       {
@@ -43,7 +43,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 110,
         text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: EndpointType.jrpc, url: 'wss://trick-rpc.polkadot.io' }
+          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://trick-rpc.polkadot.io' }
         }
       },
       {
@@ -51,7 +51,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 120,
         text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: EndpointType.jrpc, url: 'wss://track-rpc.polkadot.io' }
+          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://track-rpc.polkadot.io' }
         }
       },
       {
@@ -59,7 +59,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: EndpointType.jrpc, url: 'wss://statemint-rococo-rpc.parity.io' }
+          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://statemint-rococo-rpc.parity.io' }
         }
       },
       // add any additional parachains here, alphabetical
@@ -68,7 +68,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2048,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
-          'Apron Network': { type: EndpointType.jrpc, url: 'wss://rococo.apron.network' }
+          'Apron Network': { type: 'json-rpc' as EndpointType, param: 'wss://rococo.apron.network' }
         }
       },
       {
@@ -76,7 +76,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1006,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
         providers: {
-          'Ares Protocol': { type: EndpointType.jrpc, url: 'wss://rococo.parachain.aresprotocol.com' }
+          'Ares Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://rococo.parachain.aresprotocol.com' }
         }
       },
       {
@@ -84,7 +84,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1024,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
         providers: {
-          Bifrost: { type: EndpointType.jrpc, url: 'wss://rococo-1.testnet.liebi.com' }
+          Bifrost: { type: 'json-rpc' as EndpointType, param: 'wss://rococo-1.testnet.liebi.com' }
         }
       },
       {
@@ -92,7 +92,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1008,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
-          BitCountry: { type: EndpointType.jrpc, url: 'wss://tewai-parachain.bit.country:9955' }
+          BitCountry: { type: 'json-rpc' as EndpointType, param: 'wss://tewai-parachain.bit.country:9955' }
         }
       },
       {
@@ -100,7 +100,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 10001,
         text: t('rpc.rococo.centrifuge', 'Centrifuge Charcoal', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: { type: EndpointType.jrpc, url: 'wss://fullnode-collator.charcoal.centrifuge.io' }
+          Centrifuge: { type: 'json-rpc' as EndpointType, param: 'wss://fullnode-collator.charcoal.centrifuge.io' }
         }
       },
       {
@@ -111,7 +111,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 229,
         text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
         providers: {
-          Clover: { type: EndpointType.jrpc, url: 'wss://api-rococo.clover.finance' }
+          Clover: { type: 'json-rpc' as EndpointType, param: 'wss://api-rococo.clover.finance' }
         }
       },
       {
@@ -122,7 +122,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 9,
         text: t('rpc.rococo.crab', 'Darwinia Crab PC2', { ns: 'apps-config' }),
         providers: {
-          Darwinia: { type: EndpointType.jrpc, url: 'wss://crab-pc2-rpc.darwinia.network' }
+          Darwinia: { type: 'json-rpc' as EndpointType, param: 'wss://crab-pc2-rpc.darwinia.network' }
         }
       },
       {
@@ -130,7 +130,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
         providers: {
-          Crust: { type: EndpointType.jrpc, url: 'wss://api-rococo.crust.network' }
+          Crust: { type: 'json-rpc' as EndpointType, param: 'wss://api-rococo.crust.network' }
         }
       },
       {
@@ -138,7 +138,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1059,
         text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
         providers: {
-          ChainX: { type: EndpointType.jrpc, url: 'wss://sherpax.chainx.org' }
+          ChainX: { type: 'json-rpc' as EndpointType, param: 'wss://sherpax.chainx.org' }
         }
       },
       {
@@ -149,7 +149,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
-          Darwinia: { type: EndpointType.jrpc, url: 'wss://pc2-rpc.darwinia.network' }
+          Darwinia: { type: 'json-rpc' as EndpointType, param: 'wss://pc2-rpc.darwinia.network' }
         }
       },
       {
@@ -160,7 +160,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2,
         text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
         providers: {
-          DataHighway: { type: EndpointType.jrpc, url: 'wss://spreehafen.datahighway.com' }
+          DataHighway: { type: 'json-rpc' as EndpointType, param: 'wss://spreehafen.datahighway.com' }
         }
       },
       {
@@ -168,7 +168,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2003,
         text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
         providers: {
-          EAVE: { type: EndpointType.jrpc, url: 'wss://steamcollator.eave.network' }
+          EAVE: { type: 'json-rpc' as EndpointType, param: 'wss://steamcollator.eave.network' }
         }
       },
       {
@@ -176,7 +176,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1862,
         text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
         providers: {
-          Encointer: { type: EndpointType.jrpc, url: 'wss://rococo.encointer.org' }
+          Encointer: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.encointer.org' }
         }
       },
       {
@@ -187,7 +187,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 42,
         text: t('rpc.rococo.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: { type: EndpointType.jrpc, url: 'wss://rococo.equilibrium.io' }
+          Equilibrium: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.equilibrium.io' }
         }
       },
       {
@@ -195,7 +195,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1230,
         text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
-          StarkleyTech: { type: EndpointType.jrpc, url: 'wss://galital-rpc.starkleytech.com' }
+          StarkleyTech: { type: 'json-rpc' as EndpointType, param: 'wss://galital-rpc.starkleytech.com' }
         }
       },
       {
@@ -203,7 +203,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 82406,
         text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
         providers: {
-          HydraDX: { type: EndpointType.jrpc, url: 'wss://hydrate-rpc.hydradx.io:9944' }
+          HydraDX: { type: 'json-rpc' as EndpointType, param: 'wss://hydrate-rpc.hydradx.io:9944' }
         }
       },
       {
@@ -211,7 +211,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 7766,
         text: t('rpc.rococo.idavoll', 'Idavoll', { ns: 'apps-config' }),
         providers: {
-          Idavoll: { type: EndpointType.jrpc, url: 'wss://rococo.idavoll.network' }
+          Idavoll: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.idavoll.network' }
         }
       },
       {
@@ -219,7 +219,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1983,
         text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
         providers: {
-          SCS: { type: EndpointType.jrpc, url: 'wss://rococo.integritee.network' }
+          SCS: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.integritee.network' }
         }
       },
       {
@@ -227,7 +227,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 12623,
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': { type: EndpointType.jrpc, url: 'wss://para.rococo-v1.kilt.io' }
+          'KILT Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://para.rococo-v1.kilt.io' }
         }
       },
       {
@@ -235,7 +235,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 18403,
         text: t('rpc.rococo.konomi', 'Komomi Network', { ns: 'apps-config' }),
         providers: {
-          'Konomi Network': { type: EndpointType.jrpc, url: 'wss://rococo.konomi.tech' }
+          'Konomi Network': { type: 'json-rpc' as EndpointType, param: 'wss://rococo.konomi.tech' }
         }
       },
       {
@@ -243,7 +243,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1984,
         text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
         providers: {
-          Litentry: { type: EndpointType.jrpc, url: 'wss://rococov1.litentry.io' }
+          Litentry: { type: 'json-rpc' as EndpointType, param: 'wss://rococov1.litentry.io' }
         }
       },
       {
@@ -251,7 +251,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
-          Acala: { type: EndpointType.jrpc, url: 'wss://rococo-1.acala.laminar.one' }
+          Acala: { type: 'json-rpc' as EndpointType, param: 'wss://rococo-1.acala.laminar.one' }
         }
       },
       {
@@ -262,7 +262,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 40,
         text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
-          MathWallet: { type: EndpointType.jrpc, url: 'wss://testpara.maiziqianbao.net/ws' }
+          MathWallet: { type: 'json-rpc' as EndpointType, param: 'wss://testpara.maiziqianbao.net/ws' }
         }
       },
       {
@@ -270,7 +270,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2021,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
-          Manta: { type: EndpointType.jrpc, url: 'wss://rococo.manta.network' }
+          Manta: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.manta.network' }
         }
       },
       {
@@ -278,7 +278,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1286,
         text: t('rpc.rococo.moonrock', 'Moonrock', { ns: 'apps-config' }),
         providers: {
-          Moonrock: { type: EndpointType.jrpc, url: 'wss://wss-moonrock.gcp.purestake.run' }
+          Moonrock: { type: 'json-rpc' as EndpointType, param: 'wss://wss-moonrock.gcp.purestake.run' }
         }
       },
       {
@@ -286,7 +286,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 18888,
         text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
         providers: {
-          Parami: { type: EndpointType.jrpc, url: 'wss://rococo.parami.io' }
+          Parami: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.parami.io' }
         }
       },
       {
@@ -294,7 +294,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1010,
         text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
-          jupiter: { type: EndpointType.jrpc, url: 'wss://ws.rococo.jupiter.patract.cn' }
+          jupiter: { type: 'json-rpc' as EndpointType, param: 'wss://ws.rococo.jupiter.patract.cn' }
         }
       },
       {
@@ -302,7 +302,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1030,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
-          Phala: { type: EndpointType.jrpc, url: 'wss://rococov1.phala.network/ws' }
+          Phala: { type: 'json-rpc' as EndpointType, param: 'wss://rococov1.phala.network/ws' }
         }
       },
       {
@@ -310,7 +310,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 6806,
         text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
         providers: {
-          'PHOENIX Protocol': { type: EndpointType.jrpc, url: 'wss://phoenix-ws.coinid.pro' }
+          'PHOENIX Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://phoenix-ws.coinid.pro' }
         }
       },
       {
@@ -318,7 +318,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
-          PlasmNetwork: { type: EndpointType.jrpc, url: 'wss://rpc.rococo.plasmnet.io' }
+          PlasmNetwork: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.rococo.plasmnet.io' }
         }
       },
       {
@@ -329,7 +329,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 21,
         text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
         providers: {
-          Interlay: { type: EndpointType.jrpc, url: 'wss://rococo.polkabtc.io/api/parachain' }
+          Interlay: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.polkabtc.io/api/parachain' }
         }
       },
       {
@@ -337,7 +337,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1111,
         text: t('rpc.rococo.polkafoundry', 'PolkaFoundry PC1', { ns: 'apps-config' }),
         providers: {
-          PolkaFoundry: { type: EndpointType.jrpc, url: 'wss://rococo.polkafoundry.com' }
+          PolkaFoundry: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.polkafoundry.com' }
         }
       },
       {
@@ -345,7 +345,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2002,
         text: t('rpc.rococo.prism', 'Prism PC1', { ns: 'apps-config' }),
         providers: {
-          Prism: { type: EndpointType.jrpc, url: 'wss://rococo.psm.link' }
+          Prism: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.psm.link' }
         }
       },
       {
@@ -353,7 +353,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
-          Airalab: { type: EndpointType.jrpc, url: 'wss://rococo.parachain.robonomics.network' }
+          Airalab: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.parachain.robonomics.network' }
         }
       },
       {
@@ -364,7 +364,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 888,
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
         providers: {
-          SubDAONetwork: { type: EndpointType.jrpc, url: 'wss://parachain.subdao.network' }
+          SubDAONetwork: { type: 'json-rpc' as EndpointType, param: 'wss://parachain.subdao.network' }
         }
       },
       {
@@ -375,7 +375,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 28,
         text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
         providers: {
-          DappForce: { type: EndpointType.jrpc, url: 'wss://roc.subsocial.network' }
+          DappForce: { type: 'json-rpc' as EndpointType, param: 'wss://roc.subsocial.network' }
         }
       },
       {
@@ -383,7 +383,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 6633,
         text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),
         providers: {
-          TrustBase: { type: EndpointType.jrpc, url: 'wss://rococo.trustednodes.net' }
+          TrustBase: { type: 'json-rpc' as EndpointType, param: 'wss://rococo.trustednodes.net' }
         }
       },
       {
@@ -394,7 +394,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 3,
         text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
         providers: {
-          'Unit Network': { type: EndpointType.jrpc, url: 'wss://unitp.io' }
+          'Unit Network': { type: 'json-rpc' as EndpointType, param: 'wss://unitp.io' }
         }
       },
       {
@@ -402,7 +402,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 3586,
         text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
         providers: {
-          Valiu: { type: EndpointType.jrpc, url: 'wss://vln.valiu.dev' }
+          Valiu: { type: 'json-rpc' as EndpointType, param: 'wss://vln.valiu.dev' }
         }
       },
       {
@@ -410,7 +410,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 9123,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
-          Zeitgeist: { type: EndpointType.jrpc, url: 'wss://roc.zeitgeist.pm' }
+          Zeitgeist: { type: 'json-rpc' as EndpointType, param: 'wss://roc.zeitgeist.pm' }
         }
       },
       {
@@ -418,7 +418,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1188,
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {
-          Zenlink: { type: EndpointType.jrpc, url: 'wss://rococo-parachain.zenlink.pro' }
+          Zenlink: { type: 'json-rpc' as EndpointType, param: 'wss://rococo-parachain.zenlink.pro' }
         }
       }
     ]

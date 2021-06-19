@@ -5,12 +5,25 @@ import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
+import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 
 import { useTranslation } from '../translate';
 import BaseOverlay from './Base';
 
-const wsUrl = settings.apiUrl;
-const isWs = typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
+function networkOrUrl (apiType: Endpoint): string {
+  if (apiType.type === 'json-rpc' as EndpointType) {
+    return apiType.param as string;
+  }
+
+  if (apiType.type === 'substrate-connect' as EndpointType) {
+    return apiType.param as string;
+  }
+
+  return '';
+}
+
+const wsUrl = networkOrUrl(settings.apiType);
+const isWs = settings.apiType.type === 'json-rpc' as EndpointType && typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
 const isWsLocal = typeof wsUrl === 'string' && wsUrl.includes('127.0.0.1');
 const isHttps = window.location.protocol.startsWith('https:');
 

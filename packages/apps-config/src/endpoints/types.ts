@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Endpoint } from '../../../../../ui/packages/ui-settings/src/types';
+
 export interface EndpointOption {
   dnslink?: string;
   genesisHash?: string;
@@ -12,21 +14,4 @@ export interface EndpointOption {
   paraId?: number;
   providers: Record<string, Endpoint>;
   text: React.ReactNode;
-}
-
-type Endpoint = JsonRpcEndpoint | SubstrateConnectEndpoint;
-
-interface JsonRpcEndpoint {
-  type: EndpointType.jrpc;
-  url: string;
-}
-
-interface SubstrateConnectEndpoint {
-  type: EndpointType.substrateconnect;
-  chain: string;
-}
-
-export enum EndpointType {
-  jrpc = 'json-rpc',
-  substrateconnect = 'substrate-connect'
 }

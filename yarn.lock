@@ -2804,7 +2804,7 @@ __metadata:
     "@polkadot/api": ^4.10.1
     "@polkadot/extension-dapp": ^0.37.3-19
     "@polkadot/x-rxjs": ^6.4.1
-    "@substrate/connect": 0.3.1-test2
+    "@substrate/connect": 0.3.1-test3
     fflate: ^0.6.10
   languageName: unknown
   linkType: soft
@@ -3462,9 +3462,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.3.1-test2":
-  version: 0.3.1-test2
-  resolution: "@substrate/connect@npm:0.3.1-test2"
+"@substrate/connect@npm:0.3.1-test3":
+  version: 0.3.1-test3
+  resolution: "@substrate/connect@npm:0.3.1-test3"
   dependencies:
     "@polkadot/rpc-provider": ^4.10.1
     "@substrate/connect-extension-protocol": ^0.3.0
@@ -3472,10 +3472,10 @@ __metadata:
     eventemitter3: ^4.0.7
     file-entry-cache: ^6.0.1
     mkdirp: ^1.0.4
-    smoldot: ^0.2.1
+    smoldot: ^0.2.3
   peerDependencies:
     "@polkadot/wasm-crypto": ^3.2.2
-  checksum: bcf65a236c42783a97e235c6dd3f6b1d310f696c4c76903308235a1eb1f5d828d2b49c8bada6c37ddc3b67af229934622878c820ccfcba94711347ab04180f8b
+  checksum: 17a3c5707e0cbc0d90c3473624e3b911e04c85968cbeb3d56ff43bdc144ac9bb270c8394b454aa1f93f7fddbd994c04bdc955a2b923dac2486148b52fee033c9
   languageName: node
   linkType: hard
 
@@ -15248,7 +15248,7 @@ fsevents@~2.1.2:
     "@pinata/sdk": ^1.1.20
     "@polkadot/dev": ^0.62.14
     "@polkadot/ts": ^0.3.66
-    "@substrate/connect": 0.3.1-test2
+    "@substrate/connect": 0.3.1-test3
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.32
     "@types/file-saver": ^2.0.2
@@ -17508,15 +17508,15 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"smoldot@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "smoldot@npm:0.2.1"
+"smoldot@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "smoldot@npm:0.2.3"
   dependencies:
     buffer: ^6.0.1
     performance-now: ^2.1.0
     randombytes: ^2.1.0
     websocket: ^1.0.32
-  checksum: f48ca8f8b5484b7b9798757e2723a8193c47fdf989eac6978c574e55c01c5784809f3d2b07efc7a5e4841ba4b7736d0fc80682cef12254db602cfd4c165511d2
+  checksum: 771de755adf1402274be91c3af94e0e9d37b12cdc024652bf619df4bb2eb8e17624448c576d9e1fda36b4e8ebca7c768765c865e4fba40cd11e190a8dc749d4e
   languageName: node
   linkType: hard
 

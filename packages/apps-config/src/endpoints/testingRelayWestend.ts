@@ -4,8 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
+import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { WESTEND_GENESIS } from '../api/constants';
-import { EndpointType } from './types';
 
 /* eslint-disable sort-keys */
 
@@ -23,11 +23,11 @@ export function createWestend (t: TFunction): EndpointOption {
     info: 'westend',
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
-      Parity: { type: EndpointType.jrpc, url: 'wss://westend-rpc.polkadot.io' },
-      'NodeFactory(Vedran)': { type: EndpointType.jrpc, url: 'wss://westend.vedran.nodefactory.io/ws' },
-      'Patract Elara': { type: EndpointType.jrpc, url: 'wss://westend.elara.patract.io' },
-      OnFinality: { type: EndpointType.jrpc, url: 'wss://westend.api.onfinality.io/public-ws' },
-      'light client': { type: EndpointType.substrateconnect, chain: 'westend-substrate-connect' }
+      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://westend-rpc.polkadot.io' },
+      'NodeFactory(Vedran)': { type: 'json-rpc' as EndpointType, param: 'wss://westend.vedran.nodefactory.io/ws' },
+      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://westend.elara.patract.io' },
+      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://westend.api.onfinality.io/public-ws' },
+      'light client': { type: 'substrate-connect' as EndpointType, param: 'westend-substrate-connect' }
     },
     linked: [
       // (1) system parachains (none available yet)
@@ -38,7 +38,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 1070,
         text: t('rpc.westend.shell', 'Shell', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: EndpointType.jrpc, url: 'wss://westend-shell-rpc.parity.io' }
+          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://westend-shell-rpc.parity.io' }
         }
       }
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")

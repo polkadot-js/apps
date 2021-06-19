@@ -4,8 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
+import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { POLKADOT_GENESIS } from '../api/constants';
-import { EndpointType } from './types';
 
 /* eslint-disable sort-keys */
 
@@ -21,10 +21,10 @@ export function createPolkadot (t: TFunction): EndpointOption {
     info: 'polkadot',
     text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
     providers: {
-      Parity: { type: EndpointType.jrpc, url: 'wss://rpc.polkadot.io' },
-      OnFinality: { type: EndpointType.jrpc, url: 'wss://polkadot.api.onfinality.io/public-ws' },
-      'Patract Elara': { type: EndpointType.jrpc, url: 'wss://polkadot.elara.patract.io' },
-      'light client': { type: EndpointType.substrateconnect, chain: 'polkadot-substrate-connect' }
+      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.polkadot.io' },
+      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://polkadot.api.onfinality.io/public-ws' },
+      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://polkadot.elara.patract.io' },
+      'light client': { type: 'substrate-connect' as EndpointType, param: 'polkadot-substrate-connect' }
     },
     linked: [
       // (1) system parachains (none available yet)
