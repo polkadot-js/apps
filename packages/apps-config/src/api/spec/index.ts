@@ -6,6 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import acala from './acala';
 import apron from './apron';
 import aresParachain from './ares-parachain';
+import beresheet from './beresheet';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
@@ -78,6 +79,7 @@ import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
 import subdao from './subdao';
+import subgame from './subgame';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
@@ -108,6 +110,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   apron,
   'ares-parachain': aresParachain,
   basilisk: hydrate,
+  beresheet,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
@@ -191,6 +194,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   stafi,
   steam: eave,
   subdao,
+  subgame,
   subsocial,
   subzero: zero,
   ternoa,
