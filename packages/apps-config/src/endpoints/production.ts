@@ -133,7 +133,8 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org:4443'
       }
     },
     {
@@ -143,6 +144,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
         'Patract Elara': 'wss://stafi.elara.patract.io'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {
