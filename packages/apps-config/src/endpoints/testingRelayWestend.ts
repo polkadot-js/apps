@@ -42,7 +42,8 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           Parity: createProviderUrl('wss://westend-shell-rpc.parity.io'),
           'Patract Elara': createProviderUrl('wss://westmint.westend.elara.patract.io')
-        }
+        },
+        teleport: [-1]
       },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //

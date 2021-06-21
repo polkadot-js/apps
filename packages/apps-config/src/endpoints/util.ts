@@ -53,6 +53,7 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
     .map(([host, value], index): LinkOption => ({
       ...base,
       dnslink: index === 0 ? dnslink : undefined,
+      isRelay: false,
       isLightClient: value.type === 'substrate-connect' as EndpointType,
       textBy: (value.type === 'json-rpc' as EndpointType)
         ? t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } })

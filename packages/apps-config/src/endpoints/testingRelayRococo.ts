@@ -24,7 +24,7 @@ export function createRococo (t: TFunction): EndpointOption {
     text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
     providers: {
       Parity: createProviderUrl('wss://rococo-rpc.polkadot.io'),
-      OnFinality: createProviderUrl('wss://rococo.api.onfinalit.io/public-ws'),
+      OnFinality: createProviderUrl('wss://rococo.api.onfinality.io/public-ws'),
       'Patract Elara': createProviderUrl('wss://rococo.elara.patract.io'),
       'Ares Protocol': createProviderUrl('wss://rococo.aresprotocol.com'),
       Pinknode:  createProviderUrl('wss://rpc.pinknode.io/rococo/explorer')
