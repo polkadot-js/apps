@@ -57,12 +57,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const _onScan = useCallback(
     (scanned: Scanned): void => {
       if (isEthereum && scanned.isAddress && scanned.content.substring(0, 2) !== '0x') {
-        setAddress({
-          address: '',
-          isAddress: false,
-          scanned: null,
-          warning: t<string>('Ethereum Compatible Parachains must import from an Ethereum Wallet')
-        });
+        console.log("hoho")
       } else {
         setAddress({
           address: scanned.isAddress
@@ -80,6 +75,18 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
     [_onNameChange, isEthereum, t]
   );
 
+  const _onError = useCallback(
+    (err: Error): void => {
+      setAddress({
+        address: '',
+        isAddress: false,
+        scanned: null,
+        warning: t<string>(err.message)
+      });
+    },
+    [_onNameChange, isEthereum, t]
+  );
+
   const _onSave = useCallback(
     (): void => {
       if (!scanned || !isValid) {
@@ -92,7 +99,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         name: name.trim()
       };
       const account = isAddress
-        ? keyring.addExternal(content, meta).pair.address
+        ? isEthereum? keyring.addExternal(content).pair.address:keyring.addExternal(content, meta).pair.address
         : keyring.addUri(content, password, meta, 'sr25519').pair.address;
 
       InputAddress.setLastValue('account', account);
@@ -151,6 +158,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 <QrScanAddress
                   isEthereum={isEthereum}
                   onScan={_onScan}
+                  onError={_onError}
                 />
               </div>
               {warning && <MarkWarning content={warning} />}
