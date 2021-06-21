@@ -13,7 +13,7 @@ import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';
-import useRanges from '../useRanges';
+import { useLeaseRanges } from '../useLeaseRanges';
 
 interface Props {
   auctionInfo?: AuctionInfo;
@@ -36,7 +36,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const bestNumber = useBestNumber();
-  const ranges = useRanges();
+  const ranges = useLeaseRanges();
   const [{ accountId, paraId }, setOwnerInfo] = useState<OwnerInfo>(EMPTY_OWNER);
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [range, setRange] = useState(0);

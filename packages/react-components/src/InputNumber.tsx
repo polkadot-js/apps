@@ -40,6 +40,7 @@ interface Props {
   onEscape?: () => void;
   placeholder?: string;
   siDecimals?: number;
+  siDefault?: SiDef;
   siSymbol?: string;
   value?: BN | null;
   withEllipsis?: boolean;
@@ -173,14 +174,18 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
-  const [isPreKeyDown, setIsPreKeyDown] = useState(false);
-  const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(
+  const [si, setSi] = useState<SiDef | null>(() =>
+    isSi
+      ? siDefault || formatBalance.findSi('-')
+      : null
+  );
+  const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(() =>
     getValues(api, propsValue || defaultValue, si, bitLength, isZeroable, maxValue, siDecimals)
   );
+  const [isPreKeyDown, setIsPreKeyDown] = useState(false);
 
   const siOptions = useMemo(
     () => getSiOptions(siSymbol || TokenUnit.abbr, siDecimals),

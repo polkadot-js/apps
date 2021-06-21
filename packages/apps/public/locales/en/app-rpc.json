@@ -1,5 +1,6 @@
 {
   "RPC calls": "RPC calls",
+  "Submission": "Submission",
   "Submit RPC call": "Submit RPC call",
   "The actual JSONRPC module and function to make a call to.": "The actual JSONRPC module and function to make a call to.",
   "call the selected endpoint": "call the selected endpoint",

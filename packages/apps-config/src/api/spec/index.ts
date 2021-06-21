@@ -6,6 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import acala from './acala';
 import apron from './apron';
 import aresParachain from './ares-parachain';
+import beresheet from './beresheet';
 import bifrost from './bifrost';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
@@ -21,7 +22,8 @@ import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
-import dock from './dock';
+import dockPoaMainnet from './dock-poa-mainnet';
+import dockPoaTestnet from './dock-poa-testnet';
 import dotmog from './dotmog';
 import dusty from './dusty';
 import eave from './eave';
@@ -34,6 +36,7 @@ import galital from './galital';
 import galitalParachain from './galital-parachain';
 import galois from './galois';
 import gamepower from './gamepower';
+import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
@@ -44,6 +47,7 @@ import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
 import konomi from './konomi';
 import kulupu from './kulupu';
+import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
@@ -52,6 +56,10 @@ import mybank from './mybank';
 import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
+import oakTestnet from './oak-testnet';
+import opportunity from './opportunity';
+import origintrail from './origintrail';
+import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -62,6 +70,7 @@ import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
+import pontem from './pontem';
 import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
@@ -70,6 +79,7 @@ import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import stafi from './stafi';
 import subdao from './subdao';
+import subgame from './subgame';
 import subsocial from './subsocial';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
@@ -92,11 +102,15 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
+  Genshiro: genshiro,
+  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
-  acala,
+  ...acala,
   apron,
   'ares-parachain': aresParachain,
+  basilisk: hydrate,
+  beresheet,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
@@ -112,11 +126,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'crust-parachain': crust,
   'cumulus-subsocial-parachain': subsocial,
   'cumulus-test-parachain': testPara,
+  datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,
-  'dock-main-runtime': dock,
-  'dock-testnet': dock,
+  'dock-main-runtime': dockPoaMainnet,
+  'dock-test-runtime': dockPoaTestnet,
   'dotmog-node': dotmog,
   dusty4: dusty,
   edgeware,
@@ -135,18 +150,21 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
+  khala: phalaParachain,
   'kilt-parachain': kilt,
+  'kilt-spiritnet': kilt,
   konomi,
   kulupu,
+  kylin,
   laminar,
   litentry,
-  mandala: acala,
-  manta,
+  'manta-node': manta,
   'mashnet-node': kilt,
   'mathchain-galois': galois,
-  'moonbase-alphanet': moonbeam,
+  moonbase: moonbeam,
   moonbeam,
-  'moonbeam-standalone': moonbeam,
+  moonriver: moonbeam,
+  moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
   nft: unique,
@@ -154,14 +172,19 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
+  'oak-testnet': oakTestnet,
+  opportunity,
+  'origintrail-parachain': origintrail,
   parami,
   'phala-collator': phalaParachain,
   'phala-node': phala,
+  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
   polymesh,
+  pontem,
   prism,
   realis,
   'riochain-runtime': riochain,
@@ -171,6 +194,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   stafi,
   steam: eave,
   subdao,
+  subgame,
   subsocial,
   subzero: zero,
   ternoa,
@@ -180,7 +204,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
-  westlake: westlake,
   zeitgeist: zeitgeist
 };
 

@@ -6,18 +6,18 @@ import type { ChainInfo } from './types';
 
 import { useMemo } from 'react';
 
-import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config';
+import { getSystemColor, getSystemIcon } from '@polkadot/apps-config';
 import { DEFAULT_DECIMALS, DEFAULT_SS58 } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 import { getSpecTypes } from '@polkadot/types-known';
 import { formatBalance, isNumber } from '@polkadot/util';
 
-function createInfo (api: ApiPromise, systemChain: string, systemName: string): ChainInfo {
+function createInfo (api: ApiPromise, systemChain: string, systemName: string, specName: string): ChainInfo {
   return {
     chain: systemChain,
-    color: getSystemChainColor(systemChain, systemName),
+    color: getSystemColor(systemChain, systemName, specName),
     genesisHash: api.genesisHash.toHex(),
-    icon: getSystemIcon(systemName),
+    icon: getSystemIcon(systemName, specName),
     metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
     specVersion: api.runtimeVersion.specVersion.toNumber(),
     ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
@@ -28,12 +28,12 @@ function createInfo (api: ApiPromise, systemChain: string, systemName: string): 
 }
 
 export default function useChainInfo (): ChainInfo | null {
-  const { api, isApiReady, systemChain, systemName } = useApi();
+  const { api, isApiReady, specName, systemChain, systemName } = useApi();
 
   return useMemo(
     () => isApiReady
-      ? createInfo(api, systemChain, systemName)
+      ? createInfo(api, systemChain, systemName, specName)
       : null,
-    [api, isApiReady, systemChain, systemName]
+    [api, isApiReady, specName, systemChain, systemName]
   );
 }

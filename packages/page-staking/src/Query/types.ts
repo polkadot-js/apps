@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
 
 export interface Props {
   className?: string;

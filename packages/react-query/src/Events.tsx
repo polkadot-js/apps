@@ -36,8 +36,8 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
     .map((record, index) => ({ indexes: [index], record }))
     .filter(({ record: { event: { method, section } } }) =>
       section !== 'system' &&
-      (method !== 'Deposit' || !['balances', 'treasury'].includes(section)) &&
-      (section !== 'inclusion' || !['CandidateBacked', 'CandidateIncluded'].includes(method))
+      (!['balances', 'treasury'].includes(section) || !['Deposit'].includes(method)) &&
+      (!['parasInclusion', 'inclusion'].includes(section) || !['CandidateBacked', 'CandidateIncluded'].includes(method))
     )
     .reduce((combined: IndexedEvent[], e): IndexedEvent[] => {
       const prev = combined.find(({ record: { event: { method, section } } }) =>

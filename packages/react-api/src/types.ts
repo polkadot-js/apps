@@ -21,6 +21,8 @@ export interface ApiState {
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;
+  specName: string;
+  specVersion: string;
   systemChain: string;
   systemName: string;
   systemVersion: string;
@@ -29,6 +31,7 @@ export interface ApiState {
 export interface ApiProps extends ApiState {
   api: ApiPromise;
   apiError: string | null;
+  apiUrl?: string;
   extensions?: InjectedExtension[];
   isApiConnected: boolean;
   isApiInitialized: boolean;

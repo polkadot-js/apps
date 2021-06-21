@@ -25,7 +25,8 @@ export function createRococo (t: TFunction): EndpointOption {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://rococo.elara.patract.io',
-      'Ares Protocol': 'wss://rococo.aresprotocol.com'
+      'Ares Protocol': 'wss://rococo.aresprotocol.com',
+      Pinknode: 'wss://rpc.pinknode.io/rococo/explorer'
     },
     linked: [
       // these are the base chains
@@ -55,7 +56,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoStatemint',
-        paraId: 1,
+        paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rococo-rpc.parity.io'
@@ -64,6 +65,7 @@ export function createRococo (t: TFunction): EndpointOption {
       // add any additional parachains here, alphabetical
       {
         info: 'rococoApron',
+        isDisabled: true, // Rococo reset
         paraId: 2048,
         text: t('rpc.rococo.apron', 'Apron PC1', { ns: 'apps-config' }),
         providers: {
@@ -72,6 +74,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoAres',
+        isDisabled: true, // Rococo reset
         paraId: 1006,
         text: t('rpc.rococo.ares', 'Ares PC1', { ns: 'apps-config' }),
         providers: {
@@ -80,6 +83,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoBifrost',
+        isDisabled: true, // Rococo reset
         paraId: 1024,
         text: t('rpc.rococo.bifrost', 'Bifrost PC1', { ns: 'apps-config' }),
         providers: {
@@ -88,6 +92,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoBitCountry',
+        isDisabled: true, // Rococo reset
         paraId: 1008,
         text: t('rpc.rococo.bitcountry', 'Bit.Country PC1', { ns: 'apps-config' }),
         providers: {
@@ -95,18 +100,8 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoCentrifuge',
-        paraId: 10001,
-        text: t('rpc.rococo.centrifuge', 'Centrifuge Charcoal', { ns: 'apps-config' }),
-        providers: {
-          Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
-        }
-      },
-      {
         info: 'rococoClover',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 229,
         text: t('rpc.rococo.clover', 'Clover PC1', { ns: 'apps-config' }),
         providers: {
@@ -115,9 +110,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoCrab',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 9,
         text: t('rpc.rococo.crab', 'Darwinia Crab PC2', { ns: 'apps-config' }),
         providers: {
@@ -126,7 +119,8 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoCrust',
-        paraId: 7777,
+        isDisabled: true, // Rococo reset
+        paraId: 2001,
         text: t('rpc.rococo.crust', 'Crust PC1', { ns: 'apps-config' }),
         providers: {
           Crust: 'wss://api-rococo.crust.network'
@@ -134,6 +128,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoChainX',
+        isDisabled: true, // Rococo reset
         paraId: 1059,
         text: t('rpc.rococo.chainx', 'ChainX PC1', { ns: 'apps-config' }),
         providers: {
@@ -142,9 +137,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoDarwinia',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 18,
         text: t('rpc.rococo.darwinia', 'Darwinia PC2', { ns: 'apps-config' }),
         providers: {
@@ -153,9 +146,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoDataHighway',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 2,
         text: t('rpc.rococo.datahighway', 'DataHighway', { ns: 'apps-config' }),
         providers: {
@@ -164,10 +155,8 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoEave',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 77,
+        isDisabled: true, // Rococo reset
+        paraId: 2003,
         text: t('rpc.rococo.eave', 'Steam PC', { ns: 'apps-config' }),
         providers: {
           EAVE: 'wss://steamcollator.eave.network'
@@ -175,6 +164,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoEncointer',
+        isDisabled: true, // Rococo reset
         paraId: 1862,
         text: t('rpc.rococo.encointer', 'Encointer PC1', { ns: 'apps-config' }),
         providers: {
@@ -182,18 +172,8 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoEquilibrium',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
-        paraId: 42,
-        text: t('rpc.rococo.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
-        providers: {
-          Equilibrium: 'wss://rococo.equilibrium.io'
-        }
-      },
-      {
         info: 'rococoGalital',
+        isDisabled: true, // Rococo reset
         paraId: 1230,
         text: t('rpc.rococo.galital', 'Galital PC1', { ns: 'apps-config' }),
         providers: {
@@ -201,7 +181,24 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoGenshiro',
+        paraId: 2021,
+        text: t('rpc.rococo.genshiro', 'Genshiro', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://gens-rococo.equilibrium.io'
+        }
+      },
+      {
+        info: 'rococoHalongbay',
+        paraId: 2018,
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        providers: {
+          Halongbay: 'wss://halongbay.polkafoundry.com'
+        }
+      },
+      {
         info: 'rococoHydrate',
+        isDisabled: true, // Rococo reset
         paraId: 82406,
         text: t('rpc.rococo.hydrate', 'Hydrate', { ns: 'apps-config' }),
         providers: {
@@ -210,6 +207,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoIdavoll',
+        isDisabled: true, // Rococo reset
         paraId: 7766,
         text: t('rpc.rococo.idavoll', 'Idavoll', { ns: 'apps-config' }),
         providers: {
@@ -218,6 +216,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoIntegritee',
+        isDisabled: true, // Rococo reset
         paraId: 1983,
         text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
         providers: {
@@ -226,6 +225,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKilt',
+        isDisabled: true, // Rococo reset
         paraId: 12623,
         text: t('rpc.rococo.kilt', 'KILT PC1', { ns: 'apps-config' }),
         providers: {
@@ -234,6 +234,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoKonomi',
+        isDisabled: true, // Rococo reset
         paraId: 18403,
         text: t('rpc.rococo.konomi', 'Komomi Network', { ns: 'apps-config' }),
         providers: {
@@ -241,7 +242,16 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoKylin',
+        paraId: 2013,
+        text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
+        providers: {
+          'Kylin Network': 'wss://rpc.kylin-node.co.uk'
+        }
+      },
+      {
         info: 'rococoLitentry',
+        isDisabled: true, // Rococo reset
         paraId: 1984,
         text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
         providers: {
@@ -250,6 +260,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoAcala',
+        isDisabled: true, // Rococo reset
         paraId: 1000,
         text: t('rpc.rococo.acala', 'Mandala PC2', { ns: 'apps-config' }),
         providers: {
@@ -258,9 +269,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoMathChain',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 40,
         text: t('rpc.rococo.mathchain', 'MathChain PC1', { ns: 'apps-config' }),
         providers: {
@@ -269,6 +278,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoManta',
+        isDisabled: true, // Rococo reset
         paraId: 2021,
         text: t('rpc.rococo.manta', 'Manta PC1', { ns: 'apps-config' }),
         providers: {
@@ -277,6 +287,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoMoonrock',
+        isDisabled: true, // Rococo reset
         paraId: 1286,
         text: t('rpc.rococo.moonrock', 'Moonrock', { ns: 'apps-config' }),
         providers: {
@@ -284,7 +295,16 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoOriginTrail',
+        paraId: 2024,
+        text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        providers: {
+          'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
+        }
+      },
+      {
         info: 'rococoParami',
+        isDisabled: true, // Rococo reset
         paraId: 18888,
         text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
         providers: {
@@ -293,6 +313,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoJupiter',
+        isDisabled: true, // Rococo reset
         paraId: 1010,
         text: t('rpc.rococo.jupiter', 'Patract Jupiter PC1', { ns: 'apps-config' }),
         providers: {
@@ -301,6 +322,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoPhala',
+        isDisabled: true, // Rococo reset
         paraId: 1030,
         text: t('rpc.rococo.phala', 'Phala PC1', { ns: 'apps-config' }),
         providers: {
@@ -309,6 +331,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoPhoenix',
+        isDisabled: true, // Rococo reset
         paraId: 6806,
         text: t('rpc.rococo.phoenix', 'PHOENIX PC1', { ns: 'apps-config' }),
         providers: {
@@ -317,6 +340,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoPlasm',
+        isDisabled: true, // Rococo reset
         paraId: 5000,
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
@@ -325,9 +349,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoPolkabtc',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 21,
         text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
         providers: {
@@ -336,6 +358,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoPolkaFoundry',
+        isDisabled: true, // Rococo reset
         paraId: 1111,
         text: t('rpc.rococo.polkafoundry', 'PolkaFoundry PC1', { ns: 'apps-config' }),
         providers: {
@@ -343,7 +366,17 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoPrism',
+        isDisabled: true, // Rococo reset
+        paraId: 2002,
+        text: t('rpc.rococo.prism', 'Prism PC1', { ns: 'apps-config' }),
+        providers: {
+          Prism: 'wss://rococo.psm.link'
+        }
+      },
+      {
         info: 'rococoRobonomics',
+        isDisabled: true, // Rococo reset
         paraId: 3000,
         text: t('rpc.rococo.robonomics', 'Robonomics PC2', { ns: 'apps-config' }),
         providers: {
@@ -352,9 +385,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoSubDAO',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 888,
         text: t('rpc.rococo.subdao', 'SubDAO PC1', { ns: 'apps-config' }),
         providers: {
@@ -363,9 +394,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoSubsocial',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 28,
         text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
         providers: {
@@ -374,6 +403,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoTrustBase',
+        isDisabled: true, // Rococo reset
         paraId: 6633,
         text: t('rpc.rococo.trustbase', 'TrustBase PC1', { ns: 'apps-config' }),
         providers: {
@@ -382,9 +412,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoUnitv',
-        // Needs paraId >= 1000, below that is reserved for system parachains
-        // Update paraId to new selection, remove this flag to enable
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 3,
         text: t('rpc.rococo.unitv', 'Unit Network', { ns: 'apps-config' }),
         providers: {
@@ -393,14 +421,15 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoVln',
-        paraId: 3586,
-        text: t('rpc.rococo.vln', 'Valiu Liquidity Network PC', { ns: 'apps-config' }),
+        paraId: 2007,
+        text: t('rpc.rococo.vln', 'Valibre Network PC', { ns: 'apps-config' }),
         providers: {
-          Valiu: 'wss://vln.valiu.dev'
+          Valibre: 'wss://testnet.valibre.dev'
         }
       },
       {
         info: 'rococoZeitgeist',
+        isDisabled: true, // Rococo reset
         paraId: 9123,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
@@ -409,6 +438,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZenlink',
+        isDisabled: true, // Rococo reset
         paraId: 1188,
         text: t('rpc.rococo.zenlink', 'Zenlink PC1', { ns: 'apps-config' }),
         providers: {

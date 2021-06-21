@@ -3,6 +3,7 @@
 
 import type { u32 } from '@polkadot/types';
 
+import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
@@ -18,7 +19,7 @@ function isU32 (leasePeriodsPerSlot: unknown): leasePeriodsPerSlot is u32 {
   return !!leasePeriodsPerSlot;
 }
 
-export default function useRanges (): [number, number][] {
+export function useLeaseRanges (): [number, number][] {
   const { api } = useApi();
 
   return useMemo(
@@ -38,5 +39,14 @@ export default function useRanges (): [number, number][] {
       return RANGES_DEFAULT;
     },
     [api]
+  );
+}
+
+export function useLeaseRangeMax (): BN {
+  const ranges = useLeaseRanges();
+
+  return useMemo(
+    () => new BN(ranges[ranges.length - 1][1]),
+    [ranges]
   );
 }

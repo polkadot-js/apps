@@ -94,7 +94,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
       type
     }));
   } catch (error) {
-    console.error('web3Enable', error);
+    console.error('web3Accounts', error);
 
     return [];
   }
@@ -112,13 +112,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     getInjectedAccounts(injectedPromise)
   ]);
 
-  // HACK Horrible hack to try and give some window to the DOT denomination
-  const ss58Format = api.consts.system?.ss58Prefix || chainProperties.ss58Format;
-  const properties = registry.createType('ChainProperties', { ss58Format, tokenDecimals: chainProperties.tokenDecimals, tokenSymbol: chainProperties.tokenSymbol });
-
   return {
     injectedAccounts,
-    properties,
+    properties: registry.createType('ChainProperties', {
+      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
+      tokenDecimals: chainProperties.tokenDecimals,
+      tokenSymbol: chainProperties.tokenSymbol
+    }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
     systemName: systemName.toString(),
@@ -172,6 +172,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
+    specName: api.runtimeVersion.specName.toString(),
+    specVersion: api.runtimeVersion.specVersion.toString(),
     systemChain,
     systemName,
     systemVersion
@@ -187,8 +189,8 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, state]
+    () => ({ ...state, api, apiError, apiUrl: url, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, state, url]
   );
 
   // initial initialization

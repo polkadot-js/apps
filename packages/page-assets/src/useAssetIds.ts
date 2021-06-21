@@ -16,5 +16,5 @@ export default function useAssetIds (): AssetId[] | undefined {
   const { api } = useApi();
   const trigger = useEventTrigger([api.events.assets.Created, api.events.assets.Destroyed]);
 
-  return useMapKeys(api.query.assets.asset, { at: trigger, transform: extractAssetIds });
+  return useMapKeys(api.query.assets.asset, { at: trigger.blockHash, transform: extractAssetIds });
 }
