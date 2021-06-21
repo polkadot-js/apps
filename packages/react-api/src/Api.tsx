@@ -228,7 +228,7 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
 
     if (apiType?.type === 'substrate-connect' as EndpointType) {
       // eslint-disable-next-line no-void
-      void substrateConnectApi(apiType.param);
+     substrateConnectApi(apiType.param).catch(console.error);
     } else if (apiType?.type === 'json-rpc' as EndpointType) {
       const provider = new WsProvider(apiType.param);
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
