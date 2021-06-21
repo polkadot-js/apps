@@ -194,10 +194,24 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
 
   // initial initialization
   useEffect((): void => {
+    function actWhenReady (types: Record<string, Record<string, string>>) {
+      const injectedPromise = web3Enable('polkadot-js/apps');
+
+      injectedPromise
+        .then(setExtensions)
+        .catch(console.error);
+
+      loadOnReady(api, injectedPromise, store, types)
+        .then(setState)
+        .catch((error): void => {
+          console.error(error);
+          setApiError((error as Error).message);
+        });
+    }
+
     async function substrateConnectApi (network: string) {
       const detect = new Detector('PolkadotJS apps');
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-      const types = getDevTypes();
       const options = { registry, signer, types, typesBundle, typesChain };
 
       try {
@@ -206,33 +220,20 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
         api.isReady.then(() => {
           setIsApiInitialized(true);
           setIsApiConnected(true);
-
-          const injectedPromise = web3Enable('polkadot-js/apps');
-
-          injectedPromise
-            .then(setExtensions)
-            .catch(console.error);
-
-          loadOnReady(api, injectedPromise, store, types)
-            .then(setState)
-            .catch((error): void => {
-              console.error(error);
-
-              setApiError((error as Error).message);
-            });
+          actWhenReady(types);
         }).catch(console.error);
       } catch (err) {
         console.error(err);
       }
     }
 
+    const types = getDevTypes();
+
     if (apiType?.type === 'substrate-connect' as EndpointType) {
-      // eslint-disable-next-line no-void
-      void substrateConnectApi(apiType.param);
+      substrateConnectApi(apiType.param).catch(console.error);
     } else if (apiType?.type === 'json-rpc' as EndpointType) {
       const provider = new WsProvider(apiType.param);
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-      const types = getDevTypes();
 
       api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
 
@@ -240,19 +241,7 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
       api.on('disconnected', () => setIsApiConnected(false));
       api.on('error', (error: Error) => setApiError(error.message));
       api.on('ready', (): void => {
-        const injectedPromise = web3Enable('polkadot-js/apps');
-
-        injectedPromise
-          .then(setExtensions)
-          .catch(console.error);
-
-        loadOnReady(api, injectedPromise, store, types)
-          .then(setState)
-          .catch((error): void => {
-            console.error(error);
-
-            setApiError((error as Error).message);
-          });
+        actWhenReady(types);
       });
 
       setIsApiInitialized(true);
