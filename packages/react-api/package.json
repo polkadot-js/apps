@@ -7,7 +7,7 @@
   "dependencies": {
     "@babel/runtime": "^7.14.0",
     "@polkadot/api": "^4.15.1",
-    "@polkadot/extension-dapp": "^0.38.5",
+    "@polkadot/extension-dapp": "^0.38.6",
     "@polkadot/x-rxjs": "^6.9.1",
     "fflate": "^0.7.0"
   }
