@@ -81,3 +81,7 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
 export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnly?: boolean): LinkOption[] {
   return input.sort(sortLinks).reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input, firstOnly)), []);
 }
+
+export function createProviderUrl (url: string, inpType = 'json-rpc') {
+  return { type: inpType as EndpointType, param: url };
+}

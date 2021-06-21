@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
-import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
+import { createProviderUrl } from './util';
 import { WESTEND_GENESIS } from '../api/constants';
 
 /* eslint-disable sort-keys */
@@ -23,12 +23,12 @@ export function createWestend (t: TFunction): EndpointOption {
     info: 'westend',
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
-      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://westend-rpc.polkadot.io' },
-      // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
-      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://westend.elara.patract.io' },
-      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://westend.api.onfinality.io/public-ws' },
-      Pinknode: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.pinknode.io/westend/explorer' },
-      'light client': { type: 'substrate-connect' as EndpointType, param: 'westend-substrate-connect' }
+      Parity: createProviderUrl('wss://westend-rpc.polkadot.io'),
+      // 'NodeFactory(Vedran)': createProviderUrl('wss://westend.vedran.nodefactory.io/ws'), // https://github.com/polkadot-js/apps/issues/5580
+      'Patract Elara': createProviderUrl('wss://westend.elara.patract.io'),
+      OnFinality: createProviderUrl('wss://westend.api.onfinality.io/public-ws'),
+      Pinknode: createProviderUrl('wss://rpc.pinknode.io/westend/explorer'),
+      'light client': createProviderUrl('westend-substrate-connect', 'substrate-connect')
     },
     teleport: [1000],
     linked: [
@@ -40,8 +40,8 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
-          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://westend-shell-rpc.parity.io' },
-          'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://westmint.westend.elara.patract.io' }
+          Parity: createProviderUrl('wss://westend-shell-rpc.parity.io'),
+          'Patract Elara': createProviderUrl('wss://westmint.westend.elara.patract.io')
         }
       },
       // (3) parachains with id, see Rococo (info here maps to the actual "named icon")
@@ -52,7 +52,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
         providers: {
-          HydraDX: { type: 'json-rpc' as EndpointType, param: 'wss://rpc-01.basilisk-testnet.hydradx.io' }
+          HydraDX: createProviderUrl('wss://rpc-01.basilisk-testnet.hydradx.io')
         }
       },
       {
@@ -60,7 +60,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2010,
         text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: { type: 'json-rpc' as EndpointType, param: 'wss://fullnode-collator.charcoal.centrifuge.io' }
+          Centrifuge: createProviderUrl('wss://fullnode-collator.charcoal.centrifuge.io')
         }
       },
       {
@@ -68,7 +68,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
-          Purestake: { type: 'json-rpc' as EndpointType, param: 'wss://wss.moonshadow.testnet.moonbeam.network' }
+          Purestake: createProviderUrl('wss://wss.moonshadow.testnet.moonbeam.network')
         }
       },
       {
@@ -77,7 +77,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.westend.shibuya', 'Shibuya', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.shibuya.plasmnet.io' }
+          StakeTechnologies: createProviderUrl('wss://rpc.shibuya.plasmnet.io')
         }
       },
       {
@@ -85,7 +85,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2005,
         text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation': { type: 'json-rpc' as EndpointType, param: 'wss://karura-westend-rpc.aca-staging.network' }
+          'Acala Foundation': createProviderUrl('wss://karura-westend-rpc.aca-staging.network')
         }
       },
       {
@@ -93,7 +93,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2013,
         text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
         providers: {
-          Phala: { type: 'json-rpc' as EndpointType, param: 'wss://whala.phala.network/ws' }
+          Phala: createProviderUrl('wss://whala.phala.network/ws')
         }
       },
       {
@@ -102,7 +102,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2009,
         text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://westend.kilt.io:9977' }
+          'KILT Protocol': createProviderUrl('wss://westend.kilt.io:9977')
         }
       }
     ]

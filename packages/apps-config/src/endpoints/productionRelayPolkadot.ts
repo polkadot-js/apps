@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
-import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
+import { createProviderUrl } from './util';
 import { POLKADOT_GENESIS } from '../api/constants';
 
 /* eslint-disable sort-keys */
@@ -21,11 +21,11 @@ export function createPolkadot (t: TFunction): EndpointOption {
     info: 'polkadot',
     text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
     providers: {
-      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://rpc.polkadot.io' },
-      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://polkadot.api.onfinality.io/public-ws' },
-      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://polkadot.elara.patract.io' },
-      'light client': { type: 'substrate-connect' as EndpointType, param: 'polkadot-substrate-connect' },
-      Pinknode: { type: 'substrate-connect' as EndpointType, param: 'wss://rpc.pinknode.io/polkadot/explorer' }
+      Parity: createProviderUrl('wss://rpc.polkadot.io'),
+      OnFinality: createProviderUrl('wss://polkadot.api.onfinality.io/public-ws'),
+      'Patract Elara': createProviderUrl('wss://polkadot.elara.patract.io'),
+      Pinknode: createProviderUrl('wss://rpc.pinknode.io/polkadot/explorer'),
+      'light client': createProviderUrl('polkadot-substrate-connect', 'substrate-connect')
     },
     linked: [
       // (1) system parachains (none available yet)

@@ -3,8 +3,8 @@
 
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
+import { createProviderUrl } from './util';
 
-import { EndpointType } from '../../../../../ui/packages/ui-settings/src/types';
 import { KUSAMA_GENESIS } from '../api/constants';
 
 /* eslint-disable sort-keys */
@@ -21,17 +21,11 @@ export function createKusama (t: TFunction): EndpointOption {
     info: 'kusama',
     text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
     providers: {
-<<<<<<< HEAD
-      Parity: { type: 'json-rpc' as EndpointType, param: 'wss://kusama-rpc.polkadot.io' },
-      OnFinality: { type: 'json-rpc' as EndpointType, param: 'wss://kusama.api.onfinality.io/public-ws' },
-      'Patract Elara': { type: 'json-rpc' as EndpointType, param: 'wss://kusama.elara.patract.io' },
-      'light client': { type: 'substrate-connect' as EndpointType, param: 'kusama-substrate-connect' }
-=======
-      Parity: 'wss://kusama-rpc.polkadot.io',
-      OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io',
-      Pinknode: 'wss://rpc.pinknode.io/kusama/explorer'
->>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
+      Parity: createProviderUrl('wss://kusama-rpc.polkadot.io'),
+      OnFinality: createProviderUrl('wss://kusama.api.onfinality.io/public-ws'),
+      'Patract Elara': createProviderUrl('wss://kusama.elara.patract.io'),
+      Pinknode: createProviderUrl('wss://rpc.pinknode.io/kusama/explorer'),
+      'light client': createProviderUrl('kusama-substrate-connect', 'substrate-connect')
     },
     teleport: [1000],
     linked: [
@@ -43,16 +37,11 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-<<<<<<< HEAD
-          Parity: { type: 'json-rpc' as EndpointType, param: 'wss://kusama-shell-rpc.parity.io' }
-        }
-=======
-          Parity: 'wss://kusama-statemine-rpc.paritytech.net',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://statemine.kusama.elara.patract.io'
+          Parity: createProviderUrl('wss://kusama-statemine-rpc.paritytech.net'),
+          OnFinality: createProviderUrl('wss://statemine.api.onfinality.io/public-ws'),
+          'Patract Elara': createProviderUrl('wss://statemine.kusama.elara.patract.io')
         },
         teleport: [-1]
->>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
@@ -63,7 +52,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2021,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
+          Centrifuge: createProviderUrl('wss://fullnode.altair.centrifuge.io')
         }
       },
       {
@@ -73,7 +62,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Bifrost: { type: 'json-rpc' as EndpointType, param: 'wss://bifrost-rpc.liebi.com/ws' }
+          Bifrost: createProviderUrl('wss://bifrost-rpc.liebi.com/ws')
         }
       },
       {
@@ -82,7 +71,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
-          Crust: 'wss://shadow.crust.network/'
+          Crust: createProviderUrl('wss://shadow.crust.network/')
         }
       },
       {
@@ -91,11 +80,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2006,
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
         providers: {
-<<<<<<< HEAD
-          Crab: { type: 'json-rpc' as EndpointType, param: 'wss://crab-rpc.darwinia.network/' }
-=======
-          Crab: 'wss://crab-redirect-rpc.darwinia.network/'
->>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
+          Crab: createProviderUrl('wss://crab-redirect-rpc.darwinia.network/')
         }
       },
       {
@@ -105,10 +90,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2014,
         text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
         providers: {
-<<<<<<< HEAD
-          Crust: { type: 'json-rpc' as EndpointType, param: 'wss://shadow.crust.network/' }
-=======
-          Encointer: 'wss://canary.encointer.org'
+          Encointer: createProviderUrl('wss://canary.encointer.org')
         }
       },
       {
@@ -117,7 +99,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: 'wss://gens-mainnet.equilibrium.io'
+          Equilibrium: createProviderUrl('wss://gens-mainnet.equilibrium.io')
         }
       },
       {
@@ -126,7 +108,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
         providers: {
-          IntegriTEE: 'wss://mainnet.integritee.network'
+          IntegriTEE: createProviderUrl('wss://mainnet.integritee.network')
         }
       },
       {
@@ -135,9 +117,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network',
-          OnFinality: 'wss://karura.api.onfinality.io/public-ws'
->>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
+          'Acala Foundation':  createProviderUrl('wss://karura-rpc-0.aca-api.network'),
+          OnFinality:  createProviderUrl('wss://karura.api.onfinality.io/public-ws')
         }
       },
       {
@@ -147,12 +128,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-<<<<<<< HEAD
-          Phala: { type: 'json-rpc' as EndpointType, param: 'wss://khala.phala.network/ws' }
-=======
-          Phala: 'wss://khala.phala.network/ws',
-          OnFinality: 'wss://khala.api.onfinality.io/public-ws'
->>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
+          Phala: createProviderUrl('wss://khala.phala.network/ws'),
+          OnFinality: createProviderUrl('wss://khala.api.onfinality.io/public-ws')
         }
       },
       {
@@ -161,7 +138,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2005,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': 'wss://spiritnet.kilt.io/'
+          'KILT Protocol':  createProviderUrl('wss://spiritnet.kilt.io/')
         }
       },
       {
@@ -170,7 +147,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2008,
         text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {
-          AresProtocol: 'wss://wss.mars.aresprotocol.io'
+          AresProtocol: createProviderUrl('wss://wss.mars.aresprotocol.io')
         }
       },
       {
@@ -179,7 +156,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network'
+          Purestake: createProviderUrl('wss://wss.moonriver.moonbeam.network')
         }
       },
       {
@@ -188,10 +165,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
-<<<<<<< HEAD
-          'KILT Protocol': { type: 'json-rpc' as EndpointType, param: 'wss://mainnet.kilt.io/' }
-=======
-          PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
+          PolkaSmith:  createProviderUrl('wss://wss-polkasmith.polkafoundry.com')
         }
       },
       {
@@ -201,8 +175,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
         providers: {
-          Clover: 'wss://api-sakura.clover.finance'
->>>>>>> 9e22ba0f6c5da47f93d0cab38ec097ad7483753c
+          Clover:  createProviderUrl('wss://api-sakura.clover.finance')
         }
       },
       {
@@ -212,7 +185,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
         providers: {
-          ChainX: { type: 'json-rpc' as EndpointType, param: 'wss://sherpax.chainx.org' }
+          ChainX: createProviderUrl('wss://sherpax.chainx.org')
         }
       },
       {
@@ -221,7 +194,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
+          StakeTechnologies:  createProviderUrl('wss://rpc.shiden.plasmnet.io')
         }
       },
       {
@@ -230,7 +203,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2018,
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
-          SubGame: 'wss://gamma.subgame.org/'
+          SubGame:  createProviderUrl('wss://gamma.subgame.org/')
         }
       }
     ]
