@@ -12,6 +12,6 @@
     "fflate": "^0.7.0"
   },
   "devDependencies": {
-    "@substrate/connect": "0.3.7"
+    "@substrate/connect": "0.3.10"
   }
 }
