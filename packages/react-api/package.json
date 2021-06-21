@@ -9,9 +9,7 @@
     "@polkadot/api": "^4.15.1",
     "@polkadot/extension-dapp": "^0.38.5",
     "@polkadot/x-rxjs": "^6.9.1",
-    "fflate": "^0.7.0"
-  },
-  "devDependencies": {
+    "fflate": "^0.7.0",
     "@substrate/connect": "0.3.10"
   }
 }
