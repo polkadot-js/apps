@@ -3297,7 +3297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:4.15.1":
+"@polkadot/rpc-provider@npm:4.15.1, @polkadot/rpc-provider@npm:^4.10.1":
   version: 4.15.1
   resolution: "@polkadot/rpc-provider@npm:4.15.1"
   dependencies:
@@ -3497,7 +3497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-fetch@npm:^6.8.1, @polkadot/x-fetch@npm:^6.9.1":
+"@polkadot/x-fetch@npm:^6.9.1":
   version: 6.9.1
   resolution: "@polkadot/x-fetch@npm:6.9.1"
   dependencies:
