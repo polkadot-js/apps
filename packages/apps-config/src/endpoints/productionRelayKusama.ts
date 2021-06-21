@@ -126,7 +126,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: 'wss://khala.phala.network/ws'
+          Phala: 'wss://khala.phala.network/ws',
+          OnFinality: 'wss://khala.api.onfinality.io/public-ws'
         }
       },
       {
@@ -153,7 +154,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network'
+          Purestake: 'wss://wss.moonriver.moonbeam.network',
+          OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
         }
       },
       {
