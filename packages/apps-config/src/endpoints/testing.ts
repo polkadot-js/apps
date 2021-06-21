@@ -40,6 +40,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'bifrost',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619
       text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
         Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
@@ -343,6 +344,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://staging.subgame.org'
       }
     },
     {

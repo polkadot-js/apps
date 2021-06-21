@@ -14,7 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   auctionInfo: AuctionInfo;
-  blockNumber: BN;
+  blockNumber?: BN;
   className?: string;
   isFirst: boolean;
   isLatest: boolean;
@@ -30,7 +30,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
         {isFirst && (
           <h1>{isLatest
             ? t<string>('latest')
-            : <>#{formatNumber(blockNumber.isZero() ? auctionInfo.endBlock : blockNumber)}</>
+            : <>#{formatNumber((!blockNumber || blockNumber.isZero()) ? auctionInfo.endBlock : blockNumber)}</>
           }</h1>
         )}
       </td>
