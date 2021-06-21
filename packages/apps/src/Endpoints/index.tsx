@@ -58,7 +58,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
       result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
     } else {
       const prev = result[result.length - 1];
-      const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value as string };
+      const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value };
 
       if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);

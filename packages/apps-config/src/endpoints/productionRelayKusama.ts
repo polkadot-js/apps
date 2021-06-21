@@ -3,9 +3,9 @@
 
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
-import { createProviderUrl } from './util';
 
 import { KUSAMA_GENESIS } from '../api/constants';
+import { createProviderUrl } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -117,8 +117,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation':  createProviderUrl('wss://karura-rpc-0.aca-api.network'),
-          OnFinality:  createProviderUrl('wss://karura.api.onfinality.io/public-ws')
+          'Acala Foundation': createProviderUrl('wss://karura-rpc-0.aca-api.network'),
+          OnFinality: createProviderUrl('wss://karura.api.onfinality.io/public-ws')
         }
       },
       {
@@ -138,7 +138,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2005,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol':  createProviderUrl('wss://spiritnet.kilt.io/')
+          'KILT Protocol': createProviderUrl('wss://spiritnet.kilt.io/')
         }
       },
       {
@@ -166,7 +166,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
-          PolkaSmith:  createProviderUrl('wss://wss-polkasmith.polkafoundry.com')
+          PolkaSmith: createProviderUrl('wss://wss-polkasmith.polkafoundry.com')
         }
       },
       {
@@ -176,7 +176,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
         providers: {
-          Clover:  createProviderUrl('wss://api-sakura.clover.finance')
+          Clover: createProviderUrl('wss://api-sakura.clover.finance')
         }
       },
       {
@@ -195,7 +195,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies:  createProviderUrl('wss://rpc.shiden.plasmnet.io')
+          StakeTechnologies: createProviderUrl('wss://rpc.shiden.plasmnet.io')
         }
       },
       {
@@ -204,7 +204,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2018,
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
-          SubGame:  createProviderUrl('wss://gamma.subgame.org/')
+          SubGame: createProviderUrl('wss://gamma.subgame.org/')
         }
       }
     ]

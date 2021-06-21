@@ -188,7 +188,7 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, apiUrl: apiType?.param , extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    () => ({ ...state, api, apiError, apiUrl: apiType?.param, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, state, apiType?.param]
   );
 

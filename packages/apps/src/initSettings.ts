@@ -52,7 +52,7 @@ function getApiType (): Endpoint {
     const option = endpoints.find(({ dnslink }) => dnslink === ipnsChain);
 
     if (option) {
-      return { param: option.value as string, type: 'json-rpc' as EndpointType };
+      return { param: option.value, type: 'json-rpc' as EndpointType };
     }
   }
 
@@ -63,7 +63,7 @@ function getApiType (): Endpoint {
   return [stored.apiType, process.env.WS_URL].includes(settings.apiType)
     ? settings.apiType // keep as-is
     : fallbackUrl
-      ? { param: fallbackUrl.value as string, type: 'json-rpc' as EndpointType } // grab the fallback
+      ? { param: fallbackUrl.value, type: 'json-rpc' as EndpointType } // grab the fallback
       : { param: 'ws://127.0.0.1:9944', type: 'json-rpc' as EndpointType }; // nothing found, go local
 }
 

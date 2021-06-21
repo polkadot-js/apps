@@ -4,8 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
-import { createProviderUrl } from './util';
 import { WESTEND_GENESIS } from '../api/constants';
+import { createProviderUrl } from './util';
 
 /* eslint-disable sort-keys */
 

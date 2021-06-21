@@ -12,11 +12,11 @@ import BaseOverlay from './Base';
 
 function networkOrUrl (apiType: Endpoint): string {
   if (apiType.type === 'json-rpc' as EndpointType) {
-    return apiType.param as string;
+    return apiType.param;
   }
 
   if (apiType.type === 'substrate-connect' as EndpointType) {
-    return apiType.param as string;
+    return apiType.param;
   }
 
   return '';

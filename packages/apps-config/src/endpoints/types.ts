@@ -1,8 +1,9 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Endpoint } from '@polkadot/ui-settings/types';
 import type { Option } from '../settings/types';
+
+import { Endpoint } from '@polkadot/ui-settings/types';
 
 export interface EndpointOption {
   dnslink?: string;

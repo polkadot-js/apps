@@ -3,7 +3,8 @@
 
 import type { TFunction } from 'i18next';
 import type { EndpointOption, LinkOption } from './types';
-import { EndpointType } from '@polkadot/ui-settings/types';
+
+import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 
 interface SortOption {
   isUnreachable?: boolean;
@@ -53,12 +54,12 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
     .map(([host, value], index): LinkOption => ({
       ...base,
       dnslink: index === 0 ? dnslink : undefined,
-      isRelay: false,
       isLightClient: value.type === 'substrate-connect' as EndpointType,
+      isRelay: false,
       textBy: (value.type === 'json-rpc' as EndpointType)
         ? t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } })
         : t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' }),
-      value: value.param as string
+      value: value.param
     }));
 
   if (linked) {
@@ -83,6 +84,6 @@ export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnl
   return input.sort(sortLinks).reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input, firstOnly)), []);
 }
 
-export function createProviderUrl (url: string, inpType = 'json-rpc') {
-  return { type: inpType as EndpointType, param: url };
+export function createProviderUrl (url: string, inpType = 'json-rpc'): Endpoint {
+  return { param: url, type: inpType as EndpointType };
 }

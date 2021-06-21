@@ -24,7 +24,7 @@ const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333
 const renderBounties = () => {
   const memoryStore = new MemoryStore();
 
-  const apiType: Endpoint = { param: `ws://127.0.0.1:${SUBSTRATE_PORT}`, type: 'json-rpc' as EndpointType};
+  const apiType: Endpoint = { param: `ws://127.0.0.1:${SUBSTRATE_PORT}`, type: 'json-rpc' as EndpointType };
 
   return render(
     <Suspense fallback='...'>

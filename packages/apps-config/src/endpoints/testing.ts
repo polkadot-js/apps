@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from './types';
 
-import { expandEndpoints, createProviderUrl } from './util';
+import { createProviderUrl, expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 

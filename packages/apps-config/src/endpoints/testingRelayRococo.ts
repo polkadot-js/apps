@@ -4,8 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
-import { createProviderUrl } from './util';
 import { ROCOCO_GENESIS } from '../api/constants';
+import { createProviderUrl } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -27,7 +27,7 @@ export function createRococo (t: TFunction): EndpointOption {
       OnFinality: createProviderUrl('wss://rococo.api.onfinality.io/public-ws'),
       'Patract Elara': createProviderUrl('wss://rococo.elara.patract.io'),
       'Ares Protocol': createProviderUrl('wss://rococo.aresprotocol.com'),
-      Pinknode:  createProviderUrl('wss://rpc.pinknode.io/rococo/explorer')
+      Pinknode: createProviderUrl('wss://rpc.pinknode.io/rococo/explorer')
     },
     linked: [
       // these are the base chains
@@ -425,7 +425,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.rococo.vln', 'Valibre Network PC', { ns: 'apps-config' }),
         providers: {
-          Valibre:  createProviderUrl('wss://testnet.valibre.dev')
+          Valibre: createProviderUrl('wss://testnet.valibre.dev')
         }
       },
       {
