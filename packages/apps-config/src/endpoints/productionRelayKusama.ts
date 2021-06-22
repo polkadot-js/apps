@@ -55,7 +55,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619 (duplicated in testing networks)
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
@@ -193,7 +192,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
+          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io',
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws'
         }
       },
       {
