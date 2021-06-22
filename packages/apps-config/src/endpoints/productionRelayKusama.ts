@@ -119,8 +119,8 @@ export function createKusama (t: TFunction): EndpointOption {
           'Acala Foundation 0': createProviderUrl('wss://karura-rpc-0.aca-api.network'),
           'Acala Foundation 1': createProviderUrl('wss://karura-rpc-1.aca-api.network'),
           'Acala Foundation 2': createProviderUrl('wss://karura-rpc-2.aca-api.network/ws'),
-          'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws'),
-          OnFinality: 'wss://karura.api.onfinality.io/public-ws')
+          'Acala Foundation 3': createProviderUrl('wss://karura-rpc-3.aca-api.network/ws'),
+          OnFinality: createProviderUrl('wss://karura.api.onfinality.io/public-ws')
         }
       },
       {
@@ -198,7 +198,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: createProviderUrl('wss://rpc.shiden.plasmnet.io'),
-          OnFinality: createProviderUrl'wss://shiden.api.onfinality.io/public-ws')
+          OnFinality: createProviderUrl('wss://shiden.api.onfinality.io/public-ws')
         }
       },
       {
