@@ -16,7 +16,7 @@ export interface EndpointOption {
   linked?: EndpointOption[];
   info?: string;
   paraId?: number;
-  providers: Record<string, Endpoint>;
+  providers: Record<string, string | Endpoint>;
   summary?: string;
   teleport?: number[];
   text: React.ReactNode;

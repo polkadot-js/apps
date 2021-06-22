@@ -54,12 +54,12 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
     .map(([host, value], index): LinkOption => ({
       ...base,
       dnslink: index === 0 ? dnslink : undefined,
-      isLightClient: value.type === 'substrate-connect' as EndpointType,
+      isLightClient: typeof value === 'string' ? false : value.type === 'substrate-connect' as EndpointType,
       isRelay: false,
-      textBy: (value.type === 'json-rpc' as EndpointType)
+      textBy: typeof value === 'string'
         ? t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } })
         : t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' }),
-      value: value.param
+      value: typeof value === 'string' ? value : value.param
     }));
 
   if (linked) {

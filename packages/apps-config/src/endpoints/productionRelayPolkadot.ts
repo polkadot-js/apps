@@ -21,10 +21,10 @@ export function createPolkadot (t: TFunction): EndpointOption {
     info: 'polkadot',
     text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
     providers: {
-      Parity: createProviderUrl('wss://rpc.polkadot.io'),
-      OnFinality: createProviderUrl('wss://polkadot.api.onfinality.io/public-ws'),
-      'Patract Elara': createProviderUrl('wss://polkadot.elara.patract.io'),
-      Pinknode: createProviderUrl('wss://rpc.pinknode.io/polkadot/explorer'),
+      Parity: 'wss://rpc.polkadot.io',
+      OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
+      'Patract Elara': 'wss://polkadot.elara.patract.io',
+      Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer',
       'light client': createProviderUrl('polkadot-substrate-connect', 'substrate-connect')
     },
     linked: [

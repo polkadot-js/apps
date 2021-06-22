@@ -21,10 +21,10 @@ export function createKusama (t: TFunction): EndpointOption {
     info: 'kusama',
     text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
     providers: {
-      Parity: createProviderUrl('wss://kusama-rpc.polkadot.io'),
-      OnFinality: createProviderUrl('wss://kusama.api.onfinality.io/public-ws'),
-      'Patract Elara': createProviderUrl('wss://kusama.elara.patract.io'),
-      Pinknode: createProviderUrl('wss://rpc.pinknode.io/kusama/explorer'),
+      Parity: 'wss://kusama-rpc.polkadot.io',
+      OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      Pinknode: 'wss://rpc.pinknode.io/kusama/explorer',
       'light client': createProviderUrl('kusama-substrate-connect', 'substrate-connect')
     },
     teleport: [1000],
@@ -37,9 +37,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: createProviderUrl('wss://kusama-statemine-rpc.paritytech.net'),
-          OnFinality: createProviderUrl('wss://statemine.api.onfinality.io/public-ws'),
-          'Patract Elara': createProviderUrl('wss://statemine.kusama.elara.patract.io')
+          Parity: 'wss://kusama-statemine-rpc.paritytech.net',
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://statemine.kusama.elara.patract.io'
         },
         teleport: [-1]
       },
@@ -52,7 +52,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2021,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: createProviderUrl('wss://fullnode.altair.centrifuge.io')
+          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
         }
       },
       {
@@ -61,7 +61,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Bifrost: createProviderUrl('wss://bifrost-rpc.liebi.com/ws')
+          Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
         }
       },
       {
@@ -70,7 +70,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
-          Crust: createProviderUrl('wss://shadow.crust.network/')
+          Crust: 'wss://shadow.crust.network/'
         }
       },
       {
@@ -79,7 +79,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2006,
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
         providers: {
-          Crab: createProviderUrl('wss://crab-redirect-rpc.darwinia.network/')
+          Crab: 'wss://crab-redirect-rpc.darwinia.network/'
         }
       },
       {
@@ -89,7 +89,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2014,
         text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
         providers: {
-          Encointer: createProviderUrl('wss://canary.encointer.org')
+          Encointer: 'wss://canary.encointer.org'
         }
       },
       {
@@ -98,7 +98,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: createProviderUrl('wss://gens-mainnet.equilibrium.io')
+          Equilibrium: 'wss://gens-mainnet.equilibrium.io'
         }
       },
       {
@@ -107,7 +107,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
         providers: {
-          IntegriTEE: createProviderUrl('wss://mainnet.integritee.network')
+          IntegriTEE: 'wss://mainnet.integritee.network'
         }
       },
       {
@@ -116,11 +116,11 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation 0': createProviderUrl('wss://karura-rpc-0.aca-api.network'),
-          'Acala Foundation 1': createProviderUrl('wss://karura-rpc-1.aca-api.network'),
-          'Acala Foundation 2': createProviderUrl('wss://karura-rpc-2.aca-api.network/ws'),
-          'Acala Foundation 3': createProviderUrl('wss://karura-rpc-3.aca-api.network/ws'),
-          OnFinality: createProviderUrl('wss://karura.api.onfinality.io/public-ws')
+          'Acala Foundation 0': 'wss://karura-rpc-0.aca-api.network',
+          'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
+          'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
+          'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
+          OnFinality: 'wss://karura.api.onfinality.io/public-ws'
         }
       },
       {
@@ -130,8 +130,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: createProviderUrl('wss://khala.phala.network/ws'),
-          OnFinality: createProviderUrl('wss://khala.api.onfinality.io/public-ws')
+          Phala: 'wss://khala.phala.network/ws',
+          OnFinality: 'wss://khala.api.onfinality.io/public-ws'
         }
       },
       {
@@ -140,7 +140,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2005,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': createProviderUrl('wss://spiritnet.kilt.io/')
+          'KILT Protocol': 'wss://spiritnet.kilt.io/'
         }
       },
       {
@@ -149,7 +149,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2008,
         text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {
-          AresProtocol: createProviderUrl('wss://wss.mars.aresprotocol.io')
+          AresProtocol: 'wss://wss.mars.aresprotocol.io'
         }
       },
       {
@@ -158,8 +158,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
-          Purestake: createProviderUrl('wss://wss.moonriver.moonbeam.network'),
-          OnFinality: createProviderUrl('wss://moonriver.api.onfinality.io/public-ws')
+          Purestake: 'wss://wss.moonriver.moonbeam.network',
+          OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
         }
       },
       {
@@ -168,7 +168,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
-          PolkaSmith: createProviderUrl('wss://wss-polkasmith.polkafoundry.com')
+          PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
         }
       },
       {
@@ -178,7 +178,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2016,
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
         providers: {
-          Clover: createProviderUrl('wss://api-sakura.clover.finance')
+          Clover: 'wss://api-sakura.clover.finance'
         }
       },
       {
@@ -188,7 +188,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
         providers: {
-          ChainX: createProviderUrl('wss://sherpax.chainx.org')
+          ChainX: 'wss://sherpax.chainx.org'
         }
       },
       {
@@ -197,8 +197,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: createProviderUrl('wss://rpc.shiden.plasmnet.io'),
-          OnFinality: createProviderUrl('wss://shiden.api.onfinality.io/public-ws')
+          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io',
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws'
         }
       },
       {
@@ -207,7 +207,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2018,
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
-          SubGame: createProviderUrl('wss://gamma.subgame.org/')
+          SubGame: 'wss://gamma.subgame.org/'
         }
       }
     ]

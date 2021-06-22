@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from './types';
 
-import { createProviderUrl, expandEndpoints } from './util';
+import { expandEndpoints } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -22,38 +22,38 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'centrifuge',
       text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
       providers: {
-        Centrifuge: createProviderUrl('wss://fullnode.centrifuge.io')
+        Centrifuge: 'wss://fullnode.centrifuge.io'
       }
     },
     {
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        // ChainX: createProviderUrl('wss://mainnet.chainx.org/ws'), // https://github.com/polkadot-js/apps/issues/5547
-        'Patract Elara': createProviderUrl('wss://chainx.elara.patract.io')
+        // ChainX: 'wss://mainnet.chainx.org/ws', // https://github.com/polkadot-js/apps/issues/5547
+        'Patract Elara': 'wss://chainx.elara.patract.io'
       }
     },
     {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': createProviderUrl('wss://rpc.darwinia.network'),
-        'Patract Elara': createProviderUrl('wss://darwinia.elara.patract.io')
+        'Darwinia Network': 'wss://rpc.darwinia.network',
+        'Patract Elara': 'wss://darwinia.elara.patract.io'
       }
     },
     {
       info: 'crab',
       text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': createProviderUrl('wss://crab-rpc.darwinia.network')
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
       info: 'dock-mainnet',
       text: t('rpc.prod.dock-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': createProviderUrl('wss://mainnet-node.dock.io'),
-        'Patract Elara': createProviderUrl('wss://dock.elara.patract.io')
+        'Dock Association': 'wss://mainnet-node.dock.io',
+        'Patract Elara': 'wss://dock.elara.patract.io'
       }
     },
     {
@@ -61,16 +61,16 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'edgeware',
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': createProviderUrl('wss://mainnet1.edgewa.re'),
-        'Patract Elara': createProviderUrl('wss://edgeware.elara.patract.io'),
-        OnFinality: createProviderUrl('wss://edgeware.api.onfinality.io/public-ws')
+        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
+        'Patract Elara': 'wss://edgeware.elara.patract.io',
+        OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
     {
       info: 'equilibrium',
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
-        Equilibrium: createProviderUrl('wss://node.equilibrium.io')
+        Equilibrium: 'wss://node.equilibrium.io'
       }
     },
     {
@@ -78,16 +78,16 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
-        Hanonycash: createProviderUrl('wss://rpc.hanonycash.com')
+        Hanonycash: 'wss://rpc.hanonycash.com'
       }
     },
     {
       info: 'snakenet',
       text: t('rpc.prod.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
-        HydraDX: createProviderUrl('wss://rpc-01.snakenet.hydradx.io'),
-        'Galactic Council': createProviderUrl('wss://rpc-02.snakenet.hydradx.io'),
-        Archives: createProviderUrl('wss://archive.snakenet.hydradx.io')
+        HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
+        'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
+        Archives: 'wss://archive.snakenet.hydradx.io'
       }
     },
     {
@@ -95,46 +95,46 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
-        Kulupu: createProviderUrl('wss://rpc.kulupu.corepaper.org/ws'),
-        'Patract Elara': createProviderUrl('wss://kulupu.elara.patract.io')
+        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
+        'Patract Elara': 'wss://kulupu.elara.patract.io'
       }
     },
     {
       info: 'neatcoin',
       text: t('rpc.prod.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
       providers: {
-        Neatcoin: createProviderUrl('wss://rpc.neatcoin.org/ws')
+        Neatcoin: 'wss://rpc.neatcoin.org/ws'
       }
     },
     {
       info: 'nodle',
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: createProviderUrl('wss://main3.nodleprotocol.io'),
-        'Patract Elara': createProviderUrl('wss://nodle.elara.patract.io')
+        Nodle: 'wss://main3.nodleprotocol.io',
+        'Patract Elara': 'wss://nodle.elara.patract.io'
       }
     },
     {
       info: 'plasm',
       text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': createProviderUrl('wss://rpc.plasmnet.io/'),
-        'Patract Elara': createProviderUrl('wss://plasm.elara.patract.io')
+        'Stake Technologies': 'wss://rpc.plasmnet.io/',
+        'Patract Elara': 'wss://plasm.elara.patract.io'
       }
     },
     {
       info: 'riochain',
       text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
-        RioChain: createProviderUrl('wss://node.v1.riochain.io')
+        RioChain: 'wss://node.v1.riochain.io'
       }
     },
     {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: createProviderUrl('wss://ws.sora2.soramitsu.co.jp'),
-        'SORA Parliament Ministry of Finance': createProviderUrl('wss://ws.mof.sora.org:4443')
+        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org:4443'
       }
     },
     {
@@ -142,37 +142,37 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.prod.stafi', 'Stafi', { ns: 'apps-config' }),
       providers: {
-        'Stafi Foundation': createProviderUrl('wss://mainnet-rpc.stafi.io'),
-        'Patract Elara': createProviderUrl('wss://stafi.elara.patract.io')
+        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
+        'Patract Elara': 'wss://stafi.elara.patract.io'
       }
     },
     {
       info: 'subgame',
       text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
       providers: {
-        SubGame: createProviderUrl('wss://mainnet.subgame.org/')
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {
       info: 'subsocial',
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: createProviderUrl('wss://rpc.subsocial.network'),
-        'Patract Elara': createProviderUrl('wss://subsocial.elara.patract.io')
+        DappForce: 'wss://rpc.subsocial.network',
+        'Patract Elara': 'wss://subsocial.elara.patract.io'
       }
     },
     {
       info: 'uniarts',
       text: t('rpc.prod.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
-        UniArts: createProviderUrl('wss://mainnet.uniarts.vip:9443')
+        UniArts: 'wss://mainnet.uniarts.vip:9443'
       }
     },
     {
       info: 'westlake',
       text: t('rpc.prod.westlake', 'Westlake', { ns: 'apps-config' }),
       providers: {
-        DataHighway: createProviderUrl('wss://westlake.datahighway.com')
+        DataHighway: 'wss://westlake.datahighway.com'
       }
     }
   ], firstOnly);
