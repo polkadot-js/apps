@@ -59,7 +59,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
+          'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws'
         }
       },
       {
