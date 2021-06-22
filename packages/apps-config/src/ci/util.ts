@@ -55,6 +55,7 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
           api = new ApiPromise({
             provider,
             throwOnConnect: true,
+            throwOnUnknown: true,
             typesBundle,
             typesChain
           });

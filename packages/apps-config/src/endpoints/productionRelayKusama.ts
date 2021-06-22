@@ -57,7 +57,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619 (duplicated in testing networks)
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
@@ -117,8 +116,11 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation': createProviderUrl('wss://karura-rpc-0.aca-api.network'),
-          OnFinality: createProviderUrl('wss://karura.api.onfinality.io/public-ws')
+          'Acala Foundation 0': createProviderUrl('wss://karura-rpc-0.aca-api.network'),
+          'Acala Foundation 1': createProviderUrl('wss://karura-rpc-1.aca-api.network'),
+          'Acala Foundation 2': createProviderUrl('wss://karura-rpc-2.aca-api.network/ws'),
+          'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws'),
+          OnFinality: 'wss://karura.api.onfinality.io/public-ws')
         }
       },
       {
@@ -195,7 +197,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: createProviderUrl('wss://rpc.shiden.plasmnet.io')
+          StakeTechnologies: createProviderUrl('wss://rpc.shiden.plasmnet.io'),
+          OnFinality: createProviderUrl'wss://shiden.api.onfinality.io/public-ws')
         }
       },
       {
