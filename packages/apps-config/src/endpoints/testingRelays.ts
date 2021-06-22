@@ -8,10 +8,10 @@ import { createRococo } from './testingRelayRococo';
 import { createWestend } from './testingRelayWestend';
 import { expandEndpoints } from './util';
 
-export function createRococoRelays (t: TFunction, firstOnly?: boolean): LinkOption[] {
+export function createRococoRelay (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [createRococo(t)], firstOnly);
 }
 
-export function createWestendRelays (t: TFunction, firstOnly?: boolean): LinkOption[] {
+export function createWestendRelay (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [createWestend(t)], firstOnly);
 }
