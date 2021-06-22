@@ -41,7 +41,8 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
         const leasePeriodEnd = leasePeriodStart.add(rangeMax);
 
         return campaigns.funds
-          .filter(({ firstSlot, lastSlot, paraId }) =>
+          .filter(({ firstSlot, isWinner, lastSlot, paraId }) =>
+            !isWinner &&
             newRaise.some((n) => n.eq(paraId)) &&
             firstSlot.gte(leasePeriodStart) &&
             lastSlot.lte(leasePeriodEnd)
