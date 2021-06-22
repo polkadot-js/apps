@@ -79,7 +79,10 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
 
       isValid = isValid && validate(value) && (
         length === -1
-          ? hex === '0x'
+          ? (
+            value.length !== 0 ||
+            hex === '0x'
+          )
           : value.length === length
       );
 
