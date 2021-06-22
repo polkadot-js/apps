@@ -429,8 +429,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
-        isDisabled: true, // Rococo reset
-        paraId: 9123,
+        paraId: 2040,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitgeist: 'wss://roc.zeitgeist.pm'
