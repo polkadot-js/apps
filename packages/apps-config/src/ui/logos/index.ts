@@ -62,7 +62,7 @@ import nodeIntegritee from './nodes/integritee.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
-import nodeKilt from './nodes/kilt.svg';
+import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';

@@ -114,7 +114,10 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2000,
         text: t('rpc.kusama.karura', 'Karura', { ns: 'apps-config' }),
         providers: {
-          'Acala Foundation': 'wss://karura-rpc-0.aca-api.network',
+          'Acala Foundation 0': 'wss://karura-rpc-0.aca-api.network',
+          'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
+          'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
+          'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
           OnFinality: 'wss://karura.api.onfinality.io/public-ws'
         }
       },
@@ -192,7 +195,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
+          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io',
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws'
         }
       },
       {
