@@ -9,9 +9,9 @@ import { createWestend } from './testingRelayWestend';
 import { expandEndpoints } from './util';
 
 export function createRococoRelays (t: TFunction, firstOnly?: boolean): LinkOption[] {
-  return expandEndpoints(t, [ createRococo(t) ], firstOnly);
+  return expandEndpoints(t, [createRococo(t)], firstOnly);
 }
 
 export function createWestendRelays (t: TFunction, firstOnly?: boolean): LinkOption[] {
-  return expandEndpoints(t, [ createWestend(t) ], firstOnly);
+  return expandEndpoints(t, [createWestend(t)], firstOnly);
 }
