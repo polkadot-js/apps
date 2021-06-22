@@ -3304,6 +3304,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/rpc-provider@npm:^4.10.1":
+  version: 4.15.1
+  resolution: "@polkadot/rpc-provider@npm:4.15.1"
+  dependencies:
+    "@babel/runtime": ^7.14.5
+    "@polkadot/types": 4.15.1
+    "@polkadot/util": ^6.9.1
+    "@polkadot/util-crypto": ^6.9.1
+    "@polkadot/x-fetch": ^6.9.1
+    "@polkadot/x-global": ^6.9.1
+    "@polkadot/x-ws": ^6.9.1
+    eventemitter3: ^4.0.7
+  checksum: 760f0565cb9c215949609e8f1ab57bba92de4bb0c39f3c47993db9f96ecff5e2b1c630bddd9caece5648da3426c7a091af9639d4b91b4ca810a8284d8a497a4b
+  languageName: node
+  linkType: hard
+
 "@polkadot/test-support@0.93.2-32, @polkadot/test-support@workspace:packages/test-support":
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
