@@ -78,9 +78,9 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
       let [isValid, value] = convertInput(hex);
 
       isValid = isValid && validate(value) && (
-        length !== -1
-          ? value.length === length
-          : value.length !== 0
+        length === -1
+          ? hex === '0x'
+          : value.length === length
       );
 
       if (withLength && isValid) {
