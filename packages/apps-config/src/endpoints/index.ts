@@ -36,7 +36,7 @@ export function createWsEndpoints (t: TFunction, firstOnly?: boolean): LinkOptio
       isDisabled: false,
       isHeader: true,
       isSpaced: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      text: t('rpc.header.rococo.relay', 'Rococo test & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
@@ -45,7 +45,7 @@ export function createWsEndpoints (t: TFunction, firstOnly?: boolean): LinkOptio
       isDisabled: false,
       isHeader: true,
       isSpaced: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      text: t('rpc.header.westend.relay', 'Westend test & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
