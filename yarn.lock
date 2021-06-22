@@ -4493,9 +4493,9 @@ __metadata:
   linkType: hard
 
 "@zeitgeistpm/type-defs@npm:^0.2.0":
-  version: 0.1.51
+  version: 0.2.0
   resolution: "@zeitgeistpm/type-defs@npm:0.2.0"
-  checksum: bac593e7cd5944af8067e394e3475249c51eb8dcf29cbb95d8608eae6c77dd01563eb045ff338864816ee2a6569e0b44d00d294f555e632a3e7b376e4b2973e7
+  checksum: 2a5a33ef06195c474cd964df69646caab1427af1f14398b5d5bdae43582ec1a729f4327db8a8eba9eaa3d809d9741d911ab51b38bfea1caf80dc4dfe9f87291c
   languageName: node
   linkType: hard
 
