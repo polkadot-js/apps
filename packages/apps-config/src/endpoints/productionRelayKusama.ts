@@ -55,7 +55,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'bifrost',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619 (duplicated in testing networks)
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
