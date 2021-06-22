@@ -8,6 +8,7 @@ import apron from './apron';
 import aresParachain from './ares-parachain';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
+import bifrostAsgard from './bifrost-asgard';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import bitcountryParachain from './bitcountry-rococo';
@@ -109,6 +110,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ...acala,
   apron,
   'ares-parachain': aresParachain,
+  asgard: bifrostAsgard,
   basilisk: hydrate,
   beresheet,
   bifrost: bifrost,
