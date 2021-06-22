@@ -8,7 +8,7 @@ import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
 import { createProductionRelays } from './productionRelays';
 import { createTesting } from './testing';
-import { createTestingRelays } from './testingRelays';
+import { createRococoRelays, createWestendRelays } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
@@ -31,12 +31,21 @@ export function createWsEndpoints (t: TFunction, firstOnly?: boolean): LinkOptio
       textBy: '',
       value: ''
     },
-    ...createTestingRelays(t, firstOnly),
+    ...createRococoRelays(t, firstOnly),
     {
       isDisabled: false,
       isHeader: true,
       isSpaced: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      text: t('rpc.header.rococo.relay', 'Rococo test & parachains', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createWestendRelays(t, firstOnly),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc.header.westend.relay', 'Westend test & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
