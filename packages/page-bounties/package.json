@@ -5,7 +5,7 @@
   "version": "0.93.2-38",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.14.6",
     "@polkadot/react-components": "^0.93.2-38"
   },
   "devDependencies": {

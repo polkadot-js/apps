@@ -22,7 +22,7 @@ interface State {
 
 // NOTE: This is the only way to do an error boundary, via extend
 class ErrorBoundary extends React.Component<Props> {
-  state: State = { error: null, prevTrigger: null };
+  public override state: State = { error: null, prevTrigger: null };
 
   static getDerivedStateFromError (error: Error): Partial<State> {
     return { error };
@@ -36,7 +36,7 @@ class ErrorBoundary extends React.Component<Props> {
       : null;
   }
 
-  public componentDidCatch (error: Error): void {
+  public override componentDidCatch (error: Error): void {
     const { doThrow, onError } = this.props;
 
     onError && onError();
@@ -46,7 +46,7 @@ class ErrorBoundary extends React.Component<Props> {
     }
   }
 
-  public render (): React.ReactNode {
+  public override render (): React.ReactNode {
     const { children, error: errorProps, t } = this.props;
     const { error } = this.state;
     const displayError = errorProps || error;
