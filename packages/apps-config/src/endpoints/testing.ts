@@ -40,10 +40,9 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'bifrost',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619
       text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
-        Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
+        Bifrost: 'wss://asgard-rpc.liebi.com/ws'
       }
     },
     {
