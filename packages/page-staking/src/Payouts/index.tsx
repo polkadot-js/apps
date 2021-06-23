@@ -181,6 +181,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     [api, eraLength, historyDepth, t]
   );
 
+  // TODO: conditional use of the hook
   const { allRewards, isLoadingRewards } = useOwnEraRewards(eraSelection[eraSelectionIndex].value, myStashesIndex ? undefined : ownValidators);
 
   const { stashAvail, stashes, valAvail, validators } = useMemo(
@@ -205,9 +206,9 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   ]);
 
   const valOptions = useMemo(() => [
-    { isDisabled: !hasOwnValidators, text: t('My validators'), value: 'val' },
-    { text: t('My stashes'), value: 'all' }
-  ], [hasOwnValidators, t]);
+    { isDisabled: isLoadingRewards || !hasOwnValidators, text: t('My validators'), value: 'val' },
+    { isDisabled: isLoadingRewards, text: t('My stashes'), value: 'all' }
+  ], [isLoadingRewards, hasOwnValidators, t]);
 
   const footerStash = useMemo(() => (
     <tr>

@@ -52,7 +52,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     api.query.session.validators,
     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
   ], optionsParaValidators);
-  const ownStashes = useOwnStashInfos();
+  const { isLoadingStashes, ownStashes } = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
 
@@ -125,10 +125,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Switch>
         <Route path={`${basePath}/payout`}>
-          <Payouts
+          {areAccountsLoaded && !isLoadingStashes && <Payouts
             isInElection={isInElection}
             ownValidators={ownValidators}
-          />
+          />}
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
