@@ -42,6 +42,7 @@ const definitions: OverrideBundleDefinition = {
           intelligence: 'u8'
         },
         Token: {
+          token_id: 'Tokenid',
           rarity: 'Rarity',
           socket: 'Socket',
           params: 'Params'
