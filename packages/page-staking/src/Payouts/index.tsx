@@ -181,7 +181,6 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     [api, eraLength, historyDepth, t]
   );
 
-  // TODO: conditional use of the hook
   const { allRewards, isLoadingRewards } = useOwnEraRewards(eraSelection[eraSelectionIndex].value, myStashesIndex ? undefined : ownValidators);
 
   const { stashAvail, stashes, valAvail, validators } = useMemo(
