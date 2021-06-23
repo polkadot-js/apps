@@ -132,7 +132,7 @@ const definitions: OverrideBundleDefinition = {
             let assetsEnabled = true;
 
             try {
-              api?.registry.createType("AssetIdInnerType" as any);
+              api?.registry.createType('AssetIdInnerType' as any);
             } catch (_) {
               assetsEnabled = false;
             }
