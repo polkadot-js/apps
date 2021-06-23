@@ -3,7 +3,12 @@
 
 import { StakerState } from '@polkadot/react-hooks/types';
 
+import { mockHooks } from '../../test/hooks/defaults';
 import { PayoutsPage } from '../../test/pages/payoutsPage';
+
+jest.mock('@polkadot/react-hooks/useOwnEraRewards', () => ({
+  useOwnEraRewards: () => mockHooks.ownEraRewards
+}));
 
 describe('Payouts', () => {
   let payoutsPage: PayoutsPage;
