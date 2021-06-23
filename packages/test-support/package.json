@@ -9,7 +9,7 @@
     "testcontainers": "^7.11.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/jest-dom": "^5.14.1",
     "tsconfig-paths": "^3.9.0"
   }
 }
