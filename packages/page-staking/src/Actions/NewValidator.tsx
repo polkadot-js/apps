@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SortedTargets } from '../types';
 import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
 
 import React, { useCallback, useState } from 'react';
@@ -16,11 +17,12 @@ import ValidatePartial from './partials/Validate';
 
 interface Props {
   isInElection?: boolean;
+  targets: SortedTargets;
 }
 
 const NUM_STEPS = 2;
 
-function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
+function NewValidator ({ isInElection, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
@@ -72,7 +74,10 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
         >
           <Modal.Content>
             {step === 1 && (
-              <BondPartial onChange={setBondInfo} />
+              <BondPartial
+                minValidatorBond={targets.minValidatorBond}
+                onChange={setBondInfo}
+              />
             )}
             {controllerId && stashId && step === 2 && (
               <>
