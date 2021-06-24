@@ -156,7 +156,7 @@ const definitions: OverrideBundleDefinition = {
       minmax: [263, undefined],
       types: {
         ...equilibriumNext.types,
-        "DebtWeightType": "i128",
+        DebtWeightType: 'i128'
       }
     }
   ]
