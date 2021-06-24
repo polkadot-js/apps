@@ -61,18 +61,6 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
                 value={deposit || api.consts.democracy.minimumDeposit}
               />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputBalance
-                  isDisabled
-                  label={t<string>('deposit required')}
-                  value={deposit || api.consts.democracy.minimumDeposit}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The deposit will be locked for the lifetime of the proposal.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleSeconding}>
             <TxButton
