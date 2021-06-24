@@ -56,5 +56,13 @@ describe('Payouts', () => {
         payoutsPage.renderPage([someOwnedValidator]);
         await payoutsPage.expectMyValidators({ isDisabled: false, isSelected: true });
       });
+
+    it('when loading own era rewards, then `My validators` and `My stashes` are disabled', async () => {
+      mockHooks.ownEraRewards.isLoadingRewards = true;
+
+      payoutsPage.renderPage();
+      await payoutsPage.expectMyValidators({ isDisabled: true, isSelected: false });
+      await payoutsPage.expectMyStashes({ isDisabled: true, isSelected: true });
+    });
   });
 });

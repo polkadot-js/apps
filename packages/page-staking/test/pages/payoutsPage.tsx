@@ -101,21 +101,29 @@ export class PayoutsPage {
   }
 
   async expectMyValidators (expected: {isDisabled: boolean, isSelected: boolean}): Promise<void> {
-    this.assertRendered();
-    const validators = await screen.findByText('My validators') as HTMLButtonElement;
+    await this.expectToggleOption('My validators', expected);
+  }
 
-    expect(validators).toBeVisible();
+  async expectMyStashes (expected: {isDisabled: boolean, isSelected: boolean}): Promise<void> {
+    await this.expectToggleOption('My stashes', expected);
+  }
+
+  async expectToggleOption (toggleText: string, expected: {isDisabled: boolean, isSelected: boolean}): Promise<void> {
+    this.assertRendered();
+    const toggleOption = await screen.findByText(toggleText) as HTMLButtonElement;
+
+    expect(toggleOption).toBeVisible();
 
     if (expected.isDisabled) {
-      expect(validators).toHaveClass('isDisabled');
+      expect(toggleOption).toHaveClass('isDisabled');
     } else {
-      expect(validators).not.toHaveClass('isDisabled');
+      expect(toggleOption).not.toHaveClass('isDisabled');
     }
 
     if (expected.isSelected) {
-      expect(validators).toHaveClass('isSelected');
+      expect(toggleOption).toHaveClass('isSelected');
     } else {
-      expect(validators).not.toHaveClass('isSelected');
+      expect(toggleOption).not.toHaveClass('isSelected');
     }
   }
 }
