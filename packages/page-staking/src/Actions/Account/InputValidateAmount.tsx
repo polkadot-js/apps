@@ -19,6 +19,7 @@ interface Props {
   isNominating?: boolean;
   minNominated?: BN;
   minNominatorBond?: BN;
+  minValidatorBond?: BN;
   onError: (state: AmountValidateState | null) => void;
   stashId: string | null;
   value?: BN | null;
@@ -45,7 +46,7 @@ function formatExistential (value: BN): string {
   return fmt;
 }
 
-function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominatorBond, onError, stashId, value }: Props): React.ReactElement<Props> | null {
+function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominatorBond, minValidatorBond, onError, stashId, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
@@ -68,12 +69,18 @@ function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominat
         });
       } else if (isNominating) {
         if (minNominatorBond && check.lt(minNominatorBond)) {
-          newError = t('The bonded amount is less than the minimum threshold of {{minNominatorBond}} for nominators', {
-            replace: { minNominatorBond: formatBalance(minNominatorBond) }
+          newError = t('The bonded amount is less than the minimum threshold of {{minBond}} for nominators', {
+            replace: { minBond: formatBalance(minNominatorBond) }
           });
         } else if (minNominated && check.lt(minNominated)) {
           newWarning = t('The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate', {
             replace: { minNomination: formatBalance(minNominated) }
+          });
+        }
+      } else {
+        if (minValidatorBond && check.lt(minValidatorBond)) {
+          newError = t('The bonded amount is less than the minimum threshold of {{minBond}} for validators', {
+            replace: { minBond: formatBalance(minValidatorBond) }
           });
         }
       }
@@ -91,7 +98,7 @@ function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominat
         return { error, warning };
       });
     }
-  }, [api, currentAmount, isNominating, minNominated, minNominatorBond, onError, stashBalance, t, value]);
+  }, [api, currentAmount, isNominating, minNominated, minNominatorBond, minValidatorBond, onError, stashBalance, t, value]);
 
   if (error) {
     return <MarkError content={error} />;

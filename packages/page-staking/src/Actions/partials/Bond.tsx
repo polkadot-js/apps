@@ -24,6 +24,7 @@ interface Props {
   isNominating?: boolean;
   minNominated?: BN;
   minNominatorBond?: BN;
+  minValidatorBond?: BN;
   onChange: (info: BondInfo) => void;
 }
 
@@ -35,7 +36,7 @@ const EMPTY_INFO = {
   stashId: null
 };
 
-function Bond ({ className = '', isNominating, minNominated, minNominatorBond, onChange }: Props): React.ReactElement<Props> {
+function Bond ({ className = '', isNominating, minNominated, minNominatorBond, minValidatorBond, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -147,6 +148,7 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, o
             isNominating={isNominating}
             minNominated={minNominated}
             minNominatorBond={minNominatorBond}
+            minValidatorBond={minValidatorBond}
             onError={setAmountError}
             stashId={stashId}
             value={amount}

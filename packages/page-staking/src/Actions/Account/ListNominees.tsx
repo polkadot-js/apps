@@ -2,21 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { DeriveEraExposure, DeriveSessionIndexes, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveEraExposure, DeriveSessionIndexes } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, Expander, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
 
 interface Props {
-  minNominatorBond?: BN;
   nominating?: string[];
-  stakingInfo?: DeriveStakingAccount;
   stashId: string;
 }
 
@@ -66,7 +64,7 @@ function renderNominators (stashId: string, all: string[] = [], eraExposure?: De
     : null;
 }
 
-function ListNominees ({ minNominatorBond, nominating, stakingInfo, stashId }: Props): React.ReactElement<Props> {
+function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
@@ -76,11 +74,6 @@ function ListNominees ({ minNominatorBond, nominating, stakingInfo, stashId }: P
   const [renActive, renChilled, renInactive, renOver, renWaiting] = useMemo(
     () => [renderNominators(stashId, nomsActive, eraExposure), renderNominators(stashId, nomsChilled), renderNominators(stashId, nomsInactive), renderNominators(stashId, nomsOver), renderNominators(stashId, nomsWaiting)],
     [eraExposure, nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting, stashId]
-  );
-
-  const isBelow = useMemo(
-    () => minNominatorBond && stakingInfo && stakingInfo.stakingLedger.active.unwrap().lt(minNominatorBond),
-    [minNominatorBond, stakingInfo]
   );
 
   return (
@@ -123,9 +116,6 @@ function ListNominees ({ minNominatorBond, nominating, stakingInfo, stashId }: P
       )}
       {nomsActive && nomsInactive && (nomsActive.length === 0) && (nomsInactive.length !== 0) && (
         <MarkWarning content={t<string>('Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.')} />
-      )}
-      {minNominatorBond && isBelow && (
-        <MarkWarning content={t<string>('Your bonded amount is below the on-chain minimum nomination threshold of {{minNominatorBond}} and may be chilled. Bond extra funds to increase the bonded amount.', { replace: { minNominatorBond: formatBalance(minNominatorBond) } })} />
       )}
     </>
   );
