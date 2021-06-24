@@ -1,7 +1,7 @@
-name: Chain types
+name: Chain endpoints
 on:
   schedule:
-    - cron:  '30 0/12 * * *'
+    - cron:  '45 0/12 * * *'
 
 jobs:
   types:
@@ -13,7 +13,7 @@ jobs:
         CI_LOG: 123
       run: |
         yarn install --immutable | grep -v 'YN0013'
-        yarn ci:chainTypes
+        yarn ci:chainEndpoints
 
     - name: issue
       if: ${{ failure() }}
@@ -21,5 +21,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT_BOT }}
       with:
-        filename: .github/chain-types.md
+        filename: .github/chain-endpoints.md
         update_existing: true
