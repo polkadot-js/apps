@@ -131,6 +131,7 @@ export const chainLogos = Object.entries({
   'Ares PC1': nodeAres,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
+  'Bifrost Asgard CC4': nodeBifrost,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust PC1': nodeCrust,
