@@ -215,7 +215,9 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           <td className='all expand left'>
             {isStashNominating && (
               <ListNominees
+                minNominatorBond={targets.minNominatorBond}
                 nominating={nominating}
+                stakingInfo={stakingAccount}
                 stashId={stashId}
               />
             )}
