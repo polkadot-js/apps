@@ -128,6 +128,8 @@
   "The bond will be reserved for the duration of your candidacy and membership.": "",
   "The bonded amount is less than the current active minimum nominated amount of {{minNomination}} and depending on the network state, may not be selected to participate": "",
   "The bonded amount is less than the minimum bond amount of {{existentialDeposit}}": "",
+  "The bonded amount is less than the minimum threshold of {{minBond}} for nominators": "",
+  "The bonded amount is less than the minimum threshold of {{minBond}} for validators": "",
   "The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.": "",
   "The call hash as calculated for this transaction": "",
   "The call hash from the list of available and unapproved calls.": "",

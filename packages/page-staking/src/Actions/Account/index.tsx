@@ -28,6 +28,7 @@ import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
+import WarnBond from './WarnBond';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
@@ -209,15 +210,25 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               withHexSessionId={hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
             />
+            <WarnBond
+              minBond={targets.minValidatorBond}
+              stakingInfo={stakingAccount}
+            />
           </td>
         )
         : (
           <td className='all expand left'>
             {isStashNominating && (
-              <ListNominees
-                nominating={nominating}
-                stashId={stashId}
-              />
+              <>
+                <ListNominees
+                  nominating={nominating}
+                  stashId={stashId}
+                />
+                <WarnBond
+                  minBond={targets.minNominatorBond}
+                  stakingInfo={stakingAccount}
+                />
+              </>
             )}
           </td>
         )
