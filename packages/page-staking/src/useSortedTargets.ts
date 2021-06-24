@@ -4,12 +4,13 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall, useInflation } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
@@ -17,6 +18,17 @@ interface LastEra {
   eraLength: BN;
   lastEra: BN;
   sessionLength: BN;
+}
+
+interface MultiResult {
+  counterForNominators?: BN;
+  counterForValidators?: BN;
+  historyDepth?: BN;
+  maxNominatorsCount?: BN;
+  maxValidatorsCount?: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
+  totalIssuance?: BN;
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
@@ -242,11 +254,37 @@ const transformEra = {
   })
 };
 
+const transformMulti = {
+  defaultValue: {},
+  transform: ([historyDepth, counterForNominators, counterForValidators, optMaxNominatorsCount, optMaxValidatorsCount, minNominatorBond, minValidatorBond, totalIssuance]: [BN, BN?, BN?, Option<u32>?, Option<u32>?, BN?, BN?, BN?]): MultiResult => ({
+    counterForNominators,
+    counterForValidators,
+    historyDepth,
+    maxNominatorsCount: optMaxNominatorsCount && optMaxNominatorsCount.isSome
+      ? optMaxNominatorsCount.unwrap()
+      : undefined,
+    maxValidatorsCount: optMaxValidatorsCount && optMaxValidatorsCount.isSome
+      ? optMaxValidatorsCount.unwrap()
+      : undefined,
+    minNominatorBond,
+    minValidatorBond,
+    totalIssuance
+  })
+};
+
 export default function useSortedTargets (favorites: string[], withLedger: boolean): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const historyDepth = useCall<BN>(api.query.staking.historyDepth);
-  const totalIssuance = useCall<BN>(api.query.balances?.totalIssuance);
+  const { counterForNominators, counterForValidators, historyDepth, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond, totalIssuance } = useCallMulti<MultiResult>([
+    api.query.staking.historyDepth,
+    api.query.staking.counterForNominators,
+    api.query.staking.counterForValidators,
+    api.query.staking.maxNominatorsCount,
+    api.query.staking.maxValidatorsCount,
+    api.query.staking.minNominatorBond,
+    api.query.staking.minValidatorBond,
+    api.query.balances?.totalIssuance
+  ], transformMulti);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
@@ -267,5 +305,16 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
     [baseInfo, inflation]
   );
 
-  return { inflation, medianComm: 0, minNominated: BN_ZERO, ...partial };
+  return {
+    counterForNominators,
+    counterForValidators,
+    inflation,
+    maxNominatorsCount,
+    maxValidatorsCount,
+    medianComm: 0,
+    minNominated: BN_ZERO,
+    minNominatorBond,
+    minValidatorBond,
+    ...partial
+  };
 }

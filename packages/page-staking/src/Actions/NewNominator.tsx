@@ -74,7 +74,8 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
             {step === 1 && (
               <BondPartial
                 isNominating
-                minNomination={targets.minNominated}
+                minNominated={targets.minNominated}
+                minNominatorBond={targets.minNominatorBond}
                 onChange={setBondInfo}
               />
             )}
