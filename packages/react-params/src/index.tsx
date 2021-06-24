@@ -37,7 +37,7 @@ interface State {
 export { Holder };
 
 class Params extends React.PureComponent<Props, State> {
-  public state: State = {
+  public override state: State = {
     params: null
   };
 
@@ -63,13 +63,13 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   // Fire the initial onChange (we did update) when the component is loaded
-  public componentDidMount (): void {
+  public override componentDidMount (): void {
     this.componentDidUpdate(null, {});
   }
 
   // This is needed in the case where the item changes, i.e. the values get
   // initialized and we need to alert the parent that we have new values
-  public componentDidUpdate (_: Props | null, prevState: State): void {
+  public override componentDidUpdate (_: Props | null, prevState: State): void {
     const { isDisabled } = this.props;
     const { values } = this.state;
 
@@ -78,7 +78,7 @@ class Params extends React.PureComponent<Props, State> {
     }
   }
 
-  public render (): React.ReactNode {
+  public override render (): React.ReactNode {
     const { children, className = '', isDisabled, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true } = this.props;
     const { values = this.props.values } = this.state;
 

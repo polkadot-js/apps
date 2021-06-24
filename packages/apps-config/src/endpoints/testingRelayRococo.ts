@@ -296,7 +296,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoOriginTrail',
-        paraId: 2024,
+        paraId: 2037,
         text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
         providers: {
           'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
