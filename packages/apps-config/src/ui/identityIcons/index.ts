@@ -6,21 +6,16 @@
 
 export const identityNodes: Record<string, string> = [
   ['centrifuge chain', 'polkadot'],
-  ['edgeware-node', 'substrate'],
   ['joystream-node', 'beachball'],
-  ['node-template', 'substrate'],
-  ['parity-polkadot', 'polkadot'],
-  ['phala-substrate-node', 'substrate'],
-  ['polkadot-js', 'polkadot'],
-  ['subsocial-node', 'substrate'],
-  ['substrate-node', 'substrate'],
-  ['polymesh-node', 'substrate']
+  ['parity-polkadot', 'polkadot']
 ].reduce((icons, [node, icon]): Record<string, string> => ({
   ...icons,
   [node.toLowerCase().replace(/-/g, ' ')]: icon
 }), {});
 
 export const identitySpec: Record<string, string> = [
+  ['kusama', 'polkadot'],
+  ['polkadot', 'polkadot'],
   ['rococo', 'polkadot'],
   ['statemine', 'polkadot'],
   ['statemint', 'polkadot'],

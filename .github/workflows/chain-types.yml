@@ -1,7 +1,7 @@
-name: Chain
+name: Chain types
 on:
   schedule:
-    - cron:  '30 0 * * *'
+    - cron:  '30 0/12 * * *'
 
 jobs:
   types:
