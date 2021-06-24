@@ -2,18 +2,18 @@ FROM ubuntu:18.04 as builder
 
 # Install any needed packages
 RUN apt-get update && \
-  apt-get install --no-install-recommends -y curl git gnupg && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  apt-get install --no-install-recommends -y curl git gnupg ca-certificates
 
 # install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install --no-install-recommends -y nodejs
+RUN apt-get install --no-install-recommends -y nodejs && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+RUN npm install yarn -g
 
 WORKDIR /apps
 COPY . .
 
-RUN npm install yarn -g
 RUN yarn && NODE_ENV=production yarn build:www
 
 # ===========================================================

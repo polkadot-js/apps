@@ -8,6 +8,7 @@ export { useAddresses } from './useAddresses';
 export { useApi } from './useApi';
 export { useApiUrl } from './useApiUrl';
 export { useAvailableSlashes } from './useAvailableSlashes';
+export { useBestHash } from './useBestHash';
 export { useBestNumber } from './useBestNumber';
 export { useBlockTime } from './useBlockTime';
 export { useBlocksPerDays } from './useBlocksPerDays';

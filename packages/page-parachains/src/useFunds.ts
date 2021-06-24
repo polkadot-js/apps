@@ -9,7 +9,7 @@ import type { Campaign, Campaigns } from './types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto';
 
@@ -84,9 +84,9 @@ function sortCampaigns (a: Campaign, b: Campaign): number {
 
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
 function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Campaign[], leased: ParaId[], prev: Campaigns): Campaigns {
-  const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
-    bestNumber.gt(end) ? ar : ar.iadd(raised),
-    bestNumber.gt(end) ? ac : ac.iadd(cap),
+  const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised }, isWinner }) => [
+    (bestNumber.gt(end) || isWinner) ? ar : ar.iadd(raised),
+    (bestNumber.gt(end) || isWinner) ? ac : ac.iadd(cap),
     tr.iadd(raised),
     tc.iadd(cap)
   ], [new BN(0), new BN(0), new BN(0), new BN(0)]);
@@ -166,18 +166,19 @@ function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
 export default function useFunds (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
+  const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger, transform: extractFundIds });
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, { at: trigger.blockHash, transform: extractFundIds });
   const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], optFundMulti);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], optLeaseMulti);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 
   // here we manually add the actual ending status and calculate the totals
   useEffect((): void => {
-    bestNumber && campaigns && leases && setResult((prev) =>
+    mountedRef.current && bestNumber && campaigns && leases && setResult((prev) =>
       createResult(bestNumber, api.consts.crowdloan.minContribution as BlockNumber, campaigns, leases, prev)
     );
-  }, [api, bestNumber, campaigns, leases]);
+  }, [api, bestNumber, campaigns, leases, mountedRef]);
 
   return result;
 }

@@ -18,6 +18,23 @@ interface Result {
   urls: string[];
 }
 
+// use from @polkadot/util
+function arrayShuffle (result: string[]): string[] {
+  let currentIndex = result.length;
+
+  while (currentIndex !== 0) {
+    const randomIndex = Math.floor(Math.random() * currentIndex);
+
+    currentIndex--;
+
+    [result[currentIndex], result[randomIndex]] = [
+      result[randomIndex], result[currentIndex]
+    ];
+  }
+
+  return result;
+}
+
 export function useParaApi (paraId: BN | number): Result {
   const mountedRef = useIsMountedRef();
   const endpoints = useParaEndpoints(paraId);
@@ -32,7 +49,7 @@ export function useParaApi (paraId: BN | number): Result {
     mountedRef.current && setState({
       api: null,
       endpoints,
-      urls: endpoints.map(({ value }) => value as string).reverse()
+      urls: arrayShuffle(endpoints.map(({ value }) => value))
     });
   }, [endpoints, mountedRef]);
 
