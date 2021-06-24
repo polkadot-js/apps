@@ -76,6 +76,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'rocky',
+      text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
+      providers: {
+        Pinknode: 'wss://rpc.pinknode.io/rocky/explorer'
+      }
+    },
+    {
       info: 'datahighway',
       isDisabled: true,
       text: t('rpc.test.datahighway.spreehafen', 'Spreehafen', { ns: 'apps-config' }),
@@ -102,7 +109,8 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'dusty',
       text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/'
+        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/',
+        Pinknode: 'wss://rpc.pinknode.io/dusty/explorer'
       }
     },
     {
@@ -220,7 +228,8 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
         Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://mandala.elara.patract.io'
+        'Patract Elara': 'wss://mandala.elara.patract.io',
+        Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
     {
