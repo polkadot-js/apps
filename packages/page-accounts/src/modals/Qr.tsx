@@ -56,23 +56,19 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
 
   const _onScan = useCallback(
     (scanned: Scanned): void => {
-      if (isEthereum && scanned.isAddress && scanned.content.substring(0, 2) !== '0x') {
-        console.log("hoho")
-      } else {
-        setAddress({
-          address: scanned.isAddress
-            ? scanned.content
-            : keyring.createFromUri(scanned.content, {}, 'sr25519').address,
-          isAddress: scanned.isAddress,
-          scanned
-        });
-      }
+      setAddress({
+        address: scanned.isAddress
+          ? scanned.content
+          : keyring.createFromUri(scanned.content, {}, 'sr25519').address,
+        isAddress: scanned.isAddress,
+        scanned
+      });
 
       if (scanned.name) {
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange, isEthereum, t]
+    [_onNameChange]
   );
 
   const _onError = useCallback(
@@ -84,7 +80,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         warning: t<string>(err.message)
       });
     },
-    [_onNameChange, isEthereum, t]
+    [t]
   );
 
   const _onSave = useCallback(
@@ -99,7 +95,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         name: name.trim()
       };
       const account = isAddress
-        ? isEthereum? keyring.addExternal(content).pair.address:keyring.addExternal(content, meta).pair.address
+        ? isEthereum ? keyring.addExternal(content).pair.address : keyring.addExternal(content, meta).pair.address
         : keyring.addUri(content, password, meta, 'sr25519').pair.address;
 
       InputAddress.setLastValue('account', account);
@@ -112,7 +108,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       });
       onClose();
     },
-    [api, isValid, name, onClose, onStatusChange, password, scanned, t]
+    [api, isValid, name, onClose, onStatusChange, password, scanned, isEthereum, t]
   );
 
   return (
@@ -157,8 +153,8 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
               <div className='qr-wrapper'>
                 <QrScanAddress
                   isEthereum={isEthereum}
-                  onScan={_onScan}
                   onError={_onError}
+                  onScan={_onScan}
                 />
               </div>
               {warning && <MarkWarning content={warning} />}
