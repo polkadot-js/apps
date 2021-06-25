@@ -9,7 +9,7 @@
     "@polkadot/dev": "^0.62.43",
     "@polkadot/react-components": "^0.93.2-47",
     "electron-log": "^4.3.5",
-    "electron-updater": "^4.3.9"
+    "electron-updater": "^4.3.10"
   },
   "devDependencies": {
     "@types/react-dom": "^17.0.8",
