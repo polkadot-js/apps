@@ -119,15 +119,15 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
 
   if (multiRoot) {
     const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-    const info = await api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash);
-    const { weight } = await tx.paymentInfo(multiRoot);
+    const [info, { weight }] = await Promise.all([
+      api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash),
+      tx.paymentInfo(multiRoot)
+    ]);
     const { threshold, who } = extractExternal(multiRoot);
     const others = who.filter((w) => w !== signAddress);
-    let timepoint: Timepoint | null = null;
-
-    if (info.isSome) {
-      timepoint = info.unwrap().when;
-    }
+    const timepoint = info.isSome
+      ? info.unwrap().when
+      : null;
 
     tx = isMultiCall
       ? api.tx[multiModule].asMulti.meta.args.length === 6
