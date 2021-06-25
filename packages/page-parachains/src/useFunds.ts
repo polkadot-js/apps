@@ -84,9 +84,9 @@ function sortCampaigns (a: Campaign, b: Campaign): number {
 
 // compare the current campaigns against the previous, manually adding ending and calculating the new totals
 function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Campaign[], leased: ParaId[], prev: Campaigns): Campaigns {
-  const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised } }) => [
-    bestNumber.gt(end) ? ar : ar.iadd(raised),
-    bestNumber.gt(end) ? ac : ac.iadd(cap),
+  const [activeRaised, activeCap, totalRaised, totalCap] = funds.reduce(([ar, ac, tr, tc], { info: { cap, end, raised }, isWinner }) => [
+    (bestNumber.gt(end) || isWinner) ? ar : ar.iadd(raised),
+    (bestNumber.gt(end) || isWinner) ? ac : ac.iadd(cap),
     tr.iadd(raised),
     tc.iadd(cap)
   ], [new BN(0), new BN(0), new BN(0), new BN(0)]);
