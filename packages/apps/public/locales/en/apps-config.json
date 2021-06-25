@@ -123,6 +123,7 @@
   "rpc.test.canvas": "Canvas",
   "rpc.test.clover.finance": "Clover",
   "rpc.test.crust.network": "Crust Maxwell",
+  "rpc.test.rocky.network": "Crust Rocky",
   "rpc.test.datahighway.spreehafen": "Spreehafen",
   "rpc.test.dock-testnet": "Dock",
   "rpc.test.dotmog": "DOTMog",
