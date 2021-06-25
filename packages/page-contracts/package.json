@@ -6,6 +6,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@polkadot/api-contract": "^4.15.2-8"
+    "@polkadot/api-contract": "^4.15.2-9"
   }
 }
