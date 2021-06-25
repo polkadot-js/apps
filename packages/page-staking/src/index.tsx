@@ -62,8 +62,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   const ownValidators = useMemo(
-    () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
-    [ownStashes]
+    () => isLoadingStashes
+      ? undefined
+      : (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
+    [isLoadingStashes, ownStashes]
   );
 
   const toggleLedger = useCallback(
@@ -125,10 +127,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Switch>
         <Route path={`${basePath}/payout`}>
-          {areAccountsLoaded && !isLoadingStashes && <Payouts
+          <Payouts
             isInElection={isInElection}
             ownValidators={ownValidators}
-          />}
+          />
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />

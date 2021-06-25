@@ -21,7 +21,7 @@ class NotYetRendered extends Error {}
 export class PayoutsPage {
   renderResult?: RenderResult;
 
-  renderPage (ownValidators: StakerState[] = []): void {
+  renderPage (ownValidators?: StakerState[]): void {
     const mockApi: ApiProps = {
       api: {
         consts: {
