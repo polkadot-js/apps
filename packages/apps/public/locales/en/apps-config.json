@@ -157,6 +157,7 @@
   "rpc.test.prism": "Prism",
   "rpc.test.realis": "Realis.Network",
   "rpc.test.riochain": "RioChain",
+  "rpc.test.rocky.network": "Crust Rocky",
   "rpc.test.sora-substrate-staging": "SORA-staging",
   "rpc.test.subgame": "SubGame Staging",
   "rpc.test.ternoa-chaos": "Ternoa Chaos",

@@ -158,6 +158,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
+  'Bifrost Asgard CC4': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
