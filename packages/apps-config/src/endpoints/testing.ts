@@ -391,6 +391,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'unitv',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5684
       text: t('rpc.test.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
         'Unit Network': 'wss://unitventures.io/'
