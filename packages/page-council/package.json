@@ -2,11 +2,11 @@
   "name": "@polkadot/app-council",
   "private": true,
   "type": "module",
-  "version": "0.93.2-54",
+  "version": "0.93.2-55",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@polkadot/react-components": "^0.93.2-54",
-    "@polkadot/react-query": "^0.93.2-54"
+    "@polkadot/react-components": "^0.93.2-55",
+    "@polkadot/react-query": "^0.93.2-55"
   }
 }
