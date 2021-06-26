@@ -2185,10 +2185,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/openapi-types@npm:^7.3.4":
-  version: 7.3.4
-  resolution: "@octokit/openapi-types@npm:7.3.4"
-  checksum: dd40b16ea07528ad9f757228652ff41f50bf331846b040491b387ef3d82a924a298b366ccdda4ba8d62722f0a06b28ac076b9b22ce22f5e0535e858fccd66099
+"@octokit/openapi-types@npm:^7.3.5":
+  version: 7.3.5
+  resolution: "@octokit/openapi-types@npm:7.3.5"
+  checksum: 07f93345e86f24bcfd3a8c9dff6bbe5a6d347239eca4fa07365e3d6bc837882976c84f12a18572deb8d80668dd01769211a4c239dbd7bafbf70ec01eb94bf0b2
   languageName: node
   linkType: hard
 
@@ -2262,11 +2262,11 @@ __metadata:
   linkType: hard
 
 "@octokit/types@npm:^6.0.3, @octokit/types@npm:^6.13.0, @octokit/types@npm:^6.16.1, @octokit/types@npm:^6.16.6":
-  version: 6.16.6
-  resolution: "@octokit/types@npm:6.16.6"
+  version: 6.16.7
+  resolution: "@octokit/types@npm:6.16.7"
   dependencies:
-    "@octokit/openapi-types": ^7.3.4
-  checksum: 1818929ace8dbc1c0e19e71ac3ffe4615990a36942a857f195befbb12156d44c649e9e158eb605baf53a6cc6a051644e73dae9658933586d2d7f506ccd044c74
+    "@octokit/openapi-types": ^7.3.5
+  checksum: f4e7826e5834d6491591a7f0491cac97c9cdc378b9df697ed0919f05101e7b4b4f15d116a829141c625d2d0024b4a26bbadeb3bc564724f0e8a90af55814c322
   languageName: node
   linkType: hard
 
@@ -2789,29 +2789,29 @@ __metadata:
   linkType: hard
 
 "@polkadot/extension-dapp@npm:^0.38.7-1":
-  version: 0.38.7-1
-  resolution: "@polkadot/extension-dapp@npm:0.38.7-1"
+  version: 0.38.7
+  resolution: "@polkadot/extension-dapp@npm:0.38.7"
   dependencies:
     "@babel/runtime": ^7.14.6
-    "@polkadot/extension-inject": ^0.38.7-1
-    "@polkadot/util": ^6.9.1
-    "@polkadot/util-crypto": ^6.9.1
+    "@polkadot/extension-inject": ^0.38.7
+    "@polkadot/util": ^6.10.1
+    "@polkadot/util-crypto": ^6.10.1
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: a11259bac96307e21ec17f282f92ffe0b2f2e54d1e2dd1c300cfe7330e687ea1106e23827ad9b49ebd5e313fd040f70e5a692ef31a474397f2183c6a4475d3d5
+  checksum: 1bddafebe524f2d162e144ad7dd67b8d6798f2dc51dd0286f28a1e85e8ae8042a097fe576c39477271317dc2ef0662576f4352de4618e1da9e56467392ae966d
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:^0.38.7-1":
-  version: 0.38.7-1
-  resolution: "@polkadot/extension-inject@npm:0.38.7-1"
+"@polkadot/extension-inject@npm:^0.38.7":
+  version: 0.38.7
+  resolution: "@polkadot/extension-inject@npm:0.38.7"
   dependencies:
     "@babel/runtime": ^7.14.6
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: 131b6edcf916b82fe764d757126bfcffa191ea88dbe85fe2e4eca1667e990cbd44ba60b6b11e7e1eec862f4728cc9ee09316f13c0f0eab889358863941f7aa53
+  checksum: f78a8c3983686f0ccd36f2ff463e7e3dfa402b762a20a89c496320499eb13091a12da707e4bd42f7cdca1202a665ebbfa4780e9956903d51fb633d35fc08b6eb
   languageName: node
   linkType: hard
 
@@ -2898,7 +2898,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@polkadot/api": ^4.16.1
     "@polkadot/extension-dapp": ^0.38.7-1
-    "@polkadot/x-rxjs": ^6.9.2-12
+    "@polkadot/x-rxjs": ^6.10.1
     "@substrate/connect": 0.3.10
     fflate: ^0.7.1
   languageName: unknown
@@ -3042,7 +3042,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:4.16.1":
+"@polkadot/rpc-provider@npm:4.16.1, @polkadot/rpc-provider@npm:^4.10.1":
   version: 4.16.1
   resolution: "@polkadot/rpc-provider@npm:4.16.1"
   dependencies:
@@ -3055,22 +3055,6 @@ __metadata:
     "@polkadot/x-ws": ^6.10.1
     eventemitter3: ^4.0.7
   checksum: 78b8d21d6db346e433cd9c15b3019931baf7a53e0604bca2c091365e9fb79997e441981a4914c8736a121e8b7ab0989f2eadf49597b631d7895622e138f2ed39
-  languageName: node
-  linkType: hard
-
-"@polkadot/rpc-provider@npm:^4.10.1":
-  version: 4.15.1
-  resolution: "@polkadot/rpc-provider@npm:4.15.1"
-  dependencies:
-    "@babel/runtime": ^7.14.5
-    "@polkadot/types": 4.15.1
-    "@polkadot/util": ^6.9.1
-    "@polkadot/util-crypto": ^6.9.1
-    "@polkadot/x-fetch": ^6.9.1
-    "@polkadot/x-global": ^6.9.1
-    "@polkadot/x-ws": ^6.9.1
-    eventemitter3: ^4.0.7
-  checksum: 760f0565cb9c215949609e8f1ab57bba92de4bb0c39f3c47993db9f96ecff5e2b1c630bddd9caece5648da3426c7a091af9639d4b91b4ca810a8284d8a497a4b
   languageName: node
   linkType: hard
 
@@ -6338,9 +6322,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001219":
-  version: 1.0.30001239
-  resolution: "caniuse-lite@npm:1.0.30001239"
-  checksum: f1fbd95a97d66359f518c12045e2ae32975aeae8b0451ba8a5608bc0ece47c7d18ab7edea51bffa7fb0656747d3e1418384904ab8a2a5f97698ad744b157537c
+  version: 1.0.30001240
+  resolution: "caniuse-lite@npm:1.0.30001240"
+  checksum: 94322e3e9f6735bce665632a1c8eeeeab8e7247e3436307456ffc1f229be63dab2b33184e9ebf7dcff0c6cf6b8ce22a083c5aca4ca25595f66d8a8bd8da0845b
   languageName: node
   linkType: hard
 
@@ -8416,9 +8400,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.723":
-  version: 1.3.758
-  resolution: "electron-to-chromium@npm:1.3.758"
-  checksum: 2fec13dcdd1b24a2314d309566bd08c7f0ce383787e64ea43c14a7fc2a11c8a76fdb9a56ce7a1da6137e1ef46365f999d10c656f2fb6b9ff792ea3ae808ebb86
+  version: 1.3.759
+  resolution: "electron-to-chromium@npm:1.3.759"
+  checksum: f7d35bd2a8a9d63c09bce7806078b2d0577b7ae0132c1243b26a0f9f0c303b9b7cb4d0a3a72b6a775e2480b5d2fc4099ffa017afd7389220274112285c9a33fa
   languageName: node
   linkType: hard
 
@@ -15680,11 +15664,11 @@ __metadata:
   linkType: hard
 
 "prettier@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "prettier@npm:2.3.1"
+  version: 2.3.2
+  resolution: "prettier@npm:2.3.2"
   bin:
     prettier: bin-prettier.js
-  checksum: 3b37731ff7150feecf19736c77c790e7e276b404ac9af81cbaf87cfecefc48ef9a864f34c2a5caf5955378b8f2525984b8611703a0d9c1f052b4cfa6eb35899f
+  checksum: 17ce5784ac67621c292df58e2da60b2ee150c2d6aebea22a6ad9e52fcd6a5e66c349d0a8436ea3bd8ff9d778920a5f68000d7625b74f43558718a49755aa5259
   languageName: node
   linkType: hard
 
@@ -20010,13 +19994,13 @@ resolve@^2.0.0-next.3:
   linkType: hard
 
 "whatwg-url@npm:^8.0.0, whatwg-url@npm:^8.5.0":
-  version: 8.6.0
-  resolution: "whatwg-url@npm:8.6.0"
+  version: 8.7.0
+  resolution: "whatwg-url@npm:8.7.0"
   dependencies:
     lodash: ^4.7.0
     tr46: ^2.1.0
     webidl-conversions: ^6.1.0
-  checksum: 0149bee9b653c2b52263d100a7ce2cc73884049631131eda7552af59f440fa3d0bc27552ee20717c0e24dd547fd70f31d9adc0fefe0b3146c842d767aba0030a
+  checksum: a87abcc6cefcece5311eb642858c8fdb234e51ec74196bfacf8def2edae1bfbffdf6acb251646ed6301f8cee44262642d8769c707256125a91387e33f405dd1e
   languageName: node
   linkType: hard
 
