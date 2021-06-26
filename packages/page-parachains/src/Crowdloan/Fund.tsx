@@ -6,7 +6,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, Spinner, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -132,20 +132,26 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
         )}
       </td>
       <td className='number together media--1100'>
-        {bestHash && (
-          <Icon
-            color={
-              lastChange.prevHash === bestHash
-                ? 'green'
-                : 'transparent'
-            }
-            icon='chevron-up'
-            isPadded
-          />
-        )}
-        {contributorsHex.length !== 0 && (
-          formatNumber(contributorsHex.length)
-        )}
+        {contribHash === '-'
+          ? <Spinner variant='mini' />
+          : (
+            <>
+              {bestHash && (
+                <Icon
+                  color={
+                    lastChange.prevHash === bestHash
+                      ? 'green'
+                      : 'transparent'
+                  }
+                  icon='chevron-up'
+                  isPadded
+                />
+              )}
+              {contributorsHex.length !== 0 && (
+                formatNumber(contributorsHex.length)
+              )}
+            </>
+          )}
       </td>
       <td className='button media--1000'>
         {canWithdraw && contributorsHex.length !== 0 && (
