@@ -133,7 +133,7 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
       </td>
       <td className='number together media--1100'>
         {contribHash === '-'
-          ? <Spinner variant='mini' />
+          ? <Spinner noLabel />
           : (
             <>
               {bestHash && (
