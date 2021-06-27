@@ -169,6 +169,7 @@
   "Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.": "Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.",
   "Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.": "Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.",
   "Your stash account. The transaction will be sent from the associated controller.": "Your stash account. The transaction will be sent from the associated controller.",
+  "active / nominators": "active / nominators",
   "additional bonded funds": "additional bonded funds",
   "all bonded": "all bonded",
   "allows new nominations": "allows new nominations",
