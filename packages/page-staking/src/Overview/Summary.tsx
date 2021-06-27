@@ -21,7 +21,7 @@ interface Props {
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, stakingOverview, targets: { inflation: { idealStake, inflation, stakedFraction }, maxNominatorsCount, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -45,7 +45,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
         <CardSummary
           className='media--1000'
           label={
-            maxNominatorsCount
+            counterForNominators
               ? t<string>('active / nominators')
               : t<string>('nominators')
           }
@@ -54,8 +54,8 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
             ? (
               <>
                 {formatNumber(nominators.length)}
-                {maxNominatorsCount && (
-                  <>&nbsp;/&nbsp;{formatNumber(maxNominatorsCount)}</>
+                {counterForNominators && (
+                  <>&nbsp;/&nbsp;{formatNumber(counterForNominators)}</>
                 )}
               </>
             )
