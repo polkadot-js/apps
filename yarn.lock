@@ -3042,7 +3042,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:4.16.2", "@polkadot/rpc-provider@npm:^4.10.1":
+"@polkadot/rpc-provider@npm:4.16.2, @polkadot/rpc-provider@npm:^4.10.1":
   version: 4.16.2
   resolution: "@polkadot/rpc-provider@npm:4.16.2"
   dependencies:
