@@ -6,7 +6,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
-import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { Multisig } from '@polkadot/types/interfaces';
 import type { Ledger } from '@polkadot/ui-keyring';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
@@ -333,9 +333,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
               setBusy(false);
             }
           })
-          .catch((error): void => {
-            errorHandler(error as Error);
-          });
+          .catch(errorHandler);
       }, 0);
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
