@@ -208,6 +208,15 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
         }
+      },
+      {
+        info: 'robonomics',
+        homepage: 'http://robonomics.network/',
+        paraId: 2077,
+        text: t('kusama.rpc.robonomics', 'Robonomics', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://kusama.rpc.robonomics.network/'
+        }
       }
     ]
   };
