@@ -6,9 +6,9 @@ import type { LinkOption } from './types';
 
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
-import { createProductionRelays } from './productionRelays';
+import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
 import { createTesting } from './testing';
-import { createTestingRelays } from './testingRelays';
+import { createRococoRelay, createWestendRelay } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
@@ -19,19 +19,36 @@ export function createWsEndpoints (t: TFunction, firstOnly?: boolean): LinkOptio
       isDisabled: false,
       isHeader: true,
       isSpaced: true,
-      text: t('rpc.header.live.relay', 'Live relays & parachains', { ns: 'apps-config' }),
+      text: t('rpc.header.polkadot.relay', 'Polkadot & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createProductionRelays(t, firstOnly),
+    ...createPolkadotRelay(t, firstOnly),
     {
       isDisabled: false,
       isHeader: true,
-      text: t('rpc.header.test.relay', 'Test relays & parachains', { ns: 'apps-config' }),
+      text: t('rpc.header.kusama.relay', 'Kusama & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createTestingRelays(t, firstOnly),
+    ...createKusamaRelay(t, firstOnly),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc.header.westend.relay', 'Test Westend & parachains', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createWestendRelay(t, firstOnly),
+    {
+      isDisabled: false,
+      isHeader: true,
+      text: t('rpc.header.rococo.relay', 'Test Rococo & parachains', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createRococoRelay(t, firstOnly),
     {
       isDisabled: false,
       isHeader: true,
