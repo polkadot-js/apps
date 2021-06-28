@@ -29,6 +29,7 @@
   "rpc.kusama.moonriver": "Moonriver",
   "rpc.kusama.parity": "Kusama",
   "rpc.kusama.polkasmith": "Polkasmith",
+  "rpc.kusama.robonomics": "Robonomics",
   "rpc.kusama.sakura": "Sakura",
   "rpc.kusama.shadow": "Crust Shadow",
   "rpc.kusama.shell": "Shell",

@@ -171,6 +171,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'robonomics',
+        homepage: 'http://robonomics.network/',
+        paraId: 2077,
+        text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://kusama.rpc.robonomics.network/'
+        }
+      },
+      {
         info: 'sakura',
         homepage: 'https://clover.finance/',
         isUnreachable: true,
@@ -207,15 +216,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
-        }
-      },
-      {
-        info: 'robonomics',
-        homepage: 'http://robonomics.network/',
-        paraId: 2077,
-        text: t('kusama.rpc.robonomics', 'Robonomics', { ns: 'apps-config' }),
-        providers: {
-          Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
       }
     ]
