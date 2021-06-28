@@ -111,7 +111,8 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
-        'Patract Elara': 'wss://nodle.elara.patract.io'
+        'Patract Elara': 'wss://nodle.elara.patract.io',
+        Pinknode: 'wss://rpc.pinknode.io/nodle/explorer'
       }
     },
     {

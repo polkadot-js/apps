@@ -62,7 +62,7 @@ import nodeIntegritee from './nodes/integritee.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
-import nodeKilt from './nodes/kilt.svg';
+import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -130,6 +130,8 @@ export const chainLogos = Object.entries({
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
   'Beast Developer': nodeBeast,
+  Bifrost: nodeBifrost,
+  'Bifrost Asgard CC4': nodeBifrost,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust PC1': nodeCrust,
@@ -440,7 +442,6 @@ export const namedLogos: Record<string, unknown> = {
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
   opportunity: nodeOpportunity,
-  origintrail: nodeOriginTrail,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -455,6 +456,7 @@ export const namedLogos: Record<string, unknown> = {
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
+  rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoApron: nodeApron,
@@ -483,6 +485,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
+  rococoOriginTrail: nodeOriginTrail,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
