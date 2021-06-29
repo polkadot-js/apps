@@ -157,7 +157,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network',
+          PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
         }
       },
