@@ -240,7 +240,6 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': nodeAcala,
-  'airalab-robonomics': nodeRobonomics,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Node': nodeAres,
@@ -327,6 +326,7 @@ export const nodeLogos = Object.entries({
   'ReAlis Network': nodeRealis,
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
+  robonomics: nodeRobonomics,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
   sherpax: nodeChainx,
@@ -460,6 +460,7 @@ export const namedLogos: Record<string, unknown> = {
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
+  robonomics: nodeRobonomics,
   rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
@@ -497,7 +498,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoPolkabtc: chainPolkaBTC,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
-  rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,

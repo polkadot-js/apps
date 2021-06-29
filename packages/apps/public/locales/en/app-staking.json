@@ -24,7 +24,7 @@
   "Change reward destination": "Change reward destination",
   "Change session keys": "Change session keys",
   "Change validator preferences": "Change validator preferences",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command",
   "Controller account": "Controller account",
   "Display overview information for the selected validator, including blocks produced.": "Display overview information for the selected validator, including blocks produced.",
   "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.",
