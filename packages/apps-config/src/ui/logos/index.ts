@@ -65,6 +65,7 @@ import nodeKhala from './nodes/khala.svg';
 import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
+import nodeKpron from './nodes/apron.png';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
@@ -166,6 +167,7 @@ export const chainLogos = Object.entries({
   'KILT Testnet': nodeKilt,
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
+  Kpron: nodeKpron,
   Kusama: chainKusama, // new name after CC3
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
@@ -285,6 +287,7 @@ export const nodeLogos = Object.entries({
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
   'Klug Dossier Node': nodeKlug,
+  "Kpron Collator": nodeKpron,
   kulupu: nodeKulupu,
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
@@ -426,6 +429,7 @@ export const namedLogos: Record<string, unknown> = {
   khala: nodeKhala,
   kilt: nodeKilt,
   klugdossier: nodeKlug,
+  kpron: nodeKpron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
   kylin: nodeKylin,
