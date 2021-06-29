@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/type-definitions@npm:^0.7.4-11":
-  version: 0.7.4-11
-  resolution: "@acala-network/type-definitions@npm:0.7.4-11"
+"@acala-network/type-definitions@npm:^0.7.4-20":
+  version: 0.7.4-20
+  resolution: "@acala-network/type-definitions@npm:0.7.4-20"
   dependencies:
-    "@open-web3/orml-type-definitions": ^0.9.4-0
-  checksum: 3880f8bd7b60559f435f5878782022db04fa178bc97fa405b073e6184cd985c5da5f3084b268c2f73de2850d9143f845bc56f46ea7db5e350c72c50eef1f4073
+    "@open-web3/orml-type-definitions": ^0.9.4-7
+  checksum: afce4223a55531c2c43cf6c114f7f39daf472e20600357a22a01aaedb1f73e8b74f97e1bda889785f7124128156d96a4ff00d6fc02a6febdb93c3f16bc361695
   languageName: node
   linkType: hard
 
@@ -2256,10 +2256,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:^0.9.4-0":
-  version: 0.9.4-4
-  resolution: "@open-web3/orml-type-definitions@npm:0.9.4-4"
-  checksum: 94e69ad851300fc256608e797dc87bb066b557ad28eca4722a6977ca3b9457ffd629fc351ae726e071594f294e2548627e421a99ff9aabfed2d75efc2862237f
+"@open-web3/orml-type-definitions@npm:^0.9.4-7":
+  version: 0.9.4-9
+  resolution: "@open-web3/orml-type-definitions@npm:0.9.4-9"
+  checksum: b6d5cf8679ca8a79c35d45d86efec3f3487fa475ec97d6371f70c6f12451fc1a1f9d99ec689ea0e9e2419896b256a4602de85e87df4919e0efc444163256d572
   languageName: node
   linkType: hard
 
@@ -2584,7 +2584,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
-    "@acala-network/type-definitions": ^0.7.4-11
+    "@acala-network/type-definitions": ^0.7.4-20
     "@babel/runtime": ^7.14.6
     "@crustio/type-definitions": 0.0.10
     "@darwinia/types": ^1.1.0-alpha.21
