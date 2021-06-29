@@ -2,13 +2,13 @@
   "name": "@polkadot/app-settings",
   "private": true,
   "type": "module",
-  "version": "0.94.2-2",
+  "version": "0.94.2-3",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@polkadot/apps-config": "^0.94.2-2",
-    "@polkadot/react-components": "^0.94.2-2",
-    "@polkadot/react-query": "^0.94.2-2",
+    "@polkadot/apps-config": "^0.94.2-3",
+    "@polkadot/react-components": "^0.94.2-3",
+    "@polkadot/react-query": "^0.94.2-3",
     "query-string": "^7.0.1"
   }
 }
