@@ -87,7 +87,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     <>
       <MarkWarning
         className='warning centered'
-        content={t<string>('Do not transfer any funds directly to a specific account that is associated with a loan or a team. Use the "Contribute" action to record the action on-chain. This will record you as a contributor (with your contributed value visible on the fund overview) and result in all the funds being returned to you, by the runtime, when a fund is dissolved.')}
+        content={t<string>('Do not transfer any funds directly to a specific account that is associated with a loan or a team. Use the "Contribute" action to record the contribution on-chain. This will record you account and contributed value and will be visible to you on the fund overview. When the fund is dissolved, after either the parachain lease expires or the loan ending without winning, the full value will be returned to your account by the runtime.')}
       />
       <Table
         className={className}
