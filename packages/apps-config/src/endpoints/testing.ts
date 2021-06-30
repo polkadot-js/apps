@@ -75,13 +75,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
         'DCloud Foundation': 'wss://api.decloudf.com/'
       }
     },
-    {
-      info: 'rocky',
-      text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
-      providers: {
-        Pinknode: 'wss://rpc.pinknode.io/rocky/explorer'
-      }
-    },
+    // {
+    //   info: 'rocky',
+    //   text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
+    //   providers: {
+    //     Pinknode: 'wss://rpc.pinknode.io/rocky/explorer' // https://github.com/polkadot-js/apps/issues/5721
+    //   }
+    // },
     {
       info: 'datahighway',
       isDisabled: true,
@@ -109,8 +109,8 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'dusty',
       text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/',
-        Pinknode: 'wss://rpc.pinknode.io/dusty/explorer'
+        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/'
+        // Pinknode: 'wss://rpc.pinknode.io/dusty/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
@@ -228,8 +228,8 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
         Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://mandala.elara.patract.io',
-        Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
+        'Patract Elara': 'wss://mandala.elara.patract.io'
+        // Pinknode: 'wss://rpc.pinknode.io/mandala/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
