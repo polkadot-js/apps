@@ -84,6 +84,6 @@ export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnl
   return input.sort(sortLinks).reduce((result: LinkOption[], input) => result.concat(expandEndpoint(t, input, firstOnly)), []);
 }
 
-export function createProviderUrl (url: string, inpType = 'json-rpc'): Endpoint {
-  return { param: url, type: inpType as EndpointType };
+export function createProviderUrl (param: string, type: EndpointType): Endpoint {
+  return { param, type };
 }
