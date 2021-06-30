@@ -304,7 +304,7 @@ export const nodeColors = Object.entries({
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
-  "Kpron Collator": nodeKpron,
+  'Kpron Collator': nodeKpron,
   'Kylin Collator': nodeKylin,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
