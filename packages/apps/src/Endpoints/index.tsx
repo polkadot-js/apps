@@ -44,12 +44,12 @@ function isValidUrl (url: string): boolean {
   );
 }
 
-function getApiType (apiUrl: string): Endpoint {
-  if (apiUrl.includes('-substrate-connect')) {
-    return { param: apiUrl, type: 'substrate-connect' };
+function getApiType (param: string): Endpoint {
+  if (param.includes('-substrate-connect')) {
+    return { param, type: 'substrate-connect' };
   }
 
-  return { param: apiUrl, type: 'json-rpc' };
+  return { param, type: 'json-rpc' };
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
