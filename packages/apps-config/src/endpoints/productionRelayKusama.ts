@@ -46,7 +46,7 @@ export function createKusama (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'altair',
-        isUnreachable: true,
+        homepage: 'https://centrifuge.io/altair',
         paraId: 2021,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
