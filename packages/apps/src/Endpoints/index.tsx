@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint } from '@polkadot/ui-settings/types';
+import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -127,6 +127,16 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
+function isSwitchDisabled (hasUrlChanged: boolean, apiType: EndpointType, isUrlValid: boolean): boolean {
+  if (!hasUrlChanged) { return true; }
+
+  if (apiType === 'substrate-connect') { return false; }
+
+  if (isUrlValid) { return false; }
+
+  return true;
+}
+
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
@@ -232,22 +242,12 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [apiUrl, onClose]
   );
 
-  const isSwitchDisabled = (): boolean => {
-    if (!hasUrlChanged) { return true; }
-
-    if (getApiType(apiUrl).type === 'substrate-connect') { return false; }
-
-    if (isUrlValid) { return false; }
-
-    return true;
-  };
-
   return (
     <Sidebar
       button={
         <Button
           icon='sync'
-          isDisabled={isSwitchDisabled()}
+          isDisabled={isSwitchDisabled(hasUrlChanged, getApiType(apiUrl).type, isUrlValid)}
           label={t<string>('Switch')}
           onClick={_onApply}
         />
