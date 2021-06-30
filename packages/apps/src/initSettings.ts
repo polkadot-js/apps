@@ -7,13 +7,13 @@ import store from 'store';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
+import { Endpoint } from '@polkadot/ui-settings/types';
 import { assert } from '@polkadot/util';
 
 function networkOrUrl (apiType: Endpoint): void {
-  if (apiType.type === 'json-rpc' as EndpointType) {
+  if (apiType.type === 'json-rpc') {
     console.log('WS endpoint=', apiType.param);
-  } else if (apiType.type === 'substrate-connect' as EndpointType) {
+  } else if (apiType.type === 'substrate-connect') {
     console.log('Chain of light client is =', apiType.param);
   }
 }
@@ -33,7 +33,7 @@ function getApiType (): Endpoint {
 
     assert(url.startsWith('ws://') || url.startsWith('wss://'), 'Non-prefixed ws/wss url');
 
-    return { param: url, type: 'json-rpc' as EndpointType };
+    return { param: url, type: 'json-rpc' };
   } else if (urlOptions.sc) {
     assert(!Array.isArray(urlOptions.sc), 'Invalid network specified');
 
@@ -41,7 +41,7 @@ function getApiType (): Endpoint {
     const network = decodeURIComponent(urlOptions.sc.split('#')[0]);
     const chain = network.split('-')[0];
 
-    return { param: chain, type: 'substrate-connect' as EndpointType };
+    return { param: chain, type: 'substrate-connect' };
   }
 
   const endpoints = createWsEndpoints(<T = string>(): T => ('' as unknown as T));
@@ -52,7 +52,7 @@ function getApiType (): Endpoint {
     const option = endpoints.find(({ dnslink }) => dnslink === ipnsChain);
 
     if (option) {
-      return { param: option.value, type: 'json-rpc' as EndpointType };
+      return { param: option.value, type: 'json-rpc' };
     }
   }
 
@@ -63,8 +63,8 @@ function getApiType (): Endpoint {
   return [stored.apiType, process.env.WS_URL].includes(settings.apiType)
     ? settings.apiType // keep as-is
     : fallbackUrl
-      ? { param: fallbackUrl.value, type: 'json-rpc' as EndpointType } // grab the fallback
-      : { param: 'ws://127.0.0.1:9944', type: 'json-rpc' as EndpointType }; // nothing found, go local
+      ? { param: fallbackUrl.value, type: 'json-rpc' } // grab the fallback
+      : { param: 'ws://127.0.0.1:9944', type: 'json-rpc' }; // nothing found, go local
 }
 
 // There cannot be a Substrate Connect light client default (expect only jrpc EndpointType)

@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
+import { Endpoint } from '@polkadot/ui-settings/types';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -46,10 +46,10 @@ function isValidUrl (url: string): boolean {
 
 function getApiType (apiUrl: string): Endpoint {
   if (apiUrl.includes('-substrate-connect')) {
-    return { param: apiUrl, type: 'substrate-connect' as EndpointType };
+    return { param: apiUrl, type: 'substrate-connect' };
   }
 
-  return { param: apiUrl, type: 'json-rpc' as EndpointType };
+  return { param: apiUrl, type: 'json-rpc' };
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
@@ -225,7 +225,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _onApply = useCallback(
     (): void => {
       settings.set({ ...(settings.get()), apiUrl });
-      window.location.assign(`${window.location.origin}${window.location.pathname}${getApiType(apiUrl).type === 'substrate-connect' as EndpointType ? '?sc=' : '?rpc='}${encodeURIComponent(apiUrl)}${window.location.hash}`);
+      window.location.assign(`${window.location.origin}${window.location.pathname}${getApiType(apiUrl).type === 'substrate-connect' ? '?sc=' : '?rpc='}${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
       onClose();
     },
@@ -235,7 +235,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const isSwitchDisabled = (): boolean => {
     if (!hasUrlChanged) { return true; }
 
-    if (getApiType(apiUrl).type === 'substrate-connect' as EndpointType) { return false; }
+    if (getApiType(apiUrl).type === 'substrate-connect') { return false; }
 
     if (isUrlValid) { return false; }
 
@@ -272,7 +272,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
             <div className='endpointCustomWrapper'>
               <Input
                 className='endpointCustom'
-                isError={!isUrlValid || getApiType(apiUrl).type === 'json-rpc' as EndpointType}
+                isError={!isUrlValid || getApiType(apiUrl).type === 'json-rpc'}
                 isFull
                 label={t<string>('custom endpoint')}
                 onChange={_onChangeCustom}
@@ -287,7 +287,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 : <Button
                   className='customButton'
                   icon='save'
-                  isDisabled={!isUrlValid || isKnownUrl || getApiType(apiUrl).type === 'json-rpc' as EndpointType}
+                  isDisabled={!isUrlValid || isKnownUrl || getApiType(apiUrl).type === 'json-rpc'}
                   onClick={_saveApiEndpoint}
                 />
               }

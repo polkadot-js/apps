@@ -21,7 +21,7 @@ import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
+import { Endpoint } from '@polkadot/ui-settings/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
@@ -229,10 +229,10 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
 
     const types = getDevTypes();
 
-    if (apiType?.type === 'substrate-connect' as EndpointType) {
+    if (apiType?.type === 'substrate-connect') {
       // eslint-disable-next-line no-void
       substrateConnectApi(apiType.param).catch(console.error);
-    } else if (apiType?.type === 'json-rpc' as EndpointType) {
+    } else if (apiType?.type === 'json-rpc') {
       const provider = new WsProvider(apiType.param);
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
 

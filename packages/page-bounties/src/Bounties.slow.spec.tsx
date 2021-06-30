@@ -17,14 +17,14 @@ import { MemoryStore } from '@polkadot/test-support/keyring';
 import { aliceSigner } from '@polkadot/test-support/keyring/signers';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { execute } from '@polkadot/test-support/transaction/execute';
-import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
+import { Endpoint } from '@polkadot/ui-settings/types';
 
 const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 
 const renderBounties = () => {
   const memoryStore = new MemoryStore();
 
-  const apiType: Endpoint = { param: `ws://127.0.0.1:${SUBSTRATE_PORT}`, type: 'json-rpc' as EndpointType };
+  const apiType: Endpoint = { param: `ws://127.0.0.1:${SUBSTRATE_PORT}`, type: 'json-rpc' };
 
   return render(
     <Suspense fallback='...'>
