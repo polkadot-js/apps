@@ -143,6 +143,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kpron',
+        homepage: 'http://apron.network/',
+        isUnreachable: true,
+        paraId: 2019,
+        text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
+        providers: {
+          Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
         info: 'mars',
         homepage: 'https://www.aresprotocol.io/',
         paraId: 2008,
