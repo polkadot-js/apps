@@ -128,11 +128,11 @@ function loadAffinities (groups: Group[]): Record<string, string> {
 }
 
 function isSwitchDisabled (hasUrlChanged: boolean, apiType: EndpointType, isUrlValid: boolean): boolean {
-  if (!hasUrlChanged) { 
+  if (!hasUrlChanged) {
     return true;
-  } else if (apiType === 'substrate-connect') { 
+  } else if (apiType === 'substrate-connect') {
     return false;
-  } else if (isUrlValid) { 
+  } else if (isUrlValid) {
     return false;
   }
 
@@ -244,12 +244,17 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [apiUrl, onClose]
   );
 
+  const canSwitch = useMemo(
+    () => isSwitchDisabled(hasUrlChanged, getApiType(apiUrl).type, isUrlValid),
+    [hasUrlChanged, apiUrl, isUrlValid]
+  );
+
   return (
     <Sidebar
       button={
         <Button
           icon='sync'
-          isDisabled={isSwitchDisabled(hasUrlChanged, getApiType(apiUrl).type, isUrlValid)}
+          isDisabled={canSwitch}
           label={t<string>('Switch')}
           onClick={_onApply}
         />
@@ -270,11 +275,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           setGroup={_changeGroup}
           value={group}
         >
-          {group.isDevelopment && (
+          {group.isDevelopment && getApiType(apiUrl).type === 'json-rpc' && (
             <div className='endpointCustomWrapper'>
               <Input
                 className='endpointCustom'
-                isError={!isUrlValid || getApiType(apiUrl).type === 'json-rpc'}
+                isError={!isUrlValid}
                 isFull
                 label={t<string>('custom endpoint')}
                 onChange={_onChangeCustom}
@@ -289,7 +294,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 : <Button
                   className='customButton'
                   icon='save'
-                  isDisabled={!isUrlValid || isKnownUrl || getApiType(apiUrl).type === 'json-rpc'}
+                  isDisabled={!isUrlValid || isKnownUrl}
                   onClick={_saveApiEndpoint}
                 />
               }

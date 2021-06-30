@@ -31,7 +31,7 @@ import { decodeUrlTypes } from './urlTypes';
 
 interface Props {
   children: React.ReactNode;
-  apiType?: Endpoint;
+  apiType: Endpoint;
   store?: KeyringStore;
 }
 
@@ -188,8 +188,8 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, apiUrl: apiType?.param, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, state, apiType?.param]
+    () => ({ ...state, api, apiError, apiUrl: apiType.param, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, state, apiType]
   );
 
   // initial initialization
@@ -229,10 +229,10 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
 
     const types = getDevTypes();
 
-    if (apiType?.type === 'substrate-connect') {
+    if (apiType.type === 'substrate-connect') {
       // eslint-disable-next-line no-void
       substrateConnectApi(apiType.param).catch(console.error);
-    } else if (apiType?.type === 'json-rpc') {
+    } else if (apiType.type === 'json-rpc') {
       const provider = new WsProvider(apiType.param);
       const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
 
