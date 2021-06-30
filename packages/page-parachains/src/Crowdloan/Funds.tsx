@@ -7,7 +7,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { MarkWarning, Table } from '@polkadot/react-components';
 import { useBestHash, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -85,6 +85,10 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
 
   return (
     <>
+      <MarkWarning
+        className='warning centered'
+        content={t<string>('Do not send any funds directly to a specific account associated with a loan. Use the "Contribute" action to record the contribution on-chain. This will record you as a contributor and result in the funds being returned to you, by the runtime, when a fund is dissolved.')}
+      />
       <Table
         className={className}
         empty={value && activeSorted && t<string>('No active campaigns found')}
