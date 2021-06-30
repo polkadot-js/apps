@@ -113,7 +113,7 @@
   "Change session keys": "تغيير مفاتيح الحساب",
   "Change this account's password": "غير كلمة المرور لهذا الحساب",
   "Change validator preferences": "تغيير تفضيلات المتحقق من الصحة",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "لا يصبح تغييرالمفتاح نافذ المفعول إلا في بداية فتح الجلسة التالية.  يتم إنشاء الإدخال هنا من الأمر المفاتيح_الدوارة_للكاتب",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "لا يصبح تغييرالمفتاح نافذ المفعول إلا في بداية فتح الجلسة التالية.  يتم إنشاء الإدخال هنا من الأمر المفاتيح_الدوارة_للكاتب",
   "Chilled nominations ({{count}})": "الترشيحات المبردة ({{عد}})",
   "Claim": "مطالبة",
   "Claim tokens...": "...المطالبة بالرموز",

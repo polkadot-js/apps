@@ -24,8 +24,8 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://kusama.elara.patract.io',
-      Pinknode: 'wss://rpc.pinknode.io/kusama/explorer',
       'light client': createProviderUrl('kusama-substrate-connect', 'substrate-connect')
+      // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
     linked: [
@@ -159,7 +159,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2023,
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.moonriver.moonbeam.network',
+          PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
         }
       },
@@ -170,6 +170,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
           PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
+        }
+      },
+      {
+        info: 'robonomics',
+        homepage: 'http://robonomics.network/',
+        paraId: 2077,
+        text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
       },
       {
