@@ -279,6 +279,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'pangolin',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5726
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
