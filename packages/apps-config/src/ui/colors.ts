@@ -13,6 +13,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
@@ -157,6 +158,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
+  'Aleph Zero': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,

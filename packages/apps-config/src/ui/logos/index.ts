@@ -9,6 +9,7 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
+import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
@@ -128,6 +129,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Aleph Zero': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
@@ -392,6 +394,7 @@ export const specLogos = Object.entries({
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
+  aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
   basilisk: nodeBasilisk,
