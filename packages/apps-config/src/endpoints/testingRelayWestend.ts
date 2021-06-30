@@ -67,7 +67,7 @@ export function createWestend (t: TFunction): EndpointOption {
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.moonshadow.testnet.moonbeam.network'
+          PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network'
         }
       },
       {
