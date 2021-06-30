@@ -128,11 +128,13 @@ function loadAffinities (groups: Group[]): Record<string, string> {
 }
 
 function isSwitchDisabled (hasUrlChanged: boolean, apiType: EndpointType, isUrlValid: boolean): boolean {
-  if (!hasUrlChanged) { return true; }
-
-  if (apiType === 'substrate-connect') { return false; }
-
-  if (isUrlValid) { return false; }
+  if (!hasUrlChanged) { 
+    return true;
+  } else if (apiType === 'substrate-connect') { 
+    return false;
+  } else if (isUrlValid) { 
+    return false;
+  }
 
   return true;
 }
