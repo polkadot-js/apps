@@ -224,6 +224,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Testnet': chainNFTMart,
   'OAK Testnet': chainOakTestnet,
   'OriginTrail Parachain': nodeOriginTrail,
+  'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
