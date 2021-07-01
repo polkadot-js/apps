@@ -160,7 +160,10 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
           isInElection={isInElection}
           targets={targets}
         />
-        <NewValidator isInElection={isInElection} />
+        <NewValidator
+          isInElection={isInElection}
+          targets={targets}
+        />
         <NewStash />
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />

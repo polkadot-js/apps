@@ -117,7 +117,7 @@
   "Change session keys": "更改 session 密钥",
   "Change this account's password": "更改这个账户的密码",
   "Change validator preferences": "更改验证人偏好",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "更改密钥只能在下一个 session 开始时生效。这里的输入是从 author_rotateKeys 命令生成的",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "更改密钥只能在下一个 session 开始时生效。这里的输入是从 author_rotateKeys 命令生成的",
   "Chilled ({{count}})": "冻结 ({{count}})",
   "Chilled nominations ({{count}})": "冻结提名 ({{count}})",
   "Claim": "映射",

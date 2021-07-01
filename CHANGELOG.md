@@ -1,10 +1,48 @@
 # CHANGELOG
 
-## 0.93.2-7 Jun 15, 2015
+## 0.94.1 Jun 28, 2015
 
 Contributed:
 
 - Fix Electon QR scanning on Mac (Thanks to https://github.com/wachulski)
+- Update Bifrost homepage (Thanks to https://github.com/awesomepan)
+- Update Darwinia Redirect endpoint (Thanks to https://github.com/sxlwar)
+- Additional Sora endpoint (Thanks to https://github.com/pgolovkin)
+- OnFinality endpoints for Khala, Moonriver, Shiden (Thanks to https://github.com/454076513)
+- Add Pinknode endpoints for relays & parachains (Thanks to https://github.com/Capeguy)
+- Additional Karura endpoints (Thanks to https://github.com/xlc)
+- Polkawallet endpoint for Karura (Thanks to https://github.com/qwer951123)
+- Update Phala types (Thanks to https://github.com/limichange)
+- Update Subsocial types (Thanks to https://github.com/olehmell)
+- Update Beresheet types (Thanks to https://github.com/raykyri)
+- Update Datahighway types (Thanks to https://github.com/ayushmishra2005)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+- Update Genshiro details (Thanks to https://github.com/alex-nax & https://github.com/pr0fedt)
+- Update Zeitgeist details (Thanks to https://github.com/c410-f3r & https://github.com/lsaether)
+- Update OriginTrail details (Thanks to https://github.com/kotlarmilos & https://github.com/NZT48)
+- Add support for new Moonbeam authors (Thanks to https://github.com/joelamouche)
+- Adjust Neatcoin inflation params (Thanks to https://github.com/sorpaas)
+- Update Kilt logo (Thanks to https://github.com/rflechtner)
+- Fix language in chain specifications (Thanks to https://github.com/andresilva)
+- Fix docker build (Thanks to https://github.com/sorpaas)
+
+Changes:
+
+- Change endpoint display naming
+- Interleave crowdloans even with no bids
+- Filter auctions with `isWinner` flag
+- Filter crowdloan active raises on `isWinner`
+- Randomize parachain API endpoint usage
+- Split CI checks for types & availability
+- Add support for `state_queryStorage` results on RPC execution pages
+- Remove support for Substrate 2.0 payouts
+- Split endpoint selection menu with relays
+- Add warning for staking minium bonds
+- Remove reference to defunct vanity wildcard
+- Adjust explorer display with no extrinsics
+- Adjust fasttrack delay default to 1 hr
+- Add loading indicator for contributions
+- Display overall total nominator counts
 
 
 ## 0.93.1 Jun 14, 2021
@@ -1770,4 +1808,4 @@ Changes:
 - Disable spellcheck on all input fields (privacy)
 - Query the paymentInfo API to get weight fee information
 - Remove FF warning with https:// -> ws://localhost
-- Staking now supports where the controller 
+- Staking now supports where the controller
