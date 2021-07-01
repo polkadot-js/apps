@@ -107,6 +107,7 @@ const nodeGeek = '#4f46e5';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
+const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
 const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
@@ -158,6 +159,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
+  'Bifrost Asgard CC4': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
@@ -198,6 +200,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'KILT Testnet': chainKilt,
   'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
+  Kpron: nodeKpron,
   Kulupu: chainKulupu,
   Kusama: chainKusama,
   'Kusama CC1': chainKusama,
@@ -301,6 +304,7 @@ export const nodeColors = Object.entries({
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
+  'Kpron Collator': nodeKpron,
   'Kylin Collator': nodeKylin,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,

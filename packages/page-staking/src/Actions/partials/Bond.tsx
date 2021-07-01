@@ -22,7 +22,9 @@ import useUnbondDuration from '../useUnbondDuration';
 interface Props {
   className?: string;
   isNominating?: boolean;
-  minNomination?: BN;
+  minNominated?: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
   onChange: (info: BondInfo) => void;
 }
 
@@ -34,7 +36,7 @@ const EMPTY_INFO = {
   stashId: null
 };
 
-function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
+function Bond ({ className = '', isNominating, minNominated, minNominatorBond, minValidatorBond, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -144,7 +146,9 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
           <InputValidateAmount
             controllerId={controllerId}
             isNominating={isNominating}
-            minNomination={minNomination}
+            minNominated={minNominated}
+            minNominatorBond={minNominatorBond}
+            minValidatorBond={minValidatorBond}
             onError={setAmountError}
             stashId={stashId}
             value={amount}

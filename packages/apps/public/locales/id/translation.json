@@ -125,7 +125,7 @@
   "Change session keys": "Ganti sesi keys",
   "Change this account's password": "Ganti kata sandi akun ini",
   "Change validator preferences": "Ubah preferensi validator",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "Mengubah kunci hanya berlaku pada awal sesi berikutnya. Masukan di sini dihasilkan dari perintah author_rotateKeys",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "Mengubah kunci hanya berlaku pada awal sesi berikutnya. Masukan di sini dihasilkan dari perintah author_rotateKeys",
   "Chilled ({{count}})": "Dingin ({{count}})",
   "Chilled nominations ({{count}})": "Nominasi dingin ({{count}})",
   "Claim": "Klaim",

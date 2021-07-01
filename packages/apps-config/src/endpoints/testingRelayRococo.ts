@@ -25,8 +25,8 @@ export function createRococo (t: TFunction): EndpointOption {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://rococo.elara.patract.io',
-      'Ares Protocol': 'wss://rococo.aresprotocol.com',
-      Pinknode: 'wss://rpc.pinknode.io/rococo/explorer'
+      'Ares Protocol': 'wss://rococo.aresprotocol.com'
+      // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     linked: [
       // these are the base chains
@@ -296,7 +296,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoOriginTrail',
-        paraId: 2024,
+        paraId: 2037,
         text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
         providers: {
           'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
@@ -429,8 +429,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
-        isDisabled: true, // Rococo reset
-        paraId: 9123,
+        paraId: 2040,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitgeist: 'wss://roc.zeitgeist.pm'

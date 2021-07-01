@@ -42,7 +42,7 @@ const errorred: Record<string, boolean> = {};
 export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, fallbacks, isMulti = false, params = [], paramName, paramPick, paramValid = false, propName, skipIf = NO_SKIP, transform = echoTransform, withIndicator = false }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
-      public state: State = {
+      public override state: State = {
         callResult: undefined,
         callUpdated: false,
         callUpdatedAt: 0
@@ -64,7 +64,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         this.propName = `${section}_${method}`;
       }
 
-      public componentDidUpdate (prevProps: any): void {
+      public override componentDidUpdate (prevProps: any): void {
         const oldParams = this.getParams(prevProps);
         const newParams = this.getParams(this.props);
 
@@ -76,7 +76,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      public componentDidMount (): void {
+      public override componentDidMount (): void {
         this.isActive = true;
 
         if (withIndicator) {
@@ -100,7 +100,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }, 0);
       }
 
-      public componentWillUnmount (): void {
+      public override componentWillUnmount (): void {
         this.isActive = false;
 
         this.unsubscribe()
@@ -279,7 +279,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      public render (): React.ReactNode {
+      public override render (): React.ReactNode {
         const { callResult, callUpdated, callUpdatedAt } = this.state;
         const _props = {
           ...this.props,
