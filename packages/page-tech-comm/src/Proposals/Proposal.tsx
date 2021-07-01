@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
@@ -25,22 +25,13 @@ interface Props {
   type: 'membership' | 'technicalCommittee';
 }
 
-const transformProposal = {
-  transform: (optProp: Option<ProposalType>) => optProp.unwrapOr(null)
-};
-
-const transformVotes = {
-  transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
-};
-
 function Proposal ({ className = '', imageHash, members, prime, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const proposal = useCall<ProposalType | null>(api.query[type].proposalOf, [imageHash], transformProposal);
-  const votes = useCall<Votes | null>(api.query[type].voting, [imageHash], transformVotes);
-  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, type);
-  const [proposalWeight, proposalLength] = useWeight(proposal);
+  const derive = useCall<DeriveCollectiveProposal>(api.derive[type].proposal, [imageHash]);
+  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
+  const [proposalWeight, proposalLength] = useWeight(derive?.proposal);
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {
@@ -51,18 +42,18 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
     [allAccounts, members]
   );
 
-  if (!proposal || !votes) {
+  if (!derive || !derive.votes) {
     return null;
   }
 
-  const { ayes, end, index, nays, threshold } = votes;
+  const { ayes, end, index, nays, threshold } = derive.votes;
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={imageHash}
-        proposal={proposal}
+        proposal={derive.proposal}
       />
       <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
@@ -111,7 +102,7 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
                 hash={imageHash}
                 idNumber={index}
                 members={members}
-                proposal={proposal}
+                proposal={derive.proposal}
                 type={type}
               />
             )

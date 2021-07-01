@@ -9,7 +9,6 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
 
 import Overview from './Overview';
 import Proposals from './Proposals';
@@ -21,6 +20,9 @@ interface Props {
   type: 'membership' | 'technicalCommittee';
 }
 
+const HIDDEN_EMPTY: string[] = [];
+const HIDDEN_PROPOSALS: string[] = ['proposals'];
+
 const transformPrime = {
   transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
 };
@@ -30,6 +32,7 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
   const { api } = useApi();
   const { isMember, members } = useMembers(type);
   const prime = useCall<AccountId | null>(api.derive[type].prime, undefined, transformPrime) || null;
+  const hasProposals = useCall<boolean>(api.derive[type].hasProposals);
   const proposalHashes = useCall<Hash[]>(api.derive[type].proposalHashes);
 
   const items = useMemo(() => [
@@ -44,19 +47,15 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
     }
   ], [proposalHashes, t]);
 
-  const hidden = useMemo(
-    // FIXME This works great for eg. membership, but not where technicalComittee is an instance
-    () => isFunction(api.query[type].proposals)
-      ? []
-      : ['proposals'],
-    [api, type]
-  );
-
   return (
     <main className={className}>
       <Tabs
         basePath={basePath}
-        hidden={hidden}
+        hidden={
+          hasProposals
+            ? HIDDEN_EMPTY
+            : HIDDEN_PROPOSALS
+        }
         items={items}
       />
       <Switch>
