@@ -166,6 +166,7 @@ export const chainLogos = Object.entries({
   'KILT Testnet': nodeKilt,
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
+  Kpron: nodeApron,
   Kusama: chainKusama, // new name after CC3
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
@@ -284,6 +285,7 @@ export const nodeLogos = Object.entries({
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
   'Klug Dossier Node': nodeKlug,
+  'Kpron Collator': nodeApron,
   kulupu: nodeKulupu,
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
@@ -426,6 +428,7 @@ export const namedLogos: Record<string, unknown> = {
   khala: nodeKhala,
   kilt: nodeKilt,
   klugdossier: nodeKlug,
+  kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
   kylin: nodeKylin,

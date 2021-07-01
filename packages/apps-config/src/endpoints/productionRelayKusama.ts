@@ -48,7 +48,8 @@ export function createKusama (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'altair',
-        isUnreachable: true,
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5730
+        homepage: 'https://centrifuge.io/altair',
         paraId: 2021,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
@@ -61,7 +62,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws'
+          'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws',
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
         }
       },
       {
@@ -142,6 +144,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/'
+        }
+      },
+      {
+        info: 'kpron',
+        homepage: 'http://apron.network/',
+        isUnreachable: true,
+        paraId: 2019,
+        text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
+        providers: {
+          Kpron: 'wss://kusama-kpron-rpc.apron.network/'
         }
       },
       {
