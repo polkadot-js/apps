@@ -46,8 +46,8 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
     accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
       setDefaultVotes(
         votes
-          .map((accountId) => accountId.toString())
-          .filter((accountId) => available.includes(accountId))
+          .map((a) => a.toString())
+          .filter((a) => available.includes(a))
       );
     });
   }, [api, accountId, available]);
@@ -56,7 +56,9 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
     (): BN | undefined => {
       const location = api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen;
 
-      return location?.votingBondBase && location.votingBondBase.add(location.votingBondFactor.muln(votes.length));
+      return location &&
+        location.votingBondBase &&
+        location.votingBondBase.add(location.votingBondFactor.muln(votes.length));
     },
     [api, votes]
   );

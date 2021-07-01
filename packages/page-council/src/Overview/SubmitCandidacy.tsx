@@ -38,14 +38,16 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
-              <InputBalance
-                defaultValue={api.consts[modLocation].candidacyBond}
-                help={t<string>('The bond that is reserved')}
-                isDisabled
-                label={t<string>('candidacy bond')}
-              />
-            </Modal.Columns>
+            {api.consts[modLocation] && (
+              <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
+                <InputBalance
+                  defaultValue={api.consts[modLocation].candidacyBond}
+                  help={t<string>('The bond that is reserved')}
+                  isDisabled
+                  label={t<string>('candidacy bond')}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
           <Modal.Actions onCancel={onClose}>
             <TxButton

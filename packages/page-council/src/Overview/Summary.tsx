@@ -8,7 +8,7 @@ import type { ComponentProps } from './types';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -31,10 +31,10 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('seats')}>
-          {formatNumber(members.length)}&nbsp;/&nbsp;{formatNumber(desiredSeats)}
+          {formatNumber(members.length)}{desiredSeats && <>&nbsp;/&nbsp;{formatNumber(desiredSeats)}</>}
         </CardSummary>
         <CardSummary label={t<string>('runners up')}>
-          {formatNumber(runnersUp.length)}&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}
+          {formatNumber(runnersUp.length)}{desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}</>}
         </CardSummary>
         <CardSummary label={t<string>('candidates')}>
           {formatNumber(candidateCount)}
@@ -47,7 +47,7 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
           </CardSummary>
         </section>
       )}
-      {bestNumber && termDuration?.gtn(0) && (
+      {bestNumber && termDuration && termDuration.gt(BN_ZERO) && (
         <section>
           <CardSummary
             label={t<string>('term progress')}
