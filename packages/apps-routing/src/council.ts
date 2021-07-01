@@ -17,7 +17,8 @@ export default function create (t: TFunction): Route {
           'query.electionsPhragmen.candidates',
           'query.elections.candidates'
         ]
-      ]
+      ],
+      needsApiInstances: true
     },
     group: 'governance',
     icon: 'building',

@@ -88,6 +88,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               <Input
                 autoFocus
                 help={t<string>('The preimage hash of the proposal')}
+                isError={!isHashValid}
                 label={t<string>('preimage hash')}
                 onChange={_onChangeHash}
                 value={hash}

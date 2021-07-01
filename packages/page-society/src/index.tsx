@@ -84,7 +84,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { t } = useTranslation();
   const { api } = useApi();
   const candidateCount = useCounter();
-  const { allMembers, isMember, ownMembers } = useMembers();
+  const { allMembers, isMember, ownMembers } = useMembers('council');
   const info = useCall<DeriveSociety>(api.derive.society.info);
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members);
   const { candidates, skeptics, voters } = useVoters();

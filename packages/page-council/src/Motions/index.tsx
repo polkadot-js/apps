@@ -23,7 +23,7 @@ interface Props {
 
 function Proposals ({ className = '', motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useMembers('council');
 
   const headerRef = useRef([
     [t('motions'), 'start', 2],
