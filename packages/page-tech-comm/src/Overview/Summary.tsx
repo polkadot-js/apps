@@ -12,7 +12,7 @@ import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-function Summary ({ className = '', members, proposals, type }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', members, proposalHashes, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const proposalCount = useCall<u32>(api.query[type].proposalCount);
@@ -25,7 +25,7 @@ function Summary ({ className = '', members, proposals, type }: Props): React.Re
       {isFunction(api.query[type].proposalCount) && (
         <section>
           <CardSummary label={t<string>('proposals')}>
-            {formatNumber(proposals?.length)}
+            {formatNumber(proposalHashes?.length)}
           </CardSummary>
           <CardSummary label={t<string>('total')}>
             {formatNumber(proposalCount)}

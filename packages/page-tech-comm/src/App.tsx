@@ -29,8 +29,8 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers(type);
-  const prime = useCall<AccountId | null>(api.query[type].prime, undefined, transformPrime) || null;
-  const proposals = useCall<Hash[]>(api.query[type].proposals);
+  const prime = useCall<AccountId | null>(api.derive[type].prime, undefined, transformPrime) || null;
+  const proposalHashes = useCall<Hash[]>(api.derive[type].proposalHashes);
 
   const items = useMemo(() => [
     {
@@ -40,12 +40,15 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
     },
     {
       name: 'proposals',
-      text: t<string>('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
+      text: t<string>('Proposals ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
     }
-  ], [proposals, t]);
+  ], [proposalHashes, t]);
 
   const hidden = useMemo(
-    () => isFunction(api.query[type].proposals) ? [] : ['proposals'],
+    // FIXME This works great for eg. membership, but not where technicalComittee is an instance
+    () => isFunction(api.query[type].proposals)
+      ? []
+      : ['proposals'],
     [api, type]
   );
 
@@ -62,7 +65,7 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
             isMember={isMember}
             members={members}
             prime={prime}
-            proposals={proposals}
+            proposalHashes={proposalHashes}
             type={type}
           />
         </Route>
@@ -71,7 +74,7 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
             isMember={isMember}
             members={members}
             prime={prime}
-            proposals={proposals}
+            proposalHashes={proposalHashes}
             type={type}
           />
         </Route>

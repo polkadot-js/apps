@@ -18,7 +18,7 @@ import Slashing from './Slashing';
 interface Props {
   className?: string;
   motions?: DeriveCollectiveProposal[];
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 function Proposals ({ className = '', motions, prime }: Props): React.ReactElement<Props> {

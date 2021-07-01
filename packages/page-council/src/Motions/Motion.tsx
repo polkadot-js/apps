@@ -22,7 +22,7 @@ interface Props {
   isMember: boolean;
   members: string[];
   motion: DeriveCollectiveProposal;
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 interface VoterState {
