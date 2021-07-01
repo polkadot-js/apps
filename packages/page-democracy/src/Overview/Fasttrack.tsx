@@ -23,9 +23,10 @@ interface ProposalState {
   proposalLength: number;
 }
 
-const ONE_MIN = (1 * 60) / 6;
-const DEF_DELAY = new BN(ONE_MIN);
-const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
+// default, assuming 6s blocks
+const ONE_HOUR = (60 * 60) / 6;
+const DEF_DELAY = new BN(ONE_HOUR);
+const DEF_VOTING = new BN(3 * ONE_HOUR);
 
 function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();

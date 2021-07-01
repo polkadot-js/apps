@@ -200,8 +200,8 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   ]);
 
   const valOptions = useMemo(() => [
-    { isDisabled: !hasOwnValidators, text: t('My validators'), value: 'val' },
-    { text: t('My stashes'), value: 'all' }
+    { isDisabled: !hasOwnValidators, text: t('Own validators'), value: 'val' },
+    { text: t('Own stashes'), value: 'all' }
   ], [hasOwnValidators, t]);
 
   const footerStash = useMemo(() => (

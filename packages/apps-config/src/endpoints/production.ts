@@ -112,6 +112,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
+        // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
