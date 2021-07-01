@@ -13,6 +13,7 @@ import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useModuleCollective } from '../useModuleCollective';
 import Close from './Close';
 import Voting from './Voting';
 
@@ -32,6 +33,7 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
   const derive = useCall<DeriveCollectiveProposal>(api.derive[type].proposal, [imageHash]);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const [proposalWeight, proposalLength] = useWeight(derive?.proposal);
+  const modLocation = useModuleCollective(type);
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {
@@ -42,7 +44,7 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
     [allAccounts, members]
   );
 
-  if (!derive || !derive.votes) {
+  if (!modLocation || !derive || !derive.votes) {
     return null;
   }
 
@@ -112,13 +114,13 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
                 icon='times'
                 label={t<string>('Close')}
                 params={
-                  api.tx[type].close?.meta.args.length === 4
+                  api.tx[modLocation].close?.meta.args.length === 4
                     ? hasFailed
                       ? [imageHash, index, 0, 0]
                       : [imageHash, index, proposalWeight, proposalLength]
                     : [imageHash, index]
                 }
-                tx={api.tx[type].closeOperational || api.tx[type].close}
+                tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
               />
             )
         )}
