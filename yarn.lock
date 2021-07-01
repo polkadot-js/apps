@@ -3479,21 +3479,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:^0.3.10":
-  version: 0.3.11
-  resolution: "@substrate/connect@npm:0.3.11"
+"@substrate/connect@npm:0.3.10":
+  version: 0.3.10
+  resolution: "@substrate/connect@npm:0.3.10"
   dependencies:
-    "@polkadot/api": ^4.15.1
+    "@polkadot/api": ^4.2.4
     "@polkadot/rpc-provider": ^4.10.1
     "@substrate/connect-extension-protocol": ^0.3.0
     browserify-fs: ^1.0.0
     eventemitter3: ^4.0.7
     file-entry-cache: ^6.0.1
     mkdirp: ^1.0.4
-    smoldot: 0.2.9
+    smoldot: 0.2.6
   peerDependencies:
     "@polkadot/wasm-crypto": ^3.2.2
-  checksum: 0627ad70a29a49e4608ee1de5243ec1816fe6eb2626b577a5c4f8f7123589117a275f660aeef6bc075e135fc9786d577633ba4dab2ef7a44ef0536bd9998e0d8
+  checksum: c4bec54469a7a5759cac92faa7aed1f4d1287eab5a6aab39823a46cf891a93f18a9105a886f5276f5b193b9e5284115300fe759276936e9841ccfb98cd8b2028
   languageName: node
   linkType: hard
 
@@ -17344,15 +17344,15 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"smoldot@npm:0.2.9":
-  version: 0.2.9
-  resolution: "smoldot@npm:0.2.9"
+"smoldot@npm:0.2.6":
+  version: 0.2.6
+  resolution: "smoldot@npm:0.2.6"
   dependencies:
     buffer: ^6.0.1
     performance-now: ^2.1.0
     randombytes: ^2.1.0
     websocket: ^1.0.32
-  checksum: 091bbe767bb3094b63fe629a1e1705c5486acf8aaa0dd46e6bdbdd283c9cf9865f77086f8d1b51c9eb6e70d6ee827d603be77dbbc818ff73ab35b997894bfffe
+  checksum: b3a631f33e63bf08271d53d14ffe878678ad8a2692bb8c9da8a0f4aefdf1b01c41ab90bba23c380274dbecce4fd0ea0f705302f0c48e10269f50a425a2100b67
   languageName: node
   linkType: hard
 
