@@ -10,6 +10,7 @@ import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkado
 import { useApi, useAvailableSlashes, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { useModuleCouncil } from '../useModuleCouncil';
 
 interface Props {
   className?: string;
@@ -27,7 +28,7 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Slashing ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
+function Slashing ({ className = '', isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const slashes = useAvailableSlashes();
@@ -35,6 +36,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposal: null, proposalLength: 0 });
   const [selectedEra, setSelectedEra] = useState(0);
+  const modLocation = useModuleCouncil();
 
   const threshold = Math.ceil((members.length || 0) * getSlashProposalThreshold(api));
 
@@ -62,6 +64,10 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
       proposalLength: proposal?.encodedLength || 0
     });
   }, [api, selectedEra, slashes]);
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -117,11 +123,11 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
               label={t<string>('Revert')}
               onStart={toggleVisible}
               params={
-                api.tx.council.propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx.council.propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>

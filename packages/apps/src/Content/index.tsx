@@ -38,7 +38,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiConnected, isApiReady } = useApi();
   const { queueAction } = useContext(StatusContext);
 
-  const { Component, display: { needsApi }, icon, name, text } = useMemo(
+  const { Component, display: { needsApi, needsApiInstances }, icon, name, text } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
 
@@ -47,11 +47,18 @@ function Content ({ className }: Props): React.ReactElement<Props> {
     [location, t]
   );
 
-  const missingApis = findMissingApis(api, needsApi);
+  const missingApis = useMemo(
+    () => needsApi
+      ? isApiReady && isApiConnected
+        ? findMissingApis(api, needsApi, needsApiInstances)
+        : null
+      : [],
+    [api, isApiConnected, isApiReady, needsApi, needsApiInstances]
+  );
 
   return (
     <div className={className}>
-      {needsApi && (!isApiReady || !isApiConnected)
+      {!missingApis
         ? (
           <div className='connecting'>
             <Spinner label={t<string>('Initializing connection')} />

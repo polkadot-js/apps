@@ -36,7 +36,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const [isGiveUpCuratorOpen, toggleGiveUpCurator] = useToggle();
   const [selectedAction, setSlashAction] = useState<ValidUnassignCuratorAction>();
   const { t } = useTranslation();
-  const { isMember } = useMembers();
+  const { isMember } = useMembers('council');
   const { curator, updateDue } = useBountyStatus(status);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);

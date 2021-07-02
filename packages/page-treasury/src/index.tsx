@@ -30,7 +30,7 @@ interface TabItem {
 function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useMembers('council');
   const tipHashes = useTipHashes();
 
   const items = useMemo(() => [
