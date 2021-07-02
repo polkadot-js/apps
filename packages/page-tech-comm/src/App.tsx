@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
