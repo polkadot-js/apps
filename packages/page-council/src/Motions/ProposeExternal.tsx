@@ -11,6 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useModuleCouncil } from '../useModuleCouncil';
 
 interface Props {
   className?: string;
@@ -28,13 +29,14 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
+function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+  const modLocation = useModuleCouncil();
 
   const threshold = Math.ceil((members.length || 0) * getProposalThreshold(api));
 
@@ -58,6 +60,10 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
       });
     }
   }, [api, hash, isHashValid]);
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -88,6 +94,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               <Input
                 autoFocus
                 help={t<string>('The preimage hash of the proposal')}
+                isError={!isHashValid}
                 label={t<string>('preimage hash')}
                 onChange={_onChangeHash}
                 value={hash}
@@ -102,11 +109,11 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               label={t<string>('Propose')}
               onStart={toggleVisible}
               params={
-                api.tx.council.propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx.council.propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>

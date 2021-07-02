@@ -9,6 +9,7 @@ import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot
 import { useApi, useToggle, useWeight } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { useModuleCollective } from '../useModuleCollective';
 
 interface Props {
   hasFailed: boolean;
@@ -25,8 +26,9 @@ function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): 
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalWeight, proposalLength] = useWeight(proposal);
+  const modLocation = useModuleCollective(type);
 
-  if (!api.tx[type].close) {
+  if (!modLocation) {
     return null;
   }
 
@@ -59,13 +61,13 @@ function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): 
               accountId={accountId}
               onStart={toggleOpen}
               params={
-                api.tx[type].close.meta.args.length === 4
+                api.tx[modLocation].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
                     : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
-              tx={api.tx[type].closeOperational || api.tx[type].close}
+              tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
             />
           </Modal.Actions>
         </Modal>

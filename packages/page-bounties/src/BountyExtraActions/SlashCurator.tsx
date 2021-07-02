@@ -38,7 +38,7 @@ interface ActionProperties {
 function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { members } = useMembers();
+  const { members } = useMembers('council');
   const { unassignCurator } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();

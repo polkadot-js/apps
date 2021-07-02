@@ -12,6 +12,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useModuleCouncil } from '../useModuleCouncil';
 
 interface Props {
   isMember: boolean;
@@ -28,13 +29,14 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
+function Propose ({ isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
+  const modLocation = useModuleCouncil();
 
   useEffect((): void => {
     members && setThreshold({
@@ -58,6 +60,10 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
     }),
     []
   );
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -109,11 +115,11 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
               label={t<string>('Propose')}
               onStart={toggleOpen}
               params={
-                api.tx.council.propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx.council.propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>

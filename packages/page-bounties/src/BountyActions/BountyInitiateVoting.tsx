@@ -26,7 +26,7 @@ const BOUNTY_METHODS = ['approveBounty', 'closeBounty'];
 function BountyInitiateVoting ({ description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useMembers('council');
   const { approveBounty, closeBounty } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);

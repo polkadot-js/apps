@@ -11,6 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { useModuleElections } from '../useModuleElections';
 
 interface Props {
   className?: string;
@@ -19,7 +20,7 @@ interface Props {
 
 const MAX_VOTES = 16;
 
-function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
+function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
@@ -28,6 +29,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
   const [defaultVotes, setDefaultVotes] = useState<string[]>([]);
   const [votes, setVotes] = useState<string[]>([]);
   const [voteValue, setVoteValue] = useState(BN_ZERO);
+  const modLocation = useModuleElections();
 
   useEffect((): void => {
     if (electionsInfo) {
@@ -46,8 +48,8 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
     accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
       setDefaultVotes(
         votes
-          .map((accountId) => accountId.toString())
-          .filter((accountId) => available.includes(accountId))
+          .map((a) => a.toString())
+          .filter((a) => available.includes(a))
       );
     });
   }, [api, accountId, available]);
@@ -56,10 +58,16 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
     (): BN | undefined => {
       const location = api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen;
 
-      return location?.votingBondBase && location.votingBondBase.add(location.votingBondFactor.muln(votes.length));
+      return location &&
+        location.votingBondBase &&
+        location.votingBondBase.add(location.votingBondFactor.muln(votes.length));
     },
     [api, votes]
   );
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -124,7 +132,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               isDisabled={!defaultVotes.length}
               label={t<string>('Unvote all')}
               onStart={toggleVisible}
-              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).removeVoter}
+              tx={api.tx[modLocation].removeVoter}
             />
             <TxButton
               accountId={accountId}
@@ -132,7 +140,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[votes, voteValue]}
-              tx={(api.tx.phragmenElection || api.tx.electionsPhragmen || api.tx.elections).vote}
+              tx={api.tx[modLocation].vote}
             />
           </Modal.Actions>
         </Modal>

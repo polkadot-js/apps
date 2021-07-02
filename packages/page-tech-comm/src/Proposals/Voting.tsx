@@ -10,6 +10,7 @@ import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/rea
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { useModuleCollective } from '../useModuleCollective';
 
 interface Props {
   hash: Hash | string;
@@ -25,8 +26,9 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, toggleVoting] = useToggle();
+  const modLocation = useModuleCollective(type);
 
-  if (!hasAccounts) {
+  if (!modLocation || !hasAccounts) {
     return null;
   }
 
@@ -53,7 +55,7 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, proposalId, false]}
-              tx={api.tx[type].vote}
+              tx={api.tx[modLocation].vote}
             />
             <TxButton
               accountId={accountId}
@@ -61,7 +63,7 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, proposalId, true]}
-              tx={api.tx[type].vote}
+              tx={api.tx[modLocation].vote}
             />
           </Modal.Actions>
         </Modal>
