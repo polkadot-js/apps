@@ -278,6 +278,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'origintrail-parachain-testnet',
+      text: t('rpc.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
+      }
+    },
+    {
       info: 'pangolin',
       isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5726
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),

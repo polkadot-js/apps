@@ -19,10 +19,10 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
-export function useMembers (collective: 'council' | 'membership' | 'technicalCommittee' = 'council'): Result {
+export function useMembers (collective: 'council' | 'membership' | 'technicalCommittee'): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);
+  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, transformMembers);
 
   return useMemo(
     () => ({

@@ -8,13 +8,13 @@ import React from 'react';
 import Members from './Members';
 import Summary from './Summary';
 
-function Overview ({ className = '', isMember, members, prime, proposals, type }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
         isMember={isMember}
         members={members}
-        proposals={proposals}
+        proposalHashes={proposalHashes}
         type={type}
       />
       <Members
