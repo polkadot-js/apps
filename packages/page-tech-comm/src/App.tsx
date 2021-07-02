@@ -23,15 +23,11 @@ interface Props {
 const HIDDEN_EMPTY: string[] = [];
 const HIDDEN_PROPOSALS: string[] = ['proposals'];
 
-const transformPrime = {
-  transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
-};
-
 function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers(type);
-  const prime = useCall<AccountId | null>(api.derive[type].prime, undefined, transformPrime) || null;
+  const prime = useCall<AccountId | null>(api.derive[type].prime);
   const hasProposals = useCall<boolean>(api.derive[type].hasProposals);
   const proposalHashes = useCall<Hash[]>(api.derive[type].proposalHashes);
 
