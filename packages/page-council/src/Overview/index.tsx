@@ -17,7 +17,7 @@ import Vote from './Vote';
 
 interface Props {
   className?: string;
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 const transformVotes = {

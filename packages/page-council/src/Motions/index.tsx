@@ -18,12 +18,12 @@ import Slashing from './Slashing';
 interface Props {
   className?: string;
   motions?: DeriveCollectiveProposal[];
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 function Proposals ({ className = '', motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useMembers('council');
 
   const headerRef = useRef([
     [t('motions'), 'start', 2],
