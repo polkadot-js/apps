@@ -159,7 +159,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
   return [list, nominators];
 }
 
-function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN, yearlyEmission: BN): Partial<SortedTargets> {
+function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, yearlyEmission: BN, historyDepth?: BN): Partial<SortedTargets> {
   const [elected, nominators] = extractSingle(api, allAccounts, electedDerive, favorites, lastEraInfo, historyDepth);
   const [waiting] = extractSingle(api, allAccounts, waitingDerive, favorites, lastEraInfo);
   const activeTotals = elected
@@ -203,9 +203,16 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     elected.map(({ key }) => key),
     waitingIds
   ]);
+
+  // Check if validator is eligible for nomination by checking if validator has explicitly denied nominees
+  // or if existing nominee count for that validator exceeds the number that will be rewarded.
+  const checkEligibility = ({ isBlocking, numNominators }) => {
+    return !isBlocking && (numNominators < api.consts.staking.maxNominatorRewardedPerValidator);
+  };
+
   const nominateIds = arrayFlatten([
-    elected.filter(({ isBlocking }) => !isBlocking).map(({ key }) => key),
-    waiting.filter(({ isBlocking }) => !isBlocking).map(({ key }) => key)
+    elected.filter(checkEligibility).map(({ key }) => key),
+    waiting.filter(checkEligibility).map(({ key }) => key)
   ]);
 
   return {
@@ -258,7 +265,7 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
 
   const partial = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo && yearly
-      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth, yearly)
+      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, yearly, historyDepth)
       : EMPTY_PARTIAL,
     [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo, yearly]
   );
