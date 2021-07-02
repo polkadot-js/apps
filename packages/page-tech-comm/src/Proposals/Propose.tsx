@@ -10,6 +10,7 @@ import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@
 import { useApi, useModal } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { useModuleCollective } from '../useModuleCollective';
 
 interface Props {
   isMember: boolean;
@@ -22,7 +23,7 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose ({ isMember, members, type }: Props): React.ReactElement<Props> {
+function Propose ({ isMember, members, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
@@ -32,6 +33,7 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
     new BN(members.length / 2 + 1),
     true
   ]);
+  const modLocation = useModuleCollective(type);
 
   const _hasThreshold = useCallback(
     (threshold?: BN | null): boolean =>
@@ -50,6 +52,10 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
     (threshold?: BN): void => setThreshold([threshold || null, _hasThreshold(threshold)]),
     [_hasThreshold]
   );
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -88,11 +94,11 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
               isDisabled={!hasThreshold || !proposal}
               onStart={onClose}
               params={
-                api.tx[type].propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx[type].propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>

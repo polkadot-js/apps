@@ -20,7 +20,7 @@ interface Props {
 }
 
 function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
-  const { members } = useMembers();
+  const { members } = useMembers('council');
   const { t } = useTranslation();
   const ayes = useMemo(() => proposal?.votes?.ayes?.length, [proposal]);
   const nays = useMemo(() => proposal?.votes?.nays?.length, [proposal]);

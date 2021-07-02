@@ -14,7 +14,7 @@ export type UserRolesInfo = { roles: UserRole[], isCurator: boolean };
 export function useUserRole (curatorId?: AccountId): UserRolesInfo {
   const { allAccounts, hasAccounts } = useAccounts();
 
-  const { isMember } = useMembers();
+  const { isMember } = useMembers('council');
 
   const isCurator = useMemo(() => curatorId && allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
 
