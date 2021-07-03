@@ -61,7 +61,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'edgeware',
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
+        'Commonwealth Labs': 'wss://mainnet.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
