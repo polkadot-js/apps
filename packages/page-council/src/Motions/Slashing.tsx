@@ -64,7 +64,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
     });
   }, [api, selectedEra, slashes]);
 
-  if (!modLocation) {
+  if (!modLocation || !api.tx.staking) {
     return null;
   }
 
