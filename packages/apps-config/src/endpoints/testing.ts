@@ -35,12 +35,11 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://beresheet1.edgewa.re'
+        'Commonwealth Labs': 'wss://beresheet.edgewa.re'
       }
     },
     {
       info: 'bifrost',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5619
       text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
       providers: {
         Bifrost: 'wss://asgard-rpc.liebi.com/ws'
@@ -76,6 +75,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
         'DCloud Foundation': 'wss://api.decloudf.com/'
       }
     },
+    // {
+    //   info: 'rocky',
+    //   text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
+    //   providers: {
+    //     Pinknode: 'wss://rpc.pinknode.io/rocky/explorer' // https://github.com/polkadot-js/apps/issues/5721
+    //   }
+    // },
     {
       info: 'datahighway',
       isDisabled: true,
@@ -104,6 +110,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
         'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/'
+        // Pinknode: 'wss://rpc.pinknode.io/dusty/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
@@ -222,6 +229,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       providers: {
         Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
         'Patract Elara': 'wss://mandala.elara.patract.io'
+        // Pinknode: 'wss://rpc.pinknode.io/mandala/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
@@ -270,7 +278,15 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'origintrail-parachain-testnet',
+      text: t('rpc.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
+      }
+    },
+    {
       info: 'pangolin',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5726
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
@@ -383,6 +399,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'unitv',
+      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5684
       text: t('rpc.test.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
         'Unit Network': 'wss://unitventures.io/'

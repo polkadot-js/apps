@@ -6,7 +6,7 @@ import type { DeriveProposalExternal } from '@polkadot/api-derive/types';
 import React from 'react';
 
 import { AddressMini, Button } from '@polkadot/react-components';
-import { useMembers } from '@polkadot/react-hooks';
+import { useCollectiveMembers } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import Fasttrack from './Fasttrack';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 function External ({ className = '', value: { image, imageHash, threshold } }: Props): React.ReactElement<Props> | null {
-  const { isMember, members } = useMembers('technicalCommittee');
+  const { isMember, members } = useCollectiveMembers('technicalCommittee');
 
   return (
     <tr className={className}>

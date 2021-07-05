@@ -98,7 +98,7 @@ function isValidNumber (bn: BN, bitLength: BitLength, isZeroable: boolean, maxVa
     // cannot be negative
     bn.lt(BN_ZERO) ||
     // cannot be > than allowed max
-    !bn.lt(getGlobalMaxValue(bitLength)) ||
+    bn.gt(getGlobalMaxValue(bitLength)) ||
     // check if 0 and it should be a value
     (!isZeroable && bn.isZero()) ||
     // check that the bitlengths fit

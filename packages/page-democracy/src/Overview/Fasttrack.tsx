@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -23,9 +23,10 @@ interface ProposalState {
   proposalLength: number;
 }
 
-const ONE_MIN = (1 * 60) / 6;
-const DEF_DELAY = new BN(ONE_MIN);
-const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
+// default, assuming 6s blocks
+const ONE_HOUR = (60 * 60) / 6;
+const DEF_DELAY = new BN(ONE_HOUR);
+const DEF_VOTING = new BN(3 * ONE_HOUR);
 
 function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -35,6 +36,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(api.consts.democracy.fastTrackVotingPeriod || DEF_VOTING);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
+  const modLocation = useCollectiveInstance('technicalCommittee');
 
   const memberThreshold = useMemo(
     () => new BN(
@@ -55,6 +57,10 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
       proposalLength: proposal?.length || 0
     });
   }, [api, delayBlocks, imageHash, members, votingBlocks]);
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -107,11 +113,11 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
               params={
-                api.tx.technicalCommittee.propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [memberThreshold, proposal, proposalLength]
                   : [memberThreshold, proposal]
               }
-              tx={api.tx.technicalCommittee.propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>

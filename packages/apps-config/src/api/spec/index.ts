@@ -8,6 +8,7 @@ import apron from './apron';
 import aresParachain from './ares-parachain';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
+import bifrostAsgard from './bifrost-asgard';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
 import bitcountryParachain from './bitcountry-rococo';
@@ -46,6 +47,7 @@ import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
 import konomi from './konomi';
+import kpron from './kpron';
 import kulupu from './kulupu';
 import kylin from './kylin';
 import laminar from './laminar';
@@ -109,6 +111,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ...acala,
   apron,
   'ares-parachain': aresParachain,
+  asgard: bifrostAsgard,
   basilisk: hydrate,
   beresheet,
   bifrost: bifrost,
@@ -154,6 +157,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
   konomi,
+  kpron,
   kulupu,
   kylin,
   laminar,

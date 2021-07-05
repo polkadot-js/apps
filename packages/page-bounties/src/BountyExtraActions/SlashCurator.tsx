@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -32,13 +32,14 @@ interface ActionProperties {
   proposingAccountTip: string;
   tip: string;
   title: string;
-  tx: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  tx: null | ((...args: any[]) => SubmittableExtrinsic<'promise'>);
 }
 
 function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { members } = useMembers();
+  const { members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { unassignCurator } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();
@@ -71,7 +72,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t("If the motion is approved, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
       title: t('Slash curator'),
-      tx: api.tx.council.propose
+      tx: councilMod && api.tx[councilMod].propose
     },
     UnassignCurator: {
       filter: members,
@@ -81,11 +82,15 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t('If the motion is approved, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
       title: t('Unassign curator'),
-      tx: api.tx.council.propose
+      tx: councilMod && api.tx[councilMod].propose
     }
-  }), [t, index, unassignCurator, api.tx.council.propose, allAccounts, members, threshold, unassignCuratorProposal]);
+  }), [t, index, unassignCurator, api, allAccounts, councilMod, members, threshold, unassignCuratorProposal]);
 
   const { filter, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
+
+  if (!tx) {
+    return null;
+  }
 
   return (
     <Modal
