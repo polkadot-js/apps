@@ -27,6 +27,10 @@ jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury
 }));
 
+jest.mock('@polkadot/react-hooks/useCollectiveModule', () => ({
+  useBlockTime: () => 'council'
+}));
+
 jest.mock('@polkadot/react-hooks/useMembers', () => ({
   useMembers: () => mockHooks.members
 }));
