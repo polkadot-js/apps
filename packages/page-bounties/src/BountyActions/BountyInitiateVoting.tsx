@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveModule, useMembers, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -26,8 +26,8 @@ const BOUNTY_METHODS = ['approveBounty', 'closeBounty'];
 function BountyInitiateVoting ({ description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers('council');
-  const councilMod = useCollectiveModule('council');
+  const { isMember, members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { approveBounty, closeBounty } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);

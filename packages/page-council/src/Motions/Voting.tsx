@@ -6,7 +6,7 @@ import type { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/i
 import React, { useState } from 'react';
 
 import { Button, MarkWarning, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
-import { useAccounts, useApi, useCollectiveModule, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -25,7 +25,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const modLocation = useCollectiveModule('council');
+  const modLocation = useCollectiveInstance('council');
 
   if (!hasAccounts || !modLocation) {
     return null;

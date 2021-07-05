@@ -7,7 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes, useCollectiveModule, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -35,7 +35,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposal: null, proposalLength: 0 });
   const [selectedEra, setSelectedEra] = useState(0);
-  const modLocation = useCollectiveModule('council');
+  const modLocation = useCollectiveInstance('council');
 
   const threshold = Math.ceil((members.length || 0) * getSlashProposalThreshold(api));
 

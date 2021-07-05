@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveModule, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -30,7 +30,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalType, setProposalType] = useState('accept');
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
-  const modCouncil = useCollectiveModule('council');
+  const modCouncil = useCollectiveInstance('council');
 
   const threshold = Math.ceil((members?.length || 0) * getTreasuryProposalThreshold(api));
 

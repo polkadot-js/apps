@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveModule, useMembers } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -23,8 +23,8 @@ interface Props {
 function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { members } = useMembers('council');
-  const councilMod = useCollectiveModule('council');
+  const { members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { closeBounty } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();

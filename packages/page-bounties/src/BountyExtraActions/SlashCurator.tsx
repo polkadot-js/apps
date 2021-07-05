@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCollectiveModule, useMembers } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -38,8 +38,8 @@ interface ActionProperties {
 function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { members } = useMembers('council');
-  const councilMod = useCollectiveModule('council');
+  const { members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { unassignCurator } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();

@@ -7,7 +7,7 @@ import type { SlashEra } from './types';
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Table, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveModule } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -35,7 +35,7 @@ interface Selected {
 function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const councilMod = useCollectiveModule('council');
+  const councilMod = useCollectiveInstance('council');
   const [{ selected, txAll, txSome }, setSelected] = useState<Selected>((): Selected => {
     const proposal = api.tx.staking.cancelDeferredSlash(slash.era, slash.slashes.map((_, index) => index));
 

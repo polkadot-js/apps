@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveModule, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -36,7 +36,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(api.consts.democracy.fastTrackVotingPeriod || DEF_VOTING);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
-  const modLocation = useCollectiveModule('technicalCommittee');
+  const modLocation = useCollectiveInstance('technicalCommittee');
 
   const memberThreshold = useMemo(
     () => new BN(
