@@ -6,15 +6,15 @@ import { useMemo } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-export function useCollectiveModule (instanceType: 'council' | 'membership' | 'technicalCommittee', instanceIndex?: number): string | null {
+export function useCollectiveModule (instanceType: 'council' | 'membership' | 'technicalCommittee', instanceIndex?: number): 'council' | 'membership' | 'technicalCommittee' | null {
   const { api } = useApi();
 
   return useMemo(
-    (): string | null => {
+    (): 'council' | 'membership' | 'technicalCommittee' | null => {
       const index = instanceIndex || 0;
       const instances = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), instanceType);
       const instance = instances && (index < instances.length)
-        ? instances[index]
+        ? instances[index] as 'council'
         : instanceType;
 
       return api.tx[instance] && isFunction(api.tx[instance].close)

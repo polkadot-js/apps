@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers } from '@polkadot/react-hooks';
+import { useApi, useCollectiveModule, useMembers } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -24,6 +24,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
   const { t } = useTranslation();
   const { api } = useApi();
   const { members } = useMembers('council');
+  const councilMod = useCollectiveModule('council');
   const { closeBounty } = useBounties();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [threshold, setThreshold] = useState<BN>();
@@ -35,6 +36,10 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
   }, [api, members]);
 
   const closeBountyProposal = useRef(closeBounty(index));
+
+  if (!councilMod) {
+    return null;
+  }
 
   return (
     <Modal
@@ -61,7 +66,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
           label={t<string>('Close Bounty')}
           onStart={toggleOpen}
           params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
-          tx={api.tx.council.propose}
+          tx={api.tx[councilMod].propose}
         />
       </Modal.Actions>
     </Modal>
