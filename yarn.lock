@@ -4735,7 +4735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.4, acorn@npm:^8.2.4, acorn@npm:^8.4.1":
+"acorn@npm:^8.0.4, acorn@npm:^8.2.1, acorn@npm:^8.2.4":
   version: 8.4.1
   resolution: "acorn@npm:8.4.1"
   bin:
@@ -19645,16 +19645,16 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.42.0":
-  version: 5.42.0
-  resolution: "webpack@npm:5.42.0"
+"webpack@npm:5.41.1":
+  version: 5.41.1
+  resolution: "webpack@npm:5.41.1"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.48
     "@webassemblyjs/ast": 1.11.0
     "@webassemblyjs/wasm-edit": 1.11.0
     "@webassemblyjs/wasm-parser": 1.11.0
-    acorn: ^8.4.1
+    acorn: ^8.2.1
     browserslist: ^4.14.5
     chrome-trace-event: ^1.0.2
     enhanced-resolve: ^5.8.0
@@ -19677,7 +19677,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 3800f185257776f8d4d9fa705a6345b6ace2bbd6141d669dfb3f385d6bf69e2897b44a236fb57faf4c4902ba46ec8011e54c7133f7ffb6b244ea570961901fc2
+  checksum: fabf0c937a0496c2e7be12a3889af213745c93f7eefcd9507472b41b2f68be510daaf356ed4dac556671612e206712d1969dc584a28c6d6be7acd25c0da035d5
   languageName: node
   linkType: hard
 
