@@ -209,7 +209,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2080,
         text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
         providers: {
-          LoomNetwork: 'wss://kusama.loomx.io'
+          LoomNetwork: 'wss://kusama.dappchains.com'
         }
       }
     ]
