@@ -6,10 +6,9 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import React, { useState } from 'react';
 
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle, useWeight } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle, useWeight } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { useModuleCollective } from '../useModuleCollective';
 
 interface Props {
   hasFailed: boolean;
@@ -26,7 +25,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): 
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalWeight, proposalLength] = useWeight(proposal);
-  const modLocation = useModuleCollective(type);
+  const modLocation = useCollectiveInstance(type);
 
   if (!modLocation) {
     return null;

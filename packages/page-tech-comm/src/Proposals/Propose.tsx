@@ -7,10 +7,9 @@ import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useModal } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useModal } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { useModuleCollective } from '../useModuleCollective';
 
 interface Props {
   isMember: boolean;
@@ -33,7 +32,7 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
     new BN(members.length / 2 + 1),
     true
   ]);
-  const modLocation = useModuleCollective(type);
+  const modLocation = useCollectiveInstance(type);
 
   const _hasThreshold = useCallback(
     (threshold?: BN | null): boolean =>

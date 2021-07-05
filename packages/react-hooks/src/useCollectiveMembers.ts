@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
+import type { CollectiveType } from './types';
 
 import { useMemo } from 'react';
 
@@ -19,7 +20,7 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
-export function useMembers (collective: 'council' | 'membership' | 'technicalCommittee'): Result {
+export function useCollectiveMembers (collective: CollectiveType): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, transformMembers);
