@@ -16,9 +16,10 @@ interface Props extends ComponentProps {
   bestNumber?: BlockNumber;
   className?: string;
   electionsInfo?: DeriveElectionsInfo;
+  hasElections: boolean;
 }
 
-function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.ReactElement<Props> | null {
+function Summary ({ bestNumber, className = '', electionsInfo, hasElections }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!electionsInfo) {
@@ -33,12 +34,16 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
         <CardSummary label={t<string>('seats')}>
           {formatNumber(members.length)}{desiredSeats && <>&nbsp;/&nbsp;{formatNumber(desiredSeats)}</>}
         </CardSummary>
-        <CardSummary label={t<string>('runners up')}>
-          {formatNumber(runnersUp.length)}{desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}</>}
-        </CardSummary>
-        <CardSummary label={t<string>('candidates')}>
-          {formatNumber(candidateCount)}
-        </CardSummary>
+        {hasElections && (
+          <>
+            <CardSummary label={t<string>('runners up')}>
+              {formatNumber(runnersUp.length)}{desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}</>}
+            </CardSummary>
+            <CardSummary label={t<string>('candidates')}>
+              {formatNumber(candidateCount)}
+            </CardSummary>
+          </>
+        )}
       </section>
       {voteCount && (
         <section>
