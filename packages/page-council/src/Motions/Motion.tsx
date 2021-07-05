@@ -8,12 +8,11 @@ import React, { useMemo } from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { useModuleCouncil } from '../useModuleCouncil';
 import Close from './Close';
 import Voters from './Voters';
 import Voting from './Voting';
@@ -37,7 +36,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
   const { allAccounts } = useAccounts();
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
   const [proposalWeight, proposalLength] = useWeight(proposal);
-  const modLocation = useModuleCouncil();
+  const modLocation = useCollectiveInstance('council');
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {

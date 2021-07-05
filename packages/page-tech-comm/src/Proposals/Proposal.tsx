@@ -8,12 +8,11 @@ import React, { useMemo } from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { AddressMini, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useCollectiveInstance, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { useModuleCollective } from '../useModuleCollective';
 import Close from './Close';
 import Voting from './Voting';
 
@@ -33,7 +32,7 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
   const derive = useCall<DeriveCollectiveProposal>(api.derive[type].proposal, [imageHash]);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const [proposalWeight, proposalLength] = useWeight(derive?.proposal);
-  const modLocation = useModuleCollective(type);
+  const modLocation = useCollectiveInstance(type);
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {

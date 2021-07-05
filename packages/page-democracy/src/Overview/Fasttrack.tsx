@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -36,6 +36,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(api.consts.democracy.fastTrackVotingPeriod || DEF_VOTING);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
+  const modLocation = useCollectiveInstance('technicalCommittee');
 
   const memberThreshold = useMemo(
     () => new BN(
@@ -56,6 +57,10 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
       proposalLength: proposal?.length || 0
     });
   }, [api, delayBlocks, imageHash, members, votingBlocks]);
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -108,11 +113,11 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
               params={
-                api.tx.technicalCommittee.propose.meta.args.length === 3
+                api.tx[modLocation].propose.meta.args.length === 3
                   ? [memberThreshold, proposal, proposalLength]
                   : [memberThreshold, proposal]
               }
-              tx={api.tx.technicalCommittee.propose}
+              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>
