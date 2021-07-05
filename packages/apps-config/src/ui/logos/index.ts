@@ -53,6 +53,7 @@ import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeFantour from './nodes/fantour.png';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
@@ -272,6 +273,7 @@ export const nodeLogos = Object.entries({
   'Encointer Node': nodeEncointerNotee,
   'Encointer Node noTEE': nodeEncointerNotee,
   'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  'Fantour Node': nodeFantour,
   'Galital Parachain Collator': nodeGalital,
   Galois: nodeMath,
   'GamePower Node': nodeGamePower,
@@ -415,6 +417,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
   equilibrium: chainEquilibrium,
+  fantour: nodeFantour,
   galital: nodeGalital,
   galois: nodeMath,
   gamepower: nodeGamePower,
