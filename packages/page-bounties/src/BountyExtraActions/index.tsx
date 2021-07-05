@@ -5,7 +5,7 @@ import React, { useMemo, useRef, useState } from 'react';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Button, Menu, Popup } from '@polkadot/react-components';
-import { useMembers, useToggle } from '@polkadot/react-hooks';
+import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
 import { determineUnassignCuratorAction } from '../helpers';
@@ -36,7 +36,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const [isGiveUpCuratorOpen, toggleGiveUpCurator] = useToggle();
   const [selectedAction, setSlashAction] = useState<ValidUnassignCuratorAction>();
   const { t } = useTranslation();
-  const { isMember } = useMembers();
+  const { isMember } = useCollectiveMembers('council');
   const { curator, updateDue } = useBountyStatus(status);
 
   const blocksUntilUpdate = useMemo(() => updateDue?.sub(bestNumber), [bestNumber, updateDue]);

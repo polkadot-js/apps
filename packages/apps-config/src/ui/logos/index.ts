@@ -62,7 +62,7 @@ import nodeIntegritee from './nodes/integritee.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
-import nodeKilt from './nodes/kilt.svg';
+import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -131,6 +131,8 @@ export const chainLogos = Object.entries({
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
   'Beast Developer': nodeBeast,
+  Bifrost: nodeBifrost,
+  'Bifrost Asgard CC4': nodeBifrost,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust PC1': nodeCrust,
@@ -165,6 +167,7 @@ export const chainLogos = Object.entries({
   'KILT Testnet': nodeKilt,
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
+  Kpron: nodeApron,
   Kusama: chainKusama, // new name after CC3
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
@@ -187,6 +190,7 @@ export const chainLogos = Object.entries({
   'NFTMart Testnet': nodeNFTMart,
   'OAK Testnet': oakTestnet,
   'OriginTrail Parachain': nodeOriginTrail,
+  'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
@@ -239,7 +243,6 @@ export const chainLogos = Object.entries({
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
   'Acala Node': nodeAcala,
-  'airalab-robonomics': nodeRobonomics,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Node': nodeAres,
@@ -286,6 +289,7 @@ export const nodeLogos = Object.entries({
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
   'Klug Dossier Node': nodeKlug,
+  'Kpron Collator': nodeApron,
   kulupu: nodeKulupu,
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
@@ -303,6 +307,7 @@ export const nodeLogos = Object.entries({
   'OAK Testnet': oakTestnet,
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
+  'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
@@ -325,6 +330,7 @@ export const nodeLogos = Object.entries({
   'ReAlis Network': nodeRealis,
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
+  robonomics: nodeRobonomics,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
   sherpax: nodeChainx,
@@ -427,6 +433,7 @@ export const namedLogos: Record<string, unknown> = {
   khala: nodeKhala,
   kilt: nodeKilt,
   klugdossier: nodeKlug,
+  kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
   kylin: nodeKylin,
@@ -444,7 +451,7 @@ export const namedLogos: Record<string, unknown> = {
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
   opportunity: nodeOpportunity,
-  origintrail: nodeOriginTrail,
+  'origintrail-parachain-testnet': nodeOriginTrail,
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
@@ -459,6 +466,8 @@ export const namedLogos: Record<string, unknown> = {
   prism: nodePrism,
   realis: nodeRealis,
   riochain: nodeRiochain,
+  robonomics: nodeRobonomics,
+  rocky: nodeCrust,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoApron: nodeApron,
@@ -488,6 +497,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
+  rococoOriginTrail: nodeOriginTrail,
   rococoParami: nodeParami,
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
@@ -495,7 +505,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoPolkabtc: chainPolkaBTC,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
-  rococoRobonomics: nodeRobonomics,
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,

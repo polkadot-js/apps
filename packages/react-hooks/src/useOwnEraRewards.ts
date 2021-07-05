@@ -31,6 +31,16 @@ interface Filtered {
   validatorEras: ValidatorWithEras[];
 }
 
+const EMPTY_FILTERED: Filtered = {
+  filteredEras: [],
+  validatorEras: []
+};
+
+const EMPTY_STATE: State = {
+  isLoadingRewards: true,
+  rewardCount: 0
+};
+
 function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][]]): State {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
@@ -93,8 +103,8 @@ export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
   const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric);
-  const [{ filteredEras, validatorEras }, setFiltered] = useState<Filtered>({ filteredEras: [], validatorEras: [] });
-  const [state, setState] = useState<State>({ isLoadingRewards: true, rewardCount: 0 });
+  const [{ filteredEras, validatorEras }, setFiltered] = useState<Filtered>(EMPTY_FILTERED);
+  const [state, setState] = useState<State>(EMPTY_STATE);
   const stakerRewards = useCall<[[string[]], DeriveStakerReward[][]]>(!ownValidators?.length && !!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });
   const erasPoints = useCall<DeriveEraPoints[]>(!!validatorEras.length && !!filteredEras.length && api.derive.staking._erasPoints, [filteredEras, false]);
   const erasRewards = useCall<DeriveEraRewards[]>(!!validatorEras.length && !!filteredEras.length && api.derive.staking._erasRewards, [filteredEras, false]);
