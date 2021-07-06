@@ -9,7 +9,8 @@ import styled from 'styled-components';
 
 import { createTypeUnsafe, Option } from '@polkadot/types';
 import { AnyJson, Codec, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { isNull } from '@polkadot/util';
+import { Null } from '@polkadot/types/primitive';
+import { isInstanceOf } from '@polkadot/util';
 
 import AddressSmall from './AddressMini';
 import Labelled from './Labelled';
@@ -26,8 +27,13 @@ interface Props extends BareProps {
 
 const TRUNCATE_TO = 16;
 
-function formatData (registry: Registry, data: AnyJson, type: TypeDef | undefined): Codec {
-  return createTypeUnsafe(registry, type?.displayName || type?.type || 'Raw', [data]);
+function formatData (registry: Registry, data: AnyJson | null, type: TypeDef | undefined): Codec {
+  try {
+    return createTypeUnsafe(registry, type?.type || type?.displayName || 'Raw', [data]);
+  } catch (error) {
+    console.log(error);
+    return new Null(registry);
+  }
 }
 
 function Field ({ name, value }: { name: string, value: React.ReactNode }): React.ReactElement {
@@ -48,11 +54,11 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
     (): React.ReactNode => {
       if (isError) return value;
 
-      if (isNull(value) || (Array.isArray(value) && value.length === 0)) {
+      const codec = formatData(registry, value, type);
+
+      if (isInstanceOf(codec, Null)) {
         return '()';
       }
-
-      const codec = formatData(registry, value, type);
 
       if (!type || type.displayName === 'Hash') {
         return truncate(codec.toHex(), TRUNCATE_TO);
@@ -69,12 +75,12 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
           : null;
       }
 
-      if (type.info === TypeDefInfo.Option && value instanceof Option) {
-        const isSome = value.isSome;
+      if (type.info === TypeDefInfo.Option && codec instanceof Option) {
+        const isSome = codec.isSome;
         const subType = type.sub as TypeDef;
 
         if (asJson) {
-          return `${isSome ? 'Some' : 'None'}${isSome ? `(${value.toString()})` : ''}`;
+          return `${isSome ? 'Some' : 'None'}${isSome ? `(${codec.unwrap().toString()})` : ''}`;
         }
 
         return (
@@ -87,7 +93,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
                   <Data
                     registry={registry}
                     type={subType}
-                    value={value.toString()}
+                    value={codec.unwrap().toString()}
                   />
                 </div>
                 {')'}
