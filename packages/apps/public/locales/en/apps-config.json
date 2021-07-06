@@ -16,6 +16,7 @@
   "rpc.header.westend.relay": "Test Westend & parachains",
   "rpc.hosted.by": "hosted by {{host}}",
   "rpc.kusama.altair": "Altair",
+  "rpc.kusama.basilisk": "Basilisk",
   "rpc.kusama.bifrost": "Bifrost",
   "rpc.kusama.crab": "Darwinia Crab",
   "rpc.kusama.crab-redirect": "Darwinia Crab Redirect",
