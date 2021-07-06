@@ -76,9 +76,9 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           ? dbValue
           : 0
       }, ...dbParams)
-      .then(({ gasRquired, result }) => setEstimatedWeight(
+      .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasRquired
+          ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
