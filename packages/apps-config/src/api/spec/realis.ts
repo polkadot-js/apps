@@ -12,39 +12,57 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Rarity: {
-          _enum: [
-            'Common',
-            'Uncommon',
-            'Rare',
-            'Mythical',
-            'Legendary'
-          ]
-        },
-        Socket: {
-          _enum: [
-            'Head',
-            'Body',
-            'LegLeft',
-            'LegRight',
-            'ArmLeft',
-            'ArmRight',
-            'Weapon'
-          ]
-        },
-        pallet_nfts: 'u8',
-        Basic: 'u8',
-        Params: {
-          strength: 'u8',
-          agility: 'u8',
-          intelligence: 'u8'
-        },
-        Token: {
-          token_id: 'TokenId',
-          rarity: 'Rarity',
-          socket: 'Socket',
-          params: 'Params'
-        },
+      Rarity: {
+        _enum: [
+          "Common",
+          "Uncommon",
+          "Rare",
+          "Mythical",
+          "Legendary"
+        ]
+      },
+      Socket: {
+        _enum: [
+          "Head",
+          "Body",
+          "LegLeft",
+          "LegRight",
+          "ArmLeft",
+          "ArmRight",
+          "Weapon"
+        ]
+      },
+      Params: {
+        strength: "u8",
+        agility: "u8",
+        intelligence: "u8"
+      },
+      pallet_nfts: "u8",
+      TokenId: "U256",
+      Basic: "u8",
+      Type: {
+        _enum: {
+          Mergeable: "Mergeable",
+          Stackable: "Stackable",
+          Basic: "Basic"
+        }
+      },
+      Token: {
+        id: "TokenId",
+        token_type: "Type"
+      },
+      Mergeable: {
+        rarity: "Rarity",
+        socket: "Socket",
+        params: "Params"
+      },
+      Stackable: {
+        _enum: [
+          "Silver",
+          "Gold",
+          "Diamond"
+        ]
+      },
         AttributeTransaction: {
           signature: 'Signature',
           name: 'Vec<u8>',
@@ -119,7 +137,6 @@ const definitions: OverrideBundleDefinition = {
         ResourceId: 'Vec<u8>',
         ExchangeId: 'u64',
         CurrencyOf: 'Balance',
-        TokenId: 'U256',
         RealisTokenId: 'u32',
         Erc721Token: {
           id: 'NftId'
