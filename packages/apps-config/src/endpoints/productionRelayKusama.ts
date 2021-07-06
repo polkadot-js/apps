@@ -54,6 +54,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'basilisk',
+        homepage: 'https://bsx.fi',
+        paraId: 2082,
+        text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://rpc-01.basilisk.hydradx.io'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
