@@ -154,6 +154,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'loomNetwork',
+        homepage: 'https://loomx.io/',
+        paraId: 2080,
+        text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://kusama.dappchains.com'
+        }
+      },
+      {
         info: 'mars',
         homepage: 'https://www.aresprotocol.io/',
         paraId: 2008,
@@ -229,15 +238,6 @@ export function createKusama (t: TFunction): EndpointOption {
           SubGame: 'wss://gamma.subgame.org/'
         }
       },
-      {
-        info: 'loomNetwork',
-        homepage: 'https://loomx.io/',
-        paraId: 2080,
-        text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
-        providers: {
-          LoomNetwork: 'wss://kusama.dappchains.com'
-        }
-      }
     ]
   };
 }
