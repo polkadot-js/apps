@@ -2,11 +2,11 @@
   "name": "@polkadot/app-claims",
   "private": true,
   "type": "module",
-  "version": "0.94.2-37",
+  "version": "0.94.2-38",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@polkadot/react-components": "^0.94.2-37",
+    "@polkadot/react-components": "^0.94.2-38",
     "secp256k1": "^3.8.0"
   }
 }
