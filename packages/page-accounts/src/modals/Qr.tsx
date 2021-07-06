@@ -77,10 +77,10 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         address: '',
         isAddress: false,
         scanned: null,
-        warning: t<string>(err.message)
+        warning: err.message
       });
     },
-    [t]
+    []
   );
 
   const _onSave = useCallback(
