@@ -120,7 +120,8 @@ export function createKusama (t: TFunction): EndpointOption {
           'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
           'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://karura.polkawallet.io',
-          OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+          OnFinality: 'wss://karura.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://karura.kusama.elara.patract.io'
         }
       },
       {
@@ -169,7 +170,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.moonriver', 'Moonriver', { ns: 'apps-config' }),
         providers: {
           PureStake: 'wss://wss.moonriver.moonbeam.network',
-          OnFinality: 'wss://moonriver.api.onfinality.io/public-ws'
+          OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://moonriver.kusama.elara.patract.io'
         }
       },
       {
