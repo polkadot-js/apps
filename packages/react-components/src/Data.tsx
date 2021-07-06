@@ -8,8 +8,8 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { createTypeUnsafe, Option } from '@polkadot/types';
-import { AnyJson, Codec, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Null } from '@polkadot/types/primitive';
+import { AnyJson, Codec, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { isInstanceOf } from '@polkadot/util';
 
 import AddressSmall from './AddressMini';
@@ -32,6 +32,7 @@ function formatData (registry: Registry, data: AnyJson | null, type: TypeDef | u
     return createTypeUnsafe(registry, type?.type || type?.displayName || 'Raw', [data]);
   } catch (error) {
     console.log(error);
+
     return new Null(registry);
   }
 }
@@ -80,7 +81,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
         const subType = type.sub as TypeDef;
 
         if (asJson) {
-          return `${isSome ? 'Some' : 'None'}${isSome ? `(${codec.unwrap().toString()})` : ''}`;
+          return `${isSome ? 'Some' : 'None'}${isSome ? `(${(codec.unwrap() as Codec).toString()})` : ''}`;
         }
 
         return (
@@ -93,7 +94,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
                   <Data
                     registry={registry}
                     type={subType}
-                    value={codec.unwrap().toString()}
+                    value={(codec.unwrap() as Codec).toString()}
                   />
                 </div>
                 {')'}
