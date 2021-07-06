@@ -87,7 +87,7 @@
   "Change session keys": "Cambiar las claves de la sesión",
   "Change this account's password": "Cambiar la contraseña de esta cuenta",
   "Change validator preferences": "Cambiar preferencias del validador",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "El cambio de la clave sólo tiene efecto al comienzo de la siguiente sesión. La entrada aquí se genera desde el comando author_rotateKeys",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "El cambio de la clave sólo tiene efecto al comienzo de la siguiente sesión. La entrada aquí se genera desde el comando author_rotateKeys",
   "Claim": "Reclamación",
   "Claim tokens...": "Reclamar tokens...",
   "Clear all": "Limpiar todo",

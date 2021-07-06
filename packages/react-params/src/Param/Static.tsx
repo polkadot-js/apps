@@ -15,13 +15,14 @@ import Bare from './Bare';
 interface Props {
   asHex?: boolean;
   children?: React.ReactNode;
+  childrenPre?: React.ReactNode;
   className?: string;
   defaultValue: RawParam;
   label?: React.ReactNode;
   withLabel?: boolean;
 }
 
-function StaticParam ({ asHex, children, className = '', defaultValue, label }: Props): React.ReactElement<Props> {
+function StaticParam ({ asHex, children, childrenPre, className = '', defaultValue, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const value = defaultValue && (defaultValue.value as string) && (
     asHex
@@ -36,6 +37,7 @@ function StaticParam ({ asHex, children, className = '', defaultValue, label }: 
 
   return (
     <Bare className={className}>
+      {childrenPre}
       <Static
         className='full'
         label={label}

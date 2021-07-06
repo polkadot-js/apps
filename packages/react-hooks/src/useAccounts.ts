@@ -4,17 +4,20 @@
 import { useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
+import { u8aToHex } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useIsMountedRef } from './useIsMountedRef';
 
 interface UseAccounts {
   allAccounts: string[];
+  allAccountsHex: string[];
   areAccountsLoaded: boolean
   hasAccounts: boolean;
   isAccount: (address?: string | null) => boolean;
 }
 
-const EMPTY: UseAccounts = { allAccounts: [], areAccountsLoaded: false, hasAccounts: false, isAccount: () => false };
+const EMPTY: UseAccounts = { allAccounts: [], allAccountsHex: [], areAccountsLoaded: false, hasAccounts: false, isAccount: () => false };
 
 export function useAccounts (): UseAccounts {
   const mountedRef = useIsMountedRef();
@@ -24,10 +27,11 @@ export function useAccounts (): UseAccounts {
     const subscription = keyring.accounts.subject.subscribe((accounts): void => {
       if (mountedRef.current) {
         const allAccounts = accounts ? Object.keys(accounts) : [];
+        const allAccountsHex = allAccounts.map((a) => u8aToHex(decodeAddress(a)));
         const hasAccounts = allAccounts.length !== 0;
         const isAccount = (address?: string | null) => !!address && allAccounts.includes(address);
 
-        setState({ allAccounts, areAccountsLoaded: true, hasAccounts, isAccount });
+        setState({ allAccounts, allAccountsHex, areAccountsLoaded: true, hasAccounts, isAccount });
       }
     });
 

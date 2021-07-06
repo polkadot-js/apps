@@ -25,6 +25,8 @@ export type TxDefs = SubmittableExtrinsic<'promise'> | IExtrinsic | Call | TxDef
 
 export type TxSource<T extends TxDefs> = [T, boolean];
 
+export type CollectiveType = 'council' | 'membership' | 'technicalCommittee';
+
 export interface ModalState {
   isOpen: boolean;
   onOpen: () => void;
@@ -32,7 +34,10 @@ export interface ModalState {
 }
 
 export interface Inflation {
+  idealStake: number;
+  idealInterest: number;
   inflation: number;
+  stakedFraction: number;
   stakedReturn: number;
 }
 

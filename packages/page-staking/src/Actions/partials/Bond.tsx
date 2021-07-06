@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AmountValidateState, DestinationType } from '../types';
 import type { BondInfo } from './types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, InputAddress, InputBalance, MarkError, Modal, Static } from '@polkadot/react-components';
@@ -22,7 +22,9 @@ import useUnbondDuration from '../useUnbondDuration';
 interface Props {
   className?: string;
   isNominating?: boolean;
-  minNomination?: BN;
+  minNominated?: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
   onChange: (info: BondInfo) => void;
 }
 
@@ -34,7 +36,7 @@ const EMPTY_INFO = {
   stashId: null
 };
 
-function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
+function Bond ({ className = '', isNominating, minNominated, minNominatorBond, minValidatorBond, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -144,7 +146,9 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
           <InputValidateAmount
             controllerId={controllerId}
             isNominating={isNominating}
-            minNomination={minNomination}
+            minNominated={minNominated}
+            minNominatorBond={minNominatorBond}
+            minValidatorBond={minValidatorBond}
             onError={setAmountError}
             stashId={stashId}
             value={amount}

@@ -19,9 +19,9 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
 
   const label = useMemo(
     () => isUndefined(name)
-      ? encodeTypeDef(type)
-      : `${name}: ${encodeTypeDef(type)}`,
-    [name, type]
+      ? `${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(type)}${isDisabled && isInOption ? '>' : ''}`
+      : `${name}: ${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(type)}${isDisabled && isInOption ? '>' : ''}`,
+    [isDisabled, isInOption, name, type]
   );
 
   if (!Component) {

@@ -14,6 +14,5 @@
   "nav.github": "nav.github",
   "nav.wiki": "nav.wiki",
   "transfer received": "transfer received",
-  "update on #{{index}}": "update on #{{index}}",
-  "version {{version}}": "version {{version}}"
+  "update on #{{index}}": "update on #{{index}}"
 }
