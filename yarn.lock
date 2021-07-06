@@ -3224,19 +3224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-fetch@npm:^6.10.1":
-  version: 6.10.1
-  resolution: "@polkadot/x-fetch@npm:6.10.1"
-  dependencies:
-    "@babel/runtime": ^7.14.6
-    "@polkadot/x-global": 6.10.1
-    "@types/node-fetch": ^2.5.10
-    node-fetch: ^2.6.1
-  checksum: d8b87dc4651b23bdb2315ff7d06b370a5cdbf312391d654634222970a984551e77e25d116b9ba3386ab4df6d3c3a6ff23ae2ba69090584fe857c0c8c7ebe1936
-  languageName: node
-  linkType: hard
-
-"@polkadot/x-fetch@npm:^6.11.1":
+"@polkadot/x-fetch@npm:^6.10.1, @polkadot/x-fetch@npm:^6.11.1":
   version: 6.11.1
   resolution: "@polkadot/x-fetch@npm:6.11.1"
   dependencies:
@@ -3248,18 +3236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-global@npm:6.10.1, @polkadot/x-global@npm:^6.10.1":
-  version: 6.10.1
-  resolution: "@polkadot/x-global@npm:6.10.1"
-  dependencies:
-    "@babel/runtime": ^7.14.6
-    "@types/node-fetch": ^2.5.10
-    node-fetch: ^2.6.1
-  checksum: 8f07dfe18f902cc329a7fce2721dce4c59e041b936f4f16fe3c2283c8dc3385d83218c635febb8cdbb6a4c66b0c81677b53cbf20967dd7c872001606af968306
-  languageName: node
-  linkType: hard
-
-"@polkadot/x-global@npm:6.11.1, @polkadot/x-global@npm:^6.11.1":
+"@polkadot/x-global@npm:6.11.1, @polkadot/x-global@npm:^6.10.1, @polkadot/x-global@npm:^6.11.1":
   version: 6.11.1
   resolution: "@polkadot/x-global@npm:6.11.1"
   dependencies:
@@ -3317,19 +3294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-ws@npm:^6.10.1":
-  version: 6.10.1
-  resolution: "@polkadot/x-ws@npm:6.10.1"
-  dependencies:
-    "@babel/runtime": ^7.14.6
-    "@polkadot/x-global": 6.10.1
-    "@types/websocket": ^1.0.2
-    websocket: ^1.0.34
-  checksum: 1f41c2d5f0f8d4c3f71b8fc5c0737096964acac8964508177e3419ba2b74d37eaa8121a4ef2a9b1b716a5fde553d51c2154e290294b5fec86cb2d6c58ff2658e
-  languageName: node
-  linkType: hard
-
-"@polkadot/x-ws@npm:^6.11.1":
+"@polkadot/x-ws@npm:^6.10.1, @polkadot/x-ws@npm:^6.11.1":
   version: 6.11.1
   resolution: "@polkadot/x-ws@npm:6.11.1"
   dependencies:
@@ -4344,15 +4309,6 @@ __metadata:
     "@types/webpack-sources": "*"
     source-map: ^0.6.0
   checksum: 90141c04f8662beae69626c31a0a5f21cf9d5886106ec1ee9f81d0aca8dfcb3e1046c161c2f61b6898429ba0d9cfeaa305807c3a81e6fc0886a329c62ce311a2
-  languageName: node
-  linkType: hard
-
-"@types/websocket@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@types/websocket@npm:1.0.2"
-  dependencies:
-    "@types/node": "*"
-  checksum: ef820469115617fc537f5b050b4f319fb7783f9572722d43c8445eaecb5c8e126555d40e20777ba3161a4a54d61f8df65fb3a85e14089d5d1ef140639818283b
   languageName: node
   linkType: hard
 
@@ -15217,14 +15173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "picomatch@npm:2.2.3"
-  checksum: 45e2b882b5265d3a322c6b7b854c1fdc33d5083011b9730296e9ad26332824ac356529f1ce1b0c1111f08a84c02e8525ea121d17c4bbe2970ca6665e587921fa
-  languageName: node
-  linkType: hard
-
-"picomatch@npm:^2.2.2":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.2, picomatch@npm:^2.2.3":
   version: 2.3.0
   resolution: "picomatch@npm:2.3.0"
   checksum: 16818720ea7c5872b6af110760dee856c8e4cd79aed1c7a006d076b1cc09eff3ae41ca5019966694c33fbd2e1cc6ea617ab10e4adac6df06556168f13be3fca2
