@@ -237,7 +237,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
         }
-      },
+      }
     ]
   };
 }
