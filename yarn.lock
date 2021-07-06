@@ -1478,24 +1478,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@darwinia/types-known@npm:^1.1.0-alpha.22":
-  version: 1.1.0-alpha.22
-  resolution: "@darwinia/types-known@npm:1.1.0-alpha.22"
+"@darwinia/types-known@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@darwinia/types-known@npm:1.1.2"
   dependencies:
     "@babel/runtime": ^7.9.6
     "@polkadot/types": 4.0.4-5
     "@polkadot/util": 6.0.5
     bn.js: ^5.1.2
-  checksum: 15b4f4500e94216e2d2772a1f40e1c0837c6adc995821f19be4244f917808e8cacaa4a4868ca9d25d181b40740ad3d9020a5384eb57ff1220cc40168de4b5498
+  checksum: 0d6068a3aeaf3b47dcd04be1f72f47dd262d972e71665d85c059028047082dd17f6d5c51b9cac4abd3e065628fb51c11e0068f9be6e105fb6bc0e21dd7518079
   languageName: node
   linkType: hard
 
-"@darwinia/types@npm:^1.1.0-alpha.22":
-  version: 1.1.0-alpha.22
-  resolution: "@darwinia/types@npm:1.1.0-alpha.22"
+"@darwinia/types@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@darwinia/types@npm:1.1.2"
   dependencies:
-    "@darwinia/types-known": ^1.1.0-alpha.22
-  checksum: c9178562cf0cdd4b8f161826a54b743579f9eef4c8875264e39757d6dc82dec93c4fa06a08b499f6e0994d6553a85543e04376a627135344f7b5c3bcd137fb18
+    "@darwinia/types-known": ^1.1.2
+  checksum: f0d0896996de63a9a45a410357e99b27c21e2a26898633393ee30257dca1adcd3ac1d1087df0d0c1781c7d9a8ef3f8a7823136c0e4aa0cf998797233b5dbd113
   languageName: node
   linkType: hard
 
@@ -2550,7 +2550,7 @@ __metadata:
     "@acala-network/type-definitions": ^1.0.2-2
     "@babel/runtime": ^7.14.6
     "@crustio/type-definitions": 0.0.10
-    "@darwinia/types": ^1.1.0-alpha.22
+    "@darwinia/types": ^1.1.2
     "@digitalnative/type-definitions": ^1.1.9
     "@docknetwork/node-types": ^0.4.6
     "@edgeware/node-types": ^3.6.1-wako
