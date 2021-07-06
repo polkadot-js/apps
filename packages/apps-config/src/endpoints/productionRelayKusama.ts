@@ -55,6 +55,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'basilisk',
+        isUnreachable: true,
         homepage: 'https://bsx.fi',
         paraId: 2082,
         text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
