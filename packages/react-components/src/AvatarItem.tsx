@@ -1,7 +1,5 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { ThemeProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -35,7 +33,7 @@ function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }:
   );
 }
 
-export default React.memo(styled(AvatarItem)(({ theme }: ThemeProps) => `
+export default React.memo(styled(AvatarItem)`
   & {
     display: flex;
     align-items: center;
@@ -59,16 +57,13 @@ export default React.memo(styled(AvatarItem)(({ theme }: ThemeProps) => `
         line-height: 2.4rem;
         margin-right: 0 !important;
       }
-
-      > img {
-      }
     }
 
     .ui--AvatarItem-details {
       flex: 1;
 
       .ui--AvatarItem-title {
-        font-weight: ${theme.fontWeightNormal};
+        font-weight: var(--font-weight-normal);
         font-size: 1rem;
       }
 
@@ -98,4 +93,4 @@ export default React.memo(styled(AvatarItem)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`);

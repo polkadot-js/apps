@@ -47,7 +47,7 @@ function Selection (): React.ReactElement {
         onChange={_onExtrinsicChange}
         onError={_onExtrinsicError}
       />
-      {error && (
+      {error && !extrinsic && (
         <MarkError content={error} />
       )}
       <Button.Group>

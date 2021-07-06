@@ -9,6 +9,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { keyring } from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
+const NO_FLAGS = { accountOffset: 0, addressOffset: 0, isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
 
 export const UNLOCK_MINS = 15;
 
@@ -28,7 +29,7 @@ export function lockAccount (pair: KeyringPair): void {
 
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
-    return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
+    return NO_FLAGS;
   }
 
   let publicKey;
@@ -38,11 +39,12 @@ export function extractExternal (accountId: string | null): AddressFlags {
   } catch (error) {
     console.error(error);
 
-    return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
+    return NO_FLAGS;
   }
 
   const pair = keyring.getPair(publicKey);
-  const isUnlockable = !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected;
+  const { isExternal, isHardware, isInjected, isMultisig, isProxied } = pair.meta;
+  const isUnlockable = !isExternal && !isHardware && !isInjected;
 
   if (isUnlockable) {
     const entry = lockCountdown[pair.address];
@@ -54,11 +56,13 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   return {
+    accountOffset: pair.meta.accountOffset as number || 0,
+    addressOffset: pair.meta.addressOffset as number || 0,
     hardwareType: pair.meta.hardwareType as string,
-    isHardware: !!pair.meta.isHardware,
-    isMultisig: !!pair.meta.isMultisig,
-    isProxied: !!pair.meta.isProxied,
-    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied && !pair.meta.isHardware,
+    isHardware: !!isHardware,
+    isMultisig: !!isMultisig,
+    isProxied: !!isProxied,
+    isQr: !!isExternal && !isMultisig && !isProxied && !isHardware && !isInjected,
     isUnlockable: isUnlockable && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)

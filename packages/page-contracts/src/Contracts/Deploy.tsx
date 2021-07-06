@@ -4,7 +4,6 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { BlueprintPromise } from '@polkadot/api-contract';
@@ -36,8 +35,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
-  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(new BN(ENDOWMENT));
-  const [salt, setSalt] = useState(randomAsHex());
+  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
+  const [salt, setSalt] = useState(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
 
   useEffect((): void => {
@@ -62,6 +61,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const constructOptions = useMemo(
     () => contractAbi
       ? contractAbi.constructors.map((message, index) => ({
+        info: message.identifier,
         key: `${index}`,
         text: (
           <MessageSignature

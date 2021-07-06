@@ -1,6 +1,7 @@
 {
   "Close": "Close",
-  "Javascript": "Javascript",
+  "Console": "Console",
+  "JavaScript": "JavaScript",
   "Name your example": "Name your example",
   "Never execute JS snippets from untrusted sources.": "Never execute JS snippets from untrusted sources.",
   "Save snippet to local storage": "Save snippet to local storage",

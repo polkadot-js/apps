@@ -34,7 +34,7 @@ function NodeInfo (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
   const [info, setInfo] = useState<Partial<Info>>({});
-  const [nextRefresh, setNextRefresh] = useState(Date.now());
+  const [nextRefresh, setNextRefresh] = useState(() => Date.now());
 
   useEffect((): () => void => {
     const _getStatus = (): void => {

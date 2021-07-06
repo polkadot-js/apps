@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { EntryInfoTyped } from './types';
 
 import React, { useMemo } from 'react';
@@ -54,14 +53,14 @@ function DayHour ({ className = '', date, hour, index, minutes, scheduled }: Pro
   );
 }
 
-export default React.memo(styled(DayHour)(({ theme }: ThemeProps) => `
+export default React.memo(styled(DayHour)`
   align-items: center;
   display: flex;
   position: relative;
   z-index: 2;
 
   &:nth-child(odd) {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
   }
 
   &.isPast {
@@ -76,7 +75,7 @@ export default React.memo(styled(DayHour)(({ theme }: ThemeProps) => `
   .hourLabel {
     flex: 0;
     font-size: 0.85rem;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
     line-height: 1;
     min-width: 5.5rem;
     opacity: 0.5;
@@ -88,8 +87,8 @@ export default React.memo(styled(DayHour)(({ theme }: ThemeProps) => `
 
   &.hasItems .hourLabel {
     font-size: 1.1rem;
-    font-weight: ${theme.fontWeightNormal};
+    font-weight: var(--font-weight-normal);
     opacity: 1;
     padding: 0.7rem 1rem;
   }
-`));
+`);

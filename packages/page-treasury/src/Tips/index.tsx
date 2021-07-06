@@ -18,7 +18,6 @@ interface Props {
   hashes?: string[] | null;
   isMember: boolean;
   members: string[];
-  trigger: () => void;
 }
 
 interface QuickTipsState {
@@ -26,7 +25,7 @@ interface QuickTipsState {
   quickTx: SubmittableExtrinsic<'promise'> | null;
 }
 
-function TipsEntry ({ className, hashes, isMember, members, trigger }: Props): React.ReactElement<Props> {
+function TipsEntry ({ className, hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const { api } = useApi();
@@ -61,10 +60,7 @@ function TipsEntry ({ className, hashes, isMember, members, trigger }: Props): R
   return (
     <div className={className}>
       <Button.Group>
-        <TipCreate
-          members={members}
-          refresh={trigger}
-        />
+        <TipCreate members={members} />
         <TxButton
           accountId={defaultId}
           extrinsic={quickTx}
@@ -78,7 +74,6 @@ function TipsEntry ({ className, hashes, isMember, members, trigger }: Props): R
         hashes={hashes}
         isMember={isMember}
         members={members}
-        onRefresh={trigger}
         onSelectTip={_selectTip}
       />
     </div>

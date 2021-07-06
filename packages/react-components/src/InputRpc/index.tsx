@@ -30,8 +30,8 @@ interface Props {
 function InputRpc ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const rpcs = useRpcs();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, rpcs, defaultValue.section));
-  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, rpcs, defaultValue.section));
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
   const [value, setValue] = useState<DefinitionRpcExt>((): DefinitionRpcExt => defaultValue);
 
   useEffect((): void => {

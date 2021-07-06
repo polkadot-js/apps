@@ -3,7 +3,7 @@
 
 import BN from 'bn.js';
 
-import { BN_ZERO, isBn, isFunction } from '@polkadot/util';
+import { BN_THOUSAND, BN_ZERO, isBn, isFunction } from '@polkadot/util';
 
 interface ToBN {
   toBn: () => BN;
@@ -16,5 +16,5 @@ export function balanceToNumber (amount: BN | ToBN = BN_ZERO, divisor: BN): numb
       ? amount.toBn()
       : BN_ZERO;
 
-  return value.muln(1000).div(divisor).toNumber() / 1000;
+  return value.mul(BN_THOUSAND).div(divisor).toNumber() / 1000;
 }

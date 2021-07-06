@@ -1,19 +1,11 @@
 {
   "name": "@polkadot/app-treasury",
   "private": true,
-  "version": "0.75.2-15",
-  "description": "A referendum & proposal app",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Keith Ingram <keith@parity.io>",
-  "maintainers": [
-    "Keith Ingram <keith@parity.io>",
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "version": "0.86.3-56",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/react-components": "^0.75.2-15",
-    "@polkadot/react-query": "^0.75.2-15"
+    "@babel/runtime": "^7.13.10",
+    "@polkadot/react-components": "^0.86.3-56",
+    "@polkadot/react-query": "^0.86.3-56"
   }
 }

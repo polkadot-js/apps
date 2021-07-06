@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
 import strengthTester from 'owasp-password-strength-test';
 import React from 'react';
 import styled from 'styled-components';
@@ -53,13 +51,14 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
   );
 }
 
-export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
+export default React.memo(styled(PasswordStrength)`
   align-items: center;
   margin-top: 0.5rem;
   margin-left: 2rem;
   font-size: 1rem;
   text-transform: uppercase;
-  color: ${theme.colorLabel};
+  color: var(--color-label);
+
   .ui--Strength-bar {
     position: relative;
     height: 0.6rem;
@@ -69,6 +68,7 @@ export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
     border-radius: 0.15rem;
     background: #ECECEC;
   }
+
   .ui--Strength-bar-highlighted {
     position: absolute;
     top: -0.07rem;
@@ -77,4 +77,4 @@ export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
     border-radius: 0.15rem;
     background: linear-gradient(90.43deg, #FF8B00 0%, #FFBB50 112.75%);
   }
-`));
+`);

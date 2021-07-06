@@ -69,8 +69,8 @@ export function useOwnStashInfos (): StakerState[] | undefined {
       if (ownStashes.length) {
         const stashIds = ownStashes.map(([stashId]) => stashId);
         const fns: any[] = [
-          [api.derive.staking.accounts as any, stashIds],
-          [api.query.staking.validators.multi as any, stashIds]
+          [api.derive.staking.accounts, stashIds],
+          [api.query.staking.validators.multi, stashIds]
         ];
 
         api.combineLatest<[DeriveStakingAccount[], ValidatorInfo[]]>(fns, ([accounts, validators]): void => {

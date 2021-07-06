@@ -42,15 +42,14 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
           isMember={isMember}
           members={members}
         />
-        {/*SD: Commented compnonents below*/}
-        {/*<ProposeExternal
+        <ProposeExternal
           isMember={isMember}
           members={members}
         />
         <Slashing
           isMember={isMember}
           members={members}
-        />*/}
+        />
       </Button.Group>
       <Table
         empty={motions && t<string>('No council motions')}

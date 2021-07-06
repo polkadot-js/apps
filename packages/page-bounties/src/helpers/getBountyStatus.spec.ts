@@ -15,7 +15,7 @@ describe('get bounty status', () => {
   it('for CuratorProposed state it has curator defined', () => {
     const bountyStatus = getBountyStatus(registry.createType('BountyStatus', 'CuratorProposed'));
 
-    expect(bountyStatus.bountyStatus).toEqual('Curator Proposed');
+    expect(bountyStatus.bountyStatus).toEqual('CuratorProposed');
     expect(bountyStatus.curator).toBeDefined();
   });
 
@@ -30,7 +30,7 @@ describe('get bounty status', () => {
   it('for PendingPayout state it has curator, beneficiary and unlock_at defined', () => {
     const bountyStatus = getBountyStatus(registry.createType('BountyStatus', 'PendingPayout'));
 
-    expect(bountyStatus.bountyStatus).toEqual('Pending Payout');
+    expect(bountyStatus.bountyStatus).toEqual('PendingPayout');
     expect(bountyStatus.curator).toBeDefined();
     expect(bountyStatus.beneficiary).toBeDefined();
     expect(bountyStatus.unlockAt).toBeDefined();

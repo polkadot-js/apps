@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { Group } from './types';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
@@ -121,10 +120,10 @@ function loadAffinities (groups: Group[]): Record<string, string> {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
-  const [groups, setGroups] = useState(combineEndpoints(linkOptions));
-  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(settings.get().apiUrl, groups));
-  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
-  const [affinities, setAffinities] = useState(loadAffinities(groups));
+  const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
+  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
+  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
+  const [affinities, setAffinities] = useState(() => loadAffinities(groups));
 
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -282,8 +281,8 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   );
 }
 
-export default React.memo(styled(Endpoints)(({ theme }: ThemeProps) => `
-  color: ${theme.color};
+export default React.memo(styled(Endpoints)`
+  color: var(--color-text);
   padding-top: 3.5rem;
 
   .customButton {
@@ -301,4 +300,4 @@ export default React.memo(styled(Endpoints)(({ theme }: ThemeProps) => `
   .endpointCustomWrapper {
     position: relative;
   }
-`));
+`);

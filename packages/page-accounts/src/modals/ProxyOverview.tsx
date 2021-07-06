@@ -10,8 +10,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { BatchWarning, Button, Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { useApi, useTxBatch } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -41,19 +41,9 @@ interface PrevProxyProps extends ValueProps {
   onRemove: (accountId: AccountId, type: ProxyType, index: number) => void;
 }
 
+const optTxBatch = { isBatchAll: true };
+
 const EMPTY_EXISTING: [ProxyDefinition[], BN] = [[], BN_ZERO];
-
-function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'> | null {
-  if (batchPrevious.length + batchAdded.length === 1) {
-    return batchPrevious.length
-      ? batchPrevious[0]
-      : batchAdded[0];
-  }
-
-  return isFunction(api.tx.utility.batchAll)
-    ? api.tx.utility.batchAll([...batchPrevious, ...batchAdded])
-    : api.tx.utility.batch([...batchPrevious, ...batchAdded]);
-}
 
 function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
@@ -161,11 +151,12 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const { api } = useApi();
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const [previous, setPrevious] = useState<PrevProxy[]>(
     existing.map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType])
   );
   const [added, setAdded] = useState<PrevProxy[]>([]);
+  const extrinsics = useTxBatch(txs, optTxBatch);
 
   const typeOpts = useRef(
     api.createType('ProxyType').defKeys.map((text, value) => ({ text, value }))
@@ -178,9 +169,8 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   }, [api, added]);
 
   useEffect((): void => {
-    (batchPrevious.length || batchAdded.length) &&
-      setExtrinsic(() => createExtrinsic(api, batchPrevious, batchAdded));
-  }, [api, batchPrevious, batchAdded]);
+    setTxs(() => [...batchPrevious, ...batchAdded]);
+  }, [batchPrevious, batchAdded]);
 
   const _addProxy = useCallback(
     () => setAdded((added) =>
@@ -241,58 +231,46 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              isDisabled={true}
-              label={t<string>('proxied account')}
-              type='account'
-              value={proxiedAccount}
+        <Modal.Columns hint={t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}>
+          <InputAddress
+            isDisabled={true}
+            label={t<string>('proxied account')}
+            type='account'
+            value={proxiedAccount}
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}>
+          {previous.map((value, index) => (
+            <PrevProxy
+              index={index}
+              key={`${value.toString()}-${index}`}
+              onRemove={_delPrev}
+              typeOpts={typeOpts.current}
+              value={value}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}</p>
-          </Modal.Column>
+          ))}
+          {added.map((value, index) => (
+            <NewProxy
+              index={index}
+              key={`${value.toString()}-${index}`}
+              onChangeAccount={_changeProxyAccount}
+              onChangeType={_changeProxyType}
+              onRemove={_delProxy}
+              proxiedAccount={proxiedAccount}
+              typeOpts={typeOpts.current}
+              value={value}
+            />
+          ))}
+          <Button.Group>
+            <Button
+              icon='plus'
+              label={t<string>('Add proxy')}
+              onClick={_addProxy}
+            />
+          </Button.Group>
         </Modal.Columns>
         <Modal.Columns>
-          <Modal.Column>
-            {previous.map((value, index) => (
-              <PrevProxy
-                index={index}
-                key={`${value.toString()}-${index}`}
-                onRemove={_delPrev}
-                typeOpts={typeOpts.current}
-                value={value}
-              />
-            ))}
-            {added.map((value, index) => (
-              <NewProxy
-                index={index}
-                key={`${value.toString()}-${index}`}
-                onChangeAccount={_changeProxyAccount}
-                onChangeType={_changeProxyType}
-                onRemove={_delProxy}
-                proxiedAccount={proxiedAccount}
-                typeOpts={typeOpts.current}
-                value={value}
-              />
-            ))}
-            <Button.Group>
-              <Button
-                icon='plus'
-                label={t<string>('Add proxy')}
-                onClick={_addProxy}
-              />
-            </Button.Group>
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <BatchWarning />
-          </Modal.Column>
+          <BatchWarning />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
@@ -307,7 +285,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
         )}
         <TxButton
           accountId={proxiedAccount}
-          extrinsic={extrinsic}
+          extrinsic={extrinsics}
           icon='sign-in-alt'
           isDisabled={isSameAdd || (!batchPrevious.length && !batchAdded.length)}
           onStart={onClose}

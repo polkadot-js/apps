@@ -149,83 +149,58 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              help={t<string>('The call hashes that have not been executed as of yet.')}
-              label={t<string>('pending hashes')}
-              onChange={setHash}
-              options={hashes}
-              value={hash}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('The call hash from the list of available and unapproved calls.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
+          <Dropdown
+            help={t<string>('The call hashes that have not been executed as of yet.')}
+            label={t<string>('pending hashes')}
+            onChange={setHash}
+            options={hashes}
+            value={hash}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Dropdown
-              help={t<string>('Either approve or reject this call.')}
-              label={t<string>('approval type')}
-              onChange={setType}
-              options={calltypes}
-              value={type}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('The operation type to apply. For approvals both non-final and final approvals are supported.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
+          <Dropdown
+            help={t<string>('Either approve or reject this call.')}
+            label={t<string>('approval type')}
+            onChange={setType}
+            options={calltypes}
+            value={type}
+          />
         </Modal.Columns>
         {whoFilter.length !== 0 && (
           <>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={whoFilter}
-                  help={t<string>('The signatory to send the approval/cancel from')}
-                  label={t<string>('signatory')}
-                  onChange={setSignatory}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
+              <InputAddress
+                filter={whoFilter}
+                help={t<string>('The signatory to send the approval/cancel from')}
+                label={t<string>('signatory')}
+                onChange={setSignatory}
+              />
             </Modal.Columns>
             {type === 'aye' && isMultiCall && (
               <>
                 {isCallOverride && (
-                  <Modal.Columns>
-                    <Modal.Column>
-                      <Input
-                        autoFocus
-                        help={t('For final approvals, the actual full call data is required to execute the transaction')}
-                        isError={!callData}
-                        label={t('call data for final approval')}
-                        onChange={_setCallData}
-                      />
-                    </Modal.Column>
-                    <Modal.Column>
-                      <p>{t('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}</p>
-                    </Modal.Column>
+                  <Modal.Columns hint={t('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
+                    <Input
+                      autoFocus
+                      help={t('For final approvals, the actual full call data is required to execute the transaction')}
+                      isError={!callData}
+                      label={t('call data for final approval')}
+                      onChange={_setCallData}
+                    />
                   </Modal.Columns>
                 )}
-                <Modal.Columns>
-                  <Modal.Column>
-                    <Toggle
-                      className='tipToggle'
-                      label={
-                        isMultiCall
-                          ? t<string>('Multisig message with call (for final approval)')
-                          : t<string>('Multisig approval with hash (non-final approval)')
-                      }
-                      onChange={setCallOverride}
-                      value={isCallOverride}
-                    />
-                  </Modal.Column>
-                  <Modal.Column>
-                    <p>{t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}</p>
-                  </Modal.Column>
+                <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
+                  <Toggle
+                    className='tipToggle'
+                    label={
+                      isMultiCall
+                        ? t<string>('Multisig message with call (for final approval)')
+                        : t<string>('Multisig approval with hash (non-final approval)')
+                    }
+                    onChange={setCallOverride}
+                    value={isCallOverride}
+                  />
                 </Modal.Columns>
               </>
             )}

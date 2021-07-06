@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
@@ -11,7 +12,7 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
+import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -22,9 +23,7 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import * as councilProposals from '@polkadot/api-derive/council/proposals';
-
-import { rpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
+import { poaRpcDefs, stakingRewardsRpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
@@ -132,9 +131,9 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
-  const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]) ;
+  const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
-  const isDevelopment = !isEthereum && (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
+  const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
@@ -162,7 +161,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
-  const isSubstrateV2 = !!Object.keys(api.consts).length;
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
@@ -173,7 +171,6 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
-    isSubstrateV2,
     systemChain,
     systemName,
     systemVersion
@@ -200,7 +197,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const types = getDevTypes();
 
     // api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
-    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesBundle, typesChain, typesSpec, derives: {council: councilProposals} });
+    api = new ApiPromise({ provider, registry, rpc: { poa: poaRpcDefs, staking_rewards: stakingRewardsRpcDefs }, signer, types, typesBundle, typesChain });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

@@ -26,7 +26,7 @@ const JUDGEMENT_ENUM = [
 function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [addresses] = useState(registrars.map(({ address }) => address));
+  const [addresses] = useState(() => registrars.map(({ address }) => address));
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
   const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
   const [registrarIndex, setRegistrarIndex] = useState(-1);

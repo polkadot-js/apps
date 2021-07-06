@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
@@ -8,17 +10,18 @@ import styled from 'styled-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
 interface Props {
-  blocks?: BN;
+  api?: ApiPromise;
   children?: React.ReactNode;
   className?: string;
   isInline?: boolean;
   label?: React.ReactNode;
+  value?: BN;
 }
 
-function BlockToTime ({ blocks, children, className = '', isInline, label }: Props): React.ReactElement<Props> | null {
-  const [, text] = useBlockTime(blocks);
+function BlockToTime ({ api, children, className = '', isInline, label, value }: Props): React.ReactElement<Props> | null {
+  const [, text] = useBlockTime(value, api);
 
-  if (blocks?.ltn(0)) {
+  if (!value || value.isZero()) {
     return null;
   }
 

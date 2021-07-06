@@ -10,6 +10,7 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   label?: React.ReactNode;
+  noLabel?: boolean;
   variant?: 'app' | 'cover' | 'push' | 'mini';
 }
 
@@ -18,7 +19,7 @@ const img = new Image();
 
 img.src = spinnerSrc as string;
 
-function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
+function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -27,14 +28,14 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
         className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
         src={spinnerSrc as string}
       />
-      {variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
+      {!noLabel && variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
   );
 }
 
 export default React.memo(styled(Spinner)`
   display: block;
-  line-height: 1;
+  line-height: 1rem;
   margin: 0 auto;
   text-align: center;
 

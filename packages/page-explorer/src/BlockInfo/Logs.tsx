@@ -28,10 +28,9 @@ function formatU8a (value: Raw): React.ReactNode {
 }
 
 function formatStruct (struct: Struct): React.ReactNode {
-  const types: Record<string, string> = struct.Type;
-  const params = Object.keys(types).map((name): { name: string; type: TypeDef } => ({
+  const params = Object.entries(struct.Type).map(([name, value]): { name: string; type: TypeDef } => ({
     name,
-    type: getTypeDef(types[name])
+    type: getTypeDef(value)
   }));
   const values = struct.toArray().map((value): { isValid: boolean; value: Codec } => ({
     isValid: true,
@@ -48,8 +47,7 @@ function formatStruct (struct: Struct): React.ReactNode {
 }
 
 function formatTuple (tuple: Tuple): React.ReactNode {
-  const types = tuple.Types;
-  const params = types.map((type): { type: TypeDef } => ({
+  const params = tuple.Types.map((type): { type: TypeDef } => ({
     type: getTypeDef(type)
   }));
   const values = tuple.toArray().map((value): { isValid: boolean; value: Codec } => ({
@@ -100,8 +98,7 @@ function formatItem (item: DigestItem): React.ReactNode {
   return <div>{item.value.toString().split(',').join(', ')}</div>;
 }
 
-function Logs (props: Props): React.ReactElement<Props> | null {
-  const { value } = props;
+function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const headerRef = useRef([[t('logs'), 'start']]);

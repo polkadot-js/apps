@@ -23,30 +23,8 @@ export interface AppProps {
 
 export type I18nProps = BareProps & WithTranslation;
 
-export type ConstructTxFn = () => any[];
-
-export interface TxTriggerProps {
-  onOpen: () => void;
-}
-
-export type TxTrigger = React.ComponentType<TxTriggerProps>;
-
-export interface TxProps {
-  extrinsic?: SubmittableExtrinsic | SubmittableExtrinsic[] | null;
-  tx?: string;
-  params?: any[] | ConstructTxFn;
-}
-
-export interface TxAccountProps {
-  className?: string;
-  filter?: string[];
-  label?: React.ReactNode;
-  help?: React.ReactNode;
-  onChange: (value: string | null) => void;
-}
-
-export interface TxButtonProps extends TxProps {
-  accountId?: AccountId | StringOrNull;
+export interface TxButtonProps {
+  accountId?: AccountId | string | null;
   accountNonce?: Index;
   className?: string;
   extrinsic?: SubmittableExtrinsic<'promise'> | SubmittableExtrinsic<'promise'>[] | null;
@@ -93,28 +71,6 @@ export interface NullContract {
 }
 
 export interface ThemeDef {
-  bgInput: string;
-  bgInputError: string;
-  bgInverse: string;
-  bgMenu: string;
-  bgMenuHover: string;
-  bgPage: string;
-  bgTable: string;
-  bgTabs: string;
-  bgToggle: string;
-  borderTable: string;
-  borderTabs: string;
-  color: string;
-  colorCheckbox: string;
-  colorError: string;
-  colorLabel: string;
-  colorSummary: string;
-  contentHalfWidth: string;
-  contentMaxWidth: string;
-  fontSans: string;
-  fontMono: string;
-  fontWeightLight: number;
-  fontWeightNormal: number;
   theme: 'dark' | 'light';
 }
 

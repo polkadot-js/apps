@@ -34,12 +34,10 @@ function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
 
   return (
     <main className='toolbox--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <Switch>
         <Route path={`${basePath}/hash`}><Hash /></Route>
         <Route path={`${basePath}/verify`}><Verify /></Route>

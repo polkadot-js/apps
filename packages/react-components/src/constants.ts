@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export enum BitLengthOption {
-  CHAIN_SPEC = 128,
+  CHAIN_SPEC = 64,  // Because Balance type is u64
   NORMAL_NUMBERS = 32
 }
 

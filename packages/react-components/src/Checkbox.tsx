@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -38,7 +36,7 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 }
 
-export default React.memo(styled(Checkbox)(({ theme }: ThemeProps) => `
+export default React.memo(styled(Checkbox)`
   display: inline-block;
   cursor: pointer;
 
@@ -51,7 +49,7 @@ export default React.memo(styled(Checkbox)(({ theme }: ThemeProps) => `
   }
 
   > label {
-    color: ${theme.color};
+    color: var(--color-text);
     display: inline-block;
     margin: 0 0.5rem;
     opacity: 1;
@@ -65,7 +63,7 @@ export default React.memo(styled(Checkbox)(({ theme }: ThemeProps) => `
   }
 
   .ui--Icon {
-    border: 1px solid ${theme.colorCheckbox};
+    border: 1px solid var(--color-checkbox);
     border-radius: 0.125rem;
   }
-`));
+`);

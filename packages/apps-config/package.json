@@ -1,26 +1,29 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.75.2-15",
+  "version": "0.86.3-56",
+  "license": "Apache-2.0",
+  "type": "module",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
   "dependencies": {
-    "@acala-network/type-definitions": "^0.6.1",
-    "@babel/runtime": "^7.12.5",
+    "@acala-network/type-definitions": "^0.7.2-4",
+    "@babel/runtime": "^7.13.10",
+    "@crustio/type-definitions": "0.0.5",
+    "@darwinia/types": "^1.1.0-alpha.6",
     "@docknetwork/node-types": "^0.4.6",
-    "@edgeware/node-types": "^3.2.0",
-    "@interlay/polkabtc-types": "^0.2.9",
-    "@laminar/type-definitions": "^0.2.0-beta.143",
-    "@polkadot/networks": "^5.2.3",
-    "@sora-substrate/type-definitions": "^0.3.3",
-    "@subsocial/types": "^0.4.28",
-    "moonbeam-types-bundle": "^1.0.5"
+    "@edgeware/node-types": "^3.3.4",
+    "@equilab/definitions": "1.0.3",
+    "@interlay/polkabtc-types": "^0.6.2",
+    "@laminar/type-definitions": "^0.3.1",
+    "@polkadot/networks": "^6.0.5",
+    "@snowfork/snowbridge-types": "^0.2.3",
+    "@sora-substrate/type-definitions": "^0.8.0",
+    "@subsocial/types": "^0.4.36",
+    "@zeitgeistpm/type-defs": "^0.1.36",
+    "moonbeam-types-bundle": "1.1.12"
   },
   "devDependencies": {
-    "i18next": "^19.8.4"
+    "i18next": "^19.9.2"
   }
 }

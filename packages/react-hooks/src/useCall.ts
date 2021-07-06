@@ -4,12 +4,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Codec } from '@polkadot/types/types';
 import type { CallOptions, CallParam, CallParams } from './types';
+import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { isNull, isUndefined } from '@polkadot/util';
 
-import { MountedRef, useIsMountedRef } from './useIsMountedRef';
+import { useIsMountedRef } from './useIsMountedRef';
 
 type VoidFn = () => void;
 
@@ -28,7 +29,7 @@ interface TrackFn {
   };
 }
 
-interface Tracker {
+export interface Tracker {
   isActive: boolean;
   serialized: string | null;
   subscriber: TrackFnResult | null;
@@ -39,7 +40,7 @@ interface TrackerRef {
 }
 
 // the default transform, just returns what we have
-function transformIdentity <T> (value: unknown): T {
+export function transformIdentity <T> (value: unknown): T {
   return value as T;
 }
 
@@ -54,7 +55,7 @@ function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transfo
 }
 
 // unsubscribe and remove from  the tracker
-function unsubscribe (tracker: TrackerRef): void {
+export function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {

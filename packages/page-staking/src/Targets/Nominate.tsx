@@ -6,7 +6,7 @@ import type { StakerState } from '@polkadot/react-hooks/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
+import { AddressMini, Button, InputAddress, Modal, Static, TxButton, MarkWarning } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -61,45 +61,44 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
           header={t<string>('Nominate validators')}
           size='large'
         >
-          <Modal.Content>
+          <Modal.Description>
             <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={stashes}
-                  help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
-                  label={t<string>('the stash account to nominate with')}
-                  onChange={_onChangeStash}
-                  value={ids?.stashId}
-                />
-                <InputAddress
-                  isDisabled
-                  label={t<string>('the associated controller')}
-                  value={ids?.controllerId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}</p>
-              </Modal.Column>
+              <MarkWarning content={t<string>('This will reset your current nominated validators.')} />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Static
-                  label={t<string>('selected validators')}
-                  value={
-                    targets.map((validatorId) => (
-                      <AddressMini
-                        className='addressStatic'
-                        key={validatorId}
-                        value={validatorId}
-                      />
-                    ))
-                  }
-                />
-              </Modal.Column>
-              <Modal.Column>
+          </Modal.Description>
+          <Modal.Content>
+            <Modal.Columns hint={t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
+              <InputAddress
+                filter={stashes}
+                help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
+                label={t<string>('the stash account to nominate with')}
+                onChange={_onChangeStash}
+                value={ids?.stashId}
+              />
+              <InputAddress
+                isDisabled
+                label={t<string>('the associated controller')}
+                value={ids?.controllerId}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={
+              <>
                 <p>{t<string>('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
                 <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
-              </Modal.Column>
+              </>
+            }>
+              <Static
+                label={t<string>('selected validators')}
+                value={
+                  targets.map((validatorId) => (
+                    <AddressMini
+                      className='addressStatic'
+                      key={validatorId}
+                      value={validatorId}
+                    />
+                  ))
+                }
+              />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>

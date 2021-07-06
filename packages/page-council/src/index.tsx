@@ -41,7 +41,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Council overview')
+      text: t<string>('Overview')
     },
     {
       count: numMotions,
@@ -52,12 +52,10 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
       <Switch>
         <Route path={`${basePath}/motions`}>
           <Motions

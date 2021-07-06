@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HeaderExtended } from '@polkadot/api-derive/types';
+
 import React, { useRef } from 'react';
 
-import { HeaderExtended } from '@polkadot/api-derive';
 import { Table } from '@polkadot/react-components';
 
 import BlockHeader from './BlockHeader';
@@ -27,7 +28,7 @@ function BlockHeaders ({ headers, title = 'recent blocks' }: Props): React.React
       header={headerRef.current}
     >
       {headers
-        .slice(0, 10)
+        .slice(0, 20) // Show last 20 block headers
         .filter((header) => !!header)
         .map((header): React.ReactNode => (
           <BlockHeader
