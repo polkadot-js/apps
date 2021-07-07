@@ -17,6 +17,7 @@ import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
+import crab from './crab';
 import crust from './crust';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
@@ -60,6 +61,7 @@ import nodle from './nodle';
 import oakTestnet from './oak-testnet';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
+import pangolin from './pangolin';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -97,11 +99,13 @@ import zero from './zero';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
-  ...darwinia,
+  Crab: crab,
+  Darwinia: darwinia,
   'Darwinia Crab PC2': darwiniaParachain,
   'Darwinia PC2': darwiniaParachain,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
+  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
