@@ -3,6 +3,6 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { typesBundleForPolkadot } from '@darwinia/types/mix';
+import { typesBundleForPolkadotApps } from '@darwinia/types/mix';
 
-export default typesBundleForPolkadot.spec.pangolin as unknown as OverrideBundleDefinition;
+export default typesBundleForPolkadotApps.spec.Pangolin as unknown as OverrideBundleDefinition;

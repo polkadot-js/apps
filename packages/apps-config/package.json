@@ -10,7 +10,7 @@
     "@acala-network/type-definitions": "^1.0.2-2",
     "@babel/runtime": "^7.14.6",
     "@crustio/type-definitions": "0.0.10",
-    "@darwinia/types": "^1.1.0-alpha.22",
+    "@darwinia/types": "^1.1.4",
     "@digitalnative/type-definitions": "^1.1.9",
     "@docknetwork/node-types": "^0.4.6",
     "@edgeware/node-types": "^3.6.1-wako",
