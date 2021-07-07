@@ -32,19 +32,24 @@ const definitions: OverrideBundleDefinition = {
             'Weapon'
           ]
         },
+        pallet_nfts: 'u8',
+        Basic: 'u8',
+        TokenId: 'U256',
+        Tapes: {
+          id: 'TokenId',
+          tape: 'u8'
+        },
         Params: {
           strength: 'u8',
           agility: 'u8',
           intelligence: 'u8'
         },
-        pallet_nfts: 'u8',
-        TokenId: 'U256',
-        Basic: 'u8',
         Mergeable: {
           rarity: 'Rarity',
           socket: 'Socket',
           params: 'Params'
         },
+
         Stackable: {
           _enum: [
             'Silver',
@@ -52,7 +57,8 @@ const definitions: OverrideBundleDefinition = {
             'Diamond'
           ]
         },
-        Type: {
+
+        TokenType: {
           _enum: {
             Mergeable: 'Mergeable',
             Stackable: 'Stackable',
@@ -60,8 +66,8 @@ const definitions: OverrideBundleDefinition = {
           }
         },
         Token: {
-          id: 'TokenId',
-          token_type: 'Type'
+          token_id: 'TokenId',
+          token: 'TokenType'
         },
         AttributeTransaction: {
           signature: 'Signature',
