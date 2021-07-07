@@ -143,6 +143,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'fantour',
+      text: t('rpc.test.fantour', 'Fantour', { ns: 'apps-config' }),
+      providers: {
+        FantourDev: 'wss://test-ws.fantour.io'
+      }
+    },
+    {
       info: 'Galital',
       text: t('rpc.test.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {
