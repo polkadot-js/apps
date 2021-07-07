@@ -37,7 +37,6 @@ const definitions: OverrideBundleDefinition = {
           agility: 'u8',
           intelligence: 'u8'
         },
-        pallet_nfts: 'u8',
         TokenId: 'U256',
         Basic: 'u8',
         Mergeable: {
@@ -52,16 +51,16 @@ const definitions: OverrideBundleDefinition = {
             'Diamond'
           ]
         },
-        Type: {
+        Types: {
           _enum: {
-            Mergeable: 'Mergeable',
-            Stackable: 'Stackable',
-            Basic: 'Basic'
+            mergeable: 'Mergeable',
+            stackable: 'Stackable',
+            basic: 'Basic'
           }
         },
         Token: {
           id: 'TokenId',
-          token_type: 'Type'
+          token_type: 'Types'
         },
         AttributeTransaction: {
           signature: 'Signature',
