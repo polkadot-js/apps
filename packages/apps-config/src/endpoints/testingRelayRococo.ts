@@ -259,6 +259,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoLoomNetwork',
+        paraId: 2043,
+        text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://rococo.dappchains.com'
+        }
+      },
+      {
         info: 'rococoAcala',
         isDisabled: true, // Rococo reset
         paraId: 1000,
