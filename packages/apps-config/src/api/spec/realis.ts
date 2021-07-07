@@ -60,14 +60,14 @@ const definitions: OverrideBundleDefinition = {
 
         TokenType: {
           _enum: {
-            Mergeable:  'Mergeable',
-            Stackable:  'Stackable',
-            Basic:      'Basic'
+            Mergeable: 'Mergeable',
+            Stackable: 'Stackable',
+            Basic: 'Basic'
           }
         },
         Token: {
           token_id: 'TokenId',
-          token:    'TokenType'
+          token: 'TokenType'
         },
         AttributeTransaction: {
           signature: 'Signature',
