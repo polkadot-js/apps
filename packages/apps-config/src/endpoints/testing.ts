@@ -439,6 +439,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       providers: {
         ZERO: 'wss://alphaville.zero.io'
       }
+    },
+    {
+      info: 'zCloak',
+      text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
+      providers: {
+        'zCloak Network': 'wss://test1.zcloak.network'
+      }
     }
   ], firstOnly);
 }

@@ -121,6 +121,7 @@ import nodeWhala from './nodes/whala.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import nodeZCloak from './nodes/localtestnet.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -231,7 +232,8 @@ export const chainLogos = Object.entries({
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
-  WILT: nodeKilt
+  WILT: nodeKilt,
+  'zcloak poc1': nodeZCloak
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [sanitize(chain)]: logo
@@ -367,7 +369,8 @@ export const nodeLogos = Object.entries({
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
-  'Zenlink Collator': nodeZenlink
+  'Zenlink Collator': nodeZenlink,
+  'zcloak node': nodeZCloak
 }).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
   ...logos,
   [sanitize(node)]: logo
@@ -541,7 +544,8 @@ export const namedLogos: Record<string, unknown> = {
   westmint: nodeStatemine,
   whala: nodeWhala,
   zeitgeist: nodeZeitgeist,
-  zero: nodeZero
+  zero: nodeZero,
+  zCloak: nodeZCloak
 };
 
 // extension logos
