@@ -121,7 +121,7 @@ import nodeWhala from './nodes/whala.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-import nodeZCloak from './nodes/localtestnet.svg';
+import nodeZCloak from './nodes/zCloak.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
