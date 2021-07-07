@@ -29,7 +29,6 @@ const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
-const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -106,6 +105,7 @@ const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
@@ -190,8 +190,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
-  'IntegriTEE Network': chainIntegritee,
-  'IntegriTEE PC1': chainIntegritee,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -306,6 +304,7 @@ export const nodeColors = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
