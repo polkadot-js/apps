@@ -59,7 +59,7 @@ import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
-import nodeIntegritee from './nodes/integritee.png';
+import nodeIntegritee from './nodes/integritee.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
@@ -156,8 +156,6 @@ export const chainLogos = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: nodeIdavoll,
-  'IntegriTEE Network': nodeIntegritee,
-  'IntegriTEE PC1': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -284,6 +282,7 @@ export const nodeLogos = Object.entries({
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   'Idavoll Node': nodeIdavoll,
+  'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
@@ -429,7 +428,6 @@ export const namedLogos: Record<string, unknown> = {
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
-  integritee: nodeIntegritee,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
   karura: chainKarura,
@@ -489,7 +487,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
-  rococoIntegritee: nodeIntegritee,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
