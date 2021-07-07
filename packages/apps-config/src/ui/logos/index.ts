@@ -53,6 +53,7 @@ import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeFantour from './nodes/fantour.png';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
@@ -69,6 +70,7 @@ import nodeKulupu from './nodes/kulupu.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
+import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
@@ -173,6 +175,8 @@ export const chainLogos = Object.entries({
   'Kusama CC3': chainKusama,
   'Kylin Testnet': nodeKylin,
   Litentry: nodeLitentry,
+  'Loom Network Local': nodeLoomNetwork,
+  LoomNetwork: nodeLoomNetwork,
   'Manta Testnet': nodeManta,
   Mars: nodeAres,
   'MathChain PC1': nodeMath,
@@ -272,6 +276,7 @@ export const nodeLogos = Object.entries({
   'Encointer Node': nodeEncointerNotee,
   'Encointer Node noTEE': nodeEncointerNotee,
   'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  'Fantour Node': nodeFantour,
   'Galital Parachain Collator': nodeGalital,
   Galois: nodeMath,
   'GamePower Node': nodeGamePower,
@@ -415,6 +420,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
   equilibrium: chainEquilibrium,
+  fantour: nodeFantour,
   galital: nodeGalital,
   galois: nodeMath,
   gamepower: nodeGamePower,
@@ -436,6 +442,7 @@ export const namedLogos: Record<string, unknown> = {
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
+  loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
   mars: nodeAres,
   moonbaseAlpha: moonbeam,
@@ -489,6 +496,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
+  rococoLoomNetwork: nodeLoomNetwork,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,
