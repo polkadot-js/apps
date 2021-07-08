@@ -427,6 +427,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'zCloak',
+      text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
+      providers: {
+        'zCloak Network': 'wss://test1.zcloak.network'
+      }
+    },
+    {
       info: 'zeitgeist',
       text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
       providers: {
@@ -438,13 +445,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.zero', 'Zero', { ns: 'apps-config' }),
       providers: {
         ZERO: 'wss://alphaville.zero.io'
-      }
-    },
-    {
-      info: 'zCloak',
-      text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
-      providers: {
-        'zCloak Network': 'wss://test1.zcloak.network'
       }
     }
   ], firstOnly);
