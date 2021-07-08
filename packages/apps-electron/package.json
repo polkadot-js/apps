@@ -6,7 +6,7 @@
   "dependencies": {
     "@babel/core": "^7.14.6",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.62.50",
+    "@polkadot/dev": "^0.62.52",
     "@polkadot/react-components": "^0.94.2-50",
     "electron-log": "^4.3.5",
     "electron-updater": "^4.3.10"
