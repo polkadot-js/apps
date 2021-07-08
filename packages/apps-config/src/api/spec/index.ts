@@ -97,6 +97,7 @@ import westlake from './westlake';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
+import zCloak from './zCloak';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
@@ -210,7 +211,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
-  zeitgeist: zeitgeist
+  zeitgeist: zeitgeist,
+  'zcloak-network': zCloak
 };
 
 export default spec;
