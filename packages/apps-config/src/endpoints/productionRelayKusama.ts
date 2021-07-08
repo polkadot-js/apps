@@ -54,6 +54,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'basilisk',
+        homepage: 'https://bsx.fi',
+        paraId: 2082,
+        text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://rpc-01.basilisk.hydradx.io'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
@@ -152,6 +161,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
         providers: {
           Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
+        info: 'loomNetwork',
+        homepage: 'https://loomx.io/',
+        paraId: 2080,
+        text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://kusama.dappchains.com'
         }
       },
       {

@@ -53,12 +53,13 @@ import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeFantour from './nodes/fantour.png';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
-import nodeIntegritee from './nodes/integritee.png';
+import nodeIntegritee from './nodes/integritee.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
@@ -69,6 +70,7 @@ import nodeKulupu from './nodes/kulupu.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
+import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
 import moonbeam from './nodes/moonbeam.png';
@@ -154,8 +156,6 @@ export const chainLogos = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: nodeIdavoll,
-  'IntegriTEE Network': nodeIntegritee,
-  'IntegriTEE PC1': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -173,6 +173,8 @@ export const chainLogos = Object.entries({
   'Kusama CC3': chainKusama,
   'Kylin Testnet': nodeKylin,
   Litentry: nodeLitentry,
+  'Loom Network Local': nodeLoomNetwork,
+  LoomNetwork: nodeLoomNetwork,
   'Manta Testnet': nodeManta,
   Mars: nodeAres,
   'MathChain PC1': nodeMath,
@@ -272,6 +274,7 @@ export const nodeLogos = Object.entries({
   'Encointer Node': nodeEncointerNotee,
   'Encointer Node noTEE': nodeEncointerNotee,
   'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  'Fantour Node': nodeFantour,
   'Galital Parachain Collator': nodeGalital,
   Galois: nodeMath,
   'GamePower Node': nodeGamePower,
@@ -279,6 +282,7 @@ export const nodeLogos = Object.entries({
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   'Idavoll Node': nodeIdavoll,
+  'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
@@ -415,6 +419,7 @@ export const namedLogos: Record<string, unknown> = {
   encointer_cantillon: nodeEncointerTeeproxy,
   encointer_gesell: nodeEncointerNotee,
   equilibrium: chainEquilibrium,
+  fantour: nodeFantour,
   galital: nodeGalital,
   galois: nodeMath,
   gamepower: nodeGamePower,
@@ -423,7 +428,6 @@ export const namedLogos: Record<string, unknown> = {
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
-  integritee: nodeIntegritee,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
   karura: chainKarura,
@@ -436,6 +440,7 @@ export const namedLogos: Record<string, unknown> = {
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
+  loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
   mars: nodeAres,
   moonbaseAlpha: moonbeam,
@@ -482,13 +487,13 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
-  rococoIntegritee: nodeIntegritee,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
   rococoLitentry: nodeLitentry,
+  rococoLoomNetwork: nodeLoomNetwork,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
   rococoMoonrock: nodeMoonrock,

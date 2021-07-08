@@ -191,7 +191,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoHalongbay',
         paraId: 2018,
-        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'apps-config' }),
         providers: {
           Halongbay: 'wss://halongbay.polkafoundry.com'
         }
@@ -256,6 +256,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
         providers: {
           Litentry: 'wss://rococov1.litentry.io'
+        }
+      },
+      {
+        info: 'rococoLoomNetwork',
+        paraId: 2043,
+        text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://rococo.dappchains.com'
         }
       },
       {
@@ -429,7 +437,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
-        paraId: 2040,
+        paraId: 2049,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitgeist: 'wss://roc.zeitgeist.pm'
