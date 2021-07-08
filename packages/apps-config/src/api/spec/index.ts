@@ -211,8 +211,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
-  zeitgeist: zeitgeist,
-  'zcloak-network': zCloak
+  'zcloak-network': zCloak,
+  zeitgeist: zeitgeist
 };
 
 export default spec;
