@@ -49,7 +49,6 @@ export interface Campaigns {
 }
 
 export interface Campaign extends WinnerData {
-  childKey: string;
   info: FundInfo;
   isCapped?: boolean;
   isEnded?: boolean;
