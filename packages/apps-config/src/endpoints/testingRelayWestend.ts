@@ -63,6 +63,14 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'integritee',
+        paraId: 2081,
+        text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),
+        providers: {
+          Integritee: 'wss://teerw1.integritee.network'
+        }
+      },
+      {
         info: 'moonshadow',
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
