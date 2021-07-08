@@ -13,6 +13,14 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Class: 'Vec<u8>',
+        TaskStatus: {
+          _enum: [
+            'JustCreated',
+            'Verifying',
+            'VerifiedTrue',
+            'VerifiedFalse'
+          ]
+        },
         Status: {
           verifiers: 'Vec<u32>',
           ayes: 'u32',
@@ -30,7 +38,7 @@ const definitions: OverrideBundleDefinition = {
           inputs: 'Vec<u128>',
           outputs: 'Vec<u128>',
           program_hash: '[u8; 32]',
-          is_task_finish: 'Option<bool>',
+          is_task_finish: 'Option<TaskStatus>',
           expiration: 'Option<BlockNumber>'
         }
       }
