@@ -1,16 +1,16 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx, AugmentedQuery, RxResult } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 
 import { equilibrium, equilibriumNext } from '@equilab/definitions';
 import BN from 'bn.js';
+import { map } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
-import { map } from '@polkadot/x-rxjs/operators';
 
 interface SignedBalance extends Enum {
   readonly isPositive: boolean;
