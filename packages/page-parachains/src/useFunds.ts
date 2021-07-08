@@ -37,17 +37,6 @@ function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
   return leased.some((l) => l.eq(paraId));
 }
 
-function createChildKey (trieIndex: TrieIndex): string {
-  return u8aToHex(
-    u8aConcat(
-      ':child_storage:default:',
-      blake2AsU8a(
-        u8aConcat('crowdloan', trieIndex.toU8a())
-      )
-    )
-  );
-}
-
 // map into a campaign
 function updateFund (bestNumber: BN, minContribution: BN, data: Campaign, leased: ParaId[]): Campaign {
   data.isCapped = data.info.cap.sub(data.info.raised).lt(minContribution);
@@ -129,7 +118,6 @@ const optFundMulti = {
       .filter((v): v is [ParaId, FundInfo] => !!v[1])
       .map(([paraId, info]): Campaign => ({
         accountId: encodeAddress(createAddress(paraId)),
-        childKey: createChildKey(info.trieIndex),
         firstSlot: info.firstPeriod,
         info,
         isCrowdloan: true,
