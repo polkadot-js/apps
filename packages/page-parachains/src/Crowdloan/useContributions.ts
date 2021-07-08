@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveContributions } from '@polkadot/api-derive/types';
+import type { DeriveContributions, DeriveOwnContributions } from '@polkadot/api-derive/types';
 import type { Balance, ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 interface Result extends DeriveContributions {
@@ -19,52 +19,20 @@ interface Result extends DeriveContributions {
 const NO_CONTRIB: Result = {
   blockHash: '-',
   childKey: '',
-  contributorsAdded: [],
   contributorsHex: [],
   contributorsMap: {},
-  contributorsRemoved: [],
   hasLoaded: false,
   myAccounts: [],
   myAccountsHex: [],
   myContributions: {}
 };
 
-function useMyContributions (childKey: string, keys: string[]): Record<string, Balance> {
-  const { api } = useApi();
-  const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<Record<string, Balance>>({});
-
-  useEffect((): void => {
-    if (childKey && keys.length) {
-      Promise
-        .all(keys.map((k) => api.rpc.childstate.getStorage(childKey, k)))
-        .then((values) =>
-          mountedRef.current && setState(
-            values
-              .map((v) => api.createType('Option<StorageData>', v))
-              .map((o) =>
-                o.isSome
-                  ? api.createType('Balance', o.unwrap())
-                  : api.createType('Balance')
-              )
-              .reduce((all, b, index) => ({ ...all, [keys[index]]: b }), {})
-          )
-        )
-        .catch(console.error);
-    } else {
-      setState({});
-    }
-  }, [api, childKey, keys, mountedRef]);
-
-  return state;
-}
-
 export default function useContributions (paraId: ParaId): Result {
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
   const [state, setState] = useState<Result>(() => NO_CONTRIB);
   const derive = useCall<DeriveContributions>(api.derive.crowdloan.contributions, [paraId]);
-  const myContributions = useMyContributions(state.childKey, state.myAccountsHex);
+  const myContributions = useCall<DeriveOwnContributions>(api.derive.crowdloan.ownContributions, [paraId, state.myAccountsHex]);
 
   useEffect((): void => {
     derive && setState((prev): Result => {
