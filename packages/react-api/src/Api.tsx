@@ -81,7 +81,6 @@ function getDevTypes (): Record<string, Record<string, string>> {
 async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
   try {
     await injectedPromise;
-
     const accounts = await web3Accounts();
 
     return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
@@ -91,7 +90,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
       },
-      type
+      type: type || 'sr25519'
     }));
   } catch (error) {
     console.error('web3Accounts', error);
