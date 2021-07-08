@@ -18,9 +18,7 @@ interface Result extends DeriveContributions {
 
 const NO_CONTRIB: Result = {
   blockHash: '-',
-  childKey: '',
   contributorsHex: [],
-  contributorsMap: {},
   hasLoaded: false,
   myAccounts: [],
   myAccountsHex: [],

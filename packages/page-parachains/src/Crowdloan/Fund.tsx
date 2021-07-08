@@ -36,7 +36,7 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const { blockHash: contribHash, contributorsHex, hasLoaded, myAccounts, myAccountsHex, myContributions } = useContributions(paraId);
+  const { blockHash, contributorsHex, hasLoaded, myAccounts, myAccountsHex, myContributions } = useContributions(paraId);
   const [lastChange, setLastChange] = useState<LastChange>(() => ({ prevHash: '', prevLength: 0 }));
 
   const isDepositor = useMemo(
@@ -73,10 +73,10 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
       const prevLength = contributorsHex.length;
 
       return prev.prevLength !== prevLength
-        ? { prevHash: contribHash, prevLength }
+        ? { prevHash: blockHash, prevLength }
         : prev;
     });
-  }, [contributorsHex, contribHash]);
+  }, [contributorsHex, blockHash]);
 
   return (
     <tr className={`${className || ''} ${isOdd ? 'isOdd' : 'isEven'}`}>
