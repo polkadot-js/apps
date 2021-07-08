@@ -191,7 +191,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoHalongbay',
         paraId: 2018,
-        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'apps-config' }),
         providers: {
           Halongbay: 'wss://halongbay.polkafoundry.com'
         }
