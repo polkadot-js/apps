@@ -31,7 +31,7 @@ const SLASH: Record<string, number> = {
 const TREASURY: Record<string, number> = {
   [KULUPU_GENESIS]: 1 / 2,
   [KUSAMA_GENESIS]: 3 / 5,
-  [POLKADOT_GENESIS]: 3 / 4,
+  [POLKADOT_GENESIS]: 3 / 5,
   default: 3 / 5
 };
 
