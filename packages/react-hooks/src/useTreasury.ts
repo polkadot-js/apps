@@ -7,43 +7,48 @@ import type { Balance } from '@polkadot/types/interfaces';
 import { useEffect, useState } from 'react';
 
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import { BN_MILLION, BN_ZERO, stringToU8a } from '@polkadot/util';
+import { BN_MILLION, BN_ZERO, u8aConcat } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
-const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
+const EMPTY_U8A_32 = new Uint8Array(32);
 
 interface Result {
   value?: Balance;
   burn?: BN;
   spendPeriod: BN;
+  treasuryAccount: Uint8Array;
 }
 
 export function useTreasury (): Result {
   const { api } = useApi();
-  const [result, setResult] = useState<Result>({
+  const [result, setResult] = useState<Result>(() => ({
     spendPeriod: api.consts.treasury
       ? api.consts.treasury.spendPeriod
-      : BN_ZERO
-  });
+      : BN_ZERO,
+    treasuryAccount: u8aConcat(
+      'modl',
+      api.consts.treasury && api.consts.treasury.palletId
+        ? api.consts.treasury.palletId.toU8a(true)
+        : 'py/trsry',
+      EMPTY_U8A_32
+    ).subarray(0, 32)
+  }));
+  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances?.account, [result.treasuryAccount]);
 
-  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances?.account, [TREASURY_ACCOUNT]);
-
-  useEffect(() => {
-    if (!api.consts.treasury) {
-      return;
-    }
-
-    setResult(({ spendPeriod }) => ({
-      burn: treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-        ? api.consts.treasury.burn.mul(treasuryBalance.freeBalance).div(BN_MILLION)
-        : BN_ZERO,
-      spendPeriod,
-      value: treasuryBalance?.freeBalance.gtn(0)
-        ? treasuryBalance.freeBalance
-        : undefined
-    }));
+  useEffect((): void => {
+    treasuryBalance && api.consts.treasury &&
+      setResult(({ spendPeriod, treasuryAccount }) => ({
+        burn: treasuryBalance.freeBalance.gt(BN_ZERO) && !api.consts.treasury.burn.isZero()
+          ? api.consts.treasury.burn.mul(treasuryBalance.freeBalance).div(BN_MILLION)
+          : BN_ZERO,
+        spendPeriod,
+        treasuryAccount,
+        value: treasuryBalance.freeBalance.gt(BN_ZERO)
+          ? treasuryBalance.freeBalance
+          : undefined
+      }));
   }, [api, treasuryBalance]);
 
   return result;
