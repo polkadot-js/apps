@@ -585,6 +585,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <td className='number'>
         <AddressInfo
           address={address}
+          balancesAll={balancesAll}
           withBalance
           withBalanceToggle
           withExtended={false}

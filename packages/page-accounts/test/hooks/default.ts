@@ -7,6 +7,7 @@ import BN from 'bn.js';
 
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
+import type {DeriveBalancesAll} from "@polkadot/api-derive/types";
 
 export const emptyAccounts: UseAccounts = {
   allAccounts: [],
@@ -15,6 +16,13 @@ export const emptyAccounts: UseAccounts = {
   hasAccounts: false,
   isAccount: () => true
 };
+
+// export const someBalances: DeriveBalancesAll = {
+//   accountNonce: new BN(1),
+//   freeBalance: balanceOf(1000),
+//   lockedBreakdown: balanceOf(200),
+//   reservedBalance: balanceOf(500)
+// };
 
 export class AccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;

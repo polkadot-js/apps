@@ -66,8 +66,11 @@ describe('Accounts page', () => {
         { id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', totalBalance: 10000 },
         { id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', totalBalance: 999 }
       ]);
-      await accountsPage.findAccountRows();
-      fail('not ready yet');
+      const rows = await accountsPage.findAccountRows();
+
+      const balance = await within(rows[0]).findByTestId('balance-summary');
+
+      expect(balance).toHaveTextContent('1.000');
     });
   });
 });

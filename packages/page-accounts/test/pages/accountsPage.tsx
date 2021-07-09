@@ -38,7 +38,9 @@ jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
 jest.mock('@polkadot/react-hooks/useBalance', () => ({
   useBalancesAll: (address: string) => ({
     accountNonce: mockAccountHooks.nonce,
+    additional: [],
     freeBalance: mockAccountHooks.balanceOf(1000),
+    lockedBreakdown: [],
     reservedBalance: mockAccountHooks.balanceOf(500)
   })
 }));
@@ -70,8 +72,10 @@ export class AccountsPage {
           balances: {
             all: () => ({
               accountNonce: mockAccountHooks.nonce,
-              freeBalance: balanceOf(1000),
-              reservedBalance: balanceOf(500)
+              additional: [],
+              freeBalance: mockAccountHooks.balanceOf(1000),
+              lockedBreakdown: [],
+              reservedBalance: mockAccountHooks.balanceOf(500)
             })
           },
           chain: {
