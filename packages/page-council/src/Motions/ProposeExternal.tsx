@@ -7,11 +7,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { useModuleCouncil } from '../useModuleCouncil';
 
 interface Props {
   className?: string;
@@ -36,7 +35,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
-  const modLocation = useModuleCouncil();
+  const modLocation = useCollectiveInstance('council');
 
   const threshold = Math.ceil((members.length || 0) * getProposalThreshold(api));
 

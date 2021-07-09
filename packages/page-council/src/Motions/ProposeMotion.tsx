@@ -8,11 +8,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { useModuleCouncil } from '../useModuleCouncil';
 
 interface Props {
   isMember: boolean;
@@ -36,7 +35,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
-  const modLocation = useModuleCouncil();
+  const modLocation = useCollectiveInstance('council');
 
   useEffect((): void => {
     members && setThreshold({

@@ -3,13 +3,12 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
+import type { Observable } from 'rxjs';
 import type { CallState } from '../types';
 import type { DefaultProps, HOC, Options, RenderFn } from './types';
 
 import React from 'react';
-
-import { Observable, of } from '@polkadot/x-rxjs';
-import { catchError, map } from '@polkadot/x-rxjs/operators';
+import { catchError, map, of } from 'rxjs';
 
 import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util';

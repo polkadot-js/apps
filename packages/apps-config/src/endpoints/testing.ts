@@ -35,7 +35,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://beresheet1.edgewa.re'
+        'Commonwealth Labs': 'wss://beresheet.edgewa.re'
       }
     },
     {
@@ -140,6 +140,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.flamingfir', 'Flaming Fir', { ns: 'apps-config' }),
       providers: {
         Parity: 'wss://substrate-rpc.parity.io'
+      }
+    },
+    {
+      info: 'fantour',
+      text: t('rpc.test.fantour', 'Fantour', { ns: 'apps-config' }),
+      providers: {
+        FantourDev: 'wss://test-ws.fantour.io'
       }
     },
     {
@@ -286,7 +293,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'pangolin',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5726
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
@@ -394,7 +400,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'unique',
       text: t('rpc.test.unique', 'Unique', { ns: 'apps-config' }),
       providers: {
-        Unique: 'wss://testnet2.uniquenetwork.io'
+        Unique: 'wss://testnet2.unique.network'
       }
     },
     {
