@@ -8,7 +8,7 @@ import type { ScheduledExt } from './types';
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import ScheduledView from './Scheduled';
@@ -39,6 +39,7 @@ const transformEntries = {
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const bestNumber = useBestNumber();
   const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, transformEntries);
 
   const headerRef = useRef([
@@ -55,10 +56,11 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
       empty={items?.length === 0 && t<string>('No active schedules')}
       header={headerRef.current}
     >
-      {items?.map((scheduled): React.ReactNode => (
+      {bestNumber && items?.filter(({ blockNumber }) => blockNumber.gte(bestNumber)).map((value): React.ReactNode => (
         <ScheduledView
-          key={scheduled.key}
-          value={scheduled}
+          bestNumber={bestNumber}
+          key={value.key}
+          value={value}
         />
       ))}
     </Table>
