@@ -34,7 +34,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
       empty={queued && t<string>('Nothing queued for execution')}
       header={headerRef.current}
     >
-      {bestNumber && queued?.filter(({ at }) => bestNumber.gte(at)).map((entry): React.ReactNode => (
+      {bestNumber && queued?.filter(({ at }) => bestNumber.lte(at)).map((entry): React.ReactNode => (
         <DispatchEntry
           key={entry.index.toString()}
           value={entry}
