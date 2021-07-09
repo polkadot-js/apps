@@ -6,7 +6,7 @@ import type { Campaign, LeasePeriod } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, Spinner, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -31,12 +31,12 @@ interface LastChange {
   prevLength: number;
 }
 
-function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod, value: { childKey, info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
+function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod, value: { info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
-  const { blockHash: contribHash, contributorsHex, myAccounts, myAccountsHex, myContributions } = useContributions(paraId, childKey);
+  const { blockHash, contributorsHex, hasLoaded, myAccounts, myAccountsHex, myContributions } = useContributions(paraId);
   const [lastChange, setLastChange] = useState<LastChange>(() => ({ prevHash: '', prevLength: 0 }));
 
   const isDepositor = useMemo(
@@ -73,10 +73,10 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
       const prevLength = contributorsHex.length;
 
       return prev.prevLength !== prevLength
-        ? { prevHash: contribHash, prevLength }
+        ? { prevHash: blockHash, prevLength }
         : prev;
     });
-  }, [contributorsHex, contribHash]);
+  }, [contributorsHex, blockHash]);
 
   return (
     <tr className={`${className || ''} ${isOdd ? 'isOdd' : 'isEven'}`}>
@@ -132,20 +132,26 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
         )}
       </td>
       <td className='number together media--1100'>
-        {bestHash && (
-          <Icon
-            color={
-              lastChange.prevHash === bestHash
-                ? 'green'
-                : 'transparent'
-            }
-            icon='chevron-up'
-            isPadded
-          />
-        )}
-        {contributorsHex.length !== 0 && (
-          formatNumber(contributorsHex.length)
-        )}
+        {!hasLoaded
+          ? <Spinner noLabel />
+          : (
+            <>
+              {bestHash && (
+                <Icon
+                  color={
+                    lastChange.prevHash === bestHash
+                      ? 'green'
+                      : 'transparent'
+                  }
+                  icon='chevron-up'
+                  isPadded
+                />
+              )}
+              {contributorsHex.length !== 0 && (
+                formatNumber(contributorsHex.length)
+              )}
+            </>
+          )}
       </td>
       <td className='button media--1000'>
         {canWithdraw && contributorsHex.length !== 0 && (

@@ -23,12 +23,12 @@ const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
 const chainEquilibrium = '#1792ff';
+const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
-const chainIntegritee = '#15bcff';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -101,12 +101,15 @@ const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
+const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
 const nodeKonomi = '#007aff';
+const nodeKpron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeKylin = '#ed007e';
 const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
@@ -175,6 +178,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Encointer PC1': nodeEncointerNotee,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
+  'Fantour Development': chainFantour,
   Galital: chainGalital,
   Galois: chainGalois,
   'GamePower Network': chainGamePower,
@@ -186,8 +190,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
-  'IntegriTEE Network': chainIntegritee,
-  'IntegriTEE PC1': chainIntegritee,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -199,6 +201,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'KILT Testnet': chainKilt,
   'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
+  Kpron: nodeKpron,
   Kulupu: chainKulupu,
   Kusama: chainKusama,
   'Kusama CC1': chainKusama,
@@ -222,6 +225,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Testnet': chainNFTMart,
   'OAK Testnet': chainOakTestnet,
   'OriginTrail Parachain': nodeOriginTrail,
+  'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
@@ -295,13 +299,16 @@ export const nodeColors = Object.entries({
   'Encointer Node': nodeEncointerNotee,
   'Encointer Node noTEE': nodeEncointerNotee,
   'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  'Fantour Development': nodeFantour,
   Galital: nodeGalital,
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
+  'Kpron Collator': nodeKpron,
   'Kylin Collator': nodeKylin,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,

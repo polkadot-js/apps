@@ -6,7 +6,7 @@ import type { DeriveDispatch } from '@polkadot/api-derive/types';
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import DispatchEntry from './DispatchEntry';
@@ -18,6 +18,7 @@ interface Props {
 function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+  const bestNumber = useBestNumber();
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
 
   const headerRef = useRef([
@@ -33,7 +34,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
       empty={queued && t<string>('Nothing queued for execution')}
       header={headerRef.current}
     >
-      {queued?.map((entry): React.ReactNode => (
+      {bestNumber && queued?.filter(({ at }) => bestNumber.gte(at)).map((entry): React.ReactNode => (
         <DispatchEntry
           key={entry.index.toString()}
           value={entry}

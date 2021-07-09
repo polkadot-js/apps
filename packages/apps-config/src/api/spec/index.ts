@@ -33,6 +33,7 @@ import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
+import fantour from './fantour';
 import galital from './galital';
 import galitalParachain from './galital-parachain';
 import galois from './galois';
@@ -47,6 +48,7 @@ import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
 import kilt from './kilt';
 import konomi from './konomi';
+import kpron from './kpron';
 import kulupu from './kulupu';
 import kylin from './kylin';
 import laminar from './laminar';
@@ -140,6 +142,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
+  fantour,
   galital: galital,
   'galital-collator': galitalParachain,
   gamepower,
@@ -156,6 +159,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
   konomi,
+  kpron,
   kulupu,
   kylin,
   laminar,
