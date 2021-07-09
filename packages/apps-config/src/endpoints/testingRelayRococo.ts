@@ -218,7 +218,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoIntegritee',
         isDisabled: true, // Rococo reset
         paraId: 1983,
-        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.integritee', 'Integritee PC1', { ns: 'apps-config' }),
         providers: {
           SCS: 'wss://rococo.integritee.network'
         }
