@@ -19,6 +19,7 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { Endpoint } from '@polkadot/ui-settings/types';
@@ -194,7 +195,27 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
 
   // initial initialization
   useEffect((): void => {
-    function actWhenReady (types: Record<string, Record<string, string>>) {
+    let provider;
+
+    if (apiType.type === 'substrate-connect') {
+      const detect: Detector = new Detector('PolkadotJS apps');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      provider = detect.provider(apiType.param) as ProviderInterface;
+      provider.connect().catch(console.error);
+    } else if (apiType.type === 'json-rpc') {
+      provider = new WsProvider(apiType.param);
+    }
+
+    const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
+    const types = getDevTypes();
+
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
+
+    api.on('connected', () => setIsApiConnected(true));
+    api.on('disconnected', () => setIsApiConnected(false));
+    api.on('error', (error: Error) => setApiError(error.message));
+    api.on('ready', (): void => {
       const injectedPromise = web3Enable('polkadot-js/apps');
 
       injectedPromise
@@ -205,48 +226,12 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
         .then(setState)
         .catch((error): void => {
           console.error(error);
+
           setApiError((error as Error).message);
         });
-    }
+    });
 
-    async function substrateConnectApi (network: string) {
-      const detect = new Detector('PolkadotJS apps');
-      const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-      const options = { registry, signer, types, typesBundle, typesChain };
-
-      try {
-        api = await detect.connect(network, undefined, options);
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        api.isReady.then(() => {
-          setIsApiInitialized(true);
-          setIsApiConnected(true);
-          actWhenReady(types);
-        }).catch(console.error);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    const types = getDevTypes();
-
-    if (apiType.type === 'substrate-connect') {
-      // eslint-disable-next-line no-void
-      substrateConnectApi(apiType.param).catch(console.error);
-    } else if (apiType.type === 'json-rpc') {
-      const provider = new WsProvider(apiType.param);
-      const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
-
-      api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
-
-      api.on('connected', () => setIsApiConnected(true));
-      api.on('disconnected', () => setIsApiConnected(false));
-      api.on('error', (error: Error) => setApiError(error.message));
-      api.on('ready', (): void => {
-        actWhenReady(types);
-      });
-
-      setIsApiInitialized(true);
-    }
+    setIsApiInitialized(true);
   }, [apiType, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
