@@ -3,14 +3,14 @@
 
 import type BN from 'bn.js';
 
-import {externalLogos} from '../ui/logos';
+import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
     Polkadot: 'polkadot'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://dotscanner.com/${path}/${data.toString()}`,
+    `https://dotscanner.com/${chain}/${path}/${data.toString()}`,
   isActive: true,
   logo: externalLogos.dotscanner as string,
   paths: {
