@@ -149,13 +149,75 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   TokenUnit.setAbbr(tokenSymbol[0].toString());
 
   // finally load the keyring
-  isKeyringLoaded() || keyring.loadAll({
-    genesisHash: api.genesisHash,
-    isDevelopment,
-    ss58Format,
-    store,
-    type: isEthereum ? 'ethereum' : 'ed25519'
-  }, injectedAccounts);
+  if (!isKeyringLoaded()) {
+    keyring.loadAll({
+      genesisHash: api.genesisHash,
+      isDevelopment,
+      ss58Format,
+      store,
+      type: isEthereum ? 'ethereum' : 'ed25519'
+    }, injectedAccounts);
+
+    // If current chain is PoS Mainnet, load PoA mainnet accounts as well.
+    if (api.genesisHash.toHex() === '0x6bfe24dca2a3be10f22212678ac13a6446ec764103c0f3471c71609eac384aae') {
+      const ACCOUNT_PREFIX = 'account:';
+      const ADDRESS_PREFIX = 'address:';
+      const accountRegex = new RegExp(`^${ACCOUNT_PREFIX}0x[0-9a-f]*`, '');
+      const addressRegex = new RegExp(`^${ADDRESS_PREFIX}0x[0-9a-f]*`, '');
+
+      let options = {
+        genesisHash: '0xf73467c6544aa68df2ee546b135f955c46b90fa627e9b5d7935f41061bb8a5a9',
+        isDevelopment,
+        ss58Format,
+        store,
+        type: isEthereum ? 'ethereum' : 'ed25519'
+      };
+
+      // At the end of `loadAll`, keyringOption.init is called but it cannot be called twice and causes an assertion error. Catch it
+      try {
+        keyring.loadAll(options, injectedAccounts);
+      } catch (e) {
+      }
+
+      /* function allowGenesis (json?: KeyringJson | { meta: KeyringJson$Meta } | null): boolean {
+        if (json && json.meta && options.genesisHash) {
+          const hashes: (string | null | undefined)[] = Object.values(chains).find((hashes): boolean =>
+            hashes.includes(options.genesisHash || '')
+          ) || [options.genesisHash];
+
+          if (json.meta.genesisHash) {
+            return hashes.includes(json.meta.genesisHash);
+          } else if (json.meta.contract) {
+            return hashes.includes(json.meta.contract.genesisHash);
+          }
+        }
+      }
+
+      keyring._store.all((key, json) => {
+        if (options.filter ? options.filter(json) : true) {
+          try {
+            if (keyring.allowGenesis(json)) {
+              if (accountRegex.test(key)) {
+                keyring.loadAccount(json, key);
+              } else if (addressRegex.test(key)) {
+                keyring.loadAddress(json, key);
+              }
+            }
+          } catch (error) {// ignore
+          }
+        }
+      });
+  
+      injectedAccounts.forEach(account => {
+        if (keyring.allowGenesis(account)) {
+          try {
+            keyring.loadInjected(account.address, account.meta);
+          } catch (error) {// ignore
+          }
+        }
+      }); */
+    }
+  }
 
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];

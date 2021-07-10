@@ -22,6 +22,6 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io'
       }
-    },
+    }
   ]);
 }
