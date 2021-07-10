@@ -5,7 +5,7 @@ import type { Option } from '@polkadot/types';
 import type { BlockNumber, Scheduled } from '@polkadot/types/interfaces';
 import type { ScheduledExt } from './types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
@@ -42,6 +42,11 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const bestNumber = useBestNumber();
   const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, transformEntries);
 
+  const filtered = useMemo(
+    () => bestNumber && items?.filter(({ blockNumber }) => blockNumber.gte(bestNumber)),
+    [bestNumber, items]
+  );
+
   const headerRef = useRef([
     [t('scheduled'), 'start'],
     [t('id'), 'start'],
@@ -53,10 +58,10 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={items?.length === 0 && t<string>('No active schedules')}
+      empty={filtered && t<string>('No active schedules')}
       header={headerRef.current}
     >
-      {bestNumber && items?.filter(({ blockNumber }) => blockNumber.gte(bestNumber)).map((value): React.ReactNode => (
+      {filtered?.map((value): React.ReactNode => (
         <ScheduledView
           bestNumber={bestNumber}
           key={value.key}
