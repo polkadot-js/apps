@@ -119,6 +119,7 @@ import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeWhala from './nodes/whala.svg';
+import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
@@ -232,7 +233,8 @@ export const chainLogos = Object.entries({
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
-  WILT: nodeKilt
+  WILT: nodeKilt,
+  'zcloak poc1': nodeZCloak
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
   ...logos,
   [sanitize(chain)]: logo
@@ -366,6 +368,7 @@ export const nodeLogos = Object.entries({
   Whala: nodeWhala,
   'Whala Node': nodeWhala,
   WILT: nodeKilt,
+  'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
@@ -543,6 +546,7 @@ export const namedLogos: Record<string, unknown> = {
   westlake: nodeWestlake,
   westmint: nodeStatemine,
   whala: nodeWhala,
+  zCloak: nodeZCloak,
   zeitgeist: nodeZeitgeist,
   zero: nodeZero
 };
