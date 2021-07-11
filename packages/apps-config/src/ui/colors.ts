@@ -143,6 +143,7 @@ const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
+const nodeZCloak = 'linear-gradient(to right, #7DA6D4,  #B996E5)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -277,6 +278,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Westmint Test': specWestmint,
   Whala: chainWhala,
   WILT: chainKilt,
+  'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
@@ -349,6 +351,7 @@ export const nodeColors = Object.entries({
   Web3games: nodeWeb3games,
   Westlake: nodeWestlake,
   'Westmint Collator': specWestmint,
+  'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink
