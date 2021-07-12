@@ -3,7 +3,6 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { Voters } from './types';
 
 import { useEffect, useState } from 'react';
@@ -13,16 +12,13 @@ import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
 const EMPTY_VOTERS: Voters = {};
 
 async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[]): Promise<Voters> {
-  const accountIds: AccountId[] = [];
   const skeptics: string[] = [];
   const voters: string[] = [];
 
-  candidates.forEach(({ accountId }): void => {
-    accountIds.push(accountId);
-  });
-
-  const entries = accountIds.length
-    ? await Promise.all(accountIds.map((a) => api.query.society.votes.entries(a)))
+  const entries = candidates.length
+    ? await Promise.all(candidates.map(({ accountId }) =>
+      api.query.society.votes.entries(accountId)
+    ))
     : [];
 
   entries.forEach((list): void => {
