@@ -61,7 +61,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'edgeware',
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
+        'Commonwealth Labs': 'wss://mainnet.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
@@ -112,6 +112,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
+        // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
@@ -133,8 +134,11 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp',
-        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org:4443'
+        'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
+        'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
+        Soramitsu: 'wss://ws.alb.sora.org',
+        'SORA Community (Lux8)': 'wss://sora.lux8.net'
       }
     },
     {

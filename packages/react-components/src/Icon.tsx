@@ -36,6 +36,7 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
       onClick={onClick}
       size={size}
       spin={isSpinning}
+      tabIndex={-1}
     />
   );
 }

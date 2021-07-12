@@ -8,7 +8,7 @@ import type { ComponentProps } from './types';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -16,9 +16,10 @@ interface Props extends ComponentProps {
   bestNumber?: BlockNumber;
   className?: string;
   electionsInfo?: DeriveElectionsInfo;
+  hasElections: boolean;
 }
 
-function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.ReactElement<Props> | null {
+function Summary ({ bestNumber, className = '', electionsInfo, hasElections }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!electionsInfo) {
@@ -31,14 +32,18 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('seats')}>
-          {formatNumber(members.length)}&nbsp;/&nbsp;{formatNumber(desiredSeats)}
+          {formatNumber(members.length)}{desiredSeats && <>&nbsp;/&nbsp;{formatNumber(desiredSeats)}</>}
         </CardSummary>
-        <CardSummary label={t<string>('runners up')}>
-          {formatNumber(runnersUp.length)}&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}
-        </CardSummary>
-        <CardSummary label={t<string>('candidates')}>
-          {formatNumber(candidateCount)}
-        </CardSummary>
+        {hasElections && (
+          <>
+            <CardSummary label={t<string>('runners up')}>
+              {formatNumber(runnersUp.length)}{desiredRunnersUp && <>&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}</>}
+            </CardSummary>
+            <CardSummary label={t<string>('candidates')}>
+              {formatNumber(candidateCount)}
+            </CardSummary>
+          </>
+        )}
       </section>
       {voteCount && (
         <section>
@@ -47,7 +52,7 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
           </CardSummary>
         </section>
       )}
-      {bestNumber && termDuration?.gtn(0) && (
+      {bestNumber && termDuration && termDuration.gt(BN_ZERO) && (
         <section>
           <CardSummary
             label={t<string>('term progress')}

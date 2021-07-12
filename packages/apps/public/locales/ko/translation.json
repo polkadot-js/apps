@@ -121,7 +121,7 @@
   "Change session keys": "세션키를 바꾸다",
   "Change this account's password": "계정 비밀번호 변경",
   "Change validator preferences": "검사기의 선호를 바꾸다",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "키를 바꾸는 것은 다음 세션의 시작점에서만 시행합니다. author_rotateKeys 커맨드에서 생성되는 인프트이 발생합니다",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "키를 바꾸는 것은 다음 세션의 시작점에서만 시행합니다. author_rotateKeys 커맨드에서 생성되는 인프트이 발생합니다",
   "Chilled ({{count}})": "칠드 ({{count}})",
   "Chilled nominations ({{count}})": "칠드 지명 ({{count}})",
   "Claim": "청구",

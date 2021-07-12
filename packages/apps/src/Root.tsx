@@ -44,8 +44,8 @@ function Root ({ store }: Props): React.ReactElement<Props> {
       <ThemeProvider theme={theme}>
         <Queue>
           <Api
+            apiType={settings.apiType}
             store={store}
-            url={settings.apiUrl}
           >
             <BlockAuthors>
               <Events>

@@ -88,7 +88,7 @@
   "Change session keys": "Поменять сессионные ключи",
   "Change this account's password": "Поменять пароль этого аккаунта",
   "Change validator preferences": "Поменять настройки валидаторов",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "Ключ меняется только в начале следующей сессии. Это значение генерируется от имени author_rotateKeys команды",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "Ключ меняется только в начале следующей сессии. Это значение генерируется от имени author_rotateKeys команды",
   "Claim": "Запросить",
   "Claim tokens...": "Запросить токены...",
   "Clear all": "Стереть все",

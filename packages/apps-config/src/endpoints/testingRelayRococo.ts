@@ -24,9 +24,9 @@ export function createRococo (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://rococo.elara.patract.io',
-      'Ares Protocol': 'wss://rococo.aresprotocol.com',
-      Pinknode: 'wss://rpc.pinknode.io/rococo/explorer'
+      'Patract Elara': 'wss://rococo.elara.patract.io'
+      // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
+      // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     linked: [
       // these are the base chains
@@ -191,7 +191,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoHalongbay',
         paraId: 2018,
-        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'apps-config' }),
         providers: {
           Halongbay: 'wss://halongbay.polkafoundry.com'
         }
@@ -218,7 +218,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoIntegritee',
         isDisabled: true, // Rococo reset
         paraId: 1983,
-        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.integritee', 'Integritee PC1', { ns: 'apps-config' }),
         providers: {
           SCS: 'wss://rococo.integritee.network'
         }
@@ -259,6 +259,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoLoomNetwork',
+        paraId: 2043,
+        text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://rococo.dappchains.com'
+        }
+      },
+      {
         info: 'rococoAcala',
         isDisabled: true, // Rococo reset
         paraId: 1000,
@@ -296,10 +304,10 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoOriginTrail',
-        paraId: 2024,
+        paraId: 2037,
         text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
         providers: {
-          'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
+          'Trace Labs': 'wss://polkadot-js-second.origin-trail.network'
         }
       },
       {
@@ -429,8 +437,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
-        isDisabled: true, // Rococo reset
-        paraId: 9123,
+        paraId: 2050,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitgeist: 'wss://roc.zeitgeist.pm'
