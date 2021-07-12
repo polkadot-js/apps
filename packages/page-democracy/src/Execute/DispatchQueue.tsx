@@ -3,7 +3,7 @@
 
 import type { DeriveDispatch } from '@polkadot/api-derive/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
@@ -21,6 +21,11 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const bestNumber = useBestNumber();
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
 
+  const filtered = useMemo(
+    () => bestNumber && queued && queued.filter(({ at }) => at.gte(bestNumber)),
+    [bestNumber, queued]
+  );
+
   const headerRef = useRef([
     [t('dispatch queue'), 'start', 2],
     [t('enact')],
@@ -31,10 +36,10 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   return (
     <Table
       className={className}
-      empty={queued && t<string>('Nothing queued for execution')}
+      empty={filtered && t<string>('Nothing queued for execution')}
       header={headerRef.current}
     >
-      {bestNumber && queued?.filter(({ at }) => bestNumber.lte(at)).map((entry): React.ReactNode => (
+      {filtered?.map((entry): React.ReactNode => (
         <DispatchEntry
           key={entry.index.toString()}
           value={entry}

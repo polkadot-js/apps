@@ -1,22 +1,22 @@
 // Copyright 2017-2021 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { ScheduledExt } from './types';
 
 import React from 'react';
 
 import { CallExpander } from '@polkadot/react-components';
-import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
+  bestNumber?: BlockNumber;
   className?: string;
   value: ScheduledExt;
 }
 
-function Scheduled ({ className = '', value: { blockNumber, call, maybeId, maybePeriodic } }: Props): React.ReactElement<Props> {
-  const bestNumber = useBestNumber();
+function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, maybeId, maybePeriodic } }: Props): React.ReactElement<Props> {
   const period = maybePeriodic.unwrapOr(null);
   const name = maybeId.unwrapOr(null);
 

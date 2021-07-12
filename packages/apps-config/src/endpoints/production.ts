@@ -134,8 +134,11 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: 'wss://ws.alb.sora.org'
-        // 'SORA Parliament Ministry of Finance': 'wss://mof.sora.org:4443' // https://github.com/polkadot-js/apps/issues/5788
+        'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
+        'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
+        Soramitsu: 'wss://ws.alb.sora.org',
+        'SORA Community (Lux8)': 'wss://sora.lux8.net'
       }
     },
     {
