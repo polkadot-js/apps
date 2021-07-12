@@ -3,18 +3,30 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { Voters } from './types';
 
 import { useEffect, useState } from 'react';
 
 import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
 
-const EMPTY: Voters = { candidates: [], skeptics: [], voters: [] };
+const transformDefender = {
+  transform: (opt: Option<AccountId>) => opt.unwrapOr(null)
+};
 
-async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[]): Promise<Voters> {
-  const entries = await Promise.all(
-    candidates.map(({ accountId }) => api.query.society.votes.entries(accountId))
-  );
+async function getVoters (api: ApiPromise, defender: AccountId | null | undefined, candidates: DeriveSocietyCandidate[]): Promise<Voters> {
+  const accountIds: AccountId[] = defender
+    ? [defender]
+    : [];
+
+  candidates.forEach(({ accountId }): void => {
+    accountIds.push(accountId);
+  });
+
+  const entries = accountIds.length
+    ? await Promise.all(accountIds.map((a) => api.query.society.votes.entries(a)))
+    : [];
   const skeptics: string[] = [];
   const voters: string[] = [];
 
@@ -40,15 +52,15 @@ export default function useVoters (): Voters {
   const { api } = useApi();
   const voteTrigger = useEventTrigger([api.events.society.Vote]);
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates);
+  const defender = useCall<AccountId | null>(api.query.society.defender, undefined, transformDefender);
   const [state, setState] = useState<Voters>({});
 
   useEffect((): void => {
-    voteTrigger && candidates && (
-      candidates.length
-        ? getVoters(api, candidates).then(setState).catch(console.error)
-        : setState(EMPTY)
-    );
-  }, [api, candidates, voteTrigger]);
+    console.log('useEffect', voteTrigger, candidates);
+
+    voteTrigger && candidates &&
+      getVoters(api, defender, candidates).then(setState).catch(console.error);
+  }, [api, candidates, defender, voteTrigger]);
 
   return state;
 }
