@@ -8,7 +8,7 @@
     "@babel/runtime": "^7.14.6",
     "@polkadot/api": "^5.0.1",
     "@polkadot/extension-dapp": "^0.39.1",
-    "@substrate/connect": "^0.3.10",
+    "@substrate/connect": "^0.3.13",
     "fflate": "^0.7.1",
     "rxjs": "^7.2.0"
   }
