@@ -281,69 +281,6 @@ export const chainColors: Record<string, string> = Object.entries({
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
-<<<<<<< HEAD
-export const nodeColors: Record<string, string> = [
-  ['Apron Node', nodeApron],
-  ['Basilisk', nodeBasilisk],
-  ['Bit.Country Node', nodeBitCountry],
-  ['Bifrost Node', nodeBifrost],
-  ['Canvas Node', nodeCanvas],
-  ['centrifuge chain', nodeCentrifuge],
-  ['Centrifuge Chain Node', nodeCentrifuge],
-  ['DOTMog Node', nodeDotMog],
-  ['edgeware node', nodeEdgeware],
-  ['Encointer Node', nodeEncointerNotee],
-  ['Encointer Node noTEE', nodeEncointerNotee],
-  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
-  ['Galital', nodeGalital],
-  ['Galital Parachain Collator', nodeGalital],
-  ['GamePower Node', nodeGamePower],
-  ['GEEK', nodeGeek],
-  ['IpseTestnet', nodeIpse],
-  ['Konomi Collator', nodeKonomi],
-  ['Kylin Collator', nodeKylin],
-  ['Klug Dossier Node', nodeKlug],
-  ['Litentry Collator', nodeLitentry],
-  ['Manta Collator', nodeManta],
-  ['Manta Node', nodeManta],
-  ['mybank.network node', nodeMybank],
-  ['NFTMart Testnet', nodeNFTMart],
-  ['NFTMart Staging', nodeNFTMart],
-  ['nodle chain node', nodeNodle],
-  ['OAK Testnet', nodeOakTestnet],
-  ['Opportunity', nodeOpportunity],
-  ['OriginTrail Parachain', nodeOriginTrail],
-  ['Pangolin', nodePangolin],
-  ['Parami Collator', nodeParami],
-  ['Patract Node', nodeJupiter],
-  ['Polkadex Node', nodePolkadex],
-  ['Polymesh Node', nodePolymesh],
-  ['Pontem', nodePontem],
-  ['Prism Node', nodePrism],
-  ['Prism Collator', nodePrism],
-  ['ReAlis Network', nodeRealis],
-  ['Rio Defi Chain Node', nodeRiochain],
-  ['Riochain Staging', nodeRiochain],
-  ['Shiden Collator', chainShiden],
-  ['SORA', nodeSora],
-  ['Stafi node', nodeStafi],
-  ['Statemine Collator', specStatemint],
-  ['Statemint Collator', specStatemint],
-  ['SubDAO Collator', nodeSubDAO],
-  ['subsocial node', nodeSubsocial],
-  ['subzero node', nodeZero],
-  ['Ternoa Node', nodeTernoa],
-  ['uni arts node', nodeUniarts],
-  ['UniArts Node', nodeUniarts],
-  ['Unique Node', nodeUnique],
-  ['Web3games', nodeWeb3games],
-  ['Westlake', nodeWestlake],
-  ['Westmint Collator', specWestmint],
-  ['Zeitgeist Node', nodeZeitgeist],
-  ['Zeitgeist Collator', nodeZeitgeist],
-  ['Zenlink Collator', nodeZenlink]
-].reduce((colors, [node, color]): Record<string, string> => ({
-=======
 export const nodeColors = Object.entries({
   'Apron Node': nodeApron,
   Basilisk: nodeBasilisk,
@@ -408,7 +345,6 @@ export const nodeColors = Object.entries({
   'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink
 }).reduce<Record<string, string>>((colors, [node, color]) => ({
->>>>>>> c3b97215b7b0a8b73bb759524d872608d05d9d23
   ...colors,
   [sanitize(node)]: color
 }), {});
