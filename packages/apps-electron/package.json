@@ -12,8 +12,8 @@
     "electron-updater": "^4.3.10"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.8",
-    "@types/tmp": "^0.2.0",
+    "@types/react-dom": "^17.0.9",
+    "@types/tmp": "^0.2.1",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^7.0.0",
     "html-webpack-plugin": "^4.5.2",
