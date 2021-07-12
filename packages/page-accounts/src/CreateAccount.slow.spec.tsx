@@ -25,7 +25,8 @@ const renderAccounts = () => {
       <ThemeProvider theme={lightTheme}>
         <Api
           apiType={apiType}
-          store={memoryStore}>
+          store={memoryStore}
+        >
           <WaitForApi>
             <div>
               <AccountsApp basePath='/accounts'
