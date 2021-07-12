@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
@@ -11,7 +12,6 @@ import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { Delegation } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
@@ -93,7 +93,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const api = useApi();
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [address]);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);

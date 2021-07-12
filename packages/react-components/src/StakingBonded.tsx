@@ -13,7 +13,7 @@ interface Props {
 }
 
 function StakingBonded ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
-  const balance = stakingInfo?.stakingLedger?.active.unwrap();
+  const balance = stakingInfo?.stakingLedger?.active?.unwrap();
 
   if (!balance?.gtn(0)) {
     return null;

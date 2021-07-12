@@ -6,7 +6,7 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
-import Tabs from '@polkadot/react-components/Tabs';
+import { Tabs } from '@polkadot/react-components';
 
 import Rpc from './Rpc';
 import { useTranslation } from './translate';
@@ -18,7 +18,7 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'rpc',
-      text: t<string>('RPC calls')
+      text: t<string>('Submission')
     }
   ]);
 

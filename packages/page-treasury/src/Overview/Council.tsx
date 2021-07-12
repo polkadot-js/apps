@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -28,8 +28,9 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [councilType, setCouncilType] = useState('accept');
-  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
+  const [proposalType, setProposalType] = useState('accept');
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
+  const modCouncil = useCollectiveInstance('council');
 
   const threshold = Math.ceil((members?.length || 0) * getTreasuryProposalThreshold(api));
 
@@ -39,12 +40,16 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   ]);
 
   useEffect((): void => {
-    const proposal = councilType === 'reject'
+    const proposal = proposalType === 'reject'
       ? api.tx.treasury.rejectProposal(id)
       : api.tx.treasury.approveProposal(id);
 
     setProposal({ proposal, proposalLength: proposal.length });
-  }, [api, councilType, id]);
+  }, [api, id, proposalType]);
+
+  if (!modCouncil) {
+    return null;
+  }
 
   return (
     <>
@@ -68,9 +73,9 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
               <Dropdown
                 help={t<string>('The type of council proposal to submit.')}
                 label={t<string>('council proposal type')}
-                onChange={setCouncilType}
+                onChange={setProposalType}
                 options={councilTypeOptRef.current}
-                value={councilType}
+                value={proposalType}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -82,11 +87,11 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
               label={t<string>('Send to council')}
               onStart={toggleOpen}
               params={
-                api.tx.council.propose.meta.args.length === 3
+                api.tx[modCouncil].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
-              tx={api.tx.council.propose}
+              tx={api.tx[modCouncil].propose}
             />
           </Modal.Actions>
         </Modal>

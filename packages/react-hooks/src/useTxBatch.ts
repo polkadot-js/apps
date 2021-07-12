@@ -43,13 +43,13 @@ function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[],
     );
 }
 
-export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null, options?: Options): SubmittableExtrinsic<'promise'>[] | null {
+export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null | false, options?: Options): SubmittableExtrinsic<'promise'>[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [batchSize, setBatchSize] = useState(Math.floor(options?.batchSize || 64));
 
   useEffect((): void => {
-    txs && txs.length && allAccounts[0] &&
+    txs && txs.length && allAccounts[0] && isFunction(api.rpc.payment?.queryInfo) &&
       txs[0]
         .paymentInfo(allAccounts[0])
         .then((info) => setBatchSize((prev) =>

@@ -6,7 +6,7 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import React, { useState } from 'react';
 
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle, useWeight } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useToggle, useWeight } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -24,9 +24,10 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalWeight, proposalLength] = useWeight(proposal);
+  const modLocation = useCollectiveInstance('council');
 
   // protect against older versions
-  if (!api.tx.council.close) {
+  if (!modLocation) {
     return null;
   }
 
@@ -59,13 +60,13 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
               accountId={accountId}
               onStart={toggleOpen}
               params={
-                api.tx.council.close.meta.args.length === 4
+                api.tx[modLocation].close.meta.args.length === 4
                   ? hasFailed
                     ? [hash, idNumber, 0, 0]
                     : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
-              tx={api.tx.council.closeOperational || api.tx.council.close}
+              tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
             />
           </Modal.Actions>
         </Modal>

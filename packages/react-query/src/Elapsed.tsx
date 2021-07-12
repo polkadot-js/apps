@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -61,7 +62,7 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNo
   return (elapsed < 60)
     ? formatValue(elapsed, 's', elapsed < 15)
     : (elapsed < 3600)
-      ? formatValue(elapsed, 'min')
+      ? formatValue(elapsed / 60, 'min')
       : formatValue(elapsed / 3600, 'hr');
 }
 

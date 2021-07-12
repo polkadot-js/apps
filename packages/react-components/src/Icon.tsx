@@ -13,6 +13,7 @@ interface Props {
   className?: string;
   color?: 'gray' | 'green' | 'normal' | 'orange' | 'red' | 'transparent' | 'white';
   icon: IconName;
+  isPadded?: boolean;
   isSpinning?: boolean;
   onClick?: () => void;
   size?: '1x' | '2x';
@@ -22,7 +23,7 @@ interface Props {
 // one-time init of FA libraries
 library.add(fas);
 
-function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, size = '1x', tooltip }: Props): React.ReactElement<Props> {
+function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, onClick, size = '1x', tooltip }: Props): React.ReactElement<Props> {
   const extraProps = tooltip
     ? { 'data-for': tooltip, 'data-testid': icon, 'data-tip': true }
     : {};
@@ -30,11 +31,12 @@ function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, si
   return (
     <FontAwesomeIcon
       {...extraProps}
-      className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''} ${className}`}
+      className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''} ${className}`}
       icon={icon}
       onClick={onClick}
       size={size}
       spin={isSpinning}
+      tabIndex={-1}
     />
   );
 }
@@ -42,6 +44,10 @@ function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, si
 export default React.memo(styled(Icon)`
   &.isClickable {
     cursor: pointer;
+  }
+
+  &.isPadded {
+    margin: 0 0.25rem;
   }
 
   &.grayColor {
