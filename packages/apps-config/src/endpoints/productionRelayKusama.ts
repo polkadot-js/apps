@@ -5,6 +5,7 @@ import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
+import { createProviderUrl } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -22,7 +23,8 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io'
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      'light client': createProviderUrl('kusama-substrate-connect', 'substrate-connect')
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
