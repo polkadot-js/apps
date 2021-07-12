@@ -2851,7 +2851,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@polkadot/api": ^5.0.1
     "@polkadot/extension-dapp": ^0.39.1
-    "@substrate/connect": ^0.3.10
+    "@substrate/connect": ^0.3.13
     fflate: ^0.7.1
     rxjs: ^7.2.0
   languageName: unknown
@@ -3569,21 +3569,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.3.10":
-  version: 0.3.10
-  resolution: "@substrate/connect@npm:0.3.10"
+"@substrate/connect@npm:^0.3.13":
+  version: 0.3.13
+  resolution: "@substrate/connect@npm:0.3.13"
   dependencies:
-    "@polkadot/api": ^4.2.4
+    "@polkadot/api": ^4.15.1
     "@polkadot/rpc-provider": ^4.10.1
     "@substrate/connect-extension-protocol": ^0.3.0
     browserify-fs: ^1.0.0
     eventemitter3: ^4.0.7
     file-entry-cache: ^6.0.1
     mkdirp: ^1.0.4
-    smoldot: 0.2.6
+    smoldot: 0.3.2
   peerDependencies:
     "@polkadot/wasm-crypto": ^3.2.2
-  checksum: c4bec54469a7a5759cac92faa7aed1f4d1287eab5a6aab39823a46cf891a93f18a9105a886f5276f5b193b9e5284115300fe759276936e9841ccfb98cd8b2028
+  checksum: f6e10480036ad68ba8e65574386c1ccede35d6fb99a2ce604d95507d3b8192b252aa738f83671778d4e9f1a282d9e52f7d60cf3df6d2468b96b8a262d63dc43f
   languageName: node
   linkType: hard
 
@@ -17520,15 +17520,15 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"smoldot@npm:0.2.6":
-  version: 0.2.6
-  resolution: "smoldot@npm:0.2.6"
+"smoldot@npm:0.3.2":
+  version: 0.3.2
+  resolution: "smoldot@npm:0.3.2"
   dependencies:
     buffer: ^6.0.1
     performance-now: ^2.1.0
     randombytes: ^2.1.0
     websocket: ^1.0.32
-  checksum: b3a631f33e63bf08271d53d14ffe878678ad8a2692bb8c9da8a0f4aefdf1b01c41ab90bba23c380274dbecce4fd0ea0f705302f0c48e10269f50a425a2100b67
+  checksum: 0212cc9a7740528424f080a4bf05a15a2834e83a6921b6b805d64544648f7bb481a318019c444a285422cf074ff794a16ae4f14d3376276abcde10545fb42eb4
   languageName: node
   linkType: hard
 
