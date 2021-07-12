@@ -1,4 +1,5 @@
 {
+  "lightclient.experimental": "light client (experimental)",
   "lng.detect": "Default browser language (auto-detect)",
   "rpc.KlugDossier": "Klug Dossier",
   "rpc.dev.custom": "Custom environment",

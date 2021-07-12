@@ -7,9 +7,11 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
+import { Detector } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
+import { WsProvider } from '@polkadot/api';
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
@@ -17,9 +19,10 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
-import { WsProvider } from '@polkadot/rpc-provider';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
+import { Endpoint } from '@polkadot/ui-settings/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
@@ -29,7 +32,7 @@ import { decodeUrlTypes } from './urlTypes';
 
 interface Props {
   children: React.ReactNode;
-  url?: string;
+  apiType: Endpoint;
   store?: KeyringStore;
 }
 
@@ -177,7 +180,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   };
 }
 
-function Api ({ children, store, url }: Props): React.ReactElement<Props> | null {
+function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -186,13 +189,24 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, apiUrl: url, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, state, url]
+    () => ({ ...state, api, apiError, apiUrl: apiType.param, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, state, apiType]
   );
 
   // initial initialization
   useEffect((): void => {
-    const provider = new WsProvider(url);
+    let provider;
+
+    if (apiType.type === 'substrate-connect') {
+      const detect: Detector = new Detector('PolkadotJS apps');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      provider = detect.provider(apiType.param) as ProviderInterface;
+      provider.connect().catch(console.error);
+    } else if (apiType.type === 'json-rpc') {
+      provider = new WsProvider(apiType.param);
+    }
+
     const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
@@ -218,8 +232,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     });
 
     setIsApiInitialized(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiType, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;
