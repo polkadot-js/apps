@@ -6,7 +6,7 @@ import type { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/i
 import React, { useState } from 'react';
 
 import { Button, MarkWarning, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -15,7 +15,7 @@ interface Props {
   idNumber: ProposalIndex;
   isDisabled: boolean;
   members: string[];
-  prime: AccountId | null;
+  prime?: AccountId | null;
   proposal: Proposal;
 }
 
@@ -25,8 +25,9 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const modLocation = useCollectiveInstance('council');
 
-  if (!hasAccounts) {
+  if (!hasAccounts || !modLocation) {
     return null;
   }
 
@@ -64,7 +65,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, idNumber, false]}
-              tx={api.tx.council.vote}
+              tx={api.tx[modLocation].vote}
             />
             <TxButton
               accountId={accountId}
@@ -73,7 +74,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, idNumber, true]}
-              tx={api.tx.council.vote}
+              tx={api.tx[modLocation].vote}
             />
           </Modal.Actions>
         </Modal>

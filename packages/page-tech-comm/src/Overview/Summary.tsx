@@ -8,24 +8,24 @@ import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatNumber, isFunction } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-function Summary ({ className = '', members, proposals, type }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', members, proposalHashes, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const proposalCount = useCall<u32>(api.query[type].proposalCount);
+  const proposalCount = useCall<u32>(api.derive[type].proposalCount);
 
   return (
     <SummaryBox className={className}>
       <CardSummary label={t<string>('members')}>
         {formatNumber(members.length)}
       </CardSummary>
-      {isFunction(api.query[type].proposalCount) && (
+      {proposalCount && (
         <section>
           <CardSummary label={t<string>('proposals')}>
-            {formatNumber(proposals?.length)}
+            {formatNumber(proposalHashes?.length)}
           </CardSummary>
           <CardSummary label={t<string>('total')}>
             {formatNumber(proposalCount)}

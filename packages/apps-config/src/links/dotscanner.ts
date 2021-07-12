@@ -10,7 +10,7 @@ export default {
     Polkadot: 'polkadot'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://dotscanner.com/${path}/${data.toString()}`,
+    `https://dotscanner.com/${chain}/${path}/${data.toString()}`,
   isActive: true,
   logo: externalLogos.dotscanner as string,
   paths: {

@@ -33,18 +33,41 @@ const definitions: OverrideBundleDefinition = {
           ]
         },
         pallet_nfts: 'u8',
-        Types: {
-          tapes: 'u8'
+        Basic: 'u8',
+        TokenId: 'U256',
+        Tapes: {
+          id: 'TokenId',
+          tape: 'u8'
         },
         Params: {
           strength: 'u8',
           agility: 'u8',
           intelligence: 'u8'
         },
-        Token: {
+        Mergeable: {
           rarity: 'Rarity',
           socket: 'Socket',
           params: 'Params'
+        },
+
+        Stackable: {
+          _enum: [
+            'Silver',
+            'Gold',
+            'Diamond'
+          ]
+        },
+
+        TokenType: {
+          _enum: {
+            Mergeable: 'Mergeable',
+            Stackable: 'Stackable',
+            Basic: 'Basic'
+          }
+        },
+        Token: {
+          token_id: 'TokenId',
+          token: 'TokenType'
         },
         AttributeTransaction: {
           signature: 'Signature',
@@ -120,7 +143,6 @@ const definitions: OverrideBundleDefinition = {
         ResourceId: 'Vec<u8>',
         ExchangeId: 'u64',
         CurrencyOf: 'Balance',
-        TokenId: 'U256',
         RealisTokenId: 'u32',
         Erc721Token: {
           id: 'NftId'

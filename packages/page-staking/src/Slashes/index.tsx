@@ -10,7 +10,7 @@ import React, { useMemo, useState } from 'react';
 
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
-import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -90,7 +90,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const { members } = useMembers();
+  const { members } = useCollectiveMembers('council');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const rows = useMemo(

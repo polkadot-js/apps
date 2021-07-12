@@ -76,9 +76,9 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           ? dbValue
           : 0
       }, ...dbParams)
-      .then(({ gasConsumed, result }) => setEstimatedWeight(
+      .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasConsumed
+          ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
@@ -122,7 +122,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   );
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
-  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || !message.isMutating);
+  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
     <Modal

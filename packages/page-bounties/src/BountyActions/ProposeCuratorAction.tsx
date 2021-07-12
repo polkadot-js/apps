@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers';
@@ -28,7 +28,8 @@ const BOUNTY_METHODS = ['proposeCurator'];
 function ProposeCuratorAction ({ description, index, proposals, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { proposeCurator } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -51,7 +52,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
     setIsFeeValid(!!value?.gt(fee));
   }, [value, fee]);
 
-  return isMember && !isVotingInitiated
+  return isMember && !isVotingInitiated && councilMod
     ? (
       <>
         <Button
@@ -107,7 +108,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 label={t<string>('Propose curator')}
                 onStart={toggleOpen}
                 params={[threshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
-                tx={api.tx.council.propose}
+                tx={api.tx[councilMod].propose}
               />
             </Modal.Actions>
           </Modal>
