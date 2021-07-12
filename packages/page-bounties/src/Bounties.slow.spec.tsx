@@ -32,7 +32,8 @@ const renderBounties = () => {
         <ThemeProvider theme={lightTheme}>
           <Api
             apiType={apiType}
-            store={memoryStore}>
+            store={memoryStore}
+          >
             <WaitForApi>
               <div>
                 <BountiesApp basePath='/bounties' />
