@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, Input, Table, MarkWarning } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -226,6 +226,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClick={toggleProxy}
         />
       </Button.Group>
+      <MarkWarning
+        className='warning centered'
+        content={t<string>('Accounts created during PoA will not be visible here. Add them back using the backup')} />
       <BannerExtension />
       <BannerClaims />
       <Table
