@@ -118,6 +118,7 @@ import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
+import nodeWestend from './nodes/westend_colour.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeWhala from './nodes/whala.svg';
 import nodeZCloak from './nodes/zCloak.svg';
@@ -231,6 +232,7 @@ export const chainLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
+  Westend: nodeWestend,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -365,6 +367,7 @@ export const nodeLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
+  Westend: nodeWestend,
   Westlake: nodeWestlake,
   'Westmint Collator': nodeStatemine,
   Whala: nodeWhala,
@@ -545,7 +548,7 @@ export const namedLogos: Record<string, unknown> = {
   unitv: nodeUnitv,
   vln: nodeVln,
   web3games: nodeWeb3games,
-  westend: nodePolkadot,
+  westend: nodeWestend,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
   whala: nodeWhala,
