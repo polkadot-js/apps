@@ -68,7 +68,7 @@ export default React.memo(styled(Table)`
   table {
     border-spacing: 0;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
     width: 100%;
     z-index: 1;
@@ -93,6 +93,10 @@ export default React.memo(styled(Table)`
 
         &.all {
           width: 100%;
+
+          &:not(.overflow) {
+            word-break: break-word;
+          }
 
           summary {
             white-space: normal;
@@ -197,6 +201,10 @@ export default React.memo(styled(Table)`
         padding-right: 0.125rem;
       }
 
+      &.no-pad-top {
+        padding-top: 0.125rem;
+      }
+
       &.number {
         text-align: right;
       }
@@ -209,6 +217,7 @@ export default React.memo(styled(Table)`
         max-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: none;
       }
 
       &.start {

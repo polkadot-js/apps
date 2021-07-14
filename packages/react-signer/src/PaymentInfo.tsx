@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
@@ -28,7 +28,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {

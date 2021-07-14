@@ -5,7 +5,8 @@ const config = require('@polkadot/dev/config/jest.cjs');
 
 const findPackages = require('./scripts/findPackages.cjs');
 
-const defaultConfig = {
+module.exports = {
+  ...config,
   moduleNameMapper: {
     ...(
       findPackages()
@@ -21,23 +22,9 @@ const defaultConfig = {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
     '\\.(md)$': '<rootDir>/jest/mocks/empty.js'
   },
+  modulePathIgnorePatterns: ['<rootDir>/packages/apps-config/build'],
   setupFilesAfterEnv: ['<rootDir>/jest/jest-setup.ts'],
-  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/)']
-};
-
-module.exports = {
-  ...config,
-  projects: [
-    {
-      ...defaultConfig,
-      displayName: 'all-tests',
-      globalSetup: './jest/globalSetup.ts',
-      globalTeardown: './jest/globalTeardown.ts'
-    },
-    {
-      ...defaultConfig,
-      displayName: 'fast-tests'
-    }
-  ],
-  testTimeout: 25000
+  testEnvironment: 'jsdom',
+  testTimeout: 90000,
+  transformIgnorePatterns: ['/node_modules/(?!@polkadot|@babel/runtime/helpers/esm/|@substrate|smoldot)']
 };

@@ -30,6 +30,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
           controllerId={controllerId}
           onChange={setTx}
           stashId={stashId}
+          withFocus
           withSenders
         />
       </Modal.Content>

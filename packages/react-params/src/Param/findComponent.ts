@@ -16,6 +16,7 @@ import Bytes from './Bytes';
 import Call from './Call';
 import Code from './Code';
 import DispatchError from './DispatchError';
+import DispatchResult from './DispatchResult';
 import Enum from './Enum';
 import Hash160 from './Hash160';
 import Hash256 from './Hash256';
@@ -52,6 +53,7 @@ const componentDef: TypeToComponent[] = [
   { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: ['DispatchError'] },
+  { c: DispatchResult, t: ['DispatchResult'] },
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['Hash', 'H256'] },

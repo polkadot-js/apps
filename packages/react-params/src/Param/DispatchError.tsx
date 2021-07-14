@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchError } from '@polkadot/types/interfaces';
-import type { Props } from '../types';
+import type { Props as BaseProps } from '../types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -15,6 +15,10 @@ import Unknown from './Unknown';
 interface Details {
   details?: string | null;
   type?: string;
+}
+
+interface Props extends BaseProps {
+  childrenPre?: React.ReactNode;
 }
 
 function isDispatchError (value?: unknown): value is DispatchError {
