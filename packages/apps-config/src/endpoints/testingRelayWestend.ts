@@ -91,6 +91,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'karura',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
         paraId: 2005,
         text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
         providers: {
