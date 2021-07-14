@@ -38,6 +38,7 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
+import nodeCalamari from './nodes/calamari.png';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
@@ -255,6 +256,7 @@ export const nodeLogos = Object.entries({
   'Bit Country Tewai Parachain Collator': nodeBitCountry,
   'Bit.Country': nodeBitCountry,
   'BitCountry Node': nodeBitCountry,
+  'Calamari Parachain Collator': nodeCalamari,
   'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
@@ -401,6 +403,7 @@ export const namedLogos: Record<string, unknown> = {
   beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,
+  calamari: nodeCalamari,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
