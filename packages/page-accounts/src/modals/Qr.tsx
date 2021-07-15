@@ -7,7 +7,7 @@ import type { ModalProps } from '../types';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@polkadot/react-components';
+import { AddressRow, Button, Input, InputAddress, MarkWarning, Modal, QrScanAddress } from '@polkadot/react-components';
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
@@ -31,14 +31,15 @@ interface Address {
   address: string;
   isAddress: boolean;
   scanned: Scanned | null;
+  warning?: string;
 }
 
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isEthereum } = useApi();
   const { isIpfs } = useIpfs();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ address, isAddress, scanned }, setAddress] = useState<Address>({ address: '', isAddress: false, scanned: null });
+  const [{ address, isAddress, scanned, warning }, setAddress] = useState<Address>({ address: '', isAddress: false, scanned: null });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
   const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
@@ -70,6 +71,18 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
     [_onNameChange]
   );
 
+  const _onError = useCallback(
+    (err: Error): void => {
+      setAddress({
+        address: '',
+        isAddress: false,
+        scanned: null,
+        warning: err.message
+      });
+    },
+    []
+  );
+
   const _onSave = useCallback(
     (): void => {
       if (!scanned || !isValid) {
@@ -82,7 +95,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         name: name.trim()
       };
       const account = isAddress
-        ? keyring.addExternal(content, meta).pair.address
+        ? isEthereum ? keyring.addExternal(content).pair.address : keyring.addExternal(content, meta).pair.address
         : keyring.addUri(content, password, meta, 'sr25519').pair.address;
 
       InputAddress.setLastValue('account', account);
@@ -95,7 +108,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       });
       onClose();
     },
-    [api, isValid, name, onClose, onStatusChange, password, scanned, t]
+    [api, isValid, name, onClose, onStatusChange, password, scanned, isEthereum, t]
   );
 
   return (
@@ -138,8 +151,13 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           : (
             <Modal.Columns hint={t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}>
               <div className='qr-wrapper'>
-                <QrScanAddress onScan={_onScan} />
+                <QrScanAddress
+                  isEthereum={isEthereum}
+                  onError={_onError}
+                  onScan={_onScan}
+                />
               </div>
+              {warning && <MarkWarning content={warning} />}
             </Modal.Columns>
           )
         }

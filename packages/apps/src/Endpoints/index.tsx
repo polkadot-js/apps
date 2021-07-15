@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
+import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -43,13 +44,21 @@ function isValidUrl (url: string): boolean {
   );
 }
 
+function getApiType (param: string): Endpoint {
+  if (param.includes('-substrate-connect')) {
+    return { param, type: 'substrate-connect' };
+  }
+
+  return { param, type: 'json-rpc' };
+}
+
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
       result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
     } else {
       const prev = result[result.length - 1];
-      const prov = { name: e.textBy, url: e.value };
+      const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value };
 
       if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);
@@ -116,6 +125,18 @@ function loadAffinities (groups: Group[]): Record<string, string> {
       ...result,
       [network]: apiUrl
     }), {});
+}
+
+function isSwitchDisabled (hasUrlChanged: boolean, apiType: EndpointType, isUrlValid: boolean): boolean {
+  if (!hasUrlChanged) {
+    return true;
+  } else if (apiType === 'substrate-connect') {
+    return false;
+  } else if (isUrlValid) {
+    return false;
+  }
+
+  return true;
 }
 
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
@@ -216,13 +237,16 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _onApply = useCallback(
     (): void => {
       settings.set({ ...(settings.get()), apiUrl });
-
-      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+      window.location.assign(`${window.location.origin}${window.location.pathname}${getApiType(apiUrl).type === 'substrate-connect' ? '?sc=' : '?rpc='}${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
-
       onClose();
     },
     [apiUrl, onClose]
+  );
+
+  const canSwitch = useMemo(
+    () => isSwitchDisabled(hasUrlChanged, getApiType(apiUrl).type, isUrlValid),
+    [hasUrlChanged, apiUrl, isUrlValid]
   );
 
   return (
@@ -230,7 +254,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       button={
         <Button
           icon='sync'
-          isDisabled={!(hasUrlChanged && isUrlValid)}
+          isDisabled={canSwitch}
           label={t<string>('Switch')}
           onClick={_onApply}
         />
@@ -251,7 +275,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           setGroup={_changeGroup}
           value={group}
         >
-          {group.isDevelopment && (
+          {group.isDevelopment && getApiType(apiUrl).type === 'json-rpc' && (
             <div className='endpointCustomWrapper'>
               <Input
                 className='endpointCustom'

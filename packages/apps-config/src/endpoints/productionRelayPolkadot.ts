@@ -5,6 +5,7 @@ import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
 import { POLKADOT_GENESIS } from '../api/constants';
+import { createProviderUrl } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -23,7 +24,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://polkadot.elara.patract.io',
-      Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer'
+      'light client': createProviderUrl('polkadot-substrate-connect', 'substrate-connect')
+      // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     linked: [
       // (1) system parachains (none available yet)

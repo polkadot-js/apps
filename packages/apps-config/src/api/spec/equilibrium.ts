@@ -1,16 +1,16 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx, AugmentedQuery, RxResult } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
-import type { Observable } from '@polkadot/x-rxjs';
 
-import { equilibrium } from '@equilab/definitions';
+import { equilibrium, equilibriumNext } from '@equilab/definitions';
 import BN from 'bn.js';
+import { map } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
-import { map } from '@polkadot/x-rxjs/operators';
 
 interface SignedBalance extends Enum {
   readonly isPositive: boolean;
@@ -37,13 +37,24 @@ type EqBalanceDoubleMap<T> = AugmentedQuery<
 [AccountId, Currency]
 >
 
+export const u64FromCurrency = (currency: string): number => {
+  const buf = Buffer.from(currency.toLowerCase());
+  const size = buf.length;
+
+  return buf.reduce(
+    (val, digit, i) => val + Math.pow(256, size - 1 - i) * digit,
+    0
+  );
+};
+
 const transformBalanceStorage = <T>(
   query: EqBalanceDoubleMap<T>,
   currency: string,
   transform: <SB extends Enum>(data: SB) => AccountData,
-  currencyToAsset: (arg: string) => T
+  currencyToAsset: (arg: string, api?: ApiInterfaceRx) => T,
+  api?: ApiInterfaceRx
 ): CommonBalanceMap => {
-  const arg = currencyToAsset(currency);
+  const arg = currencyToAsset(currency, api);
 
   // HACK as we cannot properly transform queryMulti result, define AccountData getters on standard Enum
   if (!(Enum as { hacked?: boolean }).hacked) {
@@ -81,7 +92,7 @@ const signedBalancePredicate = (raw: Codec): raw is SignedBalance =>
     Object.prototype.hasOwnProperty.call(raw, key)
   );
 
-export const createCustomAccount = <A = string>(currency: string, currencyToAsset: (curr: string) => A, accountDataType = 'AccountData'):
+export const createCustomAccount = <A = string>(currency: string, currencyToAsset: (curr: string, api?: ApiInterfaceRx) => A, accountDataType = 'AccountData'):
 (instanceId: string, api: ApiInterfaceRx) => RxResult<(arg: string | Uint8Array | AccountId) => Observable<AccountData>> => (instanceId: string, api: ApiInterfaceRx) => {
   const registry = api.registry;
 
@@ -106,7 +117,8 @@ export const createCustomAccount = <A = string>(currency: string, currencyToAsse
     api.query.eqBalances.account as unknown as EqBalanceDoubleMap<A>,
     currency,
     transform,
-    currencyToAsset
+    currencyToAsset,
+    api
   );
 };
 
@@ -116,7 +128,17 @@ const definitions: OverrideBundleDefinition = {
       (all, cur) => ({
         ...all,
         [cur]: {
-          customAccount: createCustomAccount(cur, (currency: string) => currency)
+          customAccount: createCustomAccount(cur, (currency: string, api?: ApiInterfaceRx) => {
+            let assetsEnabled = true;
+
+            try {
+              api?.registry.createType('AssetIdInnerType' as any);
+            } catch (_) {
+              assetsEnabled = false;
+            }
+
+            return assetsEnabled ? { 0: u64FromCurrency(currency) } : currency;
+          })
         }
       }),
       {}
@@ -127,9 +149,12 @@ const definitions: OverrideBundleDefinition = {
 
   types: [
     {
-      // on all versions
-      minmax: [0, undefined],
+      minmax: [0, 262],
       types: equilibrium.types
+    },
+    {
+      minmax: [263, undefined],
+      types: equilibriumNext.types
     }
   ]
 };
