@@ -24,6 +24,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
+import chainCrownSterling from './chains/crown-sterling.png';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotScanner from './external/dotscanner.png';
@@ -135,6 +136,7 @@ export const chainLogos = Object.entries({
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust PC1': nodeCrust,
+  'Crown Sterling': chainCrownSterling,
   'darwinia crab': nodeCrab,
   'Darwinia Crab PC2': nodeCrab,
   'Darwinia PC2': nodeDarwinia,
@@ -174,6 +176,7 @@ export const chainLogos = Object.entries({
   Litentry: nodeLitentry,
   'Manta Testnet': nodeManta,
   Mars: nodeAres,
+  'crown-sterling': chainCrownSterling,
   'MathChain PC1': nodeMath,
   'Moonbase Alpha': moonbeam,
   'Moonbase Development Testnet': moonbeam,
@@ -257,6 +260,7 @@ export const nodeLogos = Object.entries({
   'Clover Node': nodeClover,
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
+  'crown-sterling':chainCrownSterling,
   darwinia: nodeDarwinia,
   'darwinia crab': nodeCrab,
   'darwinia parachain': nodeDarwinia,
@@ -397,6 +401,7 @@ export const namedLogos: Record<string, unknown> = {
   clover: nodeClover,
   crab: nodeCrab,
   crab_redirect: nodeCrab,
+  'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
