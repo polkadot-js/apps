@@ -30,7 +30,7 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
       value &&
       isString(value) &&
       !value.includes('127.0.0.1') &&
-      !value.includes('substrate-connect')
+      !value.startsWith('light://')
     )
     .map(({ text, value }): Partial<Endpoint> => ({
       name: text as string,

@@ -14,17 +14,15 @@ import { Api } from '@polkadot/react-api';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
-import { Endpoint } from '@polkadot/ui-settings/types';
 
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
-  const apiType: Endpoint = { param: `ws://127.0.0.1:${SUBSTRATE_PORT}`, type: 'json-rpc' };
 
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
         <Api
-          apiType={apiType}
+          apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
           store={memoryStore}
         >
           <WaitForApi>
