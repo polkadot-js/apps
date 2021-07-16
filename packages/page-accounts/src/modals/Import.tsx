@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Dispatch, SetStateAction } from 'react';
 import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
