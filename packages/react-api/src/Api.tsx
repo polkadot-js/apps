@@ -19,7 +19,6 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
@@ -197,10 +196,9 @@ function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | n
     let provider;
 
     if (apiUrl.startsWith('light://')) {
-      const detect: Detector = new Detector('polkadot-js/apps');
+      const detect = new Detector('polkadot-js/apps');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      provider = detect.provider(apiUrl.replace('light://substrate-connect/', '')) as ProviderInterface;
+      provider = detect.provider(apiUrl.replace('light://substrate-connect/', ''));
       provider.connect().catch(console.error);
     } else {
       provider = new WsProvider(apiUrl);
