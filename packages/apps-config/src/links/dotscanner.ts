@@ -11,7 +11,7 @@ export default {
     Kusama: 'kusama'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://dotscanner.com/${chain}/${path}/${data.toString()}`,
+    `https://dotscanner.com/${chain}/${path}/${data.toString()}?utm_source=polkadotjs`,
   isActive: true,
   logo: externalLogos.dotscanner as string,
   paths: {
