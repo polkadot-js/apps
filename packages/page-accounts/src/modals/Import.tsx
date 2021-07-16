@@ -28,11 +28,11 @@ interface PassState {
 
 const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
-function parseFile (file: Uint8Array, setWarning: Dispatch<SetStateAction<string | null>>, genesisHash?: string | null): KeyringPair | null {
+function parseFile (file: Uint8Array, setWarning: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: string | null): KeyringPair | null {
   try {
     const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
 
-    if (pair.type !== 'ethereum') { throw new Error('JSON File does not contain an ethereum type key pair'); }
+    if (isEthereum && pair.type !== 'ethereum') { throw new Error('JSON File does not contain an ethereum type key pair'); }
 
     return pair;
   } catch (error) {
@@ -45,7 +45,7 @@ function parseFile (file: Uint8Array, setWarning: Dispatch<SetStateAction<string
 
 function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
+  const { api, isDevelopment, isEthereum } = useApi();
   const [isBusy, setIsBusy] = useState(false);
   const [pair, setPair] = useState<KeyringPair | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
@@ -54,8 +54,8 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
   const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setPair(parseFile(file, setWarning, apiGenesisHash)),
-    [apiGenesisHash]
+    (file: Uint8Array) => setPair(parseFile(file, setWarning, isEthereum, apiGenesisHash)),
+    [apiGenesisHash, isEthereum]
   );
 
   const _onChangePass = useCallback(
