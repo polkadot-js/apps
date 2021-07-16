@@ -5,7 +5,7 @@ import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
-import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { AddressRow, Button, InputAddress, InputFile, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
