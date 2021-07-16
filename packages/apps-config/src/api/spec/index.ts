@@ -94,6 +94,7 @@ import vlnrococo from './vln-rococo';
 import vodka from './vodka';
 import web3games from './web3games';
 import westlake from './westlake';
+import zCloak from './zCloak';
 import zeitgeist from './zeitgeist';
 import zenlink from './zenlink';
 import zero from './zero';
@@ -210,6 +211,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'unit-parachain': unitv,
   vodka,
   'web3games-node': web3games,
+  'zcloak-network': zCloak,
   zeitgeist: zeitgeist
 };
 
