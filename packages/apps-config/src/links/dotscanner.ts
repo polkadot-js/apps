@@ -7,8 +7,8 @@ import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
-    Polkadot: 'polkadot',
-    Kusama: 'kusama'
+    Kusama: 'kusama',
+    Polkadot: 'polkadot'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://dotscanner.com/${chain}/${path}/${data.toString()}?utm_source=polkadotjs`,
