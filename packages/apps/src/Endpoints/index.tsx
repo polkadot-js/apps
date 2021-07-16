@@ -14,7 +14,6 @@ import styled from 'styled-components';
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -40,16 +39,8 @@ function isValidUrl (url: string): boolean {
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
     // check that it starts with a valid ws identifier
-    (url.startsWith('ws://') || url.startsWith('wss://'))
+    (url.startsWith('ws://') || url.startsWith('wss://') || url.startsWith('light://'))
   );
-}
-
-function getApiType (param: string): Endpoint {
-  if (param.includes('-substrate-connect')) {
-    return { param, type: 'substrate-connect' };
-  }
-
-  return { param, type: 'json-rpc' };
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
@@ -127,10 +118,10 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
-function isSwitchDisabled (hasUrlChanged: boolean, apiType: EndpointType, isUrlValid: boolean): boolean {
+function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
   if (!hasUrlChanged) {
     return true;
-  } else if (apiType === 'substrate-connect') {
+  } else if (apiUrl.startsWith('light://')) {
     return false;
   } else if (isUrlValid) {
     return false;
@@ -237,7 +228,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _onApply = useCallback(
     (): void => {
       settings.set({ ...(settings.get()), apiUrl });
-      window.location.assign(`${window.location.origin}${window.location.pathname}${getApiType(apiUrl).type === 'substrate-connect' ? '?sc=' : '?rpc='}${encodeURIComponent(apiUrl)}${window.location.hash}`);
+      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
       onClose();
     },
@@ -245,7 +236,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   );
 
   const canSwitch = useMemo(
-    () => isSwitchDisabled(hasUrlChanged, getApiType(apiUrl).type, isUrlValid),
+    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid),
     [hasUrlChanged, apiUrl, isUrlValid]
   );
 
@@ -275,7 +266,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           setGroup={_changeGroup}
           value={group}
         >
-          {group.isDevelopment && getApiType(apiUrl).type === 'json-rpc' && (
+          {group.isDevelopment && (
             <div className='endpointCustomWrapper'>
               <Input
                 className='endpointCustom'

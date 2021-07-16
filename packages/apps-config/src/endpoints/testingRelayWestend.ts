@@ -5,7 +5,6 @@ import type { TFunction } from 'i18next';
 import type { EndpointOption } from './types';
 
 import { WESTEND_GENESIS } from '../api/constants';
-import { createProviderUrl } from './util';
 
 /* eslint-disable sort-keys */
 
@@ -26,7 +25,7 @@ export function createWestend (t: TFunction): EndpointOption {
       Parity: 'wss://westend-rpc.polkadot.io',
       'Patract Elara': 'wss://westend.elara.patract.io',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
-      'light client': createProviderUrl('westend-substrate-connect', 'substrate-connect')
+      'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
       // Pinknode: 'wss://rpc.pinknode.io/westend/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
