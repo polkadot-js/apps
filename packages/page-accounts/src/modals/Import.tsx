@@ -5,7 +5,7 @@ import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
 import { AddressRow, Button, InputAddress, InputFile, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -28,11 +28,16 @@ interface PassState {
 
 const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
-function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair | null {
+function parseFile (file: Uint8Array, setWarning: Dispatch<SetStateAction<string | null>>, genesisHash?: string | null): KeyringPair | null {
   try {
-    return keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+    const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+
+    if (pair.type !== 'ethereum') { throw new Error('JSON File does not contain an ethereum type key pair'); }
+
+    return pair;
   } catch (error) {
     console.error(error);
+    setWarning((error as Error).message ? (error as Error).message : (error as Error).toString());
   }
 
   return null;
@@ -43,12 +48,13 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
   const { api, isDevelopment } = useApi();
   const [isBusy, setIsBusy] = useState(false);
   const [pair, setPair] = useState<KeyringPair | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
   const apiGenesisHash = useMemo(() => isDevelopment ? null : api.genesisHash.toHex(), [api, isDevelopment]);
   const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setPair(parseFile(file, apiGenesisHash)),
+    (file: Uint8Array) => setPair(parseFile(file, setWarning, apiGenesisHash)),
     [apiGenesisHash]
   );
 
@@ -136,6 +142,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         </Modal.Columns>
         <Modal.Columns>
           <ExternalWarning />
+          {warning && <MarkWarning content={warning} />}
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
