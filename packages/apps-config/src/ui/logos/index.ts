@@ -38,6 +38,7 @@ import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
+import nodeCalamari from './nodes/calamari.png';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
@@ -117,6 +118,7 @@ import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
+import nodeWestend from './nodes/westend_colour.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeWhala from './nodes/whala.svg';
 import nodeZCloak from './nodes/zCloak.svg';
@@ -230,6 +232,7 @@ export const chainLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
+  Westend: nodeWestend,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -255,6 +258,7 @@ export const nodeLogos = Object.entries({
   'Bit Country Tewai Parachain Collator': nodeBitCountry,
   'Bit.Country': nodeBitCountry,
   'BitCountry Node': nodeBitCountry,
+  'Calamari Parachain Collator': nodeCalamari,
   'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
@@ -363,6 +367,7 @@ export const nodeLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
+  Westend: nodeWestend,
   Westlake: nodeWestlake,
   'Westmint Collator': nodeStatemine,
   Whala: nodeWhala,
@@ -401,6 +406,7 @@ export const namedLogos: Record<string, unknown> = {
   beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,
+  calamari: nodeCalamari,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
@@ -542,7 +548,7 @@ export const namedLogos: Record<string, unknown> = {
   unitv: nodeUnitv,
   vln: nodeVln,
   web3games: nodeWeb3games,
-  westend: nodePolkadot,
+  westend: nodeWestend,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
   whala: nodeWhala,

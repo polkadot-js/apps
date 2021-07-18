@@ -3,8 +3,6 @@
 
 import type { Option } from '../settings/types';
 
-import { Endpoint } from '@polkadot/ui-settings/types';
-
 export interface EndpointOption {
   dnslink?: string;
   genesisHash?: string;
@@ -16,7 +14,7 @@ export interface EndpointOption {
   linked?: EndpointOption[];
   info?: string;
   paraId?: number;
-  providers: Record<string, string | Endpoint>;
+  providers: Record<string, string>;
   summary?: string;
   teleport?: number[];
   text: React.ReactNode;
