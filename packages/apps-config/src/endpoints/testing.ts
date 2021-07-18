@@ -257,6 +257,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'mybank',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5845
       text: t('rpc.test.mybank', 'mybank.network', { ns: 'apps-config' }),
       providers: {
         MYBANK: 'wss://mybank.network/substrate'
