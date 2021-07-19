@@ -49,8 +49,8 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
     return null;
   }
 
-  const strings = meta.docs.map((doc) => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc) => !doc.length);
+  const strings = meta.docs.map((d) => d.toString().trim());
+  const firstEmpty = strings.findIndex((d) => !d.length);
   const combined = (
     firstEmpty === -1
       ? strings
