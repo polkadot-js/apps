@@ -2583,7 +2583,7 @@ __metadata:
     "@subsocial/types": 0.5.9-dev.2
     "@zeitgeistpm/type-defs": 0.2.0
     i18next: ^19.9.2
-    moonbeam-types-bundle: latest
+    moonbeam-types-bundle: 1.1.26
     pontem-types-bundle: 1.0.5
   languageName: unknown
   linkType: soft
@@ -14022,7 +14022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:latest":
+"moonbeam-types-bundle@npm:1.1.26":
   version: 1.1.26
   resolution: "moonbeam-types-bundle@npm:1.1.26"
   dependencies:
