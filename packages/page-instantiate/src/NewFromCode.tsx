@@ -139,8 +139,11 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
     try {
       const { identifier } = abi?.constructors[constructorIndex];
 
+      console.log(identifier);
+      console.log(code?.tx);
+
       contract = code && identifier && endowment
-        ? code.tx[identifier]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...extractValues(params))
+        ? code.tx[`${identifier[0].toLowerCase()}${identifier.slice(1)}`]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...extractValues(params))
         : null;
 
       setUploadTx(() => [contract, error]);
