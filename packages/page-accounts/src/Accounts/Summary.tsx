@@ -34,6 +34,9 @@ function Summary({ className, balance }: Props) {
       <CardSummary label={t('redeemable')}>
         <FormatBalance value={balance?.redeemable} />
       </CardSummary>
+      <CardSummary label={t('unbonding')}>
+        <FormatBalance value={balance?.unbonding} />
+      </CardSummary>
     </SummaryBox>
   )
 }

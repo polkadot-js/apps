@@ -1,7 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveBalancesAll, DeriveStakingAccount, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
@@ -12,6 +11,7 @@ import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { Delegation, AccountBalance } from '../types';
 
+import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
@@ -64,6 +64,19 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   return tags.reduce((result: boolean, tag: string): boolean => {
     return result || tag.toLowerCase().includes(_filter);
   }, name.toLowerCase().includes(_filter));
+}
+
+function calcUnbonding (stakingInfo?: DeriveStakingAccount) {
+  if (!stakingInfo?.unlocking) {
+    return BN_ZERO;
+  }
+
+  const filtered = stakingInfo.unlocking
+    .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
+    .map((unlock) => unlock.value);
+  const total = filtered.reduce((total, value) => total.iadd(value), new BN(0));
+
+  return total;
 }
 
 function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> | null {
@@ -124,7 +137,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         locked: balancesAll.lockedBalance,
         transferrable: balancesAll.availableBalance,
         bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO,
-        redeemable: stakingInfo?.redeemable ?? BN_ZERO
+        redeemable: stakingInfo?.redeemable ?? BN_ZERO,
+        unbonding: calcUnbonding(stakingInfo)
       }
       setBalance(address, balance);
 

@@ -127,7 +127,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             locked: aggregate('locked'),
             transferrable: aggregate('transferrable'),
             bonded: aggregate('bonded'),
-            redeemable: aggregate('redeemable')
+            redeemable: aggregate('redeemable'),
+            unbonding: aggregate('unbonding')
           }
         };
       }),
