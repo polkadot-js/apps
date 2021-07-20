@@ -19,10 +19,8 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint } from '@polkadot/ui-settings/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
@@ -32,7 +30,7 @@ import { decodeUrlTypes } from './urlTypes';
 
 interface Props {
   children: React.ReactNode;
-  apiType: Endpoint;
+  apiUrl: string;
   store?: KeyringStore;
 }
 
@@ -180,7 +178,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   };
 }
 
-function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | null {
+function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -189,22 +187,21 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, apiUrl: apiType.param, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, state, apiType]
+    () => ({ ...state, api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, state, apiUrl]
   );
 
   // initial initialization
   useEffect((): void => {
     let provider;
 
-    if (apiType.type === 'substrate-connect') {
-      const detect: Detector = new Detector('PolkadotJS apps');
+    if (apiUrl.startsWith('light://')) {
+      const detect = new Detector('polkadot-js/apps');
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      provider = detect.provider(apiType.param) as ProviderInterface;
+      provider = detect.provider(apiUrl.replace('light://substrate-connect/', ''));
       provider.connect().catch(console.error);
-    } else if (apiType.type === 'json-rpc') {
-      provider = new WsProvider(apiType.param);
+    } else {
+      provider = new WsProvider(apiUrl);
     }
 
     const signer = new ApiSigner(registry, queuePayload, queueSetTxStatus);
@@ -232,7 +229,7 @@ function Api ({ apiType, children, store }: Props): React.ReactElement<Props> | 
     });
 
     setIsApiInitialized(true);
-  }, [apiType, queuePayload, queueSetTxStatus, store]);
+  }, [apiUrl, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;
