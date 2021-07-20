@@ -292,10 +292,18 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
     >
       {!!si && (
         <Dropdown
-          defaultValue={si.value}
+          defaultValue={
+            isDisabled && siDefault
+              ? siDefault.value
+              : si.value
+          }
           dropdownClassName='ui--SiDropdown'
           isButton
-          onChange={_onSelectSiUnit}
+          onChange={
+            isDisabled
+              ? undefined
+              : _onSelectSiUnit
+          }
           options={siOptions}
         />
       )}

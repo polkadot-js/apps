@@ -24,7 +24,8 @@ export function createWestend (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
       'Patract Elara': 'wss://westend.elara.patract.io',
-      OnFinality: 'wss://westend.api.onfinality.io/public-ws'
+      OnFinality: 'wss://westend.api.onfinality.io/public-ws',
+      'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
       // Pinknode: 'wss://rpc.pinknode.io/westend/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -48,7 +49,7 @@ export function createWestend (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'basilisk',
-        paraId: 2012,
+        paraId: 2083,
         text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
         providers: {
           HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
@@ -60,6 +61,14 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
+        }
+      },
+      {
+        info: 'integritee',
+        paraId: 2081,
+        text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),
+        providers: {
+          Integritee: 'wss://teerw1.integritee.network'
         }
       },
       {
@@ -81,6 +90,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'karura',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
         paraId: 2005,
         text: t('rpc.westend.wendala', 'Wendala', { ns: 'apps-config' }),
         providers: {

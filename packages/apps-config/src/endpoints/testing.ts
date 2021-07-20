@@ -264,6 +264,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'mybank',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5845
       text: t('rpc.test.mybank', 'mybank.network', { ns: 'apps-config' }),
       providers: {
         MYBANK: 'wss://mybank.network/substrate'
@@ -407,12 +408,12 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'unique',
       text: t('rpc.test.unique', 'Unique', { ns: 'apps-config' }),
       providers: {
-        Unique: 'wss://testnet2.uniquenetwork.io'
+        Unique: 'wss://testnet2.unique.network'
       }
     },
     {
       info: 'unitv',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5684
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5684
       text: t('rpc.test.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
         'Unit Network': 'wss://unitventures.io/'
@@ -427,10 +428,17 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'web3games',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: 'wss://substrate.org.cn:4443'
+      }
+    },
+    {
+      info: 'zCloak',
+      text: t('rpc.test.zCloak', 'zCloak-network', { ns: 'apps-config' }),
+      providers: {
+        'zCloak Network': 'wss://test1.zcloak.network'
       }
     },
     {
