@@ -2852,7 +2852,7 @@ __metadata:
     "@babel/runtime": ^7.14.6
     "@polkadot/api": ^5.1.1
     "@polkadot/extension-dapp": ^0.39.1
-    "@substrate/connect": 0.3.16
+    "@substrate/connect": ^0.3.16
     fflate: ^0.7.1
     rxjs: ^7.2.0
   languageName: unknown
@@ -3570,7 +3570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:0.3.16":
+"@substrate/connect@npm:^0.3.16":
   version: 0.3.16
   resolution: "@substrate/connect@npm:0.3.16"
   dependencies:
