@@ -212,11 +212,12 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'trustbase',
-        isUnreachable: true, // no providers (yet)
         homepage: 'https://trustbase.network/',
         paraId: 2078,
         text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
-        providers: {}
+        providers: {
+          TrustBase: 'ws://50.18.226.125:9944'
+        }
       },
       {
         info: 'sakura',
