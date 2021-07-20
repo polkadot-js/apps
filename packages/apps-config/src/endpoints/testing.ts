@@ -406,7 +406,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'unitv',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5684
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5684
       text: t('rpc.test.unitv', 'Unit Network', { ns: 'apps-config' }),
       providers: {
         'Unit Network': 'wss://unitventures.io/'
@@ -421,7 +421,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'web3games',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
         Web3Games: 'wss://substrate.org.cn:4443'
