@@ -123,7 +123,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
         locked: balancesAll.lockedBalance,
         transferrable: balancesAll.availableBalance,
-        bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO
+        bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO,
+        redeemable: stakingInfo?.redeemable ?? BN_ZERO
       }
       setBalance(address, balance);
 

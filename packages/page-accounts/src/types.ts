@@ -39,6 +39,7 @@ export interface AccountBalance {
   locked: BN;
   transferrable: BN;
   bonded: BN;
+  redeemable: BN;
 }
 
 export type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';
