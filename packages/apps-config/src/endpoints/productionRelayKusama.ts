@@ -215,9 +215,7 @@ export function createKusama (t: TFunction): EndpointOption {
         homepage: 'https://trustbase.network/',
         paraId: 2078,
         text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
-        providers: {
-          Airalab: ''
-        }
+        providers: {}
       },
       {
         info: 'sakura',
