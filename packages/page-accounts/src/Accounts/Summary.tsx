@@ -28,6 +28,9 @@ function Summary({ className, balance }: Props) {
       <CardSummary label={t('total locked')}>
         <FormatBalance value={balance?.locked} />
       </CardSummary>
+      <CardSummary label={t('bonded')}>
+        <FormatBalance value={balance?.bonded} />
+      </CardSummary>
     </SummaryBox>
   )
 }

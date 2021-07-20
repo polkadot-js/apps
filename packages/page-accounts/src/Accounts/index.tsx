@@ -125,7 +125,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           summary: {
             total: aggregate('total'),
             locked: aggregate('locked'),
-            transferrable: aggregate('transferrable')
+            transferrable: aggregate('transferrable'),
+            bonded: aggregate('bonded')
           }
         };
       }),

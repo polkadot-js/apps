@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAll, DeriveStakingAccount, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -94,6 +94,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [address]);
+  const stakingInfo = useCall<DeriveStakingAccount>(api.api.derive.staking?.account, [address]);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
@@ -121,7 +122,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       const balance: AccountBalance = {
         total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
         locked: balancesAll.lockedBalance,
-        transferrable: balancesAll.availableBalance
+        transferrable: balancesAll.availableBalance,
+        bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO
       }
       setBalance(address, balance);
 
@@ -131,7 +133,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           : api.api.tx.vesting.vest()
       );
     }
-  }, [address, api, balancesAll, setBalance]);
+  }, [address, api, balancesAll, setBalance, stakingInfo?.stashId]);
 
   useEffect((): void => {
     bestNumber && democracyLocks && setUnlockableIds(
