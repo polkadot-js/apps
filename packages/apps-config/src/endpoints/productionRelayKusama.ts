@@ -211,6 +211,14 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'trustbase',
+        isUnreachable: true, // no providers (yet)
+        homepage: 'https://trustbase.network/',
+        paraId: 2078,
+        text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
+        providers: {}
+      },
+      {
         info: 'sakura',
         homepage: 'https://clover.finance/',
         isUnreachable: true,
