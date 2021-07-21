@@ -1450,7 +1450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bifrost-finance/type-definitions@npm:^1.1.59":
+"@bifrost-finance/type-definitions@npm:1.1.59":
   version: 1.1.59
   resolution: "@bifrost-finance/type-definitions@npm:1.1.59"
   dependencies:
