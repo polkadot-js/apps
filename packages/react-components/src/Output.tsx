@@ -48,7 +48,7 @@ function Output ({ children, className = '', error = 'error', help, isError, isF
           isTrimmed={isTrimmed}
           registry={registry}
           type={type}
-          value={isError ? error : value?.toHuman()}
+          value={isError ? error : value?.toJSON()}
         />
         {children}
         {withCopy
