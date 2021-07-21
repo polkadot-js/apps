@@ -47,6 +47,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'bitcountry',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5860
       text: t('rpc.test.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
       providers: {
         'Bit.Country': 'wss://whenua.bit.country'
