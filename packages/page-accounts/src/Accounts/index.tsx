@@ -4,7 +4,7 @@
 import type BN from 'bn.js';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
-import type { Delegation, SortedAccount, AccountBalance } from '../types';
+import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -123,11 +123,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         return {
           accounts,
           summary: {
-            total: aggregate('total'),
-            locked: aggregate('locked'),
-            transferrable: aggregate('transferrable'),
             bonded: aggregate('bonded'),
+            locked: aggregate('locked'),
             redeemable: aggregate('redeemable'),
+            total: aggregate('total'),
+            transferrable: aggregate('transferrable'),
             unbonding: aggregate('unbonding')
           }
         };

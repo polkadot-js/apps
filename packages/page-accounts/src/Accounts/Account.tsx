@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveBalancesAll, DeriveStakingAccount, DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { Delegation, AccountBalance } from '../types';
+import type { AccountBalance, Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -133,13 +133,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   useEffect((): void => {
     if (balancesAll) {
       const balance: AccountBalance = {
-        total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
-        locked: balancesAll.lockedBalance,
-        transferrable: balancesAll.availableBalance,
         bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO,
+        locked: balancesAll.lockedBalance,
         redeemable: stakingInfo?.redeemable ?? BN_ZERO,
+        total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
+        transferrable: balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo)
-      }
+      };
+
       setBalance(address, balance);
 
       api.api.tx.vesting?.vest && setVestingTx(() =>
@@ -148,7 +149,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           : api.api.tx.vesting.vest()
       );
     }
-  }, [address, api, balancesAll, setBalance, stakingInfo?.stashId]);
+  }, [address, api, balancesAll, setBalance, stakingInfo]);
 
   useEffect((): void => {
     bestNumber && democracyLocks && setUnlockableIds(
