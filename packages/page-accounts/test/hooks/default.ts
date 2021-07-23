@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
@@ -28,16 +27,12 @@ export const someBalances: DeriveBalancesAll = {
   reservedBalance: balanceOf('50000000000')
 } as any;
 
-export class AccountHooks {
+class MockAccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;
 
   public accountBalances: DeriveBalancesAll = someBalances;
 
   public nonce: BN = new BN(1);
-
-  public balanceOf (balance: number | string): Balance {
-    return balanceOf(balance);
-  }
 
   public setAccounts (accounts: string[]): void {
     this.useAccounts = {
@@ -50,4 +45,4 @@ export class AccountHooks {
   }
 }
 
-export const mockAccountHooks = new AccountHooks();
+export const mockAccountHooks = new MockAccountHooks();

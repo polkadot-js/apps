@@ -34,7 +34,7 @@ jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
   useLoadingDelay: () => false
 }));
 
-jest.mock('@polkadot/react-hooks/useBalance', () => ({
+jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
   useBalancesAll: (address: string) => mockAccountHooks.accountBalances
 }));
 
@@ -112,9 +112,8 @@ export class AccountsPage {
 
   async findAccountsTable (): Promise<HTMLElement> {
     this.assertRendered();
-    const table = await screen.findByRole('table');
 
-    return table;
+    return await screen.findByRole('table');
   }
 
   async findAccountRows (): Promise<AccountRow[]> {
@@ -122,9 +121,8 @@ export class AccountsPage {
     const table = await this.findAccountsTable();
     const tableBody = table.getElementsByTagName('tbody')[0];
     const rows = await within(tableBody).findAllByRole('row');
-    const accountRows = rows.filter((r) => r.className.startsWith('Account-'));
 
-    return accountRows;
+    return rows.filter((r) => r.className.startsWith('Account-'));
   }
 
   private assertRendered () {
