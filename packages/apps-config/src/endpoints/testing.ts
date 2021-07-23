@@ -18,6 +18,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
+      info: 'aleph',
+      text: t('rpc.test.aleph', 'Aleph Zero', { ns: 'apps-config' }),
+      providers: {
+        'Aleph Zero Foundation': 'wss://test-api.alephzero.org'
+      }
+    },
+    {
       info: 'centrifuge',
       text: t('rpc.test.amber', 'Amber', { ns: 'apps-config' }),
       providers: {
