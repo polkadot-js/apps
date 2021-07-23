@@ -7,6 +7,7 @@ import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { getFastTrackThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
@@ -40,9 +41,9 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
 
   const memberThreshold = useMemo(
     () => new BN(
-      !votingBlocks || api.consts.democracy.fastTrackVotingPeriod.lte(votingBlocks)
-        ? Math.ceil(members.length * 0.66)
-        : members.length
+      Math.ceil(
+        members.length * getFastTrackThreshold(api, !votingBlocks || api.consts.democracy.fastTrackVotingPeriod.lte(votingBlocks))
+      )
     ),
     [api, members, votingBlocks]
   );

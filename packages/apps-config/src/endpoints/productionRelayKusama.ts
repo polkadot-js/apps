@@ -22,7 +22,8 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io'
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
@@ -113,9 +114,9 @@ export function createKusama (t: TFunction): EndpointOption {
         info: 'integritee',
         isUnreachable: true,
         paraId: 2015,
-        text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
+        text: t('rpc.kusama.integritee', 'Integritee Network', { ns: 'apps-config' }),
         providers: {
-          IntegriTEE: 'wss://mainnet.integritee.network'
+          Integritee: 'wss://mainnet.integritee.network'
         }
       },
       {
@@ -135,7 +136,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
-        isUnreachable: true,
         homepage: 'https://phala.network/',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
@@ -209,6 +209,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
+      },
+      {
+        info: 'trustbase',
+        isUnreachable: true, // no providers (yet)
+        homepage: 'https://trustbase.network/',
+        paraId: 2078,
+        text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
+        providers: {}
       },
       {
         info: 'sakura',

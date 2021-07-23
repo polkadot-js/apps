@@ -191,7 +191,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoHalongbay',
         paraId: 2018,
-        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'apps-config' }),
         providers: {
           Halongbay: 'wss://halongbay.polkafoundry.com'
         }
@@ -218,7 +218,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoIntegritee',
         isDisabled: true, // Rococo reset
         paraId: 1983,
-        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.integritee', 'Integritee PC1', { ns: 'apps-config' }),
         providers: {
           SCS: 'wss://rococo.integritee.network'
         }
@@ -437,7 +437,8 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
-        paraId: 2049,
+        isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
+        paraId: 2050,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitgeist: 'wss://roc.zeitgeist.pm'

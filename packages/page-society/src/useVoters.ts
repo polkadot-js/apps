@@ -9,14 +9,17 @@ import { useEffect, useState } from 'react';
 
 import { useApi, useCall, useEventTrigger } from '@polkadot/react-hooks';
 
-const EMPTY: Voters = { candidates: [], skeptics: [], voters: [] };
+const EMPTY_VOTERS: Voters = {};
 
 async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[]): Promise<Voters> {
-  const entries = await Promise.all(
-    candidates.map(({ accountId }) => api.query.society.votes.entries(accountId))
-  );
   const skeptics: string[] = [];
   const voters: string[] = [];
+
+  const entries = candidates.length
+    ? await Promise.all(candidates.map(({ accountId }) =>
+      api.query.society.votes.entries(accountId)
+    ))
+    : [];
 
   entries.forEach((list): void => {
     list.forEach(([{ args: [, accountId] }, opt]) => {
@@ -40,14 +43,11 @@ export default function useVoters (): Voters {
   const { api } = useApi();
   const voteTrigger = useEventTrigger([api.events.society.Vote]);
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates);
-  const [state, setState] = useState<Voters>({});
+  const [state, setState] = useState<Voters>(EMPTY_VOTERS);
 
   useEffect((): void => {
-    voteTrigger && candidates && (
-      candidates.length
-        ? getVoters(api, candidates).then(setState).catch(console.error)
-        : setState(EMPTY)
-    );
+    voteTrigger && candidates &&
+      getVoters(api, candidates).then(setState).catch(console.error);
   }, [api, candidates, voteTrigger]);
 
   return state;

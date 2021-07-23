@@ -5,6 +5,7 @@ import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { ComponentRenderer, DefaultProps, RenderFn } from '@polkadot/react-api/hoc/types';
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import type { Option, Raw } from '@polkadot/types';
+import type { Registry } from '@polkadot/types/types';
 import type { QueryTypes, StorageModuleQuery } from './types';
 
 import React, { useCallback, useMemo } from 'react';
@@ -12,6 +13,7 @@ import styled from 'styled-components';
 
 import { withCallDiv } from '@polkadot/react-api/hoc';
 import { Button, Labelled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import valueToText from '@polkadot/react-params/valueToText';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { compactStripLength, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
@@ -51,8 +53,8 @@ function keyToName (isConst: boolean, _key: Uint8Array | QueryableStorageEntry<'
   return `${key.creator.section}.${key.creator.method}`;
 }
 
-function typeToString ({ creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
-  const _type = unwrapStorageType(type);
+function typeToString (registry: Registry, { creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
+  const _type = unwrapStorageType(registry, type);
 
   return modifier.isOptional
     ? `Option<${_type}>`
@@ -74,7 +76,7 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
   };
 }
 
-function getCachedComponent (query: QueryTypes): CacheInstance {
+function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstance {
   const { id, isConst, key, params = [] } = query as StorageModuleQuery;
 
   if (!cache[id]) {
@@ -116,7 +118,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
       }
 
       type = key.creator && key.creator.meta
-        ? typeToString(key)
+        ? typeToString(registry, key)
         : 'Raw';
     }
 
@@ -134,17 +136,18 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
 }
 
 function Query ({ className = '', onRemove, value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const [{ Component }, callName, callType] = useMemo(
     () => [
-      getCachedComponent(value),
+      getCachedComponent(api.registry, value),
       keyToName(value.isConst, value.key),
       value.isConst
         ? (value.key as unknown as ConstValue).meta.type.toString()
         : isU8a(value.key)
           ? 'Raw'
-          : typeToString(value.key as QueryableStorageEntry<'promise'>)
+          : typeToString(api.registry, value.key as QueryableStorageEntry<'promise'>)
     ],
-    [value]
+    [api, value]
   );
 
   const _onRemove = useCallback(
