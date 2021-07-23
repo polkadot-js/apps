@@ -6,6 +6,7 @@ import { within } from '@testing-library/react';
 import i18next from '@polkadot/react-components/i18n';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
+import { formatBalance } from '@polkadot/util';
 
 import { AccountsPage } from '../../test/pages/accountsPage';
 
@@ -70,7 +71,13 @@ describe('Accounts page', () => {
 
       const balance = await within(rows[0]).findByTestId('balance-summary');
 
-      expect(balance).toHaveTextContent('1.000');
+      const expectedAmount = '1050000000000'; // = Free + Reserved from mocked APIs
+      const expectedText = formatBalance(expectedAmount, { decimals: 12, withUnit: false });
+
+      expect(balance).toHaveTextContent(expectedText);
+
+      // check that we don't compare 0.0000 vs 0.0000 because of rounding
+      expect(expectedText).not.toBe(formatBalance('0', { decimals: 12, withUnit: false }));
     });
   });
 });

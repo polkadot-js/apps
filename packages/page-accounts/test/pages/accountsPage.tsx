@@ -13,7 +13,6 @@ import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
-import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { TypeRegistry } from '@polkadot/types/create';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
@@ -36,13 +35,7 @@ jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useBalance', () => ({
-  useBalancesAll: (address: string) => ({
-    accountNonce: mockAccountHooks.nonce,
-    additional: [],
-    freeBalance: mockAccountHooks.balanceOf(1000),
-    lockedBreakdown: [],
-    reservedBalance: mockAccountHooks.balanceOf(500)
-  })
+  useBalancesAll: (address: string) => mockAccountHooks.accountBalances
 }));
 
 jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
@@ -73,9 +66,9 @@ export class AccountsPage {
             all: () => ({
               accountNonce: mockAccountHooks.nonce,
               additional: [],
-              freeBalance: mockAccountHooks.balanceOf(1000),
+              freeBalance: 0,
               lockedBreakdown: [],
-              reservedBalance: mockAccountHooks.balanceOf(500)
+              reservedBalance: 0
             })
           },
           chain: {
