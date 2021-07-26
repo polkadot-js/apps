@@ -29,24 +29,23 @@ export const someBalances: DeriveBalancesAll = {
   reservedBalance: balanceOf('50000000000')
 } as any;
 
-// here it's extremely hard to reconstruct the entire DeriveStakingAccount upfront, so we incrementally add properties
-// instead along the way; thus the need to tell the tsc we know what we are doing here
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// here it's extremely hard to reconstruct the entire DeriveStakingAccount upfront,
+// so we set just the properties that we use in page-accounts
 export const someStakingAccount: DeriveStakingAccount = {
-  accountId: null as any,
-  stakingLedger: {
+  accountId: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  controllerId: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  exposure: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  nextSessionIds: [],
+  nominators: [],
+  redeemable: balanceOf('300000000'),
+  rewardDestination: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  sessionIds: [],
+  stakingLedger: { // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
     active: {
       unwrap: () => new BN('700000000')
     }
   } as any,
-  controllerId: null as any,
-  exposure: null as any,
-  nominators: [],
-  rewardDestination: null as any,
-  stashId: null as any,
-  validatorPrefs: null as any,
-  nextSessionIds: [],
-  sessionIds: [],
+  stashId: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
   unlocking: [
     {
       remainingEras: new BN('1000000000'),
@@ -61,7 +60,7 @@ export const someStakingAccount: DeriveStakingAccount = {
       value: balanceOf('3000000000')
     }
   ],
-  redeemable: balanceOf('300000000')
+  validatorPrefs: null as any // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
 };
 
 class MockAccountHooks {

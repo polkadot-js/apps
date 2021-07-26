@@ -35,10 +35,12 @@ jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useBalancesAll: (address: string) => mockAccountHooks.accountBalances
 }));
 
 jest.mock('@polkadot/react-hooks/useStakingInfo', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useStakingInfo: (address: string) => mockAccountHooks.accountInfo
 }));
 
@@ -57,7 +59,7 @@ interface ArrangedAccount {
 export class AccountsPage {
   private renderResult?: RenderResult
 
-  renderPage (accounts: ArrangedAccount[]) {
+  renderPage (accounts: ArrangedAccount[]): void {
     mockAccountHooks.setAccounts(accounts.map((account) => account.id));
     const mockApi: ApiProps = {
       api: {
