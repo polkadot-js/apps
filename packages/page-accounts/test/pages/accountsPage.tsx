@@ -38,6 +38,10 @@ jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
   useBalancesAll: (address: string) => mockAccountHooks.accountBalances
 }));
 
+jest.mock('@polkadot/react-hooks/useStakingInfo', () => ({
+  useStakingInfo: (address: string) => mockAccountHooks.accountInfo
+}));
+
 jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
