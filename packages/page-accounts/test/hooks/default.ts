@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
@@ -13,8 +14,8 @@ import { balanceOf } from '@polkadot/test-support/creation/balance';
  */
 export interface ArrangedAccount {
   _id: string,
-  freeBalance?: number;
-  reservedBalance?: number;
+  freeBalance?: Balance;
+  reservedBalance?: Balance;
 }
 
 export type BalancesMap = { [address: string]: DeriveBalancesAll[] };
@@ -26,19 +27,6 @@ export const emptyAccounts: UseAccounts = {
   hasAccounts: false,
   isAccount: () => true
 };
-
-// here it's extremely hard to reconstruct the entire DeriveBalancesAll upfront, so we incrementally add properties
-// instead along the way; thus the need to tell the tsc we know what we are doing here
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-export const someBalances: DeriveBalancesAll = {
-  accountNonce: new BN(1),
-  additional: [],
-  availableBalance: balanceOf('700000000000'),
-  freeBalance: balanceOf('1000000000000'),
-  lockedBalance: balanceOf('300000000000'),
-  lockedBreakdown: [],
-  reservedBalance: balanceOf(0)
-} as any;
 
 // here it's extremely hard to reconstruct the entire DeriveStakingAccount upfront,
 // so we set just the properties that we use in page-accounts
@@ -76,8 +64,6 @@ export const someStakingAccount: DeriveStakingAccount = {
 
 class MockAccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;
-
-  public accountBalances: DeriveBalancesAll = someBalances;
   public accountInfo: DeriveStakingAccount = someStakingAccount;
   public accountsBalancesMap: BalancesMap = {};
 
@@ -99,9 +85,9 @@ class MockAccountHooks {
       this.accountsBalancesMap[account._id] = {
         accountNonce: new BN(1),
         additional: [],
-        freeBalance: balanceOf(account.freeBalance || 0),
+        freeBalance: account.freeBalance || balanceOf(0),
         lockedBreakdown: [],
-        reservedBalance: balanceOf(account.reservedBalance || 0)
+        reservedBalance: account.reservedBalance || balanceOf(0)
       } as any;
     }
   }

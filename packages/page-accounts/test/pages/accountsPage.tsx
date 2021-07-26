@@ -14,7 +14,8 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { TypeRegistry } from '@polkadot/types/create';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { formatBalance } from '@polkadot/util';
 
 import { ArrangedAccount, mockAccountHooks } from '../hooks/default';
 import Overview from '../pages/../../src/Accounts/index';
@@ -74,7 +75,7 @@ export class AccountsPage {
         },
         genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
         query: {},
-        registry: { chainDecimals: [0], chainTokens: ['Unit'] },
+        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
           council: {
           }
@@ -119,6 +120,10 @@ export class AccountsPage {
     const rows = await within(tableBody).findAllByRole('row');
 
     return rows.filter((r) => r.className.startsWith('Account-'));
+  }
+
+  format (amount: Balance): string {
+    return formatBalance(amount, { decimals: 12, withUnit: true });
   }
 
   private assertRendered () {
