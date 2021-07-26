@@ -41,6 +41,7 @@ interface InjectedAccountExt {
     name: string;
     source: string;
     whenCreated: number;
+    genesisHash?: string | null;
   };
   type: KeypairType
 }
@@ -82,7 +83,7 @@ function getDevTypes (): Record<string, Record<string, string>> {
 async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
   try {
     await injectedPromise;
-    const accounts = await web3Accounts();
+    const accounts = (await web3Accounts()) as InjectedAccountExt[]; // TODO-MOONBEAM: web3Accounts should be updated to return the right type
 
     return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
