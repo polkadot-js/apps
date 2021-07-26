@@ -16,6 +16,7 @@ export default {
     'Darwinia Crab': 'crab',
     Edgeware: 'edgeware',
     Equilibrium: 'equilibrium',
+    Karura: 'karura',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
     'Laminar Turbulence TC2': 'laminar-testnet',

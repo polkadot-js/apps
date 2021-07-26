@@ -13,6 +13,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
@@ -143,6 +144,7 @@ const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
+const nodeZCloak = 'linear-gradient(to right, #7DA6D4,  #B996E5)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -157,6 +159,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
+  'Aleph Zero': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
@@ -277,6 +280,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Westmint Test': specWestmint,
   Whala: chainWhala,
   WILT: chainKilt,
+  'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
@@ -349,6 +353,7 @@ export const nodeColors = Object.entries({
   Web3games: nodeWeb3games,
   Westlake: nodeWestlake,
   'Westmint Collator': specWestmint,
+  'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink

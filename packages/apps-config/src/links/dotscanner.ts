@@ -7,10 +7,11 @@ import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    Kusama: 'kusama',
     Polkadot: 'polkadot'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://dotscanner.com/${path}/${data.toString()}`,
+    `https://dotscanner.com/${chain}/${path}/${data.toString()}?utm_source=polkadotjs`,
   isActive: true,
   logo: externalLogos.dotscanner as string,
   paths: {
