@@ -35,7 +35,7 @@ jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
-  useBalancesAll: (address: string) => mockAccountHooks.accountBalances
+  useBalancesAll: (address: string) => mockAccountHooks.accountsBalancesMap[address]
 }));
 
 jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
@@ -69,7 +69,7 @@ export class AccountsPage {
         },
         genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
         query: {},
-        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
+        registry: { chainDecimals: [0], chainTokens: ['Unit'] },
         tx: {
           council: {
           }

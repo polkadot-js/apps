@@ -13,8 +13,11 @@ import { balanceOf } from '@polkadot/test-support/creation/balance';
  */
 export interface ArrangedAccount {
   _id: string,
-  freeBalance: number;
+  freeBalance?: number;
+  reservedBalance?: number;
 }
+
+export type BalancesMap = { [address: string]: DeriveBalancesAll[] };
 
 export const emptyAccounts: UseAccounts = {
   allAccounts: [],
@@ -38,7 +41,7 @@ export const someBalances: DeriveBalancesAll = {
 class MockAccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;
 
-  public accountBalances: DeriveBalancesAll = someBalances;
+  public accountsBalancesMap: BalancesMap = {};
 
   public nonce: BN = new BN(1);
 
@@ -50,6 +53,19 @@ class MockAccountHooks {
       hasAccounts: accounts && accounts.length !== 0,
       isAccount: () => true
     };
+
+    for (let accountIdx = 0; accountIdx < accounts.length; accountIdx++) {
+      const account = accounts[accountIdx];
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      this.accountsBalancesMap[account._id] = {
+        accountNonce: new BN(1),
+        additional: [],
+        freeBalance: balanceOf(account.freeBalance || 0),
+        lockedBreakdown: [],
+        reservedBalance: balanceOf(account.reservedBalance || 0)
+      } as any;
+    }
   }
 }
 

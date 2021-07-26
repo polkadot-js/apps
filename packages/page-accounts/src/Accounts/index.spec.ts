@@ -62,21 +62,22 @@ describe('Accounts page', () => {
       expect(accountRows).toHaveLength(2);
     });
 
-    it('an account row displays the total balance info', async () => {
+    it('account rows display the total balance info', async () => {
       accountsPage.renderPage([
-        { _id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', freeBalance: 10000 }
+        { _id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', freeBalance: 500 },
+        { _id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', freeBalance: 200, reservedBalance: 150 }
       ]);
       const rows = await accountsPage.findAccountRows();
 
-      const balance = await within(rows[0]).findByTestId('balance-summary');
+      const row1TotalActual = await within(rows[0]).findByTestId('balance-summary');
+      const row1TotalExpected = formatBalance(500, { decimals: 0, withUnit: true });
 
-      const expectedAmount = '1000000000000'; // = Free + Reserved from mocked APIs
-      const expectedText = formatBalance(expectedAmount, { decimals: 12, withUnit: false });
+      expect(row1TotalActual).toHaveTextContent(row1TotalExpected);
 
-      expect(balance).toHaveTextContent(expectedText);
+      const row2TotalActual = await within(rows[1]).findByTestId('balance-summary');
+      const row2TotalExpected = formatBalance(350, { decimals: 0, withUnit: true });
 
-      // check that we don't compare 0.0000 vs 0.0000 because of rounding
-      expect(expectedText).not.toBe(formatBalance('0', { decimals: 12, withUnit: false }));
+      expect(row2TotalActual).toHaveTextContent(row2TotalExpected);
     });
   });
 });
