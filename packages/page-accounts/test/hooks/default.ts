@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 
@@ -33,14 +33,52 @@ export const emptyAccounts: UseAccounts = {
 export const someBalances: DeriveBalancesAll = {
   accountNonce: new BN(1),
   additional: [],
+  availableBalance: balanceOf('700000000000'),
   freeBalance: balanceOf('1000000000000'),
+  lockedBalance: balanceOf('300000000000'),
   lockedBreakdown: [],
   reservedBalance: balanceOf(0)
 } as any;
 
+// here it's extremely hard to reconstruct the entire DeriveStakingAccount upfront,
+// so we set just the properties that we use in page-accounts
+export const someStakingAccount: DeriveStakingAccount = {
+  accountId: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  controllerId: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  exposure: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  nextSessionIds: [],
+  nominators: [],
+  redeemable: balanceOf('300000000'),
+  rewardDestination: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  sessionIds: [],
+  stakingLedger: { // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+    active: {
+      unwrap: () => new BN('700000000')
+    }
+  } as any,
+  stashId: null as any, // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+  unlocking: [
+    {
+      remainingEras: new BN('1000000000'),
+      value: balanceOf('1000000000')
+    },
+    {
+      remainingEras: new BN('2000000000'),
+      value: balanceOf('2000000000')
+    },
+    {
+      remainingEras: new BN('3000000000'),
+      value: balanceOf('3000000000')
+    }
+  ],
+  validatorPrefs: null as any // eslint-disable-line no-alert, @typescript-eslint/no-unsafe-assignment
+};
+
 class MockAccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;
 
+  public accountBalances: DeriveBalancesAll = someBalances;
+  public accountInfo: DeriveStakingAccount = someStakingAccount;
   public accountsBalancesMap: BalancesMap = {};
 
   public nonce: BN = new BN(1);

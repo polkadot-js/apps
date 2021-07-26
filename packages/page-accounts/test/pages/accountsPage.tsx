@@ -38,6 +38,11 @@ jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
   useBalancesAll: (address: string) => mockAccountHooks.accountsBalancesMap[address]
 }));
 
+jest.mock('@polkadot/react-hooks/useStakingInfo', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  useStakingInfo: (address: string) => mockAccountHooks.accountInfo
+}));
+
 jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
@@ -45,7 +50,7 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
 export class AccountsPage {
   private renderResult?: RenderResult
 
-  renderPage (accounts: ArrangedAccount[]) {
+  renderPage (accounts: ArrangedAccount[]): void {
     mockAccountHooks.setAccounts(accounts);
     const mockApi: ApiProps = {
       api: {
