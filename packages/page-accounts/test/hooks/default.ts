@@ -8,6 +8,14 @@ import BN from 'bn.js';
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 
+/**
+ * Account input test data
+ */
+export interface ArrangedAccount {
+  _id: string,
+  freeBalance: number;
+}
+
 export const emptyAccounts: UseAccounts = {
   allAccounts: [],
   allAccountsHex: [],
@@ -24,7 +32,7 @@ export const someBalances: DeriveBalancesAll = {
   additional: [],
   freeBalance: balanceOf('1000000000000'),
   lockedBreakdown: [],
-  reservedBalance: balanceOf('50000000000')
+  reservedBalance: balanceOf(0)
 } as any;
 
 class MockAccountHooks {
@@ -34,9 +42,9 @@ class MockAccountHooks {
 
   public nonce: BN = new BN(1);
 
-  public setAccounts (accounts: string[]): void {
+  public setAccounts (accounts: ArrangedAccount[]): void {
     this.useAccounts = {
-      allAccounts: accounts,
+      allAccounts: accounts.map((account) => account._id),
       allAccountsHex: [],
       areAccountsLoaded: true,
       hasAccounts: accounts && accounts.length !== 0,

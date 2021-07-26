@@ -16,7 +16,7 @@ import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polka
 import { TypeRegistry } from '@polkadot/types/create';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
-import { mockAccountHooks } from '../hooks/default';
+import { ArrangedAccount, mockAccountHooks } from '../hooks/default';
 import Overview from '../pages/../../src/Accounts/index';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
@@ -42,19 +42,11 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
 
-/**
- * Account input test data
- */
-interface ArrangedAccount {
-  id: string,
-  totalBalance: number;
-}
-
 export class AccountsPage {
   private renderResult?: RenderResult
 
   renderPage (accounts: ArrangedAccount[]) {
-    mockAccountHooks.setAccounts(accounts.map((account) => account.id));
+    mockAccountHooks.setAccounts(accounts);
     const mockApi: ApiProps = {
       api: {
         derive: {
@@ -80,7 +72,6 @@ export class AccountsPage {
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
           council: {
-            // propose
           }
         }
       },

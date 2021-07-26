@@ -53,8 +53,8 @@ describe('Accounts page', () => {
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
       accountsPage.renderPage([
-        { id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', totalBalance: 10000 },
-        { id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', totalBalance: 999 }
+        { _id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', freeBalance: 10000 },
+        { _id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', freeBalance: 999 }
       ]);
 
       const accountRows = await accountsPage.findAccountRows();
@@ -64,14 +64,13 @@ describe('Accounts page', () => {
 
     it('an account row displays the total balance info', async () => {
       accountsPage.renderPage([
-        { id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', totalBalance: 10000 },
-        { id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', totalBalance: 999 }
+        { _id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', freeBalance: 10000 }
       ]);
       const rows = await accountsPage.findAccountRows();
 
       const balance = await within(rows[0]).findByTestId('balance-summary');
 
-      const expectedAmount = '1050000000000'; // = Free + Reserved from mocked APIs
+      const expectedAmount = '1000000000000'; // = Free + Reserved from mocked APIs
       const expectedText = formatBalance(expectedAmount, { decimals: 12, withUnit: false });
 
       expect(balance).toHaveTextContent(expectedText);
