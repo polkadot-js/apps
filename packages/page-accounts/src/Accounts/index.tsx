@@ -79,7 +79,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('transactions'), 'media--1500'],
     [t('balances'), 'expand'],
     [],
-    [undefined, 'media--1400']
+    [undefined, 'media--1400'],
+    []
   ]);
 
   useEffect((): void => {
@@ -136,6 +137,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       </td>
       <td />
       <td className='media--1400' />
+      <td />
     </tr>
   ), [balanceTotal]);
 
@@ -239,6 +241,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             account={account}
             delegation={delegation}
             filter={filterOn}
+            isEven={!!(index % 2)}
             isFavorite={isFavorite}
             key={`${index}:${account.address}`}
             proxy={proxies?.[index]}
