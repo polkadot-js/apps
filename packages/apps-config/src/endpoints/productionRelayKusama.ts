@@ -22,7 +22,8 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io'
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
@@ -51,6 +52,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode.altair.centrifuge.io'
+        }
+      },
+      {
+        info: 'basilisk',
+        homepage: 'https://bsx.fi',
+        paraId: 2082,
+        text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
+        providers: {
+          HydraDX: 'wss://rpc-01.basilisk.hydradx.io'
         }
       },
       {
@@ -104,9 +114,9 @@ export function createKusama (t: TFunction): EndpointOption {
         info: 'integritee',
         isUnreachable: true,
         paraId: 2015,
-        text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
+        text: t('rpc.kusama.integritee', 'Integritee Network', { ns: 'apps-config' }),
         providers: {
-          IntegriTEE: 'wss://mainnet.integritee.network'
+          Integritee: 'wss://mainnet.integritee.network'
         }
       },
       {
@@ -126,7 +136,6 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
-        isUnreachable: true,
         homepage: 'https://phala.network/',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
@@ -152,6 +161,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
         providers: {
           Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
+        info: 'loomNetwork',
+        homepage: 'https://loomx.io/',
+        paraId: 2080,
+        text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://kusama.dappchains.com'
         }
       },
       {
@@ -191,6 +209,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
+      },
+      {
+        info: 'trustbase',
+        isUnreachable: true, // no providers (yet)
+        homepage: 'https://trustbase.network/',
+        paraId: 2078,
+        text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
+        providers: {}
       },
       {
         info: 'sakura',

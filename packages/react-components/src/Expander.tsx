@@ -14,7 +14,7 @@ import Icon from './Icon';
 import { useTranslation } from './translate';
 
 interface Meta {
-  documentation: Text[];
+  docs: Text[];
 }
 
 export interface Props {
@@ -45,12 +45,12 @@ function splitParts (value: string): string[] {
 }
 
 function formatMeta (meta?: Meta): React.ReactNode | null {
-  if (!meta || !meta.documentation.length) {
+  if (!meta || !meta.docs.length) {
     return null;
   }
 
-  const strings = meta.documentation.map((doc) => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc) => !doc.length);
+  const strings = meta.docs.map((d) => d.toString().trim());
+  const firstEmpty = strings.findIndex((d) => !d.length);
   const combined = (
     firstEmpty === -1
       ? strings

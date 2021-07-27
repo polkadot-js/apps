@@ -25,7 +25,11 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
   );
 
   const _selectUrl = useCallback(
-    () => setApiUrl(name, providers[Math.floor(Math.random() * providers.length)].url),
+    () => {
+      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
+
+      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
+    },
     [name, providers, setApiUrl]
   );
 

@@ -75,7 +75,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
     },
     {
       info: 'hanonycash',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
@@ -134,8 +134,11 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp',
-        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org:4443'
+        'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
+        'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
+        Soramitsu: 'wss://ws.alb.sora.org',
+        'SORA Community (Lux8)': 'wss://sora.lux8.net'
       }
     },
     {
