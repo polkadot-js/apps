@@ -644,8 +644,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
-        <td colSpan={10}>
+        <td colSpan={2} />
+        <td>
+          <div className='tags'>
+            <Tags value={tags} />
+          </div>
         </td>
+        <td colSpan={7} />
       </tr>
     </>
   );
