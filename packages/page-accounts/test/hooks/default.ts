@@ -13,7 +13,7 @@ import { balanceOf } from '@polkadot/test-support/creation/balance';
  * Account input test data
  */
 export interface ArrangedAccount {
-  _id: string,
+  address: string,
   freeBalance?: Balance;
   reservedBalance?: Balance;
 }
@@ -71,7 +71,7 @@ class MockAccountHooks {
 
   public setAccounts (accounts: ArrangedAccount[]): void {
     this.useAccounts = {
-      allAccounts: accounts.map((account) => account._id),
+      allAccounts: accounts.map((account) => account.address),
       allAccountsHex: [],
       areAccountsLoaded: true,
       hasAccounts: accounts && accounts.length !== 0,
@@ -82,7 +82,7 @@ class MockAccountHooks {
       const account = accounts[accountIdx];
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      this.accountsBalancesMap[account._id] = {
+      this.accountsBalancesMap[account.address] = {
         accountNonce: new BN(1),
         additional: [],
         freeBalance: account.freeBalance || balanceOf(0),
