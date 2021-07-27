@@ -75,7 +75,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('accounts'), 'start', 3],
     [t('parent'), 'address media--1400'],
     [t('type')],
-    [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
     [t('balances'), 'expand'],
     [],
@@ -130,14 +129,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     <tr>
       <td colSpan={3} />
       <td className='media--1400' />
-      <td colSpan={2} />
+      <td colSpan={1} />
       <td className='media--1500' />
       <td className='number'>
         {balanceTotal && <FormatBalance value={balanceTotal} />}
       </td>
       <td />
       <td className='media--1400' />
-      <td />
+      <td className='button' />
     </tr>
   ), [balanceTotal]);
 
@@ -247,6 +246,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             proxy={proxies?.[index]}
             setBalance={_setBalance}
             toggleFavorite={toggleFavorite}
+            x
           />
         ))}
       </Table>

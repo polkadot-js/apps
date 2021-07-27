@@ -582,11 +582,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <td className='number'>
           <CryptoType accountId={address} />
         </td>
-        <td className='all'>
-          <div className='tags'>
-            <Tags value={tags} />
-          </div>
-        </td>
         <td className='number media--1500'>
           {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
         </td>
@@ -636,7 +631,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             type='address'
           />
         </td>
-        <td>
+        <td className='button'>
           <div className='table-column-icon'
             onClick={handleOnExpandIconClick}>
             <Icon icon={
@@ -649,7 +644,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
-        <td colSpan={11}>
+        <td colSpan={10}>
         </td>
       </tr>
     </>
