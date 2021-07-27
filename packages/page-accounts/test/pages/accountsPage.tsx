@@ -122,7 +122,7 @@ export class AccountsPage {
   }
 
   format (amount: Balance): string {
-    return formatBalance(amount, { decimals: 12, withUnit: true });
+    return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
   }
 
   private assertRendered () {

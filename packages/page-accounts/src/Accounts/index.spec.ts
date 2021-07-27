@@ -3,7 +3,8 @@
 
 import type { Balance } from '@polkadot/types/interfaces';
 
-import { within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
+import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
@@ -49,6 +50,13 @@ describe('Accounts page', () => {
         'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.');
 
       expect(noAccountsMessage).not.toBeNull();
+    });
+
+    it('no summary displays', () => {
+      accountsPage.renderPage([]);
+      const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
+
+      expect(summaries).toHaveLength(0);
     });
   });
 
@@ -102,6 +110,98 @@ describe('Accounts page', () => {
 
       expect(row2TotalActual).toHaveTextContent(row2TotalExpected);
     });
+
+    it('displays some summary', () => {
+      accountsPage.renderPage([
+        {
+          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
+          balance: {
+            freeBalance: balance(500)
+          }
+        },
+        {
+          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+          balance: {
+            freeBalance: balance(200),
+            reservedBalance: balance(150)
+          }
+        }
+      ]);
+
+      const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
+
+      expect(summaries).not.toHaveLength(0);
+    });
+
+    it('displays balance summary', async () => {
+      accountsPage.renderPage(defaultStakingAccounts);
+
+      // Sum of Free + Reserved for all accounts
+      const expectedAmount = balance(850);
+      const expectedText = accountsPage.format(expectedAmount);
+
+      const summary = await screen.findByTestId(/card-summary:(total )?balance/i);
+
+      expect(summary).toHaveTextContent(expectedText);
+    });
+
+    it('displays transferrable summary', async () => {
+      accountsPage.renderPage(defaultStakingAccounts);
+
+      // Sum of AvailableBalances for all accounts
+      const expectedAmount = balance(1000);
+      const expectedText = accountsPage.format(expectedAmount);
+
+      const summary = await screen.findByTestId(/card-summary:(total )?transferrable/i);
+
+      expect(summary).toHaveTextContent(expectedText);
+    });
+
+    it('displays locked summary', async () => {
+      accountsPage.renderPage(defaultStakingAccounts);
+
+      const expectedAmount = balance(820);
+      const expectedText = accountsPage.format(expectedAmount);
+
+      const summary = await screen.findByTestId(/card-summary:(total )?locked/i);
+
+      expect(summary).toHaveTextContent(expectedText);
+    });
+
+    it('displays bonded summary', async () => {
+      accountsPage.renderPage(defaultStakingAccounts);
+
+      // Sum of stakingLedger.active.unwrap() for all accounts
+      const expectedAmount = balance(90);
+      const expectedText = accountsPage.format(expectedAmount);
+
+      const summary = await screen.findByTestId(/card-summary:(total )?bonded/i);
+
+      expect(summary).toHaveTextContent(expectedText);
+    });
+
+    it('displays unbonding summary', async () => {
+      accountsPage.renderPage(defaultStakingAccounts);
+
+      // Sum of "unlocking" for each account
+      const expectedAmount = balance(1500);
+      const expectedText = accountsPage.format(expectedAmount);
+
+      const summary = await screen.findByTestId(/card-summary:(total )?unbonding/i);
+
+      expect(summary).toHaveTextContent(expectedText);
+    });
+
+    it('displays redeemable summary', async () => {
+      accountsPage.renderPage(defaultStakingAccounts);
+
+      const expectedAmount = balance(7000);
+      const expectedText = accountsPage.format(expectedAmount);
+
+      const summary = await screen.findByTestId(/card-summary:(total )?redeemable/i);
+
+      expect(summary).toHaveTextContent(expectedText);
+    });
   });
 
   /**
@@ -115,4 +215,70 @@ describe('Accounts page', () => {
 
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
+
+  const defaultStakingAccounts = [
+    {
+      address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
+      balance: {
+        availableBalance: balance(400),
+        freeBalance: balance(500),
+        lockedBalance: balance(70)
+      },
+      staking: {
+        redeemable: balance(4000),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        stakingLedger: {
+          active: {
+            unwrap: () => balance(30)
+          }
+        } as any,
+        unlocking: [
+          {
+            remainingEras: new BN('1000000000'),
+            value: balance(200)
+          },
+          {
+            remainingEras: new BN('2000000000'),
+            value: balance(300)
+          },
+          {
+            remainingEras: new BN('3000000000'),
+            value: balance(400)
+          }
+        ]
+      }
+    },
+    {
+      address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+      balance: {
+        availableBalance: balance(600),
+        freeBalance: balance(200),
+        lockedBalance: balance(750),
+        reservedBalance: balance(150)
+      },
+      staking: {
+        redeemable: balance(3000),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        stakingLedger: {
+          active: {
+            unwrap: () => balance(60)
+          }
+        } as any,
+        unlocking: [
+          {
+            remainingEras: new BN('1000000000'),
+            value: balance(100)
+          },
+          {
+            remainingEras: new BN('2000000000'),
+            value: balance(200)
+          },
+          {
+            remainingEras: new BN('3000000000'),
+            value: balance(300)
+          }
+        ]
+      }
+    }
+  ];
 });
