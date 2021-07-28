@@ -42,8 +42,8 @@ function formatValue (value: number, type = 's', withDecimal = false): React.Rea
   ));
 
   return withDecimal
-    ? <>{before}.<div className='digit'>{post}</div> {type}</>
-    : <>{before} {type}</>;
+    ? <>{before}.<div className='digit'>{post}</div> <span className='timeUnits'>{type}</span></>
+    : <>{before} <span className='timeUnits'>{type}</span></>;
 }
 
 function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNode {

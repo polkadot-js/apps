@@ -106,20 +106,37 @@ export default React.memo(styled(CardSummary)`
   justify-content: flex-end;
   padding: 0 1.5rem;
 
-  .ui--FormatBalance .balance-postfix {
-    opacity: 1;
-  }
-
   .ui--Progress {
     margin: 0.5rem 0.125rem 0.125rem 0.75rem;
   }
 
-  > .ui--Labelled {
-    font-size: 1.75rem;
-    font-weight: var(--font-weight-light);
+  && > .ui--Labelled {
     position: relative;
-    line-height: 1;
     text-align: right;
+
+    .ui--Labelled-content {
+      font-size: 1rem;
+      line-height: 1.214rem;
+      font-weight: var(--font-weight-normal);
+
+
+      .ui--FormatBalance-postfix {
+        font-weight: var(--font-weight-normal);
+        opacity: 1;
+      }
+
+      .ui--FormatBalance-unit {
+        opacity: 0.7;
+        font-size: 1rem;
+        line-height: 1.214rem;
+      }
+
+      .timeUnits {
+        font-size: 1rem;
+        line-height: 1.214rem;
+        opacity: 0.7;
+      }
+    }
 
     > * {
       margin: 0.25rem 0;
@@ -134,7 +151,11 @@ export default React.memo(styled(CardSummary)`
     }
 
     > label {
-      font-size: 0.95rem;
+      font-style: normal;
+      font-weight: var(--font-weight-bold);
+      font-size: 0.714rem;
+      line-height: 1rem;
+      text-transform: uppercase;
     }
 
     .isSecondary {
