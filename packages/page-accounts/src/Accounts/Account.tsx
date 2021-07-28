@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -17,7 +17,7 @@ import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBestNumber, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
@@ -93,7 +93,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const api = useApi();
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [address]);
+  const balancesAll = useBalancesAll(address);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
@@ -584,6 +584,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <td className='number'>
         <AddressInfo
           address={address}
+          balancesAll={balancesAll}
           withBalance
           withBalanceToggle
           withExtended={false}
