@@ -23,8 +23,12 @@ export default React.memo(styled(SummaryBox)`
   border-radius: 0.25rem;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: left;
   margin: 1.5rem 0;
+
+  section + section {
+    margin-left: 1.714rem;
+  }
 
   > section {
     display: flex;
