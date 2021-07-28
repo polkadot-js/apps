@@ -12,7 +12,7 @@ interface Props {
 
 function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactElement<Props> {
   return (
-    <div className={`${className}${isSmall ? ' isSmall' : ''}`}>
+    <div className={`ui--SummaryBox ${className}${isSmall ? ' isSmall' : ''}`}>
       {children}
     </div>
   );
@@ -22,7 +22,7 @@ export default React.memo(styled(SummaryBox)`
   align-items: stretch;
   border-radius: 0.25rem;
   display: flex;
-  flex-wrap: no-wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   margin: 1.5rem 0;
 
@@ -30,6 +30,7 @@ export default React.memo(styled(SummaryBox)`
     display: flex;
     flex: 0 1 auto;
     text-align: left;
+    border-radius: 4px;
   }
 
   details & {
