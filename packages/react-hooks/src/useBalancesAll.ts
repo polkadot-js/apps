@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 /**

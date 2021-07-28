@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 export function useStakingInfo (accountId: string | null): DeriveStakingAccount | undefined {
