@@ -20,7 +20,7 @@ interface Props {
 
 // TODO-MOONBEAM: update NetworkSpecsStruct in @polkadot/ui-settings/types
 interface NetworkSpecsStructWithType extends NetworkSpecsStruct{
-  chainType:ChainType
+  chainType: ChainType
 }
 
 function getRandomColor (): string {
@@ -35,13 +35,13 @@ function getRandomColor (): string {
 }
 
 const initialState = {
+  chainType: 'substrate' as ChainType,
   color: '#FFFFFF',
   decimals: 0,
   genesisHash: '',
   prefix: 0,
   title: '',
-  unit: 'UNIT',
-  chainType:'substrate' as ChainType
+  unit: 'UNIT'
 };
 
 function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Props> {
@@ -65,13 +65,13 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
   useEffect((): void => {
     chainInfo && setNetworkSpecs({
+      chainType: chainInfo.chainType,
       color: chainInfo.color || getRandomColor(),
       decimals: chainInfo.tokenDecimals,
       genesisHash: chainInfo.genesisHash,
       prefix: chainInfo.ss58Format,
       title: systemChain,
-      unit: chainInfo.tokenSymbol,
-      chainType:chainInfo.chainType
+      unit: chainInfo.tokenSymbol
     });
   }, [chainInfo, systemChain]);
 
