@@ -16,7 +16,7 @@ interface Props {
   value?: UInt | BN | number | null;
 }
 
-function Progress ({ className = '', isDisabled, total, value }: Props) {
+function Progress ({ className = '', isDisabled, total, value }: Props): React.ReactElement<Props> | null {
   const sqSize = 42;
   const strokeWidth = 3;
 
