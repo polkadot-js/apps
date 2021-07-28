@@ -81,6 +81,10 @@ const DEFAULT_PREFS = {
   validatorPayment: true
 };
 
+function IconVoid (): React.ReactElement {
+  return <span className='icon-void'>&nbsp;</span>;
+}
+
 function lookupLock (lookup: Record<string, string>, lockId: LockIdentifier): string {
   const lockHex = lockId.toHex();
 
@@ -222,10 +226,11 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 
   !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
-      <Label label={t<string>('total')} />
+      <Label label={t<string>('account balance')} />
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
       />
     </React.Fragment>
@@ -236,6 +241,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={(balancesAll as DeriveBalancesAll).availableBalance}
       />
     </React.Fragment>
@@ -246,7 +252,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        label={
+        labelPost={
           <Icon
             icon='info-circle'
             tooltip={`${address}-vested-trigger`}
@@ -286,7 +292,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        label={
+        labelPost={
           <Icon
             icon='info-circle'
             tooltip={`${address}-locks-trigger`}
@@ -314,6 +320,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={balancesAll.reservedBalance}
       />
     </React.Fragment>
@@ -324,6 +331,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={ownBonded}
       >
         {otherBonded.length !== 0 && (
@@ -331,6 +339,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
             <FormatBalance
               formatIndex={formatIndex}
               key={index}
+              labelPost={<IconVoid/>}
               value={bonded}
             />
           )})</>
@@ -494,7 +503,7 @@ export default withMulti(
     }
 
     .column {
-      justify-content: start;
+      justify-content: flex-end;
 
       &.column--expander {
         width: 17.5rem;
@@ -518,7 +527,7 @@ export default withMulti(
         label {
           grid-column: 1;
           padding-right: 0.5rem;
-          text-align: right;
+          text-align: left;
           vertical-align: middle;
 
           .help.circle.icon {
@@ -528,11 +537,17 @@ export default withMulti(
 
         .result {
           grid-column: 2;
+          text-align: right;
 
           .icon {
             margin-left: 0;
             margin-right: 0.25rem;
             padding-right: 0 !important;
+          }
+
+          .icon-void {
+            float: right;
+            width: 1em;
           }
         }
       }

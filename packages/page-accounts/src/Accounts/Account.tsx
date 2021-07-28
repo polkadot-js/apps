@@ -589,8 +589,16 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance
-            withBalanceToggle
+            withBalance={{
+              available: false,
+              bonded: false,
+              locked: false,
+              redeemable: false,
+              reserved: false,
+              total: true,
+              unlocking: false,
+              vested: false
+            }}
             withExtended={false}
           />
         </td>
@@ -650,7 +658,25 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <Tags value={tags} />
           </div>
         </td>
-        <td colSpan={7} />
+        <td colSpan={2} />
+        <td>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={{
+              available: true,
+              bonded: true,
+              locked: true,
+              redeemable: true,
+              reserved: true,
+              total: false,
+              unlocking: true,
+              vested: true
+            }}
+            withExtended={false}
+          />
+        </td>
+        <td colSpan={4} />
       </tr>
     </>
   );
