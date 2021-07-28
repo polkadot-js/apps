@@ -3,7 +3,8 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 /**
  * Gets the account full balance information
