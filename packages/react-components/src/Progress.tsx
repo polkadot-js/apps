@@ -74,6 +74,11 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
 export default React.memo(styled(Progress)`
   margin-left: 0.35rem;
 
+  &.isDisabled {
+    filter: grayscale(100%);
+    opacity: 0.25;
+  }
+
   .circle-background,
   .circle-progress {
     fill: none;
