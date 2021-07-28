@@ -106,10 +106,6 @@ export default React.memo(styled(CardSummary)`
   justify-content: flex-end;
   padding: 0 1.5rem;
 
-  .ui--Progress {
-    margin: 0.5rem 0.125rem 0.125rem 0.75rem;
-  }
-
   && > .ui--Labelled {
     position: relative;
     text-align: right;

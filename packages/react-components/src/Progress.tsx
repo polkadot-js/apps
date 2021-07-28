@@ -16,133 +16,81 @@ interface Props {
   value?: UInt | BN | number | null;
 }
 
-interface RotateProps {
-  angle: string;
-  type: 'first' | 'second';
-}
+function Progress ({ className = '', isDisabled, total, value }: Props) {
+  const sqSize = 42;
+  const strokeWidth = 3;
 
-function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps> {
-  return (
-    <div className={`clip ${type}`}>
-      <div
-        className='highlight--bg'
-        style={{ transform: `rotate(${angle}deg)` }}
-      />
-    </div>
-  );
-}
-
-const Clip = React.memo(DivClip);
-
-function Progress ({ className = '', isDisabled, total, value }: Props): React.ReactElement<Props> | null {
   const _total = bnToBn(total || 0);
   const angle = _total.gtn(0)
-    ? (bnToBn(value || 0).muln(36000).div(_total).toNumber() / 100)
+    ? ((bnToBn(value || 0).muln(36000).div(_total).toNumber() / 100)) % 360
     : 0;
 
   if (angle < 0) {
     return null;
   }
 
-  const drawAngle = angle % 360;
+  const percentage = Math.floor(angle * 100 / 360);
+  const radius = (sqSize - strokeWidth) / 2;
+  const viewBox = `0 0 ${sqSize} ${sqSize}`;
+  const dashArray = radius * Math.PI * 2;
+  const dashOffset = dashArray - dashArray * percentage / 100;
+  const backCircleStrokeWidth = strokeWidth / 3;
 
   return (
-    <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}>
-      <div className='background highlight--bg' />
-      <Clip
-        angle={
-          drawAngle <= 180
-            ? drawAngle.toFixed(1)
-            : '180'
-        }
-        type='first'
-      />
-      <Clip
-        angle={
-          drawAngle <= 180
-            ? '0'
-            : (drawAngle - 180).toFixed(1)
-        }
-        type='second'
-      />
-      <div className='inner'>
-        <div>{Math.floor(angle * 100 / 360)}%</div>
-      </div>
-    </div>
+    <svg
+      className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}
+      height={sqSize}
+      viewBox={viewBox}
+      width={sqSize}>
+      <circle
+        className='circle-background'
+        cx={sqSize / 2}
+        cy={sqSize / 2}
+        r={radius + backCircleStrokeWidth}
+        strokeWidth={`${backCircleStrokeWidth}px`} />
+      <circle
+        className='circle-progress'
+        cx={sqSize / 2}
+        cy={sqSize / 2}
+        r={radius}
+        strokeWidth={`${strokeWidth}px`}
+        style={{
+          strokeDasharray: dashArray,
+          strokeDashoffset: dashOffset
+        }}
+        transform={`rotate(-90 ${sqSize / 2} ${sqSize / 2})`} />
+      <text
+        className='circle-text'
+        dy='.3em'
+        textAnchor='middle'
+        x='50%'
+        y='50%'>
+        {percentage}%
+      </text>
+    </svg>
   );
 }
 
 export default React.memo(styled(Progress)`
-  border-radius: 100%;
-  clip-path: circle(50%);
-  height: 4rem;
-  position: relative;
-  width: 4rem;
+  margin-left: 0.35rem;
 
-  &.isDisabled {
-    filter: grayscale(100%);
-    opacity: 0.25;
+  .circle-background,
+  .circle-progress {
+    fill: none;
   }
 
-  .background,
-  .clip {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
+  .circle-background {
+    stroke: var(--color-label);
   }
 
-  .background {
-    opacity: 0.125;
+  .circle-progress {
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  .clip {
-    div {
-      border-radius: 100%;
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
-      transform: rotate(0);
-      top: 0;
-      zoom: 1;
-    }
-  }
-
-  .clip.first {
-    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
-
-    div {
-      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-    }
-  }
-
-  .clip.second {
-    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-
-    div {
-      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
-    }
-  }
-
-  .inner {
-    align-items: center;
-    background: var(--bg-inverse);
-    border-radius: 100%;
-    bottom: 0.375rem;
-    color: var(--color-summary);
-    display: flex;
-    justify-content: center;
-    left: 0.375rem;
-    position: absolute;
-    right: 0.375rem;
-    top: 0.375rem;
-
-    div {
-      line-height: 1;
-      font-size: 1.1rem;
-      text-shadow: 0 0 2px #f5f3f1;
-    }
+  .circle-text {
+    fill: var(--color-text);
+    font-size: 0.857rem;
+    line-height: 1.286rem;
   }
 `);

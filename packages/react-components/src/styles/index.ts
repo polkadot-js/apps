@@ -261,6 +261,16 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Progress {
+    .circle-progress {
+      stroke: ${getHighlight(uiHighlight)};
+    }
+
+    .circle-background {
+      stroke: ${hexToRGB(getHighlight(uiHighlight), '0.3')};
+    }
+  }
+
   .theme--dark,
   .theme--light {
     .ui--Tabs .tabLinkActive .tabLinkText::after{
