@@ -115,7 +115,6 @@ export default React.memo(styled(CardSummary)`
       line-height: 1.214rem;
       font-weight: var(--font-weight-normal);
 
-
       .ui--FormatBalance-postfix {
         font-weight: var(--font-weight-normal);
         opacity: 1;
