@@ -132,16 +132,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   useEffect((): void => {
     if (balancesAll) {
-      const balance: AccountBalance = {
+      setBalance(address, {
         bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO,
         locked: balancesAll.lockedBalance,
         redeemable: stakingInfo?.redeemable ?? BN_ZERO,
         total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
         transferrable: balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo)
-      };
-
-      setBalance(address, balance);
+      });
 
       api.api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()

@@ -228,9 +228,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       </Button.Group>
       <BannerExtension />
       <BannerClaims />
-
-      {summary}
-
+      <Summary balance={balances.summary} />
       <Table
         empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
