@@ -213,7 +213,7 @@ describe('Accounts page', () => {
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
 
-  const defaultStakingAccounts = [
+  const accountsWithStaking = [
     {
       address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
       balance: {
