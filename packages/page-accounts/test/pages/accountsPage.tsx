@@ -17,7 +17,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { formatBalance } from '@polkadot/util';
 
-import { ArrangedAccount, mockAccountHooks } from '../hooks/default';
+import { AccountOverrides, mockAccountHooks } from '../hooks/default';
 import Overview from '../pages/../../src/Accounts/index';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
@@ -36,12 +36,11 @@ jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
-  useBalancesAll: (address: string) => mockAccountHooks.accountsBalancesMap[address]
+  useBalancesAll: (address: string) => mockAccountHooks.accountsMap[address].balance
 }));
 
 jest.mock('@polkadot/react-hooks/useStakingInfo', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  useStakingInfo: (address: string) => mockAccountHooks.accountInfo
+  useStakingInfo: (address: string) => mockAccountHooks.accountsMap[address].staking
 }));
 
 jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
@@ -51,7 +50,7 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
 export class AccountsPage {
   private renderResult?: RenderResult
 
-  renderPage (accounts: ArrangedAccount[]): void {
+  renderPage (accounts: AccountOverrides[]): void {
     mockAccountHooks.setAccounts(accounts);
     const mockApi: ApiProps = {
       api: {

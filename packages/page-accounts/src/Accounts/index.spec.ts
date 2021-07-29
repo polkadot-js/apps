@@ -55,8 +55,18 @@ describe('Accounts page', () => {
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
       accountsPage.renderPage([
-        { _id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', freeBalance: balance(10000) },
-        { _id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', freeBalance: balance(999) }
+        {
+          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
+          balance: {
+            freeBalance: balance(10000)
+          }
+        },
+        {
+          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+          balance: {
+            freeBalance: balance(999)
+          }
+        }
       ]);
 
       const accountRows = await accountsPage.findAccountRows();
@@ -67,13 +77,17 @@ describe('Accounts page', () => {
     it('account rows display the total balance info', async () => {
       accountsPage.renderPage([
         {
-          _id: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          freeBalance: balance(500)
+          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
+          balance: {
+            freeBalance: balance(500)
+          }
         },
         {
-          _id: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          freeBalance: balance(200),
-          reservedBalance: balance(150)
+          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+          balance: {
+            freeBalance: balance(200),
+            reservedBalance: balance(150)
+          }
         }
       ]);
       const rows = await accountsPage.findAccountRows();
