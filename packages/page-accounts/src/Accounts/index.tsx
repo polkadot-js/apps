@@ -135,10 +135,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
-  const summary = useMemo(() => (
-    <Summary balance={balances.summary} />
-  ), [balances.summary]);
-
   const filter = useMemo(() => (
     <div className='filter--tags'>
       <Input
