@@ -52,7 +52,7 @@ describe('Accounts page', () => {
       expect(noAccountsMessage).not.toBeNull();
     });
 
-    it('no summary displays', () => {
+    it('no summary is displayed', () => {
       accountsPage.renderPage([]);
       const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
 
