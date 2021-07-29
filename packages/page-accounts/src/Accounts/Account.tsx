@@ -653,7 +653,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2} />
         <td>
-          <div className='tags'>
+          <div className='tags'
+            data-testid='tags'>
             <Tags value={tags} />
           </div>
         </td>

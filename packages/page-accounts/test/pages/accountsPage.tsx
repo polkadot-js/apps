@@ -25,7 +25,38 @@ let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 class NotYetRendered extends Error {
 }
 
-export type AccountRow = HTMLElement;
+export class AccountRow {
+  primaryRow: HTMLElement;
+  detailsRow: HTMLElement;
+
+  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement) {
+    this.primaryRow = primaryRow;
+    this.detailsRow = detailsRow;
+  }
+
+  async assertBalancesTotal (expected: Balance): Promise<void> {
+    const balanceActual = await within(this.primaryRow).findByTestId('balance-summary');
+    const balanceExpected = formatBalance(expected, { decimals: 12, withUnit: true });
+
+    expect(balanceActual).toHaveTextContent(balanceExpected);
+  }
+
+  async assertBalancesDetails (expected: {name: string, amount: Balance}[]): Promise<void> {
+    for (const expectedBalanceDetailsItem of expected) {
+      const labelElement = await within(this.detailsRow).findByText(expectedBalanceDetailsItem.name);
+      const balanceElement = labelElement.nextSibling;
+      const amount = formatBalance(expectedBalanceDetailsItem.amount, { decimals: 12, withUnit: true });
+
+      expect(balanceElement).toHaveTextContent(amount);
+    }
+  }
+
+  async assertTags (tags: string[]): Promise<void> {
+    const tagsActual = await within(this.detailsRow).findByTestId('tags');
+
+    expect(tagsActual).toHaveTextContent(tags.join());
+  }
+}
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
@@ -116,9 +147,18 @@ export class AccountsPage {
     this.assertRendered();
     const table = await this.findAccountsTable();
     const tableBody = table.getElementsByTagName('tbody')[0];
-    const rows = await within(tableBody).findAllByRole('row');
+    const htmlRows = (await within(tableBody).findAllByRole('row'))
+      .filter((r) => r.className.startsWith('Account-'));
+    const rows: AccountRow[] = [];
 
-    return rows.filter((r) => r.className.startsWith('Account-'));
+    for (let rowIdx = 0; rowIdx < htmlRows.length; rowIdx = rowIdx + 2) {
+      const primary = htmlRows[rowIdx];
+      const details = htmlRows[rowIdx + 1];
+
+      rows.push(new AccountRow(primary, details));
+    }
+
+    return rows;
   }
 
   format (amount: Balance): string {

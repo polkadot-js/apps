@@ -92,15 +92,36 @@ describe('Accounts page', () => {
       ]);
       const rows = await accountsPage.findAccountRows();
 
-      const row1TotalActual = await within(rows[0]).findByTestId('balance-summary');
-      const row1TotalExpected = accountsPage.format(balance(500));
+      await rows[0].assertBalancesTotal(balance(500));
+      await rows[1].assertBalancesTotal(balance(350));
+    });
 
-      expect(row1TotalActual).toHaveTextContent(row1TotalExpected);
+    it('account rows display the details balance info', async () => {
+      accountsPage.renderPage([
+        {
+          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
+          balance: {
+            freeBalance: balance(500),
+            lockedBalance: balance(30)
+          }
+        },
+        {
+          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+          balance: {
+            availableBalance: balance(50),
+            freeBalance: balance(200),
+            reservedBalance: balance(150)
+          }
+        }
+      ]);
+      const rows = await accountsPage.findAccountRows();
 
-      const row2TotalActual = await within(rows[1]).findByTestId('balance-summary');
-      const row2TotalExpected = accountsPage.format(balance(350));
-
-      expect(row2TotalActual).toHaveTextContent(row2TotalExpected);
+      await rows[0].assertBalancesDetails([
+        { amount: balance(0), name: 'transferrable' },
+        { amount: balance(30), name: 'locked' }]);
+      await rows[1].assertBalancesDetails([
+        { amount: balance(50), name: 'transferrable' },
+        { amount: balance(150), name: 'reserved' }]);
     });
   });
 
