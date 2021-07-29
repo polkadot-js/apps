@@ -97,6 +97,10 @@ export default React.memo(styled(InputTags)`
     position: relative;
     white-space: nowrap;
     z-index: 1;
+
+    .delete.icon::before {
+      content: '\u2715';
+    }
   }
 
   &&.darkTheme .ui.label {
