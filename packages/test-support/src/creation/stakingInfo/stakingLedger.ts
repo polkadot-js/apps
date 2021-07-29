@@ -10,7 +10,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 export function makeStakingLedger (active: BN | number | string): StakingLedger {
   const reg = new TypeRegistry();
 
-  // Constructing the whole StakingLedger structure is hard, 
+  // Constructing the whole StakingLedger structure is hard,
   // so we fill out just the fields that are definitely required,
   // and hope that nothing more is required.
 

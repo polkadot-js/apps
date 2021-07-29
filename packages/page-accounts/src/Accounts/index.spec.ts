@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Balance, StakingLedger } from '@polkadot/types/interfaces';
+import type { AccountOverrides } from '../../test/hooks/default';
 
 import { screen, within } from '@testing-library/react';
 import BN from 'bn.js';
@@ -60,20 +61,17 @@ describe('Accounts page', () => {
 
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
-      accountsPage.renderPage([
+      defaultRender(
         {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
           balance: {
             freeBalance: balance(10000)
           }
         },
         {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
           balance: {
             freeBalance: balance(999)
           }
-        }
-      ]);
+        });
 
       const accountRows = await accountsPage.findAccountRows();
 
@@ -81,21 +79,18 @@ describe('Accounts page', () => {
     });
 
     it('account rows display the total balance info', async () => {
-      accountsPage.renderPage([
+      defaultRender(
         {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
           balance: {
             freeBalance: balance(500)
           }
         },
         {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
           balance: {
             freeBalance: balance(200),
             reservedBalance: balance(150)
           }
-        }
-      ]);
+        });
       const rows = await accountsPage.findAccountRows();
 
       const row1TotalActual = await within(rows[0]).findByTestId('balance-summary');
@@ -110,21 +105,18 @@ describe('Accounts page', () => {
     });
 
     it('displays some summary', () => {
-      accountsPage.renderPage([
+      defaultRender(
         {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
           balance: {
             freeBalance: balance(500)
           }
         },
         {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
           balance: {
             freeBalance: balance(200),
             reservedBalance: balance(150)
           }
-        }
-      ]);
+        });
 
       const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
 
@@ -132,10 +124,24 @@ describe('Accounts page', () => {
     });
 
     it('displays balance summary', async () => {
-      accountsPage.renderPage(accountsWithStaking);
+      const free1 = balance(500);
+      const free2 = balance(200);
+      const res2 = balance(150);
 
-      // Sum of Free + Reserved for all accounts
-      const expectedAmount = balance(850);
+      defaultRender(
+        {
+          balance: {
+            freeBalance: free1
+          }
+        },
+        {
+          balance: {
+            freeBalance: free2,
+            reservedBalance: res2
+          }
+        });
+
+      const expectedAmount = free1.add(free2.add(res2));
       const expectedText = accountsPage.format(expectedAmount);
 
       const summary = await screen.findByTestId(/card-summary:(total )?balance/i);
@@ -144,10 +150,12 @@ describe('Accounts page', () => {
     });
 
     it('displays transferrable summary', async () => {
-      accountsPage.renderPage(accountsWithStaking);
+      const a1 = balance(400);
+      const a2 = balance(600);
 
-      // Sum of AvailableBalances for all accounts
-      const expectedAmount = balance(1000);
+      defaultRender({ balance: { availableBalance: a1 } }, { balance: { availableBalance: a2 } });
+
+      const expectedAmount = a1.add(a2);
       const expectedText = accountsPage.format(expectedAmount);
 
       const summary = await screen.findByTestId(/card-summary:(total )?transferrable/i);
@@ -156,9 +164,12 @@ describe('Accounts page', () => {
     });
 
     it('displays locked summary', async () => {
-      accountsPage.renderPage(accountsWithStaking);
+      const l1 = balance(400);
+      const l2 = balance(600);
 
-      const expectedAmount = balance(820);
+      defaultRender({ balance: { lockedBalance: l1 } }, { balance: { lockedBalance: l2 } });
+
+      const expectedAmount = l1.add(l2);
       const expectedText = accountsPage.format(expectedAmount);
 
       const summary = await screen.findByTestId(/card-summary:(total )?locked/i);
@@ -167,9 +178,11 @@ describe('Accounts page', () => {
     });
 
     it('displays bonded summary', async () => {
-      accountsPage.renderPage(accountsWithStaking);
+      const l1 = ledger(70);
+      const l2 = ledger(20);
 
-      // Sum of stakingLedger.active.unwrap() for all accounts
+      defaultRender({ staking: { stakingLedger: l1 } }, { staking: { stakingLedger: l2 } });
+
       const expectedAmount = balance(90);
       const expectedText = accountsPage.format(expectedAmount);
 
@@ -179,9 +192,44 @@ describe('Accounts page', () => {
     });
 
     it('displays unbonding summary', async () => {
-      accountsPage.renderPage(accountsWithStaking);
+      defaultRender(
+        {
+          staking: {
+            unlocking: [
+              {
+                remainingEras: new BN('1000000000'),
+                value: balance(200)
+              },
+              {
+                remainingEras: new BN('2000000000'),
+                value: balance(300)
+              },
+              {
+                remainingEras: new BN('3000000000'),
+                value: balance(400)
+              }
+            ]
+          }
+        },
+        {
+          staking: {
+            unlocking: [
+              {
+                remainingEras: new BN('1000000000'),
+                value: balance(100)
+              },
+              {
+                remainingEras: new BN('2000000000'),
+                value: balance(200)
+              },
+              {
+                remainingEras: new BN('3000000000'),
+                value: balance(300)
+              }
+            ]
+          }
+        });
 
-      // Sum of "unlocking" for each account
       const expectedAmount = balance(1500);
       const expectedText = accountsPage.format(expectedAmount);
 
@@ -191,9 +239,12 @@ describe('Accounts page', () => {
     });
 
     it('displays redeemable summary', async () => {
-      accountsPage.renderPage(accountsWithStaking);
+      const r1 = balance(4000);
+      const r2 = balance(4000);
 
-      const expectedAmount = balance(7000);
+      defaultRender({ staking: { redeemable: r1 } }, { staking: { redeemable: r2 } });
+
+      const expectedAmount = r1.add(r2);
       const expectedText = accountsPage.format(expectedAmount);
 
       const summary = await screen.findByTestId(/card-summary:(total )?redeemable/i);
@@ -216,61 +267,20 @@ describe('Accounts page', () => {
 
   const ledger = function (active: number): StakingLedger {
     return makeStakingLedger(balance(active));
-  }
+  };
 
-  const accountsWithStaking = [
-    {
-      address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-      balance: {
-        availableBalance: balance(400),
-        freeBalance: balance(500),
-        lockedBalance: balance(70)
-      },
-      staking: {
-        redeemable: balance(4000),
-        stakingLedger: ledger(30),
-        unlocking: [
-          {
-            remainingEras: new BN('1000000000'),
-            value: balance(200)
-          },
-          {
-            remainingEras: new BN('2000000000'),
-            value: balance(300)
-          },
-          {
-            remainingEras: new BN('3000000000'),
-            value: balance(400)
-          }
-        ]
-      }
-    },
-    {
-      address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-      balance: {
-        availableBalance: balance(600),
-        freeBalance: balance(200),
-        lockedBalance: balance(750),
-        reservedBalance: balance(150)
-      },
-      staking: {
-        redeemable: balance(3000),
-        stakingLedger: ledger(60),
-        unlocking: [
-          {
-            remainingEras: new BN('1000000000'),
-            value: balance(100)
-          },
-          {
-            remainingEras: new BN('2000000000'),
-            value: balance(200)
-          },
-          {
-            remainingEras: new BN('3000000000'),
-            value: balance(300)
-          }
-        ]
-      }
-    }
+  const defaultAddresses = [
+    '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
+    '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw'
   ];
+
+  const defaultRender = function (...overrides: AccountOverrides[]): void {
+    const accounts: [string, AccountOverrides][] = [];
+
+    for (let i = 0; i < overrides.length; i++) {
+      accounts.push([defaultAddresses[i], overrides[i]]);
+    }
+
+    accountsPage.renderPage(accounts);
+  };
 });
