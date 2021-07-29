@@ -105,14 +105,6 @@ export default React.memo(styled(Tags)`
   }
 
   .ui--Tag {
-    margin: 0.1rem 0;
-
-    &:first-of-type {
-      margin-left: 0.286rem;
-    }
-  }
-
-  .ui--Tag + .ui--Tag {
-    margin-left: 0.571rem;
+    margin: 0.1rem 0 0.1rem 0.571rem;
   }
 `);
