@@ -54,12 +54,16 @@ export class AccountRow {
   async assertTags (tags: string[]): Promise<void> {
     const tagsActual = await within(this.detailsRow).findByTestId('tags');
 
-    expect(tagsActual).toHaveTextContent(tags.join());
+    expect(tagsActual).toHaveTextContent(tags.length ? tags.join('') : 'no tags');
   }
 }
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
+}));
+
+jest.mock('@polkadot/react-hooks/useAccountInfo', () => ({
+  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address].info
 }));
 
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({

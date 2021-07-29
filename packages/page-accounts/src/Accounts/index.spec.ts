@@ -123,6 +123,24 @@ describe('Accounts page', () => {
         { amount: balance(50), name: 'transferrable' },
         { amount: balance(150), name: 'reserved' }]);
     });
+
+    it('account row displays tags in details row', async () => {
+      accountsPage.renderPage([
+        {
+          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy'
+        },
+        {
+          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+          info: {
+            tags: ['my tag', 'Super Tag']
+          }
+        }
+      ]);
+      const rows = await accountsPage.findAccountRows();
+
+      await rows[0].assertTags([]);
+      await rows[1].assertTags(['my tag', 'Super Tag']);
+    });
   });
 
   /**
