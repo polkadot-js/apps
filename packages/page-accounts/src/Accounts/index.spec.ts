@@ -26,25 +26,23 @@ describe('Accounts page', () => {
   });
 
   describe('when no accounts', () => {
-    it('shows a table', async () => {
+    beforeEach(() => {
       accountsPage.renderPage([]);
+    });
 
+    it('shows a table', async () => {
       const accountsTable = await accountsPage.findAccountsTable();
 
       expect(accountsTable).not.toBeNull();
     });
 
     it('the accounts table contains no account rows', async () => {
-      accountsPage.renderPage([]);
-
       const accountRows = await accountsPage.findAccountRows();
 
       expect(accountRows).toHaveLength(0);
     });
 
     it('the accounts table contains a message about no accounts available', async () => {
-      accountsPage.renderPage([]);
-
       const accountsTable = await accountsPage.findAccountsTable();
       const noAccountsMessage = await within(accountsTable).findByText(
         'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.');
@@ -53,7 +51,6 @@ describe('Accounts page', () => {
     });
 
     it('no summary is displayed', () => {
-      accountsPage.renderPage([]);
       const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
 
       expect(summaries).toHaveLength(0);
