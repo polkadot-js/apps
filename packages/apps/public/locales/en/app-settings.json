@@ -2,6 +2,8 @@
   "Additional types as a JSON file (or edit below)": "Additional types as a JSON file (or edit below)",
   "Address Prefix": "Address Prefix",
   "Apply to UI": "Apply to UI",
+  "Chain Type": "Chain Type",
+  "Chain type (ethereum compatible or regular substrate)": "Chain type (ethereum compatible or regular substrate)",
   "Color": "Color",
   "Dark theme (experimental, work-in-progress)": "Dark theme (experimental, work-in-progress)",
   "Decimals": "Decimals",

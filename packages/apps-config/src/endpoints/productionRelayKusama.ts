@@ -70,7 +70,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
           'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://bifrost.kusama.elara.patract.io'
         }
       },
       {
@@ -165,6 +166,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'loomNetwork',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
         homepage: 'https://loomx.io/',
         paraId: 2080,
         text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
