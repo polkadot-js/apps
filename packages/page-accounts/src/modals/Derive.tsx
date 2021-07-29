@@ -13,7 +13,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { downloadAccount } from './Create';
+import { tryCreateAccount } from '../util';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props {
@@ -54,29 +54,15 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
 }
 
 function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
-  // we will fill in all the details below
-  const status = { action: 'create' } as ActionStatus;
-
-  try {
+  const getResult = () => {
     const derived = source.derive(suri);
 
     derived.setMeta({ ...derived.meta, genesisHash, name, parentAddress: source.address, tags: [] });
 
-    const result = keyring.addPair(derived, password || '');
-    const { address } = result.pair;
+    return keyring.addPair(derived, password || '');
+  };
 
-    status.account = address;
-    status.status = 'success';
-    status.message = success;
-
-    downloadAccount(result);
-    InputAddress.setLastValue('account', address);
-  } catch (error) {
-    status.status = 'error';
-    status.message = (error as Error).message;
-  }
-
-  return status;
+  return tryCreateAccount(getResult, success);
 }
 
 function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
