@@ -1,13 +1,14 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Balance } from '@polkadot/types/interfaces';
+import type { Balance, StakingLedger } from '@polkadot/types/interfaces';
 
 import { screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
+import { makeStakingLedger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
 
@@ -131,7 +132,7 @@ describe('Accounts page', () => {
     });
 
     it('displays balance summary', async () => {
-      accountsPage.renderPage(defaultStakingAccounts);
+      accountsPage.renderPage(accountsWithStaking);
 
       // Sum of Free + Reserved for all accounts
       const expectedAmount = balance(850);
@@ -143,7 +144,7 @@ describe('Accounts page', () => {
     });
 
     it('displays transferrable summary', async () => {
-      accountsPage.renderPage(defaultStakingAccounts);
+      accountsPage.renderPage(accountsWithStaking);
 
       // Sum of AvailableBalances for all accounts
       const expectedAmount = balance(1000);
@@ -155,7 +156,7 @@ describe('Accounts page', () => {
     });
 
     it('displays locked summary', async () => {
-      accountsPage.renderPage(defaultStakingAccounts);
+      accountsPage.renderPage(accountsWithStaking);
 
       const expectedAmount = balance(820);
       const expectedText = accountsPage.format(expectedAmount);
@@ -166,7 +167,7 @@ describe('Accounts page', () => {
     });
 
     it('displays bonded summary', async () => {
-      accountsPage.renderPage(defaultStakingAccounts);
+      accountsPage.renderPage(accountsWithStaking);
 
       // Sum of stakingLedger.active.unwrap() for all accounts
       const expectedAmount = balance(90);
@@ -178,7 +179,7 @@ describe('Accounts page', () => {
     });
 
     it('displays unbonding summary', async () => {
-      accountsPage.renderPage(defaultStakingAccounts);
+      accountsPage.renderPage(accountsWithStaking);
 
       // Sum of "unlocking" for each account
       const expectedAmount = balance(1500);
@@ -190,7 +191,7 @@ describe('Accounts page', () => {
     });
 
     it('displays redeemable summary', async () => {
-      accountsPage.renderPage(defaultStakingAccounts);
+      accountsPage.renderPage(accountsWithStaking);
 
       const expectedAmount = balance(7000);
       const expectedText = accountsPage.format(expectedAmount);
@@ -213,6 +214,10 @@ describe('Accounts page', () => {
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
 
+  const ledger = function (active: number): StakingLedger {
+    return makeStakingLedger(balance(active));
+  }
+
   const accountsWithStaking = [
     {
       address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
@@ -223,12 +228,7 @@ describe('Accounts page', () => {
       },
       staking: {
         redeemable: balance(4000),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        stakingLedger: {
-          active: {
-            unwrap: () => balance(30)
-          }
-        } as any,
+        stakingLedger: ledger(30),
         unlocking: [
           {
             remainingEras: new BN('1000000000'),
@@ -255,12 +255,7 @@ describe('Accounts page', () => {
       },
       staking: {
         redeemable: balance(3000),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        stakingLedger: {
-          active: {
-            unwrap: () => balance(60)
-          }
-        } as any,
+        stakingLedger: ledger(60),
         unlocking: [
           {
             remainingEras: new BN('1000000000'),

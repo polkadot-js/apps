@@ -7,6 +7,7 @@ import BN from 'bn.js';
 
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
+import { makeStakingLedger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 
 export interface Account {
   balance: DeriveBalancesAll,
@@ -58,12 +59,7 @@ export const defaultStakingAccount: DeriveStakingAccount = {
   nominators: [],
   redeemable: balanceOf(0),
   sessionIds: [],
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  stakingLedger: {
-    active: {
-      unwrap: () => new BN(0)
-    }
-  } as any,
+  stakingLedger: makeStakingLedger(0),
   unlocking: [
     {
       remainingEras: new BN('1000000000'),
@@ -78,7 +74,7 @@ export const defaultStakingAccount: DeriveStakingAccount = {
       value: balanceOf(0)
     }
   ]
-} as any;
+} as any; 
 
 class MockAccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;
