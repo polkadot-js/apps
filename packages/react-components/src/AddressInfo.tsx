@@ -505,7 +505,7 @@ export default withMulti(
     }
 
     .column {
-      max-width: 280px;
+      max-width: 260px;
       &.column--expander {
         width: 17.5rem;
 
