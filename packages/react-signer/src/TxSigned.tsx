@@ -5,8 +5,6 @@ import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
-import type { Option } from '@polkadot/types';
-import type { Multisig } from '@polkadot/types/interfaces';
 import type { Ledger } from '@polkadot/ui-keyring';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
@@ -120,7 +118,7 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   if (multiRoot) {
     const multiModule = api.tx.multisig || api.tx.utility;
     const [info, { weight }] = await Promise.all([
-      (api.query.multisig || api.query.utility).multisigs<Option<Multisig>>(multiRoot, tx.method.hash),
+      (api.query.multisig || api.query.utility).multisigs(multiRoot, tx.method.hash),
       tx.paymentInfo(multiRoot)
     ]);
     const { threshold, who } = extractExternal(multiRoot);
