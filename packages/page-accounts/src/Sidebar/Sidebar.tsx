@@ -254,21 +254,6 @@ export default React.memo(styled(FullSidebar)`
     width: 100%;
   }
 
-  .ui--AddressMenu-flags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-
-    > * {
-      margin-bottom: 0.4rem;
-
-      &:not(:first-child) {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-    }
-  }
-
   .ui--AddressMenu-identityIcon {
     background: ${colorLink}66;
   }
