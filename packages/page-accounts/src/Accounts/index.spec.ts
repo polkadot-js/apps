@@ -3,7 +3,7 @@
 
 import type { Balance } from '@polkadot/types/interfaces';
 
-import { within } from '@testing-library/react';
+import { fireEvent, within } from '@testing-library/react';
 
 import i18next from '@polkadot/react-components/i18n';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
@@ -163,9 +163,19 @@ describe('Accounts page', () => {
       expect(rows[2].detailsRow).toHaveClass('isOdd');
     });
 
-    // it('account details rows toggled on icon toggle click', async () => {
-    //
-    // });
+Ļ    it('account details rows toggled on icon toggle click', async () => {
+      accountsPage.renderPage([
+        { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
+
+      const row = (await accountsPage.findAccountRows())[0];
+      const toggle = await within(row.primaryRow).findByTestId('row-toggle');
+
+      expect(row.detailsRow).toHaveClass('isCollapsed');
+
+      fireEvent.click(toggle);
+
+      expect(row.detailsRow).toHaveClass('isExpanded');
+    });
   });
 
   /**

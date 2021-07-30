@@ -640,6 +640,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
         <td className='button'>
           <div className='table-column-icon'
+            data-testid='row-toggle'
             onClick={handleOnExpandIconClick}>
             <Icon icon={
               isExpanded
