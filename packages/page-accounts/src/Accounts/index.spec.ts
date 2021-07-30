@@ -144,6 +144,28 @@ describe('Accounts page', () => {
 
       await rows[0].assertTags('my tagSuper Tag');
     });
+
+    it('account details rows keep colouring from their primary rows', async () => {
+      accountsPage.renderPage([
+        { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' },
+        { address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw' },
+        { address: '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc' }]);
+
+      const rows = await accountsPage.findAccountRows();
+
+      expect(rows[0].primaryRow).toHaveClass('isOdd');
+      expect(rows[0].detailsRow).toHaveClass('isOdd');
+
+      expect(rows[1].primaryRow).toHaveClass('isEven');
+      expect(rows[1].detailsRow).toHaveClass('isEven');
+
+      expect(rows[2].primaryRow).toHaveClass('isOdd');
+      expect(rows[2].detailsRow).toHaveClass('isOdd');
+    });
+
+    // it('account details rows toggled on icon toggle click', async () => {
+    //
+    // });
   });
 
   /**
