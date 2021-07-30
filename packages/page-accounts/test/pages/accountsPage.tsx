@@ -52,10 +52,10 @@ export class AccountRow {
     }
   }
 
-  async assertTags (tags: string[]): Promise<void> {
+  async assertTags (tagsContent: string): Promise<void> {
     const tagsActual = await within(this.detailsRow).findByTestId('tags');
 
-    expect(tagsActual).toHaveTextContent(tags.length ? tags.join('') : 'no tags');
+    expect(tagsActual).toHaveTextContent(tagsContent);
   }
 }
 

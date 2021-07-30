@@ -124,11 +124,15 @@ describe('Accounts page', () => {
         { amount: balance(150), name: 'reserved' }]);
     });
 
-    it('account row displays tags in details row', async () => {
+    it('when account is not tagged, account row details displays no tags info', async () => {
+      accountsPage.renderPage([{ address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
+      const rows = await accountsPage.findAccountRows();
+
+      await rows[0].assertTags('no tags');
+    });
+
+    it('when account is tagged, account row details displays tags', async () => {
       accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy'
-        },
         {
           address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
           info: {
@@ -138,8 +142,7 @@ describe('Accounts page', () => {
       ]);
       const rows = await accountsPage.findAccountRows();
 
-      await rows[0].assertTags([]);
-      await rows[1].assertTags(['my tag', 'Super Tag']);
+      await rows[0].assertTags('my tagSuper Tag');
     });
   });
 
