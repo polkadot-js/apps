@@ -163,7 +163,7 @@ describe('Accounts page', () => {
       expect(rows[2].detailsRow).toHaveClass('isOdd');
     });
 
-Ļ    it('account details rows toggled on icon toggle click', async () => {
+    it('account details rows toggled on icon toggle click', async () => {
       accountsPage.renderPage([
         { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
 
