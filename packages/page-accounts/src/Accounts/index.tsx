@@ -246,7 +246,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             proxy={proxies?.[index]}
             setBalance={_setBalance}
             toggleFavorite={toggleFavorite}
-            x
           />
         ))}
       </Table>

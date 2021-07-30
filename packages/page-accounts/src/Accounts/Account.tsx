@@ -711,5 +711,3 @@ export default React.memo(styled(Account)`
       cursor: pointer;
     }
 `);
-
-// TODO: common styles: table-column-icon???

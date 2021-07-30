@@ -81,6 +81,7 @@ const DEFAULT_PREFS = {
   validatorPayment: true
 };
 
+// auxiliary component that helps aligning balances details, fills up the space when no icon for a balance is specified
 function IconVoid (): React.ReactElement {
   return <span className='icon-void'>&nbsp;</span>;
 }

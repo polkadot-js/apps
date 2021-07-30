@@ -25,6 +25,7 @@ let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 class NotYetRendered extends Error {
 }
 
+// utility wrapper over an account item in accounts table, serves basic assertions about an account row
 export class AccountRow {
   primaryRow: HTMLElement;
   detailsRow: HTMLElement;
