@@ -141,7 +141,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: 'wss://khala.phala.network/ws',
+          Phala: 'wss://khala-api.phala.network/ws',
           OnFinality: 'wss://khala.api.onfinality.io/public-ws'
         }
       },
