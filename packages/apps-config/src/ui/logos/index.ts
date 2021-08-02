@@ -15,9 +15,9 @@ import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
+import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
 import chainKusama from './chains/kusama-128.gif';
-import chainPolkaBTC from './chains/polkabtc.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -62,6 +62,7 @@ import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
+import nodeInterBTC from './nodes/interbtc.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
@@ -90,7 +91,6 @@ import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
-import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -161,6 +161,8 @@ export const chainLogos = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: nodeIdavoll,
+  InterBTC: nodeInterBTC,
+  'InterBTC Staging': nodeInterBTC,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -199,8 +201,6 @@ export const chainLogos = Object.entries({
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
-  PolkaBTC: nodePolkaBTC,
-  'PolkaBTC Staging': nodePolkaBTC,
   'Polkadex Testnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
   'Pontem Testnet': nodePontem,
@@ -442,6 +442,7 @@ export const namedLogos: Record<string, unknown> = {
   hanonycash: nodeHanonycash,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
+  interbtc: nodeInterBTC,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
   karura: chainKarura,
@@ -471,7 +472,6 @@ export const namedLogos: Record<string, unknown> = {
   phala: nodePhala,
   phoenix: nodePhoenix,
   plasm: nodePlasm,
-  polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
@@ -501,6 +501,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
+  rococoInterBTC: chainInterBTC,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
@@ -516,7 +517,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
-  rococoPolkabtc: chainPolkaBTC,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoStatemint: nodeStatemine,

@@ -194,6 +194,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'interbtc',
+      text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
+      providers: {
+        Interlay: 'wss://api-dev.interlay.io/parachain/'
+      }
+    },
+    {
       info: 'ipse',
       text: t('rpc.test.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
@@ -319,13 +326,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
         'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
-      }
-    },
-    {
-      info: 'polkabtc',
-      text: t('rpc.test.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
-      providers: {
-        Interlay: 'wss://beta.polkabtc.io/api/parachain'
       }
     },
     {
