@@ -8,20 +8,20 @@ import { useTranslation } from '@polkadot/react-components/translate';
 
 import PasswordInput from './PasswordInput';
 
-interface AccountPass {
-  password: string;
-  isPassValid: boolean;
-}
-
 interface AccountName {
   name: string;
   isNameValid: boolean;
 }
 
+interface AccountPassword {
+  password: string;
+  isPassValid: boolean;
+}
+
 interface CreateAccountInputsProps {
   name: AccountName;
   setName: (value: AccountName) => void;
-  setPassword: (value: AccountPass) => void;
+  setPassword: (value: AccountPassword) => void;
   _onCommit: () => void;
 }
 

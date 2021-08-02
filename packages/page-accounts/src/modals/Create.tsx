@@ -152,9 +152,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
+  const [{ isPassValid: isPasswordValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
-  const isSecondStepValid = isNameValid && isPassValid;
+  const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
 
   const errorIndex = useRef<Record<string, string>>({
