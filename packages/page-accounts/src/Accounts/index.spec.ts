@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Balance, StakingLedger } from '@polkadot/types/interfaces';
+import type { Balance } from '@polkadot/types/interfaces';
 import type { AccountOverrides } from '../../test/hooks/default';
 
 import { screen, within } from '@testing-library/react';
@@ -9,7 +9,7 @@ import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
-import { makeStakingLedger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
+import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
 
@@ -124,71 +124,56 @@ describe('Accounts page', () => {
     });
 
     it('displays balance summary', async () => {
-      const free1 = balance(500);
-      const free2 = balance(200);
-      const res2 = balance(150);
-
       defaultRender(
         {
           balance: {
-            freeBalance: free1
+            freeBalance: balance(500)
           }
         },
         {
           balance: {
-            freeBalance: free2,
-            reservedBalance: res2
+            freeBalance: balance(200),
+            reservedBalance: balance(150)
           }
         });
 
-      const expectedAmount = free1.add(free2.add(res2));
-      const expectedText = accountsPage.format(expectedAmount);
-
       const summary = await screen.findByTestId(/card-summary:(total )?balance/i);
 
-      expect(summary).toHaveTextContent(expectedText);
+      expect(summary).toHaveTextContent(showBalance(500 + 200 + 150));
     });
 
     it('displays transferrable summary', async () => {
-      const a1 = balance(400);
-      const a2 = balance(600);
-
-      defaultRender({ balance: { availableBalance: a1 } }, { balance: { availableBalance: a2 } });
-
-      const expectedAmount = a1.add(a2);
-      const expectedText = accountsPage.format(expectedAmount);
+      defaultRender({ balance: { availableBalance: balance(400) } }, { balance: { availableBalance: balance(600) } });
 
       const summary = await screen.findByTestId(/card-summary:(total )?transferrable/i);
 
-      expect(summary).toHaveTextContent(expectedText);
+      expect(summary).toHaveTextContent(showBalance(400 + 600));
     });
 
     it('displays locked summary', async () => {
-      const l1 = balance(400);
-      const l2 = balance(600);
-
-      defaultRender({ balance: { lockedBalance: l1 } }, { balance: { lockedBalance: l2 } });
-
-      const expectedAmount = l1.add(l2);
-      const expectedText = accountsPage.format(expectedAmount);
+      defaultRender({ balance: { lockedBalance: balance(400) } }, { balance: { lockedBalance: balance(600) } });
 
       const summary = await screen.findByTestId(/card-summary:(total )?locked/i);
 
-      expect(summary).toHaveTextContent(expectedText);
+      expect(summary).toHaveTextContent(showBalance(400 + 600));
     });
 
     it('displays bonded summary', async () => {
-      const l1 = ledger(70);
-      const l2 = ledger(20);
-
-      defaultRender({ staking: { stakingLedger: l1 } }, { staking: { stakingLedger: l2 } });
-
-      const expectedAmount = balance(90);
-      const expectedText = accountsPage.format(expectedAmount);
+      defaultRender(
+        {
+          staking: {
+            stakingLedger: ledger(balance(70))
+          }
+        },
+        {
+          staking: {
+            stakingLedger: ledger(balance(20))
+          }
+        });
 
       const summary = await screen.findByTestId(/card-summary:(total )?bonded/i);
 
-      expect(summary).toHaveTextContent(expectedText);
+      expect(summary).toHaveTextContent(showBalance(70 + 20));
     });
 
     it('displays unbonding summary', async () => {
@@ -230,26 +215,17 @@ describe('Accounts page', () => {
           }
         });
 
-      const expectedAmount = balance(1500);
-      const expectedText = accountsPage.format(expectedAmount);
-
       const summary = await screen.findByTestId(/card-summary:(total )?unbonding/i);
 
-      expect(summary).toHaveTextContent(expectedText);
+      expect(summary).toHaveTextContent(showBalance(200 + 300 + 400 + 100 + 200 + 300));
     });
 
     it('displays redeemable summary', async () => {
-      const r1 = balance(4000);
-      const r2 = balance(4000);
-
-      defaultRender({ staking: { redeemable: r1 } }, { staking: { redeemable: r2 } });
-
-      const expectedAmount = r1.add(r2);
-      const expectedText = accountsPage.format(expectedAmount);
+      defaultRender({ staking: { redeemable: balance(4000) } }, { staking: { redeemable: balance(5000) } });
 
       const summary = await screen.findByTestId(/card-summary:(total )?redeemable/i);
 
-      expect(summary).toHaveTextContent(expectedText);
+      expect(summary).toHaveTextContent(showBalance(4000 + 5000));
     });
   });
 
@@ -265,8 +241,8 @@ describe('Accounts page', () => {
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
 
-  const ledger = function (active: number): StakingLedger {
-    return makeStakingLedger(balance(active));
+  const showBalance = function (amount: number): string {
+    return accountsPage.format(balance(amount));
   };
 
   const defaultAddresses = [
