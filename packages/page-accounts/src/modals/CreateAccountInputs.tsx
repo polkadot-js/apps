@@ -18,14 +18,14 @@ interface AccountPassword {
   isPassValid: boolean;
 }
 
-interface CreateAccountInputsProps {
+interface Props {
   name: AccountName;
   setName: (value: AccountName) => void;
   setPassword: (value: AccountPassword) => void;
   _onCommit: () => void;
 }
 
-const CreateAccountInputs = ({ _onCommit, name: { isNameValid, name }, setName, setPassword }: CreateAccountInputsProps) => {
+const CreateAccountInputs = ({ _onCommit, name: { isNameValid, name }, setName, setPassword }: Props) => {
   const { t } = useTranslation();
 
   const _onChangeName = useCallback(
