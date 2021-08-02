@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.95.2-0",
+  "version": "0.95.2-1",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
@@ -16,7 +16,7 @@
     "@docknetwork/node-types": "0.4.7",
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.2.10",
-    "@interlay/polkabtc-types": "0.7.4",
+    "@interlay/interbtc-types": "0.9.1",
     "@kiltprotocol/type-definitions": "0.1.10",
     "@laminar/type-definitions": "0.3.1",
     "@phala/typedefs": "0.2.5",
