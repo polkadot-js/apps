@@ -6,7 +6,7 @@ import type { CreateResult, KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { SortedAccount } from './types';
 
 import FileSaver from 'file-saver';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { getEnvironment } from '@polkadot/react-api/util';
 import { InputAddress, Menu } from '@polkadot/react-components';
@@ -51,6 +51,20 @@ export function tryCreateAccount (getResult: () => CreateResult, success: string
   }
 
   return status;
+}
+
+export function useCreateAccountUI() {
+  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
+  const _onChangeName = useCallback(
+    (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
+
+  return {
+    name,
+    isNameValid,
+    _onChangeName,
+  }
 }
 
 function expandList (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] {

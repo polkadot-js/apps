@@ -16,7 +16,7 @@ import { isHex, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { tryCreateAccount } from '../util';
+import { tryCreateAccount, useCreateAccountUI } from '../util';
 import CreateConfirmation from './CreateConfirmation';
 import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 import CreateSuriLedger from './CreateSuriLedger';
@@ -151,8 +151,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
-  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
+  const { name, isNameValid, _onChangeName } = useCreateAccountUI();
   const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
@@ -203,11 +203,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       }
     },
     [derivePath, pairType, seedType]
-  );
-
-  const _onChangeName = useCallback(
-    (name: string) => setName({ isNameValid: !!name.trim(), name }),
-    []
   );
 
   const _onPasswordChange = useCallback(
