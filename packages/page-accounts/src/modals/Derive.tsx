@@ -13,7 +13,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { tryCreateAccount, useCreateAccountUI } from '../util';
+import { CreateAccountInputs, tryCreateAccount } from '../util';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props {
@@ -71,15 +71,15 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(() => keyring.getPair(from));
   const [isBusy, setIsBusy] = useState(false);
+  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
+  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
-  const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
   const [{ isRootValid, rootPass }, setRootPass] = useState({ isRootValid: false, rootPass: '' });
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
-  const { name, isNameValid, _onChangeName, password, isPassValid, _onChangePass } = useCreateAccountUI();
-  const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
+  const isValid = !!address && !deriveError && isNameValid && isPassValid;
 
   useEffect((): void => {
     setIsLocked({ isLocked: source.isLocked, lockedError: null });
@@ -99,11 +99,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       return { address, deriveError };
     });
   }, [debouncedSuri, isLocked, source]);
-
-  const _onChangePass2 = useCallback(
-    (password2: string) => setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 }),
-    [password]
-  );
 
   const _onChangeRootPass = useCallback(
     (rootPass: string): void => {
@@ -205,34 +200,12 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {deriveError && (
                   <MarkError content={deriveError} />
                 )}
-                <Input
-                  className='full'
-                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-                  isError={!isNameValid}
-                  label={t<string>('name')}
-                  onChange={_onChangeName}
-                  onEnter={_onCommit}
-                  placeholder={t<string>('new account')}
-                  value={name}
-                />
-                <Password
-                  className='full'
-                  help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-                  isError={!isPassValid}
-                  label={t<string>('password')}
-                  onChange={_onChangePass}
-                  onEnter={_onCommit}
-                  value={password}
-                />
-                <Password
-                  className='full'
-                  help={t<string>('Verify the password entered above.')}
-                  isError={!isPass2Valid}
-                  label={t<string>('password (repeat)')}
-                  onChange={_onChangePass2}
-                  onEnter={_onCommit}
-                  value={password2}
-                />
+                <CreateAccountInputs
+                  _onCommit={_onCommit}
+                  name={{ isNameValid, name }}
+                  setName={setName}
+                  setPassword={setPassword}
+                />;
               </AddressRow>
             )}
           </Modal.Content>

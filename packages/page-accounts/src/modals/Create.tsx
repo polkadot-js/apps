@@ -16,12 +16,11 @@ import { isHex, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { tryCreateAccount, useCreateAccountUI } from '../util';
+import { CreateAccountInputs, tryCreateAccount } from '../util';
 import CreateConfirmation from './CreateConfirmation';
 import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 import CreateSuriLedger from './CreateSuriLedger';
 import ExternalWarning from './ExternalWarning';
-import PasswordInput from './PasswordInput';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -151,7 +150,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
-  const { name, isNameValid, _onChangeName, password, isPassValid, _onChangePass } = useCreateAccountUI();
+  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
+  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPassValid;
   const isValid = isFirstStepValid && isSecondStepValid;
@@ -358,22 +358,12 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           </Modal.Columns>
         </>}
         {step === 2 && <>
-          <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
-            <Input
-              autoFocus
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              onEnter={_onCommit}
-              placeholder={t<string>('new account')}
-              value={name}
-            />
-          </Modal.Columns>
-          <PasswordInput
-            onChange={_onChangePass}
-            onEnter={_onCommit}
-          />
+          <CreateAccountInputs
+            _onCommit={_onCommit}
+            name={{ isNameValid, name }}
+            setName={setName}
+            setPassword={setPassword}
+          />;
           <Modal.Columns>
             <ExternalWarning />
           </Modal.Columns>
