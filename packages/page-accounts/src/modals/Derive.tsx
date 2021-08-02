@@ -73,14 +73,14 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const [source] = useState(() => keyring.getPair(from));
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
+  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
   const [{ isRootValid, rootPass }, setRootPass] = useState({ isRootValid: false, rootPass: '' });
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
-  const isValid = !!address && !deriveError && isNameValid && isPassValid;
+  const isValid = !!address && !deriveError && isNameValid && isPasswordValid;
 
   useEffect((): void => {
     setIsLocked({ isLocked: source.isLocked, lockedError: null });

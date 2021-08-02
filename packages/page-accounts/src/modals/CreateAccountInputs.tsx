@@ -15,7 +15,7 @@ interface AccountName {
 
 interface AccountPassword {
   password: string;
-  isPassValid: boolean;
+  isPasswordValid: boolean;
 }
 
 interface Props {
@@ -34,7 +34,7 @@ const CreateAccountInputs = ({ _onCommit, name: { isNameValid, name }, setName, 
   );
 
   const _onChangePass = useCallback(
-    (password: string, isValid: boolean) => setPassword({ isPassValid: isValid, password }),
+    (password: string, isValid: boolean) => setPassword({ isPasswordValid: isValid, password }),
     [setPassword]
   );
 
