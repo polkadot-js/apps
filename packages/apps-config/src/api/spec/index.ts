@@ -153,6 +153,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   idavoll,
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
+  'interbtc-standalone': interbtc,
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
