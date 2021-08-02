@@ -55,7 +55,7 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
 }
 
 function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
-  const getResult = () => {
+  const commitAccount = () => {
     const derived = source.derive(suri);
 
     derived.setMeta({ ...derived.meta, genesisHash, name, parentAddress: source.address, tags: [] });
@@ -63,7 +63,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
     return keyring.addPair(derived, password || '');
   };
 
-  return tryCreateAccount(getResult, success);
+  return tryCreateAccount(commitAccount, success);
 }
 
 function Derive ({ className = '', from, onClose }: Props): React.ReactElement {

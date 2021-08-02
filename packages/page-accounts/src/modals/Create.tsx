@@ -133,10 +133,10 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
 }
 
 function createAccount (seed: string, derivePath: string, pairType: PairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
-  const getResult = () =>
+  const commitAccount = () =>
     keyring.addUri(getSuri(seed, derivePath, pairType), password, { genesisHash, isHardware: false, name, tags }, pairType === 'ed25519-ledger' ? 'ed25519' : pairType);
 
-  return tryCreateAccount(getResult, success);
+  return tryCreateAccount(commitAccount, success);
 }
 
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: CreateProps): React.ReactElement<CreateProps> {

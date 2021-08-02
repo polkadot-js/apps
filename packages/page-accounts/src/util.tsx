@@ -26,7 +26,7 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
   FileSaver.saveAs(blob, `${pair.address}.json`);
 }
 
-export function tryCreateAccount (getResult: () => CreateResult, success: string): ActionStatus {
+export function tryCreateAccount (commitAccount: () => CreateResult, success: string): ActionStatus {
   const status: ActionStatus = {
     action: 'create',
     message: success,
@@ -34,7 +34,7 @@ export function tryCreateAccount (getResult: () => CreateResult, success: string
   };
 
   try {
-    const result = getResult();
+    const result = commitAccount();
     const address = result.pair.address;
 
     status.account = address;
