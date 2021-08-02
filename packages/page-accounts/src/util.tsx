@@ -60,10 +60,19 @@ export function useCreateAccountUI() {
     []
   );
 
+  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
+  const _onChangePass = useCallback(
+    (password: string) => setPassword({ isPassValid: keyring.isPassValid(password), password }),
+    []
+  );
+
   return {
     name,
     isNameValid,
     _onChangeName,
+    password,
+    isPassValid,
+    _onChangePass,
   }
 }
 

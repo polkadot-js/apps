@@ -74,12 +74,11 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
-  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
   const [{ isRootValid, rootPass }, setRootPass] = useState({ isRootValid: false, rootPass: '' });
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
-  const { name, isNameValid, _onChangeName } = useCreateAccountUI();
+  const { name, isNameValid, _onChangeName, password, isPassValid, _onChangePass } = useCreateAccountUI();
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
 
   useEffect((): void => {
@@ -100,11 +99,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       return { address, deriveError };
     });
   }, [debouncedSuri, isLocked, source]);
-
-  const _onChangePass = useCallback(
-    (password: string) => setPassword({ isPassValid: keyring.isPassValid(password), password }),
-    []
-  );
 
   const _onChangePass2 = useCallback(
     (password2: string) => setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 }),

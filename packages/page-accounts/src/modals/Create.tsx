@@ -151,10 +151,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
-  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const { name, isNameValid, _onChangeName } = useCreateAccountUI();
+  const { name, isNameValid, _onChangeName, password, isPassValid, _onChangePass } = useCreateAccountUI();
   const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
-  const isSecondStepValid = isNameValid && isPasswordValid;
+  const isSecondStepValid = isNameValid && isPassValid;
   const isValid = isFirstStepValid && isSecondStepValid;
 
   const errorIndex = useRef<Record<string, string>>({
@@ -203,11 +202,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       }
     },
     [derivePath, pairType, seedType]
-  );
-
-  const _onPasswordChange = useCallback(
-    (password: string, isPasswordValid: boolean) => setPassword({ isPasswordValid, password }),
-    []
   );
 
   const _toggleMnemonicSaved = () => {
@@ -377,7 +371,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             />
           </Modal.Columns>
           <PasswordInput
-            onChange={_onPasswordChange}
+            onChange={_onChangePass}
             onEnter={_onCommit}
           />
           <Modal.Columns>
