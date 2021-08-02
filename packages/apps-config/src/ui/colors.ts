@@ -238,6 +238,7 @@ export const chainColors: Record<string, string> = Object.entries({
   PHOENIX: chainPhoenix,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
+  PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
   Polkadot: chainPolkadot,
   'Polkadot CC1': chainPolkadot,
