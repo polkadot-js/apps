@@ -6,14 +6,11 @@ import type { CreateResult, KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { SortedAccount } from './types';
 
 import FileSaver from 'file-saver';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { getEnvironment } from '@polkadot/react-api/util';
-import { Input, InputAddress, Menu, Modal } from '@polkadot/react-components';
-import { useTranslation } from '@polkadot/react-components/translate';
+import { InputAddress, Menu } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
-
-import PasswordInput from './modals/PasswordInput';
 
 export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[]): React.ReactNode | null {
   const filtered = items.filter((item): item is React.ReactNode => !!item);
@@ -54,56 +51,6 @@ export function tryCreateAccount (getResult: () => CreateResult, success: string
   }
 
   return status;
-}
-
-interface AccountPass {
-  password: string;
-  isPassValid: boolean;
-}
-
-interface AccountName {
-  name: string;
-  isNameValid: boolean;
-}
-
-interface CreateAccountInputsProps {
-  name: AccountName;
-  setName: (value: AccountName) => void;
-  setPassword: (value: AccountPass) => void;
-  _onCommit: () => void;
-}
-
-export function CreateAccountInputs ({ _onCommit, name: { isNameValid, name }, setName, setPassword }: CreateAccountInputsProps): React.ReactNode {
-  const { t } = useTranslation();
-
-  const _onChangeName = useCallback(
-    (name: string) => setName({ isNameValid: !!name.trim(), name }),
-    [setName]
-  );
-
-  const _onChangePass = useCallback(
-    (password: string, isValid: boolean) => setPassword({ isPassValid: isValid, password }),
-    [setPassword]
-  );
-
-  return (<>
-    <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
-      <Input
-        className='full'
-        help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-        isError={!isNameValid}
-        label={t<string>('name')}
-        onChange={_onChangeName}
-        onEnter={_onCommit}
-        placeholder={t<string>('new account')}
-        value={name}
-      />
-    </Modal.Columns>
-    <PasswordInput
-      onChange={_onChangePass}
-      onEnter={_onCommit}
-    />
-  </>);
 }
 
 function expandList (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] {

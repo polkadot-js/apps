@@ -16,7 +16,8 @@ import { isHex, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import { CreateAccountInputs, tryCreateAccount } from '../util';
+import { tryCreateAccount } from '../util';
+import CreateAccountInputs from './CreateAccountInputs';
 import CreateConfirmation from './CreateConfirmation';
 import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
 import CreateSuriLedger from './CreateSuriLedger';
