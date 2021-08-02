@@ -34,7 +34,7 @@ function Refund ({ className, paraId }: Props): React.ReactElement<Props> {
         <Modal
           className={className}
           header={t<string>('Withdraw from fund')}
-          size='large'
+          onClose={toggleOpen}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will be used to send the transaction.')}>
@@ -46,7 +46,7 @@ function Refund ({ className, paraId }: Props): React.ReactElement<Props> {
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='credit-card'

@@ -81,7 +81,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       header={t<string>('Inject Keys')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}>
@@ -117,7 +117,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sign-in-alt'
           label={t<string>('Submit key')}

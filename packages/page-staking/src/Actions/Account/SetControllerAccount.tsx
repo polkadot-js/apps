@@ -29,7 +29,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
   return (
     <Modal
       header={t<string>('Change controller account')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}>
@@ -56,7 +56,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'

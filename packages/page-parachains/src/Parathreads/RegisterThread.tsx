@@ -61,7 +61,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
     <Modal
       className={className}
       header={t<string>('Register parathread')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         {api.tx.registrar.reserve
@@ -119,7 +119,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

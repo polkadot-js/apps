@@ -76,7 +76,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         <Modal
           className={className}
           header={t<string>('Payout all stakers')}
-          size='large'
+          onClose={togglePayout}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}>
@@ -118,7 +118,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               }
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={togglePayout}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               extrinsic={extrinsics}

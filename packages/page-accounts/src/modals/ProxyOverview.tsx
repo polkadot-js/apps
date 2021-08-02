@@ -233,7 +233,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     <Modal
       className={className}
       header={t<string>('Proxy overview')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}>
@@ -285,7 +285,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           <BatchWarning />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {existing.length !== 0 && (
           <TxButton
             accountId={proxiedAccount}

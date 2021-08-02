@@ -115,7 +115,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
     <Modal
       className={className}
       header={t<string>('Add account via Qr')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         {scanned
@@ -162,7 +162,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           )
         }
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isDisabled={!scanned || !isValid || (!isAddress && isIpfs)}

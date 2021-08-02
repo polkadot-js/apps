@@ -54,7 +54,7 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
       {isShowing && (
         <Modal
           header={t('design samples')}
-          size='large'
+          onClose={toggleDesign}
         >
           <Modal.Content>
             <canvas
@@ -64,10 +64,6 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
               width={WIDTH}
             />
           </Modal.Content>
-          <Modal.Actions
-            cancelLabel={t<string>('Close')}
-            onCancel={toggleDesign}
-          />
         </Modal>
       )}
     </>

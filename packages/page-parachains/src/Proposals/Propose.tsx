@@ -88,7 +88,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
     <Modal
       className={className}
       header={t<string>('Propose parachain')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
@@ -163,7 +163,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
           </Button.Group>
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

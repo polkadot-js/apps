@@ -25,7 +25,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
     <Modal
       className={className}
       header={t<string>('Reserve ParaId')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account will be used to the Id reservation and for the future parathread.')}>
@@ -51,7 +51,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

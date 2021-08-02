@@ -25,7 +25,7 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
   return (
     <Modal
       header={`${t<string>('reject curator')} - "${truncateTitle(description, 30)}"`}
-      size='large'
+      onClose={toggleOpen}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the unassign curator transaction ')}>
@@ -39,7 +39,7 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={toggleOpen}>
+      <Modal.Actions>
         <TxButton
           accountId={curatorId}
           icon='times'

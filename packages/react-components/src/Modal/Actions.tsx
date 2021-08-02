@@ -4,23 +4,22 @@
 import type { ActionsProps } from './types';
 
 import React from 'react';
-import { Modal as SUIModal } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import Button from '../Button';
-import ButtonCancel from '../ButtonCancel';
 
-function Actions ({ cancelLabel, children, className = '', onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
-  return (
-    <SUIModal.Actions>
-      <Button.Group className={className}>
-        <ButtonCancel
-          label={cancelLabel}
-          onClick={onCancel}
-        />
-        {children}
-      </Button.Group>
-    </SUIModal.Actions>
-  );
-}
+const Actions: React.FC<ActionsProps> = ({ children, className = '' }) => (
+  <div className={className}>
+    <Button.Group>
+      {children}
+    </Button.Group>
+  </div>
+);
 
-export default React.memo(Actions);
+export default React.memo(styled(Actions)`
+  background-color: var(--bg-input);
+
+  .ui--Button-Group {
+    margin: 1rem 1rem;
+  }
+`);

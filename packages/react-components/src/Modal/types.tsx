@@ -3,6 +3,11 @@
 
 import React from 'react';
 
+export interface HeaderProps {
+  header?: React.ReactNode;
+  onClose: () => void;
+}
+
 export interface ColumnsProps {
   children: React.ReactNode;
   className?: string;
@@ -10,17 +15,30 @@ export interface ColumnsProps {
 }
 
 export interface ModalProps {
+  size?: 'large' | 'small';
   children: React.ReactNode;
   className?: string;
   header?: React.ReactNode;
   open?: boolean;
+  onClose: () => void;
+  testId?: string;
   [index: string]: any;
 }
 
 export interface ActionsProps {
   className?: string;
-  cancelLabel?: string;
-  children?: React.ReactNode;
-  withOr?: boolean;
-  onCancel: () => void;
 }
+
+export interface BodyProps {
+  size: 'large' | 'small'
+}
+
+export interface ContentProps {
+  className?: string
+}
+
+export type ModalType = React.FC<ModalProps> & {
+  Actions: React.FC<ActionsProps>;
+  Columns: React.FC<ColumnsProps>;
+  Content: React.FC<ContentProps>;
+};

@@ -61,7 +61,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
     <Modal
       className='toolbox--Unlock'
       header={t<string>('Unlock account')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account that will perform the message signing.')}>
@@ -84,7 +84,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='unlock'
           isBusy={isBusy}

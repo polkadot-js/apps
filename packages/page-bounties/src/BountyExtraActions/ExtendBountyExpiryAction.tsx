@@ -36,7 +36,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
     <>
       <Modal
         header={`${t<string>('extend expiry')} - "${truncateTitle(description, 30)}"`}
-        size='large'
+        onClose={toggleOpen}
       >
         <Modal.Content>
           <Modal.Columns hint={t<string>('Only curator can extend the bounty time.')}>
@@ -70,7 +70,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
             />
           </Modal.Columns>
         </Modal.Content>
-        <Modal.Actions onCancel={toggleOpen}>
+        <Modal.Actions>
           <TxButton
             accountId={curatorId}
             icon='check'

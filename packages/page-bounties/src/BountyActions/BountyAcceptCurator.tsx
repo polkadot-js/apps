@@ -41,7 +41,7 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
         {isOpen && (
           <Modal
             header={`${t<string>('accept curator role')} - "${truncateTitle(description, 30)}"`}
-            size='large'
+            onClose={toggleOpen}
           >
             <Modal.Content>
               <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the assign curator transaction')}>
@@ -70,7 +70,7 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
                 />
               </Modal.Columns>
             </Modal.Content>
-            <Modal.Actions onCancel={toggleOpen}>
+            <Modal.Actions>
               <TxButton
                 accountId={curatorId}
                 icon='check'

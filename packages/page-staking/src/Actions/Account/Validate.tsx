@@ -23,7 +23,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
   return (
     <Modal
       header={t<string>('Set validator preferences')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <ValidatePartial
@@ -34,7 +34,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
           withSenders
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={validateTx}

@@ -126,7 +126,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
     <Modal
       className={className}
       header={t<string>('Register sub-identities')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         {!infos
@@ -164,7 +164,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
           )
         }
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {infos && (
           <TxButton
             accountId={address}

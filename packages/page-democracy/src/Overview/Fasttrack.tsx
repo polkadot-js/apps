@@ -68,6 +68,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
       {isFasttrackOpen && (
         <Modal
           header={t<string>('Fast track proposal')}
+          onClose={toggleFasttrack}
           size='small'
         >
           <Modal.Content>
@@ -106,7 +107,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
               label={t<string>('threshold')}
             />
           </Modal.Content>
-          <Modal.Actions onCancel={toggleFasttrack}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='fast-forward'

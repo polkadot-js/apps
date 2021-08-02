@@ -41,7 +41,7 @@ function Bid ({ className, isDisabled }: Props): React.ReactElement<Props> {
         <Modal
           className={className}
           header={t<string>('submit gilt bid')}
-          size='large'
+          onClose={toggleOpen}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will make the bid for the gilt and pay all associated fees.')}>
@@ -89,7 +89,7 @@ function Bid ({ className, isDisabled }: Props): React.ReactElement<Props> {
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='check'

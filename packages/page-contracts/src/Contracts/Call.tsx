@@ -214,7 +214,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           </Expander>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {isViaRpc
           ? (
             <Button

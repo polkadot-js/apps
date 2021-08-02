@@ -36,7 +36,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
       {isOpen && (
         <Modal
           header={t<string>('Close proposal')}
-          size='large'
+          onClose={toggleOpen}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted to council for a subsequent voting round.')}>
@@ -55,7 +55,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               onStart={toggleOpen}

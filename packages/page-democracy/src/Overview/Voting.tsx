@@ -41,7 +41,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
       {isVotingOpen && (
         <Modal
           header={t<string>('Vote on proposal')}
-          size='large'
+          onClose={toggleVoting}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>
@@ -74,7 +74,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVoting}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='ban'

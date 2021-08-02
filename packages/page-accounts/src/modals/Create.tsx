@@ -268,6 +268,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     <Modal
       className={className}
       header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -428,7 +429,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           />
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {step === 1 &&
           <Button
             icon='step-forward'

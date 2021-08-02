@@ -38,7 +38,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
       {isVotingOpen && (
         <Modal
           header={t<string>('Vote on proposal')}
-          size='large'
+          onClose={toggleVoting}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}>
@@ -57,7 +57,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               )}
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVoting}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='ban'

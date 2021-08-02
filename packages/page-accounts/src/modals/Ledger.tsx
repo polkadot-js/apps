@@ -83,7 +83,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
     <Modal
       className={className}
       header={t<string>('Add account via Ledger')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The name for this account as it will appear under your accounts.')}>
@@ -120,7 +120,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isBusy={isBusy}

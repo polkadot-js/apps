@@ -59,7 +59,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
         <Modal
           className={className}
           header={t<string>('Nominate validators')}
-          size='large'
+          onClose={toggleOpen}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
@@ -96,7 +96,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={ids?.controllerId}
               label={t<string>('Nominate')}

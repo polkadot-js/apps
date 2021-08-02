@@ -29,7 +29,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
     <Modal
       className={className}
       header={t<string>('Nominate Validators')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <NominatePartial
@@ -42,7 +42,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
           withSenders
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={nominateTx}

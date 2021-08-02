@@ -36,7 +36,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
     <Modal
       className={className}
       header={t<string>('Setup account as recoverable')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The recoverable account is protected against the loss of seed/access by a social process.')}>
@@ -78,7 +78,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={address}
           icon='share-alt'

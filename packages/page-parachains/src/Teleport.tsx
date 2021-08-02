@@ -87,7 +87,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       header={t<string>('Teleport assets')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>
@@ -160,7 +160,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           }
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={senderId}
           icon='share-square'

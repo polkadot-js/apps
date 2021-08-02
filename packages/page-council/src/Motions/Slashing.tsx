@@ -80,7 +80,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
         <Modal
           className={className}
           header={t<string>('Revert pending slashes')}
-          size='large'
+          onClose={toggleVisible}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>
@@ -114,7 +114,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
               }
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='sync'

@@ -105,7 +105,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
     <Modal
       className={className}
       header={t<string>('Add via backup file')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns>
@@ -146,7 +146,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           {warning && <MarkWarning content={warning} />}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sync'
           isBusy={isBusy}

@@ -70,7 +70,7 @@ function NewValidator ({ isInElection, targets }: Props): React.ReactElement<Pro
               step
             }
           })}
-          size='large'
+          onClose={_toggle}
         >
           <Modal.Content>
             {step === 1 && (
@@ -98,7 +98,7 @@ function NewValidator ({ isInElection, targets }: Props): React.ReactElement<Pro
               <BatchWarning />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <Button
               icon='step-backward'
               isDisabled={step === 1}

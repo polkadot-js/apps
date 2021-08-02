@@ -23,7 +23,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
   return (
     <Modal
       header= {t<string>('Bid to join')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('Your candidate/bid account. Once accepted this account will become a member.')}>
@@ -43,7 +43,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='sign-in-alt'

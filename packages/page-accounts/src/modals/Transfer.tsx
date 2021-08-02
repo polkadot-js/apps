@@ -101,7 +101,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     <Modal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <div className={className}>
@@ -202,7 +202,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           </Modal.Columns>
         </div>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'

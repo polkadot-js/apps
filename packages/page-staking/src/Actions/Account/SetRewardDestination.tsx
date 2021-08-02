@@ -38,7 +38,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   return (
     <Modal
       header={t<string>('Bonding Preferences')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The stash and controller pair as linked. This operation will be performed via the controller.')}>
@@ -77,7 +77,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           icon='sign-in-alt'

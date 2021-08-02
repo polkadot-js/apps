@@ -23,7 +23,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
   return (
     <Modal
       header={t<string>('Set Session Key')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <SessionKeyPartital
@@ -34,7 +34,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
           withSenders
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={sessionTx}

@@ -39,7 +39,7 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
     <Modal
       className={className}
       header={t<string>('mint asset')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The recipient account for this minting operation.')}>
@@ -77,7 +77,7 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={issuer}
           icon='plus'

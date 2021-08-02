@@ -84,7 +84,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
     <Modal
       className={className}
       header={t<string>('Add multisig')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={
@@ -124,7 +124,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isDisabled={!isValid}

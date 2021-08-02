@@ -160,7 +160,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     <Modal
       className={className}
       header={t<string>('Pending call hashes')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
@@ -271,7 +271,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           </>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={signatory}
           extrinsic={tx}

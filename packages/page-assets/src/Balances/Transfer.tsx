@@ -38,7 +38,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
         <Modal
           className={className}
           header={t<string>('transfer asset')}
-          size='large'
+          onClose={toggleOpen}
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The account to transfer from. This account should have sufficient assets for this transfer.')}>
@@ -86,7 +86,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='paper-plane'

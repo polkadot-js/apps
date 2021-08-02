@@ -91,7 +91,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
     <Modal
       className={`${className} app--accounts-Modal`}
       header={t<string>('Change account password')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <AddressRow
@@ -131,7 +131,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           <PasswordStrength value={newPass1.password} />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sign-in-alt'
           isBusy={isBusy}

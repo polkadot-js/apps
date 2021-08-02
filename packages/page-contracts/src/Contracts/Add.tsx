@@ -64,7 +64,8 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isAddressValid && isNameValid && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing contract')}>
+    <Modal header={t('Add an existing contract')}
+      onClose={onClose}>
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -100,7 +101,7 @@ function Add ({ onClose }: Props): React.ReactElement {
           />
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

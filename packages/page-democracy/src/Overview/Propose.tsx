@@ -41,7 +41,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
     <Modal
       className={className}
       header={t<string>('Submit proposal')}
-      size='large'
+      onClose={onClose}
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
@@ -83,7 +83,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'
