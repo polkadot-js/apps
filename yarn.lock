@@ -1693,10 +1693,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/polkabtc-types@npm:0.7.4":
-  version: 0.7.4
-  resolution: "@interlay/polkabtc-types@npm:0.7.4"
-  checksum: a9584bcdfe7e49060fc9ef5e554acfd2728fd0afd8cb06a3127b7d49e7f0e276783f5b8f36e8cf78f2f9336bf6e7c234ed52784088e6e21e24811fbdfa6412b4
+"@interlay/interbtc-types@npm:0.9.1":
+  version: 0.9.1
+  resolution: "@interlay/interbtc-types@npm:0.9.1"
+  checksum: fb3bc3c101b47097bfeaac686b07faeb9617350730bce4d64553880badac4ccccb56ad3fdbb941ef5b77021ce4e385065750a38307edf7e74676d251d292efd9
   languageName: node
   linkType: hard
 
@@ -2583,7 +2583,7 @@ __metadata:
     "@docknetwork/node-types": 0.4.7
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.2.10
-    "@interlay/polkabtc-types": 0.7.4
+    "@interlay/interbtc-types": 0.9.1
     "@kiltprotocol/type-definitions": 0.1.10
     "@laminar/type-definitions": 0.3.1
     "@phala/typedefs": 0.2.5
