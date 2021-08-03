@@ -65,6 +65,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
       className={className}
       header={t<string>('create asset {{step}}/{{steps}}', { replace: { step, steps: 2 } })}
       onClose={onClose}
+      size='large'
     >
       {step === 1 && (
         <Info
