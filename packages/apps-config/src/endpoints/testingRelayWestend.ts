@@ -80,15 +80,6 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'shibuya',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5489
-        paraId: 2007,
-        text: t('rpc.westend.shibuya', 'Shibuya', { ns: 'apps-config' }),
-        providers: {
-          StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
-        }
-      },
-      {
         info: 'karura',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
         paraId: 2005,

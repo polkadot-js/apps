@@ -371,6 +371,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'shibuya',
+      text: t('rpc.test.shibuya', 'Shibuya', { ns: 'apps-config' }),
+      providers: {
+        StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
