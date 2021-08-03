@@ -659,7 +659,9 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <Tags value={tags} />
           </div>
         </td>
-        <td colSpan={2} />
+        <td className='media--1400'/>
+        <td className='media--1500'/>
+        <td/>
         <td>
           <AddressInfo
             address={address}

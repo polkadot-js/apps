@@ -363,7 +363,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <React.Fragment key={7}>
         <Label label={t<string>('unbonding')} />
         <div className='result'>
-          <StakingUnbonding stakingInfo={stakingInfo} />
+          <StakingUnbonding iconPosition='right'
+            stakingInfo={stakingInfo} />
         </div>
       </React.Fragment>
     );
@@ -500,12 +501,11 @@ export default withMulti(
     white-space: nowrap;
 
     &:not(.ui--AddressInfo-expander) {
-      justify-content: center;
+      justify-content: flex-end;
     }
 
     .column {
-      justify-content: flex-end;
-
+      max-width: 260px;
       &.column--expander {
         width: 17.5rem;
 
@@ -523,6 +523,8 @@ export default withMulti(
       &:not(.column--expander) {
         flex: 1;
         display: grid;
+        column-gap: 1.5rem;
+        row-gap: 0.571rem;
         opacity: 1;
 
         label {
@@ -540,9 +542,10 @@ export default withMulti(
           grid-column: 2;
           text-align: right;
 
-          .icon {
-            margin-left: 0;
-            margin-right: 0.25rem;
+          .ui--Icon,
+          .icon-void {
+            margin-left: 0.25rem;
+            margin-right: 0;
             padding-right: 0 !important;
           }
 
