@@ -13,6 +13,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
@@ -29,6 +30,7 @@ const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
+const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -43,7 +45,6 @@ const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
-const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
@@ -143,6 +144,7 @@ const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
+const nodeZCloak = 'linear-gradient(to right, #7DA6D4,  #B996E5)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -157,6 +159,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
+  'Aleph Zero': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
@@ -190,6 +193,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
+  InterBTC: chainInterbtc,
+  'InterBTC Staging': chainInterbtc,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -233,8 +238,7 @@ export const chainColors: Record<string, string> = Object.entries({
   PHOENIX: chainPhoenix,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
-  PolkaBTC: chainPolkabtc,
-  'PolkaBTC Staging': chainPolkabtc,
+  PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
   Polkadot: chainPolkadot,
   'Polkadot CC1': chainPolkadot,
@@ -277,6 +281,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Westmint Test': specWestmint,
   Whala: chainWhala,
   WILT: chainKilt,
+  'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
 }).reduce<Record<string, string>>((colors, [chain, color]) => ({
@@ -349,6 +354,7 @@ export const nodeColors = Object.entries({
   Web3games: nodeWeb3games,
   Westlake: nodeWestlake,
   'Westmint Collator': specWestmint,
+  'zcloak node': nodeZCloak,
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink

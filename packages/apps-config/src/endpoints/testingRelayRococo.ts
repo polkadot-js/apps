@@ -356,10 +356,10 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoPolkabtc',
+        info: 'rococoInterBTC',
         isDisabled: true, // Rococo reset
         paraId: 21,
-        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://rococo.polkabtc.io/api/parachain'
         }
@@ -437,6 +437,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
+        isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
         paraId: 2050,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {

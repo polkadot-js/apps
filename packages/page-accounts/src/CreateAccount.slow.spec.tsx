@@ -21,8 +21,10 @@ const renderAccounts = () => {
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
-        <Api store={memoryStore}
-          url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+        <Api
+          apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+          store={memoryStore}
+        >
           <WaitForApi>
             <div>
               <AccountsApp basePath='/accounts'
