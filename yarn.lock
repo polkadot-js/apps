@@ -2589,7 +2589,7 @@ __metadata:
     "@phala/typedefs": 0.2.5
     "@polkadot/networks": ^7.1.1
     "@polymathnetwork/polymesh-types": 0.0.2
-    "@snowfork/snowbridge-types": 0.2.3
+    "@snowfork/snowbridge-types": 0.2.5
     "@sora-substrate/type-definitions": 1.4.1
     "@subsocial/types": 0.5.9-dev.2
     "@zeitgeistpm/type-defs": 0.2.5
@@ -3478,10 +3478,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snowfork/snowbridge-types@npm:0.2.3":
-  version: 0.2.3
-  resolution: "@snowfork/snowbridge-types@npm:0.2.3"
-  checksum: 52acef540aa695451153fdff1598f2cff79a5e093d5afc478b36c8a18e0f15303b82087c678b78de5e595e4cd16e671f374e8c961c15333b6abbb047162e41cf
+"@snowfork/snowbridge-types@npm:0.2.5":
+  version: 0.2.5
+  resolution: "@snowfork/snowbridge-types@npm:0.2.5"
+  dependencies:
+    "@polkadot/keyring": ^7.1.1
+    "@polkadot/types": ^5.3.2
+  checksum: 3e0c7755a6d4ee2aeb331808a37b0ea29f573acf2094b024b1b2ea2395fadd95ef633b1ac135ca36eefa682f8d4f0c60e548178c6e538eb65691f2211c0433a8
   languageName: node
   linkType: hard
 
