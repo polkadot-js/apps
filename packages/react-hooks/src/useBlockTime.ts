@@ -32,7 +32,7 @@ export function useBlockTime (blocks: number | BN = BN_ONE, apiOverride?: ApiPro
         // POW, eg. Kulupu
         a.consts.difficulty?.targetBlockTime || (
           // Check against threshold to determine value validity
-          a.consts.timestamp?.minimumPeriod.gt(THRESHOLD)
+          a.consts.timestamp?.minimumPeriod.gte(THRESHOLD)
             // Default minimum period config
             ? a.consts.timestamp.minimumPeriod.mul(BN_TWO)
             : a.query.parachainSystem
