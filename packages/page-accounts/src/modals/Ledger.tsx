@@ -84,6 +84,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       className={className}
       header={t<string>('Add account via Ledger')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The name for this account as it will appear under your accounts.')}>

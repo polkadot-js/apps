@@ -77,6 +77,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
           className={className}
           header={t<string>('Propose external (majority)')}
           onClose={toggleVisible}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>

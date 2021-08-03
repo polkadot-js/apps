@@ -73,6 +73,7 @@ function Contribute ({ cap, className, needsSignature, paraId, raised }: Props):
           className={className}
           header={t<string>('Contribute to fund')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('This account will contribute to the crowdloan.')}>

@@ -40,6 +40,7 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
       className={className}
       header={t<string>('mint asset')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The recipient account for this minting operation.')}>

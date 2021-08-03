@@ -81,6 +81,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
         <Modal
           header={t<string>('Vote for current candidates')}
           onClose={toggleVisible}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The vote will be recorded for the selected account.')}>

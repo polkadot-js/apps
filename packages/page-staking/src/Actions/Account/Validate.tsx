@@ -24,6 +24,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
     <Modal
       header={t<string>('Set validator preferences')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <ValidatePartial

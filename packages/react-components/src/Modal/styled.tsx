@@ -14,6 +14,12 @@ export const Overlay = styled.div`
   background: rgba(96, 96, 96, 0.5);
 `;
 
+const sizes = {
+  large: '1080px',
+  medium: '900px',
+  small: '720px'
+};
+
 export const Body = styled.div<BodyProps>`
   margin-top: 30px;
   background: var(--bg-page);
@@ -23,11 +29,11 @@ export const Body = styled.div<BodyProps>`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
 
-  max-width: ${({ size }) => size === 'large' ? '1080px' : '720px'};
+  max-width: ${({ size }) => sizes[size]};
   width: calc(100% - 16px);
 
   color: var(--color-text);

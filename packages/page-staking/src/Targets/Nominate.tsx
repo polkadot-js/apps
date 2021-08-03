@@ -60,6 +60,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
           className={className}
           header={t<string>('Nominate validators')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>

@@ -102,6 +102,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <div className={className}>

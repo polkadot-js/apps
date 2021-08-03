@@ -55,6 +55,7 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
         <Modal
           header={t('design samples')}
           onClose={toggleDesign}
+          size='large'
         >
           <Modal.Content>
             <canvas

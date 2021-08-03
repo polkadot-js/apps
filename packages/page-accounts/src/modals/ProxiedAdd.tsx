@@ -75,6 +75,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
       className={className}
       header={t<string>('Add proxied account')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}>

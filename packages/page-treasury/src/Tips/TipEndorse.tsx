@@ -48,6 +48,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
         <Modal
           header={t<string>('Submit tip endorsement')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('Your endorsement will be applied for this account.')}>

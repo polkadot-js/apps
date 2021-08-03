@@ -39,6 +39,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
           className={className}
           header={t<string>('transfer asset')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The account to transfer from. This account should have sufficient assets for this transfer.')}>

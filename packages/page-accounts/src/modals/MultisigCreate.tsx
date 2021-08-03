@@ -85,6 +85,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
       className={className}
       header={t<string>('Add multisig')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={

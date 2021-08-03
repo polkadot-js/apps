@@ -49,6 +49,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         : t<string>('delegate democracy vote')
       }
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={

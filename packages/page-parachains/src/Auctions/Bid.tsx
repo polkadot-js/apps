@@ -84,6 +84,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
           className={className}
           header={t<string>('Place bid')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <InputOwner

@@ -127,6 +127,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
       className={className}
       header={t<string>('Register sub-identities')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         {!infos

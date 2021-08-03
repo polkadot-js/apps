@@ -42,6 +42,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
         <Modal
           header={t<string>('Vote on proposal')}
           onClose={toggleVoting}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>

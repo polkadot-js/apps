@@ -106,6 +106,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       className={className}
       header={t<string>('Add via backup file')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns>

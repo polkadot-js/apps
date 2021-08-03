@@ -55,6 +55,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
       className={className}
       header={t<string>('Remove nominees')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <SenderInfo

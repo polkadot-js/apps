@@ -88,6 +88,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
     <Modal
       header={t<string>('Teleport assets')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>

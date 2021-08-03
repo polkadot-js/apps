@@ -26,6 +26,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
       className={className}
       header={t<string>('Reserve ParaId')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account will be used to the Id reservation and for the future parathread.')}>

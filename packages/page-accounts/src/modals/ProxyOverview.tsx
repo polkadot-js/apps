@@ -234,6 +234,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
       className={className}
       header={t<string>('Proxy overview')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}>

@@ -37,6 +37,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
         <Modal
           header={t<string>('Second proposal')}
           onClose={toggleSeconding}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The proposal is in the queue for future referendums. One proposal from this list will move forward to voting.')}>

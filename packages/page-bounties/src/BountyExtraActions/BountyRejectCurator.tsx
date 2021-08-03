@@ -26,6 +26,7 @@ function BountyRejectCurator ({ curatorId, description, index, toggleOpen }: Pro
     <Modal
       header={`${t<string>('reject curator')} - "${truncateTitle(description, 30)}"`}
       onClose={toggleOpen}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the unassign curator transaction ')}>

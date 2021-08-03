@@ -12,7 +12,7 @@ import { ThemeDef } from '@polkadot/react-components/types';
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
   const { theme } = useContext<ThemeDef>(ThemeContext);
-  const { children, className = '', header, onClose, open = true, size = 'large', testId = 'modal' } = props;
+  const { children, className = '', header, onClose, open = true, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape' || event.keyCode === 27) {
@@ -51,6 +51,6 @@ export default React.memo(styled(Base)`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  z-index: 9999;
+  z-index: 1000;
   overflow-y: auto;
 `);

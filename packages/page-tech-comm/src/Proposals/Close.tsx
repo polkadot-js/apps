@@ -37,6 +37,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): 
         <Modal
           header={t<string>('Close proposal')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.')}>

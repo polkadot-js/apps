@@ -65,6 +65,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
           <Modal
             header={`${t<string>('Propose curator')} - "${truncateTitle(description, 30)}"`}
             onClose={toggleOpen}
+            size='large'
             testId='propose-curator-modal'
           >
             <Modal.Content>

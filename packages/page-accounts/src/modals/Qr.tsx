@@ -116,6 +116,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       className={className}
       header={t<string>('Add account via Qr')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         {scanned

@@ -82,6 +82,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
     <Modal
       header={t<string>('Inject Keys')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}>

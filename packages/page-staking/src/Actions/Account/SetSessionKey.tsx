@@ -24,6 +24,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
     <Modal
       header={t<string>('Set Session Key')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <SessionKeyPartital

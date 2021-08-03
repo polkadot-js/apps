@@ -69,6 +69,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
             }
           })}
           onClose={_toggle}
+          size='large'
         >
           <Modal.Content>
             {step === 1 && (

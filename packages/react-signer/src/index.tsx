@@ -124,6 +124,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
           header={<>{t('Authorize transaction')}{(count === 1) ? undefined : <>&nbsp;1/{count}</>}</>}
           key={currentItem.id}
           onClose={_onCancel}
+          size='large'
         >
           {currentItem.isUnsigned
             ? <TxUnsigned currentItem={currentItem} />

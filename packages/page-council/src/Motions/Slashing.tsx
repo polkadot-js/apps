@@ -81,6 +81,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
           className={className}
           header={t<string>('Revert pending slashes')}
           onClose={toggleVisible}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('The council account for the proposal. The selection is filtered by the current members.')}>

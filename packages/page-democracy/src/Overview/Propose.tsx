@@ -42,6 +42,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
       className={className}
       header={t<string>('Submit proposal')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>

@@ -35,6 +35,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
       className={`staking--Unbond ${className}`}
       header={t<string>('Unbond funds')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The stash and controller pair, here the controller will be used to send the transaction.')}>

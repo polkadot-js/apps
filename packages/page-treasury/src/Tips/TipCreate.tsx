@@ -44,6 +44,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
         <Modal
           header={t<string>('Submit tip request')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <Modal.Columns hint={t<string>('Use this account to request the tip from. This can be a normal or council account.')}>

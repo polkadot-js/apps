@@ -161,6 +161,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       className={className}
       header={t<string>('Pending call hashes')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>

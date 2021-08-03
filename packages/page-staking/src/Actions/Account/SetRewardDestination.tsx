@@ -39,6 +39,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
     <Modal
       header={t<string>('Bonding Preferences')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The stash and controller pair as linked. This operation will be performed via the controller.')}>

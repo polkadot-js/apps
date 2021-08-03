@@ -62,6 +62,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
       className={className}
       header={t<string>('Register parathread')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         {api.tx.registrar.reserve

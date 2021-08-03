@@ -36,6 +36,7 @@ function NewStash (): React.ReactElement {
         <Modal
           header={t<string>('Bonding Preferences')}
           onClose={_toggle}
+          size='large'
         >
           <Modal.Content>
             <BondPartial onChange={setBondInfo} />

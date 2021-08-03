@@ -96,6 +96,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
     <Modal
       header={`${title} - "${truncateTitle(description, 30)}"`}
       onClose={toggleOpen}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={proposingAccountTip}>

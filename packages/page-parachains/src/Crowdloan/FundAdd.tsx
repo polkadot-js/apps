@@ -56,6 +56,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
           className={className}
           header={t<string>('Add campaign')}
           onClose={toggleOpen}
+          size='large'
         >
           <Modal.Content>
             <InputOwner

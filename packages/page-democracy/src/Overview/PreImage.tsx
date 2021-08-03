@@ -58,6 +58,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
       className={className}
       header={t<string>('Submit preimage')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account will pay the fees for the preimage, based on the size thereof.')}>

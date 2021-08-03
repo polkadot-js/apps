@@ -30,6 +30,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
       className={className}
       header={t<string>('Nominate Validators')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <NominatePartial

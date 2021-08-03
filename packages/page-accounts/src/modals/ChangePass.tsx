@@ -92,6 +92,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
       className={`${className} app--accounts-Modal`}
       header={t<string>('Change account password')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <AddressRow

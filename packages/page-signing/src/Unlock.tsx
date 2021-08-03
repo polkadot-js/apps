@@ -62,6 +62,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       className='toolbox--Unlock'
       header={t<string>('Unlock account')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('This account that will perform the message signing.')}>

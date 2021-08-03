@@ -26,6 +26,7 @@ function BountyGiveUpCurator ({ curatorId, description, index, toggleOpen }: Pro
     <Modal
       header={`${t<string>("give up curator's role")} - "${truncateTitle(description, 30)}"`}
       onClose={toggleOpen}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}>

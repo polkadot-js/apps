@@ -30,6 +30,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
     <Modal
       header={t<string>('Change controller account')}
       onClose={onClose}
+      size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t<string>('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}>
