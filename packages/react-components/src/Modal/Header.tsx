@@ -14,6 +14,7 @@ export const Header: React.FC<HeaderProps> = ({ header, onClose }) => (
       <h1>{header}</h1>
     )}
     <Button
+      dataTestId='close-modal'
       icon='times'
       onClick={onClose}
     />
