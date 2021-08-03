@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import styled from 'styled-components';
+import type { BodyProps, ContentProps } from './types';
 
-import { BodyProps, ContentProps } from '@polkadot/react-components/Modal/types';
+import styled from 'styled-components';
 
 export const Overlay = styled.div`
   position: fixed;

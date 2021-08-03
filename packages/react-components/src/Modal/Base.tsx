@@ -1,14 +1,15 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeDef } from '../types';
+import type { ModalProps } from './types';
+
 import React, { useCallback, useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { ThemeContext } from 'styled-components';
 
-import { Header } from '@polkadot/react-components/Modal/Header';
-import { Body, Overlay } from '@polkadot/react-components/Modal/styled';
-import { ModalProps } from '@polkadot/react-components/Modal/types';
-import { ThemeDef } from '@polkadot/react-components/types';
+import { Header } from './Header';
+import { Body, Overlay } from './styled';
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
   const { theme } = useContext<ThemeDef>(ThemeContext);

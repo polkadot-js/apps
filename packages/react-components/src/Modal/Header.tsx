@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HeaderProps } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '@polkadot/react-components/Button';
-
-import { HeaderProps } from './types';
+import Button from '../Button';
 
 export const Header: React.FC<HeaderProps> = ({ header, onClose }) => (
   <ModalHeader className='header'>
