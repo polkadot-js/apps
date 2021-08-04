@@ -4,19 +4,22 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Time } from '@polkadot/util/types';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { BN_ONE, extractTime } from '@polkadot/util';
+import { BN, BN_ONE, BN_THOUSAND, BN_TWO, bnToBn, extractTime } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import { useApi } from './useApi';
 
 type Result = [number, string, Time];
 
-const DEFAULT_TIME = new BN(6000);
+const DEFAULT_TIME = new BN(6_000);
 
-export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise | null): Result {
+// Some chains incorrectly use these, i.e. it is se to values such as 0 or even 2
+// Use a low minimum validity threshold to check these against
+const THRESHOLD = BN_THOUSAND;
+
+export function useBlockTime (blocks: number | BN = BN_ONE, apiOverride?: ApiPromise | null): Result {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -24,13 +27,22 @@ export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise | null):
     (): Result => {
       const a = apiOverride || api;
       const blockTime = (
+        // Babe
         a.consts.babe?.expectedBlockTime ||
-        a.consts.difficulty?.targetBlockTime ||
-        a.consts.timestamp?.minimumPeriod.muln(2) ||
-        DEFAULT_TIME
+        // POW, eg. Kulupu
+        a.consts.difficulty?.targetBlockTime || (
+          // Check against threshold to determine value validity
+          a.consts.timestamp?.minimumPeriod.gte(THRESHOLD)
+            // Default minimum period config
+            ? a.consts.timestamp.minimumPeriod.mul(BN_TWO)
+            : a.query.parachainSystem
+              // default guess for a parachain
+              ? DEFAULT_TIME.mul(BN_TWO)
+              // default guess for others
+              : DEFAULT_TIME
+        )
       );
-      const value = blockTime.mul(blocks).toNumber();
-      const prefix = value < 0 ? '+' : '';
+      const value = blockTime.mul(bnToBn(blocks)).toNumber();
       const time = extractTime(Math.abs(value));
       const { days, hours, minutes, seconds } = time;
       const timeStr = [
@@ -39,13 +51,13 @@ export function useBlockTime (blocks = BN_ONE, apiOverride?: ApiPromise | null):
         minutes ? (minutes > 1) ? t<string>('{{minutes}} mins', { replace: { minutes } }) : t<string>('1 min') : null,
         seconds ? (seconds > 1) ? t<string>('{{seconds}} s', { replace: { seconds } }) : t<string>('1 s') : null
       ]
-        .filter((value): value is string => !!value)
+        .filter((s): s is string => !!s)
         .slice(0, 2)
         .join(' ');
 
       return [
         blockTime.toNumber(),
-        `${prefix}${timeStr}`,
+        `${value < 0 ? '+' : ''}${timeStr}`,
         time
       ];
     },
