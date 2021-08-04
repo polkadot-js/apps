@@ -371,6 +371,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'shibuya',
+      text: t('rpc.test.shibuya', 'Shibuya', { ns: 'apps-config' }),
+      providers: {
+        StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
+      }
+    },
+    {
       info: 'snowbridge',
       text: t('rpc.test.snowbridge', 'Snowbridge', { ns: 'apps-config' }),
       providers: {
