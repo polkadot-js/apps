@@ -152,6 +152,7 @@
   "rpc.test.prism": "Prism",
   "rpc.test.realis": "Realis.Network",
   "rpc.test.riochain": "RioChain",
+  "rpc.test.shibuya": "Shibuya",
   "rpc.test.snowbridge": "Snowbridge",
   "rpc.test.sora-substrate-staging": "SORA-staging",
   "rpc.test.subgame": "SubGame Staging",
