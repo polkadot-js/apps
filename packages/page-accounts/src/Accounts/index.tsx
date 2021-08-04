@@ -9,7 +9,7 @@ import type { AccountBalance, Delegation, SortedAccount } from '../types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, Icon, Input, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -20,7 +20,7 @@ import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
 import { useTranslation } from '../translate';
-import { sortAccounts } from '../util';
+import { sortAccounts, SortCategory } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
@@ -60,6 +60,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortCategory, sortFromMax: boolean }>({ sortBy: 'date', sortFromMax: true });
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
@@ -71,23 +72,42 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   });
   const isLoading = useLoadingDelay();
 
+  const _sort = (header: SortCategory) => {
+    setSortBy(({ sortBy, sortFromMax }) =>
+      ({ sortBy: header,
+        sortFromMax: sortBy === header ? !sortFromMax : true }));
+  };
+
+  const sortableHeader = (header: SortCategory, clas?: string) => [
+    <>{t(header)}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
+    `${sortedAccounts ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${clas || ''}`,
+    1,
+    () => _sort(header)
+  ];
+
   const headerRef = useRef([
     [t('accounts'), 'start', 3],
     [t('parent'), 'address media--1400'],
-    [t('type')],
+    sortableHeader('type'),
     [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances'), 'expand'],
+    sortableHeader('balances', 'expand'),
     [],
     [undefined, 'media--1400']
   ]);
 
+  // We use favorites only to check if it includes some element,
+  // so Object is better than array for that because hashmap access is O(1).
+  const favoritesMap = useMemo(() => Object.fromEntries(favorites.map((x) => [x, true])), [favorites]);
+
+  const accounts = balances.accounts;
+
   useEffect((): void => {
-    const sortedAccounts = sortAccounts(allAccounts, favorites);
+    const sortedAccounts = sortAccounts(allAccounts, accounts, favoritesMap, sortBy, sortFromMax);
     const sortedAddresses = sortedAccounts.map((a) => a.account.address);
 
     setSorted({ sortedAccounts, sortedAddresses });
-  }, [allAccounts, favorites]);
+  }, [allAccounts, accounts, favoritesMap, sortBy, sortFromMax]);
 
   useEffect(() => {
     setSortedAccountsWithDelegation(
