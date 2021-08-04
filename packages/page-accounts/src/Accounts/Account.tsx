@@ -111,7 +111,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
@@ -600,23 +599,20 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         )}
         <Popup
           className={`theme--${theme}`}
-          isOpen={isSettingsOpen}
-          onClose={toggleSettings}
-          trigger={
-            <Button
-              icon='ellipsis-v'
-              isDisabled={!menuItems.length}
-              onClick={toggleSettings}
-            />
+          value={
+            <Menu
+              text
+              vertical
+            >
+              {menuItems}
+            </Menu>
+
           }
         >
-          <Menu
-            onClick={toggleSettings}
-            text
-            vertical
-          >
-            {menuItems}
-          </Menu>
+          <Button
+            icon='ellipsis-v'
+            isDisabled={!menuItems.length}
+          />
         </Popup>
       </td>
       <td className='links media--1400'>

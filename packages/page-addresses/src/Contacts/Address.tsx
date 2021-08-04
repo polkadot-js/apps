@@ -148,6 +148,31 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     return null;
   }
 
+  const PopupDropdown = (
+    <Menu
+      onClick={_toggleSettingPopup}
+      text
+      vertical
+    >
+      <Menu.Item
+        disabled={!isEditable}
+        onClick={_toggleForget}
+      >
+        {t<string>('Forget this address')}
+      </Menu.Item>
+      {isEditable && !api.isDevelopment && (
+        <>
+          <Menu.Divider />
+          <ChainLock
+            className='addresses--network-toggle'
+            genesisHash={genesisHash}
+            onChange={_onGenesisChange}
+          />
+        </>
+      )}
+    </Menu>
+  );
+
   return (
     <tr className={className}>
       <td className='favorite'>
@@ -207,37 +232,12 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         )}
         <Popup
           className={`theme--${theme}`}
-          isOpen={isSettingPopupOpen}
-          onClose={_toggleSettingPopup}
-          trigger={
-            <Button
-              icon='ellipsis-v'
-              onClick={_toggleSettingPopup}
-            />
-          }
+          value={PopupDropdown}
         >
-          <Menu
+          <Button
+            icon='ellipsis-v'
             onClick={_toggleSettingPopup}
-            text
-            vertical
-          >
-            <Menu.Item
-              disabled={!isEditable}
-              onClick={_toggleForget}
-            >
-              {t<string>('Forget this address')}
-            </Menu.Item>
-            {isEditable && !api.isDevelopment && (
-              <>
-                <Menu.Divider />
-                <ChainLock
-                  className='addresses--network-toggle'
-                  genesisHash={genesisHash}
-                  onChange={_onGenesisChange}
-                />
-              </>
-            )}
-          </Menu>
+          />
         </Popup>
       </td>
       <td className='links media--1400'>
