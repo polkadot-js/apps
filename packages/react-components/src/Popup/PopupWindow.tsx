@@ -3,7 +3,7 @@
 
 import type { PopupWindowProps, WindowProps } from './types';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import styled, { css } from 'styled-components';
 
@@ -13,15 +13,14 @@ import { getPosition } from './utils';
 
 export const POINTER_OFFSET = 14 * 0.8;
 
-export const PopupWindow: React.FC<PopupWindowProps> = ({ children, position, triggerPosition }) => {
-  const windowRef = useRef<HTMLDivElement>(null);
-  const windowPosition = useElementPosition(windowRef);
+export const PopupWindow: React.FC<PopupWindowProps> = ({ children, position, setRef, triggerPosition }) => {
+  const windowPosition = useElementPosition(setRef);
 
   return createPortal(
     <Window
       positionX={position}
       positionY={triggerPosition.verticalPosition}
-      ref={windowRef}
+      ref={setRef}
       windowPosition={getPosition(triggerPosition, position, triggerPosition.verticalPosition, windowPosition)}
     >
       {children}

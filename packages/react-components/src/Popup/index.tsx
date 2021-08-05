@@ -14,9 +14,10 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = fa
   const [isOpen, setIsOpen] = useState(false);
 
   const triggerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerPosition = useElementPosition(triggerRef);
 
-  useOutsideClick(triggerRef, () => setIsOpen(false));
+  useOutsideClick([triggerRef, dropdownRef], () => setIsOpen(false));
 
   useEffect(() => {
     if (!isOpen && onCloseAction) {
@@ -29,6 +30,7 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = fa
       {isOpen && triggerPosition && (
         <PopupWindow
           position={position}
+          setRef={dropdownRef}
           triggerPosition={triggerPosition}
         >
           {value}
