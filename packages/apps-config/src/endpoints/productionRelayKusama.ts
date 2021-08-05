@@ -141,7 +141,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: 'wss://khala.phala.network/ws',
+          Phala: 'wss://khala-api.phala.network/ws',
           OnFinality: 'wss://khala.api.onfinality.io/public-ws'
         }
       },
@@ -166,6 +166,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'loomNetwork',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
         homepage: 'https://loomx.io/',
         paraId: 2080,
         text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),

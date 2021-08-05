@@ -47,9 +47,9 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'bifrost',
-      text: t('rpc.test.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
+      text: t('rpc.test.bifrost', 'Bifrost', { ns: 'apps-config' }),
       providers: {
-        Bifrost: 'wss://asgard-rpc.liebi.com/ws'
+        Liebi: 'wss://asgard-rpc.liebi.com/ws'
       }
     },
     {
@@ -194,6 +194,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'interbtc',
+      text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
+      providers: {
+        Interlay: 'wss://api-dev.interlay.io/parachain/'
+      }
+    },
+    {
       info: 'ipse',
       text: t('rpc.test.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
@@ -322,13 +329,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
-      info: 'polkabtc',
-      text: t('rpc.test.polkabtc', 'PolkaBTC', { ns: 'apps-config' }),
-      providers: {
-        Interlay: 'wss://beta.polkabtc.io/api/parachain'
-      }
-    },
-    {
       info: 'polkadex',
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
@@ -368,6 +368,20 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
+      }
+    },
+    {
+      info: 'shibuya',
+      text: t('rpc.test.shibuya', 'Shibuya', { ns: 'apps-config' }),
+      providers: {
+        StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
+      }
+    },
+    {
+      info: 'snowbridge',
+      text: t('rpc.test.snowbridge', 'Snowbridge', { ns: 'apps-config' }),
+      providers: {
+        Snowfork: 'wss://parachain-rpc.snowbridge.network'
       }
     },
     {

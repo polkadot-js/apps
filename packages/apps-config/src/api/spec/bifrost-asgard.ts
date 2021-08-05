@@ -3,4 +3,4 @@
 
 import { typesBundleForPolkadot } from '@bifrost-finance/type-definitions';
 
-export default typesBundleForPolkadot.spec.bifrost;
+export default typesBundleForPolkadot.spec.asgard;
