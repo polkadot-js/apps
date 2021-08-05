@@ -78,9 +78,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         sortFromMax: sortBy === header ? !sortFromMax : true }));
   };
 
-  const sortableHeader = (header: SortCategory, clas?: string) => [
+  const sortableHeader = (header: SortCategory, htmlClass?: string) => [
     <>{t(header)}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-    `${sortedAccounts ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${clas || ''}`,
+    `${sortedAccounts ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${htmlClass || ''}`,
     1,
     () => _sort(header)
   ];
