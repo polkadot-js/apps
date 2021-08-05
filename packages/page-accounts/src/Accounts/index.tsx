@@ -41,6 +41,13 @@ interface Props {
   onStatusChange: (status: ActionStatus) => void;
 }
 
+interface SortControls {
+  sortBy: SortCategory;
+  sortFromMax: boolean;
+}
+
+const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
+
 const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
@@ -60,7 +67,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
-  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortCategory, sortFromMax: boolean }>({ sortBy: 'date', sortFromMax: true });
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortControls>(DEFAULT_SORT_CONTROLS);
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
