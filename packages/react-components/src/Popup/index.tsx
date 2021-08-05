@@ -4,12 +4,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { Button } from '@polkadot/react-components/index';
 import { PopupWindow } from '@polkadot/react-components/Popup/PopupWindow';
 import { PopupProps } from '@polkadot/react-components/Popup/types';
 import { useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
 import { useOutsideClick } from '@polkadot/react-hooks/useOutsideClick';
 
-const Popup: React.FC<PopupProps> = ({ children, className = '', onCloseAction, position = 'left', value }): React.ReactElement | null => {
+const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = false, onCloseAction, position = 'left', value }): React.ReactElement | null => {
   const [isOpen, setIsOpen] = useState(false);
 
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,9 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', onCloseAction, 
       onCloseAction();
     }
   }, [isOpen, onCloseAction]);
+
+  console.log('REF:', triggerRef.current);
+  console.log('value:', value);
 
   return (
     <PopupWrapper>
@@ -38,7 +42,13 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', onCloseAction, 
         onClick={() => setIsOpen(!isOpen)}
         ref={triggerRef}
       >
-        {children}
+        {children ?? (
+          <Button
+            icon='ellipsis-v'
+            isDisabled={isDisabled}
+            isReadOnly={false}
+          />
+        )}
       </PopupTrigger>
     </PopupWrapper>
   );
@@ -54,4 +64,7 @@ const PopupWrapper = styled.div`
 `;
 
 const PopupTrigger = styled.div`
+  .ui--Button {
+
+  }
 `;

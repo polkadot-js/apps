@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { ElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
 
 export type HorizontalPosition = 'left' | 'middle' | 'right'
@@ -19,9 +20,10 @@ export interface WindowProps {
 }
 
 export interface PopupProps {
+  isDisabled?: boolean;
   className?: string;
   value?: React.ReactNode;
   children?: React.ReactNode;
-  position?: HorizontalPosition
+  position?: HorizontalPosition;
   onCloseAction?: () => void;
 }

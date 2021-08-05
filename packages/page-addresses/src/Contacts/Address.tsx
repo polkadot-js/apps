@@ -40,7 +40,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
-  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -113,11 +112,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     [isForgetOpen]
   );
 
-  const _toggleSettingPopup = useCallback(
-    (): void => setIsSettingPopupOpen(!isSettingPopupOpen),
-    [isSettingPopupOpen]
-  );
-
   const _toggleTransfer = useCallback(
     (): void => setIsTransferOpen(!isTransferOpen),
     [isTransferOpen]
@@ -150,7 +144,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   const PopupDropdown = (
     <Menu
-      onClick={_toggleSettingPopup}
       text
       vertical
     >
@@ -233,12 +226,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         <Popup
           className={`theme--${theme}`}
           value={PopupDropdown}
-        >
-          <Button
-            icon='ellipsis-v'
-            onClick={_toggleSettingPopup}
-          />
-        </Popup>
+        />
       </td>
       <td className='links media--1400'>
         <LinkExternal

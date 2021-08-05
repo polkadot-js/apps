@@ -279,6 +279,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               )
             }
             <Popup
+              isDisabled={isDisabled}
               key='settings'
               value={
                 <Menu
@@ -357,14 +358,8 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   </Menu.Item>
                   }
                 </Menu>
-
               }
-            >
-              <Button
-                icon='ellipsis-v'
-                isDisabled={isDisabled}
-              />
-            </Popup>
+            />
           </>
         )}
       </td>

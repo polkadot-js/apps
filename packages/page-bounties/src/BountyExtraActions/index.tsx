@@ -161,8 +161,8 @@ function Index ({ bestNumber, className, description, index, proposals, status }
           <Button
             dataTestId='extra-actions'
             icon='ellipsis-v'
+            isReadOnly={false}
           />
-
         </Popup>
       </div>
     )

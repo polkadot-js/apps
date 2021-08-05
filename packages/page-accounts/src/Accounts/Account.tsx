@@ -599,6 +599,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         )}
         <Popup
           className={`theme--${theme}`}
+          isDisabled={!menuItems.length}
           value={
             <Menu
               text
@@ -606,14 +607,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             >
               {menuItems}
             </Menu>
-
           }
-        >
-          <Button
-            icon='ellipsis-v'
-            isDisabled={!menuItems.length}
-          />
-        </Popup>
+        />
       </td>
       <td className='links media--1400'>
         <LinkExternal

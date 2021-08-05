@@ -78,6 +78,7 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
           >
             <Button
               icon='save'
+              isReadOnly={false}
             />
           </Popup>
         )
