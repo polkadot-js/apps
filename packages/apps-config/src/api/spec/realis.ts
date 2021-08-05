@@ -38,7 +38,7 @@ const definitions: OverrideBundleDefinition = {
         Token: {
           token_id: 'TokenId',
           token: 'TokenType'
-        },
+        }
       }
     }
   ]
