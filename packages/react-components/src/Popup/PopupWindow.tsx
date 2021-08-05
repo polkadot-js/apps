@@ -27,7 +27,7 @@ function getHorizontalOffset (windowPosition: ElementPosition, position: 'left' 
 }
 
 function getVerticalOffset (triggerPosition: ElementPosition, position: 'top' | 'bottom', windowPosition: ElementPosition) {
-  if (position === 'top') return (triggerPosition.height / 2 + windowPosition.height) * -1;
+  if (position === 'top') return (triggerPosition.height / 2 + windowPosition.height + POINTER_OFFSET) * -1;
 
   return triggerPosition.height / 2;
 }
@@ -84,8 +84,17 @@ const Window = styled.div<WindowProps>`
 
   &::before {
     position: absolute;
-    top: -0.3rem;
     right: 50%;
+    top: unset;
+    bottom: -0.3rem;
+    box-shadow: 1px 1px 0 0 #bababc;
+
+    ${({ positionY }) => positionY === 'bottom' && css`
+      box-shadow: -1px -1px 0 0 #bababc;
+
+      top: -0.3rem;
+      bottom: unset;
+    `}
 
 
     ${({ positionX }) => positionX === 'left' && css`
@@ -101,7 +110,6 @@ const Window = styled.div<WindowProps>`
     content: '';
 
     background-color: var(--bg-menu);
-    box-shadow: -1px -1px 0 0 #bababc;
 
     width: 10px;
     height: 10px;
