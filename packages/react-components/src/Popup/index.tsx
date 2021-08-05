@@ -24,9 +24,6 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = fa
     }
   }, [isOpen, onCloseAction]);
 
-  console.log('REF:', triggerRef.current);
-  console.log('value:', value);
-
   return (
     <PopupWrapper>
       {isOpen && triggerPosition && (
@@ -37,7 +34,7 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = fa
           {value}
         </PopupWindow>
       )}
-      <PopupTrigger
+      <div
         className={`ui--Popup ${className}`}
         onClick={() => setIsOpen(!isOpen)}
         ref={triggerRef}
@@ -49,7 +46,7 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = fa
             isReadOnly={false}
           />
         )}
-      </PopupTrigger>
+      </div>
     </PopupWrapper>
   );
 };
@@ -61,10 +58,4 @@ const PopupWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
-`;
-
-const PopupTrigger = styled.div`
-  .ui--Button {
-
-  }
 `;

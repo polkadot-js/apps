@@ -62,7 +62,6 @@ const Window = styled.div<WindowProps>`
       bottom: unset;
     `}
 
-
     ${({ positionX }) => positionX === 'left' && css`
       left: unset;
       right: 0.8rem;
@@ -90,5 +89,5 @@ const Window = styled.div<WindowProps>`
     &.disabled {
      opacity: 0.3;
     }
-}
+  }
 `;
