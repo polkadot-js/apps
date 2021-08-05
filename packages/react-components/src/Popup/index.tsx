@@ -5,22 +5,15 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { PopupWindow } from '@polkadot/react-components/Popup/PopupWindow';
+import { PopupProps } from '@polkadot/react-components/Popup/types';
 import { useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
 import { useToggle } from '@polkadot/react-hooks';
 
-interface Props {
-  className?: string;
-  value?: React.ReactNode;
-  children?: React.ReactNode;
-  position?: 'left' | 'middle' | 'right'
-  onCloseAction?: () => void;
-}
-
-const Popup: React.FC<Props> = ({ children, className = '', onCloseAction, position = 'left', value }): React.ReactElement | null => {
+const Popup: React.FC<PopupProps> = ({ children, className = '', onCloseAction, position = 'left', value }): React.ReactElement | null => {
   const [isOpen, toggleIsOpen] = useToggle(false);
 
-  const ref = useRef<HTMLDivElement>();
-  const triggerPosition = useElementPosition(ref);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const triggerPosition = useElementPosition(triggerRef);
 
   useEffect(() => {
     if (!isOpen && onCloseAction) {
@@ -30,10 +23,10 @@ const Popup: React.FC<Props> = ({ children, className = '', onCloseAction, posit
 
   return (
     <PopupWrapper>
-      {isOpen && (
+      {isOpen && triggerPosition && (
         <PopupWindow
-          triggerPosition={triggerPosition}
           position={position}
+          triggerPosition={triggerPosition}
         >
           {value}
         </PopupWindow>
@@ -41,7 +34,7 @@ const Popup: React.FC<Props> = ({ children, className = '', onCloseAction, posit
       <PopupTrigger
         className={`ui--Popup ${className}`}
         onClick={toggleIsOpen}
-        ref={ref}
+        ref={triggerRef}
       >
         {children}
       </PopupTrigger>

@@ -5,51 +5,21 @@ import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { css } from 'styled-components';
 
-import { ElementPosition, useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
+import { PopupWindowProps, WindowProps } from '@polkadot/react-components/Popup/types';
+import { useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
+import { getPosition } from '@polkadot/react-components/Popup/utils';
 
-interface PopupWindowProps {
-  position: 'left' | 'middle' | 'right',
-  triggerPosition: ElementPosition,
-}
-
-const POINTER_OFFSET = 14 * 0.8;
-
-function getHorizontalOffset (windowPosition: ElementPosition, position: 'left' | 'middle' | 'right') {
-  if (position === 'left') {
-    return windowPosition.width - POINTER_OFFSET;
-  }
-
-  if (position === 'right') {
-    return POINTER_OFFSET;
-  }
-
-  return (windowPosition.width / 2);
-}
-
-function getVerticalOffset (triggerPosition: ElementPosition, position: 'top' | 'bottom', windowPosition: ElementPosition) {
-  if (position === 'top') return (triggerPosition.height / 2 + windowPosition.height + POINTER_OFFSET) * -1;
-
-  return triggerPosition.height / 2;
-}
-
-function getPosition (triggerPosition: ElementPosition, positionX: 'left' | 'middle' | 'right', positionY: 'top' | 'bottom', windowPosition?: ElementPosition) {
-  if (!windowPosition) return { x: 0, y: 0 };
-
-  return {
-    x: triggerPosition.globalX - getHorizontalOffset(windowPosition, positionX),
-    y: triggerPosition.globalY + getVerticalOffset(triggerPosition, positionY, windowPosition)
-  };
-}
+export const POINTER_OFFSET = 14 * 0.8;
 
 export const PopupWindow: React.FC<PopupWindowProps> = ({ children, position, triggerPosition }) => {
-  const ref = useRef<HTMLDivElement>();
-  const windowPosition = useElementPosition(ref);
+  const windowRef = useRef<HTMLDivElement>(null);
+  const windowPosition = useElementPosition(windowRef);
 
   return createPortal(
     <Window
       positionX={position}
       positionY={triggerPosition.verticalPosition}
-      ref={ref}
+      ref={windowRef}
       windowPosition={getPosition(triggerPosition, position, triggerPosition.verticalPosition, windowPosition)}
     >
       {children}
@@ -57,12 +27,6 @@ export const PopupWindow: React.FC<PopupWindowProps> = ({ children, position, tr
     document.body
   );
 };
-
-interface WindowProps {
-  positionX: 'left' | 'middle' | 'right',
-  positionY: 'top' | 'bottom',
-  windowPosition: { x: number, y: number },
-}
 
 const Window = styled.div<WindowProps>`
   position: absolute;

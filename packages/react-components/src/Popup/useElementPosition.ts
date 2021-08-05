@@ -16,7 +16,7 @@ export interface ElementPosition {
   verticalPosition: 'bottom' | 'top'
 }
 
-export function useElementPosition (ref: React.MutableRefObject<HTMLElement | undefined>): ElementPosition | undefined {
+export function useElementPosition (ref: React.MutableRefObject<HTMLElement | undefined | null>): ElementPosition | undefined {
   const [elementPosition, setElementPosition] = useState<ElementPosition>();
 
   const windowSize = useWindowSize();
