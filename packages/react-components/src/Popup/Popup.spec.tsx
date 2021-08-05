@@ -38,7 +38,7 @@ describe('Popup Component', () => {
     await expectPopupToBeClosed();
   });
 
-  it('closes modal with outside click', async () => {
+  it('closes popup with outside click', async () => {
     renderPopup();
 
     await expectPopupToBeClosed();
