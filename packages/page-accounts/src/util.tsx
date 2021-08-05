@@ -10,6 +10,8 @@ import React from 'react';
 import { Menu } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
+import stableSort from './stableSort';
+
 export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[]): React.ReactNode | null {
   const filtered = items.filter((item): item is React.ReactNode => !!item);
 
@@ -54,19 +56,6 @@ export function GetAccountCryptoType (accountId: AccountIdIsh): string {
   }
 
   return 'unknown';
-}
-
-// Javascript `Array.prototype.sort` is not stable,
-// but stable sort is preffered for UI.
-// This function does not sort inplace.
-function stableSort<T> (elements: T[], cmp: (a: T, b: T) => number): T[] {
-  const indexedElements: [T, number][] = elements.map((x, index) => [x, index]);
-  const stableCmp = (a: [T, number], b: [T, number]) =>
-    cmp(a[0], b[0]) || a[1] - b[1];
-
-  indexedElements.sort(stableCmp);
-
-  return indexedElements.map(([x]) => x);
 }
 
 export type SortCategory = 'date' | 'balances' | 'type';
