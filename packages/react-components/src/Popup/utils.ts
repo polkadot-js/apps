@@ -6,7 +6,7 @@ import type { ElementPosition } from '@polkadot/react-hooks/useElementPosition';
 import { POINTER_OFFSET } from './PopupWindow';
 import { HorizontalPosition, VerticalPosition } from './types';
 
-function getHorizontalOffset (windowPosition: ElementPosition, position: HorizontalPosition) {
+function getHorizontalOffset (windowPosition: ElementPosition, position: HorizontalPosition): number {
   if (position === 'left') {
     return windowPosition.width - POINTER_OFFSET;
   }
@@ -18,7 +18,7 @@ function getHorizontalOffset (windowPosition: ElementPosition, position: Horizon
   return (windowPosition.width / 2);
 }
 
-function getVerticalOffset (triggerPosition: ElementPosition, position: VerticalPosition, windowPosition: ElementPosition) {
+function getVerticalOffset (triggerPosition: ElementPosition, position: VerticalPosition, windowPosition: ElementPosition): number {
   if (position === 'top') return (triggerPosition.height / 2 + windowPosition.height + POINTER_OFFSET) * -1;
 
   return triggerPosition.height / 2;
