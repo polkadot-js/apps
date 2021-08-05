@@ -32,7 +32,7 @@ const Popup: React.FC<Props> = ({ children, className = '', onCloseAction, posit
     <PopupWrapper>
       {isOpen && (
         <PopupWindow
-          elementPosition={triggerPosition}
+          triggerPosition={triggerPosition}
           position={position}
         >
           {value}

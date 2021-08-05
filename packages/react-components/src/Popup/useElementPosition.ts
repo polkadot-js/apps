@@ -3,13 +3,17 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { useWindowSize } from '@polkadot/react-components/Popup/useWindowSize';
+import { useScroll } from './useScroll';
+import { useWindowSize } from './useWindowSize';
 
 export interface ElementPosition {
+  globalX: number,
+  globalY: number,
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  verticalPosition: 'bottom' | 'top'
 }
 
 export function useElementPosition (ref: React.MutableRefObject<HTMLElement | undefined>): ElementPosition | undefined {
@@ -17,18 +21,23 @@ export function useElementPosition (ref: React.MutableRefObject<HTMLElement | un
 
   const windowSize = useWindowSize();
 
+  const scrollY = useScroll();
+
   useEffect(() => {
     if (ref && ref.current) {
       const { height, width, x, y } = ref.current?.getBoundingClientRect();
 
       setElementPosition({
+        globalX: x + (width / 2),
+        globalY: y + scrollY + (height / 2),
         height,
+        verticalPosition: windowSize ? (y > windowSize.height / 2) ? 'top' : 'bottom' : 'bottom',
         width,
-        x: x + document.body.scrollLeft + (width / 2),
-        y: y + document.body.scrollTop + (height / 2)
+        x,
+        y
       });
     }
-  }, [ref, windowSize]);
+  }, [ref, windowSize, scrollY]);
 
   return elementPosition;
 }
