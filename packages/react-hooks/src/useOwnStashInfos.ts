@@ -86,8 +86,8 @@ export function useOwnStashInfos (): StakerState[] | undefined {
               [stashId]: [isOwnStash, accounts[index], validators[index]]
             }), {})
           );
-        }).then((_unsub): void => {
-          unsub = _unsub;
+        }).then((u): void => {
+          unsub = u;
         }).catch(console.error);
       } else {
         mountedRef.current && setQueried({});
