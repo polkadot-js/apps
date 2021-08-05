@@ -1,19 +1,21 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { PopupWindow } from '@polkadot/react-components/Popup/PopupWindow';
 import { PopupProps } from '@polkadot/react-components/Popup/types';
 import { useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
-import { useToggle } from '@polkadot/react-hooks';
+import { useOutsideClick } from '@polkadot/react-hooks/useOutsideClick';
 
 const Popup: React.FC<PopupProps> = ({ children, className = '', onCloseAction, position = 'left', value }): React.ReactElement | null => {
-  const [isOpen, toggleIsOpen] = useToggle(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const triggerRef = useRef<HTMLDivElement>(null);
   const triggerPosition = useElementPosition(triggerRef);
+
+  useOutsideClick(triggerRef, () => setIsOpen(false));
 
   useEffect(() => {
     if (!isOpen && onCloseAction) {
@@ -33,7 +35,7 @@ const Popup: React.FC<PopupProps> = ({ children, className = '', onCloseAction, 
       )}
       <PopupTrigger
         className={`ui--Popup ${className}`}
-        onClick={toggleIsOpen}
+        onClick={() => setIsOpen(!isOpen)}
         ref={triggerRef}
       >
         {children}

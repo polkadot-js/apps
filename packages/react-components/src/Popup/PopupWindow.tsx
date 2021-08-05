@@ -32,7 +32,7 @@ const Window = styled.div<WindowProps>`
   position: absolute;
   top:0;
   left:0;
-  z-index: 2;
+  z-index: 100;
 
   margin: 0.7rem 0;
   padding: 0.85rem 1rem;
