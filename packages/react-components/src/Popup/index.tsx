@@ -5,10 +5,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components/index';
-import { PopupWindow } from '@polkadot/react-components/Popup/PopupWindow';
-import { PopupProps } from '@polkadot/react-components/Popup/types';
-import { useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
-import { useOutsideClick } from '@polkadot/react-hooks/useOutsideClick';
+import { useElementPosition, useOutsideClick } from '@polkadot/react-hooks';
+
+import { PopupWindow } from './PopupWindow';
+import { PopupProps } from './types';
 
 const Popup: React.FC<PopupProps> = ({ children, className = '', isDisabled = false, onCloseAction, position = 'left', value }): React.ReactElement | null => {
   const [isOpen, setIsOpen] = useState(false);

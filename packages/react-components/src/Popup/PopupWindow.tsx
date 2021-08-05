@@ -1,13 +1,15 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PopupWindowProps, WindowProps } from './types';
+
 import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { css } from 'styled-components';
 
-import { PopupWindowProps, WindowProps } from '@polkadot/react-components/Popup/types';
-import { useElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
-import { getPosition } from '@polkadot/react-components/Popup/utils';
+import { useElementPosition } from '@polkadot/react-hooks';
+
+import { getPosition } from './utils';
 
 export const POINTER_OFFSET = 14 * 0.8;
 

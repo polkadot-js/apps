@@ -1,9 +1,10 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { POINTER_OFFSET } from '@polkadot/react-components/Popup/PopupWindow';
-import { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
-import { ElementPosition } from '@polkadot/react-components/Popup/useElementPosition';
+import type { ElementPosition } from '@polkadot/react-hooks/useElementPosition';
+
+import { POINTER_OFFSET } from './PopupWindow';
+import { HorizontalPosition, VerticalPosition } from './types';
 
 function getHorizontalOffset (windowPosition: ElementPosition, position: HorizontalPosition) {
   if (position === 'left') {
