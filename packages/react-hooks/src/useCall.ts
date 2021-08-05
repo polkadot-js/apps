@@ -16,7 +16,7 @@ type VoidFn = () => void;
 
 // This should be VoidFn, however the API actually does allow us to use any general single-shot queries with
 // a result callback, so `api.query.system.account.at(<blokHash>, <account>, (info) => {... })` does work
-// (The same applies to e.g. keys or entries). So where we actally use the unsub, we cast `unknown` to `VoidFn`
+// (The same applies to e.g. keys or entries). So where we actually use the unsub, we cast `unknown` to `VoidFn`
 // to cater for our usecase.
 type TrackFnResult = Promise<unknown>;
 
@@ -24,12 +24,15 @@ interface QueryTrackFn {
   (...params: CallParam[]): TrackFnResult;
   meta?: {
     type?: {
-      isDoubleMap: boolean;
+      isMap: boolean;
+      asMap: { hashers: unknown[] }
     };
   };
 }
 
 type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
+
+type CallFn = (...params: unknown[]) => Promise<VoidFn>;
 
 export interface Tracker {
   isActive: boolean;
@@ -61,7 +64,7 @@ export function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
-    tracker.current.subscriber.then((unsubFn) => (unsubFn as VoidFn)()).catch(console.error);
+    tracker.current.subscriber.then((u) => (u as VoidFn)()).catch(console.error);
     tracker.current.subscriber = null;
   }
 }
@@ -74,12 +77,16 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 
   setTimeout((): void => {
     if (mountedRef.current) {
-      // FIXME NMap support
-      if (fn && (!(fn as QueryTrackFn).meta?.type?.isDoubleMap || validParams.length === 2)) {
+      const canQuery = !!fn && (
+        (fn as QueryTrackFn).meta?.type?.isMap
+          ? (fn as QueryTrackFn).meta.type.asMap.hashers.length === validParams.length
+          : true
+      );
+
+      if (canQuery) {
         // swap to active mode
         tracker.current.isActive = true;
-
-        tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<VoidFn>)(...params, (value: Codec): void => {
+        tracker.current.subscriber = (fn as CallFn)(...params, (value: Codec): void => {
           // we use the isActive flag here since .subscriber may not be set on immediate callback)
           if (mountedRef.current && tracker.current.isActive) {
             mountedRef.current && tracker.current.isActive && setValue(
