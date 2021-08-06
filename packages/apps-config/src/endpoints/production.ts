@@ -54,7 +54,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
-    }, 
+    },
     {
       info: 'dock-mainnet',
       text: t('rpc.prod.dock-mainnet', 'Dock', { ns: 'apps-config' }),
