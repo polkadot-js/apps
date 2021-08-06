@@ -6,11 +6,12 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, Icon, Input, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO } from '@polkadot/util';
 
 import CreateModal from '../modals/Create';
@@ -29,11 +30,6 @@ import Summary from './Summary';
 interface Balances {
   accounts: Record<string, AccountBalance>;
   summary?: AccountBalance;
-}
-
-interface Sorted {
-  sortedAccounts: SortedAccount[];
-  sortedAddresses: string[];
 }
 
 interface Props {
@@ -65,11 +61,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
-  const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
-  const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
+  const [sortedAccounts, setSorted] = useState<SortedAccount[]>([]);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortControls>(DEFAULT_SORT_CONTROLS);
-  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
-  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
+  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [allAccounts]);
+  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [allAccounts], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
       api.tx.proxy.addProxy.meta.args.length === 3
         ? result as [ProxyDefinition[], BN][]
@@ -79,20 +74,43 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   });
   const isLoading = useLoadingDelay();
 
+  // We use favorites only to check if it includes some element,
+  // so Object is better than array for that because hashmap access is O(1).
+  const favoritesMap = useMemo(() => Object.fromEntries(favorites.map((x) => [x, true])), [favorites]);
+
+  const accountsWithInfo = useMemo(() =>
+    allAccounts
+      .map((address, index): SortedAccount => {
+        const deleg = delegations && delegations[index]?.isDelegating && delegations[index]?.asDelegating;
+        const delegation: Delegation | undefined = (deleg && {
+          accountDelegated: deleg.target.toString(),
+          amount: deleg.balance,
+          conviction: deleg.conviction
+        }) || undefined;
+
+        return {
+          account: keyring.getAccount(address),
+          address,
+          delegation,
+          isFavorite: favoritesMap[address ?? ''] ?? false
+        };
+      })
+  , [allAccounts, favoritesMap, delegations]);
+
   const _sort = (header: SortCategory) => {
     setSortBy(({ sortBy, sortFromMax }) =>
       ({ sortBy: header,
         sortFromMax: sortBy === header ? !sortFromMax : true }));
   };
 
-  const sortableHeader = (header: SortCategory, htmlClass?: string) => [
+  const sortableHeader = useMemo(() => (header: SortCategory, htmlClass?: string) => [
     <>{t(header)}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
     `${sortedAccounts ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${htmlClass || ''}`,
     1,
     () => _sort(header)
-  ];
+  ], [sortBy, sortFromMax, sortedAccounts, t]);
 
-  const headerRef = useRef([
+  const header = useMemo(() => [
     [t('accounts'), 'start', 3],
     [t('parent'), 'address media--1400'],
     sortableHeader('type'),
@@ -101,43 +119,21 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     sortableHeader('balances', 'expand'),
     [],
     [undefined, 'media--1400']
-  ]);
+  ], [sortableHeader, t]);
 
-  // We use favorites only to check if it includes some element,
-  // so Object is better than array for that because hashmap access is O(1).
-  const favoritesMap = useMemo(() => Object.fromEntries(favorites.map((x) => [x, true])), [favorites]);
+  useEffect((): void => {
+    // We add new accounts to the end
+    setSorted((sortedAccounts) =>
+      [...sortedAccounts.map((x) => accountsWithInfo.find((y) => x.address === y.address)).filter((x): x is SortedAccount => !!x),
+        ...accountsWithInfo.filter((x) => !sortedAccounts.find((y) => x.address === y.address))]);
+  }, [accountsWithInfo]);
 
   const accounts = balances.accounts;
 
   useEffect((): void => {
-    const sortedAccounts = sortAccounts(allAccounts, accounts, favoritesMap, sortBy, sortFromMax);
-    const sortedAddresses = sortedAccounts.map((a) => a.account.address);
-
-    setSorted({ sortedAccounts, sortedAddresses });
-  }, [allAccounts, accounts, favoritesMap, sortBy, sortFromMax]);
-
-  useEffect(() => {
-    setSortedAccountsWithDelegation(
-      sortedAccounts?.map((account, index) => {
-        let delegation: Delegation | undefined;
-
-        if (delegations && delegations[index]?.isDelegating) {
-          const { balance: amount, conviction, target } = delegations[index].asDelegating;
-
-          delegation = {
-            accountDelegated: target.toString(),
-            amount,
-            conviction
-          };
-        }
-
-        return ({
-          ...account,
-          delegation
-        });
-      })
-    );
-  }, [api, delegations, sortedAccounts]);
+    setSorted((sortedAccounts) =>
+      sortAccounts(sortedAccounts, accounts, sortBy, sortFromMax));
+  }, [accountsWithInfo, accounts, sortBy, sortFromMax]);
 
   const _setBalance = useCallback(
     (account: string, balance: AccountBalance) =>
@@ -173,6 +169,26 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       />
     </div>
   ), [filterOn, t]);
+
+  const accountComponets = useMemo(() => {
+    const ret: Record<string, React.ReactNode> = {};
+
+    accountsWithInfo.forEach(({ account, address, delegation, isFavorite }, index) => {
+      ret[address] =
+        <Account
+          account={account}
+          delegation={delegation}
+          filter={filterOn}
+          isFavorite={isFavorite}
+          key={`${index}:${address}`}
+          proxy={proxies?.[index]}
+          setBalance={_setBalance}
+          toggleFavorite={toggleFavorite}
+        />;
+    });
+
+    return ret;
+  }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
 
   return (
     <div className={className}>
@@ -253,22 +269,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerClaims />
       <Summary balance={balances.summary} />
       <Table
-        empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
-        header={headerRef.current}
+        header={header}
       >
-        {!isLoading && sortedAccountsWithDelegation?.map(({ account, delegation, isFavorite }, index): React.ReactNode => (
-          <Account
-            account={account}
-            delegation={delegation}
-            filter={filterOn}
-            isFavorite={isFavorite}
-            key={`${index}:${account.address}`}
-            proxy={proxies?.[index]}
-            setBalance={_setBalance}
-            toggleFavorite={toggleFavorite}
-          />
-        ))}
+        {!isLoading &&
+          sortedAccounts.map(({ address }) => accountComponets[address])}
       </Table>
     </div>
   );

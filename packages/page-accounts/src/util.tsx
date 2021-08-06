@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, SortedAccount } from './types';
 
 import React from 'react';
@@ -20,15 +19,16 @@ export function createMenuGroup (key: string, items: (React.ReactNode | false | 
     : null;
 }
 
-function expandList (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] {
-  mapped.push(entry);
+const expandList = (children: Record<string, SortedAccount[]>) =>
+  (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] => {
+    mapped.push(entry);
 
-  entry.children.forEach((entry): void => {
-    expandList(mapped, entry);
-  });
+    children[entry.address]?.forEach((entry): void => {
+      expandList(children)(mapped, entry);
+    });
 
-  return mapped;
-}
+    return mapped;
+  };
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
@@ -66,12 +66,12 @@ const comparator = (balances: Record<string, AccountBalance>, category: SortCate
   switch (category) {
     case 'date':
       return (a: SortedAccount, b: SortedAccount) =>
-        mult * ((a.account.meta.whenCreated ?? 0) - (b.account.meta.whenCreated ?? 0));
+        mult * ((a.account?.meta.whenCreated ?? 0) - (b.account?.meta.whenCreated ?? 0));
 
     case 'balances':
       return (a: SortedAccount, b: SortedAccount) => {
-        const x = balances[a.account.address]?.total;
-        const y = balances[b.account.address]?.total;
+        const x = balances[a.address ?? '']?.total;
+        const y = balances[b.address ?? '']?.total;
 
         return mult * x?.cmp(y);
       };
@@ -79,32 +79,26 @@ const comparator = (balances: Record<string, AccountBalance>, category: SortCate
     case 'type':
       return (a: SortedAccount, b: SortedAccount) => {
         return mult *
-          GetAccountCryptoType(a.account.address).localeCompare(GetAccountCryptoType(b.account.address));
+          GetAccountCryptoType(a.address ?? '').localeCompare(GetAccountCryptoType(b.address ?? ''));
       };
   }
 };
 
-export function sortAccounts (addresses: string[], balances: Record<string, AccountBalance>, favorites: Record<string, boolean>, by: SortCategory, fromMax: boolean): SortedAccount[] {
-  const mapped = addresses
-    .map((address) => keyring.getAccount(address))
-    .filter((account): account is KeyringAddress => !!account)
-    .map((account): SortedAccount => ({
-      account,
-      children: [],
-      isFavorite: favorites[account.address] ?? false
-    }));
-
+export function sortAccounts (mapped: SortedAccount[], balances: Record<string, AccountBalance>, by: SortCategory, fromMax: boolean): SortedAccount[] {
   const sorted = stableSort(mapped, comparator(balances, by, fromMax));
+  const children: Record<string, SortedAccount[]> = Object.fromEntries(mapped.map((x) => [x.address, []]));
 
   const filtered = sorted
     .filter((entry): boolean => {
+      if (!entry.account) { return true; }
+
       const parentAddress = entry.account.meta.parentAddress;
 
       if (parentAddress) {
-        const parent = sorted.find(({ account: { address } }) => address === parentAddress);
+        const parent = sorted.find(({ address }) => address === parentAddress);
 
         if (parent) {
-          parent.children.push(entry);
+          children[parent.address]?.push(entry);
 
           return false;
         }
@@ -112,7 +106,7 @@ export function sortAccounts (addresses: string[], balances: Record<string, Acco
 
       return true;
     })
-    .reduce(expandList, []);
+    .reduce(expandList(children), []);
 
   return stableSort(filtered,
     (a, b) =>
