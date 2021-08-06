@@ -170,7 +170,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
   Clover: chainClover,
-  'crust': chainCrust,
+  crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
   'darwinia cc1': chainDarwinia,
