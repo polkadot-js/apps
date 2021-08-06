@@ -46,6 +46,7 @@ import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
+import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
@@ -142,6 +143,7 @@ export const chainLogos = Object.entries({
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust PC1': nodeCrust,
+  'Crust Maxwell': nodeCrustMaxwell,
   'darwinia crab': nodeCrab,
   'Darwinia Crab PC2': nodeCrab,
   'Darwinia PC2': nodeDarwinia,
@@ -269,6 +271,7 @@ export const nodeLogos = Object.entries({
   'Clover Node': nodeClover,
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
+  'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
   'darwinia crab': nodeCrab,
   'darwinia parachain': nodeDarwinia,
@@ -419,6 +422,7 @@ export const namedLogos: Record<string, unknown> = {
   crab: nodeCrab,
   crab_redirect: nodeCrab,
   crust: nodeCrust,
+  'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
   'dock-mainnet': nodeDockMainnet,
