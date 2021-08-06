@@ -34,6 +34,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'crust',
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
+      }
+    },
+    {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
@@ -47,14 +54,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       providers: {
         'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
-    },
-    {
-      info: 'crust',
-      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
-      providers: {
-        'Crust Network': 'wss://rpc.crust.network'
-      }
-    },
+    }, 
     {
       info: 'dock-mainnet',
       text: t('rpc.prod.dock-mainnet', 'Dock', { ns: 'apps-config' }),
