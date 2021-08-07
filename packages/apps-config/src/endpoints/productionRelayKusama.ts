@@ -23,8 +23,8 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://kusama.elara.patract.io',
-      'light client': 'light://substrate-connect/kusama'
-      // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
+      'light client': 'light://substrate-connect/kusama',
+      Pinknode: 'wss://rpc.pinknode.io/kusama/explorer'
     },
     teleport: [1000],
     linked: [
@@ -191,7 +191,8 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://moonriver.kusama.elara.patract.io'
+          'Patract Elara': 'wss://moonriver.kusama.elara.patract.io',
+          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer'
         }
       },
       {
