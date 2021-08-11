@@ -104,6 +104,6 @@ export default React.memo(styled(InputTags)`
   }
 
   &&.darkTheme .ui.label {
-    background-color: rgba(255,255,255,0.08);
+    background-color: rgba(255, 255, 255, 0.08);
   }
 `);
