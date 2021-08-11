@@ -69,7 +69,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'phala',
-      text: t('rpc.test.phala', 'Chala', { ns: 'apps-config' }),
+      text: t('rpc.test.phala', 'Chala (Para1)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://chala-api.phala.network/ws/'
       }
