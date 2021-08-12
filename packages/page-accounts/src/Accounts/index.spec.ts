@@ -5,14 +5,20 @@ import type { Balance } from '@polkadot/types/interfaces';
 
 import { fireEvent, within } from '@testing-library/react';
 
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
+import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
 
+import { AccountOverrides } from '../../test/hooks/default';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
+  const accountsAddresses = ['5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw'];
+  const defaultBalance = 1000;
+
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
@@ -54,20 +60,7 @@ describe('Accounts page', () => {
 
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
-      accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(10000)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            freeBalance: balance(999)
-          }
-        }
-      ]);
+      accountsPage.renderPage([anAccount(accountsAddresses[0]), anAccount(accountsAddresses[1])]);
 
       const accountRows = await accountsPage.findAccountRows();
 
@@ -76,19 +69,8 @@ describe('Accounts page', () => {
 
     it('account rows display the total balance info', async () => {
       accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(500)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        }
+        anAccountWithBalance(accountsAddresses[0], { freeBalance: balance(500) }),
+        anAccountWithBalance(accountsAddresses[1], { freeBalance: balance(200), reservedBalance: balance(150) })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -98,21 +80,8 @@ describe('Accounts page', () => {
 
     it('account rows display the details balance info', async () => {
       accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(500),
-            lockedBalance: balance(30)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            availableBalance: balance(50),
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        }
+        anAccountWithBalance(accountsAddresses[0], { freeBalance: balance(500), lockedBalance: balance(30) }),
+        anAccountWithBalance(accountsAddresses[1], { availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -122,6 +91,25 @@ describe('Accounts page', () => {
       await rows[1].assertBalancesDetails([
         { amount: balance(50), name: 'transferrable' },
         { amount: balance(150), name: 'reserved' }]);
+    });
+
+    it('account row displays parent account info', async () => {
+      accountsPage.renderPage([
+        anAccount(accountsAddresses[0]),
+        anAccountWithInfo(accountsAddresses[1], { meta: { parentAddress: accountsAddresses[0] } })
+      ]);
+
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(2);
+    });
+
+    it('a separate column for parent account is not displayed', async () => {
+      accountsPage.renderPage([anAccount()]);
+      const accountsTable = await accountsPage.findAccountsTable();
+
+      expect(within(accountsTable).queryByRole('columnheader', { name: 'parent' })).toBeFalsy();
+      expect(within(accountsTable).getByRole('columnheader', { name: 'type' })).toBeTruthy();
     });
 
     it('when account is not tagged, account row details displays no tags info', async () => {
@@ -189,4 +177,24 @@ describe('Accounts page', () => {
 
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
+
+  const anAccount = (address: string = accountsAddresses[0]): AccountOverrides => ({
+    address,
+    balance: {
+      freeBalance: balance(defaultBalance)
+    }
+  });
+
+  const anAccountWithBalance = (address: string, balance: { [P in keyof DeriveBalancesAll]?: DeriveBalancesAll[P] }) => ({
+    address,
+    balance
+  });
+
+  const anAccountWithInfo = (address: string, info: { [P in keyof UseAccountInfo]?: UseAccountInfo[P] }) => ({
+    address,
+    balance: {
+      freeBalance: balance(defaultBalance)
+    },
+    info
+  });
 });

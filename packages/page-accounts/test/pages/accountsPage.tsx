@@ -52,6 +52,12 @@ export class AccountRow {
     }
   }
 
+  async assertParentAccount (expectedParentName: string): Promise<void> {
+    const parentAccount = await within(this.primaryRow).findByTestId('parent');
+
+    expect(parentAccount).toHaveTextContent(expectedParentName);
+  }
+
   async assertTags (tagsContent: string): Promise<void> {
     const tagsActual = await within(this.detailsRow).findByTestId('tags');
 
@@ -149,7 +155,6 @@ export class AccountsPage {
   }
 
   async findAccountRows (): Promise<AccountRow[]> {
-    this.assertRendered();
     const table = await this.findAccountsTable();
     const tableBody = table.getElementsByTagName('tbody')[0];
     const htmlRows = (await within(tableBody).findAllByRole('row'))

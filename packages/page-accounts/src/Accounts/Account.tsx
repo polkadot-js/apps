@@ -16,7 +16,8 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import AddressWithParent from '@polkadot/react-components/AddressWithParent';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -472,7 +473,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
         </td>
         <td className='address'>
-          <AddressSmall value={address} />
+          {meta.parentAddress
+            ? <AddressWithParent address={address}
+              parentAddress={meta.parentAddress}/>
+            : <AddressSmall value={address}/>
+          }
           {isBackupOpen && (
             <Backup
               address={address}
@@ -571,11 +576,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               key='modal-delegate'
               onClose={toggleUndelegate}
             />
-          )}
-        </td>
-        <td className='address media--1400'>
-          {(meta.parentAddress as string) && (
-            <AddressMini value={meta.parentAddress} />
           )}
         </td>
         <td className='number'>
