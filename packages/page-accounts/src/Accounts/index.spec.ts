@@ -22,15 +22,19 @@ describe('Accounts page', () => {
   const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
   const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
 
-  const injectedAccounts = [
-    { address: aliceDerivedAddress, meta: { parentAddress: aliceAddress } as KeyringJson$Meta }
-  ];
+  const injectAccount = (address: string, meta: KeyringJson$Meta) => {
+    keyring.addExternal(address, meta)
+  }
+
+  const forgetAccount = (address: string) => {
+    keyring.forgetAccount(address)
+  }
 
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
-    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() }, injectedAccounts);
+    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
   });
 
   beforeEach(() => {
@@ -104,15 +108,17 @@ describe('Accounts page', () => {
     });
 
     it('derived account displays parent account info', async () => {
+      injectAccount(aliceDerivedAddress, { parentAddress: aliceAddress });
       accountsPage.renderPage([
         anAccount(aliceAddress),
         anAccountWithInfo(aliceDerivedAddress, { meta: { parentAddress: aliceAddress } })
       ]);
-
       const accountRows = await accountsPage.findAccountRows();
 
       expect(accountRows).toHaveLength(2);
       await accountRows[1].assertParentAccountName('ALICE');
+
+      forgetAccount(aliceDerivedAddress);
     });
 
     it('a separate column for parent account is not displayed', async () => {
