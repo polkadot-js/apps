@@ -52,10 +52,10 @@ export class AccountRow {
     }
   }
 
-  async assertParentAccount (expectedParentName: string): Promise<void> {
+  async assertParentAccountName (expectedParentAccount: string): Promise<void> {
     const parentAccount = await within(this.primaryRow).findByTestId('parent');
 
-    expect(parentAccount).toHaveTextContent(expectedParentName);
+    expect(parentAccount).toHaveTextContent(expectedParentAccount);
   }
 
   async assertTags (tagsContent: string): Promise<void> {

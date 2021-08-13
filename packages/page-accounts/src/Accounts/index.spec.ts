@@ -11,19 +11,26 @@ import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import { AccountOverrides } from '../../test/hooks/default';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
-  const accountsAddresses = ['5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy', '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw'];
-  const defaultBalance = 1000;
+  const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+  const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+  const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
+  const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
+
+  const injectedAccounts = [
+    { address: aliceDerivedAddress, meta: { parentAddress: aliceAddress } as KeyringJson$Meta }
+  ];
 
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
-    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() }, injectedAccounts);
   });
 
   beforeEach(() => {
@@ -60,7 +67,10 @@ describe('Accounts page', () => {
 
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
-      accountsPage.renderPage([anAccount(accountsAddresses[0]), anAccount(accountsAddresses[1])]);
+      accountsPage.renderPage([
+        anAccount(aliceAddress),
+        anAccount(charlieAddress)
+      ]);
 
       const accountRows = await accountsPage.findAccountRows();
 
@@ -69,8 +79,8 @@ describe('Accounts page', () => {
 
     it('account rows display the total balance info', async () => {
       accountsPage.renderPage([
-        anAccountWithBalance(accountsAddresses[0], { freeBalance: balance(500) }),
-        anAccountWithBalance(accountsAddresses[1], { freeBalance: balance(200), reservedBalance: balance(150) })
+        anAccountWithBalance(aliceAddress, { freeBalance: balance(500) }),
+        anAccountWithBalance(charlieAddress, { freeBalance: balance(200), reservedBalance: balance(150) })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -80,8 +90,8 @@ describe('Accounts page', () => {
 
     it('account rows display the details balance info', async () => {
       accountsPage.renderPage([
-        anAccountWithBalance(accountsAddresses[0], { freeBalance: balance(500), lockedBalance: balance(30) }),
-        anAccountWithBalance(accountsAddresses[1], { availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
+        anAccountWithBalance(aliceAddress, { freeBalance: balance(500), lockedBalance: balance(30) }),
+        anAccountWithBalance(charlieAddress, { availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -93,15 +103,16 @@ describe('Accounts page', () => {
         { amount: balance(150), name: 'reserved' }]);
     });
 
-    it('account row displays parent account info', async () => {
+    it('derived account displays parent account info', async () => {
       accountsPage.renderPage([
-        anAccount(accountsAddresses[0]),
-        anAccountWithInfo(accountsAddresses[1], { meta: { parentAddress: accountsAddresses[0] } })
+        anAccount(aliceAddress),
+        anAccountWithInfo(aliceDerivedAddress, { meta: { parentAddress: aliceAddress } })
       ]);
 
       const accountRows = await accountsPage.findAccountRows();
 
       expect(accountRows).toHaveLength(2);
+      await accountRows[1].assertParentAccountName('ALICE');
     });
 
     it('a separate column for parent account is not displayed', async () => {
@@ -113,7 +124,7 @@ describe('Accounts page', () => {
     });
 
     it('when account is not tagged, account row details displays no tags info', async () => {
-      accountsPage.renderPage([{ address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
+      accountsPage.renderPage([anAccount()]);
       const rows = await accountsPage.findAccountRows();
 
       await rows[0].assertTags('no tags');
@@ -121,12 +132,7 @@ describe('Accounts page', () => {
 
     it('when account is tagged, account row details displays tags', async () => {
       accountsPage.renderPage([
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          info: {
-            tags: ['my tag', 'Super Tag']
-          }
-        }
+        anAccountWithInfo(aliceAddress, { tags: ['my tag', 'Super Tag'] })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -135,9 +141,10 @@ describe('Accounts page', () => {
 
     it('account details rows keep colouring from their primary rows', async () => {
       accountsPage.renderPage([
-        { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' },
-        { address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw' },
-        { address: '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc' }]);
+        anAccount(aliceAddress),
+        anAccount(charlieAddress),
+        anAccount(bobAddress)
+      ]);
 
       const rows = await accountsPage.findAccountRows();
 
@@ -153,7 +160,8 @@ describe('Accounts page', () => {
 
     it('account details rows toggled on icon toggle click', async () => {
       accountsPage.renderPage([
-        { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
+        anAccount()
+      ]);
 
       const row = (await accountsPage.findAccountRows())[0];
       const toggle = await within(row.primaryRow).findByTestId('row-toggle');
@@ -178,10 +186,12 @@ describe('Accounts page', () => {
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
 
-  const anAccount = (address: string = accountsAddresses[0]): AccountOverrides => ({
+  const defaultFreeBalance = 1000;
+
+  const anAccount = (address: string = aliceAddress): AccountOverrides => ({
     address,
     balance: {
-      freeBalance: balance(defaultBalance)
+      freeBalance: balance(defaultFreeBalance)
     }
   });
 
@@ -193,7 +203,7 @@ describe('Accounts page', () => {
   const anAccountWithInfo = (address: string, info: { [P in keyof UseAccountInfo]?: UseAccountInfo[P] }) => ({
     address,
     balance: {
-      freeBalance: balance(defaultBalance)
+      freeBalance: balance(defaultFreeBalance)
     },
     info
   });

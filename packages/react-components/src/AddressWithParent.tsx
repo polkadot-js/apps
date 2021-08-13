@@ -1,4 +1,4 @@
-// [object Object]
+// Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -18,7 +18,7 @@ interface Props extends AddressSmallProps {
   parentAddress: string;
 }
 
-function AddressWithParent ({ address, className, parentAddress }: Props): React.ReactElement<Props> {
+function AddressWithParent ({ address, className = '', parentAddress }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <div>
