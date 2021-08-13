@@ -23,12 +23,12 @@ describe('Accounts page', () => {
   const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
 
   const injectAccount = (address: string, meta: KeyringJson$Meta) => {
-    keyring.addExternal(address, meta)
-  }
+    keyring.addExternal(address, meta);
+  };
 
   const forgetAccount = (address: string) => {
-    keyring.forgetAccount(address)
-  }
+    keyring.forgetAccount(address);
+  };
 
   let accountsPage: AccountsPage;
 
