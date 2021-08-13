@@ -204,7 +204,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'interbtc',
       text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://api-dev.interlay.io/parachain/'
+        Interlay: 'wss://api.interlay.io/parachain/'
       }
     },
     {
