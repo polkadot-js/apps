@@ -15,32 +15,40 @@ interface Props {
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
+  parentAddress?: React.ReactNode;
   withSidebar?: boolean;
   toggle?: unknown;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
-      <IdentityIcon value={value as Uint8Array} />
-      <AccountName
-        className={withSidebar ? 'withSidebar' : ''}
-        defaultName={defaultName}
-        onClick={onClickName}
-        override={overrideName}
-        toggle={toggle}
-        value={value}
-        withSidebar={withSidebar}
-      >
-        {children}
-      </AccountName>
+      <div>
+        <IdentityIcon value={value as Uint8Array} />
+      </div>
+      <div>
+        {parentAddress}
+        <AccountName
+          className={withSidebar ? 'withSidebar' : ''}
+          defaultName={defaultName}
+          onClick={onClickName}
+          override={overrideName}
+          toggle={toggle}
+          value={value}
+          withSidebar={withSidebar}
+        >
+          {children}
+        </AccountName>
+      </div>
     </div>
   );
 }
 
 export default React.memo(styled(AddressSmall)`
   white-space: nowrap;
+  display: flex;
+  align-items: center;
 
   .ui--IdentityIcon {
     margin-right: 0.75rem;

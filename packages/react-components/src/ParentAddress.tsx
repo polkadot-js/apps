@@ -12,7 +12,7 @@ interface ParentAccountProps {
   className?: string
 }
 
-function ParentAccount ({ address, className }: ParentAccountProps): React.ReactElement<ParentAccountProps> {
+function ParentAddress ({ address, className }: ParentAccountProps): React.ReactElement<ParentAccountProps> {
   return (
     <div className={className}
       data-testid='parent'>
@@ -29,7 +29,7 @@ function ParentAccount ({ address, className }: ParentAccountProps): React.React
   );
 }
 
-export default React.memo(styled(ParentAccount)`
+export default React.memo(styled(ParentAddress)`
     display: flex;
     flex-direction: row;
     font-size: 0.75rem;
