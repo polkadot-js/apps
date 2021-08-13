@@ -9,6 +9,7 @@
     "testcontainers": "^7.18.1"
   },
   "devDependencies": {
+    "@polkadot/types-support": "^5.4.2-6",
     "@testing-library/jest-dom": "^5.14.1",
     "tsconfig-paths": "^3.10.1"
   }

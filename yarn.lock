@@ -3042,6 +3042,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
+    "@polkadot/types-support": ^5.4.2-6
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^11.2.7
     testcontainers: ^7.18.1
@@ -3058,7 +3059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:5.4.2-6":
+"@polkadot/types-known@npm:^5.4.2-6":
   version: 5.4.2-6
   resolution: "@polkadot/types-known@npm:5.4.2-6"
   dependencies:
@@ -3067,6 +3068,16 @@ __metadata:
     "@polkadot/types": 5.4.2-6
     "@polkadot/util": ^7.1.3-3
   checksum: 70fa41e16747256f4fa2a034b18d547d79c199b5ac6111ba7901775a890d5c78607afc0d1367ce0e26e8f574028180b2363c43f91afcb53aa613dad995caedc1
+  languageName: node
+  linkType: hard
+
+"@polkadot/types-support@npm:^5.4.2-6":
+  version: 5.4.2-6
+  resolution: "@polkadot/types-support@npm:5.4.2-6"
+  dependencies:
+    "@babel/runtime": ^7.15.3
+    "@polkadot/util": ^7.1.3-3
+  checksum: 17f90ba9c98e479615b49721429ca30e221be628936f02c513f6d3a896ad8b27e8ef668bd11661bc5b67f77911a463e8abdc4a7f9176122ae993b4e8c01ecd17
   languageName: node
   linkType: hard
 
