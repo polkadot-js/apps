@@ -16,10 +16,10 @@ interface Props {
   onClick: () => void;
 }
 
-function EditButton ({ children, className, icon = 'edit', onClick }: Props): React.ReactElement<Props> {
+function EditButton ({ children, className = '', icon = 'edit', onClick }: Props): React.ReactElement<Props> {
   return (
     <div
-      className={className}
+      className={`ui--EditButton ${className}`}
       onClick={onClick}
     >
       {children}
