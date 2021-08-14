@@ -6,10 +6,10 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Icon, Input, Table } from '@polkadot/react-components';
+import { Button, Dropdown, Input, SummaryBox, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO } from '@polkadot/util';
@@ -21,7 +21,7 @@ import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
 import { useTranslation } from '../translate';
-import { sortAccounts, SortCategory } from '../util';
+import { sortAccounts, SortCategory, sortCategory } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
@@ -45,6 +45,12 @@ interface SortControls {
 const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
 
 const STORE_FAVS = 'accounts:favorites';
+
+const SortDropdown = React.memo(styled(Dropdown)`
+  max-width: 185px;
+  align: flex start;
+  margin-left: -28px;
+`);
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -97,29 +103,24 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       })
   , [allAccounts, favoritesMap, delegations]);
 
-  const _sort = (header: SortCategory) => {
-    setSortBy(({ sortBy, sortFromMax }) =>
-      ({ sortBy: header,
-        sortFromMax: sortBy === header ? !sortFromMax : true }));
-  };
+  const accountsMap = useMemo(() => {
+    const ret: Record<string, SortedAccount> = {};
 
-  const sortableHeader = useMemo(() => (header: SortCategory, htmlClass?: string) => [
-    <>{t(header)}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-    `${sortedAccounts ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${htmlClass || ''}`,
-    1,
-    () => _sort(header)
-  ], [sortBy, sortFromMax, sortedAccounts, t]);
+    accountsWithInfo.forEach(function (x) { ret[x.address] = x; });
 
-  const header = useMemo(() => [
+    return ret;
+  }, [accountsWithInfo]);
+
+  const header = useRef([
     [t('accounts'), 'start', 3],
     [t('parent'), 'address media--1400'],
-    sortableHeader('type'),
+    [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    sortableHeader('balances', 'expand'),
+    [t('balances'), 'expand'],
     [],
     [undefined, 'media--1400']
-  ], [sortableHeader, t]);
+  ]);
 
   useEffect((): void => {
     // We add new accounts to the end
@@ -132,8 +133,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   useEffect((): void => {
     setSorted((sortedAccounts) =>
-      sortAccounts(sortedAccounts, accounts, sortBy, sortFromMax));
-  }, [accountsWithInfo, accounts, sortBy, sortFromMax]);
+      sortAccounts(sortedAccounts, accountsMap, accounts, sortBy, sortFromMax));
+  }, [accountsWithInfo, accountsMap, accounts, sortBy, sortFromMax]);
 
   const _setBalance = useCallback(
     (account: string, balance: AccountBalance) =>
@@ -268,10 +269,26 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
+
+      <SummaryBox>
+        <section>
+          <SortDropdown
+            defaultValue={sortBy}
+            label={t<string>('sort by')}
+            onChange={(item: SortCategory) => setSortBy({ sortBy: item, sortFromMax })}
+            options={sortCategory.map((x) => ({ text: x, value: x }))}
+          />
+          <Button
+            icon='arrows-alt-v'
+            onClick={() => setSortBy({ sortBy, sortFromMax: !sortFromMax })}
+          />
+        </section>
+      </SummaryBox>
+
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
-        header={header}
+        header={header.current}
       >
         {!isLoading &&
           sortedAccounts.map(({ address }) => accountComponets[address])}

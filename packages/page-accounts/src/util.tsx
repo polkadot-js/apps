@@ -7,7 +7,9 @@ import type { AccountBalance, SortedAccount } from './types';
 import React from 'react';
 
 import { Menu } from '@polkadot/react-components';
+import { getAddressMeta } from '@polkadot/react-components/util';
 import { keyring } from '@polkadot/ui-keyring';
+import { BN_ZERO } from '@polkadot/util';
 
 import stableSort from './stableSort';
 
@@ -18,17 +20,6 @@ export function createMenuGroup (key: string, items: (React.ReactNode | false | 
     ? <React.Fragment key={key}><Menu.Divider />{filtered}</React.Fragment>
     : null;
 }
-
-const expandList = (children: Record<string, SortedAccount[]>) =>
-  (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] => {
-    mapped.push(entry);
-
-    children[entry.address]?.forEach((entry): void => {
-      expandList(children)(mapped, entry);
-    });
-
-    return mapped;
-  };
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
@@ -58,57 +49,49 @@ export function GetAccountCryptoType (accountId: AccountIdIsh): string {
   return 'unknown';
 }
 
-export type SortCategory = 'date' | 'balances' | 'type';
+export const sortCategory = ['parent', 'name', 'date', 'balances', 'type'] as const;
+export type SortCategory = typeof sortCategory[number];
 
-const comparator = (balances: Record<string, AccountBalance>, category: SortCategory, fromMax: boolean) => {
-  const mult = fromMax ? 1 : -1;
+const comparator = (accounts: Record<string, SortedAccount | undefined>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean) => {
+  function accountQualifiedName (account: SortedAccount | undefined): string {
+    if (account) {
+      const parent = (account.account?.meta.parentAddress || '') as string;
+
+      return accountQualifiedName(accounts[parent]) + account.address;
+    } else {
+      return '';
+    }
+  }
+
+  function make <T> (getValue: (acc: SortedAccount) => T, compare: (a: T, b: T) => number) {
+    const mult = fromMax ? 1 : -1;
+
+    return (a: SortedAccount, b: SortedAccount) =>
+      mult * compare(getValue(a), getValue(b));
+  }
 
   switch (category) {
+    case 'parent':
+      // We need to ensure that parent will be adjacent to its children
+      // so we use format '...<grand-parent-addr><parent-addr><account-addr>'
+      return make(accountQualifiedName, (a, b) => a.localeCompare(b));
+
+    case 'name':
+      return make((acc) => getAddressMeta(acc.address).name ?? '', (a, b) => a.localeCompare(b));
+
     case 'date':
-      return (a: SortedAccount, b: SortedAccount) =>
-        mult * ((a.account?.meta.whenCreated ?? 0) - (b.account?.meta.whenCreated ?? 0));
+      return make((acc) => acc.account?.meta.whenCreated ?? 0, (a, b) => a - b);
 
     case 'balances':
-      return (a: SortedAccount, b: SortedAccount) => {
-        const x = balances[a.address ?? '']?.total;
-        const y = balances[b.address ?? '']?.total;
-
-        return mult * x?.cmp(y);
-      };
+      return make((acc) => balances[acc.address]?.total ?? BN_ZERO, (a, b) => a.cmp(b));
 
     case 'type':
-      return (a: SortedAccount, b: SortedAccount) => {
-        return mult *
-          GetAccountCryptoType(a.address ?? '').localeCompare(GetAccountCryptoType(b.address ?? ''));
-      };
+      return make((acc) => GetAccountCryptoType(acc.address), (a, b) => a.localeCompare(b));
   }
 };
 
-export function sortAccounts (mapped: SortedAccount[], balances: Record<string, AccountBalance>, by: SortCategory, fromMax: boolean): SortedAccount[] {
-  const sorted = stableSort(mapped, comparator(balances, by, fromMax));
-  const children: Record<string, SortedAccount[]> = Object.fromEntries(mapped.map((x) => [x.address, []]));
-
-  const filtered = sorted
-    .filter((entry): boolean => {
-      if (!entry.account) { return true; }
-
-      const parentAddress = entry.account.meta.parentAddress;
-
-      if (parentAddress) {
-        const parent = sorted.find(({ address }) => address === parentAddress);
-
-        if (parent) {
-          children[parent.address]?.push(entry);
-
-          return false;
-        }
-      }
-
-      return true;
-    })
-    .reduce(expandList(children), []);
-
-  return stableSort(filtered,
+export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance>, by: SortCategory, fromMax: boolean): SortedAccount[] {
+  return stableSort(stableSort(accountsList, comparator(accountsMap, balances, by, fromMax)),
     (a, b) =>
       a.isFavorite === b.isFavorite
         ? 0
