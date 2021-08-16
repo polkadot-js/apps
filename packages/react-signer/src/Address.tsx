@@ -3,8 +3,8 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
-import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import type { Vec } from '@polkadot/types';
+import type { AccountId, BalanceOf, Call, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { AddressFlags, AddressProxy } from './types';
 
@@ -97,13 +97,13 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
 }
 
 async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
-  const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+  const multiQuery = api.query.multisig || api.query.utility;
 
-  if (isFunction(api.query[multiModule]?.multisigs)) {
+  if (isFunction(multiQuery?.multisigs)) {
     const address = proxyAddress || requestAddress;
     const { threshold, who } = extractExternal(address);
     const hash = (proxyAddress ? api.tx.proxy.proxy(requestAddress, null, tx) : tx).method.hash;
-    const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(address, hash);
+    const optMulti = await multiQuery.multisigs(address, hash);
     const multi = optMulti.unwrapOr(null);
 
     return multi

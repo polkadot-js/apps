@@ -116,7 +116,7 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   }
 
   if (multiRoot) {
-    const multiModule = api.tx.multisig || api.tx.utility;
+    const multiTx = api.tx.multisig || api.tx.utility;
     const [info, { weight }] = await Promise.all([
       (api.query.multisig || api.query.utility).multisigs(multiRoot, tx.method.hash),
       tx.paymentInfo(multiRoot)
@@ -126,17 +126,17 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
     const timepoint = info.unwrapOr({ when: null }).when;
 
     tx = isMultiCall
-      ? multiModule.asMulti.meta.args.length === 6
+      ? multiTx.asMulti.meta.args.length === 6
         // We are doing toHex here since we have a Vec<u8> input
-        ? multiModule.asMulti(threshold, others, timepoint, tx.method.toHex(), false, weight)
+        ? multiTx.asMulti(threshold, others, timepoint, tx.method.toHex(), false, weight)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        : multiModule.asMulti(threshold, others, timepoint, tx.method)
-      : multiModule.approveAsMulti.meta.args.length === 5
-        ? multiModule.approveAsMulti(threshold, others, timepoint, tx.method.hash, weight)
+        : multiTx.asMulti(threshold, others, timepoint, tx.method)
+      : multiTx.approveAsMulti.meta.args.length === 5
+        ? multiTx.approveAsMulti(threshold, others, timepoint, tx.method.hash, weight)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        : multiModule.approveAsMulti(threshold, others, timepoint, tx.method.hash);
+        : multiTx.approveAsMulti(threshold, others, timepoint, tx.method.hash);
   }
 
   return tx;
