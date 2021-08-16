@@ -38,24 +38,26 @@ const CreateAccountInputs = ({ _onCommit, name: { isNameValid, name }, setName, 
     [setPassword]
   );
 
-  return (<>
-    <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
-      <Input
-        className='full'
-        help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-        isError={!isNameValid}
-        label={t<string>('name')}
-        onChange={_onChangeName}
+  return (
+    <>
+      <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
+        <Input
+          className='full'
+          help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+          isError={!isNameValid}
+          label={t<string>('name')}
+          onChange={_onChangeName}
+          onEnter={_onCommit}
+          placeholder={t<string>('new account')}
+          value={name}
+        />
+      </Modal.Columns>
+      <PasswordInput
+        onChange={_onChangePass}
         onEnter={_onCommit}
-        placeholder={t<string>('new account')}
-        value={name}
       />
-    </Modal.Columns>
-    <PasswordInput
-      onChange={_onChangePass}
-      onEnter={_onCommit}
-    />
-  </>);
+    </>
+  );
 };
 
 export default React.memo(CreateAccountInputs);
