@@ -494,6 +494,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressSmall
             parentAddress={(typeof meta.parentAddress === 'string') ? meta.parentAddress : undefined}
             value={address}
+            withShortAddress
           />
           {isBackupOpen && (
             <Backup

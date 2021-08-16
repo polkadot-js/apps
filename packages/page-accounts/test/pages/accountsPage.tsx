@@ -63,6 +63,12 @@ export class AccountRow {
 
     expect(tagsActual).toHaveTextContent(tagsContent);
   }
+
+  async assertShortAddress (expectedShortAddress: string): Promise<void> {
+    const actualShortAddress = await within(this.primaryRow).findByTestId('short-address');
+
+    expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
+  }
 }
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({

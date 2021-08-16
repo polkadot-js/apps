@@ -7,6 +7,7 @@ import { fireEvent, within } from '@testing-library/react';
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
+import { toShortAddress } from '@polkadot/react-components/util';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { MemoryStore } from '@polkadot/test-support/keyring';
@@ -142,6 +143,16 @@ describe('Accounts page', () => {
 
       expect(within(accountsTable).queryByRole('columnheader', { name: 'parent' })).toBeFalsy();
       expect(within(accountsTable).getByRole('columnheader', { name: 'type' })).toBeTruthy();
+    });
+
+    it('account rows display the shorted address', async () => {
+      accountsPage.renderPage([anAccount(aliceAddress)]);
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(1);
+      const aliceShortAddress = toShortAddress(aliceAddress);
+
+      await accountRows[0].assertShortAddress(aliceShortAddress);
     });
 
     it('when account is not tagged, account row details displays no tags info', async () => {

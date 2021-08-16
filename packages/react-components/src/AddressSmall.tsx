@@ -7,6 +7,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import ParentAddress from '@polkadot/react-components/ParentAddress';
+import { toShortAddress } from '@polkadot/react-components/util';
 
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
@@ -19,20 +20,21 @@ interface Props {
   overrideName?: React.ReactNode;
   parentAddress?: string;
   withSidebar?: boolean;
+  withShortAddress?: boolean;
   toggle?: unknown;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <div>
         <IdentityIcon value={value as Uint8Array} />
       </div>
-      <div>
-        {parentAddress && <ParentAddress address={parentAddress}/>}
+      <div className='addressContainer'>
+        <div className='additional-info parentAccountName'>{parentAddress && <ParentAddress address={parentAddress}/>}</div>
         <AccountName
-          className={withSidebar ? 'withSidebar' : ''}
+          className={`accountName ${withSidebar ? 'withSidebar' : ''}`}
           defaultName={defaultName}
           onClick={onClickName}
           override={overrideName}
@@ -42,6 +44,8 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
         >
           {children}
         </AccountName>
+        <div className='additional-info shortAddress'
+          data-testid='short-address'>{withShortAddress && toShortAddress(value)}</div>
       </div>
     </div>
   );
@@ -55,6 +59,38 @@ export default React.memo(styled(AddressSmall)`
   .ui--IdentityIcon {
     margin-right: 0.75rem;
     vertical-align: middle;
+  }
+
+  .additional-info {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+
+  .parentAccountName {
+    grid-area: parentAccountName;
+  }
+
+  .accountName {
+    grid-area: accountName;
+  }
+
+  .shortAddress {
+    grid-area: shortAddress;
+    color: #8B8B8B;
+    font-size: 0.75rem;
+  }
+
+  .addressContainer {
+    border: 0.031rem;
+    height: 3.438rem;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 33% 33% 33%;
+    grid-template-areas:
+    "parentAccountName"
+    "accountName"
+    "shortAddress";
   }
 
   .ui--AccountName {

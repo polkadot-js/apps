@@ -19,11 +19,11 @@ function ParentAddress ({ address, className }: ParentAccountProps): React.React
       <Icon className='parent-icon'
         icon='code-branch'/>
 
-        <AccountName
-          value={address}
-          withSidebar
-        >
-        </AccountName>
+      <AccountName
+        value={address}
+        withSidebar
+      >
+      </AccountName>
     </div>
   );
 }
@@ -33,7 +33,6 @@ export default React.memo(styled(ParentAddress)`
     align-items: center;
     color: #8B8B8B;
     font-size: 0.75rem;
-    line-height: 0.895rem;
 
   & .parent-icon {
     font-size: 0.625rem;
