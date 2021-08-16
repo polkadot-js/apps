@@ -11,8 +11,6 @@ import { getAddressMeta } from '@polkadot/react-components/util';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO } from '@polkadot/util';
 
-import stableSort from './stableSort';
-
 export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[]): React.ReactNode | null {
   const filtered = items.filter((item): item is React.ReactNode => !!item);
 
@@ -91,8 +89,9 @@ const comparator = (accounts: Record<string, SortedAccount | undefined>, balance
 };
 
 export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance>, by: SortCategory, fromMax: boolean): SortedAccount[] {
-  return stableSort(stableSort(accountsList, comparator(accountsMap, balances, by, fromMax)),
-    (a, b) =>
+  return [...accountsList]
+    .sort(comparator(accountsMap, balances, by, fromMax))
+    .sort((a, b) =>
       a.isFavorite === b.isFavorite
         ? 0
         : b.isFavorite
