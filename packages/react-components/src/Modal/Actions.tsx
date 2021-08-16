@@ -8,13 +8,15 @@ import styled from 'styled-components';
 
 import Button from '../Button';
 
-const Actions: React.FC<ActionsProps> = ({ children, className = '' }) => (
-  <div className={className}>
-    <Button.Group>
-      {children}
-    </Button.Group>
-  </div>
-);
+function Actions ({ children, className = '' }: ActionsProps) {
+  return (
+    <div className={className}>
+      <Button.Group>
+        {children}
+      </Button.Group>
+    </div>
+  );
+}
 
 export default React.memo(styled(Actions)`
   background-color: var(--bg-input);

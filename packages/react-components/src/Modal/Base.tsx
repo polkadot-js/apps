@@ -8,7 +8,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { createGlobalStyle, ThemeContext } from 'styled-components';
 
-import { Header } from './Header';
+import Header from './Header';
 import { Body, Overlay } from './styled';
 
 const ESC_KEYCODE = 27;

@@ -4,6 +4,7 @@
 import React from 'react';
 
 export interface HeaderProps {
+  className?: string;
   header?: React.ReactNode;
   onClose: () => void;
 }
@@ -27,6 +28,7 @@ export interface ModalProps {
 
 export interface ActionsProps {
   className?: string;
+  children: React.ReactNode;
 }
 
 export interface BodyProps {

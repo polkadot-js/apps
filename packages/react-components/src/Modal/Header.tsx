@@ -8,21 +8,23 @@ import styled from 'styled-components';
 
 import Button from '../Button';
 
-export const Header: React.FC<HeaderProps> = ({ header, onClose }) => (
-  <ModalHeader className='header'>
-    {header && (
-      <h1>{header}</h1>
-    )}
-    <Button
-      dataTestId='close-modal'
-      icon='times'
-      onClick={onClose}
-    />
-  </ModalHeader>
-);
+function Header ({ className, header, onClose }: HeaderProps) {
+  return (
+    <div className={className}>
+      {header && (
+        <h1>{header}</h1>
+      )}
+      <Button
+        dataTestId='close-modal'
+        icon='times'
+        onClick={onClose}
+      />
+    </div>
+  );
+}
 
-const ModalHeader = styled.div`
+export default React.memo(styled(Header)`
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 1.5rem 0px;
-`;
+  padding: 0.75rem 1.5rem 0;
+`);
