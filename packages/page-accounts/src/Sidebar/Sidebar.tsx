@@ -99,6 +99,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
             onToggleIsEditing={toggleIsEditingTags}
             size='tiny'
             value={tags}
+            withTitle
           />
         </div>
         <Flags flags={flags} />
@@ -249,19 +250,8 @@ export default React.memo(styled(FullSidebar)`
     margin: 0.75rem 0 0;
   }
 
-  .ui--AddressMenu-flags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-
-    > * {
-      margin-bottom: 0.4rem;
-
-      &:not(:first-child) {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-    }
+  .ui--AddressMenu-tags {
+    width: 100%;
   }
 
   .ui--AddressMenu-identityIcon {
@@ -279,10 +269,6 @@ export default React.memo(styled(FullSidebar)`
         margin: 0.2rem 0;
       }
     }
-  }
-
-  .tags--toggle {
-    display: inline-block;
   }
 
   .inline-icon {

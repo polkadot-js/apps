@@ -43,6 +43,7 @@ import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
+import interbtc from './interbtc';
 import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
@@ -69,7 +70,6 @@ import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
-import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -120,7 +120,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
-  'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
   chainx,
@@ -153,6 +152,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
+  'interbtc-parachain': interbtc,
+  'interbtc-standalone': interbtc,
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
