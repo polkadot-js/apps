@@ -5,7 +5,7 @@
   "version": "0.95.2-13",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.14.8",
-    "@polkadot/api-contract": "^5.4.2-6"
+    "@babel/runtime": "^7.15.3",
+    "@polkadot/api-contract": "^5.5.1"
   }
 }

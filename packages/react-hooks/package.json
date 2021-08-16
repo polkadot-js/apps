@@ -5,6 +5,6 @@
   "version": "0.95.2-13",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.14.8"
+    "@babel/runtime": "^7.15.3"
   }
 }
