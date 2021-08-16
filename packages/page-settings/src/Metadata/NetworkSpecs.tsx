@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
-import type { ChainInfo } from '../types';
+import type { ChainInfo, ChainType } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -18,6 +18,11 @@ interface Props {
   className?: string;
 }
 
+// TODO-MOONBEAM: update NetworkSpecsStruct in @polkadot/ui-settings/types
+interface NetworkSpecsStructWithType extends NetworkSpecsStruct{
+  chainType: ChainType
+}
+
 function getRandomColor (): string {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -30,6 +35,7 @@ function getRandomColor (): string {
 }
 
 const initialState = {
+  chainType: 'substrate' as ChainType,
   color: '#FFFFFF',
   decimals: 0,
   genesisHash: '',
@@ -41,10 +47,10 @@ const initialState = {
 function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isApiReady, systemChain } = useApi();
-  const [qrData, setQrData] = useState<NetworkSpecsStruct>(initialState);
+  const [qrData, setQrData] = useState<NetworkSpecsStructWithType>(initialState);
   const debouncedQrData = useDebounce(qrData, 500);
 
-  const reducer = (state: NetworkSpecsStruct, delta: Partial<NetworkSpecsStruct>): NetworkSpecsStruct => {
+  const reducer = (state: NetworkSpecsStructWithType, delta: Partial<NetworkSpecsStructWithType>): NetworkSpecsStructWithType => {
     const newState = {
       ...state,
       ...delta
@@ -59,6 +65,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
   useEffect((): void => {
     chainInfo && setNetworkSpecs({
+      chainType: chainInfo.chainType,
       color: chainInfo.color || getRandomColor(),
       decimals: chainInfo.tokenDecimals,
       genesisHash: chainInfo.genesisHash,
@@ -188,6 +195,17 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             isDisabled
             label={t<string>('Decimals')}
             value={networkSpecs.decimals.toString()}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            help={t<string>('Chain type (ethereum compatible or regular substrate)')}
+            isDisabled
+            label={t<string>('Chain Type')}
+            value={networkSpecs.chainType}
           />
         </td>
       </tr>

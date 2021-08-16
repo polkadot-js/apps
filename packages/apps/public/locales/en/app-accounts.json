@@ -61,6 +61,7 @@
   "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)",
   "Existing approvals ({{approvals}}/{{threshold}})": "Existing approvals ({{approvals}}/{{threshold}})",
   "External": "External",
+  "Flags": "Flags",
   "For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.": "For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.",
   "For final approvals, the actual full call data is required to execute the transaction": "For final approvals, the actual full call data is required to execute the transaction",
   "Forget this account": "Forget this account",

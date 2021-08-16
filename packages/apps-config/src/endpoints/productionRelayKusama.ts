@@ -69,8 +69,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://bifrost.kusama.elara.patract.io'
         }
       },
       {
@@ -140,7 +141,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: 'wss://khala.phala.network/ws',
+          Phala: 'wss://khala-api.phala.network/ws',
           OnFinality: 'wss://khala.api.onfinality.io/public-ws'
         }
       },
@@ -165,6 +166,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'loomNetwork',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
         homepage: 'https://loomx.io/',
         paraId: 2080,
         text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
@@ -209,6 +211,14 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
+      },
+      {
+        info: 'trustbase',
+        isUnreachable: true, // no providers (yet)
+        homepage: 'https://trustbase.network/',
+        paraId: 2078,
+        text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
+        providers: {}
       },
       {
         info: 'sakura',

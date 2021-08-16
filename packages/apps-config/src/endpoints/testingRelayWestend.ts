@@ -49,7 +49,7 @@ export function createWestend (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'basilisk',
-        paraId: 2012,
+        paraId: 2083,
         text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
         providers: {
           HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
@@ -77,15 +77,6 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
           PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network'
-        }
-      },
-      {
-        info: 'shibuya',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5489
-        paraId: 2007,
-        text: t('rpc.westend.shibuya', 'Shibuya', { ns: 'apps-config' }),
-        providers: {
-          StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
         }
       },
       {

@@ -24,6 +24,7 @@ export default {
     Plasm: 'plasm',
     Polkadot: 'polkadot',
     Rococo: 'rococo',
+    'Shiden Shell': 'shiden',
     Stafi: 'stafi',
     Westend: 'westend'
   },

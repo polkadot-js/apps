@@ -34,6 +34,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'crust',
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
+      }
+    },
+    {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
@@ -75,7 +82,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
     },
     {
       info: 'hanonycash',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'

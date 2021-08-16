@@ -35,7 +35,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || method.meta.name).toString()}
+            {(method.meta.docs[0] || method.meta.name).toString()}
           </div>
         ],
         value
