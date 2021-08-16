@@ -18,6 +18,7 @@ const Actions: React.FC<ActionsProps> = ({ children, className = '' }) => (
 
 export default React.memo(styled(Actions)`
   background-color: var(--bg-input);
+  border-radius: 0 0 4px 4px;
 
   .ui--Button-Group {
     margin: 1rem 1rem;
