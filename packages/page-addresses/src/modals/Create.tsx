@@ -114,8 +114,10 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   );
 
   return (
-    <Modal header={t<string>('Add an address')}
-      onClose={onClose}>
+    <Modal
+      header={t<string>('Add an address')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <AddressRow
           defaultName={name}

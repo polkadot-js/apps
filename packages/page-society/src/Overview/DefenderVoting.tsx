@@ -28,8 +28,10 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
   return (
     <>
       {isVisible && (
-        <Modal header={t<string>('Vote for defender')}
-          onClose={toggleVisible}>
+        <Modal
+          header={t<string>('Vote for defender')}
+          onClose={toggleVisible}
+        >
           <Modal.Content>
             <InputAddress
               filter={ownMembers}

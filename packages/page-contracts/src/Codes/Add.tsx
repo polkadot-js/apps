@@ -39,8 +39,10 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isCodeHashValid && isNameValid && isAbiSupplied && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing code hash')}
-      onClose={onClose}>
+    <Modal
+      header={t('Add an existing code hash')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <Input
           autoFocus

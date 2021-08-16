@@ -131,8 +131,10 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const invalidAbi = isAbiError || !isAbiSupplied;
 
   return (
-    <Modal header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}
-      onClose={onClose}>
+    <Modal
+      header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}
+      onClose={onClose}
+    >
       <Modal.Content>
         {step === 1 && (
           <>

@@ -29,8 +29,10 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
   return (
     <>
       {isVisible && (
-        <Modal header={t<string>('Vote for candidate')}
-          onClose={toggleVisible}>
+        <Modal
+          header={t<string>('Vote for candidate')}
+          onClose={toggleVisible}
+        >
           <Modal.Content>
             <InputAddress
               filter={ownMembers}

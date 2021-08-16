@@ -64,8 +64,10 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isAddressValid && isNameValid && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing contract')}
-      onClose={onClose}>
+    <Modal
+      header={t('Add an existing contract')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <AddressRow
           defaultName={name}
