@@ -171,7 +171,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     </div>
   ), [filterOn, t]);
 
-  const accountComponets = useMemo(() => {
+  const accountComponents = useMemo(() => {
     const ret: Record<string, React.ReactNode> = {};
 
     accountsWithInfo.forEach(({ account, address, delegation, isFavorite }, index) => {
@@ -269,7 +269,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
-
       <SummaryBox>
         <section>
           <SortDropdown
@@ -284,14 +283,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
       </SummaryBox>
-
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         header={header.current}
       >
         {!isLoading &&
-          sortedAccounts.map(({ address }) => accountComponets[address])}
+          sortedAccounts.map(({ address }) => accountComponents[address])}
       </Table>
     </div>
   );
