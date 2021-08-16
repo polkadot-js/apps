@@ -36,7 +36,8 @@ export interface BodyProps {
 }
 
 export interface ContentProps {
-  className?: string
+  className?: string;
+  children: React.ReactNode;
 }
 
 export type ModalType = React.FC<ModalProps> & {

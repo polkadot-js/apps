@@ -9,7 +9,6 @@ import { createPortal } from 'react-dom';
 import styled, { createGlobalStyle, ThemeContext } from 'styled-components';
 
 import Header from './Header';
-import { Body, Overlay } from './styled';
 
 const ESC_KEYCODE = 27;
 
@@ -34,15 +33,22 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
   }, [open, listenKeyboard]);
 
   return createPortal(
-    <div className={`theme--${theme} ui--Modal ${className}`}
-      data-testid={testId}>
+    <div
+      className={`theme--${theme} ui--Modal ${className} size-${size}`}
+      data-testid={testId}
+    >
       <DisableGlobalScroll/>
-      <Overlay onClick={onClose}/>
-      <Body size={size}>
-        <Header header={header}
-          onClose={onClose}/>
+      <div
+        className='ui--Modal__overlay'
+        onClick={onClose}
+      />
+      <div className='ui--Modal__body'>
+        <Header
+          header={header}
+          onClose={onClose}
+        />
         {children}
-      </Body>
+      </div>
     </div>,
     document.body
   );
@@ -63,4 +69,41 @@ export default React.memo(styled(Base)`
   min-height: 100vh;
   z-index: 1000;
   overflow-y: auto;
+
+  .ui--Modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(96, 96, 96, 0.5);
+  }
+
+  .ui--Modal__body {
+    margin-top: 30px;
+    background: var(--bg-page);
+    border-radius: 4px;
+    box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    max-width: 900px;
+    width: calc(100% - 16px);
+
+    color: var(--color-text);
+    font: var(--font-sans);
+  }
+
+  &.size-small .ui--Modal__body {
+    max-width: 720px;
+  }
+
+  &.size-large .ui--Modal__body {
+    max-width: 1080px;
+  }
 `);

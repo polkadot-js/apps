@@ -6,7 +6,7 @@ import type { ModalType } from './types';
 import Actions from './Actions';
 import ModalBase from './Base';
 import Columns from './Columns';
-import { Content } from './styled';
+import Content from './Content';
 
 const Modal = ModalBase as unknown as ModalType;
 
