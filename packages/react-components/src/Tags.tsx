@@ -18,9 +18,10 @@ interface Props {
   onToggleIsEditing?: () => void;
   onSave?: () => void;
   value: string[];
+  withTitle?: boolean;
 }
 
-function Tags ({ children, className = '', isEditable, isEditing, onChange, onSave, onToggleIsEditing, value }: Props): React.ReactElement<Props> {
+function Tags ({ children, className = '', isEditable, isEditing, onChange, onSave, onToggleIsEditing, value, withTitle }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const contents = useMemo(
@@ -45,6 +46,9 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
 
   return (
     <div className={`ui--Tags ${className}`}>
+      {withTitle && (
+        <h5>{t<string>('Tags')}</h5>
+      )}
       {isEditable && isEditing
         ? (
           <InputTags
@@ -58,17 +62,14 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
             withLabel={false}
           />
         )
-        : (
-          <div className='tags--toggle'>
-            {isEditable
-              ? (
-                <EditButton onClick={onToggleIsEditing}>
-                  {contents}
-                </EditButton>
-              )
-              : contents}
-          </div>
-        )
+        : isEditable
+          ? (
+            <EditButton className={value.length === 0 ? 'center' : 'left'}
+              onClick={onToggleIsEditing}>
+              {contents}
+            </EditButton>
+          )
+          : contents
       }
       {children}
     </div>
@@ -76,11 +77,34 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
 }
 
 export default React.memo(styled(Tags)`
-  .tags--toggle {
-    display: inline-block;
+  h5 {
+    font-style: normal;
+    font-weight: var(--font-weight-bold);
+    font-size: 0.714rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
 
-    label {
-      display: inline-block !important;
+  label {
+    display: inline-block;
+  }
+
+  .ui--EditButton {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &.center {
+      justify-content: center;
     }
+
+    &.left {
+      justify-content: left;
+    }
+  }
+
+  .ui--Tag {
+    margin: 0.1rem 0 0.1rem 0.571rem;
   }
 `);

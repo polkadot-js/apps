@@ -1,10 +1,112 @@
 # CHANGELOG
 
-## 0.93.2-7 Jun 15, 2015
+## 0.95.1 Aug 2, 2021
+
+Contributed:
+
+- Integrate Substrate connect (Thanks to https://github.com/wirednkod)
+- Bump Substrate connect dependencies (Thanks to https://github.com/raoulmillais)
+- Robonomics Kusama parachain (Thanks to https://github.com/ensrationis)
+- Typo fix (Thanks to https://github.com/gangelop)
+- Update Robomonics logo (Thanks to https://github.com/vol4tim)
+- Bump Acala types (Thanks to https://github.com/xlc)
+- Enable Subscan on Karura (Thanks to https://github.com/xlc)
+- Adjust PureStake provider name (Thanks to https://github.com/albertov19)
+- Bump Phala types (Thanks to https://github.com/limichange)
+- Update Altair crowdloan values (Thanks to https://github.com/mikiquantum)
+- Update Altair endpoint (Thanks to https://github.com/branan)
+- Add Kpron (Thanks to https://github.com/sharkygg & https://github.com/Apron2050)
+- Add Bifrost OnFinality provider (Thanks to https://github.com/454076513)
+- Add OriginTrail para testnet (Thanks to https://github.com/NZT48 & https://github.com/kotlarmilos)
+- Update Edgeware production/testing (Thanks to https://github.com/drewstone)
+- Add chainType for chain info transfer (Thanks to https://github.com/joelamouche)
+- Update Equilibrium types (Thanks to https://github.com/alex-nax & https://github.com/pr0fedt)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+- Update for Qr address imports (Thanks to https://github.com/joelamouche)
+- Elara providers for Karura, Moonriver & Bifrost (Thanks to https://github.com/zzcwoshizz)
+- Update Sora providers (Thanks to https://github.com/stefashkaa)
+- Add Basilik Kusama details (Thanks to https://github.com/lumir-mrkva)
+- Add Zeitgeist parachain for Kusama (Thanks to https://github.com/c410-f3r)
+- Update Pangolin & Crab types (Thanks to https://github.com/WoeOm)
+- Add Fantour network config (Thanks to https://github.com/noodleslove)
+- Add Loom Kusama parachain (Thanks to https://github.com/NightingaleAsh & https://github.com/enlight)
+- Integritee parachain config (Thanks to https://github.com/brenzi)
+- Update Unique types (Thanks to https://github.com/gregzaitsev)
+- Add zCloak network (Thanks to https://github.com/Lohsea)
+- Update Dotscanner URLs (Thanks to https://github.com/Deekor)
+- Dotscanner support for Kusama (Thanks to https://github.com/Deekor)
+- Update NFTMart logo (Thanks to https://github.com/caosbad)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Add Calamari network logo (Thanks to https://github.com/Dengjianping)
+- Update Westend logos (Thanks to https://github.com/wirednkod)
+- Add Trustbase network (Thanks to https://github.com/ygsgdbd)
+- Add type check on address import (Thanks to https://github.com/joelamouche)
+- Update Bifrost types (Thanks to https://github.com/awesomepan)
+- Fix translation typos (Thanks to https://github.com/anvie)
+- Add Aleph testnet (Thanks to https://github.com/timorl)
+- Accounts testing infrastructure (Thanks to https://github.com/wachulski)
+- Update Khala types (Thanks to https://github.com/jasl)
+- Set Subscan link for Shiden (Thanks to https://github.com/akru)
+
+Changes:
+
+- Remove providers with reliability & availability problems
+- taxIndex -1 for all hints
+- Fix InputNumber max check
+- Correctly use si values on InputNumber on disabled
+- Derive treasury account from palletId
+- Adjust Ledger app lookups via hash
+- Warn about off-chain crowdloan contributions
+- Fix isDisabled rendering for Option
+- Rework collective queries (multiple instances)
+- Don't show council elections with no pallet
+- Use gasRequired (as available) for contract estimations
+- Clear dispatch queue display on dispatch
+
+
+## 0.94.1 Jun 28, 2015
 
 Contributed:
 
 - Fix Electon QR scanning on Mac (Thanks to https://github.com/wachulski)
+- Update Bifrost homepage (Thanks to https://github.com/awesomepan)
+- Update Darwinia Redirect endpoint (Thanks to https://github.com/sxlwar)
+- Additional Sora endpoint (Thanks to https://github.com/pgolovkin)
+- OnFinality endpoints for Khala, Moonriver, Shiden (Thanks to https://github.com/454076513)
+- Add Pinknode endpoints for relays & parachains (Thanks to https://github.com/Capeguy)
+- Additional Karura endpoints (Thanks to https://github.com/xlc)
+- Polkawallet endpoint for Karura (Thanks to https://github.com/qwer951123)
+- Update Phala types (Thanks to https://github.com/limichange)
+- Update Subsocial types (Thanks to https://github.com/olehmell)
+- Update Beresheet types (Thanks to https://github.com/raykyri)
+- Update Datahighway types (Thanks to https://github.com/ayushmishra2005)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+- Update Genshiro details (Thanks to https://github.com/alex-nax & https://github.com/pr0fedt)
+- Update Zeitgeist details (Thanks to https://github.com/c410-f3r & https://github.com/lsaether)
+- Update OriginTrail details (Thanks to https://github.com/kotlarmilos & https://github.com/NZT48)
+- Add support for new Moonbeam authors (Thanks to https://github.com/joelamouche)
+- Adjust Neatcoin inflation params (Thanks to https://github.com/sorpaas)
+- Update Kilt logo (Thanks to https://github.com/rflechtner)
+- Fix language in chain specifications (Thanks to https://github.com/andresilva)
+- Fix docker build (Thanks to https://github.com/sorpaas)
+
+Changes:
+
+- Change endpoint display naming
+- Interleave crowdloans even with no bids
+- Filter auctions with `isWinner` flag
+- Filter crowdloan active raises on `isWinner`
+- Randomize parachain API endpoint usage
+- Split CI checks for types & availability
+- Add support for `state_queryStorage` results on RPC execution pages
+- Remove support for Substrate 2.0 payouts
+- Split endpoint selection menu with relays
+- Add warning for staking minium bonds
+- Remove reference to defunct vanity wildcard
+- Adjust explorer display with no extrinsics
+- Adjust fasttrack delay default to 1 hr
+- Add loading indicator for contributions
+- Display overall total nominator counts
 
 
 ## 0.93.1 Jun 14, 2021
@@ -1770,4 +1872,4 @@ Changes:
 - Disable spellcheck on all input fields (privacy)
 - Query the paymentInfo API to get weight fee information
 - Remove FF warning with https:// -> ws://localhost
-- Staking now supports where the controller 
+- Staking now supports where the controller

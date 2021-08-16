@@ -7,7 +7,7 @@ import type { SlashEra } from './types';
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Table, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -35,12 +35,13 @@ interface Selected {
 function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+  const councilMod = useCollectiveInstance('council');
   const [{ selected, txAll, txSome }, setSelected] = useState<Selected>((): Selected => {
     const proposal = api.tx.staking.cancelDeferredSlash(slash.era, slash.slashes.map((_, index) => index));
 
     return {
       selected: [],
-      txAll: isFunction(api.tx.council?.propose)
+      txAll: councilMod
         ? { length: proposal.encodedLength, proposal }
         : null,
       txSome: null
@@ -69,12 +70,12 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       return {
         selected,
         txAll: state.txAll,
-        txSome: proposal && isFunction(api.tx.council?.propose)
+        txSome: proposal && councilMod && isFunction(api.tx[councilMod].propose)
           ? { length: proposal.encodedLength, proposal }
           : null
       };
     }),
-    [api, slash]
+    [api, councilMod, slash]
   );
 
   return (
@@ -82,7 +83,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       <Summary slash={slash} />
       <Button.Group>
         {buttons}
-        {isFunction(api.tx.council?.propose) && (
+        {councilMod && (
           <>
             <TxButton
               accountId={councilId}
@@ -90,11 +91,11 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
               isToplevel
               label={t('Cancel selected')}
               params={txSome && (
-                api.tx.council.propose.meta.args.length === 3
+                api.tx[councilMod].propose.meta.args.length === 3
                   ? [councilThreshold, txSome.proposal, txSome.length]
                   : [councilThreshold, txSome.proposal]
               )}
-              tx={api.tx.council.propose}
+              tx={api.tx[councilMod].propose}
             />
             <TxButton
               accountId={councilId}
@@ -102,11 +103,11 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
               isToplevel
               label={t('Cancel all')}
               params={txAll && (
-                api.tx.council.propose.meta.args.length === 3
+                api.tx[councilMod].propose.meta.args.length === 3
                   ? [councilThreshold, txAll.proposal, txAll.length]
                   : [councilThreshold, txAll.proposal]
               )}
-              tx={api.tx.council.propose}
+              tx={api.tx[councilMod].propose}
             />
           </>
         )}

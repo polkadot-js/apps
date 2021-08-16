@@ -36,11 +36,14 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
       onClick={onClick}
       size={size}
       spin={isSpinning}
+      tabIndex={-1}
     />
   );
 }
 
 export default React.memo(styled(Icon)`
+  outline: none;
+
   &.isClickable {
     cursor: pointer;
   }

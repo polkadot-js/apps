@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, FundInfo, ParaId, TrieIndex } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, BlockNumber, FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { Campaign, Campaigns } from './types';
 
@@ -10,8 +10,8 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
-import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
-import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto';
+import { BN_ZERO, u8aConcat } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 import { CROWD_PREFIX } from './constants';
 
@@ -35,17 +35,6 @@ function isCrowdloadAccount (paraId: ParaId, accountId: AccountId): boolean {
 
 function hasLease (paraId: ParaId, leased: ParaId[]): boolean {
   return leased.some((l) => l.eq(paraId));
-}
-
-function createChildKey (trieIndex: TrieIndex): string {
-  return u8aToHex(
-    u8aConcat(
-      ':child_storage:default:',
-      blake2AsU8a(
-        u8aConcat('crowdloan', trieIndex.toU8a())
-      )
-    )
-  );
 }
 
 // map into a campaign
@@ -129,7 +118,6 @@ const optFundMulti = {
       .filter((v): v is [ParaId, FundInfo] => !!v[1])
       .map(([paraId, info]): Campaign => ({
         accountId: encodeAddress(createAddress(paraId)),
-        childKey: createChildKey(info.trieIndex),
         firstSlot: info.firstPeriod,
         info,
         isCrowdloan: true,

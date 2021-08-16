@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,7 +22,7 @@ interface Props {
   isMember: boolean;
   members: string[];
   motion: DeriveCollectiveProposal;
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 interface VoterState {
@@ -36,6 +36,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
   const { allAccounts } = useAccounts();
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
   const [proposalWeight, proposalLength] = useWeight(proposal);
+  const modLocation = useCollectiveInstance('council');
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {
@@ -62,7 +63,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
     [allAccounts, votes]
   );
 
-  if (!votes) {
+  if (!votes || !modLocation) {
     return null;
   }
 
@@ -127,13 +128,13 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
                 icon='times'
                 label={t<string>('Close')}
                 params={
-                  api.tx.council.close?.meta.args.length === 4
+                  api.tx[modLocation].close?.meta.args.length === 4
                     ? hasFailed
                       ? [hash, index, 0, 0]
                       : [hash, index, proposalWeight, proposalLength]
                     : [hash, index]
                 }
-                tx={api.tx.council.closeOperational || api.tx.council.close}
+                tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
               />
             )
         )}
