@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { UseAccountInfo } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 
-import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 

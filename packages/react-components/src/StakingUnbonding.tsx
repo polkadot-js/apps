@@ -60,7 +60,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
 
   return (
     <div className={className}>
-      { iconPosition === 'left' && (
+      {iconPosition === 'left' && (
         <Icon
           className='left'
           icon='clock'
@@ -90,7 +90,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
         ))}
         trigger={trigger}
       />
-      { iconPosition === 'right' && (
+      {iconPosition === 'right' && (
         <Icon
           className='right'
           icon='clock'

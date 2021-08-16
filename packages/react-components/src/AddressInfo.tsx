@@ -363,8 +363,10 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <React.Fragment key={7}>
         <Label label={t<string>('unbonding')} />
         <div className='result'>
-          <StakingUnbonding iconPosition='right'
-            stakingInfo={stakingInfo} />
+          <StakingUnbonding
+            iconPosition='right'
+            stakingInfo={stakingInfo}
+          />
         </div>
       </React.Fragment>
     );
