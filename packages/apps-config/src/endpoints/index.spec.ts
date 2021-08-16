@@ -7,12 +7,12 @@ import { createWsEndpoints } from '.';
 
 interface Endpoint {
   name: string;
-  ws: string;
+  value: string;
 }
 
 const allEndpoints = createWsEndpoints((k: string, v?: string) => v || k);
 
-describe('urls are all valid', (): void => {
+describe('WS urls are all valid', (): void => {
   allEndpoints
     .filter(({ value }) =>
       value &&
@@ -21,11 +21,11 @@ describe('urls are all valid', (): void => {
     )
     .map(({ text, value }): Endpoint => ({
       name: text as string,
-      ws: value
+      value
     }))
-    .forEach(({ name, ws }) =>
-      it(`${name} @ ${ws}`, (): void => {
-        assert(ws.startsWith('wss://'), `${name} @ ${ws} should start with wss://`);
+    .forEach(({ name, value }) =>
+      it(`${name} @ ${value}`, (): void => {
+        assert(value.startsWith('wss://') || value.startsWith('light://substrate-connect/'), `${name} @ ${value} should start with wss:// or light://`);
       })
     );
 });

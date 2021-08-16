@@ -7,8 +7,8 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { assert, isError, isString } from '@polkadot/util';
 import { fetch } from '@polkadot/x-fetch';
 
-import { typesBundle, typesChain } from './api';
-import { createWsEndpoints } from './endpoints';
+import { typesBundle, typesChain } from '../api';
+import { createWsEndpoints } from '../endpoints';
 
 interface Endpoint {
   name: string;
@@ -20,22 +20,17 @@ interface DnsResponse {
   Question: { name: string }[];
 }
 
-const FAILURES: string[] = [
-  'Cannot construct unknown type',
-  'No DNS entry for',
-  'Timeout connecting to'
-];
-
 const TICK = '`';
 
-describe('--SLOW--: check configured chain connections', (): void => {
+export function checkEndpoints (issueFile: string, failures: string[]): void {
   createWsEndpoints((k: string, v?: string) => v || k)
     .filter(({ isDisabled, isUnreachable, value }) =>
       !isDisabled &&
       !isUnreachable &&
       value &&
       isString(value) &&
-      !value.includes('127.0.0.1')
+      !value.includes('127.0.0.1') &&
+      !value.startsWith('light://')
     )
     .map(({ text, value }): Partial<Endpoint> => ({
       name: text as string,
@@ -61,6 +56,7 @@ describe('--SLOW--: check configured chain connections', (): void => {
           api = new ApiPromise({
             provider,
             throwOnConnect: true,
+            throwOnUnknown: true,
             typesBundle,
             typesChain
           });
@@ -80,8 +76,8 @@ describe('--SLOW--: check configured chain connections', (): void => {
             api.isReadyOrError
           ]);
         } catch (error) {
-          if (isError(error) && FAILURES.some((f) => (error as Error).message.includes(f))) {
-            process.env.CI_LOG && fs.appendFileSync('./.github/chain-types.md', `\n${TICK}${name} @ ${ws} ${error.message}${TICK}\n`);
+          if (isError(error) && failures.some((f) => (error as Error).message.includes(f))) {
+            process.env.CI_LOG && fs.appendFileSync(issueFile, `\n${TICK}${name} @ ${ws} ${error.message}${TICK}\n`);
 
             throw error;
           }
@@ -104,4 +100,4 @@ describe('--SLOW--: check configured chain connections', (): void => {
         }
       })
     );
-});
+}

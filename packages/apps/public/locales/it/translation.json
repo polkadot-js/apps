@@ -131,7 +131,7 @@
   "Change session keys": "Cambia la chiave di sessione",
   "Change this account's password": "Cambia la password di questo account",
   "Change validator preferences": "Cambia le opzioni del validatore",
-  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "Cambiare la chiave ha un impatto solo dopo l'avvio della prossima sessione. L'input è generato dal comando \"author_rotateKeys\"",
+  "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "Cambiare la chiave ha un impatto solo dopo l'avvio della prossima sessione. L'input è generato dal comando \"author_rotateKeys\"",
   "Chilled ({{count}})": "Chilled ({{count}})",
   "Chilled nominations ({{count}})": "Nomine Chilled ({{count}})",
   "Claim": "Riscatta",

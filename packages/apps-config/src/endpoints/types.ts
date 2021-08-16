@@ -27,6 +27,7 @@ export interface LinkOption extends Option {
   homepage?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
+  isLightClient?: boolean;
   isRelay?: boolean;
   isUnreachable?: boolean;
   isSpaced?: boolean;

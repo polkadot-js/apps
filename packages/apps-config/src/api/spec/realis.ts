@@ -21,109 +21,23 @@ const definitions: OverrideBundleDefinition = {
             'Legendary'
           ]
         },
-        Socket: {
+        Basic: 'u8',
+        TokenId: 'U256',
+        Stackable: {
           _enum: [
-            'Head',
-            'Body',
-            'LegLeft',
-            'LegRight',
-            'ArmLeft',
-            'ArmRight',
-            'Weapon'
+            'Silver',
+            'Gold',
+            'Diamond'
           ]
         },
-        pallet_nfts: 'u8',
-        Types: {
-          tapes: 'u8'
-        },
-        Params: {
-          strength: 'u8',
-          agility: 'u8',
-          intelligence: 'u8'
-        },
-        Token: {
-          rarity: 'Rarity',
-          socket: 'Socket',
-          params: 'Params'
-        },
-        AttributeTransaction: {
-          signature: 'Signature',
-          name: 'Vec<u8>',
-          value: 'Vec<u8>',
-          validity: 'u32',
-          signer: 'AccountId',
-          identity: 'AccountId'
-        },
-        Attribute: {
-          name: 'Vec<u8>',
-          value: 'Vec<u8>',
-          validity: 'BlockNumber',
-          creation: 'Moment',
-          nonce: 'u64'
-        },
-        SocialTokenBalance: 'u128',
-        RegistrarIndex: 'u32',
-        Judgement: {
-          _enum: [
-            'Requested',
-            'Approved'
-          ]
-        },
-        Registration: {
-          judgements: 'Vec<JudgementItem>',
-          account_id: 'AccountId'
-        },
-        Bloom: 'H256',
-        Log: {
-          address: 'H160',
-          topics: 'Vec<H256>',
-          data: 'Bytes'
-        },
-        Receipt: {
-          state_root: 'H256',
-          used_gas: 'U256',
-          logs_bloom: 'Bloom',
-          logs: 'Vec<Log>'
-        },
-        TransactionAction: {
+        TokenType: {
           _enum: {
-            Call: 'H160',
-            Create: 'Null'
+            Basic: '(Basic, Rarity)'
           }
         },
-        TransactionRecoveryId: 'u64',
-        TransactionSignature: {
-          v: 'TransactionRecoveryId',
-          r: 'H256',
-          s: 'H256'
-        },
-        Transaction: {
-          nonce: 'U256',
-          gas_price: 'U256',
-          gas_limit: 'U256',
-          action: 'TransactionAction',
-          value: 'U256',
-          input: 'Bytes',
-          signature: 'TransactionSignature'
-        },
-        TransactionStatus: {
-          transaction_hash: 'H256',
-          transaction_index: 'u32',
-          from: 'H160',
-          to: 'Option<H160>',
-          contract_address: 'Option<H160>',
-          logs: 'Vec<Log>',
-          logs_bloom: 'Bloom'
-        },
-        Id: 'AuthorityId',
-        ChainId: 'u8',
-        ResourceId: 'Vec<u8>',
-        ExchangeId: 'u64',
-        CurrencyOf: 'Balance',
-        TokenId: 'U256',
-        RealisTokenId: 'u32',
-        Erc721Token: {
-          id: 'NftId'
+        Token: {
+          token_id: 'TokenId',
+          token: 'TokenType'
         }
       }
     }
