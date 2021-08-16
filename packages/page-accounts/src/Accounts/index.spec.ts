@@ -22,11 +22,13 @@ describe('Accounts page', () => {
   const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
   const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
 
-  const injectAccount = (address: string, meta: KeyringJson$Meta) => {
+  const parentNotFoundMessage = 'Unable to find an element by: [data-testid="parent"]';
+
+  const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
     keyring.addExternal(address, meta);
   };
 
-  const forgetAccount = (address: string) => {
+  const forgetAccountFromKeyring = (address: string) => {
     keyring.forgetAccount(address);
   };
 
@@ -39,6 +41,7 @@ describe('Accounts page', () => {
 
   beforeEach(() => {
     accountsPage = new AccountsPage();
+    forgetAccountFromKeyring(aliceDerivedAddress);
   });
 
   describe('when no accounts', () => {
@@ -108,17 +111,29 @@ describe('Accounts page', () => {
     });
 
     it('derived account displays parent account info', async () => {
-      injectAccount(aliceDerivedAddress, { parentAddress: aliceAddress });
+      addAccountToKeyring(aliceDerivedAddress, { parentAddress: aliceAddress });
       accountsPage.renderPage([
         anAccount(aliceAddress),
-        anAccountWithInfo(aliceDerivedAddress, { meta: { parentAddress: aliceAddress } })
+        anAccount(aliceDerivedAddress)
       ]);
       const accountRows = await accountsPage.findAccountRows();
 
       expect(accountRows).toHaveLength(2);
       await accountRows[1].assertParentAccountName('ALICE');
+    });
 
-      forgetAccount(aliceDerivedAddress);
+    it('does not display parent account info when parent is not a string', async () => {
+      addAccountToKeyring(aliceDerivedAddress, { parentAddress: true });
+      accountsPage.renderPage([
+        anAccount(aliceAddress),
+        anAccount(aliceDerivedAddress)
+      ]);
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(2);
+
+      await expect(accountRows[1].assertParentAccountName('ALICE'))
+        .rejects.toThrow(parentNotFoundMessage);
     });
 
     it('a separate column for parent account is not displayed', async () => {

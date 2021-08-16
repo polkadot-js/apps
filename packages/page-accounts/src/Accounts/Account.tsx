@@ -30,7 +30,6 @@ import { AddressInfo,
   Popup,
   StatusContext,
   Tags } from '@polkadot/react-components';
-import ParentAddress from '@polkadot/react-components/ParentAddress';
 import { useAccountInfo,
   useApi,
   useBalancesAll,
@@ -492,8 +491,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
         </td>
         <td className='address'>
-          <AddressSmall parentAddress={meta.parentAddress ? <ParentAddress address={meta.parentAddress}/> : undefined}
-            value={address}/>
+          <AddressSmall
+            parentAddress={(typeof meta.parentAddress === 'string') ? meta.parentAddress : undefined}
+            value={address}
+          />
           {isBackupOpen && (
             <Backup
               address={address}
