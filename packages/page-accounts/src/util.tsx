@@ -21,9 +21,10 @@ export function createMenuGroup (key: string, items: (React.ReactNode | false | 
 }
 
 export function downloadAccount ({ json, pair }: CreateResult): void {
-  const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
-
-  FileSaver.saveAs(blob, `${pair.address}.json`);
+  FileSaver.saveAs(
+    new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' }),
+    `${pair.address}.json`
+  );
 }
 
 export function tryCreateAccount (commitAccount: () => CreateResult, success: string): ActionStatus {
