@@ -37,7 +37,7 @@ export class AccountRow {
 
   async assertBalancesTotal (expected: Balance): Promise<void> {
     const balanceActual = await within(this.primaryRow).findByTestId('balance-summary');
-    const balanceExpected = formatBalance(expected, { decimals: 12, withUnit: true });
+    const balanceExpected = format(expected);
 
     expect(balanceActual).toHaveTextContent(balanceExpected);
   }
@@ -46,7 +46,7 @@ export class AccountRow {
     for (const expectedBalanceDetailsItem of expected) {
       const labelElement = await within(this.detailsRow).findByText(expectedBalanceDetailsItem.name);
       const balanceElement = labelElement.nextSibling;
-      const amount = formatBalance(expectedBalanceDetailsItem.amount, { decimals: 12, withUnit: true });
+      const amount = format(expectedBalanceDetailsItem.amount);
 
       expect(balanceElement).toHaveTextContent(amount);
     }
@@ -166,13 +166,13 @@ export class AccountsPage {
     return rows;
   }
 
-  format (amount: Balance): string {
-    return formatBalance(amount, { decimals: 12, withUnit: true });
-  }
-
   private assertRendered () {
     if (this.renderResult === undefined) {
       throw new NotYetRendered();
     }
   }
 }
+
+const format = (amount: Balance): string => {
+  return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
+};
