@@ -46,12 +46,6 @@ const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true 
 
 const STORE_FAVS = 'accounts:favorites';
 
-const SortDropdown = React.memo(styled(Dropdown)`
-  max-width: 185px;
-  align: flex start;
-  margin-left: -28px;
-`);
-
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -271,7 +265,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Summary balance={balances.summary} />
       <SummaryBox>
         <section>
-          <SortDropdown
+          <Dropdown
             defaultValue={sortBy}
             label={t<string>('sort by')}
             onChange={(item: SortCategory) => setSortBy({ sortBy: item, sortFromMax })}
@@ -304,5 +298,11 @@ export default React.memo(styled(Overview)`
         left: 1.55rem;
       }
     }
+  }
+
+  .ui--Dropdown {
+    max-width: 185px;
+    align: flex start;
+    margin-left: -28px;
   }
 `);
