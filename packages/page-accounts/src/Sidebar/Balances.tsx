@@ -4,7 +4,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { AddressInfo } from '@polkadot/react-components';
+import { AddressInfo, Icon } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -21,12 +21,17 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
   return (
     <section className={className}>
       <div className='ui--AddressMenu-sectionHeader'>
-        {t<string>('balance')}
+        <div>
+          <Icon icon='sort-amount-down' />
+          &nbsp;
+          {t<string>('balance')}
+        </div>
       </div>
       <AddressInfo
         address={address}
         className='balanceExpander'
         withBalance={WITH_BALANCE}
+        withBalanceToggle
         withExtended={false}
       />
     </section>
@@ -35,8 +40,6 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
 
 export default React.memo(styled(Balances)`
   .balanceExpander {
-    justify-content: flex-start;
-
     .column.column--expander {
       width: auto;
 
