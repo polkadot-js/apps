@@ -5,10 +5,10 @@
   "version": "0.95.2-13",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.14.8",
-    "@polkadot/phishing": "^0.6.253",
+    "@babel/runtime": "^7.15.3",
+    "@polkadot/phishing": "^0.6.257",
     "@polkadot/react-components": "^0.95.2-13",
-    "@polkadot/vanitygen": "^0.44.1",
+    "@polkadot/vanitygen": "^0.45.1",
     "detect-browser": "^5.2.0",
     "file-saver": "^2.0.5"
   },

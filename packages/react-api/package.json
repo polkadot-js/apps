@@ -5,11 +5,11 @@
   "version": "0.95.2-13",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.14.8",
-    "@polkadot/api": "^5.4.2-6",
-    "@polkadot/extension-dapp": "^0.39.2",
-    "@substrate/connect": "^0.3.16",
+    "@babel/runtime": "^7.15.3",
+    "@polkadot/api": "^5.5.1",
+    "@polkadot/extension-dapp": "^0.39.3",
+    "@substrate/connect": "^0.3.18",
     "fflate": "^0.7.1",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.3.0"
   }
 }
