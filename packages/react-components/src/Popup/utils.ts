@@ -3,8 +3,10 @@
 
 import type { ElementPosition } from '@polkadot/react-hooks/useElementPosition';
 
-import { POINTER_OFFSET } from './PopupWindow';
 import { HorizontalPosition, VerticalPosition } from './types';
+
+// 0.8rem
+const POINTER_OFFSET = 14 * 0.8;
 
 function getHorizontalOffset (windowPosition: ElementPosition, position: HorizontalPosition): number {
   if (position === 'left') {

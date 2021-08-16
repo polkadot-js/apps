@@ -11,8 +11,6 @@ import { useElementPosition } from '@polkadot/react-hooks';
 
 import { getPosition } from './utils';
 
-export const POINTER_OFFSET = 14 * 0.8;
-
 export const PopupWindow: React.FC<PopupWindowProps> = ({ children, position, setRef, triggerPosition }) => {
   const windowPosition = useElementPosition(setRef);
 
