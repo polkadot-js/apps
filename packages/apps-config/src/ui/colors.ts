@@ -19,6 +19,7 @@ const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
@@ -30,6 +31,7 @@ const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHydrate = '#000000';
+const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -44,7 +46,6 @@ const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
-const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
@@ -169,7 +170,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
   Clover: chainClover,
-  'crust maxwell': chainCrust,
+  crust: chainCrust,
+  'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
@@ -193,6 +195,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
+  InterBTC: chainInterbtc,
+  'InterBTC Staging': chainInterbtc,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -236,8 +240,7 @@ export const chainColors: Record<string, string> = Object.entries({
   PHOENIX: chainPhoenix,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
-  PolkaBTC: chainPolkabtc,
-  'PolkaBTC Staging': chainPolkabtc,
+  PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
   Polkadot: chainPolkadot,
   'Polkadot CC1': chainPolkadot,
