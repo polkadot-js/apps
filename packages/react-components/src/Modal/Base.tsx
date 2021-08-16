@@ -6,7 +6,7 @@ import type { ModalProps } from './types';
 
 import React, { useCallback, useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import styled, { ThemeContext } from 'styled-components';
+import styled, { createGlobalStyle, ThemeContext } from 'styled-components';
 
 import { Header } from './Header';
 import { Body, Overlay } from './styled';
@@ -34,6 +34,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
   return createPortal(
     <div className={`theme--${theme} ui--Modal ${className}`}
       data-testid={testId}>
+      <DisableGlobalScroll/>
       <Overlay onClick={onClose}/>
       <Body size={size}>
         <Header header={header}
@@ -44,6 +45,12 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
     document.body
   );
 }
+
+const DisableGlobalScroll = createGlobalStyle`
+  body {
+    overflow: hidden;
+  }
+`;
 
 export default React.memo(styled(Base)`
   position: fixed;
