@@ -9,15 +9,11 @@ export type HorizontalPosition = 'left' | 'middle' | 'right'
 export type VerticalPosition = 'top' | 'bottom'
 
 export interface PopupWindowProps {
+  className?: string;
+  children?: React.ReactNode;
   setRef: React.RefObject<HTMLDivElement>;
   position: HorizontalPosition;
   triggerPosition: ElementPosition;
-}
-
-export interface WindowProps {
-  positionX: HorizontalPosition;
-  positionY: VerticalPosition;
-  windowPosition: { x: number, y: number };
 }
 
 export interface PopupProps {

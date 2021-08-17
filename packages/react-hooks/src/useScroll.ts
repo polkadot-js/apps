@@ -18,7 +18,7 @@ export function useScroll (): number {
     return () => {
       window.removeEventListener('scroll', setYOffset);
     };
-  }, []);
+  }, [setYOffset]);
 
   return scrollY;
 }

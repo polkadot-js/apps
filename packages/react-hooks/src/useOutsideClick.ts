@@ -7,7 +7,7 @@ function getClickedElement (refs: React.RefObject<HTMLDivElement>[], e: MouseEve
   return refs.find((ref) => ref.current && ref.current.contains(e.target as HTMLElement));
 }
 
-export const useOutsideClick = (elements: RefObject<HTMLDivElement>[], callback: () => void) => {
+export const useOutsideClick = (elements: RefObject<HTMLDivElement>[], callback: () => void): void => {
   const handleClick = useCallback((e: MouseEvent) => {
     if (elements.length && !getClickedElement(elements, e)) {
       callback();

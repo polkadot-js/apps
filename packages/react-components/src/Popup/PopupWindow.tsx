@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PopupWindowProps, WindowProps } from './types';
+import type { PopupWindowProps } from './types';
 
 import React from 'react';
 import { createPortal } from 'react-dom';
@@ -11,27 +11,27 @@ import { useElementPosition } from '@polkadot/react-hooks';
 
 import { getPosition } from './utils';
 
-export const PopupWindow: React.FC<PopupWindowProps> = ({ children, position, setRef, triggerPosition }) => {
+function PopupWindow ({ children, className = '', position, setRef, triggerPosition }: PopupWindowProps) {
   const windowPosition = useElementPosition(setRef);
+  const { x: xPosition, y: yPosition } = getPosition(triggerPosition, position, triggerPosition.verticalPosition, windowPosition);
 
   return createPortal(
-    <Window
-      positionX={position}
-      positionY={triggerPosition.verticalPosition}
+    <div
+      className={className}
       ref={setRef}
-      windowPosition={getPosition(triggerPosition, position, triggerPosition.verticalPosition, windowPosition)}
+      style={{ transform: `translate3d(${xPosition}px, ${yPosition}px, 0)` }}
     >
       {children}
-    </Window>,
+    </div>,
     document.body
   );
-};
+}
 
-const Window = styled.div<WindowProps>`
+export default React.memo(styled(PopupWindow)`
   position: absolute;
   top:0;
   left:0;
-  z-index: 100;
+  z-index: 300;
 
   margin: 0.7rem 0;
   padding: 0.85rem 1rem;
@@ -42,9 +42,6 @@ const Window = styled.div<WindowProps>`
   border: 1px solid #d4d4d5;
   box-shadow: 0 2px 4px 0 rgb(34 36 38 / 12%), 0 2px 10px 0 rgb(34 36 38 / 15%);
 
- transform: translate3d(${({ windowPosition }) =>
-    `${windowPosition.x}px, ${windowPosition.y}px, 0`});
-
   &::before {
     position: absolute;
     right: 50%;
@@ -52,19 +49,19 @@ const Window = styled.div<WindowProps>`
     bottom: -0.3rem;
     box-shadow: 1px 1px 0 0 #bababc;
 
-    ${({ positionY }) => positionY === 'bottom' && css`
+    ${({ triggerPosition }) => triggerPosition.verticalPosition === 'bottom' && css`
       box-shadow: -1px -1px 0 0 #bababc;
 
       top: -0.3rem;
       bottom: unset;
     `}
 
-    ${({ positionX }) => positionX === 'left' && css`
+    ${({ position }) => position === 'left' && css`
       left: unset;
       right: 0.8rem;
     `}
 
-    ${({ positionX }) => positionX === 'right' && css`
+    ${({ position }) => position === 'right' && css`
       left: 0.8rem;
       right: unset;
     `}
@@ -77,7 +74,7 @@ const Window = styled.div<WindowProps>`
     height: 10px;
     transform: rotate(45deg);
     z-index: 2;
-    }
+  }
 
   .ui.text.menu .item {
     color: var(--color-text) !important;
@@ -87,4 +84,4 @@ const Window = styled.div<WindowProps>`
      opacity: 0.3;
     }
   }
-`;
+`);
