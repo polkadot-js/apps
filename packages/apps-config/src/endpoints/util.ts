@@ -56,7 +56,7 @@ export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, 
       isRelay: false,
       textBy: value.startsWith('light://')
         ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
-        : t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host } }),
+        : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
       value
     }));
 

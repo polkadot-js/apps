@@ -90,13 +90,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
         'DCloud Foundation': 'wss://api.decloudf.com/'
       }
     },
-    // {
-    //   info: 'rocky',
-    //   text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
-    //   providers: {
-    //     Pinknode: 'wss://rpc.pinknode.io/rocky/explorer' // https://github.com/polkadot-js/apps/issues/5721
-    //   }
-    // },
     {
       info: 'datahighway',
       isDisabled: true,
@@ -309,7 +302,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'origintrail-parachain-testnet',
-      text: t('rpc.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
+      text: t('rpc.test.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
       providers: {
         'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
       }
