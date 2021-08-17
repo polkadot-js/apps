@@ -18,9 +18,7 @@ export interface ElementPosition {
 
 export function useElementPosition (ref: React.MutableRefObject<HTMLElement | undefined | null>): ElementPosition | undefined {
   const [elementPosition, setElementPosition] = useState<ElementPosition>();
-
   const windowSize = useWindowSize();
-
   const scrollY = useScroll();
 
   useEffect(() => {
