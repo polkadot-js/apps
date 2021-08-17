@@ -6,11 +6,10 @@ import type { AccountId, Address } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import ParentAddress from '@polkadot/react-components/ParentAddress';
-import { toShortAddress } from '@polkadot/react-components/util';
-
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
+import ParentAddress from './ParentAddress';
+import { toShortAddress } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -32,7 +31,9 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
         <IdentityIcon value={value as Uint8Array} />
       </div>
       <div className='addressContainer'>
-        <div className='additional-info parentAccountName'>{parentAddress && <ParentAddress address={parentAddress}/>}</div>
+        <div className='additionalInfo parentAccountName'>
+          {parentAddress && <ParentAddress address={parentAddress}/>}
+        </div>
         <AccountName
           className={`accountName ${withSidebar ? 'withSidebar' : ''}`}
           defaultName={defaultName}
@@ -44,8 +45,10 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
         >
           {children}
         </AccountName>
-        <div className='additional-info shortAddress'
-          data-testid='short-address'>{withShortAddress && toShortAddress(value)}</div>
+        <div className='additionalInfo shortAddress'
+          data-testid='short-address'>
+          {withShortAddress && toShortAddress(value)}
+        </div>
       </div>
     </div>
   );
@@ -61,7 +64,7 @@ export default React.memo(styled(AddressSmall)`
     vertical-align: middle;
   }
 
-  .additional-info {
+  .additionalInfo {
     display: flex;
     flex-direction: column;
     align-self: center;

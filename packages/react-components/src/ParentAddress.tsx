@@ -29,10 +29,10 @@ function ParentAddress ({ address, className }: ParentAccountProps): React.React
 }
 
 export default React.memo(styled(ParentAddress)`
-    display: flex;
-    align-items: center;
-    color: #8B8B8B;
-    font-size: 0.75rem;
+  align-items: center;
+  color: #8B8B8B;
+  font-size: 0.75rem;
+  display: flex;
 
   & .parent-icon {
     font-size: 0.625rem;

@@ -492,7 +492,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
         <td className='address'>
           <AddressSmall
-            parentAddress={(typeof meta.parentAddress === 'string') ? meta.parentAddress : undefined}
+            parentAddress={meta.parentAddress}
             value={address}
             withShortAddress
           />

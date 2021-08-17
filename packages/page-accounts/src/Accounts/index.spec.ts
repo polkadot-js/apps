@@ -7,7 +7,7 @@ import { fireEvent, within } from '@testing-library/react';
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
-import { toShortAddress } from '@polkadot/react-components/util';
+import toShortAddress from '@polkadot/react-components/util/toShortAddress';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { MemoryStore } from '@polkadot/test-support/keyring';
@@ -22,8 +22,6 @@ describe('Accounts page', () => {
   const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
   const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
   const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
-
-  const parentNotFoundMessage = 'Unable to find an element by: [data-testid="parent"]';
 
   const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
     keyring.addExternal(address, meta);
@@ -123,26 +121,12 @@ describe('Accounts page', () => {
       await accountRows[1].assertParentAccountName('ALICE');
     });
 
-    it('does not display parent account info when parent is not a string', async () => {
-      addAccountToKeyring(aliceDerivedAddress, { parentAddress: true });
-      accountsPage.renderPage([
-        anAccount(aliceAddress),
-        anAccount(aliceDerivedAddress)
-      ]);
-      const accountRows = await accountsPage.findAccountRows();
-
-      expect(accountRows).toHaveLength(2);
-
-      await expect(accountRows[1].assertParentAccountName('ALICE'))
-        .rejects.toThrow(parentNotFoundMessage);
-    });
-
     it('a separate column for parent account is not displayed', async () => {
       accountsPage.renderPage([anAccount()]);
       const accountsTable = await accountsPage.findAccountsTable();
 
-      expect(within(accountsTable).queryByRole('columnheader', { name: 'parent' })).toBeFalsy();
-      expect(within(accountsTable).getByRole('columnheader', { name: 'type' })).toBeTruthy();
+      assertColumnNotExistInTable('parent', accountsTable);
+      assertColumnExistsInTable('type', accountsTable);
     });
 
     it('account rows display the shorted address', async () => {
@@ -239,4 +223,12 @@ describe('Accounts page', () => {
     },
     info
   });
+
+  function assertColumnNotExistInTable (columnName: string, table: HTMLElement) {
+    expect(within(table).queryByRole('columnheader', { name: columnName })).toBeFalsy();
+  }
+
+  function assertColumnExistsInTable (columnName: string, table: HTMLElement) {
+    expect(within(table).getByRole('columnheader', { name: columnName })).toBeTruthy();
+  }
 });
