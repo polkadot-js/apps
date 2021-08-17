@@ -3,11 +3,11 @@
 
 import BN from 'bn.js';
 
-import networks from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 import { assert } from '@polkadot/util';
 
 function getGenesis (name: string): string {
-  const network = networks.find(({ network }) => network === name);
+  const network = selectableNetworks.find(({ network }) => network === name);
 
   assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
 

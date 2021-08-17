@@ -5,7 +5,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 
 import { useMemo } from 'react';
 
-import { useAccounts, useMembers } from '@polkadot/react-hooks';
+import { useAccounts, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import { UserRole } from '../types';
 
@@ -14,7 +14,7 @@ export type UserRolesInfo = { roles: UserRole[], isCurator: boolean };
 export function useUserRole (curatorId?: AccountId): UserRolesInfo {
   const { allAccounts, hasAccounts } = useAccounts();
 
-  const { isMember } = useMembers();
+  const { isMember } = useCollectiveMembers('council');
 
   const isCurator = useMemo(() => curatorId && allAccounts.includes(curatorId.toString()), [allAccounts, curatorId]);
 
