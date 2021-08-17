@@ -248,9 +248,6 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-tags,
   .ui--AddressMenu-flags {
     margin: 0.75rem 0 0;
-  }
-
-  .ui--AddressMenu-tags {
     width: 100%;
   }
 
