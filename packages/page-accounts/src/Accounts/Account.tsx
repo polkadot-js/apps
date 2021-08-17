@@ -89,7 +89,7 @@ const transformRecovery = {
 
 function Account ({ account: { address, meta }, className = '', delegation, filter, isEven, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
@@ -356,11 +356,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     ])
   ].filter((i) => i),
   [_clearDemocracyLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
-
-  const handleOnExpandIconClick = useCallback(
-    () => setIsExpanded((isExpanded) => !isExpanded),
-    []
-  );
 
   if (!isVisible) {
     return null;
@@ -641,7 +636,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <td className='button'>
           <div className='table-column-icon'
             data-testid='row-toggle'
-            onClick={handleOnExpandIconClick}>
+            onClick={toggleIsExpanded}>
             <Icon icon={
               isExpanded
                 ? 'caret-up'
