@@ -15,6 +15,7 @@ import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { keyring } from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
 import { AccountOverrides, mockAccountHooks } from '../hooks/default';
@@ -52,6 +53,11 @@ export class AccountsPage {
 
   renderPage (accounts: [string, AccountOverrides][]): void {
     mockAccountHooks.setAccounts(accounts);
+
+    accounts.forEach(([address, { meta }]) => {
+      keyring.addExternal(address, meta);
+    });
+
     const mockApi: ApiProps = {
       api: {
         derive: {
@@ -119,6 +125,46 @@ export class AccountsPage {
     const rows = await within(tableBody).findAllByRole('row');
 
     return rows.filter((r) => r.className.startsWith('Account-'));
+  }
+
+  async findSortBySection (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    return await screen.findByTestId('sort-by-section');
+  }
+
+  async findSortByDropdownCurrent (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    const section = await this.findSortBySection();
+    const alerts = await within(section).findAllByRole('alert');
+    const names = await within(section).findAllByText(/\w+/);
+    const ret = names.filter((x) => alerts.includes(x));
+
+    expect(ret).toHaveLength(1);
+
+    return ret[0];
+  }
+
+  async findSortByDropdownItem (name: string): Promise<HTMLElement> {
+    this.assertRendered();
+
+    const section = await this.findSortBySection();
+    const alerts = await within(section).findAllByRole('alert');
+    const names = await within(section).findAllByText(name);
+    const ret = names.filter((x) => !alerts.includes(x));
+
+    expect(ret).toHaveLength(1);
+
+    return ret[0];
+  }
+
+  async findSortByReverseButton (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    const section = await this.findSortBySection();
+
+    return await within(section).findByRole('button');
   }
 
   format (amount: Balance | BN): string {

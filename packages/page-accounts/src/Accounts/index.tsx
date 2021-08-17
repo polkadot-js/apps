@@ -264,7 +264,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <BannerClaims />
       <Summary balance={balances.summary} />
       <SummaryBox>
-        <section>
+        <section data-testid='sort-by-section'>
           <Dropdown
             defaultValue={sortBy}
             label={t<string>('sort by')}

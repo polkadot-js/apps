@@ -4,7 +4,7 @@
 import type { Balance } from '@polkadot/types/interfaces';
 import type { AccountOverrides } from '../../test/hooks/default';
 
-import { screen, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
@@ -16,7 +16,32 @@ import { keyring } from '@polkadot/ui-keyring';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
+  const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+  const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+  const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
+  const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
+
   let accountsPage: AccountsPage;
+
+  const selectOrder = async (orderBy: string) => {
+    const current = await accountsPage.findSortByDropdownCurrent();
+
+    fireEvent.click(current);
+
+    const target = await accountsPage.findSortByDropdownItem(orderBy);
+
+    fireEvent.click(target);
+  };
+
+  const checkOrder = async (order: number[]) => {
+    const rows = await accountsPage.findAccountRows();
+    const rowsBalances = await Promise.all(rows.map((row) => within(row).findByTestId('balance-summary')));
+    const expected = order.map((amount) => accountsPage.format(balance(amount)));
+
+    for (let i = 0; i < expected.length; i++) {
+      expect(rowsBalances[i]).toHaveTextContent(expected[i]);
+    }
+  };
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
@@ -24,12 +49,23 @@ describe('Accounts page', () => {
   });
 
   beforeEach(() => {
+    defaultAddresses.forEach((addr) => keyring.forgetAccount(addr));
     accountsPage = new AccountsPage();
   });
 
   describe('when no accounts', () => {
     beforeEach(() => {
       accountsPage.renderPage([]);
+    });
+
+    it('shows sort-by controls', async () => {
+      const section = await accountsPage.findSortBySection();
+
+      expect(section).not.toBeNull();
+
+      const button = await accountsPage.findSortByReverseButton();
+
+      expect(button).not.toBeNull();
     });
 
     it('shows a table', async () => {
@@ -227,6 +263,130 @@ describe('Accounts page', () => {
 
       expect(summary).toHaveTextContent(showBalance(4000 + 5000));
     });
+
+    it('sorts them by date by default', async () => {
+      defaultRender(
+        {
+          balance: {
+            freeBalance: balance(1)
+          },
+          meta: {
+            whenCreated: 200
+          }
+        },
+        {
+          balance: {
+            freeBalance: balance(2)
+          },
+          meta: {
+            whenCreated: 300
+          }
+        },
+        {
+          balance: {
+            freeBalance: balance(3)
+          },
+          meta: {
+            whenCreated: 100
+          }
+        });
+
+      expect(await accountsPage.findSortByDropdownCurrent()).toHaveTextContent('date');
+      await checkOrder([3, 1, 2]);
+    });
+
+    describe('when sorting is used', () => {
+      beforeEach(() => {
+        defaultRender(
+          {
+            balance: {
+              freeBalance: balance(1)
+            },
+            meta: {
+              isInjected: true,
+              name: 'bbb',
+              whenCreated: 200
+            }
+          },
+          {
+            balance: {
+              freeBalance: balance(2)
+            },
+            meta: {
+              hardwareType: 'ledger',
+              isHardware: true,
+              name: 'bb',
+              parentAddress: aliceAddress,
+              whenCreated: 300
+            }
+          },
+          {
+            balance: {
+              freeBalance: balance(3)
+            },
+            meta: {
+              isInjected: true,
+              name: 'aaa',
+              whenCreated: 100
+            }
+          });
+      });
+
+      it('changes default dropdown value', async () => {
+        await selectOrder('balances');
+        expect(await accountsPage.findSortByDropdownCurrent())
+          .toHaveTextContent('balances');
+      });
+
+      it('sorts by parent if asked', async () => {
+        await selectOrder('parent');
+        await checkOrder([3, 1, 2]);
+      });
+
+      it('sorts by name if asked', async () => {
+        await selectOrder('name');
+        await checkOrder([3, 2, 1]);
+      });
+
+      it('sorts by date if asked', async () => {
+        await selectOrder('date');
+        await checkOrder([3, 1, 2]);
+      });
+
+      it('sorts by balances if asked', async () => {
+        await selectOrder('balances');
+        await checkOrder([1, 2, 3]);
+      });
+
+      it('sorts by type if asked', async () => {
+        await selectOrder('type');
+        await checkOrder([3, 1, 2]);
+      });
+
+      it('implements stable sort', async () => {
+        // Notice that sorting by 'type' results in different order
+        // depending on the previous state.
+        await selectOrder('name');
+        await checkOrder([3, 2, 1]);
+        await selectOrder('type');
+        await checkOrder([3, 1, 2]);
+        await selectOrder('balances');
+        await checkOrder([1, 2, 3]);
+        await selectOrder('type');
+        await checkOrder([1, 3, 2]);
+      });
+
+      it('respects reverse button', async () => {
+        await selectOrder('name');
+        await checkOrder([3, 2, 1]);
+        await selectOrder('balances');
+        await checkOrder([1, 2, 3]);
+        fireEvent.click(await accountsPage.findSortByReverseButton());
+        await checkOrder([3, 2, 1]);
+        await selectOrder('name');
+        await checkOrder([1, 2, 3]);
+      });
+    });
   });
 
   /**
@@ -245,10 +405,7 @@ describe('Accounts page', () => {
     return accountsPage.format(balance(amount));
   };
 
-  const defaultAddresses = [
-    '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-    '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw'
-  ];
+  const defaultAddresses = [aliceAddress, bobAddress, charlieAddress, aliceDerivedAddress];
 
   const defaultRender = function (...overrides: AccountOverrides[]): void {
     const accounts: [string, AccountOverrides][] = [];
