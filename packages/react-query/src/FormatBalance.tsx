@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -94,8 +94,8 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
               ? value === 'all'
                 ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
                 : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
-              : labelPost instanceof String
-                ? `-${labelPost as string || ''}`
+              : isString(labelPost)
+                ? `-${labelPost}`
                 : labelPost
         }</span>{children}
     </div>
