@@ -651,7 +651,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <td>
           <div className='tags'
             data-testid='tags'>
-            <Tags value={tags} />
+            <Tags
+              value={tags}
+              withTitle
+            />
           </div>
         </td>
         <td className='media--1400'/>
