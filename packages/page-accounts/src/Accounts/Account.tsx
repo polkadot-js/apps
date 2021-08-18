@@ -1,23 +1,23 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { Delegation } from '../types';
+import type { AccountBalance, Delegation } from '../types';
 
+import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
@@ -45,7 +45,7 @@ interface Props {
   filter: string;
   isFavorite: boolean;
   proxy?: [ProxyDefinition[], BN];
-  setBalance: (address: string, value: BN) => void;
+  setBalance: (address: string, value: AccountBalance) => void;
   toggleFavorite: (address: string) => void;
 }
 
@@ -64,6 +64,19 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   return tags.reduce((result: boolean, tag: string): boolean => {
     return result || tag.toLowerCase().includes(_filter);
   }, name.toLowerCase().includes(_filter));
+}
+
+function calcUnbonding (stakingInfo?: DeriveStakingAccount) {
+  if (!stakingInfo?.unlocking) {
+    return BN_ZERO;
+  }
+
+  const filtered = stakingInfo.unlocking
+    .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
+    .map((unlock) => unlock.value);
+  const total = filtered.reduce((total, value) => total.iadd(value), new BN(0));
+
+  return total;
 }
 
 function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> | null {
@@ -94,6 +107,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
   const balancesAll = useBalancesAll(address);
+  const stakingInfo = useStakingInfo(address);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
@@ -118,7 +132,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   useEffect((): void => {
     if (balancesAll) {
-      setBalance(address, balancesAll.freeBalance.add(balancesAll.reservedBalance));
+      setBalance(address, {
+        bonded: stakingInfo?.stakingLedger.active.unwrap() ?? BN_ZERO,
+        locked: balancesAll.lockedBalance,
+        redeemable: stakingInfo?.redeemable ?? BN_ZERO,
+        total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
+        transferrable: balancesAll.availableBalance,
+        unbonding: calcUnbonding(stakingInfo)
+      });
 
       api.api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()
@@ -126,7 +147,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           : api.api.tx.vesting.vest()
       );
     }
-  }, [address, api, balancesAll, setBalance]);
+  }, [address, api, balancesAll, setBalance, stakingInfo]);
 
   useEffect((): void => {
     bestNumber && democracyLocks && setUnlockableIds(
