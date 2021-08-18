@@ -432,6 +432,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       <Modal.Actions>
         {step === 1 &&
           <Button
+            activateOnEnterKeyPress
             icon='step-forward'
             isDisabled={!isFirstStepValid}
             label={t<string>('Next')}
@@ -446,6 +447,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               onClick={prevStep}
             />
             <Button
+              activateOnEnterKeyPress
               icon='step-forward'
               isDisabled={!isSecondStepValid}
               label={t<string>('Next')}
@@ -461,6 +463,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               onClick={prevStep}
             />
             <Button
+              activateOnEnterKeyPress
               icon='plus'
               isBusy={isBusy}
               label={t<string>('Save')}

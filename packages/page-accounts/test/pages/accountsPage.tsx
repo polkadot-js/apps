@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult, screen, within } from '@testing-library/react';
+import { fireEvent, render, RenderResult, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -96,7 +96,7 @@ export class AccountsPage {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Overview/>
+                  <Overview onStatusChange={() => undefined}/>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>
@@ -119,6 +119,12 @@ export class AccountsPage {
     const rows = await within(tableBody).findAllByRole('row');
 
     return rows.filter((r) => r.className.startsWith('Account-'));
+  }
+
+  async enterCreateAccountModal (): Promise<void> {
+    this.renderPage([]);
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Add account' }));
   }
 
   format (amount: Balance): string {
