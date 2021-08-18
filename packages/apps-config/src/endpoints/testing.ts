@@ -69,7 +69,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'phala',
-      text: t('rpc.test.phala', 'Chala', { ns: 'apps-config' }),
+      text: t('rpc.test.phala', 'Chala (Para1)', { ns: 'apps-config' }),
       providers: {
         'Phala Network': 'wss://chala-api.phala.network/ws/'
       }
@@ -91,13 +91,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
         Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer'
       }
     },
-    // {
-    //   info: 'rocky',
-    //   text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
-    //   providers: {
-    //     Pinknode: 'wss://rpc.pinknode.io/rocky/explorer' // https://github.com/polkadot-js/apps/issues/5721
-    //   }
-    // },
     {
       info: 'datahighway',
       isDisabled: true,
@@ -205,7 +198,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'interbtc',
       text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://api-dev.interlay.io/parachain/'
+        Interlay: 'wss://api.interlay.io/parachain/'
       }
     },
     {
@@ -311,7 +304,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'origintrail-parachain-testnet',
-      text: t('rpc.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
+      text: t('rpc.test.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
       providers: {
         'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
       }

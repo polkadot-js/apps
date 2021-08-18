@@ -7,6 +7,7 @@ import BN from 'bn.js';
 
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
+import { makeStakingLedger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 
 export interface Account {
   balance: DeriveBalancesAll,
@@ -19,8 +20,6 @@ export type AccountsMap = { [address: string]: Account };
  * Test inputs structure
  */
 export interface AccountOverrides {
-  address: string;
-
   balance?: {
     [P in keyof DeriveBalancesAll]?: DeriveBalancesAll[P];
   };
@@ -58,12 +57,7 @@ export const defaultStakingAccount: DeriveStakingAccount = {
   nominators: [],
   redeemable: balanceOf(0),
   sessionIds: [],
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  stakingLedger: {
-    active: {
-      unwrap: () => new BN(0)
-    }
-  } as any,
+  stakingLedger: makeStakingLedger(0),
   unlocking: [
     {
       remainingEras: new BN('1000000000'),
@@ -86,16 +80,16 @@ class MockAccountHooks {
 
   public nonce: BN = new BN(1);
 
-  public setAccounts (accounts: AccountOverrides[]): void {
+  public setAccounts (accounts: [string, AccountOverrides][]): void {
     this.useAccounts = {
-      allAccounts: accounts.map((account) => account.address),
+      allAccounts: accounts.map(([address]) => address),
       allAccountsHex: [],
       areAccountsLoaded: true,
       hasAccounts: accounts && accounts.length !== 0,
       isAccount: () => true
     };
 
-    for (const account of accounts) {
+    for (const [address, props] of accounts) {
       const staking = { ...defaultStakingAccount };
       const balance = { ...defaultBalanceAccount };
 
@@ -103,11 +97,11 @@ class MockAccountHooks {
       // so we have to use "any" here.
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(account.balance || balance).forEach(function ([key, value]) { (balance as any)[key] = value; });
+      Object.entries(props.balance || balance).forEach(function ([key, value]) { (balance as any)[key] = value; });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(account.staking || staking).forEach(function ([key, value]) { (staking as any)[key] = value; });
+      Object.entries(props.staking || staking).forEach(function ([key, value]) { (staking as any)[key] = value; });
 
-      this.accountsMap[account.address] = {
+      this.accountsMap[address] = {
         balance: balance,
         staking: staking
       };
