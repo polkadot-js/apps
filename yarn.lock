@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/type-definitions@npm:1.0.2-2":
-  version: 1.0.2-2
-  resolution: "@acala-network/type-definitions@npm:1.0.2-2"
+"@acala-network/type-definitions@npm:2.0.2-4":
+  version: 2.0.2-4
+  resolution: "@acala-network/type-definitions@npm:2.0.2-4"
   dependencies:
-    "@open-web3/orml-type-definitions": ^0.9.4-7
-  checksum: e36d09f346c9aee7e2e1e6121c7969915bcb1e7bf5dd0c7d8837106c3d44ee528f20166aaa6576c42f258b43c2954c73997b0850f84c910785c167821b21d1a9
+    "@open-web3/orml-type-definitions": ^0.9.4-19
+  checksum: 8016f936a5885451b00f4a127b54b509bed5bc86b2dc8c35636c0dbffa9970b5f5e758651bd6ffc936f46ad3e4daa2710754aa8efb728e62d41081b9b572c910
   languageName: node
   linkType: hard
 
@@ -2475,6 +2475,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@open-web3/orml-type-definitions@npm:^0.9.4-19":
+  version: 0.9.4-28
+  resolution: "@open-web3/orml-type-definitions@npm:0.9.4-28"
+  dependencies:
+    lodash.merge: ^4.6.2
+  checksum: d0fda32c62af8f4b1399608c5ff43ba2ce77bba2e9bcde517dc088b7d3ed94d8841ef5c1dd6d63792ff9cafee8fc38b12ff065b980a1b01838d7a9e021acfce2
+  languageName: node
+  linkType: hard
+
 "@open-web3/orml-type-definitions@npm:^0.9.4-7":
   version: 0.9.4-9
   resolution: "@open-web3/orml-type-definitions@npm:0.9.4-9"
@@ -2802,7 +2811,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
-    "@acala-network/type-definitions": 1.0.2-2
+    "@acala-network/type-definitions": 2.0.2-4
     "@babel/runtime": ^7.15.3
     "@bifrost-finance/type-definitions": 1.2.8
     "@crustio/type-definitions": 0.0.10
