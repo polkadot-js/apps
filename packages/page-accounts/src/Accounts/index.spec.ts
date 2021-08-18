@@ -5,14 +5,32 @@ import type { Balance } from '@polkadot/types/interfaces';
 
 import { fireEvent, within } from '@testing-library/react';
 
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
+import toShortAddress from '@polkadot/react-components/util/toShortAddress';
+import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
+import { AccountOverrides } from '../../test/hooks/default';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
+  const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+  const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+  const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
+  const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
+
+  const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
+    keyring.addExternal(address, meta);
+  };
+
+  const forgetAccountFromKeyring = (address: string) => {
+    keyring.forgetAccount(address);
+  };
+
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
@@ -22,6 +40,7 @@ describe('Accounts page', () => {
 
   beforeEach(() => {
     accountsPage = new AccountsPage();
+    forgetAccountFromKeyring(aliceDerivedAddress);
   });
 
   describe('when no accounts', () => {
@@ -55,18 +74,8 @@ describe('Accounts page', () => {
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
       accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(10000)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            freeBalance: balance(999)
-          }
-        }
+        anAccount(aliceAddress),
+        anAccount(charlieAddress)
       ]);
 
       const accountRows = await accountsPage.findAccountRows();
@@ -76,19 +85,8 @@ describe('Accounts page', () => {
 
     it('account rows display the total balance info', async () => {
       accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(500)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        }
+        anAccountWithBalance(aliceAddress, { freeBalance: balance(500) }),
+        anAccountWithBalance(charlieAddress, { freeBalance: balance(200), reservedBalance: balance(150) })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -98,21 +96,8 @@ describe('Accounts page', () => {
 
     it('account rows display the details balance info', async () => {
       accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(500),
-            lockedBalance: balance(30)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            availableBalance: balance(50),
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        }
+        anAccountWithBalance(aliceAddress, { freeBalance: balance(500), lockedBalance: balance(30) }),
+        anAccountWithBalance(charlieAddress, { availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -124,8 +109,38 @@ describe('Accounts page', () => {
         { amount: balance(150), name: 'reserved' }]);
     });
 
+    it('derived account displays parent account info', async () => {
+      addAccountToKeyring(aliceDerivedAddress, { parentAddress: aliceAddress });
+      accountsPage.renderPage([
+        anAccount(aliceAddress),
+        anAccount(aliceDerivedAddress)
+      ]);
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(2);
+      await accountRows[1].assertParentAccountName('ALICE');
+    });
+
+    it('a separate column for parent account is not displayed', async () => {
+      accountsPage.renderPage([anAccount()]);
+      const accountsTable = await accountsPage.findAccountsTable();
+
+      assertColumnNotExistInTable('parent', accountsTable);
+      assertColumnExistsInTable('type', accountsTable);
+    });
+
+    it('account rows display the shorted address', async () => {
+      accountsPage.renderPage([anAccount(aliceAddress)]);
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(1);
+      const aliceShortAddress = toShortAddress(aliceAddress);
+
+      await accountRows[0].assertShortAddress(aliceShortAddress);
+    });
+
     it('when account is not tagged, account row details displays no tags info', async () => {
-      accountsPage.renderPage([{ address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
+      accountsPage.renderPage([anAccount()]);
       const rows = await accountsPage.findAccountRows();
 
       await rows[0].assertTags('no tags');
@@ -133,12 +148,7 @@ describe('Accounts page', () => {
 
     it('when account is tagged, account row details displays tags', async () => {
       accountsPage.renderPage([
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          info: {
-            tags: ['my tag', 'Super Tag']
-          }
-        }
+        anAccountWithInfo(aliceAddress, { tags: ['my tag', 'Super Tag'] })
       ]);
       const rows = await accountsPage.findAccountRows();
 
@@ -147,9 +157,10 @@ describe('Accounts page', () => {
 
     it('account details rows keep colouring from their primary rows', async () => {
       accountsPage.renderPage([
-        { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' },
-        { address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw' },
-        { address: '5HpG9w8EBLe5XCrbczpwq5TSXvedjrBGCwqxK1iQ7qUsSWFc' }]);
+        anAccount(aliceAddress),
+        anAccount(charlieAddress),
+        anAccount(bobAddress)
+      ]);
 
       const rows = await accountsPage.findAccountRows();
 
@@ -165,7 +176,8 @@ describe('Accounts page', () => {
 
     it('account details rows toggled on icon toggle click', async () => {
       accountsPage.renderPage([
-        { address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy' }]);
+        anAccount()
+      ]);
 
       const row = (await accountsPage.findAccountRows())[0];
       const toggle = await within(row.primaryRow).findByTestId('row-toggle');
@@ -189,4 +201,34 @@ describe('Accounts page', () => {
 
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
+
+  const defaultFreeBalance = 1000;
+
+  const anAccount = (address: string = aliceAddress): AccountOverrides => ({
+    address,
+    balance: {
+      freeBalance: balance(defaultFreeBalance)
+    }
+  });
+
+  const anAccountWithBalance = (address: string, balance: { [P in keyof DeriveBalancesAll]?: DeriveBalancesAll[P] }) => ({
+    address,
+    balance
+  });
+
+  const anAccountWithInfo = (address: string, info: { [P in keyof UseAccountInfo]?: UseAccountInfo[P] }) => ({
+    address,
+    balance: {
+      freeBalance: balance(defaultFreeBalance)
+    },
+    info
+  });
+
+  function assertColumnNotExistInTable (columnName: string, table: HTMLElement) {
+    expect(within(table).queryByRole('columnheader', { name: columnName })).toBeFalsy();
+  }
+
+  function assertColumnExistsInTable (columnName: string, table: HTMLElement) {
+    expect(within(table).getByRole('columnheader', { name: columnName })).toBeTruthy();
+  }
 });

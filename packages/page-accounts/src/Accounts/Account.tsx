@@ -16,8 +16,27 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useToggle } from '@polkadot/react-hooks';
+import { AddressInfo,
+  AddressSmall,
+  Badge,
+  Button,
+  ChainLock,
+  CryptoType,
+  Forget,
+  Icon,
+  IdentityIcon,
+  LinkExternal,
+  Menu,
+  Popup,
+  StatusContext,
+  Tags } from '@polkadot/react-components';
+import { useAccountInfo,
+  useApi,
+  useBalancesAll,
+  useBestNumber,
+  useCall,
+  useLedger,
+  useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
@@ -467,7 +486,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
         </td>
         <td className='address'>
-          <AddressSmall value={address} />
+          <AddressSmall
+            parentAddress={meta.parentAddress}
+            value={address}
+            withShortAddress
+          />
           {isBackupOpen && (
             <Backup
               address={address}
@@ -568,11 +591,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           )}
         </td>
-        <td className='address media--1400'>
-          {(meta.parentAddress as string) && (
-            <AddressMini value={meta.parentAddress} />
-          )}
-        </td>
         <td className='number'>
           <CryptoType accountId={address} />
         </td>
@@ -657,7 +675,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           </div>
         </td>
-        <td className='media--1400'/>
         <td className='media--1500'/>
         <td/>
         <td>
