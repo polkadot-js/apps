@@ -20,4 +20,8 @@ export default styled(Menu)`
   .item+.ui.divider {
     display: block;
   }
+
+  .header {
+    text-transform: uppercase;
+  }
 `;
