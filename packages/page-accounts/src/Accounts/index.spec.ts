@@ -346,31 +346,21 @@ describe('Accounts page', () => {
   ];
 
   function renderAccountsWithDefaultAddresses (...overrides: AccountOverrides[]): void {
-    const accounts: [string, AccountOverrides][] = [];
-
-    for (let i = 0; i < overrides.length; i++) {
-      accounts.push([defaultAddresses[i], overrides[i]]);
-    }
+    const accounts = overrides.map((accountProperties, index) =>
+      [defaultAddresses[index], accountProperties] as [string, AccountOverrides]);
 
     accountsPage.renderPage(accounts);
   }
 
   function renderAccountsForAddresses (...addresses: string[]): void {
-    const accounts: [string, AccountOverrides][] = [];
-
-    for (let i = 0; i < addresses.length; i++) {
-      accounts.push([addresses[i], anAccount()]);
-    }
+    const accounts = addresses.map((address) => [address, anAccount()] as [string, AccountOverrides]);
 
     accountsPage.renderPage(accounts);
   }
 
-  function renderDefaultAccounts (accountNumber: number): void {
-    const accounts: [string, AccountOverrides][] = [];
-
-    for (let i = 0; i < accountNumber; i++) {
-      accounts.push([defaultAddresses[i], anAccount()]);
-    }
+  function renderDefaultAccounts (accountsNumber: number): void {
+    const accounts = Array.from({ length: accountsNumber },
+      (_, index) => [defaultAddresses[index], anAccount()] as [string, AccountOverrides]);
 
     accountsPage.renderPage(accounts);
   }
