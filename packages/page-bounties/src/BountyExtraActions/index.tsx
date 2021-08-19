@@ -114,11 +114,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
         }
         <Popup
           value={
-            <Menu
-              className='settings-menu'
-              text
-              vertical
-            >
+            <Menu className='settings-menu'>
               {showCloseBounty &&
               <Menu.Item
                 key='closeBounty'

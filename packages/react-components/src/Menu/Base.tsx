@@ -1,0 +1,20 @@
+// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { BaseProps } from './types';
+
+import React from 'react';
+import styled from 'styled-components';
+
+function Base ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
+  return (
+    <div className={`ui--Menu ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+export default React.memo(styled(Base)`
+  display: flex;
+  flex-direction: column;
+`);

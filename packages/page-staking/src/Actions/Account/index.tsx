@@ -282,10 +282,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               isDisabled={isDisabled}
               key='settings'
               value={
-                <Menu
-                  text
-                  vertical
-                >
+                <Menu>
                   <Menu.Item
                     disabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
                     onClick={toggleBondExtra}
