@@ -25,58 +25,10 @@ let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 class NotYetRendered extends Error {
 }
 
-// utility wrapper over an account item in accounts table, serves basic assertions about an account row
-export class AccountRow {
-  public primaryRow: HTMLElement;
-  public detailsRow: HTMLElement;
-
-  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement) {
-    this.primaryRow = primaryRow;
-    this.detailsRow = detailsRow;
-  }
-
-  async assertBalancesTotal (expected: Balance): Promise<void> {
-    const balanceActual = await within(this.primaryRow).findByTestId('balance-summary');
-    const balanceExpected = format(expected);
-
-    expect(balanceActual).toHaveTextContent(balanceExpected);
-  }
-
-  async assertBalancesDetails (expected: {name: string, amount: Balance}[]): Promise<void> {
-    for (const expectedBalanceDetailsItem of expected) {
-      const labelElement = await within(this.detailsRow).findByText(expectedBalanceDetailsItem.name);
-      const balanceElement = labelElement.nextSibling;
-      const amount = format(expectedBalanceDetailsItem.amount);
-
-      expect(balanceElement).toHaveTextContent(amount);
-    }
-  }
-
-  async assertParentAccountName (expectedParentAccount: string): Promise<void> {
-    const parentAccount = await within(this.primaryRow).findByTestId('parent');
-
-    expect(parentAccount).toHaveTextContent(expectedParentAccount);
-  }
-
-  async assertTags (tagsContent: string): Promise<void> {
-    const tagsActual = await within(this.detailsRow).findByTestId('tags');
-
-    expect(tagsActual).toHaveTextContent(tagsContent);
-  }
-
-  async assertShortAddress (expectedShortAddress: string): Promise<void> {
-    const actualShortAddress = await within(this.primaryRow).findByTestId('short-address');
-
-    expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
-  }
-}
+export type AccountRow = HTMLElement;
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
-}));
-
-jest.mock('@polkadot/react-hooks/useAccountInfo', () => ({
-  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address].info
 }));
 
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
@@ -161,20 +113,16 @@ export class AccountsPage {
   }
 
   async findAccountRows (): Promise<AccountRow[]> {
+    this.assertRendered();
     const table = await this.findAccountsTable();
     const tableBody = table.getElementsByTagName('tbody')[0];
-    const htmlRows = (await within(tableBody).findAllByRole('row'))
-      .filter((r) => r.className.startsWith('Account-'));
-    const rows: AccountRow[] = [];
+    const rows = await within(tableBody).findAllByRole('row');
 
-    for (let rowIdx = 0; rowIdx < htmlRows.length; rowIdx = rowIdx + 2) {
-      const primary = htmlRows[rowIdx];
-      const details = htmlRows[rowIdx + 1];
+    return rows.filter((r) => r.className.startsWith('Account-'));
+  }
 
-      rows.push(new AccountRow(primary, details));
-    }
-
-    return rows;
+  format (amount: Balance | BN): string {
+    return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
   }
 
   private assertRendered () {
@@ -183,7 +131,3 @@ export class AccountsPage {
     }
   }
 }
-
-export const format = (amount: Balance | BN): string => {
-  return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
-};
