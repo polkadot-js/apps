@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Call, Expander, LinkExternal, MarkError } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Event from '../Event';
@@ -114,6 +114,9 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
             withSignature
           />
         </Expander>
+        {value.method.decodingError && (
+          <MarkError content={value.method.decodingError} />
+        )}
       </td>
       <td
         className='top media--1000'

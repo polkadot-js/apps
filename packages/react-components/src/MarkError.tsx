@@ -21,6 +21,8 @@ function MarkError ({ children, className = '', content }: Props): React.ReactEl
 }
 
 export default React.memo(styled(MarkError)`
+  word-break: break-word;
+
   .ui--Icon {
     color: rgba(255, 12, 12, 1);
     margin-right: 0.5rem;
