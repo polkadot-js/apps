@@ -124,11 +124,6 @@ export default React.memo(styled(Head)`
     &.start {
       text-align: left;
     }
-
-    &.balances {
-      text-align: right;
-      padding-right: 15.571rem;
-    }
   }
 
   tr {

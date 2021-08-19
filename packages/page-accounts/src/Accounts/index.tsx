@@ -73,12 +73,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('accounts'), 'start', 3],
+    [t('parent'), 'address media--1400'],
     [t('type')],
+    [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances'), 'balances'],
+    [t('balances'), 'expand'],
     [],
-    [undefined, 'media--1400'],
-    []
+    [undefined, 'media--1400']
   ]);
 
   useEffect((): void => {
@@ -234,7 +235,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             account={account}
             delegation={delegation}
             filter={filterOn}
-            isEven={!!(index % 2)}
             isFavorite={isFavorite}
             key={`${index}:${account.address}`}
             proxy={proxies?.[index]}
