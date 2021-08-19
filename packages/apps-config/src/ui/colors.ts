@@ -256,7 +256,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
-  'Shiden Shell': chainShiden,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
