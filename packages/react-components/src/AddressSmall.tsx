@@ -8,6 +8,8 @@ import styled from 'styled-components';
 
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
+import ParentAddress from './ParentAddress';
+import { toShortAddress } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -15,36 +17,83 @@ interface Props {
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
+  parentAddress?: string;
   withSidebar?: boolean;
+  withShortAddress?: boolean;
   toggle?: unknown;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
-      <IdentityIcon value={value as Uint8Array} />
-      <AccountName
-        className={withSidebar ? 'withSidebar' : ''}
-        defaultName={defaultName}
-        onClick={onClickName}
-        override={overrideName}
-        toggle={toggle}
-        value={value}
-        withSidebar={withSidebar}
-      >
-        {children}
-      </AccountName>
+      <div>
+        <IdentityIcon value={value as Uint8Array} />
+      </div>
+      <div className='addressContainer'>
+        <div className='additionalInfo parentAccountName'>
+          {parentAddress && <ParentAddress address={parentAddress}/>}
+        </div>
+        <AccountName
+          className={`accountName ${withSidebar ? 'withSidebar' : ''}`}
+          defaultName={defaultName}
+          onClick={onClickName}
+          override={overrideName}
+          toggle={toggle}
+          value={value}
+          withSidebar={withSidebar}
+        >
+          {children}
+        </AccountName>
+        <div className='additionalInfo shortAddress'
+          data-testid='short-address'>
+          {withShortAddress && toShortAddress(value)}
+        </div>
+      </div>
     </div>
   );
 }
 
 export default React.memo(styled(AddressSmall)`
   white-space: nowrap;
+  display: flex;
+  align-items: center;
 
   .ui--IdentityIcon {
     margin-right: 0.75rem;
     vertical-align: middle;
+  }
+
+  .additionalInfo {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+
+  .parentAccountName {
+    grid-area: parentAccountName;
+  }
+
+  .accountName {
+    grid-area: accountName;
+  }
+
+  .shortAddress {
+    grid-area: shortAddress;
+    color: #8B8B8B;
+    font-size: 0.75rem;
+  }
+
+  .addressContainer {
+    border: 0.031rem;
+    height: 3.438rem;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 33% 33% 33%;
+    grid-template-areas:
+    "parentAccountName"
+    "accountName"
+    "shortAddress";
   }
 
   .ui--AccountName {

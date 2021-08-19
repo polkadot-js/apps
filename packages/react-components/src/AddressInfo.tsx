@@ -81,6 +81,11 @@ const DEFAULT_PREFS = {
   validatorPayment: true
 };
 
+// auxiliary component that helps aligning balances details, fills up the space when no icon for a balance is specified
+function IconVoid (): React.ReactElement {
+  return <span className='icon-void'>&nbsp;</span>;
+}
+
 function lookupLock (lookup: Record<string, string>, lockId: LockIdentifier): string {
   const lockHex = lockId.toHex();
 
@@ -222,10 +227,11 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 
   !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
-      <Label label={t<string>('total')} />
+      <Label label={t<string>('account balance')} />
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
       />
     </React.Fragment>
@@ -236,6 +242,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={(balancesAll as DeriveBalancesAll).availableBalance}
       />
     </React.Fragment>
@@ -246,7 +253,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        label={
+        labelPost={
           <Icon
             icon='info-circle'
             tooltip={`${address}-vested-trigger`}
@@ -286,7 +293,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        label={
+        labelPost={
           <Icon
             icon='info-circle'
             tooltip={`${address}-locks-trigger`}
@@ -314,6 +321,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={balancesAll.reservedBalance}
       />
     </React.Fragment>
@@ -324,6 +332,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid/>}
         value={ownBonded}
       >
         {otherBonded.length !== 0 && (
@@ -331,6 +340,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
             <FormatBalance
               formatIndex={formatIndex}
               key={index}
+              labelPost={<IconVoid/>}
               value={bonded}
             />
           )})</>
@@ -353,7 +363,10 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <React.Fragment key={7}>
         <Label label={t<string>('unbonding')} />
         <div className='result'>
-          <StakingUnbonding stakingInfo={stakingInfo} />
+          <StakingUnbonding
+            iconPosition='right'
+            stakingInfo={stakingInfo}
+          />
         </div>
       </React.Fragment>
     );
@@ -490,12 +503,11 @@ export default withMulti(
     white-space: nowrap;
 
     &:not(.ui--AddressInfo-expander) {
-      justify-content: center;
+      justify-content: flex-end;
     }
 
     .column {
-      justify-content: start;
-
+      max-width: 260px;
       &.column--expander {
         width: 17.5rem;
 
@@ -513,12 +525,14 @@ export default withMulti(
       &:not(.column--expander) {
         flex: 1;
         display: grid;
+        column-gap: 1.5rem;
+        row-gap: 0.571rem;
         opacity: 1;
 
         label {
           grid-column: 1;
           padding-right: 0.5rem;
-          text-align: right;
+          text-align: left;
           vertical-align: middle;
 
           .help.circle.icon {
@@ -528,11 +542,18 @@ export default withMulti(
 
         .result {
           grid-column: 2;
+          text-align: right;
 
-          .icon {
-            margin-left: 0;
-            margin-right: 0.25rem;
+          .ui--Icon,
+          .icon-void {
+            margin-left: 0.25rem;
+            margin-right: 0;
             padding-right: 0 !important;
+          }
+
+          .icon-void {
+            float: right;
+            width: 1em;
           }
         }
       }
