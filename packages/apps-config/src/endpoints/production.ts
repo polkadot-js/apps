@@ -138,6 +138,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'robonomics',
+      text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
+      providers: {
+        Airalab: 'wss://kusama.rpc.robonomics.network/'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
