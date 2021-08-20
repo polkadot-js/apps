@@ -27,49 +27,32 @@ describe('Create an account modal', () => {
 
   it('creates an account', async () => {
     await accountsPage.enterCreateAccountModal();
-
-    await screen.findByText('Add an account via seed 1/3');
-
-    const firstStepNextButton = screen.getByRole('button', { name: 'Next' });
-
-    expect(firstStepNextButton).toHaveClass('isDisabled');
-
+    assertButtonDisabled('Next');
     await fillFirstStep();
-
-    expect(firstStepNextButton).not.toHaveClass('isDisabled');
-    fireEvent.click(firstStepNextButton);
-
-    await screen.findByText('Add an account via seed 2/3');
-    const secondStepNextButton = screen.getByRole('button', { name: 'Next' });
-
-    expect(secondStepNextButton).toHaveClass('isDisabled');
+    clickButton('Next');
+    await expectSecondStep();
+    assertButtonDisabled('Next');
     fillSecondStep();
-    expect(secondStepNextButton).not.toHaveClass('isDisabled');
-    fireEvent.click(secondStepNextButton);
-
-    await screen.findByText('Add an account via seed 3/3');
-
-    const createAccountButton = screen.getByRole('button', { name: 'Save' });
-
-    fireEvent.click(createAccountButton);
+    clickButton('Next');
+    await expectThirdStep();
+    clickButton('Save');
 
     await waitForElementToBeRemoved(() => screen.queryByText('Add an account via seed 3/3'));
-
     expectCreateAnAccountCall();
   });
 
   it('navigates through the modal flow with enter key', async () => {
     await accountsPage.enterCreateAccountModal();
 
-    await screen.findByText('Add an account via seed 1/3');
+    assertButtonDisabled('Next');
     pressEnterKey();
-    await screen.findByText('Add an account via seed 1/3');
+    await expectFirstStep();
     await fillFirstStep();
     pressEnterKey();
-    await screen.findByText('Add an account via seed 2/3');
+    await expectSecondStep();
     fillSecondStep();
     pressEnterKey();
-    await screen.findByText('Add an account via seed 3/3');
+    await expectThirdStep();
     pressEnterKey();
     expectCreateAnAccountCall();
   });
@@ -81,26 +64,16 @@ describe('Create an account modal', () => {
 
     fireEvent.click(showAdvancedOptionsButton);
 
-    const derivationPathInput = await screen.findByTestId('secret derivation path');
-
-    fireEvent.change(derivationPathInput, { target: { value: '//abc//' } });
+    fillInput('secret derivation path', '//abc//');
 
     await screen.findByText('Unable to match provided value to a secret URI');
   });
 });
 
 function fillSecondStep () {
-  const nameInput = screen.getByTestId('name');
-
-  fireEvent.change(nameInput, { target: { value: newAccountName } });
-
-  const passwordInput = screen.getByTestId('password');
-
-  fireEvent.change(passwordInput, { target: { value: newAccountPassword } });
-
-  const passwordRepeatInput = screen.getByTestId('password (repeat)');
-
-  fireEvent.change(passwordRepeatInput, { target: { value: newAccountPassword } });
+  fillInput('name', newAccountName);
+  fillInput('password', newAccountPassword);
+  fillInput('password (repeat)', newAccountPassword);
 }
 
 async function fillFirstStep () {
@@ -125,4 +98,34 @@ function expectCreateAnAccountCall () {
     }),
     'sr25519'
   );
+}
+
+function fillInput (testId: string, value: string) {
+  const nameInput = screen.getByTestId(testId);
+
+  fireEvent.change(nameInput, { target: { value } });
+}
+
+function assertButtonDisabled (name: string) {
+  const button = screen.getByRole('button', { name });
+
+  expect(button).toHaveClass('isDisabled');
+}
+
+function clickButton (name: string) {
+  const button = screen.getByRole('button', { name });
+
+  fireEvent.click(button);
+}
+
+async function expectFirstStep () {
+  await screen.findByText('Add an account via seed 1/3');
+}
+
+async function expectSecondStep () {
+  await screen.findByText('Add an account via seed 2/3');
+}
+
+async function expectThirdStep () {
+  await screen.findByText('Add an account via seed 3/3');
 }

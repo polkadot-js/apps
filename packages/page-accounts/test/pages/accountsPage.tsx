@@ -125,6 +125,7 @@ export class AccountsPage {
     this.renderPage([]);
 
     fireEvent.click(await screen.findByRole('button', { name: 'Add account' }));
+    await screen.findByText('Add an account via seed 1/3');
   }
 
   format (amount: Balance): string {
