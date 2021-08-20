@@ -721,13 +721,17 @@ export default React.memo(styled(Account)`
   }
 
   .table-column-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.7rem;
-      height: 1.7rem;
-      border: 1px solid var(--border-table);
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    border: 1px solid var(--border-table);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &.isOdd td.button {
+    padding-bottom: 0.5rem;
+  }
 `);
