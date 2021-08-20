@@ -149,7 +149,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
-        paraId: 2005,
+        paraId: 2086,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/'
