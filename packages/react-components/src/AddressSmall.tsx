@@ -89,7 +89,7 @@ export default React.memo(styled(AddressSmall)`
     height: 3.438rem;
     display: grid;
     grid-template-columns: max-content;
-    grid-template-rows: 33% 33% 33%;
+    grid-template-rows: 30% 40% 30%;
     grid-template-areas:
     "parentAccountName"
     "accountName"
