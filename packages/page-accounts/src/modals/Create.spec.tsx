@@ -27,13 +27,16 @@ describe('Create an account modal', () => {
 
   it('creates an account', async () => {
     await accountsPage.enterCreateAccountModal();
+
     assertButtonDisabled('Next');
     await fillFirstStep();
     clickButton('Next');
+
     await expectSecondStep();
     assertButtonDisabled('Next');
     fillSecondStep();
     clickButton('Next');
+
     await expectThirdStep();
     clickButton('Save');
 
@@ -49,11 +52,14 @@ describe('Create an account modal', () => {
     await expectFirstStep();
     await fillFirstStep();
     pressEnterKey();
+
     await expectSecondStep();
     fillSecondStep();
     pressEnterKey();
+
     await expectThirdStep();
     pressEnterKey();
+
     expectCreateAnAccountCall();
   });
 
