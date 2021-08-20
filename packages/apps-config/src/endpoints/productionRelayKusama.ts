@@ -104,6 +104,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
+        isUnreachable: true,
         homepage: 'https://genshiro.equilibrium.io',
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
