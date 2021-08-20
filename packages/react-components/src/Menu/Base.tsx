@@ -17,4 +17,6 @@ function Base ({ children, className = '' }: BaseProps): React.ReactElement<Base
 export default React.memo(styled(Base)`
   display: flex;
   flex-direction: column;
+
+  min-width: 14.286rem;
 `);

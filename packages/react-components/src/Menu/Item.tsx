@@ -16,7 +16,7 @@ function Item ({ children, className = '', disabled, icon, onClick }: ItemProps)
 
   return (
     <div
-      className={`ui--Menu__Item ${className}`}
+      className={`ui--Menu__Item ${className}${icon ? ' hasIcon' : ''}`}
       onClick={_onClick}
     >
       {icon && (
@@ -35,12 +35,25 @@ export default React.memo(styled(Item)`
   flex-direction: row;
   align-items: center;
 
+  position: relative;
+
   font-size: 0.93rem;
   line-height: 0.93rem;
 
+  cursor: pointer;
+
   margin-bottom: 1rem;
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.hasIcon {
+    padding-left: 1.6rem;
+  }
+
   .ui--Icon {
-    margin-right: 0.666rem;
+    position: absolute;
+    left: 0;
   }
 `);

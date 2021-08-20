@@ -361,27 +361,30 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         {t('Undelegate')}
       </Menu.Item>
     ], t('Undelegate')),
-    isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && createMenuGroup('delegateGroup', [
-      <Menu.Item
-        icon='user-plus'
-        key='delegate'
-        onClick={toggleDelegate}
-      >
-        {t('Delegate democracy votes')}
-      </Menu.Item>
+    createMenuGroup('delegateGroup', [
+      isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
+        <Menu.Item
+          icon='user-plus'
+          key='delegate'
+          onClick={toggleDelegate}
+        >
+
+          {t('Delegate democracy votes')}
+        </Menu.Item>
+      ),
+      isFunction(api.api.query.proxy?.proxies) && (
+        <Menu.Item
+          icon='sitemap'
+          key='proxy-overview'
+          onClick={toggleProxyOverview}
+        >
+          {proxy?.[0].length
+            ? t('Manage proxies')
+            : t('Add proxy')
+          }
+        </Menu.Item>
+      )
     ], t('Delegate')),
-    isFunction(api.api.query.proxy?.proxies) && createMenuGroup('proxyGroup', [
-      <Menu.Item
-        icon='sitemap'
-        key='proxy-overview'
-        onClick={toggleProxyOverview}
-      >
-        {proxy?.[0].length
-          ? t('Manage proxies')
-          : t('Add proxy')
-        }
-      </Menu.Item>
-    ], t('Proxy')),
     isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'

@@ -265,6 +265,14 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Menu .ui--Toggle.isChecked .ui--Toggle-Slider {
+    background: ${getHighlight(uiHighlight)};
+
+    &::before {
+      border-color: ${getHighlight(uiHighlight)};
+    }
+  }
+
   .theme--dark,
   .theme--light {
     .ui--Tabs .tabLinkActive .tabLinkText::after{
