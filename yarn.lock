@@ -2484,6 +2484,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@parallel-finance/type-definitions@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@parallel-finance/type-definitions@npm:1.1.1"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^0.9.4-19
+  checksum: 3bbc8f40e071e6e00c79ceee6c90bac353062d80f7cb65867f87a9608b817727bfc6f43fb66a5219ebfffe928cf1fcc9ddb77809d041fc77da02153706c905d7
+  languageName: node
+  linkType: hard
+
 "@phala/typedefs@npm:0.2.14":
   version: 0.2.14
   resolution: "@phala/typedefs@npm:0.2.14"
@@ -2816,6 +2825,7 @@ __metadata:
     "@interlay/interbtc-types": 0.10.1
     "@kiltprotocol/type-definitions": 0.1.13
     "@laminar/type-definitions": 0.3.1
+    "@parallel-finance/type-definitions": 1.1.1
     "@phala/typedefs": 0.2.14
     "@polkadot/networks": ^7.2.1
     "@polymathnetwork/polymesh-types": 0.0.2

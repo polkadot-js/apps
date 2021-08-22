@@ -14,6 +14,7 @@ import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
+import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
@@ -61,6 +62,7 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeHeiko from './nodes/heiko.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interbtc.png';
@@ -158,6 +160,7 @@ export const chainLogos = Object.entries({
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
   'Genshiro Rococo Testnet': chainEquilibrium,
+  Heiko: chainHeiko,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
@@ -292,6 +295,7 @@ export const nodeLogos = Object.entries({
   GEEK: nodeGeek,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  Heiko: nodeHeiko,
   'Idavoll Node': nodeIdavoll,
   'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
@@ -443,6 +447,7 @@ export const namedLogos: Record<string, unknown> = {
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  heiko: chainHeiko,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
