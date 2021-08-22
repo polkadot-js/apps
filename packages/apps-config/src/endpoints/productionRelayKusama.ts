@@ -113,6 +113,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'heiko',
+        isUnreachable: true,
+        paraId: 2085,
+        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
+        providers: {
+          Parallel: 'wss://heiko-rpc-0.parallel.fi'
+        }
+      },
+      {
         info: 'integritee',
         isUnreachable: true,
         paraId: 2015,

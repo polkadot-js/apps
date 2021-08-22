@@ -64,6 +64,7 @@ import oakTestnet from './oak-testnet';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
 import pangolin from './pangolin';
+import parallel from './parallel';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -149,6 +150,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
+  heiko: { ...parallel },
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
