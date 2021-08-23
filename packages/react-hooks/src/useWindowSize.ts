@@ -3,8 +3,16 @@
 
 import { useEffect, useState } from 'react';
 
-export function useWindowSize (): {width: number, height: number} | undefined {
-  const [windowSize, setWindowSize] = useState<{width: number, height: number}>();
+export interface WindowSize {
+  width: number;
+  height: number;
+}
+
+export function useWindowSize (): WindowSize {
+  const [windowSize, setWindowSize] = useState<WindowSize>({
+    height: 0,
+    width: 0
+  });
 
   useEffect(() => {
     function handleResize () {
