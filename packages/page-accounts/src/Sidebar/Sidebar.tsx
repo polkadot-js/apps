@@ -4,7 +4,8 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Sidebar, Tags } from '@polkadot/react-components';
+import SidebarEditableSection from '@polkadot/app-accounts/Sidebar/EditableSection';
+import { Button, IdentityIcon, LinkExternal, Sidebar } from '@polkadot/react-components';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 
@@ -18,13 +19,14 @@ import Multisig from './Multisig';
 interface Props {
   address: string;
   className?: string;
+  dataTestId?: string;
   onClose: () => void;
   onUpdateName: () => void;
 }
 
-function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
+function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { accountIndex, flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { accountIndex, flags, identity, meta, name, onForgetAddress, onSaveName } = useAccountInfo(address);
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
   const _onForgetAddress = useCallback(
@@ -46,10 +48,14 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
   return (
     <Sidebar
       className={className}
+      dataTestId={dataTestId}
       onClose={onClose}
       position='right'
     >
-      <div className='ui--AddressMenu-header'>
+      <div
+        className='ui--AddressMenu-header'
+        data-testid='sidebar-address-menu'
+      >
         <IdentityIcon
           size={80}
           value={address}
@@ -62,46 +68,11 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
             {accountIndex}
           </div>
         )}
-        <AccountName
-          onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
-          override={
-            isEditingName
-              ? (
-                <Input
-                  autoFocus
-                  className='name--input'
-                  defaultValue={name}
-                  onBlur={(flags.isInContacts || flags.isOwned) ? _onUpdateName : undefined}
-                  onChange={setName}
-                  withLabel={false}
-                />
-              )
-              : flags.isEditable
-                ? (name.toUpperCase() || t<string>('<unknown>'))
-                : undefined
-          }
-          value={address}
-          withSidebar={false}
-        >
-          {(!isEditingName && flags.isEditable) && (
-            <Icon
-              className='inline-icon'
-              icon='edit'
-            />
-          )}
-        </AccountName>
-        <div className='ui--AddressMenu-tags'>
-          <Tags
-            isEditable
-            isEditing={isEditingTags}
-            onChange={setTags}
-            onSave={onSaveTags}
-            onToggleIsEditing={toggleIsEditingTags}
-            size='tiny'
-            value={tags}
-            withTitle
-          />
-        </div>
+        <SidebarEditableSection
+          address={address}
+          name={name}
+          onUpdateName={onUpdateName}
+        />
         <Flags flags={flags} />
         <div className='ui--AddressMenu-buttons'>
           <Button.Group>
@@ -288,11 +259,6 @@ export default React.memo(styled(FullSidebar)`
       margin: 0 !important;
 
       > input {
-        padding: 0 !important;
-        background: rgba(230, 230, 230, 0.8) !important;
-        border: 0 !important;
-        border-radius: 0 !important;
-        box-shadow: 0 3px 3px rgba(0,0,0,.2);
       }
     }
   }

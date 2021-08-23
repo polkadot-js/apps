@@ -7,6 +7,7 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
+import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -18,7 +19,9 @@ import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { formatBalance } from '@polkadot/util';
 
 import { AccountOverrides, mockAccountHooks } from '../hooks/default';
+import { AccountRow } from '../pageElements/AccountRow';
 import Overview from '../pages/../../src/Accounts/index';
+import { UseAccountInfo } from "@polkadot/react-hooks/types";
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 
@@ -26,58 +29,24 @@ class NotYetRendered extends Error {
 }
 
 // utility wrapper over an account item in accounts table, serves basic assertions about an account row
-export class AccountRow {
-  public primaryRow: HTMLElement;
-  public detailsRow: HTMLElement;
-
-  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement) {
-    this.primaryRow = primaryRow;
-    this.detailsRow = detailsRow;
-  }
-
-  async assertBalancesTotal (expected: Balance): Promise<void> {
-    const balanceActual = await within(this.primaryRow).findByTestId('balance-summary');
-    const balanceExpected = format(expected);
-
-    expect(balanceActual).toHaveTextContent(balanceExpected);
-  }
-
-  async assertBalancesDetails (expected: {name: string, amount: Balance}[]): Promise<void> {
-    for (const expectedBalanceDetailsItem of expected) {
-      const labelElement = await within(this.detailsRow).findByText(expectedBalanceDetailsItem.name);
-      const balanceElement = labelElement.nextSibling;
-      const amount = format(expectedBalanceDetailsItem.amount);
-
-      expect(balanceElement).toHaveTextContent(amount);
-    }
-  }
-
-  async assertParentAccountName (expectedParentAccount: string): Promise<void> {
-    const parentAccount = await within(this.primaryRow).findByTestId('parent');
-
-    expect(parentAccount).toHaveTextContent(expectedParentAccount);
-  }
-
-  async assertTags (tagsContent: string): Promise<void> {
-    const tagsActual = await within(this.detailsRow).findByTestId('tags');
-
-    expect(tagsActual).toHaveTextContent(tagsContent);
-  }
-
-  async assertShortAddress (expectedShortAddress: string): Promise<void> {
-    const actualShortAddress = await within(this.primaryRow).findByTestId('short-address');
-
-    expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
-  }
-}
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
 }));
 
-jest.mock('@polkadot/react-hooks/useAccountInfo', () => ({
-  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address].info
-}));
+jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
+  const actual = jest.requireActual<{useAccountInfo: (address: string) => UseAccountInfo}>('@polkadot/react-hooks/useAccountInfo');
+
+  return ({
+    useAccountInfo: (address: string) => {
+      return {
+        ...actual.useAccountInfo(address),
+        flags: { ...actual.useAccountInfo(address).flags, ...mockAccountHooks.accountsMap[address].info.flags },
+        tags: [...actual.useAccountInfo(address).tags, ...mockAccountHooks.accountsMap[address].info.tags]
+      };
+    }
+  });
+});
 
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
   useLoadingDelay: () => false
@@ -104,8 +73,8 @@ export class AccountsPage {
       api: {
         derive: {
           accounts: {
-            info: () => Promise.resolve(() => { /**/
-            })
+            info: (address: string) => Promise.resolve(mockAccountHooks.accountsMap[address].info),
+            flags: (address: string) => Promise.resolve(mockAccountHooks.accountsMap[address].info.flags)
           },
           balances: {
             all: () => ({
@@ -144,7 +113,9 @@ export class AccountsPage {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Overview/>
+                  <AccountSidebar>
+                    <Overview/>
+                  </AccountSidebar>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>

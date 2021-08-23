@@ -24,9 +24,11 @@ interface Props {
 library.add(fas);
 
 function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, onClick, size = '1x', tooltip }: Props): React.ReactElement<Props> {
-  const extraProps = tooltip
-    ? { 'data-for': tooltip, 'data-testid': icon, 'data-tip': true }
-    : {};
+  let extraProps: Record<string, unknown> = { 'data-testid': icon };
+
+  extraProps = tooltip
+    ? { ...extraProps, 'data-for': tooltip, 'data-tip': true }
+    : extraProps;
 
   return (
     <FontAwesomeIcon

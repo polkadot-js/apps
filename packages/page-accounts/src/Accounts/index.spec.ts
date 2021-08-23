@@ -17,6 +17,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import { AccountOverrides } from '../../test/hooks/default';
+import { AccountRow } from '../../test/pageElements/AccountRow';
+import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
@@ -298,6 +300,75 @@ describe('Accounts page', () => {
       const summary = await screen.findByTestId(/card-summary:(total )?redeemable/i);
 
       expect(summary).toHaveTextContent(showBalance(4000 + 5000));
+    });
+
+    describe('sidebar', () => {
+      const newAccountName = 'CHARLIE';
+      const defaultTag = 'Default';
+
+      let accountRows: AccountRow[];
+      let sideBar: Sidebar;
+
+      beforeEach(async () => {
+        renderDefaultAccounts(1);
+        accountRows = await accountsPage.findAccountRows();
+        sideBar = await accountRows[0].getSidebar();
+      });
+
+      describe('changes', () => {
+        beforeEach(async () => {
+          await sideBar.clickByText('Edit account');
+        });
+
+        describe('name', () => {
+          beforeEach(async () => {
+            await sideBar.typeAccountName(newAccountName);
+            await sideBar.clickByText('Save');
+          });
+
+          it('within sidebar', async () => {
+            await sideBar.assertAccountName(newAccountName);
+          });
+
+          it('within account row', async () => {
+            await accountRows[0].assertAccountName(newAccountName);
+          });
+        });
+
+        describe('tags', () => {
+          beforeEach(async () => {
+            await sideBar.selectAccountTag(defaultTag);
+            await sideBar.clickByText('Save');
+          });
+
+          it('within sidebar', async () => {
+            await sideBar.assertTags(defaultTag);
+          });
+
+          it('within account row', async () => {
+            await accountRows[0].assertTags(defaultTag);
+          });
+        });
+      });
+
+      describe('cannot be edited', () => {
+        describe('if edit button has not been pressed', () => {
+          it('tags', async () => {
+            await sideBar.clickByText('no tags');
+            expect(sideBar.queryByRole('combobox')).toBeFalsy();
+          });
+
+          it('account name', async () => {
+            const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
+
+            await expect(sideBar.typeAccountName(newAccountName)).rejects.toThrowError(inputNotFoundError);
+          });
+        });
+
+        // it('when account not owned', async () => {
+        //
+        // });
+      });
     });
   });
 

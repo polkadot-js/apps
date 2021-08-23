@@ -18,10 +18,11 @@ interface Props {
   onToggleIsEditing?: () => void;
   onSave?: () => void;
   value: string[];
+  withIcon?: boolean;
   withTitle?: boolean;
 }
 
-function Tags ({ children, className = '', isEditable, isEditing, onChange, onSave, onToggleIsEditing, value, withTitle }: Props): React.ReactElement<Props> {
+function Tags ({ children, className = '', isEditable, isEditing, onChange, onSave, onToggleIsEditing, value, withIcon = true, withTitle }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const contents = useMemo(
@@ -57,7 +58,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
             onChange={onChange}
             onClose={_onSave}
             openOnFocus
-            searchInput={{ autoFocus: true }}
+            searchInput={{ autoFocus: false }}
             value={value}
             withLabel={false}
           />
@@ -67,6 +68,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
             <EditButton
               className={value.length === 0 ? 'center' : 'left'}
               onClick={onToggleIsEditing}
+              withIcon={withIcon}
             >
               {contents}
             </EditButton>
