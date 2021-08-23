@@ -80,10 +80,10 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>): Promise<InjectedAccountExt[]> {
+async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>, type: KeypairType): Promise<InjectedAccountExt[]> {
   try {
     await injectedPromise;
-    const accounts = (await web3Accounts()) as InjectedAccountExt[]; // TODO-MOONBEAM: web3Accounts should be updated to return the right type
+    const accounts = (await web3Accounts({accountType: type})) as InjectedAccountExt[]; // TODO-MOONBEAM: web3Accounts should be updated to return the right type
 
     return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
@@ -101,7 +101,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
-async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
+async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, isEthereum:boolean): Promise<ChainData> {
   const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -110,7 +110,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    getInjectedAccounts(injectedPromise)
+    getInjectedAccounts(injectedPromise, isEthereum? "ethereum": "sr25519")
   ]);
 
   return {
@@ -129,13 +129,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
-  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
+  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise, isEthereum);
   const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
-  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
