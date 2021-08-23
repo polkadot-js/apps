@@ -19,5 +19,5 @@ export default React.memo(styled(Header)`
   font-size: 0.714rem;
   line-height: 0.857rem;
 
-  margin-bottom: 0.857rem;
+  margin-bottom: 0.3rem;
 `);

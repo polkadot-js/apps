@@ -42,18 +42,18 @@ export default React.memo(styled(Item)`
 
   cursor: pointer;
 
-  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   &.hasIcon {
-    padding-left: 1.6rem;
+    padding-left: 2.6rem;
   }
 
   .ui--Icon {
     position: absolute;
-    left: 0;
+    left: 1rem;
   }
 `);

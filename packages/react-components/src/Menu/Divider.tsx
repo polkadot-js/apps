@@ -13,7 +13,7 @@ function Divider ({ className = '' }: DividerProps): React.ReactElement {
 }
 
 export default React.memo(styled(Divider)`
-  margin-bottom: 1rem;
+  margin: 0.25rem 0 1rem;
   border-top: 1px solid var(--border-table);
 
   &:first-child, &:last-child {
