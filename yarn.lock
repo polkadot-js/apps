@@ -2568,7 +2568,7 @@ __metadata:
     "@polkadot/phishing": ^0.6.266
     "@polkadot/react-components": ^0.95.2-32
     "@polkadot/test-support": 0.95.2-32
-    "@polkadot/vanitygen": ^0.45.2-0
+    "@polkadot/vanitygen": ^0.45.2
     detect-browser: ^5.2.0
     file-saver: ^2.0.5
   languageName: unknown
@@ -3427,9 +3427,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.45.2-0":
-  version: 0.45.2-0
-  resolution: "@polkadot/vanitygen@npm:0.45.2-0"
+"@polkadot/vanitygen@npm:^0.45.2":
+  version: 0.45.2
+  resolution: "@polkadot/vanitygen@npm:0.45.2"
   dependencies:
     "@babel/core": ^7.15.0
     "@babel/register": ^7.15.3
@@ -3440,7 +3440,7 @@ __metadata:
     yargs: ^17.1.1
   bin:
     polkadot-js-vanitygen: index.cjs
-  checksum: ee82172bdc4441a3d49217a8722e25bffcdbb5afc5dfe1580f124f475c1f43a908e94d43043c95c149384159eda4c2558b14695fd802c72fa68a7a1ce782f556
+  checksum: 87d4480af61f3a7819129931bb8af80ce9cf0066c661a95a109ada8cf248d4e0570a9a40d33a5e06490933418fd5d5576475cd49005c9388e5b30ce1652eaafa
   languageName: node
   linkType: hard
 
