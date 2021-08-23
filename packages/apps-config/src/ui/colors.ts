@@ -19,6 +19,7 @@ const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
@@ -29,6 +30,7 @@ const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
+const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
 const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
@@ -106,6 +108,7 @@ const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeHeiko = '#42d5de';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
@@ -169,7 +172,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
   Clover: chainClover,
-  'crust maxwell': chainCrust,
+  crust: chainCrust,
+  'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
@@ -188,6 +192,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
+  Heiko: chainHeiko,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
@@ -254,7 +259,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
-  'Shiden Shell': chainShiden,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
@@ -309,6 +313,7 @@ export const nodeColors = Object.entries({
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
+  Heiko: nodeHeiko,
   'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,

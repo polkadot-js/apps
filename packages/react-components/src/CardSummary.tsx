@@ -54,9 +54,11 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
   }
 
   const isTimed = progress && progress.withTime && !isUndefined(progress.total);
+  const testidSuffix = (label ?? '').toString();
 
   return (
-    <article className={className}>
+    <article className={className}
+      data-testid={`card-summary:${testidSuffix}`}>
       <Labelled
         help={help}
         isSmall
