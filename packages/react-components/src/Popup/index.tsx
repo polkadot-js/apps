@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components/index';
-import { useElementPosition, useOutsideClick } from '@polkadot/react-hooks';
+import { useOutsideClick } from '@polkadot/react-hooks';
 
 import PopupWindow from './PopupWindow';
 
@@ -16,7 +16,6 @@ function Popup ({ children, className = '', isDisabled = false, onCloseAction, p
 
   const triggerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const triggerPosition = useElementPosition(triggerRef);
 
   useOutsideClick([triggerRef, dropdownRef], () => setIsOpen(false));
 
@@ -28,11 +27,11 @@ function Popup ({ children, className = '', isDisabled = false, onCloseAction, p
 
   return (
     <div className={`ui--Popup ${className}`}>
-      {isOpen && triggerPosition && (
+      {isOpen && (
         <PopupWindow
           position={position}
-          setRef={dropdownRef}
-          triggerPosition={triggerPosition}
+          triggerRef={triggerRef}
+          windowRef={dropdownRef}
         >
           {value}
         </PopupWindow>

@@ -7,19 +7,16 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import styled, { css } from 'styled-components';
 
-import { useElementPosition } from '@polkadot/react-hooks';
+import { usePopupWindow } from '@polkadot/react-hooks/usePopupWindow';
 
-import { getPosition } from './utils';
-
-function PopupWindow ({ children, className = '', position, setRef, triggerPosition }: PopupWindowProps) {
-  const windowPosition = useElementPosition(setRef);
-  const { x: xPosition, y: yPosition } = getPosition(triggerPosition, position, triggerPosition.verticalPosition, windowPosition);
+function PopupWindow ({ children, className = '', position, triggerRef, windowRef }: PopupWindowProps) {
+  const { renderWindowPosition, verticalPosition } = usePopupWindow(windowRef, triggerRef, position);
 
   return createPortal(
     <div
-      className={className}
-      ref={setRef}
-      style={{ transform: `translate3d(${xPosition}px, ${yPosition}px, 0)` }}
+      className={`${className}${verticalPosition === 'top' ? ' pointerTop' : ' pointerBottom'}`}
+      ref={windowRef}
+      style={renderWindowPosition && { transform: `translate3d(${renderWindowPosition.x}px, ${renderWindowPosition.y}px, 0)`, zIndex: 300 }}
     >
       {children}
     </div>,
@@ -31,7 +28,7 @@ export default React.memo(styled(PopupWindow)`
   position: absolute;
   top:0;
   left:0;
-  z-index: 300;
+  z-index: -1;
 
   margin: 0.7rem 0;
   padding: 0.85rem 1rem;
@@ -48,13 +45,6 @@ export default React.memo(styled(PopupWindow)`
     top: unset;
     bottom: -0.3rem;
     box-shadow: 1px 1px 0 0 #bababc;
-
-    ${({ triggerPosition }) => triggerPosition.verticalPosition === 'bottom' && css`
-      box-shadow: -1px -1px 0 0 #bababc;
-
-      top: -0.3rem;
-      bottom: unset;
-    `}
 
     ${({ position }) => position === 'left' && css`
       left: unset;
@@ -74,6 +64,13 @@ export default React.memo(styled(PopupWindow)`
     height: 10px;
     transform: rotate(45deg);
     z-index: 2;
+  }
+
+  &.pointerBottom::before {
+    box-shadow: -1px -1px 0 0 #bababc;
+
+    top: -0.3rem;
+    bottom: unset;
   }
 
   .ui.text.menu .item {

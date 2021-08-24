@@ -18,15 +18,18 @@ export function getPosition (
   triggerPosition: ElementPosition,
   positionX: HorizontalPosition,
   positionY: VerticalPosition,
-  windowPosition?: ElementPosition
+  windowPosition: ElementPosition,
+  scrollY: number,
+  windowSize: WindowSize
 ): {x: number, y: number} {
-  if (!windowPosition) return { x: 0, y: 0 };
+  const globalX = triggerPosition.x + (triggerPosition.width / 2);
+  const globalY = triggerPosition.y + scrollY + (triggerPosition.height / 2);
 
   return {
-    x: triggerPosition.globalX - getHorizontalOffset(windowPosition.width, positionX),
-    y: fitsInView(positionY, triggerPosition, windowPosition.height)
-      ? triggerPosition.globalY + getVerticalOffset(triggerPosition.height, positionY, windowPosition.height)
-      : getFixedVerticalPosition(triggerPosition.scrollY, positionY, triggerPosition.windowSize, windowPosition.height)
+    x: globalX - getHorizontalOffset(windowPosition.width, positionX),
+    y: fitsInView(positionY, triggerPosition, windowPosition.height, windowSize, scrollY)
+      ? globalY + getVerticalOffset(triggerPosition.height, positionY, windowPosition.height)
+      : getFixedVerticalPosition(scrollY, positionY, windowSize, windowPosition.height)
   };
 }
 
@@ -42,8 +45,8 @@ function getHorizontalOffset (popupWindowWidth: number, position: HorizontalPosi
   return (popupWindowWidth / 2);
 }
 
-function fitsInView (positionY: VerticalPosition, trigger: ElementPosition, popupWindowHeight: number): boolean {
-  const { height: triggerHeight, scrollY, windowSize, y: triggerY } = trigger;
+function fitsInView (positionY: VerticalPosition, trigger: ElementPosition, popupWindowHeight: number, windowSize: WindowSize, scrollY: number): boolean {
+  const { height: triggerHeight, y: triggerY } = trigger;
 
   if (positionY === 'bottom') {
     return windowSize.height - (triggerHeight / 2) - triggerY - FIXED_VERTICAL_OFFSET_MARGIN > popupWindowHeight;

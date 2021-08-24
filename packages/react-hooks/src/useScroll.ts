@@ -4,8 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 export function useScroll (): number {
-  const [scrollY, setScrollY] = useState(0);
-
+  const [scrollY, setScrollY] = useState(window.pageYOffset);
   const setYOffset = useCallback((): void => setScrollY(window.pageYOffset), []);
 
   useEffect(() => {

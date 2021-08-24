@@ -56,3 +56,4 @@ export { useElementPosition } from './useElementPosition';
 export { useScroll } from './useScroll';
 export { useWindowSize } from './useWindowSize';
 export { useOutsideClick } from './useOutsideClick';
+export { usePopupWindow } from './usePopupWindow';
