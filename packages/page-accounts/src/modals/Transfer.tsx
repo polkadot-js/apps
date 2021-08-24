@@ -160,6 +160,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
+                    maxValue={maxTransfer}
                     onChange={setAmount}
                   />
                   <InputBalance
