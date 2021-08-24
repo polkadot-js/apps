@@ -44,6 +44,7 @@ export default React.memo(styled(Button)`
   cursor: pointer;
   line-height: 1;
   margin: 0;
+  outline: none;
   position: relative;
   vertical-align: middle;
   text-align: center;

@@ -4,14 +4,13 @@
 import type BN from 'bn.js';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
-import type { Delegation, SortedAccount } from '../types';
+import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, Input, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import CreateModal from '../modals/Create';
@@ -25,10 +24,11 @@ import { sortAccounts } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
+import Summary from './Summary';
 
 interface Balances {
-  accounts: Record<string, BN>;
-  balanceTotal?: BN;
+  accounts: Record<string, AccountBalance>;
+  summary?: AccountBalance;
 }
 
 interface Sorted {
@@ -56,7 +56,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
-  const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
+  const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
@@ -113,31 +113,27 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [api, delegations, sortedAccounts]);
 
   const _setBalance = useCallback(
-    (account: string, balance: BN) =>
+    (account: string, balance: AccountBalance) =>
       setBalances(({ accounts }: Balances): Balances => {
         accounts[account] = balance;
 
+        const aggregate = (key: keyof AccountBalance) =>
+          Object.values(accounts).reduce((total: BN, value: AccountBalance) => total.add(value[key]), BN_ZERO);
+
         return {
           accounts,
-          balanceTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), BN_ZERO)
+          summary: {
+            bonded: aggregate('bonded'),
+            locked: aggregate('locked'),
+            redeemable: aggregate('redeemable'),
+            total: aggregate('total'),
+            transferrable: aggregate('transferrable'),
+            unbonding: aggregate('unbonding')
+          }
         };
       }),
     []
   );
-
-  const footer = useMemo(() => (
-    <tr>
-      <td colSpan={3} />
-      <td className='media--1400' />
-      <td colSpan={2} />
-      <td className='media--1500' />
-      <td className='number'>
-        {balanceTotal && <FormatBalance value={balanceTotal} />}
-      </td>
-      <td />
-      <td className='media--1400' />
-    </tr>
-  ), [balanceTotal]);
 
   const filter = useMemo(() => (
     <div className='filter--tags'>
@@ -228,10 +224,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       </Button.Group>
       <BannerExtension />
       <BannerClaims />
+      <Summary balance={balances.summary} />
       <Table
         empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
-        footer={footer}
         header={headerRef.current}
       >
         {!isLoading && sortedAccountsWithDelegation?.map(({ account, delegation, isFavorite }, index): React.ReactNode => (

@@ -34,6 +34,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'crust',
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
+      }
+    },
+    {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
@@ -128,6 +135,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         RioChain: 'wss://node.v1.riochain.io'
+      }
+    },
+    {
+      info: 'robonomics',
+      text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
+      providers: {
+        Airalab: 'wss://kusama.rpc.robonomics.network/'
       }
     },
     {
