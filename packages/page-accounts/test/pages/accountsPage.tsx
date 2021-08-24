@@ -50,7 +50,7 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
 export class AccountsPage {
   private renderResult?: RenderResult
 
-  renderPage (accounts: AccountOverrides[]): void {
+  renderPage (accounts: [string, AccountOverrides][]): void {
     mockAccountHooks.setAccounts(accounts);
     const mockApi: ApiProps = {
       api: {
@@ -128,8 +128,8 @@ export class AccountsPage {
     await screen.findByText('Add an account via seed 1/3');
   }
 
-  format (amount: Balance): string {
-    return formatBalance(amount, { decimals: 12, withUnit: true });
+  format (amount: Balance | BN): string {
+    return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
   }
 
   private assertRendered () {

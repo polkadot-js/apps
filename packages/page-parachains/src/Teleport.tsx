@@ -76,7 +76,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
       : [
         { X1: { ParaChain: recipientParaId } },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-        [{ ConcreteFungible: { amount, id: 'Null' } }],
+        [{ ConcreteFungible: { amount, id: 'Here' } }],
         DEST_WEIGHT
       ],
     [amount, isParaTeleport, recipientId, recipientParaId]

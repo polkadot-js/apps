@@ -69,7 +69,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws',
+          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://bifrost.kusama.elara.patract.io'
         }
@@ -104,11 +104,21 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
+        isUnreachable: true,
         homepage: 'https://genshiro.equilibrium.io',
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
           Equilibrium: 'wss://gens-mainnet.equilibrium.io'
+        }
+      },
+      {
+        info: 'heiko',
+        isUnreachable: true,
+        paraId: 2085,
+        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
+        providers: {
+          Parallel: 'wss://heiko-rpc-0.parallel.fi'
         }
       },
       {
@@ -148,7 +158,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
-        paraId: 2005,
+        paraId: 2086,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/'
@@ -201,15 +211,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
           PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
-        }
-      },
-      {
-        info: 'robonomics',
-        homepage: 'http://robonomics.network/',
-        paraId: 2077,
-        text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
-        providers: {
-          Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
       },
       {
