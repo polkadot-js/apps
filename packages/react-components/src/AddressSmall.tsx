@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
-import ParentAddress from './ParentAddress';
+import ParentAccount from './ParentAccount';
 import { toShortAddress } from './util';
 
 interface Props {
@@ -25,15 +25,19 @@ interface Props {
 }
 
 function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
+  const displayAsGrid = parentAddress || withShortAddress;
+
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <div>
         <IdentityIcon value={value as Uint8Array} />
       </div>
-      <div className='addressContainer'>
-        <div className='additionalInfo parentAccountName'>
-          {parentAddress && <ParentAddress address={parentAddress}/>}
-        </div>
+      <div className={displayAsGrid ? 'addressGrid' : ''}>
+        {parentAddress && (
+          <div className='parentAccountName'>
+            <ParentAccount address={parentAddress}/>
+          </div>
+        )}
         <AccountName
           className={`accountName ${withSidebar ? 'withSidebar' : ''}`}
           defaultName={defaultName}
@@ -45,10 +49,14 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
         >
           {children}
         </AccountName>
-        <div className='additionalInfo shortAddress'
-          data-testid='short-address'>
-          {withShortAddress && toShortAddress(value)}
-        </div>
+        {withShortAddress && (
+          <div
+            className='shortAddress'
+            data-testid='short-address'
+          >
+            {toShortAddress(value)}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -64,7 +72,8 @@ export default React.memo(styled(AddressSmall)`
     vertical-align: middle;
   }
 
-  .additionalInfo {
+  .parentAccountName,
+  .shortAddress {
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -84,7 +93,7 @@ export default React.memo(styled(AddressSmall)`
     font-size: 0.75rem;
   }
 
-  .addressContainer {
+  .addressGrid {
     border: 0.031rem;
     height: 3.438rem;
     display: grid;
