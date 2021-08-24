@@ -360,8 +360,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         </>}
         {step === 2 && <>
           <CreateAccountInputs
-            _onCommit={_onCommit}
             name={{ isNameValid, name }}
+            onCommit={_onCommit}
             setName={setName}
             setPassword={setPassword}
           />;

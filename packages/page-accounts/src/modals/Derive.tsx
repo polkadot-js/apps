@@ -202,8 +202,8 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                   <MarkError content={deriveError} />
                 )}
                 <CreateAccountInputs
-                  _onCommit={_onCommit}
                   name={{ isNameValid, name }}
+                  onCommit={_onCommit}
                   setName={setName}
                   setPassword={setPassword}
                 />;

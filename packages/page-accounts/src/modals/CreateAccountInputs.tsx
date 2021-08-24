@@ -20,12 +20,12 @@ interface AccountPassword {
 
 interface Props {
   name: AccountName;
+  onCommit: () => void;
   setName: (value: AccountName) => void;
   setPassword: (value: AccountPassword) => void;
-  _onCommit: () => void;
 }
 
-const CreateAccountInputs = ({ _onCommit, name: { isNameValid, name }, setName, setPassword }: Props) => {
+const CreateAccountInputs = ({ name: { isNameValid, name }, onCommit, setName, setPassword }: Props) => {
   const { t } = useTranslation();
 
   const _onChangeName = useCallback(
@@ -47,14 +47,14 @@ const CreateAccountInputs = ({ _onCommit, name: { isNameValid, name }, setName, 
           isError={!isNameValid}
           label={t<string>('name')}
           onChange={_onChangeName}
-          onEnter={_onCommit}
+          onEnter={onCommit}
           placeholder={t<string>('new account')}
           value={name}
         />
       </Modal.Columns>
       <PasswordInput
         onChange={_onChangePass}
-        onEnter={_onCommit}
+        onEnter={onCommit}
       />
     </>
   );
