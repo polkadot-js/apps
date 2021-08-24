@@ -43,7 +43,7 @@ export default React.memo(styled(PopupWindow)`
     position: absolute;
     right: 50%;
     top: unset;
-    bottom: -0.3rem;
+    bottom: -0.45rem;
     box-shadow: 1px 1px 0 0 #bababc;
 
     ${({ position }) => position === 'left' && css`
@@ -60,8 +60,8 @@ export default React.memo(styled(PopupWindow)`
 
     background-color: var(--bg-menu);
 
-    width: 10px;
-    height: 10px;
+    width: 1rem;
+    height: 1rem;
     transform: rotate(45deg);
     z-index: 2;
   }
@@ -69,7 +69,7 @@ export default React.memo(styled(PopupWindow)`
   &.pointerBottom::before {
     box-shadow: -1px -1px 0 0 #bababc;
 
-    top: -0.3rem;
+    top: -0.45rem;
     bottom: unset;
   }
 
