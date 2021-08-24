@@ -2,11 +2,11 @@
   "name": "@polkadot/app-membership",
   "private": true,
   "type": "module",
-  "version": "0.95.2-37",
+  "version": "0.95.2-38",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@polkadot/react-components": "^0.95.2-37",
-    "@polkadot/react-query": "^0.95.2-37"
+    "@polkadot/react-components": "^0.95.2-38",
+    "@polkadot/react-query": "^0.95.2-38"
   }
 }
