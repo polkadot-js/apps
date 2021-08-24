@@ -125,6 +125,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
+  const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
+
   const footer = useMemo(() => (
     <tr>
       <td colSpan={3} />
@@ -191,7 +193,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           icon='plus'
           isDisabled={isIpfs}
           label={t<string>('Add account')}
-          onClick={() => setIsCreateOpen(true)}
+          onClick={_openCreateModal}
         />
         <Button
           icon='sync'
