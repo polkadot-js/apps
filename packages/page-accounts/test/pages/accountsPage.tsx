@@ -88,6 +88,8 @@ export class AccountsPage {
       queueExtrinsic
     } as QueueProps;
 
+    const mockStatusChange = () => undefined;
+
     this.renderResult = render(
       <>
         <div id='tooltips'/>
@@ -96,7 +98,7 @@ export class AccountsPage {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Overview onStatusChange={() => undefined}/>
+                  <Overview onStatusChange={mockStatusChange}/>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>
