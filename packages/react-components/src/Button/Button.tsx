@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
-function Button ({ activateOnEnterKeyPress, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
     [isBusy, isDisabled, onClick]
@@ -22,16 +22,16 @@ function Button ({ activateOnEnterKeyPress, children, className = '', dataTestId
   }, [isBusy, isDisabled, onClick]);
 
   useEffect(() => {
-    if (activateOnEnterKeyPress) {
+    if (activeOnEnter) {
       window.addEventListener('keydown', listenKeyboard, true);
     }
 
     return () => {
-      if (activateOnEnterKeyPress) {
+      if (activeOnEnter) {
         window.removeEventListener('keydown', listenKeyboard, true);
       }
     };
-  }, [activateOnEnterKeyPress, listenKeyboard]);
+  }, [activeOnEnter, listenKeyboard]);
 
   return (
     <button

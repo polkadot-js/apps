@@ -7,7 +7,7 @@ import type { BareProps } from '../types';
 export type Button$Callback = () => void | Promise<void>;
 
 export interface ButtonProps {
-  activateOnEnterKeyPress?: boolean;
+  activeOnEnter?: boolean;
   children?: React.ReactNode;
   className?: string;
   dataTestId?: string;
