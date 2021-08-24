@@ -35,6 +35,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
         <Modal
           className={className}
           header={t<string>('Submit treasury proposal')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -82,7 +83,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               <MarkWarning content={t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

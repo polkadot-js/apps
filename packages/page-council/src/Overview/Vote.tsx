@@ -80,6 +80,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
       {isVisible && (
         <Modal
           header={t<string>('Vote for current candidates')}
+          onClose={toggleVisible}
           size='large'
         >
           <Modal.Content>
@@ -125,7 +126,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
               </Modal.Columns>
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='trash-alt'

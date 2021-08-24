@@ -83,6 +83,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
         <Modal
           className={className}
           header={t<string>('Place bid')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -119,7 +120,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

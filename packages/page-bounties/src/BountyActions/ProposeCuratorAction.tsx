@@ -63,9 +63,10 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         />
         {isOpen && (
           <Modal
-            data-testid={'propose-curator-modal'}
             header={`${t<string>('Propose curator')} - "${truncateTitle(description, 30)}"`}
+            onClose={toggleOpen}
             size='large'
+            testId='propose-curator-modal'
           >
             <Modal.Content>
               <Modal.Columns hint={t<string>('The council member that will create the motion.')}>
@@ -100,7 +101,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 )}
               </Modal.Columns>
             </Modal.Content>
-            <Modal.Actions onCancel={toggleOpen}>
+            <Modal.Actions>
               <TxButton
                 accountId={accountId}
                 icon='check'

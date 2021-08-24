@@ -48,6 +48,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         ? t<string>('democracy vote delegation')
         : t<string>('delegate democracy vote')
       }
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -100,7 +101,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {previousDelegatedAccount && (
           <TxButton
             accountId={delegatingAccount}

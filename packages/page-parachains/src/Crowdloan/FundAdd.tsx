@@ -55,6 +55,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
         <Modal
           className={className}
           header={t<string>('Add campaign')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -96,7 +97,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

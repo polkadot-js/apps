@@ -87,6 +87,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       header={t<string>('Teleport assets')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -160,7 +161,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           }
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={senderId}
           icon='share-square'

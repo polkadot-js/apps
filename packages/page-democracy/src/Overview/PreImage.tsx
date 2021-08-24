@@ -57,6 +57,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
     <Modal
       className={className}
       header={t<string>('Submit preimage')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -104,7 +105,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           </Modal.Columns>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'
