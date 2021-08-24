@@ -2834,7 +2834,7 @@ __metadata:
     "@subsocial/types": 0.6.1-1
     "@zeitgeistpm/type-defs": 0.2.5
     i18next: ^19.9.2
-    moonbeam-types-bundle: 1.1.27
+    moonbeam-types-bundle: 1.2.1
     pontem-types-bundle: 1.0.5
     rxjs: ^7.3.0
   languageName: unknown
@@ -14967,14 +14967,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:1.1.27":
-  version: 1.1.27
-  resolution: "moonbeam-types-bundle@npm:1.1.27"
+"moonbeam-types-bundle@npm:1.2.1":
+  version: 1.2.1
+  resolution: "moonbeam-types-bundle@npm:1.2.1"
   dependencies:
-    "@polkadot/keyring": ^7.0.3
-    "@polkadot/types": ^5.2.1
-    typescript: ^4.1.3
-  checksum: ffd2b949bc7a1ae19bc8405b29c17366378306fdc2d6a60ee32bb4e8191f608b73d044f122fb77f23aee465ad3f302e6085b92f229d25e84a9b3895900a78b44
+    "@polkadot/keyring": ^7.2.1
+    "@polkadot/types": ^5.6.1
+    typescript: ^4.3.5
+  checksum: 745f418de930905ef1aa605116187a48c57452e9f97922a17965bef4bd7e4360daa8701971d799146c15049ae2c9bb6da517af9f75dc3ec93ff2735f7300c188
   languageName: node
   linkType: hard
 
