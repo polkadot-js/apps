@@ -57,7 +57,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'charcoal',
-        paraId: 2010,
+        paraId: 2086,
         text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
