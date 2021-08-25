@@ -15,16 +15,16 @@ interface FlagProps {
   label: React.ReactNode;
 }
 
-function Flag ({color, label}: FlagProps): React.ReactElement<FlagProps> {
+function Flag ({ color, label }: FlagProps): React.ReactElement<FlagProps> {
   return (
     <Tag
-      color={color}
       className={`${color === 'theme' ? 'highlight--color-bg highlight--bg' : ''}` }
+      color={color}
       isFlag
       label={label}
       size='tiny'
     />
-  )
+  );
 }
 
 interface Props {
