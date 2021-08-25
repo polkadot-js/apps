@@ -7,7 +7,7 @@
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
   "dependencies": {
-    "@acala-network/type-definitions": "2.0.2-4",
+    "@acala-network/type-definitions": "2.1.1",
     "@babel/runtime": "^7.15.3",
     "@bifrost-finance/type-definitions": "1.2.12",
     "@crustio/type-definitions": "0.0.10",
