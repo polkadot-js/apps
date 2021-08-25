@@ -293,10 +293,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .ui--Tag.themeColor.darkTheme,
-  .ui--InputTags.darkTheme .ui.label,
-  .LdKdD.LdKdD.darkTheme .ui.label {
+  .ui--InputTags.darkTheme .ui.label {
     background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
-    color: ${countBrightness(uiHighlight) < BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
   }
 
   #root {

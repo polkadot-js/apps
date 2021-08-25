@@ -56,9 +56,9 @@ export default React.memo(styled(Tag)`
   white-space: nowrap;
   z-index: 1;
 
-  &.themeColor.darkTheme {
+  &.darkTheme {
     &:after {
-      background-color: var(--bg-tabs);
+      background-color: var(--bg-tabs) !important;
     }
   }
 
@@ -94,11 +94,13 @@ export default React.memo(styled(Tag)`
     background: darkgoldenrod;
   }
 
+  &:not(.isFlag).themeColor.darkTheme {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
   &.isFlag {
     border-radius: 0 0.25rem 0.25rem 0;
-    padding: 0.5833em 0.833em;
-    padding-left: 1.5em;
-    padding-right: 1.25em;
+    padding: 0.5833em 1.25em 0.5833em 1.5em;
     font-size: 0.78571429rem;
     line-height: 1;
 
