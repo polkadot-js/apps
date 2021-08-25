@@ -304,13 +304,19 @@ describe('Accounts page', () => {
 
     describe('sidebar', () => {
       const newAccountName = 'CHARLIE';
+      const defaultName = 'DefaultName';
       const defaultTag = 'Default';
 
       let accountRows: AccountRow[];
       let sideBar: Sidebar;
+      let address: string;
 
       beforeEach(async () => {
-        renderDefaultAccounts(1);
+        address = '5CcZRy9WTK3NBXNxcrwK67EsVRAUsfxSQAhmSwJHtGtYwJqu';
+
+        addAccountToKeyring(address, { name: defaultName, isTesting: false });
+
+        renderAccountsForAddresses(address);
         accountRows = await accountsPage.findAccountRows();
         sideBar = await accountRows[0].getSidebar();
       });
@@ -327,6 +333,10 @@ describe('Accounts page', () => {
           });
 
           it('within sidebar', async () => {
+            console.log('KEYRING:', keyring.getAccount(address));
+            const sideBarName = await sideBar.findByTestId('account-name');
+
+            // await waitFor(() => (expect(sideBarName.textContent).toEqual(newAccountName)), {timeout: 5000});
             await sideBar.assertAccountName(newAccountName);
           });
 
