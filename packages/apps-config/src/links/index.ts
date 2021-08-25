@@ -9,6 +9,7 @@ import Polkascan from './polkascan';
 import Polkassembly from './polkassembly';
 import Polkastats from './polkastats';
 import Subscan from './subscan';
+import Statescan from './statescan';
 
 export const externalLinks: Record<string, ExternalDef> = {
   Commonwealth,
@@ -16,5 +17,6 @@ export const externalLinks: Record<string, ExternalDef> = {
   Polkascan,
   Polkassembly,
   Polkastats,
-  Subscan
+  Subscan,
+  Statescan
 };
