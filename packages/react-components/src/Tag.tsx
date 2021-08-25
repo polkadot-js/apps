@@ -12,13 +12,14 @@ interface Props {
   className?: string;
   color?: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
   hover?: React.ReactNode;
+  isFlag?: boolean;
   label: React.ReactNode;
   size?: 'small' | 'tiny';
 }
 
 let tagId = 0;
 
-function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }: Props): React.ReactElement<Props> {
+function Tag ({ className = '', color = 'theme', hover, isFlag, label, size = 'small' }: Props): React.ReactElement<Props> {
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
   const tooltipProps = hover
@@ -27,7 +28,7 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
 
   return (
     <div
-      className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${className}`}
+      className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${isFlag ? ' isFlag' : ''} ${className}`}
       color={color || 'grey'}
       {...tooltipProps}
     >
@@ -56,7 +57,9 @@ export default React.memo(styled(Tag)`
   z-index: 1;
 
   &.themeColor.darkTheme {
-    background-color: rgba(255,255,255,0.08);
+    &:after {
+      background-color: var(--bg-tabs);
+    }
   }
 
   &.tinySize {
@@ -89,5 +92,45 @@ export default React.memo(styled(Tag)`
 
   &.yellowColor {
     background: darkgoldenrod;
+  }
+
+  &.isFlag {
+    border-radius: 0 0.25rem 0.25rem 0;
+    padding: 0.5833em 0.833em;
+    padding-left: 1.5em;
+    padding-right: 1.25em;
+    font-size: 0.78571429rem;
+    line-height: 1;
+
+    &.themeColor.darkTheme,
+    &.themeColor.lightTheme {
+      color: #fff;
+    }
+
+    &:after {
+      background-color: #fff;
+      border-radius: 500rem;
+      content: '';
+      left: -0.25em;
+      margin-top: -0.25em;
+      position: absolute;
+      width: 0.5em;
+      height: 0.5em;
+      top: 50%;
+    }
+
+    &:before {
+      border-radius: 0.2rem 0 0.1rem 0;
+      background-color: inherit;
+      background-image: none;
+      content: '';
+      right: 100%;
+      width: 1.56em;
+      height: 1.56em;
+      position: absolute;
+      transform: translateY(-50%) translateX(50%) rotate(-45deg);
+      top: 50%;
+      transition: none;
+    }
   }
 `);

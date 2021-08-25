@@ -10,6 +10,23 @@ import { Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
+interface FlagProps {
+  color: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
+  label: React.ReactNode;
+}
+
+function Flag ({color, label}: FlagProps): React.ReactElement<FlagProps> {
+  return (
+    <Tag
+      color={color}
+      className={`${color === 'theme' ? 'highlight--color-bg highlight--bg' : ''}` }
+      isFlag
+      label={label}
+      size='tiny'
+    />
+  )
+}
+
 interface Props {
   flags: AddressFlags;
   className?: string;
@@ -32,84 +49,73 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
       }
       <div>
         {isValidator && (
-          <Tag
+          <Flag
             color='theme'
             label={t<string>('Validator')}
-            size='tiny'
           />
         )}
         {isNominator && (
-          <Tag
+          <Flag
             color='theme'
             label={t<string>('Nominator')}
-            size='tiny'
           />
         )}
         {isExternal && (
           isMultisig
             ? (
-              <Tag
+              <Flag
                 color='green'
                 label={t<string>('Multisig')}
-                size='tiny'
               />
             )
             : isProxied
               ? (
-                <Tag
+                <Flag
                   color='grey'
-                  label={t<string>('External')}
-                  size='tiny'
+                  label={t<string>('Proxied')}
                 />
               )
               : (
-                <Tag
+                <Flag
                   color='grey'
                   label={t<string>('External')}
-                  size='tiny'
                 />
               )
         )}
         {isInjected && (
-          <Tag
+          <Flag
             color='grey'
             label={t<string>('Injected')}
-            size='tiny'
           />
         )}
         {isDevelopment && (
-          <Tag
+          <Flag
             color='grey'
             label={t<string>('Test account')}
-            size='tiny'
           />
         )}
         {isCouncil && (
-          <Tag
+          <Flag
             color='blue'
             label={t<string>('Council')}
-            size='tiny'
           />
         )}
         {isSociety && (
-          <Tag
+          <Flag
             color='green'
             label={t<string>('Society')}
-            size='tiny'
           />
         )}
         {isTechCommittee && (
-          <Tag
+          <Flag
             color='orange'
             label={t<string>('Technical committee')}
-            size='tiny'
           />
         )}
         {isSudo && (
-          <Tag
+          <Flag
             color='pink'
             label={t<string>('Sudo key')}
-            size='tiny'
           />
         )}
       </div>

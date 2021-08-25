@@ -288,13 +288,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .ui--Tag.themeColor.lightTheme,
   .ui--InputTags.lightTheme .ui.label {
-    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')} !important;
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
     color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
   }
 
   .ui--Tag.themeColor.darkTheme,
-  .ui--InputTags.darkTheme .ui.label {
-    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
+  .ui--InputTags.darkTheme .ui.label,
+  .LdKdD.LdKdD.darkTheme .ui.label {
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
+    color: ${countBrightness(uiHighlight) < BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
   }
 
   #root {
