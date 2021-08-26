@@ -47,12 +47,14 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
             value={address}
           />
         </Modal.Columns>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
-            <p>{t<string>('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
+              <p>{t<string>('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
+            </>
+          }
+        >
           <InputAddressMulti
             available={availableHelpers}
             availableLabel={t<string>('available social recovery helpers')}

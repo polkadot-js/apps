@@ -77,12 +77,14 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
                 onChange={setEndBlock}
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The first and last lease periods for this funding campaign.')}</p>
-                <p>{t<string>('The ending lease period should be after the first and a maximum of {{maxPeriods}} periods more than the first', { replace: { maxPeriods } })}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The first and last lease periods for this funding campaign.')}</p>
+                  <p>{t<string>('The ending lease period should be after the first and a maximum of {{maxPeriods}} periods more than the first', { replace: { maxPeriods } })}</p>
+                </>
+              }
+            >
               <InputNumber
                 defaultValue={defaultSlot}
                 isError={isFirstError}

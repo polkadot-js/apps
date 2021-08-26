@@ -88,12 +88,14 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
                 value={accountId}
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
-                <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
+                  <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
+                </>
+              }
+            >
               {Array.isArray(payout)
                 ? (
                   <Static

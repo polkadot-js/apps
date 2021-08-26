@@ -384,12 +384,14 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
   if (withBalanceToggle) {
     return (
       <React.Fragment key={formatIndex}>
-        <Expander summary={
-          <FormatBalance
-            formatIndex={formatIndex}
-            value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
-          />
-        }>
+        <Expander
+          summary={
+            <FormatBalance
+              formatIndex={formatIndex}
+              value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+            />
+          }
+        >
           {allItems.length !== 0 && (
             <div className='body column'>
               {allItems}

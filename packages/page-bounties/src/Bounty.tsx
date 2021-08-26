@@ -141,8 +141,10 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
               proposals={proposals}
               status={status}
             />
-            <div className='table-column-icon'
-              onClick={handleOnIconClick}>
+            <div
+              className='table-column-icon'
+              onClick={handleOnIconClick}
+            >
               <Icon icon={
                 isExpanded
                   ? 'caret-up'

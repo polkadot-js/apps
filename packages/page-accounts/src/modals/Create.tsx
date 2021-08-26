@@ -241,9 +241,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     []
   );
 
-  const _toggleMnemonicSaved = () => {
-    setIsMnemonicSaved(!isMnemonicSaved);
-  };
+  const _toggleMnemonicSaved = useCallback(
+    () => setIsMnemonicSaved(!isMnemonicSaved),
+    [isMnemonicSaved]
+  );
 
   const _onCommit = useCallback(
     (): void => {

@@ -104,7 +104,8 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
                 <p>{t<string>('The amount to to bid for this parachain lease period range.')}</p>
                 <p>{t<string>('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
-            }>
+            }
+            >
               <InputBalance
                 autoFocus
                 isError={isAmountError}
