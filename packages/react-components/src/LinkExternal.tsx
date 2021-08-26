@@ -17,6 +17,7 @@ interface Props {
   data: BN | number | string;
   hash?: string;
   isLogo?: boolean;
+  isSidebar?: boolean;
   isSmall?: boolean;
   type: LinkTypes;
 }
@@ -25,7 +26,7 @@ interface Props {
 //   return `${name[0]}${name[name.length - 1]}`;
 // }
 
-function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): React.ReactNode[] {
+function genLinks (systemChain: string, { data, hash, isLogo, isSidebar, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
     .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
@@ -45,7 +46,12 @@ function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): Re
           title={`${name}, ${url}`}
         >
           {isLogo
-            ? <img src={logo} />
+            ? (
+              <img
+                className={`${isSidebar ? ' isSidebar' : ''}`}
+                src={logo}
+              />
+            )
             : name
           }
         </a>
@@ -54,12 +60,12 @@ function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): Re
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className = '', data, hash, isLogo, isSmall, type }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, isLogo, isSidebar, isSmall, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(
-    () => genLinks(systemChain, { data, hash, isLogo, type }),
-    [systemChain, data, hash, isLogo, type]
+    () => genLinks(systemChain, { data, hash, isLogo, isSidebar, type }),
+    [systemChain, data, hash, isLogo, isSidebar, type]
   );
 
   if (!links.length) {
@@ -67,7 +73,7 @@ function LinkExternal ({ className = '', data, hash, isLogo, isSmall, type }: Pr
   }
 
   return (
-    <div className={`${className}${isLogo ? ' isLogo' : ''}${isSmall ? ' isSmall' : ''}`}>
+    <div className={`${className}${isLogo ? ' isLogo' : ''}${isSmall ? ' isSmall' : ''}${isSidebar ? ' isSidebar' : ''}`}>
       {!(isLogo || isSmall) && <div>{t<string>('View this externally')}</div>}
       <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
@@ -80,6 +86,10 @@ export default React.memo(styled(LinkExternal)`
   &.isSmall {
     font-size: 0.85rem;
     line-height: 1.35;
+    text-align: center;
+  }
+
+  &.isSidebar {
     text-align: center;
   }
 
@@ -98,6 +108,11 @@ export default React.memo(styled(LinkExternal)`
       filter: grayscale(1) opacity(0.66);
       height: 1.5rem;
       width: 1.5rem;
+
+      &.isSidebar {
+        height: 2rem;
+        width: 2rem;
+      }
 
       &:hover {
         filter: grayscale(0) opacity(1);

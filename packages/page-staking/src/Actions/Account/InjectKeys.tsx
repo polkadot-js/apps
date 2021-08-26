@@ -81,6 +81,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       header={t<string>('Inject Keys')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -117,7 +118,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sign-in-alt'
           label={t<string>('Submit key')}

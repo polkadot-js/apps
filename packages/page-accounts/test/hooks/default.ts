@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { UseAccountInfo } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 
@@ -11,6 +12,7 @@ import { makeStakingLedger } from '@polkadot/test-support/creation/stakingInfo/s
 
 export interface Account {
   balance: DeriveBalancesAll,
+  info: UseAccountInfo,
   staking: DeriveStakingAccount
 }
 
@@ -26,6 +28,9 @@ export interface AccountOverrides {
   staking?: {
     [P in keyof DeriveStakingAccount]?: DeriveStakingAccount[P];
   };
+  info?: {
+    [P in keyof UseAccountInfo]?: UseAccountInfo[P];
+  }
 }
 
 export const emptyAccounts: UseAccounts = {
@@ -74,6 +79,12 @@ export const defaultStakingAccount: DeriveStakingAccount = {
   ]
 } as any;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+export const defaultAccountInfo: UseAccountInfo = {
+  flags: {},
+  tags: []
+} as any;
+
 class MockAccountHooks {
   public useAccounts: UseAccounts = emptyAccounts;
   public accountsMap: AccountsMap = {};
@@ -92,6 +103,7 @@ class MockAccountHooks {
     for (const [address, props] of accounts) {
       const staking = { ...defaultStakingAccount };
       const balance = { ...defaultBalanceAccount };
+      const info = { ...defaultAccountInfo };
 
       // Typescript does not recognize that keys and values from Object.entries are safe,
       // so we have to use "any" here.
@@ -100,9 +112,12 @@ class MockAccountHooks {
       Object.entries(props.balance || balance).forEach(function ([key, value]) { (balance as any)[key] = value; });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       Object.entries(props.staking || staking).forEach(function ([key, value]) { (staking as any)[key] = value; });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      Object.entries(props.info || info).forEach(function ([key, value]) { (info as any)[key] = value; });
 
       this.accountsMap[address] = {
         balance: balance,
+        info: info,
         staking: staking
       };
     }
