@@ -2,20 +2,37 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Balance } from '@polkadot/types/interfaces';
-import type { AccountOverrides } from '../../test/hooks/default';
 
-import { screen, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
+import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
+import toShortAddress from '@polkadot/react-components/util/toShortAddress';
+import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountOverrides } from '../../test/hooks/default';
+import { AccountsPage, format } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
+  const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+  const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+  const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
+  const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
+
+  const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
+    keyring.addExternal(address, meta);
+  };
+
+  const forgetAccountFromKeyring = (address: string) => {
+    keyring.forgetAccount(address);
+  };
+
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
@@ -25,6 +42,7 @@ describe('Accounts page', () => {
 
   beforeEach(() => {
     accountsPage = new AccountsPage();
+    forgetAccountFromKeyring(aliceDerivedAddress);
   });
 
   describe('when no accounts', () => {
@@ -61,17 +79,7 @@ describe('Accounts page', () => {
 
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
-      defaultRender(
-        {
-          balance: {
-            freeBalance: balance(10000)
-          }
-        },
-        {
-          balance: {
-            freeBalance: balance(999)
-          }
-        });
+      renderDefaultAccounts(2);
 
       const accountRows = await accountsPage.findAccountRows();
 
@@ -79,44 +87,117 @@ describe('Accounts page', () => {
     });
 
     it('account rows display the total balance info', async () => {
-      defaultRender(
-        {
-          balance: {
-            freeBalance: balance(500)
-          }
-        },
-        {
-          balance: {
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500) }),
+        anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
+      );
+
       const rows = await accountsPage.findAccountRows();
 
-      const row1TotalActual = await within(rows[0]).findByTestId('balance-summary');
-      const row1TotalExpected = accountsPage.format(balance(500));
+      await rows[0].assertBalancesTotal(balance(500));
+      await rows[1].assertBalancesTotal(balance(350));
+    });
 
-      expect(row1TotalActual).toHaveTextContent(row1TotalExpected);
+    it('account rows display the details balance info', async () => {
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500), lockedBalance: balance(30) }),
+        anAccountWithBalance({ availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
+      );
 
-      const row2TotalActual = await within(rows[1]).findByTestId('balance-summary');
-      const row2TotalExpected = accountsPage.format(balance(350));
+      const rows = await accountsPage.findAccountRows();
 
-      expect(row2TotalActual).toHaveTextContent(row2TotalExpected);
+      await rows[0].assertBalancesDetails([
+        { amount: balance(0), name: 'transferrable' },
+        { amount: balance(30), name: 'locked' }]);
+      await rows[1].assertBalancesDetails([
+        { amount: balance(50), name: 'transferrable' },
+        { amount: balance(150), name: 'reserved' }]);
+    });
+
+    it('derived account displays parent account info', async () => {
+      addAccountToKeyring(aliceDerivedAddress, { parentAddress: aliceAddress });
+
+      renderAccountsForAddresses(
+        aliceAddress,
+        aliceDerivedAddress
+      );
+
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(2);
+      await accountRows[1].assertParentAccountName('ALICE');
+    });
+
+    it('a separate column for parent account is not displayed', async () => {
+      renderDefaultAccounts(1);
+      const accountsTable = await accountsPage.findAccountsTable();
+
+      assertColumnNotExistInTable('parent', accountsTable);
+      assertColumnExistsInTable('type', accountsTable);
+    });
+
+    it('account rows display the shorted address', async () => {
+      renderAccountsForAddresses(
+        aliceAddress
+      );
+      const accountRows = await accountsPage.findAccountRows();
+
+      expect(accountRows).toHaveLength(1);
+      const aliceShortAddress = toShortAddress(aliceAddress);
+
+      await accountRows[0].assertShortAddress(aliceShortAddress);
+    });
+
+    it('when account is not tagged, account row details displays no tags info', async () => {
+      renderDefaultAccounts(1);
+      const rows = await accountsPage.findAccountRows();
+
+      await rows[0].assertTags('no tags');
+    });
+
+    it('when account is tagged, account row details displays tags', async () => {
+      renderAccountsWithDefaultAddresses(
+        anAccountWithInfo({ tags: ['my tag', 'Super Tag'] })
+      );
+
+      const rows = await accountsPage.findAccountRows();
+
+      await rows[0].assertTags('my tagSuper Tag');
+    });
+
+    it('account details rows keep colouring from their primary rows', async () => {
+      renderDefaultAccounts(3);
+
+      const rows = await accountsPage.findAccountRows();
+
+      expect(rows[0].primaryRow).toHaveClass('isOdd');
+      expect(rows[0].detailsRow).toHaveClass('isOdd');
+
+      expect(rows[1].primaryRow).toHaveClass('isEven');
+      expect(rows[1].detailsRow).toHaveClass('isEven');
+
+      expect(rows[2].primaryRow).toHaveClass('isOdd');
+      expect(rows[2].detailsRow).toHaveClass('isOdd');
+    });
+
+    it('account details rows toggled on icon toggle click', async () => {
+      renderDefaultAccounts(1);
+
+      const row = (await accountsPage.findAccountRows())[0];
+      const toggle = await within(row.primaryRow).findByTestId('row-toggle');
+
+      expect(row.detailsRow).toHaveClass('isCollapsed');
+
+      fireEvent.click(toggle);
+
+      expect(row.detailsRow).toHaveClass('isExpanded');
     });
 
     it('displays some summary', () => {
-      defaultRender(
-        {
-          balance: {
-            freeBalance: balance(500)
-          }
-        },
-        {
-          balance: {
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500) }),
+        anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
+      );
 
       const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
 
@@ -124,26 +205,21 @@ describe('Accounts page', () => {
     });
 
     it('displays balance summary', async () => {
-      defaultRender(
-        {
-          balance: {
-            freeBalance: balance(500)
-          }
-        },
-        {
-          balance: {
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500) }),
+        anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
+      );
 
       const summary = await screen.findByTestId(/card-summary:(total )?balance/i);
 
       expect(summary).toHaveTextContent(showBalance(500 + 200 + 150));
     });
 
-    it('displays transferrable summary', async () => {
-      defaultRender({ balance: { availableBalance: balance(400) } }, { balance: { availableBalance: balance(600) } });
+    it('displays transferable summary', async () => {
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ availableBalance: balance(400) }),
+        anAccountWithBalance({ availableBalance: balance(600) })
+      );
 
       const summary = await screen.findByTestId(/card-summary:(total )?transferrable/i);
 
@@ -151,7 +227,10 @@ describe('Accounts page', () => {
     });
 
     it('displays locked summary', async () => {
-      defaultRender({ balance: { lockedBalance: balance(400) } }, { balance: { lockedBalance: balance(600) } });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ lockedBalance: balance(400) }),
+        anAccountWithBalance({ lockedBalance: balance(600) })
+      );
 
       const summary = await screen.findByTestId(/card-summary:(total )?locked/i);
 
@@ -159,17 +238,10 @@ describe('Accounts page', () => {
     });
 
     it('displays bonded summary', async () => {
-      defaultRender(
-        {
-          staking: {
-            stakingLedger: ledger(balance(70))
-          }
-        },
-        {
-          staking: {
-            stakingLedger: ledger(balance(20))
-          }
-        });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithStaking({ stakingLedger: ledger(balance(70)) }),
+        anAccountWithStaking({ stakingLedger: ledger(balance(20)) })
+      );
 
       const summary = await screen.findByTestId(/card-summary:(total )?bonded/i);
 
@@ -177,43 +249,40 @@ describe('Accounts page', () => {
     });
 
     it('displays unbonding summary', async () => {
-      defaultRender(
-        {
-          staking: {
-            unlocking: [
-              {
-                remainingEras: new BN('1000000000'),
-                value: balance(200)
-              },
-              {
-                remainingEras: new BN('2000000000'),
-                value: balance(300)
-              },
-              {
-                remainingEras: new BN('3000000000'),
-                value: balance(400)
-              }
-            ]
-          }
-        },
-        {
-          staking: {
-            unlocking: [
-              {
-                remainingEras: new BN('1000000000'),
-                value: balance(100)
-              },
-              {
-                remainingEras: new BN('2000000000'),
-                value: balance(200)
-              },
-              {
-                remainingEras: new BN('3000000000'),
-                value: balance(300)
-              }
-            ]
-          }
-        });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithStaking({
+          unlocking: [
+            {
+              remainingEras: new BN('1000000000'),
+              value: balance(200)
+            },
+            {
+              remainingEras: new BN('2000000000'),
+              value: balance(300)
+            },
+            {
+              remainingEras: new BN('3000000000'),
+              value: balance(400)
+            }
+          ]
+        }),
+        anAccountWithStaking({
+          unlocking: [
+            {
+              remainingEras: new BN('1000000000'),
+              value: balance(100)
+            },
+            {
+              remainingEras: new BN('2000000000'),
+              value: balance(200)
+            },
+            {
+              remainingEras: new BN('3000000000'),
+              value: balance(300)
+            }
+          ]
+        })
+      );
 
       const summary = await screen.findByTestId(/card-summary:(total )?unbonding/i);
 
@@ -221,7 +290,10 @@ describe('Accounts page', () => {
     });
 
     it('displays redeemable summary', async () => {
-      defaultRender({ staking: { redeemable: balance(4000) } }, { staking: { redeemable: balance(5000) } });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithStaking({ redeemable: balance(4000) }),
+        anAccountWithStaking({ redeemable: balance(5000) })
+      );
 
       const summary = await screen.findByTestId(/card-summary:(total )?redeemable/i);
 
@@ -241,22 +313,55 @@ describe('Accounts page', () => {
     return balanceOf(amountInt.toString() + decimalsPadded);
   };
 
-  const showBalance = function (amount: number): string {
-    return accountsPage.format(balance(amount));
-  };
+  const anAccount = (): AccountOverrides => ({});
+
+  const anAccountWithBalance = (balance: { [P in keyof DeriveBalancesAll]?: DeriveBalancesAll[P] }) => ({
+    balance
+  });
+
+  const anAccountWithInfo = (info: { [P in keyof UseAccountInfo]?: UseAccountInfo[P] }) => ({
+    info
+  });
+
+  const anAccountWithStaking = (staking: { [P in keyof DeriveStakingAccount]?: DeriveStakingAccount[P]}) => ({
+    staking
+  });
+
+  function assertColumnNotExistInTable (columnName: string, table: HTMLElement) {
+    expect(within(table).queryByRole('columnheader', { name: columnName })).toBeFalsy();
+  }
+
+  function assertColumnExistsInTable (columnName: string, table: HTMLElement) {
+    expect(within(table).getByRole('columnheader', { name: columnName })).toBeTruthy();
+  }
+
+  function showBalance (amount: number): string {
+    return format(balance(amount));
+  }
 
   const defaultAddresses = [
-    '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-    '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw'
+    aliceAddress,
+    bobAddress,
+    charlieAddress
   ];
 
-  const defaultRender = function (...overrides: AccountOverrides[]): void {
-    const accounts: [string, AccountOverrides][] = [];
-
-    for (let i = 0; i < overrides.length; i++) {
-      accounts.push([defaultAddresses[i], overrides[i]]);
-    }
+  function renderAccountsWithDefaultAddresses (...overrides: AccountOverrides[]): void {
+    const accounts = overrides.map((accountProperties, index) =>
+      [defaultAddresses[index], accountProperties] as [string, AccountOverrides]);
 
     accountsPage.renderPage(accounts);
-  };
+  }
+
+  function renderAccountsForAddresses (...addresses: string[]): void {
+    const accounts = addresses.map((address) => [address, anAccount()] as [string, AccountOverrides]);
+
+    accountsPage.renderPage(accounts);
+  }
+
+  function renderDefaultAccounts (accountsNumber: number): void {
+    const accounts = Array.from({ length: accountsNumber },
+      (_, index) => [defaultAddresses[index], anAccount()] as [string, AccountOverrides]);
+
+    accountsPage.renderPage(accounts);
+  }
 });
