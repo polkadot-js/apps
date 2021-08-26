@@ -153,6 +153,8 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
       <section>
         <LinkExternal
           data={address}
+          isLogo
+          isSidebar
           type='address'
         />
       </section>
@@ -161,6 +163,9 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
 }
 
 export default React.memo(styled(FullSidebar)`
+  display: flex;
+  flex-direction: column;
+
   input {
     width: auto !important;
   }
@@ -191,6 +196,10 @@ export default React.memo(styled(FullSidebar)`
   section {
     &:not(:last-child) {
       margin-bottom: 1.4rem;
+    }
+
+    & :last-child {
+      margin-top: auto;
     }
 
     .ui--AddressMenu-sectionHeader {

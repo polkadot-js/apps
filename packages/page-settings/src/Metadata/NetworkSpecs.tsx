@@ -79,8 +79,14 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     (color: string): void => setNetworkSpecs({ color }),
     []
   );
+
   const _onSetRandomColor = useCallback(
-    (): void => setNetworkSpecs({ color: getRandomColor() }),
+    (event: React.MouseEvent<unknown>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      setNetworkSpecs({ color: getRandomColor() });
+    },
     []
   );
   const _checkColorValid = useCallback(
@@ -137,18 +143,17 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
                 onChange={_onChangeColor}
                 value={networkSpecs.color}
               />
-              <a className='settings--networkSpecs-colorChangeButton'
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  _onSetRandomColor();
-                }}>
+              <a
+                className='settings--networkSpecs-colorChangeButton'
+                onClick={_onSetRandomColor}
+              >
                               generate random color
               </a>
             </div>
             <ChainColorIndicator
               className='settings--networkSpecs-colorBar'
-              color={networkSpecs.color} />
+              color={networkSpecs.color}
+            />
           </div>
         </td>
       </tr>

@@ -147,7 +147,7 @@ const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
-const nodeZCloak = 'linear-gradient(to right, #7DA6D4,  #B996E5)';
+const nodeZCloak = 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
