@@ -87,7 +87,7 @@ export default React.memo(styled(Tag)`
     background: darkgoldenrod;
   }
 
-  &:not(.ui--Flag).themeColor.darkTheme {
-    background-color: rgba(255,255,255,0.08) !important;
+  &.themeColor.darkTheme {
+    background-color: rgba(255,255,255,0.08);
   }
 `);

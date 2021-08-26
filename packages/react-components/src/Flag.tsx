@@ -16,7 +16,7 @@ interface FlagProps {
 function Flag ({ className = '', color, label }: FlagProps): React.ReactElement<FlagProps> {
   return (
     <Tag
-      className={`ui--Flag ${className} ${color === 'theme' ? ' highlight--color-bg highlight--bg' : ''}` }
+      className={`${className} ${color === 'theme' ? ' highlight--color-bg highlight--bg' : ''}` }
       color={color}
       isFlag
       label={label}
