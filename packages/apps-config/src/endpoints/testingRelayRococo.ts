@@ -191,7 +191,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoHalongbay',
         paraId: 2018,
-        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'app-config' }),
+        text: t('rpc.rococo.halongbay', 'Halongbay', { ns: 'apps-config' }),
         providers: {
           Halongbay: 'wss://halongbay.polkafoundry.com'
         }
@@ -218,7 +218,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoIntegritee',
         isDisabled: true, // Rococo reset
         paraId: 1983,
-        text: t('rpc.rococo.integritee', 'IntegriTEE PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.integritee', 'Integritee PC1', { ns: 'apps-config' }),
         providers: {
           SCS: 'wss://rococo.integritee.network'
         }
@@ -256,6 +256,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rocco.litentry', 'Litentry Rostock', { ns: 'apps-config' }),
         providers: {
           Litentry: 'wss://rococov1.litentry.io'
+        }
+      },
+      {
+        info: 'rococoLoomNetwork',
+        paraId: 2043,
+        text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://rococo.dappchains.com'
         }
       },
       {
@@ -297,7 +305,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoOriginTrail',
         paraId: 2037,
-        text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        text: t('rpc.rococo.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
         providers: {
           'Trace Labs': 'wss://polkadot-js-second.origin-trail.network'
         }
@@ -348,10 +356,10 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoPolkabtc',
+        info: 'rococoInterBTC',
         isDisabled: true, // Rococo reset
         paraId: 21,
-        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://rococo.polkabtc.io/api/parachain'
         }
@@ -429,7 +437,8 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoZeitgeist',
-        paraId: 2049,
+        isDisabled: true, // See https://github.com/polkadot-js/apps/issues/5842
+        paraId: 2050,
         text: t('rpc.rococo.zeitgeist', 'Zeitgeist PC', { ns: 'apps-config' }),
         providers: {
           Zeitgeist: 'wss://roc.zeitgeist.pm'

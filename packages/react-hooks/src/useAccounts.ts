@@ -9,7 +9,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useIsMountedRef } from './useIsMountedRef';
 
-interface UseAccounts {
+export interface UseAccounts {
   allAccounts: string[];
   allAccountsHex: string[];
   areAccountsLoaded: boolean

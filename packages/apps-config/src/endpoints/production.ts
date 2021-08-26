@@ -34,6 +34,13 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'crust',
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
+      }
+    },
+    {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
@@ -75,7 +82,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
     },
     {
       info: 'hanonycash',
-      isUnreachable: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
@@ -131,11 +138,21 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       }
     },
     {
+      info: 'robonomics',
+      text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
+      providers: {
+        Airalab: 'wss://kusama.rpc.robonomics.network/'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
+        'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
+        'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
         Soramitsu: 'wss://ws.alb.sora.org',
-        'SORA Parliament Ministry of Finance': 'wss://mof.sora.org:4443'
+        'SORA Community (Lux8)': 'wss://sora.lux8.net'
       }
     },
     {

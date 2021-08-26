@@ -36,6 +36,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
     <Modal
       className={className}
       header={t<string>('Setup account as recoverable')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -78,7 +79,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={address}
           icon='share-alt'

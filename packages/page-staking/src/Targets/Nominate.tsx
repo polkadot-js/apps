@@ -59,6 +59,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
         <Modal
           className={className}
           header={t<string>('Nominate validators')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -96,7 +97,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={ids?.controllerId}
               label={t<string>('Nominate')}

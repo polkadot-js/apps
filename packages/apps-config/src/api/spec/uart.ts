@@ -12,10 +12,16 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        AccountInfo: 'AccountInfoWithRefCount',
         Keys: 'SessionKeys2',
-        Address: 'AccountId',
-        LookupSource: 'AccountId',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
+        AccountData: {
+          free: 'Balance',
+          reserved: 'Balance',
+          misc_frozen: 'Balance',
+          fee_frozen: 'Balance'
+        },
+        AccountInfo: 'AccountInfoWithDualRefCount',
         WorkId: 'u32',
         Id: 'u32',
         Name: 'Vec<u8>',
@@ -26,16 +32,16 @@ const definitions: OverrideBundleDefinition = {
         ProposalId: 'u64',
         TokenBalance: 'Balance',
         LotteryKind: {
-          _enum: {
-            Routine: 'Null',
-            TreasuryFunded: 'ReasonIndex'
-          }
+          _enum: [
+            'Routine',
+            'TreasuryFunded(ReasonIndex)'
+          ]
         },
         LottoResult: {
-          _enum: {
-            Routine: '(AccountId, Balance)',
-            TreasuryFunded: 'Balance'
-          }
+          _enum: [
+            'Routine(AccountId, Balance)',
+            'TreasuryFunded(Balance)'
+          ]
         },
         Lottery: {
           round: 'LottoIndex',
@@ -44,7 +50,7 @@ const definitions: OverrideBundleDefinition = {
           next_ticket_id: 'u32',
           players: 'BTreeMap<AccountId, bool>',
           tickets: 'BTreeMap<u32, AccountId>',
-          result: 'Option<LottoResult>'
+          result: 'Option<LottoResult<AccountId, Balance>>'
         },
         CurrencyId: {
           _enum: {
@@ -57,10 +63,16 @@ const definitions: OverrideBundleDefinition = {
           }
         },
         TokenSymbol: {
-          _enum: {
-            USDT: 'Null',
-            DAI: 'Null'
-          }
+          _enum: [
+            'USDT',
+            'DAI'
+          ]
+        },
+        StorageVersion: {
+          _enum: [
+            'V1_0_0',
+            'V2_0_0'
+          ]
         },
         CurrencyIdOf: 'CurrencyId',
         Amount: 'i128',
@@ -76,18 +88,18 @@ const definitions: OverrideBundleDefinition = {
           total_supply: 'Balance'
         },
         OrderType: {
-          _enum: {
-            Buy: 'Null',
-            Sell: 'Null'
-          }
+          _enum: [
+            'Buy',
+            'Sell'
+          ]
         },
         OrderStatus: {
-          _enum: {
-            Created: 'Null',
-            PartialFilled: 'Null',
-            Filled: 'Null',
-            Canceled: 'Null'
-          }
+          _enum: [
+            'Created',
+            'PartialFilled',
+            'Filled',
+            'Canceled'
+          ]
         },
         TradePair: {
           hash: 'H256',
@@ -158,10 +170,10 @@ const definitions: OverrideBundleDefinition = {
           amount: 'u64'
         },
         AccessMode: {
-          _enum: {
-            Normal: 'Null',
-            WhiteList: 'Null'
-          }
+          _enum: [
+            'Normal',
+            'WhiteList'
+          ]
         },
         SaleOrder: {
           order_id: 'u64',
@@ -207,7 +219,7 @@ const definitions: OverrideBundleDefinition = {
         },
         ReFungibleItemType: {
           Collection: 'u64',
-          Owner: 'Vec<Ownership>',
+          Owner: 'Vec<Ownership<AccountId>>',
           Data: 'Vec<u8>',
           item_hash: 'H160'
         },

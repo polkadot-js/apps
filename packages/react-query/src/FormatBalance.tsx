@@ -84,15 +84,18 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
   // labelPost here looks messy, however we ensure we have one less text node
   return (
     <div className={`ui--FormatBalance ${className}`}>
-      {label ? <>{label}&nbsp;</> : ''}<span className='ui--FormatBalance-value'>{
-        valueFormatted
-          ? splitFormat(valueFormatted, labelPost, isShort)
-          : value
-            ? value === 'all'
-              ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
-              : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
-            : `-${labelPost || ''}`
-      }</span>{children}
+      {label ? <>{label}&nbsp;</> : ''}
+      <span
+        className='ui--FormatBalance-value'
+        data-testid='balance-summary'>{
+          valueFormatted
+            ? splitFormat(valueFormatted, labelPost, isShort)
+            : value
+              ? value === 'all'
+                ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
+                : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
+              : `-${labelPost || ''}`
+        }</span>{children}
     </div>
   );
 }

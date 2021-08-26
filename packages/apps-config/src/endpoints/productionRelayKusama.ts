@@ -22,7 +22,8 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io'
+      'Patract Elara': 'wss://kusama.elara.patract.io',
+      'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
@@ -68,8 +69,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          'Bifrost Foundation': 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://bifrost.kusama.elara.patract.io'
         }
       },
       {
@@ -102,6 +104,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
+        isUnreachable: true,
         homepage: 'https://genshiro.equilibrium.io',
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
@@ -110,12 +113,21 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'heiko',
+        isUnreachable: true,
+        paraId: 2085,
+        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
+        providers: {
+          Parallel: 'wss://heiko-rpc-0.parallel.fi'
+        }
+      },
+      {
         info: 'integritee',
         isUnreachable: true,
         paraId: 2015,
-        text: t('rpc.kusama.integritee', 'IntegriTEE Network', { ns: 'apps-config' }),
+        text: t('rpc.kusama.integritee', 'Integritee Network', { ns: 'apps-config' }),
         providers: {
-          IntegriTEE: 'wss://mainnet.integritee.network'
+          Integritee: 'wss://mainnet.integritee.network'
         }
       },
       {
@@ -135,19 +147,18 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'khala',
-        isUnreachable: true,
         homepage: 'https://phala.network/',
         paraId: 2004,
         text: t('rpc.kusama.khala', 'Khala Network', { ns: 'apps-config' }),
         providers: {
-          Phala: 'wss://khala.phala.network/ws',
+          Phala: 'wss://khala-api.phala.network/ws',
           OnFinality: 'wss://khala.api.onfinality.io/public-ws'
         }
       },
       {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
-        paraId: 2005,
+        paraId: 2086,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/'
@@ -161,6 +172,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kpron', 'Kpron', { ns: 'apps-config' }),
         providers: {
           Kpron: 'wss://kusama-kpron-rpc.apron.network/'
+        }
+      },
+      {
+        info: 'loomNetwork',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
+        homepage: 'https://loomx.io/',
+        paraId: 2080,
+        text: t('rpc.kusama.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
+        providers: {
+          LoomNetwork: 'wss://kusama.dappchains.com'
         }
       },
       {
@@ -193,13 +214,12 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'robonomics',
-        homepage: 'http://robonomics.network/',
-        paraId: 2077,
-        text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
-        providers: {
-          Airalab: 'wss://kusama.rpc.robonomics.network/'
-        }
+        info: 'trustbase',
+        isUnreachable: true, // no providers (yet)
+        homepage: 'https://trustbase.network/',
+        paraId: 2078,
+        text: t('rpc.kusama.trustbase', 'TrustBase', { ns: 'apps-config' }),
+        providers: {}
       },
       {
         info: 'sakura',
