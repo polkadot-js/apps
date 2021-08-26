@@ -187,6 +187,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
     <Modal
       className={className}
       header={t<string>('Derive account from pair')}
+      onClose={onClose}
     >
       {address && isConfirmationOpen
         ? (
@@ -263,7 +264,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
           </Modal.Content>
         )
       }
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {isLocked
           ? (
             <Button

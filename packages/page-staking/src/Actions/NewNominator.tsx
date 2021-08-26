@@ -68,6 +68,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
               step
             }
           })}
+          onClose={_toggle}
           size='large'
         >
           <Modal.Content>
@@ -92,7 +93,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
               <BatchWarning />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <Button
               icon='step-backward'
               isDisabled={step === 1}

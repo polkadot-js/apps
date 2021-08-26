@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Button, Menu, Popup } from '@polkadot/react-components';
@@ -60,10 +60,14 @@ function Index ({ bestNumber, className, description, index, proposals, status }
 
   const hasNoItems = !(showCloseBounty || showRejectCurator || showExtendExpiry || showSlashCurator || showGiveUpCurator);
 
-  function slashCuratorClicked (action: ValidUnassignCuratorAction) {
-    setSlashAction(action);
-    toggleSlashCurator();
-  }
+  const slashCurator = useCallback(
+    (actionName: ValidUnassignCuratorAction) =>
+      (): void => {
+        setSlashAction(actionName);
+        toggleSlashCurator();
+      },
+    [toggleSlashCurator]
+  );
 
   return !hasNoItems
     ? (
@@ -150,7 +154,7 @@ function Index ({ bestNumber, className, description, index, proposals, status }
               {showSlashCurator && availableSlashActions.map((actionName) =>
                 <Menu.Item
                   key={actionName}
-                  onClick={() => slashCuratorClicked(actionName)}
+                  onClick={slashCurator(actionName)}
                 >
                   {slashCuratorActionNames.current[actionName]}
                 </Menu.Item>

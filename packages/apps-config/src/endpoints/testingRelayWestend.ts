@@ -57,7 +57,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'charcoal',
-        paraId: 2010,
+        paraId: 2086,
         text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
@@ -99,7 +99,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'kilt',
         homepage: 'https://www.kilt.io/',
-        paraId: 2009,
+        paraId: 2085,
         text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
