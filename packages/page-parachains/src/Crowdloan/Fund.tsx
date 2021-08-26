@@ -111,9 +111,7 @@ function Fund ({ bestHash, bestNumber, className, isOdd, isOngoing, leasePeriod,
         <FormatBalance
           value={raised}
           withCurrency={false}
-        />&nbsp;/&nbsp;<FormatBalance
-          value={cap}
-        />
+        />&nbsp;/&nbsp;<FormatBalance value={cap} />
         <div>{percentage}</div>
         {myAccounts.length !== 0 && (
           <Expander

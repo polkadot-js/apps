@@ -52,12 +52,14 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
-            <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
+              <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
+            </>
+          }
+        >
           <InputAddress
             label={t<string>('delegating account')}
             onChange={setDelegatingAccount}

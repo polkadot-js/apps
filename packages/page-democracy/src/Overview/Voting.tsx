@@ -54,12 +54,14 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
             <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
               <VoteAccount onChange={setAccountId} />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-                <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+                  <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+                </>
+              }
+            >
               {isCurrentVote && (
                 <VoteValue
                   accountId={accountId}

@@ -124,12 +124,14 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             type='allPlus'
           />
         </Modal.Columns>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}</p>
-            <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}</p>
+              <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee.')}</p>
+            </>
+          }
+        >
           <InputBalance
             autoFocus
             isError={!hasAvailable}
