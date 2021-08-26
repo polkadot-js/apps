@@ -80,7 +80,7 @@ jest.mock('@polkadot/react-hooks/useAccounts', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useAccountInfo', () => ({
-  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address].info
+  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address]?.info || {}
 }));
 
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
