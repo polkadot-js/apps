@@ -15,19 +15,26 @@ import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
 
+function noop (): void {
+  // do nothing
+}
+
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
 
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
-        <Api store={memoryStore}
-          url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+        <Api
+          apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+          store={memoryStore}
+        >
           <WaitForApi>
             <div>
-              <AccountsApp basePath='/accounts'
-                onStatusChange={() => { /* */
-                }}/>
+              <AccountsApp
+                basePath='/accounts'
+                onStatusChange={noop}
+              />
             </div>
           </WaitForApi>
         </Api>

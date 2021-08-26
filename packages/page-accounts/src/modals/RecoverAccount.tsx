@@ -23,6 +23,7 @@ function RecoverAccount ({ address, className = '', onClose }: Props): React.Rea
     <Modal
       className={className}
       header={t<string>('Initiate account recovery')}
+      onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
@@ -37,7 +38,7 @@ function RecoverAccount ({ address, className = '', onClose }: Props): React.Rea
           type='allPlus'
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={address}
           icon='recycle'

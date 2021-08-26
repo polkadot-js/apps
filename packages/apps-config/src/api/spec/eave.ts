@@ -391,7 +391,7 @@ const definitions: OverrideBundleDefinition = {
             LDOT: 3,
             XBTC: 4,
             RENBTC: 5,
-            POLKABTC: 6,
+            INTERBTC: 6,
             PLM: 7,
             PHA: 8,
             HDT: 9,

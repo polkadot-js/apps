@@ -7,8 +7,8 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useMemo, useState } from 'react';
 
-import { ChainImg, Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useTeleport } from '@polkadot/react-hooks';
+import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
+import { useApi, useApiUrl, useTeleport, useWeightFee } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -18,10 +18,10 @@ interface Props {
   onClose: () => void;
 }
 
-const DEFAULT_WEIGHT = 30_000_000; // 30_000_000 as per the code
+const DEST_WEIGHT = 3 * 1_000_000_000; // 3 * BaseXcmWeight on Kusama (on Rococo and Westend this is different)
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 
-function createOption ({ info, paraId, text }: LinkOption, index: number): Option {
+function createOption ({ info, paraId, text }: LinkOption): Option {
   return {
     text: (
       <div
@@ -35,7 +35,7 @@ function createOption ({ info, paraId, text }: LinkOption, index: number): Optio
         <div className='ui--Dropdown-name'>{text}</div>
       </div>
     ),
-    value: paraId || index
+    value: paraId || -1
   };
 }
 
@@ -43,16 +43,27 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
-  const [hasAvailable] = useState(true);
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
-  const { allowTeleport, destinations, isParaTeleport } = useTeleport();
+  const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
 
   const chainOpts = useMemo(
     () => destinations.map(createOption),
     [destinations]
   );
+
+  const url = useMemo(
+    () => destinations.find(({ paraId }, index) =>
+      recipientParaId === -1
+        ? index === 0
+        : recipientParaId === paraId
+    )?.value as string,
+    [destinations, recipientParaId]
+  );
+
+  const destinationApi = useApiUrl(url);
+  const weightFee = useWeightFee(DEST_WEIGHT, destinationApi);
 
   const params = useMemo(
     () => isParaTeleport
@@ -60,20 +71,23 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         { X1: 'Parent' },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        DEFAULT_WEIGHT
+        DEST_WEIGHT
       ]
       : [
         { X1: { ParaChain: recipientParaId } },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-        [{ ConcreteFungible: { amount, id: 'Null' } }],
-        DEFAULT_WEIGHT
+        [{ ConcreteFungible: { amount, id: 'Here' } }],
+        DEST_WEIGHT
       ],
     [amount, isParaTeleport, recipientId, recipientParaId]
   );
 
+  const hasAvailable = !!amount && amount.gte(weightFee);
+
   return (
     <Modal
       header={t<string>('Teleport assets')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -98,6 +112,9 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
               onChange={setParaId}
               options={chainOpts}
             />
+            {!isParaTeleport && oneWay.includes(recipientParaId) && (
+              <MarkWarning content={t<string>('Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.')} />
+            )}
           </Modal.Columns>
         )}
         <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
@@ -107,7 +124,14 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             type='allPlus'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}</p>
+              <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee.')}</p>
+            </>
+          }
+        >
           <InputBalance
             autoFocus
             isError={!hasAvailable}
@@ -115,13 +139,35 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
+          {destinationApi
+            ? (
+              <>
+                <InputBalance
+                  defaultValue={weightFee}
+                  isDisabled
+                  label={t<string>('destination transfer fee')}
+                />
+                <InputBalance
+                  defaultValue={destinationApi.consts.balances.existentialDeposit}
+                  isDisabled
+                  label={t<string>('destination existential deposit')}
+                />
+              </>
+            )
+            : (
+              <Spinner
+                label={t<string>('Retrieving destination chain fees')}
+                variant='appPadded'
+              />
+            )
+          }
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={senderId}
           icon='share-square'
-          isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
+          isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || !destinationApi || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
           label={t<string>('Teleport')}
           onStart={onClose}
           params={params}

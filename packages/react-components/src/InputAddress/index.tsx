@@ -118,7 +118,7 @@ function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): 
 }
 
 class InputAddress extends React.PureComponent<Props, State> {
-  public state: State = {};
+  public override state: State = {};
 
   public static getDerivedStateFromProps ({ type, value }: Props, { lastValue }: State): Pick<State, never> | null {
     try {
@@ -133,7 +133,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   }
 
-  public render (): React.ReactNode {
+  public override render (): React.ReactNode {
     const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 

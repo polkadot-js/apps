@@ -15,7 +15,7 @@ import { expandEndpoints } from './util';
 //   value: The actual hosted secure websocket endpoint
 
 // alphabetical based on chain name
-export function createProduction (t: TFunction): LinkOption[] {
+export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     {
       dnslink: 'centrifuge',
@@ -26,18 +26,18 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
-      info: 'crab',
-      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
-      providers: {
-        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
-      }
-    },
-    {
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        ChainX: 'wss://mainnet.chainx.org/ws',
+        // ChainX: 'wss://mainnet.chainx.org/ws', // https://github.com/polkadot-js/apps/issues/5547
         'Patract Elara': 'wss://chainx.elara.patract.io'
+      }
+    },
+    {
+      info: 'crust',
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
       }
     },
     {
@@ -46,6 +46,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         'Darwinia Network': 'wss://rpc.darwinia.network',
         'Patract Elara': 'wss://darwinia.elara.patract.io'
+      }
+    },
+    {
+      info: 'crab',
+      text: t('rpc.prod.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://crab-rpc.darwinia.network'
       }
     },
     {
@@ -61,7 +68,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
-        'Commonwealth Labs': 'wss://mainnet1.edgewa.re',
+        'Commonwealth Labs': 'wss://mainnet.edgewa.re',
         'Patract Elara': 'wss://edgeware.elara.patract.io',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
@@ -75,6 +82,7 @@ export function createProduction (t: TFunction): LinkOption[] {
     },
     {
       info: 'hanonycash',
+      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
       providers: {
         Hanonycash: 'wss://rpc.hanonycash.com'
@@ -111,6 +119,7 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         Nodle: 'wss://main3.nodleprotocol.io',
         'Patract Elara': 'wss://nodle.elara.patract.io'
+        // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
     {
@@ -129,10 +138,21 @@ export function createProduction (t: TFunction): LinkOption[] {
       }
     },
     {
+      info: 'robonomics',
+      text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
+      providers: {
+        Airalab: 'wss://kusama.rpc.robonomics.network/'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
-        Soramitsu: 'wss://ws.sora2.soramitsu.co.jp'
+        'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
+        'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
+        'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
+        Soramitsu: 'wss://ws.alb.sora.org',
+        'SORA Community (Lux8)': 'wss://sora.lux8.net'
       }
     },
     {
@@ -142,6 +162,13 @@ export function createProduction (t: TFunction): LinkOption[] {
       providers: {
         'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
         'Patract Elara': 'wss://stafi.elara.patract.io'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.prod.subgame', 'SubGame', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://mainnet.subgame.org/'
       }
     },
     {
@@ -166,5 +193,5 @@ export function createProduction (t: TFunction): LinkOption[] {
         DataHighway: 'wss://westlake.datahighway.com'
       }
     }
-  ]);
+  ], firstOnly);
 }

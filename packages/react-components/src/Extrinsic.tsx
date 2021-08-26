@@ -86,7 +86,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
-        help={meta?.documentation.join(' ')}
+        help={meta?.docs.join(' ')}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}

@@ -22,7 +22,9 @@ import useUnbondDuration from '../useUnbondDuration';
 interface Props {
   className?: string;
   isNominating?: boolean;
-  minNomination?: BN;
+  minNominated?: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
   onChange: (info: BondInfo) => void;
 }
 
@@ -34,7 +36,7 @@ const EMPTY_INFO = {
   stashId: null
 };
 
-function Bond ({ className = '', isNominating, minNomination, onChange }: Props): React.ReactElement<Props> {
+function Bond ({ className = '', isNominating, minNominated, minNominatorBond, minValidatorBond, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -95,12 +97,14 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
 
   return (
     <div className={className}>
-      <Modal.Columns hint={
-        <>
-          <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
-          <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
-        </>
-      }>
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
+            <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
+          </>
+        }
+      >
         <InputAddress
           label={t<string>('stash account')}
           onChange={setStashId}
@@ -121,12 +125,14 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
         />
       </Modal.Columns>
       {startBalance && (
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('The amount placed at-stake should not be your full available available amount to allow for transaction fees.')}</p>
-            <p>{t<string>('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('The amount placed at-stake should not be your full available available amount to allow for transaction fees.')}</p>
+              <p>{t<string>('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
+            </>
+          }
+        >
           <InputBalance
             autoFocus
             defaultValue={startBalance}
@@ -144,7 +150,9 @@ function Bond ({ className = '', isNominating, minNomination, onChange }: Props)
           <InputValidateAmount
             controllerId={controllerId}
             isNominating={isNominating}
-            minNomination={minNomination}
+            minNominated={minNominated}
+            minNominatorBond={minNominatorBond}
+            minValidatorBond={minValidatorBond}
             onError={setAmountError}
             stashId={stashId}
             value={amount}

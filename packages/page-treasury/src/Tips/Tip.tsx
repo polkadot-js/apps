@@ -125,7 +125,8 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
               <FormatBalance value={median} />
             </>
-          }>
+          }
+          >
             {tips.map(([tipper, balance]) => (
               <AddressMini
                 balance={balance}

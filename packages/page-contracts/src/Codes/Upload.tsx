@@ -131,7 +131,10 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const invalidAbi = isAbiError || !isAbiSupplied;
 
   return (
-    <Modal header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}>
+    <Modal
+      header={t('Upload & deploy code {{info}}', { replace: { info: `${step}/2` } })}
+      onClose={onClose}
+    >
       <Modal.Content>
         {step === 1 && (
           <>
@@ -212,7 +215,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
           </>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {step === 1
           ? (
             <Button

@@ -39,7 +39,10 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isCodeHashValid && isNameValid && isAbiSupplied && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing code hash')}>
+    <Modal
+      header={t('Add an existing code hash')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <Input
           autoFocus
@@ -68,7 +71,7 @@ function Add ({ onClose }: Props): React.ReactElement {
           onRemove={onRemoveAbi}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

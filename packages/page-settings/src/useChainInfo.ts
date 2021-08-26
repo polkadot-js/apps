@@ -12,12 +12,13 @@ import { useApi } from '@polkadot/react-hooks';
 import { getSpecTypes } from '@polkadot/types-known';
 import { formatBalance, isNumber } from '@polkadot/util';
 
-function createInfo (api: ApiPromise, systemChain: string, systemName: string, specName: string): ChainInfo {
+function createInfo (api: ApiPromise, systemChain: string, systemName: string, specName: string, isEthereum: boolean): ChainInfo {
   return {
     chain: systemChain,
+    chainType: isEthereum ? 'ethereum' : 'substrate',
     color: getSystemColor(systemChain, systemName, specName),
     genesisHash: api.genesisHash.toHex(),
-    icon: getSystemIcon(systemName),
+    icon: getSystemIcon(systemName, specName),
     metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
     specVersion: api.runtimeVersion.specVersion.toNumber(),
     ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
@@ -28,12 +29,12 @@ function createInfo (api: ApiPromise, systemChain: string, systemName: string, s
 }
 
 export default function useChainInfo (): ChainInfo | null {
-  const { api, isApiReady, specName, systemChain, systemName } = useApi();
+  const { api, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
 
   return useMemo(
     () => isApiReady
-      ? createInfo(api, systemChain, systemName, specName)
+      ? createInfo(api, systemChain, systemName, specName, isEthereum)
       : null,
-    [api, isApiReady, specName, systemChain, systemName]
+    [api, isApiReady, specName, systemChain, systemName, isEthereum]
   );
 }

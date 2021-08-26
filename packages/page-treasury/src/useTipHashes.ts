@@ -14,5 +14,5 @@ export default function useTipHashes (): string[] | undefined {
   const { api } = useApi();
   const trigger = useEventTrigger([api.events.tips?.NewTip, api.events.tips?.TipClosed, api.events.tips?.TipRetracted]);
 
-  return useMapKeys((api.query.tips || api.query.treasury)?.tips, { at: trigger, transform: extractHashes });
+  return useMapKeys((api.query.tips || api.query.treasury)?.tips, { at: trigger.blockHash, transform: extractHashes });
 }

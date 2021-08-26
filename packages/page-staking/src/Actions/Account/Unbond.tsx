@@ -34,6 +34,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
     <Modal
       className={`staking--Unbond ${className}`}
       header={t<string>('Unbond funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -78,7 +79,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           icon='unlock'
