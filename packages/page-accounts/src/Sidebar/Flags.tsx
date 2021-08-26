@@ -6,26 +6,9 @@ import type { AddressFlags } from '@polkadot/react-hooks/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Tag } from '@polkadot/react-components';
+import Flag from '@polkadot/react-components/Flag';
 
 import { useTranslation } from '../translate';
-
-interface FlagProps {
-  color: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
-  label: React.ReactNode;
-}
-
-function Flag ({ color, label }: FlagProps): React.ReactElement<FlagProps> {
-  return (
-    <Tag
-      className={`${color === 'theme' ? 'highlight--color-bg highlight--bg' : ''}` }
-      color={color}
-      isFlag
-      label={label}
-      size='tiny'
-    />
-  );
-}
 
 interface Props {
   flags: AddressFlags;
