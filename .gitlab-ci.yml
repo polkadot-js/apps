@@ -1,0 +1,5 @@
+# Include Gitlab CI/CD
+include:
+  - project: 'DevOps/gitlab-templates'
+    ref: pontem
+    file: '/include/pontem/apps.yml'
