@@ -2155,10 +2155,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kiltprotocol/type-definitions@npm:0.1.13":
-  version: 0.1.13
-  resolution: "@kiltprotocol/type-definitions@npm:0.1.13"
-  checksum: b50937582ee86d4c98acc6023fc9fdab56868a624a9eb9d64eb037b27e8e027ec6c27867f197433e047b4239912a91035105239c0433b0ecfcb773ab278087b5
+"@kiltprotocol/type-definitions@npm:0.1.14":
+  version: 0.1.14
+  resolution: "@kiltprotocol/type-definitions@npm:0.1.14"
+  checksum: ccb274e54a39d99f11f259194251a68e0d3dc2264730de8c6eb4ccd5535dde75eadf27fe6d7624f42a0a15355b513652e5988b03e5a92b6c60588b4e49c79fd4
   languageName: node
   linkType: hard
 
@@ -2832,7 +2832,7 @@ __metadata:
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.3.1
     "@interlay/interbtc-types": 0.10.1
-    "@kiltprotocol/type-definitions": 0.1.13
+    "@kiltprotocol/type-definitions": 0.1.14
     "@laminar/type-definitions": 0.3.1
     "@parallel-finance/type-definitions": 1.1.1
     "@phala/typedefs": 0.2.14
