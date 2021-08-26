@@ -49,7 +49,7 @@ function fitsInView (positionY: VerticalPosition, trigger: ElementPosition, popu
   const { height: triggerHeight, y: triggerY } = trigger;
 
   if (positionY === 'bottom') {
-    return windowSize.height - (triggerHeight / 2) - triggerY - FIXED_VERTICAL_OFFSET_MARGIN > popupWindowHeight;
+    return windowSize.height - triggerHeight - triggerY - FIXED_VERTICAL_OFFSET_MARGIN > popupWindowHeight;
   }
 
   return scrollY < MENU_BAR_HEIGHT
