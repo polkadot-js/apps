@@ -208,7 +208,7 @@ export const chainLogos = Object.entries({
   'PHOENIX PC1': nodePhoenix,
   'Polkadex Testnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
-  'Pontem Testnet': nodePontem,
+  Pontem: nodePontem,
   'Prism PC1': nodePrism,
   'Prism Testnet': nodePrism,
   'ReAlis Network': nodeRealis,
