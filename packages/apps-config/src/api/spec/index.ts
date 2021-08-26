@@ -194,7 +194,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   plasm,
   'plasm-parachain': plasmParachain,
   polymesh,
-  pontem,
+  'pontem-node': pontem,
   prism,
   realis,
   'riochain-runtime': riochain,
