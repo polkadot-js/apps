@@ -159,7 +159,7 @@
   "Continue": "Continua",
   "Contracts": "Contratti",
   "Controller account": "Controller account",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "I fondi bloccati per un voto con moltiplicatore si sovrappongono e si aggiungono, ciò significa che i fondi bloccati durante il voto precedente possono essere ri-bloccati di nuovo.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "I fondi bloccati per un voto con moltiplicatore si sovrappongono e si aggiungono, ciò significa che i fondi bloccati durante il voto precedente possono essere ri-bloccati di nuovo.",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "Copia la stringa di cui sopra e firma una transazione Ethereum con l'account che hai usato durante la prevendita, sfruttando la stringa, e poi incolla la firma della tx qui sotto:",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Copia la seguente stringa e firmala con il conto Ethereum che hai usato durante la prevendita, sfruttando la stringa, e poi incolla la firma della tx qui sotto:",
   "Council": "Consiglio",
