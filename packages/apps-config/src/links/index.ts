@@ -8,6 +8,7 @@ import DotScanner from './dotscanner';
 import Polkascan from './polkascan';
 import Polkassembly from './polkassembly';
 import Polkastats from './polkastats';
+import Statescan from './statescan';
 import Subscan from './subscan';
 
 export const externalLinks: Record<string, ExternalDef> = {
@@ -16,5 +17,6 @@ export const externalLinks: Record<string, ExternalDef> = {
   Polkascan,
   Polkassembly,
   Polkastats,
+  Statescan,
   Subscan
 };

@@ -64,8 +64,10 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
         )
         : isEditable
           ? (
-            <EditButton className={value.length === 0 ? 'center' : 'left'}
-              onClick={onToggleIsEditing}>
+            <EditButton
+              className={value.length === 0 ? 'center' : 'left'}
+              onClick={onToggleIsEditing}
+            >
               {contents}
             </EditButton>
           )

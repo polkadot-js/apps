@@ -150,7 +150,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
-  heiko: { ...parallel },
+  heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
