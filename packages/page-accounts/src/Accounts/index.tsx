@@ -107,13 +107,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const header = useRef([
     [t('accounts'), 'start', 3],
-    [t('parent'), 'address media--1400'],
     [t('type')],
-    [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances'), 'expand'],
+    [t('balances'), 'balances'],
     [],
-    [undefined, 'media--1400']
+    [undefined, 'media--1400'],
+    []
   ]);
 
   useEffect((): void => {

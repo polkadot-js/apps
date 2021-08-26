@@ -75,6 +75,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
       {isOpen && (
         <Modal
           header={t<string>('Propose a council motion')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -107,7 +108,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               isDisabled={!proposal || !isThresholdValid}
