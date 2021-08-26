@@ -118,6 +118,6 @@ export default React.memo(styled(Flags)`
   }
 
   .ui--Tag {
-    margin: 0.1rem 0 0.1rem 0.571rem;
+    margin: 0.2rem 1rem 0.2rem 0.571rem;
   }
 `);
