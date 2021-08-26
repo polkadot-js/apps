@@ -6,7 +6,7 @@ import type { AddressFlags } from '@polkadot/react-hooks/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import Flag from '@polkadot/react-components/Flag';
+import { Flag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
