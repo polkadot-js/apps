@@ -3,16 +3,16 @@
 
 import type { PopupProps } from './types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@polkadot/react-components/index';
-import { useOutsideClick } from '@polkadot/react-hooks';
+import { useOutsideClick, useToggle } from '@polkadot/react-hooks';
 
 import PopupWindow from './PopupWindow';
 
 function Popup ({ children, className = '', isDisabled = false, onCloseAction, position = 'left', value }: PopupProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, toggleIsOpen, setIsOpen] = useToggle(false);
 
   const triggerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ function Popup ({ children, className = '', isDisabled = false, onCloseAction, p
         </PopupWindow>
       )}
       <div
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleIsOpen}
         ref={triggerRef}
       >
         {children ?? (
