@@ -87,7 +87,8 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
       {label ? <>{label}&nbsp;</> : ''}
       <span
         className='ui--FormatBalance-value'
-        data-testid='balance-summary'>{
+        data-testid='balance-summary'
+      >{
           valueFormatted
             ? splitFormat(valueFormatted, labelPost, isShort)
             : value

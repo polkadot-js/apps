@@ -99,12 +99,14 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
                 onChange={setVoteValue}
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
-                <p>{t<string>('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
+                  <p>{t<string>('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
+                </>
+              }
+            >
               <InputAddressMulti
                 available={available}
                 availableLabel={t<string>('council candidates')}

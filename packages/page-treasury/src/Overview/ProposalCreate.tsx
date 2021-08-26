@@ -56,12 +56,14 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
                 type='allPlus'
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
-                <p>{t<string>('Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.', { replace: { bondPercentage } })}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
+                  <p>{t<string>('Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.', { replace: { bondPercentage } })}</p>
+                </>
+              }
+            >
               <InputBalance
                 help={t<string>('The amount that will be allocated from the treasury pot')}
                 isError={!hasValue}
