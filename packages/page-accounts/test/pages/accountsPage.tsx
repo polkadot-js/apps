@@ -22,6 +22,10 @@ import Overview from '../pages/../../src/Accounts/index';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 
+function noop (): void {
+  // ignore
+}
+
 class NotYetRendered extends Error {
 }
 
@@ -88,8 +92,6 @@ export class AccountsPage {
       queueExtrinsic
     } as QueueProps;
 
-    const mockStatusChange = () => undefined;
-
     this.renderResult = render(
       <>
         <div id='tooltips'/>
@@ -98,7 +100,7 @@ export class AccountsPage {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Overview onStatusChange={mockStatusChange}/>
+                  <Overview onStatusChange={noop}/>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>
