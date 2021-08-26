@@ -305,7 +305,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoOriginTrail',
         paraId: 2037,
-        text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        text: t('rpc.rococo.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
         providers: {
           'Trace Labs': 'wss://polkadot-js-second.origin-trail.network'
         }
@@ -356,10 +356,10 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'rococoPolkabtc',
+        info: 'rococoInterBTC',
         isDisabled: true, // Rococo reset
         paraId: 21,
-        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://rococo.polkabtc.io/api/parachain'
         }

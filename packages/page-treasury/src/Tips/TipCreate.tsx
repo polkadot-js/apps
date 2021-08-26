@@ -43,6 +43,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
       {isOpen && (
         <Modal
           header={t<string>('Submit tip request')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -83,7 +84,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> {
               </Modal.Columns>
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

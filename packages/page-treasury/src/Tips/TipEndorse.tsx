@@ -47,6 +47,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
       {isOpen && (
         <Modal
           header={t<string>('Submit tip endorsement')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -71,7 +72,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'
