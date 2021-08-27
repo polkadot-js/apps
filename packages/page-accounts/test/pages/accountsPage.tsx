@@ -244,6 +244,22 @@ export class AccountsPage {
     fireEvent.click(target);
   }
 
+  async checkRowsColoring (): Promise<void> {
+    const rows = await this.findAccountRows();
+
+    rows.forEach((row, index) => {
+      const expectedClass = index % 2 ? 'isEven' : 'isOdd';
+
+      expect(row.primaryRow).toHaveClass(expectedClass);
+      expect(row.detailsRow).toHaveClass(expectedClass);
+    });
+  }
+
+  async checkOrderAndRowsColoring (order: number[]): Promise<void> {
+    await this.checkOrder(order);
+    await this.checkRowsColoring();
+  }
+
   format (amount: Balance | BN): string {
     return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
   }

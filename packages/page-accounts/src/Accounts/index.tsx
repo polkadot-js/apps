@@ -6,7 +6,7 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, Dropdown, Input, SummaryBox, Table } from '@polkadot/react-components';
@@ -173,7 +173,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           account={account}
           delegation={delegation}
           filter={filterOn}
-          isEven={!!(index % 2)}
           isFavorite={isFavorite}
           key={`${index}:${address}`}
           proxy={proxies?.[index]}
@@ -278,7 +277,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             options={dropdownOptions()}
           />
           <Button
+            className='sort-direction-button'
             icon='arrows-alt-v'
+            isCircular
             onClick={onSortDirectionChange()}
           />
         </section>
@@ -289,7 +290,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         header={header.current}
       >
         {!isLoading &&
-          sortedAccounts.map(({ address }) => accountComponents[address])}
+          sortedAccounts.map(({ address }, index) => {
+            const account = accountComponents[address];
+
+            return React.cloneElement(account as ReactElement, { isEven: !!(index % 2) });
+          })
+        }
       </Table>
     </div>
   );
@@ -310,5 +316,17 @@ export default React.memo(styled(Overview)`
     max-width: 185px;
     align: flex start;
     margin-left: -28px;
+  }
+
+  section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sort-direction-button {
+    &:not(hasLabel) {
+      padding: revert;
+    }
   }
 `);

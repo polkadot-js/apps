@@ -166,16 +166,7 @@ describe('Accounts page', () => {
     it('account details rows keep colouring from their primary rows', async () => {
       renderDefaultAccounts(3);
 
-      const rows = await accountsPage.findAccountRows();
-
-      expect(rows[0].primaryRow).toHaveClass('isOdd');
-      expect(rows[0].detailsRow).toHaveClass('isOdd');
-
-      expect(rows[1].primaryRow).toHaveClass('isEven');
-      expect(rows[1].detailsRow).toHaveClass('isEven');
-
-      expect(rows[2].primaryRow).toHaveClass('isOdd');
-      expect(rows[2].detailsRow).toHaveClass('isOdd');
+      await accountsPage.checkRowsColoring();
     });
 
     it('account details rows toggled on icon toggle click', async () => {
@@ -306,7 +297,7 @@ describe('Accounts page', () => {
       );
 
       expect(await accountsPage.findSortByDropdownCurrent()).toHaveTextContent('date');
-      await accountsPage.checkOrder([3, 1, 2]);
+      await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
     });
 
     describe('when sorting is used', () => {
@@ -332,51 +323,52 @@ describe('Accounts page', () => {
 
       it('sorts by parent if asked', async () => {
         await accountsPage.selectOrder('parent');
-        await accountsPage.checkOrder([3, 1, 2]);
+        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
       });
 
       it('sorts by name if asked', async () => {
         await accountsPage.selectOrder('name');
-        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
       });
 
       it('sorts by date if asked', async () => {
         await accountsPage.selectOrder('date');
-        await accountsPage.checkOrder([3, 1, 2]);
+        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
       });
 
       it('sorts by balances if asked', async () => {
         await accountsPage.selectOrder('balances');
-        await accountsPage.checkOrder([1, 2, 3]);
+        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
       });
 
       it('sorts by type if asked', async () => {
         await accountsPage.selectOrder('type');
-        await accountsPage.checkOrder([3, 1, 2]);
+        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
       });
 
       it('implements stable sort', async () => {
         // Notice that sorting by 'type' results in different order
         // depending on the previous state.
         await accountsPage.selectOrder('name');
-        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
         await accountsPage.selectOrder('type');
-        await accountsPage.checkOrder([3, 1, 2]);
+        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
         await accountsPage.selectOrder('balances');
-        await accountsPage.checkOrder([1, 2, 3]);
+        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
         await accountsPage.selectOrder('type');
-        await accountsPage.checkOrder([1, 3, 2]);
+        await accountsPage.checkOrderAndRowsColoring([1, 3, 2]);
+        await accountsPage.checkRowsColoring();
       });
 
       it('respects reverse button', async () => {
         await accountsPage.selectOrder('name');
-        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
         await accountsPage.selectOrder('balances');
-        await accountsPage.checkOrder([1, 2, 3]);
+        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
         fireEvent.click(await accountsPage.findSortByReverseButton());
-        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
         await accountsPage.selectOrder('name');
-        await accountsPage.checkOrder([1, 2, 3]);
+        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
       });
     });
   });
