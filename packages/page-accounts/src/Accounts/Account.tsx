@@ -624,26 +624,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               onClick={toggleTransfer}
             />
           )}
-          <Popup
-            className={`theme--${theme}`}
-            isOpen={isSettingsOpen}
-            onClose={toggleSettings}
-            trigger={
-              <Button
-                icon='ellipsis-v'
-                isDisabled={!menuItems.length}
-                onClick={toggleSettings}
-              />
-            }
-          >
-            <Menu
-              onClick={toggleSettings}
-              text
-              vertical
-            >
-              {menuItems}
-            </Menu>
-          </Popup>
         </td>
         <td className='links media--1400'>
           <LinkExternal
@@ -653,24 +633,50 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             type='address'
           />
         </td>
-        <td className='button'>
-          <div className='table-column-icon'
-            data-testid='row-toggle'
-            onClick={toggleIsExpanded}>
-            <Icon icon={
-              isExpanded
-                ? 'caret-up'
-                : 'caret-down'
-            }
-            />
+        <td className='fast-actions'>
+          <div className='fast-actions-row'>
+            <Popup
+              className={`theme--${theme}`}
+              isOpen={isSettingsOpen}
+              onClose={toggleSettings}
+              trigger={
+                <Button
+                  icon='ellipsis-v'
+                  isDisabled={!menuItems.length}
+                  onClick={toggleSettings}
+                />
+              }
+            >
+              <Menu
+                onClick={toggleSettings}
+                text
+                vertical
+              >
+                {menuItems}
+              </Menu>
+            </Popup>
+            <div
+              className='table-column-icon'
+              data-testid='row-toggle'
+              onClick={toggleIsExpanded}
+            >
+              <Icon icon={
+                isExpanded
+                  ? 'caret-up'
+                  : 'caret-down'
+              }
+              />
+            </div>
           </div>
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2} />
         <td>
-          <div className='tags'
-            data-testid='tags'>
+          <div
+            className='tags'
+            data-testid='tags'
+          >
             <Tags
               value={tags}
               withTitle
@@ -731,7 +737,25 @@ export default React.memo(styled(Account)`
     cursor: pointer;
   }
 
-  &.isOdd td.button {
+  && td.button {
     padding-bottom: 0.5rem;
+  }
+
+  && td.fast-actions {
+    padding-left: 0.2rem;
+    padding-right: 1rem;
+    width: 1%;
+
+    .fast-actions-row {
+      padding-left: 0.2rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      & > * + * {
+        margin-left: 0.285rem;
+      }
+    }
   }
 `);
