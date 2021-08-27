@@ -173,6 +173,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           account={account}
           delegation={delegation}
           filter={filterOn}
+          isEven={!!(index % 2)}
           isFavorite={isFavorite}
           key={`${index}:${address}`}
           proxy={proxies?.[index]}
@@ -183,6 +184,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
     return ret;
   }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
+
+  const onDropdownChange = () => (item: SortCategory) => setSortBy({sortBy: item, sortFromMax});
+
+  const dropdownOptions = () => sortCategory.map((x) => ({text: x, value: x}));
 
   return (
     <div className={className}>
@@ -267,8 +272,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <Dropdown
             defaultValue={sortBy}
             label={t<string>('sort by')}
-            onChange={(item: SortCategory) => setSortBy({ sortBy: item, sortFromMax })}
-            options={sortCategory.map((x) => ({ text: x, value: x }))}
+            onChange={onDropdownChange()}
+            options={dropdownOptions()}
           />
           <Button
             icon='arrows-alt-v'

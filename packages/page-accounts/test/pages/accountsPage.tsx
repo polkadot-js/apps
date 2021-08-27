@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult, screen, within } from '@testing-library/react';
+import { fireEvent, render, RenderResult, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
+import { balance } from '@polkadot/app-accounts/Accounts/index.spec';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -221,6 +222,26 @@ export class AccountsPage {
     const section = await this.findSortBySection();
 
     return await within(section).findByRole('button');
+  }
+
+  async checkOrder (order: number[]): Promise<void> {
+    const rows = await this.findAccountRows();
+    const rowsBalances = await Promise.all(rows.map((row) => within(row.primaryRow).findByTestId('balance-summary')));
+    const expected = order.map((amount) => this.format(balance(amount)));
+
+    for (let i = 0; i < expected.length; i++) {
+      expect(rowsBalances[i]).toHaveTextContent(expected[i]);
+    }
+  }
+
+  async selectOrder (orderBy: string): Promise<void> {
+    const current = await this.findSortByDropdownCurrent();
+
+    fireEvent.click(current);
+
+    const target = await this.findSortByDropdownItem(orderBy);
+
+    fireEvent.click(target);
   }
 
   format (amount: Balance | BN): string {

@@ -654,9 +654,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         </td>
         <td className='button'>
-          <div className='table-column-icon'
+          <div
+            className='table-column-icon'
             data-testid='row-toggle'
-            onClick={toggleIsExpanded}>
+            onClick={toggleIsExpanded}
+          >
             <Icon icon={
               isExpanded
                 ? 'caret-up'
@@ -669,8 +671,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2} />
         <td>
-          <div className='tags'
-            data-testid='tags'>
+          <div
+            className='tags'
+            data-testid='tags'
+          >
             <Tags
               value={tags}
               withTitle

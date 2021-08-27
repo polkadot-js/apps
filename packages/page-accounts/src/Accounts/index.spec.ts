@@ -16,44 +16,15 @@ import { MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
-import { AccountOverrides } from '../../test/hooks/default';
+import { AccountOverrides, Override } from '../../test/hooks/default';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
   const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
   const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
   const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
-  const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
-
-  const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
-    keyring.addExternal(address, meta);
-  };
-
-  const forgetAccountFromKeyring = (address: string) => {
-    keyring.forgetAccount(address);
-  };
 
   let accountsPage: AccountsPage;
-
-  const selectOrder = async (orderBy: string) => {
-    const current = await accountsPage.findSortByDropdownCurrent();
-
-    fireEvent.click(current);
-
-    const target = await accountsPage.findSortByDropdownItem(orderBy);
-
-    fireEvent.click(target);
-  };
-
-  const checkOrder = async (order: number[]) => {
-    const rows = await accountsPage.findAccountRows();
-    const rowsBalances = await Promise.all(rows.map((row) => within(row).findByTestId('balance-summary')));
-    const expected = order.map((amount) => accountsPage.format(balance(amount)));
-
-    for (let i = 0; i < expected.length; i++) {
-      expect(rowsBalances[i]).toHaveTextContent(expected[i]);
-    }
-  };
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
@@ -61,9 +32,8 @@ describe('Accounts page', () => {
   });
 
   beforeEach(() => {
-    defaultAddresses.forEach((addr) => keyring.forgetAccount(addr));
+    defaultAddresses.forEach((address) => keyring.forgetAccount(address));
     accountsPage = new AccountsPage();
-    forgetAccountFromKeyring(aliceDerivedAddress);
   });
 
   describe('when no accounts', () => {
@@ -111,7 +81,6 @@ describe('Accounts page', () => {
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
       renderDefaultAccounts(2);
-
       const accountRows = await accountsPage.findAccountRows();
 
       expect(accountRows).toHaveLength(2);
@@ -146,11 +115,9 @@ describe('Accounts page', () => {
     });
 
     it('derived account displays parent account info', async () => {
-      addAccountToKeyring(aliceDerivedAddress, { parentAddress: aliceAddress });
-
-      renderAccountsForAddresses(
-        aliceAddress,
-        aliceDerivedAddress
+      renderAccountsWithDefaultAddresses(
+        anAccountWithMeta({ isInjected: true, name: 'ALICE', whenCreated: 200 }),
+        anAccountWithMeta({ name: 'ALICE_CHILD', parentAddress: aliceAddress, whenCreated: 300 })
       );
 
       const accountRows = await accountsPage.findAccountRows();
@@ -332,153 +299,108 @@ describe('Accounts page', () => {
     });
 
     it('sorts them by date by default', async () => {
-      defaultRender(
-        {
-          balance: {
-            freeBalance: balance(1)
-          },
-          meta: {
-            whenCreated: 200
-          }
-        },
-        {
-          balance: {
-            freeBalance: balance(2)
-          },
-          meta: {
-            whenCreated: 300
-          }
-        },
-        {
-          balance: {
-            freeBalance: balance(3)
-          },
-          meta: {
-            whenCreated: 100
-          }
-        });
+      renderAccountsWithDefaultAddresses(
+        anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { whenCreated: 200 }),
+        anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, { whenCreated: 300 }),
+        anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { whenCreated: 100 })
+      );
 
       expect(await accountsPage.findSortByDropdownCurrent()).toHaveTextContent('date');
-      await checkOrder([3, 1, 2]);
+      await accountsPage.checkOrder([3, 1, 2]);
     });
 
     describe('when sorting is used', () => {
       beforeEach(() => {
-        defaultRender(
-          {
-            balance: {
-              freeBalance: balance(1)
-            },
-            meta: {
-              isInjected: true,
-              name: 'bbb',
-              whenCreated: 200
-            }
-          },
-          {
-            balance: {
-              freeBalance: balance(2)
-            },
-            meta: {
-              hardwareType: 'ledger',
-              isHardware: true,
-              name: 'bb',
-              parentAddress: aliceAddress,
-              whenCreated: 300
-            }
-          },
-          {
-            balance: {
-              freeBalance: balance(3)
-            },
-            meta: {
-              isInjected: true,
-              name: 'aaa',
-              whenCreated: 100
-            }
-          });
+        renderAccountsWithDefaultAddresses(
+          anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { isInjected: true, name: 'bbb', whenCreated: 200 }),
+          anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, {
+            hardwareType: 'ledger',
+            isHardware: true,
+            name: 'bb',
+            parentAddress: aliceAddress,
+            whenCreated: 300
+          }),
+          anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { isInjected: true, name: 'aaa', whenCreated: 100 })
+        );
       });
 
       it('changes default dropdown value', async () => {
-        await selectOrder('balances');
+        await accountsPage.selectOrder('balances');
         expect(await accountsPage.findSortByDropdownCurrent())
           .toHaveTextContent('balances');
       });
 
       it('sorts by parent if asked', async () => {
-        await selectOrder('parent');
-        await checkOrder([3, 1, 2]);
+        await accountsPage.selectOrder('parent');
+        await accountsPage.checkOrder([3, 1, 2]);
       });
 
       it('sorts by name if asked', async () => {
-        await selectOrder('name');
-        await checkOrder([3, 2, 1]);
+        await accountsPage.selectOrder('name');
+        await accountsPage.checkOrder([3, 2, 1]);
       });
 
       it('sorts by date if asked', async () => {
-        await selectOrder('date');
-        await checkOrder([3, 1, 2]);
+        await accountsPage.selectOrder('date');
+        await accountsPage.checkOrder([3, 1, 2]);
       });
 
       it('sorts by balances if asked', async () => {
-        await selectOrder('balances');
-        await checkOrder([1, 2, 3]);
+        await accountsPage.selectOrder('balances');
+        await accountsPage.checkOrder([1, 2, 3]);
       });
 
       it('sorts by type if asked', async () => {
-        await selectOrder('type');
-        await checkOrder([3, 1, 2]);
+        await accountsPage.selectOrder('type');
+        await accountsPage.checkOrder([3, 1, 2]);
       });
 
       it('implements stable sort', async () => {
         // Notice that sorting by 'type' results in different order
         // depending on the previous state.
-        await selectOrder('name');
-        await checkOrder([3, 2, 1]);
-        await selectOrder('type');
-        await checkOrder([3, 1, 2]);
-        await selectOrder('balances');
-        await checkOrder([1, 2, 3]);
-        await selectOrder('type');
-        await checkOrder([1, 3, 2]);
+        await accountsPage.selectOrder('name');
+        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.selectOrder('type');
+        await accountsPage.checkOrder([3, 1, 2]);
+        await accountsPage.selectOrder('balances');
+        await accountsPage.checkOrder([1, 2, 3]);
+        await accountsPage.selectOrder('type');
+        await accountsPage.checkOrder([1, 3, 2]);
       });
 
       it('respects reverse button', async () => {
-        await selectOrder('name');
-        await checkOrder([3, 2, 1]);
-        await selectOrder('balances');
-        await checkOrder([1, 2, 3]);
+        await accountsPage.selectOrder('name');
+        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.selectOrder('balances');
+        await accountsPage.checkOrder([1, 2, 3]);
         fireEvent.click(await accountsPage.findSortByReverseButton());
-        await checkOrder([3, 2, 1]);
-        await selectOrder('name');
-        await checkOrder([1, 2, 3]);
+        await accountsPage.checkOrder([3, 2, 1]);
+        await accountsPage.selectOrder('name');
+        await accountsPage.checkOrder([1, 2, 3]);
       });
     });
   });
 
-  /**
-   * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.
-   * @param amountInt Integer part of the balance number
-   * @param decimalsString Decimals part of the balance number. Note! This is a string sequence just after '.' separator
-   *  that is the point that separates integers from decimals. E.g. (100, 4567) => 100.45670000...00
-   */
-  const balance = function (amountInt: number, decimalsString?: string): Balance {
-    const decimalsPadded = (decimalsString || '').padEnd(12, '0');
-
-    return balanceOf(amountInt.toString() + decimalsPadded);
-  };
-
   const anAccount = (): AccountOverrides => ({});
 
-  const anAccountWithBalance = (balance: { [P in keyof DeriveBalancesAll]?: DeriveBalancesAll[P] }) => ({
+  const anAccountWithBalance = (balance: Override<DeriveBalancesAll>) => ({
     balance
   });
 
-  const anAccountWithInfo = (info: { [P in keyof UseAccountInfo]?: UseAccountInfo[P] }) => ({
+  const anAccountWithBalanceAndMeta = (balance: Override<DeriveBalancesAll>, meta: Override<KeyringJson$Meta>) => ({
+    balance,
+    meta
+  });
+
+  const anAccountWithInfo = (info: Override<UseAccountInfo>) => ({
     info
   });
 
-  const anAccountWithStaking = (staking: { [P in keyof DeriveStakingAccount]?: DeriveStakingAccount[P]}) => ({
+  const anAccountWithMeta = (meta: Override<KeyringJson$Meta>) => ({
+    meta
+  });
+
+  const anAccountWithStaking = (staking: Override<DeriveStakingAccount>) => ({
     staking
   });
 
@@ -516,3 +438,15 @@ describe('Accounts page', () => {
     accountsPage.renderPage(accounts);
   }
 });
+
+/**
+ * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.
+ * @param amountInt Integer part of the balance number
+ * @param decimalsString Decimals part of the balance number. Note! This is a string sequence just after '.' separator
+ *  that is the point that separates integers from decimals. E.g. (100, 4567) => 100.45670000...00
+ */
+export const balance = function (amountInt: number, decimalsString?: string): Balance {
+  const decimalsPadded = (decimalsString || '').padEnd(12, '0');
+
+  return balanceOf(amountInt.toString() + decimalsPadded);
+};

@@ -19,7 +19,7 @@ export interface Account {
 
 export type AccountsMap = { [address: string]: Account };
 
-type Override<T> = {
+export type Override<T> = {
   [P in keyof T]?: T[P];
 }
 
