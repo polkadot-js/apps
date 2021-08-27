@@ -185,9 +185,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     return ret;
   }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
 
-  const onDropdownChange = () => (item: SortCategory) => setSortBy({sortBy: item, sortFromMax});
+  const onDropdownChange = () => (item: SortCategory) => setSortBy({ sortBy: item, sortFromMax });
 
-  const dropdownOptions = () => sortCategory.map((x) => ({text: x, value: x}));
+  const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
+
+  const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
 
   return (
     <div className={className}>
@@ -277,7 +279,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
           <Button
             icon='arrows-alt-v'
-            onClick={() => setSortBy({ sortBy, sortFromMax: !sortFromMax })}
+            onClick={onSortDirectionChange()}
           />
         </section>
       </SummaryBox>
