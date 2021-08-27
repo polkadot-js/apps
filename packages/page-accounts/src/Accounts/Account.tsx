@@ -625,16 +625,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           )}
         </td>
-        <td className='links media--1400'>
-          <LinkExternal
-            className='ui--AddressCard-exporer-link'
-            data={address}
-            isLogo
-            type='address'
-          />
-        </td>
         <td className='fast-actions'>
           <div className='fast-actions-row'>
+            <LinkExternal
+              className='ui--AddressCard-exporer-link media--1400'
+              data={address}
+              isLogo
+              type='address'
+            />
             <Popup
               className={`theme--${theme}`}
               isOpen={isSettingsOpen}
@@ -702,7 +700,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td colSpan={4} />
+        <td colSpan={3} />
       </tr>
     </>
   );
@@ -747,14 +745,12 @@ export default React.memo(styled(Account)`
     width: 1%;
 
     .fast-actions-row {
-      padding-left: 0.2rem;
-
       display: flex;
       align-items: center;
       justify-content: flex-end;
 
       & > * + * {
-        margin-left: 0.285rem;
+        margin-left: 0.35rem;
       }
     }
   }
