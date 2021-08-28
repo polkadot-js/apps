@@ -260,6 +260,15 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
         }
+      },
+      {
+        info: 'calamari',
+        homepage: 'https://www.calamari.network/',
+        paraId: 2084,
+        text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://falafel.calamari.systems/'
+        }
       }
     ]
   };

@@ -7,6 +7,7 @@
   "rpc.dev.custom.own": "Custom",
   "rpc.dev.local": "Local Node",
   "rpc.header.dev": "Development",
+  "rpc.calamari.systems": "Calamari",
   "rpc.header.kusama.relay": "Kusama & parachains",
   "rpc.header.live": "Live networks",
   "rpc.header.polkadot.relay": "Polkadot & parachains",

@@ -18,6 +18,14 @@ import { expandEndpoints } from './util';
 export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption[] {
   return expandEndpoints(t, [
     {
+      dnslink: 'calamari',
+      info: 'calamari',
+      text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
+      providers: {
+        Manta: 'wss://falafel.calamari.systems/'
+      }
+    },
+    {
       dnslink: 'centrifuge',
       info: 'centrifuge',
       text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
