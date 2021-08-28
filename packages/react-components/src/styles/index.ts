@@ -288,7 +288,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .ui--Tag.themeColor.lightTheme,
   .ui--InputTags.lightTheme .ui.label {
-    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')} !important;
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
     color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
   }
 
