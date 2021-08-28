@@ -123,11 +123,12 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'integritee',
+        homepage: 'https://integritee.network',
         isUnreachable: true,
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'Integritee Network', { ns: 'apps-config' }),
         providers: {
-          Integritee: 'wss://mainnet.integritee.network'
+          Integritee: 'wss://teerk01.integritee.network'
         }
       },
       {
