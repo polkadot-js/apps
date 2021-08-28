@@ -114,6 +114,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'heiko',
+        homepage: 'https://parallel.fi',
         isUnreachable: true,
         paraId: 2085,
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
