@@ -36,6 +36,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): 
       {isOpen && (
         <Modal
           header={t<string>('Close proposal')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -55,7 +56,7 @@ function Close ({ hasFailed, hash, idNumber, members, proposal, type }: Props): 
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               onStart={toggleOpen}

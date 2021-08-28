@@ -226,17 +226,6 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [qrResolve]
   );
 
-  const _onCancel = useCallback(
-    (): void => {
-      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
-
-      queueSetTxStatus(id, 'cancelled');
-      signerCb(id, null);
-      txFailedCb(null);
-    },
-    [currentItem, queueSetTxStatus]
-  );
-
   const _unlock = useCallback(
     async (): Promise<boolean> => {
       let passwordError: string | null = null;
@@ -409,7 +398,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           }
         </ErrorBoundary>
       </Modal.Content>
-      <Modal.Actions onCancel={_onCancel}>
+      <Modal.Actions>
         <Button
           icon={
             flags.isQr

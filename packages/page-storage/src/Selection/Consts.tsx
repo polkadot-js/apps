@@ -40,7 +40,7 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
-          help={meta?.documentation.join(' ')}
+          help={meta?.docs.join(' ')}
           label={t<string>('selected constant query')}
           onChange={setValue}
         />

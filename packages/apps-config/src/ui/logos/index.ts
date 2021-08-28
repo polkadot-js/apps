@@ -9,14 +9,16 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
+import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
+import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
+import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
 import chainKusama from './chains/kusama-128.gif';
-import chainPolkaBTC from './chains/polkabtc.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -26,10 +28,12 @@ import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
+import externalDotreasury from './external/dotreasury.svg';
 import externalDotScanner from './external/dotscanner.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
+import externalStatescan from './external/statescan.svg';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
@@ -45,6 +49,7 @@ import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
+import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
@@ -59,8 +64,10 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeHeiko from './nodes/heiko.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
+import nodeInterBTC from './nodes/interbtc.png';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
@@ -89,7 +96,6 @@ import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
 import nodePlasm from './nodes/plasm.png';
-import nodePolkaBTC from './nodes/polkabtc.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -118,6 +124,7 @@ import nodeUnique from './nodes/unique.svg';
 import nodeUnitv from './nodes/unitv.png';
 import nodeVln from './nodes/valiu.png';
 import nodeWeb3games from './nodes/web3games.svg';
+import nodeWestend from './nodes/westend_colour.svg';
 import nodeWestlake from './nodes/westlake.png';
 import nodeWhala from './nodes/whala.svg';
 import nodeZCloak from './nodes/zCloak.svg';
@@ -130,6 +137,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Aleph Zero': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
@@ -138,6 +146,7 @@ export const chainLogos = Object.entries({
   'Bifrost Asgard CC4': nodeBifrost,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
+  'Crust Maxwell': nodeCrustMaxwell,
   'Crust PC1': nodeCrust,
   'darwinia crab': nodeCrab,
   'Darwinia Crab PC2': nodeCrab,
@@ -158,6 +167,8 @@ export const chainLogos = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: nodeIdavoll,
+  InterBTC: nodeInterBTC,
+  'InterBTC Staging': nodeInterBTC,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -193,11 +204,10 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': chainHeiko,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
-  PolkaBTC: nodePolkaBTC,
-  'PolkaBTC Staging': nodePolkaBTC,
   'Polkadex Testnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
   'Pontem Testnet': nodePontem,
@@ -208,7 +218,6 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Shiden: chainShiden,
-  'Shiden Shell': chainShiden,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -223,6 +232,7 @@ export const chainLogos = Object.entries({
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
+  trustbase: nodeTrustBase,
   'TrustBase PC1': nodeTrustBase,
   'uni arts staging network': nodeUniarts,
   'UniArts Mainnet': nodeUniarts,
@@ -231,6 +241,7 @@ export const chainLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
+  Westend: nodeWestend,
   Westlake: nodeWestlake,
   Westmint: nodeStatemine,
   'Westmint Test': nodeStatemine,
@@ -264,6 +275,7 @@ export const nodeLogos = Object.entries({
   'Clover Node': nodeClover,
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
+  'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
   'darwinia crab': nodeCrab,
   'darwinia parachain': nodeDarwinia,
@@ -314,6 +326,7 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': nodeHeiko,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
@@ -365,6 +378,7 @@ export const nodeLogos = Object.entries({
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
+  Westend: nodeWestend,
   Westlake: nodeWestlake,
   'Westmint Collator': nodeStatemine,
   Whala: nodeWhala,
@@ -397,6 +411,7 @@ export const specLogos = Object.entries({
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
+  aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
   basilisk: nodeBasilisk,
@@ -412,6 +427,7 @@ export const namedLogos: Record<string, unknown> = {
   crab: nodeCrab,
   crab_redirect: nodeCrab,
   crust: nodeCrust,
+  'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
   'dock-mainnet': nodeDockMainnet,
@@ -433,8 +449,10 @@ export const namedLogos: Record<string, unknown> = {
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  heiko: chainHeiko,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
+  interbtc: nodeInterBTC,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
   karura: chainKarura,
@@ -464,7 +482,6 @@ export const namedLogos: Record<string, unknown> = {
   phala: nodePhala,
   phoenix: nodePhoenix,
   plasm: nodePlasm,
-  polkabtc: nodePolkaBTC,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
   polkafoundry: nodePolkaFoundry,
@@ -494,6 +511,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
+  rococoInterBTC: chainInterBTC,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
@@ -509,7 +527,6 @@ export const namedLogos: Record<string, unknown> = {
   rococoPhala: nodePhala,
   rococoPhoenix: nodePhoenix,
   rococoPlasm: nodePlasm,
-  rococoPolkabtc: chainPolkaBTC,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoStatemint: nodeStatemine,
@@ -540,12 +557,13 @@ export const namedLogos: Record<string, unknown> = {
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   'ternoa-chaos': nodeTernoa,
+  trustbase: nodeTrustBase,
   uniarts: nodeUniarts,
   unique: nodeUnique,
   unitv: nodeUnitv,
   vln: nodeVln,
   web3games: nodeWeb3games,
-  westend: nodePolkadot,
+  westend: nodeWestend,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
   whala: nodeWhala,
@@ -562,10 +580,12 @@ export const extensionLogos: Record<string, unknown> = {
 // external logos, i.e. for explorers
 export const externalLogos: Record<string, unknown> = {
   commonwealth: externalCommonwealth,
+  dotreasury: externalDotreasury,
   dotscanner: externalDotScanner,
   polkascan: externalPolkascan,
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
+  statescan: externalStatescan,
   subscan: externalSubscan
 };
 

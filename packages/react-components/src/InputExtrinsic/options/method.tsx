@@ -20,7 +20,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .map((value): DropdownOption => {
       const method = section[value];
       const inputs = method.meta.args
-        .filter((arg): boolean => arg.type.toString() !== 'Origin')
+        .filter((arg) => arg.type.toString() !== 'Origin')
         .map((arg): string => arg.name.toString())
         .join(', ');
 
@@ -38,7 +38,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || value).toString()}
+            {(method.meta.docs[0] || value).toString()}
           </div>
         ],
         value

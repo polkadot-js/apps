@@ -5,8 +5,7 @@ import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Group } from './types';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
-/* eslint-disable-next-line node/no-deprecated-api */
-import punycode from 'punycode';
+import punycode from 'punycode/';
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
@@ -14,7 +13,6 @@ import styled from 'styled-components';
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
-import { Endpoint, EndpointType } from '@polkadot/ui-settings/types';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -40,16 +38,8 @@ function isValidUrl (url: string): boolean {
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
     // check that it starts with a valid ws identifier
-    (url.startsWith('ws://') || url.startsWith('wss://'))
+    (url.startsWith('ws://') || url.startsWith('wss://') || url.startsWith('light://'))
   );
-}
-
-function getApiType (param: string): Endpoint {
-  if (param.includes('-substrate-connect')) {
-    return { param, type: 'substrate-connect' };
-  }
-
-  return { param, type: 'json-rpc' };
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
@@ -127,10 +117,10 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
-function isSwitchDisabled (hasUrlChanged: boolean, apiType: EndpointType, isUrlValid: boolean): boolean {
+function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
   if (!hasUrlChanged) {
     return true;
-  } else if (apiType === 'substrate-connect') {
+  } else if (apiUrl.startsWith('light://')) {
     return false;
   } else if (isUrlValid) {
     return false;
@@ -184,30 +174,23 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
-  const _saveApiEndpoint = () => {
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
-      _onApply();
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+  const _removeApiEndpoint = useCallback(
+    (): void => {
+      if (!isSavedCustomEndpoint) return;
 
-  const _removeApiEndpoint = () => {
-    if (!isSavedCustomEndpoint) return;
+      const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 
-    const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
-
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
-      setGroups(combineEndpoints(createWsEndpoints(t)));
-      setStoredCustomEndpoints(getCustomEndpoints());
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
+        setGroups(combineEndpoints(createWsEndpoints(t)));
+        setStoredCustomEndpoints(getCustomEndpoints());
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [apiUrl, isSavedCustomEndpoint, storedCustomEndpoints, t]
+  );
 
   const _setApiUrl = useCallback(
     (network: string, apiUrl: string): void => {
@@ -237,15 +220,28 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _onApply = useCallback(
     (): void => {
       settings.set({ ...(settings.get()), apiUrl });
-      window.location.assign(`${window.location.origin}${window.location.pathname}${getApiType(apiUrl).type === 'substrate-connect' ? '?sc=' : '?rpc='}${encodeURIComponent(apiUrl)}${window.location.hash}`);
+      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
       onClose();
     },
     [apiUrl, onClose]
   );
 
+  const _saveApiEndpoint = useCallback(
+    (): void => {
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
+        _onApply();
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [_onApply, apiUrl, storedCustomEndpoints]
+  );
+
   const canSwitch = useMemo(
-    () => isSwitchDisabled(hasUrlChanged, getApiType(apiUrl).type, isUrlValid),
+    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid),
     [hasUrlChanged, apiUrl, isUrlValid]
   );
 
@@ -275,7 +271,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           setGroup={_changeGroup}
           value={group}
         >
-          {group.isDevelopment && getApiType(apiUrl).type === 'json-rpc' && (
+          {group.isDevelopment && (
             <div className='endpointCustomWrapper'>
               <Input
                 className='endpointCustom'
@@ -286,17 +282,21 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 value={apiUrl}
               />
               {isSavedCustomEndpoint
-                ? <Button
-                  className='customButton'
-                  icon='trash-alt'
-                  onClick={_removeApiEndpoint}
-                />
-                : <Button
-                  className='customButton'
-                  icon='save'
-                  isDisabled={!isUrlValid || isKnownUrl}
-                  onClick={_saveApiEndpoint}
-                />
+                ? (
+                  <Button
+                    className='customButton'
+                    icon='trash-alt'
+                    onClick={_removeApiEndpoint}
+                  />
+                )
+                : (
+                  <Button
+                    className='customButton'
+                    icon='save'
+                    isDisabled={!isUrlValid || isKnownUrl}
+                    onClick={_saveApiEndpoint}
+                  />
+                )
               }
             </div>
           )}

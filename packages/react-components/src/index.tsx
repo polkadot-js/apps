@@ -39,6 +39,7 @@ export { default as Event } from './Event';
 export { default as Expander } from './Expander';
 export { default as Extrinsic } from './Extrinsic';
 export { default as FilterOverlay } from './FilterOverlay';
+export { default as Flag } from './Flag';
 export { default as Forget } from './Forget';
 export { default as HelpOverlay } from './HelpOverlay';
 export { default as Icon } from './Icon';

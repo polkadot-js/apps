@@ -74,6 +74,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
     <Modal
       className={className}
       header={t<string>('Add proxied account')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -98,7 +99,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isDisabled={!isValid}

@@ -42,6 +42,8 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
 }
 
 export default React.memo(styled(Icon)`
+  outline: none;
+
   &.isClickable {
     cursor: pointer;
   }
