@@ -93,6 +93,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'calamari',
+        homepage: 'https://www.calamari.network/',
+        paraId: 2084,
+        text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://falafel.calamari.systems/'
+        }
+      },
+      {
         info: 'encointer_canary',
         homepage: 'https://encointer.org/',
         isUnreachable: true,
@@ -259,15 +268,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
-        }
-      },
-      {
-        info: 'calamari',
-        homepage: 'https://www.calamari.network/',
-        paraId: 2084,
-        text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
-        providers: {
-          Manta: 'wss://falafel.calamari.systems/'
         }
       }
     ]
