@@ -75,6 +75,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'calamari',
+        homepage: 'https://www.calamari.network/',
+        paraId: 2084,
+        text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://falafel.calamari.systems/'
+        }
+      },
+      {
         info: 'shadow',
         homepage: 'https://crust.network/',
         paraId: 2012,
@@ -90,15 +99,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
         providers: {
           Crab: 'wss://crab-redirect-rpc.darwinia.network/'
-        }
-      },
-      {
-        info: 'calamari',
-        homepage: 'https://www.calamari.network/',
-        paraId: 2084,
-        text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
-        providers: {
-          Manta: 'wss://falafel.calamari.systems/'
         }
       },
       {
