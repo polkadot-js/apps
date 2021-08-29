@@ -116,6 +116,7 @@ import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
+import nodeSubspace from './nodes/subspace.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
@@ -218,6 +219,7 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Shiden: chainShiden,
+  'Spartan Testnet': nodeSubspace,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -354,6 +356,7 @@ export const nodeLogos = Object.entries({
   sherpax: nodeChainx,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
+  'Spartan Testnet': nodeSubspace,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
@@ -548,6 +551,7 @@ export const namedLogos: Record<string, unknown> = {
   shiden: chainShiden,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
+  'spartan-testnet': nodeSubspace,
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,

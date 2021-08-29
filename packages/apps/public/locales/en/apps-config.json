@@ -160,6 +160,7 @@
   "rpc.test.shibuya": "Shibuya",
   "rpc.test.snowbridge": "Snowbridge",
   "rpc.test.sora-substrate-staging": "SORA-staging",
+  "rpc.test.subspace": "Spartan testnet",
   "rpc.test.subgame": "SubGame Staging",
   "rpc.test.ternoa-chaos": "Ternoa Chaos",
   "rpc.test.turbulence": "Turbulence",

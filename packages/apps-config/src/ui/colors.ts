@@ -138,6 +138,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
+const nodeSubspace = '#2D2926';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
@@ -259,6 +260,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
+  'Spartan testnet': nodeSubspace,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
@@ -343,6 +345,7 @@ export const nodeColors = Object.entries({
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
+  'Spartan testnet': nodeSubspace,
   'Stafi node': nodeStafi,
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,
