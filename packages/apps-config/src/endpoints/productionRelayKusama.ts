@@ -75,6 +75,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'calamari',
+        homepage: 'https://www.calamari.network/',
+        paraId: 2084,
+        text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
+        providers: {
+          Manta: 'wss://falafel.calamari.systems/'
+        }
+      },
+      {
         info: 'shadow',
         homepage: 'https://crust.network/',
         paraId: 2012,
