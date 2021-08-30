@@ -25,6 +25,7 @@ function Sidebar ({ button, children, className = '', dataTestId = '', onClose }
       <Button.Group className='ui--Sidebar-buttons'>
         {button}
         <Button
+          dataTestId='close-sidebar-button'
           icon='times'
           isBasic
           isCircular

@@ -20,12 +20,15 @@ import { AccountOverrides } from '../../test/hooks/default';
 import { AccountRow } from '../../test/pageElements/AccountRow';
 import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
+import {sleep} from "@polkadot/test-support/utils/waitFor";
 
 describe('Accounts page', () => {
   const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
   const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
   const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
   const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
+
+  const noTags = 'Tagsno tags'
 
   const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
     keyring.addExternal(address, meta);
@@ -303,20 +306,17 @@ describe('Accounts page', () => {
     });
 
     describe('sidebar', () => {
-      const newAccountName = 'CHARLIE';
-      const defaultName = 'DefaultName';
+      const initialName = 'Initial';
+      const changedName = 'CHARLIE';
       const defaultTag = 'Default';
+      const injectedAddress = '5CcZRy9WTK3NBXNxcrwK67EsVRAUsfxSQAhmSwJHtGtYwJqu'
 
       let accountRows: AccountRow[];
       let sideBar: Sidebar;
-      let address: string;
 
       beforeEach(async () => {
-        address = '5CcZRy9WTK3NBXNxcrwK67EsVRAUsfxSQAhmSwJHtGtYwJqu';
-
-        addAccountToKeyring(address, { name: defaultName, isTesting: false });
-
-        renderAccountsForAddresses(address);
+        addAccountToKeyring(injectedAddress, { name: initialName, isTesting: false });
+        renderAccountsForAddresses(injectedAddress);
         accountRows = await accountsPage.findAccountRows();
         sideBar = await accountRows[0].getSidebar();
       });
@@ -328,30 +328,41 @@ describe('Accounts page', () => {
 
         describe('name', () => {
           beforeEach(async () => {
-            await sideBar.typeAccountName(newAccountName);
+            await sideBar.typeAccountName(changedName);
             await sideBar.clickByText('Save');
           });
 
-          it('within sidebar', async () => {
-            console.log('KEYRING:', keyring.getAccount(address));
-            const sideBarName = await sideBar.findByTestId('account-name');
+          it('within keyring', async () => {
+            const changedAccount = keyring.getAccount(injectedAddress)
 
-            // await waitFor(() => (expect(sideBarName.textContent).toEqual(newAccountName)), {timeout: 5000});
-            await sideBar.assertAccountName(newAccountName);
+            expect(changedAccount?.meta?.name).toEqual(changedName)
+          })
+
+          it('within sidebar', async () => {
+            await sideBar.close()
+            sideBar = await accountRows[0].getSidebar();
+
+            await sideBar.assertAccountName(changedName);
           });
 
           it('within account row', async () => {
-            await accountRows[0].assertAccountName(newAccountName);
+            await accountRows[0].assertAccountName(changedName);
           });
         });
 
         describe('tags', () => {
           beforeEach(async () => {
-            await sideBar.selectAccountTag(defaultTag);
+            await sideBar.removeTag(defaultTag)
+            await sideBar.clickByText('Save');
+            await sideBar.assertTags(noTags)
+
+            await sideBar.clickByText('Edit account');
+            await sideBar.selectTag(defaultTag);
             await sideBar.clickByText('Save');
           });
 
           it('within sidebar', async () => {
+            await sleep(3000)
             await sideBar.assertTags(defaultTag);
           });
 
@@ -371,7 +382,7 @@ describe('Accounts page', () => {
           it('account name', async () => {
             const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
 
-            await expect(sideBar.typeAccountName(newAccountName)).rejects.toThrowError(inputNotFoundError);
+            await expect(sideBar.typeAccountName(changedName)).rejects.toThrowError(inputNotFoundError);
           });
         });
 

@@ -10,24 +10,25 @@ export class Sidebar {
     this.sidebar = sidebar;
   }
 
-  async clickByText (text: string): Promise<void> {
-    const htmlElement = await this.findByText(text);
-
-    this.clickElement(htmlElement);
-  }
-
   async typeAccountName (accountName: string): Promise<void> {
     const accountNameInput = await this.findByTestId('name-input');
 
     fireEvent.change(accountNameInput, { target: { value: accountName } });
   }
 
-  async selectAccountTag (tagName: string): Promise<void> {
-    const tagsSelector = this.getByRole('combobox');
-
-    this.clickElement(tagsSelector);
+  async selectTag (tagName: string): Promise<void> {
+    this.openTagSelector();
 
     await this.clickByText(tagName);
+  }
+
+  async removeTag (tagName: string): Promise<void> {
+    this.openTagSelector()
+
+    const tag = await this.findByText(tagName)
+    const closeButton = tag.firstChild as HTMLElement
+
+    fireEvent.click(closeButton)
   }
 
   async assertAccountName (expectedAccountName: string): Promise<void> {
@@ -40,6 +41,22 @@ export class Sidebar {
     const sideBarTags = await this.findByTestId('sidebar-tags');
 
     expect(sideBarTags).toHaveTextContent(tagsContent);
+  }
+
+  async close (): Promise<void> {
+    return this.clickByTestId('close-sidebar-button')
+  }
+
+  async clickByText (text: string): Promise<void> {
+    const htmlElement = await this.findByText(text);
+
+    this.clickElement(htmlElement);
+  }
+
+  async clickByTestId (testId: string): Promise<void> {
+    const htmlElement = await this.findByTestId(testId)
+
+    this.clickElement(htmlElement)
   }
 
   clickElement (element: HTMLElement): void {
@@ -68,5 +85,10 @@ export class Sidebar {
 
   queryByTestId (testId: string): HTMLElement | null {
     return within(this.sidebar).queryByTestId(testId);
+  }
+
+  private openTagSelector() {
+    const tagsSelector = this.getByRole('combobox');
+    this.clickElement(tagsSelector);
   }
 }
