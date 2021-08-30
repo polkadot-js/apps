@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polkadot/types';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -19,16 +20,16 @@ interface Props {
   type: 'membership' | 'financialCommittee';
 }
 
-const HIDDEN_EMPTY: string[] = [];
-const HIDDEN_PROPOSALS: string[] = ['proposals'];
+const transformPrime = {
+  transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
+};
 
 function FinCommApp({ basePath, className, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useCollectiveMembers(type);
-  const prime = useCall<AccountId | null>(api.derive[type].prime);
-  const hasProposals = useCall<boolean>(api.derive[type].hasProposals);
-  const proposalHashes = useCall<Hash[]>(api.derive[type].proposalHashes);
+  const prime = useCall<AccountId | null>(api.query.financialCommittee.prime, undefined, transformPrime) || null;
+  const proposals = useCall<Hash[]>(api.query.financialCommittee.proposals);
 
   const items = useMemo(() => [
     {
@@ -38,19 +39,14 @@ function FinCommApp({ basePath, className, type }: Props): React.ReactElement<Pr
     },
     {
       name: 'proposals',
-      text: t<string>('Proposals ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
+      text: t<string>('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
     }
-  ], [proposalHashes, t]);
+  ], [proposals, t]);
 
   return (
     <main className={className}>
       <Tabs
         basePath={basePath}
-        hidden={
-          hasProposals
-            ? HIDDEN_EMPTY
-            : HIDDEN_PROPOSALS
-        }
         items={items}
       />
       <Switch>
@@ -59,8 +55,7 @@ function FinCommApp({ basePath, className, type }: Props): React.ReactElement<Pr
             isMember={isMember}
             members={members}
             prime={prime}
-            proposalHashes={proposalHashes}
-            type={type}
+            proposals={proposals}
           />
         </Route>
         <Route path={basePath}>
@@ -68,8 +63,7 @@ function FinCommApp({ basePath, className, type }: Props): React.ReactElement<Pr
             isMember={isMember}
             members={members}
             prime={prime}
-            proposalHashes={proposalHashes}
-            type={type}
+            proposals={proposals}
           />
         </Route>
       </Switch>

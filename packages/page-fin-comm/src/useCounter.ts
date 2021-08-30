@@ -11,7 +11,7 @@ const transformCounter = {
 
 export default function useCounter(): number {
   const { api, isApiReady } = useApi();
-  const counter = useCall<number>(isApiReady && api.derive.financialCommittee?.proposals, undefined, transformCounter) || 0;
+  const counter = useCall<number>(isApiReady && api.query.financialCommittee?.proposals, undefined, transformCounter) || 0;
 
   return counter;
 }
