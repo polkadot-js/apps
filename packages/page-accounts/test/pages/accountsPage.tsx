@@ -1,27 +1,26 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import {render, RenderResult, screen, within} from '@testing-library/react';
+import { render, RenderResult, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
-import React, {Suspense} from 'react';
-import {MemoryRouter} from 'react-router-dom';
-import {ThemeProvider} from 'styled-components';
+import React, { Suspense } from 'react';
+import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import {lightTheme} from '@polkadot/apps/themes';
-import {POLKADOT_GENESIS} from '@polkadot/apps-config';
-import {ApiContext} from '@polkadot/react-api';
-import {ApiProps} from '@polkadot/react-api/types';
-import {QueueProvider} from '@polkadot/react-components/Status/Context';
-import {PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd} from '@polkadot/react-components/Status/types';
-import {TypeRegistry} from '@polkadot/types/create';
-import {Balance, BlockNumber} from '@polkadot/types/interfaces';
-import {formatBalance} from '@polkadot/util';
+import { lightTheme } from '@polkadot/apps/themes';
+import { POLKADOT_GENESIS } from '@polkadot/apps-config';
+import { ApiContext } from '@polkadot/react-api';
+import { ApiProps } from '@polkadot/react-api/types';
+import { QueueProvider } from '@polkadot/react-components/Status/Context';
+import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { TypeRegistry } from '@polkadot/types/create';
+import { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { formatBalance } from '@polkadot/util';
 
-import {AccountOverrides, mockAccountHooks} from '../hooks/default';
-import {AccountRow} from '../pageElements/AccountRow';
+import { AccountOverrides, mockAccountHooks } from '../hooks/default';
+import { AccountRow } from '../pageElements/AccountRow';
 import Overview from '../pages/../../src/Accounts/index';
-import {UseAccountInfo} from "@polkadot/react-hooks/types";
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 
@@ -33,20 +32,6 @@ class NotYetRendered extends Error {
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
 }));
-
-jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
-  const actual = jest.requireActual<{useAccountInfo: (address: string) => UseAccountInfo}>('@polkadot/react-hooks/useAccountInfo');
-
-  return ({
-    useAccountInfo: (address: string) => {
-      return {
-        ...actual.useAccountInfo(address),
-        flags: { ...actual.useAccountInfo(address).flags, ...mockAccountHooks.accountsMap[address].info.flags },
-        tags: [...actual.useAccountInfo(address).tags, ...mockAccountHooks.accountsMap[address].info.tags]
-      };
-    }
-  });
-});
 
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
   useLoadingDelay: () => false
@@ -73,7 +58,7 @@ export class AccountsPage {
       api: {
         derive: {
           accounts: {
-            info: (address: string) => {/**/}
+            info: () => { /**/ }
           },
           balances: {
             all: () => ({

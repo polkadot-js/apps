@@ -11,36 +11,26 @@ import { useAccountInfo } from '@polkadot/react-hooks';
 
 interface Props {
   address: string;
-  name: string;
   onUpdateName: () => void;
 }
 
-function EditableSidebarSection ({ address, name, onUpdateName }: Props): React.ReactElement<Props> {
+function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { flags, isEditingName, isEditingTags, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { flags, isEditingName, isEditingTags, name, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
   const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
 
-  const toggleIsEditing = () => {
-    flags.isEditable && toggleIsEditingName();
-    toggleIsEditingTags();
-  };
-
   const onClick = () => {
     if (isEditing()) {
-      updateNameAndTags();
+      updateName();
+      updateTags();
     }
 
     toggleIsEditing();
   };
 
-  const updateNameAndTags = () => {
-    updateName();
-    updateTags();
-  };
-
   const updateName = () => {
-    if (flags.isEditable && (flags.isInContacts || flags.isOwned)) {
+    if (isEditingName && (flags.isInContacts || flags.isOwned)) {
       _onUpdateName();
       toggleIsEditingName();
     }
@@ -48,6 +38,11 @@ function EditableSidebarSection ({ address, name, onUpdateName }: Props): React.
 
   const updateTags = () => {
     onSaveTags();
+  };
+
+  const toggleIsEditing = () => {
+    flags.isEditable && toggleIsEditingName();
+    toggleIsEditingTags();
   };
 
   const _onUpdateName = useCallback(

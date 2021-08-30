@@ -3,7 +3,7 @@
 
 import type { Balance } from '@polkadot/types/interfaces';
 
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import BN from 'bn.js';
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -20,15 +20,12 @@ import { AccountOverrides } from '../../test/hooks/default';
 import { AccountRow } from '../../test/pageElements/AccountRow';
 import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
-import {sleep} from "@polkadot/test-support/utils/waitFor";
 
 describe('Accounts page', () => {
   const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
   const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
   const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
   const aliceDerivedAddress = '5Dc96kiTPTfZHmq6yTFSqejJzfUNfQQjneNesRWf9MDppJsd';
-
-  const noTags = 'Tagsno tags'
 
   const addAccountToKeyring = (address: string, meta: KeyringJson$Meta) => {
     keyring.addExternal(address, meta);
@@ -306,69 +303,39 @@ describe('Accounts page', () => {
     });
 
     describe('sidebar', () => {
-      const initialName = 'Initial';
-      const changedName = 'CHARLIE';
+      const injectedAddress = '5CcZRy9WTK3NBXNxcrwK67EsVRAUsfxSQAhmSwJHtGtYwJqu';
+      const initialName = 'ANAME';
+      const newName = 'CHARLIE';
       const defaultTag = 'Default';
-      const injectedAddress = '5CcZRy9WTK3NBXNxcrwK67EsVRAUsfxSQAhmSwJHtGtYwJqu'
 
       let accountRows: AccountRow[];
       let sideBar: Sidebar;
 
-      beforeEach(async () => {
-        addAccountToKeyring(injectedAddress, { name: initialName, isTesting: false });
-        renderAccountsForAddresses(injectedAddress);
-        accountRows = await accountsPage.findAccountRows();
-        sideBar = await accountRows[0].getSidebar();
-      });
-
       describe('changes', () => {
         beforeEach(async () => {
-          await sideBar.clickByText('Edit account');
+          addAccountToKeyring(injectedAddress, { isDevelopment: false, name: initialName });
+          renderAccountsForAddresses(
+            injectedAddress
+          );
+          sideBar = await openSidebarForAccountRow(0);
         });
 
-        describe('name', () => {
-          beforeEach(async () => {
-            await sideBar.typeAccountName(changedName);
-            await sideBar.clickByText('Save');
-          });
+        it('name', async () => {
+          await sideBar.changeAccountName(newName);
+          const changedAccount = keyring.getAccount(injectedAddress);
 
-          it('within keyring', async () => {
-            const changedAccount = keyring.getAccount(injectedAddress)
-
-            expect(changedAccount?.meta?.name).toEqual(changedName)
-          })
-
-          it('within sidebar', async () => {
-            await sideBar.close()
-            sideBar = await accountRows[0].getSidebar();
-
-            await sideBar.assertAccountName(changedName);
-          });
-
-          it('within account row', async () => {
-            await accountRows[0].assertAccountName(changedName);
-          });
+          expect(changedAccount?.meta?.name).toEqual(newName);
+          await sideBar.assertAccountName(newName);
+          await accountRows[0].assertAccountName(newName);
         });
 
-        describe('tags', () => {
-          beforeEach(async () => {
-            await sideBar.removeTag(defaultTag)
-            await sideBar.clickByText('Save');
-            await sideBar.assertTags(noTags)
+        it('tags', async () => {
+          await sideBar.setTag(defaultTag);
+          const changedAccount = keyring.getAccount(injectedAddress);
 
-            await sideBar.clickByText('Edit account');
-            await sideBar.selectTag(defaultTag);
-            await sideBar.clickByText('Save');
-          });
-
-          it('within sidebar', async () => {
-            await sleep(3000)
-            await sideBar.assertTags(defaultTag);
-          });
-
-          it('within account row', async () => {
-            await accountRows[0].assertTags(defaultTag);
-          });
+          expect(changedAccount?.meta?.tags).toEqual([defaultTag]);
+          await sideBar.assertTags(defaultTag);
+          await waitFor(() => accountRows[0].assertTags(defaultTag));
         });
       });
 
@@ -382,14 +349,32 @@ describe('Accounts page', () => {
           it('account name', async () => {
             const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
 
-            await expect(sideBar.typeAccountName(changedName)).rejects.toThrowError(inputNotFoundError);
+            await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
           });
         });
 
-        // it('when account not owned', async () => {
-        //
-        // });
+        describe('name', () => {
+          beforeEach(async () => {
+            await sideBar.edit();
+          });
+
+          it('when account not owned', async () => {
+            const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
+
+            await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
+          });
+        });
+
+        afterEach(() => {
+          keyring.forgetAccount(injectedAddress);
+        });
       });
+
+      async function openSidebarForAccountRow (rowIndex: number) {
+        accountRows = await accountsPage.findAccountRows();
+
+        return accountRows[rowIndex].openSidebar();
+      }
     });
   });
 

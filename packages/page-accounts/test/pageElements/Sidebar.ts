@@ -10,6 +10,18 @@ export class Sidebar {
     this.sidebar = sidebar;
   }
 
+  async changeAccountName (accountName: string): Promise<void> {
+    this.edit();
+    await this.typeAccountName(accountName);
+    this.save();
+  }
+
+  async setTag (tagName: string): Promise<void> {
+    this.edit();
+    await this.selectTag(tagName);
+    this.save();
+  }
+
   async typeAccountName (accountName: string): Promise<void> {
     const accountNameInput = await this.findByTestId('name-input');
 
@@ -17,18 +29,9 @@ export class Sidebar {
   }
 
   async selectTag (tagName: string): Promise<void> {
-    this.openTagSelector();
+    this.openTagsDropdown();
 
     await this.clickByText(tagName);
-  }
-
-  async removeTag (tagName: string): Promise<void> {
-    this.openTagSelector()
-
-    const tag = await this.findByText(tagName)
-    const closeButton = tag.firstChild as HTMLElement
-
-    fireEvent.click(closeButton)
   }
 
   async assertAccountName (expectedAccountName: string): Promise<void> {
@@ -43,24 +46,28 @@ export class Sidebar {
     expect(sideBarTags).toHaveTextContent(tagsContent);
   }
 
-  async close (): Promise<void> {
-    return this.clickByTestId('close-sidebar-button')
+  close (): Promise<void> {
+    return this.clickByTestId('close-sidebar-button');
+  }
+
+  edit (): void {
+    this.clickButton('Edit account');
+  }
+
+  save (): void {
+    this.clickButton('Save');
   }
 
   async clickByText (text: string): Promise<void> {
     const htmlElement = await this.findByText(text);
 
-    this.clickElement(htmlElement);
+    fireEvent.click(htmlElement);
   }
 
   async clickByTestId (testId: string): Promise<void> {
-    const htmlElement = await this.findByTestId(testId)
+    const htmlElement = await this.findByTestId(testId);
 
-    this.clickElement(htmlElement)
-  }
-
-  clickElement (element: HTMLElement): void {
-    fireEvent.click(element);
+    fireEvent.click(htmlElement);
   }
 
   async findByText (text: string): Promise<HTMLElement> {
@@ -71,12 +78,20 @@ export class Sidebar {
     return within(this.sidebar).findByTestId(testId);
   }
 
+  async findByRole (role: string): Promise<HTMLElement> {
+    return within(this.sidebar).findByRole(role);
+  }
+
+  async findAllByRole (role: string): Promise<HTMLElement[]> {
+    return within(this.sidebar).findAllByRole(role);
+  }
+
   getByTestId (testId: string): HTMLElement {
     return within(this.sidebar).getByTestId(testId);
   }
 
-  getByRole (roleName: string): HTMLElement {
-    return within(this.sidebar).getByRole(roleName);
+  getByRole (roleName: string, options?: Record<string, unknown>): HTMLElement {
+    return within(this.sidebar).getByRole(roleName, options);
   }
 
   queryByRole (roleName: string): HTMLElement | null {
@@ -87,8 +102,17 @@ export class Sidebar {
     return within(this.sidebar).queryByTestId(testId);
   }
 
-  private openTagSelector() {
-    const tagsSelector = this.getByRole('combobox');
-    this.clickElement(tagsSelector);
+  private clickButton (buttonName: string) {
+    const saveButton = this.getByRole('button', { name: buttonName });
+
+    fireEvent.click(saveButton);
+  }
+
+  private openTagsDropdown (): HTMLElement {
+    const tagsDropdown = this.getByRole('combobox', { expanded: false });
+
+    fireEvent.click(tagsDropdown);
+
+    return tagsDropdown;
   }
 }

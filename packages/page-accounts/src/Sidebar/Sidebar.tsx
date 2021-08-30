@@ -26,7 +26,7 @@ interface Props {
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { accountIndex, flags, identity, meta, name, onForgetAddress, onSaveName } = useAccountInfo(address);
+  const { accountIndex, flags, identity, meta, onForgetAddress, onSaveName } = useAccountInfo(address);
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
   const _onForgetAddress = useCallback(
@@ -70,7 +70,6 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
         )}
         <SidebarEditableSection
           address={address}
-          name={name}
           onUpdateName={onUpdateName}
         />
         <Flags flags={flags} />

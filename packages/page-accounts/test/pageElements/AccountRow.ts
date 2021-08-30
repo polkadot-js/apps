@@ -46,10 +46,10 @@ export class AccountRow {
     expect(parentAccount).toHaveTextContent(expectedParentAccount);
   }
 
-  async assertTags (tagsContent: string): Promise<void> {
+  async assertTags (tagsContent: string): Promise<boolean> {
     const tagsActual = await within(this.detailsRow).findByTestId('tags');
 
-    expect(tagsActual).toHaveTextContent(tagsContent);
+    return tagsActual.textContent === tagsContent;
   }
 
   async assertShortAddress (expectedShortAddress: string): Promise<void> {
@@ -58,7 +58,7 @@ export class AccountRow {
     expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
   }
 
-  async getSidebar (): Promise<Sidebar> {
+  async openSidebar (): Promise<Sidebar> {
     const accountName = await within(this.primaryRow).findByTestId('account-name');
 
     fireEvent.click(accountName);
