@@ -1,14 +1,23 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+<<<<<<< HEAD
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
+=======
+import type { Option } from '@polkadot/types';
+import type { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+>>>>>>> ternoa-master
 
 import React, { useMemo } from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { AddressMini, TxButton } from '@polkadot/react-components';
+<<<<<<< HEAD
 import { useAccounts, useApi, useCall, useCollectiveInstance, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+=======
+import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+>>>>>>> ternoa-master
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,6 +31,7 @@ interface Props {
   isMember: boolean;
   members: string[];
   prime?: AccountId | null;
+<<<<<<< HEAD
   type: 'membership' | 'financialCommittee';
 }
 
@@ -33,6 +43,26 @@ function Proposal({ className = '', imageHash, members, prime, type }: Props): R
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const [proposalWeight, proposalLength] = useWeight(derive?.proposal);
   const modLocation = useCollectiveInstance(type);
+=======
+}
+
+const transformProposal = {
+  transform: (optProp: Option<ProposalType>) => optProp.unwrapOr(null)
+};
+
+const transformVotes = {
+  transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
+};
+
+function Proposal({ className = '', imageHash, members, prime }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const proposal = useCall<ProposalType | null>(api.query.financialCommittee.proposalOf, [imageHash], transformProposal);
+  const votes = useCall<Votes | null>(api.query.financialCommittee.voting, [imageHash], transformVotes);
+  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'financialCommittee');
+  const [proposalWeight, proposalLength] = useWeight(proposal);
+>>>>>>> ternoa-master
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {
@@ -43,18 +73,30 @@ function Proposal({ className = '', imageHash, members, prime, type }: Props): R
     [allAccounts, members]
   );
 
+<<<<<<< HEAD
   if (!modLocation || !derive || !derive.votes) {
     return null;
   }
 
   const { ayes, end, index, nays, threshold } = derive.votes;
+=======
+  if (!proposal || !votes) {
+    return null;
+  }
+
+  const { ayes, end, index, nays, threshold } = votes;
+>>>>>>> ternoa-master
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={imageHash}
+<<<<<<< HEAD
         proposal={derive.proposal}
+=======
+        proposal={proposal}
+>>>>>>> ternoa-master
       />
       <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
@@ -92,7 +134,10 @@ function Proposal({ className = '', imageHash, members, prime, type }: Props): R
             members={members}
             prime={prime}
             proposalId={index}
+<<<<<<< HEAD
             type={type}
+=======
+>>>>>>> ternoa-master
           />
         )}
         {isCloseable && (
@@ -103,8 +148,12 @@ function Proposal({ className = '', imageHash, members, prime, type }: Props): R
                 hash={imageHash}
                 idNumber={index}
                 members={members}
+<<<<<<< HEAD
                 proposal={derive.proposal}
                 type={type}
+=======
+                proposal={proposal}
+>>>>>>> ternoa-master
               />
             )
             : (
@@ -113,13 +162,21 @@ function Proposal({ className = '', imageHash, members, prime, type }: Props): R
                 icon='times'
                 label={t<string>('Close')}
                 params={
+<<<<<<< HEAD
                   api.tx[modLocation].close?.meta.args.length === 4
+=======
+                  api.tx.financialCommittee.close?.meta.args.length === 4
+>>>>>>> ternoa-master
                     ? hasFailed
                       ? [imageHash, index, 0, 0]
                       : [imageHash, index, proposalWeight, proposalLength]
                     : [imageHash, index]
                 }
+<<<<<<< HEAD
                 tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
+=======
+                tx={api.tx.financialCommittee.closeOperational || api.tx.financialCommittee.close}
+>>>>>>> ternoa-master
               />
             )
         )}

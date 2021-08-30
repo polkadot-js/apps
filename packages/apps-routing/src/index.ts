@@ -49,7 +49,10 @@ export default function create (t: TFunction): Routes {
     treasury(t),
     bounties(t),
     techcomm(t),
+<<<<<<< HEAD
     membership(t),
+=======
+>>>>>>> ternoa-master
     fincomm(t),
     rootcomm(t),
     parachains(t),

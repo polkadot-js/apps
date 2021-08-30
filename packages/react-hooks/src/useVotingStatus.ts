@@ -22,6 +22,7 @@ interface State {
 
 const DEFAULT_STATUS = { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null };
 
+<<<<<<< HEAD
 function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee'): State {
   const [instance] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), section) || [section];
   const modLocation = isFunction(api.tx[instance as 'technicalCommittee']?.close)
@@ -29,6 +30,10 @@ function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMe
     : null;
 
   if (!votes.end || !modLocation) {
+=======
+function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee' = 'council'): State {
+  if (!votes.end) {
+>>>>>>> ternoa-master
     return {
       hasFailed: false,
       hasPassed: false,
@@ -55,7 +60,11 @@ function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMe
   };
 }
 
+<<<<<<< HEAD
 export function useVotingStatus(votes: Votes | null | undefined, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee'): State {
+=======
+export function useVotingStatus(votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee' = 'council'): State {
+>>>>>>> ternoa-master
   const { api } = useApi();
   const bestNumber = useBestNumber();
 

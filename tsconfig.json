@@ -110,12 +110,15 @@
       "@polkadot/app-js/*": [
         "packages/page-js/src/*"
       ],
+<<<<<<< HEAD
       "@polkadot/app-membership": [
         "packages/page-membership/src"
       ],
       "@polkadot/app-membership/*": [
         "packages/page-membership/src/*"
       ],
+=======
+>>>>>>> ternoa-master
       "@polkadot/app-parachains": [
         "packages/page-parachains/src"
       ],

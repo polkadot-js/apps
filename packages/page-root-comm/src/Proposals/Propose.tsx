@@ -7,14 +7,21 @@ import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+<<<<<<< HEAD
 import { useApi, useCollectiveInstance, useModal } from '@polkadot/react-hooks';
+=======
+import { useApi, useModal } from '@polkadot/react-hooks';
+>>>>>>> ternoa-master
 
 import { useTranslation } from '../translate';
 
 interface Props {
   isMember: boolean;
   members: string[];
+<<<<<<< HEAD
   type: 'membership' | 'rootCommittee';
+=======
+>>>>>>> ternoa-master
 }
 
 interface ProposalState {
@@ -22,7 +29,11 @@ interface ProposalState {
   proposalLength: number;
 }
 
+<<<<<<< HEAD
 function Propose({ isMember, members, type }: Props): React.ReactElement<Props> | null {
+=======
+function Propose({ isMember, members }: Props): React.ReactElement<Props> {
+>>>>>>> ternoa-master
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
@@ -32,7 +43,10 @@ function Propose({ isMember, members, type }: Props): React.ReactElement<Props> 
     new BN(members.length / 2 + 1),
     true
   ]);
+<<<<<<< HEAD
   const modLocation = useCollectiveInstance(type);
+=======
+>>>>>>> ternoa-master
 
   const _hasThreshold = useCallback(
     (threshold?: BN | null): boolean =>
@@ -52,10 +66,13 @@ function Propose({ isMember, members, type }: Props): React.ReactElement<Props> 
     [_hasThreshold]
   );
 
+<<<<<<< HEAD
   if (!modLocation) {
     return null;
   }
 
+=======
+>>>>>>> ternoa-master
   return (
     <>
       {isOpen && (
@@ -87,17 +104,29 @@ function Propose({ isMember, members, type }: Props): React.ReactElement<Props> 
               onChange={_onChangeExtrinsic}
             />
           </Modal.Content>
+<<<<<<< HEAD
           <Modal.Actions>
+=======
+          <Modal.Actions onCancel={onClose}>
+>>>>>>> ternoa-master
             <TxButton
               accountId={accountId}
               isDisabled={!hasThreshold || !proposal}
               onStart={onClose}
               params={
+<<<<<<< HEAD
                 api.tx[modLocation].propose.meta.args.length === 3
                   ? [threshold, proposal, proposalLength]
                   : [threshold, proposal]
               }
               tx={api.tx[modLocation].propose}
+=======
+                api.tx.rootCommittee.propose.meta.args.length === 3
+                  ? [threshold, proposal, proposalLength]
+                  : [threshold, proposal]
+              }
+              tx={api.tx.rootCommittee.propose}
+>>>>>>> ternoa-master
             />
           </Modal.Actions>
         </Modal>

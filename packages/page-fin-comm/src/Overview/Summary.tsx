@@ -12,7 +12,11 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
+<<<<<<< HEAD
 function Summary({ className = '', members, proposalHashes }: Props): React.ReactElement<Props> {
+=======
+function Summary({ className = '', members, proposals }: Props): React.ReactElement<Props> {
+>>>>>>> ternoa-master
   const { t } = useTranslation();
   const { api } = useApi();
   const proposalCount = useCall<u32>(api.query.financialCommittee.proposalCount);
@@ -22,6 +26,7 @@ function Summary({ className = '', members, proposalHashes }: Props): React.Reac
       <CardSummary label={t<string>('members')}>
         {formatNumber(members.length)}
       </CardSummary>
+<<<<<<< HEAD
       {proposalCount && (
         <section>
           <CardSummary label={t<string>('proposals')}>
@@ -32,6 +37,16 @@ function Summary({ className = '', members, proposalHashes }: Props): React.Reac
           </CardSummary>
         </section>
       )}
+=======
+      <section>
+        <CardSummary label={t<string>('proposals')}>
+          {formatNumber(proposals?.length)}
+        </CardSummary>
+        <CardSummary label={t<string>('total')}>
+          {formatNumber(proposalCount)}
+        </CardSummary>
+      </section>
+>>>>>>> ternoa-master
     </SummaryBox>
   );
 }

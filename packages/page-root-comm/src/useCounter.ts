@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
+=======
+// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+>>>>>>> ternoa-master
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';

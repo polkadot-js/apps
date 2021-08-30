@@ -20,7 +20,11 @@ const transformMembers = {
     accounts.map((accountId) => accountId.toString())
 };
 
+<<<<<<< HEAD:packages/react-hooks/src/useCollectiveMembers.ts
 export function useCollectiveMembers(collective: CollectiveType): Result {
+=======
+export function useMembers(collective: 'council' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee' = 'council'): Result {
+>>>>>>> ternoa-master:packages/react-hooks/src/useMembers.ts
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);

@@ -1,9 +1,24 @@
 // Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+<<<<<<< HEAD
 import React from 'react';
 
 import App from './App';
+=======
+import type { Option } from '@polkadot/types';
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
+
+import React, { useMemo } from 'react';
+import { Route, Switch } from 'react-router';
+
+import { Tabs } from '@polkadot/react-components';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
+
+import Overview from './Overview';
+import Proposals from './Proposals';
+import { useTranslation } from './translate';
+>>>>>>> ternoa-master
 
 export { default as useCounter } from './useCounter';
 
@@ -12,6 +27,7 @@ interface Props {
   className?: string;
 }
 
+<<<<<<< HEAD
 function RootComm({ basePath, className }: Props): React.ReactElement<Props> {
   return (
     <App
@@ -23,3 +39,57 @@ function RootComm({ basePath, className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(RootComm);
+=======
+const transformPrime = {
+  transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
+};
+
+function TechCommApp({ basePath, className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { isMember, members } = useMembers('rootCommittee');
+  const prime = useCall<AccountId | null>(api.query.rootCommittee.prime, undefined, transformPrime) || null;
+  const proposals = useCall<Hash[]>(api.query.rootCommittee.proposals);
+
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t<string>('Overview')
+    },
+    {
+      name: 'proposals',
+      text: t<string>('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
+    }
+  ], [proposals, t]);
+
+  return (
+    <main className={className}>
+      <Tabs
+        basePath={basePath}
+        items={items}
+      />
+      <Switch>
+        <Route path={`${basePath}/proposals`}>
+          <Proposals
+            isMember={isMember}
+            members={members}
+            prime={prime}
+            proposals={proposals}
+          />
+        </Route>
+        <Route path={basePath}>
+          <Overview
+            isMember={isMember}
+            members={members}
+            prime={prime}
+            proposals={proposals}
+          />
+        </Route>
+      </Switch>
+    </main>
+  );
+}
+
+export default React.memo(TechCommApp);
+>>>>>>> ternoa-master

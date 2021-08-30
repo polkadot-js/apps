@@ -12,7 +12,11 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
+<<<<<<< HEAD
 function Proposals ({ className = '', isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
+=======
+function Proposals ({ className = '', isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
+>>>>>>> ternoa-master
   const { t } = useTranslation();
 
   const headerRef = useRef([
@@ -30,6 +34,7 @@ function Proposals ({ className = '', isMember, members, prime, proposalHashes, 
         <Propose
           isMember={isMember}
           members={members}
+<<<<<<< HEAD
           type={type}
         />
       </Button.Group>
@@ -38,13 +43,25 @@ function Proposals ({ className = '', isMember, members, prime, proposalHashes, 
         header={headerRef.current}
       >
         {proposalHashes?.map((hash: Hash): React.ReactNode => (
+=======
+        />
+      </Button.Group>
+      <Table
+        empty={proposals && t<string>('No committee proposals')}
+        header={headerRef.current}
+      >
+        {proposals?.map((hash: Hash): React.ReactNode => (
+>>>>>>> ternoa-master
           <Proposal
             imageHash={hash}
             isMember={isMember}
             key={hash.toHex()}
             members={members}
             prime={prime}
+<<<<<<< HEAD
             type={type}
+=======
+>>>>>>> ternoa-master
           />
         ))}
       </Table>
