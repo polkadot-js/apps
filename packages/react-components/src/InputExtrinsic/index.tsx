@@ -26,7 +26,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
@@ -44,6 +44,7 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
     },
     [onChange, value]
   );
+
 
   const _onSectionChange = useCallback(
     (section: string): void => {

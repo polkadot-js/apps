@@ -37,7 +37,7 @@ interface ValState {
   values: RawParams;
 }
 
-function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
+function areParamsValid({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value): boolean => {
     return isValid &&
       !isUndefined(value) &&
@@ -50,7 +50,7 @@ function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<
   ));
 }
 
-function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
+function expandParams(st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
   let types: string[] = [];
 
   if (st.isDoubleMap) {
@@ -73,7 +73,7 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
   });
 }
 
-function checkIterable (type: StorageEntryTypeLatest): boolean {
+function checkIterable(type: StorageEntryTypeLatest): boolean {
   const def = type.isMap
     ? getTypeDef(type.asMap.key.toString())
     : type.isDoubleMap
@@ -85,7 +85,7 @@ function checkIterable (type: StorageEntryTypeLatest): boolean {
   return !!def && def.info !== TypeDefInfo.Option;
 }
 
-function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
+function expandKey(api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
   const isIterable = checkIterable(type);
 
@@ -99,10 +99,10 @@ function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): Key
   };
 }
 
-function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function Modules({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] });
   const [{ isValid, values }, setValues] = useState<ValState>({ isValid: true, values: [] });
 
   const _onAdd = useCallback(
@@ -139,7 +139,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={api.query.timestamp.now}
-          help={meta?.documentation.join(' ')}
+          help={meta?.docs.join(' ')}
           label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />

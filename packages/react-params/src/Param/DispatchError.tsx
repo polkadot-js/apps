@@ -21,11 +21,11 @@ interface Details {
   type?: string;
 }
 
-function isModuleError (value?: ModuleErrorDefault): value is DispatchError {
+function isModuleError(value?: ModuleErrorDefault): value is DispatchError {
   return !!value?.isModule;
 }
 
-function ErrorDisplay (props: Props): React.ReactElement<Props> {
+function ErrorDisplay(props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ details, type }, setDetails] = useState<Details>({});
 
@@ -35,10 +35,10 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
     if (isModuleError(value as ModuleErrorDefault)) {
       try {
         const mod = (value as DispatchError).asModule;
-        const { documentation, name, section } = mod.registry.findMetaError(mod);
+        const { docs, name, section } = mod.registry.findMetaError(mod);
 
         return setDetails({
-          details: documentation.join(', '),
+          details: docs.join(', '),
           type: `${section}.${name}`
         });
       } catch (error) {

@@ -14,7 +14,7 @@ import Icon from './Icon';
 import { useTranslation } from './translate';
 
 interface Meta {
-  documentation: Text[];
+  docs: Text[];
 }
 
 export interface Props {
@@ -33,23 +33,23 @@ export interface Props {
   withHidden?: boolean;
 }
 
-function splitSingle (value: string[], sep: string): string[] {
+function splitSingle(value: string[], sep: string): string[] {
   return value.reduce((result: string[], value: string): string[] => {
     return value.split(sep).reduce((result: string[], value: string) => result.concat(value), result);
   }, []);
 }
 
-function splitParts (value: string): string[] {
+function splitParts(value: string): string[] {
   return ['[', ']'].reduce((result: string[], sep) => splitSingle(result, sep), [value]);
 }
 
-function formatMeta (meta?: Meta): React.ReactNode | null {
-  if (!meta || !meta.documentation.length) {
+function formatMeta(meta?: Meta): React.ReactNode | null {
+  if (!meta || !meta.docs.length) {
     return null;
   }
 
-  const strings = meta.documentation.map((doc) => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc) => !doc.length);
+  const strings = meta.docs.map((d) => d.toString().trim());
+  const firstEmpty = strings.findIndex((d) => !d.length);
   const combined = (
     firstEmpty === -1
       ? strings
@@ -60,7 +60,7 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
+function Expander({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
 

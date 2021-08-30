@@ -7,7 +7,7 @@ import React from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 
-export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
+export default function createOptions(api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.tx[sectionName];
 
   if (!section || Object.keys(section).length === 0) {
@@ -38,7 +38,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || value).toString()}
+            {(method.meta.docs[0] || value).toString()}
           </div>
         ],
         value

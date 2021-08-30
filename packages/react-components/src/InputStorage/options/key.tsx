@@ -9,7 +9,7 @@ import React from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
-export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
+export default function createOptions(api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.query[sectionName];
 
   if (!section || Object.keys(section).length === 0) {
@@ -20,16 +20,13 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .keys(section)
     .sort()
     .map((value): DropdownOption => {
-      const method = section[value] as unknown as StorageEntry;
-      const type = method.meta.type;
+        const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;
       const input = type.isMap
         ? type.asMap.key.toString()
         : type.isDoubleMap
           ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
           : '';
-      const output = method.meta.modifier.isOptional
-        ? `Option<${unwrapStorageType(type)}>`
-        : unwrapStorageType(type);
+      const output = unwrapStorageType(api.registry, type, modifier.isOptional);
 
       return {
         className: 'ui--DropdownLinked-Item',
@@ -45,7 +42,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || method.meta.name).toString()}
+            {(docs[0] || name).toString()}
           </div>
         ],
         value

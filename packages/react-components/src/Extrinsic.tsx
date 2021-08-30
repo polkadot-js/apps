@@ -37,14 +37,14 @@ interface CallState {
   }[];
 }
 
-function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
+function getParams({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
   return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
     name: arg.name.toString(),
     type: getTypeDef(arg.type.toString())
   }));
 }
 
-function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
@@ -86,7 +86,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
-        help={meta?.documentation.join(' ')}
+        help={meta?.docs.join(' ')}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
