@@ -2,7 +2,7 @@
   "name": "@polkadot/apps-routing",
   "private": true,
   "type": "module",
-  "version": "0.95.2-56",
+  "version": "0.95.2-57",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.3"
