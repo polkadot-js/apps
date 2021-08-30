@@ -616,15 +616,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              icon='paper-plane'
-              label={t<string>('send')}
-              onClick={toggleTransfer}
-            />
-          )}
-        </td>
         <td className='fast-actions'>
           <div className='fast-actions-row'>
             <LinkExternal
@@ -633,6 +624,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               isLogo
               type='address'
             />
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                label={t<string>('send')}
+                onClick={toggleTransfer}
+              />
+            )}
             <Popup
               className={`theme--${theme}`}
               isOpen={isSettingsOpen}
@@ -700,7 +699,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td colSpan={3} />
+        <td colSpan={2} />
       </tr>
     </>
   );
@@ -751,6 +750,10 @@ export default React.memo(styled(Account)`
 
       & > * + * {
         margin-left: 0.35rem;
+      }
+
+      .send-button {
+        min-width: 6.5rem;
       }
     }
   }
