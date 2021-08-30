@@ -12,7 +12,41 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Address: 'AccountId'
+        ConsensusLog: {
+          _enum: {
+            Phantom: 'Null',
+            NextEpochData: 'NextEpochDescriptor',
+            NextConfigData: 'NextConfigDescriptor',
+            SolutionRangeData: 'SolutionRangeDescriptor',
+            SaltData: 'SaltDescriptor',
+            NextSolutionRangeData: 'NextSolutionRangeDescriptor',
+            NextSaltData: 'NextSaltDescriptor'
+          }
+        },
+        NextEpochDescriptor: {
+          randomness: 'Randomness'
+        },
+        NextConfigDescriptor: {
+          _enum: {
+            V0: 'Null',
+            V1: 'NextConfigDescriptorV1'
+          }
+        },
+        NextConfigDescriptorV1: {
+          c: '(u64, u64)'
+        },
+        SolutionRangeDescriptor: {
+          solution_range: 'u64'
+        },
+        SaltDescriptor: {
+          salt: 'u64'
+        },
+        NextSolutionRangeDescriptor: {
+          solution_range: 'u64'
+        },
+        NextSaltDescriptor: {
+          salt: 'u64'
+        }
       }
     }
   ]
