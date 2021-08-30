@@ -36,6 +36,7 @@ const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
+const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
@@ -209,6 +210,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'KILT Peregrine Testnet': chainKilt,
   'KILT Testnet': chainKilt,
   'KLUGDOSSIER.NET': chainKlug,
+  Kintsugi: chainKintsugi,
   Konomi: chainKonomi,
   Kpron: nodeKpron,
   Kulupu: chainKulupu,

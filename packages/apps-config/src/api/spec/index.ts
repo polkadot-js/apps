@@ -154,6 +154,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
+  'kintsugi': interbtc,
   'interbtc-parachain': interbtc,
   'interbtc-standalone': interbtc,
   'ipse-node': ipse,
