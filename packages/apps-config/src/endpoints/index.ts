@@ -4,6 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { LinkOption } from '../settings/types';
 
+import { createNodle } from './nodle';
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
 import { createTesting } from './testing';
@@ -11,13 +12,21 @@ import { createRococo } from './testingRococo';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
-export function createWsEndpoints (t: TFunction): LinkOption[] {
+export function createWsEndpoints(t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {
       isDisabled: false,
       isHeader: true,
       text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createNodle(t),
+    {
+      isDisabled: false,
+      isHeader: true,
+      text: t('rpc.header.nodle', 'Nodle networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
