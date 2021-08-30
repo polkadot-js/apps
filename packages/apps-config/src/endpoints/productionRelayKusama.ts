@@ -22,7 +22,7 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://kusama.elara.patract.io',
+      'Patract Elara': 'wss://pub.elara.patract.io/kusama',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -38,7 +38,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Parity: 'wss://kusama-statemine-rpc.paritytech.net',
           OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://statemine.kusama.elara.patract.io'
+          'Patract Elara': 'wss://pub.elara.patract.io/statemine'
         },
         teleport: [-1]
       },
@@ -71,7 +71,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           Liebi: 'wss://bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://bifrost.kusama.elara.patract.io'
+          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
         }
       },
       {
@@ -153,7 +153,7 @@ export function createKusama (t: TFunction): EndpointOption {
           'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://karura.polkawallet.io',
           OnFinality: 'wss://karura.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://karura.kusama.elara.patract.io'
+          'Patract Elara': 'wss://pub.elara.patract.io/karura'
         }
       },
       {
@@ -212,7 +212,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://moonriver.kusama.elara.patract.io'
+          'Patract Elara': 'wss://pub.elara.patract.io/moonriver'
         }
       },
       {
