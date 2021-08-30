@@ -72,6 +72,14 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'interBTC',
+        paraId: 2094,
+        text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://api-westend.interlay.io/parachain'
+        }
+      },
+      {
         info: 'moonshadow',
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),

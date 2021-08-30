@@ -1925,10 +1925,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:0.12.0":
-  version: 0.12.0
-  resolution: "@interlay/interbtc-types@npm:0.12.0"
-  checksum: b4150fec80f5619a5dac6b95f621e16cfc71572de590254ed7ceedd3d0f0ad486e1d99d2bda63714e30b95bbd7344c62aab5b10e09f7754ef94de68fadf7f665
+"@interlay/interbtc-types@npm:0.12.2":
+  version: 0.12.2
+  resolution: "@interlay/interbtc-types@npm:0.12.2"
+  checksum: 83e252d14274aeca00468b8acb6683b93a696b728fb1de22d9fcd53ad8b11babc006bf74d40c0bfc27a8be785aeda93abf6487390be4884b8fce46acdabf255e
   languageName: node
   linkType: hard
 
@@ -2820,7 +2820,7 @@ __metadata:
     "@docknetwork/node-types": 0.4.7
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.3.6
-    "@interlay/interbtc-types": 0.12.0
+    "@interlay/interbtc-types": 0.12.2
     "@kiltprotocol/type-definitions": 0.1.14
     "@laminar/type-definitions": 0.3.1
     "@parallel-finance/type-definitions": 1.1.1
