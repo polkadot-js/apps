@@ -23,7 +23,7 @@ const transformMembers = {
 export function useCollectiveMembers(collective: CollectiveType): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.derive[collective]?.members, undefined, transformMembers);
+  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);
 
   return useMemo(
     () => ({
