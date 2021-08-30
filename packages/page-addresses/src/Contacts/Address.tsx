@@ -196,6 +196,14 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           withExtended={false}
         />
       </td>
+      <td className='links media--1400'>
+        <LinkExternal
+          className='ui--AddressCard-exporer-link'
+          data={address}
+          isLogo
+          type='address'
+        />
+      </td>
       <td className='button'>
         {isFunction(api.api.tx.balances?.transfer) && (
           <Button
@@ -239,14 +247,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             )}
           </Menu>
         </Popup>
-      </td>
-      <td className='links media--1400'>
-        <LinkExternal
-          className='ui--AddressCard-exporer-link'
-          data={address}
-          isLogo
-          type='address'
-        />
       </td>
     </tr>
   );
