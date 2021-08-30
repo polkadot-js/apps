@@ -11,6 +11,7 @@
 import { sanitize } from '../util';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
+import chainComposable from './chains/picasso.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
@@ -482,6 +483,7 @@ export const namedLogos: Record<string, unknown> = {
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
+  picasso: chainComposable,
   plasm: nodePlasm,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
