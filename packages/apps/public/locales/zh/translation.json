@@ -143,7 +143,7 @@
   "Constants": "常数",
   "Continue": "继续",
   "Contracts": "合约",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "信念值锁定确实会重叠，而且是累加性的，这意味着在前一次投票中锁定的资金可以再次锁定。",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "信念值锁定确实会重叠，而且是累加性的，这意味着在前一次投票中锁定的资金可以再次锁定。",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "在钱包中选择预售阶段你使用的以太坊账户，复制上面的字符串，并且使用你的以太坊账户把字符串作为内容签名交易, 并且粘贴交易签名对象到下面",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "复制以下字符串，并使用您在预售期间使用的以太坊帐户在您选择的钱包中进行签名，使用该字符串作为有效负载，然后将交易签名对象粘贴到下面",
   "Council": "理事会",

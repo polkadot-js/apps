@@ -127,23 +127,6 @@ export default (_theme: ThemeDef): string => `
     display: flex !important;
   }
 
-  .ui.popup {
-    background: var(--bg-menu);
-    color: var(--color-text);
-
-    .ui.text.menu .item {
-      color: var(--color-text) !important;
-
-      &.disabled {
-        opacity: 0.3;
-      }
-    }
-
-    &&::before {
-      background: var(--bg-menu);
-    }
-  }
-
   .ui.secondary.vertical.menu > .item {
     margin: 0;
   }
