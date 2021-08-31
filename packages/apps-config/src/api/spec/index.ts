@@ -163,6 +163,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   khala: phalaParachain,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
+  kintsugi: interbtc,
   konomi,
   kpron,
   kulupu,
