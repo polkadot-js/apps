@@ -31,6 +31,7 @@
   "rpc.kusama.mars": "Mars",
   "rpc.kusama.moonriver": "Moonriver",
   "rpc.kusama.parity": "Kusama",
+  "rpc.kusama.picasso": "Picasso",
   "rpc.kusama.polkasmith": "PolkaSmith by PolkaFoundry",
   "rpc.kusama.robonomics": "Robonomics",
   "rpc.kusama.sakura": "Sakura",

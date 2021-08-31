@@ -206,6 +206,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'picasso',
+        homepage: 'https://picasso.composable.finance/',
+        paraId: 2087,
+        text: t('rpc.kusama.picasso', 'Picasso', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://picasso-rpc.composable.finance'
+        }
+      },
+      {
         info: 'polkasmith',
         homepage: 'https://polkasmith.polkafoundry.com/',
         paraId: 2009,

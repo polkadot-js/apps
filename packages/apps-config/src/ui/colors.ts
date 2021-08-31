@@ -17,6 +17,7 @@ const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
+const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
@@ -172,6 +173,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
   Clover: chainClover,
+  Composable: chainComposable,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
