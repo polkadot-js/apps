@@ -197,21 +197,21 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'picasso',
-        homepage: 'https://picasso.composable.finance/',
-        paraId: 2087,
-        text: t('rpc.kusama.picasso', 'Picasso', { ns: 'apps-config' }),
-        providers: {
-          Composable: 'wss://picasso-rpc.composable.finance'
-        }
-      },
-      {
         info: 'heiko',
         homepage: 'https://parallel.fi',
         paraId: 2085,
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
         providers: {
           Parallel: 'wss://heiko-rpc-0.parallel.fi'
+        }
+      },
+      {
+        info: 'picasso',
+        homepage: 'https://picasso.composable.finance/',
+        paraId: 2087,
+        text: t('rpc.kusama.picasso', 'Picasso', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://picasso-rpc.composable.finance'
         }
       },
       {
