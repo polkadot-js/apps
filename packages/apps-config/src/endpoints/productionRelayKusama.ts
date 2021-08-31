@@ -122,15 +122,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'heiko',
-        homepage: 'https://parallel.fi',
-        paraId: 2085,
-        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
-        providers: {
-          Parallel: 'wss://heiko-rpc-0.parallel.fi'
-        }
-      },
-      {
         info: 'integritee',
         homepage: 'https://integritee.network',
         isUnreachable: true,
@@ -212,6 +203,15 @@ export function createKusama (t: TFunction): EndpointOption {
           PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://pub.elara.patract.io/moonriver'
+        }
+      },
+      {
+        info: 'heiko',
+        homepage: 'https://parallel.fi',
+        paraId: 2085,
+        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
+        providers: {
+          Parallel: 'wss://heiko-rpc-0.parallel.fi'
         }
       },
       {
