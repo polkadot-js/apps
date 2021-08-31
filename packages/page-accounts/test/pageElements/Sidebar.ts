@@ -52,6 +52,12 @@ export class Sidebar {
     return sideBarTags.textContent?.includes(tagsContent) || false;
   }
 
+  async accountNameEquals (expectedAccountName: string): Promise<boolean> {
+    const sideBarName = await this.findByTestId('account-name');
+
+    return sideBarName.textContent?.includes(expectedAccountName) || false;
+  }
+
   close (): Promise<void> {
     return this.clickByTestId('close-sidebar-button');
   }

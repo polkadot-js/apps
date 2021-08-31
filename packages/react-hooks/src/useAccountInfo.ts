@@ -152,12 +152,6 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
 
   const onCancel = useCallback(
     (): void => {
-      console.log('CANCELED!');
-      console.log('VALUE', value);
-
-      console.log('IS ED NAME', isEditingName);
-      console.log('IS ED TAG', isEditingTags);
-
       if (value && (isEditingName || isEditingTags)) {
         try {
           const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
@@ -170,7 +164,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
         // ignore
         }
       }
-    }, [isEditingName, isEditingTags, toggleIsEditingName, toggleIsEditingTags, value]);
+    }, [isEditingName, isEditingTags, setIsEditingName, setIsEditingTags, value]);
 
   const onSaveName = useCallback(
     (): void => {

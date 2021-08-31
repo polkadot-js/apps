@@ -419,7 +419,7 @@ describe('Accounts page', () => {
           await sideBar.assertAccountName(initialName);
         });
 
-        it('Cancel button disappears', async () => {
+        it('Cancel button disappears', () => {
           sideBar.cancel();
           expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
         });
@@ -427,23 +427,23 @@ describe('Accounts page', () => {
 
       describe('outside click', () => {
         beforeEach(async () => {
-          addAccountToKeyring(injectedAddress, { isDevelopment: false, name: initialName, tags: [] });
           renderAccountsForAddresses(
-            injectedAddress
+            aliceAddress,
+            bobAddress
           );
+
           sideBar = await openSidebarForAccountRow(0);
-          await sideBar.assertTags('no tags');
           sideBar.edit();
         });
 
-        it('cancels edit', async () => {
+        it('cancels editing', async () => {
           await sideBar.typeAccountName(newName);
           await sideBar.selectTag(defaultTag);
 
           fireEvent.click(await screen.findByText('accounts'));
 
           await sideBar.assertTags('no tags');
-          await sideBar.assertAccountName(initialName);
+          await sideBar.assertAccountName('ALICE');
 
           expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
         });
@@ -455,7 +455,10 @@ describe('Accounts page', () => {
         });
 
         it('cancels editing and changes name when opening sidebar for another account', async () => {
+          await waitFor(() => sideBar.accountNameEquals('ALICE'));
 
+          sideBar = await openSidebarForAccountRow(1);
+          await sideBar.assertAccountName('BOB');
         });
       });
 
