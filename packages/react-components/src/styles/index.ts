@@ -255,6 +255,16 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Popup .ui--Button.isOpen:not(.isDisabled):not(.isReadOnly) {
+    background: ${getHighlight(uiHighlight)} !important;
+    color: ${getContrast(uiHighlight)} !important;
+
+    .ui--Icon {
+      background: transparent !important;
+      color: ${getContrast(uiHighlight)} !important;
+    }
+  }
+
   .theme--dark,
   .theme--light {
     .ui--Tabs .tabLinkActive .tabLinkText::after{
@@ -288,7 +298,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .ui--Tag.themeColor.lightTheme,
   .ui--InputTags.lightTheme .ui.label {
-    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')} !important;
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
     color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
   }
 
