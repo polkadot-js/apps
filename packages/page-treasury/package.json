@@ -2,11 +2,11 @@
   "name": "@polkadot/app-treasury",
   "private": true,
   "type": "module",
-  "version": "0.95.2-62",
+  "version": "0.95.2-63",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@polkadot/react-components": "^0.95.2-62",
-    "@polkadot/react-query": "^0.95.2-62"
+    "@polkadot/react-components": "^0.95.2-63",
+    "@polkadot/react-query": "^0.95.2-63"
   }
 }
