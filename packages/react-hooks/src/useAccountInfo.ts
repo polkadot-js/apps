@@ -51,8 +51,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
-  const [isEditingName, toggleIsEditingName] = useToggle();
-  const [isEditingTags, toggleIsEditingTags] = useToggle();
+  const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
+  const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
 
   useEffect((): void => {
     validator && setFlags((flags) => ({
@@ -152,18 +152,25 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
 
   const onCancel = useCallback(
     (): void => {
-      if (value) {
+      console.log('CANCELED!');
+      console.log('VALUE', value);
+
+      console.log('IS ED NAME', isEditingName);
+      console.log('IS ED TAG', isEditingTags);
+
+      if (value && (isEditingName || isEditingTags)) {
         try {
           const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
+
           setName(accountOrAddress?.meta.name || '');
           setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
-          toggleIsEditingName()
-          toggleIsEditingTags()
+          setIsEditingName(false);
+          setIsEditingTags(false);
         } catch (error) {
         // ignore
         }
       }
-    }, [value]);
+    }, [isEditingName, isEditingTags, toggleIsEditingName, toggleIsEditingTags, value]);
 
   const onSaveName = useCallback(
     (): void => {

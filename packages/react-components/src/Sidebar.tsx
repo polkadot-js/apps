@@ -14,13 +14,15 @@ interface Props {
   offset?: number | string;
   onClose: () => void;
   position: 'left' | 'right';
+  sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
-function Sidebar ({ button, children, className = '', dataTestId = '', onClose }: Props): React.ReactElement<Props> {
+function Sidebar ({ button, children, className = '', dataTestId = '', onClose, sidebarRef }: Props): React.ReactElement<Props> {
   return (
     <div
       className={`ui--Sidebar ${className}`}
       data-testid={dataTestId}
+      ref={sidebarRef}
     >
       <Button.Group className='ui--Sidebar-buttons'>
         {button}

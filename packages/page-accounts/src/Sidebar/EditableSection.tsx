@@ -8,14 +8,15 @@ import EditAccountButton from '@polkadot/app-accounts/Sidebar/EditAccountButton'
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { AccountName, Input, Tags } from '@polkadot/react-components';
 import ButtonCancel from '@polkadot/react-components/ButtonCancel';
-import { useAccountInfo } from '@polkadot/react-hooks';
+import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
 
 interface Props {
   address: string;
   onUpdateName: () => void;
+  sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
-function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactElement<Props> {
+function EditableSidebarSection ({ address, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { flags, isEditingName, isEditingTags, name, onCancel, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
@@ -53,6 +54,8 @@ function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactE
 
     toggleIsEditing();
   }, [isEditing, toggleIsEditing, updateName, updateTags]);
+
+  useOutsideClick([sidebarRef], onCancel);
 
   return (
     <>

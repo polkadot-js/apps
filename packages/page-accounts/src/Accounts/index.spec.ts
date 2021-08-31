@@ -399,7 +399,7 @@ describe('Accounts page', () => {
         });
       });
 
-      describe('on cancel', () => {
+      describe('on edit cancel', () => {
         beforeEach(async () => {
           addAccountToKeyring(injectedAddress, { isDevelopment: false, name: initialName, tags: [] });
           renderAccountsForAddresses(
@@ -421,7 +421,41 @@ describe('Accounts page', () => {
 
         it('Cancel button disappears', async () => {
           sideBar.cancel();
-          expect(sideBar.queryByRole('button', {name: 'Cancel'}))
+          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
+        });
+      });
+
+      describe('outside click', () => {
+        beforeEach(async () => {
+          addAccountToKeyring(injectedAddress, { isDevelopment: false, name: initialName, tags: [] });
+          renderAccountsForAddresses(
+            injectedAddress
+          );
+          sideBar = await openSidebarForAccountRow(0);
+          await sideBar.assertTags('no tags');
+          sideBar.edit();
+        });
+
+        it('cancels edit', async () => {
+          await sideBar.typeAccountName(newName);
+          await sideBar.selectTag(defaultTag);
+
+          fireEvent.click(await screen.findByText('accounts'));
+
+          await sideBar.assertTags('no tags');
+          await sideBar.assertAccountName(initialName);
+
+          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
+        });
+
+        it('within sidebar does not cancel editing', async () => {
+          await sideBar.clickByText('Tags');
+
+          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeTruthy();
+        });
+
+        it('cancels editing and changes name when opening sidebar for another account', async () => {
+
         });
       });
 

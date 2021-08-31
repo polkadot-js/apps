@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 
 import SidebarEditableSection from '@polkadot/app-accounts/Sidebar/EditableSection';
@@ -45,12 +45,15 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
     [onSaveName, onUpdateName]
   );
 
+  const ref = useRef();
+
   return (
     <Sidebar
       className={className}
       dataTestId={dataTestId}
       onClose={onClose}
       position='right'
+      sidebarRef={ref}
     >
       <div
         className='ui--AddressMenu-header'
@@ -71,6 +74,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
         <SidebarEditableSection
           address={address}
           onUpdateName={onUpdateName}
+          sidebarRef={ref}
         />
         <Flags flags={flags} />
         <div className='ui--AddressMenu-buttons'>
