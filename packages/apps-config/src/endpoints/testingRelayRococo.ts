@@ -224,6 +224,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoInterBTC',
+        paraId: 2088,
+        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://api-rococo.interlay.io/parachain'
+        }
+      },
+      {
         info: 'rococoKilt',
         isDisabled: true, // Rococo reset
         paraId: 12623,
@@ -353,15 +361,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
           PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
-        }
-      },
-      {
-        info: 'rococoInterBTC',
-        isDisabled: true, // Rococo reset
-        paraId: 21,
-        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
-        providers: {
-          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
         }
       },
       {

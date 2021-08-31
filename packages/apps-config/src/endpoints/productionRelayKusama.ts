@@ -93,15 +93,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crab_redirect',
-        homepage: 'https://crab.network/',
-        paraId: 2006,
-        text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
-        providers: {
-          Crab: 'wss://crab-redirect-rpc.darwinia.network/'
-        }
-      },
-      {
         info: 'encointer_canary',
         homepage: 'https://encointer.org/',
         isUnreachable: true,
@@ -222,6 +213,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
           PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
+        }
+      },
+      {
+        info: 'robonomics',
+        homepage: 'http://robonomics.network/',
+        paraId: 2077,
+        text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
+        providers: {
+          Airalab: 'wss://kusama.rpc.robonomics.network/'
         }
       },
       {
