@@ -10,7 +10,7 @@ interface Endpoint {
   value: string;
 }
 
-const allEndpoints = createWsEndpoints((k: string, v?: string) => v || k);
+const allEndpoints = createWsEndpoints((k: string, v?: string) => v || k, false, false);
 
 describe('WS urls are all valid', (): void => {
   allEndpoints
@@ -33,10 +33,10 @@ describe('WS urls are all valid', (): void => {
 describe('urls are sorted', (): void => {
   let hasDevelopment = false;
   let lastHeader = '';
-  const filtered = allEndpoints.filter(({ isHeader, isUnreachable, text }): boolean => {
+  const filtered = allEndpoints.filter(({ isHeader, text }): boolean => {
     hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
 
-    return !isUnreachable && !hasDevelopment;
+    return !hasDevelopment;
   });
 
   filtered.forEach(({ isHeader, text }, index): void => {
