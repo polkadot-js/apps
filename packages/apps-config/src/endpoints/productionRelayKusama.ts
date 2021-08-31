@@ -157,6 +157,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kintsugi',
+        homepage: 'https://kintsugi.interlay.io/',
+        paraId: 2092,
+        text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
+        providers: {
+          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain'
+        }
+      },
+      {
         info: 'kpron',
         homepage: 'http://apron.network/',
         isUnreachable: true,
