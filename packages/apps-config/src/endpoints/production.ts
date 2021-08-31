@@ -126,8 +126,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'plasm',
       text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.plasmnet.io/',
-        'Patract Elara': 'wss://pub.elara.patract.io/plasm'
+        'Stake Technologies': 'wss://rpc.plasmnet.io/'
       }
     },
     {
