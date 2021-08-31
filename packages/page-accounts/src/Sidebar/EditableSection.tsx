@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import EditAccountButton from '@polkadot/app-accounts/Sidebar/EditAccountButton';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { AccountName, Input, Tags } from '@polkadot/react-components';
+import ButtonCancel from '@polkadot/react-components/ButtonCancel';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 
 function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { flags, isEditingName, isEditingTags, name, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { flags, isEditingName, isEditingTags, name, onCancel, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
   const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
 
@@ -44,7 +45,7 @@ function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactE
     }
   }, [isEditingName, flags.isInContacts, flags.isOwned, _onUpdateName, toggleIsEditingName]);
 
-  const onClick = useCallback(() => {
+  const onEdit = useCallback(() => {
     if (isEditing()) {
       updateName();
       updateTags();
@@ -88,9 +89,10 @@ function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactE
           withTitle
         />
       </div>
+      {isEditing() && <ButtonCancel onClick={onCancel}/>}
       <EditAccountButton
         isEditing={isEditing}
-        onClick={onClick}
+        onClick={onEdit}
       />
     </>
   );

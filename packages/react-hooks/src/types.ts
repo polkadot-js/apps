@@ -124,6 +124,7 @@ export interface UseAccountInfo {
   isEditingTags: boolean;
   isNull: boolean;
   toggleIsEditingTags: () => void;
+  onCancel: () => void;
   onSaveName: () => void;
   onSaveTags: () => void;
   onSetGenesisHash: (genesisHash: string | null) => void;

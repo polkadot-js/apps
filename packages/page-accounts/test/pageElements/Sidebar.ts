@@ -49,11 +49,15 @@ export class Sidebar {
   async tagsEqual (tagsContent: string): Promise<boolean> {
     const sideBarTags = await this.findByTestId('sidebar-tags');
 
-    return sideBarTags.textContent === tagsContent;
+    return sideBarTags.textContent?.includes(tagsContent) || false;
   }
 
   close (): Promise<void> {
     return this.clickByTestId('close-sidebar-button');
+  }
+
+  cancel (): void {
+    this.clickButton('Cancel');
   }
 
   edit (): void {
@@ -100,8 +104,8 @@ export class Sidebar {
     return within(this.sidebar).getByRole(roleName, options);
   }
 
-  queryByRole (roleName: string): HTMLElement | null {
-    return within(this.sidebar).queryByRole(roleName);
+  queryByRole (roleName: string, options?: Record<string, unknown>): HTMLElement | null {
+    return within(this.sidebar).queryByRole(roleName, options);
   }
 
   queryByTestId (testId: string): HTMLElement | null {

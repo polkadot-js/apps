@@ -397,10 +397,37 @@ describe('Accounts page', () => {
             await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
           });
         });
+      });
 
-        afterEach(() => {
-          keyring.forgetAccount(injectedAddress);
+      describe('on cancel', () => {
+        beforeEach(async () => {
+          addAccountToKeyring(injectedAddress, { isDevelopment: false, name: initialName, tags: [] });
+          renderAccountsForAddresses(
+            injectedAddress
+          );
+          sideBar = await openSidebarForAccountRow(0);
+          await sideBar.assertTags('no tags');
+          sideBar.edit();
         });
+
+        it('restores tags and name to state from keyring', async () => {
+          await sideBar.typeAccountName(newName);
+          await sideBar.selectTag(defaultTag);
+
+          sideBar.cancel();
+          await sideBar.assertTags('no tags');
+          await sideBar.assertAccountName(initialName);
+        });
+
+        it('Cancel button disappears', async () => {
+          sideBar.cancel();
+          expect(sideBar.queryByRole('button', {name: 'Cancel'}))
+        });
+      });
+
+      afterEach(() => {
+        keyring.forgetAccount(injectedAddress);
+        keyring.forgetAddress(injectedAddress);
       });
 
       async function openSidebarForAccountRow (rowIndex: number) {
