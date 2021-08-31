@@ -27,6 +27,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
+import emptyLogo from './empty.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
 import externalDotreasury from './external/dotreasury.svg';
@@ -36,6 +37,10 @@ import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
 import externalSubscan from './external/subscan.svg';
+import moonbeam from './nodes/moonbeam.png';
+import moonriver from './nodes/moonriver.svg';
+import moonshadow from './nodes/moonshadow.png';
+import mybank from './nodes/mybank.png';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
@@ -82,14 +87,9 @@ import nodeLitentry from './nodes/litentry.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
-import moonbeam from './nodes/moonbeam.png';
-import moonriver from './nodes/moonriver.svg';
-import nodeMoonrock from './nodes/moonrock.png';
-import moonshadow from './nodes/moonshadow.png';
-import mybank from './nodes/mybank.png';
 import nodeNFTMart from './nodes/nftmart.png';
+import nodeMoonrock from './nodes/moonrock.png';
 import nodeNodle from './nodes/nodle.svg';
-import oakTestnet from './nodes/oak-testnet.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
@@ -132,8 +132,8 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
+import oakTestnet from './nodes/oak-testnet.png';
 // last-resort fallback, just something empty
-import emptyLogo from './empty.svg';
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
