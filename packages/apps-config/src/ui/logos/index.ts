@@ -8,7 +8,6 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
-import { sanitize } from '../util';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainComposable from './chains/picasso.svg';
@@ -133,6 +132,7 @@ import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
 import oakTestnet from './nodes/oak-testnet.png';
+import { sanitize } from '../util';
 // last-resort fallback, just something empty
 
 // Alphabetical overrides based on the actual matched chain name
