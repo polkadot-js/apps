@@ -104,7 +104,7 @@
   "Confirm contract removal": "Confirmar la eliminación del contrato",
   "Constants": "Constantes",
   "Continue": "Continuar",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Los bloqueos de sentencias se superponen y son acumulativos, lo que significa que los fondos bloqueados durante una votación anterior pueden ser bloqueados de nuevo.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "Los bloqueos de sentencias se superponen y son acumulativos, lo que significa que los fondos bloqueados durante una votación anterior pueden ser bloqueados de nuevo.",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "Copie la secuencia anterior y firme una transacción de Ethereum con la cuenta que utilizó durante la preventa en la cartera de su elección, utilizando la secuencia como fuente, y luego pegue la firma de la transacción a continuación",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Copie la siguiente secuencia y fírmela con la cuenta Ethereum que utilizó durante la preventa en la cartera de su elección, utilizando la secuencia como fuente, y luego pegue la firma de la transacción a continuación:",
   "Council": "Council",

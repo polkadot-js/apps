@@ -14,10 +14,14 @@ interface ParentAccountProps {
 
 function ParentAccount ({ address, className }: ParentAccountProps): React.ReactElement<ParentAccountProps> {
   return (
-    <div className={className}
-      data-testid='parent'>
-      <Icon className='parent-icon'
-        icon='code-branch'/>
+    <div
+      className={className}
+      data-testid='parent'
+    >
+      <Icon
+        className='parent-icon'
+        icon='code-branch'
+      />
 
       <AccountName
         value={address}

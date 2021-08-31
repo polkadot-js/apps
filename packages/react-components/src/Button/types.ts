@@ -17,6 +17,7 @@ export interface ButtonProps {
   isDisabled?: boolean;
   isFull?: boolean;
   isIcon?: boolean;
+  isReadOnly?: boolean;
   isSelected?: boolean;
   isToplevel?: boolean;
   label?: React.ReactNode;
