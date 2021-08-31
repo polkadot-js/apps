@@ -1,14 +1,13 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
-
-import EditAccountButton from '@polkadot/app-accounts/Sidebar/EditAccountButton';
-import { useTranslation } from '@polkadot/app-accounts/translate';
-import { AccountName, Input, Tags } from '@polkadot/react-components';
-import ButtonCancel from '@polkadot/react-components/ButtonCancel';
-import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
+import {useTranslation} from '@polkadot/app-accounts/translate';
+import {AccountName, Input, Tags} from '@polkadot/react-components';
+import {useAccountInfo, useOutsideClick} from '@polkadot/react-hooks';
+import EditableSectionButtons from "@polkadot/app-accounts/Sidebar/EditableSectionButtons";
+import Flags from "@polkadot/app-accounts/Sidebar/Flags";
 
 interface Props {
   address: string;
@@ -92,9 +91,10 @@ function EditableSidebarSection ({ address, onUpdateName, sidebarRef }: Props): 
           withTitle
         />
       </div>
-      {isEditing() && <ButtonCancel onClick={onCancel}/>}
-      <EditAccountButton
+      {!isEditing() && <Flags flags={flags} />}
+      <EditableSectionButtons
         isEditing={isEditing}
+        onCancel={onCancel}
         onClick={onEdit}
       />
     </>
@@ -102,8 +102,8 @@ function EditableSidebarSection ({ address, onUpdateName, sidebarRef }: Props): 
 }
 
 export default React.memo(styled(EditableSidebarSection)`
-  .ui--AddressMenu-tags {
-    margin: 0.75rem 0 0;
-    width: 100%;
+
+  .ui--Flags {
+    opacity: 70%;
   }
 `);

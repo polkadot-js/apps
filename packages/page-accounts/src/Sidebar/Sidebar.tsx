@@ -76,7 +76,6 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           onUpdateName={onUpdateName}
           sidebarRef={ref}
         />
-        <Flags flags={flags} />
         <div className='ui--AddressMenu-buttons'>
           <Button.Group>
             <Button

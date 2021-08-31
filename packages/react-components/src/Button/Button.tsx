@@ -24,7 +24,7 @@ function Button ({ children, className = '', dataTestId = '', icon, isBasic, isB
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      <Icon icon={icon} />
+      {icon && <Icon icon={icon} />}
       {label}
       {children}
       <Spinner
