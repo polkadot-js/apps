@@ -15,7 +15,7 @@ import { expandEndpoints } from './util';
 //   value: The actual hosted secure websocket endpoint
 
 // alphabetical based on chain name
-export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption[] {
+export function createProduction (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
     {
       dnslink: 'centrifuge',
@@ -126,8 +126,7 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
       info: 'plasm',
       text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.plasmnet.io/',
-        'Patract Elara': 'wss://pub.elara.patract.io/plasm'
+        'Stake Technologies': 'wss://rpc.plasmnet.io/'
       }
     },
     {
@@ -193,5 +192,5 @@ export function createProduction (t: TFunction, firstOnly?: boolean): LinkOption
         DataHighway: 'wss://westlake.datahighway.com'
       }
     }
-  ], firstOnly);
+  ], firstOnly, withSort);
 }

@@ -40,7 +40,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
-  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -113,11 +112,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     [isForgetOpen]
   );
 
-  const _toggleSettingPopup = useCallback(
-    (): void => setIsSettingPopupOpen(!isSettingPopupOpen),
-    [isSettingPopupOpen]
-  );
-
   const _toggleTransfer = useCallback(
     (): void => setIsTransferOpen(!isTransferOpen),
     [isTransferOpen]
@@ -147,6 +141,30 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   if (!isVisible) {
     return null;
   }
+
+  const PopupDropdown = (
+    <Menu
+      text
+      vertical
+    >
+      <Menu.Item
+        disabled={!isEditable}
+        onClick={_toggleForget}
+      >
+        {t<string>('Forget this address')}
+      </Menu.Item>
+      {isEditable && !api.isDevelopment && (
+        <>
+          <Menu.Divider />
+          <ChainLock
+            className='addresses--network-toggle'
+            genesisHash={genesisHash}
+            onChange={_onGenesisChange}
+          />
+        </>
+      )}
+    </Menu>
+  );
 
   return (
     <tr className={className}>
@@ -207,38 +225,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         )}
         <Popup
           className={`theme--${theme}`}
-          isOpen={isSettingPopupOpen}
-          onClose={_toggleSettingPopup}
-          trigger={
-            <Button
-              icon='ellipsis-v'
-              onClick={_toggleSettingPopup}
-            />
-          }
-        >
-          <Menu
-            onClick={_toggleSettingPopup}
-            text
-            vertical
-          >
-            <Menu.Item
-              disabled={!isEditable}
-              onClick={_toggleForget}
-            >
-              {t<string>('Forget this address')}
-            </Menu.Item>
-            {isEditable && !api.isDevelopment && (
-              <>
-                <Menu.Divider />
-                <ChainLock
-                  className='addresses--network-toggle'
-                  genesisHash={genesisHash}
-                  onChange={_onGenesisChange}
-                />
-              </>
-            )}
-          </Menu>
-        </Popup>
+          value={PopupDropdown}
+        />
       </td>
       <td className='links media--1400'>
         <LinkExternal

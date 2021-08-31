@@ -93,15 +93,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crab_redirect',
-        homepage: 'https://crab.network/',
-        paraId: 2006,
-        text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
-        providers: {
-          Crab: 'wss://crab-redirect-rpc.darwinia.network/'
-        }
-      },
-      {
         info: 'encointer_canary',
         homepage: 'https://encointer.org/',
         isUnreachable: true,
@@ -119,16 +110,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
           Equilibrium: 'wss://gens-mainnet.equilibrium.io'
-        }
-      },
-      {
-        info: 'heiko',
-        homepage: 'https://parallel.fi',
-        isUnreachable: true,
-        paraId: 2085,
-        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
-        providers: {
-          Parallel: 'wss://heiko-rpc-0.parallel.fi'
         }
       },
       {
@@ -222,6 +203,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.picasso', 'Picasso', { ns: 'apps-config' }),
         providers: {
           Composable: 'wss://picasso-rpc.composable.finance'
+        }
+      },
+      {
+        info: 'heiko',
+        homepage: 'https://parallel.fi',
+        paraId: 2085,
+        text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
+        providers: {
+          Parallel: 'wss://heiko-rpc-0.parallel.fi'
         }
       },
       {

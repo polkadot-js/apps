@@ -127,7 +127,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
@@ -626,24 +625,16 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
           <Popup
             className={`theme--${theme}`}
-            isOpen={isSettingsOpen}
-            onClose={toggleSettings}
-            trigger={
-              <Button
-                icon='ellipsis-v'
-                isDisabled={!menuItems.length}
-                onClick={toggleSettings}
-              />
+            isDisabled={!menuItems.length}
+            value={
+              <Menu
+                text
+                vertical
+              >
+                {menuItems}
+              </Menu>
             }
-          >
-            <Menu
-              onClick={toggleSettings}
-              text
-              vertical
-            >
-              {menuItems}
-            </Menu>
-          </Popup>
+          />
         </td>
         <td className='links media--1400'>
           <LinkExternal
@@ -654,9 +645,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         </td>
         <td className='button'>
-          <div className='table-column-icon'
+          <div
+            className='table-column-icon'
             data-testid='row-toggle'
-            onClick={toggleIsExpanded}>
+            onClick={toggleIsExpanded}
+          >
             <Icon icon={
               isExpanded
                 ? 'caret-up'
@@ -669,8 +662,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2} />
         <td>
-          <div className='tags'
-            data-testid='tags'>
+          <div
+            className='tags'
+            data-testid='tags'
+          >
             <Tags
               value={tags}
               withTitle
