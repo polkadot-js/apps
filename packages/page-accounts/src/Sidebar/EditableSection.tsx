@@ -1,25 +1,30 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, {useCallback} from 'react';
-import styled from 'styled-components';
-import {useTranslation} from '@polkadot/app-accounts/translate';
-import {AccountName, Input, Tags} from '@polkadot/react-components';
-import {useAccountInfo, useOutsideClick} from '@polkadot/react-hooks';
-import EditableSectionButtons from "@polkadot/app-accounts/Sidebar/EditableSectionButtons";
-import Flags from "@polkadot/app-accounts/Sidebar/Flags";
+import React, { useCallback, useEffect } from 'react';
+
+import EditableSectionButtons from '@polkadot/app-accounts/Sidebar/EditableSectionButtons';
+import Flags from '@polkadot/app-accounts/Sidebar/Flags';
+import { useTranslation } from '@polkadot/app-accounts/translate';
+import { AccountName, Input, Tags } from '@polkadot/react-components';
+import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
 
 interface Props {
   address: string;
   onUpdateName: () => void;
   sidebarRef: React.RefObject<HTMLDivElement>;
+  isBeingEdited: (arg: boolean) => void;
 }
 
-function EditableSidebarSection ({ address, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
+function EditableSidebarSection ({ address, isBeingEdited, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { flags, isEditingName, isEditingTags, name, onCancel, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
   const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
+
+  useEffect(() => {
+    isBeingEdited(isEditing());
+  }, [isBeingEdited, isEditing]);
 
   const updateTags = useCallback(() => {
     onSaveTags();
@@ -91,7 +96,7 @@ function EditableSidebarSection ({ address, onUpdateName, sidebarRef }: Props): 
           withTitle
         />
       </div>
-      {!isEditing() && <Flags flags={flags} />}
+      <Flags flags={flags} />
       <EditableSectionButtons
         isEditing={isEditing}
         onCancel={onCancel}
@@ -101,9 +106,4 @@ function EditableSidebarSection ({ address, onUpdateName, sidebarRef }: Props): 
   );
 }
 
-export default React.memo(styled(EditableSidebarSection)`
-
-  .ui--Flags {
-    opacity: 70%;
-  }
-`);
+export default React.memo(EditableSidebarSection);

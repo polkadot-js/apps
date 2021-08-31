@@ -498,6 +498,10 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .opacity-70 {
+    opacity: 70%;
+  }
+
   /* Add our overrides */
   ${cssSemantic(theme)}
   ${cssTheme}

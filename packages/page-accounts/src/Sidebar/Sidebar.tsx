@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import SidebarEditableSection from '@polkadot/app-accounts/Sidebar/EditableSection';
@@ -12,7 +12,6 @@ import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 import Transfer from '../modals/Transfer';
 import { useTranslation } from '../translate';
 import Balances from './Balances';
-import Flags from './Flags';
 import Identity from './Identity';
 import Multisig from './Multisig';
 
@@ -26,6 +25,7 @@ interface Props {
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [inEditMode, setInEditMode] = useState<boolean>(false);
   const { accountIndex, flags, identity, meta, onForgetAddress, onSaveName } = useAccountInfo(address);
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
@@ -49,7 +49,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
 
   return (
     <Sidebar
-      className={className}
+      className={`${className}${inEditMode ? ' inEditMode' : ''}`}
       dataTestId={dataTestId}
       onClose={onClose}
       position='right'
@@ -73,6 +73,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
         )}
         <SidebarEditableSection
           address={address}
+          isBeingEdited={setInEditMode}
           onUpdateName={onUpdateName}
           sidebarRef={ref}
         />
@@ -80,6 +81,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           <Button.Group>
             <Button
               icon='paper-plane'
+              isDisabled={inEditMode}
               label={t<string>('Send')}
               onClick={toggleIsTransferOpen}
             />
@@ -87,12 +89,14 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
               <Button
                 icon='check'
                 isBasic
+                isDisabled={inEditMode}
                 label={t<string>('Owned')}
               />
             )}
             {!flags.isOwned && !flags.isInContacts && (
               <Button
                 icon='plus'
+                isDisabled={inEditMode}
                 label={t<string>('Save')}
                 onClick={_onUpdateName}
               />
@@ -100,6 +104,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
             {!flags.isOwned && flags.isInContacts && (
               <Button
                 icon='ban'
+                isDisabled={inEditMode}
                 label={t<string>('Remove')}
                 onClick={_onForgetAddress}
               />
@@ -262,6 +267,12 @@ export default React.memo(styled(FullSidebar)`
 
       > input {
       }
+    }
+  }
+
+  &.inEditMode {
+    .ui--AddressMenu-flags {
+      opacity: 60%;
     }
   }
 `);
