@@ -127,7 +127,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
@@ -234,6 +233,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     createMenuGroup('identityGroup', [
       isFunction(api.api.tx.identity?.setIdentity) && !isHardware && (
         <Menu.Item
+          icon='link'
           key='identityMain'
           onClick={toggleIdentityMain}
         >
@@ -242,6 +242,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isFunction(api.api.tx.identity?.setSubs) && identity?.display && !isHardware && (
         <Menu.Item
+          icon='vector-square'
           key='identitySub'
           onClick={toggleIdentitySub}
         >
@@ -250,6 +251,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isFunction(api.api.tx.democracy?.unlock) && democracyUnlockTx && (
         <Menu.Item
+          icon='broom'
           key='clearDemocracy'
           onClick={_clearDemocracyLocks}
         >
@@ -258,16 +260,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isFunction(api.api.tx.vesting?.vest) && vestingVestTx && (
         <Menu.Item
+          icon='unlock'
           key='vestingVest'
           onClick={_vestingVest}
         >
           {t('Unlock vested amount')}
         </Menu.Item>
       )
-    ]),
+    ], t('Identity')),
     createMenuGroup('deriveGroup', [
       !(isExternal || isHardware || isInjected || isMultisig) && (
         <Menu.Item
+          icon='download'
           key='deriveAccount'
           onClick={toggleDerive}
         >
@@ -276,16 +280,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isHardware && (
         <Menu.Item
+          icon='eye'
           key='showHwAddress'
           onClick={_showOnHardware}
         >
           {t('Show address on hardware device')}
         </Menu.Item>
       )
-    ]),
+    ], t('Derive')),
     createMenuGroup('backupGroup', [
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
+          icon='database'
           key='backupJson'
           onClick={toggleBackup}
         >
@@ -294,6 +300,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
+          icon='edit'
           key='changePassword'
           onClick={togglePassword}
         >
@@ -302,16 +309,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       !(isInjected || isDevelopment) && (
         <Menu.Item
+          icon='trash-alt'
           key='forgetAccount'
           onClick={toggleForget}
         >
           {t('Forget this account')}
         </Menu.Item>
       )
-    ]),
+    ], t('Backup')),
     isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
       !recoveryInfo && (
         <Menu.Item
+          icon='redo'
           key='makeRecoverable'
           onClick={toggleRecoverSetup}
         >
@@ -319,54 +328,63 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </Menu.Item>
       ),
       <Menu.Item
+        icon='screwdriver'
         key='initRecovery'
         onClick={toggleRecoverAccount}
       >
         {t('Initiate recovery for another')}
       </Menu.Item>
-    ]),
+    ], t('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         disabled={!multiInfos || !multiInfos.length}
+        icon='file-signature'
         key='multisigApprovals'
         onClick={toggleMultisig}
       >
         {t('Multisig approvals')}
       </Menu.Item>
-    ]),
+    ], t('Multisig')),
     isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
       <Menu.Item
+        icon='user-edit'
         key='changeDelegate'
         onClick={toggleDelegate}
       >
         {t('Change democracy delegation')}
       </Menu.Item>,
       <Menu.Item
+        icon='user-minus'
         key='undelegate'
         onClick={toggleUndelegate}
       >
         {t('Undelegate')}
       </Menu.Item>
-    ]),
-    isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && createMenuGroup('delegateGroup', [
-      <Menu.Item
-        key='delegate'
-        onClick={toggleDelegate}
-      >
-        {t('Delegate democracy votes')}
-      </Menu.Item>
-    ]),
-    isFunction(api.api.query.proxy?.proxies) && createMenuGroup('proxyGroup', [
-      <Menu.Item
-        key='proxy-overview'
-        onClick={toggleProxyOverview}
-      >
-        {proxy?.[0].length
-          ? t('Manage proxies')
-          : t('Add proxy')
-        }
-      </Menu.Item>
-    ]),
+    ], t('Undelegate')),
+    createMenuGroup('delegateGroup', [
+      isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
+        <Menu.Item
+          icon='user-plus'
+          key='delegate'
+          onClick={toggleDelegate}
+        >
+
+          {t('Delegate democracy votes')}
+        </Menu.Item>
+      ),
+      isFunction(api.api.query.proxy?.proxies) && (
+        <Menu.Item
+          icon='sitemap'
+          key='proxy-overview'
+          onClick={toggleProxyOverview}
+        >
+          {proxy?.[0].length
+            ? t('Manage proxies')
+            : t('Add proxy')
+          }
+        </Menu.Item>
+      )
+    ], t('Delegate')),
     isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'
@@ -626,24 +644,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
           <Popup
             className={`theme--${theme}`}
-            isOpen={isSettingsOpen}
-            onClose={toggleSettings}
-            trigger={
-              <Button
-                icon='ellipsis-v'
-                isDisabled={!menuItems.length}
-                onClick={toggleSettings}
-              />
+            isDisabled={!menuItems.length}
+            value={
+              <Menu>
+                {menuItems}
+              </Menu>
             }
-          >
-            <Menu
-              onClick={toggleSettings}
-              text
-              vertical
-            >
-              {menuItems}
-            </Menu>
-          </Popup>
+          />
         </td>
         <td className='links media--1400'>
           <LinkExternal

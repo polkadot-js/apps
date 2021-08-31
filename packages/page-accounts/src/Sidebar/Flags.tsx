@@ -6,7 +6,7 @@ import type { AddressFlags } from '@polkadot/react-hooks/types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Tag } from '@polkadot/react-components';
+import { Flag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -32,84 +32,73 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
       }
       <div>
         {isValidator && (
-          <Tag
+          <Flag
             color='theme'
             label={t<string>('Validator')}
-            size='tiny'
           />
         )}
         {isNominator && (
-          <Tag
+          <Flag
             color='theme'
             label={t<string>('Nominator')}
-            size='tiny'
           />
         )}
         {isExternal && (
           isMultisig
             ? (
-              <Tag
+              <Flag
                 color='green'
                 label={t<string>('Multisig')}
-                size='tiny'
               />
             )
             : isProxied
               ? (
-                <Tag
+                <Flag
                   color='grey'
-                  label={t<string>('External')}
-                  size='tiny'
+                  label={t<string>('Proxied')}
                 />
               )
               : (
-                <Tag
+                <Flag
                   color='grey'
                   label={t<string>('External')}
-                  size='tiny'
                 />
               )
         )}
         {isInjected && (
-          <Tag
+          <Flag
             color='grey'
             label={t<string>('Injected')}
-            size='tiny'
           />
         )}
         {isDevelopment && (
-          <Tag
+          <Flag
             color='grey'
             label={t<string>('Test account')}
-            size='tiny'
           />
         )}
         {isCouncil && (
-          <Tag
+          <Flag
             color='blue'
             label={t<string>('Council')}
-            size='tiny'
           />
         )}
         {isSociety && (
-          <Tag
+          <Flag
             color='green'
             label={t<string>('Society')}
-            size='tiny'
           />
         )}
         {isTechCommittee && (
-          <Tag
+          <Flag
             color='orange'
             label={t<string>('Technical committee')}
-            size='tiny'
           />
         )}
         {isSudo && (
-          <Tag
+          <Flag
             color='pink'
             label={t<string>('Sudo key')}
-            size='tiny'
           />
         )}
       </div>
@@ -129,6 +118,6 @@ export default React.memo(styled(Flags)`
   }
 
   .ui--Tag {
-    margin: 0.1rem 0 0.1rem 0.571rem;
+    margin: 0.2rem 1rem 0.2rem 0.571rem;
   }
 `);
