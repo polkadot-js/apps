@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
 import toShortAddress from '@polkadot/react-components/util/toShortAddress';
-import { UseAccountInfo } from '@polkadot/react-hooks/types';
+import { AddressFlags, UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { MemoryStore } from '@polkadot/test-support/keyring';
@@ -320,26 +320,71 @@ describe('Accounts page', () => {
           sideBar = await openSidebarForAccountRow(0);
         });
 
-        it('name', async () => {
-          await sideBar.changeAccountName(newName);
-          const changedAccount = keyring.getAccount(injectedAddress);
+        describe('name', () => {
+          beforeEach(async () => {
+            await sideBar.changeAccountName(newName);
+          });
 
-          expect(changedAccount?.meta?.name).toEqual(newName);
-          await sideBar.assertAccountName(newName);
-          await accountRows[0].assertAccountName(newName);
+          it('within keyring', () => {
+            const changedAccount = keyring.getAccount(injectedAddress);
+
+            expect(changedAccount?.meta?.name).toEqual(newName);
+          });
+
+          it('within sidebar', async () => {
+            await sideBar.assertAccountName(newName);
+          });
+
+          it('within account row', async () => {
+            await accountRows[0].assertAccountName(newName);
+          });
         });
 
-        it('tags', async () => {
-          await sideBar.setTag(defaultTag);
-          const changedAccount = keyring.getAccount(injectedAddress);
+        describe('tags', () => {
+          beforeEach(async () => {
+            await sideBar.setTag(defaultTag);
+          });
 
-          expect(changedAccount?.meta?.tags).toEqual([defaultTag]);
-          await sideBar.assertTags(defaultTag);
-          await waitFor(() => accountRows[0].assertTags(defaultTag));
+          it('within sidebar', async () => {
+            await waitFor(() => sideBar.tagsEqual(defaultTag));
+          });
+
+          it('within account row', async () => {
+            await waitFor(() => accountRows[0].tagsEqual(defaultTag));
+          });
+        });
+      });
+
+      describe('when isEditable is false', () => {
+        beforeEach(async () => {
+          renderAccountsWithDefaultAddresses(
+            anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
+          );
+          sideBar = await openSidebarForAccountRow(0);
+        });
+
+        it('account name is not editable', async () => {
+          const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
+
+          sideBar.edit();
+          await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
+        });
+
+        it('tags are editable', async () => {
+          await sideBar.setTag(defaultTag);
+          await waitFor(() => sideBar.tagsEqual(defaultTag));
+          await waitFor(() => accountRows[0].tagsEqual(defaultTag));
         });
       });
 
       describe('cannot be edited', () => {
+        beforeEach(async () => {
+          renderAccountsWithDefaultAddresses(
+            anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
+          );
+          sideBar = await openSidebarForAccountRow(0);
+        });
+
         describe('if edit button has not been pressed', () => {
           it('tags', async () => {
             await sideBar.clickByText('no tags');
@@ -347,18 +392,6 @@ describe('Accounts page', () => {
           });
 
           it('account name', async () => {
-            const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
-
-            await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
-          });
-        });
-
-        describe('name', () => {
-          beforeEach(async () => {
-            await sideBar.edit();
-          });
-
-          it('when account not owned', async () => {
             const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
 
             await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);

@@ -46,7 +46,13 @@ export class AccountRow {
     expect(parentAccount).toHaveTextContent(expectedParentAccount);
   }
 
-  async assertTags (tagsContent: string): Promise<boolean> {
+  async assertTags (tagsContent: string): Promise<void> {
+    const tagsActual = await within(this.detailsRow).findByTestId('tags');
+
+    expect(tagsActual).toHaveTextContent(tagsContent);
+  }
+
+  async tagsEqual (tagsContent: string): Promise<boolean> {
     const tagsActual = await within(this.detailsRow).findByTestId('tags');
 
     return tagsActual.textContent === tagsContent;

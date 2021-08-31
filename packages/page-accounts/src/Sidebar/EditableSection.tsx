@@ -20,30 +20,14 @@ function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactE
 
   const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
 
-  const onClick = () => {
-    if (isEditing()) {
-      updateName();
-      updateTags();
-    }
-
-    toggleIsEditing();
-  };
-
-  const updateName = () => {
-    if (isEditingName && (flags.isInContacts || flags.isOwned)) {
-      _onUpdateName();
-      toggleIsEditingName();
-    }
-  };
-
-  const updateTags = () => {
+  const updateTags = useCallback(() => {
     onSaveTags();
-  };
+  }, [onSaveTags]);
 
-  const toggleIsEditing = () => {
+  const toggleIsEditing = useCallback(() => {
     flags.isEditable && toggleIsEditingName();
     toggleIsEditingTags();
-  };
+  }, [flags.isEditable, toggleIsEditingName, toggleIsEditingTags]);
 
   const _onUpdateName = useCallback(
     (): void => {
@@ -52,6 +36,22 @@ function EditableSidebarSection ({ address, onUpdateName }: Props): React.ReactE
     },
     [onSaveName, onUpdateName]
   );
+
+  const updateName = useCallback(() => {
+    if (isEditingName && (flags.isInContacts || flags.isOwned)) {
+      _onUpdateName();
+      toggleIsEditingName();
+    }
+  }, [isEditingName, flags.isInContacts, flags.isOwned, _onUpdateName, toggleIsEditingName]);
+
+  const onClick = useCallback(() => {
+    if (isEditing()) {
+      updateName();
+      updateTags();
+    }
+
+    toggleIsEditing();
+  }, [isEditing, toggleIsEditing, updateName, updateTags]);
 
   return (
     <>

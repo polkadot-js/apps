@@ -46,6 +46,12 @@ export class Sidebar {
     expect(sideBarTags).toHaveTextContent(tagsContent);
   }
 
+  async tagsEqual (tagsContent: string): Promise<boolean> {
+    const sideBarTags = await this.findByTestId('sidebar-tags');
+
+    return sideBarTags.textContent === tagsContent;
+  }
+
   close (): Promise<void> {
     return this.clickByTestId('close-sidebar-button');
   }

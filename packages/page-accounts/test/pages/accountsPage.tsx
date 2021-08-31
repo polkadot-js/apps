@@ -14,6 +14,7 @@ import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { formatBalance } from '@polkadot/util';
@@ -48,6 +49,20 @@ jest.mock('@polkadot/react-hooks/useStakingInfo', () => ({
 jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
+
+jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
+  const actual = jest.requireActual<{useAccountInfo: (address: string) => UseAccountInfo}>('@polkadot/react-hooks/useAccountInfo');
+
+  return ({
+    useAccountInfo: (address: string) => {
+      return {
+        ...actual.useAccountInfo(address),
+        flags: { ...actual.useAccountInfo(address).flags, ...mockAccountHooks.accountsMap[address].info.flags },
+        tags: [...actual.useAccountInfo(address).tags, ...mockAccountHooks.accountsMap[address].info.tags]
+      };
+    }
+  });
+});
 
 export class AccountsPage {
   private renderResult?: RenderResult
