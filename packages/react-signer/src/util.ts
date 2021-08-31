@@ -100,7 +100,7 @@ export function handleTxResults (handler: 'send' | 'signAndSend', queueSetTxStat
       txFailedCb(result);
     }
 
-    if (result.isCompleted) {
+    if (result.isFinalized) {
       unsubscribe();
     }
   };
