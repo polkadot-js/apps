@@ -93,15 +93,6 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crab_redirect',
-        homepage: 'https://crab.network/',
-        paraId: 2006,
-        text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
-        providers: {
-          Crab: 'wss://crab-redirect-rpc.darwinia.network/'
-        }
-      },
-      {
         info: 'encointer_canary',
         homepage: 'https://encointer.org/',
         isUnreachable: true,
