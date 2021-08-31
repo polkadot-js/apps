@@ -28,7 +28,6 @@ interface Props {
 }
 
 function Index ({ bestNumber, className, description, index, proposals, status }: Props): React.ReactElement<Props> | null {
-  const [isPopupOpen, togglePopupOpen] = useToggle();
   const [isCloseBountyOpen, toggleCloseBounty] = useToggle();
   const [isRejectCuratorOpen, toggleRejectCurator] = useToggle();
   const [isSlashCuratorOpen, toggleSlashCurator] = useToggle();
@@ -114,63 +113,60 @@ function Index ({ bestNumber, className, description, index, proposals, status }
           />
         }
         <Popup
-          isOpen={isPopupOpen}
-          onClose={togglePopupOpen}
-          trigger={
-            <Button
-              dataTestId='extra-actions'
-              icon='ellipsis-v'
-              onClick={togglePopupOpen}
-            />
-          }
-        >
-          <Menu
-            className='settings-menu'
-            onClick={togglePopupOpen}
-            text
-            vertical
-          >
-            {showCloseBounty &&
+          value={
+            <Menu
+              className='settings-menu'
+              text
+              vertical
+            >
+              {showCloseBounty &&
               <Menu.Item
                 key='closeBounty'
                 onClick={toggleCloseBounty}
               >
                 {t<string>('Close')}
               </Menu.Item>
-            }
-            {showRejectCurator &&
+              }
+              {showRejectCurator &&
               <Menu.Item
                 key='rejectCurator'
                 onClick={toggleRejectCurator}
               >
                 {t<string>('Reject curator')}
               </Menu.Item>
-            }
-            {showExtendExpiry &&
+              }
+              {showExtendExpiry &&
               <Menu.Item
                 key='extendExpiry'
                 onClick={toggleExtendExpiry}
               >
                 {t<string>('Extend expiry')}
               </Menu.Item>
-            }
-            {showGiveUpCurator &&
+              }
+              {showGiveUpCurator &&
               <Menu.Item
                 key='giveUpCurator'
                 onClick={toggleGiveUpCurator}
               >
                 {t<string>('Give up')}
               </Menu.Item>
-            }
-            {showSlashCurator && availableSlashActions.map((actionName) =>
-              <Menu.Item
-                key={actionName}
-                onClick={slashCurator(actionName)}
-              >
-                {slashCuratorActionNames.current[actionName]}
-              </Menu.Item>
-            )}
-          </Menu>
+              }
+              {showSlashCurator && availableSlashActions.map((actionName) =>
+                <Menu.Item
+                  key={actionName}
+                  onClick={slashCurator(actionName)}
+                >
+                  {slashCuratorActionNames.current[actionName]}
+                </Menu.Item>
+              )}
+            </Menu>
+          }
+        >
+          <Button
+            dataTestId='extra-actions'
+            icon='ellipsis-v'
+            isReadOnly={false}
+          />
         </Popup>
       </div>
     )
