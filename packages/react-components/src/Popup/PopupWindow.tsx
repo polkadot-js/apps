@@ -31,7 +31,7 @@ export default React.memo(styled(PopupWindow)`
   z-index: -1;
 
   margin: 0.7rem 0;
-  padding: 0.85rem 1rem;
+  padding: 0;
 
   color: var(--color-text);
   background-color: var(--bg-menu);
@@ -80,5 +80,18 @@ export default React.memo(styled(PopupWindow)`
     &.disabled {
      opacity: 0.3;
     }
+  }
+
+  & > *:not(.ui--Menu) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  & > *:first-child:not(.ui--Menu) {
+    margin-top: 1rem;
+  }
+
+  & > *:last-child:not(.ui--Menu) {
+    margin-bottom: 1rem;
   }
 `);

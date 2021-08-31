@@ -143,10 +143,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }
 
   const PopupDropdown = (
-    <Menu
-      text
-      vertical
-    >
+    <Menu>
       <Menu.Item
         disabled={!isEditable}
         onClick={_toggleForget}
