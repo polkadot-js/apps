@@ -2833,7 +2833,7 @@ __metadata:
     "@zeitgeistpm/type-defs": 0.2.5
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.2.4
-    pontem-types-bundle: 1.0.13
+    pontem-types-bundle: 1.0.14
     rxjs: ^7.3.0
   languageName: unknown
   linkType: soft
@@ -16379,14 +16379,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"pontem-types-bundle@npm:1.0.13":
-  version: 1.0.13
-  resolution: "pontem-types-bundle@npm:1.0.13"
+"pontem-types-bundle@npm:1.0.14":
+  version: 1.0.14
+  resolution: "pontem-types-bundle@npm:1.0.14"
   dependencies:
     "@polkadot/keyring": ^7.3.1
     "@polkadot/types": ^5.7.1
     typescript: ^4.4.2
-  checksum: 0065dd42b0497ccdc164ab423fa7cddc727c4eb56f49c380d1b4658fa3248d42c78bdc57f53c49c5554228775c72a494e41aa418960e6a47b050ba40cc233aa0
+  checksum: d7c6683230927256b1840009320b3673989d524d0d54ff98362f189afdc575f58fc830afe9080c2d564dafd6bbfb0bd55d974a304d47cfedfcf99137e3a0c3d5
   languageName: node
   linkType: hard
 
