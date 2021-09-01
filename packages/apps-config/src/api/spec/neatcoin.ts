@@ -11,7 +11,16 @@ const definitions: OverrideBundleDefinition = {
     {
       minmax: [0, undefined],
       types: {
-        NameHash: 'H256'
+        Label: 'Vec<u8>',
+        Name: 'Vec<Label>',
+        NameHash: 'H256',
+        Value: {
+          _enum: {
+            U32: 'U32',
+            U64: 'U64',
+            U128: 'U128',
+            Bool: 'Bool'
+        }
       }
     }
   ]
