@@ -296,7 +296,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           sortedAccounts.map(({ address }, index) => {
             const account = accountComponents[address];
 
-            return React.cloneElement(account as ReactElement, { isEven: !!(index % 2) });
+            return account && React.cloneElement(account as ReactElement, { isEven: !!(index % 2) });
           })
         }
       </Table>

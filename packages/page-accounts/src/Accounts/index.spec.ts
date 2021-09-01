@@ -28,7 +28,10 @@ describe('Accounts page', () => {
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
-    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+
+    if (keyring.getAccounts().length === 0) {
+      keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+    }
   });
 
   beforeEach(() => {
@@ -289,7 +292,7 @@ describe('Accounts page', () => {
       expect(summary).toHaveTextContent(showBalance(4000 + 5000));
     });
 
-    it('sorts them by date by default', async () => {
+    it('sorts accounts by date by default', async () => {
       renderAccountsWithDefaultAddresses(
         anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { whenCreated: 200 }),
         anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, { whenCreated: 300 }),
