@@ -202,6 +202,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
+          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer',
           'Patract Elara': 'wss://pub.elara.patract.io/moonriver'
         }
       },
@@ -276,7 +277,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.plasmnet.io',
-          OnFinality: 'wss://shiden.api.onfinality.io/public-ws'
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
+          Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }
       },
       {

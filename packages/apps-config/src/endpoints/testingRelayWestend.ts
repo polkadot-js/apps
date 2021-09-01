@@ -25,9 +25,9 @@ export function createWestend (t: TFunction): EndpointOption {
       Parity: 'wss://westend-rpc.polkadot.io',
       'Patract Elara': 'wss://pub.elara.patract.io/westend',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
+      Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
-      // Pinknode: 'wss://rpc.pinknode.io/westend/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
     linked: [
