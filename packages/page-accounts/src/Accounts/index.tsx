@@ -49,7 +49,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
-  const [isCreateOpen, toggleCreate] = useToggle();
+  const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -132,6 +132,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
+  const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
+
   const filter = useMemo(() => (
     <div className='filter--tags'>
       <Input
@@ -184,7 +186,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           icon='plus'
           isDisabled={isIpfs}
           label={t<string>('Add account')}
-          onClick={toggleCreate}
+          onClick={_openCreateModal}
         />
         <Button
           icon='sync'
