@@ -45,7 +45,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
     [onSaveName, onUpdateName]
   );
 
-  const ref = useRef();
+  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   return (
     <Sidebar

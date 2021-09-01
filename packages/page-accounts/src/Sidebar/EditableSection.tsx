@@ -92,7 +92,7 @@ function EditableSidebarSection ({ address, isBeingEdited, onUpdateName, sidebar
           onChange={setTags}
           size='tiny'
           value={tags}
-          withIcon={false}
+          withEditButton={false}
           withTitle
         />
       </div>

@@ -14,10 +14,9 @@ interface Props {
   className?: string;
   icon?: IconName;
   onClick: () => void;
-  withIcon?: boolean
 }
 
-function EditButton ({ children, className = '', icon = 'edit', onClick, withIcon = true }: Props): React.ReactElement<Props> {
+function EditButton ({ children, className = '', icon = 'edit', onClick }: Props): React.ReactElement<Props> {
   return (
     <div
       className={`ui--EditButton ${className}`}
@@ -25,12 +24,10 @@ function EditButton ({ children, className = '', icon = 'edit', onClick, withIco
     >
       {children}
       <span className='editSpan'>
-        {withIcon && (
-          <Icon
-            className='icon-button'
-            icon={icon}
-          />
-        )}
+        <Icon
+          className='icon-button'
+          icon={icon}
+        />
       </span>
     </div>
   );
