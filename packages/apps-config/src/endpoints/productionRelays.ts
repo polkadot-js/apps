@@ -8,10 +8,10 @@ import { createKusama } from './productionRelayKusama';
 import { createPolkadot } from './productionRelayPolkadot';
 import { expandEndpoints } from './util';
 
-export function createKusamaRelay (t: TFunction, firstOnly?: boolean): LinkOption[] {
-  return expandEndpoints(t, [createKusama(t)], firstOnly);
+export function createKusamaRelay (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
+  return expandEndpoints(t, [createKusama(t)], firstOnly, withSort);
 }
 
-export function createPolkadotRelay (t: TFunction, firstOnly?: boolean): LinkOption[] {
-  return expandEndpoints(t, [createPolkadot(t)], firstOnly);
+export function createPolkadotRelay (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
+  return expandEndpoints(t, [createPolkadot(t)], firstOnly, withSort);
 }

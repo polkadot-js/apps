@@ -24,6 +24,10 @@ import Overview from '../pages/../../src/Accounts/index';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 
+function noop (): void {
+  // ignore
+}
+
 class NotYetRendered extends Error {
 }
 
@@ -78,7 +82,7 @@ jest.mock('@polkadot/react-hooks/useAccounts', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useAccountInfo', () => ({
-  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address].info
+  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address]?.info || {}
 }));
 
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
@@ -151,7 +155,7 @@ export class AccountsPage {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Overview/>
+                  <Overview onStatusChange={noop}/>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>
@@ -262,6 +266,13 @@ export class AccountsPage {
 
   format (amount: Balance | BN): string {
     return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
+  }
+
+  async enterCreateAccountModal (): Promise<void> {
+    this.renderPage([]);
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Add account' }));
+    await screen.findByText('Add an account via seed 1/3');
   }
 
   private assertRendered () {
