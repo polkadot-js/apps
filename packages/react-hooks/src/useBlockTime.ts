@@ -17,7 +17,7 @@ const DEFAULT_TIME = new BN(6_000);
 
 // Some chains incorrectly use these, i.e. it is se to values such as 0 or even 2
 // Use a low minimum validity threshold to check these against
-const THRESHOLD = BN_THOUSAND;
+const THRESHOLD = BN_THOUSAND.div(BN_TWO);
 
 export function useBlockTime (blocks: number | BN = BN_ONE, apiOverride?: ApiPromise | null): Result {
   const { t } = useTranslation();

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult, screen, within } from '@testing-library/react';
+import { fireEvent, render, RenderResult, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -24,6 +24,10 @@ import { AccountRow } from '../pageElements/AccountRow';
 import Overview from '../pages/../../src/Accounts/index';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
+
+function noop (): void {
+  // ignore
+}
 
 class NotYetRendered extends Error {
 }
@@ -146,6 +150,13 @@ export class AccountsPage {
     }
 
     return rows;
+  }
+
+  async enterCreateAccountModal (): Promise<void> {
+    this.renderPage([]);
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Add account' }));
+    await screen.findByText('Add an account via seed 1/3');
   }
 
   private assertRendered () {

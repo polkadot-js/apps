@@ -14,7 +14,7 @@ const ESC_KEYCODE = 27;
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
   const { theme } = useContext<ThemeDef>(ThemeContext);
-  const { children, className = '', header, onClose, open = true, size = 'medium', testId = 'modal' } = props;
+  const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape' || event.keyCode === ESC_KEYCODE) {
@@ -23,14 +23,12 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
   }, [onClose]);
 
   useEffect(() => {
-    if (open) {
-      window.addEventListener('keydown', listenKeyboard, true);
-    }
+    window.addEventListener('keydown', listenKeyboard, true);
 
     return () => {
-      open && window.removeEventListener('keydown', listenKeyboard, true);
+      window.removeEventListener('keydown', listenKeyboard, true);
     };
-  }, [open, listenKeyboard]);
+  }, [listenKeyboard]);
 
   return createPortal(
     <div

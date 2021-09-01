@@ -3,17 +3,35 @@
 
 import type { ButtonProps } from './types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
-function Button ({ children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
     [isBusy, isDisabled, onClick]
   );
+
+  const listenKeyboard = useCallback((event: KeyboardEvent) => {
+    if (!isBusy && !isDisabled && event.key === 'Enter') {
+      onClick && onClick();
+    }
+  }, [isBusy, isDisabled, onClick]);
+
+  useEffect(() => {
+    if (activeOnEnter) {
+      window.addEventListener('keydown', listenKeyboard, true);
+    }
+
+    return () => {
+      if (activeOnEnter) {
+        window.removeEventListener('keydown', listenKeyboard, true);
+      }
+    };
+  }, [activeOnEnter, listenKeyboard]);
 
   return (
     <button
