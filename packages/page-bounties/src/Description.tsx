@@ -14,7 +14,8 @@ function Description ({ className = '', dataTestId = '', description }: Props): 
   return (
     <div
       className={className}
-      data-testid={dataTestId}>
+      data-testid={dataTestId}
+    >
       {description}
     </div>
   );

@@ -14,7 +14,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] {
+export function createTesting (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
@@ -214,7 +214,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'jupiter',
       text: t('rpc.test.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://jupiter-poa.elara.patract.io',
+        Elara: 'wss://pub.elara.patract.io/jupiter',
         Patract: 'wss://ws.jupiter-poa.patract.cn'
       }
     },
@@ -251,7 +251,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
         Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://mandala.elara.patract.io',
         Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
@@ -268,7 +267,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       providers: {
         'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
         OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://moonbase.moonbeam.elara.patract.io',
         Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
       }
     },
@@ -411,7 +409,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'uniarts',
       text: t('rpc.test.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
-        UniArts: 'wss://testnet.uniarts.me'
+        UniArts: 'wss://testnet.uniarts.network'
       }
     },
     {
@@ -465,5 +463,5 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
         ZERO: 'wss://alphaville.zero.io'
       }
     }
-  ], firstOnly);
+  ], firstOnly, withSort);
 }

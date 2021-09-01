@@ -14,10 +14,13 @@ import chainAltair from './chains/altair.svg';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
+import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
+import chainKintsugi from './chains/kintsugi.svg';
 import chainKusama from './chains/kusama-128.gif';
+import chainComposable from './chains/picasso.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -27,10 +30,12 @@ import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
+import externalDotreasury from './external/dotreasury.svg';
 import externalDotScanner from './external/dotscanner.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
+import externalStatescan from './external/statescan.svg';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
@@ -61,6 +66,7 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
+import nodeHeiko from './nodes/heiko.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interbtc.png';
@@ -127,8 +133,8 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-// last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
+// last-resort fallback, just something empty
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
@@ -140,6 +146,7 @@ export const chainLogos = Object.entries({
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
+  Calamari: nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust Maxwell': nodeCrustMaxwell,
@@ -173,6 +180,7 @@ export const chainLogos = Object.entries({
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
   'KILT Testnet': nodeKilt,
+  Kintsugi: chainKintsugi,
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
   Kpron: nodeApron,
@@ -200,6 +208,7 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': chainHeiko,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
@@ -213,7 +222,6 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Shiden: chainShiden,
-  'Shiden Shell': chainShiden,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -322,6 +330,7 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': nodeHeiko,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
@@ -420,7 +429,6 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   crab: nodeCrab,
-  crab_redirect: nodeCrab,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
@@ -444,6 +452,7 @@ export const namedLogos: Record<string, unknown> = {
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
+  heiko: chainHeiko,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
@@ -475,6 +484,7 @@ export const namedLogos: Record<string, unknown> = {
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
+  picasso: chainComposable,
   plasm: nodePlasm,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
@@ -574,10 +584,12 @@ export const extensionLogos: Record<string, unknown> = {
 // external logos, i.e. for explorers
 export const externalLogos: Record<string, unknown> = {
   commonwealth: externalCommonwealth,
+  dotreasury: externalDotreasury,
   dotscanner: externalDotScanner,
   polkascan: externalPolkascan,
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
+  statescan: externalStatescan,
   subscan: externalSubscan
 };
 

@@ -1,6 +1,6 @@
 {
   "Aye {{count}}": "Aye {{count}}",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.",
   "Dispatch": "Dispatch",
   "Fast track": "Fast track",
   "Fast track proposal": "Fast track proposal",

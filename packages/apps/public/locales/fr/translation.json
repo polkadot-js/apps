@@ -155,7 +155,7 @@
   "Continue": "Continuer",
   "Contracts": "Contrats",
   "Controller account": "Compte contrôleur",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Les verrous de condamnation se chevauchent et sont additifs, ce qui signifie que les fonds verrouillés lors d'un vote précédent peuvent être à nouveau verrouillés.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "Les verrous de condamnation se chevauchent et sont additifs, ce qui signifie que les fonds verrouillés lors d'un vote précédent peuvent être à nouveau verrouillés.",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "Copiez la chaîne de caractères ci-dessus et signez une transaction Ethereum avec le compte que vous avez utilisé lors de la pré-vente dans le portefeuille de votre choix, en utilisant la chaîne de caractères  comme contenu, puis collez la signature de la transaction ci-dessous",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Copiez la chaîne de caractères suivante et signez-la avec le compte Ethereum que vous avez utilisé lors de la pré-vente dans le portefeuille de votre choix, en utilisant la chaîne comme message, puis collez l'objet de signature de transaction ci-dessous:",
   "Council": "Conseil",

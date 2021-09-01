@@ -84,8 +84,12 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
           kind={statementKind}
           systemChain={systemChain}
         />
-        <h3><FormatBalance label={t<string>('Account balance:')}
-          value={claimValue} /></h3>
+        <h3>
+          <FormatBalance
+            label={t<string>('Account balance:')}
+            value={claimValue}
+          />
+        </h3>
         <Button.Group>
           <TxButton
             accountId={accountId}
