@@ -16,7 +16,7 @@ function sortLinks (a: SortOption, b: SortOption): number {
     : 0;
 }
 
-export function expandLinked (input: LinkOption[]): LinkOption[] {
+function expandLinked (input: LinkOption[]): LinkOption[] {
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
     result.push(entry);
 
@@ -33,7 +33,7 @@ export function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-export function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
+function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
   const base = {
     genesisHash,
     homepage,

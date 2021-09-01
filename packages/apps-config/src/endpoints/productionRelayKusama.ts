@@ -157,6 +157,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'kintsugi',
+        homepage: 'https://kintsugi.interlay.io/',
+        paraId: 2092,
+        text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
+        providers: {
+          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain'
+        }
+      },
+      {
         info: 'kpron',
         homepage: 'http://apron.network/',
         isUnreachable: true,
@@ -203,6 +212,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
         providers: {
           Parallel: 'wss://heiko-rpc-0.parallel.fi'
+        }
+      },
+      {
+        info: 'picasso',
+        homepage: 'https://picasso.composable.finance/',
+        paraId: 2087,
+        text: t('rpc.kusama.picasso', 'Picasso', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://picasso-rpc.composable.finance'
         }
       },
       {

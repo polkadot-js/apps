@@ -17,6 +17,7 @@ const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
+const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
@@ -36,6 +37,7 @@ const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
+const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
@@ -172,6 +174,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
   Clover: chainClover,
+  Composable: chainComposable,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
@@ -208,6 +211,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'KILT Local': chainKilt,
   'KILT Peregrine Testnet': chainKilt,
   'KILT Testnet': chainKilt,
+  Kintsugi: chainKintsugi,
   'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
   Kpron: nodeKpron,
