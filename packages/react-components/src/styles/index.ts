@@ -311,6 +311,14 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--ExpandButton:hover {
+    border-color: ${getHighlight(uiHighlight)} !important;
+
+    .ui--Icon {
+      color: ${getHighlight(uiHighlight)} !important;
+    }
+  }
+
   .ui--Tag.themeColor.lightTheme,
   .ui--InputTags.lightTheme .ui.label {
     background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
