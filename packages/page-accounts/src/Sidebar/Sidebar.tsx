@@ -1,16 +1,14 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import SidebarEditableSection from '@polkadot/app-accounts/Sidebar/EditableSection';
-import { Button, IdentityIcon, LinkExternal, Sidebar } from '@polkadot/react-components';
+import SidebarEditableSection from '@polkadot/app-accounts/Sidebar/SidebarEditableSection';
+import { IdentityIcon, LinkExternal, Sidebar } from '@polkadot/react-components';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo } from '@polkadot/react-hooks';
 
-import Transfer from '../modals/Transfer';
-import { useTranslation } from '../translate';
 import Balances from './Balances';
 import Identity from './Identity';
 import Multisig from './Multisig';
@@ -24,26 +22,8 @@ interface Props {
 }
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const [inEditMode, setInEditMode] = useState<boolean>(false);
-  const { accountIndex, flags, identity, meta, onForgetAddress, onSaveName } = useAccountInfo(address);
-  const [isTransferOpen, toggleIsTransferOpen] = useToggle();
-
-  const _onForgetAddress = useCallback(
-    (): void => {
-      onForgetAddress();
-      onUpdateName && onUpdateName();
-    },
-    [onForgetAddress, onUpdateName]
-  );
-
-  const _onUpdateName = useCallback(
-    (): void => {
-      onSaveName();
-      onUpdateName && onUpdateName();
-    },
-    [onSaveName, onUpdateName]
-  );
+  const { accountIndex, flags, identity, meta } = useAccountInfo(address);
 
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
 
@@ -77,49 +57,8 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           onUpdateName={onUpdateName}
           sidebarRef={ref}
         />
-        <div className='ui--AddressMenu-buttons'>
-          <Button.Group>
-            <Button
-              icon='paper-plane'
-              isDisabled={inEditMode}
-              label={t<string>('Send')}
-              onClick={toggleIsTransferOpen}
-            />
-            {flags.isOwned && (
-              <Button
-                icon='check'
-                isBasic
-                isDisabled={inEditMode}
-                label={t<string>('Owned')}
-              />
-            )}
-            {!flags.isOwned && !flags.isInContacts && (
-              <Button
-                icon='plus'
-                isDisabled={inEditMode}
-                label={t<string>('Save')}
-                onClick={_onUpdateName}
-              />
-            )}
-            {!flags.isOwned && flags.isInContacts && (
-              <Button
-                icon='ban'
-                isDisabled={inEditMode}
-                label={t<string>('Remove')}
-                onClick={_onForgetAddress}
-              />
-            )}
-          </Button.Group>
-          {isTransferOpen && (
-            <Transfer
-              key='modal-transfer'
-              onClose={toggleIsTransferOpen}
-              recipientId={address}
-            />
-          )}
-        </div>
       </div>
-      <Balances address={address} />
+      <Balances address={address}/>
       <Identity
         address={address}
         identity={identity}

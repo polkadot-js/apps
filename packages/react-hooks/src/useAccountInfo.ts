@@ -267,11 +267,14 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     []
   );
 
+  const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
+
   return {
     accountIndex,
     flags,
     genesisHash,
     identity,
+    isEditing,
     isEditingName,
     isEditingTags,
     isNull: !value,

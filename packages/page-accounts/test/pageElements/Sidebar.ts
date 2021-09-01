@@ -67,7 +67,7 @@ export class Sidebar {
   }
 
   edit (): void {
-    this.clickButton('Edit account');
+    this.clickButton('Edit');
   }
 
   save (): void {

@@ -122,6 +122,7 @@ export interface UseAccountInfo {
   meta?: KeyringJson$Meta;
   toggleIsEditingName: () => void;
   isEditingTags: boolean;
+  isEditing: () => boolean;
   isNull: boolean;
   toggleIsEditingTags: () => void;
   onCancel: () => void;
