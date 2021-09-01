@@ -1459,13 +1459,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crustio/crust-pin@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@crustio/crust-pin@npm:0.0.1"
+"@crustio/crust-pin@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@crustio/crust-pin@npm:1.0.0"
   dependencies:
-    "@crustio/type-definitions": ^0.0.5
-    "@polkadot/api": ^3.11.1
-  checksum: 6bb7335866d75012fbb5307a50f4b9394bbbe389b7f7c690e657a65c53a8e0b445130ff1ed03c7bda76b184e70240f9a7d8b8815f54584860ff6bb81c5920a62
+    "@crustio/type-definitions": ^1.2.0
+    "@polkadot/api": ^4.2.1
+  checksum: 3450f436b51e1b920371827cdf0677b663e3487a227e7e8748abaf6dd558fb9a87fc0661b6f559321c2abc82069415d7e2f9ded9cc3c52754add224612d38556
   languageName: node
   linkType: hard
 
@@ -1478,12 +1478,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@crustio/type-definitions@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@crustio/type-definitions@npm:0.0.5"
+"@crustio/type-definitions@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@crustio/type-definitions@npm:1.2.0"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.8.2-9
-  checksum: f6d331ec2fc723e6a28b4add2a9ac462d3f7d7c9e011bb1c15c0d3c6109de8eb0e3c8b20936739a13f00fbd02c56d16d5fc924a56321520cef59684e83c63122
+  checksum: 646a52c4a6bcb4532d1f41cbe9b307e223e1c2d40a662972c09c9f07ae47722a73185f5dd48291e9c13bf49a5b74c12dc5755550d69fa9581ab7efbb548b6e08
   languageName: node
   linkType: hard
 
@@ -16344,7 +16344,7 @@ __metadata:
     "@babel/core": ^7.15.0
     "@babel/register": ^7.15.3
     "@babel/runtime": ^7.15.3
-    "@crustio/crust-pin": ^0.0.1
+    "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.23
     "@polkadot/dev": ^0.62.62
     "@polkadot/ts": ^0.4.6
