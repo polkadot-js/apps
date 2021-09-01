@@ -35,7 +35,7 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
       data-testid={`voters_${option}_${accountId.toString()}`}
       key={accountId.toString()}
     >
-      <AddressSmall value={accountId}/>
+      <AddressSmall value={accountId} />
     </div>),
   [option, votes]);
 

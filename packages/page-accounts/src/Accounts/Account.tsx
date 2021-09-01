@@ -687,8 +687,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           </div>
         </td>
-        <td className='media--1500'/>
-        <td/>
+        <td className='media--1500' />
+        <td />
         <td>
           <AddressInfo
             address={address}

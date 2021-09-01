@@ -231,7 +231,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
       />
     </React.Fragment>
@@ -242,7 +242,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={(balancesAll as DeriveBalancesAll).availableBalance}
       />
     </React.Fragment>
@@ -321,7 +321,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={balancesAll.reservedBalance}
       />
     </React.Fragment>
@@ -332,7 +332,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={ownBonded}
       >
         {otherBonded.length !== 0 && (
@@ -340,7 +340,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
             <FormatBalance
               formatIndex={formatIndex}
               key={index}
-              labelPost={<IconVoid/>}
+              labelPost={<IconVoid />}
               value={bonded}
             />
           )})</>

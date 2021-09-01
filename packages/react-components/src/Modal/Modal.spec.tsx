@@ -46,7 +46,7 @@ function TestModal () {
 function renderModal () {
   return render(
     <ThemeProvider theme={lightTheme}>
-      <TestModal/>
+      <TestModal />
     </ThemeProvider>
   );
 }
