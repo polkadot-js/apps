@@ -634,44 +634,43 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              icon='paper-plane'
-              label={t<string>('send')}
-              onClick={toggleTransfer}
+        <td className='fast-actions'>
+          <div className='fast-actions-row'>
+            <LinkExternal
+              className='ui--AddressCard-exporer-link media--1400'
+              data={address}
+              isLogo
+              type='address'
             />
-          )}
-          <Popup
-            className={`theme--${theme}`}
-            isDisabled={!menuItems.length}
-            value={
-              <Menu>
-                {menuItems}
-              </Menu>
-            }
-          />
-        </td>
-        <td className='links media--1400'>
-          <LinkExternal
-            className='ui--AddressCard-exporer-link'
-            data={address}
-            isLogo
-            type='address'
-          />
-        </td>
-        <td className='button'>
-          <div
-            className='table-column-icon'
-            data-testid='row-toggle'
-            onClick={toggleIsExpanded}
-          >
-            <Icon icon={
-              isExpanded
-                ? 'caret-up'
-                : 'caret-down'
-            }
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                label={t<string>('send')}
+                onClick={toggleTransfer}
+              />
+            )}
+            <Popup
+              className={`theme--${theme}`}
+              isDisabled={!menuItems.length}
+              value={
+                <Menu>
+                  {menuItems}
+                </Menu>
+              }
             />
+            <div
+              className='table-column-icon'
+              data-testid='row-toggle'
+              onClick={toggleIsExpanded}
+            >
+              <Icon icon={
+                isExpanded
+                  ? 'caret-up'
+                  : 'caret-down'
+              }
+              />
+            </div>
           </div>
         </td>
       </tr>
@@ -707,7 +706,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td colSpan={4} />
+        <td colSpan={2} />
       </tr>
     </>
   );
@@ -742,7 +741,27 @@ export default React.memo(styled(Account)`
     cursor: pointer;
   }
 
-  &.isOdd td.button {
+  && td.button {
     padding-bottom: 0.5rem;
+  }
+
+  && td.fast-actions {
+    padding-left: 0.2rem;
+    padding-right: 1rem;
+    width: 1%;
+
+    .fast-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      & > * + * {
+        margin-left: 0.35rem;
+      }
+
+      .send-button {
+        min-width: 6.5rem;
+      }
+    }
   }
 `);

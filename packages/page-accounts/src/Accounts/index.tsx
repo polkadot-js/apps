@@ -76,8 +76,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('type')],
     [t('transactions'), 'media--1500'],
     [t('balances'), 'balances'],
-    [],
-    [undefined, 'media--1400'],
     []
   ]);
 
