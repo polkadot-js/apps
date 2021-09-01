@@ -51,6 +51,7 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
+  // eslint-disable-next-line func-call-spacing
   const actual = jest.requireActual<{useAccountInfo: (address: string) => UseAccountInfo}>('@polkadot/react-hooks/useAccountInfo');
 
   return ({
