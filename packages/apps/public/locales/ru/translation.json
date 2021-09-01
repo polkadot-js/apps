@@ -105,7 +105,7 @@
   "Confirm contract removal": "Подтвердить удаление контракта",
   "Constants": "Константы",
   "Continue": "Продолжить",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Голосование возможно также и токенами, которые уже выделены под голосование по другому вопросу.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "Голосование возможно также и токенами, которые уже выделены под голосование по другому вопросу.",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "Скопируйте строку выше и подпишите ее с помощью транзакции в сети Ethereum с учетной записи, которую Вы использовали в предпродаже，используя строку как \\рayload\\. Затем вставьте обьект подписи транзакции ниже",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Скопируйте следующую строку и подпишите ее учетной записью Ethereum, которую Вы использовали во время предпродажи, используя строку как \\payload\\. Вставьте полученную подпись ниже:",
   "Council": "Совет",

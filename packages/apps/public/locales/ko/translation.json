@@ -148,7 +148,7 @@
   "Continue": "계속",
   "Contracts": "계약서들",
   "Controller account": "콘트롤러 계정",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "컨빅션 록은 겹치며 부가적이다, 이어서 전 투표에서 잠긴 펀드는 또 다시 잠길 수 있습니다.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "컨빅션 록은 겹치며 부가적이다, 이어서 전 투표에서 잠긴 펀드는 또 다시 잠길 수 있습니다.",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "위 문자열을 복붙하고 프리세일에 참가했던 이더리움 지갑으로 사인한 다음에, 사인한 디지털 서명값을 아래 오브젝트에 붙여주세요.",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "이 문자열을 복붙하고 프리세일에 참가했던 이더리움 지갑으로 사인한 다음에, 사인한 디지털 서명값을 아래 오브젝트에 붙여주세요.",
   "Council": "위원회",
