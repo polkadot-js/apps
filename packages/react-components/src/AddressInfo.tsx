@@ -528,7 +528,7 @@ export default withMulti(
         flex: 1;
         display: grid;
         column-gap: 0.75rem;
-        row-gap: 0.571rem;
+        row-gap: 0.5rem;
         opacity: 1;
 
         label {
