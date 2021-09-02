@@ -48,6 +48,7 @@ import interbtc from './interbtc';
 import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
+import khala from './khala';
 import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
@@ -67,8 +68,6 @@ import origintrail from './origintrail';
 import pangolin from './pangolin';
 import parallel from './parallel';
 import parami from './parami';
-import phala from './phala';
-import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
@@ -160,7 +159,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
-  khala: phalaParachain,
+  khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
   kintsugi: interbtc,
@@ -188,9 +187,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   opportunity,
   'origintrail-parachain': origintrail,
   parami,
-  'phala-collator': phalaParachain,
-  'phala-node': phala,
-  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
