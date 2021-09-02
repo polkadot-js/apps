@@ -27,6 +27,7 @@ interface Props {
 
 function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, onCancel, onForgetAddress, onSaveName, onSaveTags, onUpdateName, recipientId, toggleIsEditingName, toggleIsEditingTags }: Props) {
   const { t } = useTranslation();
+  const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
   const _onForgetAddress = useCallback(
     (): void => {
@@ -35,8 +36,6 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
     },
     [onForgetAddress, onUpdateName]
   );
-
-  const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
   const updateTags = useCallback(() => {
     onSaveTags();
@@ -72,7 +71,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
   }, [isEditing, toggleIsEditing, updateName, updateTags]);
 
   return (
-    <div className={`${className} ui--AddressMenu-buttons ${isEditing ? 'isEditing' : ''}`}>
+    <div className={`${className} ui--AddressMenu-buttons`}>
       {isEditing
         ? (
           <Button.Group>
@@ -130,7 +129,17 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
 }
 
 export default React.memo(styled(AccountMenuButtons)`
+  width: 100%;
+
   .ui--Button-Group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-bottom: 0;
+
+    .ui--Button {
+      width: 100%;
+      min-width: max-content;
+    }
   }
 `);
