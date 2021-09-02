@@ -97,6 +97,10 @@ export default React.memo(styled(Base)`
     font: var(--font-sans);
   }
 
+  &.size-tiny .ui--Modal__body {
+    max-width: 480px;
+  }
+
   &.size-small .ui--Modal__body {
     max-width: 720px;
   }

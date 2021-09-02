@@ -6,12 +6,13 @@ import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { AddressMini, AvatarItem, Expander, Icon, IconLink, Tag } from '@polkadot/react-components';
+import { AddressMini, AvatarItem, Icon, IconLink, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import RegistrarJudgement from './RegistrarJudgement';
+import SubAccountsModal from './SubAccountsModal';
 
 interface Props {
   address: string;
@@ -24,6 +25,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
   const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
+  const [isOpen, toggleIsOpen] = useToggle();
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -162,26 +164,22 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               </div>
             )}
             {!!subs?.length && (
-              <div className='tr subs'>
-                {subs.length > 1
-                  ? <div className='th top'>{t<string>('subs')}</div>
-                  : <div className='th'>{t<string>('sub')}</div>
-                }
-                <div className='td'>
-                  <Expander summary={`(${subs.length})`}>
-                    <div className='body column'>
-                      {subs.map((sub) =>
-                        <AddressMini
-                          className='subs'
-                          isPadded={false}
-                          key={sub.toString()}
-                          value={sub}
-                        />
-                      )}
-                    </div>
-                  </Expander>
+              <>
+                {isOpen && (
+                  <SubAccountsModal
+                    onClose={toggleIsOpen}
+                    subs={subs}
+                  />
+                )}
+                <div className='tr subs'>
+                  <div className='th'>{t<string>('sub')}</div>
+                  <div className='td'>
+                    {subs.length}
+                    <a onClick={toggleIsOpen}>{t<string>('Show list')}</a>
+                  </div>
                 </div>
-              </div>)}
+              </>
+            )}
           </div>
         </div>
       </div>
