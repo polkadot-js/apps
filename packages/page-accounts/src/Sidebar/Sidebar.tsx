@@ -58,7 +58,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           sidebarRef={ref}
         />
       </div>
-      <Balances address={address}/>
+      <Balances address={address} />
       <Identity
         address={address}
         identity={identity}
