@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -51,7 +51,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [propSenderId || senderId]);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
   const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
@@ -101,6 +101,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     <Modal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -160,6 +161,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
+                    maxValue={maxTransfer}
                     onChange={setAmount}
                   />
                   <InputBalance
@@ -202,7 +204,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           </Modal.Columns>
         </div>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'

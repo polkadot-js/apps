@@ -7,15 +7,20 @@ import type { EraRewardPoints } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
+
+// TODO update HeaderExtended in api-derive
+export interface HeaderExtendedWithMapping extends HeaderExtended {
+  authorFromMapping?: string;
+}
 
 export interface Authors {
   byAuthor: Record<string, string>;
   eraPoints: Record<string, string>;
   lastBlockAuthors: string[];
   lastBlockNumber?: string;
-  lastHeader?: HeaderExtended;
-  lastHeaders: HeaderExtended[];
+  lastHeader?: HeaderExtendedWithMapping;
+  lastHeaders: HeaderExtendedWithMapping[];
 }
 
 interface Props {
@@ -38,9 +43,11 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     // No unsub, global context - destroyed on app close
     api.isReady.then((): void => {
-      let lastHeaders: HeaderExtended[] = [];
+      let lastHeaders: HeaderExtendedWithMapping[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
+      const isAuthorIds = isFunction(api.query.authorMapping?.authorIds); // TODO-MOONBEAM reevaluate in a month: 07/16/21
+      const isAuthorMappingWithDeposit = isFunction(api.query.authorMapping?.mappingWithDeposit);
 
       // subscribe to all validators
       api.query.session && api.query.session.validators((validatorIds): void => {
@@ -48,10 +55,27 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       }).catch(console.error);
 
       // subscribe to new headers
-      api.derive.chain.subscribeNewHeads((lastHeader): void => {
+      api.derive.chain.subscribeNewHeads(async (lastHeader: HeaderExtendedWithMapping): Promise<void> => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
-          const thisBlockAuthor = lastHeader.author?.toString();
+          let thisBlockAuthor = '';
+
+          if (lastHeader.author) {
+            thisBlockAuthor = lastHeader.author.toString();
+          } else if (isAuthorMappingWithDeposit && lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1]) {
+            // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping
+            thisBlockAuthor = ((await api.query.authorMapping.mappingWithDeposit(lastHeader.digest.logs[0].asConsensus[1])).toHuman() as {
+              account: string;
+              deposit: string;
+            }).account;
+            lastHeader.authorFromMapping = thisBlockAuthor;
+          } else if (isAuthorIds && lastHeader.digest.logs && lastHeader.digest.logs[0] && lastHeader.digest.logs[0].isConsensus && lastHeader.digest.logs[0].asConsensus[1]) {
+            // TODO-MOONBEAM reevaluate in a month: 07/16/21
+            // Some blockchains such as Moonbeam need to fetch the author accountId from a mapping (function call may differ according to pallet version)
+            thisBlockAuthor = (await api.query.authorMapping.authorIds(lastHeader.digest.logs[0].asConsensus[1])).toString();
+            lastHeader.authorFromMapping = thisBlockAuthor;
+          }
+
           const thisBlockNumber = formatNumber(blockNumber);
 
           if (thisBlockAuthor) {
@@ -67,7 +91,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
           lastHeaders = lastHeaders
             .filter((old, index) => index < MAX_HEADERS && old.number.unwrap().lt(blockNumber))
-            .reduce((next, header): HeaderExtended[] => {
+            .reduce((next, header): HeaderExtendedWithMapping[] => {
               next.push(header);
 
               return next;

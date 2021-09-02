@@ -11,27 +11,26 @@ import { ChainImg } from '@polkadot/react-components';
 import Url from './Url';
 
 interface Props {
-  affinity?: string;
+  affinity?: string; // unused - previous selection
   apiUrl: string;
   className?: string;
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isUnreachable, name, providers } }: Props): React.ReactElement<Props> {
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
 
   const _selectUrl = useCallback(
-    () => setApiUrl(
-      name,
-      affinity && providers.find(({ url }) => url === affinity)
-        ? affinity
-        : providers[0].url
-    ),
-    [affinity, name, providers, setApiUrl]
+    () => {
+      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
+
+      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
+    },
+    [name, providers, setApiUrl]
   );
 
   const _setApiUrl = useCallback(
@@ -40,10 +39,10 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
+    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={_selectUrl}
+        onClick={isUnreachable ? undefined : _selectUrl}
       >
         <ChainImg
           className='endpointIcon'
@@ -73,6 +72,10 @@ export default React.memo(styled(NetworkDisplay)`
   margin: 0 0 0.25rem 0;
   padding: 0.375rem 0.5rem 0.375rem 1rem;
   position: relative;
+
+  &.isUnreachable {
+    opacity: 0.5;
+  }
 
   &.isSelected,
   &:hover {

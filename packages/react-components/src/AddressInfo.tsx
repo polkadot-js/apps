@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { TFunction } from 'i18next';
 import type { DeriveBalancesAccountData, DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
+import type { BlockNumber, LockIdentifier, ValidatorPrefsTo145, Voting } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
@@ -53,6 +53,7 @@ interface Props {
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;
+  votingOf?: Voting;
   withBalance?: boolean | BalanceActiveType;
   withBalanceToggle?: false;
   withExtended?: boolean | CryptoActiveType;
@@ -79,6 +80,11 @@ const DEFAULT_PREFS = {
   unstakeThreshold: true,
   validatorPayment: true
 };
+
+// auxiliary component that helps aligning balances details, fills up the space when no icon for a balance is specified
+function IconVoid (): React.ReactElement {
+  return <span className='icon-void'>&nbsp;</span>;
+}
 
 function lookupLock (lookup: Record<string, string>, lockId: LockIdentifier): string {
   const lockHex = lockId.toHex();
@@ -137,7 +143,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
       .filter((value): boolean => value.gtn(0));
 
     own = bonded[0];
-  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.accountId.eq(stakingInfo.stashId)) {
+  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.stakingLedger.active && stakingInfo.accountId.eq(stakingInfo.stashId)) {
     own = stakingInfo.stakingLedger.active.unwrap();
   }
 
@@ -216,15 +222,16 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, withBalanceToggle }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; withBalanceToggle: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber: BlockNumber; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
 
   !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
-      <Label label={t<string>('total')} />
+      <Label label='' />
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid />}
         value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
       />
     </React.Fragment>
@@ -235,6 +242,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid />}
         value={(balancesAll as DeriveBalancesAll).availableBalance}
       />
     </React.Fragment>
@@ -245,7 +253,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        label={
+        labelPost={
           <Icon
             icon='info-circle'
             tooltip={`${address}-vested-trigger`}
@@ -285,7 +293,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        label={
+        labelPost={
           <Icon
             icon='info-circle'
             tooltip={`${address}-locks-trigger`}
@@ -296,7 +304,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         <Tooltip
           text={(balancesAll as DeriveBalancesAll).lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
             <div key={index}>
-              {amount.isMax()
+              {amount?.isMax()
                 ? t<string>('everything')
                 : formatBalance(amount, { forceUnit: '-' })
               }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
@@ -313,6 +321,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid />}
         value={balancesAll.reservedBalance}
       />
     </React.Fragment>
@@ -323,6 +332,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
+        labelPost={<IconVoid />}
         value={ownBonded}
       >
         {otherBonded.length !== 0 && (
@@ -330,6 +340,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
             <FormatBalance
               formatIndex={formatIndex}
               key={index}
+              labelPost={<IconVoid />}
               value={bonded}
             />
           )})</>
@@ -346,32 +357,54 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       />
     </React.Fragment>
   );
-  balanceDisplay.unlocking && stakingInfo?.unlocking && allItems.push(
-    <React.Fragment key={7}>
-      <Label label={t<string>('unbonding')} />
-      <div className='result'>
-        <StakingUnbonding stakingInfo={stakingInfo} />
-      </div>
-    </React.Fragment>
-  );
-  balanceDisplay.unlocking && democracyLocks && (democracyLocks.length !== 0) && allItems.push(
-    <React.Fragment key={8}>
-      <Label label={t<string>('democracy')} />
-      <div className='result'>
-        <DemocracyLocks value={democracyLocks} />
-      </div>
-    </React.Fragment>
-  );
+
+  if (balanceDisplay.unlocking) {
+    stakingInfo?.unlocking && allItems.push(
+      <React.Fragment key={7}>
+        <Label label={t<string>('unbonding')} />
+        <div className='result'>
+          <StakingUnbonding
+            iconPosition='right'
+            stakingInfo={stakingInfo}
+          />
+        </div>
+      </React.Fragment>
+    );
+
+    if (democracyLocks && (democracyLocks.length !== 0)) {
+      allItems.push(
+        <React.Fragment key={8}>
+          <Label label={t<string>('democracy')} />
+          <div className='result'>
+            <DemocracyLocks value={democracyLocks} />
+          </div>
+        </React.Fragment>
+      );
+    } else if (votingOf && votingOf.isDirect) {
+      const { prior: [unlockAt, balance] } = votingOf.asDirect;
+
+      balance.gt(BN_ZERO) && unlockAt.gt(BN_ZERO) && allItems.push(
+        <React.Fragment key={8}>
+          <Label label={t<string>('democracy')} />
+          <div className='result'>
+            <DemocracyLocks value={[{ balance, isFinished: bestNumber.gt(unlockAt), unlockAt }]} />
+          </div>
+        </React.Fragment>
+      );
+    }
+  }
 
   if (withBalanceToggle) {
     return (
       <React.Fragment key={formatIndex}>
-        <Expander summary={
-          <FormatBalance
-            formatIndex={formatIndex}
-            value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
-          />
-        }>
+        <Expander
+          summary={
+            <FormatBalance
+              formatIndex={formatIndex}
+              value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+            />
+          }
+        >
           {allItems.length !== 0 && (
             <div className='body column'>
               {allItems}
@@ -390,7 +423,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, democracyLocks, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
+  const { address, balancesAll, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -400,8 +433,8 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
   }
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
-  const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount.isMax());
-  const baseOpts = { address, balanceDisplay, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, withBalanceToggle };
+  const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
+  const baseOpts = { address, balanceDisplay, bestNumber, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle };
   const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
 
   withBalanceToggle && balancesAll?.additional.length && balancesAll.additional.forEach((balancesAll, index): void => {
@@ -472,12 +505,11 @@ export default withMulti(
     white-space: nowrap;
 
     &:not(.ui--AddressInfo-expander) {
-      justify-content: center;
+      justify-content: flex-end;
     }
 
     .column {
-      justify-content: start;
-
+      max-width: 260px;
       &.column--expander {
         width: 17.5rem;
 
@@ -495,6 +527,8 @@ export default withMulti(
       &:not(.column--expander) {
         flex: 1;
         display: grid;
+        column-gap: 0.75rem;
+        row-gap: 0.5rem;
         opacity: 1;
 
         label {
@@ -510,11 +544,18 @@ export default withMulti(
 
         .result {
           grid-column: 2;
+          text-align: right;
 
-          .icon {
-            margin-left: 0;
-            margin-right: 0.25rem;
+          .ui--Icon,
+          .icon-void {
+            margin-left: 0.25rem;
+            margin-right: 0;
             padding-right: 0 !important;
+          }
+
+          .icon-void {
+            float: right;
+            width: 1em;
           }
         }
       }
@@ -534,6 +575,11 @@ export default withMulti(
     ['derive.democracy.locks', {
       paramName: 'address',
       propName: 'democracyLocks',
+      skipIf: skipStakingIf
+    }],
+    ['query.democracy.votingOf', {
+      paramName: 'address',
+      propName: 'votingOf',
       skipIf: skipStakingIf
     }]
   )

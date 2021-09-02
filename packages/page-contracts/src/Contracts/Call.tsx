@@ -54,7 +54,12 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.exec(message, { gasLimit: weight.weight, value: message.isPayable ? value : 0 }, ...params);
+        return contract.tx[message.method]({
+          gasLimit: weight.weight,
+          value: message.isPayable
+            ? value
+            : 0
+        }, ...params);
       } catch (error) {
         return null;
       }
@@ -65,11 +70,15 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     if (!accountId || !message || !dbParams || !dbValue) return;
 
     contract
-      .read(message, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams)
-      .send(accountId)
-      .then(({ gasConsumed, result }) => setEstimatedWeight(
+      .query[message.method](accountId, {
+        gasLimit: -1,
+        value: message.isPayable
+          ? dbValue
+          : 0
+      }, ...dbParams)
+      .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasConsumed
+          ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
@@ -80,8 +89,14 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       if (!accountId || !message || !value || !weight) return;
 
       contract
-        .read(message, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params)
-        .send(accountId)
+        .query[message.method](accountId, {
+          gasLimit: weight.isEmpty
+            ? -1
+            : weight.weight,
+          value: message.isPayable
+            ? value
+            : 0
+        }, ...params)
         .then((result): void => {
           setOutcomes([{
             ...result,
@@ -107,7 +122,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   );
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
-  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || !message.isMutating);
+  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
     <Modal
@@ -199,7 +214,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           </Expander>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {isViaRpc
           ? (
             <Button

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
+import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
 import type { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
@@ -35,7 +35,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || method.meta.name).toString()}
+            {(method.meta.docs[0] || method.meta.name).toString()}
           </div>
         ],
         value

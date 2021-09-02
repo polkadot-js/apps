@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type BN from 'bn.js';
+
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
@@ -46,6 +47,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
       {isOpen && (
         <Modal
           header={t<string>('Submit tip endorsement')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
@@ -70,7 +72,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members }: P
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

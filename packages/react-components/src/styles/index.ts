@@ -53,6 +53,16 @@ function getMenuHoverContrast (uiHighlight: string | undefined): string {
     : 'rgba(255, 255, 255, 0.15)';
 }
 
+function hexToRGB (hex: string, alpha?: string) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return alpha
+    ? `rgba(${r}, ${g}, ${b}, ${alpha})`
+    : `rgb(${r}, ${g}, ${b})`;
+}
+
 export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
   .highlight--all {
     background: ${getHighlight(uiHighlight)} !important;
@@ -245,6 +255,31 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Popup .ui--Button.isOpen:not(.isDisabled):not(.isReadOnly) {
+    background: ${getHighlight(uiHighlight)} !important;
+    color: ${getContrast(uiHighlight)} !important;
+
+    .ui--Icon {
+      background: transparent !important;
+      color: ${getContrast(uiHighlight)} !important;
+    }
+  }
+
+
+  .ui--Menu {
+    .ui--Menu__Item:hover {
+       background: ${hexToRGB(getHighlight(uiHighlight), '.1')};
+    }
+
+    .ui--Toggle.isChecked .ui--Toggle-Slider {
+      background: ${getHighlight(uiHighlight)};
+
+      &::before {
+        border-color: ${getHighlight(uiHighlight)};
+      }
+    }
+  }
+
   .theme--dark,
   .theme--light {
     .ui--Tabs .tabLinkActive .tabLinkText::after{
@@ -274,6 +309,17 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
         }
       }
     }
+  }
+
+  .ui--Tag.themeColor.lightTheme,
+  .ui--InputTags.lightTheme .ui.label {
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
+  }
+
+  .ui--Tag.themeColor.darkTheme,
+  .ui--InputTags.darkTheme .ui.label {
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
   }
 
   #root {

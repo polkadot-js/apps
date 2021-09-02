@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Weight } from '@polkadot/types/interfaces';
 import type { UseWeight } from './types';
 
-import BN from 'bn.js';
 import { useCallback, useMemo, useState } from 'react';
 
 import { useApi, useBlockTime } from '@polkadot/react-hooks';

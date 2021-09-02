@@ -1,13 +1,12 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Phala from "./phala";
-import Hammer from "./hammer";
-import Spanner from "./spanner";
+import { typesChain } from '@phala/typedefs';
+
+import CrustMaxwell from './crust-maxwell';
 
 // alphabetical, based on the actual displayed name
 export default {
-  "Phala PoC-3": Phala,
-  "Hammer": Hammer,
-  "Spanner": Spanner
+  ...typesChain,
+  'Crust Maxwell': CrustMaxwell
 };

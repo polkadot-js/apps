@@ -67,7 +67,7 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
           value={judgementEnum}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={toggleJudgement}>
+      <Modal.Actions>
         <TxButton
           accountId={judgementAccountId}
           icon='check'
