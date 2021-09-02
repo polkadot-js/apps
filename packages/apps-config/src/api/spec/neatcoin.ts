@@ -20,6 +20,7 @@ const definitions: OverrideBundleDefinition = {
             U64: 'U64',
             U128: 'U128',
             Bool: 'Bool'
+          }
         }
       }
     }
