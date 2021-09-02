@@ -60,11 +60,15 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
 
   return ({
     useAccountInfo: (address: string) => {
-      return {
-        ...actual.useAccountInfo(address),
-        flags: { ...actual.useAccountInfo(address).flags, ...mockAccountHooks.accountsMap[address].info.flags },
-        tags: [...actual.useAccountInfo(address).tags, ...mockAccountHooks.accountsMap[address].info.tags]
-      };
+      const mockInfo = mockAccountHooks.accountsMap[address];
+
+      return mockInfo
+        ? {
+          ...actual.useAccountInfo(address),
+          flags: { ...actual.useAccountInfo(address).flags, ...(mockInfo.info.flags) },
+          tags: [...actual.useAccountInfo(address).tags, ...(mockInfo.info.tags)]
+        }
+        : actual;
     }
   });
 });
@@ -118,7 +122,7 @@ export class AccountsPage {
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
                   <AccountSidebar>
-                    <Overview/>
+                    <Overview onStatusChange={noop}/>
                   </AccountSidebar>
                 </ApiContext.Provider>
               </ThemeProvider>
