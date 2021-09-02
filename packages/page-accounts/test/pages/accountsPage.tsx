@@ -115,14 +115,14 @@ export class AccountsPage {
 
     this.renderResult = render(
       <>
-        <div id='tooltips'/>
+        <div id='tooltips' />
         <Suspense fallback='...'>
           <QueueProvider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
                   <AccountSidebar>
-                    <Overview onStatusChange={noop}/>
+                    <Overview onStatusChange={noop} />
                   </AccountSidebar>
                 </ApiContext.Provider>
               </ThemeProvider>

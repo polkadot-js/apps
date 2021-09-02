@@ -75,7 +75,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
           </div>
         </td>
         <td>
-          <BountyStatusView bountyStatus={bountyStatus}/>
+          <BountyStatusView bountyStatus={bountyStatus} />
         </td>
         <td><FormatBalance value={value} /></td>
         <td>

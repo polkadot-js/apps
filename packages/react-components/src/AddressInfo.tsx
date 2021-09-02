@@ -227,11 +227,11 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 
   !withBalanceToggle && balancesAll && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
-      <Label label={t<string>('account balance')} />
+      <Label label='' />
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={balancesAll.freeBalance.add(balancesAll.reservedBalance)}
       />
     </React.Fragment>
@@ -242,7 +242,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={(balancesAll as DeriveBalancesAll).availableBalance}
       />
     </React.Fragment>
@@ -321,7 +321,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={balancesAll.reservedBalance}
       />
     </React.Fragment>
@@ -332,7 +332,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
-        labelPost={<IconVoid/>}
+        labelPost={<IconVoid />}
         value={ownBonded}
       >
         {otherBonded.length !== 0 && (
@@ -340,7 +340,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
             <FormatBalance
               formatIndex={formatIndex}
               key={index}
-              labelPost={<IconVoid/>}
+              labelPost={<IconVoid />}
               value={bonded}
             />
           )})</>
@@ -527,14 +527,14 @@ export default withMulti(
       &:not(.column--expander) {
         flex: 1;
         display: grid;
-        column-gap: 1.5rem;
-        row-gap: 0.571rem;
+        column-gap: 0.75rem;
+        row-gap: 0.5rem;
         opacity: 1;
 
         label {
           grid-column: 1;
           padding-right: 0.5rem;
-          text-align: left;
+          text-align: right;
           vertical-align: middle;
 
           .help.circle.icon {

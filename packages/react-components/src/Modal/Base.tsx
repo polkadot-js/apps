@@ -35,7 +35,7 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
       className={`theme--${theme} ui--Modal ${className} size-${size}`}
       data-testid={testId}
     >
-      <DisableGlobalScroll/>
+      <DisableGlobalScroll />
       <div
         className='ui--Modal__overlay'
         onClick={onClose}

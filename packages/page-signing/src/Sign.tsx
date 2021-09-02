@@ -177,7 +177,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           {isLocked && (
             <div className='unlock-overlay-warning'>
               <div className='unlock-overlay-content'>
-                {t<string>('You need to unlock this account to be able to sign data.')}<br/>
+                {t<string>('You need to unlock this account to be able to sign data.')}<br />
                 <Button.Group>
                   <Button
                     icon='unlock'
