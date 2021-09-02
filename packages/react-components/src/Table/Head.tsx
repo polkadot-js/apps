@@ -127,7 +127,7 @@ export default React.memo(styled(Head)`
 
     &.balances {
       text-align: right;
-      padding-right: 15.571rem;
+      padding-right: 2.25rem;
     }
   }
 

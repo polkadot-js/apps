@@ -31,8 +31,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
     [t('balances'), 'expand'],
-    [],
-    [undefined, 'media--1400']
+    [undefined, 'media--1400'],
+    []
   ]);
 
   useEffect((): void => {

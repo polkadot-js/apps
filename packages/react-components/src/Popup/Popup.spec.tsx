@@ -23,7 +23,7 @@ function TestPopup () {
 
 function renderPopup () {
   return render(
-    <TestPopup/>
+    <TestPopup />
   );
 }
 

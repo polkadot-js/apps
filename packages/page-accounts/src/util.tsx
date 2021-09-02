@@ -1,12 +1,15 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { CreateResult, KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { SortedAccount } from './types';
 
+import FileSaver from 'file-saver';
 import React from 'react';
 
-import { Menu } from '@polkadot/react-components';
+import { getEnvironment } from '@polkadot/react-api/util';
+import { InputAddress, Menu } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
 export function createMenuGroup (key: string, items: (React.ReactNode | false | undefined | null)[], header?: string): React.ReactNode | null {
@@ -19,6 +22,40 @@ export function createMenuGroup (key: string, items: (React.ReactNode | false | 
       {filtered}
     </React.Fragment>
     : null;
+}
+
+export function downloadAccount ({ json, pair }: CreateResult): void {
+  FileSaver.saveAs(
+    new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' }),
+    `${pair.address}.json`
+  );
+}
+
+export function tryCreateAccount (commitAccount: () => CreateResult, success: string): ActionStatus {
+  const status: ActionStatus = {
+    action: 'create',
+    message: success,
+    status: 'success'
+  };
+
+  try {
+    const result = commitAccount();
+    const address = result.pair.address;
+
+    status.account = address;
+
+    if (getEnvironment() === 'web') {
+      downloadAccount(result);
+    }
+
+    downloadAccount(result);
+    InputAddress.setLastValue('account', address);
+  } catch (error) {
+    status.status = 'error';
+    status.message = (error as Error).message;
+  }
+
+  return status;
 }
 
 function expandList (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] {

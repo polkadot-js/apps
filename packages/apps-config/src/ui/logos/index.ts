@@ -18,7 +18,7 @@ import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
-import chainKintsugi from './chains/kintsugi.svg';
+import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainComposable from './chains/picasso.svg';
 import chainRococo from './chains/rococo.svg';
@@ -309,6 +309,7 @@ export const nodeLogos = Object.entries({
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
+  Kintsugi: chainKintsugi,
   'Klug Dossier Node': nodeKlug,
   'Kpron Collator': nodeApron,
   kulupu: nodeKulupu,
@@ -461,6 +462,7 @@ export const namedLogos: Record<string, unknown> = {
   karura: chainKarura,
   khala: nodeKhala,
   kilt: nodeKilt,
+  kintsugi: chainKintsugi,
   klugdossier: nodeKlug,
   kpron: nodeApron,
   kulupu: nodeKulupu,
