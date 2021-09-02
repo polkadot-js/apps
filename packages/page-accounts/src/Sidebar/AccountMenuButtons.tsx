@@ -37,10 +37,6 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
     [onForgetAddress, onUpdateName]
   );
 
-  const updateTags = useCallback(() => {
-    onSaveTags();
-  }, [onSaveTags]);
-
   const toggleIsEditing = useCallback(() => {
     flags.isEditable && toggleIsEditingName();
     toggleIsEditingTags();
@@ -64,11 +60,11 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
   const onEdit = useCallback(() => {
     if (isEditing) {
       updateName();
-      updateTags();
+      onSaveTags();
     }
 
     toggleIsEditing();
-  }, [isEditing, toggleIsEditing, updateName, updateTags]);
+  }, [isEditing, toggleIsEditing, updateName, onSaveTags]);
 
   return (
     <div className={`${className} ui--AddressMenu-buttons`}>

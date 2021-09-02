@@ -25,7 +25,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
   const [inEditMode, setInEditMode] = useState<boolean>(false);
   const { accountIndex, flags, identity, meta } = useAccountInfo(address);
 
-  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const ref = useRef<HTMLDivElement>();
 
   return (
     <Sidebar
