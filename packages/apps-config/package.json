@@ -28,7 +28,7 @@
     "@subsocial/types": "0.6.1-1",
     "@zeitgeistpm/type-defs": "0.2.5",
     "moonbeam-types-bundle": "1.2.4",
-    "pontem-types-bundle": "1.0.8",
+    "pontem-types-bundle": "1.0.14",
     "rxjs": "^7.3.0"
   },
   "devDependencies": {
