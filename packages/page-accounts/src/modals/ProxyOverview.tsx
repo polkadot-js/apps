@@ -1,15 +1,15 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { BatchWarning, Button, Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useTxBatch } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -152,11 +152,16 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const [previous, setPrevious] = useState<PrevProxy[]>(
-    existing.map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType])
-  );
+  const [previous, setPrevious] = useState<PrevProxy[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
   const [added, setAdded] = useState<PrevProxy[]>([]);
   const extrinsics = useTxBatch(txs, optTxBatch);
+
+  const reservedAmount = useMemo(
+    () => api.consts.proxy.proxyDepositFactor
+      .muln(batchPrevious.length + batchAdded.length)
+      .iadd(api.consts.proxy.proxyDepositBase),
+    [api, batchPrevious, batchAdded]
+  );
 
   const typeOpts = useRef(
     api.createType('ProxyType').defKeys.map((text, value) => ({ text, value }))
@@ -228,6 +233,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     <Modal
       className={className}
       header={t<string>('Proxy overview')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -269,11 +275,18 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
             />
           </Button.Group>
         </Modal.Columns>
+        <Modal.Columns hint={t<string>('The amount that is reserved for the proxy based on the base deposit and number of proxies')}>
+          <InputBalance
+            defaultValue={reservedAmount}
+            isDisabled
+            label={t<string>('reserved balance')}
+          />
+        </Modal.Columns>
         <Modal.Columns>
           <BatchWarning />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {existing.length !== 0 && (
           <TxButton
             accountId={proxiedAccount}

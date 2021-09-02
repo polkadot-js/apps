@@ -20,16 +20,15 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .keys(section)
     .sort()
     .map((value): DropdownOption => {
-      const method = section[value] as unknown as StorageEntry;
-      const type = method.meta.type;
-      const input = type.isMap
-        ? type.asMap.key.toString()
-        : type.isDoubleMap
-          ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
-          : '';
-      const output = method.meta.modifier.isOptional
-        ? `Option<${unwrapStorageType(type)}>`
-        : unwrapStorageType(type);
+      const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;
+      const input = type.isPlain
+        ? ''
+        : type.isMap
+          ? type.asMap.key.toString()
+          : type.isDoubleMap
+            ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
+            : type.asNMap.keyVec.map((k) => k.toString()).join(', ');
+      const output = unwrapStorageType(api.registry, type, modifier.isOptional);
 
       return {
         className: 'ui--DropdownLinked-Item',
@@ -45,7 +44,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-text'
             key={`${sectionName}_${value}:text`}
           >
-            {(method.meta.documentation[0] || method.meta.name).toString()}
+            {(docs[0] || name).toString()}
           </div>
         ],
         value

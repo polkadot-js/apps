@@ -42,7 +42,7 @@ export interface TxButtonProps {
   onStart?: () => void;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
-  params?: any[] | (() => any[]);
+  params?: any[] | (() => any[]) | null;
   tooltip?: string;
   tx?: ((...args: any[]) => SubmittableExtrinsic<'promise'>) | null;
   withoutLink?: boolean;
@@ -77,3 +77,5 @@ export interface ThemeDef {
 export interface ThemeProps {
   theme: ThemeDef;
 }
+
+export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';

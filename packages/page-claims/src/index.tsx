@@ -233,7 +233,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
                 <Input
                   autoFocus
                   className='full'
-                  help={t<string>('The the Ethereum address you used during the pre-sale (starting by "0x")')}
+                  help={t<string>('The Ethereum address you used during the pre-sale (starting by "0x")')}
                   label={t<string>('Pre-sale ethereum address')}
                   onChange={onChangeEthereumAddress}
                   value={ethereumAddress || ''}
@@ -298,21 +298,25 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
         <Columar.Column>
           {(step >= Step.Claim) && (
             isPreclaimed
-              ? <AttestDisplay
-                accountId={accountId}
-                ethereumAddress={ethereumAddress}
-                onSuccess={goToStepAccount}
-                statementKind={statementKind}
-                systemChain={systemChain}
-              />
-              : <ClaimDisplay
-                accountId={accountId}
-                ethereumAddress={ethereumAddress}
-                ethereumSignature={signature}
-                isOldClaimProcess={isOldClaimProcess}
-                onSuccess={goToStepAccount}
-                statementKind={statementKind}
-              />
+              ? (
+                <AttestDisplay
+                  accountId={accountId}
+                  ethereumAddress={ethereumAddress}
+                  onSuccess={goToStepAccount}
+                  statementKind={statementKind}
+                  systemChain={systemChain}
+                />
+              )
+              : (
+                <ClaimDisplay
+                  accountId={accountId}
+                  ethereumAddress={ethereumAddress}
+                  ethereumSignature={signature}
+                  isOldClaimProcess={isOldClaimProcess}
+                  onSuccess={goToStepAccount}
+                  statementKind={statementKind}
+                />
+              )
           )}
         </Columar.Column>
       </Columar>

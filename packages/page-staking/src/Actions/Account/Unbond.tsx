@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -26,7 +26,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
-  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active.unwrap() || null);
+  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
   const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
   const [withMax, setWithMax] = useState(false);
 
@@ -34,6 +34,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
     <Modal
       className={`staking--Unbond ${className}`}
       header={t<string>('Unbond funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -78,7 +79,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           icon='unlock'

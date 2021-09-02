@@ -11,7 +11,8 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'tx.assets.setMetadata'
+        'tx.assets.setMetadata',
+        'tx.assets.transferKeepAlive'
       ]
     },
     group: 'network',

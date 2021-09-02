@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
@@ -26,7 +26,8 @@ const BOUNTY_METHODS = ['approveBounty', 'closeBounty'];
 function BountyInitiateVoting ({ description, index, proposals }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isMember, members } = useMembers();
+  const { isMember, members } = useCollectiveMembers('council');
+  const councilMod = useCollectiveInstance('council');
   const { approveBounty, closeBounty } = useBounties();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -43,7 +44,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
 
   const isVotingInitiated = useMemo(() => proposals?.filter(({ proposal }) => BOUNTY_METHODS.includes(proposal.method)).length !== 0, [proposals]);
 
-  return isMember && !isVotingInitiated
+  return isMember && !isVotingInitiated && councilMod
     ? (
       <>
         <Button
@@ -55,6 +56,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
         {isOpen && (
           <Modal
             header={`${t<string>('Initiate voting')} - "${truncateTitle(description, 30)}"`}
+            onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
@@ -69,7 +71,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
                 />
               </Modal.Columns>
             </Modal.Content>
-            <Modal.Actions onCancel={toggleOpen}>
+            <Modal.Actions>
               <TxButton
                 accountId={accountId}
                 icon='check'
@@ -77,7 +79,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
                 label={t<string>('Approve')}
                 onStart={toggleOpen}
                 params={[threshold, approveBountyProposal.current, approveBountyProposal.current.length]}
-                tx={api.tx.council.propose}
+                tx={api.tx[councilMod].propose}
               />
               <TxButton
                 accountId={accountId}
@@ -86,7 +88,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
                 label={t<string>('Reject')}
                 onStart={toggleOpen}
                 params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
-                tx={api.tx.council.propose}
+                tx={api.tx[councilMod].propose}
               />
             </Modal.Actions>
           </Modal>

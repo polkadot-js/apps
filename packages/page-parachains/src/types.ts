@@ -49,7 +49,6 @@ export interface Campaigns {
 }
 
 export interface Campaign extends WinnerData {
-  childKey: string;
   info: FundInfo;
   isCapped?: boolean;
   isEnded?: boolean;
@@ -69,10 +68,14 @@ export interface Proposals {
   scheduled: ScheduledProposals[];
 }
 
-export interface OwnedId {
+export interface OwnedIdPartial {
   manager: string;
   paraId: ParaId;
   paraInfo: ParaInfo;
+}
+
+export interface OwnedId extends OwnedIdPartial {
+  hasCode: boolean;
 }
 
 export interface OwnerInfo {

@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -118,14 +118,15 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='expand'>
+      <td className='expand media--1100'>
         {tips.length !== 0 && (
           <Expander summary={
             <>
               <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
               <FormatBalance value={median} />
             </>
-          }>
+          }
+          >
             {tips.map(([tipper, balance]) => (
               <AddressMini
                 balance={balance}

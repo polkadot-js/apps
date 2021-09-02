@@ -99,6 +99,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
             onToggleIsEditing={toggleIsEditingTags}
             size='tiny'
             value={tags}
+            withTitle
           />
         </div>
         <Flags flags={flags} />
@@ -152,6 +153,8 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
       <section>
         <LinkExternal
           data={address}
+          isLogo
+          isSidebar
           type='address'
         />
       </section>
@@ -160,6 +163,9 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
 }
 
 export default React.memo(styled(FullSidebar)`
+  display: flex;
+  flex-direction: column;
+
   input {
     width: auto !important;
   }
@@ -190,6 +196,10 @@ export default React.memo(styled(FullSidebar)`
   section {
     &:not(:last-child) {
       margin-bottom: 1.4rem;
+    }
+
+    & :last-child {
+      margin-top: auto;
     }
 
     .ui--AddressMenu-sectionHeader {
@@ -247,21 +257,7 @@ export default React.memo(styled(FullSidebar)`
   .ui--AddressMenu-tags,
   .ui--AddressMenu-flags {
     margin: 0.75rem 0 0;
-  }
-
-  .ui--AddressMenu-flags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-
-    > * {
-      margin-bottom: 0.4rem;
-
-      &:not(:first-child) {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-    }
+    width: 100%;
   }
 
   .ui--AddressMenu-identityIcon {
@@ -279,10 +275,6 @@ export default React.memo(styled(FullSidebar)`
         margin: 0.2rem 0;
       }
     }
-  }
-
-  .tags--toggle {
-    display: inline-block;
   }
 
   .inline-icon {

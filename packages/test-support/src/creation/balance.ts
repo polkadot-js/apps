@@ -7,6 +7,6 @@ import BN from 'bn.js';
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-export function balanceOf (number: number): Balance {
+export function balanceOf (number: number | string): Balance {
   return new TypeRegistry().createType('Balance', new BN(number));
 }

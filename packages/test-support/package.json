@@ -1,15 +1,16 @@
 {
   "name": "@polkadot/test-support",
   "private": true,
-  "version": "0.87.2-0",
+  "type": "module",
+  "version": "0.95.2-80",
   "license": "Apache-2.0",
   "dependencies": {
-    "@testing-library/react": "^11.2.6",
-    "testcontainers": "^6.4.2"
+    "@testing-library/react": "^12.0.0",
+    "testcontainers": "^7.19.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.10",
-    "ts-node": "^9.1.1",
-    "tsconfig-paths": "^3.9.0"
+    "@polkadot/types-support": "^5.7.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "tsconfig-paths": "^3.11.0"
   }
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, HeadData, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, GroupIndex, HeadData, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
 import type { Codec, ITuple } from '@polkadot/types/types';
 import type { LeasePeriod, QueuedAction } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
@@ -34,7 +34,7 @@ interface Props {
   leasePeriod?: LeasePeriod;
   nextAction?: QueuedAction;
   sessionValidators?: AccountId[] | null;
-  validators?: ValidatorInfo[];
+  validators?: [GroupIndex, ValidatorInfo[]];
 }
 
 type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
@@ -103,12 +103,12 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
     [api.query.paras.heads, id],
     [api.query.paras.futureCodeUpgrades, id],
     [api.query.paras.paraLifecycles, id],
-    [api.query.dmp.downwardMessageQueues, id],
-    [api.query.ump.relayDispatchQueues, id],
-    [api.query.hrmp.hrmpEgressChannelsIndex, id],
-    [api.query.hrmp.hrmpIngressChannelsIndex, id],
-    [api.query.hrmp.hrmpWatermarks, id],
-    [api.query.inclusion.pendingAvailability, id],
+    [(api.query.parasDmp || api.query.paraDmp || api.query.dmp)?.downwardMessageQueues, id],
+    [(api.query.parasUmp || api.query.ump)?.relayDispatchQueues, id],
+    [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpEgressChannelsIndex, id],
+    [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpIngressChannelsIndex, id],
+    [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpWatermarks, id],
+    [(api.query.parasInclusion || api.query.paraInclusion || api.query.inclusion)?.pendingAvailability, id],
     [api.query.registrar.paras, id],
     [api.query.slots.leases, id]
   ], optionsMulti);
@@ -134,7 +134,10 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
   );
 
   const valRender = useCallback(
-    () => renderAddresses(validators?.map(({ validatorId }) => validatorId), validators?.map(({ indexValidator }) => indexValidator)),
+    () => renderAddresses(
+      validators && validators[1].map(({ validatorId }) => validatorId),
+      validators && validators[1].map(({ indexValidator }) => indexValidator)
+    ),
     [validators]
   );
 
@@ -165,10 +168,15 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
       <td className='number'><h1>{formatNumber(id)}</h1></td>
       <td className='badge'><ParaLink id={id} /></td>
       <td className='number media--1400'>
-        {validators && validators.length !== 0 && (
+        {validators && validators[1].length !== 0 && (
           <Expander
             renderChildren={valRender}
-            summary={t<string>('Validators ({{count}})', { replace: { count: formatNumber(validators.length) } })}
+            summary={t<string>('Val. Group {{group}} ({{count}})', {
+              replace: {
+                count: formatNumber(validators[1].length),
+                group: validators[0]
+              }
+            })}
           />
         )}
         {nonBacked && (
