@@ -150,22 +150,6 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     }
   }, [identity, isAccount, isAddress, value]);
 
-  const onCancel = useCallback(
-    (): void => {
-      if (value && (isEditingName || isEditingTags)) {
-        try {
-          const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
-
-          setName(accountOrAddress?.meta.name || '');
-          setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
-          setIsEditingName(false);
-          setIsEditingTags(false);
-        } catch (error) {
-        // ignore
-        }
-      }
-    }, [isEditingName, isEditingTags, setIsEditingName, setIsEditingTags, value]);
-
   const onSaveName = useCallback(
     (): void => {
       if (isEditingName) {
@@ -280,11 +264,12 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     isNull: !value,
     meta,
     name,
-    onCancel,
     onForgetAddress,
     onSaveName,
     onSaveTags,
     onSetGenesisHash,
+    setIsEditingName,
+    setIsEditingTags,
     setName,
     setTags,
     tags,

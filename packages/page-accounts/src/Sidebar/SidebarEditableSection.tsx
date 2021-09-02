@@ -1,13 +1,14 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import AccountMenuButtons from '@polkadot/app-accounts/Sidebar/AccountMenuButtons';
 import Flags from '@polkadot/app-accounts/Sidebar/Flags';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { AccountName, Input, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
 
 interface Props {
   address: string;
@@ -18,11 +19,27 @@ interface Props {
 
 function SidebarEditableSection ({ address, isBeingEdited, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { flags, isEditing, isEditingName, isEditingTags, name, onCancel, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { flags, isEditing, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
   useEffect(() => {
     isBeingEdited(isEditing());
   }, [isBeingEdited, isEditing]);
+
+  const onCancel = useCallback(
+    (): void => {
+      if (isEditing()) {
+        try {
+          const accountOrAddress = keyring.getAccount(address) || keyring.getAddress(address);
+
+          setName(accountOrAddress?.meta.name || '');
+          setTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
+          setIsEditingName(false);
+          setIsEditingTags(false);
+        } catch (error) {
+          // ignore
+        }
+      }
+    }, [isEditing, setName, setTags, setIsEditingName, setIsEditingTags, address]);
 
   useOutsideClick([sidebarRef], onCancel);
 

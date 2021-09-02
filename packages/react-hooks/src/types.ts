@@ -125,11 +125,12 @@ export interface UseAccountInfo {
   isEditing: () => boolean;
   isNull: boolean;
   toggleIsEditingTags: () => void;
-  onCancel: () => void;
   onSaveName: () => void;
   onSaveTags: () => void;
   onSetGenesisHash: (genesisHash: string | null) => void;
   onForgetAddress: () => void;
+  setIsEditingName: (isEditing: boolean) => void;
+  setIsEditingTags: (isEditing: boolean) => void;
 }
 
 export interface StakerState {
