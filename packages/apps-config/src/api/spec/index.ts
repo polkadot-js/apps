@@ -82,6 +82,7 @@ import riochain from './riochain';
 import robonomics from './robonomics';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
+import spanner from './spanner';
 import stafi from './stafi';
 import subdao from './subdao';
 import subgame from './subgame';
@@ -203,6 +204,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   robonomics,
   snowbridge,
   'sora-substrate': soraSubstrate,
+  spanner,
   stafi,
   steam: eave,
   subdao,
