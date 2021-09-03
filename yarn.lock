@@ -2831,7 +2831,7 @@ __metadata:
     "@sora-substrate/type-definitions": 1.5.10
     "@subsocial/types": 0.6.1-1
     "@zeitgeistpm/type-defs": 0.2.5
-    "@zeroio/type-definitions": ^0.0.4
+    "@zeroio/type-definitions": 0.0.5
     i18next: ^19.9.2
     moonbeam-types-bundle: 1.2.4
     pontem-types-bundle: 1.0.14
@@ -4990,22 +4990,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@zeroio/type-definitions@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@zeroio/type-definitions@npm:0.0.4"
-  checksum: c82597adf76a5e36c0f9c95f592c34d41fb9b33235be47d5bc30f2ee33aedfa1fb4ea5f8b44ceb58856ab4c0aaa241bc1a87c6ee54725fc8c4ed8ee89b475669
+"@zeroio/type-definitions@npm:0.0.5":
+  version: 0.0.5
+  resolution: "@zeroio/type-definitions@npm:0.0.5"
+  checksum: 7e12d2fd339ae472ac6266ae5f757bff57196e4d9acfe54685d68f0195680f49587b47a2ba56079bb686285dff378e20b891ce6567b88fc53a4c5dc085dea8a6
   languageName: node
   linkType: hard
 
-"@zondax/ledger-substrate@npm:^0.17.3":
-  version: 0.17.3
-  resolution: "@zondax/ledger-substrate@npm:0.17.3"
-=======
 "@zondax/ledger-substrate@npm:^0.18.0":
   version: 0.18.0
   resolution: "@zondax/ledger-substrate@npm:0.18.0"
->>>>>>> master
   dependencies:
     "@babel/runtime": ^7.14.8
     "@ledgerhq/hw-transport": ^6.2.0
