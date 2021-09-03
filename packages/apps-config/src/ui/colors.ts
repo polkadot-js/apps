@@ -17,8 +17,10 @@ const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
+const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
@@ -29,10 +31,13 @@ const chainGalital = '#00063F';
 const chainGamePower = '#5d21a5';
 const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
+const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
+const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
+const chainKintsugi = '#1a0a2d';
 const chainKlug = '#000000';
 const chainKulupu = '#003366';
 const chainManta = '#2070a6';
@@ -44,7 +49,6 @@ const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
 const chainPlasm = '#2096F3';
-const chainPolkabtc = '#510101';
 const chainPolkadex = '#7C30DD';
 const chainPolkadot = '#e6007a';
 const chainPolkaFoundry = '#ff527c';
@@ -106,6 +110,7 @@ const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
 const nodeGeek = '#4f46e5';
+const nodeHeiko = '#42d5de';
 const nodeIntegritee = '#658ea9';
 const nodeIpse = '#08a1e8';
 const nodeJupiter = '#7143ff';
@@ -144,7 +149,7 @@ const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeZero = '#0099cc';
 const nodeZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const nodeSubGame = '#EB027D';
-const nodeZCloak = 'linear-gradient(to right, #7DA6D4,  #B996E5)';
+const nodeZCloak = 'linear-gradient(to right, #E89A76 0%, #C5B8CC 50%, #B0B4D7 100%)';
 
 // based on the spec name
 const specShell = '#2e86ab'; // '#0596FC';
@@ -169,7 +174,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
   Clover: chainClover,
-  'crust maxwell': chainCrust,
+  Composable: chainComposable,
+  crust: chainCrust,
+  'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
@@ -193,6 +200,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
   Idavoll: chainIdavoll,
+  InterBTC: chainInterbtc,
+  'InterBTC Staging': chainInterbtc,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,
@@ -202,6 +211,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'KILT Local': chainKilt,
   'KILT Peregrine Testnet': chainKilt,
   'KILT Testnet': chainKilt,
+  Kintsugi: chainKintsugi,
   'KLUGDOSSIER.NET': chainKlug,
   Konomi: chainKonomi,
   Kpron: nodeKpron,
@@ -230,14 +240,14 @@ export const chainColors: Record<string, string> = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
+  'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
   'Phala PoC 4': chainPhala,
   PHOENIX: chainPhoenix,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
-  PolkaBTC: chainPolkabtc,
-  'PolkaBTC Staging': chainPolkabtc,
+  PolkaBTC: chainInterbtc,
   'Polkadex Testnet': chainPolkadex,
   Polkadot: chainPolkadot,
   'Polkadot CC1': chainPolkadot,
@@ -253,7 +263,6 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
-  'Shiden Shell': chainShiden,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
@@ -325,11 +334,12 @@ export const nodeColors = Object.entries({
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': nodeHeiko,
   'Parami Collator': nodeParami,
   'Patract Node': nodeJupiter,
   'Polkadex Node': nodePolkadex,
   'Polymesh Node': nodePolymesh,
-  Pontem: nodePontem,
+  'Pontem Node': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
   'ReAlis Network': nodeRealis,

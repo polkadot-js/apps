@@ -78,7 +78,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
-
+      console.log('events')
+      events?.map((e)=>{
+        console.log(e)
+      })
   return (
     <div className={className}>
       <Summary

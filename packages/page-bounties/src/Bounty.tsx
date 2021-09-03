@@ -7,7 +7,7 @@ import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/t
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, ExpandButton, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -75,7 +75,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
           </div>
         </td>
         <td>
-          <BountyStatusView bountyStatus={bountyStatus}/>
+          <BountyStatusView bountyStatus={bountyStatus} />
         </td>
         <td><FormatBalance value={value} /></td>
         <td>
@@ -141,15 +141,10 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, isEve
               proposals={proposals}
               status={status}
             />
-            <div className='table-column-icon'
-              onClick={handleOnIconClick}>
-              <Icon icon={
-                isExpanded
-                  ? 'caret-up'
-                  : 'caret-down'
-              }
-              />
-            </div>
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={handleOnIconClick}
+            />
           </div>
         </td>
       </tr>
@@ -233,17 +228,6 @@ export default React.memo(styled(Bounty)`
       & > * + * {
         margin-left: 0.285rem;
       }
-    }
-
-    .table-column-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.7rem;
-      height: 1.7rem;
-      border: 1px solid var(--border-table);
-      border-radius: 4px;
-      cursor: pointer;
     }
   }
 

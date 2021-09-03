@@ -77,3 +77,5 @@ export interface ThemeDef {
 export interface ThemeProps {
   theme: ThemeDef;
 }
+
+export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';

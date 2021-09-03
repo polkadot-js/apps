@@ -133,7 +133,7 @@
   "Confirm contract removal": "تأكيد إزالة العقد",
   "Constants": "ثوابت",
   "Continue": "إكمال",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": ".إن أقفال الإقناع تتداخل وتضاف، وهذا يعني أن الأموال التي يتم تأمينها أثناء التصويت السابق يمكن تأمينها مرة أخرى",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": ".إن أقفال الإقناع تتداخل وتضاف، وهذا يعني أن الأموال التي يتم تأمينها أثناء التصويت السابق يمكن تأمينها مرة أخرى",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "انسخ السلسلة أعلاه وقم بتوقيع معاملة إيثريوم مع الحساب الذي استخدمته أثناء عملية البيع المسبق في محفظة من اختيارك، باستخدام السلسلة كحمولة صافية، ثم الصق توقيع المعاملة المذكورة أدناه",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": ":انسخ السلسلة التالية وقم بالتوقيع عليها باستخدام حساب أثيريوم الذي استخدمته أثناء عملية البيع المسبق في محفظة من اختيارك، باستخدام السلسلة كحمولة صافية، ثم الصق توقيع المعاملة المذكورة أدناه",
   "Council": "مجلس",

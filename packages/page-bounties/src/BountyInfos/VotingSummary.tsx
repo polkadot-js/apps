@@ -37,7 +37,7 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
           <div className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></div>
           <div className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
           <div className='link-info'>
-            <VotingLink/>
+            <VotingLink />
             <VotingDescriptionInfo
               proposal={proposal}
               status={status}
