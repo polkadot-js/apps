@@ -18,7 +18,9 @@ import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
+import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainComposable from './chains/picasso.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -28,6 +30,7 @@ import chainSnakenet from './chains/snakenet.svg';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
+import externalDotreasury from './external/dotreasury.svg';
 import externalDotScanner from './external/dotscanner.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
@@ -130,8 +133,8 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-// last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
+// last-resort fallback, just something empty
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
@@ -143,6 +146,7 @@ export const chainLogos = Object.entries({
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
+  Calamari: nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust Maxwell': nodeCrustMaxwell,
@@ -161,7 +165,6 @@ export const chainLogos = Object.entries({
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
   'Genshiro Rococo Testnet': chainEquilibrium,
-  Heiko: chainHeiko,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
@@ -177,6 +180,7 @@ export const chainLogos = Object.entries({
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
   'KILT Testnet': nodeKilt,
+  Kintsugi: chainKintsugi,
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
   Kpron: nodeApron,
@@ -204,6 +208,7 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': chainHeiko,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
@@ -296,7 +301,6 @@ export const nodeLogos = Object.entries({
   GEEK: nodeGeek,
   'Halongbay Parachain Collator': nodePolkaFoundry,
   hanonycash: nodeHanonycash,
-  Heiko: nodeHeiko,
   'Idavoll Node': nodeIdavoll,
   'Integritee Collator': nodeIntegritee,
   IpseTestnet: nodeIpse,
@@ -305,6 +309,7 @@ export const nodeLogos = Object.entries({
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
+  Kintsugi: chainKintsugi,
   'Klug Dossier Node': nodeKlug,
   'Kpron Collator': nodeApron,
   kulupu: nodeKulupu,
@@ -326,6 +331,7 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  'Parallel Heiko': nodeHeiko,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
@@ -341,7 +347,7 @@ export const nodeLogos = Object.entries({
   'PolkaFoundry Node': nodePolkaFoundry,
   'PolkaFoundry Parachain Collator': nodePolkaFoundry,
   'PolkaSmith Parachain Collator': nodePolkaSmith,
-  Pontem: nodePontem,
+  'Pontem Testnet': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
   'ReAlis Network': nodeRealis,
@@ -424,7 +430,6 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   crab: nodeCrab,
-  crab_redirect: nodeCrab,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
@@ -457,6 +462,7 @@ export const namedLogos: Record<string, unknown> = {
   karura: chainKarura,
   khala: nodeKhala,
   kilt: nodeKilt,
+  kintsugi: chainKintsugi,
   klugdossier: nodeKlug,
   kpron: nodeApron,
   kulupu: nodeKulupu,
@@ -480,6 +486,7 @@ export const namedLogos: Record<string, unknown> = {
   pangolin: nodePangolin,
   phala: nodePhala,
   phoenix: nodePhoenix,
+  picasso: chainComposable,
   plasm: nodePlasm,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
@@ -579,6 +586,7 @@ export const extensionLogos: Record<string, unknown> = {
 // external logos, i.e. for explorers
 export const externalLogos: Record<string, unknown> = {
   commonwealth: externalCommonwealth,
+  dotreasury: externalDotreasury,
   dotscanner: externalDotScanner,
   polkascan: externalPolkascan,
   polkassembly: externalPolkassembly,

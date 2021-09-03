@@ -23,11 +23,11 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      'Patract Elara': 'wss://westend.elara.patract.io',
+      'Patract Elara': 'wss://pub.elara.patract.io/westend',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
+      Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
       'light client': 'light://substrate-connect/westend'
       // 'NodeFactory(Vedran)': 'wss://westend.vedran.nodefactory.io/ws', // https://github.com/polkadot-js/apps/issues/5580
-      // Pinknode: 'wss://rpc.pinknode.io/westend/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     teleport: [1000],
     linked: [
@@ -40,7 +40,7 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.shell', 'Westmint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://westmint-rpc.polkadot.io',
-          'Patract Elara': 'wss://westmint.westend.elara.patract.io'
+          'Patract Elara': 'wss://pub.elara.patract.io/westmint'
         },
         teleport: [-1]
       },
@@ -49,7 +49,7 @@ export function createWestend (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'basilisk',
-        paraId: 2083,
+        paraId: 2091,
         text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
         providers: {
           HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
@@ -69,6 +69,14 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),
         providers: {
           Integritee: 'wss://teerw1.integritee.network'
+        }
+      },
+      {
+        info: 'interBTC',
+        paraId: 2094,
+        text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://api-westend.interlay.io/parachain'
         }
       },
       {
