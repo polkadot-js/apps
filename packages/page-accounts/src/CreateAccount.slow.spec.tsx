@@ -15,6 +15,10 @@ import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
 
+function noop (): void {
+  // do nothing
+}
+
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
 
@@ -27,9 +31,10 @@ const renderAccounts = () => {
         >
           <WaitForApi>
             <div>
-              <AccountsApp basePath='/accounts'
-                onStatusChange={() => { /* */
-                }}/>
+              <AccountsApp
+                basePath='/accounts'
+                onStatusChange={noop}
+              />
             </div>
           </WaitForApi>
         </Api>

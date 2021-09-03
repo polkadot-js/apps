@@ -56,6 +56,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
         {isOpen && (
           <Modal
             header={`${t<string>('Initiate voting')} - "${truncateTitle(description, 30)}"`}
+            onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
@@ -70,7 +71,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
                 />
               </Modal.Columns>
             </Modal.Content>
-            <Modal.Actions onCancel={toggleOpen}>
+            <Modal.Actions>
               <TxButton
                 accountId={accountId}
                 icon='check'

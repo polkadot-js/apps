@@ -76,6 +76,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
         <Modal
           className={className}
           header={t<string>('Propose external (majority)')}
+          onClose={toggleVisible}
           size='large'
         >
           <Modal.Content>
@@ -100,7 +101,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='plus'

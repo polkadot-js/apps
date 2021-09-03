@@ -36,6 +36,7 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
       {isVotingOpen && (
         <Modal
           header={t<string>('Vote on proposal')}
+          onClose={toggleVoting}
           size='small'
         >
           <Modal.Content>
@@ -47,7 +48,7 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
               <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVoting}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='ban'
