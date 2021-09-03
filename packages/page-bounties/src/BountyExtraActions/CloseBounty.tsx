@@ -44,6 +44,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
   return (
     <Modal
       header={`${t<string>('close bounty')} - "${truncateTitle(description, 30)}"`}
+      onClose={toggleOpen}
       size='large'
     >
       <Modal.Content>
@@ -58,7 +59,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={toggleOpen}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='ban'

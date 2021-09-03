@@ -64,6 +64,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
     <Modal
       className={className}
       header={t<string>('create asset {{step}}/{{steps}}', { replace: { step, steps: 2 } })}
+      onClose={onClose}
       size='large'
     >
       {step === 1 && (
@@ -81,7 +82,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
           onChange={setTeam}
         />
       )}
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {step === 1 &&
           <Button
             icon='step-forward'

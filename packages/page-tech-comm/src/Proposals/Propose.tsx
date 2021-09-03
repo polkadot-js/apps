@@ -87,7 +87,7 @@ function Propose ({ isMember, members, type }: Props): React.ReactElement<Props>
               onChange={_onChangeExtrinsic}
             />
           </Modal.Content>
-          <Modal.Actions onCancel={onClose}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               isDisabled={!hasThreshold || !proposal}

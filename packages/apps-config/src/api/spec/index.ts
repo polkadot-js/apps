@@ -6,6 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import acala from './acala';
 import apron from './apron';
 import aresParachain from './ares-parachain';
+import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
 import bifrostAsgard from './bifrost-asgard';
@@ -64,6 +65,7 @@ import oakTestnet from './oak-testnet';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
 import pangolin from './pangolin';
+import parallel from './parallel';
 import parami from './parami';
 import phala from './phala';
 import phalaParachain from './phala-parachain';
@@ -114,7 +116,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   apron,
   'ares-parachain': aresParachain,
   asgard: bifrostAsgard,
-  basilisk: hydrate,
+  basilisk,
   beresheet,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
@@ -149,6 +151,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
+  heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
@@ -160,6 +163,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   khala: phalaParachain,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
+  kintsugi: interbtc,
   konomi,
   kpron,
   kulupu,
@@ -192,7 +196,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   plasm,
   'plasm-parachain': plasmParachain,
   polymesh,
-  pontem,
+  'pontem-node': pontem,
   prism,
   realis,
   'riochain-runtime': riochain,

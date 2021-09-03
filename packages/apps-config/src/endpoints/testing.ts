@@ -14,7 +14,7 @@ import { expandEndpoints } from './util';
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
-export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] {
+export function createTesting (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
@@ -68,6 +68,13 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
+      info: 'phala',
+      text: t('rpc.test.phala', 'Chala (Para1)', { ns: 'apps-config' }),
+      providers: {
+        'Phala Network': 'wss://chala-api.phala.network/ws/'
+      }
+    },
+    {
       info: 'clover',
       isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
@@ -76,20 +83,14 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       }
     },
     {
-      info: 'crust',
+      info: 'Crust Maxwell',
       text: t('rpc.test.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/',
-        'DCloud Foundation': 'wss://api.decloudf.com/'
+        'DCloud Foundation': 'wss://api.decloudf.com/',
+        Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer'
       }
     },
-    // {
-    //   info: 'rocky',
-    //   text: t('rpc.test.crust.network', 'Crust Rocky', { ns: 'apps-config' }),
-    //   providers: {
-    //     Pinknode: 'wss://rpc.pinknode.io/rocky/explorer' // https://github.com/polkadot-js/apps/issues/5721
-    //   }
-    // },
     {
       info: 'datahighway',
       isDisabled: true,
@@ -117,8 +118,8 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'dusty',
       text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/'
-        // Pinknode: 'wss://rpc.pinknode.io/dusty/explorer' // https://github.com/polkadot-js/apps/issues/5721
+        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/',
+        Pinknode: 'wss://rpc.pinknode.io/dusty/explorer'
       }
     },
     {
@@ -197,7 +198,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'interbtc',
       text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
       providers: {
-        Interlay: 'wss://api-dev.interlay.io/parachain/'
+        Interlay: 'wss://api.interlay.io/parachain/'
       }
     },
     {
@@ -213,7 +214,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'jupiter',
       text: t('rpc.test.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://jupiter-poa.elara.patract.io',
+        Elara: 'wss://pub.elara.patract.io/jupiter',
         Patract: 'wss://ws.jupiter-poa.patract.cn'
       }
     },
@@ -250,8 +251,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
         Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://mandala.elara.patract.io'
-        // Pinknode: 'wss://rpc.pinknode.io/mandala/explorer' // https://github.com/polkadot-js/apps/issues/5721
+        Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
     {
@@ -267,7 +267,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       providers: {
         'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
         OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-        'Patract Elara': 'wss://moonbase.moonbeam.elara.patract.io'
+        Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
       }
     },
     {
@@ -302,7 +302,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'origintrail-parachain-testnet',
-      text: t('rpc.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
+      text: t('rpc.test.origintrail', 'OriginTrail Parachain Testnet', { ns: 'apps-config' }),
       providers: {
         'Trace Labs': 'wss://parachain-rpc.origin-trail.network'
       }
@@ -312,13 +312,6 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.pangolin', 'Pangolin', { ns: 'apps-config' }),
       providers: {
         'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
-      }
-    },
-    {
-      info: 'phala',
-      text: t('rpc.test.phala', 'Phala PoC-4', { ns: 'apps-config' }),
-      providers: {
-        'Phala Network': 'wss://poc4.phala.network/ws'
       }
     },
     {
@@ -344,9 +337,9 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
     },
     {
       info: 'pontem',
-      text: t('rpc.pontem', 'Pontem', { ns: 'apps-config' }),
+      text: t('rpc.test.pontem', 'Pontem', { ns: 'apps-config' }),
       providers: {
-        Pontem: 'wss://testnet.pontem.network/wss'
+        Pontem: 'wss://testnet.pontem.network/ws'
       }
     },
     {
@@ -368,6 +361,20 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
+      }
+    },
+    {
+      info: 'shibuya',
+      text: t('rpc.test.shibuya', 'Shibuya', { ns: 'apps-config' }),
+      providers: {
+        StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
+      }
+    },
+    {
+      info: 'snowbridge',
+      text: t('rpc.test.snowbridge', 'Snowbridge', { ns: 'apps-config' }),
+      providers: {
+        Snowfork: 'wss://parachain-rpc.snowbridge.network'
       }
     },
     {
@@ -402,7 +409,7 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
       info: 'uniarts',
       text: t('rpc.test.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
-        UniArts: 'wss://testnet.uniarts.me'
+        UniArts: 'wss://testnet.uniarts.network'
       }
     },
     {
@@ -456,5 +463,5 @@ export function createTesting (t: TFunction, firstOnly?: boolean): LinkOption[] 
         ZERO: 'wss://alphaville.zero.io'
       }
     }
-  ], firstOnly);
+  ], firstOnly, withSort);
 }

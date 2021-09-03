@@ -298,21 +298,25 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
         <Columar.Column>
           {(step >= Step.Claim) && (
             isPreclaimed
-              ? <AttestDisplay
-                accountId={accountId}
-                ethereumAddress={ethereumAddress}
-                onSuccess={goToStepAccount}
-                statementKind={statementKind}
-                systemChain={systemChain}
-              />
-              : <ClaimDisplay
-                accountId={accountId}
-                ethereumAddress={ethereumAddress}
-                ethereumSignature={signature}
-                isOldClaimProcess={isOldClaimProcess}
-                onSuccess={goToStepAccount}
-                statementKind={statementKind}
-              />
+              ? (
+                <AttestDisplay
+                  accountId={accountId}
+                  ethereumAddress={ethereumAddress}
+                  onSuccess={goToStepAccount}
+                  statementKind={statementKind}
+                  systemChain={systemChain}
+                />
+              )
+              : (
+                <ClaimDisplay
+                  accountId={accountId}
+                  ethereumAddress={ethereumAddress}
+                  ethereumSignature={signature}
+                  isOldClaimProcess={isOldClaimProcess}
+                  onSuccess={goToStepAccount}
+                  statementKind={statementKind}
+                />
+              )
           )}
         </Columar.Column>
       </Columar>
