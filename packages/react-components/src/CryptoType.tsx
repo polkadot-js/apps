@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountIdIsh } from '../../page-accounts/src/util';
-
 import React, { useEffect, useState } from 'react';
 
-import { GetAccountCryptoType } from '../../page-accounts/src/util';
+import { AccountIdIsh } from './types';
+import { getAccountCryptoType } from './util';
 
 interface Props {
   accountId: AccountIdIsh;
@@ -17,7 +16,7 @@ function CryptoType ({ accountId, className = '', label = '' }: Props): React.Re
   const [type, setType] = useState('unknown');
 
   useEffect((): void => {
-    const result = GetAccountCryptoType(accountId);
+    const result = getAccountCryptoType(accountId);
 
     if (result !== 'unknown') {
       setType(result);
