@@ -9,7 +9,7 @@
   "dependencies": {
     "@acala-network/type-definitions": "2.1.1",
     "@babel/runtime": "^7.15.3",
-    "@bifrost-finance/type-definitions": "1.2.13",
+    "@bifrost-finance/type-definitions": "1.2.24",
     "@crustio/type-definitions": "0.0.10",
     "@darwinia/types": "1.1.7",
     "@digitalnative/type-definitions": "1.1.12",
