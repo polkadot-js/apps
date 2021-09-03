@@ -1,0 +1,20 @@
+// Copyright 2017-2021 @polkadot/app-config authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { ApiPromise } from '@polkadot/api';
+
+import { KUSAMA_GENESIS } from '../constants';
+
+// 3 * BaseXcmWeight on Kusama
+const KUSAMA_WEIGHT = 3 * 1_000_000_000;
+
+// On Rococo and Westend this is lower, but non-failing with the higher Kusama weights
+const DEFAULT_WEIGHT = KUSAMA_WEIGHT;
+
+const KNOWN_WEIGHTS: Record<string, number> = {
+  [KUSAMA_GENESIS]: KUSAMA_WEIGHT
+};
+
+export function getTeleportWeight (api: ApiPromise): number {
+  return KNOWN_WEIGHTS[api.genesisHash.toHex()] || DEFAULT_WEIGHT;
+}

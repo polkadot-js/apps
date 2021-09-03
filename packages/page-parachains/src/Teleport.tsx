@@ -7,6 +7,7 @@ import type { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useMemo, useState } from 'react';
 
+import { getTeleportWeight } from '@polkadot/apps-config';
 import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useApiUrl, useTeleport, useWeightFee } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
@@ -18,7 +19,6 @@ interface Props {
   onClose: () => void;
 }
 
-const DEST_WEIGHT = 3 * 1_000_000_000; // 3 * BaseXcmWeight on Kusama (on Rococo and Westend this is different)
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 
 function createOption ({ info, paraId, text }: LinkOption): Option {
@@ -47,6 +47,10 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
   const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
+  const destWeight = useMemo(
+    () => getTeleportWeight(api),
+    [api]
+  );
 
   const chainOpts = useMemo(
     () => destinations.map(createOption),
@@ -62,8 +66,8 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
     [destinations, recipientParaId]
   );
 
-  const destinationApi = useApiUrl(url);
-  const weightFee = useWeightFee(DEST_WEIGHT, destinationApi);
+  const destApi = useApiUrl(url);
+  const weightFee = useWeightFee(destWeight, destApi);
 
   const params = useMemo(
     () => isParaTeleport
@@ -71,15 +75,15 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         { X1: 'Parent' },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        DEST_WEIGHT
+        destWeight
       ]
       : [
         { X1: { ParaChain: recipientParaId } },
         { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
         [{ ConcreteFungible: { amount, id: 'Here' } }],
-        DEST_WEIGHT
+        destWeight
       ],
-    [amount, isParaTeleport, recipientId, recipientParaId]
+    [amount, destWeight, isParaTeleport, recipientId, recipientParaId]
   );
 
   const hasAvailable = !!amount && amount.gte(weightFee);
@@ -139,7 +143,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
-          {destinationApi
+          {destApi
             ? (
               <>
                 <InputBalance
@@ -148,7 +152,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
                   label={t<string>('destination transfer fee')}
                 />
                 <InputBalance
-                  defaultValue={destinationApi.consts.balances.existentialDeposit}
+                  defaultValue={destApi.consts.balances.existentialDeposit}
                   isDisabled
                   label={t<string>('destination existential deposit')}
                 />
@@ -167,7 +171,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         <TxButton
           accountId={senderId}
           icon='share-square'
-          isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || !destinationApi || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
+          isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || !destApi || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
           label={t<string>('Teleport')}
           onStart={onClose}
           params={params}
