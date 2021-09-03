@@ -410,6 +410,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoSingLavender', 
+        paraId: 2104,
+        text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
+        providers: {
+          SingNetwork: 'wss://rpc-lavender.singnetwork.io'
+        }
+      },
+      {
         info: 'rococoTrustBase',
         isDisabled: true, // Rococo reset
         paraId: 6633,
