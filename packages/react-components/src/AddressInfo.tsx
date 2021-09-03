@@ -424,7 +424,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
   const { address, balancesAll, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false } = props;
-  const balanceDisplay = withBalance
+  const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
 
