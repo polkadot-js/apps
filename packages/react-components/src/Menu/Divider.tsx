@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function Divider ({ className = '' }: DividerProps): React.ReactElement {
   return (
-    <div className={`ui--Menu__Divider ${className}`}/>
+    <div className={`ui--Menu__Divider ${className}`} />
   );
 }
 

@@ -339,7 +339,7 @@ export const nodeColors = Object.entries({
   'Patract Node': nodeJupiter,
   'Polkadex Node': nodePolkadex,
   'Polymesh Node': nodePolymesh,
-  Pontem: nodePontem,
+  'Pontem Node': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
   'ReAlis Network': nodeRealis,
