@@ -19,7 +19,7 @@ function ExpandButton ({ className = '', expanded, onClick }: Props): React.Reac
       data-testid='row-toggle'
       onClick={onClick}
     >
-      <Icon icon={expanded ? 'caret-up' : 'caret-down'}/>
+      <Icon icon={expanded ? 'caret-up' : 'caret-down'} />
     </div>
   );
 }

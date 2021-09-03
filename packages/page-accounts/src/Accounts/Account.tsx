@@ -412,7 +412,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
         <td className='together'>
           {meta.genesisHash
-            ? <Badge color='transparent'/>
+            ? <Badge color='transparent' />
             : isDevelopment
               ? (
                 <Badge
@@ -612,7 +612,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
         </td>
         <td className='number'>
-          <CryptoType accountId={address}/>
+          <CryptoType accountId={address} />
         </td>
         <td className='number media--1500'>
           {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
@@ -667,7 +667,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
       </tr>
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
-        <td colSpan={2}/>
+        <td colSpan={2} />
         <td>
           <div
             className='tags'
