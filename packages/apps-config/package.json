@@ -15,7 +15,7 @@
     "@digitalnative/type-definitions": "1.1.12",
     "@docknetwork/node-types": "0.4.7",
     "@edgeware/node-types": "3.6.2-wako",
-    "@equilab/definitions": "1.3.6",
+    "@equilab/definitions": "1.3.7",
     "@interlay/interbtc-types": "0.12.2",
     "@kiltprotocol/type-definitions": "0.1.14",
     "@laminar/type-definitions": "0.3.1",

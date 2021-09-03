@@ -1614,10 +1614,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@equilab/definitions@npm:1.3.6":
-  version: 1.3.6
-  resolution: "@equilab/definitions@npm:1.3.6"
-  checksum: 456854ad061c3a452816e22ae7bec9771eeb03669d081c7b1605cee7cccb109200dd812dc17da93918eabb9eaa078c0dddb3d454aa6c0c79100bc84e5e63863d
+"@equilab/definitions@npm:1.3.7":
+  version: 1.3.7
+  resolution: "@equilab/definitions@npm:1.3.7"
+  checksum: e384a814c3d1b77f95dd5a651213c97320d63fe2fe94c5616e99b44f1c209aebd8f1d434305fb327b4fffa1eb9a1c3cc0300449dad37feef8506299d60cbf227
   languageName: node
   linkType: hard
 
@@ -2819,7 +2819,7 @@ __metadata:
     "@digitalnative/type-definitions": 1.1.12
     "@docknetwork/node-types": 0.4.7
     "@edgeware/node-types": 3.6.2-wako
-    "@equilab/definitions": 1.3.6
+    "@equilab/definitions": 1.3.7
     "@interlay/interbtc-types": 0.12.2
     "@kiltprotocol/type-definitions": 0.1.14
     "@laminar/type-definitions": 0.3.1
