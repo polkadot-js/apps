@@ -16,7 +16,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -127,7 +127,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
@@ -234,6 +233,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     createMenuGroup('identityGroup', [
       isFunction(api.api.tx.identity?.setIdentity) && !isHardware && (
         <Menu.Item
+          icon='link'
           key='identityMain'
           onClick={toggleIdentityMain}
         >
@@ -242,6 +242,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isFunction(api.api.tx.identity?.setSubs) && identity?.display && !isHardware && (
         <Menu.Item
+          icon='vector-square'
           key='identitySub'
           onClick={toggleIdentitySub}
         >
@@ -250,6 +251,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isFunction(api.api.tx.democracy?.unlock) && democracyUnlockTx && (
         <Menu.Item
+          icon='broom'
           key='clearDemocracy'
           onClick={_clearDemocracyLocks}
         >
@@ -258,16 +260,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isFunction(api.api.tx.vesting?.vest) && vestingVestTx && (
         <Menu.Item
+          icon='unlock'
           key='vestingVest'
           onClick={_vestingVest}
         >
           {t('Unlock vested amount')}
         </Menu.Item>
       )
-    ]),
+    ], t('Identity')),
     createMenuGroup('deriveGroup', [
       !(isExternal || isHardware || isInjected || isMultisig) && (
         <Menu.Item
+          icon='download'
           key='deriveAccount'
           onClick={toggleDerive}
         >
@@ -276,16 +280,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       isHardware && (
         <Menu.Item
+          icon='eye'
           key='showHwAddress'
           onClick={_showOnHardware}
         >
           {t('Show address on hardware device')}
         </Menu.Item>
       )
-    ]),
+    ], t('Derive')),
     createMenuGroup('backupGroup', [
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
+          icon='database'
           key='backupJson'
           onClick={toggleBackup}
         >
@@ -294,6 +300,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
+          icon='edit'
           key='changePassword'
           onClick={togglePassword}
         >
@@ -302,16 +309,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       ),
       !(isInjected || isDevelopment) && (
         <Menu.Item
+          icon='trash-alt'
           key='forgetAccount'
           onClick={toggleForget}
         >
           {t('Forget this account')}
         </Menu.Item>
       )
-    ]),
+    ], t('Backup')),
     isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
       !recoveryInfo && (
         <Menu.Item
+          icon='redo'
           key='makeRecoverable'
           onClick={toggleRecoverSetup}
         >
@@ -319,54 +328,63 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </Menu.Item>
       ),
       <Menu.Item
+        icon='screwdriver'
         key='initRecovery'
         onClick={toggleRecoverAccount}
       >
         {t('Initiate recovery for another')}
       </Menu.Item>
-    ]),
+    ], t('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         disabled={!multiInfos || !multiInfos.length}
+        icon='file-signature'
         key='multisigApprovals'
         onClick={toggleMultisig}
       >
         {t('Multisig approvals')}
       </Menu.Item>
-    ]),
+    ], t('Multisig')),
     isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
       <Menu.Item
+        icon='user-edit'
         key='changeDelegate'
         onClick={toggleDelegate}
       >
         {t('Change democracy delegation')}
       </Menu.Item>,
       <Menu.Item
+        icon='user-minus'
         key='undelegate'
         onClick={toggleUndelegate}
       >
         {t('Undelegate')}
       </Menu.Item>
-    ]),
-    isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && createMenuGroup('delegateGroup', [
-      <Menu.Item
-        key='delegate'
-        onClick={toggleDelegate}
-      >
-        {t('Delegate democracy votes')}
-      </Menu.Item>
-    ]),
-    isFunction(api.api.query.proxy?.proxies) && createMenuGroup('proxyGroup', [
-      <Menu.Item
-        key='proxy-overview'
-        onClick={toggleProxyOverview}
-      >
-        {proxy?.[0].length
-          ? t('Manage proxies')
-          : t('Add proxy')
-        }
-      </Menu.Item>
-    ]),
+    ], t('Undelegate')),
+    createMenuGroup('delegateGroup', [
+      isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
+        <Menu.Item
+          icon='user-plus'
+          key='delegate'
+          onClick={toggleDelegate}
+        >
+
+          {t('Delegate democracy votes')}
+        </Menu.Item>
+      ),
+      isFunction(api.api.query.proxy?.proxies) && (
+        <Menu.Item
+          icon='sitemap'
+          key='proxy-overview'
+          onClick={toggleProxyOverview}
+        >
+          {proxy?.[0].length
+            ? t('Manage proxies')
+            : t('Add proxy')
+          }
+        </Menu.Item>
+      )
+    ], t('Delegate')),
     isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'
@@ -616,52 +634,34 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              icon='paper-plane'
-              label={t<string>('send')}
-              onClick={toggleTransfer}
+        <td className='fast-actions'>
+          <div className='fast-actions-row'>
+            <LinkExternal
+              className='ui--AddressCard-exporer-link media--1400'
+              data={address}
+              isLogo
+              type='address'
             />
-          )}
-          <Popup
-            className={`theme--${theme}`}
-            isOpen={isSettingsOpen}
-            onClose={toggleSettings}
-            trigger={
+            {isFunction(api.api.tx.balances?.transfer) && (
               <Button
-                icon='ellipsis-v'
-                isDisabled={!menuItems.length}
-                onClick={toggleSettings}
+                className='send-button'
+                icon='paper-plane'
+                label={t<string>('send')}
+                onClick={toggleTransfer}
               />
-            }
-          >
-            <Menu
-              onClick={toggleSettings}
-              text
-              vertical
-            >
-              {menuItems}
-            </Menu>
-          </Popup>
-        </td>
-        <td className='links media--1400'>
-          <LinkExternal
-            className='ui--AddressCard-exporer-link'
-            data={address}
-            isLogo
-            type='address'
-          />
-        </td>
-        <td className='button'>
-          <div className='table-column-icon'
-            data-testid='row-toggle'
-            onClick={toggleIsExpanded}>
-            <Icon icon={
-              isExpanded
-                ? 'caret-up'
-                : 'caret-down'
-            }
+            )}
+            <Popup
+              className={`theme--${theme}`}
+              isDisabled={!menuItems.length}
+              value={
+                <Menu>
+                  {menuItems}
+                </Menu>
+              }
+            />
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleIsExpanded}
             />
           </div>
         </td>
@@ -669,16 +669,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
         <td colSpan={2} />
         <td>
-          <div className='tags'
-            data-testid='tags'>
+          <div
+            className='tags'
+            data-testid='tags'
+          >
             <Tags
               value={tags}
               withTitle
             />
           </div>
         </td>
-        <td className='media--1500'/>
-        <td/>
+        <td className='media--1500' />
+        <td />
         <td>
           <AddressInfo
             address={address}
@@ -696,7 +698,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td colSpan={4} />
+        <td colSpan={2} />
       </tr>
     </>
   );
@@ -720,18 +722,27 @@ export default React.memo(styled(Account)`
     opacity: 0.65;
   }
 
-  .table-column-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.7rem;
-    height: 1.7rem;
-    border: 1px solid var(--border-table);
-    border-radius: 4px;
-    cursor: pointer;
+  && td.button {
+    padding-bottom: 0.5rem;
   }
 
-  &.isOdd td.button {
-    padding-bottom: 0.5rem;
+  && td.fast-actions {
+    padding-left: 0.2rem;
+    padding-right: 1rem;
+    width: 1%;
+
+    .fast-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      & > * + * {
+        margin-left: 0.35rem;
+      }
+
+      .send-button {
+        min-width: 6.5rem;
+      }
+    }
   }
 `);
