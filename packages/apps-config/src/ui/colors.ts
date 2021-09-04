@@ -192,6 +192,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Galital: chainGalital,
   Galois: chainGalois,
   'GamePower Network': chainGamePower,
+  Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,

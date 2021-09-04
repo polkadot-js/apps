@@ -164,6 +164,7 @@ export const chainLogos = Object.entries({
   Galois: nodeMath,
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
+  Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainEquilibrium,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
