@@ -54,6 +54,7 @@
   "rpc.prod.dock-mainnet": "Dock",
   "rpc.prod.edgeware": "Edgeware",
   "rpc.prod.equilibrium": "Equilibrium",
+  "rpc.prod.genshiro": "Genshiro",
   "rpc.prod.hanonycash": "Hanonycash",
   "rpc.prod.hydra": "HydraDX",
   "rpc.prod.kulupu": "Kulupu",
