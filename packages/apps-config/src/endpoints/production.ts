@@ -81,6 +81,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'genshiro',
+      text: t('rpc.prod.genshiro', 'Genshiro', { ns: 'apps-config' }),
+      providers: {
+        Equilibrium: 'wss://node.genshiro.io'
+      }
+    },
+    {
       info: 'hanonycash',
       isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
