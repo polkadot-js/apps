@@ -7,6 +7,7 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
+import { balance } from '@polkadot/app-accounts/Accounts/index.spec';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -15,6 +16,7 @@ import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { keyring } from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
 import { AccountOverrides, mockAccountHooks } from '../hooks/default';
@@ -104,6 +106,11 @@ export class AccountsPage {
 
   renderPage (accounts: [string, AccountOverrides][]): void {
     mockAccountHooks.setAccounts(accounts);
+
+    accounts.forEach(([address, { meta }]) => {
+      keyring.addExternal(address, meta);
+    });
+
     const mockApi: ApiProps = {
       api: {
         derive: {
@@ -179,6 +186,86 @@ export class AccountsPage {
     }
 
     return rows;
+  }
+
+  async findSortBySection (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    return await screen.findByTestId('sort-by-section');
+  }
+
+  async findSortByDropdownCurrent (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    const section = await this.findSortBySection();
+    const alerts = await within(section).findAllByRole('alert');
+    const names = await within(section).findAllByText(/\w+/);
+    const ret = names.filter((x) => alerts.includes(x));
+
+    expect(ret).toHaveLength(1);
+
+    return ret[0];
+  }
+
+  async findSortByDropdownItem (name: string): Promise<HTMLElement> {
+    this.assertRendered();
+
+    const section = await this.findSortBySection();
+    const alerts = await within(section).findAllByRole('alert');
+    const names = await within(section).findAllByText(name);
+    const ret = names.filter((x) => !alerts.includes(x));
+
+    expect(ret).toHaveLength(1);
+
+    return ret[0];
+  }
+
+  async findSortByReverseButton (): Promise<HTMLElement> {
+    this.assertRendered();
+
+    const section = await this.findSortBySection();
+
+    return await within(section).findByRole('button');
+  }
+
+  async checkOrder (order: number[]): Promise<void> {
+    const rows = await this.findAccountRows();
+    const rowsBalances = await Promise.all(rows.map((row) => within(row.primaryRow).findByTestId('balance-summary')));
+    const expected = order.map((amount) => this.format(balance(amount)));
+
+    for (let i = 0; i < expected.length; i++) {
+      expect(rowsBalances[i]).toHaveTextContent(expected[i]);
+    }
+  }
+
+  async selectOrder (orderBy: string): Promise<void> {
+    const current = await this.findSortByDropdownCurrent();
+
+    fireEvent.click(current);
+
+    const target = await this.findSortByDropdownItem(orderBy);
+
+    fireEvent.click(target);
+  }
+
+  async checkRowsColoring (): Promise<void> {
+    const rows = await this.findAccountRows();
+
+    rows.forEach((row, index) => {
+      const expectedClass = index % 2 ? 'isEven' : 'isOdd';
+
+      expect(row.primaryRow).toHaveClass(expectedClass);
+      expect(row.detailsRow).toHaveClass(expectedClass);
+    });
+  }
+
+  async checkOrderAndRowsColoring (order: number[]): Promise<void> {
+    await this.checkOrder(order);
+    await this.checkRowsColoring();
+  }
+
+  format (amount: Balance | BN): string {
+    return formatBalance(amount, { decimals: 12, forceUnit: '-', withUnit: true });
   }
 
   async enterCreateAccountModal (): Promise<void> {

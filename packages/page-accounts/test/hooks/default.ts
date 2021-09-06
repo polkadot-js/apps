@@ -9,6 +9,7 @@ import BN from 'bn.js';
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { makeStakingLedger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export interface Account {
   balance: DeriveBalancesAll,
@@ -18,19 +19,18 @@ export interface Account {
 
 export type AccountsMap = { [address: string]: Account };
 
+export type Override<T> = {
+  [P in keyof T]?: T[P];
+}
+
 /**
  * Test inputs structure
  */
 export interface AccountOverrides {
-  balance?: {
-    [P in keyof DeriveBalancesAll]?: DeriveBalancesAll[P];
-  };
-  staking?: {
-    [P in keyof DeriveStakingAccount]?: DeriveStakingAccount[P];
-  };
-  info?: {
-    [P in keyof UseAccountInfo]?: UseAccountInfo[P];
-  }
+  meta?: Override<KeyringJson$Meta>;
+  balance?: Override<DeriveBalancesAll>;
+  staking?: Override<DeriveStakingAccount>;
+  info?: Override<UseAccountInfo>;
 }
 
 export const emptyAccounts: UseAccounts = {
@@ -79,6 +79,7 @@ export const defaultStakingAccount: DeriveStakingAccount = {
   ]
 } as any;
 
+export const defaultMeta: KeyringJson$Meta = {};
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const defaultAccountInfo: UseAccountInfo = {
   flags: {},
@@ -102,12 +103,15 @@ class MockAccountHooks {
 
     for (const [address, props] of accounts) {
       const staking = { ...defaultStakingAccount };
+      const meta = { ...defaultMeta };
       const balance = { ...defaultBalanceAccount };
       const info = { ...defaultAccountInfo };
 
       // Typescript does not recognize that keys and values from Object.entries are safe,
       // so we have to use "any" here.
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      Object.entries(props.meta || meta).forEach(function ([key, value]) { (meta as any)[key] = value; });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       Object.entries(props.balance || balance).forEach(function ([key, value]) { (balance as any)[key] = value; });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
