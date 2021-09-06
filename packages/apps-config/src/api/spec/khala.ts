@@ -3,6 +3,6 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { typeBundleForPolkadot } from '@zeroio/type-definitions';
+import { versionedKhala } from '@phala/typedefs';
 
-export default typeBundleForPolkadot as unknown as OverrideBundleDefinition;
+export default versionedKhala as OverrideBundleDefinition;

@@ -68,13 +68,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'phala',
-      text: t('rpc.test.phala', 'Chala (Para1)', { ns: 'apps-config' }),
-      providers: {
-        'Phala Network': 'wss://chala-api.phala.network/ws/'
-      }
-    },
-    {
       info: 'clover',
       isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
@@ -219,6 +212,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'phala',
+      text: t('rpc.test.phala', 'Khala (Para2)', { ns: 'apps-config' }),
+      providers: {
+        'Phala Network': 'wss://para2-api.phala.network/ws/'
+      }
+    },
+    {
       info: 'kilt',
       text: t('rpc.test.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
@@ -337,9 +337,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'pontem',
-      text: t('rpc.pontem', 'Pontem', { ns: 'apps-config' }),
+      text: t('rpc.test.pontem', 'Pontem', { ns: 'apps-config' }),
       providers: {
-        Pontem: 'wss://testnet.pontem.network/wss'
+        Pontem: 'wss://testnet.pontem.network/ws'
       }
     },
     {

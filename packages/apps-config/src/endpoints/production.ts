@@ -81,6 +81,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'genshiro',
+      text: t('rpc.prod.genshiro', 'Genshiro', { ns: 'apps-config' }),
+      providers: {
+        Equilibrium: 'wss://node.genshiro.io'
+      }
+    },
+    {
       info: 'hanonycash',
       isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
@@ -153,6 +160,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
         'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
         Soramitsu: 'wss://ws.alb.sora.org',
         'SORA Community (Lux8)': 'wss://sora.lux8.net'
+      }
+    },
+    {
+      info: 'spanner',
+      text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
+      providers: {
+        Spanner: 'wss://wss.spannerprotocol.com'
       }
     },
     {

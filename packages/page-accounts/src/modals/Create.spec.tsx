@@ -19,7 +19,10 @@ describe('Create an account modal', () => {
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
-    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+
+    if (keyring.getAccounts().length === 0) {
+      keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+    }
   });
   beforeEach(() => {
     accountsPage = new AccountsPage();
