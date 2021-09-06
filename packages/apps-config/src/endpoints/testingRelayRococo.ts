@@ -258,6 +258,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoSingLavender',
+        paraId: 2104,
+        text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
+        providers: {
+          SingNetwork: 'wss://rpc-lavender.singnetwork.io'
+        }
+      },
+      {
         info: 'rococoLitentry',
         isDisabled: true, // Rococo reset
         paraId: 1984,
@@ -308,14 +316,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.moonrock', 'Moonrock', { ns: 'apps-config' }),
         providers: {
           Moonrock: 'wss://wss-moonrock.gcp.purestake.run'
-        }
-      },
-      {
-        info: 'rococoSingLavender',
-        paraId: 2104,
-        text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
-        providers: {
-          SingNetwork: 'wss://rpc-lavender.singnetwork.io'
         }
       },
       {
