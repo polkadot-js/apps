@@ -16,12 +16,6 @@ export class Sidebar {
     this.save();
   }
 
-  async setTag (tagName: string): Promise<void> {
-    this.edit();
-    await this.selectTag(tagName);
-    this.save();
-  }
-
   async typeAccountName (accountName: string): Promise<void> {
     const accountNameInput = await this.findByTestId('name-input');
 
@@ -29,9 +23,17 @@ export class Sidebar {
   }
 
   async selectTag (tagName: string): Promise<void> {
-    this.openTagsDropdown();
+    const tagsCombobox = this.openTagsDropdown();
+    const tagOptions = await within(tagsCombobox).findAllByRole('option');
+    const tag = tagOptions.find((tag) => tag.textContent === tagName) as HTMLElement;
 
-    await this.clickByText(tagName);
+    fireEvent.click(tag);
+  }
+
+  async assertAccountInput (expectedInput: string): Promise<void> {
+    const sideBarName = await this.findByTestId('name-input');
+
+    expect(sideBarName).toHaveProperty('value', expectedInput);
   }
 
   async assertAccountName (expectedAccountName: string): Promise<void> {
@@ -44,18 +46,6 @@ export class Sidebar {
     const sideBarTags = await this.findByTestId('sidebar-tags');
 
     expect(sideBarTags).toHaveTextContent(tagsContent);
-  }
-
-  async tagsEqual (tagsContent: string): Promise<boolean> {
-    const sideBarTags = await this.findByTestId('sidebar-tags');
-
-    return sideBarTags.textContent?.includes(tagsContent) || false;
-  }
-
-  async accountNameEquals (expectedAccountName: string): Promise<boolean> {
-    const sideBarName = await this.findByTestId('account-name');
-
-    return sideBarName.textContent?.includes(expectedAccountName) || false;
   }
 
   close (): Promise<void> {

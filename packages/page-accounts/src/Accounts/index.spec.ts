@@ -20,6 +20,7 @@ import { AccountOverrides } from '../../test/hooks/default';
 import { AccountRow } from '../../test/pageElements/AccountRow';
 import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
+import { act } from "react-dom/test-utils";
 
 describe('Accounts page', () => {
   const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -339,20 +340,6 @@ describe('Accounts page', () => {
             await accountRows[0].assertAccountName(newName);
           });
         });
-
-        describe('tags', () => {
-          beforeEach(async () => {
-            await sideBar.setTag(defaultTag);
-          });
-
-          it('within sidebar', async () => {
-            await waitFor(() => sideBar.tagsEqual(defaultTag));
-          });
-
-          it('within account row', async () => {
-            await waitFor(() => accountRows[0].tagsEqual(defaultTag));
-          });
-        });
       });
 
       describe('when isEditable is false', () => {
@@ -368,12 +355,6 @@ describe('Accounts page', () => {
 
           sideBar.edit();
           await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
-        });
-
-        it('tags are editable', async () => {
-          await sideBar.setTag(defaultTag);
-          await waitFor(() => sideBar.tagsEqual(defaultTag));
-          await waitFor(() => accountRows[0].tagsEqual(defaultTag));
         });
       });
 
@@ -455,7 +436,7 @@ describe('Accounts page', () => {
         });
 
         it('cancels editing and changes name when opening sidebar for another account', async () => {
-          await waitFor(() => sideBar.accountNameEquals('ALICE'));
+          await waitFor(() => sideBar.assertAccountInput('alice'));
 
           sideBar = await openSidebarForAccountRow(1);
           await sideBar.assertAccountName('BOB');
@@ -463,8 +444,7 @@ describe('Accounts page', () => {
       });
 
       afterEach(() => {
-        keyring.forgetAccount(injectedAddress);
-        keyring.forgetAddress(injectedAddress);
+        act(() => keyring.forgetAccount(injectedAddress));
       });
 
       async function openSidebarForAccountRow (rowIndex: number) {

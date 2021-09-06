@@ -8,6 +8,8 @@ import { Balance } from '@polkadot/types/interfaces';
 import { format } from '../pages/accountsPage';
 import { Sidebar } from './Sidebar';
 
+// utility wrapper over an account item in accounts table, serves basic assertions about an account row
+
 export class AccountRow {
   public primaryRow: HTMLElement;
   public detailsRow: HTMLElement;
@@ -50,12 +52,6 @@ export class AccountRow {
     const tagsActual = await within(this.detailsRow).findByTestId('tags');
 
     expect(tagsActual).toHaveTextContent(tagsContent);
-  }
-
-  async tagsEqual (tagsContent: string): Promise<boolean> {
-    const tagsActual = await within(this.detailsRow).findByTestId('tags');
-
-    return tagsActual.textContent === tagsContent;
   }
 
   async assertShortAddress (expectedShortAddress: string): Promise<void> {

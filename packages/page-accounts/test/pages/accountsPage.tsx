@@ -32,8 +32,6 @@ function noop (): void {
 class NotYetRendered extends Error {
 }
 
-// utility wrapper over an account item in accounts table, serves basic assertions about an account row
-
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
 }));
@@ -68,7 +66,7 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
           flags: { ...actual.useAccountInfo(address).flags, ...(mockInfo.info.flags) },
           tags: [...actual.useAccountInfo(address).tags, ...(mockInfo.info.tags)]
         }
-        : actual;
+        : actual.useAccountInfo(address);
     }
   });
 });
