@@ -16,6 +16,7 @@ import { WsProvider } from '@polkadot/api';
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
+import initMetaMask from '@polkadot/extension-compat-metamask';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -83,7 +84,7 @@ function getDevTypes (): Record<string, Record<string, string>> {
 async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]>, type: KeypairType): Promise<InjectedAccountExt[]> {
   try {
     await injectedPromise;
-    const accounts = (await web3Accounts({accountType: type})) as InjectedAccountExt[]; // TODO-MOONBEAM: web3Accounts should be updated to return the right type
+    const accounts = (await web3Accounts({ accountType: [type] })) as InjectedAccountExt[]; // TODO-MOONBEAM: web3Accounts should be updated to return the right type
 
     return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
@@ -101,7 +102,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
-async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, isEthereum:boolean): Promise<ChainData> {
+async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, isEthereum: boolean): Promise<ChainData> {
   const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -110,7 +111,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    getInjectedAccounts(injectedPromise, isEthereum? "ethereum": "sr25519")
+    getInjectedAccounts(injectedPromise, isEthereum ? 'ethereum' : 'sr25519')
   ]);
 
   return {
@@ -216,7 +217,7 @@ function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | n
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('error', (error: Error) => setApiError(error.message));
     api.on('ready', (): void => {
-      const injectedPromise = web3Enable('polkadot-js/apps');
+      const injectedPromise = web3Enable('polkadot-js/apps', [initMetaMask]);
 
       injectedPromise
         .then(setExtensions)
