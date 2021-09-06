@@ -113,6 +113,7 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
+import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
@@ -224,6 +225,7 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Shiden: chainShiden,
+  SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
@@ -361,6 +363,7 @@ export const nodeLogos = Object.entries({
   Shadow: nodeShadow,
   sherpax: nodeChainx,
   'Shiden Collator': chainShiden,
+  'SingLavender Parachain Collator': nodeSingLavender,
   SORA: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
@@ -538,6 +541,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPlasm: nodePlasm,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
+  rococoSingLavender: nodeSingLavender,
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
@@ -555,6 +559,7 @@ export const namedLogos: Record<string, unknown> = {
   sherpax: nodeChainx,
   shibuya: chainShiden,
   shiden: chainShiden,
+  singLavender: nodeSingLavender,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   spanner: chainSpanner,
