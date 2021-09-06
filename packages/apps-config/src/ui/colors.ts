@@ -55,7 +55,7 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const chainKilt = '#5ab9aa';
+const chainKilt = '#8c145a';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKylin = '#ed007e';
@@ -64,7 +64,7 @@ const chainMybank = '#282736';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
-const chainRoccoBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
+const chainRoccoBifrost = '#5a25f0';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
@@ -77,6 +77,7 @@ const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
+const chainSpanner = '#EC3D3D';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -99,7 +100,7 @@ const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#70FF8B';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
-const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
+const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeDotMog = '#020609';
@@ -192,6 +193,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Galital: chainGalital,
   Galois: chainGalois,
   'GamePower Network': chainGamePower,
+  Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
@@ -210,6 +212,7 @@ export const chainColors: Record<string, string> = Object.entries({
   KILT: chainKilt,
   'KILT Local': chainKilt,
   'KILT Peregrine Testnet': chainKilt,
+  'KILT Spiritnet': chainKilt,
   'KILT Testnet': chainKilt,
   Kintsugi: chainKintsugi,
   'KLUGDOSSIER.NET': chainKlug,
@@ -263,6 +266,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
+  Spanner: chainSpanner,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
