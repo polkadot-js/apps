@@ -27,6 +27,7 @@ import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
+import chainSpanner from './chains/spanner.png';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
@@ -165,6 +166,7 @@ export const chainLogos = Object.entries({
   Galois: nodeMath,
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
+  Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainEquilibrium,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
@@ -224,6 +226,7 @@ export const chainLogos = Object.entries({
   Rococo: chainRococo,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
+  Spanner: chainSpanner,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -559,6 +562,7 @@ export const namedLogos: Record<string, unknown> = {
   singLavender: nodeSingLavender,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
+  spanner: chainSpanner,
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
