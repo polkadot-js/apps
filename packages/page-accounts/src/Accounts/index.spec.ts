@@ -413,7 +413,7 @@ describe('Accounts page', () => {
         expect(sideBar.queryByRole('combobox')).toBeFalsy();
 
         await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
-      })
+      });
 
       it('when isEditable is false account name is not editable', async () => {
         renderAccountsWithDefaultAddresses(
@@ -422,7 +422,7 @@ describe('Accounts page', () => {
         sideBar = await openSidebarForAccountRow(0);
         sideBar.edit();
         await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
-      })
+      });
 
       describe('on edit cancel', () => {
         beforeEach(async () => {
