@@ -139,8 +139,8 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
 
   if (Array.isArray(bonded)) {
     other = bonded
-      .filter((_, index): boolean => index !== 0)
-      .filter((value): boolean => value.gtn(0));
+      .filter((_, index) => index !== 0)
+      .filter((value) => value.gt(BN_ZERO));
 
     own = bonded[0];
   } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.stakingLedger.active && stakingInfo.accountId.eq(stakingInfo.stashId)) {
