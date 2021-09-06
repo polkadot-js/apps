@@ -5,7 +5,6 @@ import type { Balance } from '@polkadot/types/interfaces';
 
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import BN from 'bn.js';
-import { act } from 'react-dom/test-utils';
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
@@ -379,7 +378,6 @@ describe('Accounts page', () => {
     });
 
     describe('sidebar', () => {
-      const injectedAddress = '5CcZRy9WTK3NBXNxcrwK67EsVRAUsfxSQAhmSwJHtGtYwJqu';
       const initialName = 'ANAME';
       const newName = 'CHARLIE';
       const defaultTag = 'Default';
@@ -389,10 +387,7 @@ describe('Accounts page', () => {
 
       describe('changes', () => {
         beforeEach(async () => {
-          keyring.addExternal(injectedAddress, { isDevelopment: false, name: initialName });
-          renderAccountsForAddresses(
-            injectedAddress
-          );
+          accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
           sideBar = await openSidebarForAccountRow(0);
         });
 
@@ -402,7 +397,7 @@ describe('Accounts page', () => {
           });
 
           it('within keyring', () => {
-            const changedAccount = keyring.getAccount(injectedAddress);
+            const changedAccount = keyring.getAccount(aliceAddress);
 
             expect(changedAccount?.meta?.name).toEqual(newName);
           });
@@ -457,10 +452,8 @@ describe('Accounts page', () => {
 
       describe('on edit cancel', () => {
         beforeEach(async () => {
-          keyring.addExternal(injectedAddress, { isDevelopment: false, name: initialName, tags: [] });
-          renderAccountsForAddresses(
-            injectedAddress
-          );
+          accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
+
           sideBar = await openSidebarForAccountRow(0);
           await sideBar.assertTags('no tags');
           sideBar.edit();
@@ -483,9 +476,9 @@ describe('Accounts page', () => {
 
       describe('outside click', () => {
         beforeEach(async () => {
-          renderAccountsForAddresses(
-            aliceAddress,
-            bobAddress
+          renderAccountsWithDefaultAddresses(
+            anAccountWithMeta({ name: 'alice' }),
+            anAccountWithMeta({ name: 'bob' })
           );
 
           sideBar = await openSidebarForAccountRow(0);
@@ -516,10 +509,6 @@ describe('Accounts page', () => {
           sideBar = await openSidebarForAccountRow(1);
           await sideBar.assertAccountName('BOB');
         });
-      });
-
-      afterEach(() => {
-        act(() => keyring.forgetAccount(injectedAddress));
       });
 
       async function openSidebarForAccountRow (rowIndex: number) {
