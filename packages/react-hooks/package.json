@@ -2,7 +2,7 @@
   "name": "@polkadot/react-hooks",
   "private": true,
   "type": "module",
-  "version": "0.95.2-95",
+  "version": "0.95.2-96",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4"
