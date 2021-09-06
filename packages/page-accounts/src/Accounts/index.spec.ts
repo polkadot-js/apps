@@ -378,77 +378,51 @@ describe('Accounts page', () => {
     });
 
     describe('sidebar', () => {
-      const initialName = 'ANAME';
-      const newName = 'CHARLIE';
+      const initialName = 'INITIAL_NAME';
+      const newName = 'NEW_NAME';
       const defaultTag = 'Default';
+      const nameInputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
 
       let accountRows: AccountRow[];
       let sideBar: Sidebar;
 
-      describe('changes', () => {
+      describe('changes name', () => {
         beforeEach(async () => {
           accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
           sideBar = await openSidebarForAccountRow(0);
+          await sideBar.changeAccountName(newName);
         });
 
-        describe('name', () => {
-          beforeEach(async () => {
-            await sideBar.changeAccountName(newName);
-          });
+        it('within keyring', () => {
+          const changedAccount = keyring.getAccount(aliceAddress);
 
-          it('within keyring', () => {
-            const changedAccount = keyring.getAccount(aliceAddress);
+          expect(changedAccount?.meta?.name).toEqual(newName);
+        });
 
-            expect(changedAccount?.meta?.name).toEqual(newName);
-          });
+        it('within sidebar', async () => {
+          await sideBar.assertAccountName(newName);
+        });
 
-          it('within sidebar', async () => {
-            await sideBar.assertAccountName(newName);
-          });
-
-          it('within account row', async () => {
-            await accountRows[0].assertAccountName(newName);
-          });
+        it('within account row', async () => {
+          await accountRows[0].assertAccountName(newName);
         });
       });
 
-      describe('when isEditable is false', () => {
-        beforeEach(async () => {
-          renderAccountsWithDefaultAddresses(
-            anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
-          );
-          sideBar = await openSidebarForAccountRow(0);
-        });
+      it('cannot be edited if edit button has not been pressed', async () => {
+        await sideBar.clickByText('no tags');
+        expect(sideBar.queryByRole('combobox')).toBeFalsy();
 
-        it('account name is not editable', async () => {
-          const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
+        await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+      })
 
-          sideBar.edit();
-          await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
-        });
-      });
-
-      describe('cannot be edited', () => {
-        beforeEach(async () => {
-          renderAccountsWithDefaultAddresses(
-            anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
-          );
-          sideBar = await openSidebarForAccountRow(0);
-        });
-
-        describe('if edit button has not been pressed', () => {
-          it('tags', async () => {
-            await sideBar.clickByText('no tags');
-            expect(sideBar.queryByRole('combobox')).toBeFalsy();
-          });
-
-          it('account name', async () => {
-            const inputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
-
-            await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(inputNotFoundError);
-          });
-        });
-      });
+      it('when isEditable is false account name is not editable', async () => {
+        renderAccountsWithDefaultAddresses(
+          anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
+        );
+        sideBar = await openSidebarForAccountRow(0);
+        sideBar.edit();
+        await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+      })
 
       describe('on edit cancel', () => {
         beforeEach(async () => {
