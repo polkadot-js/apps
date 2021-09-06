@@ -311,6 +311,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoSingLavender',
+        paraId: 2104,
+        text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
+        providers: {
+          SingNetwork: 'wss://rpc-lavender.singnetwork.io'
+        }
+      },
+      {
         info: 'rococoOriginTrail',
         paraId: 2037,
         text: t('rpc.rococo.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
@@ -406,14 +414,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.subsocial', 'Subsocial PC1', { ns: 'apps-config' }),
         providers: {
           DappForce: 'wss://roc.subsocial.network'
-        }
-      },
-      {
-        info: 'rococoSingLavender',
-        paraId: 2104,
-        text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
-        providers: {
-          SingNetwork: 'wss://rpc-lavender.singnetwork.io'
         }
       },
       {
