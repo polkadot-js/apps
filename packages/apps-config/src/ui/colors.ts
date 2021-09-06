@@ -77,6 +77,7 @@ const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
+const chainSpanner = '#EC3D3D';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -264,6 +265,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
+  Spanner: chainSpanner,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,

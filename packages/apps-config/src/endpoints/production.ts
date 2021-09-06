@@ -163,6 +163,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'spanner',
+      text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
+      providers: {
+        Spanner: 'wss://wss.spannerprotocol.com'
+      }
+    },
+    {
       info: 'stafi',
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.prod.stafi', 'Stafi', { ns: 'apps-config' }),

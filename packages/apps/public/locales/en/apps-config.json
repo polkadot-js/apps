@@ -65,6 +65,7 @@
   "rpc.prod.robonomics": "Robonomics",
   "rpc.prod.sora-substrate": "SORA",
   "rpc.prod.stafi": "Stafi",
+  "rpc.prod.spanner": "Spanner",
   "rpc.prod.subgame": "SubGame",
   "rpc.prod.subsocial": "Subsocial",
   "rpc.prod.uniarts": "UniArts",
