@@ -55,7 +55,7 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const chainKilt = '#5ab9aa';
+const chainKilt = '#8c145a';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKylin = '#ed007e';
@@ -212,6 +212,7 @@ export const chainColors: Record<string, string> = Object.entries({
   KILT: chainKilt,
   'KILT Local': chainKilt,
   'KILT Peregrine Testnet': chainKilt,
+  'KILT Spiritnet': chainKilt,
   'KILT Testnet': chainKilt,
   Kintsugi: chainKintsugi,
   'KLUGDOSSIER.NET': chainKlug,
