@@ -79,6 +79,7 @@
     "@types/chart.js": "^2.9.34",
     "@types/file-saver": "^2.0.3",
     "@types/jest": "^27.0.1",
+    "@types/node": "15.12.2",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-copy-to-clipboard": "^5.0.1",
     "@types/react-dom": "^17.0.9",

@@ -4383,6 +4383,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:15.12.2":
+  version: 15.12.2
+  resolution: "@types/node@npm:15.12.2"
+  checksum: 0dff080f306e4d5cd968bd43315238a227b1f54f4bb59fa9cee976535678f00755834c0288315029ae12f78b3db43efb5bfb700cf8aae882f184eb700229f974
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^12.12.6":
   version: 12.20.23
   resolution: "@types/node@npm:12.20.23"
@@ -16596,6 +16603,7 @@ __metadata:
     "@types/chart.js": ^2.9.34
     "@types/file-saver": ^2.0.3
     "@types/jest": ^27.0.1
+    "@types/node": 15.12.2
     "@types/react-beautiful-dnd": ^13.1.2
     "@types/react-copy-to-clipboard": ^5.0.1
     "@types/react-dom": ^17.0.9
