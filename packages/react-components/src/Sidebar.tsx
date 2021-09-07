@@ -17,7 +17,10 @@ interface Props {
 
 function Sidebar ({ button, children, className = '', onClose }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Sidebar ${className}`}>
+    <div
+      className={`ui--Sidebar ${className}`}
+      data-testid='sidebar'
+    >
       <Button.Group className='ui--Sidebar-buttons'>
         {button}
         <Button

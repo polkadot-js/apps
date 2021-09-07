@@ -32,7 +32,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   }
 
   return (
-    <section>
+    <section data-testid='identity-section'>
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
           <div>

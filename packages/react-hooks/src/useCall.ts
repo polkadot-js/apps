@@ -29,7 +29,7 @@ interface QueryTrackFn {
   };
 }
 
-type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
+export type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
 
 export interface Tracker {
   isActive: boolean;

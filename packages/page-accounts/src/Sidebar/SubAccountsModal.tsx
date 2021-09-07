@@ -20,7 +20,7 @@ function SubAccountsModal ({ className, onClose, subs }: Props): React.ReactElem
   return (
     <Modal
       className={className}
-      header={t<string>('subs')}
+      header={t<string>('sub-identities')}
       onClose={onClose}
       size='tiny'
     >

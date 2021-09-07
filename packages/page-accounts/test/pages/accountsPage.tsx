@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TrackFn } from '@polkadot/react-hooks/useCall';
+
 import { fireEvent, render, RenderResult, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
@@ -8,18 +10,21 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { balance } from '@polkadot/app-accounts/Accounts/index.spec';
+import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { CallOptions, CallParams, UseAccountInfo } from '@polkadot/react-hooks/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
 import { AccountOverrides, mockAccountHooks } from '../hooks/default';
+import { mockApiCalls } from '../mockApiCalls';
 import Overview from '../pages/../../src/Accounts/index';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
@@ -81,10 +86,6 @@ jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
 }));
 
-jest.mock('@polkadot/react-hooks/useAccountInfo', () => ({
-  useAccountInfo: (address: string) => mockAccountHooks.accountsMap[address]?.info || {}
-}));
-
 jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
   useLoadingDelay: () => false
 }));
@@ -101,11 +102,51 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
 
+jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
+  // eslint-disable-next-line func-call-spacing
+  const actual = jest.requireActual<{useAccountInfo: (address: string) => UseAccountInfo}>('@polkadot/react-hooks/useAccountInfo');
+
+  return ({
+    useAccountInfo: (address: string) => {
+      const mockInfo = mockAccountHooks.accountsMap[address];
+
+      return mockInfo
+        ? {
+          ...actual.useAccountInfo(address),
+          flags: { ...actual.useAccountInfo(address).flags, ...(mockInfo.info.flags) },
+          identity: { ...actual.useAccountInfo(address).identity, ...(mockInfo.info.identity) },
+          tags: [...actual.useAccountInfo(address).tags, ...(mockInfo.info.tags)]
+        }
+        : actual.useAccountInfo(address);
+    }
+  });
+});
+
+jest.mock('@polkadot/react-hooks/useCall', () => {
+  // eslint-disable-next-line func-call-spacing
+  const actual = jest.requireActual<{useCall: <T>(fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>) => T | undefined }>('@polkadot/react-hooks/useCall');
+
+  return ({
+    useCall: (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: any) => {
+      console.log('MOCKED USECALL fn.name:', fn && fn.name);
+      console.log('MOCKED USECALL fn:', fn);
+
+      return fn && fn.name === 'subsOf'
+        ? [
+          0,
+          mockApiCalls.subs
+        ]
+        : actual.useCall(fn, params, options);
+    }
+  });
+});
+
 export class AccountsPage {
   private renderResult?: RenderResult
 
-  renderPage (accounts: [string, AccountOverrides][]): void {
+  renderPage (accounts: [string, AccountOverrides][], options?: {subs: string[]}): void {
     mockAccountHooks.setAccounts(accounts);
+    mockApiCalls.setSubs(options?.subs || undefined);
 
     accounts.forEach(([address, { meta }]) => {
       keyring.addExternal(address, meta);
@@ -132,7 +173,12 @@ export class AccountsPage {
           }
         },
         genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
-        query: {},
+        query: {
+          identity: {
+            identityOf: () => Promise.resolve(() => { /**/ }),
+            subsOf: () => Promise.resolve(() => { /**/ })
+          }
+        },
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
           council: {
@@ -155,7 +201,9 @@ export class AccountsPage {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Overview onStatusChange={noop} />
+                  <AccountSidebar>
+                    <Overview onStatusChange={noop} />
+                  </AccountSidebar>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>
