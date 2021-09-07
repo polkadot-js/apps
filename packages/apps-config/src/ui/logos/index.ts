@@ -95,6 +95,7 @@ import oakTestnet from './nodes/oak-testnet.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
+import nodePangoro from './nodes/pangoro.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
@@ -211,6 +212,7 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  Pangoro: nodePangoro,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
@@ -336,6 +338,7 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  Pangoro: nodePangoro,
   'Parallel Heiko': nodeHeiko,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
@@ -490,6 +493,7 @@ export const namedLogos: Record<string, unknown> = {
   opportunity: nodeOpportunity,
   'origintrail-parachain-testnet': nodeOriginTrail,
   pangolin: nodePangolin,
+  pangoro: nodePangoro,
   phala: nodePhala,
   phoenix: nodePhoenix,
   picasso: chainComposable,

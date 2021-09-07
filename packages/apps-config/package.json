@@ -11,7 +11,7 @@
     "@babel/runtime": "^7.15.4",
     "@bifrost-finance/type-definitions": "1.2.26",
     "@crustio/type-definitions": "0.0.10",
-    "@darwinia/types": "1.1.7",
+    "@darwinia/types": "1.1.9",
     "@digitalnative/type-definitions": "1.1.13",
     "@docknetwork/node-types": "0.4.7",
     "@edgeware/node-types": "3.6.2-wako",
