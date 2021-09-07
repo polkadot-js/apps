@@ -29,11 +29,11 @@ function SubAccountsModal ({ className, onClose, subs }: Props): React.ReactElem
           <div
             className='address'
             key={sub.toString()}
-            onClick={onClose}
           >
             <AddressMini
               className='subs'
               isPadded={false}
+              onNameClick={onClose}
               value={sub}
             />
           </div>
