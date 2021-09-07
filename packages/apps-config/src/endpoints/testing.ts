@@ -315,6 +315,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'pangoro',
+      text: t('rpc.test.pangoro', 'Pangoro', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
+      }
+    },
+    {
       info: 'phoenix',
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
