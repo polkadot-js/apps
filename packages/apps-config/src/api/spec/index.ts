@@ -22,7 +22,6 @@ import crab from './crab';
 import crust from './crust';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
-import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
 import dockPoaMainnet from './dock-poa-mainnet';
 import dockPoaTestnet from './dock-poa-testnet';
@@ -66,6 +65,7 @@ import oakTestnet from './oak-testnet';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
 import pangolin from './pangolin';
+import pangoro from './pangoro';
 import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
@@ -105,11 +105,12 @@ import zero from './zero';
 const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
-  'Darwinia Crab PC2': darwiniaParachain,
-  'Darwinia PC2': darwiniaParachain,
+  'Darwinia Crab PC2': pangolin,
+  'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   Pangolin: pangolin,
+  Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,

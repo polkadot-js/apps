@@ -1322,6 +1322,7 @@
   "rpc.nodle-arcadia": "Arcadia (Testnet Nodle, hébergé par Nodle)",
   "rpc.nodle-main": "Nodle Main",
   "rpc.pangolin": "Pangolin",
+  "rpc.pangoro": "Pangoro",
   "rpc.phala": "Phala PoC-3",
   "rpc.plasm": "Plasm",
   "rpc.polkadot.parity": "Polkadot",
