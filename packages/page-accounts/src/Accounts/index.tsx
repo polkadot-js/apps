@@ -285,11 +285,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             isCircular
             onClick={onSortDirectionChange()}
           />
+          <div className='filter'>
+            {filter}
+          </div>
         </section>
       </SummaryBox>
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
-        filter={filter}
         header={header.current}
       >
         {!isLoading &&
@@ -305,13 +307,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Overview)`
-  .filter--tags {
-    .ui--Dropdown {
-      padding-left: 0;
+  .filter {
+    width: 17.857rem;
+    margin-left: 2.286rem;
 
-      label {
-        left: 1.55rem;
-      }
+    .ui--Input {
+      margin: 0;
+      height: 3.893rem;
     }
   }
 
