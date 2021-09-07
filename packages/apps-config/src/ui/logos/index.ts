@@ -228,12 +228,9 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Shiden: chainShiden,
-<<<<<<< HEAD
   'Spartan Testnet': nodeSubspace,
-=======
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
->>>>>>> upstream/master
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -572,11 +569,8 @@ export const namedLogos: Record<string, unknown> = {
   singLavender: nodeSingLavender,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
-<<<<<<< HEAD
-  'spartan-testnet': nodeSubspace,
-=======
   spanner: chainSpanner,
->>>>>>> upstream/master
+  'spartan-testnet': nodeSubspace,
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,

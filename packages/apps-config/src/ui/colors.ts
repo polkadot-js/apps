@@ -270,11 +270,8 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
-<<<<<<< HEAD
-  'Spartan testnet': nodeSubspace,
-=======
   Spanner: chainSpanner,
->>>>>>> upstream/master
+  'Spartan testnet': nodeSubspace,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
