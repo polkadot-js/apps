@@ -17,9 +17,13 @@ describe('Sidebar, subs list', () => {
   let accountsPage: AccountsPage;
 
   beforeAll(() => {
-    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+    if (keyring.getAccounts().length === 0) {
+      keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+    }
   });
+
   beforeEach(() => {
+    [aliceAddress, bobAddress].forEach((address) => keyring.forgetAccount(address));
     accountsPage = new AccountsPage();
   });
 
@@ -39,7 +43,7 @@ describe('Sidebar, subs list', () => {
   });
 
   it('displays amount of subs', async () => {
-    accountsPage.renderPage([[aliceAddress, anAccount()]], { subs: [bobAddress] });
+    accountsPage.renderPage([[aliceAddress, anAccount()], [bobAddress, { meta: { name: 'Bob' } }]], { subs: [bobAddress] });
 
     const accountRows = await accountsPage.findAccountRows();
 
@@ -53,7 +57,7 @@ describe('Sidebar, subs list', () => {
   });
 
   it('opens a modal with subs list', async () => {
-    accountsPage.renderPage([[aliceAddress, anAccount()]], { subs: [bobAddress] });
+    accountsPage.renderPage([[aliceAddress, anAccount()], [bobAddress, { meta: { name: 'Bob' } }]], { subs: [bobAddress] });
 
     const accountRows = await accountsPage.findAccountRows();
 

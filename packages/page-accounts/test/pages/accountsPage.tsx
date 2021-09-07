@@ -128,9 +128,6 @@ jest.mock('@polkadot/react-hooks/useCall', () => {
 
   return ({
     useCall: (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: any) => {
-      console.log('MOCKED USECALL fn.name:', fn && fn.name);
-      console.log('MOCKED USECALL fn:', fn);
-
       return fn && fn.name === 'subsOf'
         ? [
           0,
