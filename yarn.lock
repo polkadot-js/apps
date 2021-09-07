@@ -2491,12 +2491,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@phala/typedefs@npm:0.2.22":
-  version: 0.2.22
-  resolution: "@phala/typedefs@npm:0.2.22"
+"@phala/typedefs@npm:0.2.23":
+  version: 0.2.23
+  resolution: "@phala/typedefs@npm:0.2.23"
   dependencies:
     "@polkadot/types": ^5.7.1
-  checksum: f3a007fd020be58585cdfb89cc8cc21d45c764976c7d431b8ec8f8844b1fdd323a47d67a228b21873125cd04f1bd1ab37cd8beaf47f488b17adcc5b64895e49f
+  checksum: b18255c40b7016b29db8d98337407a31d11a901c7eef608fc27fef83d8e76a0a2b03843bf126514df033195d0b11bf525882bb0b4635e98c85b2dabbd2cc2c3f
   languageName: node
   linkType: hard
 
@@ -2826,7 +2826,7 @@ __metadata:
     "@kiltprotocol/type-definitions": 0.1.14
     "@laminar/type-definitions": 0.3.1
     "@parallel-finance/type-definitions": 1.1.2
-    "@phala/typedefs": 0.2.22
+    "@phala/typedefs": 0.2.23
     "@polkadot/networks": ^7.3.1
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.5
