@@ -94,7 +94,7 @@ import oakTestnet from './nodes/oak-testnet.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
-import nodePangoro from './nodes/pangoro.png';
+import nodePangoro from './nodes/pangoro.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
