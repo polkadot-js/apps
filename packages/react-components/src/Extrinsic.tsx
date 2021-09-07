@@ -66,7 +66,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
       try {
         method = extrinsic.fn(...values.map(({ value }): any => value));
       } catch (error) {
-        onError && onError(error);
+        onError && onError(error as Error);
       }
     } else {
       onError && onError(null);

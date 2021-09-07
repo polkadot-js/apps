@@ -18,13 +18,16 @@ import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
+import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainComposable from './chains/picasso.svg';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
+import chainSpanner from './chains/spanner.png';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
@@ -92,6 +95,7 @@ import oakTestnet from './nodes/oak-testnet.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
+import nodePangoro from './nodes/pangoro.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
@@ -110,6 +114,7 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
+import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeStatemine from './nodes/statemine.svg';
@@ -132,8 +137,8 @@ import nodeZCloak from './nodes/zCloak.svg';
 import nodeZeitgeist from './nodes/zeitgeist.png';
 import nodeZenlink from './nodes/zenlink.svg';
 import nodeZero from './nodes/zero.svg';
-// last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
+// last-resort fallback, just something empty
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
@@ -145,6 +150,7 @@ export const chainLogos = Object.entries({
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
+  Calamari: nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crust Maxwell': nodeCrustMaxwell,
@@ -162,6 +168,7 @@ export const chainLogos = Object.entries({
   Galois: nodeMath,
   'GamePower Network': nodeGamePower,
   GEEK: nodeGeek,
+  Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainEquilibrium,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
@@ -178,6 +185,7 @@ export const chainLogos = Object.entries({
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
   'KILT Testnet': nodeKilt,
+  Kintsugi: chainKintsugi,
   KlugDossier: nodeKlug,
   Konomi: nodeKonomi,
   Kpron: nodeApron,
@@ -205,6 +213,7 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  Pangoro: nodePangoro,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
@@ -219,7 +228,12 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Shiden: chainShiden,
+<<<<<<< HEAD
   'Spartan Testnet': nodeSubspace,
+=======
+  SingLavender: nodeSingLavender,
+  Spanner: chainSpanner,
+>>>>>>> upstream/master
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -307,6 +321,7 @@ export const nodeLogos = Object.entries({
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
   'KILT Peregrine Testnet': nodeKilt,
+  Kintsugi: chainKintsugi,
   'Klug Dossier Node': nodeKlug,
   'Kpron Collator': nodeApron,
   kulupu: nodeKulupu,
@@ -328,6 +343,7 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
+  Pangoro: nodePangoro,
   'Parallel Heiko': nodeHeiko,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
@@ -344,7 +360,7 @@ export const nodeLogos = Object.entries({
   'PolkaFoundry Node': nodePolkaFoundry,
   'PolkaFoundry Parachain Collator': nodePolkaFoundry,
   'PolkaSmith Parachain Collator': nodePolkaSmith,
-  Pontem: nodePontem,
+  'Pontem Testnet': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
   'ReAlis Network': nodeRealis,
@@ -355,6 +371,7 @@ export const nodeLogos = Object.entries({
   Shadow: nodeShadow,
   sherpax: nodeChainx,
   'Shiden Collator': chainShiden,
+  'SingLavender Parachain Collator': nodeSingLavender,
   SORA: nodeSora,
   'Spartan Testnet': nodeSubspace,
   Stafi: nodeStafi,
@@ -428,7 +445,6 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   crab: nodeCrab,
-  crab_redirect: nodeCrab,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
@@ -461,6 +477,7 @@ export const namedLogos: Record<string, unknown> = {
   karura: chainKarura,
   khala: nodeKhala,
   kilt: nodeKilt,
+  kintsugi: chainKintsugi,
   klugdossier: nodeKlug,
   kpron: nodeApron,
   kulupu: nodeKulupu,
@@ -482,8 +499,10 @@ export const namedLogos: Record<string, unknown> = {
   opportunity: nodeOpportunity,
   'origintrail-parachain-testnet': nodeOriginTrail,
   pangolin: nodePangolin,
+  pangoro: nodePangoro,
   phala: nodePhala,
   phoenix: nodePhoenix,
+  picasso: chainComposable,
   plasm: nodePlasm,
   polkadex: nodePolkadex,
   polkadot: nodePolkadot,
@@ -532,6 +551,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPlasm: nodePlasm,
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
+  rococoSingLavender: nodeSingLavender,
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
@@ -549,9 +569,14 @@ export const namedLogos: Record<string, unknown> = {
   sherpax: nodeChainx,
   shibuya: chainShiden,
   shiden: chainShiden,
+  singLavender: nodeSingLavender,
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
+<<<<<<< HEAD
   'spartan-testnet': nodeSubspace,
+=======
+  spanner: chainSpanner,
+>>>>>>> upstream/master
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,

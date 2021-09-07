@@ -52,3 +52,8 @@ export { useTxBatch } from './useTxBatch';
 export { useVotingStatus } from './useVotingStatus';
 export { useWeight } from './useWeight';
 export { useWeightFee } from './useWeightFee';
+export { useElementPosition } from './useElementPosition';
+export { useScroll } from './useScroll';
+export { useWindowSize } from './useWindowSize';
+export { useOutsideClick } from './useOutsideClick';
+export { usePopupWindow } from './usePopupWindow';
