@@ -5,7 +5,7 @@ import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/
 import type { BareProps as Props } from '@polkadot/react-components/types';
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
@@ -24,6 +24,8 @@ interface ItemState {
   isVisible: boolean;
   requestAddress: string | null;
 }
+
+const NOOP = () => undefined;
 
 const AVAIL_STATUS = ['queued', 'qr', 'signing'];
 
@@ -100,6 +102,19 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
       sendRpc(api, queueSetTxStatus, currentItem).catch(console.error);
   }, [api, isRpc, currentItem, queueSetTxStatus]);
 
+  const _onCancel = useCallback(
+    (): void => {
+      if (currentItem) {
+        const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
+
+        queueSetTxStatus(id, 'cancelled');
+        signerCb(id, null);
+        txFailedCb(null);
+      }
+    },
+    [currentItem, queueSetTxStatus]
+  );
+
   return (
     <>
       {children}
@@ -108,6 +123,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
           className={className}
           header={<>{t('Authorize transaction')}{(count === 1) ? undefined : <>&nbsp;1/{count}</>}</>}
           key={currentItem.id}
+          onClose={_onCancel}
           size='large'
         >
           {currentItem.isUnsigned

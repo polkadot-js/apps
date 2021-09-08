@@ -100,9 +100,9 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
       ref={dropRef}
     >
       {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })} >
+        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })}>
           <input {...getInputProps()} />
-          <em className='label' >
+          <em className='label'>
             {
               !file || clearContent
                 ? placeholder || t<string>('click to select or drag and drop the file here')
