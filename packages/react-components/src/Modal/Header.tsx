@@ -11,14 +11,14 @@ import Button from '../Button';
 function Header ({ className, header, onClose }: HeaderProps) {
   return (
     <div className={className}>
+      {header && (
+        <h1>{header}</h1>
+      )}
       <Button
         dataTestId='close-modal'
         icon='times'
         onClick={onClose}
       />
-      {header && (
-        <h1>{header}</h1>
-      )}
     </div>
   );
 }
@@ -26,6 +26,5 @@ function Header ({ className, header, onClose }: HeaderProps) {
 export default React.memo(styled(Header)`
   display: flex;
   justify-content: space-between;
-  flex-direction: row-reverse;
   padding: 0.75rem 1.5rem 0;
 `);

@@ -142,6 +142,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
         </div>
       </div>
       <Balances address={address} />
+      <span className='divider' />
       <Identity
         address={address}
         identity={identity}
@@ -165,6 +166,7 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
 export default React.memo(styled(FullSidebar)`
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-sidebar);
 
   input {
     width: auto !important;
@@ -195,7 +197,7 @@ export default React.memo(styled(FullSidebar)`
 
   section {
     &:not(:last-child) {
-      margin-bottom: 1.4rem;
+      margin-bottom: 1rem;
     }
 
     & :last-child {
@@ -203,31 +205,36 @@ export default React.memo(styled(FullSidebar)`
     }
 
     .ui--AddressMenu-sectionHeader {
-      display: inline-flex;
-      color: var(--color-text);
-      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 0.57rem;
       width: 100%;
 
-      & > :first-child {
-        flex: 1;
-      }
+      color: var(--color-text);
+      font-size: 1.143rem;
     }
   }
 
   .ui--AddressMenu-identity {
     .ui--AddressMenu-identityTable {
       font-size: 0.93rem;
-      margin-top: 0.3rem;
+      margin-top: 0.6rem;
 
       .tr {
+        padding: 0.25rem 0;
         display: inline-flex;
         align-items: center;
         width: 100%;
 
         .th {
+          text-transform: uppercase;
+          color: var(--color-label);
           font-weight: var(--font-weight-normal);
-          text-align: right;
+          text-align: left;
           flex-basis: 20%;
+          font-size: 0.714rem;
 
           &.top {
             align-self: flex-start;
@@ -243,8 +250,25 @@ export default React.memo(styled(FullSidebar)`
       }
     }
 
-    .parent, .subs {
+    .parent {
       padding: 0 !important;
+    }
+  }
+
+  && .column {
+    .ui--FormatBalance:first-of-type {
+      margin-bottom: 0.4rem;
+    }
+
+    label:first-of-type {
+      margin-bottom: 0.4rem;
+      color: var(--color-text);
+    }
+
+    label {
+      color: var(--color-label);
+      text-transform: uppercase;
+      font-size: 0.714rem;
     }
   }
 
@@ -295,5 +319,14 @@ export default React.memo(styled(FullSidebar)`
         box-shadow: 0 3px 3px rgba(0,0,0,.2);
       }
     }
+  }
+
+  .show-subs-button {
+    margin-left: 0.4rem;
+  }
+
+  .divider {
+    margin-bottom: 1rem;
+    border-top: 1px solid var(--border-table);
   }
 `);

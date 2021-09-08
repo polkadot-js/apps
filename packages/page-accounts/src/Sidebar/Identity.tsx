@@ -6,13 +6,14 @@ import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { AddressMini, AvatarItem, Icon, IconLink, Tag } from '@polkadot/react-components';
+import { AddressMini, AvatarItem, IconLink, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import RegistrarJudgement from './RegistrarJudgement';
 import SubAccountsModal from './SubAccountsModal';
+import user from './user.svg';
 
 interface Props {
   address: string;
@@ -35,11 +36,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
     <section data-testid='identity-section'>
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
-          <div>
-            <Icon icon='address-card' />
-            &nbsp;
-            {t<string>('identity')}
-          </div>
+          {t<string>('identity')}
           <Tag
             color={
               identity.isBad
@@ -76,9 +73,9 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               //   ? <img src={identity.image} />
               //   : <i className='icon user ui--AddressMenu-identityIcon' />
               //
-              <Icon
-                className='ui--AddressMenu-identityIcon'
-                icon='user'
+              <img
+                alt='user'
+                src={user as undefined}
               />
             }
             subtitle={identity.legal}
@@ -175,7 +172,10 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                   <div className='th'>{t<string>('sub')}</div>
                   <div className='td'>
                     {subs.length}
-                    <a onClick={toggleIsOpen}>{t<string>('Show list')}</a>
+                    <a
+                      className='show-subs-button'
+                      onClick={toggleIsOpen}
+                    >{t<string>('Show list')}</a>
                   </div>
                 </div>
               </>
