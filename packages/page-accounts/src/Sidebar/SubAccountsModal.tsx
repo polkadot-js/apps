@@ -45,8 +45,8 @@ function SubAccountsModal ({ className, onClose, subs }: Props): React.ReactElem
 
 export default React.memo(styled(SubAccountsModal)`
   .ui--Modal__body {
-    overflow-y: scroll;
-    max-height: 500px;
+    overflow-y: auto;
+    height: 35.714rem;
   }
 
   .content {
@@ -55,12 +55,14 @@ export default React.memo(styled(SubAccountsModal)`
 
     .address {
       background-color: var(--bg-tabs);
-      margin: 4px 0;
-      padding: 12px 16px;
+      margin: 0.286rem 0;
+      padding: 0.857rem 1.143rem;
+      border: 1px solid #DFDFDF;
+      border-radius: 0.286rem;
     }
 
-    .ui--AddressMini {
-
+    .ui--AddressMini-info {
+      max-width: 24rem;
     }
   }
 `);
