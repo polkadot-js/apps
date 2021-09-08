@@ -130,12 +130,7 @@ export default React.memo(styled(AccountMenuButtons)`
   .ui--Button-Group {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-bottom: 0;
-
-    .ui--Button {
-      width: 100%;
-      min-width: max-content;
-    }
   }
 `);
