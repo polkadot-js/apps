@@ -68,6 +68,17 @@ const origintrailDefinitions = {
           nominations: 'Vec<Bond>',
           total: 'Balance'
         },
+        NominatorStatus: {
+          _enum: ['Active', { Leaving: 'RoundIndex' }]
+        },
+        Nominator2: {
+          nominations: 'Vec<Bond>',
+          revocations: 'Vec<AccountId>',
+          total: 'Balance',
+          scheduled_revocations_count: 'u32',
+          scheduled_revocations_total: 'Balance',
+          status: 'NominatorStatus'
+        },
         Bond: {
           owner: 'AccountId',
           amount: 'Balance'
@@ -125,6 +136,19 @@ const origintrailDefinitions = {
           total: 'Balance',
           state: 'CollatorStatus'
         },
+        Collator2: {
+          id: 'AccountId',
+          bond: 'Balance',
+          nominators: 'Vec<AccountId>',
+          top_nominators: 'Vec<Bond>',
+          bottom_nominators: 'Vec<Bond>',
+          total_counted: 'Balance',
+          total_backing: 'Balance',
+          state: 'CollatorStatus'
+        },
+        NominatorAdded: {
+          _enum: [{ AddedToTop: 'Balance' }, 'AddedToBottom']
+        },
         CollatorSnapshot: {
           bond: 'Balance',
           nominators: 'Vec<Bond>',
@@ -149,6 +173,21 @@ const origintrailDefinitions = {
         RegistrationInfo: {
           account: 'AccountId',
           deposit: 'Balance'
+        },
+        ParachainBondConfig: {
+          account: 'AccountId',
+          deposit: 'Balance'
+        },
+        EthereumSignature: {
+          r: 'H256',
+          s: 'H256',
+          v: 'U8'
+        },
+        ExitQ: {
+          candidates: 'Vec<AccountId>',
+          nominators_leaving: 'Vec<AccountId>',
+          candidate_schedule: 'Vec<(AccountId, RoundIndex)>',
+          nominator_schedule: 'Vec<(AccountId, Option<AccountId>, RoundIndex)>'
         }
       }
     }

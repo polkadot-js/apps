@@ -50,7 +50,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> |
               </Modal.Columns>
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={onClose}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               isDisabled={!electionsInfo}

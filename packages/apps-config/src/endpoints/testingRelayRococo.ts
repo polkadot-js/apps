@@ -24,9 +24,9 @@ export function createRococo (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io',
       OnFinality: 'wss://rococo.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://rococo.elara.patract.io'
+      'Patract Elara': 'wss://pub.elara.patract.io/rococo',
+      Pinknode: 'wss://rpc.pinknode.io/rococo/explorer'
       // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
-      // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
     linked: [
       // these are the base chains
@@ -224,6 +224,14 @@ export function createRococo (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'rococoInterBTC',
+        paraId: 2088,
+        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
+        providers: {
+          Interlay: 'wss://api-rococo.interlay.io/parachain'
+        }
+      },
+      {
         info: 'rococoKilt',
         isDisabled: true, // Rococo reset
         paraId: 12623,
@@ -247,6 +255,14 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.kylin-node.co.uk', 'Kylin Network', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://rpc.kylin-node.co.uk'
+        }
+      },
+      {
+        info: 'rococoSingLavender',
+        paraId: 2104,
+        text: t('rpc.rococo.singlavender', 'Lavender by SingNetwork', { ns: 'apps-config' }),
+        providers: {
+          SingNetwork: 'wss://rpc-lavender.singnetwork.io'
         }
       },
       {
@@ -305,7 +321,7 @@ export function createRococo (t: TFunction): EndpointOption {
       {
         info: 'rococoOriginTrail',
         paraId: 2037,
-        text: t('rpc.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
+        text: t('rpc.rococo.origintrail', 'OriginTrail Parachain', { ns: 'apps-config' }),
         providers: {
           'Trace Labs': 'wss://polkadot-js-second.origin-trail.network'
         }
@@ -353,15 +369,6 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.plasm', 'Plasm PC2', { ns: 'apps-config' }),
         providers: {
           PlasmNetwork: 'wss://rpc.rococo.plasmnet.io'
-        }
-      },
-      {
-        info: 'rococoPolkabtc',
-        isDisabled: true, // Rococo reset
-        paraId: 21,
-        text: t('rpc.rococo.polkabtc', 'PolkaBTC PC1', { ns: 'apps-config' }),
-        providers: {
-          Interlay: 'wss://rococo.polkabtc.io/api/parachain'
         }
       },
       {

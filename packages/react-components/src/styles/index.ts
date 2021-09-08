@@ -255,6 +255,31 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Popup .ui--Button.isOpen:not(.isDisabled):not(.isReadOnly) {
+    background: ${getHighlight(uiHighlight)} !important;
+    color: ${getContrast(uiHighlight)} !important;
+
+    .ui--Icon {
+      background: transparent !important;
+      color: ${getContrast(uiHighlight)} !important;
+    }
+  }
+
+
+  .ui--Menu {
+    .ui--Menu__Item:hover {
+       background: ${hexToRGB(getHighlight(uiHighlight), '.1')};
+    }
+
+    .ui--Toggle.isChecked .ui--Toggle-Slider {
+      background: ${getHighlight(uiHighlight)};
+
+      &::before {
+        border-color: ${getHighlight(uiHighlight)};
+      }
+    }
+  }
+
   .ui--SummaryBox {
     > section {
       background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
@@ -300,6 +325,25 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
         }
       }
     }
+  }
+
+  .ui--ExpandButton:hover {
+    border-color: ${getHighlight(uiHighlight)} !important;
+
+    .ui--Icon {
+      color: ${getHighlight(uiHighlight)} !important;
+    }
+  }
+
+  .ui--Tag.themeColor.lightTheme,
+  .ui--InputTags.lightTheme .ui.label {
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
+  }
+
+  .ui--Tag.themeColor.darkTheme,
+  .ui--InputTags.darkTheme .ui.label {
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
   }
 
   #root {

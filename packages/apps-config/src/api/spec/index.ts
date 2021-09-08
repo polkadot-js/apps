@@ -6,6 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import acala from './acala';
 import apron from './apron';
 import aresParachain from './ares-parachain';
+import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
 import bifrostAsgard from './bifrost-asgard';
@@ -21,7 +22,6 @@ import crab from './crab';
 import crust from './crust';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
-import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
 import dockPoaMainnet from './dock-poa-mainnet';
 import dockPoaTestnet from './dock-poa-testnet';
@@ -43,9 +43,11 @@ import hanonycash from './hanonycash';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
+import interbtc from './interbtc';
 import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
+import khala from './khala';
 import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
@@ -63,13 +65,12 @@ import oakTestnet from './oak-testnet';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
 import pangolin from './pangolin';
+import pangoro from './pangoro';
+import parallel from './parallel';
 import parami from './parami';
-import phala from './phala';
-import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
-import polkabtc from './polkabtc';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -80,6 +81,7 @@ import riochain from './riochain';
 import robonomics from './robonomics';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
+import spanner from './spanner';
 import stafi from './stafi';
 import subdao from './subdao';
 import subgame from './subgame';
@@ -103,24 +105,24 @@ import zero from './zero';
 const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
-  'Darwinia Crab PC2': darwiniaParachain,
-  'Darwinia PC2': darwiniaParachain,
+  'Darwinia Crab PC2': pangolin,
+  'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   Pangolin: pangolin,
+  Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
   apron,
   'ares-parachain': aresParachain,
   asgard: bifrostAsgard,
-  basilisk: hydrate,
+  basilisk,
   beresheet,
   bifrost: bifrost,
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
-  'btc-parachain': polkabtc,
   canvas,
   'centrifuge-chain': centrifugeChain,
   chainx,
@@ -150,15 +152,19 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
+  heiko: parallel,
   'hydra-dx': hydrate,
   idavoll,
   'integritee-parachain': integritee,
+  'interbtc-parachain': interbtc,
+  'interbtc-standalone': interbtc,
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
-  khala: phalaParachain,
+  khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
+  kintsugi: interbtc,
   konomi,
   kpron,
   kulupu,
@@ -183,21 +189,19 @@ const spec: Record<string, OverrideBundleDefinition> = {
   opportunity,
   'origintrail-parachain': origintrail,
   parami,
-  'phala-collator': phalaParachain,
-  'phala-node': phala,
-  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
   'plasm-parachain': plasmParachain,
   polymesh,
-  pontem,
+  'pontem-node': pontem,
   prism,
   realis,
   'riochain-runtime': riochain,
   robonomics,
   snowbridge,
   'sora-substrate': soraSubstrate,
+  spanner,
   stafi,
   steam: eave,
   subdao,

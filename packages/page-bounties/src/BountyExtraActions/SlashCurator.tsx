@@ -95,6 +95,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
   return (
     <Modal
       header={`${title} - "${truncateTitle(description, 30)}"`}
+      onClose={toggleOpen}
       size='large'
     >
       <Modal.Content>
@@ -118,7 +119,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={toggleOpen}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='check'

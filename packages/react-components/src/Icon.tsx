@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 interface Props {
   className?: string;
-  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red' | 'transparent' | 'white';
+  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red' | 'transparent' | 'white' | 'darkGray';
   icon: IconName;
   isPadded?: boolean;
   isSpinning?: boolean;
@@ -42,6 +42,8 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
 }
 
 export default React.memo(styled(Icon)`
+  outline: none;
+
   &.isClickable {
     cursor: pointer;
   }
@@ -72,5 +74,9 @@ export default React.memo(styled(Icon)`
 
   &.whiteColor {
     color: white;
+  }
+
+  &.darkGrayColor {
+    color: #8B8B8B;
   }
 `);
