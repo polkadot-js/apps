@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AccountId } from '@polkadot/types/interfaces';
+
 import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { AddressMini, Modal } from '@polkadot/react-components';
-import { AccountId } from '@polkadot/types/interfaces';
 
 interface Props {
   className?: string;

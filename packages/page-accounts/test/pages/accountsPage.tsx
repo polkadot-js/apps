@@ -1,7 +1,9 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TrackFn } from '@polkadot/react-hooks/useCall';
+import type { ApiProps } from '@polkadot/react-api/types';
+import type { CallOptions, CallParams, UseAccountInfo } from '@polkadot/react-hooks/types';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
 import { fireEvent, render, RenderResult, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
@@ -9,23 +11,21 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { balance } from '@polkadot/app-accounts/Accounts/index.spec';
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
-import { CallOptions, CallParams, UseAccountInfo } from '@polkadot/react-hooks/types';
+import { TrackFn } from '@polkadot/react-hooks/useCall';
 import { TypeRegistry } from '@polkadot/types/create';
-import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
+import Overview from '../../src/Accounts/index';
+import { balance } from '../../src/Accounts/index.spec';
+import AccountSidebar from '../../src/Sidebar';
 import { AccountOverrides, mockAccountHooks } from '../hooks/default';
-import { mockApiCalls } from '../mockApiCalls';
-import Overview from '../pages/../../src/Accounts/index';
+import { mockApiCalls } from '../hooks/mockApiCalls';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 
