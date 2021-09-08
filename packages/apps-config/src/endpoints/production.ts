@@ -34,17 +34,17 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
-      info: 'crust',
-      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
-      providers: {
-        'Crust Network': 'wss://rpc.crust.network'
-      }
-    },
-    {
       info: 'crown-sterling',
       text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
       providers: {
         'Crown Sterling': 'wss://blockchain.crownsterling.io'
+      }
+    },
+    {
+      info: 'crust',
+      text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
+      providers: {
+        'Crust Network': 'wss://rpc.crust.network'
       }
     },
     {
