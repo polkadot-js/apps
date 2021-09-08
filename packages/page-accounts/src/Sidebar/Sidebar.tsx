@@ -256,6 +256,8 @@ export default React.memo(styled(FullSidebar)`
   }
 
   && .column {
+    align-items: center;
+
     .ui--FormatBalance:first-of-type {
       margin-bottom: 0.4rem;
     }
