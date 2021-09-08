@@ -280,12 +280,6 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
-  .ui--SummaryBox {
-    > section {
-      background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
-    }
-  }
-
   .ui--Progress {
     .circle-progress {
       stroke: ${getHighlight(uiHighlight)};
