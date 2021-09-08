@@ -402,8 +402,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'spartan-testnet',
       text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
       providers: {
-        // 'SubSpace Network': 'wss://testnet-node-1.subspace.network' //TODO: Create a public testnet node url
-        'SubSpace Network': 'ws://127.0.0.1:9944'
+        'SubSpace Network': 'wss://dev-rpc.subspace.network'
       }
     },
     {
