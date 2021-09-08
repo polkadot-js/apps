@@ -12,27 +12,50 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        RpcSolution: {
+          public_key: '[u8; 32]',
+          nonce: 'u64',
+          encoding: 'Vec<u8>',
+          signature: 'Vec<u8>',
+          tag: '[u8; 8]'
+        },
+        ProposedProofOfSpaceResult: {
+          slot_number: 'Slot',
+          solution: 'Option<RpcSolution>',
+          secret_key: 'Vec<u8>'
+        },
+        RpcNewSlotInfo: {
+          slot_number: 'Slot',
+          challenge: '[u8; 8]',
+          salt: '[u8; 8]',
+          next_salt: 'Option<[u8; 8]>',
+          solution_range: 'u64'
+        },
+        PoCRandomness: '[u8; 32]',
+        FarmerSignature: 'Signature',
+        FarmerId: 'AccountId',
+        PoCBlockWeight: 'u32',
         ConsensusLog: {
           _enum: {
             Phantom: 'Null',
-            NextEpochData: 'NextEpochDescriptor',
-            NextConfigData: 'NextConfigDescriptor',
+            NextEpochData: 'PoCNextEpochDescriptor',
+            NextConfigData: 'PoCNextConfigDescriptor',
             SolutionRangeData: 'SolutionRangeDescriptor',
             SaltData: 'SaltDescriptor',
             NextSolutionRangeData: 'NextSolutionRangeDescriptor',
             NextSaltData: 'NextSaltDescriptor'
           }
         },
-        NextEpochDescriptor: {
-          randomness: 'Randomness'
+        PoCNextEpochDescriptor: {
+          randomness: 'PoCRandomness'
         },
-        NextConfigDescriptor: {
+        PoCNextConfigDescriptor: {
           _enum: {
             V0: 'Null',
-            V1: 'NextConfigDescriptorV1'
+            V1: 'PoCNextConfigDescriptorV1'
           }
         },
-        NextConfigDescriptorV1: {
+        PoCNextConfigDescriptorV1: {
           c: '(u64, u64)'
         },
         SolutionRangeDescriptor: {
@@ -46,6 +69,31 @@ const definitions: OverrideBundleDefinition = {
         },
         NextSaltDescriptor: {
           salt: 'u64'
+        },
+        PoCEpochConfiguration: {
+          c: '(u64, u64)'
+        },
+        Solution: {
+          public_key: 'FarmerId',
+          nonce: 'u64',
+          encoding: 'Vec<u8>',
+          signature: 'Vec<u8>',
+          tag: '[u8; 8]'
+        },
+        RawPoCPreDigest: {
+          slot: 'Slot',
+          solution: 'Solution'
+        },
+        PoCEquivocationProof: {
+          offender: 'FarmerId',
+          slot: 'Slot',
+          firstHeader: 'Header',
+          secondHeader: 'Header'
+        },
+        EquivocationProof: 'PoCEquivocationProof',
+        PoCEquivocationOffence: {
+          slot: 'Slot',
+          offender: 'FullIdentification'
         }
       }
     }
