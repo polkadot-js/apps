@@ -3,10 +3,10 @@
 
 import type { ComponentProps as Props } from '../types';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from '../modals/Create';
@@ -48,18 +48,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     );
   }, [allAddresses, favorites]);
 
-  const filter = useMemo(() => (
-    <div className='filter--tags'>
-      <Input
-        autoFocus
-        isFull
-        label={t<string>('filter by name or tags')}
-        onChange={setFilter}
-        value={filterOn}
-      />
-    </div>
-  ), [filterOn, t]);
-
   return (
     <div className={className}>
       <Button.Group>
@@ -75,9 +63,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      <SummaryBox>
+        <section>
+          <FilterInput
+            filterOn={filterOn}
+            label={t<string>('filter by name or tags')}
+            setFilter={setFilter}
+          />
+        </section>
+      </SummaryBox>
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
-        filter={filter}
         header={headerRef.current}
       >
         {!isLoading && sortedAddresses?.map(({ address, isFavorite }, index): React.ReactNode => (
@@ -95,14 +91,4 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   );
 }
 
-export default React.memo(styled(Overview)`
-  .filter--tags {
-    .ui--Dropdown {
-      padding-left: 0;
-
-      label {
-        left: 1.55rem;
-      }
-    }
-  }
-`);
+export default React.memo(styled(Overview)``);
