@@ -285,9 +285,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             isCircular
             onClick={onSortDirectionChange()}
           />
-          <div className='filter'>
-            {filter}
-          </div>
+          {filter}
         </section>
       </SummaryBox>
       <Table
@@ -307,7 +305,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Overview)`
-  .filter {
+  .filter--tags {
     width: 17.857rem;
     margin-left: 2.286rem;
 
