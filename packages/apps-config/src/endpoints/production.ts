@@ -41,6 +41,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'crown-sterling',
+      text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
+      providers: {
+        'Crown Sterling': 'wss://blockchain.crownsterling.io'
+      }
+    },
+    {
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
