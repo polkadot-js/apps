@@ -142,7 +142,6 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
         </div>
       </div>
       <Balances address={address} />
-      <span className='divider' />
       <Identity
         address={address}
         identity={identity}
@@ -196,6 +195,8 @@ export default React.memo(styled(FullSidebar)`
   }
 
   section {
+    position: relative;
+
     &:not(:last-child) {
       margin-bottom: 1rem;
     }
@@ -214,6 +215,21 @@ export default React.memo(styled(FullSidebar)`
 
       color: var(--color-text);
       font-size: 1.143rem;
+    }
+
+    &.withDivider {
+      padding-top: 1rem;
+
+      ::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        content: '';
+        width: 100%;
+        height: 1px;
+        background-color: var(--border-table);
+      }
     }
   }
 
@@ -331,8 +347,18 @@ export default React.memo(styled(FullSidebar)`
     margin-left: 0.4rem;
   }
 
-  .divider {
-    margin-bottom: 1rem;
-    border-top: 1px solid var(--border-table);
+  .ui--Multisig {
+    .ui--AddressMenu-sectionHeader {
+      justify-content: flex-start;
+
+      span {
+        margin-left: 0.4rem;
+        color: var(--color-label);
+      }
+    }
+
+    .ui--AddressMini {
+      margin-bottom: 0.4rem;
+    }
   }
 `);

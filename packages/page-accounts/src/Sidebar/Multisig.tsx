@@ -5,7 +5,7 @@ import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
 
-import { AddressMini, Icon, Static } from '@polkadot/react-components';
+import { AddressMini } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -24,31 +24,16 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
   const { threshold, who } = meta;
 
   return (
-    <section>
+    <section className='ui--Multisig withDivider'>
       <div className='ui--AddressMenu-sectionHeader'>
-        <div>
-          <Icon icon='handshake' />
-          &nbsp;
-          {t<string>('multisig')}
-        </div>
+        {t<string>('multisig')}  <span className='threshold'>{threshold}/{(who as string[]).length}</span>
       </div>
-      <Static
-        isFull
-        label={t<string>('threshold')}
-      >
-        {threshold}/{(who as string[]).length}
-      </Static>
-      <Static
-        isFull
-        label={t<string>('signatories')}
-      >
-        {(who as string[])?.map((address) => (
-          <AddressMini
-            key={address}
-            value={address}
-          />
-        ))}
-      </Static>
+      {(who as string[])?.map((address) => (
+        <AddressMini
+          key={address}
+          value={address}
+        />
+      ))}
     </section>
   );
 }
