@@ -26,7 +26,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
   const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
-  const [isOpen, toggleIsOpen] = useToggle();
+  const [isSubsModalOpen, toggleSubsModalOpen] = useToggle();
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -162,9 +162,9 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {!!subs?.length && (
               <>
-                {isOpen && (
+                {isSubsModalOpen && (
                   <SubAccountsModal
-                    onClose={toggleIsOpen}
+                    onClose={toggleSubsModalOpen}
                     subs={subs}
                   />
                 )}
@@ -174,7 +174,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     {subs.length}
                     <a
                       className='show-subs-button'
-                      onClick={toggleIsOpen}
+                      onClick={toggleSubsModalOpen}
                     >{t<string>('Show list')}</a>
                   </div>
                 </div>
