@@ -93,7 +93,7 @@ const definitions: OverrideBundleDefinition = {
         EquivocationProof: 'PoCEquivocationProof',
         PoCEquivocationOffence: {
           slot: 'Slot',
-          offender: 'FullIdentification'
+          offender: 'FarmerId'
         }
       }
     }
