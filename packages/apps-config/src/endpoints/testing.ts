@@ -399,6 +399,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'spartan-testnet',
+      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://dev-rpc.subspace.network'
+      }
+    },
+    {
       info: 'ternoa-chaos',
       text: t('rpc.test.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
       providers: {
