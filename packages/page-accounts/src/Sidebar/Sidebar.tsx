@@ -272,6 +272,10 @@ export default React.memo(styled(FullSidebar)`
       text-transform: uppercase;
       font-size: 0.714rem;
     }
+
+    .ui--FormatBalance, label {
+      line-height: 1rem;
+    }
   }
 
   .ui--AddressMenu-buttons {

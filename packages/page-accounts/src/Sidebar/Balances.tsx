@@ -40,7 +40,7 @@ export default React.memo(styled(Balances)`
 
     .column {
       width: auto;
-      max-width: 220px;
+      max-width: 18.57rem;
 
       label {
         text-align: left;
