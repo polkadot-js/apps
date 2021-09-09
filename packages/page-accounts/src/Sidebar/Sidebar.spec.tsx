@@ -42,7 +42,7 @@ describe('Sidebar, subs list', () => {
     expect(subs).toHaveLength(0);
   });
 
-  it('displays amount of subs', async () => {
+  it('displays count of subs', async () => {
     accountsPage.renderPage([[aliceAddress, anAccount()], [bobAddress, { meta: { name: 'Bob' } }]], { subs: [bobAddress] });
 
     const accountRows = await accountsPage.findAccountRows();
