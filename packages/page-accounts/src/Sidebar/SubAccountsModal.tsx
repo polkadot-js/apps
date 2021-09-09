@@ -25,7 +25,7 @@ function SubAccountsModal ({ className, onClose, subs }: Props): React.ReactElem
       onClose={onClose}
       size='tiny'
     >
-      <Modal.Content className='content'>
+      <Modal.Content>
         {subs.map((sub) =>
           <div
             className='address'
@@ -46,11 +46,17 @@ function SubAccountsModal ({ className, onClose, subs }: Props): React.ReactElem
 
 export default React.memo(styled(SubAccountsModal)`
   .ui--Modal__body {
-    overflow-y: auto;
     height: 35.714rem;
   }
 
-  .content {
+  .ui--Modal__Header {
+    padding-bottom: 1rem;
+  }
+
+  .ui--Modal__Content {
+    padding-top: 0.5rem;
+    overflow-y: auto;
+
     display: flex;
     flex-direction: column;
 
