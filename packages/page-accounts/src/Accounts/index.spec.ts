@@ -3,13 +3,13 @@
 
 import type { Balance } from '@polkadot/types/interfaces';
 
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import BN from 'bn.js';
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
 import toShortAddress from '@polkadot/react-components/util/toShortAddress';
-import { UseAccountInfo } from '@polkadot/react-hooks/types';
+import { AddressFlags, UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { MemoryStore } from '@polkadot/test-support/keyring';
@@ -17,6 +17,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import { AccountOverrides, Override } from '../../test/hooks/default';
+import { AccountRow } from '../../test/pageElements/AccountRow';
+import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
@@ -373,6 +375,121 @@ describe('Accounts page', () => {
         await accountsPage.selectOrder('name');
         await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
       });
+    });
+
+    describe('sidebar', () => {
+      const initialName = 'INITIAL_NAME';
+      const newName = 'NEW_NAME';
+      const defaultTag = 'Default';
+      const nameInputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
+
+      let accountRows: AccountRow[];
+      let sideBar: Sidebar;
+
+      describe('changes name', () => {
+        beforeEach(async () => {
+          accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
+          sideBar = await openSidebarForAccountRow(0);
+          await sideBar.changeAccountName(newName);
+        });
+
+        it('within keyring', () => {
+          const changedAccount = keyring.getAccount(aliceAddress);
+
+          expect(changedAccount?.meta?.name).toEqual(newName);
+        });
+
+        it('within sidebar', async () => {
+          await sideBar.assertAccountName(newName);
+        });
+
+        it('within account row', async () => {
+          await accountRows[0].assertAccountName(newName);
+        });
+      });
+
+      it('cannot be edited if edit button has not been pressed', async () => {
+        await sideBar.clickByText('no tags');
+        expect(sideBar.queryByRole('combobox')).toBeFalsy();
+
+        await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+      });
+
+      it('when isEditable is false account name is not editable', async () => {
+        renderAccountsWithDefaultAddresses(
+          anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
+        );
+        sideBar = await openSidebarForAccountRow(0);
+        sideBar.edit();
+        await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+      });
+
+      describe('on edit cancel', () => {
+        beforeEach(async () => {
+          accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
+
+          sideBar = await openSidebarForAccountRow(0);
+          await sideBar.assertTags('no tags');
+          sideBar.edit();
+        });
+
+        it('restores tags and name to state from keyring', async () => {
+          await sideBar.typeAccountName(newName);
+          await sideBar.selectTag(defaultTag);
+
+          sideBar.cancel();
+          await sideBar.assertTags('no tags');
+          await sideBar.assertAccountName(initialName);
+        });
+
+        it('Cancel button disappears', () => {
+          sideBar.cancel();
+          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
+        });
+      });
+
+      describe('outside click', () => {
+        beforeEach(async () => {
+          renderAccountsWithDefaultAddresses(
+            anAccountWithMeta({ name: 'alice' }),
+            anAccountWithMeta({ name: 'bob' })
+          );
+
+          sideBar = await openSidebarForAccountRow(0);
+          sideBar.edit();
+        });
+
+        it('cancels editing', async () => {
+          await sideBar.typeAccountName(newName);
+          await sideBar.selectTag(defaultTag);
+
+          fireEvent.click(await screen.findByText('accounts'));
+
+          await sideBar.assertTags('no tags');
+          await sideBar.assertAccountName('ALICE');
+
+          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
+        });
+
+        it('within sidebar does not cancel editing', async () => {
+          await sideBar.clickByText('Tags');
+
+          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeTruthy();
+        });
+
+        it('cancels editing and changes name when opening sidebar for another account', async () => {
+          await waitFor(() => sideBar.assertAccountInput('alice'));
+
+          sideBar = await openSidebarForAccountRow(1);
+          await sideBar.assertAccountName('BOB');
+        });
+      });
+
+      async function openSidebarForAccountRow (rowIndex: number) {
+        accountRows = await accountsPage.findAccountRows();
+
+        return accountRows[rowIndex].openSidebar();
+      }
     });
   });
 

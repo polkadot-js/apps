@@ -51,8 +51,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
-  const [isEditingName, toggleIsEditingName] = useToggle();
-  const [isEditingTags, toggleIsEditingTags] = useToggle();
+  const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
+  const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
 
   useEffect((): void => {
     validator && setFlags((flags) => ({
@@ -251,11 +251,14 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     []
   );
 
+  const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
+
   return {
     accountIndex,
     flags,
     genesisHash,
     identity,
+    isEditing,
     isEditingName,
     isEditingTags,
     isNull: !value,
@@ -265,6 +268,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     onSaveName,
     onSaveTags,
     onSetGenesisHash,
+    setIsEditingName,
+    setIsEditingTags,
     setName,
     setTags,
     tags,
