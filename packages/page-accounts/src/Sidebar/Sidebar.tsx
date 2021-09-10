@@ -150,8 +150,10 @@ export default React.memo(styled(FullSidebar)`
     }
   }
 
-  .ui--AddressMenu-identity {
-    .ui--AddressMenu-identityTable {
+  .ui--AddressMenu-identity,
+  .ui--AddressMenu-multisig {
+    .ui--AddressMenu-identityTable,
+    .ui--AddressMenu-multisigTable {
       font-size: 0.93rem;
       margin-top: 0.6rem;
 
@@ -166,7 +168,7 @@ export default React.memo(styled(FullSidebar)`
           color: var(--color-label);
           font-weight: var(--font-weight-normal);
           text-align: left;
-          flex-basis: 20%;
+          flex-basis: 25%;
           font-size: 0.714rem;
 
           &.top {
@@ -265,18 +267,13 @@ export default React.memo(styled(FullSidebar)`
     margin-left: 0.4rem;
   }
 
-  .ui--Multisig {
-    .ui--AddressMenu-sectionHeader {
-      justify-content: flex-start;
-
-      span {
-        margin-left: 0.4rem;
-        color: var(--color-label);
-      }
-    }
-
+  .ui--AddressMenu-multisig {
     .ui--AddressMini {
       margin-bottom: 0.4rem;
+    }
+
+    .th.signatories {
+      align-self: flex-start;
     }
   }
 `);
