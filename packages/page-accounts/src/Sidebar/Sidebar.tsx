@@ -84,6 +84,9 @@ export default React.memo(styled(FullSidebar)`
   flex-direction: column;
   background-color: var(--bg-sidebar);
 
+  max-width: 30.42rem;
+  min-width: 30.42rem;
+
   input {
     width: auto !important;
   }
