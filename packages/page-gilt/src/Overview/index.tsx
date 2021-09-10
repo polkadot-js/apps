@@ -5,6 +5,7 @@ import React, { useMemo } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
+import { useProxies } from '../useProxies';
 import BidAdd from './BidAdd';
 import Queues from './Queues';
 import Summary from './Summary';
@@ -15,11 +16,14 @@ interface Props {
 }
 
 function Overview ({ className }: Props): React.ReactElement<Props> {
+  const proxies = useProxies();
   const { info } = useInfo();
 
+  console.log(proxies);
+
   const isDisabled = useMemo(
-    () => !info || !info.activeTotal || info.activeTotal.target.isZero(),
-    [info]
+    () => !proxies.length || !info || !info.activeTotal || info.activeTotal.target.isZero(),
+    [info, proxies]
   );
 
   return (
