@@ -19,8 +19,6 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const proxies = useProxies();
   const { info } = useInfo();
 
-  console.log(proxies);
-
   const isDisabled = useMemo(
     () => !proxies.length || !info || !info.activeTotal || info.activeTotal.target.isZero(),
     [info, proxies]
@@ -33,7 +31,10 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
       />
       <Button.Group>
-        <BidAdd isDisabled={isDisabled} />
+        <BidAdd
+          isDisabled={isDisabled}
+          proxies={proxies}
+        />
       </Button.Group>
       <Queues queueTotals={info?.queueTotals} />
     </div>
