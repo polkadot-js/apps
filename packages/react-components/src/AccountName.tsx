@@ -171,6 +171,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   return (
     <div
       className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
+      data-testid='account-name'
       onClick={
         withSidebar
           ? _onToggleSidebar

@@ -34,6 +34,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'crown-sterling',
+      text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
+      providers: {
+        'Crown Sterling': 'wss://blockchain.crownsterling.io'
+      }
+    },
+    {
       info: 'crust',
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
@@ -78,6 +85,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://node.equilibrium.io'
+      }
+    },
+    {
+      info: 'genshiro',
+      text: t('rpc.prod.genshiro', 'Genshiro', { ns: 'apps-config' }),
+      providers: {
+        Equilibrium: 'wss://node.genshiro.io'
       }
     },
     {
@@ -153,6 +167,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
         'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
         Soramitsu: 'wss://ws.alb.sora.org',
         'SORA Community (Lux8)': 'wss://sora.lux8.net'
+      }
+    },
+    {
+      info: 'spanner',
+      text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
+      providers: {
+        Spanner: 'wss://wss.spannerprotocol.com'
       }
     },
     {

@@ -19,6 +19,7 @@ const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
+const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
@@ -45,6 +46,7 @@ const chainMoonrock = '#3d1d5a';
 const chainNFTMart = '#815287';
 const chainOakTestnet = '#E38985';
 const chainPangolin = '#5744ff';
+const chainPangoro = '#5745de';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -55,7 +57,7 @@ const chainPolkaFoundry = '#ff527c';
 const chainPolkaSmith = '#0DDDFB';
 const chainPontem = '#A92FAC';
 const chainPrism = 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)';
-const chainKilt = '#5ab9aa';
+const chainKilt = '#8c145a';
 const chainKonomi = '#007aff';
 const chainKusama = '#000000';
 const chainKylin = '#ed007e';
@@ -64,7 +66,7 @@ const chainMybank = '#282736';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
-const chainRoccoBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
+const chainRoccoBifrost = '#5a25f0';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
@@ -77,6 +79,7 @@ const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
+const chainSpanner = '#EC3D3D';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -99,9 +102,10 @@ const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#70FF8B';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
-const nodeBifrost = 'linear-gradient(-45deg, #9E3BFF 0%, #492CFF 100%)';
+const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
+const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
@@ -129,6 +133,7 @@ const nodeOakTestnet = '#E38985';
 const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
+const nodePangoro = '#5745de';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
@@ -175,6 +180,7 @@ export const chainColors: Record<string, string> = Object.entries({
   ChainX: chainChainx,
   Clover: chainClover,
   Composable: chainComposable,
+  'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
@@ -192,6 +198,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Galital: chainGalital,
   Galois: chainGalois,
   'GamePower Network': chainGamePower,
+  Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
   'Halongbay PC1': chainPolkaFoundry,
   hanonycash: chainHanonycash,
@@ -210,6 +217,7 @@ export const chainColors: Record<string, string> = Object.entries({
   KILT: chainKilt,
   'KILT Local': chainKilt,
   'KILT Peregrine Testnet': chainKilt,
+  'KILT Spiritnet': chainKilt,
   'KILT Testnet': chainKilt,
   Kintsugi: chainKintsugi,
   'KLUGDOSSIER.NET': chainKlug,
@@ -240,6 +248,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
+  Pangoro: chainPangoro,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
@@ -263,6 +272,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shadow: chainShadow,
   sherpax: chainChainx,
   Shiden: chainShiden,
+  Spanner: chainSpanner,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
@@ -307,6 +317,7 @@ export const nodeColors = Object.entries({
   'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'Crown Sterling': nodeCrownSterling,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
   'Encointer Node': nodeEncointerNotee,
@@ -334,6 +345,7 @@ export const nodeColors = Object.entries({
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
+  Pangoro: nodePangoro,
   'Parallel Heiko': nodeHeiko,
   'Parami Collator': nodeParami,
   'Patract Node': nodeJupiter,

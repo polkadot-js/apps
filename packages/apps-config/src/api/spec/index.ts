@@ -19,10 +19,10 @@ import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
 import crab from './crab';
+import crownSterlingChain from './crown-sterling';
 import crust from './crust';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
-import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
 import dockPoaMainnet from './dock-poa-mainnet';
 import dockPoaTestnet from './dock-poa-testnet';
@@ -48,6 +48,7 @@ import interbtc from './interbtc';
 import ipse from './ipse';
 import jupiter from './jupiter';
 import jupiterRococo from './jupiter-rococo';
+import khala from './khala';
 import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
@@ -65,10 +66,9 @@ import oakTestnet from './oak-testnet';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
 import pangolin from './pangolin';
+import pangoro from './pangoro';
 import parallel from './parallel';
 import parami from './parami';
-import phala from './phala';
-import phalaParachain from './phala-parachain';
 import phoenix from './phoenix';
 import plasm from './plasm';
 import plasmParachain from './plasm-parachain';
@@ -82,6 +82,7 @@ import riochain from './riochain';
 import robonomics from './robonomics';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
+import spanner from './spanner';
 import stafi from './stafi';
 import subdao from './subdao';
 import subgame from './subgame';
@@ -105,11 +106,12 @@ import zero from './zero';
 const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
-  'Darwinia Crab PC2': darwiniaParachain,
-  'Darwinia PC2': darwiniaParachain,
+  'Darwinia Crab PC2': pangolin,
+  'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   Pangolin: pangolin,
+  Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
@@ -128,6 +130,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'chainx-parachain': chainx,
   clover,
   'clover-rococo': cloverRococo,
+  'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
   'cumulus-subsocial-parachain': subsocial,
@@ -160,7 +163,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ipse-node': ipse,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
-  khala: phalaParachain,
+  khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
   kintsugi: interbtc,
@@ -188,9 +191,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   opportunity,
   'origintrail-parachain': origintrail,
   parami,
-  'phala-collator': phalaParachain,
-  'phala-node': phala,
-  'phale-node': phala,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
@@ -203,6 +203,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   robonomics,
   snowbridge,
   'sora-substrate': soraSubstrate,
+  spanner,
   stafi,
   steam: eave,
   subdao,

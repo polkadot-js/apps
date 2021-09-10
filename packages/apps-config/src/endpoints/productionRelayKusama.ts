@@ -23,6 +23,7 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
+      // Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -115,11 +116,10 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'integritee',
         homepage: 'https://integritee.network',
-        isUnreachable: true,
         paraId: 2015,
         text: t('rpc.kusama.integritee', 'Integritee Network', { ns: 'apps-config' }),
         providers: {
-          Integritee: 'wss://teerk01.integritee.network'
+          Integritee: 'wss://kusama.api.integritee.network'
         }
       },
       {
@@ -153,7 +153,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2086,
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
-          'KILT Protocol': 'wss://spiritnet.kilt.io/'
+          'KILT Protocol': 'wss://spiritnet.kilt.io/',
+          OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
         }
       },
       {
@@ -277,7 +278,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io',
+          StakeTechnologies: 'wss://rpc.shiden.astar.network',
           OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }
