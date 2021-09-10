@@ -6,18 +6,16 @@ import type { Balance } from '@polkadot/types/interfaces';
 import { fireEvent, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
-import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
 import toShortAddress from '@polkadot/react-components/util/toShortAddress';
-import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { alice, defaultAddresses, MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
-import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
-import { AccountOverrides, Override } from '../../test/hooks/default';
+import { AccountOverrides } from '../../test/hooks/default';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
+import { anAccount, anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '../../test/utils/account';
 
 describe('Accounts page', () => {
   let accountsPage: AccountsPage;
@@ -370,29 +368,6 @@ describe('Accounts page', () => {
         await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
       });
     });
-  });
-
-  const anAccount = (): AccountOverrides => ({});
-
-  const anAccountWithBalance = (balance: Override<DeriveBalancesAll>) => ({
-    balance
-  });
-
-  const anAccountWithBalanceAndMeta = (balance: Override<DeriveBalancesAll>, meta: Override<KeyringJson$Meta>) => ({
-    balance,
-    meta
-  });
-
-  const anAccountWithInfo = (info: Override<UseAccountInfo>) => ({
-    info
-  });
-
-  const anAccountWithMeta = (meta: Override<KeyringJson$Meta>) => ({
-    meta
-  });
-
-  const anAccountWithStaking = (staking: Override<DeriveStakingAccount>) => ({
-    staking
   });
 
   function assertColumnNotExistInTable (columnName: string, table: HTMLElement) {

@@ -3,20 +3,19 @@
 
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 
-import { AddressFlags, UseAccountInfo } from '@polkadot/react-hooks/types';
+import { AddressFlags } from '@polkadot/react-hooks/types';
 import { alice, bob, defaultAddresses, MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
-import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
-import { AccountOverrides, Override } from '../../test/hooks/default';
 import { AccountRow } from '../../test/pageElements/AccountRow';
 import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage } from '../../test/pages/accountsPage';
-
-const anAccount = (): AccountOverrides => ({});
+import { anAccount, anAccountWithInfo, anAccountWithMeta } from '../../test/utils/account';
 
 describe('Sidebar', () => {
   let accountsPage: AccountsPage;
+  let accountRows: AccountRow[];
+  let sideBar: Sidebar;
 
   beforeAll(() => {
     if (keyring.getAccounts().length === 0) {
@@ -34,9 +33,6 @@ describe('Sidebar', () => {
     const newName = 'NEW_NAME';
     const defaultTag = 'Default';
     const nameInputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
-
-    let accountRows: AccountRow[];
-    let sideBar: Sidebar;
 
     describe('changes name', () => {
       beforeEach(async () => {
@@ -136,57 +132,29 @@ describe('Sidebar', () => {
         await sideBar.assertAccountName('BOB');
       });
     });
-
-    async function openSidebarForAccountRow (rowIndex: number) {
-      accountRows = await accountsPage.findAccountRows();
-
-      return accountRows[rowIndex].openSidebar();
-    }
   });
 
   describe('identity section', () => {
     it('dose not display subs when account has zero subs', async () => {
       accountsPage.renderPage([[alice, anAccount()]]);
-
-      const accountRows = await accountsPage.findAccountRows();
-
-      fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-
-      const sidebar = await screen.findByTestId('account-sidebar');
-      const identitySection = await within(sidebar).findByTestId('identity-section');
-
-      const subs = within(identitySection).queryAllByText('sub');
+      sideBar = await openSidebarForAccountRow(0);
+      const subs = await sideBar.findSubs();
 
       expect(subs).toHaveLength(0);
     });
 
     it('displays count of subs', async () => {
       accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
+      sideBar = await openSidebarForAccountRow(0);
+      const subs = await sideBar.findSubs();
 
-      const accountRows = await accountsPage.findAccountRows();
-
-      fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-      const sidebar = await screen.findByTestId('account-sidebar');
-      const identitySection = await within(sidebar).findByTestId('identity-section');
-
-      const subs = within(identitySection).getByText('sub');
-
-      expect(subs.parentElement).toHaveTextContent('sub1Show list');
+      expect(subs[0].parentElement).toHaveTextContent('sub1Show list');
     });
 
     it('opens a modal with subs list', async () => {
       accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-
-      const accountRows = await accountsPage.findAccountRows();
-
-      fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-      const sidebar = await screen.findByTestId('account-sidebar');
-      const identitySection = await within(sidebar).findByTestId('identity-section');
-      const showSubsButton = await within(identitySection).findByText('Show list');
-
-      fireEvent.click(showSubsButton);
-
-      const modal = await screen.findByTestId('modal');
+      sideBar = await openSidebarForAccountRow(0);
+      const modal = await sideBar.openSubsModal();
 
       await within(modal).findByText('sub-identities');
       await within(modal).findByText('BOB');
@@ -194,17 +162,8 @@ describe('Sidebar', () => {
 
     it('displays picked sub in sidebar', async () => {
       accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-
-      const accountRows = await accountsPage.findAccountRows();
-
-      fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-      const sidebar = await screen.findByTestId('account-sidebar');
-      const identitySection = await within(sidebar).findByTestId('identity-section');
-      const showSubsButton = await within(identitySection).findByText('Show list');
-
-      fireEvent.click(showSubsButton);
-
-      const modal = await screen.findByTestId('modal');
+      sideBar = await openSidebarForAccountRow(0);
+      const modal = await sideBar.openSubsModal();
 
       const bobAccountName = await within(modal).findByTestId('account-name');
 
@@ -212,44 +171,31 @@ describe('Sidebar', () => {
 
       fireEvent.click(bobAccountName);
 
-      expect(screen.queryAllByTestId('modal')).toHaveLength(0);
-
-      const accountName = await within(sidebar).findByTestId('account-name');
-
-      expect(accountName).toHaveTextContent('BOB');
+      assertModalClosed();
+      await sideBar.assertAccountName('BOB');
     });
 
     it('closing modal does not change account in sidebar', async () => {
       accountsPage.renderPage([[alice, { meta: { name: 'Alice' } }], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-
-      const accountRows = await accountsPage.findAccountRows();
-
-      fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-      const sidebar = await screen.findByTestId('account-sidebar');
-      const identitySection = await within(sidebar).findByTestId('identity-section');
-      const showSubsButton = await within(identitySection).findByText('Show list');
-
-      fireEvent.click(showSubsButton);
-
-      const modal = await screen.findByTestId('modal');
+      sideBar = await openSidebarForAccountRow(0);
+      const modal = await sideBar.openSubsModal();
 
       const closeModal = await within(modal).findByTestId('close-modal');
 
       fireEvent.click(closeModal);
 
-      expect(screen.queryAllByTestId('modal')).toHaveLength(0);
-
-      const accountName = await within(sidebar).findByTestId('account-name');
-
-      expect(accountName).toHaveTextContent('ALICE');
+      assertModalClosed();
+      await sideBar.assertAccountName('ALICE');
     });
   });
+
+  async function openSidebarForAccountRow (rowIndex: number) {
+    accountRows = await accountsPage.findAccountRows();
+
+    return accountRows[rowIndex].openSidebar();
+  }
 });
 
-const anAccountWithMeta = (meta: Override<KeyringJson$Meta>) => ({
-  meta
-});
-
-const anAccountWithInfo = (info: Override<UseAccountInfo>) => ({
-  info
-});
+function assertModalClosed () {
+  expect(screen.queryAllByTestId('modal')).toHaveLength(0);
+}
