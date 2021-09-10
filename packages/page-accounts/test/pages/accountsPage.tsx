@@ -17,6 +17,7 @@ import { ApiContext } from '@polkadot/react-api';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { TrackFn } from '@polkadot/react-hooks/useCall';
+import { defaultAddresses } from '@polkadot/test-support/keyring';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
@@ -126,8 +127,8 @@ export class AccountsPage {
         genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
         query: {
           identity: {
-            identityOf: () => Promise.resolve(() => { /**/ }),
-            subsOf: () => Promise.resolve(() => { /**/ })
+            identityOf: () => { /**/ },
+            subsOf: () => { /**/ }
           }
         },
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
@@ -162,6 +163,13 @@ export class AccountsPage {
         </Suspense>
       </>
     );
+  }
+
+  renderAccountsWithDefaultAddresses (...overrides: AccountOverrides[]): void {
+    const accounts = overrides.map((accountProperties, index) =>
+      [defaultAddresses[index], accountProperties] as [string, AccountOverrides]);
+
+    this.renderPage(accounts);
   }
 
   async findAccountsTable (): Promise<HTMLElement> {

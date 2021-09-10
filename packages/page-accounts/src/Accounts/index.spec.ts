@@ -3,29 +3,23 @@
 
 import type { Balance } from '@polkadot/types/interfaces';
 
-import { fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import i18next from '@polkadot/react-components/i18n';
 import toShortAddress from '@polkadot/react-components/util/toShortAddress';
-import { AddressFlags, UseAccountInfo } from '@polkadot/react-hooks/types';
+import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
-import { MemoryStore } from '@polkadot/test-support/keyring';
+import { alice, defaultAddresses, MemoryStore } from '@polkadot/test-support/keyring';
 import { keyring } from '@polkadot/ui-keyring';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import { AccountOverrides, Override } from '../../test/hooks/default';
-import { AccountRow } from '../../test/pageElements/AccountRow';
-import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage, format } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
-  const aliceAddress = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-  const bobAddress = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
-  const charlieAddress = '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy';
-
   let accountsPage: AccountsPage;
 
   beforeAll(async () => {
@@ -92,7 +86,7 @@ describe('Accounts page', () => {
     });
 
     it('account rows display the total balance info', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ freeBalance: balance(500) }),
         anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
       );
@@ -104,7 +98,7 @@ describe('Accounts page', () => {
     });
 
     it('account rows display the details balance info', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ freeBalance: balance(500), lockedBalance: balance(30) }),
         anAccountWithBalance({ availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
       );
@@ -120,9 +114,9 @@ describe('Accounts page', () => {
     });
 
     it('derived account displays parent account info', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithMeta({ isInjected: true, name: 'ALICE', whenCreated: 200 }),
-        anAccountWithMeta({ name: 'ALICE_CHILD', parentAddress: aliceAddress, whenCreated: 300 })
+        anAccountWithMeta({ name: 'ALICE_CHILD', parentAddress: alice, whenCreated: 300 })
       );
 
       const accountRows = await accountsPage.findAccountRows();
@@ -141,12 +135,12 @@ describe('Accounts page', () => {
 
     it('account rows display the shorted address', async () => {
       renderAccountsForAddresses(
-        aliceAddress
+        alice
       );
       const accountRows = await accountsPage.findAccountRows();
 
       expect(accountRows).toHaveLength(1);
-      const aliceShortAddress = toShortAddress(aliceAddress);
+      const aliceShortAddress = toShortAddress(alice);
 
       await accountRows[0].assertShortAddress(aliceShortAddress);
     });
@@ -159,7 +153,7 @@ describe('Accounts page', () => {
     });
 
     it('when account is tagged, account row details displays tags', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithInfo({ tags: ['my tag', 'Super Tag'] })
       );
 
@@ -188,7 +182,7 @@ describe('Accounts page', () => {
     });
 
     it('displays some summary', () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ freeBalance: balance(500) }),
         anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
       );
@@ -199,7 +193,7 @@ describe('Accounts page', () => {
     });
 
     it('displays balance summary', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ freeBalance: balance(500) }),
         anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
       );
@@ -210,7 +204,7 @@ describe('Accounts page', () => {
     });
 
     it('displays transferable summary', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ availableBalance: balance(400) }),
         anAccountWithBalance({ availableBalance: balance(600) })
       );
@@ -221,7 +215,7 @@ describe('Accounts page', () => {
     });
 
     it('displays locked summary', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ lockedBalance: balance(400) }),
         anAccountWithBalance({ lockedBalance: balance(600) })
       );
@@ -232,7 +226,7 @@ describe('Accounts page', () => {
     });
 
     it('displays bonded summary', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithStaking({ stakingLedger: ledger(balance(70)) }),
         anAccountWithStaking({ stakingLedger: ledger(balance(20)) })
       );
@@ -243,7 +237,7 @@ describe('Accounts page', () => {
     });
 
     it('displays unbonding summary', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithStaking({
           unlocking: [
             {
@@ -284,7 +278,7 @@ describe('Accounts page', () => {
     });
 
     it('displays redeemable summary', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithStaking({ redeemable: balance(4000) }),
         anAccountWithStaking({ redeemable: balance(5000) })
       );
@@ -295,7 +289,7 @@ describe('Accounts page', () => {
     });
 
     it('sorts accounts by date by default', async () => {
-      renderAccountsWithDefaultAddresses(
+      accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { whenCreated: 200 }),
         anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, { whenCreated: 300 }),
         anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { whenCreated: 100 })
@@ -307,13 +301,13 @@ describe('Accounts page', () => {
 
     describe('when sorting is used', () => {
       beforeEach(() => {
-        renderAccountsWithDefaultAddresses(
+        accountsPage.renderAccountsWithDefaultAddresses(
           anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { isInjected: true, name: 'bbb', whenCreated: 200 }),
           anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, {
             hardwareType: 'ledger',
             isHardware: true,
             name: 'bb',
-            parentAddress: aliceAddress,
+            parentAddress: alice,
             whenCreated: 300
           }),
           anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { isInjected: true, name: 'aaa', whenCreated: 100 })
@@ -376,121 +370,6 @@ describe('Accounts page', () => {
         await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
       });
     });
-
-    describe('sidebar', () => {
-      const initialName = 'INITIAL_NAME';
-      const newName = 'NEW_NAME';
-      const defaultTag = 'Default';
-      const nameInputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
-
-      let accountRows: AccountRow[];
-      let sideBar: Sidebar;
-
-      describe('changes name', () => {
-        beforeEach(async () => {
-          accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
-          sideBar = await openSidebarForAccountRow(0);
-          await sideBar.changeAccountName(newName);
-        });
-
-        it('within keyring', () => {
-          const changedAccount = keyring.getAccount(aliceAddress);
-
-          expect(changedAccount?.meta?.name).toEqual(newName);
-        });
-
-        it('within sidebar', async () => {
-          await sideBar.assertAccountName(newName);
-        });
-
-        it('within account row', async () => {
-          await accountRows[0].assertAccountName(newName);
-        });
-      });
-
-      it('cannot be edited if edit button has not been pressed', async () => {
-        await sideBar.clickByText('no tags');
-        expect(sideBar.queryByRole('combobox')).toBeFalsy();
-
-        await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
-      });
-
-      it('when isEditable is false account name is not editable', async () => {
-        renderAccountsWithDefaultAddresses(
-          anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
-        );
-        sideBar = await openSidebarForAccountRow(0);
-        sideBar.edit();
-        await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
-      });
-
-      describe('on edit cancel', () => {
-        beforeEach(async () => {
-          accountsPage.renderPage([[aliceAddress, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
-
-          sideBar = await openSidebarForAccountRow(0);
-          await sideBar.assertTags('no tags');
-          sideBar.edit();
-        });
-
-        it('restores tags and name to state from keyring', async () => {
-          await sideBar.typeAccountName(newName);
-          await sideBar.selectTag(defaultTag);
-
-          sideBar.cancel();
-          await sideBar.assertTags('no tags');
-          await sideBar.assertAccountName(initialName);
-        });
-
-        it('Cancel button disappears', () => {
-          sideBar.cancel();
-          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
-        });
-      });
-
-      describe('outside click', () => {
-        beforeEach(async () => {
-          renderAccountsWithDefaultAddresses(
-            anAccountWithMeta({ name: 'alice' }),
-            anAccountWithMeta({ name: 'bob' })
-          );
-
-          sideBar = await openSidebarForAccountRow(0);
-          sideBar.edit();
-        });
-
-        it('cancels editing', async () => {
-          await sideBar.typeAccountName(newName);
-          await sideBar.selectTag(defaultTag);
-
-          fireEvent.click(await screen.findByText('accounts'));
-
-          await sideBar.assertTags('no tags');
-          await sideBar.assertAccountName('ALICE');
-
-          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
-        });
-
-        it('within sidebar does not cancel editing', async () => {
-          await sideBar.clickByText('Tags');
-
-          expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeTruthy();
-        });
-
-        it('cancels editing and changes name when opening sidebar for another account', async () => {
-          await waitFor(() => sideBar.assertAccountInput('alice'));
-
-          sideBar = await openSidebarForAccountRow(1);
-          await sideBar.assertAccountName('BOB');
-        });
-      });
-
-      async function openSidebarForAccountRow (rowIndex: number) {
-        accountRows = await accountsPage.findAccountRows();
-
-        return accountRows[rowIndex].openSidebar();
-      }
-    });
   });
 
   const anAccount = (): AccountOverrides => ({});
@@ -526,15 +405,6 @@ describe('Accounts page', () => {
 
   function showBalance (amount: number): string {
     return format(balance(amount));
-  }
-
-  const defaultAddresses = [aliceAddress, bobAddress, charlieAddress];
-
-  function renderAccountsWithDefaultAddresses (...overrides: AccountOverrides[]): void {
-    const accounts = overrides.map((accountProperties, index) =>
-      [defaultAddresses[index], accountProperties] as [string, AccountOverrides]);
-
-    accountsPage.renderPage(accounts);
   }
 
   function renderAccountsForAddresses (...addresses: string[]): void {
