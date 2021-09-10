@@ -126,6 +126,7 @@ export default React.memo(styled(FullSidebar)`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      text-transform: capitalize;
 
       margin-bottom: 0.57rem;
       width: 100%;
