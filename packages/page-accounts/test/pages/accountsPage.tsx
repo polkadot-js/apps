@@ -26,6 +26,7 @@ import { balance } from '../../src/Accounts/index.spec';
 import AccountSidebar from '../../src/Sidebar';
 import { AccountOverrides, mockAccountHooks } from '../hooks/default';
 import { mockApiCalls } from '../hooks/mockApiCalls';
+import { AccountRow } from '../pageElements/AccountRow';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 
@@ -34,52 +35,6 @@ function noop (): void {
 }
 
 class NotYetRendered extends Error {
-}
-
-// utility wrapper over an account item in accounts table, serves basic assertions about an account row
-export class AccountRow {
-  public primaryRow: HTMLElement;
-  public detailsRow: HTMLElement;
-
-  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement) {
-    this.primaryRow = primaryRow;
-    this.detailsRow = detailsRow;
-  }
-
-  async assertBalancesTotal (expected: Balance): Promise<void> {
-    const balanceActual = await within(this.primaryRow).findByTestId('balance-summary');
-    const balanceExpected = format(expected);
-
-    expect(balanceActual).toHaveTextContent(balanceExpected);
-  }
-
-  async assertBalancesDetails (expected: {name: string, amount: Balance}[]): Promise<void> {
-    for (const expectedBalanceDetailsItem of expected) {
-      const labelElement = await within(this.detailsRow).findByText(expectedBalanceDetailsItem.name);
-      const balanceElement = labelElement.nextSibling;
-      const amount = format(expectedBalanceDetailsItem.amount);
-
-      expect(balanceElement).toHaveTextContent(amount);
-    }
-  }
-
-  async assertParentAccountName (expectedParentAccount: string): Promise<void> {
-    const parentAccount = await within(this.primaryRow).findByTestId('parent');
-
-    expect(parentAccount).toHaveTextContent(expectedParentAccount);
-  }
-
-  async assertTags (tagsContent: string): Promise<void> {
-    const tagsActual = await within(this.detailsRow).findByTestId('tags');
-
-    expect(tagsActual).toHaveTextContent(tagsContent);
-  }
-
-  async assertShortAddress (expectedShortAddress: string): Promise<void> {
-    const actualShortAddress = await within(this.primaryRow).findByTestId('short-address');
-
-    expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
-  }
 }
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
@@ -153,8 +108,7 @@ export class AccountsPage {
       api: {
         derive: {
           accounts: {
-            info: () => Promise.resolve(() => { /**/
-            })
+            info: () => { /**/ }
           },
           balances: {
             all: () => ({

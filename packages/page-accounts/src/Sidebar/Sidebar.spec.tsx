@@ -34,7 +34,7 @@ describe('Sidebar, subs list', () => {
 
     fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
 
-    const sidebar = await screen.findByTestId('sidebar');
+    const sidebar = await screen.findByTestId('account-sidebar');
     const identitySection = await within(sidebar).findByTestId('identity-section');
 
     const subs = within(identitySection).queryAllByText('sub');
@@ -48,7 +48,7 @@ describe('Sidebar, subs list', () => {
     const accountRows = await accountsPage.findAccountRows();
 
     fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-    const sidebar = await screen.findByTestId('sidebar');
+    const sidebar = await screen.findByTestId('account-sidebar');
     const identitySection = await within(sidebar).findByTestId('identity-section');
 
     const subs = within(identitySection).getByText('sub');
@@ -62,7 +62,7 @@ describe('Sidebar, subs list', () => {
     const accountRows = await accountsPage.findAccountRows();
 
     fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-    const sidebar = await screen.findByTestId('sidebar');
+    const sidebar = await screen.findByTestId('account-sidebar');
     const identitySection = await within(sidebar).findByTestId('identity-section');
     const showSubsButton = await within(identitySection).findByText('Show list');
 
@@ -80,7 +80,7 @@ describe('Sidebar, subs list', () => {
     const accountRows = await accountsPage.findAccountRows();
 
     fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-    const sidebar = await screen.findByTestId('sidebar');
+    const sidebar = await screen.findByTestId('account-sidebar');
     const identitySection = await within(sidebar).findByTestId('identity-section');
     const showSubsButton = await within(identitySection).findByText('Show list');
 
@@ -107,7 +107,7 @@ describe('Sidebar, subs list', () => {
     const accountRows = await accountsPage.findAccountRows();
 
     fireEvent.click(await within(accountRows[0].primaryRow).findByTestId('account-name'));
-    const sidebar = await screen.findByTestId('sidebar');
+    const sidebar = await screen.findByTestId('account-sidebar');
     const identitySection = await within(sidebar).findByTestId('identity-section');
     const showSubsButton = await within(identitySection).findByText('Show list');
 

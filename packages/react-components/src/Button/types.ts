@@ -11,7 +11,7 @@ export interface ButtonProps {
   children?: React.ReactNode;
   className?: string;
   dataTestId?: string;
-  icon: IconName;
+  icon?: IconName;
   isBasic?: boolean;
   isBusy?: boolean;
   isCircular?: boolean;
