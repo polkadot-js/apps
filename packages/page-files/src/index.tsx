@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import CrustFiles from '@polkadot/app-files/CrustFiles';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
-import basicMd from '../md/basicMd.md';
+import basicMd from '../README.md';
 import { useTranslation } from './translate';
 
 interface Props {
