@@ -110,11 +110,15 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
 
   return (
     <div className={className}>
-      <Icon
-        icon='clock'
-        tooltip={trigger}
+      <FormatBalance
+        labelPost={
+          <Icon
+            icon='clock'
+            tooltip={trigger}
+          />
+        }
+        value={maxBalance}
       />
-      <FormatBalance value={maxBalance} />
       <Tooltip
         text={sorted.map(({ details, headers }, index): React.ReactNode => (
           <div
@@ -135,11 +139,6 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
 
 export default React.memo(styled(DemocracyLocks)`
   white-space: nowrap;
-
-  .ui--Icon {
-    margin-left: 0;
-    margin-right: 0.25rem;
-  }
 
   .ui--FormatBalance {
     display: inline-block;

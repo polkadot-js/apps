@@ -29,6 +29,7 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
       {address && (
         <Sidebar
           address={address}
+          dataTestId='account-sidebar'
           onClose={onClose}
           onUpdateName={onUpdateName}
         />

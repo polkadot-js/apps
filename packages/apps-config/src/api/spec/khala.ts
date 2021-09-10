@@ -3,6 +3,6 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { typesBundleForPolkadotApps } from '@darwinia/types/mix';
+import { versionedKhala } from '@phala/typedefs';
 
-export default typesBundleForPolkadotApps.spec.Pangolin as unknown as OverrideBundleDefinition;
+export default versionedKhala as OverrideBundleDefinition;

@@ -68,13 +68,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'phala',
-      text: t('rpc.test.phala', 'Chala (Para1)', { ns: 'apps-config' }),
-      providers: {
-        'Phala Network': 'wss://chala-api.phala.network/ws/'
-      }
-    },
-    {
       info: 'clover',
       isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
@@ -87,7 +80,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.crust.network', 'Crust Maxwell', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://api.crust.network/',
-        'DCloud Foundation': 'wss://api.decloudf.com/'
+        'DCloud Foundation': 'wss://api.decloudf.com/',
+        Pinknode: 'wss://rpc.pinknode.io/maxwell/explorer'
       }
     },
     {
@@ -117,8 +111,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'dusty',
       text: t('rpc.test.dusty', 'Dusty', { ns: 'apps-config' }),
       providers: {
-        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/'
-        // Pinknode: 'wss://rpc.pinknode.io/dusty/explorer' // https://github.com/polkadot-js/apps/issues/5721
+        'Stake Technologies': 'wss://rpc.dusty.plasmnet.io/',
+        Pinknode: 'wss://rpc.pinknode.io/dusty/explorer'
       }
     },
     {
@@ -218,6 +212,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'phala',
+      text: t('rpc.test.phala', 'Khala (Para2)', { ns: 'apps-config' }),
+      providers: {
+        'Phala Network': 'wss://para2-api.phala.network/ws/'
+      }
+    },
+    {
       info: 'kilt',
       text: t('rpc.test.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
@@ -249,8 +250,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'acala',
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws'
-        // Pinknode: 'wss://rpc.pinknode.io/mandala/explorer' // https://github.com/polkadot-js/apps/issues/5721
+        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
+        Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
     {
@@ -265,7 +266,8 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
       providers: {
         'Moonbeam Network': 'wss://wss.testnet.moonbeam.network',
-        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+        OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+        Pinknode: 'wss://rpc.pinknode.io/alphanet/explorer'
       }
     },
     {
@@ -313,6 +315,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'pangoro',
+      text: t('rpc.test.pangoro', 'Pangoro', { ns: 'apps-config' }),
+      providers: {
+        'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
+      }
+    },
+    {
       info: 'phoenix',
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
@@ -335,9 +344,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'pontem',
-      text: t('rpc.pontem', 'Pontem', { ns: 'apps-config' }),
+      text: t('rpc.test.pontem', 'Pontem', { ns: 'apps-config' }),
       providers: {
-        Pontem: 'wss://testnet.pontem.network/wss'
+        Pontem: 'wss://testnet.pontem.network/ws'
       }
     },
     {
@@ -365,7 +374,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'shibuya',
       text: t('rpc.test.shibuya', 'Shibuya', { ns: 'apps-config' }),
       providers: {
-        StakeTechnologies: 'wss://rpc.shibuya.plasmnet.io'
+        StakeTechnologies: 'wss://rpc.shibuya.astar.network'
       }
     },
     {

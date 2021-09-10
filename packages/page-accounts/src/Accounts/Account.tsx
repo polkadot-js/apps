@@ -16,7 +16,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -634,43 +634,34 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td className='button'>
-          {isFunction(api.api.tx.balances?.transfer) && (
-            <Button
-              icon='paper-plane'
-              label={t<string>('send')}
-              onClick={toggleTransfer}
+        <td className='fast-actions'>
+          <div className='fast-actions-row'>
+            <LinkExternal
+              className='ui--AddressCard-exporer-link media--1400'
+              data={address}
+              isLogo
+              type='address'
             />
-          )}
-          <Popup
-            className={`theme--${theme}`}
-            isDisabled={!menuItems.length}
-            value={
-              <Menu>
-                {menuItems}
-              </Menu>
-            }
-          />
-        </td>
-        <td className='links media--1400'>
-          <LinkExternal
-            className='ui--AddressCard-exporer-link'
-            data={address}
-            isLogo
-            type='address'
-          />
-        </td>
-        <td className='button'>
-          <div
-            className='table-column-icon'
-            data-testid='row-toggle'
-            onClick={toggleIsExpanded}
-          >
-            <Icon icon={
-              isExpanded
-                ? 'caret-up'
-                : 'caret-down'
-            }
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                label={t<string>('send')}
+                onClick={toggleTransfer}
+              />
+            )}
+            <Popup
+              className={`theme--${theme}`}
+              isDisabled={!menuItems.length}
+              value={
+                <Menu>
+                  {menuItems}
+                </Menu>
+              }
+            />
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleIsExpanded}
             />
           </div>
         </td>
@@ -688,8 +679,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           </div>
         </td>
-        <td className='media--1500'/>
-        <td/>
+        <td className='media--1500' />
+        <td />
         <td>
           <AddressInfo
             address={address}
@@ -707,7 +698,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             withExtended={false}
           />
         </td>
-        <td colSpan={4} />
+        <td colSpan={2} />
       </tr>
     </>
   );
@@ -731,18 +722,27 @@ export default React.memo(styled(Account)`
     opacity: 0.65;
   }
 
-  .table-column-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.7rem;
-    height: 1.7rem;
-    border: 1px solid var(--border-table);
-    border-radius: 4px;
-    cursor: pointer;
+  && td.button {
+    padding-bottom: 0.5rem;
   }
 
-  &.isOdd td.button {
-    padding-bottom: 0.5rem;
+  && td.fast-actions {
+    padding-left: 0.2rem;
+    padding-right: 1rem;
+    width: 1%;
+
+    .fast-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      & > * + * {
+        margin-left: 0.35rem;
+      }
+
+      .send-button {
+        min-width: 6.5rem;
+      }
+    }
   }
 `);

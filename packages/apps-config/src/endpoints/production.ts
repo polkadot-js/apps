@@ -34,6 +34,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'crown-sterling',
+      text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
+      providers: {
+        'Crown Sterling': 'wss://blockchain.crownsterling.io'
+      }
+    },
+    {
       info: 'crust',
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
@@ -81,6 +88,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'genshiro',
+      text: t('rpc.prod.genshiro', 'Genshiro', { ns: 'apps-config' }),
+      providers: {
+        Equilibrium: 'wss://node.genshiro.io'
+      }
+    },
+    {
       info: 'hanonycash',
       isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.prod.hanonycash', 'Hanonycash', { ns: 'apps-config' }),
@@ -94,7 +108,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
         'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
-        Archives: 'wss://archive.snakenet.hydradx.io'
+        Archives: 'wss://archive.snakenet.hydradx.io',
+        Pinknode: 'wss://rpc.pinknode.io/lerna/explorer'
       }
     },
     {
@@ -152,6 +167,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
         'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
         Soramitsu: 'wss://ws.alb.sora.org',
         'SORA Community (Lux8)': 'wss://sora.lux8.net'
+      }
+    },
+    {
+      info: 'spanner',
+      text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
+      providers: {
+        Spanner: 'wss://wss.spannerprotocol.com'
       }
     },
     {
