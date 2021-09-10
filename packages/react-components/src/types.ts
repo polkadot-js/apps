@@ -9,6 +9,8 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
 import type { TxCallback, TxFailedCallback } from './Status/types';
 
+import { AccountIndex, Address } from '@polkadot/types/interfaces';
+
 export interface BareProps {
   children?: React.ReactNode;
   className?: string;
@@ -79,3 +81,5 @@ export interface ThemeProps {
 }
 
 export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
+
+export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
