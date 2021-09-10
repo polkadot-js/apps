@@ -83,6 +83,9 @@ export default React.memo(styled(FullSidebar)`
   display: flex;
   flex-direction: column;
 
+  max-width: 30.42rem;
+  min-width: 30.42rem;
+
   input {
     width: auto !important;
   }
