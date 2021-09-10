@@ -20,8 +20,8 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { info } = useInfo();
 
   const isDisabled = useMemo(
-    () => !proxies.length || !info || !info.activeTotal || info.activeTotal.target.isZero(),
-    [info, proxies]
+    () => !info || !info.activeTotal || info.activeTotal.target.isZero(),
+    [info]
   );
 
   return (

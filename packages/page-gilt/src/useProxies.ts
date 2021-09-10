@@ -28,7 +28,7 @@ export function useProxies (): Record<string, string[]> {
                 allAccounts[index],
                 p.map(({ delegate }) => delegate.toString())
               ])
-              .filter(([, [p]]) => p.length)
+              .filter(([, p]) => p.length)
               .reduce((all, [a, p]) => ({ ...all, [a]: p }), {})
           )
         )

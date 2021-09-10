@@ -58,7 +58,7 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
               <InputAddress
                 filter={proxiedAccounts}
                 help={t<string>('The account you want to register the bid from')}
-                label={t<string>('send from proxied account')}
+                label={t<string>('use proxied account')}
                 labelExtra={
                   <Available
                     label={<span className='label'>{t<string>('transferrable')}</span>}
@@ -72,7 +72,7 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
                 <InputAddress
                   filter={proxies[accountId]}
                   help={t<string>('The associated proxy to use for this account')}
-                  label={t<string>('transaction proxy')}
+                  label={t<string>('send via proxy')}
                   onChange={setProxyId}
                   type='account'
                 />
