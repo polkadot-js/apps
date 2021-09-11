@@ -160,6 +160,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'kintsugi',
+        isUnreachable: true,
         homepage: 'https://kintsugi.interlay.io/',
         paraId: 2092,
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
