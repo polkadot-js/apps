@@ -21,6 +21,7 @@ interface Props {
 }
 
 interface ValueState {
+  defaultValue: BN;
   maxValue: BN;
   selectedId?: string | null;
   value: BN;
@@ -31,6 +32,11 @@ function getValues (selectedId: string | null | undefined, isCouncil: boolean | 
   const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
 
   return {
+    defaultValue: value.isZero()
+      ? maxValue.gt(existential)
+        ? maxValue.sub(existential)
+        : BN_ZERO
+      : value,
     maxValue,
     selectedId,
     value: value.isZero()
@@ -45,7 +51,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
-  const [{ maxValue, selectedId, value }, setValue] = useState<ValueState>({ maxValue: BN_ZERO, value: BN_ZERO });
+  const [{ defaultValue, maxValue, selectedId, value }, setValue] = useState<ValueState>({ defaultValue: BN_ZERO, maxValue: BN_ZERO, value: BN_ZERO });
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
@@ -78,7 +84,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
       defaultValue={
         isDisabled
           ? undefined
-          : value
+          : defaultValue
       }
       help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
