@@ -81,7 +81,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          Manta: 'wss://falafel.calamari.systems/'
+          Manta: 'wss://falafel.calamari.systems/',
+          OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
       {
@@ -159,6 +160,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'kintsugi',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6101
         homepage: 'https://kintsugi.interlay.io/',
         paraId: 2092,
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
