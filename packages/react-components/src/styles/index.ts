@@ -281,26 +281,29 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .ui--Sort {
-    .ui--Dropdown:hover:not(button:hover) .ui.selection.dropdown:not(.active) {
-      border-color: ${getHighlight(uiHighlight)};
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 39px;
-        width: 1px;
-        height: 100%;
-        background: ${getHighlight(uiHighlight)};
+    .ui--Labelled.ui--Dropdown:hover {
+     .ui.selection.dropdown {
+        border-color: ${getHighlight(uiHighlight)};
+      }
+      .visible.menu {
+        border: 1px solid ${getHighlight(uiHighlight)};
       }
     }
 
     button:hover {
-      border: 1px solid ${getHighlight(uiHighlight)};
+      border-color: ${getHighlight(uiHighlight)};
     }
 
-    .svg--arrow.active path {
-      fill: ${getHighlight(uiHighlight)};
+    button:hover,
+    .ui--Labelled.ui--Dropdown:hover {
+      &::after {
+        background-color:  ${getHighlight(uiHighlight)};
+      }
+    }
+
+    .arrow.isActive {
+      color:  ${getHighlight(uiHighlight)};
+      opacity: 1;
     }
   }
 
