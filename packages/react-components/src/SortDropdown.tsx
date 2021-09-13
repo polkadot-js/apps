@@ -63,7 +63,7 @@ export default React.memo(styled(SortDropdown)`
 
       border-width: 1px 0 1px 1px;
       border-style: solid;
-      border-color: rgba(34,36,38,.15);
+      border-color: var(--border-input);
       border-radius: 4px 0 0 4px;
 
       &.active {
@@ -77,6 +77,10 @@ export default React.memo(styled(SortDropdown)`
         top: 0;
         left: 0;
       }
+
+      .visible.menu {
+        border-color: var(--border-input);
+      }
     }
   }
 
@@ -89,7 +93,7 @@ export default React.memo(styled(SortDropdown)`
 
     border-width: 1px 1px 1px 0;
     border-style: solid;
-    border-color: rgba(34,36,38,.15);
+    border-color: var(--border-input);
     border-radius: 0 4px 4px 0;
 
     &:hover {
@@ -112,7 +116,7 @@ export default React.memo(styled(SortDropdown)`
     width: 1px;
     height: 80%;
 
-    background-color: rgba(34,36,38,.15);
+    background-color: var(--border-input);
     z-index: 99;
   }
 

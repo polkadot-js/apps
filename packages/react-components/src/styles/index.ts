@@ -284,9 +284,10 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     .ui--Labelled.ui--Dropdown:hover {
      .ui.selection.dropdown {
         border-color: ${getHighlight(uiHighlight)};
-      }
-      .visible.menu {
-        border: 1px solid ${getHighlight(uiHighlight)};
+
+       .visible.menu {
+         border: 1px solid ${getHighlight(uiHighlight)};
+        }
       }
     }
 
