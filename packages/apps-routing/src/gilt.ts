@@ -11,7 +11,8 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'tx.gilt.placeBid'
+        'tx.gilt.placeBid',
+        'query.proxy.proxies'
       ]
     },
     group: 'network',
