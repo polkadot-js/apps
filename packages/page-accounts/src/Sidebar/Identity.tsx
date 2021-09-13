@@ -13,7 +13,7 @@ import { isHex } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import RegistrarJudgement from './RegistrarJudgement';
 import SubAccountsModal from './SubAccountsModal';
-import user from './user.svg';
+import UserIcon from './UserIcon';
 
 interface Props {
   address: string;
@@ -76,10 +76,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               //   ? <img src={identity.image} />
               //   : <i className='icon user ui--AddressMenu-identityIcon' />
               //
-              <img
-                alt='user'
-                src={user as undefined}
-              />
+              <UserIcon />
             }
             subtitle={identity.legal}
             title={identity.display}
