@@ -58,7 +58,7 @@ export default React.memo(styled(SortDropdown)`
 
     .ui.selection.dropdown {
       margin:0;
-      min-width: 110px;
+      min-width: 7.857rem;
       z-index: 110;
 
       border-width: 1px 0 1px 1px;
@@ -68,7 +68,7 @@ export default React.memo(styled(SortDropdown)`
 
       &.active {
         position: absolute;
-        min-width: 150px;
+        min-width: 10.714rem;
 
         z-index: 120;
 
@@ -82,8 +82,8 @@ export default React.memo(styled(SortDropdown)`
 
   button {
     position: relative;
-    width: 40px;
-    height: 54.5px;
+    width: 2.857rem;
+    height: 3.893rem;
 
     background-color: var(--bg-input);
 
@@ -98,15 +98,15 @@ export default React.memo(styled(SortDropdown)`
 
     .arrow.down {
       position: absolute;
-      top: calc(50% - 7px);
-      left: calc(50% - 4.38px);
+      top: calc(50% - 0.5rem);
+      left: calc(50% - 0.313rem);
     }
   }
 
   &::after {
     content: '';
     position: absolute;
-    left: 110px;
+    left: 7.857rem;
     top: 10%;
 
     width: 1px;
@@ -133,6 +133,6 @@ export default React.memo(styled(SortDropdown)`
   }
 
   .ui--Labelled.ui--Dropdown:hover::after {
-    left: 110px;
+    left: 7.857rem;
   }
 `);
