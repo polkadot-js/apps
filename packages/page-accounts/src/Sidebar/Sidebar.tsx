@@ -99,8 +99,13 @@ export default React.memo(styled(FullSidebar)`
 
     width: 100%;
 
-    .ui--AddressSection__AddressRow {
+    .ui--AddressSection__AddressColumn {
       margin-left: 1rem;
+
+      .ui--AccountName {
+        max-width: 21.5rem;
+        overflow: hidden;
+      }
     }
   }
 

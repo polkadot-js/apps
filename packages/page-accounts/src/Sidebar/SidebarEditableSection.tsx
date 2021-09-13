@@ -3,12 +3,13 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import AccountMenuButtons from '@polkadot/app-accounts/Sidebar/AccountMenuButtons';
-import Flags from '@polkadot/app-accounts/Sidebar/Flags';
-import { useTranslation } from '@polkadot/app-accounts/translate';
-import { AccountName, IdentityIcon, Input, Tags } from '@polkadot/react-components';
+import { Tags } from '@polkadot/react-components';
 import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+
+import AccountMenuButtons from './AccountMenuButtons';
+import AddressSection from './AddressSection';
+import Flags from './Flags';
 
 interface Props {
   accountIndex: string | undefined;
@@ -19,7 +20,6 @@ interface Props {
 }
 
 function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { flags, isEditing, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
   useEffect(() => {
@@ -46,41 +46,14 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
 
   return (
     <>
-      <div className='ui--AddressSection'>
-        <IdentityIcon
-          size={80}
-          value={address}
-        />
-        <div className='ui--AddressSection__AddressRow'>
-          <AccountName
-            override={
-              isEditingName
-                ? (
-                  <Input
-                    className='name--input'
-                    defaultValue={name}
-                    label='name-input'
-                    onChange={setName}
-                    withLabel={false}
-                  />
-                )
-                : flags.isEditable
-                  ? (name.toUpperCase() || t<string>('<unknown>'))
-                  : undefined
-            }
-            value={address}
-            withSidebar={false}
-          />
-          <div className='ui--AddressMenu-addr'>
-            {address}
-          </div>
-          {accountIndex && (
-            <div className='ui--AddressMenu-index'>
-              <label>{t<string>('index')}:</label> {accountIndex}
-            </div>
-          )}
-        </div>
-      </div>
+      <AddressSection
+        accountIndex={accountIndex}
+        defaultValue={name}
+        editingName={isEditingName}
+        flags={flags}
+        onChange={setName}
+        value={address}
+      />
       <div
         className='ui--AddressMenu-tags'
         data-testid='sidebar-tags'
