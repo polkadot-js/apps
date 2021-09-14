@@ -155,6 +155,7 @@ function UploadModal (p: Props): React.ReactElement<Props> {
       const perSignData = `${currentPair.address}:${signature}`;
       const base64Signature = Buffer.from(perSignData).toString('base64');
       const AuthBasic = `Basic ${base64Signature}`;
+      const AuthBearer = `Bearer ${base64Signature}`;
       // 2: up file
       const cancel = axios.CancelToken.source();
 
@@ -188,7 +189,7 @@ function UploadModal (p: Props): React.ReactElement<Props> {
           cid: upResult.data.Hash,
           name: upResult.data.Name
         },
-        headers: { Authorization: AuthBasic },
+        headers: { Authorization: AuthBearer },
         method: 'POST',
         url: `${PinEndpoint}/psa/pins`
       });
