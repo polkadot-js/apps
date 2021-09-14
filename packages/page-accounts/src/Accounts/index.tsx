@@ -225,46 +225,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
-      <Button.Group>
-        <Button
-          icon='plus'
-          isDisabled={isIpfs}
-          label={t<string>('Add account')}
-          onClick={_openCreateModal}
-        />
-        <Button
-          icon='sync'
-          isDisabled={isIpfs}
-          label={t<string>('Restore JSON')}
-          onClick={toggleImport}
-        />
-        <Button
-          icon='qrcode'
-          label={t<string>('Add via Qr')}
-          onClick={toggleQr}
-        />
-        {isLedgerEnabled && (
-          <>
-            <Button
-              icon='project-diagram'
-              label={t<string>('Add via Ledger')}
-              onClick={toggleLedger}
-            />
-          </>
-        )}
-        <Button
-          icon='plus'
-          isDisabled={!(api.tx.multisig || api.tx.utility) || !hasAccounts}
-          label={t<string>('Multisig')}
-          onClick={toggleMultisig}
-        />
-        <Button
-          icon='plus'
-          isDisabled={!api.tx.proxy || !hasAccounts}
-          label={t<string>('Proxied')}
-          onClick={toggleProxy}
-        />
-      </Button.Group>
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
@@ -287,6 +247,46 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
           {filter}
         </section>
+        <Button.Group>
+          <Button
+            icon='plus'
+            isDisabled={isIpfs}
+            label={t<string>('Add account')}
+            onClick={_openCreateModal}
+          />
+          <Button
+            icon='sync'
+            isDisabled={isIpfs}
+            label={t<string>('Restore JSON')}
+            onClick={toggleImport}
+          />
+          <Button
+            icon='qrcode'
+            label={t<string>('Add via Qr')}
+            onClick={toggleQr}
+          />
+          {isLedgerEnabled && (
+            <>
+              <Button
+                icon='project-diagram'
+                label={t<string>('Add via Ledger')}
+                onClick={toggleLedger}
+              />
+            </>
+          )}
+          <Button
+            icon='plus'
+            isDisabled={!(api.tx.multisig || api.tx.utility) || !hasAccounts}
+            label={t<string>('Multisig')}
+            onClick={toggleMultisig}
+          />
+          <Button
+            icon='plus'
+            isDisabled={!api.tx.proxy || !hasAccounts}
+            label={t<string>('Proxied')}
+            onClick={toggleProxy}
+          />
+        </Button.Group>
       </SummaryBox>
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
@@ -306,7 +306,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
 export default React.memo(styled(Overview)`
   .filter--tags {
-    width: 17.857rem;
+    width: 33rem;
     margin-left: 2.286rem;
 
     .ui--Input {
