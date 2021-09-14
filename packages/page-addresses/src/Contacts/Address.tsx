@@ -228,6 +228,7 @@ function Address ({ address, className = '', filter, isEven, isFavorite, toggleF
           <div className='fast-actions-row'>
             {isFunction(api.api.tx.balances?.transfer) && (
               <Button
+                className='send-button'
                 icon='paper-plane'
                 key='send'
                 label={t<string>('send')}
@@ -303,6 +304,7 @@ export default React.memo(styled(Address)`
   .fast-actions-addresses {
     padding-left: 0.2rem;
     padding-right: 1rem;
+    width: 1%;
 
     .fast-actions-row {
       display: flex;
