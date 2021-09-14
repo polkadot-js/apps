@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        PoCKind: '[u8; 16]',
         RpcSolution: {
           public_key: '[u8; 32]',
           nonce: 'u64',
@@ -35,28 +36,17 @@ const definitions: OverrideBundleDefinition = {
         FarmerSignature: 'Signature',
         FarmerId: 'AccountId',
         PoCBlockWeight: 'u32',
-        ConsensusLog: {
-          _enum: {
-            Phantom: 'Null',
-            NextEpochData: 'PoCNextEpochDescriptor',
-            NextConfigData: 'PoCNextConfigDescriptor',
-            SolutionRangeData: 'SolutionRangeDescriptor',
-            SaltData: 'SaltDescriptor',
-            NextSolutionRangeData: 'NextSolutionRangeDescriptor',
-            NextSaltData: 'NextSaltDescriptor'
-          }
-        },
         PoCNextEpochDescriptor: {
           randomness: 'PoCRandomness'
+        },
+        PoCNextConfigDescriptorV1: {
+          c: '(u64, u64)'
         },
         PoCNextConfigDescriptor: {
           _enum: {
             V0: 'Null',
             V1: 'PoCNextConfigDescriptorV1'
           }
-        },
-        PoCNextConfigDescriptorV1: {
-          c: '(u64, u64)'
         },
         SolutionRangeDescriptor: {
           solution_range: 'u64'
@@ -73,6 +63,17 @@ const definitions: OverrideBundleDefinition = {
         PoCEpochConfiguration: {
           c: '(u64, u64)'
         },
+        ConsensusLog: {
+          _enum: {
+            Phantom: 'Null',
+            NextEpochData: 'PoCNextEpochDescriptor',
+            NextConfigData: 'PoCNextConfigDescriptor',
+            SolutionRangeData: 'SolutionRangeDescriptor',
+            SaltData: 'SaltDescriptor',
+            NextSolutionRangeData: 'NextSolutionRangeDescriptor',
+            NextSaltData: 'NextSaltDescriptor'
+          }
+        },
         Solution: {
           public_key: 'FarmerId',
           nonce: 'u64',
@@ -80,21 +81,31 @@ const definitions: OverrideBundleDefinition = {
           signature: 'Vec<u8>',
           tag: '[u8; 8]'
         },
-        RawPoCPreDigest: {
+        PreDigest: {
           slot: 'Slot',
           solution: 'Solution'
         },
-        PoCEquivocationProof: {
+        EquivocationProof: {
           offender: 'FarmerId',
           slot: 'Slot',
-          firstHeader: 'Header',
-          secondHeader: 'Header'
+          first_header: 'Header',
+          second_header: 'Header'
         },
-        EquivocationProof: 'PoCEquivocationProof',
         PoCEquivocationOffence: {
           slot: 'Slot',
           offender: 'FarmerId'
-        }
+        },
+        PoCGenesisConfiguration: {
+          slot_duration: 'u64',
+          epoch_length: 'u64',
+          c: '(u64, u64)',
+          randomness: 'PoCRandomness'
+        },
+        Kind: 'PoCKind',
+        Randomness: 'PoCRandomness',
+        NextEpochDescriptor: 'PoCNextEpochDescriptor',
+        NextConfigDescriptorV1: 'PoCNextConfigDescriptorV1',
+        NextConfigDescriptor: 'PoCNextConfigDescriptor'
       }
     }
   ]
