@@ -22,7 +22,6 @@ export default {
     Kulupu: 'kulupu',
     Kusama: 'kusama',
     'Laminar Turbulence TC2': 'laminar-testnet',
-    Peregrine: 'kilt-testnet',
     'Phala PoC-4': 'phala',
     Plasm: 'plasm',
     Polkadot: 'polkadot',
