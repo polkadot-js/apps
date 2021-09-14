@@ -37,7 +37,8 @@ export class Sidebar {
   }
 
   async assertAccountName (expectedAccountName: string): Promise<void> {
-    const sideBarName = await this.findByTestId('account-name');
+    const sideBarAddressSection = await this.findByTestId('sidebar-address-menu');
+    const sideBarName = await within(sideBarAddressSection).findByTestId('account-name');
 
     expect(sideBarName).toHaveTextContent(expectedAccountName);
   }
@@ -111,7 +112,7 @@ export class Sidebar {
   async findSubs (): Promise<HTMLElement[]> {
     const identitySection = await this.findByTestId('identity-section');
 
-    return within(identitySection).queryAllByText('sub');
+    return within(identitySection).queryAllByTestId('subs');
   }
 
   async openSubsModal (): Promise<HTMLElement> {

@@ -143,49 +143,28 @@ describe('Sidebar', () => {
       expect(subs).toHaveLength(0);
     });
 
-    it('displays count of subs', async () => {
+    it('displays count of subs and account names', async () => {
       accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
       sideBar = await openSidebarForAccountRow(0);
       const subs = await sideBar.findSubs();
 
-      expect(subs[0].parentElement).toHaveTextContent('sub1Show list');
-    });
+      const subsNumber = subs[0].childNodes[0];
+      const subAccount = subs[0].childNodes[1];
 
-    it('opens a modal with subs list', async () => {
-      accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-      sideBar = await openSidebarForAccountRow(0);
-      const modal = await sideBar.openSubsModal();
-
-      await within(modal).findByText('sub-identities');
-      await within(modal).findByText('BOB');
+      expect(subsNumber).toHaveClass('subs-number');
+      expect(subsNumber).toHaveTextContent('1');
+      expect(subAccount).toHaveTextContent('BOB');
     });
 
     it('displays picked sub in sidebar', async () => {
       accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
       sideBar = await openSidebarForAccountRow(0);
-      const modal = await sideBar.openSubsModal();
+      const subs = await sideBar.findSubs();
+      const subAccount = subs[0].childNodes[1];
 
-      const bobAccountName = await within(modal).findByTestId('account-name');
+      fireEvent.click(await within(subAccount as HTMLElement).findByTestId('account-name'));
 
-      expect(bobAccountName).toHaveTextContent('BOB');
-
-      fireEvent.click(bobAccountName);
-
-      assertModalClosed();
       await sideBar.assertAccountName('BOB');
-    });
-
-    it('closing modal does not change account in sidebar', async () => {
-      accountsPage.renderPage([[alice, { meta: { name: 'Alice' } }], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-      sideBar = await openSidebarForAccountRow(0);
-      const modal = await sideBar.openSubsModal();
-
-      const closeModal = await within(modal).findByTestId('close-modal');
-
-      fireEvent.click(closeModal);
-
-      assertModalClosed();
-      await sideBar.assertAccountName('ALICE');
     });
   });
 
@@ -195,7 +174,3 @@ describe('Sidebar', () => {
     return accountRows[rowIndex].openSidebar();
   }
 });
-
-function assertModalClosed () {
-  expect(screen.queryAllByTestId('modal')).toHaveLength(0);
-}

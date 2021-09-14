@@ -12,7 +12,6 @@ import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import RegistrarJudgement from './RegistrarJudgement';
-import SubAccountsModal from './SubAccountsModal';
 import UserIcon from './UserIcon';
 
 interface Props {
@@ -26,7 +25,6 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
   const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
-  const [isSubsModalOpen, toggleSubsModalOpen] = useToggle();
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -161,24 +159,23 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               </div>
             )}
             {!!subs?.length && (
-              <>
-                {isSubsModalOpen && (
-                  <SubAccountsModal
-                    onClose={toggleSubsModalOpen}
-                    subs={subs}
-                  />
-                )}
-                <div className='tr subs'>
-                  <div className='th'>{t<string>('sub')}</div>
-                  <div className='td'>
-                    {subs.length}
-                    <a
-                      className='show-subs-button'
-                      onClick={toggleSubsModalOpen}
-                    >{t<string>('Show list')}</a>
-                  </div>
+              <div className='tr'>
+                <div className='th top'>{t<string>('subs')}</div>
+                <div
+                  className='td'
+                  data-testId='subs'
+                >
+                  <div className='subs-number'>{subs.length}</div>
+                  {subs.map((sub) =>
+                    <AddressMini
+                      className='subs'
+                      isPadded={false}
+                      key={sub.toString()}
+                      value={sub}
+                    />
+                  )}
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

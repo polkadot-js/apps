@@ -15,7 +15,7 @@ export interface ColumnsProps {
   hint?: React.ReactNode;
 }
 
-type ModalSize = 'large' | 'medium' | 'small' | 'tiny'
+type ModalSize = 'large' | 'medium' | 'small'
 
 export interface ModalProps {
   size?: ModalSize;

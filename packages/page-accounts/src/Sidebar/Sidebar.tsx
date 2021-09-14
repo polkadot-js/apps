@@ -47,16 +47,18 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           sidebarRef={ref}
         />
       </div>
-      <Balances address={address} />
-      <Identity
-        address={address}
-        identity={identity}
-      />
-      <Multisig
-        isMultisig={flags.isMultisig}
-        meta={meta}
-      />
-      <section>
+      <div className='ui--ScrollSection'>
+        <Balances address={address} />
+        <Identity
+          address={address}
+          identity={identity}
+        />
+        <Multisig
+          isMultisig={flags.isMultisig}
+          meta={meta}
+        />
+      </div>
+      <section className='ui--LinkSection'>
         <LinkExternal
           data={address}
           isLogo
@@ -72,9 +74,10 @@ export default React.memo(styled(FullSidebar)`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-sidebar);
-
   max-width: 30.42rem;
   min-width: 30.42rem;
+  overflow-y: hidden;
+  padding: 0 0 3.286rem;
 
   input {
     width: auto !important;
@@ -87,7 +90,6 @@ export default React.memo(styled(FullSidebar)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: -1rem -1rem 1rem -1rem;
     padding: 1.35rem 1rem 1rem 1rem;
   }
 
@@ -140,10 +142,6 @@ export default React.memo(styled(FullSidebar)`
 
     &:not(:last-child) {
       margin-bottom: 1rem;
-    }
-
-    & :last-child {
-      margin-top: auto;
     }
 
     .ui--AddressMenu-sectionHeader {
@@ -208,6 +206,15 @@ export default React.memo(styled(FullSidebar)`
           text-overflow: ellipsis;
         }
       }
+
+      .ui--AddressMini, .subs-number {
+        margin-bottom: 0.4rem;
+        padding: 0;
+      }
+
+      .subs-number {
+        font-size: 1rem;
+      }
     }
 
     .parent {
@@ -270,7 +277,7 @@ export default React.memo(styled(FullSidebar)`
   .inline-icon {
     cursor: pointer;
     margin: 0 0 0 0.5rem;
-    color:  ${colorLink};
+    color: ${colorLink};
   }
 
   .name--input {
@@ -292,13 +299,24 @@ export default React.memo(styled(FullSidebar)`
     margin-left: 0.4rem;
   }
 
-  .ui--AddressMenu-multisig {
-    .ui--AddressMini {
-      margin-bottom: 0.4rem;
-    }
+  .ui--AddressMenu-multisig .th.signatories {
+    align-self: flex-start;
+  }
 
-    .th.signatories {
-      align-self: flex-start;
+  .ui--ScrollSection {
+    padding: 1rem;
+    overflow: auto;
+  }
+
+  .ui--LinkSection {
+    border-top: 1px solid var(--border-table);
+    padding: 0.5rem 0 0.571rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    span {
+      margin: 0 0.5rem;
     }
   }
 `);
