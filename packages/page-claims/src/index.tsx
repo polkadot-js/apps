@@ -50,7 +50,7 @@ const Payload = styled.pre`
 const Signature = styled.textarea`
   font: var(--font-mono);
   padding: 1rem;
-  border: 1px solid rgba(34, 36, 38, 0.15);
+  border: 1px solid var(--border-input);
   border-radius: 0.25rem;
   margin: 1rem 0;
   resize: none;
@@ -298,21 +298,25 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
         <Columar.Column>
           {(step >= Step.Claim) && (
             isPreclaimed
-              ? <AttestDisplay
-                accountId={accountId}
-                ethereumAddress={ethereumAddress}
-                onSuccess={goToStepAccount}
-                statementKind={statementKind}
-                systemChain={systemChain}
-              />
-              : <ClaimDisplay
-                accountId={accountId}
-                ethereumAddress={ethereumAddress}
-                ethereumSignature={signature}
-                isOldClaimProcess={isOldClaimProcess}
-                onSuccess={goToStepAccount}
-                statementKind={statementKind}
-              />
+              ? (
+                <AttestDisplay
+                  accountId={accountId}
+                  ethereumAddress={ethereumAddress}
+                  onSuccess={goToStepAccount}
+                  statementKind={statementKind}
+                  systemChain={systemChain}
+                />
+              )
+              : (
+                <ClaimDisplay
+                  accountId={accountId}
+                  ethereumAddress={ethereumAddress}
+                  ethereumSignature={signature}
+                  isOldClaimProcess={isOldClaimProcess}
+                  onSuccess={goToStepAccount}
+                  statementKind={statementKind}
+                />
+              )
           )}
         </Columar.Column>
       </Columar>
