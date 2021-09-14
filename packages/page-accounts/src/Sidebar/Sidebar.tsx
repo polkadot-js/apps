@@ -214,6 +214,7 @@ export default React.memo(styled(FullSidebar)`
 
       .subs-number {
         font-size: 1rem;
+        margin-bottom: 0.714rem;
       }
     }
 
@@ -293,10 +294,6 @@ export default React.memo(styled(FullSidebar)`
     .ui--AddressMenu-flags {
       opacity: 60%;
     }
-  }
-
-  .show-subs-button {
-    margin-left: 0.4rem;
   }
 
   .ui--AddressMenu-multisig .th.signatories {
