@@ -2,10 +2,10 @@
   "name": "@polkadot/app-rpc",
   "private": true,
   "type": "module",
-  "version": "0.95.2-119",
+  "version": "0.95.2-120",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.95.2-119"
+    "@polkadot/react-components": "^0.95.2-120"
   }
 }
