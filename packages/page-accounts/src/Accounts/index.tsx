@@ -9,7 +9,7 @@ import type { AccountBalance, Delegation, SortedAccount } from '../types';
 import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Dropdown, Input, SummaryBox, Table } from '@polkadot/react-components';
+import { Button, Input, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO } from '@polkadot/util';
@@ -233,17 +233,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           className='dropdown-section'
           data-testid='sort-by-section'
         >
-          <Dropdown
+          <SortDropdown
             defaultValue={sortBy}
             label={t<string>('sort by')}
             onChange={onDropdownChange()}
-            options={dropdownOptions()}
-          />
-          <Button
-            className='sort-direction-button'
-            icon='arrows-alt-v'
-            isCircular
             onClick={onSortDirectionChange()}
+            options={dropdownOptions()}
+            sortDirection={sortFromMax ? 'ascending' : 'descending'}
           />
           {filter}
         </section>
@@ -306,8 +302,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
 export default React.memo(styled(Overview)`
   .filter--tags {
-    width: 33rem;
-    margin-left: 2.286rem;
+    width: 29.5rem;
+    margin-left: 1.5rem;
 
     .ui--Input {
       margin: 0;
@@ -316,18 +312,12 @@ export default React.memo(styled(Overview)`
   }
 
   .ui--Dropdown {
-    max-width: 185px;
-    align: flex start;
-    margin-left: -28px;
+    width: 15rem;
   }
 
   .dropdown-section {
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-
-  .sort-direction-button {
-    padding: revert;
   }
 `);

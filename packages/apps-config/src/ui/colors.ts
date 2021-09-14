@@ -19,6 +19,7 @@ const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
+const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
@@ -45,6 +46,7 @@ const chainMoonrock = '#3d1d5a';
 const chainNFTMart = '#815287';
 const chainOakTestnet = '#E38985';
 const chainPangolin = '#5744ff';
+const chainPangoro = '#5745de';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -103,6 +105,7 @@ const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
+const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
@@ -130,6 +133,7 @@ const nodeOakTestnet = '#E38985';
 const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
+const nodePangoro = '#5745de';
 const nodeParami = '#ee06e2';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
@@ -176,6 +180,7 @@ export const chainColors: Record<string, string> = Object.entries({
   ChainX: chainChainx,
   Clover: chainClover,
   Composable: chainComposable,
+  'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
@@ -243,6 +248,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
+  Pangoro: chainPangoro,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
@@ -311,6 +317,7 @@ export const nodeColors = Object.entries({
   'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'Crown Sterling': nodeCrownSterling,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
   'Encointer Node': nodeEncointerNotee,
@@ -338,6 +345,7 @@ export const nodeColors = Object.entries({
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
+  Pangoro: nodePangoro,
   'Parallel Heiko': nodeHeiko,
   'Parami Collator': nodeParami,
   'Patract Node': nodeJupiter,

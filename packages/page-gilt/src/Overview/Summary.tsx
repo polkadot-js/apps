@@ -8,7 +8,7 @@ import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
-import { BN_QUINTILL, formatNumber } from '@polkadot/util';
+import { BN_HUNDRED, BN_QUINTILL, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -41,10 +41,10 @@ function Summary ({ activeTotal, className, isDisabled }: Props): React.ReactEle
       {activeTotal && (
         <section>
           <CardSummary label={t<string>('proportion')}>
-            {(activeTotal.proportion.mul(DIVISOR_BN).div(BN_QUINTILL).toNumber() / DIVIDOR_NU).toFixed(2)}%
+            {(activeTotal.proportion.mul(DIVISOR_BN).imul(BN_HUNDRED).div(BN_QUINTILL).toNumber() / DIVIDOR_NU).toFixed(2)}%
           </CardSummary>
           <CardSummary label={t<string>('target')}>
-            {(activeTotal.target.mul(DIVISOR_BN).div(BN_QUINTILL).toNumber() / DIVIDOR_NU).toFixed(2)}%
+            {(activeTotal.target.mul(DIVISOR_BN).imul(BN_HUNDRED).div(BN_QUINTILL).toNumber() / DIVIDOR_NU).toFixed(2)}%
           </CardSummary>
         </section>
       )}

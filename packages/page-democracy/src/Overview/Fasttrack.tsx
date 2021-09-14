@@ -8,8 +8,8 @@ import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { getFastTrackThreshold } from '@polkadot/apps-config';
-import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
+import { Button, Input, InputAddress, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -37,7 +37,9 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(api.consts.democracy.fastTrackVotingPeriod || DEF_VOTING);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
+  const [withVote, toggleVote] = useToggle(true);
   const modLocation = useCollectiveInstance('technicalCommittee');
+  const proposalCount = useCall<BN>(modLocation && api.query[modLocation].proposalCount);
 
   const memberThreshold = useMemo(
     () => new BN(
@@ -46,6 +48,27 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
       )
     ),
     [api, members, votingBlocks]
+  );
+
+  const extrinsic = useMemo(
+    (): SubmittableExtrinsic<'promise'> | null => {
+      if (!modLocation || !proposal || !proposalCount) {
+        return null;
+      }
+
+      const proposeTx = api.tx[modLocation].propose.meta.args.length === 3
+        ? api.tx[modLocation].propose(memberThreshold, proposal, proposalLength)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore Old-type
+        : api.tx[modLocation].propose(memberThreshold, proposal);
+
+      return withVote
+        ? api.tx.utility.batch([
+          proposeTx,
+          api.tx[modLocation].vote(proposal.method.hash, proposalCount, true)
+        ])
+        : proposeTx;
+    }, [api, memberThreshold, modLocation, proposal, proposalCount, proposalLength, withVote]
   );
 
   useEffect((): void => {
@@ -69,57 +92,63 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
         <Modal
           header={t<string>('Fast track proposal')}
           onClose={toggleFasttrack}
-          size='small'
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t<string>('Select the account you wish to make the proposal with.')}
-              label={t<string>('propose from account')}
-              onChange={setAcountId}
-              type='account'
-              withLabel
-            />
-            <Input
-              help={t<string>('The external proposal to send to the technical committee')}
-              isDisabled
-              label={t<string>('preimage hash')}
-              value={imageHash.toHex()}
-            />
-            <InputNumber
-              autoFocus
-              help={t<string>('The voting period to apply in blocks')}
-              isZeroable={false}
-              label={t<string>('voting period')}
-              onChange={setVotingBlocks}
-              value={votingBlocks}
-            />
-            <InputNumber
-              help={t<string>('The delay period to apply in blocks')}
-              isZeroable={false}
-              label={t<string>('delay')}
-              onChange={setDelayBlocks}
-              value={delayBlocks}
-            />
-            <InputNumber
-              defaultValue={memberThreshold}
-              isDisabled
-              label={t<string>('threshold')}
-            />
+            <Modal.Columns hint={t<string>('Select the committee account you wish to make the proposal with.')}>
+              <InputAddress
+                filter={members}
+                label={t<string>('propose from account')}
+                onChange={setAcountId}
+                type='account'
+                withLabel
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The external proposal to send to the technical committee')}>
+              <Input
+                isDisabled
+                label={t<string>('preimage hash')}
+                value={imageHash.toHex()}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('The voting period and delay to apply to this proposal. The threshold is calculated from these values.')}>
+              <InputNumber
+                autoFocus
+                help={t<string>('The voting period to apply in blocks')}
+                isZeroable={false}
+                label={t<string>('voting period')}
+                onChange={setVotingBlocks}
+                value={votingBlocks}
+              />
+              <InputNumber
+                help={t<string>('The delay period to apply in blocks')}
+                isZeroable={false}
+                label={t<string>('delay')}
+                onChange={setDelayBlocks}
+                value={delayBlocks}
+              />
+              <InputNumber
+                defaultValue={memberThreshold}
+                isDisabled
+                label={t<string>('threshold')}
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
+              <Toggle
+                label={t<string>('Submit Aye vote with proposal')}
+                onChange={toggleVote}
+                value={withVote}
+              />
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions>
             <TxButton
               accountId={accountId}
+              extrinsic={extrinsic}
               icon='fast-forward'
-              isDisabled={!accountId || !proposal}
+              isDisabled={!accountId}
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
-              params={
-                api.tx[modLocation].propose.meta.args.length === 3
-                  ? [memberThreshold, proposal, proposalLength]
-                  : [memberThreshold, proposal]
-              }
-              tx={api.tx[modLocation].propose}
             />
           </Modal.Actions>
         </Modal>
