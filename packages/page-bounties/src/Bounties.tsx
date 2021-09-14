@@ -29,7 +29,7 @@ function Bounties ({ className }: Props): React.ReactElement {
 
   return (
     <div className={className}>
-      <Summary activeBounties={bounties?.length}/>
+      <Summary activeBounties={bounties?.length} />
       <Button.Group>
         <BountyCreate />
       </Button.Group>

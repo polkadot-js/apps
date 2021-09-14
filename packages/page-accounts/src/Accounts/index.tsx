@@ -4,14 +4,14 @@
 import type BN from 'bn.js';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
-import type { Delegation, SortedAccount } from '../types';
+import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, Input, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLedger, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO } from '@polkadot/util';
 
 import CreateModal from '../modals/Create';
@@ -21,25 +21,28 @@ import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
 import { useTranslation } from '../translate';
-import { sortAccounts } from '../util';
+import { sortAccounts, SortCategory, sortCategory } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
+import Summary from './Summary';
 
 interface Balances {
-  accounts: Record<string, BN>;
-  balanceTotal?: BN;
-}
-
-interface Sorted {
-  sortedAccounts: SortedAccount[];
-  sortedAddresses: string[];
+  accounts: Record<string, AccountBalance>;
+  summary?: AccountBalance;
 }
 
 interface Props {
   className?: string;
   onStatusChange: (status: ActionStatus) => void;
 }
+
+interface SortControls {
+  sortBy: SortCategory;
+  sortFromMax: boolean;
+}
+
+const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
 
 const STORE_FAVS = 'accounts:favorites';
 
@@ -49,19 +52,19 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
-  const [isCreateOpen, toggleCreate] = useToggle();
+  const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
-  const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
+  const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
-  const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
-  const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
-  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
-  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
+  const [sortedAccounts, setSorted] = useState<SortedAccount[]>([]);
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortControls>(DEFAULT_SORT_CONTROLS);
+  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [allAccounts]);
+  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [allAccounts], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
       api.tx.proxy.addProxy.meta.args.length === 3
         ? result as [ProxyDefinition[], BN][]
@@ -71,73 +74,83 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   });
   const isLoading = useLoadingDelay();
 
-  const headerRef = useRef([
+  // We use favorites only to check if it includes some element,
+  // so Object is better than array for that because hashmap access is O(1).
+  const favoritesMap = useMemo(() => Object.fromEntries(favorites.map((x) => [x, true])), [favorites]);
+
+  const accountsWithInfo = useMemo(() =>
+    allAccounts
+      .map((address, index): SortedAccount => {
+        const deleg = delegations && delegations[index]?.isDelegating && delegations[index]?.asDelegating;
+        const delegation: Delegation | undefined = (deleg && {
+          accountDelegated: deleg.target.toString(),
+          amount: deleg.balance,
+          conviction: deleg.conviction
+        }) || undefined;
+
+        return {
+          account: keyring.getAccount(address),
+          address,
+          delegation,
+          isFavorite: favoritesMap[address ?? ''] ?? false
+        };
+      })
+  , [allAccounts, favoritesMap, delegations]);
+
+  const accountsMap = useMemo(() => {
+    const ret: Record<string, SortedAccount> = {};
+
+    accountsWithInfo.forEach(function (x) { ret[x.address] = x; });
+
+    return ret;
+  }, [accountsWithInfo]);
+
+  const header = useRef([
     [t('accounts'), 'start', 3],
-    [t('parent'), 'address media--1400'],
     [t('type')],
-    [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances'), 'expand'],
-    [],
-    [undefined, 'media--1400']
+    [t('balances'), 'balances'],
+    []
   ]);
 
   useEffect((): void => {
-    const sortedAccounts = sortAccounts(allAccounts, favorites);
-    const sortedAddresses = sortedAccounts.map((a) => a.account.address);
+    // We add new accounts to the end
+    setSorted((sortedAccounts) =>
+      [...sortedAccounts.map((x) => accountsWithInfo.find((y) => x.address === y.address)).filter((x): x is SortedAccount => !!x),
+        ...accountsWithInfo.filter((x) => !sortedAccounts.find((y) => x.address === y.address))]);
+  }, [accountsWithInfo]);
 
-    setSorted({ sortedAccounts, sortedAddresses });
-  }, [allAccounts, favorites]);
+  const accounts = balances.accounts;
 
-  useEffect(() => {
-    setSortedAccountsWithDelegation(
-      sortedAccounts?.map((account, index) => {
-        let delegation: Delegation | undefined;
-
-        if (delegations && delegations[index]?.isDelegating) {
-          const { balance: amount, conviction, target } = delegations[index].asDelegating;
-
-          delegation = {
-            accountDelegated: target.toString(),
-            amount,
-            conviction
-          };
-        }
-
-        return ({
-          ...account,
-          delegation
-        });
-      })
-    );
-  }, [api, delegations, sortedAccounts]);
+  useEffect((): void => {
+    setSorted((sortedAccounts) =>
+      sortAccounts(sortedAccounts, accountsMap, accounts, sortBy, sortFromMax));
+  }, [accountsWithInfo, accountsMap, accounts, sortBy, sortFromMax]);
 
   const _setBalance = useCallback(
-    (account: string, balance: BN) =>
+    (account: string, balance: AccountBalance) =>
       setBalances(({ accounts }: Balances): Balances => {
         accounts[account] = balance;
 
+        const aggregate = (key: keyof AccountBalance) =>
+          Object.values(accounts).reduce((total: BN, value: AccountBalance) => total.add(value[key]), BN_ZERO);
+
         return {
           accounts,
-          balanceTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), BN_ZERO)
+          summary: {
+            bonded: aggregate('bonded'),
+            locked: aggregate('locked'),
+            redeemable: aggregate('redeemable'),
+            total: aggregate('total'),
+            transferrable: aggregate('transferrable'),
+            unbonding: aggregate('unbonding')
+          }
         };
       }),
     []
   );
 
-  const footer = useMemo(() => (
-    <tr>
-      <td colSpan={3} />
-      <td className='media--1400' />
-      <td colSpan={2} />
-      <td className='media--1500' />
-      <td className='number'>
-        {balanceTotal && <FormatBalance value={balanceTotal} />}
-      </td>
-      <td />
-      <td className='media--1400' />
-    </tr>
-  ), [balanceTotal]);
+  const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
   const filter = useMemo(() => (
     <div className='filter--tags'>
@@ -150,6 +163,32 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       />
     </div>
   ), [filterOn, t]);
+
+  const accountComponents = useMemo(() => {
+    const ret: Record<string, React.ReactNode> = {};
+
+    accountsWithInfo.forEach(({ account, address, delegation, isFavorite }, index) => {
+      ret[address] =
+        <Account
+          account={account}
+          delegation={delegation}
+          filter={filterOn}
+          isFavorite={isFavorite}
+          key={`${index}:${address}`}
+          proxy={proxies?.[index]}
+          setBalance={_setBalance}
+          toggleFavorite={toggleFavorite}
+        />;
+    });
+
+    return ret;
+  }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
+
+  const onDropdownChange = () => (item: SortCategory) => setSortBy({ sortBy: item, sortFromMax });
+
+  const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
+
+  const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
 
   return (
     <div className={className}>
@@ -191,7 +230,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           icon='plus'
           isDisabled={isIpfs}
           label={t<string>('Add account')}
-          onClick={toggleCreate}
+          onClick={_openCreateModal}
         />
         <Button
           icon='sync'
@@ -228,37 +267,43 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       </Button.Group>
       <BannerExtension />
       <BannerClaims />
-      <Table
-        empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
-        filter={filter}
-        footer={footer}
-        header={headerRef.current}
-      >
-        {!isLoading && sortedAccountsWithDelegation?.map(({ account, delegation, isFavorite }, index): React.ReactNode => (
-          <Account
-            account={account}
-            delegation={delegation}
-            filter={filterOn}
-            isFavorite={isFavorite}
-            key={`${index}:${account.address}`}
-            proxy={proxies?.[index]}
-            setBalance={_setBalance}
-            toggleFavorite={toggleFavorite}
+      <Summary balance={balances.summary} />
+      <SummaryBox>
+        <section
+          className='dropdown-section'
+          data-testid='sort-by-section'
+        >
+          <SortDropdown
+            defaultValue={sortBy}
+            label={t<string>('sort by')}
+            onChange={onDropdownChange()}
+            onClick={onSortDirectionChange()}
+            options={dropdownOptions()}
+            sortDirection={sortFromMax ? 'ascending' : 'descending'}
           />
-        ))}
+        </section>
+      </SummaryBox>
+      <Table
+        empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        filter={filter}
+        header={header.current}
+      >
+        {!isLoading &&
+          sortedAccounts.map(({ address }, index) => {
+            const account = accountComponents[address];
+
+            return account && React.cloneElement(account as ReactElement, { isEven: !!(index % 2) });
+          })
+        }
       </Table>
     </div>
   );
 }
 
 export default React.memo(styled(Overview)`
-  .filter--tags {
-    .ui--Dropdown {
-      padding-left: 0;
-
-      label {
-        left: 1.55rem;
-      }
-    }
+  .dropdown-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `);

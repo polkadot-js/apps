@@ -233,6 +233,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     <Modal
       className={className}
       header={t<string>('Proxy overview')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -285,7 +286,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           <BatchWarning />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {existing.length !== 0 && (
           <TxButton
             accountId={proxiedAccount}

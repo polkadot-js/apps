@@ -117,7 +117,10 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid && isSaltValid;
 
   return (
-    <Modal header={t('Deploy a contract')}>
+    <Modal
+      header={t('Deploy a contract')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <InputAddress
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
@@ -194,7 +197,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           weight={weight}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           extrinsic={initTx}

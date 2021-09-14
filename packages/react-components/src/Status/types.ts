@@ -33,7 +33,7 @@ export type SignerCallback = (id: number, result: SignerResult | null) => void;
 
 export type TxCallback = (status: SubmittableResult) => void;
 
-export type TxFailedCallback = (status: SubmittableResult | null) => void;
+export type TxFailedCallback = (status: Error | SubmittableResult | null) => void;
 
 export interface QueueTx extends AccountInfo {
   error?: Error;

@@ -14,8 +14,10 @@ function VotingLink ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <a className={className}
-      href='#/council/motions'>
+    <a
+      className={className}
+      href='#/council/motions'
+    >
       {t<string>('Voting')}
     </a>
   );
