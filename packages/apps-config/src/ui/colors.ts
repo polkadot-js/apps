@@ -216,7 +216,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Khala: chainKhala,
   KILT: chainKilt,
   'KILT Local': chainKilt,
-  'KILT Peregrine Testnet': chainKilt,
+  'KILT Peregrine': chainKilt,
   'KILT Spiritnet': chainKilt,
   'KILT Testnet': chainKilt,
   Kintsugi: chainKintsugi,
