@@ -136,7 +136,7 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
 
 export default React.memo(styled(InputFile)`
   background: var(--bg-input);
-  border: 1px solid rgba(34, 36, 38, 0.15);
+  border: 1px solid var(--border-input);
   border-radius: 0.28571429rem;
   font-size: 1rem;
   margin: 0.25rem 0;
