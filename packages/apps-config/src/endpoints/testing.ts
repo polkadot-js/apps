@@ -226,6 +226,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'kilt',
+      text: t('rpc.test.kilt', 'KILT Peregrine', { ns: 'apps-config' }),
+      providers: {
+        'KILT Protocol': 'wss://peregrine.kilt.io/'
+      }
+    },
+    {
       info: 'klugdossier',
       text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
       providers: {

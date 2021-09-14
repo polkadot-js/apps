@@ -293,6 +293,7 @@
   "https://example.com": "https://example.com",
   "identity": "identity",
   "include field": "include field",
+  "index": "index",
   "invalid/unknown registrar account": "invalid/unknown registrar account",
   "judgement": "judgement",
   "keypair crypto type": "keypair crypto type",

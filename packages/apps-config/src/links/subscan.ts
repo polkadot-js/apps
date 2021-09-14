@@ -16,6 +16,8 @@ export default {
     'Darwinia Crab': 'crab',
     Edgeware: 'edgeware',
     Equilibrium: 'equilibrium',
+    'KILT Peregrine': 'kilt-testnet',
+    'KILT Spiritnet': 'spiritnet',
     Karura: 'karura',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
