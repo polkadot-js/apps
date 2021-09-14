@@ -7,8 +7,17 @@ import { aContact } from '@polkadot/test-support/creation/contact';
 import { Page } from '@polkadot/test-support/pages/Page';
 import { Row } from '@polkadot/test-support/pagesElements';
 import { AccountOverrides as ContactOverrides } from '@polkadot/test-support/types';
+import { mockAccountHooks } from '@polkadot/test-support/utils/accountDefaults';
 
 import AddressOverview from '../../src/Contacts/index';
+
+jest.mock('@polkadot/react-hooks/useAddresses', () => ({
+  useAddresses: () => ({
+    allAddresses: mockAccountHooks.useAccounts.allAccounts,
+    hasAddresses: mockAccountHooks.useAccounts.hasAccounts,
+    isAddress: true
+  })
+}));
 
 export class AddressesPage extends Page {
   constructor () {

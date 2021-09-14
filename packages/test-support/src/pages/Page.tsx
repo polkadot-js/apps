@@ -7,6 +7,7 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
+import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
@@ -33,14 +34,6 @@ class NotYetRendered extends Error {
 
 jest.mock('@polkadot/react-hooks/useAccounts', () => ({
   useAccounts: () => mockAccountHooks.useAccounts
-}));
-
-jest.mock('@polkadot/react-hooks/useAddresses', () => ({
-  useAddresses: () => ({
-    allAddresses: mockAccountHooks.useAccounts.allAccounts,
-    hasAddresses: mockAccountHooks.useAccounts.hasAccounts,
-    isAddress: true
-  })
 }));
 
 jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
@@ -138,7 +131,9 @@ export abstract class Page {
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  {React.cloneElement(this.overview, { onStatusChange: noop }) }
+                  <AccountSidebar>
+                    {React.cloneElement(this.overview, { onStatusChange: noop }) }
+                  </AccountSidebar>
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>

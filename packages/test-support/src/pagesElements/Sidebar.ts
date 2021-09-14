@@ -31,9 +31,9 @@ export class Sidebar {
   }
 
   async assertAccountInput (expectedInput: string): Promise<void> {
-    const sideBarName = await this.findByTestId('name-input');
+    const nameInput = await this.findByTestId('name-input');
 
-    expect(sideBarName).toHaveProperty('value', expectedInput);
+    expect(nameInput).toHaveProperty('value', expectedInput);
   }
 
   async assertAccountName (expectedAccountName: string): Promise<void> {
@@ -109,9 +109,9 @@ export class Sidebar {
   }
 
   private clickButton (buttonName: string) {
-    const saveButton = this.getByRole('button', { name: buttonName });
+    const button = this.getByRole('button', { name: buttonName });
 
-    fireEvent.click(saveButton);
+    fireEvent.click(button);
   }
 
   private openTagsDropdown (): HTMLElement {

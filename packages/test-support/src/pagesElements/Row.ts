@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // utility wrapper over an account item in accounts table, serves basic assertions about an account row
-import { fireEvent, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 
+import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { Balance } from '@polkadot/types/interfaces';
 
 import { format } from '../utils/balance';
@@ -28,6 +29,12 @@ export class Row {
 
   async getBalanceSummary (): Promise<HTMLElement> {
     return within(this.primaryRow).findByTestId('balance-summary');
+  }
+
+  async assertAccountName (expectedName: string): Promise<void> {
+    const accountName = await this.getAccountName();
+
+    expect(accountName).toHaveTextContent(expectedName);
   }
 
   async assertBalancesDetails (expectedBalanceComponents: { name: string, amount: Balance }[]): Promise<void> {
@@ -61,8 +68,12 @@ export class Row {
     fireEvent.click(toggle);
   }
 
-  private getExpectedColorClass (): string {
-    return this.rowIndex % 2 ? 'isEven' : 'isOdd';
+  async openSidebar (): Promise<Sidebar> {
+    const accountName = await this.getAccountName();
+
+    fireEvent.click(accountName);
+
+    return new Sidebar(await screen.findByTestId('account-sidebar'));
   }
 
   private async assertBalanceComponent (expectedBalanceComponent: { name: string; amount: Balance }): Promise<void> {
@@ -76,5 +87,13 @@ export class Row {
     const labelElement = await within(this.detailsRow).findByText(labelName);
 
     return labelElement.nextSibling;
+  }
+
+  private getAccountName (): Promise<HTMLElement> {
+    return within(this.primaryRow).findByTestId('account-name');
+  }
+
+  private getExpectedColorClass (): string {
+    return this.rowIndex % 2 ? 'isEven' : 'isOdd';
   }
 }
