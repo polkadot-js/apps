@@ -42,7 +42,7 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
           <p>{t<string>('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='trash'
           label={t<string>('Remove')}
