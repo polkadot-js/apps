@@ -29,6 +29,8 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import chainShiden from './chains/shiden.png';
 import chainSnakenet from './chains/snakenet.svg';
 import chainSpanner from './chains/spanner.png';
+import chainUnorthodox from './chains/unorthodox.png';
+import chainStandard from './chains/standard.png';
 import chainUnique from './chains/unique.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 import externalCommonwealth from './external/commonwealth.png';
@@ -232,6 +234,8 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
+  // digitalnative: standard rococo - change and remove comment
+  Standard: chainStandard,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -252,6 +256,8 @@ export const chainLogos = Object.entries({
   'UniArts Mainnet': nodeUniarts,
   Unique: chainUnique,
   'Unit Network': nodeUnitv,
+  // digitalnative: unorthodox - change and remove comment
+  Unorthodox: chainUnorthodox,
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
@@ -551,6 +557,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoPolkaFoundry: nodePolkaFoundry,
   rococoPrism: nodePrism,
   rococoSingLavender: nodeSingLavender,
+  rococoStandard: chainStandard,
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
@@ -585,6 +592,7 @@ export const namedLogos: Record<string, unknown> = {
   uniarts: nodeUniarts,
   unique: nodeUnique,
   unitv: nodeUnitv,
+  unorthodox: chainUnorthodox,
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
