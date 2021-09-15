@@ -7,6 +7,7 @@ import type { UseAccountInfo } from '@polkadot/react-hooks/types';
 import BN from 'bn.js';
 
 import { UseAccounts } from '@polkadot/react-hooks/useAccounts';
+import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import { balanceOf } from '../creation/balance';
@@ -84,7 +85,7 @@ export const defaultMeta: KeyringJson$Meta = {};
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const defaultAccountInfo: UseAccountInfo = {
   flags: {},
-  identity: { email: 'user@email.com', isExistent: true, judgements: [] },
+  identity: { email: 'user@email.com', isExistent: true, judgements: mockApiHooks.judgements },
   tags: []
 } as any;
 
@@ -107,6 +108,8 @@ class MockAccountHooks {
       const staking = { ...defaultStakingAccount };
       const meta = { ...defaultMeta };
       const balance = { ...defaultBalanceAccount };
+
+      console.log('DEFAULT ACCOUNT INFO:', defaultAccountInfo);
       const info = { ...defaultAccountInfo };
 
       // Typescript does not recognize that keys and values from Object.entries are safe,

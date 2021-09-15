@@ -6,8 +6,10 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
 import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
+import { mockRegistration } from '@polkadot/test-support/mockData/registrations';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
+import { RegistrationJudgement } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
@@ -144,41 +146,59 @@ describe('Sidebar', () => {
   });
 
   describe('identity section', () => {
-    it('does not display subs when account has zero subs', async () => {
-      accountsPage.render([[alice, anAccount()]]);
-      accountRows = await accountsPage.getAccountRows();
-      sideBar = await accountRows[0].openSidebar();
-      const subs = await sideBar.findSubs();
+    describe('subs', () => {
+      it('does not display subs when account has zero subs', async () => {
+        accountsPage.render([[alice, anAccount()]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+        const subs = await sideBar.findSubs();
 
-      expect(subs).toHaveLength(0);
+        expect(subs).toHaveLength(0);
+      });
+
+      it('displays count of subs and account names', async () => {
+        mockApiHooks.setSubs([bob]);
+        accountsPage.render([[alice, anAccount()], [bob, anAccountWithMeta({ name: 'Bob' })]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+        const subs = await sideBar.findSubs();
+
+        const subsNumber = subs[0].childNodes[0];
+        const subAccount = subs[0].childNodes[1];
+
+        expect(subsNumber).toHaveClass('subs-number');
+        expect(subsNumber).toHaveTextContent('1');
+        expect(subAccount).toHaveTextContent('BOB');
+      });
+
+      it('displays picked sub in sidebar', async () => {
+        mockApiHooks.setSubs([bob]);
+        accountsPage.render([[alice, anAccount()], [bob, anAccountWithMeta({ name: 'Bob' })]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+        const subs = await sideBar.findSubs();
+        const subAccount = subs[0].childNodes[1];
+
+        fireEvent.click(await within(subAccount as HTMLElement).findByTestId('account-name'));
+
+        await sideBar.assertAccountName('BOB');
+      });
     });
 
-    it('displays count of subs and account names', async () => {
-      mockApiHooks.setSubs([bob]);
-      accountsPage.render([[alice, anAccount()], [bob, anAccountWithMeta({ name: 'Bob' })]]);
-      accountRows = await accountsPage.getAccountRows();
-      sideBar = await accountRows[0].openSidebar();
-      const subs = await sideBar.findSubs();
+    describe('judgements', () => {
+      it('displays several judgements', async () => {
+        console.log('NEW WE SETTING');
+        console.log('MOCK REG JUDGEMENTS:', mockRegistration.judgements);
+        mockApiHooks.setJudgements(mockRegistration.judgements as unknown as RegistrationJudgement[]);
+        console.log('SET !');
+        accountsPage.render([[alice, anAccount()]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
 
-      const subsNumber = subs[0].childNodes[0];
-      const subAccount = subs[0].childNodes[1];
-
-      expect(subsNumber).toHaveClass('subs-number');
-      expect(subsNumber).toHaveTextContent('1');
-      expect(subAccount).toHaveTextContent('BOB');
-    });
-
-    it('displays picked sub in sidebar', async () => {
-      mockApiHooks.setSubs([bob]);
-      accountsPage.render([[alice, anAccount()], [bob, anAccountWithMeta({ name: 'Bob' })]]);
-      accountRows = await accountsPage.getAccountRows();
-      sideBar = await accountRows[0].openSidebar();
-      const subs = await sideBar.findSubs();
-      const subAccount = subs[0].childNodes[1];
-
-      fireEvent.click(await within(subAccount as HTMLElement).findByTestId('account-name'));
-
-      await sideBar.assertAccountName('BOB');
+        await sideBar.assertJudgement('Known good');
+        await sideBar.assertJudgement('Reasonable');
+        await sideBar.assertJudgement('Erroneous');
+      });
     });
   });
 });

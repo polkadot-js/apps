@@ -43,6 +43,12 @@ export class Sidebar {
     expect(sideBarName).toHaveTextContent(expectedAccountName);
   }
 
+  async assertJudgement (judgement: string): Promise<void> {
+    const judgementsSection = await this.findByTestId('judgements');
+
+    expect(judgementsSection).toHaveTextContent(judgement);
+  }
+
   async assertTags (tagsContent: string): Promise<void> {
     const sideBarTags = await this.findByTestId('sidebar-tags');
 

@@ -98,21 +98,24 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     setName(name || '');
 
     if (identity) {
+      console.log('Judgements');
+      identity.judgements.forEach((judgement) => console.log(judgement.toJSON()));
+
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
-      const isKnownGood = judgements.some(([, judgement]) => judgement.isKnownGood);
-      const isReasonable = judgements.some(([, judgement]) => judgement.isReasonable);
-      const isErroneous = judgements.some(([, judgement]) => judgement.isErroneous);
-      const isLowQuality = judgements.some(([, judgement]) => judgement.isLowQuality);
+      const knownGoodJudgements = judgements.filter(([, judgement]) => judgement.isKnownGood);
+      const reasonableJudgements = judgements.filter(([, judgement]) => judgement.isReasonable);
+      const erroneousJudgements = judgements.filter(([, judgement]) => judgement.isErroneous);
+      const lowQualityJudgements = judgements.filter(([, judgement]) => judgement.isLowQuality);
 
       setIdentity({
         ...identity,
-        isBad: isErroneous || isLowQuality,
-        isErroneous,
+        isBad: erroneousJudgements.length !== 0 || lowQualityJudgements.length !== 0,
+        isErroneous: erroneousJudgements.length !== 0,
         isExistent: !!identity.display,
-        isGood: isKnownGood || isReasonable,
-        isKnownGood,
-        isLowQuality,
-        isReasonable,
+        isGood: knownGoodJudgements.length !== 0 || reasonableJudgements.length !== 0,
+        isKnownGood: knownGoodJudgements.length !== 0,
+        isLowQuality: lowQualityJudgements.length !== 0,
+        isReasonable: reasonableJudgements.length !== 0,
         judgements,
         waitCount: identity.judgements.length - judgements.length
       });

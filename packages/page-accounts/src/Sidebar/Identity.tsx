@@ -92,6 +92,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             subtitle={identity.legal}
             title={identity.display}
           />
+          <div data-testid='judgements'></div>
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (
               <div className='tr parent'>
