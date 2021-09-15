@@ -734,7 +734,10 @@ export default React.memo(styled(Account)`
       margin-top: auto;
       margin-bottom: auto;
       transform: translate(-50%, 0);
+<<<<<<< HEAD
       opacity: 0.65;
+=======
+>>>>>>> 4a6a821d02... Move warning badge to the left of the row
     }
   }
 
