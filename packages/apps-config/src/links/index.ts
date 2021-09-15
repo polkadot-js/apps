@@ -7,7 +7,7 @@ import Commonwealth from './commonwealth';
 import Dotreasury from './dotreasury';
 import DotScanner from './dotscanner';
 import Polkascan from './polkascan';
-import Polkassembly from './polkassembly';
+import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly';
 import Polkastats from './polkastats';
 import Statescan from './statescan';
 import Subscan from './subscan';
@@ -17,7 +17,8 @@ export const externalLinks: Record<string, ExternalDef> = {
   DotScanner,
   Dotreasury,
   Polkascan,
-  Polkassembly,
+  PolkassemblyIo,
+  PolkassemblyNetwork,
   Polkastats,
   Statescan,
   Subscan
