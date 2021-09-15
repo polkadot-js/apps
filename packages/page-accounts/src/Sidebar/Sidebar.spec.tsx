@@ -7,6 +7,7 @@ import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
 import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
+import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
@@ -153,7 +154,8 @@ describe('Sidebar', () => {
     });
 
     it('displays count of subs and account names', async () => {
-      accountsPage.render([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
+      mockApiHooks.setSubs([bob]);
+      accountsPage.render([[alice, anAccount()], [bob, anAccountWithMeta({ name: 'Bob' })]]);
       accountRows = await accountsPage.getAccountRows();
       sideBar = await accountRows[0].openSidebar();
       const subs = await sideBar.findSubs();
@@ -167,7 +169,8 @@ describe('Sidebar', () => {
     });
 
     it('displays picked sub in sidebar', async () => {
-      accountsPage.render([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
+      mockApiHooks.setSubs([bob]);
+      accountsPage.render([[alice, anAccount()], [bob, anAccountWithMeta({ name: 'Bob' })]]);
       accountRows = await accountsPage.getAccountRows();
       sideBar = await accountRows[0].openSidebar();
       const subs = await sideBar.findSubs();

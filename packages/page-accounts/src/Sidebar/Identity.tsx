@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressIdentity } from '@polkadot/react-hooks/types';
-import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, AvatarItem, Expander, IconLink, Tag } from '@polkadot/react-components';
-import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
+import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -26,7 +25,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
-  const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
+  const subs = useSubidentities(address);
 
   const subsList = useMemo(() =>
     subs?.map((sub) =>

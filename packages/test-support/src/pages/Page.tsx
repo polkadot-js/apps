@@ -14,9 +14,8 @@ import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
-import { CallOptions, CallParams, UseAccountInfo } from '@polkadot/react-hooks/types';
-import { TrackFn } from '@polkadot/react-hooks/useCall';
-import { mockApiCalls } from '@polkadot/test-support/utils/mockApiCalls';
+import { UseAccountInfo } from '@polkadot/react-hooks/types';
+import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { BlockNumber } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
@@ -74,21 +73,9 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
 
-jest.mock('@polkadot/react-hooks/useCall', () => {
-  // eslint-disable-next-line func-call-spacing
-  const actual = jest.requireActual<{useCall: <T>(fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>) => T | undefined }>('@polkadot/react-hooks/useCall');
-
-  return ({
-    useCall: (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: any) => {
-      return fn && fn.name === 'subsOf'
-        ? [
-          0,
-          mockApiCalls.subs
-        ]
-        : actual.useCall(fn, params, options);
-    }
-  });
-});
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
 
 export abstract class Page {
   private renderResult?: RenderResult
@@ -99,9 +86,8 @@ export abstract class Page {
     this.rowClassName = rowClassName;
   }
 
-  render (accounts: [string, AccountOverrides][], options?: {subs: string[]}): void {
+  render (accounts: [string, AccountOverrides][]): void {
     mockAccountHooks.setAccounts(accounts);
-    mockApiCalls.setSubs(options?.subs || undefined);
 
     accounts.forEach(([address, { meta }]) => {
       keyring.addExternal(address, meta);
