@@ -5,7 +5,7 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
-import { alice, bob, defaultAddresses, MemoryStore } from '@polkadot/test-support/keyring';
+import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { keyring } from '@polkadot/ui-keyring';
 
@@ -24,8 +24,8 @@ describe('Sidebar', () => {
   });
 
   beforeEach(() => {
-    defaultAddresses.forEach((address) => keyring.forgetAccount(address));
     accountsPage = new AccountsPage();
+    accountsPage.clearAccounts();
   });
 
   describe('editing', () => {
