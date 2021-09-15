@@ -4,13 +4,13 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 
 import { AddressFlags } from '@polkadot/react-hooks/types';
+import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
 import { alice, bob, defaultAddresses, MemoryStore } from '@polkadot/test-support/keyring';
+import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
-import { Sidebar } from '../../test/pageElements/Sidebar';
 import { AccountsPage } from '../../test/pages/accountsPage';
-import { anAccount, anAccountWithInfo, anAccountWithMeta } from '../../test/utils/account';
 
 describe('Sidebar', () => {
   let accountsPage: AccountsPage;
@@ -28,7 +28,7 @@ describe('Sidebar', () => {
     accountsPage = new AccountsPage();
   });
 
-  describe('sidebar editing', () => {
+  describe('editing', () => {
     const initialName = 'INITIAL_NAME';
     const newName = 'NEW_NAME';
     const defaultTag = 'Default';
@@ -36,8 +36,9 @@ describe('Sidebar', () => {
 
     describe('changes name', () => {
       beforeEach(async () => {
-        accountsPage.renderPage([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
-        sideBar = await openSidebarForAccountRow(0);
+        accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
         await sideBar.changeAccountName(newName);
       });
 
@@ -57,6 +58,9 @@ describe('Sidebar', () => {
     });
 
     it('cannot be edited if edit button has not been pressed', async () => {
+      accountsPage.renderDefaultAccounts(1);
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
       await sideBar.clickByText('no tags');
       expect(sideBar.queryByRole('combobox')).toBeFalsy();
 
@@ -67,16 +71,19 @@ describe('Sidebar', () => {
       accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
       );
-      sideBar = await openSidebarForAccountRow(0);
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
       sideBar.edit();
+
       await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
     });
 
     describe('on edit cancel', () => {
       beforeEach(async () => {
-        accountsPage.renderPage([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
+        accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
 
-        sideBar = await openSidebarForAccountRow(0);
         await sideBar.assertTags('no tags');
         sideBar.edit();
       });
@@ -103,7 +110,8 @@ describe('Sidebar', () => {
           anAccountWithMeta({ name: 'bob' })
         );
 
-        sideBar = await openSidebarForAccountRow(0);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
         sideBar.edit();
       });
 
@@ -128,7 +136,7 @@ describe('Sidebar', () => {
       it('cancels editing and changes name when opening sidebar for another account', async () => {
         await waitFor(() => sideBar.assertAccountInput('alice'));
 
-        sideBar = await openSidebarForAccountRow(1);
+        sideBar = await accountRows[1].openSidebar();
         await sideBar.assertAccountName('BOB');
       });
     });
@@ -136,16 +144,18 @@ describe('Sidebar', () => {
 
   describe('identity section', () => {
     it('dose not display subs when account has zero subs', async () => {
-      accountsPage.renderPage([[alice, anAccount()]]);
-      sideBar = await openSidebarForAccountRow(0);
+      accountsPage.render([[alice, anAccount()]]);
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
       const subs = await sideBar.findSubs();
 
       expect(subs).toHaveLength(0);
     });
 
     it('displays count of subs and account names', async () => {
-      accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-      sideBar = await openSidebarForAccountRow(0);
+      accountsPage.render([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
       const subs = await sideBar.findSubs();
 
       const subsNumber = subs[0].childNodes[0];
@@ -157,8 +167,9 @@ describe('Sidebar', () => {
     });
 
     it('displays picked sub in sidebar', async () => {
-      accountsPage.renderPage([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
-      sideBar = await openSidebarForAccountRow(0);
+      accountsPage.render([[alice, anAccount()], [bob, { meta: { name: 'Bob' } }]], { subs: [bob] });
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
       const subs = await sideBar.findSubs();
       const subAccount = subs[0].childNodes[1];
 
@@ -167,10 +178,4 @@ describe('Sidebar', () => {
       await sideBar.assertAccountName('BOB');
     });
   });
-
-  async function openSidebarForAccountRow (rowIndex: number) {
-    accountRows = await accountsPage.findAccountRows();
-
-    return accountRows[rowIndex].openSidebar();
-  }
 });

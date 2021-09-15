@@ -1,21 +1,19 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Balance } from '@polkadot/types/interfaces';
-
-import { fireEvent, screen, within } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
 import toShortAddress from '@polkadot/react-components/util/toShortAddress';
-import { balanceOf } from '@polkadot/test-support/creation/balance';
+import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
-import { alice, defaultAddresses, MemoryStore } from '@polkadot/test-support/keyring';
+import { alice, MemoryStore } from '@polkadot/test-support/keyring';
+import { Table } from '@polkadot/test-support/pagesElements';
+import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AccountOverrides } from '../../test/hooks/default';
-import { AccountsPage, format } from '../../test/pages/accountsPage';
-import { anAccount, anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '../../test/utils/account';
+import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
   let accountsPage: AccountsPage;
@@ -29,43 +27,36 @@ describe('Accounts page', () => {
   });
 
   beforeEach(() => {
-    defaultAddresses.forEach((address) => keyring.forgetAccount(address));
     accountsPage = new AccountsPage();
+    accountsPage.clearAccounts();
   });
 
   describe('when no accounts', () => {
     beforeEach(() => {
-      accountsPage.renderPage([]);
+      accountsPage.render([]);
     });
 
     it('shows sort-by controls', async () => {
-      const section = await accountsPage.findSortBySection();
-
-      expect(section).not.toBeNull();
-
-      const button = await accountsPage.findSortByReverseButton();
-
-      expect(button).not.toBeNull();
+      await accountsPage.reverseSortingOrder();
     });
 
     it('shows a table', async () => {
-      const accountsTable = await accountsPage.findAccountsTable();
+      const accountsTable = await accountsPage.getTable();
 
       expect(accountsTable).not.toBeNull();
     });
 
     it('the accounts table contains no account rows', async () => {
-      const accountRows = await accountsPage.findAccountRows();
+      const accountRows = await accountsPage.getAccountRows();
 
       expect(accountRows).toHaveLength(0);
     });
 
     it('the accounts table contains a message about no accounts available', async () => {
-      const accountsTable = await accountsPage.findAccountsTable();
-      const noAccountsMessage = await within(accountsTable).findByText(
-        'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.');
+      const noAccountsMessage = 'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.';
+      const accountsTable = await accountsPage.getTable();
 
-      expect(noAccountsMessage).not.toBeNull();
+      await accountsTable.assertText(noAccountsMessage);
     });
 
     it('no summary is displayed', () => {
@@ -77,8 +68,8 @@ describe('Accounts page', () => {
 
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
-      renderDefaultAccounts(2);
-      const accountRows = await accountsPage.findAccountRows();
+      accountsPage.renderDefaultAccounts(2);
+      const accountRows = await accountsPage.getAccountRows();
 
       expect(accountRows).toHaveLength(2);
     });
@@ -89,7 +80,7 @@ describe('Accounts page', () => {
         anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
       );
 
-      const rows = await accountsPage.findAccountRows();
+      const rows = await accountsPage.getAccountRows();
 
       await rows[0].assertBalancesTotal(balance(500));
       await rows[1].assertBalancesTotal(balance(350));
@@ -101,7 +92,7 @@ describe('Accounts page', () => {
         anAccountWithBalance({ availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
       );
 
-      const rows = await accountsPage.findAccountRows();
+      const rows = await accountsPage.getAccountRows();
 
       await rows[0].assertBalancesDetails([
         { amount: balance(0), name: 'transferrable' },
@@ -117,25 +108,25 @@ describe('Accounts page', () => {
         anAccountWithMeta({ name: 'ALICE_CHILD', parentAddress: alice, whenCreated: 300 })
       );
 
-      const accountRows = await accountsPage.findAccountRows();
+      const accountRows = await accountsPage.getAccountRows();
 
       expect(accountRows).toHaveLength(2);
       await accountRows[1].assertParentAccountName('ALICE');
     });
 
     it('a separate column for parent account is not displayed', async () => {
-      renderDefaultAccounts(1);
-      const accountsTable = await accountsPage.findAccountsTable();
+      accountsPage.renderDefaultAccounts(1);
+      const accountsTable = await accountsPage.getTable();
 
-      assertColumnNotExistInTable('parent', accountsTable);
-      assertColumnExistsInTable('type', accountsTable);
+      accountsTable.assertColumnNotExist('parent');
+      accountsTable.assertColumnExists('type');
     });
 
     it('account rows display the shorted address', async () => {
-      renderAccountsForAddresses(
+      accountsPage.renderAccountsForAddresses(
         alice
       );
-      const accountRows = await accountsPage.findAccountRows();
+      const accountRows = await accountsPage.getAccountRows();
 
       expect(accountRows).toHaveLength(1);
       const aliceShortAddress = toShortAddress(alice);
@@ -144,8 +135,8 @@ describe('Accounts page', () => {
     });
 
     it('when account is not tagged, account row details displays no tags info', async () => {
-      renderDefaultAccounts(1);
-      const rows = await accountsPage.findAccountRows();
+      accountsPage.renderDefaultAccounts(1);
+      const rows = await accountsPage.getAccountRows();
 
       await rows[0].assertTags('no tags');
     });
@@ -155,26 +146,25 @@ describe('Accounts page', () => {
         anAccountWithInfo({ tags: ['my tag', 'Super Tag'] })
       );
 
-      const rows = await accountsPage.findAccountRows();
+      const rows = await accountsPage.getAccountRows();
 
       await rows[0].assertTags('my tagSuper Tag');
     });
 
     it('account details rows keep colouring from their primary rows', async () => {
-      renderDefaultAccounts(3);
+      accountsPage.renderDefaultAccounts(3);
+      const accountsTable = await accountsPage.getTable();
 
-      await accountsPage.checkRowsColoring();
+      await accountsTable.assertColoring();
     });
 
     it('account details rows toggled on icon toggle click', async () => {
-      renderDefaultAccounts(1);
-
-      const row = (await accountsPage.findAccountRows())[0];
-      const toggle = await within(row.primaryRow).findByTestId('row-toggle');
+      accountsPage.renderDefaultAccounts(1);
+      const row = (await accountsPage.getAccountRows())[0];
 
       expect(row.detailsRow).toHaveClass('isCollapsed');
 
-      fireEvent.click(toggle);
+      await row.expand();
 
       expect(row.detailsRow).toHaveClass('isExpanded');
     });
@@ -292,13 +282,17 @@ describe('Accounts page', () => {
         anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, { whenCreated: 300 }),
         anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { whenCreated: 100 })
       );
+      expect(await accountsPage.getCurrentSortCategory()).toHaveTextContent('date');
 
-      expect(await accountsPage.findSortByDropdownCurrent()).toHaveTextContent('date');
-      await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
+      const accountsTable = await accountsPage.getTable();
+
+      await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
     });
 
     describe('when sorting is used', () => {
-      beforeEach(() => {
+      let accountsTable: Table;
+
+      beforeEach(async () => {
         accountsPage.renderAccountsWithDefaultAddresses(
           anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { isInjected: true, name: 'bbb', whenCreated: 200 }),
           anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, {
@@ -310,100 +304,65 @@ describe('Accounts page', () => {
           }),
           anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { isInjected: true, name: 'aaa', whenCreated: 100 })
         );
+
+        accountsTable = await accountsPage.getTable();
       });
 
       it('changes default dropdown value', async () => {
-        await accountsPage.selectOrder('balances');
-        expect(await accountsPage.findSortByDropdownCurrent())
+        await accountsPage.sortBy('balances');
+        expect(await accountsPage.getCurrentSortCategory())
           .toHaveTextContent('balances');
       });
 
       it('sorts by parent if asked', async () => {
-        await accountsPage.selectOrder('parent');
-        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
+        await accountsPage.sortBy('parent');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
       });
 
       it('sorts by name if asked', async () => {
-        await accountsPage.selectOrder('name');
-        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
       });
 
       it('sorts by date if asked', async () => {
-        await accountsPage.selectOrder('date');
-        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
+        await accountsPage.sortBy('date');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
       });
 
       it('sorts by balances if asked', async () => {
-        await accountsPage.selectOrder('balances');
-        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
+        await accountsPage.sortBy('balances');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
       });
 
       it('sorts by type if asked', async () => {
-        await accountsPage.selectOrder('type');
-        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
+        await accountsPage.sortBy('type');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
       });
 
       it('implements stable sort', async () => {
         // Notice that sorting by 'type' results in different order
         // depending on the previous state.
-        await accountsPage.selectOrder('name');
-        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
-        await accountsPage.selectOrder('type');
-        await accountsPage.checkOrderAndRowsColoring([3, 1, 2]);
-        await accountsPage.selectOrder('balances');
-        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
-        await accountsPage.selectOrder('type');
-        await accountsPage.checkOrderAndRowsColoring([1, 3, 2]);
-        await accountsPage.checkRowsColoring();
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsPage.sortBy('type');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+        await accountsPage.sortBy('balances');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsPage.sortBy('type');
+        await accountsTable.assertRowsOrderAndColoring([1, 3, 2]);
+        await accountsTable.assertColoring();
       });
 
       it('respects reverse button', async () => {
-        await accountsPage.selectOrder('name');
-        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
-        await accountsPage.selectOrder('balances');
-        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
-        fireEvent.click(await accountsPage.findSortByReverseButton());
-        await accountsPage.checkOrderAndRowsColoring([3, 2, 1]);
-        await accountsPage.selectOrder('name');
-        await accountsPage.checkOrderAndRowsColoring([1, 2, 3]);
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsPage.sortBy('balances');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsPage.reverseSortingOrder();
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
       });
     });
   });
-
-  function assertColumnNotExistInTable (columnName: string, table: HTMLElement) {
-    expect(within(table).queryByRole('columnheader', { name: columnName })).toBeFalsy();
-  }
-
-  function assertColumnExistsInTable (columnName: string, table: HTMLElement) {
-    expect(within(table).getByRole('columnheader', { name: columnName })).toBeTruthy();
-  }
-
-  function showBalance (amount: number): string {
-    return format(balance(amount));
-  }
-
-  function renderAccountsForAddresses (...addresses: string[]): void {
-    const accounts = addresses.map((address) => [address, anAccount()] as [string, AccountOverrides]);
-
-    accountsPage.renderPage(accounts);
-  }
-
-  function renderDefaultAccounts (accountsNumber: number): void {
-    const accounts = Array.from({ length: accountsNumber },
-      (_, index) => [defaultAddresses[index], anAccount()] as [string, AccountOverrides]);
-
-    accountsPage.renderPage(accounts);
-  }
 });
-
-/**
- * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.
- * @param amountInt Integer part of the balance number
- * @param decimalsString Decimals part of the balance number. Note! This is a string sequence just after '.' separator
- *  that is the point that separates integers from decimals. E.g. (100, 4567) => 100.45670000...00
- */
-export const balance = function (amountInt: number, decimalsString?: string): Balance {
-  const decimalsPadded = (decimalsString || '').padEnd(12, '0');
-
-  return balanceOf(amountInt.toString() + decimalsPadded);
-};
