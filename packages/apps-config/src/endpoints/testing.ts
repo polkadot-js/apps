@@ -226,6 +226,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'kilt',
+      text: t('rpc.test.kilt', 'KILT Peregrine', { ns: 'apps-config' }),
+      providers: {
+        'KILT Protocol': 'wss://peregrine.kilt.io/'
+      }
+    },
+    {
       info: 'klugdossier',
       text: t('rpc.KlugDossier', 'Klug Dossier', { ns: 'apps-config' }),
       providers: {
@@ -392,17 +399,17 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'subgame',
-      text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
-      providers: {
-        SubGame: 'wss://staging.subgame.org'
-      }
-    },
-    {
       info: 'spartan-testnet',
       text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
       providers: {
         'Subspace Network': 'wss://dev-rpc.subspace.network'
+      }
+    },
+    {
+      info: 'subgame',
+      text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
+      providers: {
+        SubGame: 'wss://staging.subgame.org'
       }
     },
     {

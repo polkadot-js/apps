@@ -23,7 +23,7 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
-      // Dwellir: 'wss://kusama-rpc.dwellir.com',
+      Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -61,7 +61,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2090,
         text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
         providers: {
-          HydraDX: 'wss://rpc-01.basilisk.hydradx.io'
+          HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
+          OnFinality: 'wss://basilisk.api.onfinality.io/public-ws'
         }
       },
       {

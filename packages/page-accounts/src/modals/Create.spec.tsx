@@ -5,6 +5,7 @@ import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/r
 
 import i18next from '@polkadot/react-components/i18n';
 import { MemoryStore } from '@polkadot/test-support/keyring';
+import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils/renderedScreenUtils';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountsPage } from '../../test/pages/accountsPage';
@@ -33,15 +34,15 @@ describe('Create an account modal', () => {
 
     assertButtonDisabled('Next');
     await fillFirstStep();
-    clickButton('Next');
+    await clickButton('Next');
 
     await expectSecondStep();
     assertButtonDisabled('Next');
     fillSecondStep();
-    clickButton('Next');
+    await clickButton('Next');
 
     await expectThirdStep();
-    clickButton('Save');
+    await clickButton('Save');
 
     await waitForElementToBeRemoved(() => screen.queryByText('Add an account via seed 3/3'));
     expectCreateAnAccountCall();
@@ -75,7 +76,7 @@ describe('Create an account modal', () => {
 
     fillInput('secret derivation path', '//abc//');
 
-    await screen.findByText('Unable to match provided value to a secret URI');
+    await assertText('Unable to match provided value to a secret URI');
   });
 });
 
@@ -107,24 +108,6 @@ function expectCreateAnAccountCall () {
     }),
     'sr25519'
   );
-}
-
-function fillInput (testId: string, value: string) {
-  const nameInput = screen.getByTestId(testId);
-
-  fireEvent.change(nameInput, { target: { value } });
-}
-
-function assertButtonDisabled (name: string) {
-  const button = screen.getByRole('button', { name });
-
-  expect(button).toHaveClass('isDisabled');
-}
-
-function clickButton (name: string) {
-  const button = screen.getByRole('button', { name });
-
-  fireEvent.click(button);
 }
 
 async function expectFirstStep () {

@@ -23,7 +23,7 @@ import createItem from './createItem';
 interface Props {
   className?: string;
   defaultValue?: Uint8Array | string | null;
-  filter?: string[];
+  filter?: string[] | null;
   help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;

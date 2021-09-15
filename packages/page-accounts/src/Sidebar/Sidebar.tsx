@@ -4,14 +4,14 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import SidebarEditableSection from '@polkadot/app-accounts/Sidebar/SidebarEditableSection';
-import { IdentityIcon, LinkExternal, Sidebar } from '@polkadot/react-components';
+import { LinkExternal, Sidebar } from '@polkadot/react-components';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
 import Balances from './Balances';
 import Identity from './Identity';
 import Multisig from './Multisig';
+import SidebarEditableSection from './SidebarEditableSection';
 
 interface Props {
   address: string;
@@ -39,19 +39,8 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
         className='ui--AddressMenu-header'
         data-testid='sidebar-address-menu'
       >
-        <IdentityIcon
-          size={80}
-          value={address}
-        />
-        <div className='ui--AddressMenu-addr'>
-          {address}
-        </div>
-        {accountIndex && (
-          <div className='ui--AddressMenu-addr'>
-            {accountIndex}
-          </div>
-        )}
         <SidebarEditableSection
+          accountIndex={accountIndex}
           address={address}
           isBeingEdited={setInEditMode}
           onUpdateName={onUpdateName}
@@ -98,19 +87,51 @@ export default React.memo(styled(FullSidebar)`
     flex-direction: column;
     justify-content: center;
     margin: -1rem -1rem 1rem -1rem;
-    padding: 1rem;
+    padding: 1.35rem 1rem 1rem 1rem;
+  }
+
+  .ui--AddressSection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+
+
+    width: 100%;
+
+    .ui--AddressSection__AddressColumn {
+      margin-left: 1rem;
+
+      .ui--AccountName {
+        max-width: 21.5rem;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .ui--AddressMenu-addr,
+  .ui--AddressMenu-index {
+    font: var(--font-mono);
+    text-align: left;
+    font-size: 0.857rem;
   }
 
   .ui--AddressMenu-addr {
-    font: var(--font-mono);
-    margin: 0.75rem 0;
-    text-align: center;
     word-break: break-all;
     width: 26ch;
+    margin: 0.571rem 0;
+    color: var(--color-label);
   }
 
-  .ui--AddressMenu-addr+.ui--AddressMenu-addr {
-    margin-top: -0.25rem;
+  .ui--AddressMenu-index {
+    display: flex;
+    flex-direction: row;
+
+    label {
+      font-size: 0.857rem;
+      margin-right: 0.4rem;
+      text-transform: capitalize;
+    }
   }
 
   section {

@@ -3,22 +3,23 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import AccountMenuButtons from '@polkadot/app-accounts/Sidebar/AccountMenuButtons';
-import Flags from '@polkadot/app-accounts/Sidebar/Flags';
-import { useTranslation } from '@polkadot/app-accounts/translate';
-import { AccountName, Input, Tags } from '@polkadot/react-components';
+import { Tags } from '@polkadot/react-components';
 import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
+import AccountMenuButtons from './AccountMenuButtons';
+import AddressSection from './AddressSection';
+import Flags from './Flags';
+
 interface Props {
+  accountIndex: string | undefined;
   address: string;
   isBeingEdited: (arg: boolean) => void;
   onUpdateName: () => void;
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
-function SidebarEditableSection ({ address, isBeingEdited, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdateName, sidebarRef }: Props): React.ReactElement<Props> {
   const { flags, isEditing, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
 
   useEffect(() => {
@@ -45,24 +46,13 @@ function SidebarEditableSection ({ address, isBeingEdited, onUpdateName, sidebar
 
   return (
     <>
-      <AccountName
-        override={
-          isEditingName
-            ? (
-              <Input
-                className='name--input'
-                defaultValue={name}
-                label='name-input'
-                onChange={setName}
-                withLabel={false}
-              />
-            )
-            : flags.isEditable
-              ? (name.toUpperCase() || t<string>('<unknown>'))
-              : undefined
-        }
+      <AddressSection
+        accountIndex={accountIndex}
+        defaultValue={name}
+        editingName={isEditingName}
+        flags={flags}
+        onChange={setName}
         value={address}
-        withSidebar={false}
       />
       <div
         className='ui--AddressMenu-tags'

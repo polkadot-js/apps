@@ -4,15 +4,14 @@
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { AddressMini, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useCollectiveInstance, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+import { AddressMini } from '@polkadot/react-components';
+import { useApi, useCall, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Close from './Close';
 import Voting from './Voting';
 
@@ -26,22 +25,10 @@ interface Props {
 }
 
 function Proposal ({ className = '', imageHash, members, prime, type }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
   const derive = useCall<DeriveCollectiveProposal>(api.derive[type].proposal, [imageHash]);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
-  const [proposalWeight, proposalLength] = useWeight(derive?.proposal);
   const modLocation = useCollectiveInstance(type);
-
-  const [councilId, isMultiMembers] = useMemo(
-    (): [string | null, boolean] => {
-      const councilIds = allAccounts.filter((accountId) => members.includes(accountId));
-
-      return [councilIds[0] || null, councilIds.length > 1];
-    },
-    [allAccounts, members]
-  );
 
   if (!modLocation || !derive || !derive.votes) {
     return null;
@@ -96,32 +83,13 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
           />
         )}
         {isCloseable && (
-          isMultiMembers
-            ? (
-              <Close
-                hasFailed={hasFailed}
-                hash={imageHash}
-                idNumber={index}
-                members={members}
-                proposal={derive.proposal}
-                type={type}
-              />
-            )
-            : (
-              <TxButton
-                accountId={councilId}
-                icon='times'
-                label={t<string>('Close')}
-                params={
-                  api.tx[modLocation].close?.meta.args.length === 4
-                    ? hasFailed
-                      ? [imageHash, index, 0, 0]
-                      : [imageHash, index, proposalWeight, proposalLength]
-                    : [imageHash, index]
-                }
-                tx={api.tx[modLocation].closeOperational || api.tx[modLocation].close}
-              />
-            )
+          <Close
+            hasFailed={hasFailed}
+            hash={imageHash}
+            idNumber={index}
+            proposal={derive.proposal}
+            type={type}
+          />
         )}
       </td>
     </tr>

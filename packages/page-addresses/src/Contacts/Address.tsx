@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
@@ -10,8 +10,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
+import { useApi, useBalancesAll, useCall, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
 
@@ -21,20 +21,19 @@ interface Props {
   address: string;
   className?: string;
   filter: string;
+  isEven: boolean;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
 }
 
-const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true, unlocking: true };
-
 const isEditable = true;
 
-function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isEven, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { theme } = useContext<ThemeDef>(ThemeContext);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances?.all, [address]);
+  const balancesAll = useBalancesAll(address);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
@@ -42,6 +41,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const _setTags = useCallback(
     (tags: string[]): void => setTags(tags.sort()),
@@ -164,82 +164,160 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   );
 
   return (
-    <tr className={className}>
-      <td className='favorite'>
-        <Icon
-          color={isFavorite ? 'orange' : 'gray'}
-          icon='star'
-          onClick={_onFavorite}
-        />
-      </td>
-      <td className='address'>
-        <AddressSmall value={address} />
-        {address && current && (
-          <>
-            {isForgetOpen && (
-              <Forget
-                address={current.address}
-                key='modal-forget-account'
-                mode='address'
-                onClose={_toggleForget}
-                onForget={_onForget}
-              />
-            )}
-            {isTransferOpen && (
-              <Transfer
-                key='modal-transfer'
-                onClose={_toggleTransfer}
-                recipientId={address}
-              />
-            )}
-          </>
-        )}
-      </td>
-      <td className='all'>
-        <div className='tags'>
-          <Tags value={tags} />
-        </div>
-      </td>
-      <td className='number media--1500'>
-        {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
-      </td>
-      <td className='number'>
-        <AddressInfo
-          address={address}
-          withBalance={WITH_BALANCE}
-          withBalanceToggle
-          withExtended={false}
-        />
-      </td>
-      <td className='links media--1400'>
-        <LinkExternal
-          className='ui--AddressCard-exporer-link'
-          data={address}
-          isLogo
-          type='address'
-        />
-      </td>
-      <td className='button'>
-        {isFunction(api.api.tx.balances?.transfer) && (
-          <Button
-            icon='paper-plane'
-            key='send'
-            label={t<string>('send')}
-            onClick={_toggleTransfer}
+    <>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
+        <td className='favorite'>
+          <Icon
+            color={isFavorite ? 'orange' : 'gray'}
+            icon='star'
+            onClick={_onFavorite}
           />
-        )}
-        <Popup
-          className={`theme--${theme}`}
-          value={PopupDropdown}
-        />
-      </td>
-    </tr>
+        </td>
+        <td className='address'>
+          <AddressSmall value={address} />
+          {address && current && (
+            <>
+              {isForgetOpen && (
+                <Forget
+                  address={current.address}
+                  key='modal-forget-account'
+                  mode='address'
+                  onClose={_toggleForget}
+                  onForget={_onForget}
+                />
+              )}
+              {isTransferOpen && (
+                <Transfer
+                  key='modal-transfer'
+                  onClose={_toggleTransfer}
+                  recipientId={address}
+                />
+              )}
+            </>
+          )}
+        </td>
+        <td className='number media--1500'>
+          {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
+        </td>
+        <td className='number'>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={{
+              available: false,
+              bonded: false,
+              locked: false,
+              redeemable: false,
+              reserved: false,
+              total: true,
+              unlocking: false,
+              vested: false
+            }}
+            withExtended={false}
+          />
+        </td>
+        <td className='links media--1400'>
+          <LinkExternal
+            className='ui--AddressCard-exporer-link'
+            data={address}
+            isLogo
+            type='address'
+          />
+        </td>
+        <td className='fast-actions-addresses'>
+          <div className='fast-actions-row'>
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                key='send'
+                label={t<string>('send')}
+                onClick={_toggleTransfer}
+              />
+            )}
+            <Popup
+              className={`theme--${theme}`}
+              value={PopupDropdown}
+            />
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleIsExpanded}
+            />
+          </div>
+        </td>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
+        <td />
+        <td>
+          <div
+            className='tags'
+            data-testid='tags'
+          >
+            <Tags
+              value={tags}
+              withTitle
+            />
+          </div>
+        </td>
+        <td className='number media--1500' />
+        <td>
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={{
+              available: true,
+              bonded: true,
+              locked: true,
+              redeemable: true,
+              reserved: true,
+              total: false,
+              unlocking: true,
+              vested: true
+            }}
+            withExtended={false}
+          />
+        </td>
+        <td colSpan={2} />
+      </tr>
+    </>
   );
 }
 
 export default React.memo(styled(Address)`
+  &.isCollapsed {
+    visibility: collapse;
+  }
+
+  &.isExpanded {
+    visibility: visible;
+  }
+
   .tags {
     width: 100%;
     min-height: 1.5rem;
+  }
+
+  && td.button {
+    padding-bottom: 0.5rem;
+  }
+
+  .fast-actions-addresses {
+    padding-left: 0.2rem;
+    padding-right: 1rem;
+    width: 1%;
+
+    .fast-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      & > * + * {
+        margin-left: 0.35rem;
+      }
+
+      .send-button {
+        min-width: 6.5rem;
+      }
+    }
   }
 `);
