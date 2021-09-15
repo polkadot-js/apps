@@ -4,9 +4,9 @@
 import type { AddressIdentity } from '@polkadot/react-hooks/types';
 import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { AddressMini, AvatarItem, IconLink, Tag } from '@polkadot/react-components';
+import { AddressMini, AvatarItem, Expander, IconLink, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
@@ -19,12 +19,26 @@ interface Props {
   identity?: AddressIdentity;
 }
 
+const SUBS_DISPLAY_THRESHOLD = 4;
+
 function Identity ({ address, identity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
   const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
+
+  const subsList = useMemo(() =>
+    subs?.map((sub) =>
+      <AddressMini
+        className='subs'
+        isPadded={false}
+        key={sub.toString()}
+        value={sub}
+      />
+    )
+  , [subs]
+  );
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -165,15 +179,19 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                   className='td'
                   data-testId='subs'
                 >
-                  <div className='subs-number'>{subs.length}</div>
-                  {subs.map((sub) =>
-                    <AddressMini
-                      className='subs'
-                      isPadded={false}
-                      key={sub.toString()}
-                      value={sub}
-                    />
-                  )}
+                  {subs.length > SUBS_DISPLAY_THRESHOLD
+                    ? (
+                      <Expander summary={subs.length}>
+                        {subsList}
+                      </Expander>
+                    )
+                    : (
+                      <>
+                        <div className='subs-number'>{subs.length}</div>
+                        {subsList}
+                      </>
+                    )
+                  }
                 </div>
               </div>
             )}
