@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { render, RenderResult, screen } from '@testing-library/react';
-import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -17,7 +16,6 @@ import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polka
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
-import { BlockNumber } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { alice, bob, charlie } from '../keyring';
@@ -25,10 +23,6 @@ import { Table } from '../pagesElements';
 import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
-
-function noop (): void {
-  // ignore
-}
 
 class NotYetRendered extends Error {
 }
@@ -93,31 +87,30 @@ export abstract class Page {
       keyring.addExternal(address, meta);
     });
 
+    const noop = () => Promise.resolve(() => { /**/ });
     const mockApi: ApiProps = {
       api: {
         derive: {
           accounts: {
-            info: () => Promise.resolve(() => { /**/
-            })
+            info: noop
           },
           balances: {
-            all: () => ({
-              accountNonce: mockAccountHooks.nonce,
-              additional: [],
-              freeBalance: 0,
-              lockedBreakdown: [],
-              reservedBalance: 0
-            })
+            all: noop
           },
-          chain: {
-            bestNumber: () => new BN(1) as BlockNumber
+          democracy: {
+            locks: noop
+          },
+          staking: {
+            account: noop
           }
         },
         genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
         query: {
+          democracy: {
+            votingOf: noop
+          },
           identity: {
-            identityOf: () => { /**/ },
-            subsOf: () => { /**/ }
+            identityOf: noop
           }
         },
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },

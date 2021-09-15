@@ -176,7 +176,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 <div className='th top'>{t<string>('subs')}</div>
                 <div
                   className='td'
-                  data-testId='subs'
+                  data-testid='subs'
                 >
                   {subs.length > SUBS_DISPLAY_THRESHOLD
                     ? (

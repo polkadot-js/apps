@@ -144,7 +144,7 @@ describe('Sidebar', () => {
   });
 
   describe('identity section', () => {
-    it('dose not display subs when account has zero subs', async () => {
+    it('does not display subs when account has zero subs', async () => {
       accountsPage.render([[alice, anAccount()]]);
       accountRows = await accountsPage.getAccountRows();
       sideBar = await accountRows[0].openSidebar();
