@@ -152,7 +152,7 @@
   "Continue": "Teruskan",
   "Contracts": "Kontrak",
   "Controller account": "Akun pengontrol",
-  "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Kunci keyakinan memang tumpang tindih dan bersifat aditif, artinya dana yang dikunci selama pemungutan suara sebelumnya dapat dikunci lagi.",
+  "Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.": "Kunci keyakinan memang tumpang tindih dan bersifat aditif, artinya dana yang dikunci selama pemungutan suara sebelumnya dapat dikunci lagi.",
   "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "Salin string di atas dan tanda tangani transaksi Ethereum dengan akun yang anda gunakan selama pra-penjualan di dompet pilihan anda, gunakan string sebagai muatan, lalu tempel objek tanda tangan transaksi di bawah",
   "Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:": "Salin string berikut dan tandatangani dengan akun Ethereum yang anda gunakan selama pra-penjualan di dompet pilihan anda, gunakan string sebagai muatan, lalu tempel objek tanda tangan transaksi di bawah ini:",
   "Council": "Dewan",

@@ -115,13 +115,13 @@ export class BountiesPage {
 
     return render(
       <>
-        <div id='tooltips'/>
+        <div id='tooltips' />
         <Suspense fallback='...'>
           <QueueProvider value={queue}>
             <MemoryRouter>
               <ThemeProvider theme={lightTheme}>
                 <ApiContext.Provider value={mockApi}>
-                  <Bounties/>
+                  <Bounties />
                 </ApiContext.Provider>
               </ThemeProvider>
             </MemoryRouter>

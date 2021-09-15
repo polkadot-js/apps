@@ -3,7 +3,10 @@
 
 import { typesChain } from '@phala/typedefs';
 
+import CrustMaxwell from './crust-maxwell';
+
 // alphabetical, based on the actual displayed name
 export default {
-  ...typesChain
+  ...typesChain,
+  'Crust Maxwell': CrustMaxwell
 };

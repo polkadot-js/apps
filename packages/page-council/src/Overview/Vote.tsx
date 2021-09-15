@@ -80,6 +80,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
       {isVisible && (
         <Modal
           header={t<string>('Vote for current candidates')}
+          onClose={toggleVisible}
           size='large'
         >
           <Modal.Content>
@@ -98,12 +99,14 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
                 onChange={setVoteValue}
               />
             </Modal.Columns>
-            <Modal.Columns hint={
-              <>
-                <p>{t<string>('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
-                <p>{t<string>('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
-              </>
-            }>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t<string>('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
+                  <p>{t<string>('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
+                </>
+              }
+            >
               <InputAddressMulti
                 available={available}
                 availableLabel={t<string>('council candidates')}
@@ -125,7 +128,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
               </Modal.Columns>
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='trash-alt'

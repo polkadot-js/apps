@@ -174,30 +174,23 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
-  const _saveApiEndpoint = () => {
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
-      _onApply();
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+  const _removeApiEndpoint = useCallback(
+    (): void => {
+      if (!isSavedCustomEndpoint) return;
 
-  const _removeApiEndpoint = () => {
-    if (!isSavedCustomEndpoint) return;
+      const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 
-    const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
-
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
-      setGroups(combineEndpoints(createWsEndpoints(t)));
-      setStoredCustomEndpoints(getCustomEndpoints());
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
+        setGroups(combineEndpoints(createWsEndpoints(t)));
+        setStoredCustomEndpoints(getCustomEndpoints());
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [apiUrl, isSavedCustomEndpoint, storedCustomEndpoints, t]
+  );
 
   const _setApiUrl = useCallback(
     (network: string, apiUrl: string): void => {
@@ -232,6 +225,19 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       onClose();
     },
     [apiUrl, onClose]
+  );
+
+  const _saveApiEndpoint = useCallback(
+    (): void => {
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
+        _onApply();
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [_onApply, apiUrl, storedCustomEndpoints]
   );
 
   const canSwitch = useMemo(
@@ -276,17 +282,21 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 value={apiUrl}
               />
               {isSavedCustomEndpoint
-                ? <Button
-                  className='customButton'
-                  icon='trash-alt'
-                  onClick={_removeApiEndpoint}
-                />
-                : <Button
-                  className='customButton'
-                  icon='save'
-                  isDisabled={!isUrlValid || isKnownUrl}
-                  onClick={_saveApiEndpoint}
-                />
+                ? (
+                  <Button
+                    className='customButton'
+                    icon='trash-alt'
+                    onClick={_removeApiEndpoint}
+                  />
+                )
+                : (
+                  <Button
+                    className='customButton'
+                    icon='save'
+                    isDisabled={!isUrlValid || isKnownUrl}
+                    onClick={_saveApiEndpoint}
+                  />
+                )
               }
             </div>
           )}

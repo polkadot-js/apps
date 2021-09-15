@@ -1,15 +1,21 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Balance } from '@polkadot/types/interfaces';
-
-import { within } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
-import { balanceOf } from '@polkadot/test-support/creation/balance';
-import { MemoryStore } from '@polkadot/test-support/keyring';
+import toShortAddress from '@polkadot/react-components/util/toShortAddress';
+import { AddressFlags } from '@polkadot/react-hooks/types';
+import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
+import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
+import { alice, MemoryStore } from '@polkadot/test-support/keyring';
+import { Table } from '@polkadot/test-support/pagesElements';
+import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
+import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { keyring } from '@polkadot/ui-keyring';
 
+import { AccountRow } from '../../test/pageElements/AccountRow';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
@@ -17,102 +23,466 @@ describe('Accounts page', () => {
 
   beforeAll(async () => {
     await i18next.changeLanguage('en');
-    keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+
+    if (keyring.getAccounts().length === 0) {
+      keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
+    }
   });
 
   beforeEach(() => {
     accountsPage = new AccountsPage();
+    accountsPage.clearAccounts();
   });
 
   describe('when no accounts', () => {
-    it('shows a table', async () => {
-      accountsPage.renderPage([]);
+    beforeEach(() => {
+      accountsPage.render([]);
+    });
 
-      const accountsTable = await accountsPage.findAccountsTable();
+    it('shows sort-by controls', async () => {
+      await accountsPage.reverseSortingOrder();
+    });
+
+    it('shows a table', async () => {
+      const accountsTable = await accountsPage.getTable();
 
       expect(accountsTable).not.toBeNull();
     });
 
     it('the accounts table contains no account rows', async () => {
-      accountsPage.renderPage([]);
-
-      const accountRows = await accountsPage.findAccountRows();
+      const accountRows = await accountsPage.getAccountRows();
 
       expect(accountRows).toHaveLength(0);
     });
 
     it('the accounts table contains a message about no accounts available', async () => {
-      accountsPage.renderPage([]);
+      const noAccountsMessage = 'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.';
+      const accountsTable = await accountsPage.getTable();
 
-      const accountsTable = await accountsPage.findAccountsTable();
-      const noAccountsMessage = await within(accountsTable).findByText(
-        'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.');
+      await accountsTable.assertText(noAccountsMessage);
+    });
 
-      expect(noAccountsMessage).not.toBeNull();
+    it('no summary is displayed', () => {
+      const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
+
+      expect(summaries).toHaveLength(0);
     });
   });
 
   describe('when some accounts exist', () => {
     it('the accounts table contains some account rows', async () => {
-      accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(10000)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            freeBalance: balance(999)
-          }
-        }
-      ]);
-
-      const accountRows = await accountsPage.findAccountRows();
+      accountsPage.renderDefaultAccounts(2);
+      const accountRows = await accountsPage.getAccountRows();
 
       expect(accountRows).toHaveLength(2);
     });
 
     it('account rows display the total balance info', async () => {
-      accountsPage.renderPage([
-        {
-          address: '5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy',
-          balance: {
-            freeBalance: balance(500)
-          }
-        },
-        {
-          address: '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
-          balance: {
-            freeBalance: balance(200),
-            reservedBalance: balance(150)
-          }
-        }
-      ]);
-      const rows = await accountsPage.findAccountRows();
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500) }),
+        anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
+      );
 
-      const row1TotalActual = await within(rows[0]).findByTestId('balance-summary');
-      const row1TotalExpected = accountsPage.format(balance(500));
+      const rows = await accountsPage.getAccountRows();
 
-      expect(row1TotalActual).toHaveTextContent(row1TotalExpected);
+      await rows[0].assertBalancesTotal(balance(500));
+      await rows[1].assertBalancesTotal(balance(350));
+    });
 
-      const row2TotalActual = await within(rows[1]).findByTestId('balance-summary');
-      const row2TotalExpected = accountsPage.format(balance(350));
+    it('account rows display the details balance info', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500), lockedBalance: balance(30) }),
+        anAccountWithBalance({ availableBalance: balance(50), freeBalance: balance(200), reservedBalance: balance(150) })
+      );
 
-      expect(row2TotalActual).toHaveTextContent(row2TotalExpected);
+      const rows = await accountsPage.getAccountRows();
+
+      await rows[0].assertBalancesDetails([
+        { amount: balance(0), name: 'transferrable' },
+        { amount: balance(30), name: 'locked' }]);
+      await rows[1].assertBalancesDetails([
+        { amount: balance(50), name: 'transferrable' },
+        { amount: balance(150), name: 'reserved' }]);
+    });
+
+    it('derived account displays parent account info', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithMeta({ isInjected: true, name: 'ALICE', whenCreated: 200 }),
+        anAccountWithMeta({ name: 'ALICE_CHILD', parentAddress: alice, whenCreated: 300 })
+      );
+
+      const accountRows = await accountsPage.getAccountRows();
+
+      expect(accountRows).toHaveLength(2);
+      await accountRows[1].assertParentAccountName('ALICE');
+    });
+
+    it('a separate column for parent account is not displayed', async () => {
+      accountsPage.renderDefaultAccounts(1);
+      const accountsTable = await accountsPage.getTable();
+
+      accountsTable.assertColumnNotExist('parent');
+      accountsTable.assertColumnExists('type');
+    });
+
+    it('account rows display the shorted address', async () => {
+      accountsPage.renderAccountsForAddresses(
+        alice
+      );
+      const accountRows = await accountsPage.getAccountRows();
+
+      expect(accountRows).toHaveLength(1);
+      const aliceShortAddress = toShortAddress(alice);
+
+      await accountRows[0].assertShortAddress(aliceShortAddress);
+    });
+
+    it('when account is not tagged, account row details displays no tags info', async () => {
+      accountsPage.renderDefaultAccounts(1);
+      const rows = await accountsPage.getAccountRows();
+
+      await rows[0].assertTags('no tags');
+    });
+
+    it('when account is tagged, account row details displays tags', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithInfo({ tags: ['my tag', 'Super Tag'] })
+      );
+
+      const rows = await accountsPage.getAccountRows();
+
+      await rows[0].assertTags('my tagSuper Tag');
+    });
+
+    it('account details rows keep colouring from their primary rows', async () => {
+      accountsPage.renderDefaultAccounts(3);
+      const accountsTable = await accountsPage.getTable();
+
+      await accountsTable.assertColoring();
+    });
+
+    it('account details rows toggled on icon toggle click', async () => {
+      accountsPage.renderDefaultAccounts(1);
+      const row = (await accountsPage.getAccountRows())[0];
+
+      expect(row.detailsRow).toHaveClass('isCollapsed');
+
+      await row.expand();
+
+      expect(row.detailsRow).toHaveClass('isExpanded');
+    });
+
+    it('displays some summary', () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500) }),
+        anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
+      );
+
+      const summaries = screen.queryAllByTestId(/card-summary:total \w+/i);
+
+      expect(summaries).not.toHaveLength(0);
+    });
+
+    it('displays balance summary', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ freeBalance: balance(500) }),
+        anAccountWithBalance({ freeBalance: balance(200), reservedBalance: balance(150) })
+      );
+
+      const summary = await screen.findByTestId(/card-summary:(total )?balance/i);
+
+      expect(summary).toHaveTextContent(showBalance(500 + 200 + 150));
+    });
+
+    it('displays transferable summary', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ availableBalance: balance(400) }),
+        anAccountWithBalance({ availableBalance: balance(600) })
+      );
+
+      const summary = await screen.findByTestId(/card-summary:(total )?transferrable/i);
+
+      expect(summary).toHaveTextContent(showBalance(400 + 600));
+    });
+
+    it('displays locked summary', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalance({ lockedBalance: balance(400) }),
+        anAccountWithBalance({ lockedBalance: balance(600) })
+      );
+
+      const summary = await screen.findByTestId(/card-summary:(total )?locked/i);
+
+      expect(summary).toHaveTextContent(showBalance(400 + 600));
+    });
+
+    it('displays bonded summary', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithStaking({ stakingLedger: ledger(balance(70)) }),
+        anAccountWithStaking({ stakingLedger: ledger(balance(20)) })
+      );
+
+      const summary = await screen.findByTestId(/card-summary:(total )?bonded/i);
+
+      expect(summary).toHaveTextContent(showBalance(70 + 20));
+    });
+
+    it('displays unbonding summary', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithStaking({
+          unlocking: [
+            {
+              remainingEras: new BN('1000000000'),
+              value: balance(200)
+            },
+            {
+              remainingEras: new BN('2000000000'),
+              value: balance(300)
+            },
+            {
+              remainingEras: new BN('3000000000'),
+              value: balance(400)
+            }
+          ]
+        }),
+        anAccountWithStaking({
+          unlocking: [
+            {
+              remainingEras: new BN('1000000000'),
+              value: balance(100)
+            },
+            {
+              remainingEras: new BN('2000000000'),
+              value: balance(200)
+            },
+            {
+              remainingEras: new BN('3000000000'),
+              value: balance(300)
+            }
+          ]
+        })
+      );
+
+      const summary = await screen.findByTestId(/card-summary:(total )?unbonding/i);
+
+      expect(summary).toHaveTextContent(showBalance(200 + 300 + 400 + 100 + 200 + 300));
+    });
+
+    it('displays redeemable summary', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithStaking({ redeemable: balance(4000) }),
+        anAccountWithStaking({ redeemable: balance(5000) })
+      );
+
+      const summary = await screen.findByTestId(/card-summary:(total )?redeemable/i);
+
+      expect(summary).toHaveTextContent(showBalance(4000 + 5000));
+    });
+
+    it('sorts accounts by date by default', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { whenCreated: 200 }),
+        anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, { whenCreated: 300 }),
+        anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { whenCreated: 100 })
+      );
+      expect(await accountsPage.getCurrentSortCategory()).toHaveTextContent('date');
+
+      const accountsTable = await accountsPage.getTable();
+
+      await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+    });
+
+    describe('when sorting is used', () => {
+      let accountsTable: Table;
+
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithBalanceAndMeta({ freeBalance: balance(1) }, { isInjected: true, name: 'bbb', whenCreated: 200 }),
+          anAccountWithBalanceAndMeta({ freeBalance: balance(2) }, {
+            hardwareType: 'ledger',
+            isHardware: true,
+            name: 'bb',
+            parentAddress: alice,
+            whenCreated: 300
+          }),
+          anAccountWithBalanceAndMeta({ freeBalance: balance(3) }, { isInjected: true, name: 'aaa', whenCreated: 100 })
+        );
+
+        accountsTable = await accountsPage.getTable();
+      });
+
+      it('changes default dropdown value', async () => {
+        await accountsPage.sortBy('balances');
+        expect(await accountsPage.getCurrentSortCategory())
+          .toHaveTextContent('balances');
+      });
+
+      it('sorts by parent if asked', async () => {
+        await accountsPage.sortBy('parent');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+      });
+
+      it('sorts by name if asked', async () => {
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+      });
+
+      it('sorts by date if asked', async () => {
+        await accountsPage.sortBy('date');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+      });
+
+      it('sorts by balances if asked', async () => {
+        await accountsPage.sortBy('balances');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+      });
+
+      it('sorts by type if asked', async () => {
+        await accountsPage.sortBy('type');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+      });
+
+      it('implements stable sort', async () => {
+        // Notice that sorting by 'type' results in different order
+        // depending on the previous state.
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsPage.sortBy('type');
+        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+        await accountsPage.sortBy('balances');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsPage.sortBy('type');
+        await accountsTable.assertRowsOrderAndColoring([1, 3, 2]);
+        await accountsTable.assertColoring();
+      });
+
+      it('respects reverse button', async () => {
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsPage.sortBy('balances');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsPage.reverseSortingOrder();
+        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsPage.sortBy('name');
+        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+      });
     });
   });
 
-  /**
-   * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.
-   * @param amountInt Integer part of the balance number
-   * @param decimalsString Decimals part of the balance number. Note! This is a string sequence just after '.' separator
-   *  that is the point that separates integers from decimals. E.g. (100, 4567) => 100.45670000...00
-   */
-  const balance = function (amountInt: number, decimalsString?: string): Balance {
-    const decimalsPadded = (decimalsString || '').padEnd(12, '0');
+  describe('sidebar', () => {
+    const initialName = 'INITIAL_NAME';
+    const newName = 'NEW_NAME';
+    const defaultTag = 'Default';
+    const nameInputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
 
-    return balanceOf(amountInt.toString() + decimalsPadded);
-  };
+    let accountRows: AccountRow[];
+    let sideBar: Sidebar;
+
+    describe('changes name', () => {
+      beforeEach(async () => {
+        accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+        await sideBar.changeAccountName(newName);
+      });
+
+      it('within keyring', () => {
+        const changedAccount = keyring.getAccount(alice);
+
+        expect(changedAccount?.meta?.name).toEqual(newName);
+      });
+
+      it('within sidebar', async () => {
+        await sideBar.assertAccountName(newName);
+      });
+
+      it('within account row', async () => {
+        await accountRows[0].assertAccountName(newName);
+      });
+    });
+
+    it('cannot be edited if edit button has not been pressed', async () => {
+      accountsPage.renderDefaultAccounts(1);
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
+      await sideBar.clickByText('no tags');
+      expect(sideBar.queryByRole('combobox')).toBeFalsy();
+
+      await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+    });
+
+    it('when isEditable is false account name is not editable', async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
+      );
+      accountRows = await accountsPage.getAccountRows();
+      sideBar = await accountRows[0].openSidebar();
+      sideBar.edit();
+
+      await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+    });
+
+    describe('on edit cancel', () => {
+      beforeEach(async () => {
+        accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+
+        await sideBar.assertTags('no tags');
+        sideBar.edit();
+      });
+
+      it('restores tags and name to state from keyring', async () => {
+        await sideBar.typeAccountName(newName);
+        await sideBar.selectTag(defaultTag);
+
+        sideBar.cancel();
+        await sideBar.assertTags('no tags');
+        await sideBar.assertAccountName(initialName);
+      });
+
+      it('Cancel button disappears', () => {
+        sideBar.cancel();
+        expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
+      });
+    });
+
+    describe('outside click', () => {
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithMeta({ name: 'alice' }),
+          anAccountWithMeta({ name: 'bob' })
+        );
+
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+        sideBar.edit();
+      });
+
+      it('cancels editing', async () => {
+        await sideBar.typeAccountName(newName);
+        await sideBar.selectTag(defaultTag);
+
+        fireEvent.click(await screen.findByText('accounts'));
+
+        await sideBar.assertTags('no tags');
+        await sideBar.assertAccountName('ALICE');
+
+        expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
+      });
+
+      it('within sidebar does not cancel editing', async () => {
+        await sideBar.clickByText('Tags');
+
+        expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeTruthy();
+      });
+
+      it('cancels editing and changes name when opening sidebar for another account', async () => {
+        await waitFor(() => sideBar.assertAccountInput('alice'));
+
+        sideBar = await accountRows[1].openSidebar();
+        await sideBar.assertAccountName('BOB');
+      });
+    });
+  });
 });

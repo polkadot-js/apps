@@ -28,11 +28,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('contacts'), 'start', 2],
-    [t('tags'), 'start'],
-    [t('transactions'), 'media--1500'],
-    [t('balances'), 'expand'],
-    [],
-    [undefined, 'media--1400']
+    [t('transactions'), 'number media--1500'],
+    [t('balances'), 'balances'],
+    [undefined, 'media--1400'],
+    []
   ]);
 
   useEffect((): void => {
@@ -81,10 +80,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         filter={filter}
         header={headerRef.current}
       >
-        {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
+        {!isLoading && sortedAddresses?.map(({ address, isFavorite }, index): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
+            isEven={!!(index % 2) }
             isFavorite={isFavorite}
             key={address}
             toggleFavorite={toggleFavorite}
