@@ -6,13 +6,15 @@ import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
 import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
-import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
+import { AddressFlags } from '@polkadot/react-hooks/types';
+import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithInfoAndMeta, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { alice, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { keyring } from '@polkadot/ui-keyring';
 
+import { AccountRow } from '../../test/pageElements/AccountRow';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
@@ -354,6 +356,83 @@ describe('Accounts page', () => {
         await accountsTable.assertRowsOrder([3, 2, 1]);
         await accountsPage.sortBy('name');
         await accountsTable.assertRowsOrder([1, 2, 3]);
+      });
+    });
+  });
+
+  describe('badges', () => {
+    let accountRows: AccountRow[];
+
+    beforeEach(async () => {
+      accountsPage.renderAccountsWithDefaultAddresses(
+        anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'alice' }),
+        anAccountWithMeta({ name: 'bob' }),
+        anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'charlie', genesisHash: 'someHash' })
+      );
+      accountRows = await accountsPage.getAccountRows();
+    });
+    describe('when genesis hash is not set', () => {
+      describe('when isDevelopment flag', () => {
+        let aliceRow: AccountRow;
+
+        beforeEach(async () => {
+          aliceRow = accountRows[0];
+          await aliceRow.assertAccountName('ALICE');
+        });
+
+        it('the development badge is displayed', async () => {
+          await aliceRow.assertBadge('orange-wrench');
+        });
+
+        it('the all networks badge is not displayed', async () => {
+          await aliceRow.assertNoBadge('orange-exclamation-triangle');
+        });
+
+        it('the regular badge is not displayed', async () => {
+          await aliceRow.assertNoBadge('transparent-');
+        });
+      });
+
+      describe('when no isDevelopment flag', () => {
+        let bobRow: AccountRow;
+
+        beforeEach(async () => {
+          bobRow = accountRows[1];
+          await bobRow.assertAccountName('BOB');
+        });
+
+        it('the development badge is not displayed', async () => {
+          await bobRow.assertNoBadge('orange-wrench');
+        });
+
+        it('the all networks badge is displayed', async () => {
+          await bobRow.assertBadge('orange-exclamation-triangle');
+        });
+
+        it('the regular badge is not displayed', async () => {
+          await bobRow.assertNoBadge('transparent-');
+        });
+      });
+    });
+
+    describe('when genesis hash set', () => {
+      let charlieRow: AccountRow;
+
+      beforeEach(async () => {
+        charlieRow = accountRows[2];
+        await charlieRow.assertAccountName('CHARLIE');
+      });
+
+      it('the development badge is not displayed', async () => {
+        await charlieRow.assertNoBadge('orange-wrench');
+      });
+
+      it('the all networks badge is not displayed', async () => {
+        await charlieRow.assertNoBadge('orange-exclamation-triangle');
+      });
+
+      it('the regular badge is displayed', async () => {
+        await charlieRow.assertBadge('transparent');
       });
     });
   });

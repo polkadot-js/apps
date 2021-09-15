@@ -402,20 +402,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   return (
     <>
       <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
-        <td className='favorite'>
-          <Icon
-            color={isFavorite ? 'orange' : 'gray'}
-            icon='star'
-            onClick={_onFavorite}
-          />
-        </td>
-        <td className='together'>
+        <td className='warning-badge'>
           {meta.genesisHash
             ? <Badge color='transparent' />
             : isDevelopment
               ? (
                 <Badge
-                  className='devBadge'
+                  className='devBadge warning'
                   color='orange'
                   hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
                   icon='wrench'
@@ -423,6 +416,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )
               : (
                 <Badge
+                  className='warning'
                   color='orange'
                   hover={
                     <div>
@@ -434,6 +428,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 />
               )
           }
+          <Icon
+            color={isFavorite ? 'orange' : 'gray'}
+            icon='star'
+            onClick={_onFavorite}
+          />
+        </td>
+        <td className='together'>
           {recoveryInfo && (
             <Badge
               color='green'
@@ -723,6 +724,21 @@ export default React.memo(styled(Account)`
 
   && td.button {
     padding-bottom: 0.5rem;
+  }
+
+  && td.warning-badge {
+    position: relative;
+    width: 2.143rem !important;
+
+    .ui--Badge {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin-top: auto;
+      margin-bottom: auto;
+      transform: translate(-50%, 0);
+    }
   }
 
   && td.fast-actions {

@@ -32,6 +32,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
     <div
       {...extraProps}
       className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
+      data-testid={`${color}${icon ? `-${icon}` : ''}-badge`}
       onClick={onClick}
     >
       <div className={isHighlight ? 'highlight--color-contrast' : ''}>{info || (icon && <Icon icon={icon} />)}</div>
@@ -126,5 +127,10 @@ export default React.memo(styled(Badge)`
 
   &.whiteColor {
     background: rgba(255, 255, 255, 0.3);
+  }
+
+  &.warning {
+    background: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08)), #FFFFFF !important;
+    color: #FF7D01 !important;
   }
 `);
