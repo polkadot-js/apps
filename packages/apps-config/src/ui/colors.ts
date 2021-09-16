@@ -80,8 +80,7 @@ const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
 const chainSpanner = '#EC3D3D';
-// digitalnative: standard rococo color - change and remove comment
-const chainStandard = '#6143BC';
+const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -95,8 +94,7 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
-// digitalnative: unorthodox color - change and remove comment
-const chainUnorthodox = '#6143BC';
+const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVln = '#33cc33';
 const chainWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
@@ -277,7 +275,6 @@ export const chainColors: Record<string, string> = Object.entries({
   sherpax: chainChainx,
   Shiden: chainShiden,
   Spanner: chainSpanner,
-  // digitalnative: standard rococo - change and remove comment
   Standard: chainStandard,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
@@ -297,7 +294,6 @@ export const chainColors: Record<string, string> = Object.entries({
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
-  // digitalnative: unorthodox - change and remove comment
   Unorthodox: chainUnorthodox,
   'VLN PC': chainVln,
   Web3games: chainWeb3games,

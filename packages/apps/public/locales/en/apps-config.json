@@ -190,6 +190,7 @@
   "rpc.westend.kilt": "WILT",
   "rpc.westend.moonshadow": "Moonshadow",
   "rpc.westend.shell": "Westmint",
+  "rpc.westend.standard": "Standard",
   "rpc.westend.wendala": "Wendala",
   "rpc.westend.whala": "Whala",
   "ss58.default": "Default for the connected node",

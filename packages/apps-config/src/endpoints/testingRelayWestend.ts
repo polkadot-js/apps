@@ -112,6 +112,14 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
         }
+      },
+      {
+        info: 'westendStandard',
+        paraId: 2094,
+        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config'}),
+        providers: {
+          'Standard Protocol': 'wss://rpc.westend.standard.tech'
+        }
       }
     ]
   };

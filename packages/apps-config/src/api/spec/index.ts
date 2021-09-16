@@ -206,7 +206,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'sora-substrate': soraSubstrate,
   spanner,
   stafi,
-  // digitalnative: standard rococo - change and remove comment
   standard,
   steam: eave,
   subdao,
@@ -218,7 +217,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
-  // digitalnative: unorthodox - change and remove comment
   unorthodox: standard,
   vodka,
   'web3games-node': web3games,

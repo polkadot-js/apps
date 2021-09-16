@@ -234,7 +234,6 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
-  // digitalnative: standard rococo - change and remove comment
   Standard: chainStandard,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
@@ -256,7 +255,6 @@ export const chainLogos = Object.entries({
   'UniArts Mainnet': nodeUniarts,
   Unique: chainUnique,
   'Unit Network': nodeUnitv,
-  // digitalnative: unorthodox - change and remove comment
   Unorthodox: chainUnorthodox,
   Vln: nodeVln,
   'VLN PC': nodeVln,
@@ -596,6 +594,7 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
+  westendStandard: chainStandard,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
   whala: nodeWhala,

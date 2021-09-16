@@ -398,10 +398,10 @@ export function createRococo (t: TFunction): EndpointOption {
           Airalab: 'wss://rococo.parachain.robonomics.network'
         }
       },
-      // digitalnative: rococo - change and remove comment
       {
         info: 'rococoStandard',
-        paraId: 2094,
+        isDisabled: false,
+        paraId: 2003,
         text: t('rpc.rococo.standard', 'Standard', { ns: 'apps-config'}),
         providers: {
           'Standard Protocol': 'wss://rpc.rococo.standard.tech'
