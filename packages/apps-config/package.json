@@ -20,7 +20,7 @@
     "@kiltprotocol/type-definitions": "0.1.14",
     "@laminar/type-definitions": "0.3.1",
     "@parallel-finance/type-definitions": "1.1.2",
-    "@phala/typedefs": "0.2.24",
+    "@phala/typedefs": "0.2.25",
     "@polkadot/networks": "^7.3.1",
     "@polymathnetwork/polymesh-types": "0.0.2",
     "@snowfork/snowbridge-types": "0.2.5",
