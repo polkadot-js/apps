@@ -53,7 +53,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
   const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
-
+  console.log('FROM HOOK ACCOUNT INFO:', accountInfo?.identity.judgements.toString());
   useEffect((): void => {
     validator && setFlags((flags) => ({
       ...flags,

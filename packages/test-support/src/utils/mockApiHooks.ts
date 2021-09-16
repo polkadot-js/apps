@@ -12,6 +12,7 @@ class MockApiHooks {
   }
 
   public setJudgements (judgements: RegistrationJudgement[] | undefined) {
+    console.log('SETTING', judgements);
     this.judgements = judgements;
   }
 }

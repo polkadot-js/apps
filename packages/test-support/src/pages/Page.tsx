@@ -39,11 +39,25 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
     useAccountInfo: (address: string) => {
       const mockInfo = mockAccountHooks.accountsMap[address];
 
+      console.log('FROM PAGE:', {
+        ...actual.useAccountInfo(address).identity?.judgements,
+        ...(mockInfo.info.identity)?.judgements,
+        ...mockApiHooks.judgements
+      });
+
       return mockInfo
         ? {
           ...actual.useAccountInfo(address),
           flags: { ...actual.useAccountInfo(address).flags, ...(mockInfo.info.flags) },
-          identity: { ...actual.useAccountInfo(address).identity, ...(mockInfo.info.identity) },
+          identity: {
+            ...actual.useAccountInfo(address).identity,
+            ...(mockInfo.info.identity),
+            judgements: [
+              ...(actual.useAccountInfo(address).identity?.judgements || []),
+              ...((mockInfo.info.identity)?.judgements || []),
+              ...(mockApiHooks.judgements || [])
+            ]
+          },
           tags: [...actual.useAccountInfo(address).tags, ...(mockInfo.info.tags)]
         }
         : actual.useAccountInfo(address);

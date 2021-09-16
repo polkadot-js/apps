@@ -5,7 +5,9 @@ import type { AddressIdentity } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
+import { Judgements } from '@polkadot/app-accounts/Sidebar/Judgements';
 import { AddressMini, AvatarItem, Expander, IconLink, Tag } from '@polkadot/react-components';
+import { getJudgements } from '@polkadot/react-components/util/getJudgements';
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
@@ -42,6 +44,8 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
   }
+
+  const judgements = getJudgements(identity);
 
   return (
     <section
@@ -92,7 +96,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             subtitle={identity.legal}
             title={identity.display}
           />
-          <div data-testid='judgements'></div>
+          <Judgements judgements={judgements} />
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (
               <div className='tr parent'>

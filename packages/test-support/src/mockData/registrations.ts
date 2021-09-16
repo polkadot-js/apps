@@ -7,19 +7,25 @@ export const mockRegistration = {
     [
       0,
       {
-        reasonable: null
+        isReasonable: true
       }
     ],
     [
       1,
       {
-        knownGood: null
+        isKnownGood: true
       }
     ],
     [
       2,
       {
-        erroneous: null
+        isErroneous: true
+      }
+    ],
+    [
+      4,
+      {
+        isReasonable: true
       }
     ]
   ],

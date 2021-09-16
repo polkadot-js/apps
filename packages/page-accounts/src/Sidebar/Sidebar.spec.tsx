@@ -195,9 +195,9 @@ describe('Sidebar', () => {
         accountRows = await accountsPage.getAccountRows();
         sideBar = await accountRows[0].openSidebar();
 
-        await sideBar.assertJudgement('Known good');
-        await sideBar.assertJudgement('Reasonable');
-        await sideBar.assertJudgement('Erroneous');
+        await sideBar.assertJudgement('1 Known good');
+        await sideBar.assertJudgement('2 Reasonable');
+        await sideBar.assertJudgement('1 Erroneous');
       });
     });
   });
