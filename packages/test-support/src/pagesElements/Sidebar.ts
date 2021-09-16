@@ -152,8 +152,9 @@ export class Sidebar {
     fireEvent.click(judgementTag);
 
     const popup = await screen.findByTestId('popup');
-    const accountNames = await within(popup).findAllByTestId('account-name');
 
-    expect(accountNames.filter(accountName => accountName.textContent(accounts)));
+    for (let index = 0; index < accounts.length; index++) {
+      await within(popup).findByText(accounts[index])
+    }
   }
 }

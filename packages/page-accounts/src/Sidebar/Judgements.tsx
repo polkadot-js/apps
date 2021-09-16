@@ -3,25 +3,15 @@
 
 import React from 'react';
 
-import { Tag } from '@polkadot/react-components';
-import { DisplayedJudgement } from '@polkadot/react-components/types';
-import { SortedJudgements } from '@polkadot/react-components/util/getJudgements';
+import {Tag} from '@polkadot/react-components';
+import {SortedJudgements} from '@polkadot/react-components/util/getJudgements';
+import {JudgementTag} from "@polkadot/app-accounts/Sidebar/JudgementTag";
 
 interface Props {
   judgements: SortedJudgements ;
 }
 
-function getColor (name: DisplayedJudgement): 'green' | 'red' {
-  if (name === 'Erroneous' || name === 'Low quality') {
-    return 'red';
-  }
-
-  return 'green';
-}
-
 export function Judgements ({ judgements }: Props): React.ReactElement<Props> {
-  console.log('ujgements form JUDGEmENTS', judgements);
-
   if (judgements.length === 0) {
     return (
       <div data-testid='judgements'>
@@ -38,19 +28,9 @@ export function Judgements ({ judgements }: Props): React.ReactElement<Props> {
 
   return (
     <div data-testid='judgements'>
-      {judgements.map(({ judgementName, registrarsIndexes }) => {
-        const judgementColor = getColor(judgementName);
-
-        return (
-          <Tag
-            color={judgementColor}
-            isTag={false}
-            key={judgementName}
-            label={`${registrarsIndexes.length} ${judgementName}`}
-            size='tiny'
-          />
-        );
-      })}
+      {judgements.map(({ judgementName, registrarsIndexes }) =>
+        <JudgementTag judgementName={judgementName} registrarsIndexes={registrarsIndexes}/>
+      )}
     </div>
   );
 }
