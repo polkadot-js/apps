@@ -21,7 +21,8 @@ export const externalLinks: Record<string, ExternalDef> = {
   PolkassemblyIo,
   PolkassemblyNetwork,
   Polkastats,
-  Statescan,
   SubId,
+  // eslint-disable-next-line sort-keys
+  Statescan,
   Subscan
 };
