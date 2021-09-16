@@ -64,6 +64,7 @@ describe('Create an account modal', () => {
     await expectThirdStep();
     pressEnterKey();
 
+    await waitForElementToBeRemoved(() => screen.queryByText('Add an account via seed 3/3'));
     expectCreateAnAccountCall();
   });
 
