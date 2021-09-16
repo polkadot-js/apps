@@ -184,6 +184,7 @@ export const chainColors: Record<string, string> = Object.entries({
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  Darwinia: chainDarwinia,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,
