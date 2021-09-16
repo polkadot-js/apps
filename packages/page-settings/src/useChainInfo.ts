@@ -15,8 +15,6 @@ import { base64Encode } from '@polkadot/util-crypto';
 export default function useChainInfo (): ChainInfo | null {
   const { api, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
 
-  isApiReady && console.log(api.runtimeMetadata.asCallsOnly.toJSON());
-
   return useMemo(
     () => isApiReady
       ? {
@@ -29,7 +27,9 @@ export default function useChainInfo (): ChainInfo | null {
         icon: getSystemIcon(systemName, specName),
         metaCalls: base64Encode(api.runtimeMetadata.asCallsOnly.toU8a()),
         specVersion: api.runtimeVersion.specVersion.toNumber(),
-        ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
+        ss58Format: isNumber(api.registry.chainSS58)
+          ? api.registry.chainSS58
+          : DEFAULT_SS58.toNumber(),
         tokenDecimals: (api.registry.chainDecimals || [DEFAULT_DECIMALS.toNumber()])[0],
         tokenSymbol: (api.registry.chainTokens || formatBalance.getDefaults().unit)[0],
         types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
