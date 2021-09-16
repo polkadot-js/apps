@@ -208,6 +208,14 @@ describe('Sidebar', () => {
         await sideBar.assertJudgement('No Judgements');
       });
 
+      it('', async () => {
+        accountsPage.render([[alice, anAccount()]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+
+        await sideBar.assertJudgementWithRegistrars('Known good', [bob]);
+      });
+
       afterEach(() => {
         mockApiHooks.setJudgements([]);
       });
