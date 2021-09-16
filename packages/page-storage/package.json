@@ -2,11 +2,11 @@
   "name": "@polkadot/app-storage",
   "private": true,
   "type": "module",
-  "version": "0.95.2-132",
+  "version": "0.95.2-133",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.95.2-132",
-    "@polkadot/react-params": "^0.95.2-132"
+    "@polkadot/react-components": "^0.95.2-133",
+    "@polkadot/react-params": "^0.95.2-133"
   }
 }
