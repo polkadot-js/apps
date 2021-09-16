@@ -1450,12 +1450,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bifrost-finance/type-definitions@npm:1.2.35":
-  version: 1.2.35
-  resolution: "@bifrost-finance/type-definitions@npm:1.2.35"
+"@bifrost-finance/type-definitions@npm:1.2.36":
+  version: 1.2.36
+  resolution: "@bifrost-finance/type-definitions@npm:1.2.36"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.9.4-7
-  checksum: 5e06177c0cae44066daa0d13ab32ff8f30dee7fca895e82a2a5e08f58f7924a7f9dcc08f251f2e6e326da91dc538e78a570c83cd4af90e73de5de913d263de2e
+  checksum: de03d4515030ba9ca7478c6e0739f7109735962f0ffd28d873972bd868c4e0503ecb0e01c747ccdc3c2c540f5aff202fc7aebe0b6d09879ab61b68973aa91ccb
   languageName: node
   linkType: hard
 
@@ -2815,7 +2815,7 @@ __metadata:
   dependencies:
     "@acala-network/type-definitions": 2.2.2-3
     "@babel/runtime": ^7.15.4
-    "@bifrost-finance/type-definitions": 1.2.35
+    "@bifrost-finance/type-definitions": 1.2.36
     "@crustio/type-definitions": 0.0.10
     "@darwinia/types": 1.2.0
     "@digitalnative/type-definitions": 1.1.13
