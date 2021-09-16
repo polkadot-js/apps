@@ -10,6 +10,7 @@ import Polkascan from './polkascan';
 import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly';
 import Polkastats from './polkastats';
 import Statescan from './statescan';
+import SubId from './subid';
 import Subscan from './subscan';
 
 export const externalLinks: Record<string, ExternalDef> = {
@@ -21,5 +22,6 @@ export const externalLinks: Record<string, ExternalDef> = {
   PolkassemblyNetwork,
   Polkastats,
   Statescan,
+  SubId,
   Subscan
 };
