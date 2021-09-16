@@ -2,10 +2,10 @@
   "name": "@polkadot/app-explorer",
   "private": true,
   "type": "module",
-  "version": "0.95.2-126",
+  "version": "0.95.2-127",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.95.2-126"
+    "@polkadot/react-components": "^0.95.2-127"
   }
 }
