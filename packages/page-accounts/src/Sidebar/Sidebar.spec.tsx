@@ -199,6 +199,18 @@ describe('Sidebar', () => {
         await sideBar.assertJudgement('2 Reasonable');
         await sideBar.assertJudgement('1 Erroneous');
       });
+
+      it('displays several judgements', async () => {
+        accountsPage.render([[alice, anAccount()]]);
+        accountRows = await accountsPage.getAccountRows();
+        sideBar = await accountRows[0].openSidebar();
+
+        await sideBar.assertJudgement('No Judgements');
+      });
+
+      afterEach(() => {
+        mockApiHooks.setJudgements([]);
+      });
     });
   });
 });

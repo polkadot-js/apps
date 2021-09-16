@@ -22,6 +22,20 @@ function getColor (name: DisplayedJudgement): 'green' | 'red' {
 export function Judgements ({ judgements }: Props): React.ReactElement<Props> {
   console.log('ujgements form JUDGEmENTS', judgements);
 
+  if (judgements.length === 0) {
+    return (
+      <div data-testid='judgements'>
+        <Tag
+          color='yellow'
+          isTag={false}
+          key='NoJudgements'
+          label='No Judgements'
+          size='tiny'
+        />
+      </div>
+    );
+  }
+
   return (
     <div data-testid='judgements'>
       {judgements.map(({ judgementName, registrarsIndexes }) => {
