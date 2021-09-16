@@ -23,7 +23,7 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
-      // Dwellir: 'wss://kusama-rpc.dwellir.com',
+      Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -61,7 +61,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2090,
         text: t('rpc.kusama.basilisk', 'Basilisk', { ns: 'apps-config' }),
         providers: {
-          HydraDX: 'wss://rpc-01.basilisk.hydradx.io'
+          HydraDX: 'wss://rpc-01.basilisk.hydradx.io',
+          OnFinality: 'wss://basilisk.api.onfinality.io/public-ws'
         }
       },
       {
@@ -81,7 +82,10 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          Manta: 'wss://falafel.calamari.systems/'
+          'Manta Network 0': 'wss://falafel.calamari.systems/',
+          'Manta Network 1': 'wss://fritti.calamari.systems/',
+          'Manta Network 2': 'wss://smoothie.calamari.systems/',
+          OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
       {
@@ -159,6 +163,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'kintsugi',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6101
         homepage: 'https://kintsugi.interlay.io/',
         paraId: 2092,
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
@@ -278,7 +283,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2007,
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
-          StakeTechnologies: 'wss://rpc.shiden.plasmnet.io',
+          StakeTechnologies: 'wss://rpc.shiden.astar.network',
           OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }

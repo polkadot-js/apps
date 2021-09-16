@@ -11,6 +11,7 @@
 import { sanitize } from '../util';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
+import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
@@ -37,6 +38,7 @@ import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
+import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
@@ -51,6 +53,7 @@ import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCrab from './nodes/crab.svg';
+import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
 import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
 import nodeDarwinia from './nodes/darwinia.png';
@@ -152,6 +155,7 @@ export const chainLogos = Object.entries({
   Calamari: nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
+  'Crown Sterling': chainCrownSterling,
   'Crust Maxwell': nodeCrustMaxwell,
   'Crust PC1': nodeCrust,
   'darwinia crab': nodeCrab,
@@ -182,7 +186,7 @@ export const chainLogos = Object.entries({
   Karura: chainKarura,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
-  'KILT Peregrine Testnet': nodeKilt,
+  'KILT Peregrine': nodeKilt,
   'KILT Testnet': nodeKilt,
   Kintsugi: chainKintsugi,
   KlugDossier: nodeKlug,
@@ -284,6 +288,7 @@ export const nodeLogos = Object.entries({
   'Centrifuge Chain Node': nodeCentrifuge,
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
+  'Crown Sterling': nodeCrownSterling,
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
@@ -315,7 +320,7 @@ export const nodeLogos = Object.entries({
   'Khala Node': nodeKhala,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
-  'KILT Peregrine Testnet': nodeKilt,
+  'KILT Peregrine': nodeKilt,
   Kintsugi: chainKintsugi,
   'Klug Dossier Node': nodeKlug,
   'Kpron Collator': nodeApron,
@@ -439,6 +444,7 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   crab: nodeCrab,
+  'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
@@ -605,6 +611,7 @@ export const externalLogos: Record<string, unknown> = {
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
   statescan: externalStatescan,
+  subid: externalSubId,
   subscan: externalSubscan
 };
 
