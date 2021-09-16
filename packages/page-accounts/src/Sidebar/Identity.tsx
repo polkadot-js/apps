@@ -5,13 +5,13 @@ import type { AddressIdentity } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
-import { Judgements } from '@polkadot/app-accounts/Sidebar/Judgements';
 import { AddressMini, AvatarItem, Expander, IconLink, Tag } from '@polkadot/react-components';
 import { getJudgements } from '@polkadot/react-components/util/getJudgements';
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Judgements from './Judgements';
 import RegistrarJudgement from './RegistrarJudgement';
 import UserIcon from './UserIcon';
 

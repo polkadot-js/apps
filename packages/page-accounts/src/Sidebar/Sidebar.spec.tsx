@@ -5,8 +5,8 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
-import {alice, bob, charlie, MemoryStore} from '@polkadot/test-support/keyring';
-import { mockRegistration } from '@polkadot/test-support/mockData/registrations';
+import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
+import { bobShortAddress, charlieShortAddress, mockRegistration, registrars } from '@polkadot/test-support/mockData/registrations';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { RegistrationJudgement } from '@polkadot/types/interfaces';
@@ -187,11 +187,8 @@ describe('Sidebar', () => {
 
     describe('judgements', () => {
       it('displays several judgements', async () => {
-        console.log('NEW WE SETTING');
-        console.log('MOCK REG JUDGEMENTS:', mockRegistration.judgements);
         mockApiHooks.setJudgements(mockRegistration.judgements as unknown as RegistrationJudgement[]);
-        console.log('SET !');
-        accountsPage.renderDefaultAccounts(1)
+        accountsPage.renderDefaultAccounts(1);
         accountRows = await accountsPage.getAccountRows();
         sideBar = await accountRows[0].openSidebar();
 
@@ -201,7 +198,7 @@ describe('Sidebar', () => {
       });
 
       it('displays no judgements', async () => {
-        accountsPage.renderDefaultAccounts(1)
+        accountsPage.renderDefaultAccounts(1);
         accountRows = await accountsPage.getAccountRows();
         sideBar = await accountRows[0].openSidebar();
 
@@ -211,19 +208,21 @@ describe('Sidebar', () => {
       describe('displays registrars', () => {
         beforeEach(async () => {
           mockApiHooks.setJudgements(mockRegistration.judgements as unknown as RegistrationJudgement[]);
-          accountsPage.renderDefaultAccounts(1)
+          mockApiHooks.setRegistrars(registrars);
+
+          accountsPage.render([[alice, anAccount()]]);
           accountRows = await accountsPage.getAccountRows();
           sideBar = await accountRows[0].openSidebar();
-        })
+        });
 
         it('singular registrar', async () => {
-          await sideBar.assertJudgementWithRegistrars('Known good', [bob]);
+          await sideBar.assertJudgementWithRegistrars('1 Known good', [charlieShortAddress]);
         });
 
         it('multiple registrars', async () => {
-          await sideBar.assertJudgementWithRegistrars('Reasonable', [bob, charlie])
-        })
-      })
+          await sideBar.assertJudgementWithRegistrars('2 Reasonable', [bobShortAddress, 'FERDIE']);
+        });
+      });
 
       afterEach(() => {
         mockApiHooks.setJudgements([]);

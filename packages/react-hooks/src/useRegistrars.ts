@@ -15,7 +15,7 @@ interface RegistrarNull {
   index: number;
 }
 
-interface Registrar {
+export interface Registrar {
   address: string;
   index: number;
 }

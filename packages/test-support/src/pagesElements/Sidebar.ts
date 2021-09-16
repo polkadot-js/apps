@@ -144,17 +144,17 @@ export class Sidebar {
     return tagsDropdown;
   }
 
-  async assertJudgementWithRegistrars (judgement: string, accounts: string[]) {
+  async assertJudgementWithRegistrars (judgement: string, accounts: string[]): Promise<void> {
     const judgements = await this.findByTestId('judgements');
 
     const judgementTag = await within(judgements).findByText(judgement);
 
     fireEvent.click(judgementTag);
 
-    const popup = await screen.findByTestId('popup');
+    const popup = await screen.findByTestId('popup-window');
 
     for (let index = 0; index < accounts.length; index++) {
-      await within(popup).findByText(accounts[index])
+      await within(popup).findByText(accounts[index]);
     }
   }
 }

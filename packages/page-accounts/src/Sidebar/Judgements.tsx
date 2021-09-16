@@ -2,19 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+import styled from 'styled-components';
 
-import {Tag} from '@polkadot/react-components';
-import {SortedJudgements} from '@polkadot/react-components/util/getJudgements';
-import {JudgementTag} from "@polkadot/app-accounts/Sidebar/JudgementTag";
+import JudgementTag from '@polkadot/app-accounts/Sidebar/JudgementTag';
+import { Tag } from '@polkadot/react-components';
+import { SortedJudgements } from '@polkadot/react-components/util/getJudgements';
 
 interface Props {
+  className?: string;
   judgements: SortedJudgements ;
 }
 
-export function Judgements ({ judgements }: Props): React.ReactElement<Props> {
+function Judgements ({ className, judgements }: Props): React.ReactElement<Props> {
   if (judgements.length === 0) {
     return (
-      <div data-testid='judgements'>
+      <div
+        className={className}
+        data-testid='judgements'
+      >
         <Tag
           color='yellow'
           isTag={false}
@@ -27,10 +32,25 @@ export function Judgements ({ judgements }: Props): React.ReactElement<Props> {
   }
 
   return (
-    <div data-testid='judgements'>
+    <div
+      className={className}
+      data-testid='judgements'
+    >
       {judgements.map(({ judgementName, registrarsIndexes }) =>
-        <JudgementTag judgementName={judgementName} registrarsIndexes={registrarsIndexes}/>
+        <JudgementTag
+          judgementName={judgementName}
+          key={registrarsIndexes.toString()}
+          registrarsIndexes={registrarsIndexes}
+        />
       )}
     </div>
   );
 }
+
+export default React.memo(styled(Judgements)`
+  margin-top: 0.714rem;
+
+  .ui--Tag:hover {
+    cursor: pointer;
+  }
+`);

@@ -1,9 +1,13 @@
-import {AddressSmall, Menu, Popup, Tag} from "@polkadot/react-components";
-import React, {useContext} from "react";
-import {DisplayedJudgement, ThemeDef} from "@polkadot/react-components/types";
-import {ThemeContext} from "styled-components";
-import {RegistrarIndex} from "@polkadot/types/interfaces/identity/types";
-import {useRegistrars} from "@polkadot/react-hooks";
+// [object Object]
+// SPDX-License-Identifier: Apache-2.0
+
+import React, { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
+
+import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
+import { DisplayedJudgement, ThemeDef } from '@polkadot/react-components/types';
+import { useRegistrars } from '@polkadot/react-hooks';
+import { RegistrarIndex } from '@polkadot/types/interfaces/identity/types';
 
 interface Props {
   judgementName: DisplayedJudgement;
@@ -12,40 +16,41 @@ interface Props {
 
 const getColor = (name: DisplayedJudgement): 'green' | 'red' => {
   return (name === 'Erroneous' || name === 'Low quality') ? 'red' : 'green';
-}
+};
 
-export function JudgementTag ({judgementName, registrarsIndexes}: Props) {
-  const { registrars: allRegistrars } = useRegistrars()
+function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.ReactElement<Props> {
+  const { registrars: allRegistrars } = useRegistrars();
   const { theme } = useContext<ThemeDef>(ThemeContext);
 
   const findRegistrarByIndex = (index: number) => {
-    return allRegistrars.find(registrar => registrar.index === index)
-  }
+    return allRegistrars.find((registrar) => registrar.index === index);
+  };
 
   const judgementColor = getColor(judgementName);
-  const registrars = registrarsIndexes.map(index => findRegistrarByIndex(index.toNumber()))
+  const registrars = registrarsIndexes.map((index) => findRegistrarByIndex(index.toNumber()));
 
   return (
-  <>
-    <Popup
-      className={`theme--${theme}`}
-      value={
-        <Menu>
-          {
-            registrars.map((registrar) => registrar && <AddressSmall value={registrar.address}/>)
-          }
-        </Menu>
-      }
-    >
-      <Tag
-        color={judgementColor}
-        isTag={false}
-        key={judgementName}
-        label={`${registrarsIndexes.length} ${judgementName}`}
-        size='tiny'
-      />
-    </Popup>
+    <>
+      <Popup
+        className={`theme--${theme}`}
+        position='center'
+        value={
+          <Menu>
+            {registrars.map((registrar) => registrar && <AddressSmall value={registrar.address} />)}
+          </Menu>
+        }
+      >
+        <Tag
+          color={judgementColor}
+          isTag={false}
+          key={judgementName}
+          label={`${registrarsIndexes.length} ${judgementName}`}
+          size='tiny'
+        />
+      </Popup>
 
-  </>
-  )
+    </>
+  );
 }
+
+export default React.memo(JudgementTag);

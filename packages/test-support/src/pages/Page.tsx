@@ -39,12 +39,6 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
     useAccountInfo: (address: string) => {
       const mockInfo = mockAccountHooks.accountsMap[address];
 
-      console.log('FROM PAGE:', {
-        ...actual.useAccountInfo(address).identity?.judgements,
-        ...(mockInfo.info.identity)?.judgements,
-        ...mockApiHooks.judgements
-      });
-
       return mockInfo
         ? {
           ...actual.useAccountInfo(address),
@@ -85,6 +79,13 @@ jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
   useSubidentities: () => mockApiHooks.subs
 }));
 
+jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
+  useRegistrars: () => ({
+    isRegistrar: false,
+    registrars: mockApiHooks.registrars
+  })
+}));
+
 export abstract class Page {
   private renderResult?: RenderResult
   protected readonly defaultAddresses = [alice, bob, charlie];
@@ -110,6 +111,9 @@ export abstract class Page {
           },
           balances: {
             all: noop
+          },
+          chain: {
+            bestNumber: noop
           },
           democracy: {
             locks: noop
