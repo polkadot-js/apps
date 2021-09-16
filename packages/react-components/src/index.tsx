@@ -98,5 +98,6 @@ export { default as VoteAccount } from './VoteAccount';
 export { default as VoteValue } from './VoteValue';
 export { default as TextArea } from './TextArea';
 export { default as ExpandButton } from './ExpandButton';
+export { default as SortDropdown } from './SortDropdown';
 
 export { default as media } from './media';

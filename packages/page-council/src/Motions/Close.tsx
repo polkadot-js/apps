@@ -14,11 +14,10 @@ interface Props {
   hasFailed: boolean;
   hash: Hash;
   idNumber: ProposalIndex;
-  members: string[];
   proposal: Proposal;
 }
 
-function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.ReactElement<Props> | null {
+function Close ({ hasFailed, hash, idNumber, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
@@ -48,9 +47,8 @@ function Close ({ hasFailed, hash, idNumber, members, proposal }: Props): React.
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The council account that will apply the close for the current round.')}>
               <InputAddress
-                filter={members}
                 help={t<string>('Select the account you wish close the proposal with.')}
-                label={t<string>('sending account')}
+                label={t<string>('close from account')}
                 onChange={setAccountId}
                 type='account'
               />
