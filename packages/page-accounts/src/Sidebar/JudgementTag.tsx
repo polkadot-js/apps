@@ -28,29 +28,27 @@ function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.React
   const registrars = registrarsIndexes.map((index) => findRegistrarByIndex(index.toNumber()));
 
   return (
-    <>
-      <Popup
-        closeOnScroll
-        position='center'
-        value={
-          <Menu>
-            {registrars.map((registrar) => registrar && (
-              <AddressSmall
-                key={registrar.address}
-                value={registrar.address}
-              />
-            ))}
-          </Menu>
-        }
-      >
-        <Tag
-          color={judgementColor}
-          isTag={false}
-          label={`${registrarsIndexes.length} ${judgementName}`}
-          size='tiny'
-        />
-      </Popup>
-    </>
+    <Popup
+      closeOnScroll
+      position='center'
+      value={
+        <Menu>
+          {registrars.map((registrar) => registrar && (
+            <AddressSmall
+              key={registrar.address}
+              value={registrar.address}
+            />
+          ))}
+        </Menu>
+      }
+    >
+      <Tag
+        color={judgementColor}
+        isTag={false}
+        label={`${registrarsIndexes.length} ${judgementName}`}
+        size='tiny'
+      />
+    </Popup>
   );
 }
 
