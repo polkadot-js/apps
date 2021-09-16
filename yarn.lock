@@ -1487,24 +1487,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@darwinia/types-known@npm:^1.1.9":
-  version: 1.1.9
-  resolution: "@darwinia/types-known@npm:1.1.9"
+"@darwinia/types-known@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@darwinia/types-known@npm:1.2.0"
   dependencies:
     "@babel/runtime": ^7.9.6
     "@polkadot/types": 4.0.4-5
     "@polkadot/util": 6.0.5
     bn.js: ^5.1.2
-  checksum: 7abb4894288a6de984b8c772da84a6de4d2bb7f89c70d75ccaa72139ed3c3423261b3d478339889d3919d5f0ece6c6c6cb0e45277973d73def7bc9f0367881f7
+  checksum: a861f50372e561941c282398c62bc6ed471153b2799878379006c0994f1aa5ac04e14655b6be79469f99bb7e37583a0ca98e9497ae7ac28817e3e59a26211125
   languageName: node
   linkType: hard
 
-"@darwinia/types@npm:1.1.9":
-  version: 1.1.9
-  resolution: "@darwinia/types@npm:1.1.9"
+"@darwinia/types@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@darwinia/types@npm:1.2.0"
   dependencies:
-    "@darwinia/types-known": ^1.1.9
-  checksum: 771cd464e5b3a14b78e09c9c936ca30422a12670fefae03bfdb4d301d53d49b6a5eabe46893ed9a81a0550d7069dead5b06e75e8d26edc067b9694c47661c7cf
+    "@darwinia/types-known": ^1.2.0
+  checksum: 4cf783bfa645964d6f46d7cc101c8935452f61d1b204ba3efcd84d495f8b46beb4e39b62c44b921bc0b495aa77250d8aeebd407db8e9f269bcf930a7b7f35707
   languageName: node
   linkType: hard
 
@@ -2817,7 +2817,7 @@ __metadata:
     "@babel/runtime": ^7.15.4
     "@bifrost-finance/type-definitions": 1.2.35
     "@crustio/type-definitions": 0.0.10
-    "@darwinia/types": 1.1.9
+    "@darwinia/types": 1.2.0
     "@digitalnative/type-definitions": 1.1.13
     "@docknetwork/node-types": 0.4.7
     "@edgeware/node-types": 3.6.2-wako
