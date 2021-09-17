@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RpcPromiseResult } from '@polkadot/api/types';
+import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
 import type { CallOptions, CallParam, CallParams } from './types';
 import type { MountedRef } from './useIsMountedRef';
@@ -23,19 +24,13 @@ type TrackFnResult = Promise<unknown>;
 interface QueryTrackFn {
   (...params: CallParam[]): TrackFnResult;
   meta?: {
-    type?: {
-      isMap: boolean;
-      asMap: { hashers: unknown[] }
-    };
+    type?: StorageEntryTypeLatest;
   };
 }
 
 interface QueryMapFn extends QueryTrackFn {
   meta: {
-    type: {
-      isMap: boolean;
-      asMap: { hashers: unknown[] }
-    };
+    type: StorageEntryTypeLatest;
   };
 }
 
