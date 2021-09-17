@@ -19,7 +19,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
       info: 'aleph',
-      text: t('rpc.test.aleph', 'Aleph Zero', { ns: 'apps-config' }),
+      text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
         'Aleph Zero Foundation': 'wss://test-api.alephzero.org'
       }
