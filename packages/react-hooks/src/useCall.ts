@@ -30,6 +30,15 @@ interface QueryTrackFn {
   };
 }
 
+interface QueryMapFn extends QueryTrackFn {
+  meta: {
+    type: {
+      isMap: boolean;
+      asMap: { hashers: unknown[] }
+    };
+  };
+}
+
 type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
 
 type CallFn = (...params: unknown[]) => Promise<VoidFn>;
@@ -47,6 +56,10 @@ interface TrackerRef {
 // the default transform, just returns what we have
 export function transformIdentity <T> (value: unknown): T {
   return value as T;
+}
+
+function isMapFn (fn: unknown): fn is QueryMapFn {
+  return !!(fn as QueryTrackFn).meta?.type?.isMap;
 }
 
 // extract the serialized and mapped params, all ready for use in our call
@@ -78,8 +91,8 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
   setTimeout((): void => {
     if (mountedRef.current) {
       const canQuery = !!fn && (
-        (fn as QueryTrackFn).meta?.type?.isMap
-          ? (fn as QueryTrackFn).meta.type.asMap.hashers.length === validParams.length
+        isMapFn(fn)
+          ? fn.meta.type.asMap.hashers.length === validParams.length
           : true
       );
 
