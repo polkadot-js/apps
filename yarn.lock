@@ -1518,13 +1518,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digitalnative/type-definitions@npm:1.1.13":
-  version: 1.1.13
-  resolution: "@digitalnative/type-definitions@npm:1.1.13"
+"@digitalnative/type-definitions@npm:1.1.15":
+  version: 1.1.15
+  resolution: "@digitalnative/type-definitions@npm:1.1.15"
   dependencies:
     "@polkadot/keyring": ^6.9.1
     "@polkadot/types": ^4.13.1
-  checksum: bb8facf9db69ae0c48658fea30127f6d38ec285ac3faebcdfe579da37c77384519b4db4895d168be34cc8b789e0d1d7126582e4b577ad4793e8c5f200ee8459b
+  checksum: 4ec9ce4781a3fd12f3c0a3243777773bd5b8bc494e5fb6fd0cee28f006e7816c9fd15a3f86f96f410b524a70ba93cd88b437e133ea88245a2836eebadfef8270
   languageName: node
   linkType: hard
 
@@ -2153,10 +2153,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kiltprotocol/type-definitions@npm:0.1.14":
-  version: 0.1.14
-  resolution: "@kiltprotocol/type-definitions@npm:0.1.14"
-  checksum: ccb274e54a39d99f11f259194251a68e0d3dc2264730de8c6eb4ccd5535dde75eadf27fe6d7624f42a0a15355b513652e5988b03e5a92b6c60588b4e49c79fd4
+"@kiltprotocol/type-definitions@npm:0.1.15":
+  version: 0.1.15
+  resolution: "@kiltprotocol/type-definitions@npm:0.1.15"
+  checksum: 3eedf5a408e7f5a2bcd0a4d91ba9443750f7de31e5561d98c12e3f85f2d549cbceeb738e5f59b0a903aa912b6186af858a82b264131d44798391cde8f5586e47
   languageName: node
   linkType: hard
 
@@ -2473,16 +2473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:^0.9.4-34, @open-web3/orml-type-definitions@npm:^0.9.4-7":
-  version: 0.9.4-34
-  resolution: "@open-web3/orml-type-definitions@npm:0.9.4-34"
-  dependencies:
-    lodash.merge: ^4.6.2
-  checksum: 60b5e815abfc97130b56f341b5b7b4d702a911ecf3daf341cd400478936b842325d3ac70671a75c395e9ba18ab68701bc2ed1c8b75144a6664abd41efb18e829
-  languageName: node
-  linkType: hard
-
-"@open-web3/orml-type-definitions@npm:^0.9.4-38":
+"@open-web3/orml-type-definitions@npm:^0.9.4-34, @open-web3/orml-type-definitions@npm:^0.9.4-35, @open-web3/orml-type-definitions@npm:^0.9.4-38, @open-web3/orml-type-definitions@npm:^0.9.4-7":
   version: 0.9.4-38
   resolution: "@open-web3/orml-type-definitions@npm:0.9.4-38"
   dependencies:
@@ -2491,12 +2482,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parallel-finance/type-definitions@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@parallel-finance/type-definitions@npm:1.1.2"
+"@parallel-finance/type-definitions@npm:1.1.3":
+  version: 1.1.3
+  resolution: "@parallel-finance/type-definitions@npm:1.1.3"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.9.4-34
-  checksum: 934187dbca54e4d3889b43a4b0a71ce5a45709ec60022911259835d7e7788db43494149890f2b3a4ac88bb7b4c2b1d849f8f363d4f98a8c8c60e1d6768d5359f
+  checksum: 000bcf9ff63a021ca8459da7df7f8a3e4ae13806dc98b36ea0d35bdd11b0bacd4ad4d618b55325e64c2602aeef5019d8b8a7f6040ea2bfdea85c2a7cab98393e
   languageName: node
   linkType: hard
 
@@ -2574,11 +2565,11 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@polkadot/phishing": ^0.6.290
+    "@polkadot/phishing": ^0.6.295
     "@polkadot/react-components": ^0.95.2-136
     "@polkadot/test-support": 0.95.2-136
     "@polkadot/vanitygen": ^0.45.6-0
-    detect-browser: ^5.2.0
+    detect-browser: ^5.2.1
     file-saver: ^2.0.5
   languageName: unknown
   linkType: soft
@@ -2827,25 +2818,25 @@ __metadata:
     "@bifrost-finance/type-definitions": 1.2.36
     "@crustio/type-definitions": 0.0.10
     "@darwinia/types": 1.2.1
-    "@digitalnative/type-definitions": 1.1.13
+    "@digitalnative/type-definitions": 1.1.15
     "@docknetwork/node-types": 0.4.7
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.3.7
     "@interlay/interbtc-types": 0.12.5
-    "@kiltprotocol/type-definitions": 0.1.14
+    "@kiltprotocol/type-definitions": 0.1.15
     "@laminar/type-definitions": 0.3.1
-    "@parallel-finance/type-definitions": 1.1.2
+    "@parallel-finance/type-definitions": 1.1.3
     "@phala/typedefs": 0.2.25
     "@polkadot/networks": ^7.3.1
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.5
-    "@sora-substrate/type-definitions": 1.6.8
+    "@sora-substrate/type-definitions": 1.6.9
     "@subsocial/types": 0.6.1-1
-    "@zeitgeistpm/type-defs": 0.2.7
+    "@zeitgeistpm/type-defs": 0.2.10
     "@zeroio/type-definitions": 0.0.6
     i18next: ^19.9.2
     lodash: ^4.17.21
-    moonbeam-types-bundle: 1.2.5
+    moonbeam-types-bundle: 1.2.6
     pontem-types-bundle: 1.0.14
     rxjs: ^7.3.0
   languageName: unknown
@@ -3022,45 +3013,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-compat-metamask@npm:^0.39.4-12":
-  version: 0.39.4-12
-  resolution: "@polkadot/extension-compat-metamask@npm:0.39.4-12"
+"@polkadot/extension-compat-metamask@npm:^0.40.2":
+  version: 0.40.2
+  resolution: "@polkadot/extension-compat-metamask@npm:0.40.2"
   dependencies:
     "@babel/runtime": ^7.15.4
     "@metamask/detect-provider": ^1.2.0
-    "@polkadot/extension-inject": ^0.39.4-12
+    "@polkadot/extension-inject": ^0.40.2
     "@polkadot/util": ^7.3.1
     web3: ^1.5.2
   peerDependencies:
     "@polkadot/util": "*"
-  checksum: 33a992c3ae720a4fae28ef1fcdc4c5f481e1bc8f693d1880d29f6fba237b8b9f2ace03cc902d2b3d5032a4685fa7685150a0c4161774c24abbc0ffeb91539871
+  checksum: 985a0f9a07104553568705c98a6fd571ed1d0ed84f891a8e9b64a23e7167d7b2999670dc378c456b7816a40ded856861f3b808992f2899e0d82c305b1b31fc58
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.39.4-12":
-  version: 0.39.4-12
-  resolution: "@polkadot/extension-dapp@npm:0.39.4-12"
+"@polkadot/extension-dapp@npm:^0.40.2":
+  version: 0.40.2
+  resolution: "@polkadot/extension-dapp@npm:0.40.2"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@polkadot/extension-inject": ^0.39.4-12
+    "@polkadot/extension-inject": ^0.40.2
     "@polkadot/util": ^7.3.1
     "@polkadot/util-crypto": ^7.3.1
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 07e931564d235c17151351e884cfdd7d9bc080ce8316f00b3588e7661bed2cbcffc7f3b03d19cb504c5be78294a506fcd71f27cda0e90072ba0e44fed6d96513
+  checksum: f9e78f382d766f344dbea67e8847a946ee56fb49a01ac91e54bd125637c0c99c9720157fc64aec4594698e308fe86eaab2ecac54036535f885fe84e27fa840eb
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:^0.39.4-12":
-  version: 0.39.4-12
-  resolution: "@polkadot/extension-inject@npm:0.39.4-12"
+"@polkadot/extension-inject@npm:^0.40.2":
+  version: 0.40.2
+  resolution: "@polkadot/extension-inject@npm:0.40.2"
   dependencies:
     "@babel/runtime": ^7.15.4
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: 4fb92eac1cd154ab9970196685a18cf76c55b93ea3e811382e0ef96beae248db0ac6765322f27237ee95b8171eed01b535cd1043fe078a7defa5948c71c220c1
+  checksum: dae72061bd47daca5b5a47f6ac42fd3967436c0370d9e1ce074a894a34aea0a3f0a3e98927c8920100feba86578cb4f53c127d122f510daacaaf2556235dce7d
   languageName: node
   linkType: hard
 
@@ -3133,8 +3124,8 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.15.4
     "@polkadot/api": ^5.9.2-2
-    "@polkadot/extension-compat-metamask": ^0.39.4-12
-    "@polkadot/extension-dapp": ^0.39.4-12
+    "@polkadot/extension-compat-metamask": ^0.40.2
+    "@polkadot/extension-dapp": ^0.40.2
     "@substrate/connect": ^0.3.18
     fflate: ^0.7.1
     rxjs: ^7.3.0
@@ -3170,7 +3161,7 @@ __metadata:
     react-chartjs-2: ^2.11.2
     react-copy-to-clipboard: ^5.0.4
     react-dom: ^17.0.2
-    react-dropzone: ^11.3.5
+    react-dropzone: ^11.4.0
     react-i18next: ^11.12.0
     react-is: ^17.0.2
     react-markdown: ^5.0.3
@@ -3771,12 +3762,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.6.8":
-  version: 1.6.8
-  resolution: "@sora-substrate/type-definitions@npm:1.6.8"
+"@sora-substrate/type-definitions@npm:1.6.9":
+  version: 1.6.9
+  resolution: "@sora-substrate/type-definitions@npm:1.6.9"
   dependencies:
-    "@open-web3/orml-type-definitions": ^0.8.2-9
-  checksum: 706babdb5f5c73b1bc701fd5e24eb8afd9dadb6343da1f82b70513605e611c847045db6123d4e428bb5316c2c9c880fa3e698c1977d2a44119307d9f45406604
+    "@open-web3/orml-type-definitions": ^0.9.4-35
+  checksum: f688453d71bf7cd830c9f9c288ca0978ad16f83acc376c97ea428b899186bf5c42ff03492f4fb38bead72a146ecec53c7f627debdb22a78958de0bfbf505fc04
   languageName: node
   linkType: hard
 
@@ -4476,14 +4467,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-router-dom@npm:^5.1.8":
-  version: 5.1.8
-  resolution: "@types/react-router-dom@npm:5.1.8"
+"@types/react-router-dom@npm:^5.1.9":
+  version: 5.1.9
+  resolution: "@types/react-router-dom@npm:5.1.9"
   dependencies:
     "@types/history": "*"
     "@types/react": "*"
     "@types/react-router": "*"
-  checksum: ff4af091f8e076b64f6f3f2af52429772641388393065930880e8931ce881873c2f0dff53bb1e373db5ae6b737fc514db4a1f5daa7d8bf3cf3b3088ce84472fc
+  checksum: 6ff2f10f21124f529e191adce60ad8f1d9a47ee19a0e00f10259e9d39c06ef0ccb8d6d57686b10286fe241bf20c89115c77494b683b0c70de9bddb13b28ee6e1
   languageName: node
   linkType: hard
 
@@ -5031,10 +5022,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zeitgeistpm/type-defs@npm:0.2.7":
-  version: 0.2.7
-  resolution: "@zeitgeistpm/type-defs@npm:0.2.7"
-  checksum: b3ef43fbed0252642e30016b121d396cd0dd10eb49477521f6ed75e7f0c2bbadbf806a454b879093b92c60655e65e269bf467d722501841976beeb6dd4e6d459
+"@zeitgeistpm/type-defs@npm:0.2.10":
+  version: 0.2.10
+  resolution: "@zeitgeistpm/type-defs@npm:0.2.10"
+  checksum: 31778f5d0957474c7d396a978759bcc6473dc7a506b5fd7c9cb9ff98603f6b733c4a90fd94a3d350b8d8bfa0f1c64fb69f0b74c8177bf16bdbfbbc658bfef107
   languageName: node
   linkType: hard
 
@@ -8328,10 +8319,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-browser@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "detect-browser@npm:5.2.0"
-  checksum: 63b5c38fecc657ff12de01a41e6c8c97b3d610dffa37aef1983ec5bfb4314687d588c0c44c5ee03bd45ef15b7fe465bce9349c373369e6a7405f318e0aae56f9
+"detect-browser@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "detect-browser@npm:5.2.1"
+  checksum: 6ba4cc9f45c8ae970e8b2c2cdfa13b1d9298e30eec85c801aeaed2f001b2ebd38352e1122d54ae4c85434ec61bf6491900156ff4d1d0acf32eced53cde9a8f38
   languageName: node
   linkType: hard
 
@@ -15095,14 +15086,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:1.2.5":
-  version: 1.2.5
-  resolution: "moonbeam-types-bundle@npm:1.2.5"
+"moonbeam-types-bundle@npm:1.2.6":
+  version: 1.2.6
+  resolution: "moonbeam-types-bundle@npm:1.2.6"
   dependencies:
     "@polkadot/keyring": ^7.3.1
-    "@polkadot/types": ^5.8.3
+    "@polkadot/types": ^5.9.1
     typescript: ^4.3.5
-  checksum: 0310e82226898dbd9319deb60cb1674cc4ddd0afed5ceaebb34a4ccdc6c4fd9936b984194d0cf484e54d226c5ce52057b04cd2d0e3453d224eb5bd39b873900f
+  checksum: 7f61e3eba3de18fc6992931a49931a31ee4bc54e538f831d014d6524c1036886928a7fb83f08a1c0138b77e7213325035bf425fa82ac423ac8ab1a07f2bfdea2
   languageName: node
   linkType: hard
 
@@ -16478,7 +16469,7 @@ __metadata:
     "@types/react-beautiful-dnd": ^13.1.2
     "@types/react-copy-to-clipboard": ^5.0.1
     "@types/react-dom": ^17.0.9
-    "@types/react-router-dom": ^5.1.8
+    "@types/react-router-dom": ^5.1.9
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.14
     "@types/styled-theming": ^2.2.5
@@ -17289,16 +17280,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^11.3.5":
-  version: 11.3.5
-  resolution: "react-dropzone@npm:11.3.5"
+"react-dropzone@npm:^11.4.0":
+  version: 11.4.0
+  resolution: "react-dropzone@npm:11.4.0"
   dependencies:
     attr-accept: ^2.2.1
     file-selector: ^0.2.2
     prop-types: ^15.7.2
   peerDependencies:
     react: ">= 16.8"
-  checksum: 9e93b40d411cb34509ebc2584ffbd8b7749a7adc528183dae34df654d812d77c59f1a9a2ec5f638bb34f66b4f7214560417359c99a3143a836d0cb9801cf76c3
+  checksum: a076b1bd98778abb81738cb0e532fbe1c1141f3f0055368206e370f49c2b59413bf84c8f32bc6543e4c55c6b79b639305e8be8c4608ee95655b04f47220c87a8
   languageName: node
   linkType: hard
 
