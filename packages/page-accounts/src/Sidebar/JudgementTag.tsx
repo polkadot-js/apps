@@ -1,11 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
+import React from 'react';
 
 import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
-import { DisplayedJudgement, ThemeDef } from '@polkadot/react-components/types';
+import { DisplayedJudgement } from '@polkadot/react-components/types';
 import { useRegistrars } from '@polkadot/react-hooks';
 import { RegistrarIndex } from '@polkadot/types/interfaces/identity/types';
 
@@ -20,7 +19,6 @@ const getColor = (name: DisplayedJudgement): 'green' | 'red' => {
 
 function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.ReactElement<Props> {
   const { registrars: allRegistrars } = useRegistrars();
-  const { theme } = useContext<ThemeDef>(ThemeContext);
 
   const findRegistrarByIndex = (index: number) => {
     return allRegistrars.find((registrar) => registrar.index === index);
@@ -32,23 +30,25 @@ function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.React
   return (
     <>
       <Popup
-        className={`theme--${theme}`}
         position='center'
         value={
           <Menu>
-            {registrars.map((registrar) => registrar && <AddressSmall value={registrar.address} />)}
+            {registrars.map((registrar) => registrar && (
+              <AddressSmall
+                key={registrar.address}
+                value={registrar.address}
+              />
+            ))}
           </Menu>
         }
       >
         <Tag
           color={judgementColor}
           isTag={false}
-          key={judgementName}
           label={`${registrarsIndexes.length} ${judgementName}`}
           size='tiny'
         />
       </Popup>
-
     </>
   );
 }

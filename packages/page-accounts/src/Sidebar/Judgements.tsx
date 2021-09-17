@@ -9,11 +9,12 @@ import { Tag } from '@polkadot/react-components';
 import { SortedJudgements } from '@polkadot/react-components/util/getJudgements';
 
 interface Props {
+  address: string;
   className?: string;
   judgements: SortedJudgements ;
 }
 
-function Judgements ({ className = '', judgements }: Props): React.ReactElement<Props> {
+function Judgements ({ address, className = '', judgements }: Props): React.ReactElement<Props> {
   if (judgements.length === 0) {
     return (
       <div
@@ -39,7 +40,7 @@ function Judgements ({ className = '', judgements }: Props): React.ReactElement<
       {judgements.map(({ judgementName, registrarsIndexes }) =>
         <JudgementTag
           judgementName={judgementName}
-          key={registrarsIndexes.toString()}
+          key={`${address}${judgementName}`}
           registrarsIndexes={registrarsIndexes}
         />
       )}

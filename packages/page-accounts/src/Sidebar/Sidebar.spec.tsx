@@ -3,10 +3,11 @@
 
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 
+import i18next from '@polkadot/react-components/i18n';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
 import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
-import { bobShortAddress, charlieShortAddress, ferdieShortAddress, mockRegistration, registrars } from '@polkadot/test-support/mockData/registrations';
+import { charlieShortAddress, ferdieShortAddress, mockRegistration, registrars } from '@polkadot/test-support/mockData/registrations';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { RegistrationJudgement } from '@polkadot/types/interfaces';
@@ -18,7 +19,9 @@ describe('Sidebar', () => {
   let accountsPage: AccountsPage;
   let sideBar: Sidebar;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    await i18next.changeLanguage('en');
+
     if (keyring.getAccounts().length === 0) {
       keyring.loadAll({ isDevelopment: true, store: new MemoryStore() });
     }
@@ -207,7 +210,10 @@ describe('Sidebar', () => {
         beforeEach(async () => {
           mockApiHooks.setJudgements(mockRegistration.judgements as unknown as RegistrationJudgement[]);
           mockApiHooks.setRegistrars(registrars);
-          accountsPage.renderDefaultAccounts(1);
+          accountsPage.render([
+            [alice, anAccountWithMeta({ name: 'Alice' })],
+            [bob, anAccountWithMeta({ name: 'Bob' })]
+          ]);
           sideBar = await accountsPage.openSidebarForRow(0);
         });
 
@@ -220,7 +226,17 @@ describe('Sidebar', () => {
         it('multiple registrars', async () => {
           const judgementTag = await sideBar.getJudgement('2 Reasonable');
 
-          await judgementTag.assertRegistrars([bobShortAddress, ferdieShortAddress]);
+          await judgementTag.assertRegistrars(['BOB', ferdieShortAddress]);
+        });
+
+        it('opens clicked registrar in sidebar and closes popup', async () => {
+          const judgementTag = await sideBar.getJudgement('2 Reasonable');
+
+          await judgementTag.clickRegistrar('BOB');
+
+          expect(screen.queryByTestId('popup-window')).toBeFalsy();
+
+          await sideBar.assertAccountName('BOB');
         });
       });
 

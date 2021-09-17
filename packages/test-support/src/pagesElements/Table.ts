@@ -20,11 +20,12 @@ export class Table {
   async assertRowsOrder (balancesExpectedOrder: number[]): Promise<void> {
     const orderedRows = await this.getRows();
 
-    await Promise.all(orderedRows.map(async (row, index) => {
+    for (let index = 0; index < orderedRows.length; index++) {
+      const row = orderedRows[index];
       const expectedBalanceTextContent = showBalance(balancesExpectedOrder[index]);
 
       expect(await row.getBalanceSummary()).toHaveTextContent(expectedBalanceTextContent);
-    }));
+    }
   }
 
   async assertColoring (): Promise<void> {

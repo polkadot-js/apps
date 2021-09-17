@@ -18,6 +18,16 @@ export class JudgementTag {
     }
   }
 
+  async clickRegistrar (registrar: string): Promise<void> {
+    const popup = await this.openPopup();
+
+    const registrars = await within(popup).findAllByTestId('account-name');
+
+    const a = registrars.find((reg) => reg.textContent === registrar);
+
+    fireEvent.click(a as HTMLElement);
+  }
+
   private async openPopup (): Promise<HTMLElement> {
     fireEvent.click(this.judgementTag);
 
