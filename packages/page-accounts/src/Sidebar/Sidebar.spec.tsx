@@ -212,11 +212,15 @@ describe('Sidebar', () => {
         });
 
         it('singular registrar', async () => {
-          await sideBar.assertJudgementWithRegistrars('1 Known good', [charlieShortAddress]);
+          const judgementTag = await sideBar.getJudgement('1 Known good');
+
+          await judgementTag.assertRegistrars([charlieShortAddress]);
         });
 
         it('multiple registrars', async () => {
-          await sideBar.assertJudgementWithRegistrars('2 Reasonable', [bobShortAddress, ferdieShortAddress]);
+          const judgementTag = await sideBar.getJudgement('2 Reasonable');
+
+          await judgementTag.assertRegistrars([bobShortAddress, ferdieShortAddress]);
         });
       });
 

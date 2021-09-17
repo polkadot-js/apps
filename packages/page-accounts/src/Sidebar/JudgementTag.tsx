@@ -1,4 +1,4 @@
-// [object Object]
+// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useContext } from 'react';

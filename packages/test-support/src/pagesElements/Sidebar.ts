@@ -1,7 +1,9 @@
-// Copyright 2017-2021 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, within } from '@testing-library/react';
+
+import { JudgementTag } from '@polkadot/test-support/pagesElements/JudgementTag';
 
 export class Sidebar {
   public sidebar: HTMLElement
@@ -130,6 +132,12 @@ export class Sidebar {
     return screen.findByTestId('modal');
   }
 
+  async getJudgement (judgementName: string): Promise<JudgementTag> {
+    const judgements = await this.findByTestId('judgements');
+
+    return new JudgementTag(await within(judgements).findByText(judgementName));
+  }
+
   private clickButton (buttonName: string) {
     const button = this.getByRole('button', { name: buttonName });
 
@@ -142,19 +150,5 @@ export class Sidebar {
     fireEvent.click(tagsDropdown);
 
     return tagsDropdown;
-  }
-
-  async assertJudgementWithRegistrars (judgement: string, accounts: string[]): Promise<void> {
-    const judgements = await this.findByTestId('judgements');
-
-    const judgementTag = await within(judgements).findByText(judgement);
-
-    fireEvent.click(judgementTag);
-
-    const popup = await screen.findByTestId('popup-window');
-
-    for (let index = 0; index < accounts.length; index++) {
-      await within(popup).findByText(accounts[index]);
-    }
   }
 }
