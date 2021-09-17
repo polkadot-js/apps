@@ -16,7 +16,7 @@ import { useIsMountedRef } from './useIsMountedRef';
 type VoidFn = () => void;
 
 // This should be VoidFn, however the API actually does allow us to use any general single-shot queries with
-// a result callback, so `api.query.system.account.at(<blokHash>, <account>, (info) => {... })` does work
+// a result callback, so `api.query.system.account.at(<blockHash>, <account>, (info) => {... })` does work
 // (The same applies to e.g. keys or entries). So where we actually use the unsub, we cast `unknown` to `VoidFn`
 // to cater for our usecase.
 type TrackFnResult = Promise<unknown>;
