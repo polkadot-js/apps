@@ -53,7 +53,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
   const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
-  console.log('FROM HOOK ACCOUNT INFO:', accountInfo?.identity.judgements.toString());
+
   useEffect((): void => {
     validator && setFlags((flags) => ({
       ...flags,
@@ -98,9 +98,6 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     setName(name || '');
 
     if (identity) {
-      console.log('Judgements');
-      identity.judgements.forEach((judgement) => console.log(judgement.toJSON()));
-
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
       const knownGoodJudgements = judgements.filter(([, judgement]) => judgement.isKnownGood);
       const reasonableJudgements = judgements.filter(([, judgement]) => judgement.isReasonable);

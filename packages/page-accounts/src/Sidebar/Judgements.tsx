@@ -13,11 +13,11 @@ interface Props {
   judgements: SortedJudgements ;
 }
 
-function Judgements ({ className, judgements }: Props): React.ReactElement<Props> {
+function Judgements ({ className = '', judgements }: Props): React.ReactElement<Props> {
   if (judgements.length === 0) {
     return (
       <div
-        className={className}
+        className={`${className} no-judgements`}
         data-testid='judgements'
       >
         <Tag
@@ -50,7 +50,9 @@ function Judgements ({ className, judgements }: Props): React.ReactElement<Props
 export default React.memo(styled(Judgements)`
   margin-top: 0.714rem;
 
-  .ui--Tag:hover {
-    cursor: pointer;
+  &:not(.no-judgements) {
+    .ui--Tag:hover {
+      cursor: pointer;
+    }
   }
 `);

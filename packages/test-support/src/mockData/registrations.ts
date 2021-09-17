@@ -55,3 +55,4 @@ export const registrars: Registrar[] = [bobRegistrar, charlieRegistrar, ferdieRe
 
 export const bobShortAddress = '5FHneW…M694ty';
 export const charlieShortAddress = '5DAAnr…3PTXFy';
+export const ferdieShortAddress = '5CiPPs…SK2DjL';

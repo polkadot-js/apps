@@ -107,8 +107,6 @@ class MockAccountHooks {
       const staking = { ...defaultStakingAccount };
       const meta = { ...defaultMeta };
       const balance = { ...defaultBalanceAccount };
-
-      console.log('DEFAULT ACCOUNT INFO:', defaultAccountInfo);
       const info = { ...defaultAccountInfo };
 
       // Typescript does not recognize that keys and values from Object.entries are safe,

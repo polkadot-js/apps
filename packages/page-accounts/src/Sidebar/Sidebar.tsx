@@ -25,8 +25,6 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
   const [inEditMode, setInEditMode] = useState<boolean>(false);
   const { accountIndex, flags, identity, meta } = useAccountInfo(address);
 
-  console.log('Identity from hook in sidebar:', identity);
-
   const ref = useRef<HTMLDivElement>(null);
 
   return (

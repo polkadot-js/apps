@@ -13,27 +13,22 @@ function extractIndexes (registrars: RegistrationJudgement[]) {
 export type SortedJudgements = ({ judgementName: DisplayedJudgement, registrarsIndexes: RegistrarIndex[] })[];
 
 export function getJudgements (identity: DeriveAccountRegistration): SortedJudgements {
-  console.log('from getJudgements init:', identity.judgements);
-  const judgements = filterJudgements(identity.judgements);
-
-  console.log('from getJudgements after filter:', judgements);
+  const judgements = groupJudgements(identity.judgements);
 
   const result = [];
 
-  for (const property in judgements) {
-    const judgementName = property as DisplayedJudgement;
+  for (const name in judgements) {
+    const judgementName = name as DisplayedJudgement;
 
     if (judgements[judgementName].length !== 0) {
       result.push({ judgementName, registrarsIndexes: extractIndexes(judgements[judgementName]) });
     }
   }
 
-  console.log('from getJudgements after filter:', identity.judgements);
-
   return result;
 }
 
-export function filterJudgements (judgements: RegistrationJudgement[]): Record<DisplayedJudgement, RegistrationJudgement[]> {
+export function groupJudgements (judgements: RegistrationJudgement[]): Record<DisplayedJudgement, RegistrationJudgement[]> {
   const consideredJudgements = filterConsideredJudgements(judgements);
   const knownGoodJudgements = filterKnownGood(consideredJudgements);
   const reasonableJudgements = filterReasonable(consideredJudgements);
