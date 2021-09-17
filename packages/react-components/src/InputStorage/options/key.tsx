@@ -21,12 +21,20 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .sort()
     .map((value): DropdownOption => {
       const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;
-      const input = type.isPlain
-        ? ''
-        : api.registry.lookup.getSiType(type.asMap.key).def.asTuple.map((t) =>
-          api.registry.lookup.getTypeDef(t).type
-        ).join(', ');
       const output = unwrapStorageType(api.registry, type, modifier.isOptional);
+      let input = '';
+
+      if (type.isMap) {
+        const si = api.registry.lookup.getSiType(type.asMap.key).def;
+
+        if (si.isTuple) {
+          input = si.asTuple
+            .map((t) => api.registry.lookup.getTypeDef(t).type)
+            .join(', ');
+        } else {
+          input = si.asHistoricMetaCompat.toString();
+        }
+      }
 
       return {
         className: 'ui--DropdownLinked-Item',
