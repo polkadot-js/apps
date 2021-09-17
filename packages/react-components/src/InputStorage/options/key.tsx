@@ -23,11 +23,9 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
       const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;
       const input = type.isPlain
         ? ''
-        : type.isMap
-          ? type.asMap.key.toString()
-          : type.isDoubleMap
-            ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
-            : type.asNMap.keyVec.map((k) => k.toString()).join(', ');
+        : api.registry.lookup.getSiType(type.asMap.key).def.asTuple.map((t) =>
+          api.registry.lookup.getTypeDef(t).type
+        ).join(', ');
       const output = unwrapStorageType(api.registry, type, modifier.isOptional);
 
       return {
