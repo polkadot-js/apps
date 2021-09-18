@@ -6,7 +6,6 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { wrapBytes } from '@polkadot/extension-dapp';
 import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
@@ -37,11 +36,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
 
     // We use signatureVerify to detect validity and crypto type
     if (isValid && publicKey) {
-      let verification = signatureVerify(data, signature, publicKey);
-
-      if (verification.crypto === 'none') {
-        verification = signatureVerify(wrapBytes(data), signature, publicKey);
-      }
+      const verification = signatureVerify(data, signature, publicKey);
 
       if (verification.crypto !== 'none') {
         isValid = verification.isValid;

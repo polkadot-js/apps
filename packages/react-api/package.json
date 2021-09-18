@@ -6,9 +6,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api": "^5.9.2-2",
-    "@polkadot/extension-compat-metamask": "^0.40.2",
-    "@polkadot/extension-dapp": "^0.40.2",
+    "@polkadot/api": "^6.0.1",
+    "@polkadot/extension-compat-metamask": "^0.40.3",
+    "@polkadot/extension-dapp": "^0.40.3",
     "@substrate/connect": "^0.3.18",
     "fflate": "^0.7.1",
     "rxjs": "^7.3.0"
