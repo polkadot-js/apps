@@ -19,6 +19,7 @@ const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
+const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
 const chainCrustMaxwell = '#2E333B';
 const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
@@ -104,6 +105,7 @@ const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
+const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#0a95df';
 const nodeEncointerNotee = '#cc0000';
@@ -167,7 +169,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
-  'Aleph Zero': chainAleph,
+  'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
@@ -178,9 +180,11 @@ export const chainColors: Record<string, string> = Object.entries({
   ChainX: chainChainx,
   Clover: chainClover,
   Composable: chainComposable,
+  'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  Darwinia: chainDarwinia,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,
@@ -213,7 +217,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Khala: chainKhala,
   KILT: chainKilt,
   'KILT Local': chainKilt,
-  'KILT Peregrine Testnet': chainKilt,
+  'KILT Peregrine': chainKilt,
   'KILT Spiritnet': chainKilt,
   'KILT Testnet': chainKilt,
   Kintsugi: chainKintsugi,
@@ -314,6 +318,7 @@ export const nodeColors = Object.entries({
   'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  'Crown Sterling': nodeCrownSterling,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
   'Encointer Node': nodeEncointerNotee,

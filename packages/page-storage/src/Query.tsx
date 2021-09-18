@@ -87,7 +87,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
       const { meta, method, section } = key as unknown as ConstValue;
 
       renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
-      type = meta.type.toString();
+      type = registry.lookup.getTypeDef(meta.type).type;
     } else {
       if (isU8a(key)) {
         // subscribe to the raw key here

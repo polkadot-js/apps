@@ -3,8 +3,8 @@
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams } from '@polkadot/react-params/types';
-import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { TypeDef } from '@polkadot/types/types';
+import type { SiLookupTypeId, StorageEntryTypeLatest } from '@polkadot/types/interfaces';
+import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -38,31 +38,29 @@ interface ValState {
 }
 
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
-  return values.reduce((isValid: boolean, value): boolean => {
-    return isValid &&
-      !isUndefined(value) &&
-      !isUndefined(value.value) &&
-      value.isValid;
-  }, (values.length === (
-    type.isPlain
-      ? 0
-      : type.isMap
-        ? 1
-        : type.isDoubleMap
-          ? 2
-          : type.asNMap.keyVec.length
-  )));
+  return values.reduce((isValid: boolean, value) =>
+    isValid &&
+    !isUndefined(value) &&
+    !isUndefined(value.value) &&
+    value.isValid,
+  (values.length === (type.isPlain ? 0 : type.asMap.hashers.length)));
 }
 
-function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
+function expandSiKey (registry: Registry, key: SiLookupTypeId): string {
+  const typeDef = registry.lookup.getTypeDef(key);
+
+  return typeDef.lookupName || typeDef.type;
+}
+
+function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
   let types: string[] = [];
 
-  if (st.isDoubleMap) {
-    types = [st.asDoubleMap.key1.toString(), st.asDoubleMap.key2.toString()];
-  } else if (st.isMap) {
-    types = [st.asMap.key.toString()];
-  } else if (st.isNMap) {
-    types = st.asNMap.keyVec.map((k) => k.toString());
+  if (st.isMap) {
+    const { hashers, key } = st.asMap;
+
+    types = hashers.length === 1
+      ? [expandSiKey(registry, key)]
+      : registry.lookup.getSiType(key).def.asTuple.map((k) => expandSiKey(registry, k));
   }
 
   return types.map((str, index) => {
@@ -79,29 +77,35 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
   });
 }
 
-function checkIterable (type: StorageEntryTypeLatest): boolean {
+function checkIterable (registry: Registry, type: StorageEntryTypeLatest): boolean {
   // in the case of Option<type> keys, we don't allow map iteration, in this case
   // we would have option for the iterable and then option for the key value
-  return type.isPlain || (
-    type.isMap
-      ? getTypeDef(type.asMap.key.toString())
-      : type.isDoubleMap
-        ? getTypeDef(type.asDoubleMap.key2.toString())
-        : getTypeDef(type.asNMap.keyVec[type.asNMap.keyVec.length - 1].toString())
-  ).info !== TypeDefInfo.Option;
+  if (type.isPlain) {
+    return true;
+  }
+
+  const { hashers, key } = type.asMap;
+
+  if (hashers.length === 1) {
+    return registry.lookup.getTypeDef(key).info !== TypeDefInfo.Option;
+  }
+
+  const keys = registry.lookup.getSiType(key).def.asTuple;
+
+  return registry.lookup.getTypeDef(keys[keys.length - 1]).info !== TypeDefInfo.Option;
 }
 
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
-  const isIterable = checkIterable(type);
+  const isIterable = checkIterable(api.registry, type);
 
   return {
-    defaultValues: section === 'session' && type.isDoubleMap
+    defaultValues: section === 'session' && type.isMap
       ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
       : null,
     isIterable,
     key,
-    params: expandParams(type, isIterable)
+    params: expandParams(api.registry, type, isIterable)
   };
 }
 

@@ -19,7 +19,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
       info: 'aleph',
-      text: t('rpc.test.aleph', 'Aleph Zero', { ns: 'apps-config' }),
+      text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
         'Aleph Zero Foundation': 'wss://test-api.alephzero.org'
       }
@@ -223,6 +223,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
+      }
+    },
+    {
+      info: 'kilt',
+      text: t('rpc.test.kilt', 'KILT Peregrine', { ns: 'apps-config' }),
+      providers: {
+        'KILT Protocol': 'wss://peregrine.kilt.io/'
       }
     },
     {
