@@ -30,20 +30,17 @@ interface ValueState {
 function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
   const value = allBalances.lockedBalance;
   const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
+  const defaultValue = value.isZero()
+    ? maxValue.gt(existential)
+      ? maxValue.sub(existential)
+      : BN_ZERO
+    : value;
 
   return {
-    defaultValue: value.isZero()
-      ? maxValue.gt(existential)
-        ? maxValue.sub(existential)
-        : BN_ZERO
-      : value,
+    defaultValue,
     maxValue,
     selectedId,
-    value: value.isZero()
-      ? maxValue.gt(existential)
-        ? maxValue.sub(existential)
-        : BN_ZERO
-      : value
+    value: defaultValue
   };
 }
 
