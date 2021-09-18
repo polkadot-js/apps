@@ -38,6 +38,7 @@ import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
+import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
@@ -144,7 +145,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
-  'Aleph Zero': chainAleph,
+  'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
@@ -610,6 +611,7 @@ export const externalLogos: Record<string, unknown> = {
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
   statescan: externalStatescan,
+  subid: externalSubId,
   subscan: externalSubscan
 };
 

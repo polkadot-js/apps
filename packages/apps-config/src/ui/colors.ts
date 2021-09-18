@@ -169,7 +169,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
-  'Aleph Zero': chainAleph,
+  'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
@@ -184,6 +184,7 @@ export const chainColors: Record<string, string> = Object.entries({
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  Darwinia: chainDarwinia,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,

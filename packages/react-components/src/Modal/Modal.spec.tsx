@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, render, screen } from '@testing-library/react';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { lightTheme } from '@polkadot/apps/themes';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Button from '../Button';
+import i18next from '../i18n';
 import Modal from './index';
 
 function TestModal () {
@@ -45,13 +46,19 @@ function TestModal () {
 
 function renderModal () {
   return render(
-    <ThemeProvider theme={lightTheme}>
-      <TestModal />
-    </ThemeProvider>
+    <Suspense fallback='...'>
+      <ThemeProvider theme={lightTheme}>
+        <TestModal />
+      </ThemeProvider>
+    </Suspense>
   );
 }
 
 describe('Modal Component', () => {
+  beforeAll(async () => {
+    await i18next.changeLanguage('en');
+  });
+
   it('opens and closes modal', async () => {
     renderModal();
 

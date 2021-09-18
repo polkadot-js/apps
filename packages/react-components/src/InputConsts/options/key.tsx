@@ -29,7 +29,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${value}:call`}
           >
-            {value}: {method.meta.type.toString()}
+            {value}: {api.registry.lookup.getTypeDef(method.meta.type).type}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
