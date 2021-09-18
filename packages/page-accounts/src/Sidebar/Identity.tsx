@@ -103,7 +103,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     ? identity.email
                     : (
                       <a
-                        href={`mailto:${identity.email as string}`}
+                        href={`mailto:${identity.email}`}
                         rel='noopener noreferrer'
                         target='_blank'
                       >
@@ -121,7 +121,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     ? identity.web
                     : (
                       <a
-                        href={(identity.web as string).replace(/^(https?:\/\/)?/g, 'https://')}
+                        href={(identity.web).replace(/^(https?:\/\/)?/g, 'https://')}
                         rel='noopener noreferrer'
                         target='_blank'
                       >
@@ -140,9 +140,9 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                     : (
                       <a
                         href={
-                          (identity.twitter as string).startsWith('https://twitter.com/')
-                            ? (identity.twitter as string)
-                            : `https://twitter.com/${identity.twitter as string}`
+                          (identity.twitter).startsWith('https://twitter.com/')
+                            ? (identity.twitter)
+                            : `https://twitter.com/${identity.twitter}`
                         }
                         rel='noopener noreferrer'
                         target='_blank'
