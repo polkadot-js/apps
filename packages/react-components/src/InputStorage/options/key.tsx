@@ -25,14 +25,20 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
       let input = '';
 
       if (type.isMap) {
-        const si = api.registry.lookup.getSiType(type.asMap.key).def;
+        const { hashers, key } = type.asMap;
 
-        if (si.isTuple) {
-          input = si.asTuple
-            .map((t) => api.registry.lookup.getTypeDef(t).type)
-            .join(', ');
+        if (hashers.length === 1) {
+          input = api.registry.lookup.getTypeDef(key).type;
         } else {
-          input = si.asHistoricMetaCompat.toString();
+          const si = api.registry.lookup.getSiType(key).def;
+
+          if (si.isTuple) {
+            input = si.asTuple
+              .map((t) => api.registry.lookup.getTypeDef(t).type)
+              .join(', ');
+          } else {
+            input = si.asHistoricMetaCompat.toString();
+          }
         }
       }
 
