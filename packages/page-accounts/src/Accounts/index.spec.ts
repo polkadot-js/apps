@@ -1,21 +1,18 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
 import toShortAddress from '@polkadot/react-components/util/toShortAddress';
-import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { alice, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
-import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AccountRow } from '../../test/pageElements/AccountRow';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
@@ -365,123 +362,6 @@ describe('Accounts page', () => {
         await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
         await accountsPage.sortBy('name');
         await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
-      });
-    });
-  });
-
-  describe('sidebar', () => {
-    const initialName = 'INITIAL_NAME';
-    const newName = 'NEW_NAME';
-    const defaultTag = 'Default';
-    const nameInputNotFoundError = 'Unable to find an element by: [data-testid="name-input"]';
-
-    let accountRows: AccountRow[];
-    let sideBar: Sidebar;
-
-    describe('changes name', () => {
-      beforeEach(async () => {
-        accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName })]]);
-        accountRows = await accountsPage.getAccountRows();
-        sideBar = await accountRows[0].openSidebar();
-        await sideBar.changeAccountName(newName);
-      });
-
-      it('within keyring', () => {
-        const changedAccount = keyring.getAccount(alice);
-
-        expect(changedAccount?.meta?.name).toEqual(newName);
-      });
-
-      it('within sidebar', async () => {
-        await sideBar.assertAccountName(newName);
-      });
-
-      it('within account row', async () => {
-        await accountRows[0].assertAccountName(newName);
-      });
-    });
-
-    it('cannot be edited if edit button has not been pressed', async () => {
-      accountsPage.renderDefaultAccounts(1);
-      accountRows = await accountsPage.getAccountRows();
-      sideBar = await accountRows[0].openSidebar();
-      await sideBar.clickByText('no tags');
-      expect(sideBar.queryByRole('combobox')).toBeFalsy();
-
-      await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
-    });
-
-    it('when isEditable is false account name is not editable', async () => {
-      accountsPage.renderAccountsWithDefaultAddresses(
-        anAccountWithInfo({ flags: { isEditable: false } as AddressFlags })
-      );
-      accountRows = await accountsPage.getAccountRows();
-      sideBar = await accountRows[0].openSidebar();
-      sideBar.edit();
-
-      await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
-    });
-
-    describe('on edit cancel', () => {
-      beforeEach(async () => {
-        accountsPage.render([[alice, anAccountWithMeta({ isDevelopment: false, name: initialName, tags: [] })]]);
-        accountRows = await accountsPage.getAccountRows();
-        sideBar = await accountRows[0].openSidebar();
-
-        await sideBar.assertTags('no tags');
-        sideBar.edit();
-      });
-
-      it('restores tags and name to state from keyring', async () => {
-        await sideBar.typeAccountName(newName);
-        await sideBar.selectTag(defaultTag);
-
-        sideBar.cancel();
-        await sideBar.assertTags('no tags');
-        await sideBar.assertAccountName(initialName);
-      });
-
-      it('Cancel button disappears', () => {
-        sideBar.cancel();
-        expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
-      });
-    });
-
-    describe('outside click', () => {
-      beforeEach(async () => {
-        accountsPage.renderAccountsWithDefaultAddresses(
-          anAccountWithMeta({ name: 'alice' }),
-          anAccountWithMeta({ name: 'bob' })
-        );
-
-        accountRows = await accountsPage.getAccountRows();
-        sideBar = await accountRows[0].openSidebar();
-        sideBar.edit();
-      });
-
-      it('cancels editing', async () => {
-        await sideBar.typeAccountName(newName);
-        await sideBar.selectTag(defaultTag);
-
-        fireEvent.click(await screen.findByText('accounts'));
-
-        await sideBar.assertTags('no tags');
-        await sideBar.assertAccountName('ALICE');
-
-        expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();
-      });
-
-      it('within sidebar does not cancel editing', async () => {
-        await sideBar.clickByText('Tags');
-
-        expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeTruthy();
-      });
-
-      it('cancels editing and changes name when opening sidebar for another account', async () => {
-        await waitFor(() => sideBar.assertAccountInput('alice'));
-
-        sideBar = await accountRows[1].openSidebar();
-        await sideBar.assertAccountName('BOB');
       });
     });
   });

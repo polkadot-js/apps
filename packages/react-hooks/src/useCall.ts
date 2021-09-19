@@ -34,7 +34,7 @@ interface QueryMapFn extends QueryTrackFn {
   };
 }
 
-type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
+export type TrackFn = RpcPromiseResult<AnyFunction> | QueryTrackFn;
 
 type CallFn = (...params: unknown[]) => Promise<VoidFn>;
 

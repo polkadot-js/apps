@@ -35,6 +35,13 @@ const definitions: OverrideBundleDefinition = {
             Basic: '(Basic, Rarity)'
           }
         },
+        Status: {
+          _enum: [
+            'OnSell',
+            'InDelegation',
+            'Free'
+          ]
+        },
         Token: {
           token_id: 'TokenId',
           token: 'TokenType'
