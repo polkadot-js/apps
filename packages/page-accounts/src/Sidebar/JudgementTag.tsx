@@ -30,6 +30,7 @@ function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.React
   return (
     <>
       <Popup
+        closeOnScroll
         position='center'
         value={
           <Menu>
