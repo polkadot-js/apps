@@ -15,7 +15,7 @@ interface Props {
 
 function Filter ({ className = '', filterOn, label, setFilter }: Props) {
   return (
-    <div className={`${className} filter--tags`}>
+    <div className={className}>
       <Input
         autoFocus
         isFull
@@ -28,16 +28,14 @@ function Filter ({ className = '', filterOn, label, setFilter }: Props) {
 }
 
 export default React.memo(styled(Filter)`
-  &.filter--tags {
-    width: 29.5rem;
+  width: 29.5rem;
 
-    :not(:only-child) {
-      margin-left: 1.5rem;
-    }
+  :not(:only-child) {
+    margin-left: 1.5rem;
+  }
 
-    .ui--Input {
-      margin: 0;
-      height: 3.893rem;
-    }
+  .ui--Input {
+    margin: 0;
+    height: 3.893rem;
   }
 `);
