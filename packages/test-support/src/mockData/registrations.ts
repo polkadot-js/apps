@@ -3,7 +3,8 @@
 
 import registry from '@polkadot/react-api/typeRegistry';
 import { Registrar } from '@polkadot/react-hooks/useRegistrars';
-import { bob, charlie, ferdie } from '@polkadot/test-support/keyring';
+
+import { bob, charlie, ferdie } from '../keyring';
 
 export const mockRegistration = {
   judgements: [

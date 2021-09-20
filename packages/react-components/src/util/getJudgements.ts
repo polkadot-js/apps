@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import { DisplayedJudgement } from '@polkadot/react-components/types';
 import { RegistrationJudgement } from '@polkadot/types/interfaces';
 import { RegistrarIndex } from '@polkadot/types/interfaces/identity/types';
+
+import { DisplayedJudgement } from '../types';
 
 function extractIndexes (registrars: RegistrationJudgement[]) {
   return registrars.map((judgement) => judgement[0]);

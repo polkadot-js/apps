@@ -3,7 +3,7 @@
 
 import { fireEvent, screen, within } from '@testing-library/react';
 
-import { JudgementTag } from '@polkadot/test-support/pagesElements/JudgementTag';
+import { JudgementTag } from './JudgementTag';
 
 export class Sidebar {
   public sidebar: HTMLElement

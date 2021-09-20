@@ -4,9 +4,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import JudgementTag from '@polkadot/app-accounts/Sidebar/JudgementTag';
 import { Tag } from '@polkadot/react-components';
 import { SortedJudgements } from '@polkadot/react-components/util/getJudgements';
+
+import JudgementTag from './JudgementTag';
 
 interface Props {
   address: string;
