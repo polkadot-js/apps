@@ -2,11 +2,11 @@
   "name": "@polkadot/react-api",
   "private": true,
   "type": "module",
-  "version": "0.95.2-149",
+  "version": "0.96.0",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api": "^6.0.4-1",
+    "@polkadot/api": "^6.0.5",
     "@polkadot/extension-compat-metamask": "^0.40.3",
     "@polkadot/extension-dapp": "^0.40.3",
     "@substrate/connect": "^0.3.18",
