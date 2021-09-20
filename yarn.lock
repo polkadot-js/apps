@@ -2831,7 +2831,7 @@ __metadata:
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.5
     "@sora-substrate/type-definitions": 1.6.9
-    "@subsocial/types": 0.6.1-1
+    "@subsocial/types": 0.6.2
     "@zeitgeistpm/type-defs": 0.2.10
     "@zeroio/type-definitions": 0.0.6
     i18next: ^19.9.2
@@ -3823,20 +3823,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/types@npm:0.6.1-1":
-  version: 0.6.1-1
-  resolution: "@subsocial/types@npm:0.6.1-1"
+"@subsocial/types@npm:0.6.2":
+  version: 0.6.2
+  resolution: "@subsocial/types@npm:0.6.2"
   dependencies:
-    "@polkadot/types": ^5.4.1
-    "@subsocial/utils": ^0.6.1-1
+    "@polkadot/types": ^5.9.2-10
+    "@polkadot/types-known": ^5.9.2-10
+    "@subsocial/utils": ^0.6.2
     cids: ^0.7.1
-  checksum: ee7ff29d8472a6c46b6a404933adfc913778c2df59b67c80e958378485d5d6714efe4de88b616595a4f87411ed2b4c332616b1c365f035afa259539daf3b7bb7
+  checksum: a6025b39e1eaf2beda41972b35f10a927a5fc4e108f686901141825cc93bc4d1a9e102a19b73c0c1ac5444744673a4a53999fc943fe41a6ed93944eaadb5df52
   languageName: node
   linkType: hard
 
-"@subsocial/utils@npm:^0.6.1-1":
-  version: 0.6.1-alpha.0
-  resolution: "@subsocial/utils@npm:0.6.1-alpha.0"
+"@subsocial/utils@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "@subsocial/utils@npm:0.6.2"
   dependencies:
     "@sindresorhus/slugify": ^1.1.0
     bn.js: ^5.1.1
@@ -3851,7 +3852,7 @@ __metadata:
     remark-gfm: ^1.0.0
     remark-html: ^13.0.1
     strip-markdown: ^4.0.0
-  checksum: c941c34c985e2119f270022f9da0558339248ed950549569c28713bc2c67d581387a13714f1ca17b880ba5e02338006e2c49c6cc0d4365800eceee2f3e5f0468
+  checksum: 8b7e4d0cb2d14ebd6c1c3d7c40cdda4b0bbf1fb8e9332d628d958cba553f5af70ece9887c752010b87f536369efd570e738da7574e1c6e80593a87ae695a8111
   languageName: node
   linkType: hard
 
