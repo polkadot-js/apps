@@ -28,12 +28,16 @@ function Filter ({ className = '', filterOn, label, setFilter }: Props) {
 }
 
 export default React.memo(styled(Filter)`
-  width: 17.857rem;
+  &.filter--tags {
+    width: 29.5rem;
 
-  :not(:only-child) {
-    margin-left: 2.286rem;
-  }
-  .ui--Input {
-    height: 3.893rem;
+    :not(:only-child) {
+      margin-left: 1.5rem;
+    }
+
+    .ui--Input {
+      margin: 0;
+      height: 3.893rem;
+    }
   }
 `);

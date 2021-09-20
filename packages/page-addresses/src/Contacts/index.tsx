@@ -50,20 +50,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <Button.Group>
-        <Button
-          icon='plus'
-          label={t<string>('Add contact')}
-          onClick={toggleCreate}
-        />
-      </Button.Group>
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
-      <SummaryBox>
+      <SummaryBox className='summary-box-contacts'>
         <section>
           <FilterInput
             filterOn={filterOn}
@@ -71,6 +64,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             setFilter={setFilter}
           />
         </section>
+        <Button.Group>
+          <Button
+            icon='plus'
+            label={t<string>('Add contact')}
+            onClick={toggleCreate}
+          />
+        </Button.Group>
       </SummaryBox>
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
@@ -91,4 +91,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   );
 }
 
-export default React.memo(styled(Overview)``);
+export default React.memo(styled(Overview)`
+  .summary-box-contacts {
+    align-items: center;
+  }
+`);
