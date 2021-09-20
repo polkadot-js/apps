@@ -12,6 +12,14 @@ Contributed:
 - Update Snowbridge types (Thanks to https://github.com/vgeddes)
 - Move Shibuya testnet to dedicated (Thanks to https://github.com/akru)
 - Fix Shiden network names (Thanks to https://github.com/akru)
+- OnFinality endpoint for Kilt (Thanks to https://github.com/454076513)
+- OnFinality endpoint for Calamari (Thanks to https://github.com/454076513)
+- OnFinality endpoint for Basilisk (Thanks to https://github.com/454076513)
+- Update Kilt types & UI components (Thanks to https://github.com/wischli)
+- Subscan links for Kilt (Thanks to https://github.com/wischli)
+- Add Polkassembly community endpoints (Thanks to https://github.com/wischli)
+- Dwellir endpoints for Kusama (Thanks to https://github.com/Maharacha)
+- Add Spanner network (Thanks to https://github.com/igorgogo)
 - Update Robonomics endpoints (Thanks to https://github.com/vol4tim)
 - Update Bifrost Foundation to Liebi (Thanks to https://github.com/awesomepan)
 - Update Bifrost types (Thanks to https://github.com/awesomepan)
@@ -31,17 +39,27 @@ Contributed:
 - Update Moonbeam types (Thanks to https://github.com/joelamouche)
 - Update WILT paraId & types (Thanks to https://github.com/weichweich)
 - Update Genshiro paraId (Thanks to https://github.com/alex-nax)
+- Add Lavendar parachain (Thanks to https://github.com/phamsonha)
+- Add Genshiro standalone (Thanks to https://github.com/alex-nax)
+- Add Crown Sterling chain (Thanks to https://github.com/crownsterlingllc)
+- Add external types for Zero (Thanks to https://github.com/2075)
 - Update Integritee homepage and RPcs (Thanks to https://github.com/brenzi)
+- Add additional endpoints (Thanks to https://github.com/brenzi)
 - Update Calamari homepage link (Thanks to https://github.com/Dengjianping)
 - Remove Crab Redirect (Thanks to https://github.com/sxlwar)
 - Add Picasso mainnet (Thanks to https://github.com/composabledev)
 - Add Parallel Heiko chain (Thanks to https://github.com/GopherJ)
 - Add Statescan to as external explorer (Thanks to https://github.com/wliyongfeng)
 - Add Dottreasury as external explorer (Thanks to https://github.com/wliyongfeng)
+- Add Sub.Id as an external explorer (Thanks to https://github.com/olehmell)
 - Update endpoints for Elara v2 (Thanks to https://github.com/FreePoi)
 - Update Pinknode endpoints (Thanks to https://github.com/Capeguy)
 - Update Pontem types (Thanks to https://github.com/idimetrix)
 - Add Netcoin chain (Thanks to https://github.com/sorpaas)
+- Add Pangoro testchain (Thanks to https://github.com/sxlwar)
+- Add additional nodes for Calamari (Thanks to https://github.com/grenade)
+- Change Aleph Zero testnet name (Thanks to https://github.com/maciejnems)
+- Adjust Bit.Country endpoint (Thanks to https://github.com/justinphamnz)
 - Allow tx submission for decoding tab (Thanks to https://github.com/xlc)
 - Adjust max balance on transfer modal (Thanks to https://github.com/maciejnems)
 - Clarify conviction locking (Thanks to https://github.com/JoshOrndorff)
@@ -55,6 +73,12 @@ Contributed:
 - Replace SUI popup with apps-specific version (Thanks to https://github.com/MiZiet)
 - Allow keyboard navigation in create modal (Thanks to https://github.com/MiZiet & https://github.com/ekowalsk)
 - Dedupe create & derive account modals (Thanks to https://github.com/vitaliyworks & https://github.com/MiZiet)
+- Add account view sorting (Thanks to https://github.com/vitaliyworks, https://github.com/krzysztof-jelski, https://github.com/MiZiet & https://github.com/ekowalsk)
+- Adjust sidebar editing via single button (Thanks to https://github.com/ekowalsk & https://github.com/MiZiet)
+- Account page styling adjustments (Thanks to https://github.com/MiZiet)
+- Align address view with accounts (Thanks to https://github.com/ekowalsk & https://github.com/MiZiet)
+- Fixes for UI tests and setup (Thanks to https://github.com/krzysztof-jelski)
+- Reduce warning in tests (Thanks to https://github.com/krzysztof-jelski)
 
 Changes:
 
@@ -63,6 +87,10 @@ Changes:
 - Hide/disable non-available network endpoints
 - Adjust detection for parachain module locations
 - Ensure unreachable endpoints are sorted & checked
+- Extract teleport weight constants on a per-genesis basis
+- Only allow gilt bids via pure proxy
+- Pass open/aye votes for TC in batch
+- Allow collective proposal close for any account
 - Cleanup `@polkadot/app-config` exports
 - Adjust `@polkadot/apps-config` to latest chain types
 
