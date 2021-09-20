@@ -365,4 +365,20 @@ describe('Accounts page', () => {
       });
     });
   });
+
+  it('when filter is used, the coloring is preserved', async () => {
+    accountsPage.renderAccountsWithDefaultAddresses(
+      anAccountWithBalanceAndMeta({freeBalance: balance(1)}, {name: 'Alice', whenCreated: 100}),
+      anAccountWithBalanceAndMeta({freeBalance: balance(2)}, {name: 'Dave', whenCreated: 200}),
+      anAccountWithBalanceAndMeta({freeBalance: balance(3)}, {name: 'Ds', whenCreated: 300}),
+      anAccountWithBalanceAndMeta({freeBalance: balance(4)}, {name: 'Dsd', whenCreated: 400}),
+    )
+
+    const accountsTable = await accountsPage.getTable();
+    await accountsTable.assertRowsOrderAndColoring([1, 2, 3, 4])
+
+    await accountsPage.filter('D')
+
+    await accountsTable.assertRowsOrderAndColoring([2, 3, 4])
+  })
 });

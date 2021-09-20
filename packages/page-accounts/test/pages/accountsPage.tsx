@@ -47,6 +47,12 @@ export class AccountsPage extends Page {
     return within(sortByComponent).findByRole('alert');
   }
 
+  async filter (text: string): Promise<void> {
+    const filterInput = await screen.findByTestId('filter by name or tags')
+
+    fireEvent.change(filterInput, {target: {value: text}})
+  }
+
   async enterCreateAccountModal (): Promise<void> {
     this.render([]);
     await clickButton('Add account');
