@@ -5,7 +5,7 @@ import { screen } from '@testing-library/react';
 import BN from 'bn.js';
 
 import i18next from '@polkadot/react-components/i18n';
-import toShortAddress from '@polkadot/react-components/util/toShortAddress';
+import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
 import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
 import { alice, MemoryStore } from '@polkadot/test-support/keyring';

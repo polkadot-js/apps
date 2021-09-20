@@ -8,6 +8,8 @@ import React from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 
+import { getSiName } from '../../util';
+
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.consts[sectionName];
 
@@ -29,7 +31,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${value}:call`}
           >
-            {value}: {api.registry.lookup.getTypeDef(method.meta.type).type}
+            {value}: {getSiName(api.registry.lookup, method.meta.type)}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'

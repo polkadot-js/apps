@@ -1,12 +1,13 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { default as checkVisibility } from './checkVisibility';
-export { default as getAddressMeta } from './getAddressMeta';
-export { default as getAddressName } from './getAddressName';
-export { default as getAddressTags } from './getAddressTags';
-export { default as getContractAbi } from './getContractAbi';
-export { default as isTreasuryProposalVote } from './isTreasuryProposalVote';
-export { default as toAddress } from './toAddress';
-export { default as toShortAddress } from './toShortAddress';
-export { default as getAccountCryptoType } from './getAccountCryptoType';
+export { checkVisibility } from './checkVisibility';
+export { getAddressMeta } from './getAddressMeta';
+export { getAddressName } from './getAddressName';
+export { getAddressTags } from './getAddressTags';
+export { getContractAbi } from './getContractAbi';
+export { getSiName } from './getSiName';
+export { isTreasuryProposalVote } from './isTreasuryProposalVote';
+export { toAddress } from './toAddress';
+export { toShortAddress } from './toShortAddress';
+export { getAccountCryptoType } from './getAccountCryptoType';
