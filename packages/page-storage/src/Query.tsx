@@ -15,6 +15,7 @@ import { withCallDiv } from '@polkadot/react-api/hoc';
 import { Button, Labelled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import valueToText from '@polkadot/react-params/valueToText';
+import { getSiName } from '@polkadot/types/metadata/util';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { compactStripLength, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -87,7 +88,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
       const { meta, method, section } = key as unknown as ConstValue;
 
       renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
-      type = meta.type.toString();
+      type = getSiName(registry.lookup, meta.type);
     } else {
       if (isU8a(key)) {
         // subscribe to the raw key here

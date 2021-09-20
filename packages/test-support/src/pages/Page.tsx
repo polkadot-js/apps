@@ -79,6 +79,10 @@ jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
   useSubidentities: () => mockApiHooks.subs
 }));
 
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
+
 jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
   useRegistrars: () => ({
     isRegistrar: false,
