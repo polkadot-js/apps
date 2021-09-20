@@ -13,9 +13,9 @@ import styled from 'styled-components';
 
 import { withCallDiv } from '@polkadot/react-api/hoc';
 import { Button, Labelled } from '@polkadot/react-components';
-import { getSiName } from '@polkadot/react-components/util';
 import { useApi } from '@polkadot/react-hooks';
 import valueToText from '@polkadot/react-params/valueToText';
+import { getSiName } from '@polkadot/types/metadata/util';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { compactStripLength, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
