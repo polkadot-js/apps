@@ -99,13 +99,8 @@ export interface AddressFlags extends DeriveAccountFlags {
 }
 
 export interface AddressIdentity extends DeriveAccountRegistration {
-  isGood: boolean;
-  isBad: boolean;
-  isKnownGood: boolean;
-  isReasonable: boolean;
-  isErroneous: boolean;
-  isLowQuality: boolean;
   isExistent: boolean;
+  isKnownGood: boolean;
   waitCount: number;
 }
 

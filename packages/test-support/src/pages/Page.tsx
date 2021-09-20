@@ -48,7 +48,6 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
             ...(mockInfo.info.identity),
             judgements: [
               ...(actual.useAccountInfo(address).identity?.judgements || []),
-              ...((mockInfo.info.identity)?.judgements || []),
               ...(mockApiHooks.judgements || [])
             ]
           },

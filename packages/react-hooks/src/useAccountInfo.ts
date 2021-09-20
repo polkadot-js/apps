@@ -99,20 +99,12 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
 
     if (identity) {
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
-      const knownGoodJudgements = judgements.filter(([, judgement]) => judgement.isKnownGood);
-      const reasonableJudgements = judgements.filter(([, judgement]) => judgement.isReasonable);
-      const erroneousJudgements = judgements.filter(([, judgement]) => judgement.isErroneous);
-      const lowQualityJudgements = judgements.filter(([, judgement]) => judgement.isLowQuality);
+      const isKnownGood = judgements.some(([, judgement]) => judgement.isKnownGood);
 
       setIdentity({
         ...identity,
-        isBad: erroneousJudgements.length !== 0 || lowQualityJudgements.length !== 0,
-        isErroneous: erroneousJudgements.length !== 0,
         isExistent: !!identity.display,
-        isGood: knownGoodJudgements.length !== 0 || reasonableJudgements.length !== 0,
-        isKnownGood: knownGoodJudgements.length !== 0,
-        isLowQuality: lowQualityJudgements.length !== 0,
-        isReasonable: reasonableJudgements.length !== 0,
+        isKnownGood,
         judgements,
         waitCount: identity.judgements.length - judgements.length
       });
