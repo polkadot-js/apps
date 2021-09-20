@@ -6,7 +6,6 @@ import { Registrar } from '@polkadot/react-hooks/useRegistrars';
 import { bob, charlie, ferdie } from '@polkadot/test-support/keyring';
 
 export const mockRegistration = {
-  deposit: '20.2580 DOT',
   judgements: [
     [
       registry.createType('RegistrarIndex', '0'),
@@ -32,19 +31,7 @@ export const mockRegistration = {
         isReasonable: true
       }
     ]
-  ],
-  info: {
-    additional: [],
-    display: {
-      Raw: 'Alice'
-    },
-    legal: {
-      Raw: 'Alice Raw'
-    },
-    web: {
-      Raw: 'https://al'
-    }
-  }
+  ]
 };
 
 export const bobRegistrar: Registrar = { address: bob, index: 0 };
