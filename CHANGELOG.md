@@ -1,5 +1,72 @@
 # CHANGELOG
 
+## 0.96.1 Sep 20, 2021
+
+Contributed:
+
+- Rebrand interBTC (Thanks to https://github.com/savudani8)
+- Replace interBTC production chain (Thanks to https://github.com/savudani8)
+- Update interBTC types (Thanks to https://github.com/gregdhill)
+- Add interBTC to Westend (Thanks to https://github.com/gregdhill)
+- Add interBTC Kintsugi (Thanks to https://github.com/nud3l)
+- Update Snowbridge types (Thanks to https://github.com/vgeddes)
+- Move Shibuya testnet to dedicated (Thanks to https://github.com/akru)
+- Fix Shiden network names (Thanks to https://github.com/akru)
+- Update Robonomics endpoints (Thanks to https://github.com/vol4tim)
+- Update Bifrost Foundation to Liebi (Thanks to https://github.com/awesomepan)
+- Update Bifrost types (Thanks to https://github.com/awesomepan)
+- Update types for Realis (Thanks to https://github.com/Daelon02)
+- Update Crust endpoints (Thanks to https://github.com/yuhui1208)
+- Updata Darwinia types (Thanks to https://github.com/WoeOm)
+- Update Phala Poc-4 to Chala (Thanks to https://github.com/jasl)
+- Update Phala types (Thanks to https://github.com/jasl)
+- Update Subgame types (Thanks to https://github.com/momo200e)
+- Update OriginTrail types (Thanks to https://github.com/NZT48 & https://github.com/kotlarmilos)
+- Update Acala types (Thanks to https://github.com/qwer951123)
+- Update UniArts providers (Thanks to https://github.com/sunnyCoCosun)
+- Update KILT paraId (Thanks to https://github.com/weichweich)
+- Update Charcoal paraId (Thanks to https://github.com/mikiquantum)
+- Update Basilisk paraId (Thanks to https://github.com/lumir-mrkva)
+- Update Altair paraId (Thanks to https://github.com/mikiquantum)
+- Update Moonbeam types (Thanks to https://github.com/joelamouche)
+- Update WILT paraId & types (Thanks to https://github.com/weichweich)
+- Update Genshiro paraId (Thanks to https://github.com/alex-nax)
+- Update Integritee homepage and RPcs (Thanks to https://github.com/brenzi)
+- Update Calamari homepage link (Thanks to https://github.com/Dengjianping)
+- Remove Crab Redirect (Thanks to https://github.com/sxlwar)
+- Add Picasso mainnet (Thanks to https://github.com/composabledev)
+- Add Parallel Heiko chain (Thanks to https://github.com/GopherJ)
+- Add Statescan to as external explorer (Thanks to https://github.com/wliyongfeng)
+- Add Dottreasury as external explorer (Thanks to https://github.com/wliyongfeng)
+- Update endpoints for Elara v2 (Thanks to https://github.com/FreePoi)
+- Update Pinknode endpoints (Thanks to https://github.com/Capeguy)
+- Update Pontem types (Thanks to https://github.com/idimetrix)
+- Add Netcoin chain (Thanks to https://github.com/sorpaas)
+- Allow tx submission for decoding tab (Thanks to https://github.com/xlc)
+- Adjust max balance on transfer modal (Thanks to https://github.com/maciejnems)
+- Clarify conviction locking (Thanks to https://github.com/JoshOrndorff)
+- Adjust minimumPeriod thresholds (Thanks to https://github.com/fixxxedpoint)
+- Style UI tags (Thanks to https://github.com/MiZiet & https://github.com/ekowalsk)
+- Set width to flags (Thanks to https://github.com/MiZiet)
+- Add summary to accounts (Thanks to https://github.com/vitaliyworks & https://github.com/krzysztof-jelski)
+- Style account rows (Thanks to https://github.com/wachulski, https://github.com/vitaliyworks, https://github.com/MiZiet & https://github.com/ekowalsk)
+- Replace SUI modal with apps-specific modal (Thanks to https://github.com/MiZiet)
+- Replace sidebar links with icons (Thanks to https://github.com/ekowalsk)
+- Replace SUI popup with apps-specific version (Thanks to https://github.com/MiZiet)
+- Allow keyboard navigation in create modal (Thanks to https://github.com/MiZiet & https://github.com/ekowalsk)
+- Dedupe create & derive account modals (Thanks to https://github.com/vitaliyworks & https://github.com/MiZiet)
+
+Changes:
+
+- Discard invalid minimumPeriod values (block times)
+- Cater for metadata v14 & latest API
+- Hide/disable non-available network endpoints
+- Adjust detection for parachain module locations
+- Ensure unreachable endpoints are sorted & checked
+- Cleanup `@polkadot/app-config` exports
+- Adjust `@polkadot/apps-config` to latest chain types
+
+
 ## 0.95.1 Aug 2, 2021
 
 Contributed:
