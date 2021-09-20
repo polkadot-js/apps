@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registrar } from '@polkadot/react-hooks/useRegistrars';
+import type { Registrar } from '@polkadot/react-hooks/types';
 import type { RegistrationJudgement } from '@polkadot/types/interfaces';
 
 class MockApiHooks {

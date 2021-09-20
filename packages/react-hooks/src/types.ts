@@ -145,3 +145,8 @@ export interface StakerState {
   stashId: string;
   validatorPrefs?: ValidatorPrefs;
 }
+
+export interface Registrar {
+  address: string;
+  index: number;
+}
