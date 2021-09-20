@@ -18,14 +18,14 @@ export class JudgementTag {
     }
   }
 
-  async clickRegistrar (registrar: string): Promise<void> {
+  async clickRegistrar (registrarName: string): Promise<void> {
     const popup = await this.openPopup();
 
     const registrars = await within(popup).findAllByTestId('account-name');
 
-    const a = registrars.find((reg) => reg.textContent === registrar);
+    const registrar = registrars.find((reg) => reg.textContent === registrarName) ?? fail('Registrar not found');
 
-    fireEvent.click(a as HTMLElement);
+    fireEvent.click(registrar);
   }
 
   private async openPopup (): Promise<HTMLElement> {
