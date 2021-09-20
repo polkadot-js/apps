@@ -54,10 +54,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'bitcountry',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5860
-      text: t('rpc.test.bitcountry', 'Bit.Country Tewai', { ns: 'apps-config' }),
+      text: t('rpc.test.bitcountry', 'Bit.Country - Metaverse Network', { ns: 'apps-config' }),
       providers: {
-        'Bit.Country': 'wss://whenua.bit.country'
+        'Metaverse Foundation': 'wss://tewai-rpc.bit.country'
       }
     },
     {
