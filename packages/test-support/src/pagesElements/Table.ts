@@ -12,11 +12,6 @@ export class Table {
     this.rowClassName = rowClassName;
   }
 
-  async assertRowsOrderAndColoring (order: number[]): Promise<void> {
-    await this.assertRowsOrder(order);
-    await this.assertColoring();
-  }
-
   async assertRowsOrder (balancesExpectedOrder: number[]): Promise<void> {
     const orderedRows = await this.getRows();
 
@@ -25,14 +20,6 @@ export class Table {
       const expectedBalanceTextContent = showBalance(balancesExpectedOrder[index]);
 
       expect(await row.getBalanceSummary()).toHaveTextContent(expectedBalanceTextContent);
-    }
-  }
-
-  async assertColoring (): Promise<void> {
-    const collapsibleRows = await this.getRows();
-
-    for (const collapsibleRow of collapsibleRows) {
-      collapsibleRow.assertColoring();
     }
   }
 

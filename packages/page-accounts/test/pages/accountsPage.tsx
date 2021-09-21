@@ -48,9 +48,9 @@ export class AccountsPage extends Page {
   }
 
   async filter (text: string): Promise<void> {
-    const filterInput = await screen.findByTestId('filter by name or tags')
+    const filterInput = await screen.findByTestId('filter by name or tags');
 
-    fireEvent.change(filterInput, {target: {value: text}})
+    fireEvent.change(filterInput, { target: { value: text } });
   }
 
   async enterCreateAccountModal (): Promise<void> {

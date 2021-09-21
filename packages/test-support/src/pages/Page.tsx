@@ -18,7 +18,7 @@ import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 
-import {alice, bob, charlie, ferdie} from '../keyring';
+import { alice, bob, charlie, ferdie } from '../keyring';
 import { Table } from '../pagesElements';
 import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults';
 

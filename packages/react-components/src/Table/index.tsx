@@ -19,6 +19,7 @@ interface TableProps {
   isFixed?: boolean;
   legend?: React.ReactNode;
   noBodyTag?: boolean;
+  withCollapsibleRows: boolean;
 }
 
 function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactNode] {
@@ -32,13 +33,13 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, noBodyTag }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
         <Head
           filter={filter}
           header={header}
@@ -102,6 +103,18 @@ export default React.memo(styled(Table)`
             white-space: normal;
           }
         }
+      }
+    }
+
+    &.withCollapsibleRows {
+      tr:nth-child(4n - 2),
+      tr:nth-child(4n - 3) {
+        background-color: var(--bg-table);
+      }
+
+      tr:nth-child(4n - 1),
+      tr:nth-child(4n) {
+        background-color: unset;
       }
     }
   }
@@ -178,7 +191,7 @@ export default React.memo(styled(Table)`
           text-align: right;
         }
 
-        .ui--Expander+.ui--Expander {
+        .ui--Expander + .ui--Expander {
           margin-top: 0.375rem;
         }
       }
@@ -262,8 +275,7 @@ export default React.memo(styled(Table)`
     }
 
     tr {
-      &:nth-child(odd):not(.isEven),
-      &:nth-child(even).isOdd {
+      &:nth-child(odd) {
         background: var(--bg-table);
       }
 
@@ -313,8 +325,8 @@ export default React.memo(styled(Table)`
         box-shadow: none !important;
       }
 
-      .ui.toggle.checkbox input:checked~.box:before,
-      .ui.toggle.checkbox input:checked~label:before {
+      .ui.toggle.checkbox input:checked ~ .box:before,
+      .ui.toggle.checkbox input:checked ~ label:before {
         background-color: #eee !important;
       }
     }

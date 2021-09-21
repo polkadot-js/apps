@@ -55,13 +55,6 @@ export class Row {
     expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
   }
 
-  assertColoring (): void {
-    const expectedColorClass = this.getExpectedColorClass();
-
-    expect(this.primaryRow).toHaveClass(expectedColorClass);
-    expect(this.detailsRow).toHaveClass(expectedColorClass);
-  }
-
   async expand (): Promise<void> {
     const toggle = await within(this.primaryRow).findByTestId('row-toggle');
 
@@ -91,9 +84,5 @@ export class Row {
 
   private getAccountName (): Promise<HTMLElement> {
     return within(this.primaryRow).findByTestId('account-name');
-  }
-
-  private getExpectedColorClass (): string {
-    return this.rowIndex % 2 ? 'isEven' : 'isOdd';
   }
 }

@@ -68,7 +68,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
               </td>
             </tr>
 
-            <tr className='isOdd'>
+            <tr>
               <td>
                 <Button.Group>
                   <Button
