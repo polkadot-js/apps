@@ -6,6 +6,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 // structs need to be in order
 /* eslint-disable sort-keys */
 
+// @ts-ignore
 const definitions: OverrideBundleDefinition = {
   types: [
     {
@@ -14,11 +15,12 @@ const definitions: OverrideBundleDefinition = {
       types: {
         Rarity: {
           _enum: [
-            'Common',
-            'Uncommon',
-            'Rare',
-            'Mythical',
-            'Legendary'
+            "Common",
+            "Uncommon",
+            "Rare",
+            "Epic",
+            "Legendary",
+            "Relic",
           ]
         },
         Basic: 'u8',
