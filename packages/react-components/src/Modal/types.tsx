@@ -15,8 +15,10 @@ export interface ColumnsProps {
   hint?: React.ReactNode;
 }
 
+type ModalSize = 'large' | 'medium' | 'small'
+
 export interface ModalProps {
-  size?: 'large' | 'medium' | 'small';
+  size?: ModalSize;
   children: React.ReactNode;
   className?: string;
   header?: React.ReactNode;
@@ -32,7 +34,7 @@ export interface ActionsProps {
 }
 
 export interface BodyProps {
-  size: 'large' | 'medium' | 'small'
+  size: ModalSize;
 }
 
 export interface ContentProps {
