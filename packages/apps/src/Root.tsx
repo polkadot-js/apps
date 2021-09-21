@@ -22,14 +22,14 @@ interface Props {
 }
 
 function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
-  const validTheme = uiTheme === 'dark' ? 'dark' : 'light';
+  const validTheme = uiTheme === 'light' ? 'light' : 'dark';
 
   document && document.documentElement &&
     document.documentElement.setAttribute('data-theme', validTheme);
 
-  return uiTheme === 'dark'
-    ? darkTheme
-    : lightTheme;
+  return uiTheme === 'light'
+    ? lightTheme
+    : darkTheme;
 }
 
 function Root ({ store }: Props): React.ReactElement<Props> {

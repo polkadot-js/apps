@@ -31,7 +31,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   const [state, setSettings] = useState((): SettingsStruct => {
     const values = settings.get();
 
-    return { ...values, uiTheme: values.uiTheme === 'dark' ? 'dark' : 'light' };
+    return { ...values, uiTheme: values.uiTheme === 'light' ? 'light' : 'dark' };
   });
 
   const iconOptions = useMemo(
@@ -68,8 +68,8 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const themeOptions = useMemo(
     () => [
-      { text: t('Light theme (default)'), value: 'light' },
-      { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
+      { text: t('Dark theme (default)'), value: 'dark' },
+      { text: t('Light theme'), value: 'light' }
     ],
     [t]
   );
