@@ -1,23 +1,20 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Judgement } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
 import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
 
+import { getJudgementColor } from '../util';
+
 interface Props {
   judgement: Judgement
 }
 
-const getColor = (name: DisplayedJudgement): 'green' | 'red' => {
-  return (name === 'Erroneous' || name === 'Low quality') ? 'red' : 'green';
-};
-
 function JudgementTag ({ judgement: { judgementName, registrars } }: Props): React.ReactElement<Props> {
-  const judgementColor = useMemo(() => getColor(judgementName), [judgementName]);
+  const judgementColor = useMemo(() => getJudgementColor(judgementName), [judgementName]);
 
   return (
     <Popup

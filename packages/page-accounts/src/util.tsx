@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, SortedAccount } from './types';
@@ -113,3 +114,7 @@ export function sortAccounts (accountsList: SortedAccount[], accountsMap: Record
           ? 1
           : -1);
 }
+
+export const getJudgementColor = (name: DisplayedJudgement): 'green' | 'red' => {
+  return (name === 'Erroneous' || name === 'Low quality') ? 'red' : 'green';
+};
