@@ -106,15 +106,11 @@ export default React.memo(styled(Table)`
       }
     }
 
-    &.withCollapsibleRows {
-      tr:nth-child(4n - 2),
-      tr:nth-child(4n - 3) {
+    &.withCollapsibleRows tbody tr {
+      background-color: unset;
+      &:nth-child(4n - 2),
+      &:nth-child(4n - 3) {
         background-color: var(--bg-table);
-      }
-
-      tr:nth-child(4n - 1),
-      tr:nth-child(4n) {
-        background-color: unset;
       }
     }
   }
