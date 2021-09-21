@@ -32,7 +32,7 @@ const definitions: OverrideBundleDefinition = {
             'Diamond'
           ]
         },
-        Text: 'Vec<u8>',
+        String: 'Vec<u8>',
         TokenType: {
           _enum: {
             Basic: '(Basic, Rarity, String)'
