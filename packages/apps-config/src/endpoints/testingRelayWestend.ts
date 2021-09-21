@@ -81,6 +81,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'moonshadow',
+        isDisabled: true, // No DNS entry for wss.moonshadow.testnet.moonbeam.network
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
@@ -98,6 +99,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'whala',
+        isDisabled: true, // Timeout connecting to wss://whala.phala.network/ws
         paraId: 2013,
         text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
         providers: {
