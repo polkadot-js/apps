@@ -279,7 +279,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         header={header.current}
-        withCollapsibleRows={true}
+        withCollapsibleRows
       >
         {!isLoading &&
           sortedAccounts.map(({ address }) => accountComponents[address])

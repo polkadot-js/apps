@@ -75,7 +75,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
-        withCollapsibleRows={true}
+        withCollapsibleRows
       >
         {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address

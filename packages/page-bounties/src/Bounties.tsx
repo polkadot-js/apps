@@ -37,7 +37,7 @@ function Bounties ({ className }: Props): React.ReactElement {
         className='bounties-table-wrapper'
         empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
-        withCollapsibleRows={true}
+        withCollapsibleRows
       >
         {bounties && bestNumber &&
           bounties
