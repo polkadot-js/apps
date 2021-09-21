@@ -1,16 +1,18 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { DisplayedJudgement } from '@polkadot/react-components/types';
+import type { SortedJudgements } from '@polkadot/react-components/util/types';
 import type { RegistrationJudgement } from '@polkadot/types/interfaces';
-import type { DisplayedJudgement } from '../types';
-import type { SortedJudgements } from './types';
 
 function extractIndexes (registrars: RegistrationJudgement[]) {
   return registrars.map((judgement) => judgement[0]);
 }
 
-export function getJudgements (identity: DeriveAccountRegistration): SortedJudgements {
+export function getJudgements (identity: DeriveAccountRegistration | undefined): SortedJudgements {
+  if (!identity) return [];
+
   const judgements = groupJudgements(identity.judgements);
 
   const result = [];

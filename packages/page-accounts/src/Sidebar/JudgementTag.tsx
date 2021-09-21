@@ -1,31 +1,23 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import type { DisplayedJudgement } from '@polkadot/react-components/types';
+import type { Judgement } from '@polkadot/react-hooks/types';
+
+import React, { useMemo } from 'react';
 
 import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
-import { DisplayedJudgement } from '@polkadot/react-components/types';
-import { useRegistrars } from '@polkadot/react-hooks';
-import { RegistrarIndex } from '@polkadot/types/interfaces/identity/types';
 
 interface Props {
-  judgementName: DisplayedJudgement;
-  registrarsIndexes: RegistrarIndex[]
+  judgement: Judgement
 }
 
 const getColor = (name: DisplayedJudgement): 'green' | 'red' => {
   return (name === 'Erroneous' || name === 'Low quality') ? 'red' : 'green';
 };
 
-function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.ReactElement<Props> {
-  const { registrars: allRegistrars } = useRegistrars();
-
-  const findRegistrarByIndex = (index: number) => {
-    return allRegistrars.find((registrar) => registrar.index === index);
-  };
-
-  const judgementColor = getColor(judgementName);
-  const registrars = registrarsIndexes.map((index) => findRegistrarByIndex(index.toNumber()));
+function JudgementTag ({ judgement: { judgementName, registrars } }: Props): React.ReactElement<Props> {
+  const judgementColor = useMemo(() => getColor(judgementName), [judgementName]);
 
   return (
     <Popup
@@ -45,7 +37,7 @@ function JudgementTag ({ judgementName, registrarsIndexes }: Props): React.React
       <Tag
         color={judgementColor}
         isTag={false}
-        label={`${registrarsIndexes.length} ${judgementName}`}
+        label={`${registrars.length} ${judgementName}`}
         size='tiny'
       />
     </Popup>

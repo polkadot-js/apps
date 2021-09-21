@@ -6,7 +6,6 @@ import type { AddressIdentity } from '@polkadot/react-hooks/types';
 import React, { useMemo } from 'react';
 
 import { AddressMini, AvatarItem, Expander, IconLink } from '@polkadot/react-components';
-import { getJudgements } from '@polkadot/react-components/util/getJudgements';
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
@@ -45,8 +44,6 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
     return null;
   }
 
-  const judgements = getJudgements(identity);
-
   return (
     <section
       className='withDivider'
@@ -71,7 +68,6 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
           />
           <Judgements
             address={address}
-            judgements={judgements}
           />
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (

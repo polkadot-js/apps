@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { IExtrinsic } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -150,3 +151,10 @@ export interface Registrar {
   address: string;
   index: number;
 }
+
+export interface Judgement {
+  judgementName: DisplayedJudgement;
+  registrars: (Registrar | undefined)[];
+}
+
+export type UseJudgements = Judgement[]

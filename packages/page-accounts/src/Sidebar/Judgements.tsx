@@ -1,22 +1,22 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SortedJudgements } from '@polkadot/react-components/util/types';
-
 import React from 'react';
 import styled from 'styled-components';
 
 import { Tag } from '@polkadot/react-components';
+import { useJudgements } from '@polkadot/react-hooks';
 
 import JudgementTag from './JudgementTag';
 
 interface Props {
   address: string;
   className?: string;
-  judgements: SortedJudgements ;
 }
 
-function Judgements ({ address, className = '', judgements }: Props): React.ReactElement<Props> {
+function Judgements ({ address, className = '' }: Props): React.ReactElement<Props> {
+  const judgements = useJudgements(address);
+
   if (judgements.length === 0) {
     return (
       <div
@@ -39,11 +39,10 @@ function Judgements ({ address, className = '', judgements }: Props): React.Reac
       className={className}
       data-testid='judgements'
     >
-      {judgements.map(({ judgementName, registrarsIndexes }) =>
+      {judgements.map((judgement) =>
         <JudgementTag
-          judgementName={judgementName}
-          key={`${address}${judgementName}`}
-          registrarsIndexes={registrarsIndexes}
+          judgement={judgement}
+          key={`${address}${judgement.judgementName}`}
         />
       )}
     </div>
