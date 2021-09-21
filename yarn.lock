@@ -3308,7 +3308,6 @@ __metadata:
     "@polkadot/types-support": ^6.0.5
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.1.0
-    jest-styled-components: ^7.0.5
     testcontainers: ^7.20.2
     tsconfig-paths: ^3.11.0
   languageName: unknown
@@ -13375,17 +13374,6 @@ __metadata:
     pretty-format: ^27.2.0
     semver: ^7.3.2
   checksum: 5a46ef7e8300e672cd2e9b271a3bf34cc8be8266fd244bbcf314826c007fb684fad1864f37835d8f42c7b449353112738583a4495a7a0c049ca90c56b0326f23
-  languageName: node
-  linkType: hard
-
-"jest-styled-components@npm:^7.0.5":
-  version: 7.0.5
-  resolution: "jest-styled-components@npm:7.0.5"
-  dependencies:
-    css: ^3.0.0
-  peerDependencies:
-    styled-components: ">= 5"
-  checksum: fef9f261dd59d6d095c1bc43da5ba5faaf87ca73dff20ff10e38f70201c35c60f6347836581c087bab6a8b26de29adc4cd657fdf2a28cf98609b2452a7368549
   languageName: node
   linkType: hard
 
