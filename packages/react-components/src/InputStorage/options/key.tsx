@@ -7,6 +7,7 @@ import type { DropdownOption, DropdownOptions } from '../../util/types';
 import React from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { getSiName } from '@polkadot/types/metadata/util';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
@@ -28,13 +29,13 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
         const { hashers, key } = type.asMap;
 
         if (hashers.length === 1) {
-          input = api.registry.lookup.getTypeDef(key).type;
+          input = getSiName(api.registry.lookup, key);
         } else {
           const si = api.registry.lookup.getSiType(key).def;
 
           if (si.isTuple) {
             input = si.asTuple
-              .map((t) => api.registry.lookup.getTypeDef(t).type)
+              .map((t) => getSiName(api.registry.lookup, t))
               .join(', ');
           } else {
             input = si.asHistoricMetaCompat.toString();

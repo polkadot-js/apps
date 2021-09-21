@@ -6,9 +6,9 @@ import type { AnyJson } from '@polkadot/types/types';
 import { Abi } from '@polkadot/api-contract';
 import { api } from '@polkadot/react-api';
 
-import getAddressMeta from './getAddressMeta';
+import { getAddressMeta } from './getAddressMeta';
 
-export default function getContractAbi (address: string | null): Abi | null {
+export function getContractAbi (address: string | null): Abi | null {
   if (!address) {
     return null;
   }
