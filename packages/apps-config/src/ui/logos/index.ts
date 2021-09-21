@@ -124,6 +124,7 @@ import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
+import nodeSubspace from './nodes/subspace.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
@@ -233,6 +234,7 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
+  'Spartan Testnet': nodeSubspace,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -373,6 +375,7 @@ export const nodeLogos = Object.entries({
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
   SORA: nodeSora,
+  'Spartan Testnet': nodeSubspace,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
@@ -573,6 +576,7 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   spanner: chainSpanner,
+  'spartan-testnet': nodeSubspace,
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,

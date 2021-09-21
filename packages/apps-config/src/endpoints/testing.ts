@@ -398,6 +398,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'spartan-testnet',
+      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://dev-rpc.subspace.network'
+      }
+    },
+    {
       info: 'subgame',
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
