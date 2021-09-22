@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { fireEvent, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 
 export class Sidebar {
   public sidebar: HTMLElement
@@ -31,13 +31,14 @@ export class Sidebar {
   }
 
   async assertAccountInput (expectedInput: string): Promise<void> {
-    const sideBarName = await this.findByTestId('name-input');
+    const nameInput = await this.findByTestId('name-input');
 
-    expect(sideBarName).toHaveProperty('value', expectedInput);
+    expect(nameInput).toHaveProperty('value', expectedInput);
   }
 
   async assertAccountName (expectedAccountName: string): Promise<void> {
-    const sideBarName = await this.findByTestId('account-name');
+    const sideBarAddressSection = await this.findByTestId('sidebar-address-menu');
+    const sideBarName = await within(sideBarAddressSection).findByTestId('account-name');
 
     expect(sideBarName).toHaveTextContent(expectedAccountName);
   }
@@ -108,10 +109,25 @@ export class Sidebar {
     return within(this.sidebar).queryByTestId(testId);
   }
 
-  private clickButton (buttonName: string) {
-    const saveButton = this.getByRole('button', { name: buttonName });
+  async findSubs (): Promise<HTMLElement[]> {
+    const identitySection = await this.findByTestId('identity-section');
 
-    fireEvent.click(saveButton);
+    return within(identitySection).queryAllByTestId('subs');
+  }
+
+  async openSubsModal (): Promise<HTMLElement> {
+    const identitySection = await this.findByTestId('identity-section');
+    const showSubsButton = await within(identitySection).findByText('Show list');
+
+    fireEvent.click(showSubsButton);
+
+    return screen.findByTestId('modal');
+  }
+
+  private clickButton (buttonName: string) {
+    const button = this.getByRole('button', { name: buttonName });
+
+    fireEvent.click(button);
   }
 
   private openTagsDropdown (): HTMLElement {

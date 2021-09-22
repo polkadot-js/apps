@@ -43,7 +43,7 @@ const renderAccounts = () => {
   );
 };
 
-describe.only('--SLOW--: Account Create', () => {
+describe('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 

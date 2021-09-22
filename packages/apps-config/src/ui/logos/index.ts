@@ -38,6 +38,7 @@ import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
+import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
@@ -123,6 +124,7 @@ import nodeStatemine from './nodes/statemine.svg';
 import nodeSubDAO from './nodes/subdao.png';
 import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
+import nodeSubspace from './nodes/subspace.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
@@ -144,7 +146,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
-  'Aleph Zero': chainAleph,
+  'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
@@ -185,7 +187,7 @@ export const chainLogos = Object.entries({
   Karura: chainKarura,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
-  'KILT Peregrine Testnet': nodeKilt,
+  'KILT Peregrine': nodeKilt,
   'KILT Testnet': nodeKilt,
   Kintsugi: chainKintsugi,
   KlugDossier: nodeKlug,
@@ -232,6 +234,7 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
+  'Spartan Testnet': nodeSubspace,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
@@ -319,7 +322,7 @@ export const nodeLogos = Object.entries({
   'Khala Node': nodeKhala,
   KILT: nodeKilt,
   'KILT Local': nodeKilt,
-  'KILT Peregrine Testnet': nodeKilt,
+  'KILT Peregrine': nodeKilt,
   Kintsugi: chainKintsugi,
   'Klug Dossier Node': nodeKlug,
   'Kpron Collator': nodeApron,
@@ -372,6 +375,7 @@ export const nodeLogos = Object.entries({
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
   SORA: nodeSora,
+  'Spartan Testnet': nodeSubspace,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
@@ -572,6 +576,7 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   spanner: chainSpanner,
+  'spartan-testnet': nodeSubspace,
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
@@ -610,6 +615,7 @@ export const externalLogos: Record<string, unknown> = {
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
   statescan: externalStatescan,
+  subid: externalSubId,
   subscan: externalSubscan
 };
 
