@@ -31,7 +31,7 @@ export class Table {
       const primaryRow = htmlRows[rowIdx];
       const detailsRow = htmlRows[rowIdx + 1];
 
-      collapsibleRows.push(new Row(primaryRow, detailsRow, rowIdx / 2));
+      collapsibleRows.push(new Row(primaryRow, detailsRow));
     }
 
     return collapsibleRows;

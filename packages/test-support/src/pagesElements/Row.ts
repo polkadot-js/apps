@@ -12,12 +12,10 @@ import { format } from '../utils/balance';
 export class Row {
   public primaryRow: HTMLElement;
   public detailsRow: HTMLElement;
-  public rowIndex: number;
 
-  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement, rowIndex: number) {
+  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement) {
     this.primaryRow = primaryRow;
     this.detailsRow = detailsRow;
-    this.rowIndex = rowIndex;
   }
 
   async assertBalancesTotal (expectedTotalBalance: Balance): Promise<void> {
