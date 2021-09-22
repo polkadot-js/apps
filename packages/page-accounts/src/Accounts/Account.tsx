@@ -47,7 +47,6 @@ interface Props {
   proxy?: [ProxyDefinition[], BN];
   setBalance: (address: string, value: AccountBalance) => void;
   toggleFavorite: (address: string) => void;
-  isEven: boolean;
 }
 
 interface DemocracyUnlockable {
@@ -100,7 +99,7 @@ const transformRecovery = {
   transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
 };
 
-function Account ({ account: { address, meta }, className = '', delegation, filter, isEven, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { theme } = useContext<ThemeDef>(ThemeContext);
@@ -402,7 +401,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='favorite'>
           <Icon
             color={isFavorite ? 'orange' : 'gray'}
@@ -666,7 +665,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td colSpan={2} />
         <td>
           <div

@@ -8,7 +8,6 @@ import type { TypeDef } from '@polkadot/types/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Params from '@polkadot/react-params';
-import { GenericCall } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
@@ -38,7 +37,7 @@ interface CallState {
 }
 
 function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
-  return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
+  return meta.args.map((arg): { name: string; type: TypeDef } => ({
     name: arg.name.toString(),
     type: getTypeDef(arg.type.toString())
   }));

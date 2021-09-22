@@ -88,6 +88,7 @@ import standard from './standard';
 import subdao from './subdao';
 import subgame from './subgame';
 import subsocial from './subsocial';
+import subspace from './subspace';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
@@ -187,6 +188,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
+  'node-template-spartan': subspace,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
   opportunity,

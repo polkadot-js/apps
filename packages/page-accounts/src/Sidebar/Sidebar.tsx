@@ -47,16 +47,18 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           sidebarRef={ref}
         />
       </div>
-      <Balances address={address} />
-      <Identity
-        address={address}
-        identity={identity}
-      />
-      <Multisig
-        isMultisig={flags.isMultisig}
-        meta={meta}
-      />
-      <section>
+      <div className='ui--ScrollSection'>
+        <Balances address={address} />
+        <Identity
+          address={address}
+          identity={identity}
+        />
+        <Multisig
+          isMultisig={flags.isMultisig}
+          meta={meta}
+        />
+      </div>
+      <section className='ui--LinkSection'>
         <LinkExternal
           data={address}
           isLogo
@@ -71,9 +73,11 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
 export default React.memo(styled(FullSidebar)`
   display: flex;
   flex-direction: column;
-
+  background-color: var(--bg-sidebar);
   max-width: 30.42rem;
   min-width: 30.42rem;
+  overflow-y: hidden;
+  padding: 0 0 3.286rem;
 
   input {
     width: auto !important;
@@ -86,7 +90,6 @@ export default React.memo(styled(FullSidebar)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: -1rem -1rem 1rem -1rem;
     padding: 1.35rem 1rem 1rem 1rem;
   }
 
@@ -135,40 +138,61 @@ export default React.memo(styled(FullSidebar)`
   }
 
   section {
-    &:not(:last-child) {
-      margin-bottom: 1.4rem;
-    }
+    position: relative;
 
-    & :last-child {
-      margin-top: auto;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
     }
 
     .ui--AddressMenu-sectionHeader {
-      display: inline-flex;
-      color: var(--color-text);
-      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-transform: capitalize;
+
+      margin-bottom: 0.57rem;
       width: 100%;
 
-      & > :first-child {
-        flex: 1;
+      color: var(--color-text);
+      font-size: 1.143rem;
+    }
+
+    &.withDivider {
+      padding-top: 1rem;
+
+      ::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        content: '';
+        width: 100%;
+        height: 1px;
+        background-color: var(--border-table);
       }
     }
   }
 
-  .ui--AddressMenu-identity {
-    .ui--AddressMenu-identityTable {
+  .ui--AddressMenu-identity,
+  .ui--AddressMenu-multisig {
+    .ui--AddressMenu-identityTable,
+    .ui--AddressMenu-multisigTable {
       font-size: 0.93rem;
-      margin-top: 0.3rem;
+      margin-top: 0.6rem;
 
       .tr {
+        padding: 0.25rem 0;
         display: inline-flex;
         align-items: center;
         width: 100%;
 
         .th {
+          text-transform: uppercase;
+          color: var(--color-label);
           font-weight: var(--font-weight-normal);
-          text-align: right;
-          flex-basis: 20%;
+          text-align: left;
+          flex-basis: 25%;
+          font-size: 0.714rem;
 
           &.top {
             align-self: flex-start;
@@ -182,10 +206,43 @@ export default React.memo(styled(FullSidebar)`
           text-overflow: ellipsis;
         }
       }
+
+      .ui--AddressMini, .subs-number {
+        margin-bottom: 0.4rem;
+        padding: 0;
+      }
+
+      .subs-number {
+        font-size: 1rem;
+        margin-bottom: 0.714rem;
+      }
     }
 
-    .parent, .subs {
+    .parent {
       padding: 0 !important;
+    }
+  }
+
+  && .column {
+    align-items: center;
+
+    .ui--FormatBalance:first-of-type {
+      margin-bottom: 0.4rem;
+    }
+
+    label:first-of-type {
+      margin-bottom: 0.4rem;
+      color: var(--color-text);
+    }
+
+    label {
+      color: var(--color-label);
+      text-transform: uppercase;
+      font-size: 0.714rem;
+    }
+
+    .ui--FormatBalance, label {
+      line-height: 1rem;
     }
   }
 
@@ -221,7 +278,7 @@ export default React.memo(styled(FullSidebar)`
   .inline-icon {
     cursor: pointer;
     margin: 0 0 0 0.5rem;
-    color:  ${colorLink};
+    color: ${colorLink};
   }
 
   .name--input {
@@ -236,6 +293,27 @@ export default React.memo(styled(FullSidebar)`
   &.inEditMode {
     .ui--AddressMenu-flags {
       opacity: 60%;
+    }
+  }
+
+  .ui--AddressMenu-multisig .th.signatories {
+    align-self: flex-start;
+  }
+
+  .ui--ScrollSection {
+    padding: 1rem;
+    overflow: auto;
+  }
+
+  .ui--LinkSection {
+    border-top: 1px solid var(--border-table);
+    padding: 0.5rem 0 0.571rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    span {
+      margin: 0 0.5rem;
     }
   }
 `);

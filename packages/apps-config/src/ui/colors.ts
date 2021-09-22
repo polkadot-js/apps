@@ -147,6 +147,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
+const nodeSubspace = 'linear-gradient(to left, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
@@ -171,7 +172,7 @@ export { emptyColor };
 export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc1': chainRoccoAcala,
   'acala mandala pc2': chainRoccoAcala,
-  'Aleph Zero': chainAleph,
+  'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
@@ -186,6 +187,7 @@ export const chainColors: Record<string, string> = Object.entries({
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,
   'Crust PC1': chainCrust,
+  Darwinia: chainDarwinia,
   'darwinia cc1': chainDarwinia,
   'Darwinia Crab': chainCrab,
   'Darwinia Crab Redirect': chainCrab,
@@ -218,7 +220,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Khala: chainKhala,
   KILT: chainKilt,
   'KILT Local': chainKilt,
-  'KILT Peregrine Testnet': chainKilt,
+  'KILT Peregrine': chainKilt,
   'KILT Spiritnet': chainKilt,
   'KILT Testnet': chainKilt,
   Kintsugi: chainKintsugi,
@@ -276,6 +278,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Shiden: chainShiden,
   Spanner: chainSpanner,
   Standard: chainStandard,
+  'Spartan testnet': nodeSubspace,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
@@ -363,6 +366,7 @@ export const nodeColors = Object.entries({
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
+  'Spartan testnet': nodeSubspace,
   'Stafi node': nodeStafi,
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,
