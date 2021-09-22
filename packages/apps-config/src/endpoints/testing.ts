@@ -188,7 +188,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'ibtida',
-      text: t('rpc.test.interbtc', 'Ibtida', { ns: 'apps-config' }),
+      text: t('rpc.test.ibtida', 'Ibtida', { ns: 'apps-config' }),
       providers: {
         Anmol: 'wss://ibtida-node.anmol.network'
       }
