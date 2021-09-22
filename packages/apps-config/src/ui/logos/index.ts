@@ -126,6 +126,7 @@ import nodeSubGame from './nodes/subgame.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubspace from './nodes/subspace.png';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeSubstrateContractsNode from './nodes/substrate-contracts-node.png';
 import nodeTernoa from './nodes/ternoa.svg';
 import nodeTrustBase from './nodes/trustbase.png';
 import nodeUniarts from './nodes/uniarts.png';
@@ -388,6 +389,7 @@ export const nodeLogos = Object.entries({
   'Subsocial PC': nodeSubsocial,
   'subsocial-node': nodeSubsocial,
   'substrate-node': nodeSubstrate,
+  'substrate-contracts-node': nodeSubstrateContractsNode,
   'subzero node': nodeZero,
   'Ternoa Node': nodeTernoa,
   'TrustBase Collator': nodeTrustBase,
@@ -585,6 +587,7 @@ export const namedLogos: Record<string, unknown> = {
   'SubGame Staging': nodeSubGame,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
+  substrateContractsNode: nodeSubstrateContractsNode,
   'ternoa-chaos': nodeTernoa,
   trustbase: nodeTrustBase,
   uniarts: nodeUniarts,
