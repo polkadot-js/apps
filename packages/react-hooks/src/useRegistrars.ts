@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type{ Registrar } from '@polkadot/react-hooks/types';
+import type { Registrar } from './types';
 import type { Option } from '@polkadot/types';
 import type { RegistrarInfo } from '@polkadot/types/interfaces';
 

@@ -190,7 +190,7 @@ describe('Sidebar', () => {
 
     describe('judgements', () => {
       it('displays several judgements', async () => {
-        mockApiHooks.setJudgements(mockRegistration.judgements as unknown as RegistrationJudgement[]);
+        mockApiHooks.setJudgements(mockRegistration.judgements as RegistrationJudgement[]);
         accountsPage.renderDefaultAccounts(1);
         sideBar = await accountsPage.openSidebarForRow(0);
 
@@ -208,7 +208,7 @@ describe('Sidebar', () => {
 
       describe('displays registrars', () => {
         beforeEach(async () => {
-          mockApiHooks.setJudgements(mockRegistration.judgements as unknown as RegistrationJudgement[]);
+          mockApiHooks.setJudgements(mockRegistration.judgements as RegistrationJudgement[]);
           mockApiHooks.setRegistrars(registrars);
           accountsPage.render([
             [alice, anAccountWithMeta({ name: 'Alice' })],
