@@ -15,12 +15,30 @@ import { isFunction, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import Progress from './Progress';
 import { useTranslation } from './translate';
-import { SaveFile, UploadRes } from './types';
+import { DirFile, FileInfo, SaveFile, UploadRes } from './types';
 
 export interface Props {
-  file: File,
+  file: FileInfo,
   onClose?: () => void,
   onSuccess?: (res: SaveFile) => void,
+}
+
+function ShowFile (p: { file: DirFile | File }) {
+  const f = p.file as DirFile;
+
+  return (
+    <div
+      style={{
+        backgroundColor: 'white',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.15)',
+        borderRadius: '4px',
+        padding: '5px 2rem'
+      }}
+    >
+      <Label label={f.webkitRelativePath || p.file.name} />
+      <span>{`${f.size} bytes`}</span>
+    </div>
+  );
 }
 
 interface AccountState {
@@ -65,7 +83,23 @@ function UploadModal (p: Props): React.ReactElement<Props> {
   const [{ isUsable, signer }, setSigner] = useState<SignerState>({ isUsable: true, signer: null });
   const [password, setPassword] = useState('');
   const [isBusy, setBusy] = useState(false);
-  const fileSizeError = file.size > 100 * 1024 * 1024;
+  const fileSizeError = useMemo(() => {
+    const MAX = 100 * 1024 * 1024;
+
+    if (file.file) {
+      return file.file.size > MAX;
+    } else if (file.files) {
+      let sum = 0;
+
+      for (const f of file.files) {
+        sum += f.size;
+      }
+
+      return sum > MAX;
+    }
+
+    return false;
+  }, [file]);
   const [error, setError] = useState('');
   const errorText = fileSizeError ? t<string>('Do not upload files larger than 100MB!') : error;
   const [upState, setUpState] = useState({ progress: 0, up: false });
@@ -163,12 +197,20 @@ function UploadModal (p: Props): React.ReactElement<Props> {
       setUpState({ progress: 0, up: true });
       const form = new FormData();
 
-      form.append('file', file, file.name);
+      if (file.file) {
+        form.append('file', file.file, file.file.name);
+      } else if (file.files) {
+        for (const f of file.files) {
+          form.append('file', f, f.webkitRelativePath);
+        }
+      }
+
       const UpEndpoint = currentEndpoint.value;
-      const upResult = await axios.request<UploadRes>({
+      const upResult = await axios.request<UploadRes | string>({
         cancelToken: cancel.token,
         data: form,
         headers: { Authorization: AuthBasic },
+        maxContentLength: 100 * 1024 * 1024,
         method: 'POST',
         onUploadProgress: (p: { loaded: number, total: number }) => {
           const percent = p.loaded / p.total;
@@ -179,6 +221,21 @@ function UploadModal (p: Props): React.ReactElement<Props> {
         url: `${UpEndpoint}/api/v0/add`
       });
 
+      let upRes: UploadRes;
+
+      if (typeof upResult.data === 'string') {
+        const jsonStr = upResult.data.replaceAll('}\n{', '},{');
+        const items = JSON.parse(`[${jsonStr}]`) as UploadRes[];
+        const folder = items.length - 1;
+
+        upRes = items[folder];
+        delete items[folder];
+        upRes.items = items;
+      } else {
+        upRes = upResult.data;
+      }
+
+      console.info('upResult:', upResult);
       setCancelUp(null);
       setUpState({ progress: 100, up: false });
       // remote pin order
@@ -186,15 +243,15 @@ function UploadModal (p: Props): React.ReactElement<Props> {
 
       await axios.request({
         data: {
-          cid: upResult.data.Hash,
-          name: upResult.data.Name
+          cid: upRes.Hash,
+          name: upRes.Name
         },
         headers: { Authorization: AuthBearer },
         method: 'POST',
         url: `${PinEndpoint}/psa/pins`
       });
       onSuccess({
-        ...upResult.data,
+        ...upRes,
         PinEndpoint,
         UpEndpoint
       });
@@ -227,9 +284,16 @@ function UploadModal (p: Props): React.ReactElement<Props> {
     >
       <Modal.Content>
         <Modal.Columns>
-          <div style={{ paddingLeft: '2rem', width: '100%' }}>
-            <Label label={file.name} />
-            <span>{`${file.size} bytes`}</span>
+          <div style={{ maxHeight: 300, overflow: 'auto', paddingLeft: '2rem', width: '100%' }}>
+            {
+              file.file && <ShowFile file={file.file} />
+            }
+            {file.files && file.files.map((f, i) =>
+              <ShowFile
+                file={f}
+                key={`file_item:${i}`}
+              />
+            )}
           </div>
         </Modal.Columns>
         <Modal.Columns>

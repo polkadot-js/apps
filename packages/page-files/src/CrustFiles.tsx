@@ -7,11 +7,11 @@ import styled from 'styled-components';
 
 import { useFiles } from '@polkadot/app-files/hooks';
 import UploadModal from '@polkadot/app-files/UploadModal';
-import { Badge, Button, CopyButton, StatusContext, Table } from '@polkadot/react-components';
+import { Badge, Button, CopyButton, Icon, StatusContext, Table } from '@polkadot/react-components';
 import { ActionStatusBase, QueueProps } from '@polkadot/react-components/Status/types';
 
 import { useTranslation } from './translate';
-import { SaveFile } from './types';
+import { DirFile, FileInfo, SaveFile } from './types';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {
@@ -33,6 +33,14 @@ const ItemFile = styled.tr`
   }
 `;
 
+const shortStr = (name: string, count = 6): string => {
+  if (name.length > (count * 2)) {
+    return `${name.substr(0, count)}...${name.substr(name.length - count)}`;
+  }
+
+  return name;
+};
+
 function createUrl (f: SaveFile) {
   const endpoint = f.UpEndpoint || 'https://ipfs.io';
 
@@ -40,33 +48,91 @@ function createUrl (f: SaveFile) {
 }
 
 const createOnDown = (f: SaveFile) => () => {
-  FileSaver.saveAs(createUrl(f), f.Name);
+  window.open(createUrl(f), '_blank');
+  // FileSaver.saveAs(createUrl(f), f.Name);
 };
 
 type FunInputFile = (e: React.ChangeEvent<HTMLInputElement>) => void
 
-function CrustFiles (): React.ReactElement {
+const Noop = (): void => undefined;
+
+export interface Props {
+  className?: string,
+}
+
+function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { queueAction } = useContext<QueueProps>(StatusContext);
   const [showUpMode, setShowUpMode] = useState(false);
   const wFiles = useFiles();
-  const [file, setFile] = useState<File | undefined>(undefined);
+  const [file, setFile] = useState<FileInfo | undefined>(undefined);
   const inputRef = useRef<HTMLInputElement>(null);
-  const _clickUploadFile = useCallback(() => {
+  const _clickUploadFile = useCallback((dir = false) => {
     if (!inputRef.current) return;
+    // eslint-disable-next-line
+    // @ts-ignore
+    // eslint-disable-next-line
+    inputRef.current.webkitdirectory = dir;
+    // eslint-disable-next-line
+    inputRef.current.multiple = dir;
     inputRef.current.click();
   }, [inputRef]);
+  const onClickUpFile = useCallback(() => _clickUploadFile(false), [_clickUploadFile]);
+  const onClickUpFolder = useCallback(() => _clickUploadFile(true), [_clickUploadFile]);
   const _onInputFile = useCallback<FunInputFile>((e) => {
     const files = e.target.files;
 
-    if (files && files[0]) {
-      const file = files[0];
+    if (!files) return;
 
-      e.target.value = '';
-      setFile(file);
+    if (files.length > 2000) {
+      queueAction({
+        action: 'Upload Folder',
+        message: t('Please do not upload more than 2000 files'),
+        status: 'error'
+      });
+
+      return;
+    }
+
+    if (files.length === 0) {
+      queueAction({
+        action: 'Upload Folder',
+        message: t('Please select non-empty folder'),
+        status: 'error'
+      });
+
+      return;
+    }
+
+    // eslint-disable-next-line
+    // @ts-ignore
+    // eslint-disable-next-line
+    const isDirectory = e.target.webkitdirectory;
+
+    if (!isDirectory) {
+      setFile({ file: files[0] });
+      setShowUpMode(true);
+    } else if (files.length >= 1) {
+      // eslint-disable-next-line
+      // @ts-ignore eslint-disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      const dirFiles: DirFile[] = [];
+
+      for (let index = 0; index < files.length; index++) {
+        // console.info('f:', files[index]);
+        dirFiles.push(files[index] as DirFile);
+      }
+
+      console.info(dirFiles);
+
+      const [dir] = dirFiles[0].webkitRelativePath.split('/');
+
+      setFile({ dir, files: dirFiles });
       setShowUpMode(true);
     }
-  }, [setFile, setShowUpMode]);
-  const { queueAction } = useContext<QueueProps>(StatusContext);
+
+    e.target.value = '';
+  }, [setFile, setShowUpMode, queueAction, t]);
   const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
     (message, status = 'queued') => {
       queueAction && queueAction({
@@ -139,7 +205,7 @@ function CrustFiles (): React.ReactElement {
     FileSaver.saveAs(blob, 'files.json');
   }, [wFiles]);
 
-  return <main>
+  return <main className={className}>
     <header>
     </header>
     <input
@@ -163,11 +229,23 @@ function CrustFiles (): React.ReactElement {
       />
     }
     <div style={{ display: 'flex', paddingBottom: '1.5rem' }}>
-      <Button
-        icon={'upload'}
-        label={t('Upload File')}
-        onClick={_clickUploadFile}
-      />
+      <div className='uploadBtn'>
+        <Button
+          icon={'upload'}
+          label={t('Upload')}
+          onClick={Noop}
+        />
+        <div className='uploadMenu'>
+          <div
+            className='menuItem'
+            onClick={onClickUpFile}
+          >{t('File')}</div>
+          <div
+            className='menuItem'
+            onClick={onClickUpFolder}
+          >{t('Folder')}</div>
+        </div>
+      </div>
       <div style={{ flex: 1 }} />
       <Button
         icon={'file-import'}
@@ -198,7 +276,11 @@ function CrustFiles (): React.ReactElement {
           <td
             className=''
             colSpan={2}
-          >{f.Name}</td>
+          >{f.items && <Icon
+              className='highlight--color'
+              icon='folder'
+            />}
+            {shortStr(f.Name)}</td>
           <td
             className='end'
             colSpan={2}
@@ -234,12 +316,12 @@ function CrustFiles (): React.ReactElement {
             colSpan={1}
           >
             <div className='actions'>
-              <Badge
+              {!f.items && <Badge
                 color='highlight'
                 hover={t<string>('Download')}
                 icon='download'
                 onClick={createOnDown(f)}
-              />
+              />}
               <MCopyButton value={createUrl(f)}>
                 <Badge
                   color='highlight'
@@ -260,4 +342,44 @@ function CrustFiles (): React.ReactElement {
   </main>;
 }
 
-export default React.memo(CrustFiles);
+export default React.memo<Props>(styled(CrustFiles)`
+  h1 {
+    text-transform: unset !important;
+  }
+  .uploadBtn {
+    position: relative;
+    padding: 5px 0;
+
+    &:hover {
+      .uploadMenu {
+        display: block;
+      }
+    }
+  }
+
+  .uploadMenu {
+    z-index: 200;
+    display: none;
+    background-color: white;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    line-height: 40px;
+
+    .menuItem {
+      cursor: pointer;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: var(--bg-page);
+      }
+    }
+  }
+
+`);
