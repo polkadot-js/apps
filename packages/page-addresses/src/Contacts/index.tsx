@@ -75,12 +75,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
+        withCollapsibleRows
       >
-        {!isLoading && sortedAddresses?.map(({ address, isFavorite }, index): React.ReactNode => (
+        {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
-            isEven={!!(index % 2) }
             isFavorite={isFavorite}
             key={address}
             toggleFavorite={toggleFavorite}
