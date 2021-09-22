@@ -3,4 +3,6 @@
 
 import definitions from '@digitalnative/type-definitions/opportunity';
 
-export default definitions;
+import { OverrideBundleDefinition } from '@polkadot/types/types';
+
+export default definitions as OverrideBundleDefinition;

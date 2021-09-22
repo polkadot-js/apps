@@ -116,7 +116,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'westendStandard',
         paraId: 2094,
-        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config'}),
+        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config' }),
         providers: {
           'Standard Protocol': 'wss://rpc.westend.standard.tech'
         }

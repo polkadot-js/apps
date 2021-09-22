@@ -402,7 +402,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoStandard',
         isDisabled: true,
         paraId: 2003,
-        text: t('rpc.rococo.standard', 'Standard', { ns: 'apps-config'}),
+        text: t('rpc.rococo.standard', 'Standard', { ns: 'apps-config' }),
         providers: {
           'Standard Protocol': 'wss://rpc.rococo.standard.tech'
         }
