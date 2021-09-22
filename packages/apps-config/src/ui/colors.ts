@@ -294,7 +294,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'UniArts Mainnet': chainUniarts,
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
-  Unorthodox: chainUnorthodox,
+  'Standard Kusama Parachain': chainUnorthodox,
   'VLN PC': chainVln,
   Web3games: chainWeb3games,
   Westend: chainWestend,

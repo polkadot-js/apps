@@ -1518,13 +1518,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digitalnative/type-definitions@npm:1.1.15":
-  version: 1.1.15
-  resolution: "@digitalnative/type-definitions@npm:1.1.15"
+"@digitalnative/type-definitions@npm:1.1.17":
+  version: 1.1.17
+  resolution: "@digitalnative/type-definitions@npm:1.1.17"
   dependencies:
     "@polkadot/keyring": ^6.9.1
     "@polkadot/types": ^4.13.1
-  checksum: 4ec9ce4781a3fd12f3c0a3243777773bd5b8bc494e5fb6fd0cee28f006e7816c9fd15a3f86f96f410b524a70ba93cd88b437e133ea88245a2836eebadfef8270
+  checksum: 1bd879a4e17d380b68956c44cc5f9dbf28f1e7b752b52bc6b7876657a07af4d7d29b008a1003d6372bfb47f09b2e2456c2c09428fda2e389edf9f50ccac4737a
   languageName: node
   linkType: hard
 
@@ -2818,7 +2818,7 @@ __metadata:
     "@bifrost-finance/type-definitions": 1.2.35
     "@crustio/type-definitions": 0.0.10
     "@darwinia/types": 1.1.9
-    "@digitalnative/type-definitions": 1.1.15
+    "@digitalnative/type-definitions": 1.1.17
     "@docknetwork/node-types": 0.4.7
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.3.7
