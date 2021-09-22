@@ -271,6 +271,7 @@ export default React.memo(styled(Table)`
     }
 
     tr {
+      &.hasOddRowColoring,
       &:nth-child(odd) {
         background: var(--bg-table);
       }
