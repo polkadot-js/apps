@@ -42,6 +42,7 @@ import gamepower from './gamepower';
 import genshiro from './genshiro';
 import hanonycash from './hanonycash';
 import hydrate from './hydrate';
+import ibtida from './ibtida';
 import idavoll from './idavoll';
 import integritee from './integritee';
 import interbtc from './interbtc';
@@ -157,6 +158,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   hanonycash,
   heiko: parallel,
   'hydra-dx': hydrate,
+  ibtida,
   idavoll,
   'integritee-parachain': integritee,
   'interbtc-parachain': interbtc,
