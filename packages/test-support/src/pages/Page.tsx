@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult, screen } from '@testing-library/react';
+import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
+import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -71,6 +72,26 @@ jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
   useSubidentities: () => mockApiHooks.subs
 }));
 
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
+
+jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
+  useRegistrars: () => ({
+    isRegistrar: false,
+    registrars: mockApiHooks.registrars
+  })
+}));
+
+jest.mock('@polkadot/app-accounts/Accounts/useMultisigApprovals', () => ({
+  __esModule: true,
+  default: () => mockApiHooks.multisigApprovals
+}));
+
+jest.mock('@polkadot/react-hooks/useDelegations', () => ({
+  useDelegations: () => mockApiHooks.delegations
+}));
+
 export abstract class Page {
   private renderResult?: RenderResult
   protected readonly defaultAddresses = [alice, bob, charlie];
@@ -90,6 +111,19 @@ export abstract class Page {
     const noop = () => Promise.resolve(() => { /**/ });
     const mockApi: ApiProps = {
       api: {
+        api: {
+          tx: {
+            utility: noop
+          }
+        },
+        consts: {
+          babe: {
+            expectedBlockTime: new BN(1)
+          },
+          democracy: {
+            enactmentPeriod: new BN(1)
+          }
+        },
         derive: {
           accounts: {
             info: noop
@@ -115,7 +149,12 @@ export abstract class Page {
         },
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
-          council: {
+          council: {},
+          democracy: {
+            delegate: noop
+          },
+          multisig: {
+            approveAsMulti: Object.assign(noop, { meta: { args: [] } })
           }
         }
       },
@@ -155,6 +194,13 @@ export abstract class Page {
 
   clearAccounts (): void {
     this.defaultAddresses.forEach((address) => keyring.forgetAccount(address));
+  }
+
+  getById (id: string | RegExp): HTMLElement | null {
+    this.assertRendered();
+    const getById = queryByAttribute.bind(null, 'id');
+
+    return getById(this.renderResult!.container, id);
   }
 
   protected assertRendered (): void {

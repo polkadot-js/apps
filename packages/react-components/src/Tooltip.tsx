@@ -14,6 +14,7 @@ function rootElement () {
 
 interface Props {
   className?: string;
+  clickable?: boolean;
   dataFor?: string;
   effect?: 'solid' | 'float';
   offset?: {
@@ -27,7 +28,7 @@ interface Props {
   trigger: string;
 }
 
-function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ className = '', clickable = false, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -47,6 +48,7 @@ function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', tex
   return ReactDOM.createPortal(
     <ReactTooltip
       className={`ui--Tooltip ${className}`}
+      clickable={clickable}
       effect={effect}
       id={trigger}
       offset={offset}

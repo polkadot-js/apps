@@ -402,7 +402,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   return (
     <>
       <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
-        <td className='warning-badge'>
+        <td className='favorite'>
+          <Icon
+            color={isFavorite ? 'orange' : 'gray'}
+            icon='star'
+            onClick={_onFavorite}
+          />
+        </td>
+        <td className='together'>
           {meta.genesisHash
             ? <Badge color='transparent' />
             : isDevelopment
@@ -428,15 +435,9 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 />
               )
           }
-          <Icon
-            color={isFavorite ? 'orange' : 'gray'}
-            icon='star'
-            onClick={_onFavorite}
-          />
-        </td>
-        <td className='together'>
           {recoveryInfo && (
             <Badge
+              className='recovery'
               color='green'
               hover={
                 <div>
@@ -467,13 +468,21 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   </table>
                 </div>
               }
-              icon='shield'
+              icon='redo'
             />
           )}
           {multiInfos && multiInfos.length !== 0 && (
             <Badge
               color='red'
-              hover={t<string>('Multisig approvals pending')}
+              hover={
+                <>
+                  {t<string>('Multisig approvals pending')}
+                  <br />
+                  <a onClick={toggleMultisig}>
+                    {t<string>('View pending approvals')}
+                  </a>
+                </>}
+              icon='file-signature'
               info={multiInfos.length}
             />
           )}
@@ -487,9 +496,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           {delegation?.accountDelegated && (
             <Badge
               color='blue'
-              hover={t<string>('This account has a governance delegation')}
+              hover={
+                <>
+                  {t<string>('This account has a governance delegation')}
+                  <br />
+                  <a onClick={toggleDelegate}>
+                    {t<string>('Manage delegation')}
+                  </a>
+                </>}
               icon='calendar-check'
-              onClick={toggleDelegate}
             />
           )}
           {!!proxy?.[0].length && api.api.tx.utility && (
@@ -718,27 +733,12 @@ export default React.memo(styled(Account)`
     min-height: 1.5rem;
   }
 
-  && td.button {
-    padding-bottom: 0.5rem;
+  .devBadge {
+    opacity: 0.65;
   }
 
-  && td.warning-badge {
-    position: relative;
-    width: 2.143rem !important;
-
-    .ui--Badge {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      margin-top: auto;
-      margin-bottom: auto;
-      transform: translate(-50%, 0);
-<<<<<<< HEAD
-      opacity: 0.65;
-=======
->>>>>>> 4a6a821d02... Move warning badge to the left of the row
-    }
+  && td.button {
+    padding-bottom: 0.5rem;
   }
 
   && td.fast-actions {

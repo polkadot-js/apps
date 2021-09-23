@@ -22,7 +22,8 @@ interface Props {
 let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
-  const [trigger] = useState(() => `badge-hover-${Date.now()}-${badgeId++}`);
+  const badgeTestId = `${color}${icon ? `-${icon}` : ''}-badge`;
+  const [trigger] = useState(() => `${badgeTestId}-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};
@@ -32,12 +33,13 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
     <div
       {...extraProps}
       className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
-      data-testid={`${color}${icon ? `-${icon}` : ''}-badge`}
+      data-testid={badgeTestId}
       onClick={onClick}
     >
-      <div className={isHighlight ? 'highlight--color-contrast' : ''}>{info || (icon && <Icon icon={icon} />)}</div>
+      <div className={isHighlight ? 'highlight--color-contrast' : ''}>{(icon && <Icon icon={icon} />)}{info}</div>
       {hover && (
         <Tooltip
+          clickable
           text={hover}
           trigger={trigger}
         />
@@ -129,8 +131,8 @@ export default React.memo(styled(Badge)`
     background: rgba(255, 255, 255, 0.3);
   }
 
-  &.warning {
-    background: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08)), #FFFFFF !important;
-    color: #FF7D01 !important;
+  &.recovery {
+    background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #FFFFFF !important;
+    color: #11B94A !important;
   }
 `);

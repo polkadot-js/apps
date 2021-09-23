@@ -1,17 +1,22 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { screen } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
+import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import i18next from '@polkadot/react-components/i18n';
 import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithInfoAndMeta, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
-import { alice, MemoryStore } from '@polkadot/test-support/keyring';
+import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
+import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
+import { u32 } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
+import { AccountId, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
@@ -363,15 +368,27 @@ describe('Accounts page', () => {
   describe('badges', () => {
     let accountRows: AccountRow[];
 
-    beforeEach(async () => {
-      accountsPage.renderAccountsWithDefaultAddresses(
-        anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'alice' }),
-        anAccountWithMeta({ name: 'bob' }),
-        anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'charlie', genesisHash: 'someHash' })
-      );
-      accountRows = await accountsPage.getAccountRows();
+    beforeEach(() => {
+      mockApiHooks.setMultisigApprovals([
+        [new TypeRegistry().createType('Hash', POLKADOT_GENESIS), {
+            approvals: [bob as unknown as AccountId],
+            deposit: balance(927000000000000),
+            depositor: bob as unknown as AccountId,
+            when: { height: new BN(1190) as u32, index: new BN(1) as u32 } as Timepoint,
+          }
+        ]
+      ]);
+      mockApiHooks.setDelegations([{ isDelegating: true, asDelegating: { target: bob as unknown as AccountId } as unknown as VotingDelegating } as Voting]);
     });
     describe('when genesis hash is not set', () => {
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'alice' }),
+          anAccountWithMeta({ name: 'bob' })
+        );
+        accountRows = await accountsPage.getAccountRows();
+      });
+
       describe('when isDevelopment flag', () => {
         let aliceRow: AccountRow;
 
@@ -416,23 +433,83 @@ describe('Accounts page', () => {
     });
 
     describe('when genesis hash set', () => {
-      let charlieRow: AccountRow;
-
       beforeEach(async () => {
-        charlieRow = accountRows[2];
-        await charlieRow.assertAccountName('CHARLIE');
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'charlie', genesisHash: 'someHash' })
+        );
+        accountRows = await accountsPage.getAccountRows();
       });
 
       it('the development badge is not displayed', async () => {
-        await charlieRow.assertNoBadge('orange-wrench');
+        await accountRows[0].assertNoBadge('orange-wrench');
       });
 
       it('the all networks badge is not displayed', async () => {
-        await charlieRow.assertNoBadge('orange-exclamation-triangle');
+        await accountRows[0].assertNoBadge('orange-exclamation-triangle');
       });
 
       it('the regular badge is displayed', async () => {
-        await charlieRow.assertBadge('transparent');
+        await accountRows[0].assertBadge('transparent');
+      });
+    });
+
+    describe('show popups', () => {
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'alice', who: [] })
+        );
+        accountRows = await accountsPage.getAccountRows();
+      });
+
+      it('development', async () => {
+        await accountRows[0].assertBadge('orange-wrench');
+        const badgePopup = accountsPage.getById(/orange-wrench-badge-hover.*/);
+
+        expect(badgePopup).not.toBeNull();
+        await within(badgePopup!).findByText('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.');
+      });
+
+      it('multisig approvals', async () => {
+        await accountRows[0].assertBadge('red-file-signature');
+        const badgePopup = accountsPage.getById(/red-file-signature-badge-hover.*/);
+
+        expect(badgePopup).not.toBeNull();
+        const approvalsModalToggle = await within(badgePopup!).findByText('View pending approvals');
+
+        fireEvent.click(approvalsModalToggle);
+        const modal = await screen.findByTestId('modal');
+
+        within(modal).getByText('Pending call hashes');
+      });
+
+      it('delegate democracy vote', async () => {
+        await accountRows[0].assertBadge('blue-calendar-check');
+        const badgePopup = accountsPage.getById(/blue-calendar-check-badge-hover.*/);
+
+        expect(badgePopup).not.toBeNull();
+        const democracyModalToggle = await within(badgePopup!).findByText('Manage delegation');
+
+        fireEvent.click(democracyModalToggle);
+        const modal = await screen.findByTestId('modal');
+
+        within(modal).getByText('democracy vote delegation');
+      });
+
+      it('proxy overview', async () => {
+        await accountRows[0].assertBadge('blue-arrow-right');
+        const badgePopup = accountsPage.getById(/blue-arrow-right-badge-hover.*/);
+
+        expect(badgePopup).not.toBeNull();
+        const democracyModalToggle = await within(badgePopup!).findByText('Proxy overview');
+
+        fireEvent.click(democracyModalToggle);
+        const modal = await screen.findByTestId('modal');
+
+        within(modal).getByText('proxy overview');
+      });
+
+      afterEach(() => {
+        mockApiHooks.setMultisigApprovals([]);
       });
     });
   });
