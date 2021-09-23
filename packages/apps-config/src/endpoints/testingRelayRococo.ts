@@ -276,7 +276,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoLoomNetwork',
-        isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
+        isDisabled: true, // Rococo reset
         paraId: 2043,
         text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
         providers: {
