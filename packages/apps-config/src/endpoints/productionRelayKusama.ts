@@ -23,7 +23,7 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
-      // Dwellir: 'wss://kusama-rpc.dwellir.com',
+      Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -82,7 +82,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          Manta: 'wss://falafel.calamari.systems/',
+          'Manta Network 0': 'wss://falafel.calamari.systems/',
+          'Manta Network 1': 'wss://fritti.calamari.systems/',
+          'Manta Network 2': 'wss://smoothie.calamari.systems/',
           OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
