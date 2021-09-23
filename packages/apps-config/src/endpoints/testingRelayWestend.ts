@@ -81,7 +81,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'moonshadow',
-        isDisabled: true, // No DNS entry for wss.moonshadow.testnet.moonbeam.network
+        isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
