@@ -4,7 +4,7 @@
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
 import type { ChainInfo, ChainType } from '../types';
 
-import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 
 import { ChainImg, Input, QrNetworkSpecs, Spinner, Table } from '@polkadot/react-components';
@@ -94,10 +94,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     [networkSpecs]
   );
 
-  const headerRef = useRef([
-    [t('chain specifications'), 'start', '2']
-  ]);
-
   if (!isApiReady) {
     return <Spinner />;
   }
@@ -106,9 +102,8 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     <Table
       className={className}
       empty={t<string>('No open tips')}
-      header={headerRef.current}
+      name={t<string>('chain specifications')}
     >
-
       <tr>
         <td>
           <div className='settings--networkSpecs-name'>
@@ -170,7 +165,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
       </tr>
       <tr>
         <td>
-
           <Input
             className='full'
             help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
@@ -180,7 +174,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           />
         </td>
       </tr>
-
       <tr>
         <td>
           <Input

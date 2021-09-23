@@ -21,7 +21,9 @@ function Bounties ({ className }: Props): React.ReactElement {
   const { bestNumber, bounties } = useBounties();
 
   const headerRef = useRef([
-    [t('bounties'), 'start', 3],
+    [t('id')],
+    [t('title'), 'start'],
+    [],
     [t('value'), 'start'],
     [t('curator'), 'start'],
     [t('next action'), 'start', 3]
@@ -37,6 +39,7 @@ function Bounties ({ className }: Props): React.ReactElement {
         className='bounties-table-wrapper'
         empty={bounties && t<string>('No open bounties')}
         header={headerRef.current}
+        name={t<string>('bounties')}
         withCollapsibleRows
       >
         {bounties && bestNumber &&

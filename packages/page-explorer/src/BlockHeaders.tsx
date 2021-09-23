@@ -18,13 +18,15 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('recent blocks'), 'start', 3]
+    [t('block number'), 'start', 2],
+    [t('validator'), 'start']
   ]);
 
   return (
     <Table
       empty={t<string>('No blocks available')}
       header={headerRef.current}
+      name={t<string>('recent blocks')}
     >
       {headers
         .filter((header) => !!header)

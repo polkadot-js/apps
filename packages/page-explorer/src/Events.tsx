@@ -3,7 +3,7 @@
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -24,15 +24,16 @@ interface Props {
 function Events ({ className = '', emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const header = useMemo(() => [
-    [label || t<string>('recent events'), 'start']
-  ], [label, t]);
+  const headerRef = useRef([
+    [t('event'), 'start']
+  ]);
 
   return (
     <Table
       className={className}
       empty={emptyLabel || t<string>('No events available')}
-      header={header}
+      header={headerRef.current}
+      name={label || t<string>('recent events')}
     >
       {events && events.map(({ blockHash, blockNumber, indexes, key, record }): React.ReactNode => (
         <tr

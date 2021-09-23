@@ -116,7 +116,8 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
   const [typeIndex, setTypeIndex] = useState(0);
 
   const headerRef = useRef([
-    [t('stashes'), 'start', 2],
+    [],
+    [t('account name'), 'start'],
     [t('controller'), 'address'],
     [t('rewards'), 'start media--1200'],
     [t('bonded'), 'number'],
@@ -171,6 +172,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
         empty={filtered && t<string>('No funds staked yet. Bond funds to validate or nominate a validator')}
         footer={footer}
         header={headerRef.current}
+        name={t<string>('stashes')}
       >
         {filtered?.map((info): React.ReactNode => (
           <Account

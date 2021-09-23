@@ -3,6 +3,7 @@
 
 import queryString from 'query-string';
 import React, { useCallback, useEffect } from 'react';
+import styled from 'styled-components';
 
 import { Input, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -62,4 +63,13 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
   );
 }
 
-export default React.memo(Filtering);
+export default React.memo(styled(Filtering)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .ui--Input {
+    width: 28.5rem;
+  }
+`);

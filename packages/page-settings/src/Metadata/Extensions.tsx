@@ -3,7 +3,7 @@
 
 import type { ChainInfo } from '../types';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { extensionLogos } from '@polkadot/apps-config';
 import { Button, Dropdown, Spinner, Table } from '@polkadot/react-components';
@@ -43,15 +43,11 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     [chainInfo, extensions, selectedIndex, toggleBusy]
   );
 
-  const headerRef = useRef([
-    [t('Extensions'), 'start']
-  ]);
-
   return (
     <Table
       className={className}
       empty={t<string>('No Upgradable extensions')}
-      header={headerRef.current}
+      name={t<string>('Extensions')}
     >
 
       {extensions

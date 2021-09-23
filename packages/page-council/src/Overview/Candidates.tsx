@@ -21,13 +21,13 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
   const { t } = useTranslation();
 
   const headerCandidatesRef = useRef([
-    [t('candidates'), 'start', 2],
+    [t('account name'), 'start', 2],
     [],
-    []
+    [t('votes')]
   ]);
 
   const headerRunnersRef = useRef([
-    [t('runners up'), 'start', 2],
+    [t('account name'), 'start', 2],
     [t('backing'), 'expand'],
     [t('votes')]
   ]);
@@ -37,6 +37,7 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
       <Table
         empty={electionsInfo && t<string>('No runners up found')}
         header={headerRunnersRef.current}
+        name={t<string>('runners up')}
       >
         {electionsInfo?.runnersUp.map(([accountId, balance]): React.ReactNode => (
           <Candidate
@@ -50,6 +51,7 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
       <Table
         empty={electionsInfo && t<string>('No candidates found')}
         header={headerCandidatesRef.current}
+        name={t<string>('candidates')}
       >
         {electionsInfo?.candidates.map((accountId): React.ReactNode => (
           <Candidate

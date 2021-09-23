@@ -100,14 +100,16 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
   const headerRef = useRef(
     isIntentions
       ? [
-        [t('intentions'), 'start', 2],
+        [],
+        [t('account name'), 'start'],
         [t('nominators'), 'expand'],
         [t('commission'), 'number'],
         [],
         []
       ]
       : [
-        [t('validators'), 'start', 2],
+        [],
+        [t('account name'), 'start'],
         [t('other stake'), 'expand'],
         [t('own stake'), 'media--1100'],
         [t('commission')],
@@ -117,6 +119,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
         [undefined, 'media--1200']
       ]
   );
+
+  const tableNameRef = useRef(isIntentions ? t('intentions') : t('validators'));
 
   return (
     <Table
@@ -149,6 +153,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, paraValidators = DE
       legend={
         <Legend isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices} />
       }
+      name={tableNameRef.current}
     >
       {!isLoading && (
         (isIntentions

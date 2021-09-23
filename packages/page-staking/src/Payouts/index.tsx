@@ -184,7 +184,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   );
 
   const headerStashes = useMemo(() => [
-    [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
+    [t('account name'), 'start', 2],
     [t('eras'), 'start'],
     [myStashesIndex ? t('own') : t('total')],
     [('remaining')],
@@ -192,7 +192,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   ], [myStashesIndex, t]);
 
   const headerValidatorsRef = useRef([
-    [t('payout/validator'), 'start', 2],
+    [t('account name'), 'start', 2],
     [t('eras'), 'start'],
     [t('own')],
     [('remaining')],
@@ -260,6 +260,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
         footer={footerStash}
         header={headerStashes}
         isFixed
+        name={myStashesIndex ? t<string>('payout/stash') : t<string>('overall/validator')}
       >
         {!isLoadingRewards && stashes?.map((payout): React.ReactNode => (
           <Stash
@@ -273,6 +274,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
           footer={footerVal}
           header={headerValidatorsRef.current}
           isFixed
+          name={t<string>('payout/validator')}
         >
           {!isLoadingRewards && validators.filter(({ available }) => !available.isZero()).map((payout): React.ReactNode => (
             <Validator

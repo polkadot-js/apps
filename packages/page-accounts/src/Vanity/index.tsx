@@ -170,7 +170,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
   }, [_executeGeneration, isRunning]);
 
   const header = useMemo(() => [
-    [t('matches'), 'start', 2],
+    [], [],
     [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
       replace: {
         avg: (keyCount / (elapsed / 1000)).toFixed(3),
@@ -239,6 +239,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
             className='vanity--App-matches'
             empty={t<string>('No matches found')}
             header={header}
+            name={t<string>('matches')}
           >
             {matches.map((match): React.ReactNode => (
               <Match

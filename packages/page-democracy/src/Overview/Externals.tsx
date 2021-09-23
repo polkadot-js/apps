@@ -21,7 +21,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal);
 
   const headerRef = useRef([
-    [t('external'), 'start'],
+    [],
     [t('proposer'), 'address'],
     [t('locked')],
     []
@@ -32,6 +32,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
       className={className}
       empty={external === null && t<string>('No external proposal')}
       header={headerRef.current}
+      name={t<string>('external')}
     >
       {external && <External value={external} />}
     </Table>

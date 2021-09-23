@@ -61,7 +61,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   );
 
   const headerRef = useRef([
-    [t('tips'), 'start'],
+    [t('receiver')],
     [t('finder'), 'address media--1400'],
     [t('reason'), 'start'],
     [undefined, 'media--1100'],
@@ -85,6 +85,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
         </div>
       )}
       header={headerRef.current}
+      name={t<string>('tips')}
     >
       {tips && tips.map(([hash, tip]): React.ReactNode => (
         <Tip

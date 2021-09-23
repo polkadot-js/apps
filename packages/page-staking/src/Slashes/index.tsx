@@ -115,7 +115,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
     return (
       <Table
         empty={t<string>('There are no unapplied/pending slashes')}
-        header={[[t('unapplied'), 'start']]}
+        name={t<string>('unapplied')}
       />
     );
   }

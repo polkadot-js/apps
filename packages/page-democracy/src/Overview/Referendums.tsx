@@ -19,7 +19,8 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('referenda'), 'start', 2],
+    [t('id'), 'end'],
+    [],
     [t('remaining'), 'media--1200'],
     [t('activate'), 'media--1400'],
     [t('turnout'), 'media--1400'],
@@ -34,6 +35,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
       className={className}
       empty={referendums && t<string>('No active referendums')}
       header={headerRef.current}
+      name={t<string>('referenda')}
     >
       {referendums?.map((referendum): React.ReactNode => (
         <Referendum

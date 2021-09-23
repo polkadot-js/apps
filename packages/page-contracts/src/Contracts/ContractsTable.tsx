@@ -44,7 +44,7 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('contracts'), 'start'],
+    [t('account name'), 'start'],
     [undefined, undefined, 3],
     [t('status'), 'start'],
     [t('projection'), 'media--1100'],
@@ -110,6 +110,7 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
       <Table
         empty={t<string>('No contracts available')}
         header={headerRef.current}
+        name={t<string>('contracts')}
       >
         {contracts.map((contract, index): React.ReactNode => (
           <Contract

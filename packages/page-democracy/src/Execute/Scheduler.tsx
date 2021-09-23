@@ -48,7 +48,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const headerRef = useRef([
-    [t('scheduled'), 'start'],
+    [],
     [t('id'), 'start'],
     [t('remaining')],
     [t('period')],
@@ -60,6 +60,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
       className={className}
       empty={filtered && t<string>('No active schedules')}
       header={headerRef.current}
+      name={t<string>('scheduled')}
     >
       {filtered?.map((value): React.ReactNode => (
         <ScheduledView

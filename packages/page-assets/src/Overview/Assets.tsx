@@ -19,7 +19,8 @@ function Assets ({ className, infos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('assets'), 'start', 2],
+    [t('id')],
+    [t('name'), 'start'],
     [t('owner'), 'address media--1000'],
     [t('admin'), 'address media--1200'],
     [t('issuer'), 'address media--1300'],
@@ -33,6 +34,7 @@ function Assets ({ className, infos }: Props): React.ReactElement<Props> {
       className={className}
       empty={infos && t<string>('No assets found')}
       header={headerRef.current}
+      name={t<string>('assets')}
     >
       {infos?.map((info) => (
         <Asset

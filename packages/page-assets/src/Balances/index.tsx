@@ -24,7 +24,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const balances = useBalances(info?.id);
 
   const headerRef = useRef([
-    [t('accounts'), 'start'],
+    [t('account name'), 'start'],
     [t('frozen'), 'start'],
     [t('sufficient'), 'start'],
     [],
@@ -78,6 +78,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
           : undefined
         }
         header={headerRef.current}
+        name={t<string>('balances')}
       >
         {info && balances?.map(({ accountId, balance }) => (
           <Account

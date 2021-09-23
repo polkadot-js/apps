@@ -22,7 +22,7 @@ function Candidates ({ allMembers, candidates, className = '', isMember, ownMemb
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('candidates'), 'start'],
+    [t('account name'), 'start'],
     [t('bid kind'), 'start', 2],
     [t('value')],
     [undefined, 'expand'],
@@ -34,6 +34,7 @@ function Candidates ({ allMembers, candidates, className = '', isMember, ownMemb
       className={className}
       empty={candidates && t<string>('No candidates')}
       header={headerRef.current}
+      name={t<string>('candidates')}
     >
       {candidates?.map((candidate): React.ReactNode => (
         <Candidate

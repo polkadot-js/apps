@@ -4,7 +4,7 @@
 import type { DigestItem } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
@@ -101,14 +101,10 @@ function formatItem (item: DigestItem): React.ReactNode {
 function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('logs'), 'start']
-  ]);
-
   return (
     <Table
       empty={t<string>('No logs available')}
-      header={headerRef.current}
+      name={t<string>('logs')}
     >
       {value?.map((log, index) => (
         <tr key={`log:${index}`}>

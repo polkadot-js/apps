@@ -49,7 +49,8 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
   });
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 3],
+    [],
+    [t('account name'), 'start', 2],
     [t('reporters'), 'address'],
     [t('own')],
     [t('other')],
@@ -112,7 +113,10 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
           </>
         )}
       </Button.Group>
-      <Table header={headerRef.current}>
+      <Table
+        header={headerRef.current}
+        name={t<string>('era {{era}}/unapplied', { replace: { era: slash.era.toString() } })}
+      >
         {slash.slashes.map((slash, index): React.ReactNode => (
           <Row
             index={index}

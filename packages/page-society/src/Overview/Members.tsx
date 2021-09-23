@@ -21,7 +21,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
   const bestNumber = useBestNumber();
 
   const headerRef = useRef([
-    [t('members'), 'start', 3],
+    [t('account name'), 'start', 3],
     [t('voted on'), 'start'],
     [t('strikes')],
     []
@@ -32,6 +32,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
       className={className}
       empty={mapMembers && t<string>('No active members')}
       header={headerRef.current}
+      name={t<string>('members')}
     >
       {mapMembers?.map((value): React.ReactNode => (
         <Member

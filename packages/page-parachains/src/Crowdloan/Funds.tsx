@@ -62,7 +62,8 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   );
 
   const headerActiveRef = useRef([
-    [t('ongoing'), 'start', 2],
+    [],
+    [t('parachain name'), 'start'],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
     [t('ending'), 'media--1200'],
@@ -73,7 +74,8 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   ]);
 
   const headedEndedRef = useRef([
-    [t('completed'), 'start', 2],
+    [],
+    [t('parachain name'), 'start'],
     [undefined, 'media--800'],
     [undefined, 'media--1400'],
     [t('ending'), 'media--1200'],
@@ -93,6 +95,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         className={className}
         empty={value && activeSorted && t<string>('No active campaigns found')}
         header={headerActiveRef.current}
+        name={t<string>('ongoing')}
       >
         {activeSorted?.map((fund) => (
           <Fund
@@ -108,6 +111,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
         className={className}
         empty={value && endedSorted && t<string>('No completed campaigns found')}
         header={headedEndedRef.current}
+        name={t<string>('completed')}
       >
         {endedSorted?.map((fund) => (
           <Fund

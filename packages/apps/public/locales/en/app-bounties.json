@@ -114,6 +114,7 @@
   "extend expiry": "extend expiry",
   "funding period": "funding period",
   "give up curator's role": "give up curator's role",
+  "id": "id",
   "implementer account": "implementer account",
   "new expiry date and time": "new expiry date and time",
   "next action": "next action",
@@ -124,6 +125,7 @@
   "reject curator": "reject curator",
   "select curator": "select curator",
   "submit with account": "submit with account",
+  "title": "title",
   "update": "update",
   "value": "value",
   "vote with account": "vote with account"

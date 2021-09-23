@@ -5,7 +5,7 @@ import type { Option, Tuple } from '@polkadot/types';
 import type { Justifications } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
@@ -38,10 +38,6 @@ function formatTuple (tuple: Tuple): React.ReactNode {
 function JustificationList ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('justifications'), 'start']
-  ]);
-
   const justifications = value.unwrapOr(null);
 
   if (!justifications) {
@@ -51,7 +47,7 @@ function JustificationList ({ value }: Props): React.ReactElement<Props> | null 
   return (
     <Table
       empty={t<string>('No justifications available')}
-      header={headerRef.current}
+      name={t<string>('justifications')}
     >
       {justifications?.map((justification, index) => (
         <tr key={`justification:${index}`}>

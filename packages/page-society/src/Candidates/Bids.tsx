@@ -21,7 +21,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const bids = useCall<Bid[]>(api.query.society.bids);
 
   const headerRef = useRef([
-    [t('bids'), 'start'],
+    [t('bidder'), 'start'],
     [t('bid kind'), 'start', 2],
     [t('value')],
     []
@@ -32,6 +32,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
       className={className}
       empty={bids && t<string>('No bids')}
       header={headerRef.current}
+      name={t<string>('bids')}
     >
       {bids?.map((bid, index): React.ReactNode => (
         <BidRow

@@ -18,6 +18,7 @@ interface TableProps {
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
   legend?: React.ReactNode;
+  name: string;
   noBodyTag?: boolean;
   withCollapsibleRows: boolean;
 }
@@ -33,7 +34,7 @@ function extractBodyChildren (children: React.ReactNode): [boolean, React.ReactN
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend, name, noBodyTag, withCollapsibleRows = false }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, bodyChildren] = extractBodyChildren(children);
 
   return (
@@ -44,8 +45,11 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
           filter={filter}
           header={header}
           isEmpty={isEmpty}
+          isFixed={isFixed}
+          name={name}
         />
         <Body
+          className=''
           empty={empty}
           emptySpinner={emptySpinner}
           noBodyTag={noBodyTag}
@@ -83,11 +87,14 @@ export default React.memo(styled(Table)`
       width: 100%;
 
       td,
-      &:not(.filter) th {
+      &:not(.filter):not(.tableName):not(.headers) th {
         &:first-child {
           padding-left: 1.5rem;
         }
+      }
 
+      td,
+      &:not(.filter) th {
         &:last-child {
           padding-right: 0.75rem;
         }

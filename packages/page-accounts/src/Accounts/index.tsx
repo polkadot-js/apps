@@ -106,7 +106,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [accountsWithInfo]);
 
   const header = useRef([
-    [t('accounts'), 'start', 3],
+    [], [],
+    [t('account name'), 'start'],
     [t('type')],
     [t('transactions'), 'media--1500'],
     [t('balances'), 'balances'],
@@ -279,6 +280,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         header={header.current}
+        name={t<string>('accounts')}
         withCollapsibleRows
       >
         {!isLoading &&

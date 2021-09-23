@@ -21,7 +21,8 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals);
 
   const headerRef = useRef([
-    [t('proposals'), 'start', 2],
+    [t('id'), 'end'],
+    [],
     [t('proposer'), 'address'],
     [t('locked'), 'media--1200'],
     [undefined, undefined, 2],
@@ -33,6 +34,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
       className={className}
       empty={proposals && t<string>('No active proposals')}
       header={headerRef.current}
+      name={t<string>('proposals')}
     >
       {proposals?.map((proposal): React.ReactNode => (
         <ProposalDisplay

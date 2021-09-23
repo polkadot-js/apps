@@ -27,7 +27,8 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   );
 
   const headerRef = useRef([
-    [t('dispatch queue'), 'start', 2],
+    [t('id')],
+    [],
     [t('enact')],
     [],
     [undefined, 'media--1000']
@@ -38,6 +39,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
       className={className}
       empty={filtered && t<string>('Nothing queued for execution')}
       header={headerRef.current}
+      name={t<string>('dispatch queue')}
     >
       {filtered?.map((entry): React.ReactNode => (
         <DispatchEntry

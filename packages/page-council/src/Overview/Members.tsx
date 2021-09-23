@@ -23,7 +23,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('members'), 'start', 2],
+    [t('account name'), 'start', 2],
     [hasElections ? t('backing') : undefined, 'expand'],
     [hasElections ? t('votes') : undefined]
   ]);
@@ -33,6 +33,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
       className={className}
       empty={electionsInfo && t<string>('No members found')}
       header={headerRef.current}
+      name={t<string>('members')}
     >
       {electionsInfo?.members.map(([accountId, balance]): React.ReactNode => (
         <Candidate

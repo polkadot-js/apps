@@ -16,7 +16,8 @@ function Proposals ({ className = '', isMember, members, prime, proposalHashes, 
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('proposals'), 'start', 2],
+    [t('id')],
+    [],
     [t('threshold')],
     [t('voting end')],
     [t('aye'), 'address'],
@@ -36,6 +37,7 @@ function Proposals ({ className = '', isMember, members, prime, proposalHashes, 
       <Table
         empty={proposalHashes && t<string>('No committee proposals')}
         header={headerRef.current}
+        name={t<string>('proposals')}
       >
         {proposalHashes?.map((hash: Hash): React.ReactNode => (
           <Proposal

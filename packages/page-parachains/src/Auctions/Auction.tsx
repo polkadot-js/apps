@@ -27,7 +27,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
 
   const headerRef = useRef([
-    [t('bids'), 'start', 3],
+    [], [], [],
     [t('bidder'), 'address'],
     [t('crowdloan')],
     [t('leases')],
@@ -101,6 +101,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
         )
       }
       header={headerRef.current}
+      name={t<string>('bids')}
       noBodyTag
     >
       {auctionInfo && auctionInfo.leasePeriod && winningData && loans && (

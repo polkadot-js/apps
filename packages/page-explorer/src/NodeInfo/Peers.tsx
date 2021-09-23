@@ -20,7 +20,7 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('connected peers'), 'start'],
+    [t('peer id'), 'start'],
     [t('role'), 'start'],
     [t('best #'), 'number'],
     [t('best hash'), 'hash']
@@ -31,6 +31,7 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
       className={className}
       empty={t<string>('no peers connected')}
       header={headerRef.current}
+      name={t<string>('connected peers')}
     >
       {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (
         <tr key={peer.peerId.toString()}>

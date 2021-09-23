@@ -61,19 +61,14 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       });
   }, [api, mountedRef, value]);
 
-  const header = useMemo(
-    () => getHeader
-      ? [
-        [formatNumber(getHeader.number.unwrap()), 'start', 1],
-        [t('hash'), 'start'],
-        [t('parent'), 'start'],
-        [t('extrinsics'), 'start'],
-        [t('state'), 'start'],
-        [undefined, 'media--1200']
-      ]
-      : EMPTY_HEADER,
-    [getHeader, t]
-  );
+  const header = useMemo(() => [
+    [t('validator'), 'start', 1],
+    [t('hash'), 'start'],
+    [t('parent'), 'start'],
+    [t('extrinsics'), 'start'],
+    [t('state'), 'start'],
+    [undefined, 'media--1200']
+  ], [t]);
 
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
@@ -89,6 +84,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       <Table
         header={header}
         isFixed
+        name={getHeader ? formatNumber(getHeader.number.unwrap()) : EMPTY_HEADER}
       >
         {myError
           ? <tr><td colSpan={6}>{t('Unable to retrieve the specified block details. {{error}}', { replace: { error: myError.message } })}</td></tr>

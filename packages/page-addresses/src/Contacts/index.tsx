@@ -27,7 +27,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const isLoading = useLoadingDelay();
 
   const headerRef = useRef([
-    [t('contacts'), 'start', 2],
+    [],
+    [t('account name'), 'start'],
     [t('transactions'), 'number media--1500'],
     [t('balances'), 'balances'],
     [undefined, 'media--1400'],
@@ -75,6 +76,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
+        name={t<string>('contacts')}
         withCollapsibleRows
       >
         {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (

@@ -22,19 +22,21 @@ function ProposalsBase ({ className = '', isApprovals, isMember, members, propos
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [isApprovals ? t<string>('Approved') : t<string>('Proposals'), 'start', 2],
+    [t('id')],
+    [t('proposer'), 'address'],
     [t('beneficiary'), 'address'],
     [t('payment')],
     [t('bond')],
     [],
     []
-  ], [isApprovals, t]);
+  ], [t]);
 
   return (
     <Table
       className={className}
       empty={proposals && (isApprovals ? t<string>('No approved proposals') : t<string>('No pending proposals'))}
       header={header}
+      name={isApprovals ? t<string>('Approved') : t<string>('Proposals')}
     >
       {proposals?.map((proposal): React.ReactNode => (
         <Proposal

@@ -281,7 +281,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const header = useMemo(() => [
-    [t('validators'), 'start', 3],
+    [], [],
+    [t('account name'), 'start'],
     [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],
@@ -393,6 +394,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         filter={filter}
         header={header}
         legend={<Legend />}
+        name={t<string>('validators')}
       >
         {displayList?.map((info): React.ReactNode =>
           <Validator

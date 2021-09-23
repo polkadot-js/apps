@@ -25,11 +25,11 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
   const { api } = useApi();
 
   const header = useMemo(() => [
-    [label || t<string>('extrinsics'), 'start', 2],
+    [t('extrinsic type'), 'start', 2],
     [t('events'), 'start media--1000', 2],
     [t('weight'), 'media--1400'],
     [t('signer'), 'address media--1200']
-  ], [label, t]);
+  ], [t]);
 
   return (
     <Table
@@ -37,6 +37,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
       empty={t<string>('No extrinsics available')}
       header={header}
       isFixed
+      name={label || t<string>('extrinsics')}
     >
       {value?.map((extrinsic, index): React.ReactNode =>
         <ExtrinsicDisplay

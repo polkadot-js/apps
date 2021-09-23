@@ -19,7 +19,7 @@ function Queues ({ className, queueTotals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('queues'), 'start'],
+    [t('id'), 'end'],
     [t('participants'), 'number'],
     [t('balance'), 'number']
   ]);
@@ -29,6 +29,7 @@ function Queues ({ className, queueTotals }: Props): React.ReactElement<Props> {
       className={className}
       empty={queueTotals && t<string>('No active gilt queues found.')}
       header={headerRef.current}
+      name={t<string>('queues')}
     >
       {queueTotals?.map((value) => (
         <Queue

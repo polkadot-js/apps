@@ -34,9 +34,9 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
   const votes = useCall<VoteType[]>(api.derive.society.members, undefined, transformVotes);
 
   const headerRef = useRef([
-    [t('defender'), 'start'],
+    [t('account name'), 'start'],
     [undefined, 'expand'],
-    []
+    [t('action'), 'start']
   ]);
 
   if (!info || !info.hasDefender || !info.defender) {
@@ -47,6 +47,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
     <Table
       className={className}
       header={headerRef.current}
+      name={t<string>('defender')}
     >
       <tr>
         <td className='address all'>

@@ -26,7 +26,8 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { isMember, members } = useCollectiveMembers('council');
 
   const headerRef = useRef([
-    [t('motions'), 'start', 2],
+    [t('id')],
+    [t('motion'), 'start'],
     [t('threshold')],
     [t('voting end')],
     [t('votes'), 'expand'],
@@ -54,6 +55,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
       <Table
         empty={motions && t<string>('No council motions')}
         header={headerRef.current}
+        name={t<string>('motions')}
       >
         {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
           <Motion
