@@ -40,16 +40,15 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
   return (
     <div className={`ui--Table ${className}`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'}${withCollapsibleRows ? ' withCollapsibleRows' : ''}`}>
         <Head
           filter={filter}
           header={header}
           isEmpty={isEmpty}
-          isFixed={isFixed}
           name={name}
         />
         <Body
-          className=''
+          className='highlight--bg-faint'
           empty={empty}
           emptySpinner={emptySpinner}
           noBodyTag={noBodyTag}
@@ -124,6 +123,7 @@ export default React.memo(styled(Table)`
 
   tbody {
     position: relative;
+    z-index: -2;
 
     td {
       border-bottom: 1px solid var(--border-table);

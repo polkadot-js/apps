@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
@@ -12,10 +12,14 @@ interface Props {
   header?: (null | undefined | HeaderDef)[];
   name: string;
   isEmpty: boolean;
-  isFixed?: boolean;
 }
 
-function Head ({ className = '', filter, header, isEmpty, isFixed = false, name }: Props): React.ReactElement<Props> {
+function Head ({ className = '', filter, header, isEmpty, name }: Props): React.ReactElement<Props> {
+  const nameRowColSpan = useMemo(
+    () => header?.reduce((prev, curr) => prev + (curr ? curr[2] || 1 : 0), 0) ?? 1,
+    [header]
+  );
+
   return (
     <thead className={className}>
       {filter && (
@@ -24,7 +28,7 @@ function Head ({ className = '', filter, header, isEmpty, isFixed = false, name 
         </tr>
       )}
       <tr className='tableName'>
-        <th colSpan={isFixed ? header?.reduce((prev, curr) => prev + (curr ? curr[2] || 1 : 0), 0) ?? 1 : 100}>{name}</th>
+        <th colSpan={nameRowColSpan}>{name}</th>
       </tr>
       {header && !isEmpty && (
         <tr className='headers'>
@@ -98,8 +102,6 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-
-    background: var(--bg-page);
 
     &.headers {
       text-transform: uppercase;
