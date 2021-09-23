@@ -276,7 +276,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoLoomNetwork',
-        isDisabled: true, // Timeout connecting to wss://rococo.dappchains.com
+        isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2043,
         text: t('rpc.rococo.loomnetwork', 'Loom Network', { ns: 'apps-config' }),
         providers: {
