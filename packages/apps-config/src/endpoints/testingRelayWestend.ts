@@ -99,7 +99,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'whala',
-        isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2013,
         text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
         providers: {
