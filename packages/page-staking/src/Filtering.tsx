@@ -67,9 +67,14 @@ export default React.memo(styled(Filtering)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
 
   .ui--Input {
-    width: 28.5rem;
+    width: 22.5rem;
+  }
+
+  .ui--Labelled {
+    margin-right: auto;
   }
 `);
