@@ -48,7 +48,7 @@ function constructTx (api: ApiPromise, systemChain: string, accountId: string, e
 function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, systemChain } = useApi();
-  const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
+  const [claimValue, setClaimValue] = useState<BalanceOf | null | undefined>();
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect((): void => {
@@ -64,7 +64,11 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
         setClaimValue(claim.unwrapOr(null));
         setIsBusy(false);
       })
-      .catch((): void => setIsBusy(false));
+      .catch((error): void => {
+        console.error(error);
+
+        setIsBusy(false);
+      });
   }, [api, ethereumAddress]);
 
   if (!ethereumAddress || isBusy) {
