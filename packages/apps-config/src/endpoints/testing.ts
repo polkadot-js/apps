@@ -372,7 +372,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'riochain',
-      isDisabled: true, // Timeout connecting to wss://node.v1.staging.riochain.io
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
