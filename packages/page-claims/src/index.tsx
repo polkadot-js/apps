@@ -118,7 +118,11 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
         setEthereumAddress(address);
         setPreclaimEthereumAddress(address);
       })
-      .catch((): void => setPreclaimEthereumAddress(null));
+      .catch((error): void => {
+        console.error(error);
+
+        setPreclaimEthereumAddress(null);
+      });
   }, [accountId, api.query.claims, api.query.claims.preclaims]);
 
   // Old claim process used `api.tx.claims.claim`, and didn't have attest
@@ -166,7 +170,6 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
 
   const onChangeEthereumAddress = useCallback((value: string) => {
     // FIXME We surely need a better check than just a trim
-
     setEthereumAddress(value.trim());
   }, []);
 
@@ -179,7 +182,6 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
   const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], transformStatement);
 
   const statementSentence = getStatement(systemChain, statementKind)?.sentence || '';
-
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementSentence}`
