@@ -88,6 +88,7 @@ import subdao from './subdao';
 import subgame from './subgame';
 import subsocial from './subsocial';
 import subspace from './subspace';
+import substrateContractsNode from './substrateContractsNode';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
@@ -211,6 +212,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subdao,
   subgame,
   subsocial,
+  'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   ternoa,
   trustbase,
