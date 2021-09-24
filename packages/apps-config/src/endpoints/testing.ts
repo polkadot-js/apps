@@ -303,7 +303,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'opportunity',
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
-        Opportunity: 'wss://rpc.opportunity.standard.tech'
+        'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
       }
     },
     {

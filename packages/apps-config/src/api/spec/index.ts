@@ -84,6 +84,7 @@ import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import spanner from './spanner';
 import stafi from './stafi';
+import standard from './standard';
 import subdao from './subdao';
 import subgame from './subgame';
 import subsocial from './subsocial';
@@ -208,6 +209,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'sora-substrate': soraSubstrate,
   spanner,
   stafi,
+  standard,
   steam: eave,
   subdao,
   subgame,
@@ -219,6 +221,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  unorthodox: standard,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

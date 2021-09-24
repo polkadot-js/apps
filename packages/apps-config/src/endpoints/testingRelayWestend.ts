@@ -89,6 +89,14 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'westendStandard',
+        paraId: 2094,
+        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.westend.standard.tech'
+        }
+      },
+      {
         info: 'karura',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
         paraId: 2005,
