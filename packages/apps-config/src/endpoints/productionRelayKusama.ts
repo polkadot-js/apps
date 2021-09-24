@@ -306,7 +306,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           'Standard Protocol': 'wss://rpc.kusama.standard.tech'
         }
-      },
+      }
     ]
   };
 }

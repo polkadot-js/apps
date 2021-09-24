@@ -122,7 +122,7 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
         }
-      },
+      }
     ]
   };
 }
