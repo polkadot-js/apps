@@ -47,7 +47,6 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
     [t('contracts'), 'start'],
     [undefined, undefined, 3],
     [t('status'), 'start'],
-    [t('projection'), 'media--1100'],
     []
   ]);
 

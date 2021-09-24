@@ -260,6 +260,7 @@ export const chainLogos = Object.entries({
   'UniArts Mainnet': nodeUniarts,
   Unique: chainUnique,
   'Unit Network': nodeUnitv,
+  Unorthodox: chainUnorthodox,
   Vln: nodeVln,
   'VLN PC': nodeVln,
   Web3games: nodeWeb3games,
