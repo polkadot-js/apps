@@ -14,17 +14,12 @@ export function createAuthIpfsEndpoints (t: TFunction): AuthIpfsEndpoint[] {
     {
       location: t('Singapore'),
       text: t('DCF'),
-      value: 'https://ipfs-gw.decloud.foundation'
+      value: 'https://crustipfs.xyz'
     },
     {
       location: t('United States'),
       text: t('Crust Network'),
-      value: 'https://ipfs-gw.crust.network'
-    },
-    {
-      location: t('Singapore'),
-      text: t('Crust Network'),
-      value: 'https://crustwebsites.net'
+      value: 'https://ipfs-gw.decloud.foundation'
     }
   ];
 }
