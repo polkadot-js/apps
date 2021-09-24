@@ -14,7 +14,7 @@ import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
-import { u32, Vec } from '@polkadot/types';
+import { u32 } from '@polkadot/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
@@ -371,7 +371,7 @@ describe('Accounts page', () => {
     beforeEach(() => {
       mockApiHooks.setMultisigApprovals([
         [new TypeRegistry().createType('Hash', POLKADOT_GENESIS), {
-          approvals: [bob as unknown as AccountId] as unknown as Vec<AccountId>,
+          approvals: [bob as unknown as AccountId],
           deposit: balance(927000000000000),
           depositor: bob as unknown as AccountId,
           when: { height: new BN(1190) as u32, index: new BN(1) as u32 } as Timepoint

@@ -3,7 +3,7 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
@@ -13,6 +13,7 @@ interface Props {
   className?: string;
   color: 'blue' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent' | 'white';
   hover?: React.ReactNode;
+  hoverAction?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
   isSmall?: boolean;
@@ -21,7 +22,7 @@ interface Props {
 
 let badgeId = 0;
 
-function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const badgeTestId = `${color}${icon ? `-${icon}` : ''}-badge`;
   const [trigger] = useState(() => `${badgeTestId}-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover
@@ -29,18 +30,36 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
     : {};
   const isHighlight = color === 'highlight';
 
+  const hoverContent = useMemo(() => (
+    <div className='hoverContent'>
+      <div>{hover}</div>
+      {hoverAction && (
+        <a onClick={onClick}>{hoverAction}</a>
+      )}
+    </div>
+  ), [hover, hoverAction, onClick]);
+
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''}`}
       data-testid={badgeTestId}
-      onClick={onClick}
+      onClick={hoverAction ? undefined : onClick}
     >
-      <div className={isHighlight ? 'highlight--color-contrast' : ''}>{(icon && <Icon icon={icon} />)}{info}</div>
+      <div className={isHighlight ? 'highlight--color-contrast' : ''}>
+        {(icon && <Icon icon={icon} />)}
+        {info}
+        {hoverAction && (
+          <Icon
+            className='action-icon'
+            icon='chevron-right'
+          />
+        )}
+      </div>
       {hover && (
         <Tooltip
-          clickable
-          text={hover}
+          clickable={!!hoverAction}
+          text={hoverContent}
           trigger={trigger}
         />
       )}
@@ -56,7 +75,7 @@ export default React.memo(styled(Badge)`
   font-size: 12px;
   height: 22px;
   line-height: 22px;
-  margin-right: 0.25rem;
+  margin-right: 0.43rem;
   min-width: 22px;
   padding: 0 4px;
   overflow: hidden;
@@ -134,5 +153,33 @@ export default React.memo(styled(Badge)`
   &.recovery {
     background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #FFFFFF !important;
     color: #11B94A !important;
+  }
+
+  &.withAction.withIcon:not(.withInfo) {
+    width: 34px;
+    border-radius: 4px;
+  }
+
+  &.withInfo.withIcon:not(.withAction) {
+    width: 34px;
+    border-radius: 18px;
+  }
+
+  &.withAction.withIcon.withInfo {
+    width: 44px;
+    border-radius: 4px;
+  }
+
+  &.withInfo .ui--Icon:not(.action-icon) {
+    margin-right: 4px;
+  }
+
+  .hoverContent {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .action-icon {
+    margin-left: 4px;
   }
 `);

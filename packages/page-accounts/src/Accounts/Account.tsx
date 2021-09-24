@@ -16,7 +16,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -444,7 +444,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   <p>{t<string>('This account is recoverable, with the following friends:')}</p>
                   <div>
                     {recoveryInfo.friends.map((friend, index): React.ReactNode => (
-                      <IdentityIcon
+                      <AddressSmall
                         key={index}
                         value={friend}
                       />
@@ -474,57 +474,41 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           {multiInfos && multiInfos.length !== 0 && (
             <Badge
               color='red'
-              hover={
-                <>
-                  {t<string>('Multisig approvals pending')}
-                  <br />
-                  <a onClick={toggleMultisig}>
-                    {t<string>('View pending approvals')}
-                  </a>
-                </>}
+              hover={t<string>('Multisig approvals pending')}
+              hoverAction={t<string>('View pending approvals')}
               icon='file-signature'
               info={multiInfos.length}
+              onClick={toggleMultisig}
             />
           )}
           {isProxied && !proxyInfo.hasOwned && (
             <Badge
               color='red'
               hover={t<string>('Proxied account has no owned proxies')}
+              icon='sitemap'
               info='0'
             />
           )}
           {delegation?.accountDelegated && (
             <Badge
               color='blue'
-              hover={
-                <>
-                  {t<string>('This account has a governance delegation')}
-                  <br />
-                  <a onClick={toggleDelegate}>
-                    {t<string>('Manage delegation')}
-                  </a>
-                </>
-              }
+              haverAction={t<string>('Manage delegation')}
+              hover={t<string>('This account has a governance delegation')}
               icon='calendar-check'
+              onClick={toggleDelegate}
             />
           )}
           {!!proxy?.[0].length && api.api.tx.utility && (
             <Badge
               color='blue'
-              hover={
-                <>
-                  {t<string>('This account has {{proxyNumber}} proxy set.', {
-                    replace: {
-                      proxyNumber: proxy[0].length
-                    }
-                  })}
-                  <br />
-                  <a onClick={toggleProxyOverview}>
-                    {t<string>('Proxy overview')}
-                  </a>
-                </>
-              }
-              icon='arrow-right'
+              hover={t<string>('This account has {{proxyNumber}} proxy set.', {
+                replace: {
+                  proxyNumber: proxy[0].length
+                }
+              })}
+              hoverAction={t<string>('Proxy overview')}
+              icon='sitemap'
+              onClick={toggleProxyOverview}
             />
           )}
         </td>
