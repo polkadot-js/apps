@@ -30,7 +30,7 @@
     "@zeroio/type-definitions": "0.0.6",
     "lodash": "^4.17.21",
     "moonbeam-types-bundle": "1.2.6",
-    "pontem-types-bundle": "1.0.14",
+    "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.3.0"
   },
   "devDependencies": {
