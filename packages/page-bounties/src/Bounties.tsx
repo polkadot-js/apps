@@ -23,7 +23,7 @@ function Bounties ({ className }: Props): React.ReactElement {
   const headerRef = useRef([
     [t('id')],
     [t('title'), 'start'],
-    [],
+    [t('status'), 'start'],
     [t('value'), 'start'],
     [t('curator'), 'start'],
     [t('next action'), 'start', 3]

@@ -3,7 +3,7 @@
 
 import type { AccountId } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 
@@ -18,10 +18,15 @@ interface Props {
 function Members ({ className = '', members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const headerRef = useRef([
+    [t('account name'), 'start', 3]
+  ]);
+
   return (
     <Table
       className={className}
       empty={members && t<string>('No members found')}
+      header={headerRef.current}
       name={t<string>('members')}
     >
       {members?.map((accountId): React.ReactNode => (
