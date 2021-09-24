@@ -12,11 +12,11 @@ import { useToggle } from '@polkadot/react-hooks';
 import Codes from '../Codes';
 import CodeAdd from '../Codes/Add';
 import CodeUpload from '../Codes/Upload';
-import ContractAdd from '../Contracts/Add';
-import ContractsTable from '../Contracts/ContractsTable';
 import { useTranslation } from '../translate';
 import { useCodes } from '../useCodes';
 import { useContracts } from '../useContracts';
+import ContractAdd from './Add';
+import ContractsTable from './ContractsTable';
 import Deploy from './Deploy';
 import Summary from './Summary';
 

@@ -22,7 +22,7 @@ export class AccountsPage extends Page {
     const table = await this.getTable();
     const rows = await table.getRows();
 
-    return rows.map((row) => new AccountRow(row.primaryRow, row.detailsRow, row.rowIndex));
+    return rows.map((row) => new AccountRow(row.primaryRow, row.detailsRow));
   }
 
   async reverseSortingOrder (): Promise<void> {
