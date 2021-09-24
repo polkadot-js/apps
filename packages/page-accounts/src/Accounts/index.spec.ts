@@ -463,47 +463,31 @@ describe('Accounts page', () => {
 
       it('development', async () => {
         await accountRows[0].assertBadge('orange-wrench');
-        const badgePopup = accountsPage.getById(/orange-wrench-badge-hover.*/);
+        const badgePopup = getPopupById(/orange-wrench-badge-hover.*/);
 
-        expect(badgePopup).not.toBeNull();
-        await within(badgePopup!).findByText('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.');
+        await within(badgePopup).findByText('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.');
       });
 
       it('multisig approvals', async () => {
         await accountRows[0].assertBadge('red-file-signature');
-        const badgePopup = accountsPage.getById(/red-file-signature-badge-hover.*/);
-
-        expect(badgePopup).not.toBeNull();
-        const approvalsModalToggle = await within(badgePopup!).findByText('View pending approvals');
-
-        fireEvent.click(approvalsModalToggle);
-        const modal = await screen.findByTestId('modal');
+        const badgePopup = getPopupById(/red-file-signature-badge-hover.*/);
+        const modal = await getModalByClickingText(badgePopup, 'View pending approvals');
 
         within(modal).getByText('Pending call hashes');
       });
 
       it('delegate democracy vote', async () => {
         await accountRows[0].assertBadge('blue-calendar-check');
-        const badgePopup = accountsPage.getById(/blue-calendar-check-badge-hover.*/);
-
-        expect(badgePopup).not.toBeNull();
-        const democracyModalToggle = await within(badgePopup!).findByText('Manage delegation');
-
-        fireEvent.click(democracyModalToggle);
-        const modal = await screen.findByTestId('modal');
+        const badgePopup = getPopupById(/blue-calendar-check-badge-hover.*/);
+        const modal = await getModalByClickingText(badgePopup, 'Manage delegation');
 
         within(modal).getByText('democracy vote delegation');
       });
 
       it('proxy overview', async () => {
         await accountRows[0].assertBadge('blue-arrow-right');
-        const badgePopup = accountsPage.getById(/blue-arrow-right-badge-hover.*/);
-
-        expect(badgePopup).not.toBeNull();
-        const democracyModalToggle = await within(badgePopup!).findByText('Proxy overview');
-
-        fireEvent.click(democracyModalToggle);
-        const modal = await screen.findByTestId('modal');
+        const badgePopup = getPopupById(/blue-arrow-right-badge-hover.*/);
+        const modal = await getModalByClickingText(badgePopup, 'Proxy overview');
 
         within(modal).getByText('proxy overview');
       });
@@ -512,5 +496,21 @@ describe('Accounts page', () => {
         mockApiHooks.setMultisigApprovals([]);
       });
     });
+
+    function getPopupById(popupId: RegExp): HTMLElement {
+      const badgePopup = accountsPage.getById(popupId);
+      if (!badgePopup) {
+        fail('badge popup should be found')
+      }
+
+      return badgePopup;
+    }
+
+    async function getModalByClickingText(badgePopup: HTMLElement, text: string) {
+      const approvalsModalToggle = await within(badgePopup).findByText(text);
+
+      fireEvent.click(approvalsModalToggle);
+      return screen.findByTestId('modal');
+    }
   });
 });
