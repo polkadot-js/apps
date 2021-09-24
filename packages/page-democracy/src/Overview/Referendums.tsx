@@ -19,7 +19,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('id'), 'end'],
+    [t('id')],
     [],
     [t('remaining'), 'media--1200'],
     [t('activate'), 'media--1400'],

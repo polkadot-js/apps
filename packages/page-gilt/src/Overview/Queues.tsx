@@ -19,7 +19,7 @@ function Queues ({ className, queueTotals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('id'), 'end'],
+    [t('id')],
     [t('participants'), 'number'],
     [t('balance'), 'number']
   ]);
