@@ -16,7 +16,7 @@ import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { u32 } from '@polkadot/types';
 import { TypeRegistry } from '@polkadot/types/create';
-import { AccountId, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
+import {AccountId, ProxyDefinition, Timepoint, Voting, VotingDelegating} from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
@@ -379,6 +379,7 @@ describe('Accounts page', () => {
         ]
       ]);
       mockApiHooks.setDelegations([{ isDelegating: true, asDelegating: { target: bob as unknown as AccountId } as unknown as VotingDelegating } as Voting]);
+      mockApiHooks.setProxies([[[{delegate: alice as unknown as AccountId, proxyType: {isAny: true, isGovernance: true, isNonTransfer: true, isStaking: true, value: }} as ProxyDefinition], new BN(1)]])
     });
     describe('when genesis hash is not set', () => {
       beforeEach(async () => {

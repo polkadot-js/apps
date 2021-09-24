@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registrar } from '@polkadot/react-hooks/types';
-import type { RegistrationJudgement, Voting } from '@polkadot/types/interfaces';
+import type { RegistrationJudgement, Voting, ProxyDefinition } from '@polkadot/types/interfaces';
 
 import { H256, Multisig } from '@polkadot/types/interfaces';
+import BN from "bn.js";
 
 class MockApiHooks {
   public subs: string[] | undefined = [];
@@ -12,6 +13,7 @@ class MockApiHooks {
   public registrars: Registrar[] = [];
   public multisigApprovals: [H256, Multisig][] | undefined = [];
   public delegations: Voting[] | undefined;
+  public proxies:  [ProxyDefinition[], BN][] | undefined = [];
 
   public setSubs (subs: string[] | undefined) {
     this.subs = subs;
@@ -31,6 +33,10 @@ class MockApiHooks {
 
   public setDelegations (delegations: Voting[]) {
     this.delegations = delegations;
+  }
+
+  public setProxies (proxies: [ProxyDefinition[], BN][]) {
+    this.proxies = proxies;
   }
 }
 

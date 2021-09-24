@@ -399,6 +399,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     return null;
   }
 
+  console.log(proxy?.[0].length && api.api.tx.utility)
   return (
     <>
       <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
@@ -503,20 +504,28 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   <a onClick={toggleDelegate}>
                     {t<string>('Manage delegation')}
                   </a>
-                </>}
+                </>
+              }
               icon='calendar-check'
             />
           )}
           {!!proxy?.[0].length && api.api.tx.utility && (
             <Badge
               color='blue'
-              hover={t<string>('This account has {{proxyNumber}} proxy set.', {
-                replace: {
-                  proxyNumber: proxy[0].length
-                }
-              })}
+              hover={
+                <>
+                  {t<string>('This account has {{proxyNumber}} proxy set.', {
+                    replace: {
+                      proxyNumber: proxy[0].length
+                    }
+                  })}
+                  <br />
+                  <a onClick={toggleProxyOverview}>
+                    {t<string>('Proxy overview')}
+                  </a>
+                </>
+              }
               icon='arrow-right'
-              onClick={toggleProxyOverview}
             />
           )}
         </td>

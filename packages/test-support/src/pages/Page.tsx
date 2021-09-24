@@ -92,6 +92,10 @@ jest.mock('@polkadot/react-hooks/useDelegations', () => ({
   useDelegations: () => mockApiHooks.delegations
 }));
 
+jest.mock('@polkadot/react-hooks/useProxies', () => ({
+  useProxies: () => mockApiHooks.proxies
+}))
+
 export abstract class Page {
   private renderResult?: RenderResult
   protected readonly defaultAddresses = [alice, bob, charlie];
@@ -111,19 +115,21 @@ export abstract class Page {
     const noop = () => Promise.resolve(() => { /**/ });
     const mockApi: ApiProps = {
       api: {
-        api: {
-          tx: {
-            utility: noop
-          }
-        },
         consts: {
           babe: {
             expectedBlockTime: new BN(1)
           },
           democracy: {
             enactmentPeriod: new BN(1)
+          },
+          proxy: {
+            proxyDepositFactor: new BN(1),
+            proxyDepositBase: new BN(1)
           }
         },
+        createType: () => ({
+          defKeys: []
+        }),
         derive: {
           accounts: {
             info: noop
@@ -155,6 +161,10 @@ export abstract class Page {
           },
           multisig: {
             approveAsMulti: Object.assign(noop, { meta: { args: [] } })
+          },
+          utility: noop,
+          proxy: {
+            removeProxies: noop
           }
         }
       },

@@ -69,6 +69,7 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
     [accountId, index, onRemove, type]
   );
 
+  console.log(type)
   return (
     <div className='proxy-container'>
       <div className='input-column'>
