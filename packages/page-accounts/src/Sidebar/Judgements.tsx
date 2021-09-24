@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Tag } from '@polkadot/react-components';
 import { useJudgements } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate';
 import JudgementTag from './JudgementTag';
 
 interface Props {
@@ -15,6 +16,8 @@ interface Props {
 }
 
 function Judgements ({ address, className = '' }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   const judgements = useJudgements(address);
 
   if (judgements.length === 0) {
@@ -27,7 +30,7 @@ function Judgements ({ address, className = '' }: Props): React.ReactElement<Pro
           color='yellow'
           isTag={false}
           key='NoJudgements'
-          label='No Judgements'
+          label={t<string>('No judgements')}
           size='tiny'
         />
       </div>
