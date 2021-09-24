@@ -15,8 +15,7 @@ import { isNull, isUndefined } from '@polkadot/util';
 
 import Dropdown from '../Dropdown';
 import Static from '../Static';
-import { getAddressName } from '../util';
-import addressToAddress from '../util/toAddress';
+import { getAddressName, toAddress } from '../util';
 import createHeader from './createHeader';
 import createItem from './createItem';
 
@@ -59,7 +58,7 @@ const MULTI_DEFAULT: string[] = [];
 
 function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
-    return addressToAddress(value) || null;
+    return toAddress(value) || null;
   } catch (error) {
     // noop, handled by return
   }
@@ -125,8 +124,8 @@ class InputAddress extends React.PureComponent<Props, State> {
       return {
         lastValue: lastValue || getLastValue(type),
         value: Array.isArray(value)
-          ? value.map((v) => addressToAddress(v))
-          : (addressToAddress(value) || undefined)
+          ? value.map((v) => toAddress(v))
+          : (toAddress(value) || undefined)
       };
     } catch (error) {
       return null;

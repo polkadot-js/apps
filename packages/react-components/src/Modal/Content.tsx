@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function Content ({ children, className = '' }: ContentProps) {
   return (
-    <div className={className}>
+    <div className={`${className} ui--Modal__Content`}>
       {children}
     </div>
   );

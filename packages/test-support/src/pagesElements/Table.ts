@@ -12,11 +12,6 @@ export class Table {
     this.rowClassName = rowClassName;
   }
 
-  async assertRowsOrderAndColoring (order: number[]): Promise<void> {
-    await this.assertRowsOrder(order);
-    await this.assertColoring();
-  }
-
   async assertRowsOrder (balancesExpectedOrder: number[]): Promise<void> {
     const orderedRows = await this.getRows();
 
@@ -28,14 +23,6 @@ export class Table {
     }
   }
 
-  async assertColoring (): Promise<void> {
-    const collapsibleRows = await this.getRows();
-
-    for (const collapsibleRow of collapsibleRows) {
-      collapsibleRow.assertColoring();
-    }
-  }
-
   async getRows (): Promise<Row[]> {
     const htmlRows = await this.getFilteredHtmlRows();
     const collapsibleRows: Row[] = [];
@@ -44,7 +31,7 @@ export class Table {
       const primaryRow = htmlRows[rowIdx];
       const detailsRow = htmlRows[rowIdx + 1];
 
-      collapsibleRows.push(new Row(primaryRow, detailsRow, rowIdx / 2));
+      collapsibleRows.push(new Row(primaryRow, detailsRow));
     }
 
     return collapsibleRows;
