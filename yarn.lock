@@ -2837,7 +2837,7 @@ __metadata:
     i18next: ^19.9.2
     lodash: ^4.17.21
     moonbeam-types-bundle: 1.2.6
-    pontem-types-bundle: 1.0.14
+    pontem-types-bundle: 1.0.15
     rxjs: ^7.3.0
   languageName: unknown
   linkType: soft
@@ -16494,14 +16494,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"pontem-types-bundle@npm:1.0.14":
-  version: 1.0.14
-  resolution: "pontem-types-bundle@npm:1.0.14"
+"pontem-types-bundle@npm:1.0.15":
+  version: 1.0.15
+  resolution: "pontem-types-bundle@npm:1.0.15"
   dependencies:
-    "@polkadot/keyring": ^7.3.1
-    "@polkadot/types": ^5.7.1
-    typescript: ^4.4.2
-  checksum: d7c6683230927256b1840009320b3673989d524d0d54ff98362f189afdc575f58fc830afe9080c2d564dafd6bbfb0bd55d974a304d47cfedfcf99137e3a0c3d5
+    "@polkadot/keyring": ^7.4.1
+    "@polkadot/types": ^6.0.5
+    typescript: ^4.4.3
+  checksum: 407dd2cc5af82bc3f24bc2afe06c924c2b8853985b79253c208c735ce0455ca239e2ec5e1b9f1cfde148cbc9a9c93e2c78ea54813bb3962747f0e3c97b8e6614
   languageName: node
   linkType: hard
 
