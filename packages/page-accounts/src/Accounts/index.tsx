@@ -6,7 +6,7 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
-import React, { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
@@ -279,13 +279,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         header={header.current}
+        withCollapsibleRows
       >
         {!isLoading &&
-          sortedAccounts.map(({ address }, index) => {
-            const account = accountComponents[address];
-
-            return account && React.cloneElement(account as ReactElement, { isEven: !!(index % 2) });
-          })
+          sortedAccounts.map(({ address }) => accountComponents[address])
         }
       </Table>
     </div>
