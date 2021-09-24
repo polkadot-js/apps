@@ -94,7 +94,7 @@ export default React.memo(styled(Badge)`
     width: 1em;
   }
 
-  &.isClickable {
+  &.isClickable:not(.withAction) {
     cursor: pointer;
   }
 
