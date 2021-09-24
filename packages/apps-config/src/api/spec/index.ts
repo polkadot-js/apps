@@ -84,10 +84,12 @@ import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import spanner from './spanner';
 import stafi from './stafi';
+import standard from './standard';
 import subdao from './subdao';
 import subgame from './subgame';
 import subsocial from './subsocial';
 import subspace from './subspace';
+import substrateContractsNode from './substrateContractsNode';
 import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
@@ -207,16 +209,19 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'sora-substrate': soraSubstrate,
   spanner,
   stafi,
+  standard,
   steam: eave,
   subdao,
   subgame,
   subsocial,
+  'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   ternoa,
   trustbase,
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  unorthodox: standard,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,
