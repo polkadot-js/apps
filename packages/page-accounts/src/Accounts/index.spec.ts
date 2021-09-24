@@ -14,9 +14,9 @@ import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
-import { u32 } from '@polkadot/types';
+import { u32, Vec } from '@polkadot/types';
 import { TypeRegistry } from '@polkadot/types/create';
-import {AccountId, ProxyDefinition, Timepoint, Voting, VotingDelegating} from '@polkadot/types/interfaces';
+import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
@@ -371,15 +371,15 @@ describe('Accounts page', () => {
     beforeEach(() => {
       mockApiHooks.setMultisigApprovals([
         [new TypeRegistry().createType('Hash', POLKADOT_GENESIS), {
-            approvals: [bob as unknown as AccountId],
-            deposit: balance(927000000000000),
-            depositor: bob as unknown as AccountId,
-            when: { height: new BN(1190) as u32, index: new BN(1) as u32 } as Timepoint,
-          }
+          approvals: [bob as unknown as AccountId] as unknown as Vec<AccountId>,
+          deposit: balance(927000000000000),
+          depositor: bob as unknown as AccountId,
+          when: { height: new BN(1190) as u32, index: new BN(1) as u32 } as Timepoint
+        } as Multisig
         ]
       ]);
-      mockApiHooks.setDelegations([{ isDelegating: true, asDelegating: { target: bob as unknown as AccountId } as unknown as VotingDelegating } as Voting]);
-      mockApiHooks.setProxies([[[{delegate: alice as unknown as AccountId, proxyType: {isAny: true, isGovernance: true, isNonTransfer: true, isStaking: true, value: }} as ProxyDefinition], new BN(1)]])
+      mockApiHooks.setDelegations([{ asDelegating: { target: bob as unknown as AccountId } as unknown as VotingDelegating, isDelegating: true } as Voting]);
+      mockApiHooks.setProxies([[[{ delegate: alice as unknown as AccountId, proxyType: { isAny: true, isGovernance: true, isNonTransfer: true, isStaking: true, toNumber: () => 1 } } as unknown as ProxyDefinition], new BN(1)]]);
     });
     describe('when genesis hash is not set', () => {
       beforeEach(async () => {
@@ -402,12 +402,12 @@ describe('Accounts page', () => {
           await aliceRow.assertBadge('orange-wrench');
         });
 
-        it('the all networks badge is not displayed', async () => {
-          await aliceRow.assertNoBadge('orange-exclamation-triangle');
+        it('the all networks badge is not displayed', () => {
+          aliceRow.assertNoBadge('orange-exclamation-triangle');
         });
 
-        it('the regular badge is not displayed', async () => {
-          await aliceRow.assertNoBadge('transparent-');
+        it('the regular badge is not displayed', () => {
+          aliceRow.assertNoBadge('transparent-');
         });
       });
 
@@ -419,16 +419,16 @@ describe('Accounts page', () => {
           await bobRow.assertAccountName('BOB');
         });
 
-        it('the development badge is not displayed', async () => {
-          await bobRow.assertNoBadge('orange-wrench');
+        it('the development badge is not displayed', () => {
+          bobRow.assertNoBadge('orange-wrench');
         });
 
         it('the all networks badge is displayed', async () => {
           await bobRow.assertBadge('orange-exclamation-triangle');
         });
 
-        it('the regular badge is not displayed', async () => {
-          await bobRow.assertNoBadge('transparent-');
+        it('the regular badge is not displayed', () => {
+          bobRow.assertNoBadge('transparent-');
         });
       });
     });
@@ -436,17 +436,17 @@ describe('Accounts page', () => {
     describe('when genesis hash set', () => {
       beforeEach(async () => {
         accountsPage.renderAccountsWithDefaultAddresses(
-          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'charlie', genesisHash: 'someHash' })
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { genesisHash: 'someHash', name: 'charlie' })
         );
         accountRows = await accountsPage.getAccountRows();
       });
 
-      it('the development badge is not displayed', async () => {
-        await accountRows[0].assertNoBadge('orange-wrench');
+      it('the development badge is not displayed', () => {
+        accountRows[0].assertNoBadge('orange-wrench');
       });
 
-      it('the all networks badge is not displayed', async () => {
-        await accountRows[0].assertNoBadge('orange-exclamation-triangle');
+      it('the all networks badge is not displayed', () => {
+        accountRows[0].assertNoBadge('orange-exclamation-triangle');
       });
 
       it('the regular badge is displayed', async () => {
@@ -490,7 +490,7 @@ describe('Accounts page', () => {
         const badgePopup = getPopupById(/blue-arrow-right-badge-hover.*/);
         const modal = await getModalByClickingText(badgePopup, 'Proxy overview');
 
-        within(modal).getByText('proxy overview');
+        within(modal).getByText('Proxy overview');
       });
 
       afterEach(() => {
@@ -498,19 +498,21 @@ describe('Accounts page', () => {
       });
     });
 
-    function getPopupById(popupId: RegExp): HTMLElement {
+    function getPopupById (popupId: RegExp): HTMLElement {
       const badgePopup = accountsPage.getById(popupId);
+
       if (!badgePopup) {
-        fail('badge popup should be found')
+        fail('badge popup should be found');
       }
 
       return badgePopup;
     }
 
-    async function getModalByClickingText(badgePopup: HTMLElement, text: string) {
+    async function getModalByClickingText (badgePopup: HTMLElement, text: string) {
       const approvalsModalToggle = await within(badgePopup).findByText(text);
 
       fireEvent.click(approvalsModalToggle);
+
       return screen.findByTestId('modal');
     }
   });

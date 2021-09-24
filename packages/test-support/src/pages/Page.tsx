@@ -94,7 +94,7 @@ jest.mock('@polkadot/react-hooks/useDelegations', () => ({
 
 jest.mock('@polkadot/react-hooks/useProxies', () => ({
   useProxies: () => mockApiHooks.proxies
-}))
+}));
 
 export abstract class Page {
   private renderResult?: RenderResult
@@ -123,8 +123,8 @@ export abstract class Page {
             enactmentPeriod: new BN(1)
           },
           proxy: {
-            proxyDepositFactor: new BN(1),
-            proxyDepositBase: new BN(1)
+            proxyDepositBase: new BN(1),
+            proxyDepositFactor: new BN(1)
           }
         },
         createType: () => ({
@@ -162,10 +162,10 @@ export abstract class Page {
           multisig: {
             approveAsMulti: Object.assign(noop, { meta: { args: [] } })
           },
-          utility: noop,
           proxy: {
             removeProxies: noop
-          }
+          },
+          utility: noop
         }
       },
       systemName: 'substrate'
@@ -210,7 +210,7 @@ export abstract class Page {
     this.assertRendered();
     const getById = queryByAttribute.bind(null, 'id');
 
-    return getById(this.renderResult!.container, id);
+    return getById(this.renderResult?.container ?? fail('Page render failed'), id);
   }
 
   protected assertRendered (): void {
