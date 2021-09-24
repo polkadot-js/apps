@@ -3357,7 +3357,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@^0.96.2-13, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@^0.96.2-13, @polkadot/react-components@^0.96.2-5, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
