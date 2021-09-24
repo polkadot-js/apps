@@ -52,7 +52,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2088,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
+          Centrifuge: 'wss://fullnode.altair.centrifuge.io',
+          OnFinality: 'wss://altair.api.onfinality.io/public-ws'
         }
       },
       {
@@ -289,6 +290,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        paraId: 2018,
+        text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
+        providers: {
+          SubGame: 'wss://gamma.subgame.org/'
+        }
+      },
+      {
         info: 'unorthodox',
         homepage: 'https://standard.tech/',
         paraId: 2094,
@@ -297,15 +307,6 @@ export function createKusama (t: TFunction): EndpointOption {
           'Standard Protocol': 'wss://rpc.kusama.standard.tech'
         }
       },
-      {
-        info: 'subgame',
-        homepage: 'http://subgame.org/',
-        paraId: 2018,
-        text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
-        providers: {
-          SubGame: 'wss://gamma.subgame.org/'
-        }
-      }
     ]
   };
 }
