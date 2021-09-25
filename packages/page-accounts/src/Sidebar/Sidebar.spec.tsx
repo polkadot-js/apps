@@ -203,7 +203,7 @@ describe('Sidebar', () => {
         accountsPage.renderDefaultAccounts(1);
         sideBar = await accountsPage.openSidebarForRow(0);
 
-        await sideBar.assertJudgement('No Judgements');
+        await sideBar.assertJudgement('No judgements');
       });
 
       describe('displays registrars', () => {
