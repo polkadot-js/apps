@@ -239,6 +239,7 @@ export const chainLogos = Object.entries({
   Spanner: chainSpanner,
   'Spartan Testnet': nodeSubspace,
   Standard: chainStandard,
+  'Standard Kusama Parachain': chainUnorthodox,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   Statemint: nodeStatemine,
