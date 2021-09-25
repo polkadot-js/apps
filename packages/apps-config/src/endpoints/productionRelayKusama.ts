@@ -219,8 +219,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2085,
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-          Parallel: 'wss://heiko-rpc.parallel.fi'
+          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws'
+          // Parallel: 'wss://heiko-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/6195
         }
       },
       {

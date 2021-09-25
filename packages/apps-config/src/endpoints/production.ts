@@ -165,8 +165,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
         'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
         'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
         'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-        Soramitsu: 'wss://ws.alb.sora.org',
-        'SORA Community (Lux8)': 'wss://sora.lux8.net'
+        Soramitsu: 'wss://ws.alb.sora.org'
+        // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
       }
     },
     {
