@@ -25,7 +25,7 @@ interface Props {
 let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
-  const badgeTestId = `${color}${icon ? `-${icon}` : ''}-badge`;
+  const badgeTestId = `${icon ? `${icon}-` : ''}badge`;
   const { theme } = useContext<ThemeDef>(ThemeContext);
 
   const [trigger] = useState(() => `${badgeTestId}-hover-${Date.now()}-${badgeId++}`);
@@ -38,10 +38,13 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
     <div className='hoverContent'>
       <div>{hover}</div>
       {hoverAction && (
-        <a className={`${color}Color`} onClick={onClick}>{hoverAction}</a>
+        <a
+          className={`${color}Color`}
+          onClick={onClick}
+        >{hoverAction}</a>
       )}
     </div>
-  ), [hover, hoverAction, onClick]);
+  ), [color, hover, hoverAction, onClick]);
 
   return (
     <div

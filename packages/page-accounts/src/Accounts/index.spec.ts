@@ -399,15 +399,15 @@ describe('Accounts page', () => {
         });
 
         it('the development badge is displayed', async () => {
-          await aliceRow.assertBadge('orange-wrench');
+          await aliceRow.assertBadge('wrench-badge');
         });
 
         it('the all networks badge is not displayed', () => {
-          aliceRow.assertNoBadge('orange-exclamation-triangle');
+          aliceRow.assertNoBadge('exclamation-triangle-badge');
         });
 
         it('the regular badge is not displayed', () => {
-          aliceRow.assertNoBadge('transparent-');
+          aliceRow.assertNoBadge('transparent-badge');
         });
       });
 
@@ -420,15 +420,15 @@ describe('Accounts page', () => {
         });
 
         it('the development badge is not displayed', () => {
-          bobRow.assertNoBadge('orange-wrench');
+          bobRow.assertNoBadge('wrench-badge');
         });
 
         it('the all networks badge is displayed', async () => {
-          await bobRow.assertBadge('orange-exclamation-triangle');
+          await bobRow.assertBadge('exclamation-triangle-badge');
         });
 
         it('the regular badge is not displayed', () => {
-          bobRow.assertNoBadge('transparent-');
+          bobRow.assertNoBadge('transparent-badge');
         });
       });
     });
@@ -442,15 +442,15 @@ describe('Accounts page', () => {
       });
 
       it('the development badge is not displayed', () => {
-        accountRows[0].assertNoBadge('orange-wrench');
+        accountRows[0].assertNoBadge('wrench-badge');
       });
 
       it('the all networks badge is not displayed', () => {
-        accountRows[0].assertNoBadge('orange-exclamation-triangle');
+        accountRows[0].assertNoBadge('exclamation-triangle-badge');
       });
 
       it('the regular badge is displayed', async () => {
-        await accountRows[0].assertBadge('transparent');
+        await accountRows[0].assertBadge('badge');
       });
     });
 
@@ -463,31 +463,31 @@ describe('Accounts page', () => {
       });
 
       it('development', async () => {
-        await accountRows[0].assertBadge('orange-wrench');
-        const badgePopup = getPopupById(/orange-wrench-badge-hover.*/);
+        await accountRows[0].assertBadge('wrench-badge');
+        const badgePopup = getPopupById(/wrench-badge-hover.*/);
 
         await within(badgePopup).findByText('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.');
       });
 
       it('multisig approvals', async () => {
-        await accountRows[0].assertBadge('red-file-signature');
-        const badgePopup = getPopupById(/red-file-signature-badge-hover.*/);
+        await accountRows[0].assertBadge('file-signature-badge');
+        const badgePopup = getPopupById(/file-signature-badge-hover.*/);
         const modal = await getModalByClickingText(badgePopup, 'View pending approvals');
 
         within(modal).getByText('Pending call hashes');
       });
 
       it('delegate democracy vote', async () => {
-        await accountRows[0].assertBadge('blue-calendar-check');
-        const badgePopup = getPopupById(/blue-calendar-check-badge-hover.*/);
+        await accountRows[0].assertBadge('calendar-check-badge');
+        const badgePopup = getPopupById(/calendar-check-badge-hover.*/);
         const modal = await getModalByClickingText(badgePopup, 'Manage delegation');
 
         within(modal).getByText('democracy vote delegation');
       });
 
       it('proxy overview', async () => {
-        await accountRows[0].assertBadge('blue-arrow-right');
-        const badgePopup = getPopupById(/blue-arrow-right-badge-hover.*/);
+        await accountRows[0].assertBadge('sitemap-badge');
+        const badgePopup = getPopupById(/sitemap-badge-hover.*/);
         const modal = await getModalByClickingText(badgePopup, 'Proxy overview');
 
         within(modal).getByText('Proxy overview');

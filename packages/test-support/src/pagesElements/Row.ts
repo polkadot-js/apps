@@ -42,11 +42,11 @@ export class Row {
   }
 
   async assertBadge (expectedBadgeName: string): Promise<void> {
-    await within(this.primaryRow).findByTestId(`${expectedBadgeName}-badge`);
+    await within(this.primaryRow).findByTestId(expectedBadgeName);
   }
 
   assertNoBadge (badgeName: string): void {
-    expect(within(this.primaryRow).queryByTestId(`${badgeName}-badge`)).toBeFalsy();
+    expect(within(this.primaryRow).queryByTestId(badgeName)).toBeFalsy();
   }
 
   async assertTags (expectedTagsContent: string): Promise<void> {
