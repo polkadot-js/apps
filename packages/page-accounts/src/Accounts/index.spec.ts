@@ -472,25 +472,34 @@ describe('Accounts page', () => {
       it('multisig approvals', async () => {
         await accountRows[0].assertBadge('file-signature-badge');
         const badgePopup = getPopupById(/file-signature-badge-hover.*/);
-        const modal = await getModalByClickingText(badgePopup, 'View pending approvals');
+        const approvalsModalToggle = await within(badgePopup).findByText('View pending approvals');
+        fireEvent.click(approvalsModalToggle);
+        const modal = await screen.findByTestId('modal');
 
         within(modal).getByText('Pending call hashes');
+        expect(approvalsModalToggle).toHaveClass('purpleColor')
       });
 
       it('delegate democracy vote', async () => {
         await accountRows[0].assertBadge('calendar-check-badge');
         const badgePopup = getPopupById(/calendar-check-badge-hover.*/);
-        const modal = await getModalByClickingText(badgePopup, 'Manage delegation');
+        const delegateModalToggle = await within(badgePopup).findByText('Manage delegation');
+        fireEvent.click(delegateModalToggle);
+        const modal = await screen.findByTestId('modal');
 
         within(modal).getByText('democracy vote delegation');
+        expect(delegateModalToggle).toHaveClass('normalColor')
       });
 
       it('proxy overview', async () => {
         await accountRows[0].assertBadge('sitemap-badge');
         const badgePopup = getPopupById(/sitemap-badge-hover.*/);
-        const modal = await getModalByClickingText(badgePopup, 'Proxy overview');
+        const proxyOverviewToggle = await within(badgePopup).findByText('Proxy overview');
+        fireEvent.click(proxyOverviewToggle);
+        const modal = await screen.findByTestId('modal');
 
         within(modal).getByText('Proxy overview');
+        expect(proxyOverviewToggle).toHaveClass('normalColor')
       });
 
       afterEach(() => {
@@ -506,14 +515,6 @@ describe('Accounts page', () => {
       }
 
       return badgePopup;
-    }
-
-    async function getModalByClickingText (badgePopup: HTMLElement, text: string) {
-      const approvalsModalToggle = await within(badgePopup).findByText(text);
-
-      fireEvent.click(approvalsModalToggle);
-
-      return screen.findByTestId('modal');
     }
   });
 });
