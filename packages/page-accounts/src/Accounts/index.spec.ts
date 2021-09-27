@@ -473,33 +473,36 @@ describe('Accounts page', () => {
         await accountRows[0].assertBadge('file-signature-badge');
         const badgePopup = getPopupById(/file-signature-badge-hover.*/);
         const approvalsModalToggle = await within(badgePopup).findByText('View pending approvals');
+
         fireEvent.click(approvalsModalToggle);
         const modal = await screen.findByTestId('modal');
 
         within(modal).getByText('Pending call hashes');
-        expect(approvalsModalToggle).toHaveClass('purpleColor')
+        expect(approvalsModalToggle).toHaveClass('purpleColor');
       });
 
       it('delegate democracy vote', async () => {
         await accountRows[0].assertBadge('calendar-check-badge');
         const badgePopup = getPopupById(/calendar-check-badge-hover.*/);
         const delegateModalToggle = await within(badgePopup).findByText('Manage delegation');
+
         fireEvent.click(delegateModalToggle);
         const modal = await screen.findByTestId('modal');
 
         within(modal).getByText('democracy vote delegation');
-        expect(delegateModalToggle).toHaveClass('normalColor')
+        expect(delegateModalToggle).toHaveClass('normalColor');
       });
 
       it('proxy overview', async () => {
         await accountRows[0].assertBadge('sitemap-badge');
         const badgePopup = getPopupById(/sitemap-badge-hover.*/);
         const proxyOverviewToggle = await within(badgePopup).findByText('Proxy overview');
+
         fireEvent.click(proxyOverviewToggle);
         const modal = await screen.findByTestId('modal');
 
         within(modal).getByText('Proxy overview');
-        expect(proxyOverviewToggle).toHaveClass('normalColor')
+        expect(proxyOverviewToggle).toHaveClass('normalColor');
       });
 
       afterEach(() => {
