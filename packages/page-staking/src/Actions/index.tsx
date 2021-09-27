@@ -117,7 +117,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
 
   const headerRef = useRef([
     [],
-    [t('account name'), 'start'],
+    [t('stash'), 'start'],
     [t('controller'), 'address'],
     [t('rewards'), 'start media--1200'],
     [t('bonded'), 'number'],

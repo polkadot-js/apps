@@ -101,7 +101,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   return (
     <Table
       className={className}
-      empty={t<string>('No open tips')}
+      empty={t<string>('No specification')}
       name={t<string>('chain specifications')}
     >
       <tr>

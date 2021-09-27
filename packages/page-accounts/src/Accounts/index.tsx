@@ -106,7 +106,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [accountsWithInfo]);
 
   const header = useRef([
-    [], [],
+    [t('favorite')],
+    [],
     [t('account name'), 'start'],
     [t('type')],
     [t('transactions'), 'media--1500'],
