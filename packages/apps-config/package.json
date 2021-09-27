@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.96.2-11",
+  "version": "0.96.2-26",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
@@ -11,8 +11,8 @@
     "@babel/runtime": "^7.15.4",
     "@bifrost-finance/type-definitions": "1.2.40",
     "@crustio/type-definitions": "0.0.10",
-    "@darwinia/types": "1.2.3",
-    "@digitalnative/type-definitions": "1.1.15",
+    "@darwinia/types": "1.2.50",
+    "@digitalnative/type-definitions": "1.1.26",
     "@docknetwork/node-types": "0.4.7",
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.3.7",
@@ -30,7 +30,7 @@
     "@zeroio/type-definitions": "0.0.6",
     "lodash": "^4.17.21",
     "moonbeam-types-bundle": "1.2.6",
-    "pontem-types-bundle": "1.0.14",
+    "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.3.0"
   },
   "devDependencies": {
