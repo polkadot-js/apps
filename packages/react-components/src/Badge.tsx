@@ -6,10 +6,9 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useContext, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
-import { ThemeDef } from '@polkadot/react-components/types';
-
 import Icon from './Icon';
 import Tooltip from './Tooltip';
+import { ThemeDef } from './types';
 
 interface Props {
   className?: string;

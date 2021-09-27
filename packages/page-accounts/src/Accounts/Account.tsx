@@ -473,6 +473,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               {isProxied && !proxyInfo.hasOwned && (
                 <Badge
                   className='important'
+                  color='purple'
                   hover={t<string>('Proxied account has no owned proxies')}
                   icon='sitemap'
                   info='0'
@@ -494,7 +495,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               {delegation?.accountDelegated && (
                 <Badge
                   className='information'
-                  color='purple'
                   hover={t<string>('This account has a governance delegation')}
                   hoverAction={t<string>('Manage delegation')}
                   icon='calendar-check'
