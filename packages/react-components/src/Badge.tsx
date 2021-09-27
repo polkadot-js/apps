@@ -155,36 +155,36 @@ export default React.memo(styled(Badge)`
     background: rgba(255, 255, 255, 0.3);
   }
 
-  &.recovery {
-    background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #FFFFFF;
-    color: #11B94A;
+  &.recovery, &.warning, &.information, &.important {
+    background-color: #FFFFFF;
+
     &.darkTheme {
-      background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #212227;
+      background-color: #212227;
     }
+  }
+
+  &.recovery {
+    background-image: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08));
+    color: #11B94A;
   }
 
   &.warning {
-    background: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08)), #FFFFFF;
+    background-image: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08));
     color: #FF7D01;
-    &.darkTheme {
-      background: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08)), #212227;
-    }
   }
 
   &.information {
-    background: linear-gradient(0deg, rgba(226, 246, 255, 1), rgba(226, 246, 255, 1)), #FFFFFF;
+    background-image: linear-gradient(0deg, rgba(226, 246, 255, 0.08), rgba(226, 246, 255, 0.08));
     color: #3BBEFF;
-    &.darkTheme {
-      background: linear-gradient(0deg, rgba(226, 246, 255, 1), rgba(226, 246, 255, 1)), #212227;
+
+    &.lightTheme {
+      background-color: rgba(226, 246, 255, 1);
     }
   }
 
   &.important {
-    background: rgba(230, 0, 122, 0.08);
+    background: linear-gradient(0deg, rgba(230, 0, 122, 0.08), rgba(230, 0, 122, 0.08)), rgba(230, 0, 122, 0.01);
     color: #E6007A;
-    &.darkTheme {
-      background: linear-gradient(0deg, rgba(230, 0, 122, 0.08), rgba(230, 0, 122, 0.08)), #212227;
-    }
   }
 
   &.withAction.withIcon:not(.withInfo) {
