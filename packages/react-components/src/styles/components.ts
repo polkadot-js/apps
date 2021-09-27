@@ -129,6 +129,13 @@ export default (_theme: ThemeDef): string => `
       &.place-right::after {
         border-right-color: var(--bg-menu) !important;
       }
+
+    a {
+      color: #3BBEFF;
+
+      &.purpleColor {
+        color: #E6007A;
+      }
     }
   }
 `;

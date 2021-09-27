@@ -38,7 +38,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
     <div className='hoverContent'>
       <div>{hover}</div>
       {hoverAction && (
-        <a onClick={onClick}>{hoverAction}</a>
+        <a className={`${color}Color`} onClick={onClick}>{hoverAction}</a>
       )}
     </div>
   ), [hover, hoverAction, onClick]);
