@@ -17,6 +17,8 @@ const chainAcala = '#645AFF';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
+const chainAutomata = '#EC7032';
+const chainAutomataContextFree = '#EC7032';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
@@ -114,6 +116,8 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
+const nodeAutomata = '#EC7032';
+const nodeAutomataContextFree = '#EC7032';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -199,6 +203,8 @@ export const chainColors: Record<string, string> = Object.entries({
   'Ares Odyssey': nodeOdyssey,
   'Ares PC1': chainRoccoAres,
   Astar: chainAstar,
+  Automata: chainAutomata,
+  'Automata ContextFree': chainAutomataContextFree,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
@@ -358,6 +364,8 @@ export const chainColors: Record<string, string> = Object.entries({
 export const nodeColors = Object.entries({
   'Apron Node': nodeApron,
   Astar: nodeAstar,
+  'Automata ContextFree Node': nodeAutomataContextFree,
+  'Automata Node': nodeAutomata,
   Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
