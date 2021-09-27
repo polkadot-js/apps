@@ -3,15 +3,17 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useMemo, useState } from 'react';
+import styled, { ThemeContext } from 'styled-components';
+
+import { ThemeDef } from '@polkadot/react-components/types';
 
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'blue' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent' | 'white';
+  color?: 'blue' | 'gray' | 'green' | 'highlight' | 'normal' | 'orange' | 'purple' | 'red' | 'transparent' | 'white';
   hover?: React.ReactNode;
   hoverAction?: React.ReactNode;
   icon?: IconName;
@@ -24,6 +26,8 @@ let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const badgeTestId = `${color}${icon ? `-${icon}` : ''}-badge`;
+  const { theme } = useContext<ThemeDef>(ThemeContext);
+
   const [trigger] = useState(() => `${badgeTestId}-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
@@ -42,7 +46,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
       data-testid={badgeTestId}
       onClick={hoverAction ? undefined : onClick}
     >
@@ -151,8 +155,35 @@ export default React.memo(styled(Badge)`
   }
 
   &.recovery {
-    background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #FFFFFF !important;
-    color: #11B94A !important;
+    background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #FFFFFF;
+    color: #11B94A;
+    &.darkTheme {
+      background: linear-gradient(0deg, rgba(17, 185, 74, 0.08), rgba(17, 185, 74, 0.08)), #212227;
+    }
+  }
+
+  &.warning {
+    background: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08)), #FFFFFF;
+    color: #FF7D01;
+    &.darkTheme {
+      background: linear-gradient(0deg, rgba(232, 111, 0, 0.08), rgba(232, 111, 0, 0.08)), #212227;
+    }
+  }
+
+  &.information {
+    background: linear-gradient(0deg, rgba(226, 246, 255, 1), rgba(226, 246, 255, 1)), #FFFFFF;
+    color: #3BBEFF;
+    &.darkTheme {
+      background: linear-gradient(0deg, rgba(226, 246, 255, 1), rgba(226, 246, 255, 1)), #212227;
+    }
+  }
+
+  &.important {
+    background: rgba(230, 0, 122, 0.08);
+    color: #E6007A;
+    &.darkTheme {
+      background: linear-gradient(0deg, rgba(230, 0, 122, 0.08), rgba(230, 0, 122, 0.08)), #212227;
+    }
   }
 
   &.withAction.withIcon:not(.withInfo) {

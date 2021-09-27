@@ -418,7 +418,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   ? (
                     <Badge
                       className='warning'
-                      color='orange'
                       hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
                       icon='wrench'
                     />
@@ -426,7 +425,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                   : (
                     <Badge
                       className='warning'
-                      color='orange'
                       hover={
                         <div>
                           <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
@@ -440,7 +438,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               {recoveryInfo && (
                 <Badge
                   className='recovery'
-                  color='green'
                   hover={
                     <div>
                       <p>{t<string>('This account is recoverable, with the following friends:')}</p>
@@ -475,7 +472,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )}
               {isProxied && !proxyInfo.hasOwned && (
                 <Badge
-                  color='red'
+                  className='important'
                   hover={t<string>('Proxied account has no owned proxies')}
                   icon='sitemap'
                   info='0'
@@ -485,7 +482,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             <div>
               {multiInfos && multiInfos.length !== 0 && (
                 <Badge
-                  color='red'
+                  className='important'
                   hover={t<string>('Multisig approvals pending')}
                   hoverAction={t<string>('View pending approvals')}
                   icon='file-signature'
@@ -495,7 +492,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )}
               {delegation?.accountDelegated && (
                 <Badge
-                  color='blue'
+                  className='information'
                   hover={t<string>('This account has a governance delegation')}
                   hoverAction={t<string>('Manage delegation')}
                   icon='calendar-check'
@@ -504,7 +501,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               )}
               {!!proxy?.[0].length && api.api.tx.utility && (
                 <Badge
-                  color='blue'
+                  className='information'
                   hover={t<string>('This account has {{proxyNumber}} proxy set.', {
                     replace: {
                       proxyNumber: proxy[0].length
