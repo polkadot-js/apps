@@ -18,7 +18,7 @@ export function createWsEndpoints(t: TFunction): LinkOption[] {
     {
       isDisabled: false,
       isHeader: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      text: t('rpc.header.nodle', 'Nodle networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
@@ -26,7 +26,7 @@ export function createWsEndpoints(t: TFunction): LinkOption[] {
     {
       isDisabled: false,
       isHeader: true,
-      text: t('rpc.header.nodle', 'Nodle networks', { ns: 'apps-config' }),
+      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
