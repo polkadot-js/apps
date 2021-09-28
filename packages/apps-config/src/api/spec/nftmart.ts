@@ -33,19 +33,19 @@ const definitions: OverrideBundleDefinition = {
         OrmlAccountData: {
           free: 'Balance',
           reserved: 'Balance',
-          frozen: 'Balance',
+          frozen: 'Balance'
         },
 
         OrmlBalanceLock: {
           amount: 'Balance',
-          id: 'LockIdentifier',
+          id: 'LockIdentifier'
         },
 
         ClassInfoOf: {
           metadata: 'NFTMetadata',
           totalIssuance: 'Compact<TokenId>',
           owner: 'AccountId',
-          data: 'ClassData',
+          data: 'ClassData'
         },
 
         ClassData: {
@@ -55,13 +55,13 @@ const definitions: OverrideBundleDefinition = {
           description: 'Vec<u8>',
           createBlock: 'Compact<BlockNumberOf>',
           royaltyRate: 'Compact<PerU16>',
-          categoryIds: 'Vec<CategoryId>',
+          categoryIds: 'Vec<CategoryId>'
         },
 
         TokenInfoOf: {
           metadata: 'NFTMetadata',
           data: 'TokenData',
-          quantity: 'Compact<TokenId>',
+          quantity: 'Compact<TokenId>'
         },
 
         TokenData: {
@@ -69,23 +69,23 @@ const definitions: OverrideBundleDefinition = {
           createBlock: 'Compact<BlockNumberOf>',
           royalty_rate: 'Compact<PerU16>',
           creator: 'AccountId',
-          royaltyBeneficiary: 'AccountId',
+          royaltyBeneficiary: 'AccountId'
         },
 
         AccountToken: {
           quantity: 'Compact<TokenId>',
-          reserved: 'Compact<TokenId>',
+          reserved: 'Compact<TokenId>'
         },
 
         CategoryData: {
           metadata: 'NFTMetadata',
-          nftCount: 'Compact<Balance>',
+          nftCount: 'Compact<Balance>'
         },
 
         OrderItem: {
           classId: 'Compact<ClassId>',
           tokenId: 'Compact<TokenId>',
-          quantity: 'Compact<TokenId>',
+          quantity: 'Compact<TokenId>'
         },
 
         OrderOf: {
@@ -94,7 +94,7 @@ const definitions: OverrideBundleDefinition = {
           price: 'Compact<Balance>',
           deadline: 'Compact<BlockNumberOf>',
           items: 'Vec<OrderItem>',
-          commissionRate: 'Compact<PerU16>',
+          commissionRate: 'Compact<PerU16>'
         },
 
         OfferOf: {
@@ -102,7 +102,7 @@ const definitions: OverrideBundleDefinition = {
           price: 'Compact<Balance>',
           deadline: 'Compact<BlockNumberOf>',
           items: 'Vec<OrderItem>',
-          commissionRate: 'Compact<PerU16>',
+          commissionRate: 'Compact<PerU16>'
         },
 
         BritishAuctionOf: {
@@ -114,7 +114,7 @@ const definitions: OverrideBundleDefinition = {
           deadline: 'Compact<BlockNumberOf>',
           allowDelay: 'bool',
           items: 'Vec<OrderItem>',
-          commissionRate: 'Compact<PerU16>',
+          commissionRate: 'Compact<PerU16>'
         },
 
         BritishAuctionBidOf: {
@@ -122,7 +122,7 @@ const definitions: OverrideBundleDefinition = {
           lastBidAccount: 'Option<AccountId>',
           lastBidBlock: 'Compact<BlockNumberOf>',
           commissionAgent: 'Option<AccountId>',
-          commissionData: 'Option<Vec<u8>>',
+          commissionData: 'Option<Vec<u8>>'
         },
 
         DutchAuctionOf: {
@@ -135,10 +135,10 @@ const definitions: OverrideBundleDefinition = {
           items: 'Vec<OrderItem>',
           allowBritishAuction: 'bool',
           minRaise: 'Compact<PerU16>',
-          commissionRate: 'Compact<PerU16>',
+          commissionRate: 'Compact<PerU16>'
         },
 
-        DutchAuctionBidOf: 'BritishAuctionBidOf',
+        DutchAuctionBidOf: 'BritishAuctionBidOf'
       }
     }
   ]
