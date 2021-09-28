@@ -108,8 +108,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
         'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
-        Archives: 'wss://archive.snakenet.hydradx.io',
-        Pinknode: 'wss://rpc.pinknode.io/lerna/explorer'
+        Archives: 'wss://archive.snakenet.hydradx.io'
       }
     },
     {
