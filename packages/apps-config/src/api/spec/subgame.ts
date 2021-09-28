@@ -71,18 +71,10 @@ const definitions: OverrideBundleDefinition = {
           isZombie: 'bool'
         },
         SGAssetBalance : 'u64',
-        Swap: {
-          tokenId:  'TokenId',
-          swapToken:  'TokenId',
-          account:  'AccountId',
-        },
-        TokenId : 'u32',
-        TokenBalance : 'u32',
         CommodityId: 'Hash',
-        CommodityInfo: 'u128',
         Commodity: {
-          id: 'CommodityId',
-          info: 'CommodityInfo'
+        id: 'CommodityId',
+        info: 'Vec<u8>'
         },
         ProgramId: 'u64',
         Program: {
@@ -107,7 +99,6 @@ const definitions: OverrideBundleDefinition = {
           expires_at: 'Moment',
           nft_id: 'NftId',
         },
-        NftInfo: 'Vec<u8>',
         Moment: 'u64',
         MomentOf: 'Moment',
         SwapId: 'u32',
