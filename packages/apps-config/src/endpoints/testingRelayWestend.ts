@@ -81,6 +81,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'moonshadow',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
@@ -97,6 +98,14 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'westendStandard',
+        paraId: 2094,
+        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.westend.standard.tech'
+        }
+      },
+      {
         info: 'karura',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
         paraId: 2005,
@@ -107,6 +116,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'whala',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2013,
         text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
         providers: {

@@ -104,9 +104,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
         const { creator: { meta: { type } } } = key;
         const allCount = type.isPlain
           ? 0
-          : type.isMap
-            ? 1
-            : 2;
+          : type.asMap.hashers.length;
 
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',

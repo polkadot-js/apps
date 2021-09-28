@@ -80,6 +80,7 @@ const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
 const chainSpanner = '#EC3D3D';
+const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainWestend = '#da68a7';
 const chainWhala = '#03f3f3';
 const chainGalois = '#000000';
@@ -94,6 +95,7 @@ const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
 const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
+const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVln = '#33cc33';
 const chainWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
@@ -146,6 +148,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
+const nodeSubspace = 'linear-gradient(to left, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
@@ -277,6 +280,9 @@ export const chainColors: Record<string, string> = Object.entries({
   sherpax: chainChainx,
   Shiden: chainShiden,
   Spanner: chainSpanner,
+  'Spartan testnet': nodeSubspace,
+  Standard: chainStandard,
+  'Standard Kusama Parachain': chainUnorthodox,
   Statemine: specStatemine,
   'Statemine Test': specStatemine,
   Statemint: specStatemint,
@@ -364,6 +370,7 @@ export const nodeColors = Object.entries({
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
+  'Spartan testnet': nodeSubspace,
   'Stafi node': nodeStafi,
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,

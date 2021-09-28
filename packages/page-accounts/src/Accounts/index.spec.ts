@@ -151,13 +151,6 @@ describe('Accounts page', () => {
       await rows[0].assertTags('my tagSuper Tag');
     });
 
-    it('account details rows keep colouring from their primary rows', async () => {
-      accountsPage.renderDefaultAccounts(3);
-      const accountsTable = await accountsPage.getTable();
-
-      await accountsTable.assertColoring();
-    });
-
     it('account details rows toggled on icon toggle click', async () => {
       accountsPage.renderDefaultAccounts(1);
       const row = (await accountsPage.getAccountRows())[0];
@@ -286,7 +279,7 @@ describe('Accounts page', () => {
 
       const accountsTable = await accountsPage.getTable();
 
-      await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+      await accountsTable.assertRowsOrder([3, 1, 2]);
     });
 
     describe('when sorting is used', () => {
@@ -316,52 +309,51 @@ describe('Accounts page', () => {
 
       it('sorts by parent if asked', async () => {
         await accountsPage.sortBy('parent');
-        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+        await accountsTable.assertRowsOrder([3, 1, 2]);
       });
 
       it('sorts by name if asked', async () => {
         await accountsPage.sortBy('name');
-        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsTable.assertRowsOrder([3, 2, 1]);
       });
 
       it('sorts by date if asked', async () => {
         await accountsPage.sortBy('date');
-        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+        await accountsTable.assertRowsOrder([3, 1, 2]);
       });
 
       it('sorts by balances if asked', async () => {
         await accountsPage.sortBy('balances');
-        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsTable.assertRowsOrder([1, 2, 3]);
       });
 
       it('sorts by type if asked', async () => {
         await accountsPage.sortBy('type');
-        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+        await accountsTable.assertRowsOrder([3, 1, 2]);
       });
 
       it('implements stable sort', async () => {
         // Notice that sorting by 'type' results in different order
         // depending on the previous state.
         await accountsPage.sortBy('name');
-        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsTable.assertRowsOrder([3, 2, 1]);
         await accountsPage.sortBy('type');
-        await accountsTable.assertRowsOrderAndColoring([3, 1, 2]);
+        await accountsTable.assertRowsOrder([3, 1, 2]);
         await accountsPage.sortBy('balances');
-        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsTable.assertRowsOrder([1, 2, 3]);
         await accountsPage.sortBy('type');
-        await accountsTable.assertRowsOrderAndColoring([1, 3, 2]);
-        await accountsTable.assertColoring();
+        await accountsTable.assertRowsOrder([1, 3, 2]);
       });
 
       it('respects reverse button', async () => {
         await accountsPage.sortBy('name');
-        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsTable.assertRowsOrder([3, 2, 1]);
         await accountsPage.sortBy('balances');
-        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsTable.assertRowsOrder([1, 2, 3]);
         await accountsPage.reverseSortingOrder();
-        await accountsTable.assertRowsOrderAndColoring([3, 2, 1]);
+        await accountsTable.assertRowsOrder([3, 2, 1]);
         await accountsPage.sortBy('name');
-        await accountsTable.assertRowsOrderAndColoring([1, 2, 3]);
+        await accountsTable.assertRowsOrder([1, 2, 3]);
       });
     });
   });

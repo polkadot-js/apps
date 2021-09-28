@@ -303,7 +303,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'opportunity',
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
-        Opportunity: 'wss://rpc.opportunity.standard.tech'
+        'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
       }
     },
     {
@@ -329,6 +329,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phoenix',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
         'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
@@ -371,6 +372,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'riochain',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
@@ -395,6 +397,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      info: 'spartan-testnet',
+      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://dev-rpc.subspace.network'
       }
     },
     {
