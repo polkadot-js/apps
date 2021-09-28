@@ -57,6 +57,7 @@ import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
+import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
@@ -178,6 +179,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   litentry,
   'manta-node': manta,
   'mashnet-node': kilt,
+  mathchain,
   'mathchain-galois': galois,
   moonbase: moonbeam,
   moonbeam,

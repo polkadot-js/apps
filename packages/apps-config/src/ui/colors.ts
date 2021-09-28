@@ -126,6 +126,7 @@ const nodeKylin = '#ed007e';
 const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
+const nodeMathChain = '#000000';
 const nodeMoonbeam = '#53cbc9';
 const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
@@ -200,7 +201,7 @@ export const chainColors: Record<string, string> = Object.entries({
   EquilibriumTestnet: chainGenshiro,
   'Fantour Development': chainFantour,
   Galital: chainGalital,
-  Galois: chainGalois,
+  'Galois-PoC-1': chainGalois,
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
@@ -239,6 +240,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'MantaChain PC1': chainManta,
   Mars: nodeAres,
   'MathChain PC1': chainGalois,
+  'MathChain': nodeMathChain,
   'Moonbase Alpha': nodeMoonbeam,
   'Moonbase Development Testnet': nodeMoonbeam,
   'Moonbase Stage': nodeMoonbeam,
@@ -344,6 +346,7 @@ export const nodeColors = Object.entries({
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
+  'MathChain': nodeMathChain,
   'mybank.network node': nodeMybank,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
