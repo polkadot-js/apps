@@ -61,8 +61,8 @@ const definitions: OverrideBundleDefinition = {
         BalanceOf: 'Balance',
         AssetType: {
           _enum: {
-            Token : 'Null',
-            PoolShare : '(AssetId,AssetId)'
+            Token: 'Null',
+            PoolShare: '(AssetId,AssetId)'
           }
         },
         Pool: {
