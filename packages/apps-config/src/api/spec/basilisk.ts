@@ -61,7 +61,7 @@ const definitions: OverrideBundleDefinition = {
         BalanceOf: 'Balance',
         AssetType: {
           _enum: ['Token'],
-          PoolShare: "(AssetId,AssetId)"
+          PoolShare: '(AssetId,AssetId)'
         },
         Pool: {
           owner: 'AccountId',
@@ -81,11 +81,11 @@ const definitions: OverrideBundleDefinition = {
         AssetNativeLocation: 'MultiLocation',
         AssetDetails: { name: 'Vec<u8>', asset_type: 'AssetType', locked: 'bool' },
         AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' },
-        AssetInstance: "AssetInstanceV0",
-        MultiLocation: "MultiLocationV0",
-        MultiAsset: "MultiAssetV0",
-        Xcm: "XcmV0",
-        XcmOrder: "XcmOrderV0"
+        AssetInstance: 'AssetInstanceV0',
+        MultiLocation: 'MultiLocationV0',
+        MultiAsset: 'MultiAssetV0',
+        Xcm: 'XcmV0',
+        XcmOrder: 'XcmOrderV0'
       }
     }
   ]
