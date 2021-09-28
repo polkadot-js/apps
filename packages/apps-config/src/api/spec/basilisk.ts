@@ -60,8 +60,10 @@ const definitions: OverrideBundleDefinition = {
         PoolId: 'AccountId',
         BalanceOf: 'Balance',
         AssetType: {
-          _enum: ['Token'],
-          PoolShare: '(AssetId,AssetId)'
+          _enum: {
+            Token: 'Null',
+            PoolShare: '(AssetId,AssetId)'
+          }
         },
         Pool: {
           owner: 'AccountId',
@@ -79,7 +81,13 @@ const definitions: OverrideBundleDefinition = {
           fee_receiver: 'AccountId'
         },
         AssetNativeLocation: 'MultiLocation',
-        AssetDetails: { name: 'Vec<u8>', asset_type: 'AssetType', locked: 'bool' },
+        AssetDetails: {
+          name: 'Vec<u8>',
+          asset_type: 'AssetType',
+          existential_deposit: 'Balance',
+          locked: 'bool'
+        },
+        AssetDetailsT: 'AssetDetails',
         AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' },
         AssetInstance: 'AssetInstanceV0',
         MultiLocation: 'MultiLocationV0',
