@@ -88,6 +88,15 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'opal',
+        homepage: 'https://unique.network/',
+        paraId: 2096,
+        text: t('opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://opal.unique.network'
+        }
+      },
+      {
         info: 'karura',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5830
         paraId: 2005,
@@ -111,15 +120,6 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
-        }
-      },
-      {
-        info: 'opal',
-        homepage: 'https://unique.network/',
-        paraId: 2096,
-        text: t('opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
-        providers: {
-          Unique: 'wss://opal.unique.network'
         }
       }
     ]
