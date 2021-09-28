@@ -61,6 +61,7 @@
   "rpc.prod.hydra": "HydraDX",
   "rpc.prod.kulupu": "Kulupu",
   "rpc.prod.neatcoin": "Neatcoin",
+  "rpc.prod.nftmart": "NFTMart",
   "rpc.prod.nodle-main": "Nodle",
   "rpc.prod.plasm": "Plasm",
   "rpc.prod.polkadex": "Polkadex Mainnet",
