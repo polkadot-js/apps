@@ -226,6 +226,7 @@ export const chainLogos = Object.entries({
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
   'Polkadex Testnet': nodePolkadex,
+  'Polkadex Mainnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
   'Pontem Testnet': nodePontem,
   'Prism PC1': nodePrism,

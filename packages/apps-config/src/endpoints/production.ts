@@ -145,6 +145,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'polkadex',
+      text: t('rpc.prod.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      providers: {
+        'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      }
+    },
+    {
       info: 'riochain',
       text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
