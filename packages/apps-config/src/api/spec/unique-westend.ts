@@ -18,7 +18,7 @@ const definitions: OverrideBundleDefinition = {
             substrate: 'AccountId',
             ethereum: 'H160'
           }
-        },        
+        },
         AccessMode: {
           _enum: ['Normal', 'WhiteList']
         },
