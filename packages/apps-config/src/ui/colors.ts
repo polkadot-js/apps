@@ -88,6 +88,7 @@ const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
+const chainUniqueWestend = '#3B9C9D';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
@@ -148,6 +149,7 @@ const nodeSubsocial = '#b9018c';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
+const nodeUniqueWestend = chainUniqueWestend;
 const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
@@ -246,6 +248,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'OAK Testnet': chainOakTestnet,
+  'Opal Node': chainUniqueWestend,
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
@@ -343,6 +346,7 @@ export const nodeColors = Object.entries({
   'NFTMart Testnet': nodeNFTMart,
   'nodle chain node': nodeNodle,
   'OAK Testnet': nodeOakTestnet,
+  'Opal Node': nodeUniqueWestend,
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,

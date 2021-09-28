@@ -112,6 +112,15 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
         }
+      },
+      {
+        info: 'opal',
+        homepage: 'https://unique.network/',
+        paraId: 2096,
+        text: t('opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://opal.unique.network'
+        }
       }
     ]
   };
