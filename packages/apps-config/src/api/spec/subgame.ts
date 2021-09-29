@@ -80,7 +80,7 @@ const definitions: OverrideBundleDefinition = {
         Program: {
           program_id: 'ProgramId',
           stake_amount: 'u128',
-          valid_day_count: 'u64',
+          valid_day_count: 'u64'
         },
         PalletId: 'u64',
         PalletInfo: {
@@ -90,14 +90,14 @@ const definitions: OverrideBundleDefinition = {
         NftId: 'Hash',
         LeaseInfo: {
           pallet_id: 'PalletId',
-          nft_id: 'NftId',
+          nft_id: 'NftId'
         },
         StakeInfo: {
           pallet_id: 'PalletId',
           program_id: 'ProgramId',
           stake_amount: 'Balance',
           expires_at: 'Moment',
-          nft_id: 'NftId',
+          nft_id: 'NftId'
         },
         Moment: 'u64',
         MomentOf: 'Moment',
