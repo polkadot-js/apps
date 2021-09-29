@@ -121,6 +121,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'mathchain',
+      text: t('rpc.prod.mathchain', 'MathChain', { ns: 'apps-config' }),
+      providers: {
+        MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
+        'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      }
+    },
+    {
       info: 'neatcoin',
       text: t('rpc.prod.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
       providers: {
