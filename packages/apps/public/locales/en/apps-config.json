@@ -60,6 +60,7 @@
   "rpc.prod.hanonycash": "Hanonycash",
   "rpc.prod.hydra": "HydraDX",
   "rpc.prod.kulupu": "Kulupu",
+  "rpc.prod.mathchain": "MathChain",
   "rpc.prod.neatcoin": "Neatcoin",
   "rpc.prod.nftmart": "NFTMart",
   "rpc.prod.nodle-main": "Nodle",
