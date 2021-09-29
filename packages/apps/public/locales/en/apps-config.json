@@ -197,5 +197,6 @@
   "rpc.westend.wendala": "Wendala",
   "rpc.westend.whala": "Whala",
   "ss58.default": "Default for the connected node",
-  "testnet.kylin-node.co.uk": "Kylin Testnet"
+  "testnet.kylin-node.co.uk": "Kylin Testnet",
+  "westend-opal.unique.network": "OPAL by UNIQUE"
 }
