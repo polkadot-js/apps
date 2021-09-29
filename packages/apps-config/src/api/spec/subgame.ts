@@ -70,11 +70,11 @@ const definitions: OverrideBundleDefinition = {
           isFrozen: 'bool',
           isZombie: 'bool'
         },
-        SGAssetBalance : 'u64',
+        SGAssetBalance: 'u64',
         CommodityId: 'Hash',
         Commodity: {
-        id: 'CommodityId',
-        info: 'Vec<u8>'
+          id: 'CommodityId',
+          info: 'Vec<u8>'
         },
         ProgramId: 'u64',
         Program: {
