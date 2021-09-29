@@ -27,6 +27,7 @@ export { useIncrement } from './useIncrement';
 export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
+export { useJudgements } from './useJudgements';
 export { useLedger } from './useLedger';
 export { useLoadingDelay } from './useLoadingDelay';
 export { useMapEntries } from './useMapEntries';
