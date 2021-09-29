@@ -94,6 +94,7 @@ import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
 import unique from './unique';
+import uniqueWestend from './unique-westend';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
@@ -192,6 +193,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-template-spartan': subspace,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
+  opal: uniqueWestend,
   opportunity,
   'origintrail-parachain': origintrail,
   parami,
