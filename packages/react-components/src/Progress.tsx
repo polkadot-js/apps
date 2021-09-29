@@ -41,13 +41,15 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
       className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}
       height={sqSize}
       viewBox={viewBox}
-      width={sqSize}>
+      width={sqSize}
+    >
       <circle
         className='circle-background'
         cx={sqSize / 2}
         cy={sqSize / 2}
         r={radius + backCircleStrokeWidth}
-        strokeWidth={`${backCircleStrokeWidth}px`} />
+        strokeWidth={`${backCircleStrokeWidth}px`}
+      />
       <circle
         className='circle-progress'
         cx={sqSize / 2}
@@ -58,13 +60,15 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
           strokeDasharray: dashArray,
           strokeDashoffset: dashOffset
         }}
-        transform={`rotate(-90 ${sqSize / 2} ${sqSize / 2})`} />
+        transform={`rotate(-90 ${sqSize / 2} ${sqSize / 2})`}
+      />
       <text
         className='circle-text'
         dy='.3em'
         textAnchor='middle'
         x='50%'
-        y='50%'>
+        y='50%'
+      >
         {percentage}%
       </text>
     </svg>
