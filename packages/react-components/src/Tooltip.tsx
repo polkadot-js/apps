@@ -64,7 +64,7 @@ export default React.memo(styled(Tooltip)`
   }
 
   &.ui--Tooltip {
-    z-index: 1002;
+    z-index: 1010; /* more than status & modal content */
   }
 
   &.address div {

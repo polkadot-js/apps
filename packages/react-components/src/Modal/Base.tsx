@@ -65,16 +65,16 @@ export default React.memo(styled(Base)`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  z-index: 1001; /* one more than status */
+  z-index: 1000;
   overflow-y: auto;
 
   .ui--Modal__overlay {
+    background: rgba(96, 96, 96, 0.5);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(96, 96, 96, 0.5);
   }
 
   .ui--Modal__body {
@@ -95,6 +95,7 @@ export default React.memo(styled(Base)`
 
     color: var(--color-text);
     font: var(--font-sans);
+    z-index: 1005; /* higher than status */
   }
 
   &.size-small .ui--Modal__body {

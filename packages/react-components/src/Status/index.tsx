@@ -208,7 +208,7 @@ export default React.memo(styled(Status)`
   right: 0.75rem;
   top: 0.75rem;
   width: 23rem;
-  z-index: 1000;
+  z-index: 1001; /* above modal base, below modal content */
 
   .dismiss {
     margin-bottom: 0.25rem;
