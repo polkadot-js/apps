@@ -149,11 +149,11 @@ const definitions: OverrideBundleDefinition = {
 
   types: [
     {
-      minmax: [0, 262],
+      minmax: [0, 263],
       types: equilibrium.types
     },
     {
-      minmax: [263, undefined],
+      minmax: [264, undefined],
       types: equilibriumNext.types
     }
   ]

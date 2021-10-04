@@ -155,7 +155,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
       )}
       <Button
         icon='fast-forward'
-        isDisabled={!threshold.isSimplemajority}
+        isDisabled={!threshold.isSimpleMajority}
         label={t<string>('Fast track')}
         onClick={toggleFasttrack}
       />
