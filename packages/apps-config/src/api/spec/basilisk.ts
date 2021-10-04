@@ -59,7 +59,12 @@ const definitions: OverrideBundleDefinition = {
         WeightCurveType: { _enum: ['Linear'] },
         PoolId: 'AccountId',
         BalanceOf: 'Balance',
-        AssetType: { _enum: ['Token'] },
+        AssetType: {
+          _enum: {
+            Token: 'Null',
+            PoolShare: '(AssetId,AssetId)'
+          }
+        },
         Pool: {
           owner: 'AccountId',
           start: 'BlockNumber',
@@ -76,8 +81,19 @@ const definitions: OverrideBundleDefinition = {
           fee_receiver: 'AccountId'
         },
         AssetNativeLocation: 'MultiLocation',
-        AssetDetails: { name: 'Vec<u8>', asset_type: 'AssetType', locked: 'bool' },
-        AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' }
+        AssetDetails: {
+          name: 'Vec<u8>',
+          asset_type: 'AssetType',
+          existential_deposit: 'Balance',
+          locked: 'bool'
+        },
+        AssetDetailsT: 'AssetDetails',
+        AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' },
+        AssetInstance: 'AssetInstanceV0',
+        MultiLocation: 'MultiLocationV0',
+        MultiAsset: 'MultiAssetV0',
+        Xcm: 'XcmV0',
+        XcmOrder: 'XcmOrderV0'
       }
     }
   ]

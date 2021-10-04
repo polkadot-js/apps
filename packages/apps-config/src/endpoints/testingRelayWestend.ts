@@ -89,6 +89,15 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'opal',
+        homepage: 'https://unique.network/',
+        paraId: 2096,
+        text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://westend-opal.unique.network'
+        }
+      },
+      {
         info: 'westendStandard',
         paraId: 2094,
         text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config' }),

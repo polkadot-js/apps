@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ProxyDefinition, Voting } from '@polkadot/types/interfaces';
+import type { Registrar } from '@polkadot/react-hooks/types';
+import type { ProxyDefinition, RegistrationJudgement, Voting } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
@@ -12,6 +13,8 @@ class MockApiHooks {
   public delegations: Voting[] | undefined;
   public proxies: [ProxyDefinition[], BN][] | undefined = [];
   public subs: string[] | undefined = [];
+  public judgements: RegistrationJudgement[] | undefined = [];
+  public registrars: Registrar[] = [];
 
   public setDelegations (delegations: Voting[]) {
     this.delegations = delegations;
@@ -27,6 +30,14 @@ class MockApiHooks {
 
   public setSubs (subs: string[] | undefined) {
     this.subs = subs;
+  }
+
+  public setJudgements (judgements: RegistrationJudgement[] | undefined) {
+    this.judgements = judgements;
+  }
+
+  public setRegistrars (registrars: Registrar[]) {
+    this.registrars = registrars;
   }
 }
 
