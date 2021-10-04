@@ -5,11 +5,12 @@ import type { AddressIdentity } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AvatarItem, Expander, IconLink, Tag } from '@polkadot/react-components';
+import { AddressMini, AvatarItem, Expander, IconLink } from '@polkadot/react-components';
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Judgements from './Judgements';
 import RegistrarJudgement from './RegistrarJudgement';
 import UserIcon from './UserIcon';
 
@@ -51,33 +52,6 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
           {t<string>('identity')}
-          <Tag
-            color={
-              identity.isBad
-                ? 'red'
-                : identity.isGood
-                  ? 'green'
-                  : 'yellow'
-            }
-            isTag={false}
-            label={
-              <>
-                <b>{identity.judgements.length}&nbsp;</b>
-                {
-                  identity.judgements.length
-                    ? identity.isBad
-                      ? identity.isErroneous
-                        ? t<string>('Erroneous')
-                        : t<string>('Low quality')
-                      : identity.isKnownGood
-                        ? t<string>('Known good')
-                        : t<string>('Reasonable')
-                    : t<string>('No judgments')
-                }
-              </>
-            }
-            size='tiny'
-          />
         </div>
         <div>
           <AvatarItem
@@ -92,6 +66,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             subtitle={identity.legal}
             title={identity.display}
           />
+          <Judgements address={address} />
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (
               <div className='tr parent'>

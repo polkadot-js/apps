@@ -1,13 +1,13 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.96.2-33",
+  "version": "0.96.2-38",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
   "dependencies": {
-    "@acala-network/type-definitions": "2.3.1",
+    "@acala-network/type-definitions": "^2.3.2-4",
     "@babel/runtime": "^7.15.4",
     "@bifrost-finance/type-definitions": "1.2.40",
     "@crustio/type-definitions": "0.0.10",

@@ -18,7 +18,7 @@ import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { alice, bob, charlie } from '../keyring';
+import { alice, bob, charlie, ferdie } from '../keyring';
 import { Table } from '../pagesElements';
 import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults';
 
@@ -43,7 +43,14 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
         ? {
           ...actual.useAccountInfo(address),
           flags: { ...actual.useAccountInfo(address).flags, ...(mockInfo.info.flags) },
-          identity: { ...actual.useAccountInfo(address).identity, ...(mockInfo.info.identity) },
+          identity: {
+            ...actual.useAccountInfo(address).identity,
+            ...(mockInfo.info.identity),
+            judgements: [
+              ...(actual.useAccountInfo(address).identity?.judgements || []),
+              ...(mockApiHooks.judgements || [])
+            ]
+          },
           tags: [...actual.useAccountInfo(address).tags, ...(mockInfo.info.tags)]
         }
         : actual.useAccountInfo(address);
@@ -71,9 +78,20 @@ jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
   useSubidentities: () => mockApiHooks.subs
 }));
 
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
+
+jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
+  useRegistrars: () => ({
+    isRegistrar: false,
+    registrars: mockApiHooks.registrars
+  })
+}));
+
 export abstract class Page {
   private renderResult?: RenderResult
-  protected readonly defaultAddresses = [alice, bob, charlie];
+  protected readonly defaultAddresses = [alice, bob, charlie, ferdie];
 
   protected constructor (private readonly overview: React.ReactElement, private readonly rowClassName: string) {
     this.overview = overview;
@@ -96,6 +114,9 @@ export abstract class Page {
           },
           balances: {
             all: noop
+          },
+          chain: {
+            bestNumber: noop
           },
           democracy: {
             locks: noop
