@@ -89,6 +89,7 @@ const chainZenlink = 'linear-gradient(45deg, #F20082 0%, #FF4D4D 100%)';
 const chainJupiter = '#7143ff';
 const chainUniarts = 'linear-gradient(150deg, #333ef7 0%, #55adff 100%)';
 const chainUnique = '#40BCFF';
+const chainUniqueWestend = '#3B9C9D';
 const chainIdavoll = '#ff43ff';
 const chainSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const chainSubsocial = '#b9018c';
@@ -126,6 +127,7 @@ const nodeKylin = '#ed007e';
 const nodeKlug = '#663399';
 const nodeLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const nodeManta = '#2070a6';
+const nodeMathChain = '#000000';
 const nodeMoonbeam = '#53cbc9';
 const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
@@ -151,6 +153,7 @@ const nodeSubspace = 'linear-gradient(to left, rgba(32,90,172,1) 0%, rgba(26,72,
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
+const nodeUniqueWestend = chainUniqueWestend;
 const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
 const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
@@ -200,7 +203,7 @@ export const chainColors: Record<string, string> = Object.entries({
   EquilibriumTestnet: chainGenshiro,
   'Fantour Development': chainFantour,
   Galital: chainGalital,
-  Galois: chainGalois,
+  'Galois-PoC-1': chainGalois,
   'GamePower Network': chainGamePower,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainGenshiro,
@@ -238,6 +241,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Manta Testnet': chainManta,
   'MantaChain PC1': chainManta,
   Mars: nodeAres,
+  MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
   'Moonbase Alpha': nodeMoonbeam,
   'Moonbase Development Testnet': nodeMoonbeam,
@@ -249,6 +253,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Staging': chainNFTMart,
   'NFTMart Testnet': chainNFTMart,
   'OAK Testnet': chainOakTestnet,
+  'Opal Node': chainUniqueWestend,
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
@@ -344,11 +349,13 @@ export const nodeColors = Object.entries({
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
+  MathChain: nodeMathChain,
   'mybank.network node': nodeMybank,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   'nodle chain node': nodeNodle,
   'OAK Testnet': nodeOakTestnet,
+  'Opal Node': nodeUniqueWestend,
   'Opportunity Standalone Testnet': nodeOpportunity,
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,

@@ -108,8 +108,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
         'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
-        Archives: 'wss://archive.snakenet.hydradx.io',
-        Pinknode: 'wss://rpc.pinknode.io/lerna/explorer'
+        Archives: 'wss://archive.snakenet.hydradx.io'
       }
     },
     {
@@ -122,10 +121,25 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'mathchain',
+      text: t('rpc.prod.mathchain', 'MathChain', { ns: 'apps-config' }),
+      providers: {
+        MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws',
+        'MathWallet Backup': 'wss://mathchain-us.maiziqianbao.net/ws'
+      }
+    },
+    {
       info: 'neatcoin',
       text: t('rpc.prod.neatcoin', 'Neatcoin', { ns: 'apps-config' }),
       providers: {
         Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      }
+    },
+    {
+      info: 'nftmart',
+      text: t('rpc.prod.nftmart', 'NFTMart', { ns: 'apps-config' }),
+      providers: {
+        NFTMart: 'wss://mainnet.nftmart.io/rpc/ws'
       }
     },
     {
@@ -142,6 +156,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.plasm', 'Plasm', { ns: 'apps-config' }),
       providers: {
         'Stake Technologies': 'wss://rpc.plasmnet.io/'
+      }
+    },
+    {
+      info: 'polkadex',
+      text: t('rpc.prod.polkadex', 'Polkadex', { ns: 'apps-config' }),
+      providers: {
+        'Polkadex Team': 'wss://mainnet.polkadex.trade'
       }
     },
     {
@@ -165,7 +186,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
         'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
         'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
         'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-        Soramitsu: 'wss://ws.alb.sora.org'
+        Soramitsu: 'wss://ws.alb.sora.org',
+        OnFinality: 'wss://sora.api.onfinality.io/public-ws'
         // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
       }
     },
