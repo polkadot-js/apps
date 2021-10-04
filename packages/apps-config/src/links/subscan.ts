@@ -8,26 +8,35 @@ import { externalLogos } from '../ui/logos';
 export default {
   chains: {
     'Acala Mandala TC5': 'acala-testnet',
-    'Bifrost Asgard Nightly': 'bifrost',
+    Bifrost: 'bifrost',
+    Calamari: 'calamari',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
     'Crust Maxwell': 'crust',
-    'Darwinia CC1': 'darwinia-cc1',
+    Darwinia: 'darwinia',
     'Darwinia Crab': 'crab',
     Edgeware: 'edgeware',
     Equilibrium: 'equilibrium',
     'KILT Peregrine': 'kilt-testnet',
     'KILT Spiritnet': 'spiritnet',
     Karura: 'karura',
+    Khala: 'khala',
     Kulupu: 'kulupu',
     Kusama: 'kusama',
     'Laminar Turbulence TC2': 'laminar-testnet',
+    Moonbase: 'moonbase',
+    Moonriver: 'moonriver',
     'Phala PoC-4': 'phala',
     Plasm: 'plasm',
     Polkadot: 'polkadot',
     Rococo: 'rococo',
+    SORA: 'sora',
+    'Shibuya Testnet': 'shibuya',
     Shiden: 'shiden',
     Stafi: 'stafi',
+    Statemine: 'statemine',
+    Subgame: 'subgame',
+    Uniarts: 'uniarts',
     Westend: 'westend'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
@@ -42,7 +51,8 @@ export default {
     proposal: 'democracy_proposal',
     referendum: 'referenda',
     techcomm: 'tech',
-    treasury: 'treasury'
+    treasury: 'treasury',
+    validator: 'validator'
   },
   url: 'https://subscan.io/'
 };
