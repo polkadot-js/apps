@@ -3,11 +3,10 @@ name: deploy-aleph-wallet
 on:
   push:
     branches:
-      - alephzero    
-    paths-ignore:
-        # TODO : for DEV, uncomment
-        # - ".github/**"
-        - "*.md"
+      - alephzero
+    # paths-ignore:
+    #     - ".github/**"
+    #     - "*.md"
 
 jobs:
   deploy-wallet:
@@ -31,7 +30,7 @@ jobs:
 
       - name: Build and push latest image
         id: build-image
-        run: ./docker/builds.sh
+        run: ./docker/build.sh
 
       - name: Send Slack Notification
         uses: rtCamp/action-slack-notify@v2
