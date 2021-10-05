@@ -22,6 +22,7 @@ const definitions: OverrideBundleDefinition = {
             'Relic'
           ]
         },
+        Basic: 'u8',
         TokenId: 'U256',
         Stackable: {
           _enum: [
@@ -33,7 +34,7 @@ const definitions: OverrideBundleDefinition = {
         String: 'Vec<u8>',
         TokenType: {
           _enum: {
-            Basic: '(Rarity, String, u32, String)'
+            Basic: '(Basic, Rarity, String)'
           }
         },
         Status: {
