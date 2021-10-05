@@ -605,7 +605,7 @@ export const namedLogos: Record<string, unknown> = {
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
-  'ternoa-chaos': nodeTernoa,
+  'ternoa-testnet': nodeTernoa,
   trustbase: nodeTrustBase,
   uniarts: nodeUniarts,
   unique: nodeUnique,
