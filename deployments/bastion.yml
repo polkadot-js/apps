@@ -1,13 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: The AWS CloudFormation template for wallet 
+Description: The AWS CloudFormation template for wallet
 
 Resources:
   BastionHost:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.micro
+      InstanceType: t2.medium
       ImageId: ami-00399ec92321828f5
-      KeyName: aleph # NOTE is that they key?
+      KeyName: aleph
       SubnetId:
         Fn::ImportValue: prod-public-subnet1-id
       SecurityGroupIds:
