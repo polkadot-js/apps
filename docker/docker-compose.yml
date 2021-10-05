@@ -1,0 +1,55 @@
+version: "3.5"
+services:
+
+  # --- BASE SERVICES ---#
+
+  # nginx:
+  #   image: nginxproxy/nginx-proxy:latest
+  #   container_name: nginx
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - /home/$USER/nginx-docker/certs:/etc/nginx/certs
+  #     - /home/$USER/nginx-docker/vhost.d:/etc/nginx/vhost.d
+  #     - /home/$USER/nginx-docker/html:/usr/share/nginx/html
+  #     - /home/$USER/nginx-docker/htpasswd:/etc/nginx/htpasswd
+  #     - /home/$USER/nginx-docker/conf.d:/etc/nginx/conf.d
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #   labels:
+  #     - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+  #   environment:
+  #     - DEFAULT_HOST=wallet.alephzero.org
+  #   restart: always
+
+  # letsencrypt:
+  #   image: nginxproxy/acme-companion
+  #   container_name: letsencrypt
+  #   depends_on:
+  #     - nginx
+  #   volumes:
+  #     - /home/$USER/nginx-docker/certs:/etc/nginx/certs
+  #     - /home/$USER/nginx-docker/vhost.d:/etc/nginx/vhost.d
+  #     - /home/$USER/nginx-docker/html:/usr/share/nginx/html
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   restart: always
+
+  # --- LANDING PAGE ---#
+
+  landing-page:
+    image: aleph-wallet:latest
+    container_name: landing-page
+    # depends_on:
+    #  - nginx
+    #  - letsencrypt
+    ports:
+      - 127.0.0.1:8080:80
+    expose:
+      - 80
+    environment:
+      - WS_URL=wss://test-api.alephzero.org
+      - VIRTUAL_HOST=testwallet.alephzero.org
+      - LETSENCRYPT_HOST=testwallet.alephzero.org
+      - SSL_POLICY=AWS-TLS-1-2-2017-01
+    restart: always
