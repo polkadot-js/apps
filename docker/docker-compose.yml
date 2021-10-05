@@ -19,11 +19,11 @@ services:
     labels:
       - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
     environment:
-      - DEFAULT_HOST=wallet.alephzero.org
+      - DEFAULT_HOST=testwallet.alephzero.org
     restart: always
 
   letsencrypt:
-    image: nginxproxy/acme-companion
+    image: nginxproxy/acme-companion:latest
     container_name: letsencrypt
     depends_on:
       - nginx
@@ -38,7 +38,7 @@ services:
   # --- LANDING PAGE ---#
 
   landing-page:
-    image: aleph-wallet:latest
+    image: public.ecr.aws/x2t8a1o3/aleph-wallet:latest
     container_name: landing-page
     depends_on:
      - nginx
