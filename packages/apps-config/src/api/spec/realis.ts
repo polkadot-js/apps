@@ -17,8 +17,9 @@ const definitions: OverrideBundleDefinition = {
             'Common',
             'Uncommon',
             'Rare',
-            'Mythical',
-            'Legendary'
+            'Epic',
+            'Legendary',
+            'Relic'
           ]
         },
         Basic: 'u8',
@@ -30,9 +31,10 @@ const definitions: OverrideBundleDefinition = {
             'Diamond'
           ]
         },
+        String: 'Vec<u8>',
         TokenType: {
           _enum: {
-            Basic: '(Basic, Rarity)'
+            Basic: '(Basic, Rarity, String)'
           }
         },
         Status: {
