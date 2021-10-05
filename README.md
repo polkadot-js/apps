@@ -1,4 +1,4 @@
-[![deploy-aleph-wallet](https://github.com/Cardinal-Cryptography/apps/actions/workflows/deploy-aleph-wallet.yml/badge.svg)](https://github.com/Cardinal-Cryptography/apps/actions/workflows/deploy-aleph-wallet.yml)
+[![deploy-aleph-wallet](https://github.com/Cardinal-Cryptography/apps/actions/workflows/deploy_aleph_wallet.yml/badge.svg)](https://github.com/Cardinal-Cryptography/apps/actions/workflows/deploy_aleph_wallet.yml)
 
 [![polkadotjs](https://img.shields.io/badge/polkadot-js-orange?style=flat-square)](https://polkadot.js.org)
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
