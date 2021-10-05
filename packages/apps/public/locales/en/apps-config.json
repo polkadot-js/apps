@@ -176,7 +176,7 @@
   "rpc.test.sora-substrate-staging": "SORA-staging",
   "rpc.test.subgame": "SubGame Staging",
   "rpc.test.subspace": "Spartan testnet",
-  "rpc.test.ternoa-chaos": "Ternoa Chaos",
+  "rpc.test.ternoa-testnet": "Ternoa Testnet",
   "rpc.test.turbulence": "Turbulence",
   "rpc.test.uniarts": "UniArts",
   "rpc.test.unique": "Unique",
