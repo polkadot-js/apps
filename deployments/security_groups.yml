@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: The AWS CloudFormation template for SGs
+
+Resources:
+  
+  BastionSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: prod-bastion-SG
+      GroupDescription: Whitelist inbound IPs
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 # TODO : lock it to whitelist of IPs
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80          
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0          
+      VpcId:
+        Fn::ImportValue: prod-vpc-id
+      Tags:
+        - Key: Name
+          Value: prod-bastion-SG
+
+Outputs:
+  BastionSecurityGroupIdExport:
+    Value:
+      Ref: BastionSecurityGroup
+    Export:
+      Name: prod-bastion-security-group-id
