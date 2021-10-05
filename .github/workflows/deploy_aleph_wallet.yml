@@ -1,0 +1,44 @@
+name: deploy-aleph-wallet
+
+on:
+  push:
+    paths-ignore:
+        # TODO : for DEV, uncomment
+        # - ".github/**"
+        - "*.md"
+    branches:
+      - main
+
+jobs:
+  deploy-wallet:
+    name: Build and push wallet image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout Source code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # this region is used by all public ECR repos
+
+      - name: Build and push latest image
+        id: build-image
+        run: ./docker/builds.sh
+
+      - name: Send Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        continue-on-error: true
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: GithubActions
+          SLACK_TITLE: deploy-devnet job has finished
+          MSG_MINIMAL: actions url
