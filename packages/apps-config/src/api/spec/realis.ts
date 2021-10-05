@@ -13,14 +13,14 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Rarity: {
-          _enum: {
-            'Common': 1,
-            'Uncommon': 2,
-            'Rare': 3,
-            'Epic': 4,
-            'Legendary': 5,
-            'Relic': 6,
-          }
+          _enum: [
+            'Common',
+            'Uncommon',
+            'Rare',
+            'Epic',
+            'Legendary',
+            'Relic'
+          ]
         },
         Basic: 'u8',
         TokenId: 'U256',
