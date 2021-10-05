@@ -15,3 +15,24 @@ Resources:
       Tags:
         - Key: Name
           Value: prod-bastion
+
+  Eip:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  EIPAssoc:
+      Type: AWS::EC2::EIPAssociation
+      Properties:
+        InstanceId: !Ref BastionHost
+        EIP: !Ref Eip
+
+  # BastionHostRecordSet:
+  #   Type: AWS::Route53::RecordSet
+  #   Properties:
+  #     HostedZoneId: TODO
+  #     Name: TODO
+  #     TTL: 300
+  #     Type: A
+  #     ResourceRecords:
+  #       - Ref: Eip
