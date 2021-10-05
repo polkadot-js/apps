@@ -39,5 +39,5 @@ jobs:
           SLACK_COLOR: ${{ job.status }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: GithubActions
-          SLACK_TITLE: deploy-devnet job has finished
+          SLACK_TITLE: deploy-wallet job has finished
           MSG_MINIMAL: actions url
