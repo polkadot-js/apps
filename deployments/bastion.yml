@@ -1,13 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: The AWS CloudFormation template for wallet
+Description: The AWS CloudFormation template for wallet 
 
 Resources:
   BastionHost:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.medium
+      InstanceType: t2.micro
       ImageId: ami-00399ec92321828f5
-      KeyName: aleph
+      KeyName: aleph # NOTE is that they key?
       SubnetId:
         Fn::ImportValue: prod-public-subnet1-id
       SecurityGroupIds:
@@ -15,24 +15,3 @@ Resources:
       Tags:
         - Key: Name
           Value: prod-bastion
-
-  Eip:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-
-  EIPAssoc:
-      Type: AWS::EC2::EIPAssociation
-      Properties:
-        InstanceId: !Ref BastionHost
-        EIP: !Ref Eip
-
-  # BastionHostRecordSet:
-  #   Type: AWS::Route53::RecordSet
-  #   Properties:
-  #     HostedZoneId: TODO
-  #     Name: TODO
-  #     TTL: 300
-  #     Type: A
-  #     ResourceRecords:
-  #       - Ref: Eip
