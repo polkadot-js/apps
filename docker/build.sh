@@ -7,7 +7,7 @@
 set -e
 
 # the docker image name and dockerhub repo
-NAME=aleph-wallet
+NAME="aleph-wallet"
 ECR_REGISTRY=public.ecr.aws/x2t8a1o3
 
 # -- BUIDL
@@ -23,10 +23,9 @@ VERSION=$(cat package.json \
 echo "*** Buidling $NAME"
 docker build -t $NAME:latest -f docker/Dockerfile .
 
-docker tag $NAME:latest $ECR_REGISTRY/$NAME:latest
-docker tag $NAME:latest $ECR_REGISTRY/$NAME:$VERSION
+docker tag aleph-node:latest $ECR_REGISTRY/$NAME:latest
+docker tag aleph-node:latest $ECR_REGISTRY/$NAME:$VERSION
 aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
-
 echo "*** Pushing to $ECR_REGISTRY/$NAME"
 docker push --all-tags $ECR_REGISTRY/$NAME
 
