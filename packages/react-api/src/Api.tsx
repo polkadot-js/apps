@@ -198,7 +198,7 @@ function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | n
     if (apiUrl.startsWith('light://')) {
       const detect = new Detector('polkadot-js/apps');
 
-      provider = detect.provider(apiUrl.replace('light://substrate-connect/', ''));
+      provider = detect.provider({ name: apiUrl.replace('light://substrate-connect/', ''), spec: '' });
       provider.connect().catch(console.error);
     } else {
       provider = new WsProvider(apiUrl);
