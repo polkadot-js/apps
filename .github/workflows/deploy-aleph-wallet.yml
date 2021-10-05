@@ -2,12 +2,12 @@ name: deploy-aleph-wallet
 
 on:
   push:
+    branches:
+      - alephzero    
     paths-ignore:
         # TODO : for DEV, uncomment
         # - ".github/**"
         - "*.md"
-    branches:
-      - alephzero
 
 jobs:
   deploy-wallet:
