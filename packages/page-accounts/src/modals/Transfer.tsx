@@ -164,7 +164,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   />
                   <InputBalance
                     defaultValue={api.consts.balances.existentialDeposit}
-                    help={t<string>('The minimum amount that an account should have to be deemed active')}
+                    help={t<string>('The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot')}
                     isDisabled
                     label={t<string>('minimum balance')}
                   />
