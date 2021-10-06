@@ -1,13 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParaId } from '@polkadot/types/interfaces';
 import type { AuctionInfo, Campaign, Campaigns, WinnerData, Winning } from '../types';
 
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { useLeaseRangeMax } from '../useLeaseRanges';
@@ -22,9 +20,7 @@ interface Props {
 
 function Auction ({ auctionInfo, campaigns, className, winningData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const rangeMax = useLeaseRangeMax();
-  const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
 
   const headerRef = useRef([
     [t('bids'), 'start', 3],
@@ -36,14 +32,13 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
 
   const loans = useMemo(
     (): Campaign[] | undefined => {
-      if (newRaise && auctionInfo && auctionInfo.leasePeriod && campaigns.funds) {
+      if (auctionInfo && auctionInfo.leasePeriod && campaigns.funds) {
         const leasePeriodStart = auctionInfo.leasePeriod;
         const leasePeriodEnd = leasePeriodStart.add(rangeMax);
 
         return campaigns.funds
-          .filter(({ firstSlot, isWinner, lastSlot, paraId }) =>
+          .filter(({ firstSlot, isWinner, lastSlot }) =>
             !isWinner &&
-            newRaise.some((n) => n.eq(paraId)) &&
             firstSlot.gte(leasePeriodStart) &&
             lastSlot.lte(leasePeriodEnd)
           )
@@ -52,12 +47,12 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
         return undefined;
       }
     },
-    [auctionInfo, campaigns, newRaise, rangeMax]
+    [auctionInfo, campaigns, rangeMax]
   );
 
   const interleave = useCallback(
     (winners: WinnerData[], asIs: boolean): WinnerData[] => {
-      if (asIs || !newRaise || !auctionInfo?.leasePeriod || !loans) {
+      if (asIs || !auctionInfo?.leasePeriod || !loans) {
         return winners;
       }
 
@@ -87,14 +82,14 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
             : a.firstSlot.cmp(b.firstSlot)
         );
     },
-    [auctionInfo, loans, newRaise]
+    [auctionInfo, loans]
   );
 
   return (
     <Table
       className={className}
       empty={
-        newRaise && auctionInfo && auctionInfo.numAuctions && winningData && (
+        auctionInfo && auctionInfo.numAuctions && winningData && (
           auctionInfo.endBlock && !winningData.length
             ? t<string>('No winners in this auction')
             : t<string>('No ongoing auction')
