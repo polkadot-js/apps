@@ -179,7 +179,7 @@
   "The legal name for this identity.": "The legal name for this identity.",
   "The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.": "The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "The maximum amount you can delegate is the amount of funds available on the delegating account.",
-  "The minimum amount that an account should have to be deemed active": "The minimum amount that an account should have to be deemed active",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot",
   "The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.": "The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.",
   "The name for this account as it will appear under your accounts.": "The name for this account as it will appear under your accounts.",
   "The name is for unique identification of the account in your owner lists.": "The name is for unique identification of the account in your owner lists.",

@@ -712,7 +712,7 @@
   "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": "Jumlah gas maksimum yang akan digunakan untuk panggilan kontrak ini. Jika panggilan membutuhkan lebih banyak, itu akan gagal.",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "Jumlah maksimum yang dapat anda delegasikan adalah jumlah dana yang tersedia di akun yang terdelegasi.",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "Pesan untuk dikirim ke kontrak ini. Parameter disesuaikan berdasarkan ABI yang disediakan.",
-  "The minimum amount that an account should have to be deemed active": "Jumlah minimum akun yang harus dianggap aktif",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "Jumlah minimum akun yang harus dianggap aktif",
   "The minimum amount that will be bonded": "Jumlah minimum yang akan diikat",
   "The minimum deposit required": "Setoran minimum yang dibutuhkan",
   "The minimum number of committee votes required to approve this motion": "Jumlah minimum suara komite yang diperlukan untuk menyetujui mosi ini",

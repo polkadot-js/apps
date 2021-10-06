@@ -643,7 +643,7 @@
   "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": ".الحد الأقصى لكمية الغاز التي يجب استخدامها في مكالمة العقد هذه.  إذا كانت المكالمة تتطلب المزيد، فسوف تفشل",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "الحد الأقصى للمبلغ الذي يمكنك تفويضه هو مبلغ الأموال المتوفرة في حساب التفويض",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": ".الرسالة التي يجب إرسالها إلى هذا العقد.  يتم تعديل الإعدادات استنادًا إلى واجهة التطبيق الثنائية المقدمة",
-  "The minimum amount that an account should have to be deemed active": ".الحد الأدنى للمبلغ الذي يجب توفره لاعتبار الحساب نشطًا",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": ".الحد الأدنى للمبلغ الذي يجب توفره لاعتبار الحساب نشطًا",
   "The minimum amount that will be bonded": "الحد الأدنى للمبلغ الذي سيتم ربطه",
   "The minimum deposit required": "الحد الأدنى للإيداع مطلوب",
   "The minimum number of committee votes required to approve this motion": "الحد الأدنى لعدد أصوات اللجنة المطلوبة للموافقة على هذا الاقتراح",

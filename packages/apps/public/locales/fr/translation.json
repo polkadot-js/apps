@@ -726,7 +726,7 @@
   "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": "La quantité maximale de gas à utiliser pour cet appel de contrat. Si l'appel nécessite plus, il échouera.",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "Le montant maximal que vous pouvez déléguer est le montant des fonds disponibles sur le compte délégataire.",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "Le message à envoyer à ce contrat. Les paramètres sont ajustés en fonction de l'ABI fourni.",
-  "The minimum amount that an account should have to be deemed active": "Le montant minimum qu'un compte devrait devoir être considéré comme actif",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "Le montant minimum qu'un compte devrait devoir être considéré comme actif",
   "The minimum amount that will be bonded": "Le montant minimum qui sera cautionné",
   "The minimum deposit required": "Le dépôt minimum requis",
   "The minimum number of committee votes required to approve this motion": "Le nombre minimum de votes de comité requis pour approuver cette motion",

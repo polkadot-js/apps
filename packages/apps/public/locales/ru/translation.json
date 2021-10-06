@@ -531,7 +531,7 @@
   "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.": "Максимум газа для этого вызова. Если исполнение кода потребует больше, вызов не исполнится.",
   "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.": "Максимум газа для этого развертывания. Если исполнение кода потребует больше, развертывание не исполнится.",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "Сообщение для этого контракта. Параметры зависят от ABI.",
-  "The minimum amount that an account should have to be deemed active": "Минимум средств, необходимый для того, чтобы аккаунт считался активным",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "Минимум средств, необходимый для того, чтобы аккаунт считался активным",
   "The minimum amount that will be bonded": "Минимум средств для привязки",
   "The minimum deposit required": "Минимальное значение депозита",
   "The minimum number of committee votes required to approve this motion": "Минимальное количество голосов Совета для одобрения",

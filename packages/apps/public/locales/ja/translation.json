@@ -282,7 +282,7 @@
   "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.": "このデプロイで使用できるガスの最大量は、コードがそれ以上必要な場合、デプロイは失敗します。",
   "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": "このコントラクトコールで使用するガスの最大量です。それ以上の量を必要とする場合、コールは失敗します。",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "このコントラクトに送信するメッセージ。パラメータは、提供されたABIに基づいて調整されます。",
-  "The minimum amount that an account should have to be deemed active": "アカウントがアクティブであるとみなされるために必要な最低金額。",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "アカウントがアクティブであるとみなされるために必要な最低金額。",
   "The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.": "このアカウントの名前と、それがあなたのアドレスの下にどのように表示されるか。オンチェーンのIDがあれば、他の人が利用できるようにすることができます。",
   "The name is for unique identification of the account in your owner lists.": "この名前は、所有者リストの中でこのアカウントを一意に識別するためのものです。",
   "The name that will be displayed in your accounts list.": "アカウントリストに表示される名前です。",

@@ -707,7 +707,7 @@
   "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": "계약서 콜에서 최대 많이 사용할 수 있는 가스량. 만약 해당 콜이 가스를 더 필요하다면, 이것은 실패할 것입니다.",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "위임할 수 있는 토큰의 상한은 위임을 할 계정의 사용가능한 자금의 수량으로 결정됩니다.",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "이 계약서에게 보낼 메시지. 파라머터는 제공된 ABI에 따라 조정됩니다.",
-  "The minimum amount that an account should have to be deemed active": "계정이 활성화 되기 위한 최소 자금의 수량",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "계정이 활성화 되기 위한 최소 자금의 수량",
   "The minimum amount that will be bonded": "본드될 최소 금액",
   "The minimum deposit required": "최소 필요한 보증금",
   "The minimum number of committee votes required to approve this motion": "이 동의서를 승인하기 위한 최소 위원회 투표수",

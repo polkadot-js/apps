@@ -522,7 +522,7 @@
   "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.": "La cantidad máxima de gas que puede ser utilizada por esta llamada. Si el código requiere más, la llamada fallará.",
   "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.": "La cantidad máxima de gas que puede ser utilizada para este despliegue, si el código requiere más, el despliegue fallará.",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "El mensaje para enviar a este contrato. Los parámetros se ajustan en base al ABI proporcionado.",
-  "The minimum amount that an account should have to be deemed active": "Cantidad mínima que debe tener una cuenta para que se considere activa",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "Cantidad mínima que debe tener una cuenta para que se considere activa",
   "The minimum amount that will be bonded": "La cantidad mínima que se fijará en la fianza",
   "The minimum deposit required": "El depósito mínimo necesario",
   "The minimum number of committee votes required to approve this motion": "El número mínimo de votos del comité requerido para aprobar esta moción",

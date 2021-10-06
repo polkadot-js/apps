@@ -688,7 +688,7 @@
   "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": "此合约调用使用的最大 gas 值。如果调用需要更多，就会失败。",
   "The maximum amount you can delegate is the amount of funds available on the delegating account.": "您可以委托的最大金额是可委托账户上的资金总额。",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "发送给合约的消息. 根据提供的ABI调整参数.",
-  "The minimum amount that an account should have to be deemed active": "一个账户被认可为活跃时所必须拥有的最小数量。",
+  "The minimum amount that an account should have to be deemed active. This is same as existential deposit in Polkadot": "一个账户被认可为活跃时所必须拥有的最小数量。",
   "The minimum amount that will be bonded": "最小绑定的数量",
   "The minimum deposit required": "所需最小押金",
   "The minimum number of committee votes required to approve this motion": "通过该 motion 所需的最低委员会票数",
