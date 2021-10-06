@@ -3,6 +3,13 @@ services:
 
   # --- BASE SERVICES ---#
 
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --label-enable --cleanup --interval 600
+
   nginx:
     image: nginxproxy/nginx-proxy:latest
     container_name: nginx
@@ -47,6 +54,9 @@ services:
       - 127.0.0.1:8080:80
     expose:
       - 80
+    labels:
+     - "com.centurylinklabs.watchtower.stop-signal=SIGTERM"
+     - "com.centurylinklabs.watchtower.enable=true"
     environment:
       - WS_URL=wss://test-api.alephzero.org
       - VIRTUAL_HOST=testwallet.alephzero.org
