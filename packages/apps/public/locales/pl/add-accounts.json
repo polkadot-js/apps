@@ -63,7 +63,7 @@
   "For final approvals, the actual full call data is required to execute the transaction": "For final approvals, the actual full call data is required to execute the transaction",
   "Forget this account": "Forget this account",
   "Full Legal Name": "Full Legal Name",
-  "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.": "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.",
+  "Future versions of this web app will only support these external sources": "Future versions of this web app will only support these external sources",
   "I have saved my mnemonic seed safely": "I have saved my mnemonic seed safely",
   "If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.": "If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.",
   "If the recipient account is new, the balance needs to be more than the minimum balance. Likewise if the sending account balance drops below the same value, the account will be removed from the state.": "If the recipient account is new, the balance needs to be more than the minimum balance. Likewise if the sending account balance drops below the same value, the account will be removed from the state.",
