@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance, FormatBalance } from '@polkadot/react-query';
-import { BN_ONE } from '@polkadot/util';
+import { BN_ONE, bnToBn } from '@polkadot/util';
 
 import SummarySession from './SummarySession';
 import { useTranslation } from './translate';
@@ -27,7 +27,15 @@ function Summary (): React.ReactElement {
     if (remainingSupply === undefined) {
       getRemainingSupply();
     }
-  }, []);
+  }, [api, remainingSupply]);
+
+  let totalPosRewards;
+
+  // If its the PoS mainnet, show PoS rewards given so far
+  if (remainingSupply && (api.genesisHash.toHex() === '0x6bfe24dca2a3be10f22212678ac13a6446ec764103c0f3471c71609eac384aae')) {
+    // By the end of PoA, remaining emission supply was 144981701016200
+    totalPosRewards = bnToBn(144981701016200).sub(remainingSupply);
+  }
 
   return (
     <SummaryBox>
@@ -56,6 +64,18 @@ function Summary (): React.ReactElement {
           >
             <FormatBalance
               value={remainingSupply}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {totalPosRewards && (
+          <CardSummary
+            className='media--800'
+            help={t<string>('Emission rewards generated during PoS so far')}
+            label={t<string>('pos rewards')}
+          >
+            <FormatBalance
+              value={totalPosRewards}
               withSi
             />
           </CardSummary>

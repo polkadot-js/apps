@@ -48,6 +48,26 @@ networks.push({
   "icon": "substrate"
 });
 
+networks.push({
+  "decimals": [
+      6
+  ],
+  "displayName": "Dock PoS Mainnet",
+  "genesisHash": [
+      "0x6bfe24dca2a3be10f22212678ac13a6446ec764103c0f3471c71609eac384aae"
+  ],
+  "hasLedgerSupport": true,
+  "network": "dock",
+  "prefix": 22,
+  "slip44": 594,
+  "standardAccount": "*25519",
+  "symbols": [
+      "DOCK"
+  ],
+  "website": "https://dock.io",
+  "icon": "substrate"
+});
+
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 const ledgerChains = networks.filter((n) => !!n.hasLedgerSupport);
 let ledger: Ledger | null = null;

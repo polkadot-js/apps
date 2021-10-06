@@ -13,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsAccounts: false,
       needsApi: []
     },
-    group: 'network',
+    group: 'governance',
     icon: 'sync',
     name: 'master-proposals',
     text: t<string>('nav.proposals', 'Proposals', { ns: 'apps-routing' })

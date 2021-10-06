@@ -55,6 +55,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
         </CardSummary>
         <CardSummary
           className='media--1200'
+          help={t<string>('new tokens emitted as a percentage of current supply')}
           label={t<string>('inflation')}
         >
           {(inflation > 0) && Number.isFinite(inflation)

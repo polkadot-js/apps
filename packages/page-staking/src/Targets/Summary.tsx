@@ -79,7 +79,9 @@ function Summary ({ avgStaked, lowStaked, minNominated, stakedReturn, totalIssua
       </section>
       <section className='media--800'>
         {totalIssuance && (stakedReturn > 0) && Number.isFinite(stakedReturn) && (
-          <CardSummary label={t<string>('returns')}>
+          <CardSummary
+            help={t<string>("total validator rewards as a percentage of currently staked tokens, individual nominator rewards may vary depending on their validator's configuration")}
+            label={t<string>('returns')}>
             {stakedReturn.toFixed(1)}%
           </CardSummary>
         )}

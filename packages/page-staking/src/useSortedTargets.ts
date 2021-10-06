@@ -169,7 +169,7 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
   // const inflation = calcInflation(api, totalStaked, totalIssuance);
-  const inflation = calcDockInflation(totalStaked, totalIssuance, yearlyEmission);
+  const inflation = calcDockInflation(api, totalStaked, totalIssuance, yearlyEmission);
 
   // add the explicit stakedReturn
   !avgStaked.isZero() && elected.forEach((e): void => {
@@ -261,6 +261,7 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
     totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   }
 
+  // Total yearly emission
   const yearly = useCall<BN>(totalIssuance && totalStaked && api.rpc.staking_rewards.yearlyEmission, [totalStaked?.toString(), totalIssuance?.toString()]);
 
   const partial = useMemo(

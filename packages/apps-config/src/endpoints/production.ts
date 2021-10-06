@@ -17,8 +17,8 @@ import { expandEndpoints } from './util';
 export function createProduction (t: TFunction): LinkOption[] {
   return expandEndpoints(t, [
     {
-      info: 'dock-mainnet',
-      text: t('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
+      info: 'dock-pos-mainnet',
+      text: t('rpc.dock-pos-mainnet', 'Dock PoS Mainnet', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io'
       }
