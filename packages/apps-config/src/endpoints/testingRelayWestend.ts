@@ -73,6 +73,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'interBTC',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6230
         paraId: 2094,
         text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
         providers: {
