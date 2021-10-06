@@ -235,7 +235,7 @@
   "Forget this contract": "Dimentica questo contratto",
   "Forks": "Forks",
   "Full Legal Name": "Nome",
-  "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.": "Le future versioni della interfaccia via web non avranno più il supporto agli account non esterni, come la versione IPFS",
+  "Future versions of this web app will only support these external sources": "Le future versioni della interfaccia via web non avranno più il supporto agli account non esterni, come la versione IPFS",
   "General": "Generale",
   "Generate {{lng}}/translation.json": "Genera {{lng}}/translation.json",
   "Genesis Hash": "Genesis Hash",

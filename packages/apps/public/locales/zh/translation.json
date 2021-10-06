@@ -217,7 +217,7 @@
   "Forget this contract": "忘记该合约",
   "Forks": "(Forks)分叉",
   "Full Legal Name": "法定全称",
-  "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.": "未来版本的纯 web 界面将不再支持非外部帐户，这与 IPFS 版本非常相似。",
+  "Future versions of this web app will only support these external sources": "未来版本的纯 web 界面将不再支持非外部帐户，这与 IPFS 版本非常相似。",
   "General": "通用",
   "Generate {{lng}}/translation.json": "生成 {{lng}}/translation.json",
   "Genesis Hash": "创世区块哈希",

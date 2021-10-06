@@ -219,7 +219,7 @@
   "Forget this asset": "해당 자산을 무시하세요",
   "Forks": "포크",
   "Full Legal Name": "법정 이름",
-  "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.": "향후 버전의 웹 전용 인터페이스는 IPFS 버전과 마찬가지로 비외부 계정에 대한 지원이 중단될 것입니다.",
+  "Future versions of this web app will only support these external sources": "향후 버전의 웹 전용 인터페이스는 IPFS 버전과 마찬가지로 비외부 계정에 대한 지원이 중단될 것입니다.",
   "General": "일반적인",
   "Generate {{lng}}/translation.json": "생성 {{lng}}/translation.json",
   "Genesis Hash": "제네시스 해시",

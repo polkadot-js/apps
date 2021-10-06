@@ -226,7 +226,7 @@
   "Forget this contract": "Lupakan kontrak ini",
   "Forks": "Fork",
   "Full Legal Name": "Name lengkap resmi",
-  "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.": "Versi mendatang pada antarmuka khusus web akan menghentikan layanan untuk akun non-eksternal, seperti versi IPFS.",
+  "Future versions of this web app will only support these external sources": "Versi mendatang pada antarmuka khusus web akan menghentikan layanan untuk akun non-eksternal, seperti versi IPFS.",
   "General": "General",
   "Generate {{lng}}/translation.json": "Generate {{lng}}/translation.json",
   "Genesis Hash": "Genesis Hash",
