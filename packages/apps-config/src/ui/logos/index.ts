@@ -115,7 +115,7 @@ import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
 import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
-import nodeRealis from './nodes/realis.png';
+import nodeRealis from './nodes/realis.svg';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSakura from './nodes/sakura.svg';
