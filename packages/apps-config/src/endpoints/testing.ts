@@ -195,6 +195,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'ipse',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6242
       text: t('rpc.test.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
         'IPSE China': 'wss://testnet-china.ipse.io',
@@ -414,10 +415,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'ternoa-chaos',
-      text: t('rpc.test.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      info: 'ternoa-testnet',
+      text: t('rpc.test.ternoa-testnet', 'Ternoa Testnet', { ns: 'apps-config' }),
       providers: {
-        CapsuleCorp: 'wss://chaos.ternoa.com'
+        CapsuleCorp: 'wss://testnet.ternoa.com/'
       }
     },
     {

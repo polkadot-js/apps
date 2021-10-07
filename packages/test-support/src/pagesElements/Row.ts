@@ -41,6 +41,14 @@ export class Row {
     }
   }
 
+  async assertBadge (expectedBadgeName: string): Promise<void> {
+    await within(this.primaryRow).findByTestId(expectedBadgeName);
+  }
+
+  assertNoBadge (badgeName: string): void {
+    expect(within(this.primaryRow).queryByTestId(badgeName)).toBeFalsy();
+  }
+
   async assertTags (expectedTagsContent: string): Promise<void> {
     const actualTags = await within(this.detailsRow).findByTestId('tags');
 
@@ -57,6 +65,10 @@ export class Row {
     const toggle = await within(this.primaryRow).findByTestId('row-toggle');
 
     fireEvent.click(toggle);
+  }
+
+  async getBadge (expectedBadgeName: string): Promise<HTMLElement> {
+    return within(this.primaryRow).findByTestId(`${expectedBadgeName}-badge`);
   }
 
   async openSidebar (): Promise<Sidebar> {
