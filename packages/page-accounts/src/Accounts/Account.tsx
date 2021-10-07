@@ -16,7 +16,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -410,99 +410,111 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         </td>
         <td className='together'>
-          {meta.genesisHash
-            ? <Badge color='transparent' />
-            : isDevelopment
-              ? (
+          <div className='badges'>
+            <div className='info'>
+              {meta.genesisHash
+                ? <Badge color='transparent' />
+                : isDevelopment
+                  ? (
+                    <Badge
+                      className='warning'
+                      hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                      icon='wrench'
+                    />
+                  )
+                  : (
+                    <Badge
+                      className='warning'
+                      hover={
+                        <div>
+                          <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                          <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                        </div>
+                      }
+                      icon='exclamation-triangle'
+                    />
+                  )
+              }
+              {recoveryInfo && (
                 <Badge
-                  className='devBadge'
-                  color='orange'
-                  hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
-                  icon='wrench'
-                />
-              )
-              : (
-                <Badge
-                  color='orange'
+                  className='recovery'
                   hover={
                     <div>
-                      <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                      <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                      <p>{t<string>('This account is recoverable, with the following friends:')}</p>
+                      <div>
+                        {recoveryInfo.friends.map((friend, index): React.ReactNode => (
+                          <AddressSmall
+                            key={index}
+                            value={friend}
+                          />
+                        ))}
+                      </div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>{t<string>('threshold')}</td>
+                            <td>{formatNumber(recoveryInfo.threshold)}</td>
+                          </tr>
+                          <tr>
+                            <td>{t<string>('delay')}</td>
+                            <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
+                          </tr>
+                          <tr>
+                            <td>{t<string>('deposit')}</td>
+                            <td>{formatBalance(recoveryInfo.deposit)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   }
-                  icon='exclamation-triangle'
+                  icon='redo'
                 />
-              )
-          }
-          {recoveryInfo && (
-            <Badge
-              color='green'
-              hover={
-                <div>
-                  <p>{t<string>('This account is recoverable, with the following friends:')}</p>
-                  <div>
-                    {recoveryInfo.friends.map((friend, index): React.ReactNode => (
-                      <IdentityIcon
-                        key={index}
-                        value={friend}
-                      />
-                    ))}
-                  </div>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>{t<string>('threshold')}</td>
-                        <td>{formatNumber(recoveryInfo.threshold)}</td>
-                      </tr>
-                      <tr>
-                        <td>{t<string>('delay')}</td>
-                        <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
-                      </tr>
-                      <tr>
-                        <td>{t<string>('deposit')}</td>
-                        <td>{formatBalance(recoveryInfo.deposit)}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              }
-              icon='shield'
-            />
-          )}
-          {multiInfos && multiInfos.length !== 0 && (
-            <Badge
-              color='red'
-              hover={t<string>('Multisig approvals pending')}
-              info={multiInfos.length}
-            />
-          )}
-          {isProxied && !proxyInfo.hasOwned && (
-            <Badge
-              color='red'
-              hover={t<string>('Proxied account has no owned proxies')}
-              info='0'
-            />
-          )}
-          {delegation?.accountDelegated && (
-            <Badge
-              color='blue'
-              hover={t<string>('This account has a governance delegation')}
-              icon='calendar-check'
-              onClick={toggleDelegate}
-            />
-          )}
-          {!!proxy?.[0].length && api.api.tx.utility && (
-            <Badge
-              color='blue'
-              hover={t<string>('This account has {{proxyNumber}} proxy set.', {
-                replace: {
-                  proxyNumber: proxy[0].length
-                }
-              })}
-              icon='arrow-right'
-              onClick={toggleProxyOverview}
-            />
-          )}
+              )}
+              {isProxied && !proxyInfo.hasOwned && (
+                <Badge
+                  className='important'
+                  hover={t<string>('Proxied account has no owned proxies')}
+                  icon='sitemap'
+                  info='0'
+                />
+              )}
+            </div>
+            <div className='action'>
+              {multiInfos && multiInfos.length !== 0 && (
+                <Badge
+                  className='important'
+                  color='purple'
+                  hover={t<string>('Multisig approvals pending')}
+                  hoverAction={t<string>('View pending approvals')}
+                  icon='file-signature'
+                  info={multiInfos.length}
+                  onClick={toggleMultisig}
+                />
+              )}
+              {delegation?.accountDelegated && (
+                <Badge
+                  className='information'
+                  hover={t<string>('This account has a governance delegation')}
+                  hoverAction={t<string>('Manage delegation')}
+                  icon='calendar-check'
+                  onClick={toggleDelegate}
+                />
+              )}
+              {!!proxy?.[0].length && api.api.tx.utility && (
+                <Badge
+                  className='information'
+                  hover={t<string>('This account has {{proxyNumber}} proxy set.', {
+                    replace: {
+                      proxyNumber: proxy[0].length
+                    }
+                  })}
+                  hoverAction={t<string>('Proxy overview')}
+                  icon='sitemap'
+                  onClick={toggleProxyOverview}
+                />
+              )}
+            </div>
+          </div>
         </td>
         <td className='address'>
           <AddressSmall
@@ -742,6 +754,43 @@ export default React.memo(styled(Account)`
       .send-button {
         min-width: 6.5rem;
       }
+    }
+  }
+
+  && .ui--AddressInfo .ui--FormatBalance {
+    .ui--Icon, .icon-void {
+      margin-left: 0.7rem;
+      margin-right: 0.3rem;
+    }
+
+    .ui--Button.isIcon {
+      margin-left: 0.5rem;
+      padding: 0.15rem 0.2rem 0.05rem;
+      border: 1px solid var(--border-table);
+      border-radius: 4px;
+
+      .ui--Icon {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+  
+  .together > .badges {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & > .info + .action {
+      margin-top: 0.5rem;
+
+      &:empty {
+        margin-top: 0;
+      }
+    }
+
+    & > .info:empty + .action {
+      margin-top: 0;
     }
   }
 `);
