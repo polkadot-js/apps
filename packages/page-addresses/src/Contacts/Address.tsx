@@ -319,4 +319,11 @@ export default React.memo(styled(Address)`
       }
     }
   }
+
+  && .ui--AddressInfo .ui--FormatBalance {
+    .ui--Icon, .icon-void {
+      margin-left: 0.7rem;
+      margin-right: 0.3rem
+    }
+  }
 `);
