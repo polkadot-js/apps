@@ -5,7 +5,7 @@
   "version": "0.96.2-48",
   "license": "Apache-2.0",
   "dependencies": {
-    "@testing-library/react": "^12.1.0",
+    "@testing-library/react": "^12.1.2",
     "testcontainers": "^7.20.2"
   },
   "devDependencies": {
