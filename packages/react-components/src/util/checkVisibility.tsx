@@ -7,7 +7,7 @@ import { ApiPromise } from '@polkadot/api';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
 
-export default function checkVisibility (api: ApiPromise, address: string, accountInfo: DeriveAccountInfo, filterName = '', onlyNamed = false): boolean {
+export function checkVisibility (api: ApiPromise, address: string, accountInfo: DeriveAccountInfo, filterName = '', onlyNamed = false): boolean {
   let isVisible = false;
   const filterLower = filterName.toLowerCase();
 

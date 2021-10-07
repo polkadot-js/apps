@@ -7,6 +7,7 @@ import type { DropdownOption, DropdownOptions } from '../../util/types';
 import React from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { getSiName } from '@polkadot/types/metadata/util';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
@@ -21,14 +22,26 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .sort()
     .map((value): DropdownOption => {
       const { meta: { docs, modifier, name, type } } = section[value] as unknown as StorageEntry;
-      const input = type.isPlain
-        ? ''
-        : type.isMap
-          ? type.asMap.key.toString()
-          : type.isDoubleMap
-            ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
-            : type.asNMap.keyVec.map((k) => k.toString()).join(', ');
       const output = unwrapStorageType(api.registry, type, modifier.isOptional);
+      let input = '';
+
+      if (type.isMap) {
+        const { hashers, key } = type.asMap;
+
+        if (hashers.length === 1) {
+          input = getSiName(api.registry.lookup, key);
+        } else {
+          const si = api.registry.lookup.getSiType(key).def;
+
+          if (si.isTuple) {
+            input = si.asTuple
+              .map((t) => getSiName(api.registry.lookup, t))
+              .join(', ');
+          } else {
+            input = si.asHistoricMetaCompat.toString();
+          }
+        }
+      }
 
       return {
         className: 'ui--DropdownLinked-Item',

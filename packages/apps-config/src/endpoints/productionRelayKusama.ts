@@ -52,7 +52,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2088,
         text: t('rpc.kusama.altair', 'Altair', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.altair.centrifuge.io'
+          Centrifuge: 'wss://fullnode.altair.centrifuge.io',
+          OnFinality: 'wss://altair.api.onfinality.io/public-ws'
         }
       },
       {
@@ -82,7 +83,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          Manta: 'wss://falafel.calamari.systems/',
+          'Manta Network 0': 'wss://falafel.calamari.systems/',
+          'Manta Network 1': 'wss://fritti.calamari.systems/',
+          'Manta Network 2': 'wss://smoothie.calamari.systems/',
           OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
@@ -216,8 +219,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2085,
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-          Parallel: 'wss://heiko-rpc.parallel.fi'
+          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws'
+          // Parallel: 'wss://heiko-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/6195
         }
       },
       {
@@ -293,6 +296,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
+        }
+      },
+      {
+        info: 'unorthodox',
+        homepage: 'https://standard.tech/',
+        paraId: 2094,
+        text: t('rpc.kusama.standard', 'Unorthodox', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.kusama.standard.tech'
         }
       }
     ]

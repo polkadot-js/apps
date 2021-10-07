@@ -12,26 +12,14 @@ export class Table {
     this.rowClassName = rowClassName;
   }
 
-  async assertRowsOrderAndColoring (order: number[]): Promise<void> {
-    await this.assertRowsOrder(order);
-    await this.assertColoring();
-  }
-
   async assertRowsOrder (balancesExpectedOrder: number[]): Promise<void> {
     const orderedRows = await this.getRows();
 
-    await Promise.all(orderedRows.map(async (row, index) => {
+    for (let index = 0; index < orderedRows.length; index++) {
+      const row = orderedRows[index];
       const expectedBalanceTextContent = showBalance(balancesExpectedOrder[index]);
 
       expect(await row.getBalanceSummary()).toHaveTextContent(expectedBalanceTextContent);
-    }));
-  }
-
-  async assertColoring (): Promise<void> {
-    const collapsibleRows = await this.getRows();
-
-    for (const collapsibleRow of collapsibleRows) {
-      collapsibleRow.assertColoring();
     }
   }
 
@@ -43,7 +31,7 @@ export class Table {
       const primaryRow = htmlRows[rowIdx];
       const detailsRow = htmlRows[rowIdx + 1];
 
-      collapsibleRows.push(new Row(primaryRow, detailsRow, rowIdx / 2));
+      collapsibleRows.push(new Row(primaryRow, detailsRow));
     }
 
     return collapsibleRows;

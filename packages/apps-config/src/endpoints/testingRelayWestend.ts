@@ -49,7 +49,7 @@ export function createWestend (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'basilisk',
-        paraId: 2091,
+        paraId: 2097,
         text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
         providers: {
           HydraDX: 'wss://rpc-01.basilisk-testnet.hydradx.io'
@@ -81,10 +81,28 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'moonshadow',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
           PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network'
+        }
+      },
+      {
+        info: 'opal',
+        homepage: 'https://unique.network/',
+        paraId: 2096,
+        text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://westend-opal.unique.network'
+        }
+      },
+      {
+        info: 'westendStandard',
+        paraId: 2094,
+        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.westend.standard.tech'
         }
       },
       {
@@ -98,6 +116,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'whala',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2013,
         text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
         providers: {

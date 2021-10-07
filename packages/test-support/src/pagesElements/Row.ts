@@ -12,12 +12,10 @@ import { format } from '../utils/balance';
 export class Row {
   public primaryRow: HTMLElement;
   public detailsRow: HTMLElement;
-  public rowIndex: number;
 
-  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement, rowIndex: number) {
+  constructor (primaryRow: HTMLElement, detailsRow: HTMLElement) {
     this.primaryRow = primaryRow;
     this.detailsRow = detailsRow;
-    this.rowIndex = rowIndex;
   }
 
   async assertBalancesTotal (expectedTotalBalance: Balance): Promise<void> {
@@ -43,6 +41,14 @@ export class Row {
     }
   }
 
+  async assertBadge (expectedBadgeName: string): Promise<void> {
+    await within(this.primaryRow).findByTestId(expectedBadgeName);
+  }
+
+  assertNoBadge (badgeName: string): void {
+    expect(within(this.primaryRow).queryByTestId(badgeName)).toBeFalsy();
+  }
+
   async assertTags (expectedTagsContent: string): Promise<void> {
     const actualTags = await within(this.detailsRow).findByTestId('tags');
 
@@ -55,17 +61,14 @@ export class Row {
     expect(actualShortAddress).toHaveTextContent(expectedShortAddress);
   }
 
-  assertColoring (): void {
-    const expectedColorClass = this.getExpectedColorClass();
-
-    expect(this.primaryRow).toHaveClass(expectedColorClass);
-    expect(this.detailsRow).toHaveClass(expectedColorClass);
-  }
-
   async expand (): Promise<void> {
     const toggle = await within(this.primaryRow).findByTestId('row-toggle');
 
     fireEvent.click(toggle);
+  }
+
+  async getBadge (expectedBadgeName: string): Promise<HTMLElement> {
+    return within(this.primaryRow).findByTestId(`${expectedBadgeName}-badge`);
   }
 
   async openSidebar (): Promise<Sidebar> {
@@ -91,9 +94,5 @@ export class Row {
 
   private getAccountName (): Promise<HTMLElement> {
     return within(this.primaryRow).findByTestId('account-name');
-  }
-
-  private getExpectedColorClass (): string {
-    return this.rowIndex % 2 ? 'isEven' : 'isOdd';
   }
 }
