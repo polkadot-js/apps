@@ -130,6 +130,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6250
       text: t('rpc.test.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://testnet.equilibrium.io'
