@@ -54,7 +54,7 @@ function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: numbe
     : formatBalance.findSi('-');
 
   return [
-    formatBalance(value, { decimals, forceUnit: si.value, withSi: false }).replace(',', isDisabled ? ',' : ''),
+    formatBalance(value, { decimals, forceUnit: si.value, withSi: false }).replace(/,/g, isDisabled ? ',' : ''),
     si
   ];
 }
