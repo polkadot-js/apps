@@ -130,6 +130,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6250
       text: t('rpc.test.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://testnet.equilibrium.io'
@@ -195,6 +196,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'ipse',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6242
       text: t('rpc.test.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
         'IPSE China': 'wss://testnet-china.ipse.io',
@@ -303,7 +305,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'opportunity',
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
-        Opportunity: 'wss://rpc.opportunity.standard.tech'
+        'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
       }
     },
     {
@@ -329,6 +331,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phoenix',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
         'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
@@ -371,6 +374,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'riochain',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
@@ -412,10 +416,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'ternoa-chaos',
-      text: t('rpc.test.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      info: 'ternoa-testnet',
+      text: t('rpc.test.ternoa-testnet', 'Ternoa Testnet', { ns: 'apps-config' }),
       providers: {
-        CapsuleCorp: 'wss://chaos.ternoa.com'
+        CapsuleCorp: 'wss://testnet.ternoa.com/'
       }
     },
     {
