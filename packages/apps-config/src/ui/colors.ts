@@ -149,7 +149,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
-const nodeSubspace = 'linear-gradient(to left, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
+const nodeSubspace = '#292929';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
@@ -282,7 +282,7 @@ export const chainColors: Record<string, string> = Object.entries({
   sherpax: chainChainx,
   Shiden: chainShiden,
   Spanner: chainSpanner,
-  'Spartan testnet': nodeSubspace,
+  'Spartan testnet': nodeSubspace, // TODO: remove this after spec upgrade
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
   Statemine: specStatemine,
@@ -295,6 +295,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   'Subsocial PC1': chainSubsocial,
+  'Subspace testnet': nodeSubspace,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
@@ -373,7 +374,7 @@ export const nodeColors = Object.entries({
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
-  'Spartan testnet': nodeSubspace,
+  'Spartan testnet': nodeSubspace, // TODO: remove this after spec upgrade
   'Stafi node': nodeStafi,
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,
@@ -382,6 +383,7 @@ export const nodeColors = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   'subsocial node': nodeSubsocial,
+  'Subspace testnet': nodeSubspace,
   'subzero node': nodeZero,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,

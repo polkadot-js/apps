@@ -402,10 +402,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'spartan-testnet',
-      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
+      info: 'subspace-testnet',
+      text: t('rpc.test.subspace', 'Subspace testnet', { ns: 'apps-config' }),
       providers: {
-        'Subspace Network': 'wss://dev-rpc.subspace.network'
+        'Subspace Network': 'ws://localhost:9944'
       }
     },
     {
