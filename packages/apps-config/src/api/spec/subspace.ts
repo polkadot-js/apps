@@ -25,7 +25,7 @@ interface Solution extends Struct {
   readonly tag: U8aFixed;
 }
 
-interface PoCPreDigest extends Struct {
+interface SUBPreDigest extends Struct {
   readonly slot: u64;
   readonly solution: Solution;
 }
@@ -39,9 +39,9 @@ function extractAuthor(
   for (const log of digest.logs) {
     if (log.isPreRuntime) {
       const [type, data] = log.asPreRuntime;
-      if (type.toString() === "POC_") {
-        const { solution }: PoCPreDigest = api.registry.createType(
-          "PoCPreDigest",
+      if (type.toString() === "SUB_") {
+        const { solution }: SUBPreDigest = api.registry.createType(
+          "SUBPreDigest",
           data
         );
 
@@ -85,6 +85,7 @@ function subscribeNewHeads(
   instanceId: string,
   api: ApiInterfaceRx
 ): () => Observable<HeaderExtended> {
+  debugger
   return memo(
     instanceId,
     (): Observable<HeaderExtended> =>
@@ -142,7 +143,7 @@ const definitions: OverrideBundleDefinition = {
           signature: "Vec<u8>",
           tag: "[u8; 8]",
         },
-        PoCPreDigest: {
+        SUBPreDigest: {
           slot: "Slot",
           solution: "Solution",
         },

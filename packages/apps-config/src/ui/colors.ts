@@ -282,7 +282,6 @@ export const chainColors: Record<string, string> = Object.entries({
   sherpax: chainChainx,
   Shiden: chainShiden,
   Spanner: chainSpanner,
-  'Spartan testnet': nodeSubspace, // TODO: remove this after spec upgrade
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
   Statemine: specStatemine,
@@ -374,7 +373,6 @@ export const nodeColors = Object.entries({
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
-  'Spartan testnet': nodeSubspace, // TODO: remove this after spec upgrade
   'Stafi node': nodeStafi,
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,

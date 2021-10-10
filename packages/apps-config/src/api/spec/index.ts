@@ -192,7 +192,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
-  'node-template-spartan': subspace,
+  'node-template-subspace': subspace,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
   opal: uniqueWestend,

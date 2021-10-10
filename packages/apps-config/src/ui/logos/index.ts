@@ -243,7 +243,6 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
-  'Spartan testnet': nodeSubspace,  // TODO: remove this after spec upgrade
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
   'Statemint Test': nodeStatemine,
@@ -388,7 +387,6 @@ export const nodeLogos = Object.entries({
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
   SORA: nodeSora,
-  'Spartan testnet': nodeSubspace,  // TODO: remove this after spec upgrade
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
@@ -594,7 +592,6 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   spanner: chainSpanner,
-  'spartan-testnet': nodeSubspace,// TODO: Remove after spec upgrade
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
