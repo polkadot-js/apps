@@ -84,6 +84,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           contractAbi={contract.abi}
           isWatching
           onSelect={_onCall}
+          trigger={links?.length}
           withMessages
         />
       </td>
