@@ -2823,7 +2823,7 @@ __metadata:
     "@zeroio/type-definitions": 0.0.6
     i18next: ^19.9.2
     lodash: ^4.17.21
-    moonbeam-types-bundle: latest
+    moonbeam-types-bundle: 1.2.7
     pontem-types-bundle: 1.0.15
     rxjs: ^7.4.0
   languageName: unknown
@@ -14641,7 +14641,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:latest":
+"moonbeam-types-bundle@npm:1.2.7":
   version: 1.2.7
   resolution: "moonbeam-types-bundle@npm:1.2.7"
   dependencies:
