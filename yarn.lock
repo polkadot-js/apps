@@ -2553,7 +2553,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.15.4
     "@polkadot/phishing": ^0.6.340
-    "@polkadot/react-components": ^0.96.2-56
+    "@polkadot/react-components": ^0.96.2-57
     "@polkadot/test-support": 0.96.2-57
     "@polkadot/vanitygen": ^0.47.2
     detect-browser: ^5.2.1
@@ -3105,7 +3105,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-api@^0.96.2-56, @polkadot/react-api@^0.96.2-57, @polkadot/react-api@workspace:packages/react-api":
+"@polkadot/react-api@^0.96.2-57, @polkadot/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
@@ -3119,7 +3119,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@^0.96.2-56, @polkadot/react-components@^0.96.2-57, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@^0.96.2-57, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
@@ -3128,10 +3128,10 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.15
     "@polkadot/keyring": ^7.4.1
-    "@polkadot/react-api": ^0.96.2-56
+    "@polkadot/react-api": ^0.96.2-57
     "@polkadot/react-identicon": ^0.85.5
     "@polkadot/react-qr": ^0.85.5
-    "@polkadot/react-query": ^0.96.2-56
+    "@polkadot/react-query": ^0.96.2-57
     "@polkadot/ui-keyring": ^0.85.5
     "@polkadot/ui-settings": ^0.85.5
     "@polkadot/util": ^7.4.1
@@ -3226,7 +3226,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-query@^0.96.2-56, @polkadot/react-query@^0.96.2-57, @polkadot/react-query@workspace:packages/react-query":
+"@polkadot/react-query@^0.96.2-57, @polkadot/react-query@workspace:packages/react-query":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-query@workspace:packages/react-query"
   dependencies:

@@ -7,7 +7,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/phishing": "^0.6.340",
-    "@polkadot/react-components": "^0.96.2-56",
+    "@polkadot/react-components": "^0.96.2-57",
     "@polkadot/vanitygen": "^0.47.2",
     "detect-browser": "^5.2.1",
     "file-saver": "^2.0.5"
