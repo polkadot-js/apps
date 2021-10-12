@@ -757,6 +757,25 @@ export default React.memo(styled(Account)`
     }
   }
 
+  && .ui--AddressInfo .ui--FormatBalance {
+    .ui--Icon, .icon-void {
+      margin-left: 0.7rem;
+      margin-right: 0.3rem;
+    }
+
+    .ui--Button.isIcon {
+      margin-left: 0.5rem;
+      padding: 0.15rem 0.2rem 0.05rem;
+      border: 1px solid var(--border-table);
+      border-radius: 4px;
+
+      .ui--Icon {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+  
   .together > .badges {
     display: flex;
     flex-direction: column;
