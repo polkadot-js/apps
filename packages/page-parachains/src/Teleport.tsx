@@ -79,17 +79,24 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const params = useMemo(
     () => {
-      const src = isParaTeleport
+      // From Polkadot runtime 9110 (no destination weight)
+      const isCurrent = call.meta.args.length === 4 && call.meta.args[0].type.eq('XcmVersionedMultiLocation');
+
+      const dst = isParaTeleport
         ? { X1: 'Parent' }
         : { X1: { ParaChain: recipientParaId } };
-      const dst = { X1: { AccountId32: { id: recipientId, network: 'Any' } } };
-      const tkn = isParaTeleport
+      const acc = { X1: { AccountId32: { id: recipientId, network: 'Any' } } };
+      const ass = isParaTeleport
         ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }]
-        : [{ ConcreteFungible: { amount, id: 'Here' } }];
+        : isCurrent
+          ? [{ ConcreteFungible: { amount, id: 'Null' } }]
+          : [{ ConcreteFungible: { amount, id: 'Here' } }];
 
       return call.meta.args.length === 5
-        ? [{ V0: src }, { V0: dst }, { V0: tkn }, 0, destWeight]
-        : [src, dst, tkn, destWeight];
+        ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
+        : isCurrent
+          ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
+          : [dst, acc, ass, destWeight];
     },
     [amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
   );
