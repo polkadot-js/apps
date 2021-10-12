@@ -47,8 +47,16 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
   const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
-  const destWeight = useMemo(
-    () => getTeleportWeight(api),
+
+  const [destWeight, call] = useMemo(
+    () => [
+      getTeleportWeight(api),
+      (
+        (api.tx.xcm && api.tx.xcm.teleportAssets) ||
+        (api.tx.xcmPallet && api.tx.xcmPallet.teleportAssets) ||
+        (api.tx.polkadotXcm && api.tx.polkadotXcm.teleportAssets)
+      )
+    ],
     [api]
   );
 
@@ -70,20 +78,20 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const weightFee = useWeightFee(destWeight, destApi);
 
   const params = useMemo(
-    () => isParaTeleport
-      ? [
-        { X1: 'Parent' },
-        { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-        [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        destWeight
-      ]
-      : [
-        { X1: { ParaChain: recipientParaId } },
-        { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-        [{ ConcreteFungible: { amount, id: 'Here' } }],
-        destWeight
-      ],
-    [amount, destWeight, isParaTeleport, recipientId, recipientParaId]
+    () => {
+      const src = isParaTeleport
+        ? { X1: 'Parent' }
+        : { X1: { ParaChain: recipientParaId } };
+      const dst = { X1: { AccountId32: { id: recipientId, network: 'Any' } } };
+      const tkn = isParaTeleport
+        ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }]
+        : [{ ConcreteFungible: { amount, id: 'Here' } }];
+
+      return call.meta.args.length === 5
+        ? [{ V0: src }, { V0: dst }, { V0: tkn }, 0, destWeight]
+        : [src, dst, tkn, destWeight];
+    },
+    [amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
   );
 
   const hasAvailable = !!amount && amount.gte(weightFee);
@@ -175,11 +183,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           label={t<string>('Teleport')}
           onStart={onClose}
           params={params}
-          tx={
-            (api.tx.xcm && api.tx.xcm.teleportAssets) ||
-            (api.tx.xcmPallet && api.tx.xcmPallet.teleportAssets) ||
-            (api.tx.polkadotXcm && api.tx.polkadotXcm.teleportAssets)
-          }
+          tx={call}
         />
       </Modal.Actions>
     </Modal>

@@ -89,11 +89,11 @@ const definitions: OverrideBundleDefinition = {
         },
         AssetDetailsT: 'AssetDetails',
         AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' },
-        AssetInstance: 'AssetInstanceV0',
-        MultiLocation: 'MultiLocationV0',
-        MultiAsset: 'MultiAssetV0',
-        Xcm: 'XcmV0',
-        XcmOrder: 'XcmOrderV0'
+        AssetInstance: 'AssetInstanceV1',
+        MultiLocation: 'MultiLocationV1',
+        MultiAsset: 'MultiAssetV1',
+        Xcm: 'XcmV1',
+        XcmOrder: 'XcmOrderV1'
       }
     }
   ]
