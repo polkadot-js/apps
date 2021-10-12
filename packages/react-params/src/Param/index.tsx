@@ -11,6 +11,16 @@ import { isUndefined } from '@polkadot/util';
 import findComponent from './findComponent';
 import Static from './Static';
 
+function formatJSON (input: string): string {
+  return input
+    .replace(/"/g, '')
+    .replace(/\\/g, '')
+    .replace(/:/g, ': ')
+    .replace(/{/g, '{ ')
+    .replace(/}/g, ' }')
+    .replace(/,/g, ', ');
+}
+
 function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
   const Component = useMemo(
     () => findComponent(registry, type, overrides),
@@ -18,9 +28,11 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
   );
 
   const label = useMemo(
-    () => isUndefined(name)
-      ? `${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
-      : `${name}: ${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`,
+    () => formatJSON(
+      isUndefined(name)
+        ? `${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
+        : `${name}: ${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
+    ),
     [isDisabled, isInOption, name, registry, type]
   );
 

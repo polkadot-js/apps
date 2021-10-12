@@ -91,9 +91,8 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
       const acc = { X1: { AccountId32: { id: recipientId, network: 'Any' } } };
       const ass = isParaTeleport
         ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }]
-        : isCurrent
-          ? [{ ConcreteFungible: { amount, id: 'Null' } }]
-          : [{ ConcreteFungible: { amount, id: 'Here' } }];
+        // forgo id - 'Here' for 9100, 'Null' for 9110 (both is the default enum value)
+        : [{ ConcreteFungible: { amount } }];
 
       return isCurrent
         ? call.meta.args.length === 5
