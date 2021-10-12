@@ -2823,7 +2823,7 @@ __metadata:
     "@zeroio/type-definitions": 0.0.6
     i18next: ^19.9.2
     lodash: ^4.17.21
-    moonbeam-types-bundle: 1.2.6
+    moonbeam-types-bundle: 1.2.7
     pontem-types-bundle: 1.0.15
     rxjs: ^7.4.0
   languageName: unknown
@@ -14641,14 +14641,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moonbeam-types-bundle@npm:1.2.6":
-  version: 1.2.6
-  resolution: "moonbeam-types-bundle@npm:1.2.6"
+"moonbeam-types-bundle@npm:1.2.7":
+  version: 1.2.7
+  resolution: "moonbeam-types-bundle@npm:1.2.7"
   dependencies:
     "@polkadot/keyring": ^7.3.1
     "@polkadot/types": ^5.9.1
     typescript: ^4.3.5
-  checksum: 7f61e3eba3de18fc6992931a49931a31ee4bc54e538f831d014d6524c1036886928a7fb83f08a1c0138b77e7213325035bf425fa82ac423ac8ab1a07f2bfdea2
+  checksum: 23751f632d15fd328956e77d65a58237a07d3b8ba1328cc9a8d0c3e37c38ce6c96876bbf2a17a075e66c451fe1633f999d230af6dfc79b01b6e6b92d68940bc4
   languageName: node
   linkType: hard
 
