@@ -23,7 +23,7 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      'Patract Elara': 'wss://pub.elara.patract.io/westend',
+      // 'Patract Elara': 'wss://pub.elara.patract.io/westend', // No balances showing on Westend, runtime 9110
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
       'light client': 'light://substrate-connect/westend'
