@@ -4,6 +4,7 @@
 import type BN from 'bn.js';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Option } from '@polkadot/apps-config/settings/types';
+import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 import React, { useMemo, useState } from 'react';
 
@@ -80,7 +81,9 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const params = useMemo(
     () => {
       // From Polkadot runtime 9110 (no destination weight)
-      const isCurrent = call.meta.args.length === 4 && call.meta.args[0].type.eq('XcmVersionedMultiLocation');
+      // Get first item, it should have V0, V1, ...
+      const firstType = api.createType<XcmVersionedMultiLocation>(call.meta.args[0].type.toString());
+      const isCurrent = firstType.defKeys.includes('V1');
 
       const dst = isParaTeleport
         ? { X1: 'Parent' }
@@ -92,13 +95,15 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           ? [{ ConcreteFungible: { amount, id: 'Null' } }]
           : [{ ConcreteFungible: { amount, id: 'Here' } }];
 
-      return call.meta.args.length === 5
-        ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
-        : isCurrent
-          ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
-          : [dst, acc, ass, destWeight];
+      return isCurrent
+        ? call.meta.args.length === 5
+          // Polkadot 9100
+          ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
+          // Polkadot 9110
+          : [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
+        : [dst, acc, ass, destWeight];
     },
-    [amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
+    [api, amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
   );
 
   const hasAvailable = !!amount && amount.gte(weightFee);
