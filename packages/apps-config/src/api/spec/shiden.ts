@@ -32,7 +32,8 @@ const definitions: OverrideBundleDefinition = {
         EraRewardAndStake: {
           rewards: 'Balance',
           staked: 'Balance'
-        }
+        },
+        EraIndex: 'u32'
       }
     }
   ]
