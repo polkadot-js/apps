@@ -27,7 +27,7 @@ interface Solution extends Struct {
   readonly tag: U8aFixed;
 }
 
-interface SUBPreDigest extends Struct {
+interface SubPreDigest extends Struct {
   readonly slot: u64;
   readonly solution: Solution;
 }
@@ -39,8 +39,8 @@ function extractAuthor (
   const preRuntimes = digest.logs.filter(
     ({ isPreRuntime, type }) => isPreRuntime && type.toString() === 'SUB_'
   );
-  const { solution }: SUBPreDigest = api.registry.createType(
-    'SUBPreDigest',
+  const { solution }: SubPreDigest = api.registry.createType(
+    'SubPreDigest',
     preRuntimes[0]
   );
 
@@ -54,7 +54,7 @@ function createHeaderExtended (
 ): HeaderExtended {
   const HeaderBase = registry.createClass('Header');
 
-  class SUBHeaderExtended extends HeaderBase implements HeaderExtended {
+  class SubHeaderExtended extends HeaderBase implements HeaderExtended {
     readonly #author?: AccountId;
 
     constructor (registry: Registry, header: Header, api: ApiInterfaceRx) {
@@ -68,7 +68,7 @@ function createHeaderExtended (
     }
   }
 
-  return new SUBHeaderExtended(registry, header, api);
+  return new SubHeaderExtended(registry, header, api);
 }
 
 function subscribeNewHeads (
@@ -124,7 +124,7 @@ const definitions: OverrideBundleDefinition = {
           signature: 'Vec<u8>',
           tag: '[u8; 8]'
         },
-        SUBPreDigest: {
+        SubPreDigest: {
           slot: 'u64',
           solution: 'Solution'
         }
