@@ -15,12 +15,6 @@ const definitions: OverrideBundleDefinition = {
         Keys: 'AccountId',
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress',
-        ChainId: {
-          _enum: {
-            RelayChain: null,
-            Parachain: 'ParaId'
-          }
-        },
         AmountOf: 'Amount',
         Amount: 'i128',
         SmartContract: {
