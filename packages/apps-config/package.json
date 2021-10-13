@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.96.2-57",
+  "version": "0.96.2-66",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
@@ -29,7 +29,7 @@
     "@zeitgeistpm/type-defs": "0.3.1",
     "@zeroio/type-definitions": "0.0.6",
     "lodash": "^4.17.21",
-    "moonbeam-types-bundle": "1.2.6",
+    "moonbeam-types-bundle": "1.2.7",
     "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.4.0"
   },

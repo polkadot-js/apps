@@ -169,7 +169,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2092,
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
         providers: {
-          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain'
+          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain',
+          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
         }
       },
       {
