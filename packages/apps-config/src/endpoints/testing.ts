@@ -402,17 +402,17 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'subspace-testnet',
-      text: t('rpc.test.subspace', 'Subspace testnet', { ns: 'apps-config' }),
-      providers: {
-        'Subspace Network': 'ws://localhost:9944'
-      }
-    },
-    {
       info: 'subgame',
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
         SubGame: 'wss://staging.subgame.org'
+      }
+    },
+    {
+      info: 'subspace',
+      text: t('rpc.test.subspace', 'Subspace Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://testnet.subspace.network'
       }
     },
     {

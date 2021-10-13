@@ -149,7 +149,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
-const nodeSubspace = '#292929';
+const nodeSubspace = '#562b8e';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
@@ -294,7 +294,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   'Subsocial PC1': chainSubsocial,
-  'Subspace testnet': nodeSubspace,
+  'Subspace Testnet': nodeSubspace,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
@@ -381,7 +381,7 @@ export const nodeColors = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   'subsocial node': nodeSubsocial,
-  'Subspace testnet': nodeSubspace,
+  'Subspace Testnet': nodeSubspace,
   'subzero node': nodeZero,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,

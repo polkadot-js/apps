@@ -1,24 +1,26 @@
-import type { Observable } from "rxjs";
-import type { ApiInterfaceRx } from "@polkadot/api/types";
-import type { OverrideBundleDefinition, Registry } from "@polkadot/types/types";
-import type { Bytes, Struct, U8aFixed, u64 } from "@polkadot/types";
-import { combineLatest, map } from "rxjs";
-import { memo } from "@polkadot/api-derive/util";
-import { AccountId, Digest, Header } from "@polkadot/types/interfaces";
-import {
-  bestNumberFinalized,
-  bestNumber,
-  bestNumberLag,
-  getBlock,
-  subscribeNewBlocks,
-} from "@polkadot/api-derive/chain";
+// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+// structs need to be in order
+/* eslint-disable sort-keys */
+
+import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Bytes, Struct, U8aFixed, u64 } from '@polkadot/types';
+import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
+
+import { combineLatest, map } from 'rxjs';
+
+import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
+import { memo } from '@polkadot/api-derive/util';
+import { AccountId, Digest, Header } from '@polkadot/types/interfaces';
 
 interface HeaderExtended extends Header {
   readonly author: AccountId | undefined;
 }
 
 interface Solution extends Struct {
-  readonly public_key: AccountId;
+  readonly publicKey: AccountId;
   readonly nonce: u64;
   readonly encoding: Bytes;
   readonly signature: Bytes;
@@ -30,62 +32,49 @@ interface SUBPreDigest extends Struct {
   readonly solution: Solution;
 }
 
-function extractAuthor(
+function extractAuthor (
   digest: Digest,
   api: ApiInterfaceRx
 ): AccountId | undefined {
-  let accountId: AccountId | undefined;
+  const preRuntimes = digest.logs.filter(
+    ({ isPreRuntime, type }) => isPreRuntime && type.toString() === 'SUB_'
+  );
+  const { solution }: SUBPreDigest = api.registry.createType(
+    'SUBPreDigest',
+    preRuntimes[0]
+  );
 
-  for (const log of digest.logs) {
-    if (log.isPreRuntime) {
-      const [type, data] = log.asPreRuntime;
-      if (type.toString() === "SUB_") {
-        const { solution }: SUBPreDigest = api.registry.createType(
-          "SUBPreDigest",
-          data
-        );
-
-        const { public_key }: Solution = api.registry.createType(
-          "Solution",
-          solution
-        );
-        accountId = public_key;
-        break;
-      }
-    }
-  }
-
-  return accountId;
+  return solution.publicKey;
 }
 
-function createHeaderExtended(
+function createHeaderExtended (
   registry: Registry,
   header: Header,
   api: ApiInterfaceRx
 ): HeaderExtended {
-  const HeaderBase = registry.createClass("Header");
-  class PocHeaderExtended extends HeaderBase implements HeaderExtended {
+  const HeaderBase = registry.createClass('Header');
+
+  class SUBHeaderExtended extends HeaderBase implements HeaderExtended {
     readonly #author?: AccountId;
 
-    constructor(registry: Registry, header: Header, api: ApiInterfaceRx) {
+    constructor (registry: Registry, header: Header, api: ApiInterfaceRx) {
       super(registry, header);
       this.#author = extractAuthor(this.digest, api);
       this.createdAtHash = header?.createdAtHash;
     }
 
-    public get author(): AccountId | undefined {
+    public get author (): AccountId | undefined {
       return this.#author;
     }
   }
 
-  return new PocHeaderExtended(registry, header, api);
+  return new SUBHeaderExtended(registry, header, api);
 }
 
-function subscribeNewHeads(
+function subscribeNewHeads (
   instanceId: string,
   api: ApiInterfaceRx
 ): () => Observable<HeaderExtended> {
-  debugger
   return memo(
     instanceId,
     (): Observable<HeaderExtended> =>
@@ -97,7 +86,7 @@ function subscribeNewHeads(
   );
 }
 
-function getHeader(
+function getHeader (
   instanceId: string,
   api: ApiInterfaceRx
 ): () => Observable<HeaderExtended> {
@@ -115,41 +104,33 @@ function getHeader(
 const definitions: OverrideBundleDefinition = {
   derives: {
     chain: {
-      // Validate and test if this override affect other pages.
-      // for now it do not break anything.
-      subscribeNewHeads,
-      getHeader,
-      // Had to re export the following functions. Must be a way to avoid re export for now it works
-      getBlock,
-      subscribeNewBlocks,
+      bestNumber,
       bestNumberFinalized,
       bestNumberLag,
-      bestNumber,
+      getBlock,
+      getHeader,
+      subscribeNewBlocks,
+      subscribeNewHeads
     }
-   /* session:{ 
-      // This was imposible to extend for now, session module its not available in the Runtime Config
-      progress
-      eraProgress
-    }*/
   },
   types: [
     {
       minmax: [0, undefined],
       types: {
         Solution: {
-          public_key: "AccountId",
-          nonce: "u64",
-          encoding: "Vec<u8>",
-          signature: "Vec<u8>",
-          tag: "[u8; 8]",
+          publicKey: 'AccountId',
+          nonce: 'u64',
+          encoding: 'Vec<u8>',
+          signature: 'Vec<u8>',
+          tag: '[u8; 8]'
         },
         SUBPreDigest: {
-          slot: "Slot",
-          solution: "Solution",
-        },
-      },
-    },
-  ],
+          slot: 'u64',
+          solution: 'Solution'
+        }
+      }
+    }
+  ]
 };
 
 export default definitions;
