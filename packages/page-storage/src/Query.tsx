@@ -54,7 +54,11 @@ function keyToName (isConst: boolean, _key: Uint8Array | QueryableStorageEntry<'
   return `${key.creator.section}.${key.creator.method}`;
 }
 
-function typeToString (registry: Registry, { creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
+function constTypeToString (registry: Registry, { meta }: ConstValue): string {
+  return getSiName(registry.lookup, meta.type);
+}
+
+function queryTypeToString (registry: Registry, { creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
   const _type = unwrapStorageType(registry, type);
 
   return modifier.isOptional
@@ -85,10 +89,10 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
     let type: string;
 
     if (isConst) {
-      const { meta, method, section } = key as unknown as ConstValue;
+      const { method, section } = key as unknown as ConstValue;
 
       renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
-      type = getSiName(registry.lookup, meta.type);
+      type = constTypeToString(registry, key as unknown as ConstValue);
     } else {
       if (isU8a(key)) {
         // subscribe to the raw key here
@@ -117,7 +121,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
       }
 
       type = key.creator && key.creator.meta
-        ? typeToString(registry, key)
+        ? queryTypeToString(registry, key)
         : 'Raw';
     }
 
@@ -141,10 +145,10 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
       getCachedComponent(api.registry, value),
       keyToName(value.isConst, value.key),
       value.isConst
-        ? (value.key as unknown as ConstValue).meta.type.toString()
+        ? constTypeToString(api.registry, value.key as unknown as ConstValue)
         : isU8a(value.key)
           ? 'Raw'
-          : typeToString(api.registry, value.key as QueryableStorageEntry<'promise'>)
+          : queryTypeToString(api.registry, value.key as QueryableStorageEntry<'promise'>)
     ],
     [api, value]
   );

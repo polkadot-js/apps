@@ -70,7 +70,7 @@ export function createKusama (t: TFunction): EndpointOption {
         info: 'bifrost',
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
-        text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        text: t('rpc.kusama.bifrost', 'Bifrost(Kusama)', { ns: 'apps-config' }),
         providers: {
           Liebi: 'wss://bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
@@ -164,12 +164,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'kintsugi',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6101
         homepage: 'https://kintsugi.interlay.io/',
         paraId: 2092,
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
         providers: {
-          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain',
+          'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
           OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
         }
       },

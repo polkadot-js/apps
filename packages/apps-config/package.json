@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.96.2-67",
+  "version": "0.96.2-68",
   "license": "Apache-2.0",
   "type": "module",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "dependencies": {
     "@acala-network/type-definitions": "^2.3.2-4",
     "@babel/runtime": "^7.15.4",
-    "@bifrost-finance/type-definitions": "1.2.46",
+    "@bifrost-finance/type-definitions": "1.2.49",
     "@crustio/type-definitions": "0.0.10",
     "@darwinia/types": "1.2.50",
     "@digitalnative/type-definitions": "1.1.26",
