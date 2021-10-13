@@ -12,7 +12,10 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Keys: 'AccountId'
+        Keys: 'AccountId',
+        SmartContract: {
+          _enum: ['H160', 'AccountId']
+        }
       }
     }
   ]
