@@ -42,6 +42,7 @@ const definitions: OverrideBundleDefinition = {
           period_count: 'u32',
           per_period: 'Balance'
         },
+        ListVestingScheduleOf: 'Vec<VestingScheduleOf>',
         VestingScheduleOf: 'VestingSchedule'
       }
     }
