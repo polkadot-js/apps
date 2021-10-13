@@ -12,7 +12,33 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Keys: 'AccountId'
+        Keys: 'AccountId',
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
+        ChainId: {
+          _enum: {
+            RelayChain: null,
+            Parachain: 'ParaId'
+          }
+        },
+        AmountOf: 'Amount',
+        Amount: 'i128',
+        SmartContract: {
+          _enum: {
+            Evm: 'H160',
+            Wasm: 'AccountId'
+          }
+        },
+        EraStakingPoints: {
+          total: 'Balance',
+          stakers: 'BTreeMap<AccountId, Balance>',
+          formerStakedEra: 'EraIndex',
+          claimedRewards: 'Balance'
+        },
+        EraRewardAndStake: {
+          rewards: 'Balance',
+          staked: 'Balance'
+        }
       }
     }
   ]
