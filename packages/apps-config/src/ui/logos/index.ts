@@ -253,7 +253,7 @@ export const chainLogos = Object.entries({
   'SubGame Staging': nodeSubGame,
   Subsocial: nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
-  'Subspace testnet': nodeSubspace,
+  subspace: nodeSubspace,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
