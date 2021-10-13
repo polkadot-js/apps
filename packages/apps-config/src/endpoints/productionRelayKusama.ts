@@ -169,7 +169,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2092,
         text: t('rpc.kusama.kintsugi', 'Kintsugi BTC', { ns: 'apps-config' }),
         providers: {
-          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain'
+          'Kintsugi Labs': 'wss://api-kin.interlay.io/parachain',
+          OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
         }
       },
       {
@@ -219,8 +220,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2085,
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
-          Parallel: 'wss://heiko-rpc.parallel.fi'
+          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws'
+          // Parallel: 'wss://heiko-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/6195
         }
       },
       {
@@ -296,6 +297,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
+        }
+      },
+      {
+        info: 'unorthodox',
+        homepage: 'https://standard.tech/',
+        paraId: 2094,
+        text: t('rpc.kusama.standard', 'Unorthodox', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.kusama.standard.tech'
         }
       }
     ]

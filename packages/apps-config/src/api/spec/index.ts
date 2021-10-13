@@ -57,6 +57,7 @@ import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
 import manta from './manta';
+import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
@@ -71,7 +72,6 @@ import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
 import plasm from './plasm';
-import plasmParachain from './plasm-parachain';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
@@ -80,10 +80,12 @@ import prism from './prism';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
+import shiden from './shiden';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
 import spanner from './spanner';
 import stafi from './stafi';
+import standard from './standard';
 import subdao from './subdao';
 import subgame from './subgame';
 import subsocial from './subsocial';
@@ -93,6 +95,7 @@ import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
 import unique from './unique';
+import uniqueWestend from './unique-westend';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
@@ -177,6 +180,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   litentry,
   'manta-node': manta,
   'mashnet-node': kilt,
+  mathchain,
   'mathchain-galois': galois,
   moonbase: moonbeam,
   moonbeam,
@@ -191,23 +195,25 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-template-spartan': subspace,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
+  opal: uniqueWestend,
   opportunity,
   'origintrail-parachain': origintrail,
   parami,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   plasm,
-  'plasm-parachain': plasmParachain,
   polymesh,
   'pontem-node': pontem,
   prism,
   realis,
   'riochain-runtime': riochain,
   robonomics,
+  shiden,
   snowbridge,
   'sora-substrate': soraSubstrate,
   spanner,
   stafi,
+  standard,
   steam: eave,
   subdao,
   subgame,
@@ -219,6 +225,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   uart,
   'unit-node': unitv,
   'unit-parachain': unitv,
+  unorthodox: standard,
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,

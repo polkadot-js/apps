@@ -2,15 +2,15 @@
   "name": "@polkadot/app-addresses",
   "private": true,
   "type": "module",
-  "version": "0.96.2-13",
+  "version": "0.96.2-66",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.96.2-13",
+    "@polkadot/react-components": "^0.96.2-66",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@testing-library/react": "^12.1.0",
+    "@testing-library/react": "^12.1.2",
     "testcontainers": "^7.20.2"
   }
 }
