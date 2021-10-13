@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, render, screen } from '@testing-library/react';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { Popup } from '@polkadot/react-components';
+import i18next from '@polkadot/react-components/i18n';
 
 function TestPopup () {
   return (
@@ -23,11 +24,17 @@ function TestPopup () {
 
 function renderPopup () {
   return render(
-    <TestPopup />
+    <Suspense fallback='...'>
+      <TestPopup />
+    </Suspense>
   );
 }
 
 describe('Popup Component', () => {
+  beforeAll(async () => {
+    await i18next.changeLanguage('en');
+  });
+
   it('opens and closes', async () => {
     renderPopup();
 

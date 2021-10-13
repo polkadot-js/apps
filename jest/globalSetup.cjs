@@ -1,11 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AlwaysPullPolicy, GenericContainer, Wait } from 'testcontainers';
-
-import { SubstrateTestsGlobal } from './substrateTestsGlobal';
-
-declare const global: SubstrateTestsGlobal;
+const { AlwaysPullPolicy, GenericContainer, Wait } = require('testcontainers');
 
 const startSubstrate = async () => {
   console.log('Substrate container starting...');
@@ -24,6 +20,6 @@ const startSubstrate = async () => {
   global.__SUBSTRATE__ = startedTestContainer;
 };
 
-export default async (): Promise<void> => {
+module.exports = async () => {
   await startSubstrate();
 };

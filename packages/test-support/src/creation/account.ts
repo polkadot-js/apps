@@ -13,11 +13,6 @@ export const anAccountWithBalance = (balance: Override<DeriveBalancesAll>): Acco
   balance
 });
 
-export const anAccountWithBalanceAndMeta = (balance: Override<DeriveBalancesAll>, meta: Override<KeyringJson$Meta>): AccountOverrides => ({
-  balance,
-  meta
-});
-
 export const anAccountWithInfo = (info: Override<UseAccountInfo>): AccountOverrides => ({
   info
 });
@@ -28,4 +23,14 @@ export const anAccountWithMeta = (meta: Override<KeyringJson$Meta>): AccountOver
 
 export const anAccountWithStaking = (staking: Override<DeriveStakingAccount>): AccountOverrides => ({
   staking
+});
+
+export const anAccountWithBalanceAndMeta = (balance: Override<DeriveBalancesAll>, meta: Override<KeyringJson$Meta>): AccountOverrides => ({
+  balance,
+  meta
+});
+
+export const anAccountWithInfoAndMeta = (info: Override<UseAccountInfo>, meta: Override<KeyringJson$Meta>): AccountOverrides => ({
+  info,
+  meta
 });

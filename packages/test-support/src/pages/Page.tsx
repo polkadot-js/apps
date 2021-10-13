@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { render, RenderResult, screen } from '@testing-library/react';
+import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
 import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -15,19 +15,15 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
+import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
-import { BlockNumber } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { alice, bob, charlie } from '../keyring';
+import { alice, bob, charlie, ferdie } from '../keyring';
 import { Table } from '../pagesElements';
 import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
-
-function noop (): void {
-  // ignore
-}
 
 class NotYetRendered extends Error {
 }
@@ -48,6 +44,14 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
         ? {
           ...actual.useAccountInfo(address),
           flags: { ...actual.useAccountInfo(address).flags, ...(mockInfo.info.flags) },
+          identity: {
+            ...actual.useAccountInfo(address).identity,
+            ...(mockInfo.info.identity),
+            judgements: [
+              ...(actual.useAccountInfo(address).identity?.judgements || []),
+              ...(mockApiHooks.judgements || [])
+            ]
+          },
           tags: [...actual.useAccountInfo(address).tags, ...(mockInfo.info.tags)]
         }
         : actual.useAccountInfo(address);
@@ -71,9 +75,37 @@ jest.mock('@polkadot/react-hooks/useBestNumber', () => ({
   useBestNumber: () => 1
 }));
 
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
+
+jest.mock('@polkadot/app-accounts/Accounts/useMultisigApprovals', () => ({
+  __esModule: true,
+  default: () => mockApiHooks.multisigApprovals
+}));
+
+jest.mock('@polkadot/react-hooks/useDelegations', () => ({
+  useDelegations: () => mockApiHooks.delegations
+}));
+
+jest.mock('@polkadot/react-hooks/useProxies', () => ({
+  useProxies: () => mockApiHooks.proxies
+}));
+
+jest.mock('@polkadot/react-hooks/useSubidentities', () => ({
+  useSubidentities: () => mockApiHooks.subs
+}));
+
+jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
+  useRegistrars: () => ({
+    isRegistrar: false,
+    registrars: mockApiHooks.registrars
+  })
+}));
+
 export abstract class Page {
   private renderResult?: RenderResult
-  protected readonly defaultAddresses = [alice, bob, charlie];
+  protected readonly defaultAddresses = [alice, bob, charlie, ferdie];
 
   protected constructor (private readonly overview: React.ReactElement, private readonly rowClassName: string) {
     this.overview = overview;
@@ -87,32 +119,63 @@ export abstract class Page {
       keyring.addExternal(address, meta);
     });
 
+    const noop = () => Promise.resolve(() => { /**/ });
     const mockApi: ApiProps = {
       api: {
+        consts: {
+          babe: {
+            expectedBlockTime: new BN(1)
+          },
+          democracy: {
+            enactmentPeriod: new BN(1)
+          },
+          proxy: {
+            proxyDepositBase: new BN(1),
+            proxyDepositFactor: new BN(1)
+          }
+        },
+        createType: () => ({
+          defKeys: []
+        }),
         derive: {
           accounts: {
-            info: () => Promise.resolve(() => { /**/
-            })
+            info: noop
           },
           balances: {
-            all: () => ({
-              accountNonce: mockAccountHooks.nonce,
-              additional: [],
-              freeBalance: 0,
-              lockedBreakdown: [],
-              reservedBalance: 0
-            })
+            all: noop
           },
           chain: {
-            bestNumber: () => new BN(1) as BlockNumber
+            bestNumber: noop
+          },
+          democracy: {
+            locks: noop
+          },
+          staking: {
+            account: noop
           }
         },
         genesisHash: new TypeRegistry().createType('Hash', POLKADOT_GENESIS),
-        query: {},
+        query: {
+          democracy: {
+            votingOf: noop
+          },
+          identity: {
+            identityOf: noop
+          }
+        },
         registry: { chainDecimals: [12], chainTokens: ['Unit'] },
         tx: {
-          council: {
-          }
+          council: {},
+          democracy: {
+            delegate: noop
+          },
+          multisig: {
+            approveAsMulti: Object.assign(noop, { meta: { args: [] } })
+          },
+          proxy: {
+            removeProxies: noop
+          },
+          utility: noop
         }
       },
       systemName: 'substrate'
@@ -151,6 +214,13 @@ export abstract class Page {
 
   clearAccounts (): void {
     this.defaultAddresses.forEach((address) => keyring.forgetAccount(address));
+  }
+
+  getById (id: string | RegExp): HTMLElement | null {
+    this.assertRendered();
+    const getById = queryByAttribute.bind(null, 'id');
+
+    return getById(this.renderResult?.container ?? fail('Page render failed'), id);
   }
 
   protected assertRendered (): void {

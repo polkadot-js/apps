@@ -6,6 +6,7 @@ import React from 'react';
 
 import { anAccount } from '@polkadot/test-support/creation/account';
 import { Page } from '@polkadot/test-support/pages/Page';
+import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { AccountOverrides } from '@polkadot/test-support/types';
 import { assertText, clickButton } from '@polkadot/test-support/utils/renderedScreenUtils';
 
@@ -21,7 +22,7 @@ export class AccountsPage extends Page {
     const table = await this.getTable();
     const rows = await table.getRows();
 
-    return rows.map((row) => new AccountRow(row.primaryRow, row.detailsRow, row.rowIndex));
+    return rows.map((row) => new AccountRow(row.primaryRow, row.detailsRow));
   }
 
   async reverseSortingOrder (): Promise<void> {
@@ -72,6 +73,12 @@ export class AccountsPage extends Page {
       (_, index) => [this.defaultAddresses[index], anAccount()] as [string, AccountOverrides]);
 
     this.render(accounts);
+  }
+
+  async openSidebarForRow (accountRowIndex: number): Promise<Sidebar> {
+    const accountRows = await this.getAccountRows();
+
+    return accountRows[accountRowIndex].openSidebar();
   }
 
   private async getSortCategory (categoryName: string): Promise<HTMLElement> {

@@ -73,7 +73,7 @@ i18next
     ],
     nsSeparator: false,
     react: {
-      wait: true
+      useSuspense: true
     },
     returnEmptyString: false,
     returnNull: false

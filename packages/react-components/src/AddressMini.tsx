@@ -27,6 +27,7 @@ interface Props {
   label?: React.ReactNode;
   labelBalance?: React.ReactNode;
   nameExtra?: React.ReactNode;
+  onNameClick?: () => void;
   summary?: React.ReactNode;
   type?: KeyringItemType;
   value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
@@ -39,7 +40,7 @@ interface Props {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, nameExtra, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, nameExtra, onNameClick, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -50,7 +51,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
         <label className='ui--AddressMini-label'>{label}</label>
       )}
       <div className='ui--AddressMini-icon'>
-        <IdentityIcon value={value as Uint8Array} />
+        <IdentityIcon value={value} />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
             {iconInfo}
@@ -59,7 +60,10 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
       </div>
       <div className='ui--AddressMini-info'>
         {withAddress && (
-          <div className='ui--AddressMini-address'>
+          <div
+            className='ui--AddressMini-address'
+            onClick={onNameClick}
+          >
             {withName
               ? (
                 <AccountName

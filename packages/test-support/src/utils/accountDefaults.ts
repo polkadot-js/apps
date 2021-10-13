@@ -84,6 +84,7 @@ export const defaultMeta: KeyringJson$Meta = {};
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 export const defaultAccountInfo: UseAccountInfo = {
   flags: {},
+  identity: { email: 'user@email.com', isExistent: true, judgements: [] },
   tags: []
 } as any;
 
