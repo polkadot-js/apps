@@ -171,7 +171,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
-  kintsugi: interbtc,
+  'kintsugi-parachain': interbtc,
   konomi,
   kpron,
   kulupu,
