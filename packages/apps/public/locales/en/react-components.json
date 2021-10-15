@@ -45,6 +45,7 @@
   "lock expired": "lock expired",
   "locked": "locked",
   "no tags": "no tags",
+  "of {{locked}} vested": "of {{locked}} vested",
   "ongoing referendum": "ongoing referendum",
   "only this network": "only this network",
   "per block": "per block",
