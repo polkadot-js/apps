@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@testing-library/react": "^12.1.2",
-    "testcontainers": "^7.20.2"
+    "testcontainers": "^7.21.0"
   },
   "devDependencies": {
     "@polkadot/types-support": "^6.3.2-15",

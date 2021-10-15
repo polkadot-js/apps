@@ -2552,7 +2552,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@polkadot/phishing": ^0.6.350
+    "@polkadot/phishing": ^0.6.353
     "@polkadot/react-components": ^0.96.2-77
     "@polkadot/test-support": 0.96.2-77
     "@polkadot/vanitygen": ^0.47.2
@@ -2569,7 +2569,7 @@ __metadata:
     "@polkadot/react-components": ^0.96.2-77
     "@testing-library/react": ^12.1.2
     file-saver: ^2.0.5
-    testcontainers: ^7.20.2
+    testcontainers: ^7.21.0
   languageName: unknown
   linkType: soft
 
@@ -2818,7 +2818,7 @@ __metadata:
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.6
     "@sora-substrate/type-definitions": 1.6.14
-    "@subsocial/types": 0.6.3-rn.1
+    "@subsocial/types": 0.6.3-dev.2
     "@zeitgeistpm/type-defs": 0.3.1
     "@zeroio/type-definitions": 0.0.6
     i18next: ^19.9.2
@@ -3148,7 +3148,7 @@ __metadata:
     react-chartjs-2: ^2.11.2
     react-copy-to-clipboard: ^5.0.4
     react-dom: ^17.0.2
-    react-dropzone: ^11.4.0
+    react-dropzone: ^11.4.2
     react-i18next: ^11.12.0
     react-is: ^17.0.2
     react-markdown: ^5.0.3
@@ -3295,7 +3295,7 @@ __metadata:
     "@polkadot/types-support": ^6.3.2-15
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.1.2
-    testcontainers: ^7.20.2
+    testcontainers: ^7.21.0
     tsconfig-paths: ^3.11.0
   languageName: unknown
   linkType: soft
@@ -3777,19 +3777,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/types@npm:0.6.3-rn.1":
-  version: 0.6.3-rn.1
-  resolution: "@subsocial/types@npm:0.6.3-rn.1"
+"@subsocial/types@npm:0.6.3-dev.2":
+  version: 0.6.3-dev.2
+  resolution: "@subsocial/types@npm:0.6.3-dev.2"
   dependencies:
     "@polkadot/types": ^6.0.5
     "@polkadot/types-known": ^6.0.5
-    "@subsocial/utils": ^0.6.3-rn.1
+    "@subsocial/utils": ^0.6.3-dev.2
     cids: ^0.7.1
-  checksum: 86c62ee4e3b4aed8d9969310b525fe137ec4d4f026004a66e9d3834afc409f6f0564af8cb095786c36955f4bc5d32fe71ad736b1360237417de56e7d2d5f4ef8
+  checksum: c25453967b2c9b77f7c82763a16fb4b242628f225984024dac7a5bb064739a784856bfb603a396f24ddd8c78ccaa3c701f3fce99428b1401a6b771acccbb5729
   languageName: node
   linkType: hard
 
-"@subsocial/utils@npm:^0.6.3-rn.1":
+"@subsocial/utils@npm:^0.6.3-dev.2":
   version: 0.6.3-rn.1
   resolution: "@subsocial/utils@npm:0.6.3-rn.1"
   dependencies:
@@ -4521,13 +4521,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ssh2@npm:*, @types/ssh2@npm:^0.5.45":
-  version: 0.5.47
-  resolution: "@types/ssh2@npm:0.5.47"
+"@types/ssh2@npm:*, @types/ssh2@npm:^0.5.48":
+  version: 0.5.48
+  resolution: "@types/ssh2@npm:0.5.48"
   dependencies:
     "@types/node": "*"
     "@types/ssh2-streams": "*"
-  checksum: c21ccde5dd7c2bbec49be8b9177b7c5e96bcbec40438e91fcc9b2eb2f331d82a60bafe2365a2c91f8967b2dcaa7c203499d7b4df3aede9a622bbfdcb6f879996
+  checksum: b1b62f06511d1425f5082b64a5b69a3765d71331933f59317bd66b093a9c8e34e084368c3b8d3d7c18119e8e4857d8d6a057d8fa2ef37b24c5848f8844a518b4
   languageName: node
   linkType: hard
 
@@ -5622,7 +5622,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1@npm:~0.2.0, asn1@npm:~0.2.3":
+"asn1@npm:^0.2.4, asn1@npm:~0.2.0, asn1@npm:~0.2.3":
   version: 0.2.4
   resolution: "asn1@npm:0.2.4"
   dependencies:
@@ -7332,14 +7332,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concurrently@npm:^6.2.1":
-  version: 6.2.1
-  resolution: "concurrently@npm:6.2.1"
+"concurrently@npm:^6.3.0":
+  version: 6.3.0
+  resolution: "concurrently@npm:6.3.0"
   dependencies:
     chalk: ^4.1.0
     date-fns: ^2.16.1
     lodash: ^4.17.21
-    read-pkg: ^5.2.0
     rxjs: ^6.6.3
     spawn-command: ^0.0.2-1
     supports-color: ^8.1.0
@@ -7347,7 +7346,7 @@ __metadata:
     yargs: ^16.2.0
   bin:
     concurrently: bin/concurrently.js
-  checksum: 818ad5ac708df146948a2c4ac8c6a3845040454d13a4bab952ed02a52c167b5c04832d935b460e9549c239d6d05252132a94a8b2437ec9de0fff240b29225d14
+  checksum: fb68236899259a3b0c05d27db608ee9150f11fc785552c14937e5e1421c9448d03704cdc2acb5f842a91c465d50005b4229f348eb9594d84cbef54e5a93ffde7
   languageName: node
   linkType: hard
 
@@ -7555,6 +7554,16 @@ __metadata:
   bin:
     coveralls: bin/coveralls.js
   checksum: 70a208907c5c9182120e980392988245fb170889b1a5c7c4f6c7271026dd88caa2b5750b15b6f16d3a2ba4c718bada8c8dd4ed1e9503a42703c71af384de1abf
+  languageName: node
+  linkType: hard
+
+"cpu-features@npm:0.0.2":
+  version: 0.0.2
+  resolution: "cpu-features@npm:0.0.2"
+  dependencies:
+    nan: ^2.14.1
+    node-gyp: latest
+  checksum: 15177f9a2d465e4d84390f902c977b34f237dadb29fd8553853b13d906ffe5f15be9f091c72db4f34c71412d5ff4e0e4edf04caebc875b02d1d7ecfce2963299
   languageName: node
   linkType: hard
 
@@ -8412,7 +8421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docker-compose@npm:^0.23.12":
+"docker-compose@npm:^0.23.13":
   version: 0.23.13
   resolution: "docker-compose@npm:0.23.13"
   dependencies:
@@ -8433,13 +8442,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dockerode@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "dockerode@npm:3.3.0"
+"dockerode@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "dockerode@npm:3.3.1"
   dependencies:
     docker-modem: ^3.0.0
     tar-fs: ~2.0.1
-  checksum: 42e37da1da591e538342a8a115f0dc6181c58adca95b563ae607e2e0a0e045bb17d2259316ac65f3d032f97e74c204f23ec565db7bdb4c7400557b6f0f5aa409
+  checksum: 930162ae2d8a1fe0e99d9a5885b09aa438da6274d4a30cb90e73046655dbc90764eb755361a63ba08f167e257c4d649d67bce71f650461a20b97fcde0af05ca5
   languageName: node
   linkType: hard
 
@@ -10677,7 +10686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.0, glob@npm:^7.0.3, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6, glob@npm:^7.1.7, glob@npm:^7.2.0":
+"glob@npm:^7.0.0, glob@npm:^7.0.3, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6, glob@npm:^7.2.0":
   version: 7.2.0
   resolution: "glob@npm:7.2.0"
   dependencies:
@@ -11524,9 +11533,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-scanner@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "i18next-scanner@npm:3.0.0"
+"i18next-scanner@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "i18next-scanner@npm:3.0.1"
   dependencies:
     acorn: ^8.0.4
     acorn-dynamic-import: ^4.0.0
@@ -11550,7 +11559,7 @@ __metadata:
     vinyl-fs: ^3.0.1
   bin:
     i18next-scanner: bin/cli.js
-  checksum: b98c1c0eb50e44956842ad8346cc3583059688a8051441f73301f574ed216545e1f8f9c61eba8802b84f9bee2ca793c12f385ffb8f322177ac4f430ac19f12e6
+  checksum: 404aec1e16e73dfb303b34c601c4534259dda0e3ad7c8b7d333c08b7aa15a6f2c5849d9b4c9c927b9029eba12ba19258fc387f7722d8066ee1e27000ce01ece2
   languageName: node
   linkType: hard
 
@@ -14791,12 +14800,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.13.2, nan@npm:^2.14.0":
-  version: 2.14.2
-  resolution: "nan@npm:2.14.2"
+"nan@npm:^2.13.2, nan@npm:^2.14.0, nan@npm:^2.14.1, nan@npm:^2.15.0":
+  version: 2.15.0
+  resolution: "nan@npm:2.15.0"
   dependencies:
     node-gyp: latest
-  checksum: 7a269139b66a7d37470effb7fb36a8de8cc3b5ffba6e40bb8e0545307911fe5ebf94797ec62f655ecde79c237d169899f8bd28256c66a32cbc8284faaf94c3f4
+  checksum: 33e1bb4dfca447fe37d4bb5889be55de154828632c8d38646db67293a21afd61ed9909cdf1b886214a64707d935926c4e60e2b09de9edfc2ad58de31d6ce8f39
   languageName: node
   linkType: hard
 
@@ -15983,13 +15992,13 @@ __metadata:
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.15
     "@types/styled-theming": ^2.2.5
-    concurrently: ^6.2.1
+    concurrently: ^6.3.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
     electron: ^12.1.1
     electron-builder: 22.14.2
     electron-builder-notarize: ^1.2.0
-    i18next-scanner: ^3.0.0
+    i18next-scanner: ^3.0.1
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^17.0.2
@@ -16783,16 +16792,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^11.4.0":
-  version: 11.4.0
-  resolution: "react-dropzone@npm:11.4.0"
+"react-dropzone@npm:^11.4.2":
+  version: 11.4.2
+  resolution: "react-dropzone@npm:11.4.2"
   dependencies:
     attr-accept: ^2.2.1
     file-selector: ^0.2.2
     prop-types: ^15.7.2
   peerDependencies:
     react: ">= 16.8"
-  checksum: a076b1bd98778abb81738cb0e532fbe1c1141f3f0055368206e370f49c2b59413bf84c8f32bc6543e4c55c6b79b639305e8be8c4608ee95655b04f47220c87a8
+  checksum: f8dc6af69193133efe30ed11dd8c2212a180abd3833e91d03dab4bdc9546d47dcad311d7f72b4968b7d016871884555b9e16f7a490913b78dbfec8ce8f569193
   languageName: node
   linkType: hard
 
@@ -18467,13 +18476,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ssh-remote-port-forward@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "ssh-remote-port-forward@npm:1.0.3"
+"ssh-remote-port-forward@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "ssh-remote-port-forward@npm:1.0.4"
   dependencies:
-    "@types/ssh2": ^0.5.45
-    ssh2: ^0.8.9
-  checksum: 90b9853e3c8aa3764c005d42cebb4f0fe55ee32e223eb775168db623e4567c7be8f5a3d297e555862e1b63aabd84ce0d3420c3bc8c9603aa9a83d24ee4a255dd
+    "@types/ssh2": ^0.5.48
+    ssh2: ^1.4.0
+  checksum: c6c04c5ddfde7cb06e9a8655a152bd28fe6771c6fe62ff0bc08be229491546c410f30b153c968b8d6817a57d38678a270c228f30143ec0fe1be546efc4f6b65a
   languageName: node
   linkType: hard
 
@@ -18488,12 +18497,29 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ssh2@npm:^0.8.7, ssh2@npm:^0.8.9":
+"ssh2@npm:^0.8.7":
   version: 0.8.9
   resolution: "ssh2@npm:0.8.9"
   dependencies:
     ssh2-streams: ~0.4.10
   checksum: 3127497cb5570922b3c37daf93e1e49e24776ae3046c7e01c4af1323408653267ea7d9e506283adbdc8445cd20429318501e08db75f2101bbb0bdc49455da720
+  languageName: node
+  linkType: hard
+
+"ssh2@npm:^1.4.0":
+  version: 1.5.0
+  resolution: "ssh2@npm:1.5.0"
+  dependencies:
+    asn1: ^0.2.4
+    bcrypt-pbkdf: ^1.0.2
+    cpu-features: 0.0.2
+    nan: ^2.15.0
+  dependenciesMeta:
+    cpu-features:
+      optional: true
+    nan:
+      optional: true
+  checksum: 6a2252c12d9587eeb31c499d1d13bb14a255d08243762e1a92b2db76add8912b2c8c25103c79b92e156d598c1e2781c5523b58aa9e85aee06fea365e4cc188bb
   languageName: node
   linkType: hard
 
@@ -19265,23 +19291,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^7.20.2":
-  version: 7.20.2
-  resolution: "testcontainers@npm:7.20.2"
+"testcontainers@npm:^7.21.0":
+  version: 7.21.0
+  resolution: "testcontainers@npm:7.21.0"
   dependencies:
     "@types/archiver": ^5.1.1
     "@types/dockerode": ^3.2.5
     archiver: ^5.3.0
     byline: ^5.0.0
     debug: ^4.3.2
-    docker-compose: ^0.23.12
-    dockerode: ^3.3.0
+    docker-compose: ^0.23.13
+    dockerode: ^3.3.1
     get-port: ^5.1.1
-    glob: ^7.1.7
+    glob: ^7.2.0
     slash: ^3.0.0
-    ssh-remote-port-forward: ^1.0.3
+    ssh-remote-port-forward: ^1.0.4
     tar-fs: ^2.1.1
-  checksum: b4993409ab728f89b337d3e8b85eb00b269cb004ef01ea332d702085677ca518d788f6e205407a47aee6250f790af366ecf7703be8f119ad2f5ec71732e7cfae
+  checksum: df63b390f485a7ddca7b322e89ad5fdc0d6ab21c604ea72e780f3bbf20e397af02897f3657e0f7efe787d6e39956cec4af51914ab3fb5b965ea068eb3a6b0654
   languageName: node
   linkType: hard
 
