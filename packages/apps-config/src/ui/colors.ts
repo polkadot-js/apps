@@ -66,6 +66,7 @@ const chainMybank = '#282736';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
+const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
@@ -178,6 +179,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares PC1': chainRoccoAres,
+  'Ares Gladios': chainAresGladios,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,

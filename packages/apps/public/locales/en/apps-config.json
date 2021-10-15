@@ -128,6 +128,7 @@
   "rpc.spanner": "Spanner",
   "rpc.test.aleph": "Aleph Zero Testnet",
   "rpc.test.amber": "Amber",
+  "rpc.test.ares.network": "Ares Gladios",
   "rpc.test.beresheet": "Beresheet",
   "rpc.test.bifrost": "Bifrost",
   "rpc.test.bitcountry": "Bit.Country Tewai",

@@ -46,6 +46,7 @@ import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
+import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
@@ -155,6 +156,7 @@ export const chainLogos = Object.entries({
   Altair: chainAltair,
   'Apron PC1': nodeApron,
   'Ares PC1': nodeAres,
+  'Ares Gladios': nodeAresGladios,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
@@ -289,6 +291,7 @@ export const nodeLogos = Object.entries({
   'Apron Parachain Collator': nodeApron,
   'Ares Node': nodeAres,
   'Ares Parachain Collator': nodeAres,
+  'Ares Gladios': nodeAresGladios,
   Basilisk: nodeBasilisk,
   'Beast Node': nodeBeast,
   Bifrost: nodeBifrost,
@@ -452,6 +455,7 @@ export const namedLogos: Record<string, unknown> = {
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
+  'Ares Gladios': nodeAresGladios,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
