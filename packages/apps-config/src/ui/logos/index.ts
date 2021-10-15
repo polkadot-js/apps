@@ -47,6 +47,7 @@ import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
 import nodeAresGladios from './nodes/ares-gladios.svg';
+import nodeAresMars from './nodes/ares-mars.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
@@ -208,7 +209,7 @@ export const chainLogos = Object.entries({
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
   'Manta Testnet': nodeManta,
-  Mars: nodeAres,
+  Mars: nodeAresMars,
   MathChain: nodeMath,
   'MathChain PC1': nodeMath,
   'mathchain-galois': nodeMath,
@@ -510,7 +511,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
-  mars: nodeAres,
+  mars: nodeAresMars,
   mathchain: nodeMath,
   moonbaseAlpha: moonbeam,
   moonriver: moonriver,
