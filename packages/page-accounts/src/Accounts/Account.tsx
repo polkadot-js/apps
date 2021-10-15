@@ -757,7 +757,8 @@ export default React.memo(styled(Account)`
     }
   }
 
-  && .ui--AddressInfo .ui--FormatBalance {
+  && .ui--AddressInfo .ui--FormatBalance,
+  && .ui--AddressInfo .result {
     .ui--Icon, .icon-void {
       margin-left: 0.7rem;
       margin-right: 0.3rem;
@@ -775,7 +776,7 @@ export default React.memo(styled(Account)`
       }
     }
   }
-  
+
   .together > .badges {
     display: flex;
     flex-direction: column;
