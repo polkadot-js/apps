@@ -7,6 +7,7 @@ import type { LeasePeriod } from './types';
 import { useMemo } from 'react';
 
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 export default function useLeasePeriod (): LeasePeriod | undefined {
   const { api } = useApi();
@@ -18,10 +19,11 @@ export default function useLeasePeriod (): LeasePeriod | undefined {
     }
 
     const length = api.consts.slots.leasePeriod as BlockNumber;
-    const progress = bestNumber.mod(length);
+    const startNumber = bestNumber.sub((api.consts.slots.leaseOffset as BlockNumber) || BN_ZERO);
+    const progress = startNumber.mod(length);
 
     return {
-      currentPeriod: bestNumber.div(length),
+      currentPeriod: startNumber.div(length),
       length,
       progress,
       remainder: length.sub(progress)

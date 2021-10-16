@@ -428,7 +428,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                       hover={
                         <div>
                           <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                          <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                          <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
                         </div>
                       }
                       icon='exclamation-triangle'
@@ -757,7 +757,8 @@ export default React.memo(styled(Account)`
     }
   }
 
-  && .ui--AddressInfo .ui--FormatBalance {
+  && .ui--AddressInfo .ui--FormatBalance,
+  && .ui--AddressInfo .result {
     .ui--Icon, .icon-void {
       margin-left: 0.7rem;
       margin-right: 0.3rem;
@@ -775,7 +776,7 @@ export default React.memo(styled(Account)`
       }
     }
   }
-  
+
   .together > .badges {
     display: flex;
     flex-direction: column;
