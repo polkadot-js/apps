@@ -5,8 +5,8 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
 import apron from './apron';
-import aresParachain from './ares-parachain';
 import aresGladios from './ares-gladios';
+import aresParachain from './ares-parachain';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
