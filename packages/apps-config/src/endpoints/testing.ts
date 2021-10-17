@@ -476,9 +476,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zeitgeist',
-      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Station', { ns: 'apps-config' }),
       providers: {
-        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
+        Zeitgeist: 'wss://bsr.zeitgeist.pm'
       }
     },
     {
