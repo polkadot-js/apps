@@ -2,5 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export type IpcMainHandler = {
-  [channel: string]: (...args: any[]) => unknown
+  [channel: string]: (...args: unknown[]) => unknown
 }

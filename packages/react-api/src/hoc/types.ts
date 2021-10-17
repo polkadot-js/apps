@@ -5,7 +5,7 @@ import type { OnChangeCb } from '../types';
 
 import React from 'react';
 
-export type Transform = (value: any, index: number) => any;
+export type Transform = (value: unknown, index: number) => any;
 
 export interface DefaultProps {
   callOnResult?: OnChangeCb;
@@ -18,21 +18,21 @@ export interface Options {
   callOnResult?: OnChangeCb;
   fallbacks?: string[];
   isMulti?: boolean;
-  params?: any[];
+  params?: unknown[];
   paramName?: string;
-  paramPick?: (props: any) => any;
+  paramPick?: (props: unknown) => unknown;
   paramValid?: boolean;
   propName?: string;
-  skipIf?: (props: any) => boolean;
+  skipIf?: (props: unknown) => boolean;
   transform?: Transform;
   withIndicator?: boolean;
 }
 
-export type RenderFn = (value?: any) => React.ReactNode;
+export type RenderFn = (value?: unknown) => React.ReactNode;
 
-export type StorageTransform = (input: any, index: number) => any | null;
+export type StorageTransform = (input: unknown, index: number) => unknown | null;
 
-export type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<any>;
+export type HOC = (Component: React.ComponentType<unknown>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<unknown>;
 
 export interface ApiMethod {
   name: string;

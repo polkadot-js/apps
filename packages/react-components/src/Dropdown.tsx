@@ -29,14 +29,14 @@ interface Props<Option> {
   onBlur?: () => void;
   onChange?: (value: any) => void;
   onClose?: () => void;
-  onSearch?: (filteredOptions: any[], query: string) => Option[];
+  onSearch?: (filteredOptions: unknown[], query: string) => Option[];
   options: Option[];
   placeholder?: string;
   renderLabel?: (item: any) => any;
   searchInput?: { autoFocus: boolean };
   tabIndex?: number;
   transform?: (value: any) => any;
-  value?: any;
+  value?: unknown;
   withEllipsis?: boolean;
   withLabel?: boolean;
 }
@@ -69,7 +69,7 @@ function BaseDropdown<Option> ({ allowAdd = false, children, className = '', def
   );
 
   useEffect((): void => {
-    _setStored(isUndefined(value) ? defaultValue : value);
+    _setStored((isUndefined(value) ? defaultValue : value) as string);
   }, [_setStored, defaultValue, value]);
 
   const _onAdd = useCallback(

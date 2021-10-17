@@ -11,7 +11,7 @@ import UIParams from '@polkadot/react-params';
 interface Props {
   isDisabled?: boolean;
   params?: ParamDef[] | null | '';
-  onChange: (values: any[]) => void;
+  onChange: (values: unknown[]) => void;
   onEnter?: () => void;
   registry: Registry;
 }
