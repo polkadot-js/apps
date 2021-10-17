@@ -5,7 +5,7 @@ import type { OnChangeCb } from '../types';
 
 import React from 'react';
 
-export type Transform = (value: unknown, index: number) => any;
+export type Transform = (value: any, index: number) => any;
 
 export interface DefaultProps {
   callOnResult?: OnChangeCb;
@@ -20,17 +20,17 @@ export interface Options {
   isMulti?: boolean;
   params?: unknown[];
   paramName?: string;
-  paramPick?: (props: unknown) => unknown;
+  paramPick?: (props: any) => unknown;
   paramValid?: boolean;
   propName?: string;
-  skipIf?: (props: unknown) => boolean;
+  skipIf?: (props: any) => boolean;
   transform?: Transform;
   withIndicator?: boolean;
 }
 
-export type RenderFn = (value?: unknown) => React.ReactNode;
+export type RenderFn = (value?: any) => React.ReactNode;
 
-export type StorageTransform = (input: unknown, index: number) => unknown | null;
+export type StorageTransform = (input: any, index: number) => unknown | null;
 
 export type HOC = (Component: React.ComponentType<unknown>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<unknown>;
 

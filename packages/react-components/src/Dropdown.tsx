@@ -29,7 +29,7 @@ interface Props<Option> {
   onBlur?: () => void;
   onChange?: (value: any) => void;
   onClose?: () => void;
-  onSearch?: (filteredOptions: unknown[], query: string) => Option[];
+  onSearch?: (filteredOptions: any[], query: string) => Option[];
   options: Option[];
   placeholder?: string;
   renderLabel?: (item: any) => any;

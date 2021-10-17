@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 interface Options <T> {
   at?: string | null | false;
-  transform?: (value: unknown[]) => T[];
+  transform?: (value: any[]) => T[];
 }
 
 export function useMapKeys <T = any> (entry?: QueryableStorageEntry<'promise'> | null | false, { at, transform }: Options<T> = {}): T[] | undefined {

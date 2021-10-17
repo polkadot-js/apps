@@ -46,7 +46,7 @@ export interface TxButtonProps {
   onUpdate?: TxCallback;
   params?: unknown[] | (() => unknown[]) | null;
   tooltip?: string;
-  tx?: ((...args: unknown[]) => SubmittableExtrinsic<'promise'>) | null;
+  tx?: ((...args: any[]) => SubmittableExtrinsic<'promise'>) | null;
   withoutLink?: boolean;
   withSpinner?: boolean;
 }

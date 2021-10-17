@@ -169,13 +169,13 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           const [fn, ...params] = newParams;
 
           return [
-            fn,
+            fn as Method,
             params,
             'subscribe'
           ];
         }
 
-        const endpoints: string[] = [endpoint].concat(fallbacks || []);
+        const endpoints = [endpoint].concat(fallbacks || []);
         const expanded = endpoints.map(this.constructApiSection);
         const [apiSection, area, section, method] = expanded.find(([apiSection]): boolean =>
           !!apiSection
