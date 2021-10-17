@@ -25,13 +25,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'Ares Gladios',
-      text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
-      providers: {
-        'Ares Protocol': 'wss://gladios.aresprotocol.io'
-      }
-    },
-    {
       info: 'centrifuge',
       text: t('rpc.test.amber', 'Amber', { ns: 'apps-config' }),
       providers: {
@@ -43,6 +36,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.nodle-arcadia', 'Arcadia', { ns: 'apps-config' }),
       providers: {
         Nodle: 'wss://arcadia1.nodleprotocol.io'
+      }
+    },
+    {
+      info: 'Ares Gladios',
+      text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
+      providers: {
+        'Ares Protocol': 'wss://gladios.aresprotocol.io'
       }
     },
     {
