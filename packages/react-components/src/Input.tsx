@@ -75,7 +75,7 @@ const KEYS = {
   ZERO: '0'
 };
 
-const KEYS_PRE: any[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+const KEYS_PRE: unknown[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
 
 // reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
 const isCopy = (key: string, isPreKeyDown: boolean): boolean =>

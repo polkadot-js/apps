@@ -20,7 +20,7 @@ export interface CallOptions <T> {
   withParamsTransform?: boolean;
 }
 
-export type TxDef = [string, any[] | ((...params: any[]) => SubmittableExtrinsic<'promise'>)];
+export type TxDef = [string, unknown[] | ((...params: unknown[]) => SubmittableExtrinsic<'promise'>)];
 
 export type TxDefs = SubmittableExtrinsic<'promise'> | IExtrinsic | Call | TxDef | null;
 

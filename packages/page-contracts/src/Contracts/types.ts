@@ -6,7 +6,7 @@ import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/typ
 export interface CallResult extends ContractCallOutcome {
   from: string;
   message: AbiMessage;
-  params: any[];
+  params: unknown[];
   when: Date;
 }
 

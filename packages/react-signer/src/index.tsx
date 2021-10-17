@@ -29,7 +29,7 @@ const NOOP = () => undefined;
 
 const AVAIL_STATUS = ['queued', 'qr', 'signing'];
 
-async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
+async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt, values: unknown[]): Promise<QueueTxResult> {
   try {
     const rpc = api.rpc as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
 
