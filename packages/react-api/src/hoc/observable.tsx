@@ -66,7 +66,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
         } catch (error) {
           console.error(this.props, error);
         }
-      }
+      };
 
       public override render (): React.ReactNode {
         const { children } = this.props;

@@ -162,7 +162,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           section,
           method
         ];
-      }
+      };
 
       private getApiMethod (newParams: any[]): ApiMethodInfo {
         if (endpoint === 'subscribe') {
