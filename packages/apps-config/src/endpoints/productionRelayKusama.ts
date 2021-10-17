@@ -194,7 +194,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mars',
-        homepage: 'https://www.aresprotocol.io/',
+        homepage: 'https://www.aresprotocol.io/mars',
         paraId: 2008,
         text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {

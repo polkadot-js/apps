@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'Ares Gladios',
+      text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
+      providers: {
+        'Ares Protocol': 'wss://gladios.aresprotocol.io'
+      }
+    },
+    {
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
