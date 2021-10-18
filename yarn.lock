@@ -3105,7 +3105,7 @@ __metadata:
     "@polkadot/api": ^6.4.1
     "@polkadot/extension-compat-metamask": ^0.40.4-2
     "@polkadot/extension-dapp": ^0.40.4-2
-    "@substrate/connect": ^0.4.5
+    "@substrate/connect": ^0.4.6
     fflate: ^0.7.1
     rxjs: ^7.4.0
   languageName: unknown
@@ -3792,9 +3792,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:^0.4.5":
-  version: 0.4.5
-  resolution: "@substrate/connect@npm:0.4.5"
+"@substrate/connect@npm:^0.4.6":
+  version: 0.4.6
+  resolution: "@substrate/connect@npm:0.4.6"
   dependencies:
     "@polkadot/api": ^6.3.1
     "@polkadot/rpc-provider": ^6.3.1
@@ -3806,7 +3806,7 @@ __metadata:
     mkdirp: ^1.0.4
   peerDependencies:
     "@polkadot/wasm-crypto": ^4.1.2
-  checksum: 7ed26548bae3b66a175fdcdcdc6356d91e82406907bc54a4f23cc089d26916ae768d315cb53da1bbbf5cdef6dc115059481e5a9e0e9c75d2c380f8233c1ef554
+  checksum: 88a4e8c5818316849855110370f168753b49137a189e2dbe00bfd54f9778417ec10f60808d2c001c0733205759cd6fb0df55692799ac072c0c269d0581cec0c3
   languageName: node
   linkType: hard
 
