@@ -115,7 +115,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         />
       )}
       {nomsActive && nomsInactive && (nomsActive.length === 0) && (nomsInactive.length !== 0) && (
-        <MarkWarning content={t<string>('This could mean your nomination has not been applied to any validator in the active set by the election algorithm or it has been applied against a validator, but not earning any rewards.')} />
+        <MarkWarning content={t<string>('This could mean your nomination has not been applied to any validator in the active set by the election algorithm or it has been applied against a validator, but is not earning any rewards.')} />
       )}
     </>
   );
