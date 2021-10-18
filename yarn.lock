@@ -3522,18 +3522,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-ws@npm:^7.5.1":
-  version: 7.5.1
-  resolution: "@polkadot/x-ws@npm:7.5.1"
-  dependencies:
-    "@babel/runtime": ^7.15.4
-    "@polkadot/x-global": 7.5.1
-    "@types/websocket": ^1.0.4
-    websocket: ^1.0.34
-  checksum: b5c1231d83154ebaabe2659db897a0c4f91f87a00bacf5ff4eb7ade0538732b7aed0ed3c64de63918efac9b32ce98dcb373d18bf9f60245e727fb7a2b4dd448f
-  languageName: node
-  linkType: hard
-
 "@polymathnetwork/polymesh-types@npm:0.0.2":
   version: 0.0.2
   resolution: "@polymathnetwork/polymesh-types@npm:0.0.2"
@@ -14966,15 +14954,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "node-fetch@npm:2.6.5"
-  dependencies:
-    whatwg-url: ^5.0.0
-  checksum: 4e83db450718e70762882f00d96f647a7f2f3170035225934ddd5450cb1d91ef339ceb180d3687bcb0a6ed78c3fa5636ce8d3e44ec81ab59e0224ebf8965f65f
-  languageName: node
-  linkType: hard
-
 "node-forge@npm:^0.10.0":
   version: 0.10.0
   resolution: "node-forge@npm:0.10.0"
@@ -20724,13 +20703,6 @@ resolve@^2.0.0-next.3:
     web3-shh: 1.6.0
     web3-utils: 1.6.0
   checksum: 483c38919120f77a9de921f90dd1c7b7fbfe3495c88ce110143ed2732ce74a0509d8b48f54e9a898ae06c4045bca1809667a66ba46e80a30f8a22448cf6e5c4c
-  languageName: node
-  linkType: hard
-
-"webidl-conversions@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "webidl-conversions@npm:3.0.1"
-  checksum: c92a0a6ab95314bde9c32e1d0a6dfac83b578f8fa5f21e675bc2706ed6981bc26b7eb7e6a1fab158e5ce4adf9caa4a0aee49a52505d4d13c7be545f15021b17c
   languageName: node
   linkType: hard
 
