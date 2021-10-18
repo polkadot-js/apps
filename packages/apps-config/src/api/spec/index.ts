@@ -5,6 +5,7 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
 import apron from './apron';
+import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
@@ -121,6 +122,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'VLN-PC': vlnrococo,
   ...acala,
   apron,
+  'ares-gladios': aresGladios,
   'ares-parachain': aresParachain,
   asgard: bifrostAsgard,
   basilisk,
@@ -171,7 +173,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   khala,
   'kilt-parachain': kilt,
   'kilt-spiritnet': kilt,
-  kintsugi: interbtc,
+  'kintsugi-parachain': interbtc,
   konomi,
   kpron,
   kulupu,

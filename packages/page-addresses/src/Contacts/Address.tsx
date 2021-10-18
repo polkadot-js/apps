@@ -29,7 +29,7 @@ const isEditable = true;
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useBalancesAll(address);
@@ -317,6 +317,13 @@ export default React.memo(styled(Address)`
       .send-button {
         min-width: 6.5rem;
       }
+    }
+  }
+
+  && .ui--AddressInfo .ui--FormatBalance {
+    .ui--Icon, .icon-void {
+      margin-left: 0.7rem;
+      margin-right: 0.3rem
     }
   }
 `);

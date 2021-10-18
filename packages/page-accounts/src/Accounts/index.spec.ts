@@ -1,18 +1,25 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { screen } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import BN from 'bn.js';
 
+import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import i18next from '@polkadot/react-components/i18n';
 import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
-import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
+import { AddressFlags } from '@polkadot/react-hooks/types';
+import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithInfoAndMeta, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
-import { alice, MemoryStore } from '@polkadot/test-support/keyring';
+import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
+import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
+import { u32 } from '@polkadot/types';
+import { TypeRegistry } from '@polkadot/types/create';
+import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
+import { AccountRow } from '../../test/pageElements/AccountRow';
 import { AccountsPage } from '../../test/pages/accountsPage';
 
 describe('Accounts page', () => {
@@ -356,5 +363,161 @@ describe('Accounts page', () => {
         await accountsTable.assertRowsOrder([1, 2, 3]);
       });
     });
+  });
+
+  describe('badges', () => {
+    let accountRows: AccountRow[];
+
+    beforeEach(() => {
+      mockApiHooks.setMultisigApprovals([
+        [new TypeRegistry().createType('Hash', POLKADOT_GENESIS), {
+          approvals: [bob as unknown as AccountId],
+          deposit: balance(927000000000000),
+          depositor: bob as unknown as AccountId,
+          when: { height: new BN(1190) as u32, index: new BN(1) as u32 } as Timepoint
+        } as Multisig
+        ]
+      ]);
+      mockApiHooks.setDelegations([{ asDelegating: { target: bob as unknown as AccountId } as unknown as VotingDelegating, isDelegating: true } as Voting]);
+      mockApiHooks.setProxies([[[{ delegate: alice as unknown as AccountId, proxyType: { isAny: true, isGovernance: true, isNonTransfer: true, isStaking: true, toNumber: () => 1 } } as unknown as ProxyDefinition], new BN(1)]]);
+    });
+    describe('when genesis hash is not set', () => {
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'alice' }),
+          anAccountWithMeta({ name: 'bob' })
+        );
+        accountRows = await accountsPage.getAccountRows();
+      });
+
+      describe('when isDevelopment flag', () => {
+        let aliceRow: AccountRow;
+
+        beforeEach(async () => {
+          aliceRow = accountRows[0];
+          await aliceRow.assertAccountName('ALICE');
+        });
+
+        it('the development badge is displayed', async () => {
+          await aliceRow.assertBadge('wrench-badge');
+        });
+
+        it('the all networks badge is not displayed', () => {
+          aliceRow.assertNoBadge('exclamation-triangle-badge');
+        });
+
+        it('the regular badge is not displayed', () => {
+          aliceRow.assertNoBadge('transparent-badge');
+        });
+      });
+
+      describe('when no isDevelopment flag', () => {
+        let bobRow: AccountRow;
+
+        beforeEach(async () => {
+          bobRow = accountRows[1];
+          await bobRow.assertAccountName('BOB');
+        });
+
+        it('the development badge is not displayed', () => {
+          bobRow.assertNoBadge('wrench-badge');
+        });
+
+        it('the all networks badge is displayed', async () => {
+          await bobRow.assertBadge('exclamation-triangle-badge');
+        });
+
+        it('the regular badge is not displayed', () => {
+          bobRow.assertNoBadge('transparent-badge');
+        });
+      });
+    });
+
+    describe('when genesis hash set', () => {
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { genesisHash: 'someHash', name: 'charlie' })
+        );
+        accountRows = await accountsPage.getAccountRows();
+      });
+
+      it('the development badge is not displayed', () => {
+        accountRows[0].assertNoBadge('wrench-badge');
+      });
+
+      it('the all networks badge is not displayed', () => {
+        accountRows[0].assertNoBadge('exclamation-triangle-badge');
+      });
+
+      it('the regular badge is displayed', async () => {
+        await accountRows[0].assertBadge('badge');
+      });
+    });
+
+    describe('show popups', () => {
+      beforeEach(async () => {
+        accountsPage.renderAccountsWithDefaultAddresses(
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { name: 'alice', who: [] })
+        );
+        accountRows = await accountsPage.getAccountRows();
+      });
+
+      it('development', async () => {
+        await accountRows[0].assertBadge('wrench-badge');
+        const badgePopup = getPopupById(/wrench-badge-hover.*/);
+
+        await within(badgePopup).findByText('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.');
+      });
+
+      it('multisig approvals', async () => {
+        await accountRows[0].assertBadge('file-signature-badge');
+        const badgePopup = getPopupById(/file-signature-badge-hover.*/);
+        const approvalsModalToggle = await within(badgePopup).findByText('View pending approvals');
+
+        fireEvent.click(approvalsModalToggle);
+        const modal = await screen.findByTestId('modal');
+
+        within(modal).getByText('Pending call hashes');
+        expect(approvalsModalToggle).toHaveClass('purpleColor');
+      });
+
+      it('delegate democracy vote', async () => {
+        await accountRows[0].assertBadge('calendar-check-badge');
+        const badgePopup = getPopupById(/calendar-check-badge-hover.*/);
+        const delegateModalToggle = await within(badgePopup).findByText('Manage delegation');
+
+        fireEvent.click(delegateModalToggle);
+        const modal = await screen.findByTestId('modal');
+
+        within(modal).getByText('democracy vote delegation');
+        expect(delegateModalToggle).toHaveClass('normalColor');
+      });
+
+      it('proxy overview', async () => {
+        await accountRows[0].assertBadge('sitemap-badge');
+        const badgePopup = getPopupById(/sitemap-badge-hover.*/);
+        const proxyOverviewToggle = await within(badgePopup).findByText('Proxy overview');
+
+        fireEvent.click(proxyOverviewToggle);
+        const modal = await screen.findByTestId('modal');
+
+        within(modal).getByText('Proxy overview');
+        expect(proxyOverviewToggle).toHaveClass('normalColor');
+      });
+
+      afterEach(() => {
+        mockApiHooks.setMultisigApprovals([]);
+      });
+    });
+
+    function getPopupById (popupId: RegExp): HTMLElement {
+      const badgePopup = accountsPage.getById(popupId);
+
+      if (!badgePopup) {
+        fail('badge popup should be found');
+      }
+
+      return badgePopup;
+    }
   });
 });

@@ -12,28 +12,22 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Keys: 'AccountId',
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress',
-        AmountOf: 'Amount',
-        Amount: 'i128',
-        SmartContract: {
-          _enum: {
-            Evm: 'H160',
-            Wasm: 'AccountId'
-          }
+        FractionLength: 'u32',
+        RequestInterval: 'u8',
+        JsonNumberValue: {
+          integer: 'u64',
+          fraction: 'u64',
+          fraction_length: 'u32',
+          exponent: 'u32'
         },
-        EraStakingPoints: {
-          total: 'Balance',
-          stakers: 'BTreeMap<AccountId, Balance>',
-          formerStakedEra: 'EraIndex',
-          claimedRewards: 'Balance'
-        },
-        EraRewardAndStake: {
-          rewards: 'Balance',
-          staked: 'Balance'
-        },
-        EraIndex: 'u32'
+        PricePayloadSubPrice: '(Bytes, u64, FractionLength, JsonNumberValue)',
+        PricePayload: {
+          block_number: 'BlockNumber',
+          price: 'Vec<PricePayloadSubPrice>',
+          public: 'AccountId'
+        }
       }
     }
   ]

@@ -6,7 +6,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import { JudgementTag } from './JudgementTag';
 
 export class Sidebar {
-  public sidebar: HTMLElement
+  public sidebar: HTMLElement;
 
   constructor (sidebar: HTMLElement) {
     this.sidebar = sidebar;

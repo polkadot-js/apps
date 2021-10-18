@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/types/interfaces';
@@ -93,7 +94,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
     if (mountedRef.current && nominees && nominees.length && indexes) {
       api
         .queryMulti(
-          [[api.query.staking.nominators, stashId] as any]
+          [[api.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>]
             .concat(
               api.query.staking.erasStakers
                 ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
