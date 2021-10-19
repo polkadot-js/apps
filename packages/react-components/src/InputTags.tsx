@@ -57,7 +57,7 @@ function onAddTag (value: string): void {
 }
 
 function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
   return (
     <Dropdown

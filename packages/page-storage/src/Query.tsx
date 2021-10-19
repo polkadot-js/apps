@@ -72,7 +72,7 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
     // In order to modify the parameters which are used to render the default component, we can use this method
     refresh: (contentShorten: boolean): React.ComponentType<any> =>
       renderHelper(
-        (value: any) => <pre>{valueToText(type, value, contentShorten)}</pre>,
+        (value: unknown) => <pre>{valueToText(type, value as null, contentShorten)}</pre>,
         defaultProps
       ),
     // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
@@ -128,7 +128,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: any) => <pre>{valueToText(type, value, true)}</pre>,
+      (value: unknown) => <pre>{valueToText(type, value as null, true)}</pre>,
       defaultProps
     );
 

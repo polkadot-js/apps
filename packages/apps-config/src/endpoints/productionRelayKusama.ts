@@ -37,8 +37,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://kusama-statemine-rpc.paritytech.net',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
+          Parity: 'wss://kusama-statemine-rpc.paritytech.net'
+          // OnFinality: 'wss://statemine.api.onfinality.io/public-ws // Not working since the v4 upgrade
           // 'Patract Elara': 'wss://pub.elara.patract.io/statemine' // See https://github.com/polkadot-js/apps/issues/6292
         },
         teleport: [-1]
@@ -70,7 +70,7 @@ export function createKusama (t: TFunction): EndpointOption {
         info: 'bifrost',
         homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
         paraId: 2001,
-        text: t('rpc.kusama.bifrost', 'Bifrost(Kusama)', { ns: 'apps-config' }),
+        text: t('rpc.kusama.bifrost', 'Bifrost (Kusama)', { ns: 'apps-config' }),
         providers: {
           Liebi: 'wss://bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
@@ -194,7 +194,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'mars',
-        homepage: 'https://www.aresprotocol.io/',
+        homepage: 'https://www.aresprotocol.io/mars',
         paraId: 2008,
         text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
         providers: {

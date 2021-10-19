@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces';
 
 export type BountyApi = {
-  acceptCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
-  approveBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
-  awardBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  acceptCurator: SubmittableExtrinsicFunction<'promise'>;
+  approveBounty: SubmittableExtrinsicFunction<'promise'>;
+  awardBounty: SubmittableExtrinsicFunction<'promise'>;
   bestNumber?: BlockNumber,
   bounties?: DeriveBounties,
   bountyCuratorDeposit: BN,
@@ -19,14 +19,14 @@ export type BountyApi = {
   bountyIndex?: BN,
   bountyUpdatePeriod?: BN,
   bountyValueMinimum: BN,
-  claimBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
-  closeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  claimBounty: SubmittableExtrinsicFunction<'promise'>;
+  closeBounty: SubmittableExtrinsicFunction<'promise'>;
   dataDepositPerByte: BN,
-  extendBountyExpiry: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  extendBountyExpiry: SubmittableExtrinsicFunction<'promise'>;
   maximumReasonLength: number,
-  proposeBounty: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
-  proposeCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
-  unassignCurator: ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  proposeBounty: SubmittableExtrinsicFunction<'promise'>;
+  proposeCurator: SubmittableExtrinsicFunction<'promise'>;
+  unassignCurator: SubmittableExtrinsicFunction<'promise'>;
 };
 
 export function useBounties (): BountyApi {

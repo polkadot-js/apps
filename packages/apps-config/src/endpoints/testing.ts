@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'Ares Gladios',
+      text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
+      providers: {
+        'Ares Protocol': 'wss://gladios.aresprotocol.io'
+      }
+    },
+    {
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
@@ -339,6 +346,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polkadex',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://blockchain.polkadex.trade'
@@ -475,9 +483,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zeitgeist',
-      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Station', { ns: 'apps-config' }),
       providers: {
-        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
+        Zeitgeist: 'wss://bsr.zeitgeist.pm'
       }
     },
     {

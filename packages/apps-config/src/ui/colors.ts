@@ -66,6 +66,7 @@ const chainMybank = '#282736';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
+const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
@@ -102,7 +103,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
-const nodeAres = '#70FF8B';
+const nodeAres = '#E56239';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -177,6 +178,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'acala mandala pc2': chainRoccoAcala,
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
+  'Ares Gladios': chainAresGladios,
   'Ares PC1': chainRoccoAres,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
