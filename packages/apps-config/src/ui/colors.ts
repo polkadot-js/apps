@@ -34,6 +34,7 @@ const chainGenshiro = '#e8662d';
 const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
+const chainIbtida = '#039B9B';
 const chainInterbtc = '#1a0a2d';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
@@ -215,6 +216,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
+  'Ibtida': chainIbtida,
   Idavoll: chainIdavoll,
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,

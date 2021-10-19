@@ -76,6 +76,7 @@ import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeHeiko from './nodes/heiko.svg';
+import nodeIbtida from './nodes/ibtida.png'
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interbtc.png';
@@ -185,6 +186,7 @@ export const chainLogos = Object.entries({
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
   'HydraDX Snakenet Gen3': chainSnakenet,
+  Ibtida: nodeIbtida,
   Idavoll: nodeIdavoll,
   InterBTC: nodeInterBTC,
   'InterBTC Staging': nodeInterBTC,
@@ -495,6 +497,7 @@ export const namedLogos: Record<string, unknown> = {
   heiko: chainHeiko,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
+  ibtida: nodeIbtida,
   interbtc: nodeInterBTC,
   ipse: nodeIpse,
   jupiter: nodeJupiter,

@@ -195,6 +195,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'ibtida',
+      text: t('rpc.test.ibtida', 'Ibtida', { ns: 'apps-config' }),
+      providers: {
+        OnFinality: 'wss://node-6855594490325983232.sz.onfinality.io/ws'
+      }
+    },
+    {
       info: 'interbtc',
       text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
       providers: {

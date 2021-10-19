@@ -149,6 +149,7 @@
   "rpc.test.gamepower": "GamePower",
   "rpc.test.geek": "GeekCash",
   "rpc.test.halongbay": "Halongbay Testnet",
+  "rpc.test.ibtida": "Ibtida Testnet",
   "rpc.test.interbtc": "InterBTC",
   "rpc.test.ipse": "IPSE",
   "rpc.test.jupiter": "Jupiter",

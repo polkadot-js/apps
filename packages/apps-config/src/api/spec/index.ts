@@ -42,6 +42,7 @@ import galois from './galois';
 import gamepower from './gamepower';
 import genshiro from './genshiro';
 import hanonycash from './hanonycash';
+import ibtida from './ibtida';
 import hydrate from './hydrate';
 import idavoll from './idavoll';
 import integritee from './integritee';
@@ -158,6 +159,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   galital: galital,
   'galital-collator': galitalParachain,
   gamepower,
+  ibtida,
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
