@@ -115,7 +115,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         />
       )}
       {nomsActive && nomsInactive && (nomsActive.length === 0) && (nomsInactive.length !== 0) && (
-        <MarkWarning content={t<string>('Your nomination has not been applied to any validator in the active set by the election algorithm. This could mean that all your validators are over-subscribed or that you have less bonded than the lowest nominator elected for each of the validators.')} />
+        <MarkWarning content={t<string>('This could mean your nomination has not been applied to any validator in the active set by the election algorithm or it has been applied against a validator who is either oversubscribed or chilled.')} />
       )}
     </>
   );
