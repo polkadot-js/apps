@@ -46,7 +46,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
       : value as number;
   const defaultConv = value instanceof GenericVote
     ? value.conviction.index
-    : 0;
+    : 1;
 
   return (
     <Bare className={className}>
