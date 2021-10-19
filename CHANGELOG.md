@@ -1,5 +1,78 @@
 # CHANGELOG
 
+## 0.97.1 Oct 19, 2021
+
+Contributed:
+
+- Add support for substracte-contracts-node (Thanks to https://github.com/cmichi)
+- Align contracts styling with accounts (Thanks to https://github.com/ekowalsk)
+- Fix table coloring when applying filters (Thanks to https://github.com/ekowalsk)
+- Apply styles to unbonding icon (Thanks to https://github.com/MiZiet)
+- Style account badges (Thanks to https://github.com/ekowalsk)
+- Style redeemable balances (Thanks to https://github.com/MiZiet)
+- Split display of registrars (Thanks to https://github.com/MiZiet)
+- Disable unreachable networks (Thanks to https://github.com/krzysztof-jelski)
+- Increase UI test timeouts (Thanks to https://github.com/krzysztof-jelski)
+- Update French i18n (Thanks to https://github.com/tomaka)
+- Update Italian i18n (Thanks to https://github.com/fomod-in)
+- Update Subscan links (Thanks to https://github.com/carlhong)
+- Fix typos (Thanks to https://github.com/xnorly)
+- Use latest substrate connect (Thanks to https://github.com/wirednkod)
+- Add OnFinality endpoint for Altair (Thanks to https://github.com/454076513)
+- Add OnFinality endpoint for Kintsuigi (Thanks to https://github.com/454076513)
+- Add OnFinality endpoint for Sora (Thanks to https://github.com/454076513)
+- Add OnFinality endpoint for Subsocial (Thanks to https://github.com/454076513)
+- Add Zeitgeist Battery endpoints (Thanks to https://github.com/saboonikhil)
+- Fix Kintsuigi parachain key (Thanks to https://github.com/savudani8)
+- Remove old endpoints for Hydra (Thanks to https://github.com/lumir-mrkva)
+- Add Ares testnet (Thanks to https://github.com/jiyilanzhou)
+- Add MathChain mainnet (Thanks to https://github.com/hging)
+- Add NFTMart mainnet (Thanks to https://github.com/btwiuse)
+- Add Opal network (Thanks to https://github.com/gregzaitsev)
+- Add Polkadex mainnet (Thanks to https://github.com/Gauthamastro)
+- Add Spartan network (Thanks to https://github.com/1devNdogs)
+- Add Unorthodox parachain (Thanks to https://github.com/billjhlee)
+- Adjust Bifrost types (Thanks to https://github.com/awesomepan)
+- Adjust Edgeware logo (Thanks to https://github.com/Depth-Hoar)
+- Adjust Acala types (Thanks to https://github.com/qwer951123)
+- Adjust Basilisk types (Thanks to https://github.com/lumir-mrkva)
+- Adjust Darwinia types (Thanks to https://github.com/sxlwar)
+- Adjust Equilibrium types (Thanks to https://github.com/mn13)
+- Adjust Kilt types (Thanks to https://github.com/wischli)
+- Adjust Moonbeam types (Thanks to https://github.com/joelamouche)
+- Adjust Phala types (Thanks to https://github.com/jasl)
+- Adjust Pontem types (Thanks to https://github.com/idimetrix)
+- Adjust Realis types (Thanks to https://github.com/Daelon02)
+- Adjust Shiden types (Thanks to https://github.com/akru)
+- Adjust Shiden types (Thanks to https://github.com/hoonsubin)
+- Adjust Snowbridge types (Thanks to https://github.com/vgeddes)
+- Adjust Subgame types (Thanks to https://github.com/xtony77)
+- Adjust Subsocial types (Thanks to https://github.com/olehmell)
+- Adjust Ternoa types (Thanks to https://github.com/markopoloparadox)
+
+Changes:
+
+- Display multiple vesting schedules as found
+- Expand error messaging when zero claim balance is found
+- Fix map queries for metadata v14
+- Display correct types for metadata v14 in constants
+- Don't show unused enum fields from metadata v14
+- Remove contracts rent projection (removed from Substrate)
+- Adjust for latest Rococo reset
+- Adjust base Xcm weights (now all aligned with Kusama)
+- Adjust handling for old dedupeKeyPrefix (now unused)
+- Align signing output with extension (w/ `<Bytes>`)
+- Remove non-working endpoints as detected
+- Support metadata v14 lookupName in type extraction
+- Adjust formatting for `everything` Balance displays
+- Small fixes to input boxes
+- Expand events with lookup types
+- Cater for versioned teleport operations
+- Add support for contracts with scale-info v1
+- Adjust types output display from `toHuman` formatters
+- Fix payloads for Westmint 500
+
+
 ## 0.96.1 Sep 20, 2021
 
 Contributed:
