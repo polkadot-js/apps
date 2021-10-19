@@ -5,7 +5,7 @@
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "private": true,
-  "version": "0.96.2-90",
+  "version": "0.97.0",
   "license": "Apache-2",
   "homepage": ".",
   "workspaces": [
@@ -25,7 +25,6 @@
     "@polkadot/util-crypto": "^7.5.1",
     "@polkadot/wasm-crypto": "^4.2.1",
     "babel-core": "^7.0.0-bridge.0",
-    "eslint-plugin-react-hooks": "^4.2.1-alpha-930c9e7ee-20211015",
     "styled-components": "^5.3.1",
     "typescript": "^4.4.4"
   },
@@ -74,7 +73,7 @@
     "@babel/runtime": "^7.15.4",
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.1.23",
-    "@polkadot/dev": "^0.63.4",
+    "@polkadot/dev": "^0.63.5",
     "@polkadot/ts": "^0.4.9",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.34",
@@ -102,8 +101,8 @@
     "stylelint": "^13.13.1",
     "stylelint-config-recommended": "^5.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "webpack": "^5.52.1",
-    "webpack-cli": "^4.8.0"
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.1"
   },
   "packageManager": "yarn@3.0.1"
 }
