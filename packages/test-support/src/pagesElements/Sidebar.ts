@@ -1,10 +1,12 @@
-// Copyright 2017-2021 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2021 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, within } from '@testing-library/react';
 
+import { JudgementTag } from './JudgementTag';
+
 export class Sidebar {
-  public sidebar: HTMLElement
+  public sidebar: HTMLElement;
 
   constructor (sidebar: HTMLElement) {
     this.sidebar = sidebar;
@@ -41,6 +43,12 @@ export class Sidebar {
     const sideBarName = await within(sideBarAddressSection).findByTestId('account-name');
 
     expect(sideBarName).toHaveTextContent(expectedAccountName);
+  }
+
+  async assertJudgement (judgement: string): Promise<void> {
+    const judgementsSection = await this.findByTestId('judgements');
+
+    expect(judgementsSection).toHaveTextContent(judgement);
   }
 
   async assertTags (tagsContent: string): Promise<void> {
@@ -122,6 +130,12 @@ export class Sidebar {
     fireEvent.click(showSubsButton);
 
     return screen.findByTestId('modal');
+  }
+
+  async getJudgement (judgementName: string): Promise<JudgementTag> {
+    const judgements = await this.findByTestId('judgements');
+
+    return new JudgementTag(await within(judgements).findByText(judgementName));
   }
 
   private clickButton (buttonName: string) {

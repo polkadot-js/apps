@@ -17,6 +17,7 @@ export interface PopupWindowProps {
 export interface PopupProps {
   isDisabled?: boolean;
   className?: string;
+  closeOnScroll?: boolean;
   value?: React.ReactNode;
   children?: React.ReactNode;
   position?: HorizontalPosition;

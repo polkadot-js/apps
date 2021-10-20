@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'Ares Gladios',
+      text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
+      providers: {
+        'Ares Protocol': 'wss://gladios.aresprotocol.io'
+      }
+    },
+    {
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
@@ -130,6 +137,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'equilibrium',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6250
       text: t('rpc.test.equilibriumtestnet', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
         Equilibrium: 'wss://testnet.equilibrium.io'
@@ -195,6 +203,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'ipse',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6242
       text: t('rpc.test.ipse', 'IPSE', { ns: 'apps-config' }),
       providers: {
         'IPSE China': 'wss://testnet-china.ipse.io',
@@ -303,7 +312,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'opportunity',
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
-        Opportunity: 'wss://rpc.opportunity.standard.tech'
+        'Standard Protocol': 'wss://rpc.opportunity.standard.tech'
       }
     },
     {
@@ -329,6 +338,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phoenix',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
         'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
@@ -336,6 +346,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polkadex',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://blockchain.polkadex.trade'
@@ -371,6 +382,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'riochain',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6181
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
@@ -398,6 +410,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'spartan-testnet',
+      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://dev-rpc.subspace.network'
+      }
+    },
+    {
       info: 'subgame',
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
@@ -405,10 +424,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'ternoa-chaos',
-      text: t('rpc.test.ternoa-chaos', 'Ternoa Chaos', { ns: 'apps-config' }),
+      info: 'ternoa-testnet',
+      text: t('rpc.test.ternoa-testnet', 'Ternoa Testnet', { ns: 'apps-config' }),
       providers: {
-        CapsuleCorp: 'wss://chaos.ternoa.com'
+        CapsuleCorp: 'wss://testnet.ternoa.com/'
       }
     },
     {
@@ -464,9 +483,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zeitgeist',
-      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Station', { ns: 'apps-config' }),
       providers: {
-        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
+        Zeitgeist: 'wss://bsr.zeitgeist.pm'
       }
     },
     {

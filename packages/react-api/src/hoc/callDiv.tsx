@@ -22,7 +22,7 @@ export default function withCallDiv<T> (endpoint: string, options: Options = {})
           {...defaultProps}
           className={[className || '', callUpdated ? 'rx--updated' : undefined].join(' ')}
         >
-          {label}{render(callResult)}{children}
+          {label}{render(callResult as T)}{children}
         </div>
       );
     }

@@ -114,13 +114,6 @@ describe('Addresses page', () => {
       await rows[0].assertTags('Super Tagmy tag');
     });
 
-    it('details rows keep colouring from their primary rows', async () => {
-      addressesPage.renderDefaultContacts(3);
-      const addressesTable = await addressesPage.getTable();
-
-      await addressesTable.assertColoring();
-    });
-
     it('contact details rows toggled on icon toggle click', async () => {
       addressesPage.renderDefaultContacts(1);
       const row = (await addressesPage.getAddressesRows())[0];

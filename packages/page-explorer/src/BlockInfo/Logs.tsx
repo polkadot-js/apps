@@ -86,11 +86,11 @@ function formatVector (vector: Vec<Codec>): React.ReactNode {
 
 function formatItem (item: DigestItem): React.ReactNode {
   if (item.value instanceof Struct) {
-    return formatStruct(item.value);
+    return formatStruct(item.value as Struct);
   } else if (item.value instanceof Tuple) {
     return formatTuple(item.value);
   } else if (item.value instanceof Vec) {
-    return formatVector(item.value);
+    return formatVector(item.value as Vec<Codec>);
   } else if (item.value instanceof Raw) {
     return formatU8a(item.value);
   }

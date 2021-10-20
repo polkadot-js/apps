@@ -49,7 +49,7 @@ function InputStorage ({ className = '', defaultValue, help, label, onChange, wi
         const optionsMethod = keyOptions(api, section);
 
         setOptionsMethod(optionsMethod);
-        _onKeyChange(api.query[section][optionsMethod[0].value] as any);
+        _onKeyChange(api.query[section][optionsMethod[0].value]);
       }
     },
     [_onKeyChange, api, value]

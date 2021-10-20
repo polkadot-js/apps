@@ -3,6 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { RegistrarInfo } from '@polkadot/types/interfaces';
+import type { Registrar } from './types';
 
 import { useMemo } from 'react';
 
@@ -15,11 +16,6 @@ interface RegistrarNull {
   index: number;
 }
 
-interface Registrar {
-  address: string;
-  index: number;
-}
-
 interface State {
   isRegistrar: boolean;
   registrars: Registrar[];
@@ -29,7 +25,7 @@ interface State {
 export function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && hasAccounts && api.query.identity?.registrars);
+  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && api.query.identity?.registrars);
 
   // determine if we have a registrar or not - registrars are allowed to approve
   return useMemo(
@@ -44,10 +40,10 @@ export function useRegistrars (skipQuery?: boolean): State {
         .filter((registrar): registrar is Registrar => !!registrar.address);
 
       return {
-        isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
+        isRegistrar: hasAccounts && registrars.some(({ address }) => allAccounts.includes(address)),
         registrars
       };
     },
-    [allAccounts, query]
+    [allAccounts, hasAccounts, query]
   );
 }

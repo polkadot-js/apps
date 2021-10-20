@@ -23,7 +23,7 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      'Patract Elara': 'wss://pub.elara.patract.io/westend',
+      // 'Patract Elara': 'wss://pub.elara.patract.io/westend', // No balances showing on Westend, runtime 9110
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
       'light client': 'light://substrate-connect/westend'
@@ -73,6 +73,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'interBTC',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6261
         paraId: 2094,
         text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
         providers: {
@@ -81,10 +82,28 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'moonshadow',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2002,
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
           PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network'
+        }
+      },
+      {
+        info: 'opal',
+        homepage: 'https://unique.network/',
+        paraId: 2096,
+        text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://westend-opal.unique.network'
+        }
+      },
+      {
+        info: 'westendStandard',
+        paraId: 2094,
+        text: t('rpc.westend.standard', 'Standard ', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.westend.standard.tech'
         }
       },
       {
@@ -98,6 +117,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'whala',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6181
         paraId: 2013,
         text: t('rpc.westend.whala', 'Whala', { ns: 'apps-config' }),
         providers: {

@@ -6,7 +6,6 @@ export { getAddressMeta } from './getAddressMeta';
 export { getAddressName } from './getAddressName';
 export { getAddressTags } from './getAddressTags';
 export { getContractAbi } from './getContractAbi';
-export { getSiName } from './getSiName';
 export { isTreasuryProposalVote } from './isTreasuryProposalVote';
 export { toAddress } from './toAddress';
 export { toShortAddress } from './toShortAddress';
