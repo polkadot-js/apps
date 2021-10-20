@@ -242,6 +242,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'quartz',
+        homepage: 'https://unique.network/',
+        paraId: 2095,
+        text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://quartz.unique.network'
+        }
+      },
+      {
         info: 'robonomics',
         homepage: 'http://robonomics.network/',
         paraId: 2077,
