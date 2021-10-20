@@ -32,7 +32,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
-  const [params, setParams] = useState<any[]>([]);
+  const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();

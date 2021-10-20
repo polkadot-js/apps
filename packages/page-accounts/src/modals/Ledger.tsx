@@ -69,7 +69,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
 
       queryLedger(api, getLedger, name, accIndex, addIndex)
         .then(() => onClose())
-        .catch((error): void => {
+        .catch((error: Error): void => {
           console.error(error);
 
           setIsBusy(false);

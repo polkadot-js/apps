@@ -46,6 +46,8 @@ import externalSubscan from './external/subscan.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
+import nodeAresGladios from './nodes/ares-gladios.svg';
+import nodeAresMars from './nodes/ares-mars.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
@@ -154,6 +156,7 @@ export const chainLogos = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
+  'Ares Gladios': nodeAresGladios,
   'Ares PC1': nodeAres,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
@@ -206,7 +209,7 @@ export const chainLogos = Object.entries({
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
   'Manta Testnet': nodeManta,
-  Mars: nodeAres,
+  Mars: nodeAresMars,
   MathChain: nodeMath,
   'MathChain PC1': nodeMath,
   'mathchain-galois': nodeMath,
@@ -284,6 +287,7 @@ export const nodeLogos = Object.entries({
   'Acala Node': nodeAcala,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
+  'Ares Gladios': nodeAresGladios,
   'Ares Node': nodeAres,
   'Ares Parachain Collator': nodeAres,
   Basilisk: nodeBasilisk,
@@ -449,6 +453,7 @@ export const namedLogos: Record<string, unknown> = {
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
+  'Ares Gladios': nodeAresGladios,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
@@ -503,7 +508,7 @@ export const namedLogos: Record<string, unknown> = {
   litentry: nodeLitentry,
   loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
-  mars: nodeAres,
+  mars: nodeAresMars,
   mathchain: nodeMath,
   moonbaseAlpha: moonbeam,
   moonriver: moonriver,

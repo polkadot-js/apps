@@ -20,7 +20,7 @@ export function useElementPosition (ref: React.MutableRefObject<HTMLElement | un
 
   useEffect(() => {
     if (ref && ref.current) {
-      const { height, width, x, y } = ref.current?.getBoundingClientRect();
+      const { height, width, x, y } = ref.current.getBoundingClientRect();
 
       setElementPosition({
         height,

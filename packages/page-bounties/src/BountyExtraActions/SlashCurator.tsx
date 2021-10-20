@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
@@ -28,11 +28,11 @@ interface ActionProperties {
   filter: string[];
   header: string;
   helpMessage: string;
-  params: any[] | (() => any[]) | undefined;
+  params: unknown[] | (() => unknown[]) | undefined;
   proposingAccountTip: string;
   tip: string;
   title: string;
-  tx: null | ((...args: any[]) => SubmittableExtrinsic<'promise'>);
+  tx: null | SubmittableExtrinsicFunction<'promise'>;
 }
 
 function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Props): React.ReactElement<Props> | null {

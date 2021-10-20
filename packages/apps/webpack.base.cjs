@@ -149,7 +149,10 @@ function createWebpack (context, mode = 'production') {
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser.js'
       }),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin({
+        contextRegExp: /moment$/,
+        resourceRegExp: /^\.\/locale$/
+      }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
