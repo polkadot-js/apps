@@ -8,7 +8,7 @@ import { Props } from '@canvas-ui/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
-import { ClassOf } from '@polkadot/types';
+// import { ClassOf } from '@polkadot/types';
 import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
@@ -16,9 +16,10 @@ import Bare from './Bare';
 function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, type, withLabel }: Props): React.ReactElement<Props> {
   const defaultValue = useMemo(
     () => isDisabled
-      ? value instanceof ClassOf(registry, 'AccountIndex')
-        ? value.toString()
-        : formatNumber(value as number)
+      // ? value instanceof ClassOf(registry, 'AccountIndex')
+      //   ? value.toString()
+      //   : formatNumber(value as number)
+      ? formatNumber(value as number)
       : bnToBn((value as number) || 0).toString(),
     [isDisabled, value]
   );
