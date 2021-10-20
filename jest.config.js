@@ -2,7 +2,7 @@
 // and @canvas-ui/app authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const config = require('@polkadot/dev/config/jest');
+const config = require('@polkadot/dev/config/jest.cjs');
 
 const findPackages = require('./scripts/findPackages');
 
