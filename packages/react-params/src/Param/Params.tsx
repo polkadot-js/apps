@@ -125,7 +125,7 @@ class Params extends React.PureComponent<Props, State> {
       }),
       this.triggerUpdate
     );
-  }
+  };
 
   private triggerUpdate = (): void => {
     const { isDisabled, onChange } = this.props;
@@ -136,13 +136,13 @@ class Params extends React.PureComponent<Props, State> {
     }
 
     onChange && onChange(values);
-  }
+  };
 
   private onRenderError = (): void => {
     const { onError } = this.props;
 
     onError && onError();
-  }
+  };
 }
 
 export default translate(Params);

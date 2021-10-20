@@ -93,7 +93,7 @@ interface AppNavigation {
 }
 
 interface WithAppNavigation {
-  navigateTo ?: AppNavigation;
+  navigateTo?: AppNavigation;
 }
 
 interface WithBasePath {

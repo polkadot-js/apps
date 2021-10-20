@@ -116,7 +116,7 @@ function InputFile ({ accept, children, className, errorText, help, isDisabled, 
         const inputProps = getInputProps();
 
         return (
-          <div {...rootProps} >
+          <div {...rootProps}>
             <input {...inputProps} />
             {
               !value

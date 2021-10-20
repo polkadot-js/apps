@@ -22,7 +22,7 @@ interface Props extends BareProps {
   registry?: Registry;
   type?: TypeDef;
   value?: AnyJson | null;
-  isError?:boolean;
+  isError?: boolean;
 }
 
 const TRUNCATE_TO = 16;
@@ -135,7 +135,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
                     registry={registry}
                     type={subType}
                     value={subValue}
-                  />
+                    />
               }
             />
           </Labelled>

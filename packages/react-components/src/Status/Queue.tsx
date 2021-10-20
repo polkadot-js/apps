@@ -234,7 +234,8 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
       queueSetTxStatus,
       stqueue,
       txqueue
-    }}>
+    }}
+    >
       {children}
     </QueueProvider>
   );
