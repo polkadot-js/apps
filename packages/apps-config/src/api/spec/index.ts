@@ -113,7 +113,6 @@ import zero from './zero';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
-  altair: altair,
   Crab: crab,
   Darwinia: darwinia,
   'Darwinia Crab PC2': pangolin,
@@ -125,6 +124,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
+  altair,
   apron,
   'ares-gladios': aresGladios,
   'ares-parachain': aresParachain,
