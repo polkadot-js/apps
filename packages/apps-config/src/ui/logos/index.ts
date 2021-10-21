@@ -23,6 +23,7 @@ import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainOpal from './chains/opal-logo.png';
 import chainComposable from './chains/picasso.svg';
+import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -108,6 +109,7 @@ import nodePangoro from './nodes/pangoro.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
+import nodePioneerNetwork from './nodes/pioneer.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
@@ -117,6 +119,7 @@ import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
 import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
+import nodeQuartz from './nodes/quartz.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -233,12 +236,14 @@ export const chainLogos = Object.entries({
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
+  'Pioneer Network': nodePioneerNetwork,
   'Polkadex Mainnet': nodePolkadex,
   'Polkadex Testnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
   'Pontem Testnet': nodePontem,
   'Prism PC1': nodePrism,
   'Prism Testnet': nodePrism,
+  'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
@@ -370,6 +375,7 @@ export const nodeLogos = Object.entries({
   'phala-substrate-node': nodePhala,
   'PHOENIX Collator': nodePhoenix,
   'PHOENIX Node': nodePhoenix,
+  'Pioneer Network Collator Node': nodePioneerNetwork,
   Plasm: nodePlasm,
   'Plasm Node': nodePlasm,
   'Plasm Parachain Collator': nodePlasm,
@@ -381,6 +387,7 @@ export const nodeLogos = Object.entries({
   'Pontem Testnet': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
+  'Quartz Node': nodeQuartz,
   'ReAlis Network': nodeRealis,
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
@@ -458,6 +465,7 @@ export const namedLogos: Record<string, unknown> = {
   beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,
+  bitcountryPioneer: nodePioneerNetwork,
   calamari: nodeCalamari,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
@@ -534,6 +542,7 @@ export const namedLogos: Record<string, unknown> = {
   polymesh: nodePolymesh,
   pontem: nodePontem,
   prism: nodePrism,
+  quartz: nodeQuartz,
   realis: nodeRealis,
   riochain: nodeRiochain,
   robonomics: nodeRobonomics,

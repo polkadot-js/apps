@@ -1750,6 +1750,7 @@
   "rpc.kusama.mars": "",
   "rpc.kusama.moonriver": "",
   "rpc.kusama.parity": "Kusama (Polkadot Canary, ospitato da Parity)",
+  "rpc.kusama.pioneerNetwork": "",
   "rpc.kusama.polkasmith": "",
   "rpc.kusama.robonomics": "",
   "rpc.kusama.sakura": "",

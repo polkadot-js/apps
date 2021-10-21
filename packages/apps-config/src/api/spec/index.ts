@@ -13,6 +13,7 @@ import bifrost from './bifrost';
 import bifrostAsgard from './bifrost-asgard';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
+import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
@@ -78,6 +79,7 @@ import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
 import pontem from './pontem';
 import prism from './prism';
+import quartz from './quartz';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
@@ -202,10 +204,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   parami,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
+  'pioneer-runtime': bitcountryPioneer,
   plasm,
   polymesh,
   'pontem-node': pontem,
   prism,
+  quartz: quartz,
   realis,
   'riochain-runtime': riochain,
   robonomics,

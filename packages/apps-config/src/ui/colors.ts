@@ -16,6 +16,7 @@ const emptyColor = '#99999';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
+const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
@@ -63,6 +64,7 @@ const chainKusama = '#000000';
 const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainMybank = '#282736';
+const chainQuartz = '#FF4D6A';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
@@ -265,6 +267,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Phala PC1': chainPhala,
   'Phala PoC 4': chainPhala,
   PHOENIX: chainPhoenix,
+  'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
   PolkaBTC: chainInterbtc,
@@ -275,6 +278,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Pontem Testnet': chainPontem,
   'Prism PC1': chainPrism,
   'Prism Testnet': chainPrism,
+  'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,

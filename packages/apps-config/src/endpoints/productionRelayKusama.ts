@@ -78,6 +78,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'bitcountryPioneer',
+        homepage: 'https://bit.country/?ref=polkadotjs',
+        paraId: 2096,
+        text: t('rpc.kusama.pioneerNetwork', 'Bit.Country Pioneer', { ns: 'apps-config' }),
+        providers: {
+          'Bit.Country': 'wss://pioneer-1-rpc.bit.country'
+        }
+      },
+      {
         info: 'calamari',
         homepage: 'https://www.calamari.network/',
         paraId: 2084,
@@ -239,6 +248,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
           PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
+        }
+      },
+      {
+        info: 'quartz',
+        homepage: 'https://unique.network/',
+        paraId: 2095,
+        text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://quartz.unique.network'
         }
       },
       {
