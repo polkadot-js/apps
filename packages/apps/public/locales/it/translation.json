@@ -1738,6 +1738,7 @@
   "rpc.kusama.ava": "Kusama (Polkadot Canary, nodi pubblici gestiti dall'utente; vedi https://status.cloud.ava.do/)",
   "rpc.kusama.basilisk": "",
   "rpc.kusama.bifrost": "",
+  "rpc.kusama.pioneerNetwork": "",
   "rpc.kusama.crab-redirect": "",
   "rpc.kusama.encointer": "",
   "rpc.kusama.genshiro": "",
