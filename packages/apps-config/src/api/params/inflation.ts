@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { KUSAMA_GENESIS, NEATCOIN_GENESIS, POLKADOT_GENESIS, DOCK_POS_TESTNET_GENESIS } from '../constants';
+import { DOCK_POS_TESTNET_GENESIS, KUSAMA_GENESIS, NEATCOIN_GENESIS, POLKADOT_GENESIS } from '../constants';
 
 interface InflationParams {
   auctionAdjust: number;

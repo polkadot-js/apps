@@ -3,8 +3,8 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-const types: any = require('@docknetwork/node-types')
+import { spec } from '@docknetwork/node-types';
 
-const definitions = types.spec['dock-pos-main-runtime'] as OverrideBundleDefinition;
+const definitions = spec['dock-pos-main-runtime'] as OverrideBundleDefinition;
 
 export default definitions;
