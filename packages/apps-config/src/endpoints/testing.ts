@@ -420,7 +420,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'subspace',
       text: t('rpc.test.subspace', 'Subspace Testnet', { ns: 'apps-config' }),
       providers: {
-        'Subspace Network': 'wss://testnet.subspace.network'
+        'Subspace Network': 'wss://test-rpc.subspace.network'
       }
     },
     {

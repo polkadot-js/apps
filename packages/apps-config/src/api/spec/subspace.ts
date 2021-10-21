@@ -13,14 +13,16 @@ import { combineLatest, map } from 'rxjs';
 
 import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
 import { memo } from '@polkadot/api-derive/util';
-import { AccountId, Digest, Header } from '@polkadot/types/interfaces';
+import { Digest, Header } from '@polkadot/types/interfaces';
+
+type FarmerPublicKey = U8aFixed
 
 interface HeaderExtended extends Header {
-  readonly author: AccountId | undefined;
+  readonly author: FarmerPublicKey | undefined;
 }
 
 interface Solution extends Struct {
-  readonly publicKey: AccountId;
+  readonly publicKey: FarmerPublicKey;
   readonly nonce: u64;
   readonly encoding: Bytes;
   readonly signature: Bytes;
@@ -35,7 +37,7 @@ interface SubPreDigest extends Struct {
 function extractAuthor (
   digest: Digest,
   api: ApiInterfaceRx
-): AccountId | undefined {
+): FarmerPublicKey | undefined {
   const preRuntimes = digest.logs.filter(
     ({ isPreRuntime, type }) => isPreRuntime && type.toString() === 'SUB_'
   );
@@ -55,7 +57,7 @@ function createHeaderExtended (
   const HeaderBase = registry.createClass('Header');
 
   class SubHeaderExtended extends HeaderBase implements HeaderExtended {
-    readonly #author?: AccountId;
+    readonly #author?: FarmerPublicKey;
 
     constructor (registry: Registry, header: Header, api: ApiInterfaceRx) {
       super(registry, header);
@@ -63,7 +65,7 @@ function createHeaderExtended (
       this.createdAtHash = header?.createdAtHash;
     }
 
-    public get author (): AccountId | undefined {
+    public get author (): FarmerPublicKey | undefined {
       return this.#author;
     }
   }
@@ -117,8 +119,9 @@ const definitions: OverrideBundleDefinition = {
     {
       minmax: [0, undefined],
       types: {
+        FarmerPublicKey: '[u8; 32]',
         Solution: {
-          publicKey: 'AccountId',
+          publicKey: 'FarmerPublicKey',
           nonce: 'u64',
           encoding: 'Vec<u8>',
           signature: 'Vec<u8>',
