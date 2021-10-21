@@ -69,11 +69,6 @@ export default React.memo(styled(Tooltip)`
     z-index: 1002;
   }
 
-  &.address div {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   table {
     border: 0;
     overflow: hidden;
@@ -98,6 +93,11 @@ export default React.memo(styled(Tooltip)`
 
   > div+div {
     margin-top: 0.5rem;
+  }
+
+  &.address div {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .faded {
