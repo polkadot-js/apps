@@ -10,7 +10,25 @@ import styled, { createGlobalStyle, ThemeContext } from 'styled-components';
 
 import Header from './Header';
 
+interface OverlayProps {
+  className?: string;
+}
+
 const ESC_KEYCODE = 27;
+
+function OverlayBase ({ className }: OverlayProps): React.ReactElement<OverlayProps> {
+  return <div className={className} />;
+}
+
+const Overlay = React.memo(styled(OverlayBase)`
+  background: rgba(96, 96, 96, 0.5);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; // below status
+`);
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
@@ -31,23 +49,23 @@ function Base (props: ModalProps): React.ReactElement<ModalProps> {
   }, [listenKeyboard]);
 
   return createPortal(
-    <div
-      className={`theme--${theme} ui--Modal ${className} size-${size}`}
-      data-testid={testId}
-    >
+    <>
       <DisableGlobalScroll />
+      <Overlay />
       <div
-        className='ui--Modal__overlay'
+        className={`theme--${theme} ui--Modal ${className} size-${size}`}
+        data-testid={testId}
         onClick={onClose}
-      />
-      <div className='ui--Modal__body'>
-        <Header
-          header={header}
-          onClose={onClose}
-        />
-        {children}
+      >
+        <div className='ui--Modal__body'>
+          <Header
+            header={header}
+            onClose={onClose}
+          />
+          {children}
+        </div>
       </div>
-    </div>,
+    </>,
     document.body
   );
 }
@@ -59,42 +77,30 @@ const DisableGlobalScroll = createGlobalStyle`
 `;
 
 export default React.memo(styled(Base)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
+  left: 0;
+  position: fixed;
   min-height: 100vh;
-  z-index: 1000;
+  top: 0;
+  width: 100%;
   overflow-y: auto;
-
-  .ui--Modal__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(96, 96, 96, 0.5);
-  }
+  z-index: 1002; // above status
 
   .ui--Modal__body {
-    margin-top: 30px;
     background: var(--bg-page);
     border-radius: 4px;
     box-shadow: none;
-
+    color: var(--color-text);
     display: flex;
     flex-direction: column;
+    font: var(--font-sans);
+    left: 50%;
+    margin-top: 30px;
+    max-width: 900px;
     position: absolute;
     top: 0;
-    left: 50%;
     transform: translate(-50%, 0);
-
-    max-width: 900px;
     width: calc(100% - 16px);
-
-    color: var(--color-text);
-    font: var(--font-sans);
   }
 
   &.size-small .ui--Modal__body {
