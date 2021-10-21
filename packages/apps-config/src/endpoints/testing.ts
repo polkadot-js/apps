@@ -101,7 +101,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     {
       info: 'dock-testnet',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/5869
-      text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
+      text: t('rpc.test.dock-pos-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
       }
