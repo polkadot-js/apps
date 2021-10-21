@@ -31,6 +31,7 @@ import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
+import parachainStaking from './parachainStaking';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -42,6 +43,7 @@ export default function create (t: TFunction): Routes {
     transfer(t),
     teleport(t),
     staking(t),
+    parachainStaking(t),
     democracy(t),
     council(t),
     treasury(t),

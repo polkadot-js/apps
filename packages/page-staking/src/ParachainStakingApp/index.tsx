@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
+
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -14,31 +15,31 @@ import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
-import Summary from './Overview/Summary';
-import Actions from './Actions';
-import ActionsBanner from './ActionsBanner';
-import { STORE_FAVS_BASE } from './constants';
-import Overview from './Overview';
-import Payouts from './Payouts';
-import Query from './Query';
-import Slashes from './Slashes';
-import Targets from './Targets';
-import { useTranslation } from './translate';
-import useSortedTargets from './useSortedTargets';
+import basicMd from '../md/basic.md';
+import Summary from '../Overview/Summary';
+import Actions from '../Actions';
+import ActionsBanner from '../ActionsBanner';
+import { STORE_FAVS_BASE } from '../constants';
+import Overview from '../Overview';
+import Payouts from '../Payouts';
+import Query from '../Query';
+import Slashes from '../Slashes';
+import Targets from '../Targets';
+//import useSortedTargets from './useSortedTargets';
 const HIDDEN_ACC = ['actions', 'payout'];
 
-const optionsParaValidators = {
-  defaultValue: [false, {}] as [boolean, Record<string, boolean>],
-  transform: ([eraElectionStatus, validators, activeValidatorIndices]: [ElectionStatus | null, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, Record<string, boolean>] => [
-    !!eraElectionStatus && eraElectionStatus.isOpen,
-    validators && activeValidatorIndices
-      ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
-      : {}
-  ]
-};
+import type { SortedTargets } from '../types';
 
-function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
+
+import SummarySession from '@polkadot/app-explorer/SummarySession';
+import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { formatNumber } from '@polkadot/util';
+
+import { useTranslation } from '../translate';
+import useSortedTargets from '../useSortedTargets';
+
+
+function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.ReactElement<AppProps> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { areAccountsLoaded, hasAccounts } = useAccounts();
@@ -46,11 +47,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const [isInElection, paraValidators] = useCallMulti<[boolean, Record<string, boolean>]>([
-    api.query.staking.eraElectionStatus,
-    api.query.session.validators,
-    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
-  ], optionsParaValidators);
+//   const [isInElection, paraValidators] = useCallMulti<[boolean, Record<string, boolean>]>([
+//     api.query.staking.eraElectionStatus,
+//     api.query.session.validators,
+//     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
+//   ], optionsParaValidators);
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
@@ -123,12 +124,12 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         targets={targets}
       />
       <Switch>
-        <Route path={`${basePath}/payout`}>
+        {/* <Route path={`${basePath}/payout`}>
           <Payouts
             isInElection={isInElection}
             ownValidators={ownValidators}
           />
-        </Route>
+        </Route> */}
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
@@ -138,7 +139,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             slashes={slashes}
           />
         </Route>
-        <Route path={`${basePath}/targets`}>
+        {/* <Route path={`${basePath}/targets`}>
           <Targets
             isInElection={isInElection}
             ownStashes={ownStashes}
@@ -147,7 +148,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             toggleFavorite={toggleFavorite}
             toggleLedger={toggleLedger}
           />
-        </Route>
+        </Route> */}
         <Route path={`${basePath}/waiting`}>
           <Overview
             favorites={favorites}
@@ -160,16 +161,16 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           />
         </Route>
       </Switch>
-      <Actions
+      {/* <Actions
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
         isInElection={isInElection}
         ownStashes={ownStashes}
         targets={targets}
-      />
+      /> */}
       {basePath === pathname && hasAccounts && (ownStashes?.length === 0) && (
         <ActionsBanner />
       )}
-      <Overview
+      {/* <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
@@ -177,12 +178,13 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
-      />
+      /> */}
     </main>
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
+
+export const ParachainStakingPanel= React.memo(styled(ParachainStakingApp)(({ theme }: ThemeProps) => `
   .staking--hidden {
     display: none;
   }
