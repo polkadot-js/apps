@@ -19,6 +19,7 @@
   "rpc.kusama.altair": "Altair",
   "rpc.kusama.basilisk": "Basilisk",
   "rpc.kusama.bifrost": "Bifrost",
+  "rpc.kusama.pioneerNetwork": "Bit.Country Pioneer",
   "rpc.kusama.encointer": "Encointer Canary",
   "rpc.kusama.genshiro": "Genshiro",
   "rpc.kusama.heiko": "Parallel Heiko",
