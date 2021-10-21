@@ -163,7 +163,13 @@ export abstract class Page {
             identityOf: noop
           }
         },
-        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
+        registry: {
+          chainDecimals: [12],
+          chainTokens: ['Unit'],
+          lookup: {
+            names: []
+          }
+        },
         tx: {
           council: {},
           democracy: {
