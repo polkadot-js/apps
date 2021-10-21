@@ -14,7 +14,7 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
   const _onAdd = useCallback(
-    (query: QueryTypes) => setQueue((queue: QueryTypes[]) => [query, ...queue]),
+    (query: QueryTypes) => {console.log('query',query);setQueue((queue: QueryTypes[]) => [query, ...queue])},
     []
   );
 

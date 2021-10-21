@@ -3,32 +3,53 @@
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { SortedTargets } from '../types';
+import type { BlockNumber } from '@polkadot/types/interfaces';
+
 
 import React from 'react';
 import styled from 'styled-components';
 
-import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
+import SummaryRound, { RoundInfo } from './SummaryRound';
 
 interface Props {
   className?: string;
-  isVisible: boolean;
-  nominators?: string[];
-  stakingOverview?: DeriveStakingOverview;
-  targets: SortedTargets;
+  //isVisible: boolean;
+  roundInfo:RoundInfo<unknown>;
+  stakingInfo:StakingInfo;
+  bestNumberFinalized:BlockNumber|undefined
+  // nominators?: string[];
+  // stakingOverview?: DeriveStakingOverview;
+  // targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+export interface OwnerAmount {owner:string,amount:string}
+
+export type NominatorState=[[number],{nominations:OwnerAmount[],revocations:any[],total:string,scheduled_revocations_count:number,scheduled_revocations_total:number,status:string}]
+
+export type NominatorInfo={nominatorCount:number,totalNominatorStaked:number}
+
+interface StakingInfo{
+  totalSelected:number,
+  totalSelectedStaked:string,
+  totalCollatorCount:number,
+  nominatorInfo:NominatorInfo,
+  totalStaked:string
+}
+
+
+function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{totalSelected,totalSelectedStaked,totalCollatorCount,totalStaked} } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  console.log("bestNumberFinalized 2",bestNumberFinalized)
 
   return (
-    <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
+    <SummaryBox className={`${className}`}>
       <section>
-        <CardSummary label={t<string>('validators')}>
-          {stakingOverview
-            ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
+        <CardSummary label={t<string>('collators')}>
+          {totalSelected
+            ? <>{formatNumber(totalSelected)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</> //TODO:differntiate the two
             : <Spinner noLabel />
           }
         </CardSummary>
@@ -36,60 +57,49 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { count
           className='media--900'
           label={t<string>('waiting')}
         >
-          {waitingIds
-            ? formatNumber(waitingIds.length)
-            : <Spinner noLabel />
-          }
-        </CardSummary>
-        <CardSummary
-          className='media--1000'
-          label={
-            counterForNominators
-              ? t<string>('active / nominators')
-              : t<string>('nominators')
-          }
-        >
-          {nominators
-            ? (
-              <>
-                {formatNumber(nominators.length)}
-                {counterForNominators && (
-                  <>&nbsp;/&nbsp;{formatNumber(counterForNominators)}</>
-                )}
-              </>
-            )
+          {totalCollatorCount
+            ? formatNumber(totalCollatorCount-totalSelected)
             : <Spinner noLabel />
           }
         </CardSummary>
       </section>
       <section>
-        {(idealStake > 0) && Number.isFinite(idealStake) && (
+        {/* {(idealStake > 0) && Number.isFinite(idealStake) && (
           <CardSummary
             className='media--1400'
             label={t<string>('ideal staked')}
           >
             <>{(idealStake * 100).toFixed(1)}%</>
           </CardSummary>
-        )}
-        {(stakedFraction > 0) && (
+        )} */}
+{(totalSelectedStaked !=="0") && (
           <CardSummary
             className='media--1300'
-            label={t<string>('staked')}
+            label={t<string>('staked by selected candidates')}
           >
-            <>{(stakedFraction * 100).toFixed(1)}%</>
+            <>{(totalSelectedStaked)}</>
           </CardSummary>
         )}
-        {(inflation > 0) && Number.isFinite(inflation) && (
+        {(totalStaked !=="0") && (
+          <CardSummary
+            className='media--1300'
+            label={t<string>('total staked')}
+          >
+            <>{(totalStaked)}</>
+          </CardSummary>
+        )}
+
+        {/* {(inflation > 0) && Number.isFinite(inflation) && (
           <CardSummary
             className='media--1200'
             label={t<string>('inflation')}
           >
             <>{inflation.toFixed(1)}%</>
           </CardSummary>
-        )}
+        )} */}
       </section>
       <section>
-        <SummarySession />
+        <SummaryRound roundInfo={roundInfo} bestNumberFinalized={bestNumberFinalized} />
       </section>
     </SummaryBox>
   );
