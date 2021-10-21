@@ -1,6 +1,7 @@
 {
   "lightclient.experimental": "light client (experimental)",
   "lng.detect": "Default browser language (auto-detect)",
+  "quartz.unique.network": "QUARTZ by UNIQUE",
   "rpc.KlugDossier": "Klug Dossier",
   "rpc.calamari.systems": "Calamari",
   "rpc.dev.custom": "Custom environment",
@@ -33,6 +34,7 @@
   "rpc.kusama.moonriver": "Moonriver",
   "rpc.kusama.parity": "Kusama",
   "rpc.kusama.picasso": "Picasso",
+  "rpc.kusama.pioneerNetwork": "Bit.Country Pioneer",
   "rpc.kusama.polkasmith": "PolkaSmith by PolkaFoundry",
   "rpc.kusama.robonomics": "Robonomics",
   "rpc.kusama.sakura": "Sakura",

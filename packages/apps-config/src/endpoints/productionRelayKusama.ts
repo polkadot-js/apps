@@ -78,6 +78,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'bitcountryPioneer',
+        homepage: 'https://bit.country/?ref=polkadotjs',
+        paraId: 2096,
+        text: t('rpc.kusama.pioneerNetwork', 'Bit.Country Pioneer', { ns: 'apps-config' }),
+        providers: {
+          'Bit.Country': 'wss://pioneer-1-rpc.bit.country'
+        }
+      },
+      {
         info: 'calamari',
         homepage: 'https://www.calamari.network/',
         paraId: 2084,

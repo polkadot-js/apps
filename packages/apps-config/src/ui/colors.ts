@@ -16,6 +16,7 @@ const emptyColor = '#99999';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
+const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
@@ -266,6 +267,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Phala PC1': chainPhala,
   'Phala PoC 4': chainPhala,
   PHOENIX: chainPhoenix,
+  'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
   PolkaBTC: chainInterbtc,
