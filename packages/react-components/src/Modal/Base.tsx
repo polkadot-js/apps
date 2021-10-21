@@ -27,7 +27,7 @@ const Overlay = React.memo(styled(OverlayBase)`
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; // below status
+  z-index: 1000; /* below status */
 `);
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
@@ -84,7 +84,7 @@ export default React.memo(styled(Base)`
   top: 0;
   width: 100%;
   overflow-y: auto;
-  z-index: 1002; // above status
+  z-index: 1002; /* above status */
 
   .ui--Modal__body {
     background: var(--bg-page);
