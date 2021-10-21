@@ -276,7 +276,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Pontem Testnet': chainPontem,
   'Prism PC1': chainPrism,
   'Prism Testnet': chainPrism,
-  'Quartz Node': chainQuartz,
+  'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
