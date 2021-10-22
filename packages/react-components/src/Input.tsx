@@ -1,22 +1,19 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
-// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { VoidFn } from '@canvas-ui/react-util/types';
 import React, { useCallback, useState } from 'react';
-import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
+import { Input as SUIInput } from 'semantic-ui-react';
 
 import { isFunction, isUndefined } from '@polkadot/util';
 
-import InputStatus from './InputStatus';
 import Labelled from './Labelled';
-import { BareProps } from './types';
 
 type Input$Type = 'number' | 'password' | 'text';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
   children?: React.ReactNode;
+  className?: string;
   defaultValue?: string | null;
   help?: React.ReactNode;
   icon?: React.ReactNode;
@@ -30,13 +27,15 @@ interface Props extends BareProps {
   isHidden?: boolean;
   isInPlaceEditor?: boolean;
   isReadOnly?: boolean;
+  isSmall?: boolean;
+  isWarning?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   max?: number;
   maxLength?: number;
   min?: number;
   name?: string;
-  onEnter?: boolean | VoidFn;
+  onEnter?: boolean | (() => void);
   onEscape?: () => void;
   onChange?: (value: string) => void;
   onBlur?: () => void;
@@ -45,19 +44,17 @@ interface Props extends BareProps {
   onKeyPress?: (event: React.KeyboardEvent<Element>) => void;
   onPaste?: (event: React.ClipboardEvent<Element>) => void;
   placeholder?: string;
-  status?: React.ReactNode;
   tabIndex?: number;
   type?: Input$Type;
   value?: string | null;
   withLabel?: boolean;
   withEllipsis?: boolean;
-  withStatus?: boolean;
 }
 
-// Find decimal separator used in current locale
-const getDecimalSeparator = (): string => 1.1
-  .toLocaleString()
-  .replace(/\d/g, '');
+// // Find decimal separator used in current locale
+// const getDecimalSeparator = (): string => 1.1
+//   .toLocaleString()
+//   .replace(/\d/g, '');
 
 // note: KeyboardEvent.keyCode and KeyboardEvent.which are deprecated
 const KEYS = {
@@ -69,7 +66,7 @@ const KEYS = {
   C: 'c',
   CMD: 'Meta',
   CTRL: 'Control',
-  DECIMAL: getDecimalSeparator(),
+  // DECIMAL: getDecimalSeparator(),
   ENTER: 'Enter',
   ESCAPE: 'Escape',
   TAB: 'Tab',
@@ -78,12 +75,25 @@ const KEYS = {
   ZERO: '0'
 };
 
-const KEYS_PRE: any[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+const KEYS_PRE: unknown[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+
+// reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
+const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.C;
+
+const isCut = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.X;
+
+const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.V;
+
+const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
+  isPreKeyDown && key === KEYS.A;
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, status, tabIndex, type = 'text', value, withEllipsis, withLabel, withStatus = false }: Props): React.ReactElement<Props> {
-  const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
+function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+  const [stateName] = useState(() => `in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = useCallback(
     () => onBlur && onBlur(),
@@ -91,9 +101,8 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
   );
 
   const _onChange = useCallback(
-    ({ target }: React.SyntheticEvent<HTMLInputElement>): void => {
-      onChange && onChange((target as HTMLInputElement).value);
-    },
+    ({ target }: React.SyntheticEvent<HTMLInputElement>): void =>
+      onChange && onChange((target as HTMLInputElement).value),
     [onChange]
   );
 
@@ -139,20 +148,18 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       <SUIInput
         action={isAction}
         autoFocus={autoFocus}
-        className={
-          [
-            isEditable
-              ? 'ui--Input edit icon'
-              : 'ui--Input',
-            isInPlaceEditor
-              ? 'inPlaceEditor'
-              : '',
-            isDisabled
-              ? 'retain-appearance'
-              : '',
-            inputClassName || ''
-          ].join(' ')
-        }
+        className={[
+          isEditable
+            ? 'ui--Input edit icon'
+            : 'ui--Input',
+          isInPlaceEditor
+            ? 'inPlaceEditor'
+            : '',
+          inputClassName || '',
+          isWarning && !isError
+            ? 'isWarning'
+            : ''
+        ].join(' ')}
         defaultValue={
           isUndefined(value)
             ? (defaultValue || '')
@@ -189,6 +196,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
               : 'off'
           }
           autoCorrect='off'
+          data-testid={label}
           onPaste={_onPaste}
           spellCheck={false}
         />
@@ -196,15 +204,8 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
           <i className='edit icon' />
         )}
         {icon}
+        {children}
       </SUIInput>
-      {withStatus && (
-        <InputStatus
-          isError={isError}
-          isValid={!isError}
-          text={status}
-        />
-      )}
-      {children}
     </Labelled>
   );
 }
@@ -212,6 +213,10 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
 export default React.memo(Input);
 
 export {
+  isCopy,
+  isCut,
+  isPaste,
+  isSelectAll,
   KEYS,
   KEYS_PRE
 };
