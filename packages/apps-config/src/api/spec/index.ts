@@ -4,6 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import altair from './altair';
 import apron from './apron';
 import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
@@ -79,6 +80,7 @@ import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
 import pontem from './pontem';
 import prism from './prism';
+import quartz from './quartz';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
@@ -122,6 +124,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
+  altair,
   apron,
   'ares-gladios': aresGladios,
   'ares-parachain': aresParachain,
@@ -209,6 +212,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh,
   'pontem-node': pontem,
   prism,
+  quartz: quartz,
   realis,
   'riochain-runtime': riochain,
   robonomics,
