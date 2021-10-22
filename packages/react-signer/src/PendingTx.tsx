@@ -234,7 +234,7 @@ function PendingTx ({ additionalDetails, children, className, currentItem, instr
           <header>
             <h1>{section}.{method}</h1>
             <div className='instructions'>
-              {meta.documentation}
+              {meta.docs}
             </div>
           </header>
           <section>
