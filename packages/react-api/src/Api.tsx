@@ -8,7 +8,7 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
-import { typesChain, typesSpec } from '@canvas-ui/app-config/api';
+import { typesBundle, typesChain } from '@canvas-ui/app-config/api';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
@@ -210,7 +210,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
-    api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
