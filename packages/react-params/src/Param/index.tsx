@@ -29,11 +29,7 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
   );
 
   const label = useMemo(
-    () => formatJSON(
-      isUndefined(name)
-        ? `${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
-        : `${name}: ${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
-    ),
+    () => `${isUndefined(name) ? '' : `${name}: `}${formatJSON(`${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`)}${type.typeName ? ` (${type.typeName})` : ''}`,
     [isDisabled, isInOption, name, registry, type]
   );
 
