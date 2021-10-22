@@ -1,8 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { SortedTargets } from '../types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
 
@@ -16,26 +14,18 @@ import SummaryRound, { RoundInfo } from './SummaryRound';
 
 interface Props {
   className?: string;
-  //isVisible: boolean;
   roundInfo:RoundInfo<unknown>;
   stakingInfo:StakingInfo;
   bestNumberFinalized:BlockNumber|undefined
-  // nominators?: string[];
-  // stakingOverview?: DeriveStakingOverview;
-  // targets: SortedTargets;
 }
 
 export interface OwnerAmount {owner:string,amount:string}
 
-// export type NominatorState=[[number],{nominations:OwnerAmount[],revocations:any[],total:string,scheduled_revocations_count:number,scheduled_revocations_total:number,status:string}]
-
-// export type NominatorInfo={nominatorCount:number,totalNominatorStaked:number}
 
 interface StakingInfo{
   totalSelected:number,
   totalSelectedStaked:string,
   totalCollatorCount:number,
-  // nominatorInfo:NominatorInfo,
   totalStaked:string
   inflationPrct:string|undefined
   parachainBondInfoPrct:string|undefined
@@ -66,14 +56,6 @@ function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{p
         </CardSummary>
       </section>
       <section>
-        {/* {(idealStake > 0) && Number.isFinite(idealStake) && (
-          <CardSummary
-            className='media--1400'
-            label={t<string>('ideal staked')}
-          >
-            <>{(idealStake * 100).toFixed(1)}%</>
-          </CardSummary>
-        )} */}
 {(totalSelectedStaked !=="0") && (
           <CardSummary
             className='media--1300'
@@ -102,7 +84,7 @@ function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{p
         </CardSummary>
         <CardSummary
           className='media--1200'
-          label={t<string>('parachain bond')}
+          label={t<string>('parachain bond')} // TODO: add translation??
         >
         {(parachainBondInfoPrct)? (
             <>{parachainBondInfoPrct}</>
