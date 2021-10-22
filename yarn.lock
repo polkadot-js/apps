@@ -1517,10 +1517,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docknetwork/node-types@npm:0.4.7":
-  version: 0.4.7
-  resolution: "@docknetwork/node-types@npm:0.4.7"
-  checksum: 30441718faf9a1349301692f0693f0fb95039557711de792fa513a7195b000ace0c85f6fd7ef89101d34f9fe8c3cec3491ac455cf68290ea1678fdb15992b38f
+"@docknetwork/node-types@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@docknetwork/node-types@npm:0.5.1"
+  checksum: c41d23fec90944c866e14353d9b6833be3192c50813615df7f523884256916f6e1c06bf2649ce379155bb89b318b8a7bbc7593a53826e0e3e573818740572593
   languageName: node
   linkType: hard
 
@@ -2807,7 +2807,7 @@ __metadata:
     "@crustio/type-definitions": 1.2.0
     "@darwinia/types": 1.3.0
     "@digitalnative/type-definitions": 1.1.26
-    "@docknetwork/node-types": 0.4.7
+    "@docknetwork/node-types": 0.5.1
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.2
     "@interlay/interbtc-types": 1.1.1
