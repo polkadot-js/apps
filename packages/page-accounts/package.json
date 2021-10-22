@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/phishing": "^0.6.356",
+    "@polkadot/phishing": "^0.6.365",
     "@polkadot/react-components": "^0.97.2-4",
     "@polkadot/vanitygen": "^0.47.4",
     "detect-browser": "^5.2.1",
