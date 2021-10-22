@@ -37,13 +37,13 @@ function Upload (): React.ReactElement {
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
 
   useEffect((): void => {
-    if (abi && isWasm(abi.project.source.wasm)) {
+    if (abi && isWasm(abi.info.source.wasm)) {
       setWasm(
-        [abi.project.source.wasm, true]
+        [abi.info.source.wasm, true]
       );
 
       if (currentName.current === '') {
-        setName(`${abi.project.contract.name.toString()}.contract`);
+        setName(`${abi.info.contract.name.toString()}.contract`);
       }
 
       return;
@@ -143,7 +143,7 @@ function Upload (): React.ReactElement {
           setFile={setAbiFile}
           withLabel
         />
-        {abi?.project.source.wasm && abi.project.source.wasm.length === 0 && (
+        {abi?.info.source.wasm && abi.info.source.wasm.length === 0 && (
           <InputFile
             help={t<string>('The compiled WASM for the contract that you wish to upload. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
             isError={isWasmFromFileSupplied && !isWasmFromFileValid}
