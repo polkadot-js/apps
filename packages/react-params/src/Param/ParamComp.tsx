@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 
 import { TypeDef } from '@polkadot/types/types';
@@ -28,6 +29,7 @@ function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, 
       onChange(index, value),
     [index, onChange]
   );
+  const { api } = useApi();
 
   return (
     <div className='ui--Param-composite'>
@@ -40,6 +42,7 @@ function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, 
         onEnter={onEnter}
         onEscape={onEscape}
         overrides={overrides}
+        registry={api.registry}
         type={type}
       />
     </div>

@@ -303,6 +303,7 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
               <ContractParams
                 onChange={setParams}
                 params={abi.constructors[constructorIndex].args}
+                registry={abi.registry}
                 values={params}
               />
               <InputBalance

@@ -4,6 +4,7 @@
 
 import InputExtrinsic from '@canvas-ui/react-components/InputExtrinsic';
 import { BareProps, RawParam } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -44,6 +45,7 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
 function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
+  const { api } = useApi();
 
   useEffect((): void => {
     setValues([]);
@@ -81,7 +83,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
-        help={meta?.documentation.join(' ')}
+        help={meta?.docs.join(' ')}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
@@ -96,6 +98,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
         onEscape={onEscape}
         overrides={paramComponents}
         params={params}
+        registry={api.registry}
       />
     </div>
   );

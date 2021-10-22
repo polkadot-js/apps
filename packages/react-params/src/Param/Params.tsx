@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Registry } from '@polkadot/types/types';
+
 import ErrorBoundary from '@canvas-ui/react-components/ErrorBoundary';
 import Holder from '@canvas-ui/react-components/Params/Holder';
 import translate from '@canvas-ui/react-components/Params/translate';
@@ -19,6 +21,7 @@ interface Props extends I18nProps {
   onEscape?: () => void;
   overrides?: ComponentMap;
   params: ParamDef[];
+  registry: Registry;
   values?: RawParams | null;
   withBorder?: boolean;
 }
@@ -33,7 +36,7 @@ class Params extends React.PureComponent<Props, State> {
     params: null
   };
 
-  public static getDerivedStateFromProps ({ isDisabled, params, values }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ isDisabled, params, registry, values }: Props, prevState: State): Pick<State, never> | null {
     const isSame = JSON.stringify(prevState.params) === JSON.stringify(params);
 
     if (isDisabled || isSame) {
@@ -47,7 +50,7 @@ class Params extends React.PureComponent<Props, State> {
           ...result,
           values && values[index]
             ? values[index]
-            : createValue(param)
+            : createValue(registry, param)
         ],
         []
       )

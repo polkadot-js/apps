@@ -11,7 +11,7 @@ import { WithTranslation } from 'react-i18next';
 
 // import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { AccountId, Index } from '@polkadot/types/interfaces';
-import { TypeDef } from '@polkadot/types/types';
+import { Registry, TypeDef } from '@polkadot/types/types';
 
 export interface BareProps {
   children?: React.ReactNode;
@@ -137,6 +137,7 @@ export interface Props {
   // eslint-disable-next-line no-use-before-define
   overrides?: ComponentMap;
   type: TypeDef & { withOptionActive?: boolean };
+  registry: Registry
   withLabel?: boolean;
 }
 

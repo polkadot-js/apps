@@ -6,6 +6,7 @@ import FormatBalance from '@canvas-ui/react-components/FormatBalance';
 import Static from '@canvas-ui/react-components/Static';
 import { useTranslation } from '@canvas-ui/react-components/translate';
 import { BareProps } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import { classes } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -47,6 +48,7 @@ interface Extracted {
 function Call ({ children, className = '', labelHash, mortality, onError, tip, value, withBorder, withHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ hash, params, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], values: [] });
+  const { api } = useApi();
 
   useEffect((): void => {
     const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): Param => ({
@@ -70,6 +72,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, tip, v
         isDisabled
         onError={onError}
         params={params}
+        registry={api.registry}
         values={values}
         withBorder={withBorder}
       />
