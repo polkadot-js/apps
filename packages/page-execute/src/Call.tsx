@@ -3,7 +3,6 @@
 
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, TxButton } from '@canvas-ui/react-components';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
-import { extractValues } from '@canvas-ui/react-components/Params/values';
 import { ComponentProps as Props } from '@canvas-ui/react-components/types';
 import { useAccountId, useAccountInfo, useApi, useAppNavigation, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { ContractParams } from '@canvas-ui/react-params';
@@ -71,7 +70,7 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
   const [params, values = [], setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return contract?.abi?.messages[messageIndex]
-      ? contract.abi.messages[messageIndex].toU8a(extractValues(values || [])) as unknown as Uint8Array
+      ? contract.abi.messages[messageIndex].toU8a(values || []) as unknown as Uint8Array
       : null;
   }, [contract?.abi?.messages, messageIndex, values]);
 
@@ -109,7 +108,7 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
         value: message.isPayable
           ? payment
           : 0
-      }, ...extractValues(values))
+      }, ...values)
       .then(({ gasConsumed, result }) => setEstimatedWeight(
         result.isOk
           ? gasConsumed
@@ -156,13 +155,13 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
           value: message.isPayable
             ? payment
             : 0
-        }, ...extractValues(values))
+        }, ...values)
         .then((result): void => {
           setOutcomes([{
             ...result,
             from: accountId,
             message: contract.abi.messages[messageIndex],
-            params: extractValues(values),
+            params: values,
             when: new Date()
           }, ...outcomes]);
         });

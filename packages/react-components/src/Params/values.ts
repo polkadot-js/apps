@@ -2,7 +2,7 @@
 // and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CodecArg, TypeDef } from '@polkadot/types/types';
+import { TypeDef } from '@polkadot/types/types';
 import { isUndefined } from '@polkadot/util';
 
 import { RawParam } from '../types';
@@ -15,10 +15,6 @@ export function createValue (param: { type: TypeDef }): RawParam {
     isValid: !isUndefined(value),
     value
   };
-}
-
-export function extractValues (values: RawParam[]): CodecArg[] {
-  return values.map(({ value }) => value as CodecArg);
 }
 
 export default function createValues (params: { type: TypeDef }[]): RawParam[] {

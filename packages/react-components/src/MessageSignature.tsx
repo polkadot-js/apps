@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import { AbiMessage } from '@polkadot/api-contract/types';
 import { encodeTypeDef, TypeRegistry } from '@polkadot/types';
-import { CodecArg } from '@polkadot/types/types';
 
 import Icon from './Icon';
 import MessageArg from './MessageArg';
@@ -18,7 +17,7 @@ import { BareProps } from './types';
 
 interface Props extends BareProps {
   message: AbiMessage;
-  params?: CodecArg[];
+  params?: unknown[];
   registry: TypeRegistry;
   withTooltip?: boolean;
 }
@@ -50,7 +49,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {encodeTypeDef({
+            {encodeTypeDef(registry, {
               ...returnType,
               ...(
                 (returnType.displayName || '').length > 0

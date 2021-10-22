@@ -111,5 +111,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2",
     "webpack-plugin-serve": "^1.0.1"
+  },
+  "dependencies": {
+    "fflate": "^0.7.1"
   }
 }

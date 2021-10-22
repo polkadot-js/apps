@@ -3,7 +3,6 @@
 
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
-import { extractValues } from '@canvas-ui/react-components/Params/values';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useApi, useAppNavigation, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
 import { ContractParams } from '@canvas-ui/react-params';
@@ -53,7 +52,7 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
   const [constructorIndex, setConstructorIndex] = useState(parseInt(index, 10) || 0);
   const [name, setName, isNameValid, isNameError] = useNonEmptyString(t(defaultContractName(code?.name)));
   const { abi, isAbiValid } = useAbi(code);
-  const [salt, setSalt] = useState(randomAsHex());
+  const [salt, setSalt] = useState<string>(randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const pendingTx = usePendingTx('contracts.instantiate');
@@ -102,7 +101,7 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
         try {
           const identifier = abi?.constructors[constructorIndex].identifier;
 
-          return identifier ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...extractValues(values)) : null;
+          return identifier ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...values) : null;
         } catch (error) {
           console.error(error);
 

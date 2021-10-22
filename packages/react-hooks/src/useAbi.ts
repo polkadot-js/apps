@@ -17,7 +17,7 @@ import { useApi } from '.';
 
 interface UseAbi {
   abi: Abi | null;
-  errorText: string | null;
+  errorText: unknown;
   isAbiError: boolean;
   isAbiValid: boolean;
   isAbiSupplied: boolean;
@@ -42,7 +42,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
     ? [source.abi ? new Abi(source.abi, api.registry.getChainProperties()) : null, !!source?.abi, !isRequired || !!source.abi]
     : [null, false, false];
   const [[abi, isAbiSupplied, isAbiValid], setAbi] = useState<State>(initialState);
-  const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
+  const [[isAbiError, errorText], setError] = useState<[boolean, unknown]>([false, null]);
 
   useEffect(
     (): void => {

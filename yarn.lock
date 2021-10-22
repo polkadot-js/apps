@@ -6986,6 +6986,7 @@ __metadata:
     electron: ^9.0.3
     electron-builder: ^22.7.0
     electron-builder-notarize: ^1.1.2
+    fflate: ^0.7.1
     gh-pages: ^3.1.0
     i18next-scanner: ^2.11.0
     react: ^16.13.1
@@ -10466,6 +10467,13 @@ __metadata:
   dependencies:
     pend: ~1.2.0
   checksum: c8585fd5713f4476eb8261150900d2cb7f6ff2d87f8feb306ccc8a1122efd152f1783bdb2b8dc891395744583436bfd8081d8e63ece0ec8687eeefea394d4ff2
+  languageName: node
+  linkType: hard
+
+"fflate@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "fflate@npm:0.7.1"
+  checksum: 6e2a7540599ecc4a61fb8ebecae8275d0135ab4649bbd8e1937c9eea4871d108dfce72dcd9c9eefd7bfec420036e439d8a1feaa3d39acd52cc17c1da7cb7ed1e
   languageName: node
   linkType: hard
 

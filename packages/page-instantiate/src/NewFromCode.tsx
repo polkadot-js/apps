@@ -7,7 +7,6 @@ import type { AccountId } from '@polkadot/types/interfaces';
 import type { ComponentProps as Props } from './types';
 
 import { Button, Dropdown, Input, InputABI, InputAddress, InputBalance, InputMegaGas, InputName, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
-import { extractValues } from '@canvas-ui/react-components/Params/values';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { RawParam } from '@canvas-ui/react-components/types';
 import { useAbi, useAccountId, useApi, useAppNavigation, useFile, useGasWeight, useNonEmptyString, useNonZeroBn, useStepper } from '@canvas-ui/react-hooks';
@@ -55,11 +54,11 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const { abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
-  const [salt, setSalt] = useState(randomAsHex());
+  const [salt, setSalt] = useState<string>(randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
   const [[uploadTx], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
-  const [codeName, setCodeName, isCodeNameValid, isCodeNameError] = useNonEmptyString(t(abi?.project.contract.name.toString() || ''));
-  const [contractName, setContractName, isContractNameValid, isContractNameError] = useNonEmptyString(t(defaultContractName(abi?.project.contract.name.toString())));
+  const [codeName, setCodeName, isCodeNameValid, isCodeNameError] = useNonEmptyString(t(abi?.info.contract.name.toString() || ''));
+  const [contractName, setContractName, isContractNameValid, isContractNameError] = useNonEmptyString(t(defaultContractName(abi?.info.contract.name.toString())));
   const currentCodeName = useRef(codeName);
   const currentContractName = useRef(contractName);
 
@@ -71,12 +70,12 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
   );
 
   useEffect((): void => {
-    if (abi && isWasm(abi.project.source.wasm)) {
+    if (abi && isWasm(abi.info.source.wasm)) {
       setWasm(
-        [abi.project.source.wasm, true]
+        [abi.info.source.wasm, true]
       );
 
-      const projectName = abi.project.contract.name.toString();
+      const projectName = abi.info.contract.name.toString();
 
       if (currentCodeName.current === '') {
         setCodeName(`${projectName}.contract`);
@@ -137,10 +136,10 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
     let error: string | null = null;
 
     try {
-      const { identifier } = abi?.constructors[constructorIndex];
+      const { identifier } = abi?.constructors[constructorIndex] || '';
 
       contract = code && identifier && endowment
-        ? code.tx[`${identifier[0].toLowerCase()}${identifier.slice(1)}`]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...extractValues(params))
+        ? code.tx[`${identifier[0].toLowerCase()}${identifier.slice(1)}`]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...params)
         : null;
 
       setUploadTx(() => [contract, error]);
