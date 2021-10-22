@@ -41,29 +41,29 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import useSortedTargets from '../useSortedTargets';
 import { RoundInfo } from './SummaryRound';
-import Summary, { NominatorInfo, NominatorState, OwnerAmount } from './Summary';
+import Summary, {OwnerAmount } from './Summary';
 
-function extractNominatorInfo(state:NominatorState[]|undefined,selectedCandidates:string[]):NominatorInfo{
-  console.log("extractNominatorInfo",state)
-  let nominatorCount=0
-  let totalNominatorStaked:number=0
-  if (!state||state.length==0){
-    return {nominatorCount:0,totalNominatorStaked:0}
-  }
-  state.forEach((nominator)=>{
-    let isSelected=false
-    nominator[1].nominations.forEach((nomination)=>{
-      if (selectedCandidates.includes(nomination.owner)){
-        totalNominatorStaked+=Number(nomination.amount)
-        isSelected=true
-      }
-    })
-    if (isSelected){
-      nominatorCount+=1
-    }
-  })
-  return {nominatorCount,totalNominatorStaked}
-}
+// function extractNominatorInfo(state:NominatorState[]|undefined,selectedCandidates:string[]):NominatorInfo{
+//   console.log("extractNominatorInfo",state)
+//   let nominatorCount=0
+//   let totalNominatorStaked:number=0
+//   if (!state||state.length==0){
+//     return {nominatorCount:0,totalNominatorStaked:0}
+//   }
+//   state.forEach((nominator)=>{
+//     let isSelected=false
+//     nominator[1].nominations.forEach((nomination)=>{
+//       if (selectedCandidates.includes(nomination.owner)){
+//         totalNominatorStaked+=Number(nomination.amount)
+//         isSelected=true
+//       }
+//     })
+//     if (isSelected){
+//       nominatorCount+=1
+//     }
+//   })
+//   return {nominatorCount,totalNominatorStaked}
+// }
 
 function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.ReactElement<AppProps> {
   const { t } = useTranslation();
@@ -85,6 +85,12 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
   console.log("totalSelectedStaked",totalSelectedStaked)
   const totalStaked = (useCall<unknown>(api.query.parachainStaking.total));
   console.log("totalStaked",totalStaked)
+  const inflation = (useCall<{annual:{ideal:any}}|undefined>(api.query.parachainStaking.inflationConfig));
+  const inflationPrct=inflation?.annual.ideal.toHuman()
+  console.log("inflationPrct",inflationPrct)
+  const parachainBondInfo = (useCall<{percent:any}|undefined>(api.query.parachainStaking.parachainBondInfo));
+  const parachainBondInfoPrct=parachainBondInfo?.percent.toHuman()
+  console.log("parachainBondInfoPrct",parachainBondInfoPrct)
   // const selectedCandidates = useCall<string[]>(api.query.parachainStaking.selectedCandidates);
   const candidatePool = useCall<OwnerAmount[]>(api.query.parachainStaking.candidatePool);
   // const head=useCall<HeaderExtended>(api.derive.chain.getHeader())
@@ -184,7 +190,8 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
           totalCollatorCount:candidatePool?.length,
           totalSelectedStaked:totalSelectedStaked?(totalSelectedStaked as any).toHuman():"",
           totalStaked:totalStaked?(totalStaked as any).toHuman():"",
-          // nominatorInfo
+          inflationPrct,
+          parachainBondInfoPrct
         }}
         bestNumberFinalized={bestNumberFinalized}
         // targets={targets}

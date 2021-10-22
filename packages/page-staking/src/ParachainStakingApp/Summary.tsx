@@ -27,20 +27,22 @@ interface Props {
 
 export interface OwnerAmount {owner:string,amount:string}
 
-export type NominatorState=[[number],{nominations:OwnerAmount[],revocations:any[],total:string,scheduled_revocations_count:number,scheduled_revocations_total:number,status:string}]
+// export type NominatorState=[[number],{nominations:OwnerAmount[],revocations:any[],total:string,scheduled_revocations_count:number,scheduled_revocations_total:number,status:string}]
 
-export type NominatorInfo={nominatorCount:number,totalNominatorStaked:number}
+// export type NominatorInfo={nominatorCount:number,totalNominatorStaked:number}
 
 interface StakingInfo{
   totalSelected:number,
   totalSelectedStaked:string,
   totalCollatorCount:number,
-  nominatorInfo:NominatorInfo,
+  // nominatorInfo:NominatorInfo,
   totalStaked:string
+  inflationPrct:string|undefined
+  parachainBondInfoPrct:string|undefined
 }
 
 
-function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{totalSelected,totalSelectedStaked,totalCollatorCount,totalStaked} } : Props): React.ReactElement<Props> {
+function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{parachainBondInfoPrct,inflationPrct,totalSelected,totalSelectedStaked,totalCollatorCount,totalStaked} } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   console.log("bestNumberFinalized 2",bestNumberFinalized)
 
@@ -89,14 +91,24 @@ function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{t
           </CardSummary>
         )}
 
-        {/* {(inflation > 0) && Number.isFinite(inflation) && (
-          <CardSummary
+<CardSummary
             className='media--1200'
             label={t<string>('inflation')}
           >
-            <>{inflation.toFixed(1)}%</>
-          </CardSummary>
-        )} */}
+        {(inflationPrct)? (
+            <>{inflationPrct}</>
+          
+        ): <Spinner noLabel />}
+        </CardSummary>
+        <CardSummary
+          className='media--1200'
+          label={t<string>('parachain bond')}
+        >
+        {(parachainBondInfoPrct)? (
+            <>{parachainBondInfoPrct}</>
+          
+        ): <Spinner noLabel />}
+        </CardSummary>
       </section>
       <section>
         <SummaryRound roundInfo={roundInfo} bestNumberFinalized={bestNumberFinalized} />
