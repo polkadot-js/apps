@@ -37,8 +37,6 @@ interface CallState {
 }
 
 function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
-  console.log(meta.args.toHuman());
-
   return meta.args.map(({ name, type, typeName }): { name: string; type: TypeDef } => ({
     name: name.toString(),
     type: {
