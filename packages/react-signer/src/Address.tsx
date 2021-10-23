@@ -69,6 +69,7 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
 
   return proxies
     .filter(([address, delay, proxy]): boolean => {
+      // FIXME Change when we add support for delayed proxies
       if (!allAccounts.includes(address) || !delay.isZero()) {
         return false;
       }
