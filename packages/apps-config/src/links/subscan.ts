@@ -8,6 +8,7 @@ import { externalLogos } from '../ui/logos';
 export default {
   chains: {
     'Acala Mandala TC5': 'acala-testnet',
+    'Ares Gladios': 'ares-testnet',
     Bifrost: 'bifrost',
     Calamari: 'calamari',
     'Centrifuge Mainnet': 'centrifuge',

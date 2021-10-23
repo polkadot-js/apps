@@ -25,7 +25,7 @@ let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const badgeTestId = `${icon ? `${icon}-` : ''}badge`;
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
   const [trigger] = useState(() => `${badgeTestId}-hover-${Date.now()}-${badgeId++}`);
   const extraProps = hover

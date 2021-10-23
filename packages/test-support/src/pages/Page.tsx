@@ -104,7 +104,7 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
 }));
 
 export abstract class Page {
-  private renderResult?: RenderResult
+  private renderResult?: RenderResult;
   protected readonly defaultAddresses = [alice, bob, charlie, ferdie];
 
   protected constructor (private readonly overview: React.ReactElement, private readonly rowClassName: string) {
@@ -163,7 +163,13 @@ export abstract class Page {
             identityOf: noop
           }
         },
-        registry: { chainDecimals: [12], chainTokens: ['Unit'] },
+        registry: {
+          chainDecimals: [12],
+          chainTokens: ['Unit'],
+          lookup: {
+            names: []
+          }
+        },
         tx: {
           council: {},
           democracy: {
