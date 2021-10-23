@@ -47,7 +47,7 @@ function createWebpack () {
       ],
       resolve: {
         alias: {
-          '@polkadot/hw-ledger-transports': require.resolve('@polkadot/hw-ledger-transports/node.js')
+          '@polkadot/hw-ledger-transports': require.resolve('@polkadot/hw-ledger-transports/node')
         },
         extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
       },
