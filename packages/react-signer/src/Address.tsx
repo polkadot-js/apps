@@ -90,7 +90,8 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
           return (section === 'sudo' && (method === 'sudo' && findCall(tx.args[0] as Call).section === 'balances')) ||
             (section === 'utility' && (method === 'batch' && checkCalls(address, tx.args[0] as Vec<Call>)));
         default:
-          return false;
+          // any unknown proxy types apply to all - leave it to the user to filter
+          return true;
       }
     })
     .map(([address]) => address);
