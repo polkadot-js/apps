@@ -42,7 +42,7 @@ interface TypeToComponent {
   t: string[];
 }
 
-const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf'];
+const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
 
 const componentDef: TypeToComponent[] = [
   { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource'] },
@@ -54,7 +54,7 @@ const componentDef: TypeToComponent[] = [
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: ['DispatchError'] },
   { c: DispatchResult, t: ['DispatchResult'] },
-  { c: Raw, t: ['Raw', 'Keys'] },
+  { c: Raw, t: ['Raw', 'RuntimeSessionKeys', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['Hash', 'H256'] },
   { c: Hash160, t: ['H160'] },
@@ -90,6 +90,8 @@ function fromDef ({ displayName, info, lookupName, sub, type, typeName }: TypeDe
 
   if (nameOverride && SPECIAL_TYPES.includes(nameOverride)) {
     return nameOverride;
+  } else if (type.endsWith('RuntimeSessionKeys')) {
+    return 'RuntimeSessionKeys';
   }
 
   switch (info) {
