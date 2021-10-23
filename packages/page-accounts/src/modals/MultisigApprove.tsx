@@ -52,8 +52,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const [callHex, setCallHex] = useState<string>('');
   const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
   const [callWeight] = useWeight(callData);
-  const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
-  const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>({ isMultiCall: false, multisig: null });
+  const [hash, setHash] = useState<string | null>(() => ongoing[0][0].toHex());
+  const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>(() => ({ isMultiCall: false, multisig: null }));
   const [isCallOverride, setCallOverride] = useState(true);
   const [others, setOthers] = useState<AccountId[]>([]);
   const [signatory, setSignatory] = useState<string | null>(null);
@@ -102,7 +102,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         .map((w) => api.createType('AccountId', w).toString())
         .filter((w) => allAccounts.some((a) => a === w) && multisig && (
           type === 'nay'
-            ? multisig.approvals[0].eq(w)
+            ? multisig.depositor.eq(w)
             : hasThreshold || !multisig.approvals.some((a) => a.eq(w))
         ))
     );
