@@ -38,8 +38,9 @@ function Verify ({ className = '' }: Props): React.ReactElement {
     if (isValid && publicKey) {
       const verification = signatureVerify(data, signature, publicKey);
 
+      isValid = verification.isValid;
+
       if (verification.crypto !== 'none') {
-        isValid = verification.isValid;
         cryptoType = verification.crypto;
       }
     }
