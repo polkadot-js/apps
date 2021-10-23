@@ -6,7 +6,7 @@ import type { Props } from '../types';
 import React, { useMemo } from 'react';
 
 import { encodeTypeDef } from '@polkadot/types/create';
-import { isUndefined, stringify } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';
 import Static from './Static';
