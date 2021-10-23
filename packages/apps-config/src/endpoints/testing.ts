@@ -271,6 +271,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'manta',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
       text: t('rpc.manta', 'Manta Testnet', { ns: 'apps-config' }),
       providers: {
         'Manta Testnet': 'wss://ws.f1.testnet.manta.network'
