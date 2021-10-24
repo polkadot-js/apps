@@ -14,7 +14,7 @@ export function checkVisibility (api: ApiPromise, address: string, accountInfo: 
   if (filterLower || onlyNamed) {
     if (accountInfo) {
       const { accountId, accountIndex, identity, nickname } = accountInfo;
-      const hasAddressMatch = accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName);
+      const hasAddressMatch = (!!accountId && accountId.toString().includes(filterName)) || (!!accountIndex && accountIndex.toString().includes(filterName));
 
       if (!onlyNamed && hasAddressMatch) {
         isVisible = true;
