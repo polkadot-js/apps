@@ -298,8 +298,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             isPadded
             summary={t<string>('Advanced creation options')}
           >
-            {
-              pairType !== 'ethereum' && <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
+            {pairType !== 'ethereum' && (
+              <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
@@ -314,7 +314,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   }
                   tabIndex={-1}
                 />
-              </Modal.Columns>}
+              </Modal.Columns>
+            )}
             {pairType === 'ed25519-ledger'
               ? (
                 <CreateSuriLedger
