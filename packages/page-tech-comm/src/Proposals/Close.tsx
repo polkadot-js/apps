@@ -57,6 +57,7 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
           <Modal.Actions>
             <TxButton
               accountId={accountId}
+              isDisabled={!hasFailed && !proposalLength}
               onStart={toggleOpen}
               params={
                 api.tx[modLocation].close.meta.args.length === 4
