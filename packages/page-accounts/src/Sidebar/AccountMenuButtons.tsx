@@ -25,7 +25,7 @@ interface Props {
   recipientId: string;
 }
 
-function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, onCancel, onForgetAddress, onSaveName, onSaveTags, onUpdateName, recipientId, toggleIsEditingName, toggleIsEditingTags }: Props) {
+function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, onCancel, onForgetAddress, onSaveName, onSaveTags, onUpdateName, recipientId, toggleIsEditingName, toggleIsEditingTags }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
@@ -109,10 +109,13 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
             )}
             <Button
               icon='edit'
+              isDisabled={!flags.isEditable}
               label={t<string>('Edit')}
               onClick={onEdit}
             />
-          </Button.Group>)}
+          </Button.Group>
+        )
+      }
       {isTransferOpen && (
         <Transfer
           key='modal-transfer'
