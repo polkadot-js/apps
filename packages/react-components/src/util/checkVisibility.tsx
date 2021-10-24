@@ -14,15 +14,18 @@ export function checkVisibility (api: ApiPromise, address: string, accountInfo: 
   if (filterLower || onlyNamed) {
     if (accountInfo) {
       const { accountId, accountIndex, identity, nickname } = accountInfo;
+      const hasAddressMatch = accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName);
 
-      if (!onlyNamed && (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName))) {
+      if (hasAddressMatch) {
         isVisible = true;
-      } else if (isFunction(api.query.identity?.identityOf)) {
-        isVisible =
-          (!!identity?.display && identity.display.toLowerCase().includes(filterLower)) ||
-          (!!identity?.displayParent && identity.displayParent.toLowerCase().includes(filterLower));
-      } else if (nickname) {
-        isVisible = nickname.toLowerCase().includes(filterLower);
+      } else if (onlyNamed) {
+        if (isFunction(api.query.identity?.identityOf)) {
+          isVisible =
+            (!!identity?.display && identity.display.toLowerCase().includes(filterLower)) ||
+            (!!identity?.displayParent && identity.displayParent.toLowerCase().includes(filterLower));
+        } else if (nickname) {
+          isVisible = nickname.toLowerCase().includes(filterLower);
+        }
       }
     }
 
