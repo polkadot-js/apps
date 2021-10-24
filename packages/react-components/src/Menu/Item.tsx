@@ -8,15 +8,15 @@ import styled from 'styled-components';
 
 import Icon from '../Icon';
 
-function Item ({ children, className = '', disabled, icon, onClick }: ItemProps): React.ReactElement<ItemProps> {
+function Item ({ children, className = '', icon, isDisabled, onClick }: ItemProps): React.ReactElement<ItemProps> {
   const _onClick = useCallback(
-    () => !disabled && onClick && onClick(),
-    [disabled, onClick]
+    () => !isDisabled && onClick && onClick(),
+    [isDisabled, onClick]
   );
 
   return (
     <div
-      className={`ui--Menu__Item ${className}${icon ? ' hasIcon' : ''}`}
+      className={`ui--Menu__Item ${className}${icon ? ' hasIcon' : ''}${isDisabled ? ' isDisabled' : ''}`}
       onClick={_onClick}
     >
       {icon && (
@@ -31,6 +31,7 @@ function Item ({ children, className = '', disabled, icon, onClick }: ItemProps)
 }
 
 export default React.memo(styled(Item)`
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -39,8 +40,6 @@ export default React.memo(styled(Item)`
 
   font-size: 0.93rem;
   line-height: 0.93rem;
-
-  cursor: pointer;
 
   padding: 0.5rem 1rem;
 
@@ -55,5 +54,10 @@ export default React.memo(styled(Item)`
   .ui--Icon {
     position: absolute;
     left: 1rem;
+  }
+
+  &.isDisabled {
+    cursor: default;
+    opacity: 0.5;
   }
 `);

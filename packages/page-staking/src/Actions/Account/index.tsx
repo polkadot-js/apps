@@ -284,32 +284,32 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               value={
                 <Menu>
                   <Menu.Item
-                    disabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
+                    isDisabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
                     onClick={toggleBondExtra}
                   >
                     {t<string>('Bond more funds')}
                   </Menu.Item>
                   <Menu.Item
-                    disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
                     onClick={toggleUnbond}
                   >
                     {t<string>('Unbond funds')}
                   </Menu.Item>
                   <Menu.Item
-                    disabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
                     onClick={withdrawFunds}
                   >
                     {t<string>('Withdraw unbonded funds')}
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item
-                    disabled={!isOwnStash}
+                    isDisabled={!isOwnStash}
                     onClick={toggleSetController}
                   >
                     {t<string>('Change controller account')}
                   </Menu.Item>
                   <Menu.Item
-                    disabled={!isOwnController}
+                    isDisabled={!isOwnController}
                     onClick={toggleRewardDestination}
                   >
                     {t<string>('Change reward destination')}
@@ -317,14 +317,14 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   {isStashValidating && (
                     <>
                       <Menu.Item
-                        disabled={!isOwnController}
+                        isDisabled={!isOwnController}
                         onClick={toggleValidate}
                       >
                         {t<string>('Change validator preferences')}
                       </Menu.Item>
                       {isFunction(api.tx.staking.kick) && (
                         <Menu.Item
-                          disabled={!isOwnController}
+                          isDisabled={!isOwnController}
                           onClick={toggleKick}
                         >
                           {t<string>('Remove nominees')}
@@ -333,27 +333,27 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     </>
                   )}
                   <Menu.Divider />
-                  {!isStashNominating &&
-                  <Menu.Item
-                    disabled={!isOwnController}
-                    onClick={toggleSetSession}
-                  >
-                    {t<string>('Change session keys')}
-                  </Menu.Item>
-                  }
-                  {isStashNominating &&
-                  <Menu.Item
-                    disabled={!isOwnController || !targets.validators?.length}
-                    onClick={toggleNominate}
-                  >
-                    {t<string>('Set nominees')}
-                  </Menu.Item>
-                  }
-                  {!isStashNominating &&
-                  <Menu.Item onClick={toggleInject}>
-                    {t<string>('Inject session keys (advanced)')}
-                  </Menu.Item>
-                  }
+                  {!isStashNominating && (
+                    <Menu.Item
+                      isDisabled={!isOwnController}
+                      onClick={toggleSetSession}
+                    >
+                      {t<string>('Change session keys')}
+                    </Menu.Item>
+                  )}
+                  {isStashNominating && (
+                    <Menu.Item
+                      isDisabled={!isOwnController || !targets.validators?.length}
+                      onClick={toggleNominate}
+                    >
+                      {t<string>('Set nominees')}
+                    </Menu.Item>
+                  )}
+                  {!isStashNominating && (
+                    <Menu.Item onClick={toggleInject}>
+                      {t<string>('Inject session keys (advanced)')}
+                    </Menu.Item>
+                  )}
                 </Menu>
               }
             />
