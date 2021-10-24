@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Bid } from '@polkadot/types/interfaces';
+import type { PalletSocietyBid } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
@@ -14,7 +14,7 @@ import BidType from './BidType';
 
 interface Props {
   index: number;
-  value: Bid;
+  value: PalletSocietyBid;
 }
 
 function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElement<Props> {
@@ -41,14 +41,16 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
         <FormatBalance value={value} />
       </td>
       <td className='button'>
-        <TxButton
-          accountId={who}
-          icon='times'
-          isDisabled={!isBidder}
-          label={t<string>('Unbid')}
-          params={[index]}
-          tx={api.tx.society.unbid}
-        />
+        {!kind.isVouch && (
+          <TxButton
+            accountId={who}
+            icon='times'
+            isDisabled={!isBidder}
+            label={t<string>('Unbid')}
+            params={[index]}
+            tx={api.tx.society.unbid}
+          />
+        )}
       </td>
     </tr>
   );
