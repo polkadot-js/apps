@@ -221,7 +221,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           tx={
             canToggleAll && isAll && isFunction(api.tx.balances.transferAll)
               ? api.tx.balances.transferAll
-              : ((isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer)
+              : isProtected
+                ? api.tx.balances.transferKeepAlive
+                : api.tx.balances.transfer
           }
         />
       </Modal.Actions>
