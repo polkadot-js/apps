@@ -33,7 +33,11 @@ function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string |
   try {
     const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
 
-    assert(!isEthereum || pair.type === 'ethereum', 'JSON File does not contain an ethereum type key pair');
+    if (isEthereum) {
+      assert(pair.type === 'ethereum', 'JSON File does not contain an ethereum type key pair');
+    } else {
+      assert(pair.type !== 'ethereum', 'JSON contains an ethereum keytype, this is not available on this network');
+    }
 
     return pair;
   } catch (error) {
