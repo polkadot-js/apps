@@ -21,7 +21,7 @@ export function useSudo (): UseSudo {
   const [hasSudoKey, setHasSudoKey] = useState(false);
 
   useEffect((): void => {
-    setHasSudoKey(!!sudoKey && !!allAccounts && allAccounts.some((key) => key === sudoKey));
+    setHasSudoKey(!!sudoKey && !!allAccounts && allAccounts.some((key) => key.toLowerCase() === sudoKey));
   }, [allAccounts, sudoKey]);
 
   return { allAccounts, hasSudoKey, sudoKey };
