@@ -1,17 +1,27 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {},
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/apps",
   "private": true,
+  "repository": {
+    "directory": "packages/apps",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "type": "module",
   "version": "0.98.1",
-  "license": "Apache-2.0",
-  "homepage": ".",
+  "bin": {},
+  "scripts": {},
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.15.4",
     "@polkadot/apps-config": "^0.98.1",
     "@polkadot/apps-routing": "^0.98.1",
-    "@polkadot/dev": "^0.63.6",
+    "@polkadot/dev": "^0.63.8",
     "@polkadot/react-api": "^0.98.1",
     "@polkadot/react-components": "^0.98.1",
     "@polkadot/react-hooks": "^0.98.1",
@@ -47,5 +57,8 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1",
     "webpack-merge": "^5.8.0"
-  }
+  },
+  "optionalDependencies": {},
+  "peerDependencies": {},
+  "resolutions": {}
 }
