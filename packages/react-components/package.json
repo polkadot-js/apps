@@ -10,7 +10,9 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "./i18n/index.js"
+  ],
   "type": "module",
   "version": "0.98.2-0",
   "bin": {},
