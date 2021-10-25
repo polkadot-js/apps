@@ -12,12 +12,12 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.98.2-2",
+  "version": "0.98.2-3",
   "bin": {},
   "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.98.2-2",
+    "@polkadot/react-components": "^0.98.2-3",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
