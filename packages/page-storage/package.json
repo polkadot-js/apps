@@ -12,13 +12,13 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.98.2-0",
+  "version": "0.98.2-1",
   "bin": {},
   "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.98.2-0",
-    "@polkadot/react-params": "^0.98.2-0"
+    "@polkadot/react-components": "^0.98.2-1",
+    "@polkadot/react-params": "^0.98.2-1"
   },
   "devDependencies": {},
   "optionalDependencies": {},
