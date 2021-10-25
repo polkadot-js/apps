@@ -12,19 +12,19 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.98.2-1",
+  "version": "0.98.2-2",
   "bin": {},
   "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/phishing": "^0.6.381",
-    "@polkadot/react-components": "^0.98.2-1",
+    "@polkadot/react-components": "^0.98.2-2",
     "@polkadot/vanitygen": "^0.48.1",
     "detect-browser": "^5.2.1",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.98.2-1"
+    "@polkadot/test-support": "0.98.2-2"
   },
   "optionalDependencies": {},
   "peerDependencies": {},

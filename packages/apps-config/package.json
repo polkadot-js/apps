@@ -12,7 +12,7 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.98.2-1",
+  "version": "0.98.2-2",
   "main": "index.js",
   "bin": {},
   "scripts": {},
