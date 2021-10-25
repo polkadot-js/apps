@@ -61,9 +61,9 @@ function isMapFn (fn: unknown): fn is QueryMapFn {
 function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
   return [
     JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
-    params.length === 0 || !params.some((param) => 
-    // isNull(param) || 
-    isUndefined(param))
+    params.length === 0 || !params.some((param) =>
+    // isNull(param) ||
+      isUndefined(param))
       ? paramMap(params)
       : null
   ];
@@ -133,12 +133,13 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
   useEffect((): void => {
     // check if we have a function & that we are mounted
     if (mountedRef.current && fn) {
-      console.log("params",params)
+      console.log('params', params);
       const [serialized, mappedParams] = extractParams(fn, params || [], options);
-      console.log("oh",serialized, mappedParams)
+
+      console.log('oh', serialized, mappedParams);
 
       if (mappedParams && serialized !== tracker.current.serialized) {
-        console.log("mmm")
+        console.log('mmm');
         tracker.current.serialized = serialized;
 
         subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);

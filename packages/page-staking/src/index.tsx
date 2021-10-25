@@ -26,6 +26,7 @@ import Slashes from './Slashes';
 import Targets from './Targets';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
+
 const HIDDEN_ACC = ['actions', 'payout'];
 
 const optionsParaValidators = {

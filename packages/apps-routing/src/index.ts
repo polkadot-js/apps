@@ -19,6 +19,7 @@ import gilt from './gilt';
 import js from './js';
 import membership from './membership';
 import parachains from './parachains';
+import parachainStaking from './parachainStaking';
 import poll from './poll';
 import rpc from './rpc';
 import settings from './settings';
@@ -31,7 +32,6 @@ import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
-import parachainStaking from './parachainStaking';
 
 export default function create (t: TFunction): Routes {
   return [

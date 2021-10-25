@@ -3,45 +3,44 @@
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
-
 import React from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
+
 import { useTranslation } from '../translate';
 import SummaryRound, { RoundInfo } from './SummaryRound';
 
 interface Props {
   className?: string;
-  roundInfo:RoundInfo<unknown>;
-  stakingInfo:StakingInfo;
-  bestNumberFinalized:BlockNumber|undefined
+  roundInfo: RoundInfo<unknown>;
+  stakingInfo: StakingInfo;
+  bestNumberFinalized: BlockNumber|undefined
 }
 
-export interface OwnerAmount {owner:string,amount:string}
-
+export interface OwnerAmount {owner: string, amount: string}
 
 interface StakingInfo{
-  totalSelected:number,
-  totalSelectedStaked:string,
-  totalCollatorCount:number,
-  totalStaked:string
-  inflationPrct:string|undefined
-  parachainBondInfoPrct:string|undefined
+  totalSelected: number,
+  totalSelectedStaked: string,
+  totalCollatorCount: number,
+  totalStaked: string
+  inflationPrct: string|undefined
+  parachainBondInfoPrct: string|undefined
 }
 
-
-function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{parachainBondInfoPrct,inflationPrct,totalSelected,totalSelectedStaked,totalCollatorCount,totalStaked} } : Props): React.ReactElement<Props> {
+function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked, totalStaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  console.log("bestNumberFinalized 2",bestNumberFinalized)
+
+  console.log('bestNumberFinalized 2', bestNumberFinalized);
 
   return (
     <SummaryBox className={`${className}`}>
       <section>
         <CardSummary label={t<string>('collators')}>
           {totalSelected
-            ? <>{formatNumber(totalSelected)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</> //TODO:differntiate the two
+            ? <>{formatNumber(totalSelected)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</> // TODO:differntiate the two
             : <Spinner noLabel />
           }
         </CardSummary>
@@ -50,13 +49,13 @@ function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{p
           label={t<string>('waiting')}
         >
           {totalCollatorCount
-            ? formatNumber(totalCollatorCount-totalSelected)
+            ? formatNumber(totalCollatorCount - totalSelected)
             : <Spinner noLabel />
           }
         </CardSummary>
       </section>
       <section>
-{(totalSelectedStaked !=="0") && (
+        {(totalSelectedStaked !== '0') && (
           <CardSummary
             className='media--1300'
             label={t<string>('staked by selected candidates')}
@@ -64,7 +63,7 @@ function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{p
             <>{(totalSelectedStaked)}</>
           </CardSummary>
         )}
-        {(totalStaked !=="0") && (
+        {(totalStaked !== '0') && (
           <CardSummary
             className='media--1300'
             label={t<string>('total staked')}
@@ -73,27 +72,34 @@ function Summary ({ className = '',roundInfo, bestNumberFinalized,stakingInfo:{p
           </CardSummary>
         )}
 
-<CardSummary
-            className='media--1200'
-            label={t<string>('inflation')}
-          >
-        {(inflationPrct)? (
-            <>{inflationPrct}</>
-          
-        ): <Spinner noLabel />}
+        <CardSummary
+          className='media--1200'
+          label={t<string>('inflation')}
+        >
+          {(inflationPrct)
+            ? (
+              <>{inflationPrct}</>
+
+            )
+            : <Spinner noLabel />}
         </CardSummary>
         <CardSummary
           className='media--1200'
           label={t<string>('parachain bond')} // TODO: add translation??
         >
-        {(parachainBondInfoPrct)? (
-            <>{parachainBondInfoPrct}</>
-          
-        ): <Spinner noLabel />}
+          {(parachainBondInfoPrct)
+            ? (
+              <>{parachainBondInfoPrct}</>
+
+            )
+            : <Spinner noLabel />}
         </CardSummary>
       </section>
       <section>
-        <SummaryRound roundInfo={roundInfo} bestNumberFinalized={bestNumberFinalized} />
+        <SummaryRound
+          bestNumberFinalized={bestNumberFinalized}
+          roundInfo={roundInfo}
+        />
       </section>
     </SummaryBox>
   );
