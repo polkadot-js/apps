@@ -1,11 +1,21 @@
 {
-  "name": "@polkadot/apps-config",
-  "version": "0.98.1",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {},
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-config#readme",
   "license": "Apache-2.0",
-  "type": "module",
-  "main": "index.js",
+  "name": "@polkadot/apps-config",
+  "private": false,
+  "repository": {
+    "directory": "packages/apps-config",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
   "sideEffects": true,
-  "repository": "github:polkadot-js/apps",
+  "type": "module",
+  "version": "0.98.1",
+  "main": "index.js",
+  "bin": {},
+  "scripts": {},
   "dependencies": {
     "@acala-network/type-definitions": "^3.0.2-4",
     "@babel/runtime": "^7.15.4",
@@ -36,5 +46,8 @@
   },
   "devDependencies": {
     "i18next": "^19.9.2"
-  }
+  },
+  "optionalDependencies": {},
+  "peerDependencies": {},
+  "resolutions": {}
 }

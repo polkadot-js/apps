@@ -1,10 +1,25 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {},
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-query#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/react-query",
   "private": true,
+  "repository": {
+    "directory": "packages/react-query",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "type": "module",
   "version": "0.98.1",
-  "license": "Apache-2.0",
+  "bin": {},
+  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4"
-  }
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "peerDependencies": {},
+  "resolutions": {}
 }
