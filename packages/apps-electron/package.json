@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "version": "0.98.2-0",
   "bin": {},
   "scripts": {},
