@@ -7,7 +7,7 @@ import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentProps as Props } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { Button, Input, InputStorage } from '@polkadot/react-components';
@@ -154,6 +154,13 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     [_onChangeValues, api]
   );
 
+  const isAtAllowed = useMemo(
+    () => isValid
+      ? extractParams(isIterable, values)[1]
+      : false,
+    [isIterable, isValid, values]
+  );
+
   const { creator: { meta, method, section } } = key;
 
   return (
@@ -171,14 +178,14 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
           onEnter={_onAdd}
           params={params}
           values={defaultValues}
-        >
-          <Input
-            isError={!blockHash}
-            label={t<string>('blockhash to query at')}
-            onChange={_onChangeAt}
-            placeholder={t<string>('0x...')}
-          />
-        </Params>
+        />
+        <Input
+          isDisabled={!isValid || !isAtAllowed}
+          isError={!blockHash}
+          label={t<string>('blockhash to query at')}
+          onChange={_onChangeAt}
+          placeholder={t<string>('0x...')}
+        />
       </div>
       <div className='storage--actionrow-buttons'>
         <Button
