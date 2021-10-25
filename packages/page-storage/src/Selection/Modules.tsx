@@ -10,13 +10,13 @@ import type { ComponentProps as Props } from '../types';
 import React, { useCallback, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { Button, InputStorage } from '@polkadot/react-components';
+import { Button, Input, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 import { getSiName } from '@polkadot/types/metadata/util';
 import { TypeDefInfo } from '@polkadot/types/types';
-import { isNull, isUndefined } from '@polkadot/util';
+import { isHex, isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -104,21 +104,38 @@ function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): Key
   };
 }
 
+function extractParams (isIterable: boolean, values: RawParams): [RawParams, boolean] {
+  const params = values.filter(({ value }, index) => !isIterable || (index !== values.length - 1) || !isNull(value));
+
+  return [params, params.length === values.length];
+}
+
 function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] });
-  const [{ isValid, values }, setValues] = useState<ValState>({ isValid: true, values: [] });
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
+  const [{ isValid, values }, setValues] = useState<ValState>(() => ({ isValid: true, values: [] }));
+  const [blockHash, setBlockHash] = useState<string | null>(null);
 
   const _onAdd = useCallback(
     (): void => {
+      const [params, isAtEnabled] = extractParams(isIterable, values);
+
       isValid && onAdd({
+        blockHash: isAtEnabled
+          ? blockHash
+          : null,
         isConst: false,
         key,
-        params: values.filter(({ value }, index) => !isIterable || (index !== values.length - 1) || !isNull(value))
+        params
       });
     },
-    [isIterable, isValid, key, onAdd, values]
+    [blockHash, isIterable, isValid, key, onAdd, values]
+  );
+
+  const _onChangeAt = useCallback(
+    (value: string) => setBlockHash(isHex(value, 256) ? value : null),
+    []
   );
 
   const _onChangeValues = useCallback(
@@ -154,7 +171,14 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
           onEnter={_onAdd}
           params={params}
           values={defaultValues}
-        />
+        >
+          <Input
+            isError={!blockHash}
+            label={t<string>('blockhash to query at')}
+            onChange={_onChangeAt}
+            placeholder={t<string>('0x...')}
+          />
+        </Params>
       </div>
       <div className='storage--actionrow-buttons'>
         <Button
