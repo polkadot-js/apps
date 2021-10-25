@@ -12,15 +12,15 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.98.2-3",
+  "version": "0.98.2-4",
   "bin": {},
   "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.98.2-3"
+    "@polkadot/react-components": "^0.98.2-4"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.98.2-3"
+    "@polkadot/test-support": "0.98.2-4"
   },
   "optionalDependencies": {},
   "peerDependencies": {},
