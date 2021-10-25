@@ -22,13 +22,26 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
-  const isBidder = useMemo(
-    (): boolean => {
-      const address = who.toString();
+  const [voucher, tip] = useMemo(
+    () => kind.isVouch
+      ? kind.asVouch
+      : [null, null],
+    [kind]
+  );
 
-      return allAccounts.some((accountId) => accountId === address);
+  const [isBidder, isVoucher] = useMemo(
+    (): [boolean, boolean] => {
+      const whoSS58 = who.toString();
+      const vouchSS58 = voucher && voucher.toString();
+
+      return [
+        allAccounts.some((accountId) => accountId === whoSS58),
+        vouchSS58
+          ? allAccounts.some((accountId) => accountId === vouchSS58)
+          : false
+      ];
     },
-    [allAccounts, who]
+    [allAccounts, voucher, who]
   );
 
   return (
@@ -40,17 +53,34 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
       <td className='number'>
         <FormatBalance value={value} />
       </td>
-      <td className='button'>
-        {!kind.isVouch && (
-          <TxButton
-            accountId={who}
-            icon='times'
-            isDisabled={!isBidder}
-            label={t<string>('Unbid')}
-            params={[index]}
-            tx={api.tx.society.unbid}
-          />
+      <td className='number'>
+        {tip && (
+          <FormatBalance value={tip} />
         )}
+      </td>
+      <td className='button'>
+        {kind.isVouch
+          ? (
+            <TxButton
+              accountId={voucher}
+              icon='times'
+              isDisabled={!isVoucher}
+              label={t<string>('Unvouch')}
+              params={[index]}
+              tx={api.tx.society.unvouch}
+            />
+          )
+          : (
+            <TxButton
+              accountId={who}
+              icon='times'
+              isDisabled={!isBidder}
+              label={t<string>('Unbid')}
+              params={[index]}
+              tx={api.tx.society.unbid}
+            />
+          )
+        }
       </td>
     </tr>
   );

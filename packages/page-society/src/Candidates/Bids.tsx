@@ -24,6 +24,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
     [t('bids'), 'start'],
     [t('bid kind'), 'start', 2],
     [t('value')],
+    [t('tip')],
     []
   ]);
 
