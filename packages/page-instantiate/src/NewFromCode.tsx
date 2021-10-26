@@ -137,9 +137,21 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
 
     try {
       const { identifier } = abi?.constructors[constructorIndex] || '';
+      const call = `${identifier[0].toLowerCase()}${identifier.slice(1)}`;
+
+      // Fix: If param conforms to this shape, extract the `value` from
+      //   `{ isValid: bool, value: obj }`.
+      const tParams = params.map(param => param.value
+        ? (param.isValid ? param.value : null)
+        : param
+      );
 
       contract = code && identifier && endowment
-        ? code.tx[`${identifier[0].toLowerCase()}${identifier.slice(1)}`]({ gasLimit: weight, salt: withSalt ? salt : null, value: endowment }, ...params)
+        ? code.tx[`${call}`]({
+            gasLimit: weight,
+            salt: withSalt ? salt : null,
+            value: endowment
+          }, ...tParams)
         : null;
 
       setUploadTx(() => [contract, error]);

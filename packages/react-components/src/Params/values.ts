@@ -28,5 +28,7 @@ export function createValue (registry: Registry, param: { type: TypeDef }): RawP
 }
 
 export default function createValues (registry: Registry, params: { type: TypeDef }[]): RawParam[] {
-  return params.map((param) => createValue(registry, param));
+  return params
+    ? params.map(param => createValue(registry, param))
+    : []
 }
