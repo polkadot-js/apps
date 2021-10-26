@@ -4,18 +4,15 @@
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-config#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/apps-config",
-  "private": false,
   "repository": {
     "directory": "packages/apps-config",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "type": "module",
   "version": "0.98.2-4",
   "main": "index.js",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@acala-network/type-definitions": "^3.0.2-4",
     "@babel/runtime": "^7.15.4",
@@ -35,7 +32,7 @@
     "@polkadot/networks": "^7.6.1",
     "@polymathnetwork/polymesh-types": "0.0.2",
     "@snowfork/snowbridge-types": "0.2.6",
-    "@sora-substrate/type-definitions": "1.6.15",
+    "@sora-substrate/type-definitions": "1.6.16",
     "@subsocial/types": "0.6.4-dev.2",
     "@zeitgeistpm/type-defs": "0.3.5",
     "@zeroio/type-definitions": "0.0.9",
@@ -45,9 +42,6 @@
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
-    "i18next": "^19.9.2"
-  },
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+    "i18next": "^21.3.3"
+  }
 }
