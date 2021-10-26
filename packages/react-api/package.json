@@ -13,8 +13,6 @@
   "sideEffects": true,
   "type": "module",
   "version": "0.98.2-4",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/api": "^6.5.1",
@@ -23,9 +21,5 @@
     "@substrate/connect": "^0.4.6",
     "fflate": "^0.7.1",
     "rxjs": "^7.4.0"
-  },
-  "devDependencies": {},
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+  }
 }

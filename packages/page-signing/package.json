@@ -10,17 +10,11 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "type": "module",
   "version": "0.98.2-4",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/react-components": "^0.98.2-4"
-  },
-  "devDependencies": {},
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+  }
 }

@@ -10,14 +10,12 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "version": "0.98.2-4",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.63.8",
+    "@polkadot/dev": "^0.63.10",
     "@polkadot/react-components": "^0.98.2-4",
     "electron-log": "^4.4.1",
     "electron-updater": "^4.6.1"
@@ -32,9 +30,6 @@
     "react-dom": "^17.0.2",
     "thread-loader": "^3.0.4",
     "tmp": "^0.2.1",
-    "webpack": "^5.59.1"
-  },
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+    "webpack": "^5.60.0"
+  }
 }

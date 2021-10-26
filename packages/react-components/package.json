@@ -10,13 +10,9 @@
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
-  "sideEffects": [
-    "./i18n/index.js"
-  ],
+  "sideEffects": true,
   "type": "module",
   "version": "0.98.2-4",
-  "bin": {},
-  "scripts": {},
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -33,7 +29,7 @@
     "@polkadot/util-crypto": "^7.6.1",
     "chart.js": "^2.9.4",
     "codeflask": "^1.4.1",
-    "i18next": "^19.9.2",
+    "i18next": "^21.3.3",
     "i18next-browser-languagedetector": "^6.1.2",
     "owasp-password-strength-test": "^1.3.0",
     "react": "^17.0.2",
@@ -56,8 +52,5 @@
   "devDependencies": {
     "@types/codeflask": "^1.4.3",
     "@types/owasp-password-strength-test": "^1.3.0"
-  },
-  "optionalDependencies": {},
-  "peerDependencies": {},
-  "resolutions": {}
+  }
 }
