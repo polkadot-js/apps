@@ -33,8 +33,6 @@ interface StakingInfo{
 function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked, totalStaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  console.log('bestNumberFinalized 2', bestNumberFinalized);
-
   return (
     <SummaryBox className={`${className}`}>
       <section>
@@ -58,17 +56,9 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
         {(totalSelectedStaked !== '0') && (
           <CardSummary
             className='media--1300'
-            label={t<string>('staked by selected candidates')}
+            label={t<string>('total staked by selected candidates')}
           >
             <>{(totalSelectedStaked)}</>
-          </CardSummary>
-        )}
-        {(totalStaked !== '0') && (
-          <CardSummary
-            className='media--1300'
-            label={t<string>('total staked')}
-          >
-            <>{(totalStaked)}</>
           </CardSummary>
         )}
 
@@ -85,7 +75,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
         </CardSummary>
         <CardSummary
           className='media--1200'
-          label={t<string>('parachain bond')} // TODO: add translation??
+          label={t<string>('% of inflation for parachain rent')} // TODO: add translation??
         >
           {(parachainBondInfoPrct)
             ? (
