@@ -3,4 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-export const spec: Record<string, OverrideBundleDefinition> = {};
+import canvas from './canvas';
+import substrateContractsNode from './substrateContractsNode';
+
+export const spec: Record<string, OverrideBundleDefinition> = { canvas, 'substrate-contracts-node': substrateContractsNode };
