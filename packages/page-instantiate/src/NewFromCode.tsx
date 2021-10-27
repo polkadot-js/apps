@@ -234,7 +234,7 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
               />
             ),
             type: param.type,
-            value: params[index] ? params[index].value : null
+            value: extractValueFromObj(params[index])
           })),
           weight: weight.toString()
         };

@@ -204,7 +204,7 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
           />
         ),
         type: param.type,
-        value: values[index]?.value
+        value: extractValueFromObj(values[index])
       })),
       weight: weight.toString()
     }),

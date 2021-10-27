@@ -9,7 +9,7 @@ import { ContractParams } from '@canvas-ui/react-params';
 import PendingTx from '@canvas-ui/react-signer/PendingTx';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { Code } from '@canvas-ui/react-store/types';
-import { truncate } from '@canvas-ui/react-util';
+import { truncate, extractValueFromObj } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -100,8 +100,11 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
       if (blueprint) {
         try {
           const identifier = abi?.constructors[constructorIndex].identifier;
+          const tValues = values.map(extractValueFromObj);
 
-          return identifier ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...values) : null;
+          return identifier
+            ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...tValues)
+            : null;
         } catch (error) {
           console.error(error);
 
@@ -158,7 +161,7 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
           />
         ),
         type: param.type,
-        value: values[index].value
+        value: extractValueFromObj(values[index])
       })),
       weight: weight.toString()
     }),
