@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Option } from '@polkadot/apps-config/settings/types';
 import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
@@ -12,7 +13,7 @@ import { getTeleportWeight } from '@polkadot/apps-config';
 import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useApiUrl, useTeleport, useWeightFee } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -21,6 +22,8 @@ interface Props {
 }
 
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
+const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
+const XCM_FNS = ['limitedTeleportAssets', 'teleportAssets'];
 
 function createOption ({ info, paraId, text }: LinkOption): Option {
   return {
@@ -50,14 +53,15 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
 
   const [destWeight, call] = useMemo(
-    () => [
-      getTeleportWeight(api),
-      (
-        (api.tx.xcm && api.tx.xcm.teleportAssets) ||
-        (api.tx.xcmPallet && api.tx.xcmPallet.teleportAssets) ||
-        (api.tx.polkadotXcm && api.tx.polkadotXcm.teleportAssets)
-      )
-    ],
+    (): [number, SubmittableExtrinsicFunction<'promise'>] => {
+      const m = XCM_LOC.filter((x) => api.tx[x] && XCM_FNS.some((f) => isFunction(api.tx[x][f])))[0];
+      const f = XCM_FNS.filter((f) => isFunction(api.tx[m][f]))[0];
+
+      return [
+        getTeleportWeight(api),
+        api.tx[m][f]
+      ];
+    },
     [api]
   );
 
@@ -96,9 +100,9 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
 
       return isCurrent
         ? call.meta.args.length === 5
-          // Polkadot 9100
+          // with weight
           ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
-          // Polkadot 9110
+          // without weight
           : [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
         : [dst, acc, ass, destWeight];
     },
