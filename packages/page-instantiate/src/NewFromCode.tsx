@@ -11,6 +11,7 @@ import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { RawParam } from '@canvas-ui/react-components/types';
 import { useAbi, useAccountId, useApi, useAppNavigation, useFile, useGasWeight, useNonEmptyString, useNonZeroBn, useStepper } from '@canvas-ui/react-hooks';
 import { ContractParams } from '@canvas-ui/react-params';
+import { extractValueFromObj } from '@canvas-ui/react-util';
 import PendingTx from '@canvas-ui/react-signer/PendingTx';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import store from '@canvas-ui/react-store/store';
@@ -141,10 +142,7 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
 
       // Fix: If param conforms to this shape, extract the `value` from
       //   `{ isValid: bool, value: obj }`.
-      const tParams = params.map(param => param.value
-        ? (param.isValid ? param.value : null)
-        : param
-      );
+      const tParams = params.map(extractValueFromObj);
 
       contract = code && identifier && endowment
         ? code.tx[`${call}`]({
@@ -192,7 +190,7 @@ function NewFromCode ({ className }: Props): React.ReactElement<Props> | null {
         }
 
         store.saveCode({ abi: abi?.json || undefined, codeHash: codeHash.toHex(), name: codeName, tags: [] })
-          .then(() => { console.log('Saved code'); })
+          .then(() => {})
           .catch((error: any): void => {
             console.error('Unable to save code', error);
           });
