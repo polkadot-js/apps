@@ -25,12 +25,11 @@ interface StakingInfo{
   totalSelected: number,
   totalSelectedStaked: string,
   totalCollatorCount: number,
-  totalStaked: string
   inflationPrct: string|undefined
   parachainBondInfoPrct: string|undefined
 }
 
-function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked, totalStaked } }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

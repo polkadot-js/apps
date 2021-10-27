@@ -166,7 +166,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
       private getApiMethod (newParams: unknown[]): ApiMethodInfo {
         if (endpoint === 'subscribe') {
-          console.log('newParams', newParams);
           const [fn, ...params] = newParams;
 
           return [
@@ -229,9 +228,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
         const [apiMethod, params, area] = info;
 
-        console.log('apiMethod', apiMethod);
-        console.log('params', params);
-        console.log('area', area);
         const updateCb = (value?: any): void =>
           this.triggerUpdate(this.props, value);
 

@@ -6,8 +6,6 @@ import type { Route } from './types';
 
 import { ParachainStakingPanel } from '@polkadot/app-staking/ParachainStakingApp';
 
-// import {SummaryParachainStakingStyled} from '@polkadot/app-staking';
-
 export default function create (t: TFunction): Route {
   return {
     Component: ParachainStakingPanel,
