@@ -69,8 +69,9 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
 
   const [params, values = [], setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
+    const tValues = values.map(extractValueFromObj);
     return contract?.abi?.messages[messageIndex]
-      ? contract.abi.messages[messageIndex].toU8a(values || []) as unknown as Uint8Array
+      ? contract.abi.messages[messageIndex].toU8a(tValues || []) as unknown as Uint8Array
       : null;
   }, [contract?.abi?.messages, messageIndex, values]);
 
