@@ -49,6 +49,7 @@ export function createWestend (t: TFunction): EndpointOption {
       // NOTE: Added alphabetical based on chain name
       {
         info: 'basilisk',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6422
         paraId: 2097,
         text: t('rpc.westend.basilisk', 'Basilisk Egg', { ns: 'apps-config' }),
         providers: {
