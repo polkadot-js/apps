@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { registry as baseRegistry } from '@canvas-ui/react-api';
-import { truncate } from '@canvas-ui/react-util';
+import { truncate, extractValueFromObj } from '@canvas-ui/react-util';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -22,16 +22,16 @@ interface Props extends BareProps {
   registry?: Registry;
   type?: TypeDef;
   value?: AnyJson | null;
-  isError?:boolean;
+  isError?: boolean;
 }
 
 const TRUNCATE_TO = 16;
 
 function formatData (registry: Registry, data: AnyJson | null, type: TypeDef | undefined): Codec {
   try {
-    return createTypeUnsafe(registry, type?.type || type?.displayName || 'Raw', [data]);
+    return createTypeUnsafe(registry, type?.type || type?.displayName || 'Raw', [extractValueFromObj(data)]);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return new Null(registry);
   }
@@ -135,7 +135,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
                     registry={registry}
                     type={subType}
                     value={subValue}
-                  />
+                    />
               }
             />
           </Labelled>

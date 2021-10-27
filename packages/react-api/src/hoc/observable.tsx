@@ -71,7 +71,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
         } catch (error) {
           console.error(this.props, error);
         }
-      }
+      };
 
       public render (): React.ReactNode {
         const { children } = this.props;

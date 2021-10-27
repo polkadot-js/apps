@@ -71,7 +71,7 @@ function CodeCard ({ className, code, code: { id }, onForget: _onForget }: Props
       </CodeInfo>
       <div className='footer'>
         <Button.Group>
-          {abi?.project.source.wasm && abi.project.source.wasm.length === 0 && (
+          {abi?.info.source.wasm && abi.info.source.wasm.length === 0 && (
             <CodeUploadABI
               codeHash={code.codeHash}
               label={t(isAbiSupplied ? 'Edit ABI' : 'Add ABI')}

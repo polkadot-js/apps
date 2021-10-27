@@ -4,6 +4,7 @@
 
 import getInitValue from '@canvas-ui/react-components/Params/initValue';
 import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useEffect, useState } from 'react';
 
 import { isUndefined } from '@polkadot/util';
@@ -23,6 +24,7 @@ function VectorFixed ({ className = '', defaultValue, isDisabled = false, label,
   const inputParams = useParamDefs(type);
   const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
+  const { api } = useApi();
 
   // build up the list of parameters we are using
   useEffect((): void => {
@@ -50,14 +52,14 @@ function VectorFixed ({ className = '', defaultValue, isDisabled = false, label,
         }
 
         while (values.length < count) {
-          const value = getInitValue(inputParams[0].type);
+          const value = getInitValue(api.registry, inputParams[0].type);
 
           values.push({ isValid: !isUndefined(value), value });
         }
 
         return values.slice(0, count);
       });
-  }, [inputParams, isDisabled]);
+  }, [inputParams, isDisabled, api.registry]);
 
   // when isDisabled, set the values based on the defaultValue input
   useEffect((): void => {
@@ -91,6 +93,7 @@ function VectorFixed ({ className = '', defaultValue, isDisabled = false, label,
         onChange={setValues}
         overrides={overrides}
         params={params}
+        registry={api.registry}
         values={values}
       />
     </Base>

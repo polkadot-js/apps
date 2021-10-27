@@ -23,7 +23,7 @@ function Abi ({ abi, className, withConstructors = false }: Props): React.ReactE
   const { t } = useTranslation();
   const [isInfoOpen, toggleIsInfoOpen] = useToggle();
   const [isAbiOpen, toggleIsAbiOpen] = useToggle();
-  const { contract: { authors, name, version } } = abi.project;
+  const { contract: { authors, name, version } } = abi.info;
 
   return (
     <div className={className}>

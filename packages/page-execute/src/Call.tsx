@@ -3,13 +3,12 @@
 
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, TxButton } from '@canvas-ui/react-components';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
-import { extractValues } from '@canvas-ui/react-components/Params/values';
 import { ComponentProps as Props } from '@canvas-ui/react-components/types';
 import { useAccountId, useAccountInfo, useApi, useAppNavigation, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { ContractParams } from '@canvas-ui/react-params';
 import PendingTx from '@canvas-ui/react-signer/PendingTx';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
-import { getContractForAddress } from '@canvas-ui/react-util';
+import { getContractForAddress, extractValueFromObj } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -70,8 +69,9 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
 
   const [params, values = [], setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
+    const tValues = values.map(extractValueFromObj);
     return contract?.abi?.messages[messageIndex]
-      ? contract.abi.messages[messageIndex].toU8a(extractValues(values || [])) as unknown as Uint8Array
+      ? contract.abi.messages[messageIndex].toU8a(tValues || []) as unknown as Uint8Array
       : null;
   }, [contract?.abi?.messages, messageIndex, values]);
 
@@ -101,6 +101,8 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
     if (!accountId || !contract?.abi?.messages[messageIndex] || !values || !payment) return;
 
     const message = contract.abi.messages[messageIndex];
+    // Fix: From `{ isValid: bool, value: obj}`, extracting the `value` out.
+    const tValues = values.map(extractValueFromObj);
 
     contract
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -109,13 +111,16 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
         value: message.isPayable
           ? payment
           : 0
-      }, ...extractValues(values))
+      }, ...tValues)
       .then(({ gasConsumed, result }) => setEstimatedWeight(
         result.isOk
           ? gasConsumed
           : null
       ))
-      .catch((e) => { console.error(e); setEstimatedWeight(null); });
+      .catch((e) => {
+        console.error(e);
+        setEstimatedWeight(null);
+      });
   }, [accountId, contract, contract?.abi?.messages, messageIndex, payment, setMegaGas, values]);
 
   const messageOptions = useMemo(
@@ -149,6 +154,9 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
 
       const message = contract.abi.messages[messageIndex];
 
+      // Fix: From `{ isValid: bool, value: obj}`, extracting the `value` out.
+      const tValues = values.map(extractValueFromObj)
+
       !!contract && contract
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         .query[message.method](accountId, {
@@ -156,13 +164,13 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
           value: message.isPayable
             ? payment
             : 0
-        }, ...extractValues(values))
+        }, ...tValues)
         .then((result): void => {
           setOutcomes([{
             ...result,
             from: accountId,
             message: contract.abi.messages[messageIndex],
-            params: extractValues(values),
+            params: tValues,
             when: new Date()
           }, ...outcomes]);
         });
@@ -196,7 +204,7 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
           />
         ),
         type: param.type,
-        value: values[index]?.value
+        value: extractValueFromObj(values[index])
       })),
       weight: weight.toString()
     }),
@@ -245,6 +253,7 @@ function Call ({ className }: Props): React.ReactElement<Props> | null {
                 onChange={setValues}
                 params={params}
                 values={values}
+                registry={contract?.registry}
               />
               <InputBalance
                 className='retain-appearance'

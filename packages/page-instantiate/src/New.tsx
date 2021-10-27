@@ -3,14 +3,13 @@
 
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputMegaGas, InputName, Labelled, MessageArg, MessageSignature, Toggle, TxButton } from '@canvas-ui/react-components';
 import useTxParams from '@canvas-ui/react-components/Params/useTxParams';
-import { extractValues } from '@canvas-ui/react-components/Params/values';
 import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useAccountId, useApi, useAppNavigation, useGasWeight, useNonEmptyString, useNonZeroBn } from '@canvas-ui/react-hooks';
 import { ContractParams } from '@canvas-ui/react-params';
 import PendingTx from '@canvas-ui/react-signer/PendingTx';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { Code } from '@canvas-ui/react-store/types';
-import { truncate } from '@canvas-ui/react-util';
+import { truncate, extractValueFromObj } from '@canvas-ui/react-util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -53,7 +52,7 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
   const [constructorIndex, setConstructorIndex] = useState(parseInt(index, 10) || 0);
   const [name, setName, isNameValid, isNameError] = useNonEmptyString(t(defaultContractName(code?.name)));
   const { abi, isAbiValid } = useAbi(code);
-  const [salt, setSalt] = useState(randomAsHex());
+  const [salt, setSalt] = useState<string>(randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const pendingTx = usePendingTx('contracts.instantiate');
@@ -101,8 +100,11 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
       if (blueprint) {
         try {
           const identifier = abi?.constructors[constructorIndex].identifier;
+          const tValues = values.map(extractValueFromObj);
 
-          return identifier ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...extractValues(values)) : null;
+          return identifier
+            ? blueprint.tx[identifier]({ gasLimit: weight.toString(), salt: withSalt ? salt : null, value: endowment }, ...tValues)
+            : null;
         } catch (error) {
           console.error(error);
 
@@ -159,7 +161,7 @@ function New ({ allCodes, className }: Props): React.ReactElement<Props> | null 
           />
         ),
         type: param.type,
-        value: values[index].value
+        value: extractValueFromObj(values[index])
       })),
       weight: weight.toString()
     }),

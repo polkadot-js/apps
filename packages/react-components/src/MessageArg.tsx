@@ -5,14 +5,14 @@
 import React from 'react';
 
 import { encodeTypeDef } from '@polkadot/types';
-import { CodecArg, Registry } from '@polkadot/types/types';
+import { Registry } from '@polkadot/types/types';
 
 import Data from './Data';
 import { BareProps, ParamDef } from './types';
 
 interface Props extends BareProps {
   arg?: ParamDef;
-  param?: CodecArg;
+  param?: unknown;
   registry?: Registry;
 }
 
@@ -38,7 +38,7 @@ function MessageArg ({ arg, param, registry }: Props): React.ReactElement<Props>
               value={param}
             />
           </b>
-          : encodeTypeDef(arg.type)
+          : registry && encodeTypeDef(registry, arg.type)
         }
       </span>
     </>

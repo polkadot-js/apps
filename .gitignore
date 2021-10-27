@@ -8,10 +8,6 @@ tmp/
 .env.test.local
 .env.production.local
 .npmrc
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-.pnp.*
 cc-test-reporter
 package-lock.json
 npm-debug.log*
@@ -20,3 +16,13 @@ yarn-error.log*
 .idea/
 env-config.js
 NOTES.md
+
+# Using yarn 3; non zero-installs
+# ref: https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

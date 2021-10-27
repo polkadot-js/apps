@@ -1,24 +1,28 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
-// and @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SiDef } from '@polkadot/util/types';
+import type { BitLength } from './types';
+
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
+import { formatBalance, isUndefined } from '@polkadot/util';
 
 import { BitLengthOption } from './constants';
 import InputNumber from './InputNumber';
-import { BareProps, BitLength } from './types';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
+  children?: React.ReactNode;
+  className?: string;
   defaultValue?: BN | string;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
+  isWarning?: boolean;
   isZeroable?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
@@ -27,6 +31,8 @@ interface Props extends BareProps {
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
+  siDecimals?: number;
+  siSymbol?: string;
   value?: BN;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -35,34 +41,29 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function reformat (value: string | BN, isDisabled?: boolean): string {
-  if (isBn(value)) {
-    let fmt = (value.mul(BN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
-
-    while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
-      const isLast = fmt.endsWith('.');
-
-      fmt = fmt.substr(0, fmt.length - 1);
-
-      if (isLast) {
-        break;
-      }
-    }
-
-    return fmt;
+function reformat (value?: string | BN, isDisabled?: boolean, siDecimals?: number): [string?, SiDef?] {
+  if (!value) {
+    return [];
   }
 
-  return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
+  const decimals = isUndefined(siDecimals)
+    ? formatBalance.getDefaults().decimals
+    : siDecimals;
+  const si = isDisabled
+    ? formatBalance.calcSi(value.toString(), decimals)
+    : formatBalance.findSi('-');
+
+  return [
+    formatBalance(value, { decimals, forceUnit: si.value, withSi: false }).replace(/,/g, isDisabled ? ',' : ''),
+    si
+  ];
 }
 
-function InputBalance ({ autoFocus, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
-  const [defaultValue, setDefaultValue] = useState<string | undefined>();
-
-  useEffect((): void => {
-    inDefault && setDefaultValue(
-      reformat(inDefault, isDisabled)
-    );
-  }, [inDefault, isDisabled]);
+function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+  const [defaultValue, siDefault] = useMemo(
+    () => reformat(inDefault, isDisabled, siDecimals),
+    [inDefault, isDisabled, siDecimals]
+  );
 
   return (
     <InputNumber
@@ -75,6 +76,7 @@ function InputBalance ({ autoFocus, className = '', defaultValue: inDefault, hel
       isError={isError}
       isFull={isFull}
       isSi
+      isWarning={isWarning}
       isZeroable={isZeroable}
       label={label}
       labelExtra={labelExtra}
@@ -83,21 +85,41 @@ function InputBalance ({ autoFocus, className = '', defaultValue: inDefault, hel
       onEnter={onEnter}
       onEscape={onEscape}
       placeholder={placeholder}
+      siDecimals={siDecimals}
+      siDefault={siDefault}
+      siSymbol={siSymbol}
       value={value}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
       withMax={withMax}
-    />
+    >
+      {children}
+    </InputNumber>
   );
 }
 
 export default React.memo(styled(InputBalance)`
-  &&:not(.label-small) .labelExtra {
+  &&:not(.isSmall) .labelExtra {
     right: 6.5rem;
   }
 
-  .ui.action.input.ui--Input .ui.primary.buttons .ui.disabled.button.compact.floating.selection.dropdown.ui--SiDropdown {
-    border-style: solid;
-    opacity: 1 !important;
+  .ui.action.input.ui--Input > .buttons {
+    align-items: stretch;
+
+    .ui--SiDropdown.ui.button.compact.floating.selection.dropdown {
+      &.disabled {
+        border-style: solid;
+        opacity: 1 !important;
+      }
+
+      > div.text:first-child {
+        font-size: 0.9em;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0.5rem;
+        width: 3rem;
+      }
+    }
   }
 `);

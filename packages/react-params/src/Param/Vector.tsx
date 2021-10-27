@@ -6,6 +6,7 @@ import { Button } from '@canvas-ui/react-components';
 import getInitValue from '@canvas-ui/react-components/Params/initValue';
 import { useTranslation } from '@canvas-ui/react-components/Params/translate';
 import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { isUndefined } from '@polkadot/util';
@@ -27,6 +28,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
+  const { api } = useApi();
 
   // build up the list of parameters we are using
   useEffect((): void => {
@@ -51,14 +53,14 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         }
 
         while (values.length < count) {
-          const value = getInitValue(inputParams[0].type);
+          const value = getInitValue(api.registry, inputParams[0].type);
 
           values.push({ isValid: !isUndefined(value), value });
         }
 
         return values.slice(0, count);
       });
-  }, [count, inputParams, isDisabled]);
+  }, [count, inputParams, isDisabled, api.registry]);
 
   // when isDisabled, set the values based on the defaultValue input
   useEffect((): void => {
@@ -116,6 +118,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         onChange={setValues}
         overrides={overrides}
         params={params}
+        registry={api.registry}
         values={values}
       />
     </Base>

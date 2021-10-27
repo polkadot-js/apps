@@ -42,7 +42,8 @@ const HelpWidget = ({ className }: Props) => {
       <div
         className={'help-button'}
         onClick={handleClick}
-        role='button'>
+        role='button'
+      >
           ?
       </div>
     </div>

@@ -83,7 +83,8 @@ function Content ({ className }: Props): React.ReactElement<Props> {
           <WithLoader text={t<string>('Loading')}>
             <div />
           </WithLoader>
-        }>
+        }
+        >
           <ErrorBoundary trigger={name}>
             <Component
               basePath={`/${name}`}

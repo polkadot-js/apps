@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Props, RawParam } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback } from 'react';
 
 import Base from './Base';
@@ -13,6 +14,7 @@ import useParamDefs from './useParamDefs';
 function StructParam (props: Props): React.ReactElement<Props> {
   const params = useParamDefs(props.type);
   const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
+  const { api } = useApi();
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
@@ -43,6 +45,7 @@ function StructParam (props: Props): React.ReactElement<Props> {
         onChange={_onChangeParams}
         overrides={overrides}
         params={params}
+        registry={api.registry}
       />
     </div>
   );

@@ -2,10 +2,5 @@
 // and @canvas-ui/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import typesChain from './chain';
-import typesSpec from './spec';
-
-export {
-  typesChain,
-  typesSpec
-};
+export * from './chain';
+export * from './spec';

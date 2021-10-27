@@ -4,6 +4,7 @@
 
 import { Dropdown } from '@canvas-ui/react-components';
 import { ParamDef, Props, RawParam } from '@canvas-ui/react-components/types';
+import { useApi } from '@canvas-ui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Enum } from '@polkadot/types';
@@ -28,6 +29,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   const [current, setCurrent] = useState<ParamDef[] | null>(null);
   const [initialValue, setInitialValue] = useState<string | null>(null);
   const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
+  const { api } = useApi();
 
   useEffect((): void => {
     // const rawType = createType(registry, type.type as 'u32').toRawType();
@@ -99,6 +101,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}
+          registry={api.registry}
         />
       )}
     </Bare>

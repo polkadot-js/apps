@@ -36,7 +36,6 @@ function Messages (props: Props): React.ReactElement<Props> {
       )))}
       {messages.map((message, index): React.ReactNode => ((
         <Message
-          isConstructor
           key={`message-${index}`}
           message={message}
         />

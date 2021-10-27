@@ -12,7 +12,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.contracts.putCode'
+        'tx.contracts.instantiateWithCode'
       ],
       needsCodes: true
     },

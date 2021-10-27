@@ -4,12 +4,11 @@
 
 import { SubmittableResult } from '@polkadot/api';
 import { Signer, SignerResult } from '@polkadot/api/types';
-import { ClassOf } from '@polkadot/types';
+// import { ClassOf } from '@polkadot/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
-
 import { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from './Status/types';
-import { registry } from '.';
+// import { registry } from '.';
 
 export default class ApiSigner implements Signer {
   readonly #queuePayload: QueueTxPayloadAdd;
@@ -34,10 +33,15 @@ export default class ApiSigner implements Signer {
   }
 
   public update (id: number, result: Hash | SubmittableResult): void {
-    if (result instanceof ClassOf(registry, 'Hash')) {
-      this.#queueSetTxStatus(id, 'sent', result.toHex());
-    } else {
-      this.#queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);
-    }
+    // if (result instanceof ClassOf(registry, 'Hash')) {
+    //   this.#queueSetTxStatus(id, 'sent', result.toHex());
+    // } else {
+    //   this.#queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);
+    // }
+    this.#queueSetTxStatus(
+      id,
+      (result as SubmittableResult).status.type.toLowerCase() as QueueTxStatus,
+      status
+    );
   }
 }
