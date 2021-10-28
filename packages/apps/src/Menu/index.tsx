@@ -1,12 +1,12 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
+// import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { Group, Groups, ItemRoute } from './types';
-
+import type { Group, Groups, } from './types';
+//  ItemRoute
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -18,29 +18,29 @@ import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Grouping from './Grouping';
-import Item from './Item';
+// import Item from './Item';
 import NodeInfo from './NodeInfo';
 
 interface Props {
   className?: string;
 }
 
-function createExternals (t: TFunction): ItemRoute[] {
-  return [
-    {
-      href: 'https://github.com/polkadot-js/apps',
-      icon: 'code-branch',
-      name: 'github',
-      text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })
-    },
-    {
-      href: 'https://wiki.polkadot.network',
-      icon: 'book',
-      name: 'wiki',
-      text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })
-    }
-  ];
-}
+// function createExternals (t: TFunction): ItemRoute[] {
+//   return [
+//     {
+//       href: 'https://github.com/polkadot-js/apps',
+//       icon: 'code-branch',
+//       name: 'github',
+//       text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })
+//     },
+//     {
+//       href: 'https://wiki.polkadot.network',
+//       icon: 'book',
+//       name: 'wiki',
+//       text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })
+//     }
+//   ];
+// }
 
 function checkVisible ({ api, isApiConnected, isApiReady }: ApiProps, allowTeleport: boolean, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsApiInstances, needsSudo, needsTeleport }: Route['display']): boolean {
   if (isHidden) {
@@ -93,7 +93,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
   const location = useLocation();
 
-  const externalRef = useRef(createExternals(t));
+  // const externalRef = useRef(createExternals(t));
   const routeRef = useRef(createRoutes(t));
 
   const groupRef = useRef({
