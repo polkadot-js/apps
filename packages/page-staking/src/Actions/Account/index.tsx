@@ -153,7 +153,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {isRebondOpen && (
           <Rebond
             controllerId={controllerId}
-            onClose={toggleBondExtra}
+            onClose={toggleRebond}
             stakingInfo={stakingAccount}
             stashId={stashId}
           />
