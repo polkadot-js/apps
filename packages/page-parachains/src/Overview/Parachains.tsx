@@ -93,19 +93,20 @@ function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: L
   const timeout: EventMap = {};
   const blockNumber = lastBlock.block.header.number.unwrap();
   const blockHash = lastBlock.block.header.hash.toHex();
+  const paraEvents = (api.events.paraInclusion || api.events.parasInclusion || api.events.inclusion);
   let wasBacked = false;
   let wasIncluded = false;
   let wasTimeout = false;
 
-  lastBlock.events.forEach(({ event, phase }) => {
+  paraEvents && lastBlock.events.forEach(({ event, phase }) => {
     if (phase.isApplyExtrinsic) {
-      if ((api.events.paraInclusion || api.events.parasInclusion || api.events.inclusion)?.CandidateBacked.is(event)) {
+      if (paraEvents.CandidateBacked.is(event)) {
         includeEntry(backed, event, blockHash, blockNumber);
         wasBacked = true;
-      } else if ((api.events.paraInclusion || api.events.parasInclusion || api.events.inclusion)?.CandidateIncluded.is(event)) {
+      } else if (paraEvents.CandidateIncluded.is(event)) {
         includeEntry(included, event, blockHash, blockNumber);
         wasIncluded = true;
-      } else if ((api.events.paraInclusion || api.events.parasInclusion || api.events.inclusion)?.CandidateTimedOut.is(event)) {
+      } else if (paraEvents.CandidateTimedOut.is(event)) {
         includeEntry(timeout, event, blockHash, blockNumber);
         wasTimeout = true;
       }
@@ -163,7 +164,6 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     (api.query.parasScheduler || api.query.paraScheduler || api.query.scheduler)?.validatorGroups,
     (api.query.parasShared || api.query.paraShared || api.query.shared)?.activeValidatorIndices
   ], optionsMulti);
-  // const hrmp = useHrmp();
   const hasLinksMap = useIsParasLinked(ids);
   const [validatorMap, setValidatorMap] = useState<Record<string, [GroupIndex, ValidatorInfo[]]>>({});
 
@@ -177,7 +177,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     [t('backed'), 'no-pad-left media--800'],
     [t('timeout'), 'no-pad-left media--900'],
     [t('chain'), 'no-pad-left'],
-    [t('in/out (msg)'), 'media--1200', 2],
+    [t('in/out'), 'media--1200', 2],
     [t('leases'), 'media--1000']
   ]);
 
