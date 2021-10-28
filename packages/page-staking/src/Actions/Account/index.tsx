@@ -23,6 +23,7 @@ import InjectKeys from './InjectKeys';
 import KickNominees from './KickNominees';
 import ListNominees from './ListNominees';
 import Nominate from './Nominate';
+import Rebond from './Rebond';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
@@ -76,6 +77,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isInjectOpen, toggleInject] = useToggle();
   const [isKickOpen, toggleKick] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
+  const [isRebondOpen, toggleRebond] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
   const [isSetControllerOpen, toggleSetController] = useToggle();
   const [isSetSessionOpen, toggleSetSession] = useToggle();
@@ -146,6 +148,14 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
             onClose={toggleNominate}
             stashId={stashId}
             targets={targets}
+          />
+        )}
+        {isRebondOpen && (
+          <Rebond
+            controllerId={controllerId}
+            onClose={toggleBondExtra}
+            stakingInfo={stakingAccount}
+            stashId={stashId}
           />
         )}
         {isSetControllerOpen && controllerId && (
@@ -294,6 +304,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     onClick={toggleUnbond}
                   >
                     {t<string>('Unbond funds')}
+                  </Menu.Item>
+                  <Menu.Item
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
+                    onClick={toggleRebond}
+                  >
+                    {t<string>('Rebond funds')}
                   </Menu.Item>
                   <Menu.Item
                     isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}

@@ -15,14 +15,13 @@ import { useTranslation } from '../../translate';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
-  className?: string;
   controllerId?: AccountId | null;
   onClose: () => void;
   stakingLedger?: StakingLedger;
   stashId: string;
 }
 
-function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
+function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
@@ -32,7 +31,6 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
 
   return (
     <Modal
-      className={`staking--Unbond ${className}`}
       header={t<string>('Unbond funds')}
       onClose={onClose}
       size='large'
