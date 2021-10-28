@@ -11,7 +11,7 @@ export function getSystemIcon (systemName: string, specName: string): 'beachball
   return (
     identityNodes[sanitize(systemName)] ||
     identitySpec[sanitize(specName)] ||
-    'substrate'
+    'beachball'
   ) as 'substrate';
 }
 
