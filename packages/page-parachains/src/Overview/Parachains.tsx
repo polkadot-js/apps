@@ -15,7 +15,6 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall, useCallMulti, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import useHrmp from '../useHrmp';
 import Parachain from './Parachain';
 
 interface Props {
@@ -164,7 +163,7 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     (api.query.parasScheduler || api.query.paraScheduler || api.query.scheduler)?.validatorGroups,
     (api.query.parasShared || api.query.paraShared || api.query.shared)?.activeValidatorIndices
   ], optionsMulti);
-  const hrmp = useHrmp();
+  // const hrmp = useHrmp();
   const hasLinksMap = useIsParasLinked(ids);
   const [validatorMap, setValidatorMap] = useState<Record<string, [GroupIndex, ValidatorInfo[]]>>({});
 
@@ -217,8 +216,6 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
       {knownIds?.map(([id, key]): React.ReactNode => (
         <Parachain
           bestNumber={bestNumber}
-          channelDst={hrmp?.dst[id.toString()]}
-          channelSrc={hrmp?.src[id.toString()]}
           id={id}
           isScheduled={scheduledIds[key]}
           key={key}
