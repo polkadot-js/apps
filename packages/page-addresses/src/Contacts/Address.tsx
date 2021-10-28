@@ -144,7 +144,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const PopupDropdown = (
     <Menu>
       <Menu.Item
-        disabled={!isEditable}
+        isDisabled={!isEditable}
         onClick={_toggleForget}
       >
         {t<string>('Forget this address')}

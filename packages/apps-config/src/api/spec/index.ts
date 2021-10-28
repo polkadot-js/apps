@@ -4,6 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import acala from './acala';
+import altair from './altair';
 import apron from './apron';
 import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
@@ -13,6 +14,7 @@ import bifrost from './bifrost';
 import bifrostAsgard from './bifrost-asgard';
 import bifrostParachain from './bifrost-parachain';
 import bitcountry from './bitcountry';
+import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
@@ -25,8 +27,8 @@ import crust from './crust';
 import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import datahighwayParachain from './datahighway';
-import dockPoaMainnet from './dock-poa-mainnet';
-import dockPoaTestnet from './dock-poa-testnet';
+import dockMainnet from './dock-mainnet';
+import dockTestnet from './dock-testnet';
 import dotmog from './dotmog';
 import dusty from './dusty';
 import eave from './eave';
@@ -78,6 +80,7 @@ import polkafoundry from './polkafoundry';
 import polymesh from './polymesh';
 import pontem from './pontem';
 import prism from './prism';
+import quartz from './quartz';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
@@ -121,6 +124,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
+  altair,
   apron,
   'ares-gladios': aresGladios,
   'ares-parachain': aresParachain,
@@ -146,8 +150,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,
-  'dock-main-runtime': dockPoaMainnet,
-  'dock-test-runtime': dockPoaTestnet,
+  'dock-pos-main-runtime': dockMainnet,
+  'dock-pos-test-runtime': dockTestnet,
   'dotmog-node': dotmog,
   dusty4: dusty,
   edgeware,
@@ -194,7 +198,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
-  'node-template-spartan': subspace,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
   opal: uniqueWestend,
@@ -203,10 +206,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   parami,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
+  'pioneer-runtime': bitcountryPioneer,
   plasm,
   polymesh,
   'pontem-node': pontem,
   prism,
+  quartz: quartz,
   realis,
   'riochain-runtime': riochain,
   robonomics,
@@ -220,6 +225,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   subdao,
   subgame,
   subsocial,
+  subspace: subspace,
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
   ternoa,

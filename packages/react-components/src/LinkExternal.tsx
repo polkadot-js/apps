@@ -93,14 +93,6 @@ export default React.memo(styled(LinkExternal)`
     text-align: center;
   }
 
-  &.isLogo {
-    line-height: 1;
-
-    .links {
-      white-space: nowrap;
-    }
-  }
-
   .links {
     img {
       border-radius: 50%;
@@ -126,6 +118,14 @@ export default React.memo(styled(LinkExternal)`
 
     span+span {
       margin-left: 0.3rem;
+    }
+  }
+
+  &.isLogo {
+    line-height: 1;
+
+    .links {
+      white-space: nowrap;
     }
   }
 `);

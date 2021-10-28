@@ -8,7 +8,7 @@ import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
 import type { NominatorValue } from './types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
@@ -100,10 +100,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     [api, accountInfo, address, filterName, withIdentity]
   );
 
-  const _onQueryStats = useCallback(
-    (): void => {
-      window.location.hash = `/staking/query/${address}`;
-    },
+  const statsLink = useMemo(
+    () => `#/staking/query/${address}`,
     [address]
   );
 
@@ -168,11 +166,12 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       )}
       <td>
         {hasQueries && (
-          <Icon
-            className='highlight--color'
-            icon='chart-line'
-            onClick={_onQueryStats}
-          />
+          <a href={statsLink}>
+            <Icon
+              className='highlight--color'
+              icon='chart-line'
+            />
+          </a>
         )}
       </td>
       <td className='links media--1200'>

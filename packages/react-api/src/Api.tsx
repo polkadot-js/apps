@@ -31,6 +31,7 @@ import { decodeUrlTypes } from './urlTypes';
 interface Props {
   children: React.ReactNode;
   apiUrl: string;
+  isElectron: boolean;
   store?: KeyringStore;
 }
 
@@ -178,7 +179,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   };
 }
 
-function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | null {
+function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -187,8 +188,8 @@ function Api ({ apiUrl, children, store }: Props): React.ReactElement<Props> | n
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, state, apiUrl]
+    () => ({ ...state, api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiUrl]
   );
 
   // initial initialization

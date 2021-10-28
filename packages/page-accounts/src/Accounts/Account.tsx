@@ -336,8 +336,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     ], t('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
-        disabled={!multiInfos || !multiInfos.length}
         icon='file-signature'
+        isDisabled={!multiInfos || !multiInfos.length}
         key='multisigApprovals'
         onClick={toggleMultisig}
       >

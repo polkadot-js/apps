@@ -47,30 +47,26 @@ function InputConsts ({ className = '', defaultValue, help, label, onChange, wit
 
   const _onKeyChange = useCallback(
     (newValue: ConstValueBase): void => {
-      if (value.section === newValue.section && value.method === newValue.method) {
-        return;
+      if (value.section !== newValue.section || value.method !== newValue.method) {
+        const { method, section } = newValue;
+        const meta = (api.consts[section][method] as ConstantCodec).meta;
+        const updated = { meta, method, section };
+
+        setValue(updated);
+        onChange && onChange(updated);
       }
-
-      const { method, section } = newValue;
-      const meta = (api.consts[section][method] as ConstantCodec).meta;
-      const updated = { meta, method, section };
-
-      setValue(updated);
-      onChange && onChange(updated);
     },
     [api, onChange, value]
   );
 
   const _onSectionChange = useCallback(
-    (section: string): void => {
-      if (section === value.section) {
-        return;
+    (newSection: string): void => {
+      if (newSection !== value.section) {
+        const optionsMethod = keyOptions(api, newSection);
+
+        setOptionsMethod(optionsMethod);
+        _onKeyChange({ method: optionsMethod[0].value, section: newSection });
       }
-
-      const optionsMethod = keyOptions(api, section);
-
-      setOptionsMethod(optionsMethod);
-      _onKeyChange({ method: optionsMethod[0].value, section });
     },
     [_onKeyChange, api, value]
   );

@@ -19,6 +19,6 @@ if (!rootElement) {
 }
 
 ReactDOM.render(
-  <Root />,
+  <Root isElectron={false} />,
   rootElement
 );

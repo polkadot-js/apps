@@ -24,7 +24,7 @@ interface Props {
   type: 'membership' | 'technicalCommittee';
 }
 
-function Proposal ({ className = '', imageHash, members, prime, type }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className = '', imageHash, isMember, members, prime, type }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const derive = useCall<DeriveCollectiveProposal>(api.derive[type].proposal, [imageHash]);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
@@ -76,6 +76,7 @@ function Proposal ({ className = '', imageHash, members, prime, type }: Props): 
         {isVoteable && !isCloseable && (
           <Voting
             hash={imageHash}
+            isMember={isMember}
             members={members}
             prime={prime}
             proposalId={index}
