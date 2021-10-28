@@ -20,6 +20,7 @@ import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
 import crab from './crab';
+import cord from './cord';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
 import testPara from './cumulus-test-parachain';
@@ -135,6 +136,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'centrifuge-chain': centrifugeChain,
   chainx,
   'chainx-parachain': chainx,
+  cord,
   clover,
   'clover-rococo': cloverRococo,
   'crown-sterling': crownSterlingChain,

@@ -1450,6 +1450,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cordnetwork/type-definitions@npm:0.1.7":
+  version: 0.1.7
+  resolution: "@cordnetwork/type-definitions@npm:0.1.7"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^0.9.4-7
+  checksum: ae87fb8405cb2ae8bad9d3c7aaf502b3b19ec09b34993158fbf3a4230e06fbafb9b2e85875267e0ca5281e2a328f7eca60ac11dbfa599416f8fbf3020129453e
+  languageName: node
+  linkType: hard
+
 "@crustio/crust-pin@npm:^1.0.0":
   version: 1.0.0
   resolution: "@crustio/crust-pin@npm:1.0.0"
@@ -2795,6 +2804,7 @@ __metadata:
     "@acala-network/type-definitions": ^3.0.1
     "@babel/runtime": ^7.15.4
     "@bifrost-finance/type-definitions": 1.3.0
+    "@cordnetwork/type-definitions": 0.1.7
     "@crustio/type-definitions": 1.2.0
     "@darwinia/types": 1.2.50
     "@digitalnative/type-definitions": 1.1.26

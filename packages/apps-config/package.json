@@ -10,6 +10,7 @@
     "@acala-network/type-definitions": "^3.0.1",
     "@babel/runtime": "^7.15.4",
     "@bifrost-finance/type-definitions": "1.3.0",
+    "@cordnetwork/type-definitions": "0.1.7",
     "@crustio/type-definitions": "1.2.0",
     "@darwinia/types": "1.2.50",
     "@digitalnative/type-definitions": "1.1.26",
