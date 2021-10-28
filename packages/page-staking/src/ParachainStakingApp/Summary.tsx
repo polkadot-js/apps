@@ -7,7 +7,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import SummaryRound, { RoundInfo } from './SummaryRound';
@@ -19,7 +19,7 @@ interface Props {
   bestNumberFinalized: BlockNumber|undefined
 }
 
-export interface OwnerAmount {owner: string, amount: string}
+export interface OwnerAmount {owner: string, amount: BN}
 
 interface StakingInfo{
   totalSelected: number,

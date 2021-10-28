@@ -10,6 +10,7 @@ import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
 import Summary, { OwnerAmount } from './Summary';
 import { RoundInfo } from './SummaryRound';
+import CollatorList from './CollatorList';
 
 interface ApiResult{
   toHuman: () => string
@@ -41,6 +42,7 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
           totalSelectedStaked: totalSelectedStaked?.toHuman()
         }}
       />
+      <CollatorList collators={candidatePool} />
     </main>
   );
 }
