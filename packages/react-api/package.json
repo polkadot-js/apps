@@ -15,9 +15,9 @@
   "version": "0.98.2-10",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/api": "^6.5.3-1",
-    "@polkadot/extension-compat-metamask": "^0.40.5-1",
-    "@polkadot/extension-dapp": "^0.40.5-1",
+    "@polkadot/api": "^6.5.3-4",
+    "@polkadot/extension-compat-metamask": "^0.40.5-2",
+    "@polkadot/extension-dapp": "^0.40.5-2",
     "@substrate/connect": "^0.4.6",
     "fflate": "^0.7.1",
     "rxjs": "^7.4.0"
