@@ -1,10 +1,10 @@
 {
-  "short_name": "Polkadot Apps",
-  "name": "Apps for interacting with a Polkadot node",
+  "short_name": "CORD Apps",
+  "name": "Apps for interacting with a CORD node",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "128x128 64x64 32x32 24x24 16x16",
+      "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
   ],

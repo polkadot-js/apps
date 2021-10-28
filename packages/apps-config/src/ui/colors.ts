@@ -9,7 +9,7 @@ import { sanitize } from './util';
 // the actual RPC node it is corrected to (system.name RPC)
 
 // defaults
-const emptyColor = '#99999';
+const emptyColor = '#333333';
 
 // based on chain name
 // alphabetical
@@ -18,6 +18,7 @@ const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBeastEave = '#900048';
 const chainComposable = '#FF8500';
+const chainCord = '##333333';
 const chainCrab = '#7C30DD';
 const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
@@ -108,6 +109,7 @@ const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
+const nodeCord = '#333333';
 const nodeCentrifuge = '#fcc367';
 const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
@@ -186,6 +188,10 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost PC1': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
   ChainX: chainChainx,
+  cord: chainCord,
+  // 'CORD Development': chainCord,
+  // 'CORD Local Testnet': chainCord,
+  // 'CORD Staging Testnet': chainCord,
   Clover: chainClover,
   Composable: chainComposable,
   'Crown Sterling': chainCrownSterling,
@@ -329,6 +335,10 @@ export const nodeColors = Object.entries({
   'Bifrost Node': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
   'Canvas Node': nodeCanvas,
+   cord: nodeCord,
+  // 'CORD Development': nodeCord,
+  // 'CORD Local Testnet': nodeCord,
+  // 'CORD Staging Testnet': nodeCord,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
   'Crown Sterling': nodeCrownSterling,

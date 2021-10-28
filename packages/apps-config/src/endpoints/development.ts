@@ -3,6 +3,7 @@
 
 import type { TFunction } from 'i18next';
 import type { LinkOption } from './types';
+import { expandEndpoints } from './util';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
 
@@ -57,6 +58,19 @@ export function createOwn (t: TFunction): LinkOption[] {
   }
 
   return [];
+}
+
+export function defaultDevNode (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
+  return expandEndpoints(t, [
+    {
+      dnslink: 'local',
+      info: 'CORD Dev.',
+      text: t('rpc.dev.cord', 'CORD Dev. Node', { ns: 'apps-config' }),
+      providers: {
+        'Local Node': 'ws://127.0.0.1:9944'
+      }
+    }
+  ], firstOnly, withSort);
 }
 
 export function createDev (t: TFunction): LinkOption[] {
