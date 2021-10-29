@@ -36,9 +36,11 @@ function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number
 }
 
 function filterEvents (index: number, events: KeyedEvent[] = [], maxBlockWeight?: Weight): [DispatchInfo | undefined, number, KeyedEvent[]] {
-  const filtered = events.filter(({ record: { phase } }) =>
+  const filtered = events.filter(({ record: { phase, event: {section} } }) =>
     phase.isApplyExtrinsic &&
-    phase.asApplyExtrinsic.eq(index)
+    phase.asApplyExtrinsic.eq(index) &&
+    !['treasury'].includes(section) && 
+    !['networkTreasury'].includes(section)
   );
   const infoRecord = filtered.find(({ record: { event: { method, section } } }) =>
     section === 'system' &&

@@ -12,7 +12,7 @@ import { sanitize } from '../util';
 import chainCord from './chains/cordv2.svg';
 import chainRoyalBlue from './chains/cord-blue.svg';
 import chainIndianTeal from './chains/cord-teal.svg';
-import chainCordDev from './chains/cord-yellow.svg';
+import chainCordDev from './chains/cord-dev.svg';
 import chainCordLocal from './chains/cord-brown.svg';
 import chainCordStaging from './chains/cord-maroon.svg';
 

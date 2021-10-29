@@ -31,7 +31,9 @@ interface Props {
 
 const KNOWN: [AccountId, string][] = [
   [registry.createType('AccountId', stringToU8a('modlpy/socie'.padEnd(32, '\0'))), 'Society'],
-  [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
+  [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Council Treasury'],
+  [registry.createType('AccountId', stringToU8a('modlpy/ntwrk'.padEnd(32, '\0'))), 'Network Treasury']
+
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
