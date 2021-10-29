@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, FundInfo, ParaId } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { Campaign, Campaigns } from './types';
 
@@ -112,10 +113,10 @@ function createResult (bestNumber: BlockNumber, minContribution: BN, funds: Camp
 }
 
 const optFundMulti = {
-  transform: ([[paraIds], optFunds]: [[ParaId[]], Option<FundInfo>[]]): Campaign[] =>
+  transform: ([[paraIds], optFunds]: [[ParaId[]], Option<PolkadotRuntimeCommonCrowdloanFundInfo>[]]): Campaign[] =>
     paraIds
-      .map((paraId, i): [ParaId, FundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
-      .filter((v): v is [ParaId, FundInfo] => !!v[1])
+      .map((paraId, i): [ParaId, PolkadotRuntimeCommonCrowdloanFundInfo | null] => [paraId, optFunds[i].unwrapOr(null)])
+      .filter((v): v is [ParaId, PolkadotRuntimeCommonCrowdloanFundInfo] => !!v[1])
       .map(([paraId, info]): Campaign => ({
         accountId: encodeAddress(createAddress(paraId)),
         firstSlot: info.firstPeriod,

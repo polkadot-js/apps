@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { Hash, ParaId, ParaInfo } from '@polkadot/types/interfaces';
+import type { Hash, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeCommonParasRegistrarParaInfo } from '@polkadot/types/lookup';
 import type { OwnedId, OwnedIdPartial } from './types';
 
 import { useMemo } from 'react';
@@ -19,7 +20,7 @@ interface Owned {
   owned: OwnedIdPartial[];
 }
 
-function extractIds (entries: [StorageKey<[ParaId]>, Option<ParaInfo>][]): Owned {
+function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>][]): Owned {
   const owned = entries
     .map(([{ args: [paraId] }, optInfo]): OwnedIdPartial | null => {
       if (optInfo.isNone) {
