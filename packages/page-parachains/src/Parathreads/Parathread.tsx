@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { AccountId, HeadData, ParaGenesisArgs, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, HeadData, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/types/lookup';
 import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
 
 import React, { useMemo } from 'react';
@@ -26,7 +27,7 @@ interface Props {
 
 interface MultiState {
   headHex: string | null;
-  lifecycle: ParaLifecycle | null;
+  lifecycle: PolkadotRuntimeParachainsParasParaLifecycle | null;
   manager: AccountId | null;
 }
 
@@ -36,7 +37,7 @@ const optMulti = {
     lifecycle: null,
     manager: null
   },
-  transform: ([optHead, optGenesis, optLifecycle, optInfo]: [Option<HeadData>, Option<ParaGenesisArgs>, Option<ParaLifecycle>, Option<ParaInfo>]): MultiState => ({
+  transform: ([optHead, optGenesis, optLifecycle, optInfo]: [Option<HeadData>, Option<PolkadotRuntimeParachainsParasParaGenesisArgs>, Option<PolkadotRuntimeParachainsParasParaLifecycle>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>]): MultiState => ({
     headHex: optHead.isSome
       ? sliceHex(optHead.unwrap())
       : optGenesis.isSome

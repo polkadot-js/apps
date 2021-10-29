@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, GroupIndex, HeadData, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, GroupIndex, HeadData, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/types/lookup';
 import type { Codec, ITuple } from '@polkadot/types/types';
 import type { LeasePeriod, QueuedAction } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
@@ -35,13 +36,13 @@ interface Props {
   validators?: [GroupIndex, ValidatorInfo[]];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
+type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<PolkadotRuntimeParachainsParasParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
 
 interface QueryState {
   headHex: string | null;
   leases: number[];
-  lifecycle: ParaLifecycle | null;
-  paraInfo: ParaInfo | null;
+  lifecycle: PolkadotRuntimeParachainsParasParaLifecycle | null;
+  paraInfo: PolkadotRuntimeCommonParasRegistrarParaInfo | null;
   pendingAvail: CandidatePendingAvailability | null;
   updateAt: BlockNumber | null;
   qDmp: number;
