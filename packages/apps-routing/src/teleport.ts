@@ -11,7 +11,7 @@ export default function create (t: TFunction): Route {
     Component: Modal,
     Modal,
     display: {
-      isHidden: false,
+      isHidden: true,
       needsAccounts: true,
       needsApi: [
         [
