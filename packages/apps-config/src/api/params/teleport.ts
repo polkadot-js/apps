@@ -5,8 +5,8 @@ import type { ApiPromise } from '@polkadot/api';
 
 import { KUSAMA_GENESIS } from '../constants';
 
-// 3 * BaseXcmWeight on Kusama
-const KUSAMA_WEIGHT = 3 * 1_000_000_000;
+// 4 * BaseXcmWeight on Kusama
+const KUSAMA_WEIGHT = 4 * 1_000_000_000;
 
 const DEFAULT_WEIGHT = KUSAMA_WEIGHT;
 
