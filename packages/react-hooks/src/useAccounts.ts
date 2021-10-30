@@ -8,6 +8,7 @@ import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './useNamedHook';
 
 export interface UseAccounts {
   allAccounts: string[];
@@ -19,7 +20,7 @@ export interface UseAccounts {
 
 const EMPTY: UseAccounts = { allAccounts: [], allAccountsHex: [], areAccountsLoaded: false, hasAccounts: false, isAccount: () => false };
 
-export function useAccounts (): UseAccounts {
+function useAccountsImpl (): UseAccounts {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAccounts>(EMPTY);
 
@@ -42,3 +43,5 @@ export function useAccounts (): UseAccounts {
 
   return state;
 }
+
+export const useAccounts = createNamedHook('useAccounts', useAccountsImpl);

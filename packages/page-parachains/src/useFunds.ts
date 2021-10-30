@@ -10,7 +10,7 @@ import type { Campaign, Campaigns } from './types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO, u8aConcat } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
@@ -172,6 +172,4 @@ function useFundsImpl (): Campaigns {
   return result;
 }
 
-export default function useFunds (): Campaigns {
-  return useNamedHook('useFunds', useFundsImpl);
-}
+export default createNamedHook('useFunds', useFundsImpl);

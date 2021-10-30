@@ -7,7 +7,7 @@ import type { QueuedAction } from './types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCall, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_EIGHT, BN_FIVE, BN_FOUR, BN_NINE, BN_ONE, BN_SEVEN, BN_SIX, BN_TEN, BN_THREE, BN_TWO } from '@polkadot/util';
 
 const INC = [BN_ONE, BN_TWO, BN_THREE, BN_FOUR, BN_FIVE, BN_SIX, BN_SEVEN, BN_EIGHT, BN_NINE, BN_TEN];
@@ -36,6 +36,4 @@ function useActionsQueueImpl (): QueuedAction[] {
   );
 }
 
-export default function useActionsQueue (): QueuedAction[] {
-  return useNamedHook('useActionsQueue', useActionsQueueImpl);
-}
+export default createNamedHook('useActionsQueue', useActionsQueueImpl);

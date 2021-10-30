@@ -7,7 +7,7 @@ import type { ProposalExt, ScheduledProposals } from '../types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCall, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useProposalImpl (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt {
   const { api } = useApi();
@@ -26,6 +26,4 @@ function useProposalImpl (id: ParaId, approvedIds: ParaId[], scheduled: Schedule
   );
 }
 
-export default function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt {
-  return useNamedHook('useProposal', useProposalImpl, id, approvedIds, scheduled);
-}
+export default createNamedHook('useProposal', useProposalImpl);

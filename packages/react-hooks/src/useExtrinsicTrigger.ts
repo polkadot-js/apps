@@ -9,10 +9,11 @@ import { useEffect, useState } from 'react';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './useNamedHook';
 
 type ExtrinsicCheck = SubmittableExtrinsicFunction<'promise'> | false | undefined | null;
 
-export function useExtrinsicTrigger (checks: ExtrinsicCheck[]): string {
+function useExtrinsicTriggerImpl (checks: ExtrinsicCheck[]): string {
   const { api } = useApi();
   const [trigger, setTrigger] = useState('0');
   const mountedRef = useIsMountedRef();
@@ -27,3 +28,5 @@ export function useExtrinsicTrigger (checks: ExtrinsicCheck[]): string {
 
   return trigger;
 }
+
+export const useExtrinsicTrigger = createNamedHook('useExtrinsicTrigger', useExtrinsicTriggerImpl);

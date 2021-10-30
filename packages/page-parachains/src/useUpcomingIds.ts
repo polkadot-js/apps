@@ -5,7 +5,7 @@ import type { Option, StorageKey } from '@polkadot/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/types/lookup';
 
-import { useApi, useEventTrigger, useMapEntries, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
 
 function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeParachainsParasParaLifecycle>][]): ParaId[] {
   return entries
@@ -38,6 +38,4 @@ function useUpomingIdsImpl (): ParaId[] | undefined {
   });
 }
 
-export default function useUpomingIds (): ParaId[] | undefined {
-  return useNamedHook('useUpomingIds', useUpomingIdsImpl);
-}
+export default createNamedHook('useUpomingIds', useUpomingIdsImpl);

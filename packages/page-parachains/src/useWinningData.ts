@@ -8,7 +8,7 @@ import type { AuctionInfo, WinnerData, Winning } from './types';
 import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
 import { CROWD_PREFIX } from './constants';
@@ -23,9 +23,9 @@ function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
 function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
   return a.length !== b.length ||
     a.some(({ firstSlot, lastSlot, paraId }, index) =>
-      !paraId.eq(b[index].paraId) ||
-      !firstSlot.eq(b[index].firstSlot) ||
-      !lastSlot.eq(b[index].lastSlot)
+    !paraId.eq(b[index].paraId) ||
+    !firstSlot.eq(b[index].firstSlot) ||
+    !lastSlot.eq(b[index].lastSlot)
     );
 }
 
@@ -169,6 +169,4 @@ function useWinningDataImpl (auctionInfo?: AuctionInfo): Winning[] | undefined {
   return result;
 }
 
-export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | undefined {
-  return useNamedHook('useWinningData', useWinningDataImpl, auctionInfo);
-}
+export default createNamedHook('useWinningData', useWinningDataImpl);

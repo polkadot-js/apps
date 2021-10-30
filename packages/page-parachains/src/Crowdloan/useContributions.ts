@@ -6,7 +6,7 @@ import type { Balance, ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useCall, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 interface Result extends DeriveContributions {
@@ -58,6 +58,4 @@ function useContributionsImpl (paraId: ParaId): Result {
   return state;
 }
 
-export default function useContributions (paraId: ParaId): Result {
-  return useNamedHook('useContributions', useContributionsImpl, paraId);
-}
+export default createNamedHook('useContributions', useContributionsImpl);

@@ -12,6 +12,7 @@ import { BN_MILLION, BN_ZERO } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { createNamedHook } from './useNamedHook';
 
 const EMPTY: Inflation = { idealInterest: 0, idealStake: 0, inflation: 0, stakedFraction: 0, stakedReturn: 0 };
 
@@ -39,7 +40,7 @@ function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, num
   };
 }
 
-export function useInflation (totalStaked?: BN): Inflation {
+function useInflationImpl (totalStaked?: BN): Inflation {
   const { api } = useApi();
   const totalIssuance = useCall<BN>(api.query.balances?.totalIssuance);
   const auctionCounter = useCall<BN>(api.query.auctions?.auctionCounter);
@@ -57,3 +58,5 @@ export function useInflation (totalStaked?: BN): Inflation {
 
   return state;
 }
+
+export const useInflation = createNamedHook('useInflation', useInflationImpl);

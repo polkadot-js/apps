@@ -8,7 +8,7 @@ import type { OwnedId, OwnedIdPartial } from './types';
 
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall, useEventTrigger, useMapEntries, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
 
 interface CodeHash {
   hash: Hash | null;
@@ -65,13 +65,11 @@ function useOwnedIdsImpl (): OwnedId[] {
         .filter((id) => allAccounts.some((a) => a === id.manager))
         .map((data): OwnedId => ({
           ...data,
-          hasCode: hashes.some(({ hash, paraId }) => !!hash && paraId.eq(data.paraId))
+          hasCode: hashes.some((h) => !!h.hash && h.paraId.eq(data.paraId))
         }))
       : [],
     [allAccounts, hashes, unfiltered]
   );
 }
 
-export default function useOwnedIds (): OwnedId[] {
-  return useNamedHook('useOwnedIds', useOwnedIdsImpl);
-}
+export default createNamedHook('useOwnedIds', useOwnedIdsImpl);

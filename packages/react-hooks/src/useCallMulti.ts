@@ -68,7 +68,7 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ isActive: false, serialized: null, subscriber: null });
-  const [value, setValue] = useState<T>((options || {}).defaultValue || [] as unknown as T);
+  const [value, setValue] = useState<T>(() => (options || {}).defaultValue || [] as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
