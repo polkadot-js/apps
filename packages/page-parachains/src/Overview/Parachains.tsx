@@ -4,19 +4,20 @@
 import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { AccountId, Event, GroupIndex, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
-import type { PolkadotRuntimeParachainsSchedulerCoreAssignment, PolkadotPrimitivesV1CandidateReceipt } from '@polkadot/types/lookup';
+import type { Event, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotPrimitivesV1CandidateReceipt } from '@polkadot/types/lookup';
 import type { IEvent } from '@polkadot/types/types';
 import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types';
-import type { EventMapInfo, ValidatorInfo } from './types';
+import type { EventMapInfo } from './types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useCallMulti, useIsParasLinked } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
+import useValidators from './useValidators';
 
 interface Props {
   actionsQueue: QueuedAction[];
@@ -33,13 +34,7 @@ interface LastEvents {
   lastTimeout: EventMap;
 }
 
-type MultiResult = [AccountId[] | null, PolkadotRuntimeParachainsSchedulerCoreAssignment[] | null, ParaValidatorIndex[][] | null, ParaValidatorIndex[] | null];
-
 const EMPTY_EVENTS: LastEvents = { lastBacked: {}, lastIncluded: {}, lastTimeout: {} };
-
-const optionsMulti = {
-  defaultValue: [null, null, null, null] as MultiResult
-};
 
 function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
   const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesV1CandidateReceipt]>).data[0];
@@ -59,33 +54,6 @@ function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<stri
       ...all,
       [id.toString()]: true
     }), all), {});
-}
-
-function mapValidators (startWith: Record<string, [GroupIndex, ValidatorInfo[]]>, ids: ParaId[], validators: AccountId[], validatorGroups: ParaValidatorIndex[][], activeIndices: ParaValidatorIndex[], assignments: PolkadotRuntimeParachainsSchedulerCoreAssignment[]): Record<string, [GroupIndex, ValidatorInfo[]]> {
-  return ids.reduce((all: Record<string, [GroupIndex, ValidatorInfo[]]>, id) => {
-    // paraId should never be undefined, since it comes from the state, yet here we are...
-    // See https://github.com/polkadot-js/apps/issues/6435
-    const assignment = assignments.find(({ paraId }) => paraId && paraId.eq(id));
-
-    if (!assignment) {
-      return all;
-    }
-
-    return {
-      ...all,
-      [id.toString()]: [
-        assignment.groupIdx,
-        validatorGroups[assignment.groupIdx.toNumber()]
-          .map((indexActive) => [indexActive, activeIndices[indexActive.toNumber()]])
-          .filter(([, a]) => a)
-          .map(([indexActive, indexValidator]) => ({
-            indexActive,
-            indexValidator,
-            validatorId: validators[indexValidator.toNumber()]
-          }))
-      ]
-    };
-  }, { ...startWith });
 }
 
 function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: LastEvents): LastEvents {
@@ -157,14 +125,8 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
   const bestNumber = useBestNumber();
   const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
   const [{ lastBacked, lastIncluded, lastTimeout }, setLastEvents] = useState<LastEvents>(EMPTY_EVENTS);
-  const [validators, assignments, validatorGroups, validatorIndices] = useCallMulti<MultiResult>([
-    api.query.session.validators,
-    (api.query.parasScheduler || api.query.paraScheduler || api.query.scheduler)?.scheduled,
-    (api.query.parasScheduler || api.query.paraScheduler || api.query.scheduler)?.validatorGroups,
-    (api.query.parasShared || api.query.paraShared || api.query.shared)?.activeValidatorIndices
-  ], optionsMulti);
   const hasLinksMap = useIsParasLinked(ids);
-  const [validatorMap, setValidatorMap] = useState<Record<string, [GroupIndex, ValidatorInfo[]]>>({});
+  const [validators, validatorMap] = useValidators(ids);
 
   const headerRef = useRef([
     [t('parachains'), 'start', 2],
@@ -200,12 +162,6 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
       extractEvents(api, lastBlock, prev)
     );
   }, [api, lastBlock]);
-
-  useEffect((): void => {
-    assignments && validatorIndices && validators && validatorGroups && ids && setValidatorMap((prev) =>
-      mapValidators(prev, ids, validators, validatorGroups, validatorIndices, assignments)
-    );
-  }, [assignments, ids, validators, validatorGroups, validatorIndices]);
 
   return (
     <Table
