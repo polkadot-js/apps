@@ -22,25 +22,25 @@ function mapValidators (startWith: Record<string, [GroupIndex, ValidatorInfo[]]>
     // See https://github.com/polkadot-js/apps/issues/6435
     const assignment = scheduled.find(({ paraId }) => paraId && paraId.eq(id));
 
-      if (!assignment) {
-        return all;
-      }
+    if (!assignment) {
+      return all;
+    }
 
-      return {
-        ...all,
-        [id.toString()]: [
-          assignment.groupIdx,
-          groups[assignment.groupIdx.toNumber()]
-            .map((index) => [index, indices[index.toNumber()]])
-            .filter(([, a]) => a)
-            .map(([indexActive, indexValidator]) => ({
-              indexActive,
-              indexValidator,
-              validatorId: validators[indexValidator.toNumber()]
-            }))
-        ]
-      };
-    }, { ...startWith });
+    return {
+      ...all,
+      [id.toString()]: [
+        assignment.groupIdx,
+        groups[assignment.groupIdx.toNumber()]
+          .map((index) => [index, indices[index.toNumber()]])
+          .filter(([, a]) => a)
+          .map(([indexActive, indexValidator]) => ({
+            indexActive,
+            indexValidator,
+            validatorId: validators[indexValidator.toNumber()]
+          }))
+      ]
+    };
+  }, { ...startWith });
 }
 
 function useValidatorsImpl (ids?: ParaId[]): Result {
@@ -51,15 +51,15 @@ function useValidatorsImpl (ids?: ParaId[]): Result {
     (api.query.parasScheduler || api.query.paraScheduler || api.query.scheduler)?.validatorGroups,
     (api.query.parasShared || api.query.paraShared || api.query.shared)?.activeValidatorIndices
   ], optionsMulti);
-	const [state, setState] = useState<Record<string, [GroupIndex, ValidatorInfo[]]>>({});
+  const [state, setState] = useState<Record<string, [GroupIndex, ValidatorInfo[]]>>({});
 
-	useEffect((): void => {
+  useEffect((): void => {
     groups && ids && indices && scheduled && validators && setState((prev) =>
       mapValidators(prev, ids, validators, groups, indices, scheduled)
     );
   }, [groups, ids, indices, scheduled, validators]);
 
-	return useMemo(
+  return useMemo(
     (): Result => [validators, state],
     [state, validators]
   );

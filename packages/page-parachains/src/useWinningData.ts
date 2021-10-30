@@ -23,9 +23,9 @@ function isNewWinners (a: WinnerData[], b: WinnerData[]): boolean {
 function isNewOrdering (a: WinnerData[], b: WinnerData[]): boolean {
   return a.length !== b.length ||
     a.some(({ firstSlot, lastSlot, paraId }, index) =>
-    !paraId.eq(b[index].paraId) ||
-    !firstSlot.eq(b[index].firstSlot) ||
-    !lastSlot.eq(b[index].lastSlot)
+      !paraId.eq(b[index].paraId) ||
+      !firstSlot.eq(b[index].firstSlot) ||
+      !lastSlot.eq(b[index].lastSlot)
     );
 }
 

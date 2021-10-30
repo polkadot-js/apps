@@ -8,8 +8,8 @@ import { useMemo } from 'react';
 import { getJudgements } from './utils/getJudgements';
 import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes';
 import { useAccountInfo } from './useAccountInfo';
-import { useRegistrars } from './useRegistrars';
 import { createNamedHook } from './useNamedHook';
+import { useRegistrars } from './useRegistrars';
 
 function useJudgementsImpl (address: string): UseJudgements {
   const { identity } = useAccountInfo(address);

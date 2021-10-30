@@ -4,7 +4,7 @@
 import BN from 'bn.js';
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { PalletProxyProxyDefinition, NodeRuntimeProxyType } from '@polkadot/types/lookup';
+import { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
@@ -20,10 +20,11 @@ function useProxiesImpl (): [PalletProxyProxyDefinition[], BN][] | undefined {
       api.tx.proxy.addProxy.meta.args.length === 3
         ? result as [PalletProxyProxyDefinition[], BN][]
         : (result as [[AccountId, NodeRuntimeProxyType][], BN][]).map(([arr, bn]): [PalletProxyProxyDefinition[], BN] =>
-          [arr.map(([delegate, proxyType]): PalletProxyProxyDefinition => api.createType('ProxyDefinition', {
-            delegate,
-            proxyType
-          })), bn]
+          [arr.map(([delegate, proxyType]): PalletProxyProxyDefinition =>
+            api.createType('ProxyDefinition', {
+              delegate,
+              proxyType
+            })), bn]
         )
   });
 }
