@@ -25,19 +25,19 @@ interface Result {
 const EMPTY_EVENTS: Result = { lastBacked: {}, lastIncluded: {}, lastTimeout: {} };
 
 function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
-	try {
-		const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesV1CandidateReceipt]>).data[0];
+  try {
+    const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesV1CandidateReceipt]>).data[0];
 
-		if (descriptor && descriptor.paraId) {
-			map[descriptor.paraId.toString()] = {
-				blockHash,
-				blockNumber,
-				relayParent: descriptor.relayParent.toHex()
-			};
-		}
-	} catch (error) {
-		throw new Error(`${event.section}.${event.method}(${stringify(event.data)}):: ${(error as Error).message}`);
-	}
+    if (descriptor && descriptor.paraId) {
+      map[descriptor.paraId.toString()] = {
+        blockHash,
+        blockNumber,
+        relayParent: descriptor.relayParent.toHex()
+      };
+    }
+  } catch (error) {
+    throw new Error(`${event.section}.${event.method}(${stringify(event.data)}):: ${(error as Error).message}`);
+  }
 }
 
 function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: Result): Result {

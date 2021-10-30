@@ -6,6 +6,7 @@ import type { AccountId, HeadData, ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsParasParaGenesisArgs, PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/types/lookup';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
+
 import { sliceHex } from '../util';
 
 interface Result {
@@ -36,7 +37,7 @@ const optMulti = {
 function useThreadInfoImpl (id: ParaId): Result {
   const { api } = useApi();
 
-	return useCallMulti<Result>([
+  return useCallMulti<Result>([
     [api.query.paras.heads, id],
     [api.query.paras.upcomingParasGenesis, id],
     [api.query.paras.paraLifecycles, id],

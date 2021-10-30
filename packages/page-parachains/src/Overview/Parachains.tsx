@@ -11,8 +11,8 @@ import { useBestNumber, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
-import useValidators from './useValidators';
 import useEvents from './useEvents';
+import useValidators from './useValidators';
 
 interface Props {
   actionsQueue: QueuedAction[];
