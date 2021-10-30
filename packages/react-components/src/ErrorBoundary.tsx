@@ -20,6 +20,14 @@ interface State {
   prevTrigger: string | null;
 }
 
+function formatStack (stack: string = '<unknown>'): React.ReactElement | null {
+  return (
+    <>{stack.split('\n').map((line, index) =>
+      <div key={index}>{line}</div>
+    )}</>
+  );
+}
+
 // NOTE: This is the only way to do an error boundary, via extend
 class ErrorBoundary extends React.Component<Props> {
   public override state: State = { error: null, prevTrigger: null };
@@ -56,7 +64,7 @@ class ErrorBoundary extends React.Component<Props> {
         <article className='error extraMargin'>
           <p>{t<string>('Uncaught error. Something went wrong with the query and rendering of this component. Please supply all the details below when logging an issue, it may help in tracing the cause.')}</p>
           <p>{displayError.message}</p>
-          <p>{displayError.stack}</p>
+          {formatStack(displayError.stack)}
         </article>
       )
       : children;
