@@ -39,11 +39,21 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
           if (mountedRef.current && tracker.current.isActive) {
             let valueIndex = -1;
 
-            mountedRef.current && tracker.current.isActive && setValue(
-              transform(
-                calls.map((_, index) => included[index] ? value[++valueIndex] : undefined)
-              )
-            );
+            if (mountedRef.current && tracker.current.isActive) {
+              try {
+                setValue(
+                  transform(
+                    calls.map((_, index) =>
+                      included[index]
+                        ? value[++valueIndex]
+                        : undefined
+                    )
+                  )
+                );
+              } catch (error) {
+                throw new Error(`useCallMulti(...):: ${(error as Error).message}:: ${(error as Error).stack || '<unknown>'}`);
+              }
+            }
           }
         });
       } else {

@@ -8,7 +8,7 @@ import type { AuctionInfo, WinnerData, Winning } from './types';
 import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useNamedHook } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
 import { CROWD_PREFIX } from './constants';
@@ -121,7 +121,7 @@ function mergeFirst (ranges: [number, number][], auctionInfo: AuctionInfo, prev:
   return prev;
 }
 
-export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | undefined {
+function useWinningDataImpl (auctionInfo?: AuctionInfo): Winning[] | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const ranges = useLeaseRanges();
@@ -167,4 +167,8 @@ export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | 
   }, [api, bestNumber, auctionInfo, mountedRef, ranges, trigger, triggerRef]);
 
   return result;
+}
+
+export default function useWinningData (auctionInfo?: AuctionInfo): Winning[] | undefined {
+  return useNamedHook('useWinningData', useWinningDataImpl, auctionInfo);
 }

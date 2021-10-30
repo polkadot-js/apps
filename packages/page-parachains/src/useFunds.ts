@@ -10,7 +10,7 @@ import type { Campaign, Campaigns } from './types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
+import { useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys, useNamedHook } from '@polkadot/react-hooks';
 import { BN_ZERO, u8aConcat } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
@@ -152,7 +152,7 @@ function extractFundIds (keys: StorageKey<[ParaId]>[]): ParaId[] {
   return keys.map(({ args: [paraId] }) => paraId);
 }
 
-export default function useFunds (): Campaigns {
+function useFundsImpl (): Campaigns {
   const { api } = useApi();
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
@@ -170,4 +170,8 @@ export default function useFunds (): Campaigns {
   }, [api, bestNumber, campaigns, leases, mountedRef]);
 
   return result;
+}
+
+export default function useFunds (): Campaigns {
+  return useNamedHook('useFunds', useFundsImpl);
 }

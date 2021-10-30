@@ -8,7 +8,7 @@ import type { OwnedId, OwnedIdPartial } from './types';
 
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useEventTrigger, useMapEntries, useNamedHook } from '@polkadot/react-hooks';
 
 interface CodeHash {
   hash: Hash | null;
@@ -52,7 +52,7 @@ const hashesOption = {
   withParamsTransform: true
 };
 
-export default function useOwnedIds (): OwnedId[] {
+function useOwnedIdsImpl (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const trigger = useEventTrigger([api.events.registrar.Registered, api.events.registrar.Reserved]);
@@ -70,4 +70,8 @@ export default function useOwnedIds (): OwnedId[] {
       : [],
     [allAccounts, hashes, unfiltered]
   );
+}
+
+export default function useOwnedIds (): OwnedId[] {
+  return useNamedHook('useOwnedIds', useOwnedIdsImpl);
 }

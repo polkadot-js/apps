@@ -7,7 +7,7 @@ import type { Proposals } from './types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCallMulti, useEventTrigger, useIsMountedRef, useMapEntries, useMapKeys } from '@polkadot/react-hooks';
+import { useApi, useCallMulti, useEventTrigger, useIsMountedRef, useMapEntries, useMapKeys, useNamedHook } from '@polkadot/react-hooks';
 
 type MultiQuery = [SessionIndex | undefined, ParaId[] | undefined];
 
@@ -31,7 +31,7 @@ function extractScheduled (entries: [StorageKey<[SessionIndex]>, ParaId[]][]): S
   }));
 }
 
-export default function useProposals (): Proposals | undefined {
+function useProposalsImpl (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);
@@ -52,4 +52,8 @@ export default function useProposals (): Proposals | undefined {
       : undefined,
     [approvedIds, mountedRef, proposalIds, sessionIndex, scheduled]
   );
+}
+
+export default function useProposals (): Proposals | undefined {
+  return useNamedHook('useProposals', useProposalsImpl);
 }
