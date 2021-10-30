@@ -20,7 +20,7 @@ interface State {
   prevTrigger: string | null;
 }
 
-function formatStack (stack: string = '<unknown>'): React.ReactElement | null {
+function formatStack (stack = '<unknown>'): React.ReactElement | null {
   return (
     <>{stack.split('\n').map((line, index) =>
       <div key={index}>{line}</div>
