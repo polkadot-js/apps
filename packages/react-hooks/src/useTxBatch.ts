@@ -11,6 +11,7 @@ import { isFunction } from '@polkadot/util';
 
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
+import { createNamedHook } from './useNamedHook';
 
 interface Options {
   batchSize?: number;
@@ -43,7 +44,7 @@ function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[],
     );
 }
 
-export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null | false, options?: Options): SubmittableExtrinsic<'promise'>[] | null {
+function useTxBatchImpl (txs?: SubmittableExtrinsic<'promise'>[] | null | false, options?: Options): SubmittableExtrinsic<'promise'>[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [batchSize, setBatchSize] = useState(Math.floor(options?.batchSize || 64));
@@ -76,3 +77,5 @@ export function useTxBatch (txs?: SubmittableExtrinsic<'promise'>[] | null | fal
     [api, batchSize, options, txs]
   );
 }
+
+export const useTxBatch = createNamedHook('useTxBatch', useTxBatchImpl);

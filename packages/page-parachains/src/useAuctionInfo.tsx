@@ -6,7 +6,7 @@ import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/i
 import type { ITuple } from '@polkadot/types/types';
 import type { AuctionInfo } from './types';
 
-import { useApi, useCallMulti, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 
 const optionsMulti = {
   transform: ([numAuctions, optInfo]: [AuctionIndex, Option<ITuple<[LeasePeriodOf, BlockNumber]>>]): AuctionInfo => {
@@ -29,6 +29,4 @@ function useAuctionInfoImpl (): AuctionInfo | undefined {
   ], optionsMulti);
 }
 
-export default function useAuctionInfo (): AuctionInfo | undefined {
-  return useNamedHook('useAuctionInfo', useAuctionInfoImpl);
-}
+export default createNamedHook('useAuctionInfo', useAuctionInfoImpl);

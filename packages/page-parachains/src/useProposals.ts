@@ -7,7 +7,7 @@ import type { Proposals } from './types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCallMulti, useEventTrigger, useIsMountedRef, useMapEntries, useMapKeys, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCallMulti, useEventTrigger, useIsMountedRef, useMapEntries, useMapKeys } from '@polkadot/react-hooks';
 
 type MultiQuery = [SessionIndex | undefined, ParaId[] | undefined];
 
@@ -54,6 +54,4 @@ function useProposalsImpl (): Proposals | undefined {
   );
 }
 
-export default function useProposals (): Proposals | undefined {
-  return useNamedHook('useProposals', useProposalsImpl);
-}
+export default createNamedHook('useProposals', useProposalsImpl);

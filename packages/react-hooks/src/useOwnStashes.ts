@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { createNamedHook } from './useNamedHook';
 
 type IsInKeyring = boolean;
 
@@ -30,7 +31,7 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
   return result;
 }
 
-export function useOwnStashes (): [string, IsInKeyring][] | undefined {
+function useOwnStashesImpl (): [string, IsInKeyring][] | undefined {
   const { allAccounts, hasAccounts } = useAccounts();
   const { api } = useApi();
   const ownBonded = useCall<Option<AccountId>[]>(hasAccounts && api.query.staking?.bonded.multi, [allAccounts]);
@@ -46,7 +47,9 @@ export function useOwnStashes (): [string, IsInKeyring][] | undefined {
   );
 }
 
-export function useOwnStashIds (): string[] | undefined {
+export const useOwnStashes = createNamedHook('useOwnStashes', useOwnStashesImpl);
+
+function useOwnStashIdsImpl (): string[] | undefined {
   const ownStashes = useOwnStashes();
 
   return useMemo(
@@ -56,3 +59,5 @@ export function useOwnStashIds (): string[] | undefined {
     [ownStashes]
   );
 }
+
+export const useOwnStashIds = createNamedHook('useOwnStashIds', useOwnStashIdsImpl);

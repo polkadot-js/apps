@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './useNamedHook';
 
 interface UseAddresses {
   allAddresses: string[];
@@ -13,7 +14,7 @@ interface UseAddresses {
   isAddress: (address: string) => boolean;
 }
 
-export function useAddresses (): UseAddresses {
+function useAddressesImpl (): UseAddresses {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAddresses>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
 
@@ -35,3 +36,5 @@ export function useAddresses (): UseAddresses {
 
   return state;
 }
+
+export const useAddresses = createNamedHook('useAddresses', useAddressesImpl);

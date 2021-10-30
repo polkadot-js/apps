@@ -6,7 +6,7 @@ import type { u32 } from '@polkadot/types';
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { useApi, useNamedHook } from '@polkadot/react-hooks';
+import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
 const RANGES_DEFAULT: [number, number][] = [
   [0, 0], [0, 1], [0, 2], [0, 3],
@@ -42,9 +42,7 @@ function useLeaseRangesImpl (): [number, number][] {
   );
 }
 
-export function useLeaseRanges (): [number, number][] {
-  return useNamedHook('useLeaseRanges', useLeaseRangesImpl);
-}
+export const useLeaseRanges = createNamedHook('useLeaseRanges', useLeaseRangesImpl);
 
 function useLeaseRangeMaxImpl (): BN {
   const ranges = useLeaseRanges();
@@ -55,6 +53,4 @@ function useLeaseRangeMaxImpl (): BN {
   );
 }
 
-export function useLeaseRangeMax (): BN {
-  return useNamedHook('useLeaseRangeMax', useLeaseRangeMaxImpl);
-}
+export const useLeaseRangeMax = createNamedHook('useLeaseRangeMax', useLeaseRangeMaxImpl);

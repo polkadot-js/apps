@@ -10,13 +10,14 @@ import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './useNamedHook';
 
 // a random address that we are using for our queries
 const ZERO_ACCOUNT = '5CAUdnwecHGxxyr5vABevAfZ34Fi4AaraDRMwfDQXQ52PXqg';
 const EMPTY_STATE: [BN, number] = [BN_ZERO, 0];
 
 // for a given call, calculate the weight
-export function useWeight (call?: Call | null): [BN, number] {
+function useWeightImpl (call?: Call | null): [BN, number] {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState(EMPTY_STATE);
@@ -34,3 +35,5 @@ export function useWeight (call?: Call | null): [BN, number] {
 
   return state;
 }
+
+export const useWeight = createNamedHook('useWeight', useWeightImpl);

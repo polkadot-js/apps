@@ -14,7 +14,7 @@ export function useFavorites (storageKeyBase: string): [string[], (address: stri
     (address: string): void => setFavorites(
       (favorites: string[]) => setCache(
         favorites.includes(address)
-          ? favorites.filter((accountId): boolean => address !== accountId)
+          ? favorites.filter((a) => address !== a)
           : [...favorites, address]
       )
     ),

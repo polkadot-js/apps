@@ -10,8 +10,9 @@ import { useMemo } from 'react';
 import { BN_BILLION, BN_ZERO, bnToBn, isUndefined } from '@polkadot/util';
 
 import { useApi } from './useApi';
+import { createNamedHook } from './useNamedHook';
 
-export function useWeightFee (weight: BN | number, apiOverride?: ApiPromise | null): BN {
+function useWeightFeeImpl (weight: BN | number, apiOverride?: ApiPromise | null): BN {
   const { api } = useApi();
 
   return useMemo(
@@ -35,3 +36,5 @@ export function useWeightFee (weight: BN | number, apiOverride?: ApiPromise | nu
     [api, apiOverride, weight]
   );
 }
+
+export const useWeightFee = createNamedHook('useWeightFee', useWeightFeeImpl);
