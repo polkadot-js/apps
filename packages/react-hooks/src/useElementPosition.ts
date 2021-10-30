@@ -3,8 +3,9 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { useScroll } from '@polkadot/react-hooks/useScroll';
-import { useWindowSize } from '@polkadot/react-hooks/useWindowSize';
+import { createNamedHook } from './createNamedHook';
+import { useScroll } from './useScroll';
+import { useWindowSize } from './useWindowSize';
 
 export interface ElementPosition {
   x: number,
@@ -13,7 +14,7 @@ export interface ElementPosition {
   height: number,
 }
 
-export function useElementPosition (ref: React.MutableRefObject<HTMLElement | undefined | null>): ElementPosition | undefined {
+function useElementPositionImpl (ref: React.MutableRefObject<HTMLElement | undefined | null>): ElementPosition | undefined {
   const [elementPosition, setElementPosition] = useState<ElementPosition>();
   const windowSize = useWindowSize();
   const scrollY = useScroll();
@@ -33,3 +34,5 @@ export function useElementPosition (ref: React.MutableRefObject<HTMLElement | un
 
   return elementPosition;
 }
+
+export const useElementPosition = createNamedHook('useElementPosition', useElementPositionImpl);

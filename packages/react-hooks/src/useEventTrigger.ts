@@ -7,10 +7,10 @@ import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
-import { createNamedHook } from './useNamedHook';
 
 type EventCheck = AugmentedEvent<'promise'> | false | undefined | null;
 

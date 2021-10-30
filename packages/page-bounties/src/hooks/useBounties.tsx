@@ -5,7 +5,7 @@ import type BN from 'bn.js';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
-import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BalanceOf, BlockNumber, BountyIndex } from '@polkadot/types/interfaces';
 
 export type BountyApi = {
@@ -29,7 +29,7 @@ export type BountyApi = {
   unassignCurator: SubmittableExtrinsicFunction<'promise'>;
 };
 
-export function useBounties (): BountyApi {
+function useBountiesImpl (): BountyApi {
   const { api } = useApi();
   const bounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
   const bountyIndex = useCall<BountyIndex>((api.query.bounties || api.query.treasury).bountyCount);
@@ -72,3 +72,5 @@ export function useBounties (): BountyApi {
     unassignCurator
   };
 }
+
+export const useBounties = createNamedHook('useBounties', useBountiesImpl);

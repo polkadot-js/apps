@@ -11,11 +11,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 import { useToggle } from './useToggle';
 
 const IS_NONE = {

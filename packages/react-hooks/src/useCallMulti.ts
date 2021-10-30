@@ -64,6 +64,7 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 }
 
 // very much copied from useCall
+// FIXME This is generic, we cannot really use createNamedHook
 export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();

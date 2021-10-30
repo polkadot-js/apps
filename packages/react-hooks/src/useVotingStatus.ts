@@ -9,9 +9,9 @@ import { useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useBestNumber } from './useBestNumber';
-import { createNamedHook } from './useNamedHook';
 
 interface State {
   hasFailed: boolean;

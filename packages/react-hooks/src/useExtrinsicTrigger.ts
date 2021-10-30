@@ -6,10 +6,10 @@ import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 
 import { useEffect, useState } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
-import { createNamedHook } from './useNamedHook';
 
 type ExtrinsicCheck = SubmittableExtrinsicFunction<'promise'> | false | undefined | null;
 

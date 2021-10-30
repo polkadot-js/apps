@@ -3,9 +3,9 @@
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 
 function useStakingInfoImpl (accountId: string | null): DeriveStakingAccount | undefined {
   const { api } = useApi();

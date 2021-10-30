@@ -8,9 +8,9 @@ import { useMemo } from 'react';
 
 import { BN, BN_ONE, BN_THOUSAND, BN_TWO, bnToBn, extractTime } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useTranslation } from './translate';
 import { useApi } from './useApi';
-import { createNamedHook } from './useNamedHook';
 
 type Result = [number, string, Time];
 

@@ -9,9 +9,9 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
-import { createNamedHook } from './useNamedHook';
 
 interface Options {
   batchSize?: number;

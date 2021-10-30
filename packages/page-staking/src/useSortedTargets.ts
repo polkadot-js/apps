@@ -10,7 +10,7 @@ import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall, useCallMulti, useInflation } from '@polkadot/react-hooks';
 import { arrayFlatten, BN_HUNDRED, BN_MAX_INTEGER, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface LastEra {
@@ -272,7 +272,7 @@ const transformMulti = {
   })
 };
 
-export default function useSortedTargets (favorites: string[], withLedger: boolean): SortedTargets {
+function useSortedTargetsImpl (favorites: string[], withLedger: boolean): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { counterForNominators, counterForValidators, historyDepth, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond, totalIssuance } = useCallMulti<MultiResult>([
@@ -318,3 +318,5 @@ export default function useSortedTargets (favorites: string[], withLedger: boole
     ...partial
   };
 }
+
+export default createNamedHook('useSortedTargets', useSortedTargetsImpl);

@@ -3,9 +3,9 @@
 
 import { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 
 function useSubidentitiesImpl (address: string): AccountId[] | undefined {
   const { api } = useApi();

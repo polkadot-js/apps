@@ -4,7 +4,7 @@
 import type BN from 'bn.js';
 import type { PalletAssetsAssetBalance } from '@polkadot/types/lookup';
 
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface BalanceResult {
   accountId: string;
@@ -29,10 +29,12 @@ const queryOptions = {
   withParamsTransform: true
 };
 
-export default function useBalances (id?: BN | null): BalanceResult[] | null {
+function useBalancesImpl (id?: BN | null): BalanceResult[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const query = useCall(id && api.query.assets.account.multi, id && [allAccounts.map((a) => [id, a])], queryOptions);
 
   return (query && id && (query.assetId === id) && query.balances) || null;
 }
+
+export default createNamedHook('useBalances', useBalancesImpl);

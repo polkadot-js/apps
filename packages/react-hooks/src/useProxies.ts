@@ -6,10 +6,10 @@ import BN from 'bn.js';
 import { AccountId } from '@polkadot/types/interfaces';
 import { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 
 function useProxiesImpl (): [PalletProxyProxyDefinition[], BN][] | undefined {
   const { api } = useApi();

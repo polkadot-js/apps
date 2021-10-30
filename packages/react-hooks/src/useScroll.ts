@@ -3,7 +3,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-export function useScroll (): number {
+import { createNamedHook } from './createNamedHook';
+
+function useScrollImpl (): number {
   const [scrollY, setScrollY] = useState(window.pageYOffset);
   const setYOffset = useCallback((): void => setScrollY(window.pageYOffset), []);
 
@@ -21,3 +23,5 @@ export function useScroll (): number {
 
   return scrollY;
 }
+
+export const useScroll = createNamedHook('useScroll', useScrollImpl);

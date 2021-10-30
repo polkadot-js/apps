@@ -9,7 +9,7 @@ import type { AssetInfo } from './types';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 const EMPTY_FLAGS = {
   isAdminMe: false,
@@ -48,7 +48,7 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletAs
   };
 }
 
-export default function useAssetInfos (ids?: BN[]): AssetInfo[] | undefined {
+function useAssetInfosImpl (ids?: BN[]): AssetInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const metadata = useCall<[[BN[]], PalletAssetsAssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
@@ -66,3 +66,5 @@ export default function useAssetInfos (ids?: BN[]): AssetInfo[] | undefined {
 
   return state;
 }
+
+export default createNamedHook('useAssetInfos', useAssetInfosImpl);
