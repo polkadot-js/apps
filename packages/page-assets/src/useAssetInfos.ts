@@ -1,8 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { Option } from '@polkadot/types';
-import type { AccountId, AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
 import type { AssetInfo } from './types';
 
 import { useEffect, useState } from 'react';
@@ -24,7 +26,7 @@ function isAccount (allAccounts: string[], accountId: AccountId): boolean {
   return allAccounts.some((a) => a === address);
 }
 
-function extractInfo (allAccounts: string[], id: AssetId, optDetails: Option<AssetDetails>, metadata: AssetMetadata): AssetInfo {
+function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletAssetsAssetDetails>, metadata: PalletAssetsAssetMetadata): AssetInfo {
   const details = optDetails.unwrapOr(null);
 
   return {
@@ -46,11 +48,11 @@ function extractInfo (allAccounts: string[], id: AssetId, optDetails: Option<Ass
   };
 }
 
-export default function useAssetInfos (ids?: AssetId[]): AssetInfo[] | undefined {
+export default function useAssetInfos (ids?: BN[]): AssetInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[AssetId[]], AssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[AssetId[]], Option<AssetDetails>[]]>(api.query.assets.asset.multi, [ids], QUERY_OPTS);
+  const metadata = useCall<[[BN[]], PalletAssetsAssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
+  const details = useCall<[[BN[]], Option<PalletAssetsAssetDetails>[]]>(api.query.assets.asset.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<AssetInfo[] | undefined>();
 
   useEffect((): void => {
