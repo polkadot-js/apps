@@ -9,12 +9,13 @@ import { useEffect, useState } from 'react';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
+import { createNamedHook } from './useNamedHook';
 
 const transformSudo = {
   transform: (key: AccountId) => key.toString()
 };
 
-export function useSudo (): UseSudo {
+function useSudoImpl (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, transformSudo);
@@ -26,3 +27,5 @@ export function useSudo (): UseSudo {
 
   return { allAccounts, hasSudoKey, sudoKey };
 }
+
+export const useSudo = createNamedHook('useSudo', useSudoImpl);

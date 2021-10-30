@@ -12,6 +12,7 @@ import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
 import { useApi } from './useApi';
+import { createNamedHook } from './useNamedHook';
 
 interface StateBase {
   isLedgerCapable: boolean;
@@ -60,7 +61,7 @@ function getState (api: ApiPromise): StateBase {
   };
 }
 
-export function useLedger (): State {
+function useLedgerImpl (): State {
   const { api, isApiReady } = useApi();
 
   const getLedger = useCallback(
@@ -73,3 +74,5 @@ export function useLedger (): State {
     [api, getLedger, isApiReady]
   );
 }
+
+export const useLedger = createNamedHook('useLedger', useLedgerImpl);

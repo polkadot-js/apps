@@ -3,24 +3,29 @@
 
 import BN from 'bn.js';
 
-import { useAccounts } from '@polkadot/react-hooks/useAccounts';
-import { useApi } from '@polkadot/react-hooks/useApi';
-import { useCall } from '@polkadot/react-hooks/useCall';
-import { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
+import { PalletProxyProxyDefinition, NodeRuntimeProxyType } from '@polkadot/types/lookup';
 
-export function useProxies (): [ProxyDefinition[], BN][] | undefined {
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
+import { createNamedHook } from './useNamedHook';
+
+function useProxiesImpl (): [PalletProxyProxyDefinition[], BN][] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
-  return useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [allAccounts], {
-    transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
+  return useCall<[PalletProxyProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [allAccounts], {
+    transform: (result: [([AccountId, NodeRuntimeProxyType] | PalletProxyProxyDefinition)[], BN][]): [PalletProxyProxyDefinition[], BN][] =>
       api.tx.proxy.addProxy.meta.args.length === 3
-        ? result as [ProxyDefinition[], BN][]
-        : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
-          [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', {
+        ? result as [PalletProxyProxyDefinition[], BN][]
+        : (result as [[AccountId, NodeRuntimeProxyType][], BN][]).map(([arr, bn]): [PalletProxyProxyDefinition[], BN] =>
+          [arr.map(([delegate, proxyType]): PalletProxyProxyDefinition => api.createType('ProxyDefinition', {
             delegate,
             proxyType
           })), bn]
         )
   });
 }
+
+export const useProxies = createNamedHook('useProxies', useProxiesImpl);
