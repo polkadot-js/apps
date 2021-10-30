@@ -1,6 +1,5 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "engines": {},
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-accounts#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-accounts",
@@ -12,16 +11,16 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.98.2-20",
+  "version": "0.98.2-21",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/phishing": "^0.6.389",
-    "@polkadot/react-components": "^0.98.2-20",
+    "@polkadot/react-components": "^0.98.2-21",
     "@polkadot/vanitygen": "^0.48.2-2",
     "detect-browser": "^5.2.1",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.98.2-20"
+    "@polkadot/test-support": "0.98.2-21"
   }
 }

@@ -1,6 +1,5 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "engines": {},
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/react-api",
@@ -12,7 +11,7 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.98.2-20",
+  "version": "0.98.2-21",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/api": "^6.5.3-7",

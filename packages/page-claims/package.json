@@ -1,6 +1,5 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "engines": {},
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-claims#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-claims",
@@ -12,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.98.2-20",
+  "version": "0.98.2-21",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.98.2-20",
+    "@polkadot/react-components": "^0.98.2-21",
     "secp256k1": "^3.8.0"
   }
 }
