@@ -34,6 +34,7 @@ export { useLoadingDelay } from './useLoadingDelay';
 export { useMapEntries } from './useMapEntries';
 export { useMapKeys } from './useMapKeys';
 export { useModal } from './useModal';
+export { useNamedHook } from './useNamedHook';
 export { useNonEmptyString } from './useNonEmptyString';
 export { useNonZeroBn } from './useNonZeroBn';
 export { useOwnEraRewards } from './useOwnEraRewards';

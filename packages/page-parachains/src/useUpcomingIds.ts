@@ -5,7 +5,7 @@ import type { Option, StorageKey } from '@polkadot/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeParachainsParasParaLifecycle } from '@polkadot/types/lookup';
 
-import { useApi, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
+import { useApi, useEventTrigger, useMapEntries, useNamedHook } from '@polkadot/react-hooks';
 
 function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeParachainsParasParaLifecycle>][]): ParaId[] {
   return entries
@@ -25,7 +25,7 @@ function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeParac
     .sort((a, b) => a.cmp(b));
 }
 
-export default function useUpomingIds (): ParaId[] | undefined {
+function useUpomingIdsImpl (): ParaId[] | undefined {
   const { api } = useApi();
   const trigger = useEventTrigger([
     api.events.session.NewSession,
@@ -36,4 +36,8 @@ export default function useUpomingIds (): ParaId[] | undefined {
     at: trigger.blockHash,
     transform: extractIds
   });
+}
+
+export default function useUpomingIds (): ParaId[] | undefined {
+  return useNamedHook('useUpomingIds', useUpomingIdsImpl);
 }
