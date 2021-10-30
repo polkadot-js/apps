@@ -11,8 +11,8 @@ import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
-import { createNamedHook } from './useNamedHook';
 
 interface StateBase {
   isLedgerCapable: boolean;

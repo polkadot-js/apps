@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { createNamedHook } from './useNamedHook';
+import { createNamedHook } from './createNamedHook';
 
 function useCollectiveInstanceImpl (instanceType: CollectiveType, instanceIndex?: number): CollectiveType | null {
   const { api } = useApi();

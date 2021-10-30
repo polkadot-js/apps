@@ -10,10 +10,10 @@ import { useEffect, useState } from 'react';
 
 import { BN_ZERO } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 import { useIsMountedRef } from './useIsMountedRef';
-import { createNamedHook } from './useNamedHook';
 import { useOwnStashIds } from './useOwnStashes';
 
 interface State {

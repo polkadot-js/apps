@@ -1,21 +1,28 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
 import { getPosition } from '@polkadot/react-components/Popup/utils';
 
+import { createNamedHook } from './createNamedHook';
 import { useElementPosition } from './useElementPosition';
 import { useScroll } from './useScroll';
 import { useWindowSize } from './useWindowSize';
 
-export function usePopupWindow (
-  windowRef: React.RefObject<HTMLDivElement>,
-  triggerRef: React.RefObject<HTMLDivElement>,
-  position: HorizontalPosition
-): {renderWindowPosition: {x: number, y: number} | undefined, verticalPosition: VerticalPosition | undefined} {
-  const [renderWindowPosition, setRenderWindowPosition] = useState<{x: number, y: number}>();
+interface Coord {
+  x: number;
+  y: number;
+}
+
+interface Result {
+  renderWindowPosition?: Coord;
+  verticalPosition: VerticalPosition | undefined
+}
+
+function usePopupWindowImpl (windowRef: React.RefObject<HTMLDivElement>, triggerRef: React.RefObject<HTMLDivElement>, position: HorizontalPosition): Result {
+  const [renderWindowPosition, setRenderWindowPosition] = useState<Coord>();
   const [verticalPosition, setVerticalPosition] = useState<VerticalPosition>();
   const windowPosition = useElementPosition(windowRef);
   const triggerPosition = useElementPosition(triggerRef);
@@ -35,5 +42,10 @@ export function usePopupWindow (
     }
   }, [position, scrollY, triggerPosition, verticalPosition, windowPosition, windowSize]);
 
-  return { renderWindowPosition, verticalPosition };
+  return useMemo(
+    () => ({ renderWindowPosition, verticalPosition }),
+    [renderWindowPosition, verticalPosition]
+  );
 }
+
+export const usePopupWindow = createNamedHook('usePopupWindow', usePopupWindowImpl);

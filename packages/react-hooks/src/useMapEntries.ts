@@ -10,6 +10,7 @@ interface Options <T> {
   transform?: (value: any[]) => T;
 }
 
+// FIXME This is generic, we cannot really use createNamedHook
 export function useMapEntries <T = any> (entry?: QueryableStorageEntry<'promise'> | null | false, { at, transform }: Options<T> = {}): T | undefined {
   const [state, setState] = useState<T | undefined>();
 

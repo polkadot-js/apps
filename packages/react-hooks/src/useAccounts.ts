@@ -7,8 +7,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
-import { createNamedHook } from './useNamedHook';
 
 export interface UseAccounts {
   allAccounts: string[];

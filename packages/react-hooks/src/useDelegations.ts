@@ -5,7 +5,7 @@ import type { PalletDemocracyVoteVoting } from '@polkadot/types/lookup';
 
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
-import { createNamedHook } from './useNamedHook';
+import { createNamedHook } from './createNamedHook';
 
 function useDelegationsImpl (): PalletDemocracyVoteVoting[] | undefined {
   const { api } = useApi();

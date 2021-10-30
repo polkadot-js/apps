@@ -7,8 +7,8 @@ import { useMemo } from 'react';
 
 import { getJudgements } from './utils/getJudgements';
 import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes';
+import { createNamedHook } from './createNamedHook';
 import { useAccountInfo } from './useAccountInfo';
-import { createNamedHook } from './useNamedHook';
 import { useRegistrars } from './useRegistrars';
 
 function useJudgementsImpl (address: string): UseJudgements {

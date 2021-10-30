@@ -7,10 +7,10 @@ import type { Registrar } from './types';
 
 import { useMemo } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 
 interface RegistrarNull {
   address: string | null;

@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { isNumber } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 
 interface Teleport {
   allowTeleport: boolean;

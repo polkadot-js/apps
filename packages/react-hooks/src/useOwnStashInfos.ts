@@ -11,10 +11,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
-import { createNamedHook } from './useNamedHook';
 import { useOwnStashes } from './useOwnStashes';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;

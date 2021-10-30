@@ -3,9 +3,9 @@
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { createNamedHook } from './useNamedHook';
 
 function useBestNumberImpl (): BlockNumber | undefined {
   const { api } = useApi();

@@ -8,9 +8,9 @@ import { useEffect, useState } from 'react';
 
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
-import { createNamedHook } from './useNamedHook';
 
 // a random address that we are using for our queries
 const ZERO_ACCOUNT = '5CAUdnwecHGxxyr5vABevAfZ34Fi4AaraDRMwfDQXQ52PXqg';

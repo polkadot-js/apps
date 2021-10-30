@@ -4,9 +4,9 @@
 import { useMemo } from 'react';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-export default function useCounter (): number {
+function useCounterImpl (): number {
   const { api, isApiReady } = useApi();
   const bounties = useCall<DeriveBounties>(isApiReady && api.derive.bounties?.bounties);
 
@@ -15,3 +15,5 @@ export default function useCounter (): number {
     [bounties]
   );
 }
+
+export default createNamedHook('useCounter', useCounterImpl);
