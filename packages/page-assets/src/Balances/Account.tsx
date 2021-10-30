@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetBalance, AssetId, TAssetBalance } from '@polkadot/types/interfaces';
+import type BN from 'bn.js';
+import type { PalletAssetsAssetBalance } from '@polkadot/types/lookup';
 
 import React from 'react';
 
@@ -13,14 +14,14 @@ import Transfer from './Transfer';
 
 interface Props {
   accountId: string;
-  assetId: AssetId;
-  balance: AssetBalance;
+  assetId: BN;
+  balance: PalletAssetsAssetBalance;
   className?: string;
-  minBalance: TAssetBalance;
+  minBalance: BN;
   siFormat: [number, string];
 }
 
-function Account ({ accountId, assetId, balance: { balance, isFrozen, isSufficient }, className, minBalance, siFormat }: Props): React.ReactElement<Props> {
+function Account ({ accountId, assetId, balance: { balance, isFrozen, sufficient }, className, minBalance, siFormat }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -32,7 +33,7 @@ function Account ({ accountId, assetId, balance: { balance, isFrozen, isSufficie
         {isFrozen.isTrue ? t<string>('Yes') : t<string>('No')}
       </td>
       <td className='start'>
-        {isSufficient.isTrue ? t<string>('Yes') : t<string>('No')}
+        {sufficient.isTrue ? t<string>('Yes') : t<string>('No')}
       </td>
       <td className='number all'>
         <FormatBalance
