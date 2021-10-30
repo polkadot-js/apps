@@ -1,22 +1,17 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { ApiPromise } from '@polkadot/api';
-import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { Event, ParaId } from '@polkadot/types/interfaces';
-import type { PolkadotPrimitivesV1CandidateReceipt } from '@polkadot/types/lookup';
-import type { IEvent } from '@polkadot/types/types';
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types';
-import type { EventMapInfo } from './types';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useIsParasLinked } from '@polkadot/react-hooks';
+import { useBestNumber, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Parachain from './Parachain';
+import useEvents from './useEvents';
 import useValidators from './useValidators';
 
 interface Props {
@@ -26,75 +21,12 @@ interface Props {
   scheduled?: ScheduledProposals[];
 }
 
-type EventMap = Record<string, EventMapInfo>;
-
-interface LastEvents {
-  lastBacked: EventMap;
-  lastIncluded: EventMap;
-  lastTimeout: EventMap;
-}
-
-const EMPTY_EVENTS: LastEvents = { lastBacked: {}, lastIncluded: {}, lastTimeout: {} };
-
-function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
-  const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesV1CandidateReceipt]>).data[0];
-
-  if (descriptor) {
-    map[descriptor.paraId.toString()] = {
-      blockHash,
-      blockNumber,
-      relayParent: descriptor.relayParent.toHex()
-    };
-  }
-}
-
 function extractScheduledIds (scheduled: ScheduledProposals[] = []): Record<string, boolean> {
   return scheduled.reduce((all: Record<string, boolean>, { scheduledIds }: ScheduledProposals): Record<string, boolean> =>
     scheduledIds.reduce((all: Record<string, boolean>, id) => ({
       ...all,
       [id.toString()]: true
     }), all), {});
-}
-
-function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: LastEvents): LastEvents {
-  const backed: EventMap = {};
-  const included: EventMap = {};
-  const timeout: EventMap = {};
-  const blockNumber = lastBlock.block.header.number.unwrap();
-  const blockHash = lastBlock.block.header.hash.toHex();
-  const paraEvents = (api.events.paraInclusion || api.events.parasInclusion || api.events.inclusion);
-  let wasBacked = false;
-  let wasIncluded = false;
-  let wasTimeout = false;
-
-  paraEvents && lastBlock.events.forEach(({ event, phase }) => {
-    if (phase.isApplyExtrinsic) {
-      if (paraEvents.CandidateBacked.is(event)) {
-        includeEntry(backed, event, blockHash, blockNumber);
-        wasBacked = true;
-      } else if (paraEvents.CandidateIncluded.is(event)) {
-        includeEntry(included, event, blockHash, blockNumber);
-        wasIncluded = true;
-      } else if (paraEvents.CandidateTimedOut.is(event)) {
-        includeEntry(timeout, event, blockHash, blockNumber);
-        wasTimeout = true;
-      }
-    }
-  });
-
-  return wasBacked || wasIncluded || wasTimeout
-    ? {
-      lastBacked: wasBacked
-        ? { ...prev.lastBacked, ...backed }
-        : prev.lastBacked,
-      lastIncluded: wasIncluded
-        ? { ...prev.lastIncluded, ...included }
-        : prev.lastIncluded,
-      lastTimeout: wasTimeout
-        ? { ...prev.lastTimeout, ...timeout }
-        : prev.lastTimeout
-    }
-    : prev;
 }
 
 function extractActions (actionsQueue: QueuedAction[], knownIds: [ParaId, string][] = []): Record<string, QueuedAction | undefined> {
@@ -121,10 +53,8 @@ function extractIds (hasLinksMap: Record<string, boolean>, ids: ParaId[]): [Para
 
 function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const bestNumber = useBestNumber();
-  const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
-  const [{ lastBacked, lastIncluded, lastTimeout }, setLastEvents] = useState<LastEvents>(EMPTY_EVENTS);
+  const { lastBacked, lastIncluded, lastTimeout } = useEvents();
   const hasLinksMap = useIsParasLinked(ids);
   const [validators, validatorMap] = useValidators(ids);
 
@@ -156,12 +86,6 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     () => extractActions(actionsQueue, knownIds),
     [actionsQueue, knownIds]
   );
-
-  useEffect((): void => {
-    lastBlock && setLastEvents((prev) =>
-      extractEvents(api, lastBlock, prev)
-    );
-  }, [api, lastBlock]);
 
   return (
     <Table

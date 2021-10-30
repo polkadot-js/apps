@@ -20,6 +20,8 @@ const transformHeader = {
 
 function ParachainInfo ({ className, id }: Props): React.ReactElement<Props> {
   const { api } = useParaApi(id);
+
+  // We are not using the derive here, we keep this queries to the point to not overload
   const bestNumber = useCall<BlockNumber>(api?.rpc.chain.subscribeNewHeads, undefined, transformHeader);
   const runtimeVersion = useCall<RuntimeVersion>(api?.rpc.state.subscribeRuntimeVersion);
 
