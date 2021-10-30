@@ -12,7 +12,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.98.2-19",
+  "version": "0.98.2-20",
   "dependencies": {
     "@testing-library/react": "^12.1.2",
     "testcontainers": "^7.21.0"
