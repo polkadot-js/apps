@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
@@ -36,7 +37,7 @@ const IS_NONE = {
   isValidator: false
 };
 
-export function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
+function useAccountInfoImpl (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
@@ -269,3 +270,5 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     toggleIsEditingTags
   };
 }
+
+export const useAccountInfo = createNamedHook('useAccountInfo', useAccountInfoImpl);

@@ -17,7 +17,10 @@ export default function create (t: TFunction): Route {
         [
           'tx.xcm.teleportAssets',
           'tx.xcmPallet.teleportAssets',
-          'tx.polkadotXcm.teleportAssets'
+          'tx.polkadotXcm.teleportAssets',
+          'tx.xcm.limitedTeleportAssets',
+          'tx.xcmPallet.limitedTeleportAssets',
+          'tx.polkadotXcm.limitedTeleportAssets'
         ]
       ],
       needsTeleport: true

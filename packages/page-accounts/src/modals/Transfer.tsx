@@ -213,10 +213,18 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           onStart={onClose}
           params={
             canToggleAll && isAll
-              ? [propRecipientId || recipientId, maxTransfer]
+              ? isFunction(api.tx.balances.transferAll)
+                ? [propRecipientId || recipientId, false]
+                : [propRecipientId || recipientId, maxTransfer]
               : [propRecipientId || recipientId, amount]
           }
-          tx={(isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer}
+          tx={
+            canToggleAll && isAll && isFunction(api.tx.balances.transferAll)
+              ? api.tx.balances.transferAll
+              : isProtected
+                ? api.tx.balances.transferKeepAlive
+                : api.tx.balances.transfer
+          }
         />
       </Modal.Actions>
     </Modal>

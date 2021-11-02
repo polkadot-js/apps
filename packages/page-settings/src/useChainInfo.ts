@@ -7,12 +7,12 @@ import { useMemo } from 'react';
 
 import { getSystemColor, getSystemIcon } from '@polkadot/apps-config';
 import { DEFAULT_DECIMALS, DEFAULT_SS58 } from '@polkadot/react-api';
-import { useApi } from '@polkadot/react-hooks';
+import { createNamedHook, useApi } from '@polkadot/react-hooks';
 import { getSpecTypes } from '@polkadot/types-known';
 import { formatBalance, isNumber } from '@polkadot/util';
 import { base64Encode } from '@polkadot/util-crypto';
 
-export default function useChainInfo (): ChainInfo | null {
+function useChainInfoImpl (): ChainInfo | null {
   const { api, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
 
   return useMemo(
@@ -38,3 +38,5 @@ export default function useChainInfo (): ChainInfo | null {
     [api, isApiReady, specName, systemChain, systemName, isEthereum]
   );
 }
+
+export default createNamedHook('useChainInfo', useChainInfoImpl);

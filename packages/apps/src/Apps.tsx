@@ -20,7 +20,7 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const { isDevelopment, specName, systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(

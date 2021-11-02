@@ -39,6 +39,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'Ares Gladios',
+      text: t('rpc.test.ares.network', 'Ares Gladios', { ns: 'apps-config' }),
+      providers: {
+        'Ares Protocol': 'wss://gladios.aresprotocol.io'
+      }
+    },
+    {
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
@@ -94,7 +101,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     {
       info: 'dock-testnet',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/5869
-      text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
+      text: t('rpc.test.dock-pos-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://danforth-1.dock.io'
       }
@@ -264,6 +271,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'manta',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
       text: t('rpc.manta', 'Manta Testnet', { ns: 'apps-config' }),
       providers: {
         'Manta Testnet': 'wss://ws.f1.testnet.manta.network'
@@ -346,6 +354,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polkadex',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://blockchain.polkadex.trade'
@@ -409,17 +418,17 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'spartan-testnet',
-      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
-      providers: {
-        'Subspace Network': 'wss://dev-rpc.subspace.network'
-      }
-    },
-    {
       info: 'subgame',
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
         SubGame: 'wss://staging.subgame.org'
+      }
+    },
+    {
+      info: 'subspace',
+      text: t('rpc.test.subspace', 'Subspace Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://test-rpc.subspace.network'
       }
     },
     {
@@ -482,9 +491,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zeitgeist',
-      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Park', { ns: 'apps-config' }),
+      text: t('rpc.test.zeitgeist', 'Zeitgeist Battery Station', { ns: 'apps-config' }),
       providers: {
-        Zeitgeist: 'wss://bp-rpc.zeitgeist.pm'
+        Zeitgeist: 'wss://bsr.zeitgeist.pm'
       }
     },
     {

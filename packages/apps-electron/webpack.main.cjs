@@ -46,6 +46,9 @@ function createWebpack () {
         new CopyWebpackPlugin({ patterns: [{ from: 'assets' }] })
       ],
       resolve: {
+        alias: {
+          '@polkadot/hw-ledger-transports': require.resolve('@polkadot/hw-ledger-transports/node')
+        },
         extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
       },
       target: 'electron-main'

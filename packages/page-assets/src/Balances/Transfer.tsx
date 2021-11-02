@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AssetId, TAssetBalance } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
@@ -13,9 +12,9 @@ import { useTranslation } from '../translate';
 
 interface Props {
   accountId: string;
-  assetId: AssetId;
+  assetId: BN;
   className?: string;
-  minBalance: TAssetBalance;
+  minBalance: BN;
   siFormat: [number, string];
 }
 

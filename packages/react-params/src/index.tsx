@@ -97,7 +97,7 @@ class Params extends React.PureComponent<Props, State> {
                 defaultValue={values[index]}
                 index={index}
                 isDisabled={isDisabled}
-                key={`${name || ''}:${type.toString()}:${index}:${isDisabled ? stringify(values[index]) : ''}`}
+                key={`${name || ''}:${type.type.toString()}:${index}:${isDisabled ? stringify(values[index]) : ''}`}
                 name={name}
                 onChange={this.onChangeParam}
                 onEnter={onEnter}
@@ -133,7 +133,7 @@ class Params extends React.PureComponent<Props, State> {
       }),
       this.triggerUpdate
     );
-  }
+  };
 
   private triggerUpdate = (): void => {
     const { isDisabled, onChange } = this.props;
@@ -144,13 +144,13 @@ class Params extends React.PureComponent<Props, State> {
     }
 
     onChange && onChange(values);
-  }
+  };
 
   private onRenderError = (): void => {
     const { onError } = this.props;
 
     onError && onError();
-  }
+  };
 }
 
 export default translate(Params);

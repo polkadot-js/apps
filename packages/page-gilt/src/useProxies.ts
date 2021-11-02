@@ -7,11 +7,11 @@ import type { ITuple } from '@polkadot/types/types';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 
 type ProxyResult = ITuple<[Vec<ProxyDefinition>, BalanceOf]>;
 
-export function useProxies (): Record<string, string[]> {
+function useProxiesImpl (): Record<string, string[]> {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
@@ -38,3 +38,5 @@ export function useProxies (): Record<string, string[]> {
 
   return state;
 }
+
+export const useProxies = createNamedHook('useProxies', useProxiesImpl);

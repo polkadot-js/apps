@@ -29,7 +29,7 @@ const isEditable = true;
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useBalancesAll(address);
@@ -144,7 +144,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const PopupDropdown = (
     <Menu>
       <Menu.Item
-        disabled={!isEditable}
+        isDisabled={!isEditable}
         onClick={_toggleForget}
       >
         {t<string>('Forget this address')}

@@ -37,12 +37,12 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
   }, [blocks, nonce, onChange]);
 
   const _setBlocks = useCallback(
-    (blocks = BN_ZERO) => setBlocks(blocks),
+    (blocks: BN = BN_ZERO) => setBlocks(blocks),
     []
   );
 
   const _setNonce = useCallback(
-    (nonce = BN_ZERO) => setNonce(nonce),
+    (nonce: BN = BN_ZERO) => setNonce(nonce),
     []
   );
 
