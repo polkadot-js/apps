@@ -24,7 +24,7 @@ const definitions: OverrideBundleDefinition = {
           payload: 'Text',
           feed_name: 'Text',
           is_query: 'bool',
-          url: 'Option<Text>',
+          url: 'Option<Text>'
         }
       }
     }
