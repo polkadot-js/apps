@@ -109,11 +109,8 @@ import nodePangoro from './nodes/pangoro.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
-<<<<<<< HEAD
 import nodePichiu from './nodes/pichiu.png';
-=======
 import nodePioneerNetwork from './nodes/pioneer.png';
->>>>>>> master
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
@@ -240,11 +237,8 @@ export const chainLogos = Object.entries({
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
-<<<<<<< HEAD
   'Pichiu Testnet': nodePichiu,
-=======
   'Pioneer Network': nodePioneerNetwork,
->>>>>>> master
   'Polkadex Mainnet': nodePolkadex,
   'Polkadex Testnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
@@ -383,11 +377,8 @@ export const nodeLogos = Object.entries({
   'phala-substrate-node': nodePhala,
   'PHOENIX Collator': nodePhoenix,
   'PHOENIX Node': nodePhoenix,
-<<<<<<< HEAD
   'Pichiu Node': nodePichiu,
-=======
   'Pioneer Network Collator Node': nodePioneerNetwork,
->>>>>>> master
   Plasm: nodePlasm,
   'Plasm Node': nodePlasm,
   'Plasm Parachain Collator': nodePlasm,

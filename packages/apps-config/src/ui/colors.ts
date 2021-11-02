@@ -64,11 +64,8 @@ const chainKusama = '#000000';
 const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainMybank = '#282736';
-<<<<<<< HEAD
 const chainPichiu = '#ed007e';
-=======
 const chainQuartz = '#FF4D6A';
->>>>>>> master
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoAres = '#70FF8B';

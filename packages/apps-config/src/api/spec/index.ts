@@ -207,11 +207,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   parami,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
-<<<<<<< HEAD
   pichiu,
-=======
   'pioneer-runtime': bitcountryPioneer,
->>>>>>> master
   plasm,
   polymesh,
   'pontem-node': pontem,
