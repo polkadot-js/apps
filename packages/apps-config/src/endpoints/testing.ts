@@ -338,6 +338,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'pichiu',
+      text: t('westend.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      }
+    },
+    {
       info: 'polkadex',
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
