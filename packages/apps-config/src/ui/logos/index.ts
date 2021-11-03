@@ -350,6 +350,7 @@ export const nodeLogos = Object.entries({
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
   Litentry: nodeLitentry,
+  'Litentry-staging': nodeLitentry,
   'Litentry Collator': nodeLitentry,
   'mandala node': nodeAcala,
   'Manta Node': nodeManta,

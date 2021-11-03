@@ -143,6 +143,15 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
         }
+      },
+      {
+        info: 'litentry',
+        homepage: 'https://www.litentry.com/',
+        paraId: 2105,
+        text: t('rpc.westend.litentry', 'Litentry', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://parachain.litentry.io'
+        }
       }
     ]
   };
