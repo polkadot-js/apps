@@ -109,6 +109,7 @@ import nodeParallel from './nodes/parallel.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
+import nodePichiu from './nodes/pichiu.png';
 import nodePioneerNetwork from './nodes/pioneer.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadex from './nodes/polkadex.svg';
@@ -237,6 +238,7 @@ export const chainLogos = Object.entries({
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
+  'Pichiu Testnet': nodePichiu,
   'Pioneer Network': nodePioneerNetwork,
   'Polkadex Mainnet': nodePolkadex,
   'Polkadex Testnet': nodePolkadex,
@@ -377,6 +379,7 @@ export const nodeLogos = Object.entries({
   'phala-substrate-node': nodePhala,
   'PHOENIX Collator': nodePhoenix,
   'PHOENIX Node': nodePhoenix,
+  'Pichiu Node': nodePichiu,
   'Pioneer Network Collator Node': nodePioneerNetwork,
   Plasm: nodePlasm,
   'Plasm Node': nodePlasm,
@@ -628,6 +631,7 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
+  westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,
   westmint: nodeStatemine,
