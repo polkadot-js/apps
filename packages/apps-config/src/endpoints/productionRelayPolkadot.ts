@@ -45,7 +45,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
           OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
           Parallel: 'wss://rpc.parallel.fi'
         }
-      },
+      }
     ]
   };
 }
