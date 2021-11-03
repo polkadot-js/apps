@@ -21,7 +21,7 @@ export { useCounter };
 
 function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isApiConnected, isApiReady } = useApi();
+  const { api, isApiConnected, isApiReady } = useApi();
   const numExtensions = useCounter();
 
   const items = useMemo(() => [
@@ -47,9 +47,11 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
 
   const hidden = useMemo(
     () => (isApiConnected && isApiReady)
-      ? []
+      ? api.runtimeMetadata.version <= 13
+        ? []
+        : ['developer']
       : ['metadata', 'i18n'],
-    [isApiConnected, isApiReady]
+    [api, isApiConnected, isApiReady]
   );
 
   return (
