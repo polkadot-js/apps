@@ -48,6 +48,7 @@
   "rpc.kylin-node.co.uk": "Kylin Network",
   "rpc.manta": "Manta Testnet",
   "rpc.origintrail": "OriginTrail Parachain Testnet",
+  "rpc.polkadot.parallel": "Parallel",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.prod.centrifuge": "Centrifuge",
   "rpc.prod.chainx": "ChainX",
@@ -202,5 +203,6 @@
   "rpc.westend.whala": "Whala",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet",
-  "westend-opal.unique.network": "OPAL by UNIQUE"
+  "westend-opal.unique.network": "OPAL by UNIQUE",
+  "westend.kylin-node.co.uk": "Pichiu Network"
 }

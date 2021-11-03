@@ -35,6 +35,17 @@ export function createPolkadot (t: TFunction): EndpointOption {
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
+      {
+        info: 'parallel',
+        homepage: 'https://parallel.fi',
+        isUnreachable: true,
+        paraId: 2085,
+        text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
+        providers: {
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+          Parallel: 'wss://rpc.parallel.fi'
+        }
+      }
     ]
   };
 }

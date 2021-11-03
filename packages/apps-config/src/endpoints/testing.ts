@@ -102,7 +102,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'dock-testnet',
       text: t('rpc.test.dock-pos-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://danforth-1.dock.io'
+        'Dock Association': 'wss://knox-1.dock.io'
       }
     },
     {
@@ -342,6 +342,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.phoenix', 'Phoenix Mashnet', { ns: 'apps-config' }),
       providers: {
         'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/'
+      }
+    },
+    {
+      info: 'pichiu',
+      text: t('westend.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://westend.kylin-node.co.uk'
       }
     },
     {

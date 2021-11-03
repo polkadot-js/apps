@@ -15,13 +15,13 @@ import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
-import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainOpal from './chains/opal-logo.png';
+import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
@@ -76,7 +76,6 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
-import nodeHeiko from './nodes/heiko.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interbtc.png';
@@ -106,9 +105,11 @@ import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodePangoro from './nodes/pangoro.svg';
+import nodeParallel from './nodes/parallel.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
+import nodePichiu from './nodes/pichiu.png';
 import nodePioneerNetwork from './nodes/pioneer.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadex from './nodes/polkadex.svg';
@@ -232,10 +233,12 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
-  'Parallel Heiko': chainHeiko,
+  Parallel: chainParallel,
+  'Parallel Heiko': chainParallel,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
+  'Pichiu Testnet': nodePichiu,
   'Pioneer Network': nodePioneerNetwork,
   'Polkadex Mainnet': nodePolkadex,
   'Polkadex Testnet': nodePolkadex,
@@ -367,7 +370,8 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
-  'Parallel Heiko': nodeHeiko,
+  Parallel: nodeParallel,
+  'Parallel Heiko': nodeParallel,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
@@ -375,6 +379,7 @@ export const nodeLogos = Object.entries({
   'phala-substrate-node': nodePhala,
   'PHOENIX Collator': nodePhoenix,
   'PHOENIX Node': nodePhoenix,
+  'Pichiu Node': nodePichiu,
   'Pioneer Network Collator Node': nodePioneerNetwork,
   Plasm: nodePlasm,
   'Plasm Node': nodePlasm,
@@ -497,7 +502,7 @@ export const namedLogos: Record<string, unknown> = {
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
-  heiko: chainHeiko,
+  heiko: chainParallel,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
@@ -531,6 +536,7 @@ export const namedLogos: Record<string, unknown> = {
   'origintrail-parachain-testnet': nodeOriginTrail,
   pangolin: nodePangolin,
   pangoro: nodePangoro,
+  parallel: chainParallel,
   phala: nodePhala,
   phoenix: nodePhoenix,
   picasso: chainComposable,
@@ -625,6 +631,7 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
+  westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,
   westmint: nodeStatemine,

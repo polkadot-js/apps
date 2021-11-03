@@ -48,6 +48,7 @@ const chainNFTMart = '#815287';
 const chainOakTestnet = '#E38985';
 const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
+const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -64,6 +65,7 @@ const chainKusama = '#000000';
 const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainMybank = '#282736';
+const chainPichiu = '#ed007e';
 const chainQuartz = '#FF4D6A';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
@@ -141,7 +143,9 @@ const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
+const nodeParallel = '#ef18ac';
 const nodeParami = '#ee06e2';
+const nodePichiu = '#ed007e';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
 const nodePontem = '#A92FAC';
@@ -262,11 +266,13 @@ export const chainColors: Record<string, string> = Object.entries({
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
   Pangoro: chainPangoro,
+  Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
   'Phala PoC 4': chainPhala,
   PHOENIX: chainPhoenix,
+  'Pichiu Testnet': chainPichiu,
   'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
@@ -351,7 +357,7 @@ export const nodeColors = Object.entries({
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
-  'Kylin Collator': nodeKylin,
+  'Kylin Parachain Collator': nodeKylin,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
@@ -366,9 +372,11 @@ export const nodeColors = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
+  Parallel: nodeParallel,
   'Parallel Heiko': nodeHeiko,
   'Parami Collator': nodeParami,
   'Patract Node': nodeJupiter,
+  'Pichiu Parachain Collator': nodePichiu,
   'Polkadex Node': nodePolkadex,
   'Polymesh Node': nodePolymesh,
   'Pontem Node': nodePontem,

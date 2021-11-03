@@ -74,6 +74,7 @@ import pangoro from './pangoro';
 import parallel from './parallel';
 import parami from './parami';
 import phoenix from './phoenix';
+import pichiu from './pichiu';
 import plasm from './plasm';
 import polkadex from './polkadex';
 import polkafoundry from './polkafoundry';
@@ -203,9 +204,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   opal: uniqueWestend,
   opportunity,
   'origintrail-parachain': origintrail,
+  parallel,
   parami,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
+  pichiu,
   'pioneer-runtime': bitcountryPioneer,
   plasm,
   polymesh,
