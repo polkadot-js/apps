@@ -8,6 +8,7 @@ import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-component
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { Ledger } from '@polkadot/ui-keyring';
+import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -223,7 +224,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _addQrSignature = useCallback(
     ({ signature }: { signature: string }) => qrResolve && qrResolve({
       id: ++qrId,
-      signature
+      signature: signature as HexString
     }),
     [qrResolve]
   );
