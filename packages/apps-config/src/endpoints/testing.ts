@@ -254,13 +254,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'litentry',
-      text: t('rpc.test.litentry', 'Litentry Testnet', { ns: 'apps-config' }),
-      providers: {
-        Litentry: 'wss://testnet.litentry.io'
-      }
-    },
-    {
       info: 'acala',
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
