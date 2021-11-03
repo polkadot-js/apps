@@ -203,6 +203,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   opal: uniqueWestend,
   opportunity,
   'origintrail-parachain': origintrail,
+  parallel,
   parami,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
