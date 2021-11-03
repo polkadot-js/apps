@@ -4,6 +4,7 @@
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
+import type { HexString } from '@polkadot/util/types';
 
 let id = 0;
 
@@ -24,6 +25,6 @@ export default class LedgerSigner implements Signer {
     const raw = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version });
     const { signature } = await this.#getLedger().sign(raw.toU8a(true), this.#accountOffset, this.#addressOffset);
 
-    return { id: ++id, signature };
+    return { id: ++id, signature: signature as HexString };
   }
 }
