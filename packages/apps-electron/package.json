@@ -12,15 +12,15 @@
   "sideEffects": false,
   "version": "0.98.2-28",
   "dependencies": {
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.16.0",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.63.18",
+    "@polkadot/dev": "^0.63.22",
     "@polkadot/react-components": "^0.98.2-28",
     "electron-log": "^4.4.1",
     "electron-updater": "^4.6.1"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.10",
+    "@types/react-dom": "^17.0.11",
     "@types/tmp": "^0.2.2",
     "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^7.0.0",
@@ -29,6 +29,6 @@
     "react-dom": "^17.0.2",
     "thread-loader": "^3.0.4",
     "tmp": "^0.2.1",
-    "webpack": "^5.60.0"
+    "webpack": "^5.61.0"
   }
 }
