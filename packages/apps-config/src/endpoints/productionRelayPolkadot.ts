@@ -66,6 +66,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'litentry',
+        homepage: 'https://www.litentry.com',
+        isUnreachable: true,
+        paraId: 2085,
+        text: t('rpc.polkadot.litentry', 'Litentry', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://parachain.litentry.io'
+        }
+      },
+      {
         info: 'parallel',
         homepage: 'https://parallel.fi',
         isUnreachable: true,
