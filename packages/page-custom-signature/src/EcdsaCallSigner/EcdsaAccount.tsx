@@ -64,7 +64,7 @@ function EcdsaAccount ({ className = '', onAccountChanged }: Props): React.React
 
       setEcdsaAccounts({ ethereum: loadingAddr, ss58: ss58Address });
     } catch (err) {
-      setErrorMessage(err);
+      setErrorMessage(err as Error);
     } finally {
       setIsBusy(false);
     }

@@ -61,7 +61,7 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
         }
       } catch (err) {
         console.log(err);
-        setErrorMessage(err);
+        setErrorMessage(err as Error);
       } finally {
         setIsBusy(false);
       }
