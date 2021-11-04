@@ -23,8 +23,7 @@ const PINMETA = { name: DOMAIN };
 const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
 
-// eslint-disable-next-line new-cap
-const crust = new CrustPinner.default(process.env.CRUST_SEEDS);
+const crust = new CrustPinner(process.env.CRUST_SEEDS);
 
 function writeFiles (name, content) {
   [DST, SRC].forEach((root) =>

@@ -30,7 +30,7 @@
     "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
     "build:release:ghpages": "yarn polkadot-ci-ghact-docs",
     "build:release:ipfs": "node scripts/ipfsUpload.mjs",
-    "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ipfs && yarn build:release:ghpages",
+    "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ghpages && yarn build:release:ipfs",
     "build:robohash": "node scripts/robohash.cjs",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn webpack --config webpack.config.cjs",
     "ci:chainEndpoints": "polkadot-dev-run-test --silent packages/apps-config/src/ci/chainEndpoints",
