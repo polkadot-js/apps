@@ -13,7 +13,7 @@ import { POLKADOT_GENESIS } from '../api/constants';
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
-export function createPolkadot(t: TFunction): EndpointOption {
+export function createPolkadot (t: TFunction): EndpointOption {
   return {
     dnslink: 'polkadot',
     genesisHash: POLKADOT_GENESIS,
@@ -41,7 +41,7 @@ export function createPolkadot(t: TFunction): EndpointOption {
         homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
         paraId: 2001,
         isUnreachable: true,
-        text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
           Liebi: 'wss://bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
