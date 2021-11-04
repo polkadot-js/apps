@@ -13,7 +13,7 @@ import { POLKADOT_GENESIS } from '../api/constants';
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
-export function createPolkadot (t: TFunction): EndpointOption {
+export function createPolkadot(t: TFunction): EndpointOption {
   return {
     dnslink: 'polkadot',
     genesisHash: POLKADOT_GENESIS,
@@ -36,6 +36,19 @@ export function createPolkadot (t: TFunction): EndpointOption {
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
+      {
+        info: 'bifrost',
+        homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
+        paraId: 2001,
+        isUnreachable: true,
+        text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        providers: {
+          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
+        }
+      },
+
       {
         info: 'parallel',
         homepage: 'https://parallel.fi',
