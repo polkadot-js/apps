@@ -98,9 +98,11 @@ function EcdsaAccount ({ className = '', onAccountChanged }: Props): React.React
         )
         : (
           <>
-            <AddressMini label='Current Account'
+            <AddressMini
+              label='Current Account'
               value={ecdsaAccounts.ss58}
-              withBalance />
+              withBalance
+            />
           </>
         )}
       {errorMessage && (

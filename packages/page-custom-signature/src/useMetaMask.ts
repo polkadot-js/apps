@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-custom-signature authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { EthereumProvider } from './types';
 import { useEthProvider } from './useEthProvider';
@@ -16,6 +16,25 @@ interface UseMetaMask {
 export function useMetaMask (): UseMetaMask {
   const { provider } = useEthProvider();
   const [loadedAccounts, setLoadedAccounts] = useState<string[]>([]);
+  const timeout = useRef<NodeJS.Timeout | undefined>();
+
+  // a wrapper function that adds a timeout error to injected Web3
+  const _requestPersonalSigTimeout = useCallback((account: string, message: string) => {
+    const errorTimeout = new Promise((resolve, reject) => {
+      timeout.current = setTimeout(() => {
+        // console.log('Timeout reached!');
+        reject(new Error('Signature request timeout'));
+      }, 1000 * 10);
+    }
+    );
+
+    return Promise.race([provider && provider.request({ method: 'personal_sign', params: [account, message] }), errorTimeout]);
+  }, [provider]);
+
+  useEffect(() => {
+    // clear error message if the component is unmounted
+    return () => { timeout.current && clearTimeout(timeout.current); };
+  }, []);
 
   const requestAccounts = useCallback(async () => {
     if (!provider) {
@@ -36,7 +55,8 @@ export function useMetaMask (): UseMetaMask {
         throw new Error('No account was provided for the signature');
       }
 
-      const sigResponse = await provider.request({ method: 'personal_sign', params: [account, message] });
+      // const sigResponse = await provider.request({ method: 'personal_sign', params: [account, message] });
+      const sigResponse = await _requestPersonalSigTimeout(account, message);
 
       if (!sigResponse || typeof sigResponse !== 'string') {
         throw new Error('Failed to get signature');
@@ -44,7 +64,7 @@ export function useMetaMask (): UseMetaMask {
 
       return sigResponse;
     },
-    [provider, loadedAccounts]
+    [_requestPersonalSigTimeout, provider, loadedAccounts]
   );
 
   useEffect(() => {
