@@ -29,7 +29,7 @@
     "build:i18n": "i18next-scanner --config i18next-scanner.config.cjs && node ./scripts/i18nSort.cjs",
     "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
     "build:release:ghpages": "yarn polkadot-ci-ghact-docs",
-    "build:release:ipfs": "node scripts/ipfsUpload.cjs",
+    "build:release:ipfs": "node scripts/ipfsUpload.mjs",
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ipfs && yarn build:release:ghpages",
     "build:robohash": "node scripts/robohash.cjs",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn webpack --config webpack.config.cjs",
