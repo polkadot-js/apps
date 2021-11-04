@@ -55,7 +55,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
           'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
         }
       },
-
+      {
+        info: 'crust',
+        homepage: 'https://crust.network',
+        paraId: 2002,
+        isUnreachable: true,
+        text: t('rpc.polkadot.crust', 'Crust', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://rpc.crust.network'
+        }
+      },
       {
         info: 'parallel',
         homepage: 'https://parallel.fi',
