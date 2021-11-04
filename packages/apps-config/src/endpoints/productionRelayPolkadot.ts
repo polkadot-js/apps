@@ -31,8 +31,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
     linked: [
       // (1) system parachains (none available yet)
       // ...
-      // (2) common good, leave as second group (none available yet)
-      // ...
+      // (2) all common good parachains
+      {
+        info: 'statemint',
+        paraId: 1000,
+        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://statemint-shell.polkadot.io'
+        }
+      },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
