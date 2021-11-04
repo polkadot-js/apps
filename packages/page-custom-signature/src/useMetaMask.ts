@@ -24,7 +24,7 @@ export function useMetaMask (): UseMetaMask {
       timeout.current = setTimeout(() => {
         // console.log('Timeout reached!');
         reject(new Error('Signature request timeout'));
-      }, 1000 * 10);
+      }, 1000 * 30);
     }
     );
 
