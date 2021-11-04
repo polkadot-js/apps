@@ -2849,7 +2849,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.16.0
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.63.22
+    "@polkadot/dev": ^0.63.25
     "@polkadot/react-components": ^0.98.2-37
     "@types/react-dom": ^17.0.11
     "@types/tmp": ^0.2.2
@@ -2883,7 +2883,7 @@ __metadata:
     "@babel/runtime": ^7.16.0
     "@polkadot/apps-config": ^0.98.2-37
     "@polkadot/apps-routing": ^0.98.2-37
-    "@polkadot/dev": ^0.63.22
+    "@polkadot/dev": ^0.63.25
     "@polkadot/react-api": ^0.98.2-37
     "@polkadot/react-components": ^0.98.2-37
     "@polkadot/react-hooks": ^0.98.2-37
@@ -2920,18 +2920,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.63.22":
-  version: 0.63.22
-  resolution: "@polkadot/dev@npm:0.63.22"
+"@polkadot/dev@npm:^0.63.25":
+  version: 0.63.25
+  resolution: "@polkadot/dev@npm:0.63.25"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0
-    "@babel/plugin-proposal-class-properties": ^7.16.0
     "@babel/plugin-proposal-nullish-coalescing-operator": ^7.16.0
     "@babel/plugin-proposal-numeric-separator": ^7.16.0
-    "@babel/plugin-proposal-object-rest-spread": ^7.16.0
     "@babel/plugin-proposal-optional-chaining": ^7.16.0
-    "@babel/plugin-proposal-private-methods": ^7.16.0
     "@babel/plugin-syntax-bigint": ^7.8.3
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
     "@babel/plugin-syntax-import-meta": ^7.10.4
@@ -3010,7 +3007,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 1c7e0685a6a041699276a2a3c7bc995fe8ad4ef22dcbd263607092db457c18939ede48018cef5da0eb850ebcd79e5a95b3cd58077f433abe80364af8606ee866
+  checksum: 1822a142f911f1489fe718a4da71379c4fa082d27be416b6b050d1e32d1559580d59c99c3f947b713100e2995536d4203669b7d518abb3cc7e75ae618f08eacc
   languageName: node
   linkType: hard
 
@@ -15788,7 +15785,7 @@ __metadata:
     "@babel/runtime": ^7.16.0
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.23
-    "@polkadot/dev": ^0.63.22
+    "@polkadot/dev": ^0.63.25
     "@polkadot/ts": ^0.4.13
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.34
