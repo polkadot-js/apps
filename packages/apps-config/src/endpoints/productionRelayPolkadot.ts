@@ -66,6 +66,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'moonbeam',
+        homepage: 'https://moonbeam.foundation',
+        isUnreachable: false,
+        paraId: 2004,
+        text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.mainnet.moonbeam.network'
+        }
+      },
+      {
         info: 'parallel',
         homepage: 'https://parallel.fi',
         isUnreachable: true,
