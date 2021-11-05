@@ -88,7 +88,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'moonbeam',
         homepage: 'https://moonbeam.foundation',
-        isUnreachable: false,
+        isUnreachable: true,
         paraId: 2004,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
