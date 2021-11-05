@@ -7,6 +7,7 @@ import styled from 'styled-components';
 // note: this pull the chain metadata from the settings page to make the code shorter
 import useChainInfo from '@polkadot/app-settings/useChainInfo';
 import { AddressMini, Button, Icon } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { EcdsaAddressFormat } from '../types';
@@ -22,6 +23,7 @@ function EcdsaAccount ({ className = '', onAccountChanged }: Props): React.React
   const { t } = useTranslation();
   const { activateMetaMask, loadedAccounts, requestSignature } = useMetaMask();
   const chainInfo = useChainInfo();
+  const { api } = useApi();
   // internal message state
   const [errorMessage, setErrorMessage] = useState<Error>();
   // note: currently, MetaMask will only export one account at a time.
@@ -62,13 +64,16 @@ function EcdsaAccount ({ className = '', onAccountChanged }: Props): React.React
       // note: the default prefix is `42`, which is for the dev node
       const ss58Address = utils.ecdsaPubKeyToSs58(pubKey, chainInfo?.ss58Format);
 
-      setEcdsaAccounts({ ethereum: loadingAddr, ss58: ss58Address });
+      // quick solution for reading the account nonce
+      const { nonce } = await api.query.system.account(ss58Address);
+
+      setEcdsaAccounts({ ethereum: loadingAddr, nonce: nonce.toNumber(), ss58: ss58Address });
     } catch (err) {
       setErrorMessage(err as Error);
     } finally {
       setIsBusy(false);
     }
-  }, [activateMetaMask, chainInfo, errorMessage, requestSignature]);
+  }, [activateMetaMask, api.query.system, chainInfo, errorMessage, requestSignature]);
 
   // reset the account cache if the user changes their account in MetaMask
   useEffect(() => {

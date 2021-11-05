@@ -75,6 +75,7 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
         <Modal
           className='app--accounts-Modal'
           header={t<string>('Transaction Confirmation')}
+          onClose={toggleModalView}
           size='large'
         >
           <Modal.Content>
@@ -82,7 +83,7 @@ function CustomSignTx ({ className, signer }: Props): React.ReactElement<Props> 
               <p>{t<string>('Submit the signed transaction to the chain.')}</p>
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleModalView}>
+          <Modal.Actions>
             <TxButton
               icon='paper-plane'
               isDisabled={!callSignature}

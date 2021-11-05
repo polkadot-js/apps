@@ -1,13 +1,20 @@
 {
+  "author": "Stake Technologies <devops@stake.co.jp>",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "A basic app for using the custom-signature Substrate Pallet",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-custom-signature#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
   "name": "@polkadot/app-custom-signature",
   "private": true,
+  "repository": {
+    "directory": "packages/page-custom-signature",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "version": "0.98.2-30",
-  "description": "A basic app for using the custom-signature Substrate Pallet",
   "main": "index.js",
-  "scripts": {},
-  "author": "Stake Technologies <devops@stake.co.jp>",
-  "maintainers": [],
-  "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@polkadot/react-components": "^0.98.2-30",

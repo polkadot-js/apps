@@ -23,6 +23,7 @@ export interface EthereumProvider {
 export interface EcdsaAddressFormat {
   ethereum: string;
   ss58: string;
+  nonce: number;
 }
 
 declare global {
