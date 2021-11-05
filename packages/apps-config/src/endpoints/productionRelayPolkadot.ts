@@ -44,15 +44,34 @@ export function createPolkadot (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'acala',
+        homepage: 'https://acala.network/',
+        paraId: 2000,
+        isUnreachable: true,
+        text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
+        providers: {
+          'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
+          'Polkawallet 0': 'wss://acala.polkawallet.io'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
         paraId: 2001,
         isUnreachable: true,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
+          Liebi: 'wss://bifrost-dot.liebi.com/ws'
+        }
+      },
+      {
+        info: 'clover',
+        homepage: 'https://clover.finance',
+        paraId: 2002,
+        isUnreachable: true,
+        text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://rpc-para.clover.finance'
         }
       },
       {
@@ -73,6 +92,27 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.litentry', 'Litentry', { ns: 'apps-config' }),
         providers: {
           Litentry: 'wss://parachain.litentry.io'
+        }
+      },
+        info: 'manta',
+        homepage: 'https://manta.network',
+        isUnreachable: true,
+        paraId: 2015,
+        text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
+        providers: {
+          'Manta 0': 'wss://falafel.manta.systems',
+          'Manta 1': 'wss://fritti.manta.systems',
+          'Manta 2': 'wss://smoothie.manta.systems'
+        }
+      },
+      {
+        info: 'moonbeam',
+        homepage: 'https://moonbeam.foundation',
+        isUnreachable: true,
+        paraId: 2004,
+        text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.mainnet.moonbeam.network'
         }
       },
       {

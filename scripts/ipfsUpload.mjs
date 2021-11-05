@@ -10,7 +10,7 @@ import execSync from '@polkadot/dev/scripts/execSync.mjs';
 
 import { createWsEndpoints } from '../packages/apps-config/build/endpoints/index.cjs';
 
-const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+console.log('$ scripts/ipfsUpload.mjs', process.argv.slice(2).join(' '));
 
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
@@ -21,10 +21,30 @@ const WOPTS = { encoding: 'utf8', flag: 'w' };
 const PINMETA = { name: DOMAIN };
 
 const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
-const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
 
-// eslint-disable-next-line new-cap
-const crust = new CrustPinner.default(process.env.CRUST_SEEDS);
+function createPinata () {
+  try {
+    return pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
+  } catch {
+    console.error('Unable to create Pinata');
+  }
+
+  return null;
+}
+
+function createCrust () {
+  try {
+    // eslint-disable-next-line new-cap
+    return new CrustPinner.default(process.env.CRUST_SEEDS);
+  } catch {
+    console.error('Unable to create Crust');
+  }
+
+  return null;
+}
+
+const pinata = createPinata();
+const crust = createCrust();
 
 function writeFiles (name, content) {
   [DST, SRC].forEach((root) =>
@@ -42,6 +62,12 @@ skip-checks: true"`);
 }
 
 async function pin () {
+  if (!pinata) {
+    console.error('Pinata not available, cannot pin');
+
+    return;
+  }
+
   // 1. Pin on pinata
   const result = await pinata.pinFromFS(DST, { pinataMetadata: PINMETA });
   const url = `${GATEWAY}${result.IpfsHash}/`;
@@ -66,7 +92,9 @@ async function pin () {
   updateGh(result.IpfsHash);
 
   // 2. Decentralized pin on Crust
-  await crust.pin(result.IpfsHash);
+  if (crust) {
+    await crust.pin(result.IpfsHash);
+  }
 
   console.log(`Pinned ${result.IpfsHash}`);
 
@@ -74,6 +102,12 @@ async function pin () {
 }
 
 async function unpin (exclude) {
+  if (!pinata) {
+    console.error('Pinata not available, cannot unpin');
+
+    return;
+  }
+
   const result = await pinata.pinList({ metadata: PINMETA, status: 'pinned' });
 
   if (result.count > 1) {
@@ -121,15 +155,23 @@ async function dnslink (hash) {
 }
 
 async function main () {
+  const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+
   // only run on non-beta versions
   if (!pkgJson.version.includes('-')) {
+    console.log('Pinning');
+
     const hash = await pin();
 
     await dnslink(hash);
     await unpin(hash);
+
+    console.log('Completed');
+  } else {
+    console.log('Skipping');
   }
 }
 
 main()
   .catch(console.error)
-  .finally(() => process.exit());
+  .finally(() => process.exit(0));

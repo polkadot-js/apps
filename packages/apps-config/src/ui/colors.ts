@@ -13,11 +13,13 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAcala = '#645AFF';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
+const chainCalamari = '#000000';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrownSterling = '#13264b';
@@ -68,7 +70,7 @@ const chainMybank = '#282736';
 const chainPichiu = '#ed007e';
 const chainQuartz = '#FF4D6A';
 const chainRocco = '#6f36dc';
-const chainRoccoAcala = '#173DC9';
+const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
@@ -180,8 +182,10 @@ export { emptyColor };
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
-  'acala mandala pc1': chainRoccoAcala,
-  'acala mandala pc2': chainRoccoAcala,
+  Acala: chainAcala,
+  'Acala Dev': chainAcala,
+  'acala mandala pc1': chainRoccoMandala,
+  'acala mandala pc2': chainRoccoMandala,
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
@@ -191,6 +195,10 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost Asgard CC4': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
+  'Calamari Parachain': chainCalamari,
+  'Calamari Parachain Development': chainCalamari,
+  'Calamari Parachain Local': chainCalamari,
+  'Calamari Parachain Testnet': chainCalamari,
   ChainX: chainChainx,
   Clover: chainClover,
   Composable: chainComposable,
@@ -246,14 +254,17 @@ export const chainColors: Record<string, string> = Object.entries({
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
   Litentry: chainLitentry,
-  'Manta Testnet': chainManta,
-  'MantaChain PC1': chainManta,
+  'Manta Parachain': chainManta,
+  'Manta Parachain Development': chainManta,
+  'Manta Parachain Local': chainManta,
+  'Manta Parachain Testnet': chainManta,
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
   'Moonbase Alpha': nodeMoonbeam,
   'Moonbase Development Testnet': nodeMoonbeam,
   'Moonbase Stage': nodeMoonbeam,
+  Moonbeam: nodeMoonbeam,
   Moonriver: nodeMoonriver,
   Moonrock: chainMoonrock,
   Moonshadow: nodeMoonbeam,
