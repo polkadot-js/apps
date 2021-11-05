@@ -49,6 +49,7 @@
   "rpc.manta": "Manta Testnet",
   "rpc.origintrail": "OriginTrail Parachain Testnet",
   "rpc.polkadot.bifrost": "Bifrost",
+  "rpc.polkadot.clover": "Clover",
   "rpc.polkadot.crust": "Crust",
   "rpc.polkadot.parallel": "Parallel",
   "rpc.polkadot.parity": "Polkadot",
