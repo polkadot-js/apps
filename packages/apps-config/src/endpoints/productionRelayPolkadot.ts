@@ -66,17 +66,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'parallel',
-        homepage: 'https://parallel.fi',
-        isUnreachable: true,
-        paraId: 2085,
-        text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
-        providers: {
-          OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
-          Parallel: 'wss://rpc.parallel.fi'
-        }
-      },
-      {
         info: 'manta',
         homepage: 'https://manta.network',
         isUnreachable: true,
@@ -85,7 +74,18 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           'Manta 0': 'wss://falafel.manta.systems',
           'Manta 1': 'wss://fritti.manta.systems',
-          'Manta 2': 'wss://smoothie.manta.systems',
+          'Manta 2': 'wss://smoothie.manta.systems'
+        }
+      },
+      {
+        info: 'parallel',
+        homepage: 'https://parallel.fi',
+        isUnreachable: true,
+        paraId: 2085,
+        text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
+        providers: {
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+          Parallel: 'wss://rpc.parallel.fi'
         }
       }
     ]
