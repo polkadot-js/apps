@@ -54,6 +54,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'clover',
+        homepage: 'https://clover.finance',
+        paraId: 2002,
+        isUnreachable: true,
+        text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://rpc-para.clover.finance'
+        }
+      },
+      {
         info: 'crust',
         homepage: 'https://crust.network',
         paraId: 2002,
