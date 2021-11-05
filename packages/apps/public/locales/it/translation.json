@@ -808,7 +808,7 @@
   "The amount reserved to store this image": "I fondi messi a riserva per archiviare questo caricamento del codice",
   "The amount that is associated with this vote. This value is is locked for the duration of the vote.": "La quantità di token associata al voto. Saranno bloccati per tutta la durata della votazione",
   "The amount that is reserved": "L'importo che è riservato",
-  "The amount that is reserved for the proxy based on the base deposit and number of proxies": "L'importo che è riservato per il proxy basato sul deposito iniziale ed il numero di proxies",
+  "A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies": "Un deposito versato dal conto delegante che non può essere utilizzato mentre la delega è in essere. Il deposito viene restituito quando la delega viene distrutta. L'importo che è riservato per il proxy basato sul deposito iniziale ed il numero di proxies",
   "The amount that will be allocated from the treasury pot": "La quantità di token che sarà allocata, prelevata dalla cassa della tesoreria",
   "The amount that will be used on a per-validator basis to calculate profits for that validator.": "La quantità da allocare sul validator, per calcolare una stima dei profitti generati",
   "The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.": "Il totale  può ridursi cambiando l'esito finale del referendum. A parità di affluenza, è dovuto ai cambiamenti delle leve utilizzate da ogni partecipante.",
