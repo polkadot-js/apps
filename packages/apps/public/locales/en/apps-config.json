@@ -49,8 +49,13 @@
   "rpc.manta": "Manta Testnet",
   "rpc.origintrail": "OriginTrail Parachain Testnet",
   "rpc.polkadot.bifrost": "Bifrost",
+<<<<<<< HEAD
+=======
+  "rpc.polkadot.crust": "Crust",
+>>>>>>> master
   "rpc.polkadot.parallel": "Parallel",
   "rpc.polkadot.parity": "Polkadot",
+  "rpc.polkadot.statemint-shell": "Statemint (Shell)",
   "rpc.prod.centrifuge": "Centrifuge",
   "rpc.prod.chainx": "ChainX",
   "rpc.prod.crab": "Darwinia Crab",

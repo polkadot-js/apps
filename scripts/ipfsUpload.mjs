@@ -1,14 +1,16 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require('fs');
-const pinataSDK = require('@pinata/sdk');
-const CrustPinner = require('@crustio/crust-pin').default;
-const cloudflare = require('dnslink-cloudflare');
-const execSync = require('@polkadot/dev/scripts/execSync.cjs');
+import CrustPinner from '@crustio/crust-pin';
+import pinataSDK from '@pinata/sdk';
+import cloudflare from 'dnslink-cloudflare';
+import fs from 'fs';
 
-const { createWsEndpoints } = require('../packages/apps-config/build/endpoints/index.cjs');
-const pkgJson = require('../package.json');
+import execSync from '@polkadot/dev/scripts/execSync.mjs';
+
+import { createWsEndpoints } from '../packages/apps-config/build/endpoints/index.cjs';
+
+const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
@@ -20,7 +22,9 @@ const PINMETA = { name: DOMAIN };
 
 const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
-const crust = new CrustPinner(process.env.CRUST_SEEDS);
+
+// eslint-disable-next-line new-cap
+const crust = new CrustPinner.default(process.env.CRUST_SEEDS);
 
 function writeFiles (name, content) {
   [DST, SRC].forEach((root) =>

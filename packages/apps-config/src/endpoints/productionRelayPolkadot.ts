@@ -31,8 +31,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
     linked: [
       // (1) system parachains (none available yet)
       // ...
-      // (2) common good, leave as second group (none available yet)
-      // ...
+      // (2) all common good parachains
+      {
+        info: 'statemint',
+        paraId: 1000,
+        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://statemint-shell.polkadot.io'
+        }
+      },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
@@ -43,12 +50,30 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
+<<<<<<< HEAD
           // Liebi: 'wss://bifrost-rpc.liebi.com/ws',
           // OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
           // 'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
         }
       },
 
+=======
+          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
+        }
+      },
+      {
+        info: 'crust',
+        homepage: 'https://crust.network',
+        paraId: 2002,
+        isUnreachable: true,
+        text: t('rpc.polkadot.crust', 'Crust', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://rpc.crust.network'
+        }
+      },
+>>>>>>> master
       {
         info: 'parallel',
         homepage: 'https://parallel.fi',
