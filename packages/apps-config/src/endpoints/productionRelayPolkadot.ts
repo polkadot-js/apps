@@ -44,6 +44,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'astar',
+        homepage: 'https://astar.network',
+        paraId: 2006,
+        isUnreachable: true,
+        text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
+        providers: {
+          Astar: 'wss://rpc.astar.network'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
         paraId: 2001,
