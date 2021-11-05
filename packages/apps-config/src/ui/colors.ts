@@ -13,6 +13,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAcala = '#645AFF';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
@@ -69,7 +70,7 @@ const chainMybank = '#282736';
 const chainPichiu = '#ed007e';
 const chainQuartz = '#FF4D6A';
 const chainRocco = '#6f36dc';
-const chainRoccoAcala = '#173DC9';
+const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
@@ -181,8 +182,10 @@ export { emptyColor };
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
-  'acala mandala pc1': chainRoccoAcala,
-  'acala mandala pc2': chainRoccoAcala,
+  Acala: chainAcala,
+  'Acala Dev': chainAcala,
+  'acala mandala pc1': chainRoccoMandala,
+  'acala mandala pc2': chainRoccoMandala,
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,

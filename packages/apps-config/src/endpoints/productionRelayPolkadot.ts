@@ -44,6 +44,17 @@ export function createPolkadot (t: TFunction): EndpointOption {
       //
       // NOTE: Added alphabetical based on chain name
       {
+        info: 'acala',
+        homepage: 'https://acala.network/',
+        paraId: 2000,
+        isUnreachable: true,
+        text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
+        providers: {
+          'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
+          'Polkawallet 0': 'wss://acala.polkawallet.io'
+        }
+      },
+      {
         info: 'bifrost',
         homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
         paraId: 2001,
