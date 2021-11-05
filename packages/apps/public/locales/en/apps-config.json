@@ -48,6 +48,7 @@
   "rpc.kylin-node.co.uk": "Kylin Network",
   "rpc.manta": "Manta Testnet",
   "rpc.origintrail": "OriginTrail Parachain Testnet",
+  "rpc.polkadot.acala": "Acala",
   "rpc.polkadot.bifrost": "Bifrost",
   "rpc.polkadot.clover": "Clover",
   "rpc.polkadot.clover-para": "Clover",
