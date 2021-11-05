@@ -75,6 +75,18 @@ export function createPolkadot (t: TFunction): EndpointOption {
           OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
           Parallel: 'wss://rpc.parallel.fi'
         }
+      },
+      {
+        info: 'manta',
+        homepage: 'https://manta.network',
+        isUnreachable: true,
+        paraId: 2015,
+        text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
+        providers: {
+          'Manta 0': 'wss://falafel.manta.systems',
+          'Manta 1': 'wss://fritti.manta.systems',
+          'Manta 2': 'wss://smoothie.manta.systems',
+        }
       }
     ]
   };
