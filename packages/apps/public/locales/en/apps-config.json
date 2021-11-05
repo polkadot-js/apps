@@ -54,6 +54,7 @@
   "rpc.polkadot.clover": "Clover",
   "rpc.polkadot.clover-para": "Clover",
   "rpc.polkadot.crust": "Crust",
+  "rpc.polkadot.litentry": "Litentry",
   "rpc.polkadot.manta": "Manta",
   "rpc.polkadot.moonbeam": "Moonbeam",
   "rpc.polkadot.parallel": "Parallel",

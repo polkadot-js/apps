@@ -95,6 +95,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'litentry',
+        homepage: 'https://www.litentry.com',
+        paraId: 2013,
+        isUnreachable: true,
+        text: t('rpc.polkadot.litentry', 'Litentry', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://parachain.litentry.io'
+        }
+      },
+      {
         info: 'manta',
         homepage: 'https://manta.network',
         isUnreachable: true,
