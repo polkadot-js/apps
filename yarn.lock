@@ -2714,7 +2714,7 @@ __metadata:
   resolution: "@polkadot/app-custom-signature@workspace:packages/page-custom-signature"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@polkadot/react-components": ^0.98.2-30
+    "@polkadot/react-components": ^0.98.2-46
     ethereumjs-util: ^7.1.3
     secp256k1: ^4.0.2
   languageName: unknown
