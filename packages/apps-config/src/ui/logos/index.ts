@@ -9,6 +9,7 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
+import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainCrownSterling from './chains/crown-sterling.png';
@@ -44,7 +45,6 @@ import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
-import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
 import nodeAresGladios from './nodes/ares-gladios.svg';
@@ -299,7 +299,7 @@ export const chainLogos = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
-  'Acala Node': nodeAcala,
+  'Acala Node': chainAcala,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Gladios': nodeAresGladios,
@@ -358,7 +358,7 @@ export const nodeLogos = Object.entries({
   'Laminar Node': nodeLaminar,
   Litentry: nodeLitentry,
   'Litentry Collator': nodeLitentry,
-  'mandala node': nodeAcala,
+  'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
   MathChain: nodeMath,
@@ -468,7 +468,7 @@ export const specLogos = Object.entries({
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
-  acala: nodeAcala,
+  acala: chainAcala,
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
@@ -562,7 +562,7 @@ export const namedLogos: Record<string, unknown> = {
   robonomics: nodeRobonomics,
   rocky: nodeCrust,
   rococo: chainRococo,
-  rococoAcala: nodeAcala,
+  rococoAcala: chainAcala,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
