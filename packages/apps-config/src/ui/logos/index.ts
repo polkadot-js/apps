@@ -168,7 +168,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain': nodeCalamari,
   'Calamari Parachain Development': nodeCalamari,
   'Calamari Parachain Local': nodeCalamari,
-  'Calamari Parachain Testnet': nodeCalamari, 
+  'Calamari Parachain Testnet': nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crown Sterling': chainCrownSterling,
