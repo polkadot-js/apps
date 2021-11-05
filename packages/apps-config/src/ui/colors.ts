@@ -18,6 +18,7 @@ const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
+const chainCalamari = '#000000';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrownSterling = '#13264b';
@@ -191,6 +192,10 @@ export const chainColors: Record<string, string> = Object.entries({
   'Bifrost Asgard CC4': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
+  'Calamari Parachain': chainCalamari,
+  'Calamari Parachain Development': chainCalamari,
+  'Calamari Parachain Local': chainCalamari,
+  'Calamari Parachain Testnet': chainCalamari,
   ChainX: chainChainx,
   Clover: chainClover,
   Composable: chainComposable,
@@ -246,8 +251,10 @@ export const chainColors: Record<string, string> = Object.entries({
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
   Litentry: chainLitentry,
-  'Manta Testnet': chainManta,
-  'MantaChain PC1': chainManta,
+  'Manta Parachain': chainManta,
+  'Manta Parachain Development': chainManta,
+  'Manta Parachain Local': chainManta,
+  'Manta Parachain Testnet': chainManta,
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
