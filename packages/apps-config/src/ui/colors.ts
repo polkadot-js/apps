@@ -261,6 +261,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Moonbase Alpha': nodeMoonbeam,
   'Moonbase Development Testnet': nodeMoonbeam,
   'Moonbase Stage': nodeMoonbeam,
+  Moonbeam: nodeMoonbeam,
   Moonriver: nodeMoonriver,
   Moonrock: chainMoonrock,
   Moonshadow: nodeMoonbeam,

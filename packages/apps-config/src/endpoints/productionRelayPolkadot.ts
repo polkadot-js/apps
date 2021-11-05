@@ -50,9 +50,17 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
+          Liebi: 'wss://bifrost-dot.liebi.com/ws'
+        }
+      },
+      {
+        info: 'clover',
+        homepage: 'https://clover.finance',
+        paraId: 2002,
+        isUnreachable: true,
+        text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://rpc-para.clover.finance'
         }
       },
       {
@@ -75,6 +83,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
           'Manta 0': 'wss://falafel.manta.systems',
           'Manta 1': 'wss://fritti.manta.systems',
           'Manta 2': 'wss://smoothie.manta.systems'
+        }
+      },
+      {
+        info: 'moonbeam',
+        homepage: 'https://moonbeam.foundation',
+        isUnreachable: false,
+        paraId: 2004,
+        text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.mainnet.moonbeam.network'
         }
       },
       {
