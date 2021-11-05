@@ -65,6 +65,24 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'darwinia',
+        homepage: 'https://darwinia.network/',
+        paraId: 2003,
+        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'darwinia',
+        homepage: 'https://darwinia.network/',
+        paraId: 2102,
+        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.darwinia.network'
+        }
+      },
+      {
         info: 'integritee',
         paraId: 2081,
         text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),
@@ -142,24 +160,6 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.kilt', 'WILT', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
-        }
-      },
-      {
-        info: 'darwinia',
-        homepage: 'https://darwinia.network/',
-        paraId: 2102,
-        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
-        providers: {
-          'Standard Protocol': 'wss://rpc.darwinia.network'
-        }
-      },
-      {
-        info: 'darwinia',
-        homepage: 'https://darwinia.network/',
-        paraId: 2003,
-        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
-        providers: {
-          'Standard Protocol': 'wss://rpc.darwinia.network'
         }
       }
     ]
