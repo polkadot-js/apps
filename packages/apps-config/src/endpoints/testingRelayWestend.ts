@@ -143,6 +143,24 @@ export function createWestend (t: TFunction): EndpointOption {
         providers: {
           'KILT Protocol': 'wss://westend.kilt.io:9977'
         }
+      },
+      {
+        info: 'darwinia',
+        homepage: 'https://darwinia.network/',
+        paraId: 2102,
+        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'darwinia',
+        homepage: 'https://darwinia.network/',
+        paraId: 2003,
+        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
+        providers: {
+          'Standard Protocol': 'wss://rpc.darwinia.network'
+        }
       }
     ]
   };

@@ -1718,6 +1718,7 @@
   "rpc.beresheet": "Beresheet (Edgeware Testnet, ospitato da Commonwealth Labs)",
   "rpc.bifrost": "Bifrost",
   "rpc.custom": "Ambiente personalizzato",
+  "rpc.darwinia.network": "Darwinia",
   "rpc.dev.custom": "",
   "rpc.dev.custom.entry": "",
   "rpc.dev.custom.own": "",

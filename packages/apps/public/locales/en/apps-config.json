@@ -4,6 +4,7 @@
   "quartz.unique.network": "QUARTZ by UNIQUE",
   "rpc.KlugDossier": "Klug Dossier",
   "rpc.calamari.systems": "Calamari",
+  "rpc.darwinia.network": "Darwinia",
   "rpc.dev.custom": "Custom environment",
   "rpc.dev.custom.entry": "Custom {{WS_URL}}",
   "rpc.dev.custom.own": "Custom",
