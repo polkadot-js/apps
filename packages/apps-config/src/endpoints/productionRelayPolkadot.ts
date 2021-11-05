@@ -43,9 +43,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
         providers: {
-          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
+          // Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          // OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
+          // 'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
         }
       },
 
