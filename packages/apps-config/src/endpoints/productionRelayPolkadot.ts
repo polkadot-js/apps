@@ -129,11 +129,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'parallel',
         homepage: 'https://parallel.fi',
-        isUnreachable: true,
-        paraId: 2085,
+        paraId: 2012,
         text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
           Parallel: 'wss://rpc.parallel.fi'
         }
       }
