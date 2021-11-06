@@ -87,7 +87,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'crust',
         homepage: 'https://crust.network',
-        paraId: 2002,
+        paraId: 2008,
         isUnreachable: true,
         text: t('rpc.polkadot.crust', 'Crust', { ns: 'apps-config' }),
         providers: {
