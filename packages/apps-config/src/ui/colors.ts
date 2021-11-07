@@ -13,10 +13,14 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAcala = '#645AFF';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
+const chainAstar = '#1b6dc1d9';
 const chainBitCountry = '#191a2e';
+const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
+const chainCalamari = '#000000';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrownSterling = '#13264b';
@@ -47,6 +51,7 @@ const chainNFTMart = '#815287';
 const chainOakTestnet = '#E38985';
 const chainPangolin = '#5744ff';
 const chainPangoro = '#5745de';
+const chainParallel = '#ef18ac';
 const chainParami = '#ee06e2';
 const chainPhala = '#a7e300';
 const chainPhoenix = '#d42181';
@@ -63,8 +68,10 @@ const chainKusama = '#000000';
 const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
 const chainMybank = '#282736';
+const chainPichiu = '#ed007e';
+const chainQuartz = '#FF4D6A';
 const chainRocco = '#6f36dc';
-const chainRoccoAcala = '#173DC9';
+const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
@@ -104,6 +111,7 @@ const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
+const nodeAstar = '#1b6dc1d9';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
@@ -139,7 +147,9 @@ const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
 const nodePangoro = '#5745de';
+const nodeParallel = '#ef18ac';
 const nodeParami = '#ee06e2';
+const nodePichiu = '#ed007e';
 const nodePolkadex = '#7C30DD';
 const nodePolymesh = '#1348e4';
 const nodePontem = '#A92FAC';
@@ -150,7 +160,7 @@ const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubDAO = 'linear-gradient(50deg, #F20092 0%, #FF4D5D 100%)';
 const nodeSubsocial = '#b9018c';
-const nodeSubspace = 'linear-gradient(to left, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
+const nodeSubspace = '#562b8e';
 const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
@@ -174,17 +184,24 @@ export { emptyColor };
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, string> = Object.entries({
-  'acala mandala pc1': chainRoccoAcala,
-  'acala mandala pc2': chainRoccoAcala,
+  Acala: chainAcala,
+  'Acala Dev': chainAcala,
+  'acala mandala pc1': chainRoccoMandala,
+  'acala mandala pc2': chainRoccoMandala,
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
   'Ares PC1': chainRoccoAres,
+  Astar: chainAstar,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
   'Bifrost PC1': chainRoccoBifrost,
   'Bit.Country Tewai Chain': chainBitCountry,
+  'Calamari Parachain': chainCalamari,
+  'Calamari Parachain Development': chainCalamari,
+  'Calamari Parachain Local': chainCalamari,
+  'Calamari Parachain Testnet': chainCalamari,
   ChainX: chainChainx,
   Clover: chainClover,
   Composable: chainComposable,
@@ -240,14 +257,17 @@ export const chainColors: Record<string, string> = Object.entries({
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
   Litentry: chainLitentry,
-  'Manta Testnet': chainManta,
-  'MantaChain PC1': chainManta,
+  'Manta Parachain': chainManta,
+  'Manta Parachain Development': chainManta,
+  'Manta Parachain Local': chainManta,
+  'Manta Parachain Testnet': chainManta,
   Mars: nodeAres,
   MathChain: nodeMathChain,
   'MathChain PC1': chainGalois,
   'Moonbase Alpha': nodeMoonbeam,
   'Moonbase Development Testnet': nodeMoonbeam,
   'Moonbase Stage': nodeMoonbeam,
+  Moonbeam: nodeMoonbeam,
   Moonriver: nodeMoonriver,
   Moonrock: chainMoonrock,
   Moonshadow: nodeMoonbeam,
@@ -260,11 +280,14 @@ export const chainColors: Record<string, string> = Object.entries({
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
   Pangoro: chainPangoro,
+  Parallel: chainParallel,
   'Parallel Heiko': chainHeiko,
   'Parami PC2': chainParami,
   'Phala PC1': chainPhala,
   'Phala PoC 4': chainPhala,
   PHOENIX: chainPhoenix,
+  'Pichiu Testnet': chainPichiu,
+  'Pioneer Network': chainBitCountryPioneer,
   Plasm: chainPlasm,
   'Plasm PC2': chainPlasm,
   PolkaBTC: chainInterbtc,
@@ -275,6 +298,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Pontem Testnet': chainPontem,
   'Prism PC1': chainPrism,
   'Prism Testnet': chainPrism,
+  'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': chainRiochain,
   'Riochain Staging': chainRiochain,
@@ -284,7 +308,6 @@ export const chainColors: Record<string, string> = Object.entries({
   sherpax: chainChainx,
   Shiden: chainShiden,
   Spanner: chainSpanner,
-  'Spartan testnet': nodeSubspace,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
   Statemine: specStatemine,
@@ -297,6 +320,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   'Subsocial PC1': chainSubsocial,
+  'Subspace Testnet': nodeSubspace,
   Tick: chainRoccoTick,
   Track: chainRoccoTrack,
   Trick: chainRoccoTrick,
@@ -325,6 +349,7 @@ export const chainColors: Record<string, string> = Object.entries({
 // NOTE: This is as retrieved via the system.name RPC
 export const nodeColors = Object.entries({
   'Apron Node': nodeApron,
+  Astar: nodeAstar,
   Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
@@ -347,7 +372,7 @@ export const nodeColors = Object.entries({
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
   'Kpron Collator': nodeKpron,
-  'Kylin Collator': nodeKylin,
+  'Kylin Parachain Collator': nodeKylin,
   'Litentry Collator': nodeLitentry,
   'Manta Collator': nodeManta,
   'Manta Node': nodeManta,
@@ -362,9 +387,11 @@ export const nodeColors = Object.entries({
   'OriginTrail Parachain': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
+  Parallel: nodeParallel,
   'Parallel Heiko': nodeHeiko,
   'Parami Collator': nodeParami,
   'Patract Node': nodeJupiter,
+  'Pichiu Parachain Collator': nodePichiu,
   'Polkadex Node': nodePolkadex,
   'Polymesh Node': nodePolymesh,
   'Pontem Node': nodePontem,
@@ -375,7 +402,6 @@ export const nodeColors = Object.entries({
   'Riochain Staging': nodeRiochain,
   'Shiden Collator': chainShiden,
   SORA: nodeSora,
-  'Spartan testnet': nodeSubspace,
   'Stafi node': nodeStafi,
   'Statemine Collator': specStatemint,
   'Statemint Collator': specStatemint,
@@ -384,6 +410,7 @@ export const nodeColors = Object.entries({
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   'subsocial node': nodeSubsocial,
+  'Subspace Testnet': nodeSubspace,
   'subzero node': nodeZero,
   'Ternoa Node': nodeTernoa,
   'uni arts node': nodeUniarts,

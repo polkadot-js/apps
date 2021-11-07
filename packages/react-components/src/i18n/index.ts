@@ -40,7 +40,9 @@ i18next
     },
     fallbackLng: false,
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
+      prefix: '{{',
+      suffix: '}}'
     },
     keySeparator: false,
     load: 'languageOnly',

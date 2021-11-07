@@ -63,8 +63,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
-      info: 'dock-mainnet',
-      text: t('rpc.prod.dock-mainnet', 'Dock', { ns: 'apps-config' }),
+      info: 'dock-pos-mainnet',
+      text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io',
         'Patract Elara': 'wss://pub.elara.patract.io/dock'

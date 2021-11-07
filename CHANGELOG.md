@@ -1,5 +1,50 @@
 # CHANGELOG
 
+## 0.98.1 Oct 25, 2021
+
+Contributed:
+
+- Fix number inputs in Vote value (Thanks to https://github.com/awesomepan)
+- Update nominations warning message (Thanks to https://github.com/DrW3RK)
+- Update Acala types (Thanks to https://github.com/qwer951123)
+- update Bifrost types (Thanks to https://github.com/awesomepan)
+- Update Dawninia types (Thanks to https://github.com/sxlwar)
+- Update Dock testnet (Thanks to https://github.com/SamHellawell)
+- Update Realis types (Thanks to https://github.com/Daelon02)
+- Update Subspace testnet (Thanks to https://github.com/1devNdogs)
+- Add Altair network (Thanks to https://github.com/mikiquantum)
+- Add Bit.County Pioneer to Kusama parachains (Thanks to https://github.com/justinphamnz)
+- Add Quartz network (Thanks to https://github.com/gregzaitsev)
+- Re-enable Statemine via OnFinality (Thanks to https://github.com/454076513)
+
+Changes:
+
+- Adjust `Bytes` input to show IdentityIcon when ss58 is detected
+- Use `*RuntimeProxyType` as applicable to detect enum entries
+- Use type overrides as available in metadata variants
+- Override `*RuntimeSessionKeys` to allow for rotateKeys inputs
+- Fix depositor check inside multisig cancel operations
+- Adjust type labels with overrides & overflow formatting
+- Adjust multisig calls to be made in parallel
+- Cater for Ledger 25 word mnemonic imports
+- Adjust query button to a link (allow for open in a new window)
+- Some css warning fixes
+- Remove any unavilable endpoints from the list
+- Attempt allowing Ledger desktop connections (via node HID)
+- Ensure non-detected signature types result in a failure
+- Filter proxy selection with only those non-delayed
+- Swap warnings on mismatched import JSON types to an error
+- Ensure addresses are searchable when lists are filtered by identity
+- Display warning on tip creation when no recipient account is found
+- Correctly show disabled menu items as disabled (non-clickable)
+- Expand proposal hashes for fastTrack proposals in TC
+- Display society vouch tip column
+- Alow for society Unvouch and Vouching operations
+- Ensure accounts are non-editable when `isEditable` flag is not set
+- Ensure proposal weight is calculated before allowing proposal close
+- User `balances.transferAll` if available and full amount is transferred
+
+
 ## 0.97.1 Oct 19, 2021
 
 Contributed:

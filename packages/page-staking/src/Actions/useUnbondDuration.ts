@@ -6,10 +6,10 @@ import type { DeriveSessionInfo } from '@polkadot/api-derive/types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-export default function useUnbondDuration (): BN | undefined {
+function useUnbondDurationImpl (): BN | undefined {
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionInfo>(api.derive.session.info);
 
@@ -20,3 +20,5 @@ export default function useUnbondDuration (): BN | undefined {
     [api, sessionInfo]
   );
 }
+
+export default createNamedHook('useUnbondDuration', useUnbondDurationImpl);

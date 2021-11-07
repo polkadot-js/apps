@@ -6,10 +6,10 @@ import type { LeasePeriod } from './types';
 
 import { useMemo } from 'react';
 
-import { useApi, useBestNumber } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-export default function useLeasePeriod (): LeasePeriod | undefined {
+function useLeasePeriodImpl (): LeasePeriod | undefined {
   const { api } = useApi();
   const bestNumber = useBestNumber();
 
@@ -30,3 +30,5 @@ export default function useLeasePeriod (): LeasePeriod | undefined {
     };
   }, [api, bestNumber]);
 }
+
+export default createNamedHook('useLeasePeriod', useLeasePeriodImpl);

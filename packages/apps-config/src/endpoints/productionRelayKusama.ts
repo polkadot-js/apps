@@ -23,7 +23,8 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
-      Dwellir: 'wss://kusama-rpc.dwellir.com',
+      'Geometry Labs': 'wss://kusama.geometry.io/websockets',
+      // Dwellir: 'wss://kusama-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/6427
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -78,6 +79,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'bitcountryPioneer',
+        homepage: 'https://bit.country/?ref=polkadotjs',
+        paraId: 2096,
+        text: t('rpc.kusama.pioneerNetwork', 'Bit.Country Pioneer', { ns: 'apps-config' }),
+        providers: {
+          'Bit.Country': 'wss://pioneer-1-rpc.bit.country'
+        }
+      },
+      {
         info: 'calamari',
         homepage: 'https://www.calamari.network/',
         paraId: 2084,
@@ -110,12 +120,11 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'genshiro',
-        isUnreachable: true,
         homepage: 'https://genshiro.equilibrium.io',
-        paraId: 2089,
+        paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
-          Equilibrium: 'wss://gens-mainnet.equilibrium.io'
+          Equilibrium: 'wss://node.genshiro.io'
         }
       },
       {
@@ -219,8 +228,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2085,
         text: t('rpc.kusama.heiko', 'Parallel Heiko', { ns: 'apps-config' }),
         providers: {
-          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws'
-          // Parallel: 'wss://heiko-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/6195
+          OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
+          Parallel: 'wss://heiko-rpc.parallel.fi'
         }
       },
       {
@@ -239,6 +248,15 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
         providers: {
           PolkaSmith: 'wss://wss-polkasmith.polkafoundry.com'
+        }
+      },
+      {
+        info: 'quartz',
+        homepage: 'https://unique.network/',
+        paraId: 2095,
+        text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
+        providers: {
+          Unique: 'wss://quartz.unique.network'
         }
       },
       {
@@ -285,7 +303,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
-          OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
+          // OnFinality: 'wss://shiden.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/6507
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }
       },

@@ -13,13 +13,14 @@ import { useTranslation } from '../translate';
 
 interface Props {
   hash: Hash | string;
+  isMember: boolean;
   members: string[];
   prime?: AccountId | null;
   proposalId: BN | number;
   type: 'membership' | 'technicalCommittee';
 }
 
-function Voting ({ hash, members, prime, proposalId, type }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -70,6 +71,7 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
       )}
       <Button
         icon='check'
+        isDisabled={!isMember}
         label={t<string>('Vote')}
         onClick={toggleVoting}
       />

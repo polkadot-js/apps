@@ -14,6 +14,7 @@ interface IdQuery extends Base {
 }
 
 export interface PartialModuleQuery extends Base {
+  blockHash: string | null;
   key: QueryableStorageEntry<'promise'>;
   params: RawParams;
 }

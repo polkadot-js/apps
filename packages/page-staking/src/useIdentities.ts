@@ -3,7 +3,7 @@
 
 import type { DeriveHasIdentity } from '@polkadot/api-derive/types';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function transformIdentity ([[validatorIds], hasIdentities]: [[string[]], DeriveHasIdentity[]]): Record<string, DeriveHasIdentity> {
   return validatorIds.reduce((result: Record<string, DeriveHasIdentity>, validatorId, index): Record<string, DeriveHasIdentity> => {
@@ -15,9 +15,11 @@ function transformIdentity ([[validatorIds], hasIdentities]: [[string[]], Derive
 
 type Result = Record<string, DeriveHasIdentity>;
 
-export default function useIdentities (validatorIds: string[] = []): Result | undefined {
+function useIdentitiesImpl (validatorIds: string[] = []): Result | undefined {
   const { api } = useApi();
   const allIdentity = useCall<Result>(api.derive.accounts.hasIdentityMulti, [validatorIds], { transform: transformIdentity, withParamsTransform: true });
 
   return allIdentity;
 }
+
+export default createNamedHook('useIdentities', useIdentitiesImpl);

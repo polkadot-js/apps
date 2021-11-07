@@ -82,7 +82,7 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
 }
 
 function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstance {
-  const { id, isConst, key, params = [] } = query as StorageModuleQuery;
+  const { blockHash, id, isConst, key, params = [] } = query as StorageModuleQuery;
 
   if (!cache[id]) {
     let renderHelper;
@@ -109,13 +109,16 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
         const allCount = type.isPlain
           ? 0
           : type.asMap.hashers.length;
+        const isEntries = values.length !== allCount;
 
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
-          params: values.length === allCount
-            ? [key, ...values]
-            : [key.entries, ...values],
+          params: isEntries
+            ? [key.entries, ...values]
+            : blockHash
+              ? [key.at, blockHash, ...values]
+              : [key, ...values],
           withIndicator: true
         });
       }

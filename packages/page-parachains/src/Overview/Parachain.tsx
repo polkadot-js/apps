@@ -1,9 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, BlockNumber, CandidatePendingAvailability, GroupIndex, HeadData, HrmpChannel, HrmpChannelId, ParaId, ParaInfo, ParaLifecycle } from '@polkadot/types/interfaces';
-import type { Codec, ITuple } from '@polkadot/types/types';
+import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
 import type { LeasePeriod, QueuedAction } from '../types';
 import type { EventMapInfo, ValidatorInfo } from './types';
 
@@ -11,20 +9,17 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, Expander, ParaLink } from '@polkadot/react-components';
-import { useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
 import Lifecycle from './Lifecycle';
 import ParachainInfo from './ParachainInfo';
 import Periods from './Periods';
+import useParaInfo from './useParaInfo';
 
 interface Props {
   bestNumber?: BN;
-  channelDst?: [HrmpChannelId, HrmpChannel][];
-  channelSrc?: [HrmpChannelId, HrmpChannel][];
   className?: string;
   id: ParaId;
   isScheduled?: boolean;
@@ -37,55 +32,6 @@ interface Props {
   validators?: [GroupIndex, ValidatorInfo[]];
 }
 
-type QueryResult = [Option<HeadData>, Option<BlockNumber>, Option<ParaLifecycle>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Vec<Codec>, Option<BlockNumber>, Option<CandidatePendingAvailability>, Option<ParaInfo>, Option<ITuple<[AccountId, BalanceOf]>>[]];
-
-interface QueryState {
-  headHex: string | null;
-  leases: number[];
-  lifecycle: ParaLifecycle | null;
-  paraInfo: ParaInfo | null;
-  pendingAvail: CandidatePendingAvailability | null;
-  updateAt: BlockNumber | null;
-  qDmp: number;
-  qUmp: number;
-  qHrmpE: number;
-  qHrmpI: number;
-  watermark: BlockNumber | null;
-}
-
-const optionsMulti = {
-  defaultValue: {
-    headHex: null,
-    leases: [],
-    lifecycle: null,
-    paraInfo: null,
-    pendingAvail: null,
-    qDmp: 0,
-    qHrmpE: 0,
-    qHrmpI: 0,
-    qUmp: 0,
-    updateAt: null,
-    watermark: null
-  },
-  transform: ([headData, optUp, optLifecycle, dmp, ump, hrmpE, hrmpI, optWm, optPending, optInfo, leases]: QueryResult): QueryState => ({
-    headHex: headData.isSome
-      ? sliceHex(headData.unwrap())
-      : null,
-    leases: leases
-      .map((opt, index) => opt.isSome ? index : -1)
-      .filter((period) => period !== -1),
-    lifecycle: optLifecycle.unwrapOr(null),
-    paraInfo: optInfo.unwrapOr(null),
-    pendingAvail: optPending.unwrapOr(null),
-    qDmp: dmp.length,
-    qHrmpE: hrmpE.length,
-    qHrmpI: hrmpI.length,
-    qUmp: ump.length,
-    updateAt: optUp.unwrapOr(null),
-    watermark: optWm.unwrapOr(null)
-  })
-};
-
 function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
   return list?.map((id, index) => (
     <AddressMini
@@ -96,31 +42,10 @@ function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | u
   ));
 }
 
-function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const paraInfo = useCallMulti<QueryState>([
-    [api.query.paras.heads, id],
-    [api.query.paras.futureCodeUpgrades, id],
-    [api.query.paras.paraLifecycles, id],
-    [(api.query.parasDmp || api.query.paraDmp || api.query.dmp)?.downwardMessageQueues, id],
-    [(api.query.parasUmp || api.query.ump)?.relayDispatchQueues, id],
-    [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpEgressChannelsIndex, id],
-    [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpIngressChannelsIndex, id],
-    [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpWatermarks, id],
-    [(api.query.parasInclusion || api.query.paraInclusion || api.query.inclusion)?.pendingAvailability, id],
-    [api.query.registrar.paras, id],
-    [api.query.slots.leases, id]
-  ], optionsMulti);
+  const paraInfo = useParaInfo(id);
   const [nonBacked, setNonBacked] = useState<AccountId[]>([]);
-
-  const channelCounts = useMemo(
-    () => [
-      channelDst ? channelDst.reduce((count, [, channel]) => count.iadd(channel.msgCount), new BN(0)) : BN_ZERO,
-      channelSrc ? channelSrc.reduce((count, [, channel]) => count.iadd(channel.msgCount), new BN(0)) : BN_ZERO
-    ],
-    [channelDst, channelSrc]
-  );
 
   const blockDelay = useMemo(
     () => bestNumber && (
@@ -226,11 +151,10 @@ function Parachain ({ bestNumber, channelDst, channelSrc, className = '', id, la
         <ParachainInfo id={id} />
       </td>
       <td className='number media--1200'>
-        {/* {formatNumber(paraInfo.qUmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qDmp)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpE)}&nbsp;/&nbsp;{formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])}&nbsp;/&nbsp;{formatNumber(channelCounts[1])}) */}
-        {formatNumber(paraInfo.qHrmpI)}&nbsp;({formatNumber(channelCounts[0])})
+        {formatNumber(paraInfo.qHrmpI)}
       </td>
       <td className='number no-pad-left media--1200'>
-        {formatNumber(paraInfo.qHrmpE)}&nbsp;({formatNumber(channelCounts[1])})
+        {formatNumber(paraInfo.qHrmpE)}
       </td>
       <td className='number together media--1000'>
         <Periods

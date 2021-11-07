@@ -12,9 +12,9 @@ export interface HeaderProps {
 export interface ItemProps {
   children?: React.ReactNode;
   className?: string;
-  onClick?: () => void | Promise<void> | null;
-  disabled?: boolean;
   icon?: IconName;
+  isDisabled?: boolean;
+  onClick?: () => void | Promise<void> | null;
 }
 
 export interface BaseProps {

@@ -29,6 +29,7 @@ const renderBounties = () => {
         <ThemeProvider theme={lightTheme}>
           <Api
             apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+            isElectron={false}
             store={memoryStore}
           >
             <WaitForApi>

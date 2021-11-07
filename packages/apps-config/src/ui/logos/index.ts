@@ -9,20 +9,23 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
+import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
+import chainAstar from './chains/astar.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
-import chainHeiko from './chains/heiko.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
 import chainKarura from './chains/karura.svg';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainOpal from './chains/opal-logo.png';
+import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
+import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
@@ -43,11 +46,11 @@ import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
-import nodeAcala from './nodes/acala-circle.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
 import nodeAresGladios from './nodes/ares-gladios.svg';
 import nodeAresMars from './nodes/ares-mars.png';
+import nodeAstar from './nodes/astar.png';
 import nodeBasilisk from './nodes/basilisk.png';
 import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
@@ -75,7 +78,6 @@ import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
 import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
-import nodeHeiko from './nodes/heiko.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
 import nodeInterBTC from './nodes/interbtc.png';
@@ -105,9 +107,12 @@ import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodePangoro from './nodes/pangoro.svg';
+import nodeParallel from './nodes/parallel.svg';
 import nodeParami from './nodes/parami.png';
 import nodePhala from './nodes/phala.svg';
 import nodePhoenix from './nodes/phoenix.png';
+import nodePichiu from './nodes/pichiu.png';
+import nodePioneerNetwork from './nodes/pioneer.png';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadex from './nodes/polkadex.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
@@ -117,6 +122,7 @@ import nodePolkaSmith from './nodes/polkasmith.svg';
 import nodePolymesh from './nodes/polymesh.svg';
 import nodePontem from './nodes/pontem.svg';
 import nodePrism from './nodes/prism.png';
+import nodeQuartz from './nodes/quartz.png';
 import nodeRealis from './nodes/realis.png';
 import nodeRiochain from './nodes/riochain.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -158,10 +164,14 @@ export const chainLogos = Object.entries({
   'Apron PC1': nodeApron,
   'Ares Gladios': nodeAresGladios,
   'Ares PC1': nodeAres,
+  Astar: chainAstar,
   'Beast Developer': nodeBeast,
   Bifrost: nodeBifrost,
   'Bifrost Asgard CC4': nodeBifrost,
-  Calamari: nodeCalamari,
+  'Calamari Parachain': nodeCalamari,
+  'Calamari Parachain Development': nodeCalamari,
+  'Calamari Parachain Local': nodeCalamari,
+  'Calamari Parachain Testnet': nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   'Crown Sterling': chainCrownSterling,
@@ -208,7 +218,10 @@ export const chainLogos = Object.entries({
   Litentry: nodeLitentry,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
-  'Manta Testnet': nodeManta,
+  'Manta Parachain': nodeManta,
+  'Manta Parachain Development': nodeManta,
+  'Manta Parachain Local': nodeManta,
+  'Manta Parachain Testnet': nodeManta,
   Mars: nodeAresMars,
   MathChain: nodeMath,
   'MathChain PC1': nodeMath,
@@ -216,6 +229,7 @@ export const chainLogos = Object.entries({
   'Moonbase Alpha': moonbeam,
   'Moonbase Development Testnet': moonbeam,
   'Moonbase Stage': moonbeam,
+  Moonbeam: moonbeam,
   Moonriver: moonriver,
   Moonrock: nodeMoonrock,
   Moonshadow: moonshadow,
@@ -229,16 +243,20 @@ export const chainLogos = Object.entries({
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
-  'Parallel Heiko': chainHeiko,
+  Parallel: chainParallel,
+  'Parallel Heiko': chainParallel,
   'Parami PC2': nodeParami,
   'Phala PC1': nodePhala,
   'PHOENIX PC1': nodePhoenix,
+  'Pichiu Testnet': nodePichiu,
+  'Pioneer Network': nodePioneerNetwork,
   'Polkadex Mainnet': nodePolkadex,
   'Polkadex Testnet': nodePolkadex,
   'PolkaFoundry PC1': nodePolkaFoundry,
   'Pontem Testnet': nodePontem,
   'Prism PC1': nodePrism,
   'Prism Testnet': nodePrism,
+  'QUARTZ by UNIQUE': chainQuartz,
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
@@ -246,12 +264,8 @@ export const chainLogos = Object.entries({
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   Spanner: chainSpanner,
-  'Spartan Testnet': nodeSubspace,
-  Standard: chainStandard,
-  'Standard Kusama Parachain': chainUnorthodox,
   Statemine: nodeStatemine,
   'Statemine Test': nodeStatemine,
-  Statemint: nodeStatemine,
   'Statemint Test': nodeStatemine,
   'Steam PC': nodeEave,
   'SubDAO PC1': nodeSubDAO,
@@ -260,6 +274,7 @@ export const chainLogos = Object.entries({
   'SubGame Staging': nodeSubGame,
   Subsocial: nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
+  subspace: nodeSubspace,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
@@ -287,12 +302,13 @@ export const chainLogos = Object.entries({
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
 export const nodeLogos = Object.entries({
-  'Acala Node': nodeAcala,
+  'Acala Node': chainAcala,
   'Apron Node': nodeApron,
   'Apron Parachain Collator': nodeApron,
   'Ares Gladios': nodeAresGladios,
   'Ares Node': nodeAres,
   'Ares Parachain Collator': nodeAres,
+  Astar: nodeAstar,
   Basilisk: nodeBasilisk,
   'Beast Node': nodeBeast,
   Bifrost: nodeBifrost,
@@ -346,7 +362,7 @@ export const nodeLogos = Object.entries({
   'Laminar Node': nodeLaminar,
   Litentry: nodeLitentry,
   'Litentry Collator': nodeLitentry,
-  'mandala node': nodeAcala,
+  'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
   MathChain: nodeMath,
@@ -365,7 +381,8 @@ export const nodeLogos = Object.entries({
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: nodePangolin,
   Pangoro: nodePangoro,
-  'Parallel Heiko': nodeHeiko,
+  Parallel: nodeParallel,
+  'Parallel Heiko': nodeParallel,
   Parami: nodeParami,
   'parity-polkadot': nodePolkadot,
   'Patract Node': nodeJupiter,
@@ -373,6 +390,8 @@ export const nodeLogos = Object.entries({
   'phala-substrate-node': nodePhala,
   'PHOENIX Collator': nodePhoenix,
   'PHOENIX Node': nodePhoenix,
+  'Pichiu Node': nodePichiu,
+  'Pioneer Network Collator Node': nodePioneerNetwork,
   Plasm: nodePlasm,
   'Plasm Node': nodePlasm,
   'Plasm Parachain Collator': nodePlasm,
@@ -384,6 +403,7 @@ export const nodeLogos = Object.entries({
   'Pontem Testnet': nodePontem,
   'Prism Collator': nodePrism,
   'Prism Node': nodePrism,
+  'Quartz Node': nodeQuartz,
   'ReAlis Network': nodeRealis,
   'Rio Defi Chain Node': nodeRiochain,
   'RioChain Staging': nodeRiochain,
@@ -394,7 +414,6 @@ export const nodeLogos = Object.entries({
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
   SORA: nodeSora,
-  'Spartan Testnet': nodeSubspace,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
@@ -406,6 +425,7 @@ export const nodeLogos = Object.entries({
   'Subsocial Node': nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
   'subsocial-node': nodeSubsocial,
+  subspace: nodeSubspace,
   'substrate-contracts-node': nodeSubstrateContractsNode,
   'substrate-node': nodeSubstrate,
   'subzero node': nodeZero,
@@ -452,15 +472,17 @@ export const specLogos = Object.entries({
 // (Generally would be the 'network' key in the known ss58 as per
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
-  acala: nodeAcala,
+  acala: chainAcala,
   aleph: chainAleph,
   alexander: nodePolkadot,
   altair: chainAltair,
   'Ares Gladios': nodeAresGladios,
+  astar: chainAstar,
   basilisk: nodeBasilisk,
   beast: nodeBeast,
   bifrost: nodeBifrost,
   bitcountry: nodeBitCountry,
+  bitcountryPioneer: nodePioneerNetwork,
   calamari: nodeCalamari,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
@@ -473,8 +495,8 @@ export const namedLogos: Record<string, unknown> = {
   'Crust Maxwell': nodeCrustMaxwell,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
-  'dock-mainnet': nodeDockMainnet,
-  'dock-testnet': nodeDockTestnet,
+  'dock-pos-mainnet': nodeDockMainnet,
+  'dock-pos-testnet': nodeDockTestnet,
   dotmog: nodeDotMog,
   dusty: chainDusty,
   eave: nodeEave,
@@ -492,7 +514,7 @@ export const namedLogos: Record<string, unknown> = {
   genshiro: chainGenshiro,
   halongbay: nodePolkaFoundry,
   hanonycash: nodeHanonycash,
-  heiko: chainHeiko,
+  heiko: chainParallel,
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
@@ -514,6 +536,7 @@ export const namedLogos: Record<string, unknown> = {
   mars: nodeAresMars,
   mathchain: nodeMath,
   moonbaseAlpha: moonbeam,
+  moonbeam: moonbeam,
   moonriver: moonriver,
   moonrock: nodeMoonrock,
   moonshadow: moonshadow,
@@ -526,6 +549,7 @@ export const namedLogos: Record<string, unknown> = {
   'origintrail-parachain-testnet': nodeOriginTrail,
   pangolin: nodePangolin,
   pangoro: nodePangoro,
+  parallel: chainParallel,
   phala: nodePhala,
   phoenix: nodePhoenix,
   picasso: chainComposable,
@@ -537,12 +561,13 @@ export const namedLogos: Record<string, unknown> = {
   polymesh: nodePolymesh,
   pontem: nodePontem,
   prism: nodePrism,
+  quartz: nodeQuartz,
   realis: nodeRealis,
   riochain: nodeRiochain,
   robonomics: nodeRobonomics,
   rocky: nodeCrust,
   rococo: chainRococo,
-  rococoAcala: nodeAcala,
+  rococoAcala: chainAcala,
   rococoApron: nodeApron,
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
@@ -600,7 +625,6 @@ export const namedLogos: Record<string, unknown> = {
   snakenet: chainSnakenet,
   'sora-substrate': nodeSora,
   spanner: chainSpanner,
-  'spartan-testnet': nodeSubspace,
   stafi: nodeStafi,
   statemine: nodeStatemine,
   statemint: nodeStatemine,
@@ -608,6 +632,7 @@ export const namedLogos: Record<string, unknown> = {
   'SubGame Gamma': nodeSubGame,
   'SubGame Staging': nodeSubGame,
   subsocial: nodeSubsocial,
+  subspace: nodeSubspace,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   'ternoa-testnet': nodeTernoa,
@@ -619,6 +644,7 @@ export const namedLogos: Record<string, unknown> = {
   vln: nodeVln,
   web3games: nodeWeb3games,
   westend: nodeWestend,
+  westendPichiu: nodePichiu,
   westendStandard: chainStandard,
   westlake: nodeWestlake,
   westmint: nodeStatemine,

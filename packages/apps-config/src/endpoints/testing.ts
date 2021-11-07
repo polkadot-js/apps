@@ -100,10 +100,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'dock-testnet',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5869
-      text: t('rpc.test.dock-testnet', 'Dock', { ns: 'apps-config' }),
+      text: t('rpc.test.dock-pos-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://danforth-1.dock.io'
+        'Dock Association': 'wss://knox-1.dock.io'
       }
     },
     {
@@ -271,6 +270,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'manta',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6384
       text: t('rpc.manta', 'Manta Testnet', { ns: 'apps-config' }),
       providers: {
         'Manta Testnet': 'wss://ws.f1.testnet.manta.network'
@@ -345,6 +345,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'pichiu',
+      text: t('westend.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      }
+    },
+    {
       info: 'polkadex',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
@@ -410,17 +417,17 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'spartan-testnet',
-      text: t('rpc.test.subspace', 'Spartan testnet', { ns: 'apps-config' }),
-      providers: {
-        'Subspace Network': 'wss://dev-rpc.subspace.network'
-      }
-    },
-    {
       info: 'subgame',
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
         SubGame: 'wss://staging.subgame.org'
+      }
+    },
+    {
+      info: 'subspace',
+      text: t('rpc.test.subspace', 'Subspace Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://test-rpc.subspace.network'
       }
     },
     {
