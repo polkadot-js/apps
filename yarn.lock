@@ -2582,7 +2582,7 @@ __metadata:
     "@polkadot/react-components": ^0.98.2-51
     "@testing-library/react": ^12.1.2
     file-saver: ^2.0.5
-    testcontainers: ^7.21.0
+    testcontainers: ^7.22.0
   languageName: unknown
   linkType: soft
 
@@ -2835,7 +2835,7 @@ __metadata:
     "@subsocial/types": 0.6.4-dev.2
     "@zeitgeistpm/type-defs": 0.3.5
     "@zeroio/type-definitions": 0.0.11
-    i18next: ^21.3.3
+    i18next: ^21.4.0
     lodash: ^4.17.21
     moonbeam-types-bundle: 1.2.7
     pontem-types-bundle: 1.0.15
@@ -2862,7 +2862,7 @@ __metadata:
     react-dom: ^17.0.2
     thread-loader: ^3.0.4
     tmp: ^0.2.1
-    webpack: ^5.61.0
+    webpack: ^5.62.1
   languageName: unknown
   linkType: soft
 
@@ -2913,7 +2913,7 @@ __metadata:
     stream-browserify: ^3.0.0
     stream-http: ^3.2.0
     url-loader: ^4.1.1
-    webpack: ^5.61.0
+    webpack: ^5.62.1
     webpack-cli: ^4.9.1
     webpack-dev-server: ^4.4.0
     webpack-merge: ^5.8.0
@@ -3151,7 +3151,7 @@ __metadata:
     "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^2.9.4
     codeflask: ^1.4.1
-    i18next: ^21.3.3
+    i18next: ^21.4.0
     i18next-browser-languagedetector: ^6.1.2
     owasp-password-strength-test: ^1.3.0
     react: ^17.0.2
@@ -3160,7 +3160,7 @@ __metadata:
     react-copy-to-clipboard: ^5.0.4
     react-dom: ^17.0.2
     react-dropzone: ^11.4.2
-    react-i18next: ^11.12.0
+    react-i18next: ^11.13.0
     react-is: ^17.0.2
     react-markdown: ^5.0.3
     react-router: ^5.2.1
@@ -3290,7 +3290,7 @@ __metadata:
     "@polkadot/types-support": ^6.7.1
     "@testing-library/jest-dom": ^5.15.0
     "@testing-library/react": ^12.1.2
-    testcontainers: ^7.21.0
+    testcontainers: ^7.22.0
     tsconfig-paths: ^3.11.0
   languageName: unknown
   linkType: soft
@@ -11494,12 +11494,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:*, i18next@npm:^21.3.3":
-  version: 21.3.3
-  resolution: "i18next@npm:21.3.3"
+"i18next@npm:*, i18next@npm:^21.4.0":
+  version: 21.4.0
+  resolution: "i18next@npm:21.4.0"
   dependencies:
     "@babel/runtime": ^7.12.0
-  checksum: 666462d8f3163b5867823b09a186b981f69be71cf5924c7b4d6749ba5b6e248eb5796e6928da1b5b19d17a0e6a51aa1922012c5aef269c90ebfe837b9d2db067
+  checksum: cd26c166df08921e385fe97e99b019a4a6552767bbb236081b668c04af27c87c90f21d3239e5f8fe85630c37c6ff1a538688dc556779986af9066b520ddfb68c
   languageName: node
   linkType: hard
 
@@ -15794,7 +15794,7 @@ __metadata:
     react-is: ^17.0.2
     source-map-explorer: ^2.5.2
     styled-components: ^5.3.3
-    webpack: ^5.61.0
+    webpack: ^5.62.1
     webpack-cli: ^4.9.1
   languageName: unknown
   linkType: soft
@@ -16484,16 +16484,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^11.12.0":
-  version: 11.12.0
-  resolution: "react-i18next@npm:11.12.0"
+"react-i18next@npm:^11.13.0":
+  version: 11.13.0
+  resolution: "react-i18next@npm:11.13.0"
   dependencies:
     "@babel/runtime": ^7.14.5
     html-parse-stringify: ^3.0.1
   peerDependencies:
     i18next: ">= 19.0.0"
     react: ">= 16.8.0"
-  checksum: 985e1ede08ab4e1235a03680d339cb558c7c360e5435924587c383dd1c5a183d0656d1f72e59deda757864c78e137d0c664f9daadf9ccdca42ca56cce5db7b23
+  checksum: 93cd93730869e869a1bade404d96905e1f68e86a9eaf46cbfae040e3019956ce3de0c22e9726dc1268883d139899b849296cd54723d47436211828d4f03bbea1
   languageName: node
   linkType: hard
 
@@ -18818,9 +18818,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^7.21.0":
-  version: 7.21.0
-  resolution: "testcontainers@npm:7.21.0"
+"testcontainers@npm:^7.22.0":
+  version: 7.22.0
+  resolution: "testcontainers@npm:7.22.0"
   dependencies:
     "@types/archiver": ^5.1.1
     "@types/dockerode": ^3.2.5
@@ -18834,7 +18834,7 @@ resolve@^2.0.0-next.3:
     slash: ^3.0.0
     ssh-remote-port-forward: ^1.0.4
     tar-fs: ^2.1.1
-  checksum: df63b390f485a7ddca7b322e89ad5fdc0d6ab21c604ea72e780f3bbf20e397af02897f3657e0f7efe787d6e39956cec4af51914ab3fb5b965ea068eb3a6b0654
+  checksum: 7d7595950ce3105f03cfabb1cd3513586e7172f7ca63f297bfd60e9588625bc7c7e9ec6f41869cc83fec8e44e07b9f9ae18f2eecd2f5f19a258cfff5a85bab03
   languageName: node
   linkType: hard
 
@@ -20368,9 +20368,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.61.0":
-  version: 5.61.0
-  resolution: "webpack@npm:5.61.0"
+"webpack@npm:^5.62.1":
+  version: 5.62.1
+  resolution: "webpack@npm:5.62.1"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -20401,7 +20401,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 442958ec48645c9e612a2628a815c411cbc18289b5cc7b3d1b5d0f8e5b41606ed225decf4f3684edc365e6390867bded244d20387c70fbb630c0ac08443c34c8
+  checksum: 85d9bc7e9b4a0d59420831b1cffaed771818a7abbff3e25215246df6c5abe7806eeee8ca28b15f2dd3b34f64b05586dc138a3b181ce99d1887370301c4ce7e2e
   languageName: node
   linkType: hard
 

@@ -41,6 +41,6 @@
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
-    "i18next": "^21.3.3"
+    "i18next": "^21.4.0"
   }
 }
