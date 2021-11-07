@@ -142,9 +142,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.subdao', 'SubDAO', { ns: 'apps-config' }),
         providers: {
-          SubDAO: 'wss://parachain-rpc.subdao.org',
+          SubDAO: 'wss://parachain-rpc.subdao.org'
         }
-      },
+      }
     ]
   };
 }
