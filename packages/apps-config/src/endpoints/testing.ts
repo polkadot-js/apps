@@ -417,6 +417,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'subdao',
+      text: t('rpc.test.subdao', 'SubDAO Staging', { ns: 'apps-config' }),
+      providers: {
+        SubDAO: 'wss://alpha.subdao.org'
+      }
+    },
+    {
       info: 'subgame',
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {

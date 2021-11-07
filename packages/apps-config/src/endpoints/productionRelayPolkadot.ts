@@ -134,7 +134,17 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           Parallel: 'wss://rpc.parallel.fi'
         }
-      }
+      },
+      {
+        info: 'subdao',
+        homepage: 'https://app.subdao.network/',
+        paraId: 2018,
+        isUnreachable: true,
+        text: t('rpc.polkadot.subdao', 'SubDAO', { ns: 'apps-config' }),
+        providers: {
+          SubDAO: 'wss://parachain-rpc.subdao.org',
+        }
+      },
     ]
   };
 }
