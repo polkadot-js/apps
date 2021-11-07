@@ -18,7 +18,7 @@
     "@babel/runtime": "^7.16.0",
     "@polkadot/apps-config": "^0.98.2-51",
     "@polkadot/apps-routing": "^0.98.2-51",
-    "@polkadot/dev": "^0.63.26",
+    "@polkadot/dev": "^0.63.27",
     "@polkadot/react-api": "^0.98.2-51",
     "@polkadot/react-components": "^0.98.2-51",
     "@polkadot/react-hooks": "^0.98.2-51",
@@ -50,7 +50,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.61.0",
+    "webpack": "^5.62.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0",
     "webpack-merge": "^5.8.0"
