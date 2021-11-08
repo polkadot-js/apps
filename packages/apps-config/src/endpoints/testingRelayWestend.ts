@@ -112,7 +112,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'westendPichiu',
         homepage: 'https://kylin.network/',
-        paraId: 2104,
+        paraId: 2106,
         text: t('westend.kylin-node.co.uk', 'Pichiu', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://westend.kylin-node.co.uk'
