@@ -137,7 +137,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'subdao',
-        homepage: 'https://app.subdao.network/',
+        homepage: 'https://subdao.network/',
         paraId: 2018,
         isUnreachable: true,
         text: t('rpc.polkadot.subdao', 'SubDAO', { ns: 'apps-config' }),
