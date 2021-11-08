@@ -147,7 +147,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
                 className='settings--networkSpecs-colorChangeButton'
                 onClick={_onSetRandomColor}
               >
-                              generate random color
+                {t<string>('generate random color')}
               </a>
             </div>
             <ChainColorIndicator
@@ -219,68 +219,65 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 }
 
 export default React.memo(styled(NetworkSpecs)`
-
   td {
-      padding: 0;
+    padding: 0;
 
-      .input.ui--Input input {
-          border: none !important;
-          background: transparent;
-      }
+    .input.ui--Input input {
+      border: none !important;
+      background: transparent;
+    }
   }
 
   .settings--networkSpecs-name {
-      position: relative;
+    position: relative;
 
-      .settings--networkSpecs-logo {
-          height: 32px;
-          left: 12px;
-          position: absolute;
-          top: 1rem;
-          width: 32px;
-      }
+    .settings--networkSpecs-logo {
+      height: 32px;
+      left: 12px;
+      position: absolute;
+      top: 1rem;
+      width: 32px;
+    }
   }
 
   .settings--networkSpecs-color {
-      position: relative;
+    position: relative;
 
-      > div:first-child {
+    > div:first-child {
+      display: flex;
 
-          display: flex;
-
-          .settings--networkSpecs-colorInput {
-              min-width: 124px;
-          }
-
-          .settings--networkSpecs-colorChangeButton {
-              user-select: none;
-              cursor: pointer;
-              background: transparent;
-              border: none;
-              outline: none;
-              align-self: flex-end;
-              padding-bottom: 0.9rem;
-          }
+      .settings--networkSpecs-colorInput {
+        min-width: 124px;
       }
 
-      .settings--networkSpecs-colorBar {
-          border-radius: 50%;
-          border: 1px solid grey;
-          height: 32px;
-          left: 12px;
-          position: absolute;
-          top: 1rem;
-          width: 32px;
+      .settings--networkSpecs-colorChangeButton {
+        user-select: none;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        outline: none;
+        align-self: flex-end;
+        padding-bottom: 0.9rem;
       }
+    }
+
+    .settings--networkSpecs-colorBar {
+      border-radius: 50%;
+      border: 1px solid grey;
+      height: 32px;
+      left: 12px;
+      position: absolute;
+      top: 1rem;
+      width: 32px;
+    }
   }
 
   .settings--networkSpecs-qr {
-      margin: 0.25rem auto;
-      max-width: 15rem;
+    margin: 0.25rem auto;
+    max-width: 15rem;
 
-      img {
-          border: 1px solid white;
-      }
+    img {
+      border: 1px solid white;
+    }
   }
-
 `);
