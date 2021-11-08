@@ -154,6 +154,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           SubDAO: 'wss://parachain-rpc.subdao.org'
         }
+      },
+      {
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        paraId: 2017,
+        text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
+        providers: {
+          SubGame: 'wss://gamma.subgame.org/'
+        }
       }
     ]
   };

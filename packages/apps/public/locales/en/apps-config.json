@@ -62,6 +62,7 @@
   "rpc.polkadot.parity": "Polkadot",
   "rpc.polkadot.statemint-shell": "Statemint (Shell)",
   "rpc.polkadot.subdao": "SubDAO",
+  "rpc.polkadot.subgame": "SubGame Gamma",
   "rpc.prod.centrifuge": "Centrifuge",
   "rpc.prod.chainx": "ChainX",
   "rpc.prod.crab": "Darwinia Crab",
