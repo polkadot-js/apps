@@ -69,9 +69,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               const maxTransfer = balances.availableBalance.sub(adjFee);
 
               setMaxTransfer(
-                maxTransfer.gt(api.consts.balances.existentialDeposit)
+                maxTransfer.gt(BN_ZERO)
                   ? [maxTransfer, false]
-                  : [null, true]
+                  : [null, false]
               );
             })
             .catch(console.error);
@@ -79,8 +79,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           console.error((error as Error).message);
         }
       }, 0);
-    } else {
-      setMaxTransfer([null, false]);
     }
   }, [api, balances, propRecipientId, propSenderId, recipientId, senderId]);
 
