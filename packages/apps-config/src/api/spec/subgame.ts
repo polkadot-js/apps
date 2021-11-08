@@ -125,29 +125,29 @@ const definitions: OverrideBundleDefinition = {
           buyer: 'Option<AccountId>',
           amount: 'Balance',
           percentage_of_fee: 'u8',
-          platform_fee: 'Balance',
+          platform_fee: 'Balance'
         },
         Platform: {
           id: 'u128',
           admin: 'AccountId',
           percentage_of_fee: 'u8',
-          fee_account: 'AccountId',
+          fee_account: 'AccountId'
         },
         Plan: {
           amount: 'SGAssetBalance',
-          score: 'SGAssetBalance',
+          score: 'SGAssetBalance'
         },
         GRPlatform: {
           id: 'u128',
           admin: 'AccountId',
           pool_account: 'AccountId',
           asset_id: 'u32',
-          plan: 'Vec<Plan>',
+          plan: 'Vec<Plan>'
         },
         AbilityOfLevel: {
           level: 'u8',
           ability_value_1_min: 'u32',
-          ability_value_1_max: 'u32',
+          ability_value_1_max: 'u32'
         },
         CardType: {
           admin: 'AccountId',
@@ -159,21 +159,21 @@ const definitions: OverrideBundleDefinition = {
           special_attribute_1: 'Vec<u8>',
           level_max_limit: 'u32',
           ability_of_level: 'Vec<AbilityOfLevel>',
-          is_can_draw: 'bool',
+          is_can_draw: 'bool'
         },
         CardInfo: {
           id: 'u128',
           name: 'Vec<u8>',
           desc: 'Vec<u8>',
-          type_id: 'u128',
+          type_id: 'u128'
         },
         Card: {
           id: 'u128',
           card_info_id: 'u128',
           level: 'u8',
           ability_value_1: 'u32',
-          nft_id: 'NftId',
-        },
+          nft_id: 'NftId'
+        }
       }
     }
   ]
