@@ -13,6 +13,9 @@
   ],
   "resolutions": {
     "@polkadot/api": "^6.5.1",
+    "@cordnetwork/api": "0.2.4-9",
+    "@cordnetwork/types": "0.2.4-9",
+    "@cordnetwork/api-derive": "0.2.4-9",
     "@polkadot/api-contract": "^6.5.1",
     "@polkadot/hw-ledger": "^7.6.1",
     "@polkadot/keyring": "^7.6.1",

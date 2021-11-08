@@ -18,7 +18,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'building',
     name: 'council',
-    text: t('nav.council', 'Council', { ns: 'apps-routing' }),
+    text: t('nav.council', 'General Council', { ns: 'apps-routing' }),
     useCounter
   };
 }
