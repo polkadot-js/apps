@@ -101,6 +101,15 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'pangoro',
+        homepage: 'https://darwinia.network/',
+        paraId: 2102,
+        text: t('rpc.westend.pangoro', 'Pangoro', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network'
+        }
+      },
+      {
         info: 'westendPichiu',
         homepage: 'https://kylin.network/',
         paraId: 2104,
