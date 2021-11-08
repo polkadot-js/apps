@@ -31,8 +31,8 @@ interface Props {
 }
 
 interface ConstructTx {
-  params?: any[];
-  tx?: (...args: any[]) => SubmittableExtrinsic<'promise'>;
+  params?: unknown[];
+  tx?: (...args: unknown[]) => SubmittableExtrinsic<'promise'>;
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.

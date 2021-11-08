@@ -1,10 +1,18 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-routing#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/apps-routing",
   "private": true,
+  "repository": {
+    "directory": "packages/apps-routing",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "type": "module",
-  "version": "0.96.2-36",
-  "license": "Apache-2.0",
+  "version": "0.98.2-59",
   "dependencies": {
-    "@babel/runtime": "^7.15.4"
+    "@babel/runtime": "^7.16.0"
   }
 }

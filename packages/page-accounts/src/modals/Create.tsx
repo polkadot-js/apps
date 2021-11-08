@@ -107,9 +107,21 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: PairType): AddressState {
   let address: string | null = null;
   let deriveValidation: DeriveValidationOutput = deriveValidate(seed, seedType, derivePath, pairType);
-  let isSeedValid = seedType === 'raw'
-    ? rawValidate(seed)
-    : mnemonicValidate(seed);
+  let isSeedValid = false;
+
+  if (seedType === 'raw') {
+    isSeedValid = rawValidate(seed);
+  } else {
+    const words = seed.split(' ');
+
+    if (pairType === 'ed25519-ledger' && words.length === 25) {
+      words.pop();
+
+      isSeedValid = mnemonicValidate(words.join(' '));
+    } else {
+      isSeedValid = mnemonicValidate(seed);
+    }
+  }
 
   if (!deriveValidation?.error && isSeedValid) {
     try {
@@ -151,8 +163,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
   const [isBusy, setIsBusy] = useState(false);
-  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
+  const [{ isNameValid, name }, setName] = useState(() => ({ isNameValid: false, name: '' }));
+  const [{ isPasswordValid, password }, setPassword] = useState(() => ({ isPasswordValid: false, password: '' }));
   const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
@@ -286,8 +298,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             isPadded
             summary={t<string>('Advanced creation options')}
           >
-            {
-              pairType !== 'ethereum' && <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
+            {pairType !== 'ethereum' && (
+              <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
@@ -302,7 +314,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   }
                   tabIndex={-1}
                 />
-              </Modal.Columns>}
+              </Modal.Columns>
+            )}
             {pairType === 'ed25519-ledger'
               ? (
                 <CreateSuriLedger

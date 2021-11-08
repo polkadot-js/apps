@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/interfaces';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
 
 import React, { useMemo, useState } from 'react';
 
@@ -13,9 +13,9 @@ import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
-  details: AssetDetails;
-  id: AssetId;
-  metadata: AssetMetadata;
+  details: PalletAssetsAssetDetails;
+  id: BN;
+  metadata: PalletAssetsAssetMetadata;
   onClose: () => void;
 }
 

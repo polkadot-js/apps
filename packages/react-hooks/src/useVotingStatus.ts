@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useBestNumber } from './useBestNumber';
 
@@ -55,7 +56,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee'): State {
+function useVotingStatusImpl (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee'): State {
   const { api } = useApi();
   const bestNumber = useBestNumber();
 
@@ -66,3 +67,5 @@ export function useVotingStatus (votes: Votes | null | undefined, numMembers: nu
     [api, bestNumber, numMembers, section, votes]
   );
 }
+
+export const useVotingStatus = createNamedHook('useVotingStatus', useVotingStatusImpl);

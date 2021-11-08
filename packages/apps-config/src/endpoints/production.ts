@@ -63,8 +63,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
-      info: 'dock-mainnet',
-      text: t('rpc.prod.dock-mainnet', 'Dock', { ns: 'apps-config' }),
+      info: 'dock-pos-mainnet',
+      text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
         'Dock Association': 'wss://mainnet-node.dock.io',
         'Patract Elara': 'wss://pub.elara.patract.io/dock'
@@ -186,7 +186,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
         'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
         'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
         'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org',
-        Soramitsu: 'wss://ws.alb.sora.org'
+        Soramitsu: 'wss://ws.alb.sora.org',
+        OnFinality: 'wss://sora.api.onfinality.io/public-ws'
         // 'SORA Community (Lux8)': 'wss://sora.lux8.net' // https://github.com/polkadot-js/apps/issues/6195
       }
     },
@@ -218,7 +219,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/subsocial'
+        'Patract Elara': 'wss://pub.elara.patract.io/subsocial',
+        OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
       }
     },
     {

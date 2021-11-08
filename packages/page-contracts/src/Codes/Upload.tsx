@@ -32,7 +32,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
-  const [params, setParams] = useState<any[]>([]);
+  const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
@@ -72,8 +72,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   useEffect((): void => {
     setWasm(
-      contractAbi && isWasm(contractAbi.project.source.wasm)
-        ? [contractAbi.project.source.wasm, true]
+      contractAbi && isWasm(contractAbi.info.source.wasm)
+        ? [contractAbi.info.source.wasm, true]
         : [null, false]
     );
   }, [contractAbi]);
@@ -165,7 +165,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
             />
             {!invalidAbi && contractAbi && (
               <>
-                {!contractAbi.project.source.wasm.length && (
+                {!contractAbi.info.source.wasm.length && (
                   <InputFile
                     help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
                     isError={!isWasmValid}

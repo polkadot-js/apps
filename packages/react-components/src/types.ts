@@ -44,7 +44,7 @@ export interface TxButtonProps {
   onStart?: () => void;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
-  params?: any[] | (() => any[]) | null;
+  params?: unknown[] | (() => unknown[]) | null;
   tooltip?: string;
   tx?: ((...args: any[]) => SubmittableExtrinsic<'promise'>) | null;
   withoutLink?: boolean;

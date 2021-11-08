@@ -38,21 +38,23 @@ function StakingRedeemable ({ className = '', stakingInfo }: Props): React.React
   return (
     <div className={className}>
       <FormatBalance value={stakingInfo.redeemable}>
-        {allAccounts.includes((stakingInfo.controllerId || '').toString()) && (
-          <TxButton
-            accountId={stakingInfo.controllerId}
-            icon='lock'
-            isIcon
-            key='unlock'
-            params={
-              api.tx.staking.withdrawUnbonded.meta.args.length === 1
-                ? [spanCount]
-                : []
-            }
-            tooltip={t<string>('Withdraw these unbonded funds')}
-            tx={api.tx.staking.withdrawUnbonded}
-          />
-        )}
+        {allAccounts.includes((stakingInfo.controllerId || '').toString())
+          ? (
+            <TxButton
+              accountId={stakingInfo.controllerId}
+              icon='lock'
+              isIcon
+              key='unlock'
+              params={
+                api.tx.staking.withdrawUnbonded.meta.args.length === 1
+                  ? [spanCount]
+                  : []
+              }
+              tooltip={t<string>('Withdraw these unbonded funds')}
+              tx={api.tx.staking.withdrawUnbonded}
+            />
+          )
+          : <span className='icon-void'>&nbsp;</span>}
       </FormatBalance>
     </div>
   );

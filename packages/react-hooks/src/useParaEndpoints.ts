@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { bnToBn } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 
 const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
@@ -25,7 +26,7 @@ function extractParaEndpoints (allEndpoints: LinkOption[], paraId: BN | number):
   return allEndpoints.filter(({ paraId }) => paraId === numId);
 }
 
-export function useRelayEndpoints (): LinkOption[] {
+function useRelayEndpointsImpl (): LinkOption[] {
   const { api } = useApi();
 
   return useMemo(
@@ -34,7 +35,9 @@ export function useRelayEndpoints (): LinkOption[] {
   );
 }
 
-export function useParaEndpoints (paraId: BN | number): LinkOption[] {
+export const useRelayEndpoints = createNamedHook('useRelayEndpoints', useRelayEndpointsImpl);
+
+function useParaEndpointsImpl (paraId: BN | number): LinkOption[] {
   const endpoints = useRelayEndpoints();
 
   return useMemo(
@@ -43,7 +46,9 @@ export function useParaEndpoints (paraId: BN | number): LinkOption[] {
   );
 }
 
-export function useIsParasLinked (ids?: (BN | number)[] | null): Record<string, boolean> {
+export const useParaEndpoints = createNamedHook('useParaEndpoints', useParaEndpointsImpl);
+
+function useIsParasLinkedImpl (ids?: (BN | number)[] | null): Record<string, boolean> {
   const endpoints = useRelayEndpoints();
 
   return useMemo(
@@ -56,3 +61,5 @@ export function useIsParasLinked (ids?: (BN | number)[] | null): Record<string, 
     [endpoints, ids]
   );
 }
+
+export const useIsParasLinked = createNamedHook('useIsParasLinked', useIsParasLinkedImpl);

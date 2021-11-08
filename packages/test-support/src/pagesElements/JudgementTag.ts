@@ -4,7 +4,7 @@
 import { fireEvent, screen, within } from '@testing-library/react';
 
 export class JudgementTag {
-  public judgementTag: HTMLElement
+  public judgementTag: HTMLElement;
 
   constructor (judgementTag: HTMLElement) {
     this.judgementTag = judgementTag;

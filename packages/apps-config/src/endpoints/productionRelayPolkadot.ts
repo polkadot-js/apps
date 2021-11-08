@@ -23,6 +23,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/polkadot',
+      'Geometry Labs': 'wss://polkadot.geometry.io/websockets',
       // Dwellir: 'wss://polkadot-rpc.dwellir.com',
       'light client': 'light://substrate-connect/polkadot'
       // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
@@ -30,11 +31,130 @@ export function createPolkadot (t: TFunction): EndpointOption {
     linked: [
       // (1) system parachains (none available yet)
       // ...
-      // (2) common good, leave as second group (none available yet)
-      // ...
+      // (2) all common good parachains
+      {
+        info: 'statemint',
+        paraId: 1000,
+        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://statemint-shell.polkadot.io',
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
+        }
+      },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
       //
       // NOTE: Added alphabetical based on chain name
+      {
+        info: 'acala',
+        homepage: 'https://acala.network/',
+        paraId: 2000,
+        isUnreachable: true,
+        text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
+        providers: {
+          'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
+          'Polkawallet 0': 'wss://acala.polkawallet.io'
+        }
+      },
+      {
+        info: 'astar',
+        homepage: 'https://astar.network',
+        paraId: 2006,
+        isUnreachable: true,
+        text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
+        providers: {
+          Astar: 'wss://rpc.astar.network'
+        }
+      },
+      {
+        info: 'bifrost',
+        homepage: 'https://dot.bifrost.app/?ref=polkadotjs',
+        paraId: 2001,
+        isUnreachable: true,
+        text: t('rpc.polkadot.bifrost', 'Bifrost', { ns: 'apps-config' }),
+        providers: {
+          Liebi: 'wss://bifrost-dot.liebi.com/ws'
+        }
+      },
+      {
+        info: 'clover',
+        homepage: 'https://clover.finance',
+        paraId: 2002,
+        isUnreachable: true,
+        text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
+        providers: {
+          Clover: 'wss://rpc-para.clover.finance'
+        }
+      },
+      {
+        info: 'crust',
+        homepage: 'https://crust.network',
+        paraId: 2008,
+        isUnreachable: true,
+        text: t('rpc.polkadot.crust', 'Crust', { ns: 'apps-config' }),
+        providers: {
+          Crust: 'wss://rpc.crust.network'
+        }
+      },
+      {
+        info: 'darwinia',
+        homepage: 'https://darwinia.network/',
+        paraId: 2003,
+        text: t('rpc.polkadot.darwinia', 'Darwinia', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'litentry',
+        homepage: 'https://www.litentry.com',
+        paraId: 2013,
+        isUnreachable: true,
+        text: t('rpc.polkadot.litentry', 'Litentry', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://parachain.litentry.io'
+        }
+      },
+      {
+        info: 'manta',
+        homepage: 'https://manta.network',
+        isUnreachable: true,
+        paraId: 2015,
+        text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
+        providers: {
+          'Manta 0': 'wss://falafel.manta.systems',
+          'Manta 1': 'wss://fritti.manta.systems',
+          'Manta 2': 'wss://smoothie.manta.systems'
+        }
+      },
+      {
+        info: 'moonbeam',
+        homepage: 'https://moonbeam.foundation',
+        isUnreachable: true,
+        paraId: 2004,
+        text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
+        providers: {
+          Purestake: 'wss://wss.mainnet.moonbeam.network'
+        }
+      },
+      {
+        info: 'parallel',
+        homepage: 'https://parallel.fi',
+        paraId: 2012,
+        text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
+        providers: {
+          Parallel: 'wss://rpc.parallel.fi'
+        }
+      },
+      {
+        info: 'subdao',
+        homepage: 'https://subdao.network/',
+        paraId: 2018,
+        isUnreachable: true,
+        text: t('rpc.polkadot.subdao', 'SubDAO', { ns: 'apps-config' }),
+        providers: {
+          SubDAO: 'wss://parachain-rpc.subdao.org'
+        }
+      }
     ]
   };
 }

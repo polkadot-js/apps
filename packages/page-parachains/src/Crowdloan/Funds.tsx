@@ -27,8 +27,14 @@ function extractLists (value: Campaign[] | null, leasePeriod?: LeasePeriod): [Ca
   let allIds: ParaId[] | null = null;
 
   if (value && currentPeriod) {
-    active = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => !(isCapped || isEnded || isWinner) && currentPeriod.lte(firstSlot));
-    ended = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) => (isCapped || isEnded || isWinner) || currentPeriod.gt(firstSlot));
+    active = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) =>
+      !(isCapped || isEnded || isWinner) &&
+      currentPeriod.lte(firstSlot)
+    );
+    ended = value.filter(({ firstSlot, isCapped, isEnded, isWinner }) =>
+      (isCapped || isEnded || isWinner) ||
+      currentPeriod.gt(firstSlot)
+    );
     allIds = value.map(({ paraId }) => paraId);
   }
 

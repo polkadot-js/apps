@@ -9,6 +9,12 @@ import { LANGUAGE_DEFAULT, settings } from '@polkadot/ui-settings';
 
 import Backend from './Backend';
 
+interface Services {
+  languageDetector: {
+    detect: () => string;
+  };
+}
+
 const languageDetector = new LanguageDetector();
 
 languageDetector.addDetector({
@@ -34,7 +40,9 @@ i18next
     },
     fallbackLng: false,
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
+      prefix: '{{',
+      suffix: '}}'
     },
     keySeparator: false,
     load: 'languageOnly',
@@ -85,8 +93,7 @@ i18next
 settings.on('change', (settings): void => {
   i18next.changeLanguage(
     settings.i18nLang === LANGUAGE_DEFAULT
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      ? i18next.services.languageDetector.detect()
+      ? (i18next.services as Services).languageDetector.detect()
       : settings.i18nLang
   ).catch(console.error);
 });

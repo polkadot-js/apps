@@ -8,9 +8,9 @@ import type { Codec } from '@polkadot/types/types';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
-export default function usePolkadotPreclaims (): string[] {
+function usePolkadotPreclaimsImpl (): string[] {
   const { allAccounts } = useAccounts();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
@@ -48,3 +48,5 @@ export default function usePolkadotPreclaims (): string[] {
 
   return needsAttest;
 }
+
+export default createNamedHook('usePolkadotPreclaims', usePolkadotPreclaimsImpl);
