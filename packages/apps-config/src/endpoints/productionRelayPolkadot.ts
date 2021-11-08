@@ -86,7 +86,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crust',
+        info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
         isUnreachable: true,
