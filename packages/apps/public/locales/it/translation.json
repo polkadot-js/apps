@@ -1768,6 +1768,7 @@
   "rpc.manta": "",
   "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, ospitato da Nodle)",
   "rpc.origintrail": "",
+  "rpc.pangoro.network": "Pangoro",
   "rpc.phoenix": "PHOENIX Protocol (PHOENIX Mashnet, ospitato da PHOENIX Protocol)",
   "rpc.polkadot.parity": "",
   "rpc.pontem": "",

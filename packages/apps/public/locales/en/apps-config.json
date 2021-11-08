@@ -51,6 +51,7 @@
   "rpc.origintrail": "OriginTrail Parachain Testnet",
   "rpc.polkadot.acala": "Acala",
   "rpc.polkadot.astar": "Astar",
+  "rpc.pangoro.network": "Pangoro",
   "rpc.polkadot.bifrost": "Bifrost",
   "rpc.polkadot.clover": "Clover",
   "rpc.polkadot.clover-para": "Clover",

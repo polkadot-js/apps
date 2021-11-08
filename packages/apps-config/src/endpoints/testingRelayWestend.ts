@@ -65,24 +65,6 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'darwinia',
-        homepage: 'https://darwinia.network/',
-        paraId: 2003,
-        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
-        providers: {
-          'Standard Protocol': 'wss://rpc.darwinia.network'
-        }
-      },
-      {
-        info: 'darwinia',
-        homepage: 'https://darwinia.network/',
-        paraId: 2102,
-        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
-        providers: {
-          'Standard Protocol': 'wss://rpc.darwinia.network'
-        }
-      },
-      {
         info: 'integritee',
         paraId: 2081,
         text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),
@@ -116,6 +98,15 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
         providers: {
           Unique: 'wss://westend-opal.unique.network'
+        }
+      },
+      {
+        info: 'pangoro',
+        homepage: 'https://darwinia.network/',
+        paraId: 2102,
+        text: t('rpc.pangoro.network', 'Pangoro', { ns: 'apps-config' }),
+        providers: {
+          Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network'
         }
       },
       {
