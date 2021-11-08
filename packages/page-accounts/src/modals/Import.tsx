@@ -8,10 +8,10 @@ import type { ModalProps } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { AddressRow, Button, InputAddress, InputFile, MarkWarning, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, InputAddress, InputFile, MarkError, MarkWarning, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { u8aToString } from '@polkadot/util';
+import { assert, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import ExternalWarning from './ExternalWarning';
@@ -29,16 +29,20 @@ interface PassState {
 
 const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
-function parseFile (file: Uint8Array, setWarning: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: string | null): KeyringPair | null {
+function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: string | null): KeyringPair | null {
   try {
     const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
 
-    if (isEthereum && pair.type !== 'ethereum') { throw new Error('JSON File does not contain an ethereum type key pair'); }
+    if (isEthereum) {
+      assert(pair.type === 'ethereum', 'JSON File does not contain an ethereum type key pair');
+    } else {
+      assert(pair.type !== 'ethereum', 'JSON contains an ethereum keytype, this is not available on this network');
+    }
 
     return pair;
   } catch (error) {
     console.error(error);
-    setWarning((error as Error).message ? (error as Error).message : (error as Error).toString());
+    setError((error as Error).message ? (error as Error).message : (error as Error).toString());
   }
 
   return null;
@@ -49,13 +53,13 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
   const { api, isDevelopment, isEthereum } = useApi();
   const [isBusy, setIsBusy] = useState(false);
   const [pair, setPair] = useState<KeyringPair | null>(null);
-  const [warning, setWarning] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
   const apiGenesisHash = useMemo(() => isDevelopment ? null : api.genesisHash.toHex(), [api, isDevelopment]);
   const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setPair(parseFile(file, setWarning, isEthereum, apiGenesisHash)),
+    (file: Uint8Array) => setPair(parseFile(file, setError, isEthereum, apiGenesisHash)),
     [apiGenesisHash, isEthereum]
   );
 
@@ -126,9 +130,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             onChange={_onChangeFile}
             withLabel
           />
-          {differentGenesis && (
-            <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
-          )}
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The password previously used to encrypt this account.')}>
           <Password
@@ -143,8 +144,13 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           />
         </Modal.Columns>
         <Modal.Columns>
+          {error && (
+            <MarkError content={error} />
+          )}
+          {differentGenesis && (
+            <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
+          )}
           <ExternalWarning />
-          {warning && <MarkWarning content={warning} />}
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>

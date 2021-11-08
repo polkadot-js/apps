@@ -29,11 +29,11 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
   );
 
   const label = useMemo(
-    () => formatJSON(
-      isUndefined(name)
-        ? `${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
-        : `${name}: ${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`
-    ),
+    (): string => {
+      const fmtType = formatJSON(`${isDisabled && isInOption ? 'Option<' : ''}${encodeTypeDef(registry, type)}${isDisabled && isInOption ? '>' : ''}`);
+
+      return `${isUndefined(name) ? '' : `${name}: `}${fmtType}${type.typeName && !fmtType.includes(type.typeName) ? ` (${type.typeName})` : ''}`;
+    },
     [isDisabled, isInOption, name, registry, type]
   );
 
@@ -55,7 +55,7 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isInOption={isInOption}
-        key={`${name || 'unknown'}:${type.toString()}`}
+        key={`${name || 'unknown'}:${label}`}
         label={label}
         name={name}
         onChange={onChange}
