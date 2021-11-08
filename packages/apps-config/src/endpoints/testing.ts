@@ -152,6 +152,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'fantour',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6519
       text: t('rpc.test.fantour', 'Fantour', { ns: 'apps-config' }),
       providers: {
         FantourDev: 'wss://test-ws.fantour.io'
