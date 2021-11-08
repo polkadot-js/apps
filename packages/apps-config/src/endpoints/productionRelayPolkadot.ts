@@ -99,7 +99,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'darwinia',
         homepage: 'https://darwinia.network/',
         paraId: 2003,
-        text: t('rpc.darwinia.network', 'Darwinia', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.darwinia', 'Darwinia', { ns: 'apps-config' }),
         providers: {
           Darwinia: 'wss://parachain-rpc.darwinia.network'
         }
