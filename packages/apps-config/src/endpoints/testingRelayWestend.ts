@@ -102,6 +102,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'pangoro',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',
         paraId: 2102,
         text: t('rpc.westend.pangoro', 'Pangoro', { ns: 'apps-config' }),
