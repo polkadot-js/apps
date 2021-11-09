@@ -18,7 +18,7 @@ module.exports = merge(
     },
     plugins: [
       new HtmlWebpackPlugin({
-        PAGE_TITLE: 'CORD Apps Portal',
+        PAGE_TITLE: 'Cord Apps',
         inject: true,
         template: path.join(__dirname, 'public/index.html')
       }),
