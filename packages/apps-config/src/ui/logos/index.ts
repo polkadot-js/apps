@@ -63,8 +63,8 @@ import nodeClover from './nodes/clover.svg';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
-import nodeCrustParachain from './nodes/crustParachain.svg';
 import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
+import nodeCrustParachain from './nodes/crustParachain.svg';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
@@ -493,8 +493,8 @@ export const namedLogos: Record<string, unknown> = {
   crab: nodeCrab,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
-  'crustParachain': nodeCrustParachain,
   'Crust Maxwell': nodeCrustMaxwell,
+  crustParachain: nodeCrustParachain,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
   'dock-pos-mainnet': nodeDockMainnet,
