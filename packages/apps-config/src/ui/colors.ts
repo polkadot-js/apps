@@ -188,6 +188,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
+  'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
