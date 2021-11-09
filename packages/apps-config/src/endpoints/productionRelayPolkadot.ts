@@ -97,6 +97,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'darwinia',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',
         paraId: 2003,
         text: t('rpc.polkadot.darwinia', 'Darwinia', { ns: 'apps-config' }),
