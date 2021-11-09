@@ -64,8 +64,8 @@ export function defaultDevNode (t: TFunction, firstOnly: boolean, withSort: bool
   return expandEndpoints(t, [
     {
       dnslink: 'local',
-      info: 'CORD Dev.',
-      text: t('rpc.dev.cord', 'CORD Dev. Node', { ns: 'apps-config' }),
+      info: 'Dev. Node',
+      text: t('rpc.dev.cord', 'Dev. Node', { ns: 'apps-config' }),
       providers: {
         'Local Node': 'ws://127.0.0.1:9944'
       }

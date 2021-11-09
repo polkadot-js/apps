@@ -23,9 +23,10 @@ import emptyLogo from './chains/cord-empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
-  'CORD Dev.': chainCordDev,
-  'CORD Local': chainCordLocal,
-  'CORD Staging': chainCordStaging,
+  'Dev. Node': chainCordDev,
+  'Local': chainCordLocal,
+  'Staging': chainCordStaging,
+  'Amber Glow': chainCordStaging,
   'Royal Blue': chainRoyalBlue,
   'Indian Teal': chainIndianTeal
 }).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
@@ -60,9 +61,10 @@ export const specLogos = Object.entries({
 // https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   cord: chainCord,
-  'CORD Dev.': chainCordDev,
-  'CORD Local': chainCordLocal,
-  'CORD Staging': chainCordStaging,
+  'Dev. Node': chainCordDev,
+  'Local': chainCordLocal,
+  'Staging': chainCordStaging,
+  'Amber Glow': chainCordStaging,
   'Royal Blue (Studio)': chainRoyalBlue,
   'Indian Teal': chainIndianTeal,
   empty: emptyLogo,

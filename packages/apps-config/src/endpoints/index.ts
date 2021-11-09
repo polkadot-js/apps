@@ -8,6 +8,8 @@ import { createCustom, createOwn, defaultDevNode } from './development';
 import { createProduction } from './production';
 // import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
 import { createTesting } from './testing';
+import { createStaging } from './staging';
+
 // import { createRococoRelay, createWestendRelay } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
@@ -52,8 +54,16 @@ export function createWsEndpoints (t: TFunction, firstOnly = false, withSort = t
     {
       isDisabled: false,
       isHeader: true,
-      isSpaced: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      text: t('rpc.header.test', 'Stage Networks', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createStaging(t, firstOnly, withSort),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: false,
+      text: t('rpc.header.live', 'Live Networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
@@ -61,7 +71,7 @@ export function createWsEndpoints (t: TFunction, firstOnly = false, withSort = t
     {
       isDisabled: false,
       isHeader: true,
-      text: t('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
+      text: t('rpc.header.test', 'Test Networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
@@ -70,7 +80,7 @@ export function createWsEndpoints (t: TFunction, firstOnly = false, withSort = t
       isDevelopment: true,
       isDisabled: false,
       isHeader: true,
-      isSpaced: true,
+      isSpaced: false,
       text: t('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       textBy: '',
       value: ''
