@@ -53,31 +53,42 @@ const definitions: OverrideBundleDefinition = {
           per_period: 'Compact<Balance>'
         },
         VestingScheduleOf: 'VestingSchedule',
-        LBPAssetInfo: { id: 'AssetId', amount: 'Balance', initial_weight: 'LBPWeight', final_weight: 'LBPWeight' },
-        LBPWeight: 'u128',
-        WeightPair: { weight_a: 'LBPWeight', weight_b: 'LBPWeight' },
+        LBPWeight: 'u32',
         WeightCurveType: { _enum: ['Linear'] },
         PoolId: 'AccountId',
         BalanceOf: 'Balance',
-        AssetType: { _enum: ['Token'] },
+        AssetType: {
+          _enum: {
+            Token: 'Null',
+            PoolShare: '(AssetId,AssetId)'
+          }
+        },
         Pool: {
           owner: 'AccountId',
           start: 'BlockNumber',
           end: 'BlockNumber',
           assets: 'AssetPair',
-          initial_weights: 'WeightPair',
-          final_weights: 'WeightPair',
-          last_weight_update: 'BlockNumber',
-          last_weights: 'WeightPair',
+          initial_weights: 'LBPWeight',
+          final_weights: 'LBPWeight',
           weight_curve: 'WeightCurveType',
           pausable: 'bool',
           paused: 'bool',
           fee: 'Fee',
           fee_receiver: 'AccountId'
         },
-        AssetNativeLocation: 'MultiLocation',
-        AssetDetails: { name: 'Vec<u8>', asset_type: 'AssetType', locked: 'bool' },
-        AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' }
+        AssetDetails: {
+          name: 'Vec<u8>',
+          asset_type: 'AssetType',
+          existential_deposit: 'Balance',
+          locked: 'bool'
+        },
+        AssetDetailsT: 'AssetDetails',
+        AssetMetadata: { symbol: 'Vec<u8>', decimals: 'u8' },
+        AssetInstance: 'AssetInstanceV1',
+        MultiLocation: 'MultiLocationV1',
+        MultiAsset: 'MultiAssetV1',
+        Xcm: 'XcmV1',
+        XcmOrder: 'XcmOrderV1'
       }
     }
   ]

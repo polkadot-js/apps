@@ -44,7 +44,7 @@ export interface TxButtonProps {
   onStart?: () => void;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
-  params?: any[] | (() => any[]) | null;
+  params?: unknown[] | (() => unknown[]) | null;
   tooltip?: string;
   tx?: ((...args: any[]) => SubmittableExtrinsic<'promise'>) | null;
   withoutLink?: boolean;
@@ -83,3 +83,5 @@ export interface ThemeProps {
 export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
+
+export type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';

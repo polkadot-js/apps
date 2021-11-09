@@ -27,6 +27,7 @@ const renderAccounts = () => {
       <ThemeProvider theme={lightTheme}>
         <Api
           apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+          isElectron={false}
           store={memoryStore}
         >
           <WaitForApi>
@@ -47,7 +48,7 @@ describe('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+    const addAccountButton = await findByText('Add account', {});
 
     fireEvent.click(addAccountButton);
 
@@ -56,7 +57,7 @@ describe('--SLOW--: Account Create', () => {
 
     fireEvent.click(hiddenCheckbox);
 
-    const nextStepButton = await findByText('Next', {}, { timeout: 4000 });
+    const nextStepButton = await findByText('Next', {});
 
     fireEvent.click(nextStepButton);
 
@@ -72,11 +73,11 @@ describe('--SLOW--: Account Create', () => {
 
     fireEvent.change(passwordInput2, { target: { value: 'password' } });
 
-    const toStep3Button = await findByText('Next', {}, { timeout: 4000 });
+    const toStep3Button = await findByText('Next', {});
 
     fireEvent.click(toStep3Button);
 
-    const createAnAccountButton = await findByText('Save', {}, { timeout: 4000 });
+    const createAnAccountButton = await findByText('Save', {});
 
     fireEvent.click(createAnAccountButton);
 
@@ -88,19 +89,19 @@ describe('--SLOW--: Account Create', () => {
   it('gives an error message when entering invalid derivation path', async () => {
     const { findByTestId, findByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+    const addAccountButton = await findByText('Add account', {});
 
     fireEvent.click(addAccountButton);
 
-    const showAdvancedOptionsButton = await findByText('Advanced creation options', {}, { timeout: 5000 });
+    const showAdvancedOptionsButton = await findByText('Advanced creation options', {});
 
     fireEvent.click(showAdvancedOptionsButton);
 
-    const derivationPathInput = await findByTestId('secret derivation path', {}, { timeout: 5000 });
+    const derivationPathInput = await findByTestId('secret derivation path', {});
 
     fireEvent.change(derivationPathInput, { target: { value: '//abc//' } });
 
-    const errorMsg = await findByText('Unable to match provided value to a secret URI', {}, { timeout: 5000 });
+    const errorMsg = await findByText('Unable to match provided value to a secret URI', {});
 
     expect(errorMsg).toBeTruthy();
   });

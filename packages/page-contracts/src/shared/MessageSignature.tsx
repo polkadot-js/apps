@@ -18,7 +18,7 @@ export interface Props {
   asConstructor?: boolean;
   className?: string;
   message: AbiMessage;
-  params?: any[];
+  params?: unknown[];
   withTooltip?: boolean;
 }
 

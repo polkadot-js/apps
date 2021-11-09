@@ -13,7 +13,7 @@ import Header from './Header';
 const ESC_KEYCODE = 27;
 
 function Base (props: ModalProps): React.ReactElement<ModalProps> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const { children, className = '', header, onClose, size = 'medium', testId = 'modal' } = props;
 
   const listenKeyboard = useCallback((event: KeyboardEvent) => {

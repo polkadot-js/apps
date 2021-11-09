@@ -3,10 +3,10 @@
 
 import type { ComponentProps as Props } from '../types';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from '../modals/Create';
@@ -48,43 +48,39 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     );
   }, [allAddresses, favorites]);
 
-  const filter = useMemo(() => (
-    <div className='filter--tags'>
-      <Input
-        autoFocus
-        isFull
-        label={t<string>('filter by name or tags')}
-        onChange={setFilter}
-        value={filterOn}
-      />
-    </div>
-  ), [filterOn, t]);
-
   return (
     <div className={className}>
-      <Button.Group>
-        <Button
-          icon='plus'
-          label={t<string>('Add contact')}
-          onClick={toggleCreate}
-        />
-      </Button.Group>
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
+      <SummaryBox className='summary-box-contacts'>
+        <section>
+          <FilterInput
+            filterOn={filterOn}
+            label={t<string>('filter by name or tags')}
+            setFilter={setFilter}
+          />
+        </section>
+        <Button.Group>
+          <Button
+            icon='plus'
+            label={t<string>('Add contact')}
+            onClick={toggleCreate}
+          />
+        </Button.Group>
+      </SummaryBox>
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
-        filter={filter}
         header={headerRef.current}
+        withCollapsibleRows
       >
-        {!isLoading && sortedAddresses?.map(({ address, isFavorite }, index): React.ReactNode => (
+        {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
-            isEven={!!(index % 2) }
             isFavorite={isFavorite}
             key={address}
             toggleFavorite={toggleFavorite}
@@ -96,13 +92,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Overview)`
-  .filter--tags {
-    .ui--Dropdown {
-      padding-left: 0;
-
-      label {
-        left: 1.55rem;
-      }
-    }
+  .summary-box-contacts {
+    align-items: center;
   }
 `);

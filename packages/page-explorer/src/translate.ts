@@ -5,6 +5,6 @@ import type { UseTranslationResponse } from 'react-i18next';
 
 import { useTranslation as useTranslationBase } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse<'app-explorer'> {
+export function useTranslation (): UseTranslationResponse<'app-explorer', undefined> {
   return useTranslationBase('app-explorer');
 }

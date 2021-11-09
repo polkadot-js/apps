@@ -22,6 +22,7 @@ export interface Props {
   contractAbi: Abi;
   isLabelled?: boolean;
   isWatching?: boolean;
+  trigger?: number;
   onSelect?: (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => void;
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
@@ -43,12 +44,12 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
     );
 }
 
-function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm }: Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, info: { source }, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, trigger, withConstructors, withMessages, withWasm }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
+  const [lastResults, setLastResults] = useState<(ContractCallOutcome | void)[]>([]);
 
   const _onExpander = useCallback(
     (isOpen: boolean): void => {
@@ -57,22 +58,28 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
     [isWatching]
   );
 
+  const _onRefresh = useCallback(
+    (): void => {
+      optInfo && contract && Promise
+        .all(messages.map((m) =>
+          m.isMutating || m.args.length !== 0
+            ? Promise.resolve(undefined)
+            : contract.query[m.method](READ_ADDR, 0, -1).catch(console.error)
+        ))
+        .then(setLastResults)
+        .catch(console.error);
+    },
+    [contract, messages, optInfo]
+  );
+
   useEffect((): void => {
-    isUpdating && optInfo && contract && Promise
-      .all(messages.map((m) =>
-        m.isMutating || m.args.length !== 0
-          ? Promise.resolve(undefined)
-          : contract.query[m.method](READ_ADDR, 0, -1).catch(() => undefined)
-      ))
-      .then(setLastResults)
-      .catch(console.error);
-  }, [contract, isUpdating, isWatching, messages, optInfo]);
+    (isUpdating || trigger) && optInfo && contract && _onRefresh();
+  }, [_onRefresh, contract, isUpdating, optInfo, trigger]);
 
   const _setMessageResult = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (messageIndex: number, result?: ContractCallOutcome): void => {
-      // ignore... for now
-      // setLastResults((all) => all.map((r, index) => index === messageIndex ? result : r));
+      // ignore
     },
     []
   );

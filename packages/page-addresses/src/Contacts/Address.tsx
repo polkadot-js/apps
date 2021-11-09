@@ -21,16 +21,15 @@ interface Props {
   address: string;
   className?: string;
   filter: string;
-  isEven: boolean;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
 }
 
 const isEditable = true;
 
-function Address ({ address, className = '', filter, isEven, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useBalancesAll(address);
@@ -145,7 +144,7 @@ function Address ({ address, className = '', filter, isEven, isFavorite, toggleF
   const PopupDropdown = (
     <Menu>
       <Menu.Item
-        disabled={!isEditable}
+        isDisabled={!isEditable}
         onClick={_toggleForget}
       >
         {t<string>('Forget this address')}
@@ -165,7 +164,7 @@ function Address ({ address, className = '', filter, isEven, isFavorite, toggleF
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='favorite'>
           <Icon
             color={isFavorite ? 'orange' : 'gray'}
@@ -246,7 +245,7 @@ function Address ({ address, className = '', filter, isEven, isFavorite, toggleF
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td />
         <td>
           <div
@@ -318,6 +317,13 @@ export default React.memo(styled(Address)`
       .send-button {
         min-width: 6.5rem;
       }
+    }
+  }
+
+  && .ui--AddressInfo .ui--FormatBalance {
+    .ui--Icon, .icon-void {
+      margin-left: 0.7rem;
+      margin-right: 0.3rem
     }
   }
 `);
