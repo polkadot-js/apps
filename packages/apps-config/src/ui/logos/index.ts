@@ -64,6 +64,7 @@ import nodeCrab from './nodes/crab.svg';
 import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
 import nodeCrustMaxwell from './nodes/crust-maxwell.svg';
+import nodeCrustParachain from './nodes/crustParachain.svg';
 import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
@@ -159,6 +160,7 @@ import emptyLogo from './empty.svg';
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
 export const chainLogos = Object.entries({
+  'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
   Altair: chainAltair,
   'Apron PC1': nodeApron,
@@ -497,6 +499,7 @@ export const namedLogos: Record<string, unknown> = {
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
   'Crust Maxwell': nodeCrustMaxwell,
+  crustParachain: nodeCrustParachain,
   darwinia: nodeDarwinia,
   datahighway: nodeDataHighway,
   'dock-pos-mainnet': nodeDockMainnet,
