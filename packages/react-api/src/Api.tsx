@@ -23,7 +23,7 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import { poaRpcDefs, stakingRewardsRpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
+import { poaRpcDefs, stakingRewardsRpcDefs, coreModsRpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
@@ -197,7 +197,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const types = getDevTypes();
 
     // api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
-    api = new ApiPromise({ provider, registry, rpc: { poa: poaRpcDefs, staking_rewards: stakingRewardsRpcDefs }, signer, types, typesBundle, typesChain });
+    api = new ApiPromise({ provider, registry, rpc: { poa: poaRpcDefs, staking_rewards: stakingRewardsRpcDefs, core_mods: coreModsRpcDefs }, signer, types, typesBundle, typesChain });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

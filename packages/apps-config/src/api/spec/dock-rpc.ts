@@ -65,7 +65,57 @@ const stakingRewardsRpcDefs = {
   }
 };
 
+const coreModsRpcDefs = {
+    bbsPlusPublicKeyWithParams: {
+      alias: ['core_mods_bbsPlusPublicKeyWithParams'],
+      description: 'Return BBS+ public key with params',
+      params: [
+        {
+          name: 'id',
+          type: 'PublicKeyStorageKey',
+        },
+      ],
+      type: 'Option<BbsPlusPublicKeyWithParams>',
+    },
+    bbsPlusParamsByDid: {
+      description: 'Return all BBS+ params by a DID',
+      params: [
+        {
+          name: 'did',
+          type: 'Did',
+        },
+        {
+          name: 'hash',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'BTreeMap<u32, BbsPlusParameters>',
+      method: 'bbsPlusPublicKeyWithParams',
+      section: 'core_mods'
+    },
+    bbsPlusPublicKeysByDid: {
+      alias: ['core_mods_bbsPlusPublicKeysByDid'],
+      description: 'Return all BBS+ key with params by a DID',
+      params: [
+        {
+          name: 'did',
+          type: 'Did',
+        },
+        {
+          name: 'hash',
+          type: 'BlockHash',
+          isOptional: true
+        }
+      ],
+      type: 'BTreeMap<u32, BbsPlusPublicKeyWithParams>',
+      method: 'bbsPlusPublicKeysByDid',
+      section: 'core_mods'
+    },
+  };
+
 export {
   poaRpcDefs,
-  stakingRewardsRpcDefs
+  stakingRewardsRpcDefs,
+  coreModsRpcDefs
 };
