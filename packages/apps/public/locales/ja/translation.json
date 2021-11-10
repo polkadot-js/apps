@@ -295,7 +295,7 @@
   "The recoverable account is protected against the loss of seed/access by a social process.": "復元可能なアカウントは、ソーシャルプロセスによってシード/アクセスの損失から保護されています。",
   "The scheduling preference for this parachain.": "このパラチェーンのスケジューリング優先順位。",
   "The scheduling setting for this parachain.": "このパラチェーンのスケジューリング設定。",
-  "The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.": "このアカウントの秘密のシード値。安全な場所に保管しておくことを確認し、シードにアクセスすることでアカウントを再作成することができます。",
+  "The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account. If you wish to retrieve your account now, paste your mnemonic seed in the input field on your left and proceed with on-screen instructions. Your account will be recovered.": "このアカウントの秘密のシード値。安全な場所に保管しておくことを確認し、シードにアクセスすることでアカウントを再作成することができます。",
   "The selected account to perform the derivation on.": "派生を実行するために選択されたアカウント。",
   "The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.": "署名者は、マルチシグを使用してトランザクションを作成し、他の人が送信したトランザクションを承認する機能を持っています。",
   "The signatory to send the approval/cancel from": "承認/否認を送るための署名",

@@ -739,7 +739,7 @@
   "The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).": "인프트 데이터에서 발생하는 서명, 계정의 암호 알고리듬이랑 마찬가지. (이것은 sr25519 종류에는 비결정적일 수도 있습니다.)",
   "The scheduling preference for this parachain.": "파라체인의 스케쥴 선호",
   "The scheduling setting for this parachain.": "파라체인의 스케쥴 세팅",
-  "The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.": "사용자 계정의 비밀 시드 문구. 비밀 시드 문구를 안전한 장소에 보관하세요. 시드 문구가 있어야만 계정을 재생성할 수 있습니다.",
+  "The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account. If you wish to retrieve your account now, paste your mnemonic seed in the input field on your left and proceed with on-screen instructions. Your account will be recovered.": "사용자 계정의 비밀 시드 문구. 비밀 시드 문구를 안전한 장소에 보관하세요. 시드 문구가 있어야만 계정을 재생성할 수 있습니다.",
   "The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.": "시드 그리고 어원 루트는 검사기 노드 앞으로 제출합니다. 이것은 매우 전문적인 작업이라서, 그 보안이랑 연결 위험을 알고 실행하세요",
   "The selected account to be unlocked.": "선택된 계정은 잠금 해제를 진행해야 합니다",
   "The selected account to perform the derivation on.": "파생된 다른 작업을 수행하기위해 선택된 계정",
