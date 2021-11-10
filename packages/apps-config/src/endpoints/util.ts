@@ -4,6 +4,8 @@
 import type { TFunction } from 'i18next';
 import type { EndpointOption, LinkOption } from './types';
 
+import { objectSpread } from '@polkadot/util';
+
 interface SortOption {
   isUnreachable?: boolean;
 }
@@ -49,16 +51,19 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
   const result = Object
     .entries(providers)
     .filter((_, index) => !firstOnly || index === 0)
-    .map(([host, value], index): LinkOption => ({
-      ...base,
-      dnslink: index === 0 ? dnslink : undefined,
-      isLightClient: value.startsWith('light://'),
-      isRelay: false,
-      textBy: value.startsWith('light://')
-        ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
-        : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
-      value
-    }));
+    .map(([host, value], index): LinkOption =>
+      objectSpread({}, base, {
+        dnslink: index === 0
+          ? dnslink
+          : undefined,
+        isLightClient: value.startsWith('light://'),
+        isRelay: false,
+        textBy: value.startsWith('light://')
+          ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
+          : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
+        value
+      })
+    );
 
   if (linked) {
     const last = result[result.length - 1];

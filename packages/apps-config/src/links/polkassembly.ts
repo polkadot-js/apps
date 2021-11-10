@@ -3,6 +3,8 @@
 
 import type BN from 'bn.js';
 
+import { objectSpread } from '@polkadot/util';
+
 import { externalLogos } from '../ui/logos';
 
 export const PolkassemblyIo = {
@@ -26,8 +28,7 @@ export const PolkassemblyIo = {
   url: 'https://polkassembly.io/'
 };
 
-export const PolkassemblyNetwork = {
-  ...PolkassemblyIo,
+export const PolkassemblyNetwork = objectSpread({}, PolkassemblyIo, {
   chains: {
     Bifrost: 'bifrost',
     'KILT Spiritnet': 'kilt',
@@ -38,4 +39,4 @@ export const PolkassemblyNetwork = {
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.network/${path}/${data.toString()}`,
   url: 'https://polkassembly.network/'
-};
+});

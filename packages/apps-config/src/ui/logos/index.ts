@@ -3,9 +3,11 @@
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
 
+import { objectSpread } from '@polkadot/util';
+
 // The mapping here is done on the actual chain name (system.chain RPC) or
 // the actual RPC node it is corrected to (system.name RPC)
-
+//
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
@@ -298,10 +300,9 @@ export const chainLogos = Object.entries({
   'Westmint Test': nodeStatemine,
   WILT: nodeKilt,
   'zcloak poc1': nodeZCloak
-}).reduce<Record<string, unknown>>((logos, [chain, logo]) => ({
-  ...logos,
-  [sanitize(chain)]: logo
-}), {});
+}).reduce<Record<string, unknown>>((logos, [chain, logo]) =>
+  objectSpread(logos, { [sanitize(chain)]: logo }), {}
+);
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via system.name RPC
@@ -457,10 +458,9 @@ export const nodeLogos = Object.entries({
   'Zeitgeist Node': nodeZeitgeist,
   Zenlink: nodeZenlink,
   'Zenlink Collator': nodeZenlink
-}).reduce<Record<string, unknown>>((logos, [node, logo]) => ({
-  ...logos,
-  [sanitize(node)]: logo
-}), {});
+}).reduce<Record<string, unknown>>((logos, [node, logo]) =>
+  objectSpread(logos, { [sanitize(node)]: logo }), {}
+);
 
 // Alphabetical overrides based on the actual specName
 export const specLogos = Object.entries({
@@ -468,10 +468,9 @@ export const specLogos = Object.entries({
   statemine: nodeStatemine,
   statemint: nodeStatemine,
   westmint: nodeStatemine
-}).reduce<Record<string, unknown>>((logos, [spec, logo]) => ({
-  ...logos,
-  [sanitize(spec)]: logo
-}), {});
+}).reduce<Record<string, unknown>>((logos, [spec, logo]) =>
+  objectSpread(logos, { [sanitize(spec)]: logo }), {}
+);
 
 // Alphabetical overrides when we pass an explicit logo name
 // NOTE: Matches with what is defined as "info" in settings/endpoints.ts

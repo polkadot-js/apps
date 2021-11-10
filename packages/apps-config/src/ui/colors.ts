@@ -3,6 +3,8 @@
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
 
+import { objectSpread } from '@polkadot/util';
+
 import { sanitize } from './util';
 
 // The mapping here is done on the actual chain name (system.chain RPC) or
@@ -343,10 +345,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'zcloak poc1': nodeZCloak,
   'Zenlink PC1': chainZenlink,
   'ZERO.IO': chainZero
-}).reduce<Record<string, string>>((colors, [chain, color]) => ({
-  ...colors,
-  [sanitize(chain)]: color
-}), {});
+}).reduce<Record<string, string>>((colors, [chain, color]) =>
+  objectSpread(colors, { [sanitize(chain)]: color }), {}
+);
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -428,10 +429,9 @@ export const nodeColors = Object.entries({
   'Zeitgeist Collator': nodeZeitgeist,
   'Zeitgeist Node': nodeZeitgeist,
   'Zenlink Collator': nodeZenlink
-}).reduce<Record<string, string>>((colors, [node, color]) => ({
-  ...colors,
-  [sanitize(node)]: color
-}), {});
+}).reduce<Record<string, string>>((colors, [node, color]) =>
+  objectSpread(colors, { [sanitize(node)]: color }), {}
+);
 
 // Alphabetical overrides based on the actual software node type
 // NOTE: This is as retrieved via the system.name RPC
@@ -440,7 +440,5 @@ export const specColors = Object.entries({
   statemine: specStatemine,
   statemint: specStatemint,
   westmint: specWestmint
-}).reduce<Record<string, string>>((colors, [spec, color]) => ({
-  ...colors,
-  [sanitize(spec)]: color
-}), {});
+}).reduce<Record<string, string>>((colors, [spec, color]) =>
+  objectSpread(colors, { [sanitize(spec)]: color }), {});

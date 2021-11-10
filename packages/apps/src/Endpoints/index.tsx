@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
-import { isAscii } from '@polkadot/util';
+import { isAscii, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import GroupDisplay from './Group';
@@ -111,10 +111,9 @@ function loadAffinities (groups: Group[]): Record<string, string> {
         )
       )
     )
-    .reduce((result: Record<string, string>, [network, apiUrl]): Record<string, string> => ({
-      ...result,
-      [network]: apiUrl
-    }), {});
+    .reduce((result: Record<string, string>, [network, apiUrl]): Record<string, string> =>
+      objectSpread(result, { [network]: apiUrl }), {}
+    );
 }
 
 function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
@@ -170,7 +169,9 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   }, [apiUrl, storedCustomEndpoints]);
 
   const _changeGroup = useCallback(
-    (groupIndex: number) => setApiUrl((state) => ({ ...state, groupIndex })),
+    (groupIndex: number) => setApiUrl((state) =>
+      objectSpread({}, state, { groupIndex })
+    ),
     []
   );
 
@@ -195,7 +196,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _setApiUrl = useCallback(
     (network: string, apiUrl: string): void => {
       setAffinities((affinities): Record<string, string> => {
-        const newValue = { ...affinities, [network]: apiUrl };
+        const newValue = objectSpread<Record<string, string>>({}, affinities, { [network]: apiUrl });
 
         store.set(STORAGE_AFFINITIES, newValue);
 
@@ -219,7 +220,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _onApply = useCallback(
     (): void => {
-      settings.set({ ...(settings.get()), apiUrl });
+      settings.set(objectSpread({}, settings.get(), { apiUrl }));
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
       onClose();

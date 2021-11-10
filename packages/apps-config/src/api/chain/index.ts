@@ -3,10 +3,11 @@
 
 import { typesChain } from '@phala/typedefs';
 
+import { objectSpread } from '@polkadot/util';
+
 import CrustMaxwell from './crust-maxwell';
 
 // alphabetical, based on the actual displayed name
-export default {
-  ...typesChain,
+export default objectSpread({}, typesChain, {
   'Crust Maxwell': CrustMaxwell
-};
+});
