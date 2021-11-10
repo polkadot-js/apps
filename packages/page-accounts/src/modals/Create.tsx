@@ -259,7 +259,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           />
         </Modal.Columns>
         {step === 1 && <>
-          <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
+          <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account. If you wish to retrieve your account now, paste your mnemonic seed in the input field on your left and proceed with on-screen instructions. Your account will be recovered.')}>
             <TextArea
               help={isEthereum
                 ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
