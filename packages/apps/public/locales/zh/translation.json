@@ -720,7 +720,7 @@
   "The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).": "输入数据的结果签名，就像使用帐户的加密算法所做的那样。(对于某些类型，例如sr25519，这可能是非确定性的)。",
   "The scheduling preference for this parachain.": "此平行链的日程安排首选项",
   "The scheduling setting for this parachain.": "此平行链的日程安排设置",
-  "The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.": "此账户的秘密种子值。请确保你会将它保存在一个安全的地方，拥有该种子时你才可以重新创建此账户。",
+  "The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account. If you wish to retrieve your account now, paste your mnemonic seed in the input field on your left and proceed with on-screen instructions. Your account will be recovered.": "此账户的秘密种子值。请确保你会将它保存在一个安全的地方，拥有该种子时你才可以重新创建此账户。",
   "The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.": "种子和派生路径将提交给验证人节点。这是一个高级操作，只有在确定安全性和连接风险时才执行。",
   "The selected account to be unlocked.": "所选要解除锁定的帐户",
   "The selected account to perform the derivation on.": "已选择的账号来执行派生。",
