@@ -107,7 +107,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'litentry',
-        homepage: 'https://www.litentry.com',
+        homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
         isUnreachable: true,
         text: t('rpc.polkadot.litentry', 'Litentry', { ns: 'apps-config' }),
