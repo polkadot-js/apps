@@ -322,7 +322,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2100,
         text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
         providers: {
-          SubDAO: 'wss://para.subsocial.network'
+          Dappforce: 'wss://para.subsocial.network'
         }
       },
       {
