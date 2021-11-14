@@ -200,6 +200,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'spanner',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6547
       text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
       providers: {
         Spanner: 'wss://wss.spannerprotocol.com'
