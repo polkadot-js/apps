@@ -317,6 +317,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'subsocial',
+        homepage: 'https://subsocial.network/',
+        paraId: 2100,
+        text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
+        providers: {
+          Dappforce: 'wss://para.subsocial.network'
+        }
+      },
+      {
         info: 'unorthodox',
         homepage: 'https://standard.tech/',
         paraId: 2094,
