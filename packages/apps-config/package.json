@@ -34,7 +34,7 @@
     "@sora-substrate/type-definitions": "1.6.19",
     "@subsocial/types": "0.6.4-dev.2",
     "@zeitgeistpm/type-defs": "0.3.5",
-    "@zeroio/type-definitions": "0.0.11",
+    "@zeroio/type-definitions": "0.0.12",
     "lodash": "^4.17.21",
     "moonbeam-types-bundle": "1.2.7",
     "pontem-types-bundle": "1.0.15",

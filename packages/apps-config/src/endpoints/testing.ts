@@ -505,9 +505,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'zero',
-      text: t('rpc.test.zero', 'Zero', { ns: 'apps-config' }),
+      text: t('rpc.test.zero', 'ZERO.IO', { ns: 'apps-config' }),
       providers: {
-        ZERO: 'wss://alphaville.zero.io'
+        ZERO: 'wss://alphaville.zero.io',
+        GameDAO: 'wss://testnet.gamedao.co'
       }
     }
   ], firstOnly, withSort);
