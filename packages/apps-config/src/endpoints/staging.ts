@@ -21,7 +21,7 @@ export function createStaging (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'Amber Glow',
       text: t('rpc.test.cord', 'Cord v2', { ns: 'apps-config' }),
       providers: {
-        'Dhiway': 'wss://amber-glow.dway.io'
+        'Dhiway': 'wss://staging.cord.network'
       }
     },
      ], firstOnly, withSort);

@@ -9,12 +9,12 @@
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphabetical
 import { sanitize } from '../util';
-import chainCord from './chains/cord-v2-test.svg';
+import chainCord from './chains/cord-v2-staging.svg';
 import chainRoyalBlue from './chains/cord-studio.svg';
 import chainIndianTeal from './chains/cord-teal.svg';
 import chainCordDev from './chains/cord-dev.svg';
 import chainCordLocal from './chains/cord-dev.svg';
-import chainCordStaging from './chains/cord-v2-test.svg';
+import chainCordStaging from './chains/cord-v2-staging.svg';
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 
 import emptyLogo from './chains/cord-empty.svg';
