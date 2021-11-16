@@ -173,6 +173,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'polymesh',
+      text: t('rpc.prod.polymesh', 'Polymesh Mainnet', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://mainnet-rpc.polymesh.network'
+      }
+    },
+    {
       info: 'riochain',
       text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
