@@ -14,7 +14,7 @@
   "version": "0.98.2-75",
   "dependencies": {
     "@babel/runtime": "^7.16.0",
-    "@polkadot/api": "^6.7.2",
+    "@polkadot/api": "^6.8.2-5",
     "@polkadot/extension-compat-metamask": "^0.41.2-0",
     "@polkadot/extension-dapp": "^0.41.2-0",
     "@substrate/connect": "^0.4.6",
