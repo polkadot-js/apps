@@ -17,7 +17,7 @@
     "testcontainers": "^7.22.0"
   },
   "devDependencies": {
-    "@polkadot/types-support": "^6.8.2-5",
+    "@polkadot/types-support": "^6.8.2-6",
     "@testing-library/jest-dom": "^5.15.0",
     "tsconfig-paths": "^3.11.0"
   }
