@@ -3267,7 +3267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:6.8.2-5":
+"@polkadot/rpc-provider@npm:^6.8.2-5":
   version: 6.8.2-5
   resolution: "@polkadot/rpc-provider@npm:6.8.2-5"
   dependencies:
@@ -3280,22 +3280,6 @@ __metadata:
     "@polkadot/x-ws": ^7.8.2
     eventemitter3: ^4.0.7
   checksum: c92c0bc44ee5aeeb6c0e7aabb4c34c17597ee4b5d49ef211657b735fd572fb47739a6652325ca13d57c9b38da4eb645fe7427857d188e7803b3be6e74f5809e6
-  languageName: node
-  linkType: hard
-
-"@polkadot/rpc-provider@npm:^6.3.1":
-  version: 6.7.2
-  resolution: "@polkadot/rpc-provider@npm:6.7.2"
-  dependencies:
-    "@babel/runtime": ^7.16.0
-    "@polkadot/types": 6.7.2
-    "@polkadot/util": ^7.8.2
-    "@polkadot/util-crypto": ^7.8.2
-    "@polkadot/x-fetch": ^7.8.2
-    "@polkadot/x-global": ^7.8.2
-    "@polkadot/x-ws": ^7.8.2
-    eventemitter3: ^4.0.7
-  checksum: 1c41d7a16d03f3df58e0b1513ee9f881ce7796f5f3c6a63206d20ce530c6ad7fb9163012e3c5560ce0a5f73aed0f947486001cbca8f8a54a45b0c8b21b3ea048
   languageName: node
   linkType: hard
 
