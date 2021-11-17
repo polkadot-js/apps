@@ -362,9 +362,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polymesh',
-      text: t('rpc.test.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
+      text: t('rpc.test.polymesh', 'Polymesh Testnet', { ns: 'apps-config' }),
       providers: {
-        Polymath: 'wss://itn-rpc.polymesh.live'
+        Polymath: 'wss://testnet-rpc.polymesh.live'
       }
     },
     {
