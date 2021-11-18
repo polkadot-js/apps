@@ -23,7 +23,8 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
-      Dwellir: 'wss://kusama-rpc.dwellir.com',
+      'Geometry Labs': 'wss://kusama.geometry.io/websockets',
+      // Dwellir: 'wss://kusama-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/6427
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -302,7 +303,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
-          OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/6507
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }
       },
@@ -313,6 +314,16 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
+        }
+      },
+      {
+        info: 'subsocial',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6550
+        homepage: 'https://subsocial.network/',
+        paraId: 2100,
+        text: t('rpc.kusama.subsocial', 'Subsocial', { ns: 'apps-config' }),
+        providers: {
+          Dappforce: 'wss://para.subsocial.network'
         }
       },
       {

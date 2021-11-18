@@ -38,6 +38,11 @@ interface ValState {
   values: RawParams;
 }
 
+interface BlockHash {
+  blockHash: string | null;
+  textHash: string;
+}
+
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value) =>
     isValid &&
@@ -115,7 +120,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>(() => ({ defaultValues: undefined, isIterable: false, key: api.query.timestamp?.now || api.query.system.events, params: [] }));
   const [{ isValid, values }, setValues] = useState<ValState>(() => ({ isValid: true, values: [] }));
-  const [blockHash, setBlockHash] = useState<string | null>(null);
+  const [{ blockHash, textHash }, setBlockHash] = useState<BlockHash>({ blockHash: null, textHash: '' });
 
   const _onAdd = useCallback(
     (): void => {
@@ -134,7 +139,12 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   );
 
   const _onChangeAt = useCallback(
-    (value: string) => setBlockHash(isHex(value, 256) ? value : null),
+    (textHash: string) => setBlockHash({
+      blockHash: isHex(textHash, 256)
+        ? textHash
+        : null,
+      textHash
+    }),
     []
   );
 
@@ -181,7 +191,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
         />
         <Input
           isDisabled={!isValid || !isAtAllowed}
-          isError={!blockHash}
+          isError={!!textHash && !blockHash}
           label={t<string>('blockhash to query at')}
           onChange={_onChangeAt}
           placeholder={t<string>('0x...')}

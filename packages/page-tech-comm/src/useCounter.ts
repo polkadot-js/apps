@@ -3,15 +3,17 @@
 
 import type { Hash } from '@polkadot/types/interfaces';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 const transformCounter = {
   transform: (proposals: Hash[]) => proposals.length
 };
 
-export default function useCounter (): number {
+function useCounterImpl (): number {
   const { api, isApiReady } = useApi();
   const counter = useCall<number>(isApiReady && api.derive.technicalCommittee?.proposals, undefined, transformCounter) || 0;
 
   return counter;
 }
+
+export default createNamedHook('useCounter', useCounterImpl);

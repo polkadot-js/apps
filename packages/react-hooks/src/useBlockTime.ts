@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 
 import { BN, BN_ONE, BN_THOUSAND, BN_TWO, bnToBn, extractTime } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useTranslation } from './translate';
 import { useApi } from './useApi';
 
@@ -19,7 +20,7 @@ const DEFAULT_TIME = new BN(6_000);
 // Use a low minimum validity threshold to check these against
 const THRESHOLD = BN_THOUSAND.div(BN_TWO);
 
-export function useBlockTime (blocks: number | BN = BN_ONE, apiOverride?: ApiPromise | null): Result {
+function useBlockTimeImpl (blocks: number | BN = BN_ONE, apiOverride?: ApiPromise | null): Result {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -64,3 +65,5 @@ export function useBlockTime (blocks: number | BN = BN_ONE, apiOverride?: ApiPro
     [api, apiOverride, blocks, t]
   );
 }
+
+export const useBlockTime = createNamedHook('useBlockTime', useBlockTimeImpl);

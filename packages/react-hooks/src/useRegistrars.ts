@@ -7,6 +7,7 @@ import type { Registrar } from './types';
 
 import { useMemo } from 'react';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
@@ -22,7 +23,7 @@ interface State {
   skipQuery?: boolean;
 }
 
-export function useRegistrars (skipQuery?: boolean): State {
+function useRegistrarsImpl (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && api.query.identity?.registrars);
@@ -47,3 +48,5 @@ export function useRegistrars (skipQuery?: boolean): State {
     [allAccounts, hasAccounts, query]
   );
 }
+
+export const useRegistrars = createNamedHook('useRegistrars', useRegistrarsImpl);

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AssetId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
@@ -13,7 +12,7 @@ import { useTranslation } from '../../translate';
 import Create from './Create';
 
 interface Props {
-  assetIds?: AssetId[];
+  assetIds?: BN[];
   className?: string;
   openId: BN;
 }

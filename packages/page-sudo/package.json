@@ -1,6 +1,5 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "engines": {},
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-sudo#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-sudo",
@@ -12,9 +11,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.98.2-12",
+  "version": "0.98.2-80",
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.98.2-12"
+    "@babel/runtime": "^7.16.3",
+    "@polkadot/react-components": "^0.98.2-80"
   }
 }

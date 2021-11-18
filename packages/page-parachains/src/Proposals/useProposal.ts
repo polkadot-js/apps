@@ -7,9 +7,9 @@ import type { ProposalExt, ScheduledProposals } from '../types';
 
 import { useMemo } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-export default function useProposal (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt {
+function useProposalImpl (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt {
   const { api } = useApi();
   const opt = useCall<Option<ParachainProposal>>(api.query.proposeParachain.proposals, [id]);
 
@@ -25,3 +25,5 @@ export default function useProposal (id: ParaId, approvedIds: ParaId[], schedule
     [approvedIds, id, opt, scheduled]
   );
 }
+
+export default createNamedHook('useProposal', useProposalImpl);

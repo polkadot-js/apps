@@ -407,7 +407,7 @@ export function createRococo (t: TFunction): EndpointOption {
       },
       {
         info: 'rococoStandard',
-        isDisabled: true,
+        isDisabled: true, // Rococo reset
         paraId: 2003,
         text: t('rpc.rococo.standard', 'Standard', { ns: 'apps-config' }),
         providers: {

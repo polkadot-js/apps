@@ -3,9 +3,11 @@
 
 import { useEffect, useRef } from 'react';
 
+import { createNamedHook } from './createNamedHook';
+
 export type MountedRef = React.MutableRefObject<boolean>;
 
-export function useIsMountedRef (): MountedRef {
+function useIsMountedRefImpl (): MountedRef {
   const isMounted = useRef(false);
 
   useEffect((): () => void => {
@@ -18,3 +20,5 @@ export function useIsMountedRef (): MountedRef {
 
   return isMounted;
 }
+
+export const useIsMountedRef = createNamedHook('useIsMountedRef', useIsMountedRefImpl);

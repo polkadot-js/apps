@@ -21,7 +21,7 @@ import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { formatBalance, isTestChain } from '@polkadot/util';
+import { formatBalance, isTestChain, objectSpread } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -86,11 +86,10 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
 
     return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
       address,
-      meta: {
-        ...meta,
+      meta: objectSpread({}, meta, {
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
-      }
+      })
     }));
   } catch (error) {
     console.error('web3Accounts', error);
@@ -127,6 +126,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
+
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -188,7 +188,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiUrl]
   );
 

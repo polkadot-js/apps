@@ -18,6 +18,13 @@ import { expandEndpoints } from './util';
 export function createProduction (t: TFunction, firstOnly: boolean, withSort: boolean): LinkOption[] {
   return expandEndpoints(t, [
     {
+      info: 'aleph',
+      text: t('rpc.prod.aleph', 'Aleph Zero', { ns: 'apps-config' }),
+      providers: {
+        'Aleph Zero Foundation': 'wss://ws.azero.dev'
+      }
+    },
+    {
       dnslink: 'centrifuge',
       info: 'centrifuge',
       text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
@@ -166,6 +173,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'polymesh',
+      text: t('rpc.prod.polymesh', 'Polymesh Mainnet', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://mainnet-rpc.polymesh.network'
+      }
+    },
+    {
       info: 'riochain',
       text: t('rpc.prod.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
@@ -193,6 +207,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'spanner',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6547
       text: t('rpc.spanner', 'Spanner', { ns: 'apps-config' }),
       providers: {
         Spanner: 'wss://wss.spannerprotocol.com'
