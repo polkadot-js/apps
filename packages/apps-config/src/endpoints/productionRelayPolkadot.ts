@@ -156,15 +156,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'subgame',
-        homepage: 'http://subgame.org/',
-        paraId: 2017,
-        text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
-        providers: {
-          SubGame: 'wss://gamma.subgame.org/'
-        }
-      },
-      {
         info: 'efinity',
         homepage: 'https://efinity.io',
         paraId: 2021,
@@ -172,6 +163,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
         providers: {
           Efinity: 'wss://rpc.efinity.io'
+        }
+      },
+      {
+        info: 'subgame',
+        homepage: 'http://subgame.org/',
+        paraId: 2017,
+        text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
+        providers: {
+          SubGame: 'wss://gamma.subgame.org/'
         }
       }
     ]
