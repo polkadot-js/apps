@@ -106,6 +106,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'efinity',
+        homepage: 'https://efinity.io',
+        paraId: 2021,
+        isUnreachable: true,
+        text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
+        providers: {
+          Efinity: 'wss://rpc.efinity.io'
+        }
+      },
+      {
         info: 'litentry',
         homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
@@ -153,16 +163,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.subdao', 'SubDAO', { ns: 'apps-config' }),
         providers: {
           SubDAO: 'wss://parachain-rpc.subdao.org'
-        }
-      },
-      {
-        info: 'efinity',
-        homepage: 'https://efinity.io',
-        paraId: 2021,
-        isUnreachable: true,
-        text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
-        providers: {
-          Efinity: 'wss://rpc.efinity.io'
         }
       },
       {
