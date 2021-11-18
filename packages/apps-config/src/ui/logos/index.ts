@@ -185,6 +185,7 @@ export const chainLogos = Object.entries({
   'Darwinia PC2': nodeDarwinia,
   DataHighway: nodeDataHighway,
   Dusty: chainDusty,
+  Efinity: chainEfinity,
   'Encointer Canary': nodeEncointerNotee,
   'Encointer PC1': nodeEncointerNotee,
   Equilibrium: chainEquilibrium,
