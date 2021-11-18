@@ -163,6 +163,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
         }
+      },
+      {
+        info: 'efinity',
+        homepage: 'https://efinity.io',
+        paraId: 2021,
+        isUnreachable: true,
+        text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
+        providers: {
+          Efinity: 'wss://rpc.efinity.io'
+        }
       }
     ]
   };
