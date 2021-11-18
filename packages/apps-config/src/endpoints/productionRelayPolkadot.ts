@@ -86,7 +86,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'crust',
+        info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
         isUnreachable: true,
@@ -97,6 +97,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'darwinia',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',
         paraId: 2003,
         text: t('rpc.polkadot.darwinia', 'Darwinia', { ns: 'apps-config' }),
@@ -106,7 +107,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'litentry',
-        homepage: 'https://www.litentry.com',
+        homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
         isUnreachable: true,
         text: t('rpc.polkadot.litentry', 'Litentry', { ns: 'apps-config' }),
@@ -117,13 +118,12 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'manta',
         homepage: 'https://manta.network',
-        isUnreachable: true,
         paraId: 2015,
         text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
         providers: {
-          'Manta 0': 'wss://falafel.manta.systems',
-          'Manta 1': 'wss://fritti.manta.systems',
-          'Manta 2': 'wss://smoothie.manta.systems'
+          'Manta Kuhlii': 'wss://kuhlii.manta.systems',
+          'Manta Munkiana': 'wss://munkiana.manta.systems',
+          'Manta Pectinata': 'wss://pectinata.manta.systems'
         }
       },
       {

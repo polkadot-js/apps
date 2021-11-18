@@ -102,6 +102,7 @@ export function createWestend (t: TFunction): EndpointOption {
       },
       {
         info: 'pangoro',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',
         paraId: 2102,
         text: t('rpc.westend.pangoro', 'Pangoro', { ns: 'apps-config' }),
@@ -112,7 +113,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'westendPichiu',
         homepage: 'https://kylin.network/',
-        paraId: 2106,
+        paraId: 2112,
         text: t('westend.kylin-node.co.uk', 'Pichiu', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://westend.kylin-node.co.uk'
