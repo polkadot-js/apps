@@ -13,13 +13,14 @@ interface Props {
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
+  paraValidators?: Record<string, boolean>;
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
   toggleLedger?: () => void;
 }
 
-function Overview ({ className = '', favorites, hasQueries, isIntentions, stakingOverview, targets, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', favorites, hasQueries, isIntentions, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     toggleLedger && toggleLedger();
   }, [toggleLedger]);
@@ -30,6 +31,7 @@ function Overview ({ className = '', favorites, hasQueries, isIntentions, stakin
         favorites={favorites}
         hasQueries={hasQueries}
         isIntentions={isIntentions}
+        paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}

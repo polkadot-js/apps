@@ -1,9 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-
-import { Abi } from '@polkadot/api-contract';
+import type BN from 'bn.js';
+import type { Abi } from '@polkadot/api-contract';
 
 export interface CodeJson {
   abi?: string | null;

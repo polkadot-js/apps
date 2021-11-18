@@ -40,26 +40,22 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
 
   const _onMethodChange = useCallback(
     (newValue: DefinitionRpcExt): void => {
-      if (value.section === newValue.section && value.method === newValue.method) {
-        return;
+      if (value !== newValue) {
+        // set via callback since the method is a function itself
+        setValue(() => newValue);
       }
-
-      // set via callback since the method is a function itself
-      setValue(() => newValue);
     },
     [value]
   );
 
   const _onSectionChange = useCallback(
-    (section: string): void => {
-      if (section === value.section) {
-        return;
+    (newSection: string): void => {
+      if (newSection !== value.section) {
+        const optionsMethod = methodOptions(api, rpcs, newSection);
+
+        setOptionsMethod(optionsMethod);
+        _onMethodChange(rpcs[newSection][optionsMethod[0].value]);
       }
-
-      const optionsMethod = methodOptions(api, rpcs, section);
-
-      setOptionsMethod(optionsMethod);
-      _onMethodChange(rpcs[section][optionsMethod[0].value]);
     },
     [_onMethodChange, api, rpcs, value]
   );

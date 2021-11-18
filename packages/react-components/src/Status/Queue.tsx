@@ -97,6 +97,8 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             } catch (error) {
               // swallow
             }
+          } else if (dispatchError.isToken) {
+            message = `${dispatchError.type}.${dispatchError.asToken.type}`;
           }
 
           return {
@@ -273,15 +275,17 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <QueueProvider value={{
-      queueAction,
-      queueExtrinsic,
-      queuePayload,
-      queueRpc,
-      queueSetTxStatus,
-      stqueue,
-      txqueue
-    }}>
+    <QueueProvider
+      value={{
+        queueAction,
+        queueExtrinsic,
+        queuePayload,
+        queueRpc,
+        queueSetTxStatus,
+        stqueue,
+        txqueue
+      }}
+    >
       {children}
     </QueueProvider>
   );

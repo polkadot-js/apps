@@ -3,7 +3,8 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Bounty, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
 import { fireEvent } from '@testing-library/react';
 import BN from 'bn.js';
@@ -27,8 +28,12 @@ jest.mock('@polkadot/react-hooks/useTreasury', () => ({
   useTreasury: () => mockHooks.treasury
 }));
 
-jest.mock('@polkadot/react-hooks/useMembers', () => ({
-  useMembers: () => mockHooks.members
+jest.mock('@polkadot/react-hooks/useCollectiveInstance', () => ({
+  useCollectiveInstance: () => 'council'
+}));
+
+jest.mock('@polkadot/react-hooks/useCollectiveMembers', () => ({
+  useCollectiveMembers: () => mockHooks.members
 }));
 
 jest.mock('@polkadot/react-hooks/useBlockTime', () => ({
@@ -45,10 +50,10 @@ jest.mock('./hooks/useBounties', () => ({
 
 let aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nays?: string[]) => DeriveCollectiveProposal;
 let augmentedApi: ApiPromise;
-let aBounty: ({ status, value }?: Partial<Bounty>) => Bounty;
+let aBounty: ({ status, value }?: Partial<PalletBountiesBounty>) => PalletBountiesBounty;
 let aBountyIndex: (index?: number) => BountyIndex;
 let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
-let bountyWith: ({ status, value }: { status?: string, value?: number }) => Bounty;
+let bountyWith: ({ status, value }: { status?: string, value?: number }) => PalletBountiesBounty;
 
 describe('Bounties', () => {
   let bountiesPage: BountiesPage;

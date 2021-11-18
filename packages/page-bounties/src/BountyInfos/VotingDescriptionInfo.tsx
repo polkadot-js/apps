@@ -35,7 +35,7 @@ function VotingDescriptionInfo ({ className, proposal, status }: Props): React.R
       data-testid='voting-description'
     >
       {bestProposalName && votingDescriptions.current[bestProposalName] &&
-        <LabelHelp help={votingDescriptions.current[bestProposalName]}/>
+        <LabelHelp help={votingDescriptions.current[bestProposalName]} />
       }
     </div>
   );

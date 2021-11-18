@@ -1,11 +1,11 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -188,7 +188,7 @@ const DEFAULT_NAME = { isQueryFiltered: false, nameFilter: '' };
 
 const DEFAULT_SORT: SortState = { sortBy: 'rankOverall', sortFromMax: true };
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, minNominated, minNominatorBond, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite, toggleLedger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -361,6 +361,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         avgStaked={avgStaked}
         lowStaked={lowStaked}
         minNominated={minNominated}
+        minNominatorBond={minNominatorBond}
         numNominators={nominators?.length}
         numValidators={validators?.length}
         stakedReturn={stakedReturn}

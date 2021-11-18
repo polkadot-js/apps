@@ -9,13 +9,18 @@ import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/r
 import { useApi, useModal } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { useModuleElections } from '../useModuleElections';
 
-function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
+function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
   const [accountId, setAcountId] = useState<string | null>(null);
   const { isOpen, onClose, onOpen } = useModal();
-  const modLocation = api.tx.electionsPhragmen ? 'electionsPhragmen' : 'elections';
+  const modLocation = useModuleElections();
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
@@ -34,16 +39,18 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
-              <InputBalance
-                defaultValue={api.consts[modLocation].candidacyBond}
-                help={t<string>('The bond that is reserved')}
-                isDisabled
-                label={t<string>('candidacy bond')}
-              />
-            </Modal.Columns>
+            {api.consts[modLocation] && (
+              <Modal.Columns hint={t('The bond will be reserved for the duration of your candidacy and membership.')}>
+                <InputBalance
+                  defaultValue={api.consts[modLocation].candidacyBond}
+                  help={t<string>('The bond that is reserved')}
+                  isDisabled
+                  label={t<string>('candidacy bond')}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
-          <Modal.Actions onCancel={onClose}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               isDisabled={!electionsInfo}
@@ -53,7 +60,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
                   ? [electionsInfo?.candidates.length]
                   : []
               }
-              tx={(api.tx.electionsPhragmen || api.tx.elections).submitCandidacy}
+              tx={api.tx[modLocation].submitCandidacy}
             />
           </Modal.Actions>
         </Modal>

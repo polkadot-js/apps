@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -25,16 +24,12 @@ interface Props {
   className?: string;
 }
 
-const transformPrime = {
-  transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
-};
-
 function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
   const numMotions = useCounter();
-  const prime = useCall<AccountId | null>(api.query.council.prime, undefined, transformPrime) || null;
+  const prime = useCall<AccountId | null>(api.derive.council.prime);
   const motions = useCall<DeriveCollectiveProposal[]>(api.derive.council.proposals);
 
   const items = useMemo(() => [

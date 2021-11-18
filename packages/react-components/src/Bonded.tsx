@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React from 'react';
 
 import { Bonded } from '@polkadot/react-query';

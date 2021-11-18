@@ -66,12 +66,14 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
           stashId={stashId}
         />
       )}
-      <Modal.Columns hint={
-        <>
-          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
-          <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
-        </>
-      }>
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
+            <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
+          </>
+        }
+      >
         <InputAddressMulti
           available={available}
           availableLabel={t<string>('candidate accounts')}

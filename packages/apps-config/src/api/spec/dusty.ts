@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        AccountInfo: 'AccountInfoWithProviders',
         AuthorityId: 'AccountId',
         AuthorityVote: 'u32',
         ChallengeGameOf: {
@@ -75,6 +76,12 @@ const definitions: OverrideBundleDefinition = {
         Schedule: {
           putCodePerByteCost: 'Weight',
           version: 'u32'
+        },
+        SmartContract: {
+          _enum: {
+            Wasm: 'AccountId',
+            Evm: 'H160'
+          }
         },
         StakingParameters: {
           canBeNominated: 'bool',

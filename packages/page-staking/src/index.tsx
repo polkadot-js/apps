@@ -3,16 +3,15 @@
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import type { ElectionStatus } from '@polkadot/types/interfaces';
+import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { HelpOverlay } from '@polkadot/react-components';
-import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
+import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
@@ -30,19 +29,29 @@ import useSortedTargets from './useSortedTargets';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
-const transformElection = {
-  transform: (status: ElectionStatus) => status.isOpen
+const optionsParaValidators = {
+  defaultValue: [false, {}] as [boolean, Record<string, boolean>],
+  transform: ([eraElectionStatus, validators, activeValidatorIndices]: [ElectionStatus | null, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, Record<string, boolean>] => [
+    !!eraElectionStatus && eraElectionStatus.isOpen,
+    validators && activeValidatorIndices
+      ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
+      : {}
+  ]
 };
 
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { hasAccounts } = useAccounts();
+  const { areAccountsLoaded, hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
+  const [isInElection, paraValidators] = useCallMulti<[boolean, Record<string, boolean>]>([
+    api.query.staking.eraElectionStatus,
+    api.query.session.validators,
+    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
+  ], optionsParaValidators);
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
@@ -72,7 +81,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'actions',
       text: t<string>('Account actions')
     },
-    isFunction(api.query.staking.activeEra) && {
+    isFunction(api.query.staking.activeEra) && hasAccounts && ownStashes && (ownStashes.length !== 0) && {
       name: 'payout',
       text: t<string>('Payouts')
     },
@@ -95,7 +104,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       name: 'query',
       text: t<string>('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasAccounts, ownStashes, slashes, t]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -103,9 +112,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <Tabs
         basePath={basePath}
         hidden={
-          hasAccounts
-            ? undefined
-            : HIDDEN_ACC
+          areAccountsLoaded && !hasAccounts
+            ? HIDDEN_ACC
+            : undefined
         }
         items={items}
       />
@@ -165,6 +174,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
+        paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}

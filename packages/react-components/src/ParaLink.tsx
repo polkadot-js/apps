@@ -47,6 +47,9 @@ export default React.memo(styled(ParaLink)`
     display: inline-block;
     height: 24px;
     line-height: 24px;
+    max-width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
     vertical-align: middle;
   }
 `);

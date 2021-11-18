@@ -59,7 +59,7 @@ function extractState (ownStashes?: StakerState[]): State {
   const bondedTotal = new BN(0);
 
   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger
+    const value = stakingLedger && stakingLedger.total
       ? stakingLedger.total.unwrap()
       : BN_ZERO;
 
@@ -160,7 +160,10 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
           isInElection={isInElection}
           targets={targets}
         />
-        <NewValidator isInElection={isInElection} />
+        <NewValidator
+          isInElection={isInElection}
+          targets={targets}
+        />
         <NewStash />
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />

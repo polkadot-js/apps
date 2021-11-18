@@ -43,7 +43,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
   const { api } = useApi();
   const bondedId = useCall<string | null>(controllerId ? api.query.staking.bonded : null, [controllerId], transformBonded);
   const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], transformStash);
-  const allBalances = useCall<DeriveBalancesAll>(controllerId ? api.derive.balances.all : null, [controllerId]);
+  const allBalances = useCall<DeriveBalancesAll>(controllerId ? api.derive.balances?.all : null, [controllerId]);
   const [{ error, isFatal }, setError] = useState<ErrorState>({ error: null, isFatal: false });
 
   useEffect((): void => {

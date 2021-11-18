@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
@@ -36,7 +37,7 @@ const IS_NONE = {
   isValidator: false
 };
 
-export function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
+function useAccountInfoImpl (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
@@ -51,8 +52,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
-  const [isEditingName, toggleIsEditingName] = useToggle();
-  const [isEditingTags, toggleIsEditingTags] = useToggle();
+  const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
+  const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
 
   useEffect((): void => {
     validator && setFlags((flags) => ({
@@ -100,19 +101,11 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     if (identity) {
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
       const isKnownGood = judgements.some(([, judgement]) => judgement.isKnownGood);
-      const isReasonable = judgements.some(([, judgement]) => judgement.isReasonable);
-      const isErroneous = judgements.some(([, judgement]) => judgement.isErroneous);
-      const isLowQuality = judgements.some(([, judgement]) => judgement.isLowQuality);
 
       setIdentity({
         ...identity,
-        isBad: isErroneous || isLowQuality,
-        isErroneous,
         isExistent: !!identity.display,
-        isGood: isKnownGood || isReasonable,
         isKnownGood,
-        isLowQuality,
-        isReasonable,
         judgements,
         waitCount: identity.judgements.length - judgements.length
       });
@@ -251,11 +244,14 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     []
   );
 
+  const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
+
   return {
     accountIndex,
     flags,
     genesisHash,
     identity,
+    isEditing,
     isEditingName,
     isEditingTags,
     isNull: !value,
@@ -265,6 +261,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     onSaveName,
     onSaveTags,
     onSetGenesisHash,
+    setIsEditingName,
+    setIsEditingTags,
     setName,
     setTags,
     tags,
@@ -272,3 +270,5 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     toggleIsEditingTags
   };
 }
+
+export const useAccountInfo = createNamedHook('useAccountInfo', useAccountInfoImpl);

@@ -12,36 +12,40 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        TokenId: 'u32',
         Rarity: {
           _enum: [
             'Common',
             'Uncommon',
             'Rare',
-            'Mythical',
-            'Legendary'
+            'Epic',
+            'Legendary',
+            'Relic'
           ]
         },
-        Socket: {
+        TokenId: 'U256',
+        Stackable: {
           _enum: [
-            'Head',
-            'Body',
-            'LegLeft',
-            'LegRight',
-            'ArmLeft',
-            'ArmRight',
-            'Weapon'
+            'Silver',
+            'Gold',
+            'Diamond'
           ]
         },
-        Params: {
-          strength: 'u8',
-          agility: 'u8',
-          intelligence: 'u8'
+        String: 'Vec<u8>',
+        TokenType: {
+          _enum: {
+            Basic: '(Rarity, String, u32, String)'
+          }
+        },
+        Status: {
+          _enum: [
+            'OnSell',
+            'InDelegation',
+            'Free'
+          ]
         },
         Token: {
-          rarity: 'Rarity',
-          socket: 'Socket',
-          params: 'Params'
+          token_id: 'TokenId',
+          token: 'TokenType'
         }
       }
     }

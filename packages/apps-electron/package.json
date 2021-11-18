@@ -1,26 +1,34 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-electron#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/apps-electron",
   "private": true,
-  "version": "0.88.2-19",
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/apps-electron",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "version": "0.98.2-78",
   "dependencies": {
-    "@babel/core": "^7.13.16",
+    "@babel/core": "^7.16.0",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.62.9",
-    "@polkadot/react-components": "^0.88.2-19",
-    "electron-log": "^4.3.4",
-    "electron-updater": "^4.3.8"
+    "@polkadot/dev": "^0.63.28",
+    "@polkadot/react-components": "^0.98.2-78",
+    "electron-log": "^4.4.1",
+    "electron-updater": "^4.6.1"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.3",
-    "@types/tmp": "^0.2.0",
-    "babel-loader": "^8.2.2",
+    "@types/react-dom": "^17.0.11",
+    "@types/tmp": "^0.2.2",
+    "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^7.0.0",
     "html-webpack-plugin": "^4.5.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "thread-loader": "^3.0.3",
+    "thread-loader": "^3.0.4",
     "tmp": "^0.2.1",
-    "webpack": "^5.35.0"
+    "webpack": "^5.62.1"
   }
 }

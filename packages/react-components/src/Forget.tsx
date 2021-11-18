@@ -90,7 +90,7 @@ function Forget (props: Props): React.ReactElement<Props> {
       onClose={onClose}
     >
       <Modal.Content>{children || renderContent(props, t)}</Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='trash'
           label={t<string>('Forget')}

@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 

@@ -5,6 +5,6 @@ import type { UseTranslationResponse } from 'react-i18next';
 
 import { useTranslation as useTranslationBase } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse<'app-bounties'> {
+export function useTranslation (): UseTranslationResponse<'app-bounties', undefined> {
   return useTranslationBase('app-bounties');
 }

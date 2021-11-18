@@ -10,9 +10,10 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  isRelay?: boolean;
 }
 
-function Legend ({ className }: Props): React.ReactElement<Props> {
+function Legend ({ className, isRelay }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -24,6 +25,15 @@ function Legend ({ className }: Props): React.ReactElement<Props> {
         />
         {t('Next session')}
       </span>
+      {isRelay && (
+        <span>
+          <Badge
+            color='purple'
+            icon='vector-square'
+          />
+          {t('Para validator')}
+        </span>
+      )}
       <span>
         <Badge
           color='green'

@@ -12,6 +12,7 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
+        AccountInfo: 'AccountInfoWithRefCount',
         AuthorityId: 'AccountId',
         AuthorityVote: 'u32',
         Claim: {

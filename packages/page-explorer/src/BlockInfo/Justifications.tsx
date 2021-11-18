@@ -38,7 +38,9 @@ function formatTuple (tuple: Tuple): React.ReactNode {
 function JustificationList ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([[t('justifications'), 'start']]);
+  const headerRef = useRef([
+    [t('justifications'), 'start']
+  ]);
 
   const justifications = value.unwrapOr(null);
 

@@ -16,6 +16,7 @@ import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
 interface Props {
+  iconPosition: 'left' | 'right';
   className?: string;
   stakingInfo?: DeriveStakingAccount;
 }
@@ -41,7 +42,7 @@ function extractTotals (stakingInfo?: DeriveStakingAccount, progress?: DeriveSes
   return [mapped, total];
 }
 
-function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
+function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const { t } = useTranslation();
@@ -59,10 +60,13 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
 
   return (
     <div className={className}>
-      <Icon
-        icon='clock'
-        tooltip={trigger}
-      />
+      {iconPosition === 'left' && (
+        <Icon
+          className='left'
+          icon='clock'
+          tooltip={trigger}
+        />
+      )}
       <FormatBalance value={total} />
       <Tooltip
         text={mapped.map(([{ value }, eras, blocks], index): React.ReactNode => (
@@ -86,6 +90,13 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
         ))}
         trigger={trigger}
       />
+      {iconPosition === 'right' && (
+        <Icon
+          className='right'
+          icon='clock'
+          tooltip={trigger}
+        />
+      )}
     </div>
   );
 }
@@ -93,9 +104,14 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
 export default React.memo(styled(StakingUnbonding)`
   white-space: nowrap;
 
-  .ui--Icon {
+  .ui--Icon.left {
     margin-left: 0;
     margin-right: 0.25rem;
+  }
+
+  .ui--Icon.right {
+    margin-left: 0.25rem;
+    margin-right: 0;
   }
 
   .ui--FormatBalance {

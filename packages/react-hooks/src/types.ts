@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { IExtrinsic } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -19,11 +20,13 @@ export interface CallOptions <T> {
   withParamsTransform?: boolean;
 }
 
-export type TxDef = [string, any[] | ((...params: any[]) => SubmittableExtrinsic<'promise'>)];
+export type TxDef = [string, unknown[] | ((...params: unknown[]) => SubmittableExtrinsic<'promise'>)];
 
 export type TxDefs = SubmittableExtrinsic<'promise'> | IExtrinsic | Call | TxDef | null;
 
 export type TxSource<T extends TxDefs> = [T, boolean];
+
+export type CollectiveType = 'council' | 'membership' | 'technicalCommittee';
 
 export interface ModalState {
   isOpen: boolean;
@@ -32,7 +35,10 @@ export interface ModalState {
 }
 
 export interface Inflation {
+  idealStake: number;
+  idealInterest: number;
   inflation: number;
+  stakedFraction: number;
   stakedReturn: number;
 }
 
@@ -94,13 +100,8 @@ export interface AddressFlags extends DeriveAccountFlags {
 }
 
 export interface AddressIdentity extends DeriveAccountRegistration {
-  isGood: boolean;
-  isBad: boolean;
-  isKnownGood: boolean;
-  isReasonable: boolean;
-  isErroneous: boolean;
-  isLowQuality: boolean;
   isExistent: boolean;
+  isKnownGood: boolean;
   waitCount: number;
 }
 
@@ -117,12 +118,15 @@ export interface UseAccountInfo {
   meta?: KeyringJson$Meta;
   toggleIsEditingName: () => void;
   isEditingTags: boolean;
+  isEditing: () => boolean;
   isNull: boolean;
   toggleIsEditingTags: () => void;
   onSaveName: () => void;
   onSaveTags: () => void;
   onSetGenesisHash: (genesisHash: string | null) => void;
   onForgetAddress: () => void;
+  setIsEditingName: (isEditing: boolean) => void;
+  setIsEditingTags: (isEditing: boolean) => void;
 }
 
 export interface StakerState {
@@ -142,3 +146,15 @@ export interface StakerState {
   stashId: string;
   validatorPrefs?: ValidatorPrefs;
 }
+
+export interface Registrar {
+  address: string;
+  index: number;
+}
+
+export interface Judgement {
+  judgementName: DisplayedJudgement;
+  registrars: (Registrar | undefined)[];
+}
+
+export type UseJudgements = Judgement[]

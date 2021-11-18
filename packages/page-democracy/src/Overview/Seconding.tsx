@@ -1,10 +1,10 @@
 // Copyright 2017-2021 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
@@ -36,6 +36,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
       {isSecondingOpen && (
         <Modal
           header={t<string>('Second proposal')}
+          onClose={toggleSeconding}
           size='large'
         >
           <Modal.Content>
@@ -62,7 +63,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleSeconding}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='sign-in-alt'

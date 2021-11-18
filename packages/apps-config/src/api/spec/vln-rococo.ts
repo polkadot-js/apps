@@ -15,6 +15,7 @@ const definitions: OverrideBundleDefinition = {
           _enum: {
             Collateral: 'Collateral',
             Fiat: 'Fiat',
+            Network: 'NetworkAsset',
             Usdv: null
           }
         },
@@ -29,10 +30,12 @@ const definitions: OverrideBundleDefinition = {
             'Vez'
           ]
         },
-        CurrencyId: 'ForeignCurrencyId',
+        CurrencyId: 'NetworkAsset',
         OracleKey: 'Asset',
         OracleValue: 'FixedU128',
-        CurrencyIdOf: 'ForeignCurrencyId',
+        CurrencyIdOf: 'NetworkAsset',
+        Amount: 'i64',
+        AmountOf: 'Amount',
         TimestampedValue: {
           value: 'OracleValue',
           timestamp: 'Moment'
@@ -50,18 +53,63 @@ const definitions: OverrideBundleDefinition = {
             Parachain: 'ParaId'
           }
         },
-        ForeignCurrencyId: {
-          _enum: {
-            Token: 'TokenSymbol'
-          }
-        },
-        TokenSymbol: {
+        NetworkAsset: {
           _enum: [
             'ACA',
             'AUSD',
-            'DOT',
-            'USDV'
+            'DOT'
           ]
+        },
+        BaseAsset: 'CurrencyId',
+        AssetPair: {
+          base: 'BaseAsset',
+          quote: 'CurrencyId'
+        },
+        PaymentMethod: {
+          _enum: [
+            'BankX',
+            'BankY'
+          ]
+        },
+        RatePremiumType: 'FixedU128',
+        SwapKind: {
+          _enum: {
+            In: 'SwapIn',
+            Out: 'SwapOut'
+          }
+        },
+        SwapIn: {
+          _enum: {
+            Created: null,
+            Accepted: 'Vec<u8>',
+            Rejected: 'Vec<u8>',
+            Confirmed: 'Vec<u8>',
+            Expired: null,
+            Completed: null
+          }
+        },
+        SwapOut: {
+          _enum: {
+            Created: null,
+            Accepted: null,
+            Rejected: 'Vec<u8>',
+            Confirmed: 'Vec<u8>',
+            Expired: null,
+            Completed: null
+          }
+        },
+        PairPrice: {
+          pair: 'AssetPair',
+          price: 'FixedU128'
+        },
+        Swap: {
+          human: 'AccountId',
+          kind: 'SwapKind',
+          price: 'PairPrice',
+          amount: 'FixedU128'
+        },
+        RateDetail: {
+          rate: 'FixedU128'
         }
       }
     }]

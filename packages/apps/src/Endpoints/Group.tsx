@@ -22,7 +22,7 @@ interface Props {
   value: Group;
 }
 
-function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
@@ -31,7 +31,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
   return (
     <div className={`${className}${isSelected ? ' isSelected' : ''}`}>
       <div
-        className='groupHeader'
+        className={`groupHeader${isSpaced ? ' isSpaced' : ''}`}
         onClick={_setGroup}
       >
         <Icon icon={isSelected ? 'caret-up' : 'caret-down'} />
@@ -68,6 +68,10 @@ export default React.memo(styled(GroupDisplay)`
 
     &:hover {
       background: var(--bg-table);
+    }
+
+    &.isSpaced {
+      margin-top: 0.75rem;
     }
 
     .ui--Icon {

@@ -57,6 +57,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
     <Modal
       className={className}
       header={t<string>('Submit preimage')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -79,7 +80,8 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
             <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
             <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
           </>
-        }>
+        }
+        >
           <Extrinsic
             defaultValue={apiDefaultTxSudo}
             label={t<string>('propose')}
@@ -104,7 +106,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           </Modal.Columns>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

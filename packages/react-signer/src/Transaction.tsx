@@ -1,9 +1,9 @@
 // Copyright 2017-2021 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 

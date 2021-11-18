@@ -7,9 +7,12 @@ import type { TypeDef } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
 
+import { InputAddress, InputBalance } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
+
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
@@ -31,15 +34,18 @@ interface ParamState {
   values: Value[];
 }
 
+const DEFAULT_PARAMS: ParamState = { params: [], values: [] };
+
 const transformProposal = {
   transform: (optProp: Option<TreasuryProposal>) => optProp.unwrapOr(null)
 };
 
 function TreasuryCell ({ className = '', value }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const [proposalId] = useState(value.unwrap());
+  const [proposalId] = useState(() => value.unwrap());
   const proposal = useCall<TreasuryProposal | null>(api.query.treasury.proposals, [proposalId], transformProposal);
-  const [{ params, values }, setExtracted] = useState<ParamState>({ params: [], values: [] });
+  const [{ params, values }, setExtracted] = useState<ParamState>(DEFAULT_PARAMS);
 
   useEffect((): void => {
     proposal && setExtracted({
@@ -64,7 +70,18 @@ function TreasuryCell ({ className = '', value }: Props): React.ReactElement<Pro
         isDisabled
         params={params}
         values={values}
-      />
+      >
+        <InputAddress
+          defaultValue={proposal.beneficiary}
+          isDisabled
+          label={t<string>('beneficiary')}
+        />
+        <InputBalance
+          defaultValue={proposal.value}
+          isDisabled
+          label={t<string>('payout')}
+        />
+      </Params>
     </div>
   );
 }

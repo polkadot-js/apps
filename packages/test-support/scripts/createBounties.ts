@@ -4,14 +4,7 @@
 import { createApi } from '@polkadot/test-support/api';
 import { aliceSigner } from '@polkadot/test-support/keyring';
 
-import { multiAcceptCurator,
-  multiApproveBounty,
-  multiAwardBounty,
-  multiClaimBounty,
-  multiProposeBounty,
-  multiProposeCurator,
-  multiWaitForBountyFunded,
-  multiWaitForClaim } from './lib/multiFunctions';
+import { multiAcceptCurator, multiApproveBounty, multiAwardBounty, multiClaimBounty, multiProposeBounty, multiProposeCurator, multiWaitForBountyFunded, multiWaitForClaim } from './lib/multiFunctions';
 
 (async () => {
   const api = await createApi(9944);

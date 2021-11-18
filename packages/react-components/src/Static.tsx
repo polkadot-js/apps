@@ -9,7 +9,7 @@ import Labelled from './Labelled';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  defaultValue?: any;
+  defaultValue?: unknown;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
@@ -38,7 +38,7 @@ function Static ({ children, className = '', defaultValue, help, isFull, isHidde
         {children}
       </div>
       {withCopy && (
-        <CopyButton value={value} />
+        <CopyButton value={value || defaultValue} />
       )}
     </Labelled>
   );

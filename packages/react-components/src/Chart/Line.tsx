@@ -1,12 +1,14 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { LineProps } from './types';
 
-import BN from 'bn.js';
 import ChartJs from 'chart.js';
 import React, { useMemo } from 'react';
 import * as Chart from 'react-chartjs-2';
+
+import { isBn } from '@polkadot/util';
 
 interface State {
   chartData: ChartJs.ChartData;
@@ -50,7 +52,7 @@ const chartOptions = {
 function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][]): State {
   const chartData = values.reduce((chartData, values, index): Config => {
     const color = colors[index] || alphaColor(COLORS[index]);
-    const data = values.map((value): number => BN.isBN(value) ? value.toNumber() : value);
+    const data = values.map((value): number => isBn(value) ? value.toNumber() : value);
 
     chartData.datasets.push({
       backgroundColor: color,
