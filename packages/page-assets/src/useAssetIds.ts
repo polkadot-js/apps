@@ -4,7 +4,7 @@
 import type { StorageKey } from '@polkadot/types';
 import type { AssetId } from '@polkadot/types/interfaces';
 
-import { useApi, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
 
 function extractAssetIds (keys: StorageKey<[AssetId]>[]): AssetId[] {
   return keys
@@ -12,9 +12,11 @@ function extractAssetIds (keys: StorageKey<[AssetId]>[]): AssetId[] {
     .sort((a, b) => a.cmp(b));
 }
 
-export default function useAssetIds (): AssetId[] | undefined {
+function useAssetIdsImpl (): AssetId[] | undefined {
   const { api } = useApi();
   const trigger = useEventTrigger([api.events.assets.Created, api.events.assets.Destroyed]);
 
   return useMapKeys(api.query.assets.asset, { at: trigger.blockHash, transform: extractAssetIds });
 }
+
+export default createNamedHook('useAssetIds', useAssetIdsImpl);

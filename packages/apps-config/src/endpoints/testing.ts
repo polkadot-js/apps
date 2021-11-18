@@ -21,7 +21,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'aleph',
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
-        'Aleph Zero Foundation': 'wss://test-api.alephzero.org'
+        'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
       }
     },
     {
@@ -100,10 +100,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'dock-testnet',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/5869
       text: t('rpc.test.dock-pos-testnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://danforth-1.dock.io'
+        'Dock Association': 'wss://knox-1.dock.io'
       }
     },
     {
@@ -153,6 +152,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'fantour',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6519
       text: t('rpc.test.fantour', 'Fantour', { ns: 'apps-config' }),
       providers: {
         FantourDev: 'wss://test-ws.fantour.io'
@@ -346,6 +346,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'pichiu',
+      text: t('westend.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Kylin Network': 'wss://westend.kylin-node.co.uk'
+      }
+    },
+    {
       info: 'polkadex',
       isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
@@ -355,9 +362,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polymesh',
-      text: t('rpc.test.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
+      text: t('rpc.test.polymesh', 'Polymesh Testnet', { ns: 'apps-config' }),
       providers: {
-        Polymath: 'wss://itn-rpc.polymesh.live'
+        Polymath: 'wss://testnet-rpc.polymesh.live'
       }
     },
     {
@@ -408,6 +415,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.sora-substrate-staging', 'SORA-staging', { ns: 'apps-config' }),
       providers: {
         Soramitsu: 'wss://ws.stage.sora2.soramitsu.co.jp'
+      }
+    },
+    {
+      info: 'subdao',
+      text: t('rpc.test.subdao', 'SubDAO Staging', { ns: 'apps-config' }),
+      providers: {
+        SubDAO: 'wss://alpha.subdao.org'
       }
     },
     {

@@ -7,7 +7,7 @@ import { useIsMountedRef } from './useIsMountedRef';
 
 const DEFAULT_DELAY = 250;
 
-// Debounces inputs
+// FIXE Due to generics, cannot use createNamedHook
 export function useDebounce <T> (value: T, delay?: number): T {
   const mountedRef = useIsMountedRef();
   const [debouncedValue, setDebouncedValue] = useState(value);

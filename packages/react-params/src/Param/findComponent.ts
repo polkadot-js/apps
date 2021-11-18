@@ -85,11 +85,11 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 
 const warnList: string[] = [];
 
-function fromDef ({ displayName, info, lookupName, sub, type, typeName }: TypeDef): string {
-  const nameOverride = displayName || typeName;
+function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string {
+  // const nameOverride = displayName || typeName;
 
-  if (nameOverride && SPECIAL_TYPES.includes(nameOverride)) {
-    return nameOverride;
+  if (displayName && SPECIAL_TYPES.includes(displayName)) {
+    return displayName;
   } else if (type.endsWith('RuntimeSessionKeys')) {
     return 'RuntimeSessionKeys';
   }

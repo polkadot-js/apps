@@ -102,7 +102,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         ? call.meta.args.length === 5
           // with weight
           ? call.method === 'limitedTeleportAssets'
-            ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, { Limited: destWeight }]
+            ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, { Unlimited: null }]
             : [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
           // without weight
           : [{ V0: dst }, { V0: acc }, { V0: ass }, 0]

@@ -7,13 +7,14 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { typesBundle, typesChain } from '@polkadot/apps-config';
 import { isString } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useIsMountedRef } from './useIsMountedRef';
 
 function disconnect (api: ApiPromise | null): void {
   api && api.disconnect().catch(console.error);
 }
 
-export function useApiUrl (url?: string | string[]): ApiPromise | null {
+function useApiUrlImpl (url?: string | string[]): ApiPromise | null {
   const apiRef = useRef<ApiPromise | null>(null);
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<ApiPromise | null>(null);
@@ -53,3 +54,5 @@ export function useApiUrl (url?: string | string[]): ApiPromise | null {
 
   return state;
 }
+
+export const useApiUrl = createNamedHook('useApiUrl', useApiUrlImpl);

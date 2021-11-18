@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 
+import { createNamedHook } from './createNamedHook';
+
 const KNOWN = ['ipfs', 'ipns'];
 const SECTIONS = KNOWN.map((part) => `/${part}/`);
 const LOCAL_IPFS = '.ipfs.localhost';
@@ -111,8 +113,10 @@ export function extractIpfsDetails (): State {
       : extractOther(url);
 }
 
-export function useIpfs (): State {
+function useIpfsImpl (): State {
   const [state] = useState(() => extractIpfsDetails());
 
   return state;
 }
+
+export const useIpfs = createNamedHook('useIpfs', useIpfsImpl);

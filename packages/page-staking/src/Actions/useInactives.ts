@@ -9,7 +9,7 @@ import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/t
 import { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 interface Inactives {
@@ -82,7 +82,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   };
 }
 
-export default function useInactives (stashId: string, nominees?: string[]): Inactives {
+function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
@@ -124,3 +124,5 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
 
   return state;
 }
+
+export default createNamedHook('useInactives', useInactivesImpl);
