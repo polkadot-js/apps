@@ -15,10 +15,10 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/polyfill": "^7.12.1",
-    "@babel/runtime": "^7.16.0",
+    "@babel/runtime": "^7.16.3",
     "@polkadot/apps-config": "^0.98.2-78",
     "@polkadot/apps-routing": "^0.98.2-78",
-    "@polkadot/dev": "^0.63.28",
+    "@polkadot/dev": "^0.63.29",
     "@polkadot/react-api": "^0.98.2-78",
     "@polkadot/react-components": "^0.98.2-78",
     "@polkadot/react-hooks": "^0.98.2-78",
@@ -50,9 +50,9 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.62.1",
+    "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.4.0",
+    "webpack-dev-server": "^4.5.0",
     "webpack-merge": "^5.8.0"
   }
 }
