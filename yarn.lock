@@ -3124,7 +3124,7 @@ __metadata:
     "@polkadot/api": ^6.8.2-12
     "@polkadot/extension-compat-metamask": ^0.41.2-0
     "@polkadot/extension-dapp": ^0.41.2-0
-    "@substrate/connect": ^0.4.7
+    "@substrate/connect": 0.4.6
     fflate: ^0.7.1
     rxjs: ^7.4.0
   languageName: unknown
@@ -3809,33 +3809,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@substrate/connect@npm:^0.4.7":
-  version: 0.4.7
-  resolution: "@substrate/connect@npm:0.4.7"
+"@substrate/connect@npm:0.4.6":
+  version: 0.4.6
+  resolution: "@substrate/connect@npm:0.4.6"
   dependencies:
     "@polkadot/api": ^6.3.1
     "@polkadot/rpc-provider": ^6.3.1
     "@substrate/connect-extension-protocol": ^0.3.0
-    "@substrate/smoldot-light": 0.5.0
+    "@substrate/smoldot-light": 0.4.18
     browserify-fs: ^1.0.0
     eventemitter3: ^4.0.7
     file-entry-cache: ^6.0.1
     mkdirp: ^1.0.4
   peerDependencies:
     "@polkadot/wasm-crypto": ^4.1.2
-  checksum: de45abb85ab08c8eab692e80f4e1834928bf8c49deea9944c82edfd6bedbc3015094a9b3ce6fd59eed5bfd9d0f3146727569789533e407de2ce44306e2e8041c
+  checksum: 88a4e8c5818316849855110370f168753b49137a189e2dbe00bfd54f9778417ec10f60808d2c001c0733205759cd6fb0df55692799ac072c0c269d0581cec0c3
   languageName: node
   linkType: hard
 
-"@substrate/smoldot-light@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@substrate/smoldot-light@npm:0.5.0"
+"@substrate/smoldot-light@npm:0.4.18":
+  version: 0.4.18
+  resolution: "@substrate/smoldot-light@npm:0.4.18"
   dependencies:
     buffer: ^6.0.1
     performance-now: ^2.1.0
     randombytes: ^2.1.0
     websocket: ^1.0.32
-  checksum: 8262ac362174f269164e8b7b39a73c3fcfbc981ceb828b6450f9e3d78f13558418a1fcc5f22ea77b254ea7b7671ebdb0854d1668cdf43a1b0cc9f0c79a96b352
+  checksum: 4f9d22a032294a7a69bd75bb4a7c18b7e6b377a6998627a0596ec8ba05680dc1d4f91c6eef79027cdb7da787468049fb5cebbe9875c2a91367a87f5398efdb7d
   languageName: node
   linkType: hard
 

@@ -17,7 +17,7 @@
     "@polkadot/api": "^6.8.2-12",
     "@polkadot/extension-compat-metamask": "^0.41.2-0",
     "@polkadot/extension-dapp": "^0.41.2-0",
-    "@substrate/connect": "^0.4.7",
+    "@substrate/connect": "0.4.6",
     "fflate": "^0.7.1",
     "rxjs": "^7.4.0"
   }
