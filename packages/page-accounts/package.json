@@ -13,10 +13,10 @@
   "type": "module",
   "version": "0.98.2-78",
   "dependencies": {
-    "@babel/runtime": "^7.16.0",
-    "@polkadot/phishing": "^0.6.438",
+    "@babel/runtime": "^7.16.3",
+    "@polkadot/phishing": "^0.6.442",
     "@polkadot/react-components": "^0.98.2-78",
-    "@polkadot/vanitygen": "^0.48.3",
+    "@polkadot/vanitygen": "^0.48.4-0",
     "detect-browser": "^5.2.1",
     "file-saver": "^2.0.5"
   },
