@@ -218,6 +218,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   DataHighway: chainRoccoDataHighway,
   'DOTMog.com NET': chainDotMog,
+  Efinity: chainEfinity,
   'Encointer Canary': nodeEncointerNotee,
   'Encointer PC1': nodeEncointerNotee,
   Equilibrium: chainEquilibrium,
