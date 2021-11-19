@@ -47,7 +47,7 @@ import externalPolkastats from './external/polkastats.png';
 import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
-import externalSubsquare from './external/subsquare.svg'
+import externalSubsquare from './external/subsquare.svg';
 import nodeApron from './nodes/apron.png';
 import nodeAres from './nodes/ares.svg';
 import nodeAresGladios from './nodes/ares-gladios.svg';

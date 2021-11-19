@@ -25,5 +25,5 @@ export const externalLinks: Record<string, ExternalDef> = {
   Statescan,
   SubId,
   Subscan,
-  Subsquare,
+  Subsquare
 };
