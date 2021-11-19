@@ -23,6 +23,7 @@ import { OwnerAmount } from './Summary';
 interface Props {
     collators:OwnerAmount[]|undefined
     collatorInfo:{minNomination:string,maxNominatorsPerCollator:string}
+    setActiveNominators:(number)=>void
 }
 
 type AccountExtend = [string, boolean, boolean];
@@ -67,7 +68,7 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
 
 const DEFAULT_PARAS = {};
 
-function CollatorList ({ collators, collatorInfo }: Props): React.ReactElement<Props> | null {
+function CollatorList ({ collators, collatorInfo,setActiveNominators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const isLoading = useLoadingDelay();
 
@@ -97,6 +98,7 @@ function CollatorList ({ collators, collatorInfo }: Props): React.ReactElement<P
           collatorStake={amount}
           key={owner}
           collatorInfo={collatorInfo}
+          setActiveNominators={setActiveNominators}
         />
       )))}
     </Table>

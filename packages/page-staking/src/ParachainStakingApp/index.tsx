@@ -37,6 +37,8 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
   const bestNumberFinalized = useBestNumber();
   const collatorCommission = (useCall<ApiResult|undefined>(api.query.parachainStaking.collatorCommission));
 
+  const [activeNominators,setActiveNominators]=useState<number>(0)
+
   // list info
   const candidatePool = useCall<OwnerAmount[]>(api.query.parachainStaking.candidatePool);
 
@@ -56,7 +58,7 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
           collatorCommission:collatorCommission?.toHuman()
         }}
       />
-      <CollatorList collators={candidatePool} collatorInfo={{minNomination:api.consts.parachainStaking.minNomination,maxNominatorsPerCollator:api.consts.parachainStaking.maxNominatorsPerCollator}} />
+      <CollatorList setActiveNominators={setActiveNominators} collators={candidatePool} collatorInfo={{minNomination:api.consts.parachainStaking.minNomination,maxNominatorsPerCollator:api.consts.parachainStaking.maxNominatorsPerCollator}} />
     </main>
   );
 }

@@ -27,6 +27,7 @@ interface Props {
   className?: string;
   collatorStake:BN
   collatorInfo:{minNomination:string,maxNominatorsPerCollator:string}
+  setActiveNominators:(number)=>void
 }
 
 function CollatorDetails ({ address, className = '',collatorStake,collatorInfo }: Props): React.ReactElement<Props> | null {
