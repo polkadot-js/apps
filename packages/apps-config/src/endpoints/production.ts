@@ -91,7 +91,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'efinity',
       text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
       providers: {
-        Efinity: 'wss://rpc.efinity.io',
+        Efinity: 'wss://rpc.efinity.io'
       }
     },
     {
