@@ -74,7 +74,7 @@ const definitions: OverrideBundleDefinition = {
           amount: 'BalanceOf',
           is_income: 'bool'
         },
-//estimates price
+        // estimates price
         SymbolEstimatesConfig: {
           symbol: 'Bytes',
           id: 'u64',
@@ -84,7 +84,7 @@ const definitions: OverrideBundleDefinition = {
           delay: 'BlockNumber',
           deviation: 'Permill',
           state: 'EstimatesState',
-          total_reward: 'Balance',
+          total_reward: 'Balance'
         },
         EstimatesState: {
           _enum: [
