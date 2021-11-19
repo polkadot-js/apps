@@ -121,6 +121,7 @@ const nodeCentrifuge = '#fcc367';
 const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#111111';
+const nodeEfinity = '#496ddb';
 const nodeEncointerNotee = '#cc0000';
 const nodeEncointerTeeproxy = '#0000cc';
 const nodeFantour = '#5a189a';
@@ -364,6 +365,7 @@ export const nodeColors = Object.entries({
   'Crown Sterling': nodeCrownSterling,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
+  Efinity: nodeEfinity,
   'Encointer Node': nodeEncointerNotee,
   'Encointer Node noTEE': nodeEncointerNotee,
   'Encointer Node TEE proxy': nodeEncointerTeeproxy,

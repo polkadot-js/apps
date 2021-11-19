@@ -73,6 +73,7 @@ import nodeDockTestnet from './nodes/dock-testnet.png';
 import nodeDotMog from './nodes/dotmog.svg';
 import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-white.png';
+import nodeEfinity from './nodes/efinity.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeFantour from './nodes/fantour.png';
@@ -343,6 +344,7 @@ export const nodeLogos = Object.entries({
   'DOTMog Node': nodeDotMog,
   'Eave Node': nodeEave,
   'Edgeware Node': nodeEdgeware,
+  'Efinity Node': nodeEfinity,
   'Encointer Node': nodeEncointerNotee,
   'Encointer Node noTEE': nodeEncointerNotee,
   'Encointer Node TEE proxy': nodeEncointerTeeproxy,
@@ -510,6 +512,7 @@ export const namedLogos: Record<string, unknown> = {
   dusty: chainDusty,
   eave: nodeEave,
   edgeware: nodeEdgeware,
+  efinity: nodeEfinity,
   empty: emptyLogo,
   encointer_canary: nodeEncointerNotee,
   encointer_cantillon: nodeEncointerTeeproxy,
