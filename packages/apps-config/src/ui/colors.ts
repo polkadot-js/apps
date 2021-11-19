@@ -143,6 +143,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOdyssey = '#1295F0'; // TOOD:: recheck kami
 const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
@@ -277,6 +278,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'NFTMart Testnet': chainNFTMart,
   'OAK Testnet': chainOakTestnet,
   'Opal Node': chainUniqueWestend,
+  Odyssey: nodeOdyssey, // TODO recheck kami
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
   Pangolin: chainPangolin,
