@@ -19,18 +19,40 @@ interface Props {
   selectedCollatorCount: number
 }
 
+interface CollatorState2 {
+  value: {
+    bond: BN
+    nominators: string[]
+    topNominators: {amount: BN}[]
+    bottomNominators: string[]
+    totalCounted: BN
+    totalBacking: BN
+  }
+}
+
 function CollatorDetails ({ address, className = '', collatorInfo, collatorStake, rank, selectedCollatorCount, setActiveNominators, setAllNominators }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const collatorState2 = useCall<string>(api.query.parachainStaking.collatorState2, [address]);
-  const topNominators = collatorState2 ? (collatorState2 as any).value.topNominators : [];
-  const bottomNominators = collatorState2 ? (collatorState2 as any).value.bottomNominators : [];
-  const minContribution = topNominators?.length == collatorInfo.maxNominatorsPerCollator && topNominators?.length > 0 ? topNominators[topNominators?.length - 1].amount : collatorInfo.minNomination;
+  const collatorState2 = useCall<CollatorState2>(api.query.parachainStaking.collatorState2, [address]);
+  const { bond,
+    bottomNominators,
+    nominators,
+    topNominators,
+    totalBacking,
+    totalCounted } = collatorState2
+    ? collatorState2.value
+    : { bond: new BN(0),
+      bottomNominators: [],
+      nominators: [],
+      topNominators: [],
+      totalBacking: new BN(0),
+      totalCounted: new BN(0) };
+  const minContribution = topNominators?.length === Number(collatorInfo.maxNominatorsPerCollator) && topNominators?.length > 0 ? topNominators[topNominators?.length - 1].amount : collatorInfo.minNomination;
 
   useEffect(() => {
     if (rank < selectedCollatorCount) { setActiveNominators({ address, number: topNominators.length }); }
 
     setAllNominators({ address, number: topNominators.length + bottomNominators.length });
-  }, [collatorState2]);
+  }, [address, bottomNominators, collatorState2, rank, topNominators, selectedCollatorCount, setActiveNominators, setAllNominators]);
 
   return (
     <tr className={className}>
@@ -39,20 +61,20 @@ function CollatorDetails ({ address, className = '', collatorInfo, collatorStake
       </td>
       <td className='number media--1100'>
         {collatorStake?.gtn(0) && (
-          <FormatBalance value={collatorState2 ? (collatorState2 as any).value.totalCounted : ''} /> // counted nominator stake
+          <FormatBalance value={totalCounted} /> // counted nominator stake
         )}
       </td>
       <td className='number media--1100'>
         {collatorStake?.gtn(0) && (
-          <FormatBalance value={collatorState2 ? (collatorState2 as any).value.totalBacking : ''} /> // total nominator stake
+          <FormatBalance value={totalBacking} /> // total nominator stake
         )}
       </td>
       <td className='number media--1100'>
-        {collatorState2 ? (collatorState2 as any).value.nominators.length : ''}
+        {nominators.length}
       </td>
       <td className='number media--1100'>
         {collatorStake?.gtn(0) && (
-          <FormatBalance value={collatorState2 ? (collatorState2 as any).value.bond : ''} /> // own stake
+          <FormatBalance value={bond} /> // own stake
         )}
       </td>
       <td className='number media--1100'>

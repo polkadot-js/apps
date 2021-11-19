@@ -7,7 +7,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
-import { BN, formatNumber } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
 import CollatorList from './CollatorList';
 import Summary, { OwnerAmount } from './Summary';
@@ -79,11 +79,11 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
           selectedCollatorCount: selectedCandidates?.length,
           totalCollatorCount: candidatePool?.length,
           totalSelected,
-          totalSelectedStaked,
+          totalSelectedStaked
         }}
       />
       <CollatorList
-        collatorInfo={{ minNomination: api.consts.parachainStaking.minNomination, maxNominatorsPerCollator: api.consts.parachainStaking.maxNominatorsPerCollator }}
+        collatorInfo={{ maxNominatorsPerCollator: api.consts.parachainStaking.maxNominatorsPerCollator, minNomination: api.consts.parachainStaking.minNomination }}
         collators={candidatePool}
         selectedCollatorCount={selectedCandidates ? selectedCandidates?.length : 0}
         setActiveNominators={setActiveNominators}

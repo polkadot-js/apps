@@ -1,5 +1,6 @@
 // Copyright 2017-2021 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';

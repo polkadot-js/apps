@@ -35,8 +35,6 @@ type LabelPost = string | React.ReactNode
 
 function getFormat (registry: Registry, formatIndex = 0): [number, string] {
   const decimals = registry.chainDecimals;
-
-  console.log('decimals', decimals);
   const tokens = registry.chainTokens;
 
   return [
@@ -84,8 +82,6 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
     () => format || getFormat(api.registry, formatIndex),
     [api, format, formatIndex]
   );
-
-  console.log('formatInfo', formatInfo);
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
