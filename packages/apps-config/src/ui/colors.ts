@@ -30,6 +30,7 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
+const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
 const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
@@ -217,6 +218,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   DataHighway: chainRoccoDataHighway,
   'DOTMog.com NET': chainDotMog,
+  Efinity: chainEfinity,
   'Encointer Canary': nodeEncointerNotee,
   'Encointer PC1': nodeEncointerNotee,
   Equilibrium: chainEquilibrium,
