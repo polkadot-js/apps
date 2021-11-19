@@ -88,6 +88,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'efinity',
+      text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
+      providers: {
+        Efinity: 'wss://rpc.efinity.io'
+      }
+    },
+    {
       info: 'equilibrium',
       text: t('rpc.prod.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
       providers: {
