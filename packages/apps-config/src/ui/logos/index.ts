@@ -240,7 +240,7 @@ export const chainLogos = Object.entries({
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   'OAK Testnet': oakTestnet,
-  Odyssey: nodeAresGladios, // TODO:: recheck kami
+  Odyssey: nodeAresGladios,
     'OPAL by UNIQUE': chainOpal,
   'OriginTrail Parachain': nodeOriginTrail,
   'OriginTrail Parachain Testnet': nodeOriginTrail,
@@ -552,7 +552,7 @@ export const namedLogos: Record<string, unknown> = {
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   'oak-testnet': oakTestnet,
-  odyssey: nodeAresGladios, // TODO:: recheck kami
+  odyssey: nodeAresGladios,
   opal: nodeUniqueWestend,
   opportunity: nodeOpportunity,
   'origintrail-parachain-testnet': nodeOriginTrail,

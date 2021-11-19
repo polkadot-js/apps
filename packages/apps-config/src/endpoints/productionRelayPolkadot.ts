@@ -148,7 +148,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'odyssey',
         homepage: 'https://www.aresprotocol.io/',
-        paraId: 2028,// TODO recheck kami
+        paraId: 2028,
         text: t('rpc.polkadot.odyssey', 'Odyssey', { ns: 'apps-config' }),
         providers: {
           AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
