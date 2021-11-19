@@ -3,24 +3,18 @@
 
 import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+import { BN, formatNumber } from '@polkadot/util';
 
+import CollatorList from './CollatorList';
 import Summary, { OwnerAmount } from './Summary';
 import { RoundInfo } from './SummaryRound';
-import CollatorList from './CollatorList';
-import { BN, formatNumber } from '@polkadot/util';
 
 interface ApiResult{
   toHuman: () => string
-}
-interface CandidateInfo{
-  totalCounted:string
-  totalBacking:string
-  bond:string
-  minContribution:string
 }
 
 function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<AppProps> {
@@ -37,11 +31,38 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
   const bestNumberFinalized = useBestNumber();
   const collatorCommission = (useCall<ApiResult|undefined>(api.query.parachainStaking.collatorCommission));
 
-  const [activeNominators,setActiveNominators]=useState<number>(0)
+  function reducer (state: {[key: string]: number}, action: {address: string, number: number}) {
+    const newState = { ...state };
+
+    newState[action.address] = action.number;
+
+    return newState;
+  }
+
+  const [activeNominators, setActiveNominators] = useReducer(reducer, {});
+  const [activeNominatorsCount, setActiveNominatorsCount] = useState(0);
+  const [allNominators, setAllNominators] = useReducer(reducer, {});
+  const [allNominatorsCount, setAllNominatorsCount] = useState(0);
 
   // list info
   const candidatePool = useCall<OwnerAmount[]>(api.query.parachainStaking.candidatePool);
+  const selectedCandidates = useCall<OwnerAmount[]>(api.query.parachainStaking.selectedCandidates);
 
+  useEffect(() => {
+    setActiveNominatorsCount((Object.keys(activeNominators).length > 0)
+      ? (Object.keys(activeNominators)).reduce((prev: number, curr: string) => {
+        return prev + activeNominators[curr];
+      }, 0)
+      : 0);
+  }, [activeNominators]);
+
+  useEffect(() => {
+    setAllNominatorsCount((Object.keys(allNominators).length > 0)
+      ? (Object.keys(allNominators)).reduce((prev: number, curr: string) => {
+        return prev + allNominators[curr];
+      }, 0)
+      : 0);
+  }, [allNominators]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -50,15 +71,24 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
         bestNumberFinalized={bestNumberFinalized}
         roundInfo={roundInfo}
         stakingInfo={{
+          activeNominatorsCount,
+          allNominatorsCount,
+          collatorCommission: collatorCommission?.toHuman(),
           inflationPrct,
           parachainBondInfoPrct,
+          selectedCollatorCount: selectedCandidates?.length,
           totalCollatorCount: candidatePool?.length,
           totalSelected,
           totalSelectedStaked,
-          collatorCommission:collatorCommission?.toHuman()
         }}
       />
-      <CollatorList setActiveNominators={setActiveNominators} collators={candidatePool} collatorInfo={{minNomination:api.consts.parachainStaking.minNomination,maxNominatorsPerCollator:api.consts.parachainStaking.maxNominatorsPerCollator}} />
+      <CollatorList
+        collatorInfo={{ minNomination: api.consts.parachainStaking.minNomination, maxNominatorsPerCollator: api.consts.parachainStaking.maxNominatorsPerCollator }}
+        collators={candidatePool}
+        selectedCollatorCount={selectedCandidates ? selectedCandidates?.length : 0}
+        setActiveNominators={setActiveNominators}
+        setAllNominators={setAllNominators}
+      />
     </main>
   );
 }
