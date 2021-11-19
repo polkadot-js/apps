@@ -483,10 +483,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'web3games',
-      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
-        Web3Games: 'wss://substrate.org.cn:4443'
+        Web3Games: 'wss://testnet.web3games.org'
       }
     },
     {
