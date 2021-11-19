@@ -11,16 +11,16 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.98.2-82",
+  "version": "0.98.2-83",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@polkadot/phishing": "^0.6.443",
-    "@polkadot/react-components": "^0.98.2-82",
+    "@polkadot/react-components": "^0.98.2-83",
     "@polkadot/vanitygen": "^0.48.4-0",
     "detect-browser": "^5.2.1",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.98.2-82"
+    "@polkadot/test-support": "0.98.2-83"
   }
 }
