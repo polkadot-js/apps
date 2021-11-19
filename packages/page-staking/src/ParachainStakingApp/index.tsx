@@ -3,7 +3,7 @@
 
 import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
@@ -11,22 +11,35 @@ import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import Summary, { OwnerAmount } from './Summary';
 import { RoundInfo } from './SummaryRound';
 import CollatorList from './CollatorList';
+import { BN, formatNumber } from '@polkadot/util';
 
 interface ApiResult{
   toHuman: () => string
 }
+interface CandidateInfo{
+  totalCounted:string
+  totalBacking:string
+  bond:string
+  minContribution:string
+}
 
 function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<AppProps> {
   const { api } = useApi();
+
+  // summary info
   const roundInfo = useCall<RoundInfo<unknown>>(api.query.parachainStaking.round);
   const totalSelected = Number(useCall<string>(api.query.parachainStaking.totalSelected));
-  const totalSelectedStaked = (useCall<ApiResult>(api.query.parachainStaking.staked, [roundInfo?.current]));
+  const totalSelectedStaked = (useCall<BN>(api.query.parachainStaking.staked, [roundInfo?.current]));
   const inflation = (useCall<{annual: {ideal: ApiResult}}|undefined>(api.query.parachainStaking.inflationConfig));
   const inflationPrct = inflation?.annual.ideal.toHuman();
   const parachainBondInfo = (useCall<{percent: ApiResult}|undefined>(api.query.parachainStaking.parachainBondInfo));
   const parachainBondInfoPrct = parachainBondInfo?.percent.toHuman();
-  const candidatePool = useCall<OwnerAmount[]>(api.query.parachainStaking.candidatePool);
   const bestNumberFinalized = useBestNumber();
+  const collatorCommission = (useCall<ApiResult|undefined>(api.query.parachainStaking.collatorCommission));
+
+  // list info
+  const candidatePool = useCall<OwnerAmount[]>(api.query.parachainStaking.candidatePool);
+
 
   return (
     <main className={`staking--App ${className}`}>
@@ -39,10 +52,11 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
           parachainBondInfoPrct,
           totalCollatorCount: candidatePool?.length,
           totalSelected,
-          totalSelectedStaked: totalSelectedStaked?.toHuman()
+          totalSelectedStaked,
+          collatorCommission:collatorCommission?.toHuman()
         }}
       />
-      <CollatorList collators={candidatePool} />
+      <CollatorList collators={candidatePool} collatorInfo={{minNomination:api.consts.parachainStaking.minNomination,maxNominatorsPerCollator:api.consts.parachainStaking.maxNominatorsPerCollator}} />
     </main>
   );
 }

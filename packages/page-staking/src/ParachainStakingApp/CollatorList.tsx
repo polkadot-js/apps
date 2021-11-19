@@ -22,6 +22,7 @@ import { OwnerAmount } from './Summary';
 
 interface Props {
     collators:OwnerAmount[]|undefined
+    collatorInfo:{minNomination:string,maxNominatorsPerCollator:string}
 }
 
 type AccountExtend = [string, boolean, boolean];
@@ -66,70 +67,26 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
 
 const DEFAULT_PARAS = {};
 
-function CollatorList ({ collators }: Props): React.ReactElement<Props> | null {
+function CollatorList ({ collators, collatorInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  // const { api } = useApi();
-//   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
-//   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
-//   const nominatedBy = useNominations(isIntentions);
-//   const [nameFilter, setNameFilter] = useState<string>('');
-//   const [toggles, setToggle] = useSavedFlags('staking:overview', { withIdentity: false });
-
-  // we have a very large list, so we use a loading delay
   const isLoading = useLoadingDelay();
 
-//   const { validators, waiting } = useMemo(
-//     () => stakingOverview ? getFiltered(stakingOverview, favorites, targets.waitingIds) : {},
-//     [favorites, stakingOverview, targets]
-//   );
-
-//   const infoMap = useMemo(
-//     () => targets.validators?.reduce<Record<string, ValidatorInfo>>((result, info) => {
-//       result[info.key] = info;
-
-//       return result;
-//     }, {}),
-//     [targets]
-//   );
 
   const headerRef = useRef(
     [
         [t('collators'), 'start'],
-        [t('stake'), 'media--1100'],
+        [t('counted nominator stake'), 'media--1100'],
+        [t('total nominator stake'), 'media--1100'],
+        [t('# of nominators'), 'media--1100'],
+        [t('own stake'), 'media--1100'],
+        [t('min contribution'), 'media--1100'],
+        // [t('stake'), 'media--1100'],
       ]
   );
 
   return (
     <Table
-    //   empty={
-    //     !isLoading && (
-    //       isIntentions
-    //         ? waiting && nominatedBy && t<string>('No waiting validators found')
-    //         : recentlyOnline && validators && infoMap && t<string>('No active validators found')
-    //     )
-    //   }
-    //   emptySpinner={
-    //     <>
-    //       {!waiting && <div>{t<string>('Retrieving validators')}</div>}
-    //       {!infoMap && <div>{t<string>('Retrieving validator info')}</div>}
-    //       {isIntentions
-    //         ? !nominatedBy && <div>{t<string>('Retrieving nominators')}</div>
-    //         : !recentlyOnline && <div>{t<string>('Retrieving online status')}</div>
-    //       }
-    //     </>
-    //   }
-    //   filter={
-    //     <Filtering
-    //       nameFilter={nameFilter}
-    //       setNameFilter={setNameFilter}
-    //       setWithIdentity={setToggle.withIdentity}
-    //       withIdentity={toggles.withIdentity}
-    //     />
-    //   }
       header={headerRef.current}
-    //   legend={
-    //     <Legend isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices} />
-    //   }
     >
       {!isLoading && (
         collators?.sort((a,b)=>{
@@ -139,20 +96,7 @@ function CollatorList ({ collators }: Props): React.ReactElement<Props> | null {
           address={owner}
           collatorStake={amount}
           key={owner}
-        //   filterName={nameFilter}
-        //   hasQueries={hasQueries}
-        //   isElected={isElected}
-        //   isFavorite={isFavorite}
-        //   isMain={!isIntentions}
-        //   isPara={isIntentions ? false : paraValidators[address]}
-        //   key={address}
-        //   lastBlock={byAuthor[address]}
-        //   nominatedBy={nominatedBy?.[address]}
-        //   points={eraPoints[address]}
-        //   recentlyOnline={recentlyOnline?.[address]}
-        //   toggleFavorite={toggleFavorite}
-        //   validatorInfo={infoMap?.[address]}
-        //   withIdentity={toggles.withIdentity}
+          collatorInfo={collatorInfo}
         />
       )))}
     </Table>

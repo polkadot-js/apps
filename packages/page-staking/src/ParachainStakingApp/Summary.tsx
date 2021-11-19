@@ -11,6 +11,7 @@ import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import SummaryRound, { RoundInfo } from './SummaryRound';
+import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
@@ -22,16 +23,17 @@ interface Props {
 export interface OwnerAmount {owner: string, amount: BN}
 
 interface StakingInfo{
+  collatorCommission:string|undefined,
   totalSelected: number,
-  totalSelectedStaked: string,
+  totalSelectedStaked: BN,
   totalCollatorCount: number,
   inflationPrct: string|undefined
   parachainBondInfoPrct: string|undefined
 }
 
-function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { collatorCommission, inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
+  
   return (
     <SummaryBox className={`${className}`}>
       <section>
@@ -57,7 +59,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
             className='media--1300'
             label={t<string>('total staked by selected candidates')}
           >
-            <>{(totalSelectedStaked)}</>
+            <FormatBalance value={totalSelectedStaked} /> 
           </CardSummary>
         )}
 
@@ -79,6 +81,17 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
           {(parachainBondInfoPrct)
             ? (
               <>{parachainBondInfoPrct}</>
+
+            )
+            : <Spinner noLabel />}
+        </CardSummary>
+        <CardSummary
+          className='media--1200'
+          label={t<string>('% collator commission')} // TODO: add translation??
+        >
+          {(collatorCommission)
+            ? (
+              <>{collatorCommission}</>
 
             )
             : <Spinner noLabel />}

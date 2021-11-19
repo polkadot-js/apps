@@ -26,91 +26,20 @@ interface Props {
   address: string;
   className?: string;
   collatorStake:BN
-
-
-//   filterName: string;
-//   hasQueries: boolean;
-//   isElected: boolean;
-//   isFavorite: boolean;
-//   isMain?: boolean;
-//   isPara?: boolean;
-//   lastBlock?: string;
-//   nominatedBy?: NominatedByType[];
-//   points?: string;
-//   recentlyOnline?: DeriveHeartbeatAuthor;
-//   toggleFavorite: (accountId: string) => void;
-//   validatorInfo?: ValidatorInfo;
-//   withIdentity: boolean;
+  collatorInfo:{minNomination:string,maxNominatorsPerCollator:string}
 }
 
-// interface StakingState {
-//   commission?: string;
-//   nominators: NominatorValue[];
-//   stakeTotal?: BN;
-//   stakeOther?: BN;
-//   stakeOwn?: BN;
-// }
-
-// function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState {
-//   let nominators: NominatorValue[] = [];
-//   let stakeTotal: BN | undefined;
-//   let stakeOther: BN | undefined;
-//   let stakeOwn: BN | undefined;
-
-//   if (exposure && exposure.total) {
-//     nominators = exposure.others.map(({ value, who }) => ({ nominatorId: who.toString(), value: value.unwrap() }));
-//     stakeTotal = exposure.total?.unwrap() || BN_ZERO;
-//     stakeOwn = exposure.own.unwrap();
-//     stakeOther = stakeTotal.sub(stakeOwn);
-//   }
-
-//   const commission = (validatorPrefs as ValidatorPrefs)?.commission?.unwrap();
-
-//   return {
-//     commission: commission?.toHuman(),
-//     nominators,
-//     stakeOther,
-//     stakeOwn,
-//     stakeTotal
-//   };
-// }
-
-// const transformSlashes = {
-//   transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
-// };
-
-// function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
-//   const params = useMemo(() => [address], [address]);
-//   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, params);
-//   const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
-
-//   return { accountInfo, slashingSpans };
-// }
-
-function CollatorDetails ({ address, className = '',collatorStake }: Props): React.ReactElement<Props> | null {
+function CollatorDetails ({ address, className = '',collatorStake,collatorInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-//   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
+  console.log("collatorInfo",collatorInfo)
+      let collatorState2=useCall<string>(api.query.parachainStaking.collatorState2,[address])
+      console.log("collatorState2",(collatorState2 as any))
+      // const {totalCounted}=collatorState2
+      let topNominators=collatorState2?(collatorState2 as any).value.topNominators:[]
+      console.log("topNominators",topNominators)
+      let minContribution=topNominators?.length==collatorInfo.maxNominatorsPerCollator&&topNominators?.length>0?topNominators[topNominators?.length-1].amount:collatorInfo.minNomination
+      console.log("minContribution",minContribution)
 
-//   const { commission, nominators, stakeOther, stakeOwn } = useMemo(
-//     () => validatorInfo
-//       ? expandInfo(validatorInfo)
-//       : { nominators: [] },
-//     [validatorInfo]
-//   );
-
-//   const isVisible = useMemo(
-//     () => accountInfo ? checkVisibility(api, address, accountInfo, filterName, withIdentity) : true,
-//     [api, accountInfo, address, filterName, withIdentity]
-//   );
-
-//   const statsLink = useMemo(
-//     () => `#/staking/query/${address}`,
-//     [address]
-//   );
-
-//   if (!isVisible) {
-//     return null;
-//   }
 
   return (
     <tr className={className}>
@@ -133,57 +62,34 @@ function CollatorDetails ({ address, className = '',collatorStake }: Props): Rea
       <td className='address'>
         <AddressSmall value={address} />
       </td>
-      {/* {isMain
-        ? (
-          <StakeOther
-            nominators={nominators}
-            stakeOther={stakeOther}
-          />
-        )
-        : (
-          <NominatedBy
-            nominators={nominatedBy}
-            slashingSpans={slashingSpans}
-          />
-        )
-      } */}
-      {(
-        <td className='number media--1100'>
+      <td className='number media--1100'>
+          {collatorStake?.gtn(0) && (
+            <FormatBalance value={collatorState2?(collatorState2 as any).value.totalCounted:""} /> // counted nominator stake
+          )}
+        </td>
+      <td className='number media--1100'>
+          {collatorStake?.gtn(0) && (
+            <FormatBalance value={collatorState2?(collatorState2 as any).value.totalBacking:""} /> // total nominator stake
+          )}
+        </td>
+      <td className='number media--1100'>
+          {collatorState2?(collatorState2 as any).value.nominators.length:""}
+        </td>
+      <td className='number media--1100'>
+          {collatorStake?.gtn(0) && (
+            <FormatBalance value={collatorState2?(collatorState2 as any).value.bond:""} /> // own stake
+          )}
+        </td>
+      <td className='number media--1100'>
+          {collatorStake?.gtn(0) && (
+            <FormatBalance value={minContribution} /> // minContribution
+          )}
+        </td>
+        {/* <td className='number media--1100'>
           {collatorStake?.gtn(0) && (
             <FormatBalance value={collatorStake} />
           )}
-        </td>
-      )}
-      {/* <td className='number'>
-        {commission}
-      </td>
-      {isMain && (
-        <>
-          <td className='number'>
-            {points}
-          </td>
-          <td className='number'>
-            {lastBlock}
-          </td>
-        </>
-      )}
-      <td>
-        {hasQueries && (
-          <a href={statsLink}>
-            <Icon
-              className='highlight--color'
-              icon='chart-line'
-            />
-          </a>
-        )}
-      </td>
-      <td className='links media--1200'>
-        <LinkExternal
-          data={address}
-          isLogo
-          type={isMain ? 'validator' : 'intention'}
-        />
-      </td> */}
+        </td> */}
     </tr>
   );
 }
