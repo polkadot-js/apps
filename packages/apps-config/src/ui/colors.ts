@@ -168,7 +168,7 @@ const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
 const nodeUniqueWestend = chainUniqueWestend;
-const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
+const nodeWeb3games = '#000000';
 const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
@@ -338,7 +338,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
   'VLN PC': chainVln,
-  Web3games: chainWeb3games,
+  'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
   Westmint: specWestmint,
@@ -427,7 +427,7 @@ export const nodeColors = Object.entries({
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
   'Unique Node': nodeUnique,
-  Web3games: nodeWeb3games,
+  'Web3Games Node': nodeWeb3games,
   Westlake: nodeWestlake,
   'Westmint Collator': specWestmint,
   'zcloak node': nodeZCloak,
