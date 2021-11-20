@@ -357,6 +357,7 @@ export const nodeLogos = Object.entries({
   hanonycash: nodeHanonycash,
   'Idavoll Node': nodeIdavoll,
   'Integritee Collator': nodeIntegritee,
+  'Integritee Node': nodeIntegritee,
   IpseTestnet: nodeIpse,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,

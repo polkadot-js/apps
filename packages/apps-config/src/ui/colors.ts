@@ -377,6 +377,7 @@ export const nodeColors = Object.entries({
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
   'Integritee Collator': nodeIntegritee,
+  'Integritee Node': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
