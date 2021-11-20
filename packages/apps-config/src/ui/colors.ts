@@ -145,6 +145,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOdyssey = '#1295F0';
 const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
@@ -194,6 +195,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
+  'Ares Odyssey': nodeOdyssey,
   'Ares PC1': chainRoccoAres,
   Astar: chainAstar,
   'Beast Developer': chainBeastEave,

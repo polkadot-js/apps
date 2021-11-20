@@ -56,6 +56,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'odyssey',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2028,
+        text: t('rpc.polkadot.odyssey', 'Ares Odyssey', { ns: 'apps-config' }),
+        providers: {
+          AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
+        }
+      },
+      {
         info: 'astar',
         homepage: 'https://astar.network',
         paraId: 2006,
@@ -109,7 +118,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'efinity',
         homepage: 'https://efinity.io',
         paraId: 2021,
-        isUnreachable: true,
         text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
         providers: {
           Efinity: 'wss://rpc.efinity.io'
