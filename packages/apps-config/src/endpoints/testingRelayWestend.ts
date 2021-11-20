@@ -65,6 +65,14 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'encointer',
+        paraId: 1001,
+        text: t('rpc.westend.encointer', 'Encointer', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://api.westend.encointer.org'
+        }
+      },
+      {
         info: 'integritee',
         paraId: 2081,
         text: t('rpc.westend.integritee', 'Integritee Network', { ns: 'apps-config' }),

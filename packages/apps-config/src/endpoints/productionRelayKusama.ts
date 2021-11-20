@@ -109,13 +109,13 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'encointer_canary',
+        info: 'encointer',
         homepage: 'https://encointer.org/',
         isUnreachable: true,
-        paraId: 2014,
-        text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
+        paraId: 1001,
+        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
         providers: {
-          Encointer: 'wss://canary.encointer.org'
+          'Encointer Association': 'wss://api.kusama.encointer.org'
         }
       },
       {

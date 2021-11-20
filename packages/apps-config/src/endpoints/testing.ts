@@ -121,14 +121,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'encointer_cantillon',
-      text: t('rpc.test.encointer.cantillon', 'Encointer Cantillon', { ns: 'apps-config' }),
-      providers: {
-        'Encointer Association': 'wss://cantillon.encointer.org'
-      }
-    },
-    {
-      info: 'encointer_gesell',
+      info: 'encointer',
       text: t('rpc.test.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
       providers: {
         'Encointer Association': 'wss://gesell.encointer.org'

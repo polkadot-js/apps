@@ -122,8 +122,7 @@ const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#111111';
 const nodeEfinity = '#496ddb';
-const nodeEncointerNotee = '#cc0000';
-const nodeEncointerTeeproxy = '#0000cc';
+const nodeEncointer = '#0000cc';
 const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
@@ -222,8 +221,6 @@ export const chainColors: Record<string, string> = Object.entries({
   DataHighway: chainRoccoDataHighway,
   'DOTMog.com NET': chainDotMog,
   Efinity: chainEfinity,
-  'Encointer Canary': nodeEncointerNotee,
-  'Encointer PC1': nodeEncointerNotee,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
   'Fantour Development': chainFantour,
@@ -368,9 +365,8 @@ export const nodeColors = Object.entries({
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
   Efinity: nodeEfinity,
-  'Encointer Node': nodeEncointerNotee,
-  'Encointer Node noTEE': nodeEncointerNotee,
-  'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  'Encointer Node noTEE': nodeEncointer,
+  'Encointer collator': nodeEncointer,
   'Fantour Development': nodeFantour,
   Galital: nodeGalital,
   'Galital Parachain Collator': nodeGalital,
