@@ -106,7 +106,7 @@ const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVln = '#33cc33';
-const chainWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
+const chainWeb3games = '#000000';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
