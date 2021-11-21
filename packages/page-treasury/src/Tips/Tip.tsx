@@ -14,7 +14,7 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { SlashTipModal } from './SlashTipModal';
+import SlashTipModal from './SlashTipModal';
 import TipEndorse from './TipEndorse';
 import TipReason from './TipReason';
 

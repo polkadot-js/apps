@@ -20,7 +20,7 @@ interface Threshold {
   threshold?: BN;
 }
 
-export function SlashTipModal ({ closeModal, hash }: Props) {
+function SlashTipModal ({ closeModal, hash }: Props): React.ReactElement<Props> | null {
   const [accountId, setAccountId] = useState<string | null>(null);
   const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
   const modLocation = useCollectiveInstance('council');
@@ -87,3 +87,5 @@ export function SlashTipModal ({ closeModal, hash }: Props) {
     </Modal>
   );
 }
+
+export default React.memo(SlashTipModal);
