@@ -8,14 +8,15 @@ import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { AddressMini, AddressSmall, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { AddressMini, AddressSmall, Button, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipEndorse from './TipEndorse';
 import TipReason from './TipReason';
+import { SlashTipModal } from './SlashTipModal';
 
 interface Props {
   bestNumber?: BlockNumber;
@@ -81,6 +82,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
   const { api } = useApi();
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
+  const [isSlashModalOpen, toggleSlashModal] = useToggle();
 
   const { closesAt, finder, isFinder, isTipped, isTipper, median } = useMemo(
     () => extractTipState(tip, allAccounts),
@@ -159,6 +161,21 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
             />
           )
         }
+        { isMember && (
+          <>
+            <Button
+              icon='ban'
+              label='Slash'
+              onClick={toggleSlashModal}
+            />
+            {isSlashModalOpen && (
+              <SlashTipModal
+                closeModal={toggleSlashModal}
+                hash={hash}
+              />
+            )}
+          </>
+        )}
         {(!closesAt || !bestNumber || closesAt.gt(bestNumber))
           ? (
             <TipEndorse

@@ -32,7 +32,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [isOpen, toggleOpen] = useToggle();
-  const [accountId, setAcountId] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
   const modLocation = useCollectiveInstance('council');
@@ -84,7 +84,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
                 filter={members}
                 help={t<string>('Select the account you wish to make the proposal with.')}
                 label={t<string>('propose from account')}
-                onChange={setAcountId}
+                onChange={setAccountId}
                 type='account'
                 withLabel
               />
