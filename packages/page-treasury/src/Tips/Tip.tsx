@@ -161,7 +161,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
             />
           )
         }
-        { isMember && (
+        {isMember && (
           <>
             <Button
               icon='ban'
