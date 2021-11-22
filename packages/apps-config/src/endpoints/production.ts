@@ -36,8 +36,8 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        // ChainX: 'wss://mainnet.chainx.org/ws', // https://github.com/polkadot-js/apps/issues/5547
-        'Patract Elara': 'wss://pub.elara.patract.io/chainx'
+        'ChainX': 'wss://mainnet.chainx.org/ws'
+        // 'Patract Elara': 'wss://pub.elara.patract.io/chainx'
       }
     },
     {
