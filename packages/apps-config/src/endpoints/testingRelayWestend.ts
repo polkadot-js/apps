@@ -67,7 +67,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'encointer',
         paraId: 1001,
-        text: t('rpc.westend.encointer', 'Encointer', { ns: 'apps-config' }),
+        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
         providers: {
           'Encointer Association': 'wss://api.westend.encointer.org'
         }

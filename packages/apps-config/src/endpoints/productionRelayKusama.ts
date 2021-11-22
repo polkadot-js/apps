@@ -111,7 +111,6 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'encointer',
         homepage: 'https://encointer.org/',
-        isUnreachable: true,
         paraId: 1001,
         text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
         providers: {
