@@ -9,7 +9,7 @@ import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 import { useCallback, useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
-import { isFunction } from '@polkadot/util';
+import { isFunction, isHex } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
@@ -22,6 +22,7 @@ const IS_NONE = {
   isCouncil: false,
   isDevelopment: false,
   isEditable: false,
+  isEthereum: false,
   isExternal: false,
   isFavorite: false,
   isHardware: false,
@@ -126,6 +127,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
           ...flags,
           isDevelopment: accountOrAddress?.meta.isTesting || false,
           isEditable: !!(!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected)))) || false,
+          isEthereum: isHex(value, 160),
           isExternal: !!accountOrAddress?.meta.isExternal || false,
           isHardware: !!accountOrAddress?.meta.isHardware || false,
           isInContacts,
