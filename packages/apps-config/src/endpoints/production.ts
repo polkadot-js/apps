@@ -117,19 +117,19 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
-      info: 'integritee',
-      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
-      providers: {
-        Integritee: 'wss://api.solo.integritee.io'
-      }
-    },
-    {
       info: 'snakenet',
       text: t('rpc.prod.hydra', 'HydraDX', { ns: 'apps-config' }),
       providers: {
         HydraDX: 'wss://rpc-01.snakenet.hydradx.io',
         'Galactic Council': 'wss://rpc-02.snakenet.hydradx.io',
         Archives: 'wss://archive.snakenet.hydradx.io'
+      }
+    },
+    {
+      info: 'integritee',
+      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
+      providers: {
+        Integritee: 'wss://api.solo.integritee.io'
       }
     },
     {
