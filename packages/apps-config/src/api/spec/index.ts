@@ -22,6 +22,7 @@ import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
+import coinversation from './coinversation';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -144,6 +145,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'chainx-parachain': chainx,
   clover,
   'clover-rococo': cloverRococo,
+  coinversation,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
