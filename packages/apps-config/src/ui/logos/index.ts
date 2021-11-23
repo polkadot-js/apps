@@ -13,6 +13,7 @@ import chainAcala from './chains/acala.svg';
 import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
+import chainCoinversation from './chains/coinversation.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEfinity from './chains/efinity.svg';
@@ -61,6 +62,7 @@ import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
+import nodeCoinversation from './nodes/coinversation.png';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
@@ -178,6 +180,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Testnet': nodeCalamari,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
+  Coinversation: chainCoinversation,
   'Crown Sterling': chainCrownSterling,
   'Crust Maxwell': nodeCrustMaxwell,
   'Crust PC1': nodeCrust,
@@ -327,6 +330,7 @@ export const nodeLogos = Object.entries({
   'Centrifuge Chain Node': nodeCentrifuge,
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
+  Coinversation: nodeCoinversation,
   'Crown Sterling': nodeCrownSterling,
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
@@ -496,6 +500,7 @@ export const namedLogos: Record<string, unknown> = {
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
   clover: nodeClover,
+  coinversation: chainCoinversation,
   crab: nodeCrab,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,

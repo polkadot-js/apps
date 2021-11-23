@@ -95,6 +95,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'coinversation',
+        homepage: 'http://www.coinversation.io/',
+        paraId: 2027,
+        isUnreachable: true,
+        text: t('rpc.polkadot.coinversation', 'Coinversation', { ns: 'apps-config' }),
+        providers: {
+          Coinversation: 'wss://rpc.coinversation.io/'
+        }
+      },
+      {
         info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
