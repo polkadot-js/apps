@@ -74,8 +74,7 @@ import nodeDotMog from './nodes/dotmog.svg';
 import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-white.png';
 import nodeEfinity from './nodes/efinity.svg';
-import nodeEncointerNotee from './nodes/encointer-notee.svg';
-import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeEncointer from './nodes/encointer-blue.svg';
 import nodeFantour from './nodes/fantour.png';
 import nodeGalital from './nodes/galital-logo.png';
 import nodeGamePower from './nodes/gamepower.svg';
@@ -188,8 +187,6 @@ export const chainLogos = Object.entries({
   DataHighway: nodeDataHighway,
   Dusty: chainDusty,
   Efinity: chainEfinity,
-  'Encointer Canary': nodeEncointerNotee,
-  'Encointer PC1': nodeEncointerNotee,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainEquilibrium,
   Galital: nodeGalital,
@@ -346,9 +343,8 @@ export const nodeLogos = Object.entries({
   'Eave Node': nodeEave,
   'Edgeware Node': nodeEdgeware,
   'Efinity Node': nodeEfinity,
-  'Encointer Node': nodeEncointerNotee,
-  'Encointer Node noTEE': nodeEncointerNotee,
-  'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  'Encointer collator': nodeEncointer,
+  'Encointer Node noTEE': nodeEncointer,
   'Fantour Node': nodeFantour,
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
@@ -515,9 +511,7 @@ export const namedLogos: Record<string, unknown> = {
   edgeware: nodeEdgeware,
   efinity: nodeEfinity,
   empty: emptyLogo,
-  encointer_canary: nodeEncointerNotee,
-  encointer_cantillon: nodeEncointerTeeproxy,
-  encointer_gesell: nodeEncointerNotee,
+  encointer: nodeEncointer,
   equilibrium: chainEquilibrium,
   fantour: nodeFantour,
   galital: nodeGalital,
@@ -593,7 +587,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoDarwinia: nodeDarwinia,
   rococoDataHighway: nodeDataHighway,
   rococoEave: nodeEave,
-  rococoEncointer: nodeEncointerNotee,
+  rococoEncointer: nodeEncointer,
   rococoGalital: nodeGalital,
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
