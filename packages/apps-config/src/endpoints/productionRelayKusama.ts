@@ -243,6 +243,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'polkasmith',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6595
         homepage: 'https://polkasmith.polkafoundry.com/',
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),
