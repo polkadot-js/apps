@@ -28,7 +28,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'automata',
       text: t('rpc.prod.automata', 'Automata', { ns: 'apps-config' }),
       providers: {
-        Automata: 'wss://api.ata.network',
+        'Automata Network': 'wss://api.ata.network',
         OnFinality: 'wss://automata.api.onfinality.io/public-ws'
       }
     },

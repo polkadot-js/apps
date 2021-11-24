@@ -49,7 +49,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'automata-contextfree',
       text: t('rpc.test.automata-contextfree', 'Automata ContextFree', { ns: 'apps-config' }),
       providers: {
-        'Automata ContextFree': 'wss://cf-api.ata.network',
+        'Automata Network': 'wss://cf-api.ata.network',
         OnFinality: 'wss://contextfree.api.onfinality.io/public-ws'
       }
     },
