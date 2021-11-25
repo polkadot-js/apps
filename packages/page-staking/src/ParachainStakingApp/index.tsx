@@ -3,18 +3,23 @@
 
 import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
+import { CollatorState2 } from './CollatorDetails';
 import CollatorList from './CollatorList';
 import Summary, { OwnerAmount } from './Summary';
 import { RoundInfo } from './SummaryRound';
 
 interface ApiResult{
   toHuman: () => string
+}
+
+interface CollatorState2Raw {
+  unwrap: () => CollatorState2
 }
 
 function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<AppProps> {
@@ -30,18 +35,11 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
   const parachainBondInfoPrct = parachainBondInfo?.percent.toHuman();
   const bestNumberFinalized = useBestNumber();
   const collatorCommission = (useCall<ApiResult|undefined>(api.query.parachainStaking.collatorCommission));
-
-  function reducer (state: {[key: string]: number}, action: {address: string, number: number}) {
-    const newState = { ...state };
-
-    newState[action.address] = action.number;
-
-    return newState;
-  }
-
-  const [activeNominators, setActiveNominators] = useReducer(reducer, {});
+  // Fetch all collator states using entries
+  const allCollators = useCall<[Uint8Array, CollatorState2Raw][]>(api.query.parachainStaking.collatorState2.entries, []);
+  // Sort them and extract nominator numbers
+  const [allCollatorsSorted, setAllCollatorsSorted] = useState<CollatorState2[]>([]);
   const [activeNominatorsCount, setActiveNominatorsCount] = useState(0);
-  const [allNominators, setAllNominators] = useReducer(reducer, {});
   const [allNominatorsCount, setAllNominatorsCount] = useState(0);
 
   // list info
@@ -49,20 +47,27 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
   const selectedCandidates = useCall<OwnerAmount[]>(api.query.parachainStaking.selectedCandidates);
 
   useEffect(() => {
-    setActiveNominatorsCount((Object.keys(activeNominators).length > 0)
-      ? (Object.keys(activeNominators)).reduce((prev: number, curr: string) => {
-        return prev + activeNominators[curr];
-      }, 0)
-      : 0);
-  }, [activeNominators]);
+    let _allNominatorCount = 0;
+    let _activeNominatorCount = 0;
+    const sorted: CollatorState2[] = [];
 
-  useEffect(() => {
-    setAllNominatorsCount((Object.keys(allNominators).length > 0)
-      ? (Object.keys(allNominators)).reduce((prev: number, curr: string) => {
-        return prev + allNominators[curr];
-      }, 0)
-      : 0);
-  }, [allNominators]);
+    // unwrap output
+    allCollators?.forEach(([_, collatorStateRaw]) => {
+      sorted.push(collatorStateRaw.unwrap());
+    });
+    // sort by total staked
+    sorted.sort((a, b) => {
+      return Number(BigInt(b.totalCounted) - BigInt(a.totalCounted));
+    }).forEach((collatorState, i) => {
+      // extract relevant nominator stats
+      if (selectedCandidates?.length && i < selectedCandidates?.length) { _activeNominatorCount += collatorState.topNominators.length; }
+
+      _allNominatorCount += collatorState.topNominators.length + collatorState.bottomNominators.length;
+    });
+    setAllCollatorsSorted(sorted);
+    setActiveNominatorsCount(_activeNominatorCount);
+    setAllNominatorsCount(_allNominatorCount);
+  }, [allCollators, selectedCandidates]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -83,11 +88,8 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
         }}
       />
       <CollatorList
-        collatorInfo={{ maxNominatorsPerCollator: api.consts.parachainStaking.maxNominatorsPerCollator, minNomination: api.consts.parachainStaking.minNomination }}
-        collators={candidatePool}
-        selectedCollatorCount={selectedCandidates ? selectedCandidates?.length : 0}
-        setActiveNominators={setActiveNominators}
-        setAllNominators={setAllNominators}
+        allCollatorsSorted={allCollatorsSorted}
+        collatorInfo={{ maxNominatorsPerCollator: api.consts.parachainStaking.maxNominatorsPerCollator.toString(), minNomination: api.consts.parachainStaking.minNomination.toString() }}
       />
     </main>
   );
