@@ -45,7 +45,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
         ChainX: 'wss://mainnet.chainx.org/ws'
-        // 'Patract Elara': 'wss://pub.elara.patract.io/chainx'
       }
     },
     {
@@ -73,8 +72,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://rpc.darwinia.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/darwinia'
+        'Darwinia Network': 'wss://rpc.darwinia.network'
       }
     },
     {
@@ -88,8 +86,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'dock-pos-mainnet',
       text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://mainnet-node.dock.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/dock'
+        'Dock Association': 'wss://mainnet-node.dock.io'
       }
     },
     {
@@ -98,7 +95,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-        'Patract Elara': 'wss://pub.elara.patract.io/edgeware',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
@@ -145,8 +141,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
-        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
-        'Patract Elara': 'wss://pub.elara.patract.io/kulupu'
+        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
       }
     },
     {
@@ -175,8 +170,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'nodle',
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main3.nodleprotocol.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/nodle'
+        Nodle: 'wss://main3.nodleprotocol.io'
         // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
