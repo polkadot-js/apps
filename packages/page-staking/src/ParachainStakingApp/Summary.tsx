@@ -7,7 +7,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
+import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import SummaryRound, { RoundInfo } from './SummaryRound';
@@ -19,17 +20,21 @@ interface Props {
   bestNumberFinalized: BlockNumber|undefined
 }
 
-export interface OwnerAmount {owner: string, amount: string}
+export interface OwnerAmount {owner: string, amount: BN}
 
 interface StakingInfo{
+  collatorCommission: string|undefined,
   totalSelected: number,
-  totalSelectedStaked: string,
+  totalSelectedStaked: BN,
   totalCollatorCount: number,
+  selectedCollatorCount: number,
   inflationPrct: string|undefined
   parachainBondInfoPrct: string|undefined
+  activeNominatorsCount: number
+  allNominatorsCount: number
 }
 
-function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { inflationPrct, parachainBondInfoPrct, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { activeNominatorsCount, allNominatorsCount, collatorCommission, inflationPrct, parachainBondInfoPrct, selectedCollatorCount, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -37,7 +42,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
       <section>
         <CardSummary label={t<string>('collators')}>
           {totalSelected
-            ? <>{formatNumber(totalSelected)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</> // TODO:differntiate the two
+            ? <>{formatNumber(selectedCollatorCount)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</> // TODO:differntiate the two
             : <Spinner noLabel />
           }
         </CardSummary>
@@ -52,12 +57,30 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
         </CardSummary>
       </section>
       <section>
-        {(totalSelectedStaked !== '0') && (
+        <CardSummary
+          className='media--1000'
+          label={
+            t<string>('active / nominators')
+          }
+        >
+          {activeNominatorsCount > 0
+            ? (
+              <>
+                {formatNumber(activeNominatorsCount)}
+                {allNominatorsCount > 0 && (
+                  <>&nbsp;/&nbsp;{formatNumber(allNominatorsCount)}</>
+                )}
+              </>
+            )
+            : <Spinner noLabel />
+          }
+        </CardSummary>
+        {(totalSelectedStaked && totalSelectedStaked.toString() !== '0') && (
           <CardSummary
             className='media--1300'
             label={t<string>('total staked by selected candidates')}
           >
-            <>{(totalSelectedStaked)}</>
+            <FormatBalance value={totalSelectedStaked} />
           </CardSummary>
         )}
 
@@ -79,6 +102,17 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
           {(parachainBondInfoPrct)
             ? (
               <>{parachainBondInfoPrct}</>
+
+            )
+            : <Spinner noLabel />}
+        </CardSummary>
+        <CardSummary
+          className='media--1200'
+          label={t<string>('% collator commission')} // TODO: add translation??
+        >
+          {(collatorCommission)
+            ? (
+              <>{collatorCommission}</>
 
             )
             : <Spinner noLabel />}
