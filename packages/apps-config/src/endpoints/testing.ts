@@ -270,6 +270,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'opal',
+      text: t('opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+      providers: {
+        Unique: 'wss://opal.unique.network'
+      }
+    },
+    {
       info: 'acala',
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {

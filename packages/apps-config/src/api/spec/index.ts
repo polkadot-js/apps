@@ -70,6 +70,7 @@ import neatcoin from './neatcoin';
 import nftmart from './nftmart';
 import nodle from './nodle';
 import oakTestnet from './oak-testnet';
+import opal from './opal';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
 import pangolin from './pangolin';
@@ -103,7 +104,6 @@ import ternoa from './ternoa';
 import trustbase from './trustbase';
 import uart from './uart';
 import unique from './unique';
-import uniqueWestend from './unique-westend';
 import unitv from './unitv';
 import vln from './vln';
 import vlnrococo from './vln-rococo';
@@ -208,7 +208,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   'oak-testnet': oakTestnet,
-  opal: uniqueWestend,
+  opal: opal,
   opportunity,
   'origintrail-parachain': origintrail,
   parallel,

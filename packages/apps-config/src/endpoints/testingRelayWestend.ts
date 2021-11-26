@@ -99,16 +99,6 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'opal',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6456
-        homepage: 'https://unique.network/',
-        paraId: 2096,
-        text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
-        providers: {
-          Unique: 'wss://westend-opal.unique.network'
-        }
-      },
-      {
         info: 'pangoro',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6530
         homepage: 'https://darwinia.network/',
