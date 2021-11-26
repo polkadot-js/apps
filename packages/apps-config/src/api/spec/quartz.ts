@@ -4,5 +4,5 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 export default {
-  rpc: { unique: require('@unique-nft/types/definitions').unique.rpc },
+  rpc: { unique: require('@unique-nft/types/definitions').unique.rpc }
 } as OverrideBundleDefinition;
