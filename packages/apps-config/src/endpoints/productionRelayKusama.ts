@@ -84,7 +84,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2096,
         text: t('rpc.kusama.pioneerNetwork', 'Bit.Country Pioneer', { ns: 'apps-config' }),
         providers: {
-          'Bit.Country': 'wss://pioneer-1-rpc.bit.country'
+          'Bit.Country': 'wss://pioneer-1-rpc.bit.country',
+          OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
         }
       },
       {
