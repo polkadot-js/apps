@@ -33,7 +33,7 @@ const definitions: OverrideBundleDefinition = {
           total: 'Balance',
           stakers: 'BTreeMap<AccountId, Balance>',
           formerStakedEra: 'EraIndex',
-          claimedRewards: 'Balance',
+          claimedRewards: 'Balance'
         },
         EraRewardAndStake: {
           rewards: 'Balance',
@@ -41,7 +41,7 @@ const definitions: OverrideBundleDefinition = {
         },
         PalletDappsStakingEraRewardAndStake: {
           rewards: 'Balance',
-          staked: 'Balance',
+          staked: 'Balance'
         },
         EraIndex: 'u32'
       }
