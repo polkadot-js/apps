@@ -84,7 +84,8 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2096,
         text: t('rpc.kusama.pioneerNetwork', 'Bit.Country Pioneer', { ns: 'apps-config' }),
         providers: {
-          'Bit.Country': 'wss://pioneer-1-rpc.bit.country'
+          'Bit.Country': 'wss://pioneer-1-rpc.bit.country',
+          OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
         }
       },
       {
@@ -304,7 +305,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
-          OnFinality: 'wss://shiden.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/6507
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }
       },
