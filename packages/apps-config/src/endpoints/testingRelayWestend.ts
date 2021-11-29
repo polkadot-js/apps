@@ -23,7 +23,7 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      // 'Patract Elara': 'wss://pub.elara.patract.io/westend', // No balances showing on Westend, runtime 9110
+      'Patract Elara': 'wss://pub.elara.patract.io/westend',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
       'light client': 'light://substrate-connect/westend'
@@ -62,6 +62,14 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.charcoal', 'Charcoal', { ns: 'apps-config' }),
         providers: {
           Centrifuge: 'wss://fullnode-collator.charcoal.centrifuge.io'
+        }
+      },
+      {
+        info: 'encointer',
+        paraId: 1001,
+        text: t('rpc.westend.encointer', 'Encointer Network', { ns: 'apps-config' }),
+        providers: {
+          'Encointer Association': 'wss://api.westend.encointer.org'
         }
       },
       {
@@ -113,7 +121,7 @@ export function createWestend (t: TFunction): EndpointOption {
       {
         info: 'westendPichiu',
         homepage: 'https://kylin.network/',
-        paraId: 2106,
+        paraId: 2112,
         text: t('westend.kylin-node.co.uk', 'Pichiu', { ns: 'apps-config' }),
         providers: {
           'Kylin Network': 'wss://westend.kylin-node.co.uk'

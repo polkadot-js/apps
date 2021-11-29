@@ -38,7 +38,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-shell.polkadot.io',
-          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
@@ -53,6 +54,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
           'Polkawallet 0': 'wss://acala.polkawallet.io'
+        }
+      },
+      {
+        info: 'odyssey',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2028,
+        text: t('rpc.polkadot.odyssey', 'Ares Odyssey', { ns: 'apps-config' }),
+        providers: {
+          AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
         }
       },
       {
@@ -86,6 +96,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'coinversation',
+        homepage: 'http://www.coinversation.io/',
+        paraId: 2027,
+        isUnreachable: true,
+        text: t('rpc.polkadot.coinversation', 'Coinversation', { ns: 'apps-config' }),
+        providers: {
+          Coinversation: 'wss://rpc.coinversation.io/'
+        }
+      },
+      {
         info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
@@ -103,6 +123,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.darwinia', 'Darwinia', { ns: 'apps-config' }),
         providers: {
           Darwinia: 'wss://parachain-rpc.darwinia.network'
+        }
+      },
+      {
+        info: 'efinity',
+        homepage: 'https://efinity.io',
+        paraId: 2021,
+        text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
+        providers: {
+          Efinity: 'wss://rpc.efinity.io'
         }
       },
       {

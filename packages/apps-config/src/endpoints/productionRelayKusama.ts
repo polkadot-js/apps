@@ -38,9 +38,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://kusama-statemine-rpc.paritytech.net',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
-          // 'Patract Elara': 'wss://pub.elara.patract.io/statemine' // See https://github.com/polkadot-js/apps/issues/6292
+          Parity: 'wss://statemine-rpc.polkadot.io',
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://pub.elara.patract.io/statemine'
         },
         teleport: [-1]
       },
@@ -94,9 +94,10 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2084,
         text: t('rpc.calamari.systems', 'Calamari', { ns: 'apps-config' }),
         providers: {
-          'Manta Network 0': 'wss://falafel.calamari.systems/',
-          'Manta Network 1': 'wss://fritti.calamari.systems/',
-          'Manta Network 2': 'wss://smoothie.calamari.systems/',
+          'Calamari Falafel': 'wss://falafel.calamari.systems/',
+          'Calamari Fritti': 'wss://fritti.calamari.systems/',
+          'Calamari Pasta': 'wss://pasta.calamari.systems/',
+          'Calamari Smoothie': 'wss://smoothie.calamari.systems/',
           OnFinality: 'wss://calamari.api.onfinality.io/public-ws'
         }
       },
@@ -110,13 +111,12 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'encointer_canary',
+        info: 'encointer',
         homepage: 'https://encointer.org/',
-        isUnreachable: true,
-        paraId: 2014,
-        text: t('rpc.kusama.encointer', 'Encointer Canary', { ns: 'apps-config' }),
+        paraId: 1001,
+        text: t('rpc.kusama.encointer', 'Encointer Network', { ns: 'apps-config' }),
         providers: {
-          Encointer: 'wss://canary.encointer.org'
+          'Encointer Association': 'wss://api.kusama.encointer.org'
         }
       },
       {
@@ -244,6 +244,7 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'polkasmith',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6595
         homepage: 'https://polkasmith.polkafoundry.com/',
         paraId: 2009,
         text: t('rpc.kusama.polkasmith', 'PolkaSmith by PolkaFoundry', { ns: 'apps-config' }),

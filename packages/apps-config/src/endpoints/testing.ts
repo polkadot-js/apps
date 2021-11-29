@@ -46,6 +46,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'automata-contextfree',
+      text: t('rpc.test.automata-contextfree', 'Automata ContextFree', { ns: 'apps-config' }),
+      providers: {
+        'Automata Network': 'wss://cf-api.ata.network',
+        OnFinality: 'wss://contextfree.api.onfinality.io/public-ws'
+      }
+    },
+    {
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
@@ -79,6 +87,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
       providers: {
         Clover: 'wss://api.clover.finance/'
+      }
+    },
+    {
+      info: 'coinversation',
+      text: t('rpc.test.coinversation', 'Coinversation', { ns: 'apps-config' }),
+      providers: {
+        Coinversation: 'wss://rpc.coinversation.io/'
       }
     },
     {
@@ -121,14 +136,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'encointer_cantillon',
-      text: t('rpc.test.encointer.cantillon', 'Encointer Cantillon', { ns: 'apps-config' }),
-      providers: {
-        'Encointer Association': 'wss://cantillon.encointer.org'
-      }
-    },
-    {
-      info: 'encointer_gesell',
+      info: 'encointer',
       text: t('rpc.test.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
       providers: {
         'Encointer Association': 'wss://gesell.encointer.org'
@@ -362,9 +370,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polymesh',
-      text: t('rpc.test.polymesh', 'Polymesh ITN', { ns: 'apps-config' }),
+      text: t('rpc.test.polymesh', 'Polymesh Testnet', { ns: 'apps-config' }),
       providers: {
-        Polymath: 'wss://itn-rpc.polymesh.live'
+        Polymath: 'wss://testnet-rpc.polymesh.live'
       }
     },
     {
@@ -483,10 +491,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'web3games',
-      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
-        Web3Games: 'wss://substrate.org.cn:4443'
+        Web3Games: 'wss://testnet.web3games.org'
       }
     },
     {

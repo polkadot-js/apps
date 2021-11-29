@@ -9,6 +9,7 @@ import apron from './apron';
 import aresGladios from './ares-gladios';
 import aresParachain from './ares-parachain';
 import astar from './astar';
+import automata from './automata';
 import basilisk from './basilisk';
 import beresheet from './beresheet';
 import bifrost from './bifrost';
@@ -22,6 +23,7 @@ import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
+import coinversation from './coinversation';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -132,6 +134,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-parachain': aresParachain,
   asgard: bifrostAsgard,
   astar,
+  automata: automata,
   basilisk,
   beresheet,
   bifrost: bifrost,
@@ -144,6 +147,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'chainx-parachain': chainx,
   clover,
   'clover-rococo': cloverRococo,
+  coinversation,
+  contextfree: automata,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,

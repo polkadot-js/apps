@@ -17,10 +17,13 @@ const chainAcala = '#645AFF';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
+const chainAutomata = '#EC7032';
+const chainAutomataContextFree = '#EC7032';
 const chainBitCountry = '#191a2e';
 const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
 const chainCalamari = '#000000';
+const chainCoinversation = '#e6017a';
 const chainComposable = '#FF8500';
 const chainCrab = '#7C30DD';
 const chainCrownSterling = '#13264b';
@@ -30,6 +33,7 @@ const chainClover = 'linear-gradient(to right, #52ad75, #7cc773)';
 const chainChainx = '#F6C94A';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainDotMog = '#020609';
+const chainEfinity = '#496ddb';
 const chainEquilibrium = '#1792ff';
 const chainFantour = '#5a189a';
 const chainGalital = '#00063F';
@@ -105,23 +109,26 @@ const chainTrustBase = '#ff43aa';
 const chainUnitv = '#1452F0';
 const chainUnorthodox = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,244,187,1) 35%, rgba(10,10,10,1) 100%)';
 const chainVln = '#33cc33';
-const chainWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
+const chainWeb3games = '#000000';
 const chainWestlake = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 // based on node name
 // alphabetical
 const nodeApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const nodeAres = '#E56239';
 const nodeAstar = '#1b6dc1d9';
+const nodeAutomata = '#EC7032';
+const nodeAutomataContextFree = '#EC7032';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
+const nodeCoinversation = '#e6017a';
 const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#111111';
-const nodeEncointerNotee = '#cc0000';
-const nodeEncointerTeeproxy = '#0000cc';
+const nodeEfinity = '#496ddb';
+const nodeEncointer = '#0000cc';
 const nodeFantour = '#5a189a';
 const nodeGalital = '#00063F;';
 const nodeGamePower = '#5d21a5';
@@ -143,6 +150,7 @@ const nodeMybank = '#282736';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOakTestnet = '#E38985';
+const nodeOdyssey = '#1295F0';
 const nodeOpportunity = '#6143bc';
 const nodeOriginTrail = '#131415';
 const nodePangolin = '#5744ff';
@@ -165,7 +173,7 @@ const nodeTernoa = '#d622ff';
 const nodeUniarts = chainUniarts;
 const nodeUnique = chainUnique;
 const nodeUniqueWestend = chainUniqueWestend;
-const nodeWeb3games = 'linear-gradient(45deg, #0099F7 0%, #F11712 100%)';
+const nodeWeb3games = '#000000';
 const nodeWestlake = chainWestlake;
 const nodeZeitgeist = 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)';
 const nodeZero = '#0099cc';
@@ -192,8 +200,11 @@ export const chainColors: Record<string, string> = Object.entries({
   'Aleph Zero Testnet': chainAleph,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
+  'Ares Odyssey': nodeOdyssey,
   'Ares PC1': chainRoccoAres,
   Astar: chainAstar,
+  Automata: chainAutomata,
+  'Automata ContextFree': chainAutomataContextFree,
   'Beast Developer': chainBeastEave,
   bifrost: chainRoccoBifrost,
   'Bifrost Asgard CC4': chainRoccoBifrost,
@@ -205,6 +216,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Testnet': chainCalamari,
   ChainX: chainChainx,
   Clover: chainClover,
+  Coinversation: chainCoinversation,
   Composable: chainComposable,
   'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
@@ -217,8 +229,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Darwinia PC2': chainRoccoDarwinia,
   DataHighway: chainRoccoDataHighway,
   'DOTMog.com NET': chainDotMog,
-  'Encointer Canary': nodeEncointerNotee,
-  'Encointer PC1': nodeEncointerNotee,
+  Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
   EquilibriumTestnet: chainGenshiro,
   'Fantour Development': chainFantour,
@@ -333,7 +344,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Unique Node': chainUnique,
   UNIT: chainUnitv,
   'VLN PC': chainVln,
-  Web3games: chainWeb3games,
+  'Web3Games Plum': chainWeb3games,
   Westend: chainWestend,
   Westlake: chainWestlake,
   Westmint: specWestmint,
@@ -353,24 +364,28 @@ export const chainColors: Record<string, string> = Object.entries({
 export const nodeColors = Object.entries({
   'Apron Node': nodeApron,
   Astar: nodeAstar,
+  'Automata ContextFree Node': nodeAutomataContextFree,
+  'Automata Node': nodeAutomata,
   Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
   'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
+  Coinversation: nodeCoinversation,
   'Crown Sterling': nodeCrownSterling,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
-  'Encointer Node': nodeEncointerNotee,
-  'Encointer Node noTEE': nodeEncointerNotee,
-  'Encointer Node TEE proxy': nodeEncointerTeeproxy,
+  Efinity: nodeEfinity,
+  'Encointer collator': nodeEncointer,
+  'Encointer Node noTEE': nodeEncointer,
   'Fantour Development': nodeFantour,
   Galital: nodeGalital,
   'Galital Parachain Collator': nodeGalital,
   'GamePower Node': nodeGamePower,
   GEEK: nodeGeek,
   'Integritee Collator': nodeIntegritee,
+  'Integritee Node': nodeIntegritee,
   IpseTestnet: nodeIpse,
   'Klug Dossier Node': nodeKlug,
   'Konomi Collator': nodeKonomi,
@@ -421,7 +436,7 @@ export const nodeColors = Object.entries({
   'uni arts node': nodeUniarts,
   'UniArts Node': nodeUniarts,
   'Unique Node': nodeUnique,
-  Web3games: nodeWeb3games,
+  'Web3Games Node': nodeWeb3games,
   Westlake: nodeWestlake,
   'Westmint Collator': specWestmint,
   'zcloak node': nodeZCloak,

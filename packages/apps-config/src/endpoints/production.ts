@@ -25,6 +25,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'automata',
+      text: t('rpc.prod.automata', 'Automata', { ns: 'apps-config' }),
+      providers: {
+        'Automata Network': 'wss://api.ata.network',
+        OnFinality: 'wss://automata.api.onfinality.io/public-ws'
+      }
+    },
+    {
       dnslink: 'centrifuge',
       info: 'centrifuge',
       text: t('rpc.prod.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
@@ -36,8 +44,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'chainx',
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
-        // ChainX: 'wss://mainnet.chainx.org/ws', // https://github.com/polkadot-js/apps/issues/5547
-        'Patract Elara': 'wss://pub.elara.patract.io/chainx'
+        ChainX: 'wss://mainnet.chainx.org/ws'
+      }
+    },
+    {
+      info: 'coinversation',
+      text: t('rpc.prod.coinversation', 'Coinversation', { ns: 'apps-config' }),
+      providers: {
+        Coinversation: 'wss://rpc.coinversation.io/'
       }
     },
     {
@@ -58,8 +72,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://rpc.darwinia.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/darwinia'
+        'Darwinia Network': 'wss://rpc.darwinia.network'
       }
     },
     {
@@ -73,8 +86,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'dock-pos-mainnet',
       text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://mainnet-node.dock.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/dock'
+        'Dock Association': 'wss://mainnet-node.dock.io'
       }
     },
     {
@@ -83,8 +95,14 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-        'Patract Elara': 'wss://pub.elara.patract.io/edgeware',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
+      }
+    },
+    {
+      info: 'efinity',
+      text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
+      providers: {
+        Efinity: 'wss://rpc.efinity.io'
       }
     },
     {
@@ -119,12 +137,18 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'integritee',
+      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
+      providers: {
+        Integritee: 'wss://api.solo.integritee.io'
+      }
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
-        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
-        'Patract Elara': 'wss://pub.elara.patract.io/kulupu'
+        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
       }
     },
     {
@@ -153,8 +177,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'nodle',
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main3.nodleprotocol.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/nodle'
+        Nodle: 'wss://main3.nodleprotocol.io'
         // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
@@ -170,6 +193,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      }
+    },
+    {
+      info: 'polymesh',
+      text: t('rpc.prod.polymesh', 'Polymesh Mainnet', { ns: 'apps-config' }),
+      providers: {
+        Polymath: 'wss://mainnet-rpc.polymesh.network'
       }
     },
     {
