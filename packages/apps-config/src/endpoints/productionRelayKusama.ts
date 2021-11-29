@@ -304,7 +304,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
         providers: {
           StakeTechnologies: 'wss://rpc.shiden.astar.network',
-          OnFinality: 'wss://shiden.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/6507
+          OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
           Pinknode: 'wss://rpc.pinknode.io/shiden/explorer'
         }
       },
