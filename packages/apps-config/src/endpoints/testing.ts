@@ -267,7 +267,7 @@ export function createTesting (t: TFunction): LinkOption[] {
       isDevelopment: false,
       text: t('rpc.matic', 'Polygon', { ns: 'apps-config' }),
       providers: {
-        MATIC: 'wss://polygon-da.matic.today'
+        MATIC: 'wss://polygon-da-explorer.matic.today/ws'
         //MATIC_1: 'ws://54.160.87.220:8001',
 	//MATIC_2: 'ws://3.218.2.152:8001'
       }
