@@ -2841,7 +2841,7 @@ __metadata:
     "@sora-substrate/type-definitions": 1.6.22
     "@subsocial/types": 0.6.5-dev.6
     "@zeitgeistpm/type-defs": 0.3.5
-    "@zeroio/type-definitions": 0.0.12
+    "@zeroio/type-definitions": 0.0.13
     i18next: ^21.5.2
     lodash: ^4.17.21
     moonbeam-types-bundle: 2.0.1
@@ -5004,10 +5004,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zeroio/type-definitions@npm:0.0.12":
-  version: 0.0.12
-  resolution: "@zeroio/type-definitions@npm:0.0.12"
-  checksum: 216d5a4a73807228ad6b5bff39eb6bc90e00656353c7f779d85c94b1fc90c4a65a863809cdd19c2f9735fb0063d18fc10829da75d8e17b5f0851fb4501285d5c
+"@zeroio/type-definitions@npm:0.0.13":
+  version: 0.0.13
+  resolution: "@zeroio/type-definitions@npm:0.0.13"
+  checksum: 995b21c7e224d1b912503895f678e67028f0a0ec72efbc0b158fc095e3af90d6496a5d2cd02666f72dfa895b3a49d31aff0cd0f09e49a5768c0bb7dee429d724
   languageName: node
   linkType: hard
 
