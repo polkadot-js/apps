@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
+import { unique } from '@unique-nft/types/definitions';
 
 export default {
-  rpc: { unique: require('@unique-nft/types/definitions').unique.rpc }
+  rpc: { unique: unique.rpc }
 } as OverrideBundleDefinition;
