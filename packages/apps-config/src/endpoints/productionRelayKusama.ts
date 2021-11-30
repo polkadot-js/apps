@@ -243,6 +243,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'pichiu',
+        homepage: 'https://kylin.network/',
+        paraId: 2102,
+        text: t('rpc.kusama.pichiu', 'Pichiu', { ns: 'apps-config' }),
+        providers: {
+          'Kylin Network': 'wss://kusama.kylin-node.co.uk'
+        }
+      },
+      {
         info: 'polkasmith',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6595
         homepage: 'https://polkasmith.polkafoundry.com/',
