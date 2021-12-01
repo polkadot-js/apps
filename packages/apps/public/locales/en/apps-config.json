@@ -1,6 +1,7 @@
 {
   "lightclient.experimental": "light client (experimental)",
   "lng.detect": "Default browser language (auto-detect)",
+  "opal.unique.network": "OPAL by UNIQUE",
   "quartz.unique.network": "QUARTZ by UNIQUE",
   "rpc.KlugDossier": "Klug Dossier",
   "rpc.calamari.systems": "Calamari",
