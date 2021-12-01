@@ -257,7 +257,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/subsocial',
         OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
       }
     },
