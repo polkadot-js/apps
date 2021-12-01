@@ -258,7 +258,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2095,
         text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
         providers: {
-          Unique: 'wss://quartz.unique.network'
+          Unique: 'wss://quartz.unique.network',
+          'Unique Europe': 'wss://eu-ws-quartz.unique.network',
+          'Unique US': 'wss://us-ws-quartz.unique.network'
         }
       },
       {
