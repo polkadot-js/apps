@@ -137,6 +137,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'integritee',
+      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
+      providers: {
+        Integritee: 'wss://api.solo.integritee.io'
+      }
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),

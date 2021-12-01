@@ -89,6 +89,7 @@ import quartz from './quartz';
 import realis from './realis';
 import riochain from './riochain';
 import robonomics from './robonomics';
+import shibuya from './shibuya';
 import shiden from './shiden';
 import snowbridge from './snowbridge';
 import soraSubstrate from './soraSubstrate';
@@ -225,6 +226,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   realis,
   'riochain-runtime': riochain,
   robonomics,
+  shibuya,
   shiden,
   snowbridge,
   'sora-substrate': soraSubstrate,
