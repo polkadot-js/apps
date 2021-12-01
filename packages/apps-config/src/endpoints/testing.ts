@@ -318,6 +318,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'opal',
+      text: t('opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+      providers: {
+        Unique: 'wss://opal.unique.network'
+      }
+    },
+    {
       info: 'opportunity',
       text: t('rpc.test.opportunity', 'Opportunity', { ns: 'apps-config' }),
       providers: {
