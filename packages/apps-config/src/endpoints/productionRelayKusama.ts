@@ -74,8 +74,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.bifrost', 'Bifrost (Kusama)', { ns: 'apps-config' }),
         providers: {
           Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/bifrost'
+          OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
         }
       },
       {
@@ -219,8 +218,7 @@ export function createKusama (t: TFunction): EndpointOption {
         providers: {
           PureStake: 'wss://wss.moonriver.moonbeam.network',
           OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer',
-          'Patract Elara': 'wss://pub.elara.patract.io/moonriver'
+          Pinknode: 'wss://rpc.pinknode.io/moonriver/explorer'
         }
       },
       {
