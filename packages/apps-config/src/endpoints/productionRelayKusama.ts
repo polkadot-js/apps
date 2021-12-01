@@ -24,7 +24,7 @@ export function createKusama (t: TFunction): EndpointOption {
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/kusama',
       'Geometry Labs': 'wss://kusama.geometry.io/websockets',
-      // Dwellir: 'wss://kusama-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/6427
+      Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
