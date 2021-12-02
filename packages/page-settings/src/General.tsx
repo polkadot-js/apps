@@ -138,7 +138,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           </div>
           {state.ledgerConn !== 'none' && (
             <div className='ui--row'>
-              <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
+              <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features like governance and identity that will only work in the XL version of the app.')} />
             </div>
           )}
         </>
