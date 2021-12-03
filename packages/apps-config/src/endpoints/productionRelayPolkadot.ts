@@ -54,7 +54,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
           'Polkawallet 0': 'wss://acala.polkawallet.io',
-           OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
+          OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
         }
       },
       {
