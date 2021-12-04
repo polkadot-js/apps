@@ -9,6 +9,7 @@
   "rpc.dev.custom.entry": "Custom {{WS_URL}}",
   "rpc.dev.custom.own": "Custom",
   "rpc.dev.local": "Local Node",
+  "rpc.dolphin": "Dolphin Testnet",
   "rpc.header.dev": "Development",
   "rpc.header.kusama.relay": "Kusama & parachains",
   "rpc.header.live": "Live networks",
