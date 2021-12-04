@@ -74,6 +74,7 @@ import nodeDarwinia from './nodes/darwinia.png';
 import nodeDataHighway from './nodes/datahighway.png';
 import nodeDockMainnet from './nodes/dock-mainnet.png';
 import nodeDockTestnet from './nodes/dock-testnet.png';
+import nodeDolphin from './nodes/dolphin.svg';
 import nodeDotMog from './nodes/dotmog.svg';
 import nodeEave from './nodes/eave.svg';
 import nodeEdgeware from './nodes/edgeware-white.png';
@@ -192,6 +193,7 @@ export const chainLogos = Object.entries({
   'Darwinia Crab PC2': nodeCrab,
   'Darwinia PC2': nodeDarwinia,
   DataHighway: nodeDataHighway,
+  'Dolphin Testnet': nodeDolphin,
   Dusty: chainDusty,
   Efinity: chainEfinity,
   Equilibrium: chainEquilibrium,
@@ -520,6 +522,7 @@ export const namedLogos: Record<string, unknown> = {
   datahighway: nodeDataHighway,
   'dock-pos-mainnet': nodeDockMainnet,
   'dock-pos-testnet': nodeDockTestnet,
+  dolphin: nodeDolphin,
   dotmog: nodeDotMog,
   dusty: chainDusty,
   eave: nodeEave,

@@ -121,6 +121,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'dolphin',
+      text: t('rpc.dolphin', 'Dolphin Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Dolphin Testnet': 'wss://trillian.dolphin.red'
+      }
+    },
+    {
       info: 'dotmog',
       text: t('rpc.test.dotmog', 'DOTMog', { ns: 'apps-config' }),
       providers: {
