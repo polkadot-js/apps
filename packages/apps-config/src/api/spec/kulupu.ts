@@ -49,6 +49,11 @@ const definitions: OverrideBundleDefinition = {
       minmax: [24, undefined],
       types: {
         HashedProof: '[u8; 32]',
+        PendingSwap: {
+          source: 'AccountId',
+          action: 'SwapAction',
+          endBlock: 'BlockNumber'
+        },
         SwapAction: {
           value: 'Balance'
         }
