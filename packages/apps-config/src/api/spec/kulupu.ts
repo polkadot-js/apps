@@ -50,9 +50,9 @@ const definitions: OverrideBundleDefinition = {
       types: {
         HashedProof: '[u8; 32]',
         PendingSwap: {
-          source: "AccountId",
-          action: "SwapAction",
-          endBlock: "BlockNumber"
+          source: 'AccountId',
+          action: 'SwapAction',
+          endBlock: 'BlockNumber'
         },
         SwapAction: {
           value: 'Balance'
