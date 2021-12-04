@@ -43,6 +43,16 @@ const definitions: OverrideBundleDefinition = {
       types: {
         CampaignIdentifier: '[u8; 4]'
       }
+    },
+    {
+      // enable pallet-atomic-swap in runtime 24
+      minmax: [24, undefined],
+      types: {
+        HashedProof: '[u8; 32]',
+        SwapAction: {
+          value: 'Balance'
+        }
+      }
     }
   ]
 };
