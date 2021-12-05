@@ -48,7 +48,10 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      // this is also a duplicate as a parachain under Polkadot and Testing net -
+      // it is either/or, not and
       info: 'coinversation',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
       text: t('rpc.prod.coinversation', 'Coinversation', { ns: 'apps-config' }),
       providers: {
         Coinversation: 'wss://rpc.coinversation.io/'

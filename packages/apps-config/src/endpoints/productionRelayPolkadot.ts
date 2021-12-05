@@ -98,9 +98,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'coinversation',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
         homepage: 'http://www.coinversation.io/',
         paraId: 2027,
-        isUnreachable: true,
         text: t('rpc.polkadot.coinversation', 'Coinversation', { ns: 'apps-config' }),
         providers: {
           Coinversation: 'wss://rpc.coinversation.io/'
