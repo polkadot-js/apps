@@ -97,6 +97,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        // this is also a duplicate as a Live and Testing network -
+        // it is either/or, not and
         info: 'coinversation',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
         homepage: 'http://www.coinversation.io/',
