@@ -90,7 +90,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      // this is also a duplicate as a parachain under Polkadot and live under production -
+      // it is either/or, not and
       info: 'coinversation',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
       text: t('rpc.test.coinversation', 'Coinversation', { ns: 'apps-config' }),
       providers: {
         Coinversation: 'wss://rpc.coinversation.io/'
@@ -264,6 +267,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'kylin',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
       text: t('testnet.kylin-node.co.uk', 'Kylin Testnet', { ns: 'apps-config' }),
       providers: {
         'Kylin Network': 'wss://testnet.kylin-node.co.uk'
