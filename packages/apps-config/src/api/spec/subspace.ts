@@ -6,27 +6,23 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
-import type { Bytes, Struct, U8aFixed, u64 } from '@polkadot/types';
+import type { Struct, u64 } from '@polkadot/types';
 import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
 
 import { combineLatest, map } from 'rxjs';
 
 import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
 import { memo } from '@polkadot/api-derive/util';
-import { Digest, Header } from '@polkadot/types/interfaces';
+import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 
-type FarmerPublicKey = U8aFixed
+type FarmerPublicKey = AccountId32
 
 interface HeaderExtended extends Header {
   readonly author: FarmerPublicKey | undefined;
 }
 
 interface Solution extends Struct {
-  readonly publicKey: FarmerPublicKey;
-  readonly nonce: u64;
-  readonly encoding: Bytes;
-  readonly signature: Bytes;
-  readonly tag: U8aFixed;
+  readonly public_key: FarmerPublicKey;
 }
 
 interface SubPreDigest extends Struct {
@@ -39,14 +35,11 @@ function extractAuthor (
   api: ApiInterfaceRx
 ): FarmerPublicKey | undefined {
   const preRuntimes = digest.logs.filter(
-    ({ isPreRuntime, type }) => isPreRuntime && type.toString() === 'SUB_'
+    (log) => log.isPreRuntime && log.asPreRuntime[0].toString() === 'SUB_'
   );
-  const { solution }: SubPreDigest = api.registry.createType(
-    'SubPreDigest',
-    preRuntimes[0]
-  );
+  const { solution }: SubPreDigest = api.registry.createType('SubPreDigest', preRuntimes[0].asPreRuntime[1]);
 
-  return solution.publicKey;
+  return solution.public_key;
 }
 
 function createHeaderExtended (
@@ -119,13 +112,9 @@ const definitions: OverrideBundleDefinition = {
     {
       minmax: [0, undefined],
       types: {
-        FarmerPublicKey: '[u8; 32]',
+        FarmerPublicKey: 'AccountId32',
         Solution: {
-          publicKey: 'FarmerPublicKey',
-          nonce: 'u64',
-          encoding: 'Vec<u8>',
-          signature: 'Vec<u8>',
-          tag: '[u8; 8]'
+          public_key: 'FarmerPublicKey'
         },
         SubPreDigest: {
           slot: 'u64',
