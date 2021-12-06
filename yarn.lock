@@ -2849,7 +2849,7 @@ __metadata:
     "@subsocial/types": 0.6.5-dev.6
     "@unique-nft/types": 0.2.0
     "@zeitgeistpm/type-defs": 0.3.5
-    "@zeroio/type-definitions": 0.0.13
+    "@zeroio/type-definitions": 0.0.14
     i18next: ^21.5.2
     lodash: ^4.17.21
     moonbeam-types-bundle: 2.0.1
@@ -5052,10 +5052,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zeroio/type-definitions@npm:0.0.13":
-  version: 0.0.13
-  resolution: "@zeroio/type-definitions@npm:0.0.13"
-  checksum: 995b21c7e224d1b912503895f678e67028f0a0ec72efbc0b158fc095e3af90d6496a5d2cd02666f72dfa895b3a49d31aff0cd0f09e49a5768c0bb7dee429d724
+"@zeroio/type-definitions@npm:0.0.14":
+  version: 0.0.14
+  resolution: "@zeroio/type-definitions@npm:0.0.14"
+  checksum: b2729f034fbd865385309ffd9c33ec0f75eb0affdef66e970da8dc98b339c0351700c9ba6dd8d488acbd87fa2321c5061571cc2664da0ab4f0e5fe23ea805a49
   languageName: node
   linkType: hard
 
