@@ -112,8 +112,8 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     injectedAccounts,
     properties: registry.createType('ChainProperties', {
       ss58Format: api.registry.chainSS58,
-      tokenDecimals: api.registry.chainDecimals[0],
-      tokenSymbol: api.registry.chainTokens[0]
+      tokenDecimals: api.registry.chainDecimals,
+      tokenSymbol: api.registry.chainTokens
     }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
