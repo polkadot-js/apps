@@ -12,6 +12,7 @@ import Polkastats from './polkastats';
 import Statescan from './statescan';
 import SubId from './subid';
 import Subscan from './subscan';
+import Subsquare from './subsquare';
 
 export const externalLinks: Record<string, ExternalDef> = {
   Commonwealth,
@@ -23,5 +24,6 @@ export const externalLinks: Record<string, ExternalDef> = {
   Polkastats,
   Statescan,
   SubId,
-  Subscan
+  Subscan,
+  Subsquare
 };
