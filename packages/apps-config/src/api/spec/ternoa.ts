@@ -14,24 +14,26 @@ const definitions: OverrideBundleDefinition = {
       types: {
         AccountDataOf: 'AccountData',
         Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
+        ShardIdentifier: 'Hash',
+        Url: 'Text',
+        URI: 'Text',
+        ClusterId: 'u32',
+        EnclaveId: 'u32',
+        MarketplaceId: 'u32',
+        BalanceCaps: 'Balance',
         NFTId: 'u32',
-        NFTIdOf: 'NFTId',
-        NFTSeriesId: 'u32',
+        String: 'Text',
+        NFTSeriesId: 'Text',
         NFTData: {
           owner: 'AccountId',
-          details: 'NFTDetails',
-          sealed: 'bool',
+          ipfs_reference: 'String',
+          series_id: 'NFTSeriesId',
           locked: 'bool'
         },
-        NFTDetails: {
-          offchain_uri: 'Vec<u8>',
-          series_id: 'NFTSeriesId',
-          is_capsule: 'bool'
-        },
-        LookupSource: 'MultiAddress',
         NFTSeriesDetails: {
           owner: 'AccountId',
-          nfts: 'Vec<NFTId>'
+          draft: 'bool'
         },
         NFTCurrencyCombined: {
           caps: 'Balance',
@@ -50,22 +52,10 @@ const definitions: OverrideBundleDefinition = {
             'Tiime'
           ]
         },
-        Request: {
-          shard: 'ShardIdentifier',
-          cyphertext: 'Vec<u8>'
-        },
-        ShardIdentifier: 'Hash',
-        MarketplaceId: 'u32',
         SaleInformation: {
           account_id: 'AccountId',
           price: 'NFTCurrency',
           marketplace_id: 'MarketplaceId'
-        },
-        Status: {
-          _enum: [
-            'Free',
-            'Reserved'
-          ]
         },
         MarketplaceType: {
           _enum: [
@@ -78,16 +68,31 @@ const definitions: OverrideBundleDefinition = {
           commission_fee: 'u8',
           owner: 'AccountId',
           allow_list: 'Vec<AccountId>',
-          name: 'Vec<u8>'
+          disallow_list: 'Vec<AccountId>',
+          name: 'String',
+          uri: 'Option<URI>',
+          logo_uri: 'Option<URI>'
         },
-        ClusterId: 'u32',
-        EnclaveId: 'u32',
         Cluster: {
           enclaves: 'Vec<EnclaveId>'
         },
-        Url: 'Vec<u8>',
         Enclave: {
           api_url: 'Url'
+        },
+        CapsuleData: {
+          owner: 'AccountId',
+          ipfs_reference: 'String'
+        },
+        CapsuleLedger: 'Vec<(NFTId, Balance)>',
+        Status: {
+          _enum: [
+            'Free',
+            'Reserved'
+          ]
+        },
+        Request: {
+          shard: 'ShardIdentifier',
+          cyphertext: 'Vec<u8>'
         }
       }
     }

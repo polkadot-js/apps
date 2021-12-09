@@ -38,7 +38,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-shell.polkadot.io',
-          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
+          'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")
@@ -52,7 +53,17 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
-          'Polkawallet 0': 'wss://acala.polkawallet.io'
+          'Polkawallet 0': 'wss://acala.polkawallet.io',
+          OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
+        }
+      },
+      {
+        info: 'odyssey',
+        homepage: 'https://www.aresprotocol.io/',
+        paraId: 2028,
+        text: t('rpc.polkadot.odyssey', 'Ares Odyssey', { ns: 'apps-config' }),
+        providers: {
+          AresProtocol: 'wss://wss.odyssey.aresprotocol.io'
         }
       },
       {
@@ -86,6 +97,18 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        // this is also a duplicate as a Live and Testing network -
+        // it is either/or, not and
+        info: 'coinversation',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6635
+        homepage: 'http://www.coinversation.io/',
+        paraId: 2027,
+        text: t('rpc.polkadot.coinversation', 'Coinversation', { ns: 'apps-config' }),
+        providers: {
+          Coinversation: 'wss://rpc.coinversation.io/'
+        }
+      },
+      {
         info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
@@ -109,7 +132,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'efinity',
         homepage: 'https://efinity.io',
         paraId: 2021,
-        isUnreachable: true,
         text: t('rpc.polkadot.efinity', 'Efinity', { ns: 'apps-config' }),
         providers: {
           Efinity: 'wss://rpc.efinity.io'
