@@ -1,3 +1,17 @@
+checks:
+  argument-count:
+    config:
+      threshold: 5
+  method-complexity:
+    config:
+      threshold: 7
+  method-count:
+    config:
+      threshold: 25
+  method-lines:
+    config:
+      threshold: 30
+
 exclude_patterns:
 - "**/*.spec.js"
 - "**/*.spec.ts"
