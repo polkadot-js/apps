@@ -272,7 +272,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'robonomics',
         homepage: 'http://robonomics.network/',
-        paraId: 2077,
+        paraId: 2048,
         text: t('rpc.kusama.robonomics', 'Robonomics', { ns: 'apps-config' }),
         providers: {
           Airalab: 'wss://kusama.rpc.robonomics.network/'
