@@ -15,14 +15,12 @@ import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewB
 import { memo } from '@polkadot/api-derive/util';
 import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 
-type FarmerPublicKey = AccountId32
-
 interface HeaderExtended extends Header {
-  readonly author: FarmerPublicKey | undefined;
+  readonly author: AccountId32 | undefined;
 }
 
 interface Solution extends Struct {
-  readonly public_key: FarmerPublicKey;
+  readonly public_key: AccountId32;
 }
 
 interface SubPreDigest extends Struct {
@@ -33,7 +31,7 @@ interface SubPreDigest extends Struct {
 function extractAuthor (
   digest: Digest,
   api: ApiInterfaceRx
-): FarmerPublicKey | undefined {
+): AccountId32 | undefined {
   const preRuntimes = digest.logs.filter(
     (log) => log.isPreRuntime && log.asPreRuntime[0].toString() === 'SUB_'
   );
@@ -50,7 +48,7 @@ function createHeaderExtended (
   const HeaderBase = registry.createClass('Header');
 
   class SubHeaderExtended extends HeaderBase implements HeaderExtended {
-    readonly #author?: FarmerPublicKey;
+    readonly #author?: AccountId32;
 
     constructor (registry: Registry, header: Header, api: ApiInterfaceRx) {
       super(registry, header);
@@ -58,7 +56,7 @@ function createHeaderExtended (
       this.createdAtHash = header?.createdAtHash;
     }
 
-    public get author (): FarmerPublicKey | undefined {
+    public get author (): AccountId32 | undefined {
       return this.#author;
     }
   }
@@ -112,9 +110,8 @@ const definitions: OverrideBundleDefinition = {
     {
       minmax: [0, undefined],
       types: {
-        FarmerPublicKey: 'AccountId32',
         Solution: {
-          public_key: 'FarmerPublicKey'
+          public_key: 'AccountId32'
         },
         SubPreDigest: {
           slot: 'u64',
