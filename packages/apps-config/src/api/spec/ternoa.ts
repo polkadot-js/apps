@@ -23,11 +23,11 @@ const definitions: OverrideBundleDefinition = {
         MarketplaceId: 'u32',
         BalanceCaps: 'Balance',
         NFTId: 'u32',
-        String: 'Text',
+        TernoaString: 'Vec<u8>',
         NFTSeriesId: 'Text',
         NFTData: {
           owner: 'AccountId',
-          ipfs_reference: 'String',
+          ipfs_reference: 'Text',
           series_id: 'NFTSeriesId',
           locked: 'bool'
         },
@@ -69,7 +69,7 @@ const definitions: OverrideBundleDefinition = {
           owner: 'AccountId',
           allow_list: 'Vec<AccountId>',
           disallow_list: 'Vec<AccountId>',
-          name: 'String',
+          name: 'Text',
           uri: 'Option<URI>',
           logo_uri: 'Option<URI>'
         },
@@ -81,7 +81,7 @@ const definitions: OverrideBundleDefinition = {
         },
         CapsuleData: {
           owner: 'AccountId',
-          ipfs_reference: 'String'
+          ipfs_reference: 'Text'
         },
         CapsuleLedger: 'Vec<(NFTId, Balance)>',
         Status: {
