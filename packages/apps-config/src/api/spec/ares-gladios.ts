@@ -13,9 +13,33 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         Address: 'MultiAddress',
-        LookupSource: 'MultiAddress',
+        AskPeriodNum: 'u64',
+        AskPointNum: 'u32',
+        AuthorityAres: "AccountId",
+        AccountParticipateEstimates: {
+          account: 'AccountId',
+          estimates: 'u64',
+          eth_address: 'Option<Bytes>'
+        },
         BalanceOf: 'Balance',
+        ChooseWinnersPayload: {
+          block_number: 'BlockNumber',
+          winners: 'Vec<AccountParticipateEstimates>',
+          public: 'AccountId',
+          estimates_config: 'Bytes',
+          symbol: 'Bytes',
+          price: '(u64, FractionLength)'
+        },
+        EstimatesState: {
+          _enum: [
+            'InActive',
+            'Active',
+            'WaitingPayout',
+            'Completed'
+          ]
+        },
         FractionLength: 'u32',
+        LookupSource: 'MultiAddress',
         RequestInterval: 'u8',
         JsonNumberValue: {
           integer: 'u64',
@@ -23,13 +47,49 @@ const definitions: OverrideBundleDefinition = {
           fraction_length: 'u32',
           exponent: 'u32'
         },
+        OcwControlData: {
+          need_verifier_check: 'bool',
+          open_free_price_reporter: 'bool',
+          open_paid_price_reporter: 'bool'
+        },
+        OffchainSignature: 'MultiSignature',
+        PaidValue: {
+          create_bn: 'BlockNumber',
+          amount: 'BalanceOf',
+          is_income: 'bool'
+        },
+        PreCheckPayload: {
+          stash: 'AccountId',
+          auth: 'AccountId',
+          block_number: 'BlockNumber',
+          public: 'MultiSigner'
+        },
+        PreCheckResultPayload: {
+          stash: 'AccountId',
+          auth: 'AccountId',
+          block_number: 'BlockNumber',
+          per_check_list: 'Vec<PreCheckStruct>',
+          public: 'MultiSigner'
+        },
+        PreCheckStruct: {
+          price_key: 'Vec<u8>',
+          number_val: 'JsonNumberValue',
+          max_offset: 'Percent'
+        },
         PricePayloadSubPrice: '(Bytes, u64, FractionLength, JsonNumberValue)',
         PricePayloadSubJumpBlock: '(Bytes, RequestInterval)',
         PricePayload: {
           block_number: 'BlockNumber',
           price: 'Vec<PricePayloadSubPrice>',
           jump_block: 'Vec<PricePayloadSubJumpBlock>',
-          public: 'AccountId'
+          public: 'MultiSigner'
+        },
+        PreCheckStatus: {
+          _enum: [
+            'Review',
+            'Prohibit',
+            'Pass'
+          ]
         },
         PurchasedRequestData: {
           account_id: 'AccountId',
@@ -43,7 +103,7 @@ const definitions: OverrideBundleDefinition = {
           block_number: 'BlockNumber',
           purchase_id: 'Vec<u8>',
           price: 'Vec<PricePayloadSubPrice>',
-          public: 'AccountId'
+          public: 'MultiSigner'
         },
         PurchasedAvgPriceData: {
           create_bn: 'u64',
@@ -59,22 +119,9 @@ const definitions: OverrideBundleDefinition = {
         PurchasedForceCleanPayload: {
           BlockNumber: 'BlockNumber',
           purchase_id_list: 'Vec<Vec<u8>>',
-          public: 'AccountId'
+          public: 'MultiSigner'
         },
-        OcwControlData: {
-          need_verifier_check: 'bool',
-          open_free_price_reporter: 'bool',
-          open_paid_price_reporter: 'bool'
-        },
-        AskPeriodNum: 'u64',
         PurchaseId: 'Vec<u8>',
-        AskPointNum: 'u32',
-        PaidValue: {
-          create_bn: 'BlockNumber',
-          amount: 'BalanceOf',
-          is_income: 'bool'
-        },
-//estimates price
         SymbolEstimatesConfig: {
           symbol: 'Bytes',
           id: 'u64',
@@ -85,27 +132,6 @@ const definitions: OverrideBundleDefinition = {
           deviation: 'Permill',
           state: 'EstimatesState',
           total_reward: 'Balance',
-        },
-        EstimatesState: {
-          _enum: [
-            'InActive',
-            'Active',
-            'WaitingPayout',
-            'Completed'
-          ]
-        },
-        AccountParticipateEstimates: {
-          account: 'AccountId',
-          estimates: 'u64',
-          eth_address: 'Option<Bytes>'
-        },
-        ChooseWinnersPayload: {
-          block_number: 'BlockNumber',
-          winners: 'Vec<AccountParticipateEstimates>',
-          public: 'AccountId',
-          estimates_config: 'Bytes',
-          symbol: 'Bytes',
-          price: '(u64, FractionLength)'
         }
       }
     }
