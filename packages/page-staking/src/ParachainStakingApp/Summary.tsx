@@ -22,7 +22,7 @@ interface Props {
 
 export interface OwnerAmount {owner: string, amount: BN}
 
-interface StakingInfo{
+interface StakingInfo {
   collatorCommission: string|undefined,
   totalSelected: number,
   totalSelectedStaked: BN,
@@ -51,7 +51,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
           label={t<string>('waiting')}
         >
           {totalCollatorCount
-            ? formatNumber(totalCollatorCount - totalSelected)
+            ? totalCollatorCount - totalSelected>0?formatNumber(totalCollatorCount - totalSelected):0
             : <Spinner noLabel />
           }
         </CardSummary>
