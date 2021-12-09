@@ -7,18 +7,20 @@ import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN } from '@polkadot/util';
 
+export interface CollatorInfo{minDelegation: string, maxDelegatorsPerCandidate: string}
+
 interface Props {
   className?: string;
-  collatorDetails: CollatorState2
-  collatorInfo: {minNomination: string, maxNominatorsPerCollator: string}
+  collatorDetails: CollatorState
+  collatorInfo: CollatorInfo
 }
 
-export interface CollatorState2 {
+export interface CollatorState {
   id: string;
   bond: string;
-  nominators: string[]
-  topNominators: {amount: string}[]
-  bottomNominators: string[]
+  delegators: string[]
+  topDelegations: {amount: string}[]
+  bottomDelegations: string[]
   totalCounted: string
   totalBacking: string
   state: string
@@ -26,15 +28,15 @@ export interface CollatorState2 {
 
 function CollatorDetails ({ className = '', collatorDetails, collatorInfo }: Props): React.ReactElement<Props> | null {
   const { bond,
-    nominators,
-    topNominators,
+    delegators,
+    topDelegations,
     totalBacking,
     totalCounted } = collatorDetails || { bond: new BN(0),
     nominators: [],
     topNominators: [],
     totalBacking: new BN(0),
     totalCounted: new BN(0) };
-  const minContribution = topNominators?.length === Number(collatorInfo.maxNominatorsPerCollator) && topNominators?.length > 0 ? topNominators[topNominators?.length - 1].amount : collatorInfo.minNomination;
+  const minContribution = topDelegations?.length === Number(collatorInfo.maxDelegatorsPerCandidate) && topDelegations?.length > 0 ? topDelegations[topDelegations?.length - 1].amount : collatorInfo.minDelegation;
 
   return (
     <tr className={className}>
@@ -52,7 +54,7 @@ function CollatorDetails ({ className = '', collatorDetails, collatorInfo }: Pro
         )}
       </td>
       <td className='number media--1100'>
-        {nominators.length}
+        {delegators.length}
       </td>
       <td className='number media--1100'>
         {bond && (

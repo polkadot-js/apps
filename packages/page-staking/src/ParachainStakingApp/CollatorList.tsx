@@ -7,11 +7,11 @@ import { Table } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import CollatorDetails, { CollatorState2 } from './CollatorDetails';
+import CollatorDetails, { CollatorInfo, CollatorState } from './CollatorDetails';
 
 interface Props {
-  allCollatorsSorted: CollatorState2[]
-  collatorInfo: {minNomination: string, maxNominatorsPerCollator: string}
+  allCollatorsSorted: CollatorState[]
+  collatorInfo: CollatorInfo
 }
 
 function CollatorList ({ allCollatorsSorted, collatorInfo }: Props): React.ReactElement<Props> | null {

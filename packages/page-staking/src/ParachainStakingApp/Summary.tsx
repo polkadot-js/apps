@@ -30,11 +30,11 @@ interface StakingInfo {
   selectedCollatorCount: number,
   inflationPrct: string|undefined
   parachainBondInfoPrct: string|undefined
-  activeNominatorsCount: number
-  allNominatorsCount: number
+  activeDelegatorsCount: number
+  allDelegatorsCount: number
 }
 
-function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { activeNominatorsCount, allNominatorsCount, collatorCommission, inflationPrct, parachainBondInfoPrct, selectedCollatorCount, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { activeDelegatorsCount, allDelegatorsCount, collatorCommission, inflationPrct, parachainBondInfoPrct, selectedCollatorCount, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -51,7 +51,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
           label={t<string>('waiting')}
         >
           {totalCollatorCount
-            ? totalCollatorCount - totalSelected>0?formatNumber(totalCollatorCount - totalSelected):0
+            ? totalCollatorCount - totalSelected > 0 ? formatNumber(totalCollatorCount - totalSelected) : 0
             : <Spinner noLabel />
           }
         </CardSummary>
@@ -63,12 +63,12 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
             t<string>('active / nominators')
           }
         >
-          {activeNominatorsCount > 0
+          {activeDelegatorsCount > 0
             ? (
               <>
-                {formatNumber(activeNominatorsCount)}
-                {allNominatorsCount > 0 && (
-                  <>&nbsp;/&nbsp;{formatNumber(allNominatorsCount)}</>
+                {formatNumber(activeDelegatorsCount)}
+                {allDelegatorsCount > 0 && (
+                  <>&nbsp;/&nbsp;{formatNumber(allDelegatorsCount)}</>
                 )}
               </>
             )
