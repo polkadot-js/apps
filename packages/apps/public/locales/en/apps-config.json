@@ -89,6 +89,7 @@
   "rpc.prod.hydra": "HydraDX",
   "rpc.prod.integritee": "Integritee Network",
   "rpc.prod.kulupu": "Kulupu",
+  "rpc.prod.kusari": "Kusari",
   "rpc.prod.mathchain": "MathChain",
   "rpc.prod.neatcoin": "Neatcoin",
   "rpc.prod.nftmart": "NFTMart",
