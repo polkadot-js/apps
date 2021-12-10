@@ -95,6 +95,7 @@ import nodeKilt from './nodes/kilt.png';
 import nodeKlug from './nodes/klug.png';
 import nodeKonomi from './nodes/konomi.png';
 import nodeKulupu from './nodes/kulupu.svg';
+import nodeKusari from './nodes/kusari.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
@@ -226,6 +227,7 @@ export const chainLogos = Object.entries({
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
   'Kusama CC3': chainKusama,
+  kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
   Litentry: nodeLitentry,
   'Loom Network Local': nodeLoomNetwork,
@@ -377,6 +379,7 @@ export const nodeLogos = Object.entries({
   'Klug Dossier Node': nodeKlug,
   'Kpron Collator': nodeApron,
   kulupu: nodeKulupu,
+  kusari: nodeKusari,
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
   Litentry: nodeLitentry,
@@ -553,6 +556,7 @@ export const namedLogos: Record<string, unknown> = {
   kpron: nodeApron,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  kusari: nodeKusari,
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,

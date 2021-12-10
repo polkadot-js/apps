@@ -59,6 +59,7 @@ import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
 import kulupu from './kulupu';
+import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
@@ -190,6 +191,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   konomi,
   kpron,
   kulupu,
+  kusari,
   kylin,
   laminar,
   litentry,

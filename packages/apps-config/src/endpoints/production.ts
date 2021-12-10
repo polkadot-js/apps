@@ -155,6 +155,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'kusari',
+      text: t('rpc.prod.kusari', 'Kusari', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.kusari.network'
+      }
+    },
+    {
       info: 'mathchain',
       text: t('rpc.prod.mathchain', 'MathChain', { ns: 'apps-config' }),
       providers: {
