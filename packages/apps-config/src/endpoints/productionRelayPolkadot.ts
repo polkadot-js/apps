@@ -93,7 +93,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
         providers: {
-          Centrifuge: 'wss://fullnode.parachain.centrifuge.io',
+          Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
         }
       },
       {

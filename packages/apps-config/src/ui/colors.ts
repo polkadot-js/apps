@@ -14,8 +14,8 @@ const emptyColor = '#99999';
 // based on chain name
 // alphabetical
 const chainAcala = '#645AFF';
-const chainAltair = '#ffb700';
 const chainAleph = '#00CCAB';
+const chainAltair = '#ffb700';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
 const chainAstar = '#1b6dc1d9';
 const chainAutomata = '#EC7032';
@@ -200,9 +200,9 @@ export const chainColors: Record<string, string> = Object.entries({
   'Acala Dev': chainAcala,
   'acala mandala pc1': chainRoccoMandala,
   'acala mandala pc2': chainRoccoMandala,
-  Altair: chainAltair,
   'Aleph Zero': chainAleph,
   'Aleph Zero Testnet': chainAleph,
+  Altair: chainAltair,
   'Apron PC1': chainApron,
   'Ares Gladios': chainAresGladios,
   'Ares Odyssey': nodeOdyssey,
