@@ -9,6 +9,7 @@ export default {
   chains: {
     Altair: 'altair',
     Bifrost: 'bifrost',
+    Centrifuge: 'centrifuge',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
     Edgeware: 'edgeware',
