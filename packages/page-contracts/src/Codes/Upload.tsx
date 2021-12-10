@@ -31,7 +31,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [step, nextStep, prevStep] = useStepper();
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
-  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
+  const [value, isValueValid, setValue] = useNonZeroBn(0);
+  const [storageDepositLimit, isStorageDepositValid, setstorageDepositLimit] = useNonZeroBn(ENDOWMENT);
   const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
@@ -87,10 +88,11 @@ function Upload ({ onClose }: Props): React.ReactElement {
     let error: string | null = null;
 
     try {
-      contract = code && contractAbi?.constructors[constructorIndex]?.method && endowment
+      contract = code && contractAbi?.constructors[constructorIndex]?.method && value
         ? code.tx[contractAbi.constructors[constructorIndex].method]({
           gasLimit: weight.weight,
-          value: endowment
+          storageDepositLimit,
+          value
         }, ...params)
         : null;
     } catch (e) {
@@ -98,7 +100,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
     }
 
     setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorIndex, endowment, params, weight]);
+  }, [code, contractAbi, constructorIndex, value, params, storageDepositLimit, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -199,15 +201,22 @@ function Upload ({ onClose }: Props): React.ReactElement {
               registry={contractAbi.registry}
             />
             <InputBalance
-              help={t<string>('The allotted endowment for the deployed contract, i.e. the amount transferred to the contract upon instantiation.')}
-              isError={!isEndowmentValid}
-              label={t<string>('endowment')}
-              onChange={setEndowment}
-              value={endowment}
+              help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+              isError={!isValueValid}
+              label={t<string>('value')}
+              onChange={setValue}
+              value={value}
             />
             <InputMegaGas
               help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
               weight={weight}
+            />
+            <InputBalance
+              help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed')}
+              isError={!isStorageDepositValid}
+              label={t<string>('storage deposit limit')}
+              onChange={setstorageDepositLimit}
+              value={storageDepositLimit}
             />
             {error && (
               <MarkError content={error} />
