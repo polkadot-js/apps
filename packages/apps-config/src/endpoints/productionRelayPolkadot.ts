@@ -13,7 +13,7 @@ import { POLKADOT_GENESIS } from '../api/constants';
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
-export function createPolkadot(t: TFunction): EndpointOption {
+export function createPolkadot (t: TFunction): EndpointOption {
   return {
     dnslink: 'polkadot',
     genesisHash: POLKADOT_GENESIS,
