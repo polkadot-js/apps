@@ -191,7 +191,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   konomi,
   kpron,
   kulupu,
-  kusari: kusari,
+  kusari,
   kylin,
   laminar,
   litentry,
