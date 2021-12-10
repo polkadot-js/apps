@@ -13,7 +13,7 @@ import { POLKADOT_GENESIS } from '../api/constants';
 //   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
-export function createPolkadot (t: TFunction): EndpointOption {
+export function createPolkadot(t: TFunction): EndpointOption {
   return {
     dnslink: 'polkadot',
     genesisHash: POLKADOT_GENESIS,
@@ -166,6 +166,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
           Purestake: 'wss://wss.mainnet.moonbeam.network'
+        }
+      },
+      {
+        info: 'nodle',
+        homepage: 'https://nodle.com',
+        isUnreachable: true,
+        paraId: 2026,
+        text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
+        providers: {
+          Nodle: 'wss://rpc.nodle.com'
         }
       },
       {
