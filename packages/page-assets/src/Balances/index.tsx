@@ -11,6 +11,7 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import Account from './Account';
 import useBalances from './useBalances';
+import styled from 'styled-components';
 
 interface Props {
   className?: string;
@@ -94,4 +95,8 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(Balances);
+export default React.memo(styled(Balances)`
+  table {
+    overflow: auto;
+  }
+`);
