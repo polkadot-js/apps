@@ -8,10 +8,10 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CodePromise } from '@polkadot/api-contract';
 import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
+import { useAccountId, useApi, useFormField, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, isNull, isWasm, stringify } from '@polkadot/util';
+import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
@@ -30,7 +30,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [step, nextStep, prevStep] = useStepper();
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
-  const [value, isValueValid, setValue] = useNonZeroBn(0);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
   const [storageDepositLimit, isStorageDepositValid, setstorageDepositLimit] = useNonZeroBn(1000);
   const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
@@ -38,7 +38,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const weight = useWeight();
   const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
-
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi

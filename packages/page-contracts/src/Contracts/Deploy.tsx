@@ -8,13 +8,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';
+import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isHex, stringify } from '@polkadot/util';
+import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
@@ -35,7 +34,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<unknown[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
-  const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
+  const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
 
