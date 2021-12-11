@@ -11,7 +11,7 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
+import { BN, BN_THOUSAND, BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
@@ -23,6 +23,7 @@ import useWeight from '../useWeight';
 interface Props {
   codeHash: string;
   constructorIndex: number;
+  storageDepositLimit?: number;
   onClose: () => void;
   setConstructorIndex: React.Dispatch<number>;
 }
@@ -30,13 +31,15 @@ interface Props {
 function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const weight = useWeight();
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [params, setParams] = useState<unknown[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
-  const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
+  const [storageDepositLimit, setstorageDepositLimit] = useState(BN_THOUSAND);
+  const [params, setParams] = useState<unknown[]>([]);
   const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
+  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
+  const weight = useWeight();
 
   useEffect((): void => {
     setParams([]);
@@ -75,7 +78,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   );
 
   useEffect((): void => {
-    endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
+    value && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
       if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
           return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
@@ -83,7 +86,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             salt: withSalt
               ? salt
               : null,
-            value: endowment
+            storageDepositLimit,
+            value
           }, ...params);
         } catch (error) {
           return null;
@@ -92,7 +96,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, contractAbi, constructorIndex, endowment, params, salt, weight, withSalt]);
+  }, [blueprint, contractAbi, constructorIndex, value, params, salt, weight, withSalt, storageDepositLimit]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
@@ -113,7 +117,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   );
 
   const isSaltValid = !withSalt || (salt && (!salt.startsWith('0x') || isHex(salt)));
-  const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid && isSaltValid;
+  const isValid = isNameValid && isValueValid && weight.isValid && isAccountIdValid && isSaltValid;
 
   return (
     <Modal
@@ -170,11 +174,11 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           </>
         )}
         <InputBalance
-          help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
-          isError={!isEndowmentValid}
-          label={t<string>('endowment')}
-          onChange={setEndowment}
-          value={endowment}
+          help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+          isError={!isValueValid}
+          label={t<string>('value')}
+          onChange={setValue}
+          value={value}
         />
         <Input
           help={t<string>('A hex or string value that acts as a salt for this deployment.')}
@@ -191,6 +195,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             value={withSalt}
           />
         </Input>
+        {hasStorageDeposit && (
+          <InputBalance
+            help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed. Defaults to 90 % of the free balance of the selected account. ')}
+            label={t<string>('storage deposit limit')}
+            onChange={setstorageDepositLimit}
+            value={storageDepositLimit}
+          />
+        )}
         <InputMegaGas
           help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           weight={weight}
