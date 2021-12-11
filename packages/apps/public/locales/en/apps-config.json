@@ -56,6 +56,7 @@
   "rpc.polkadot.acala": "Acala",
   "rpc.polkadot.astar": "Astar",
   "rpc.polkadot.bifrost": "Bifrost",
+  "rpc.polkadot.centrifuge": "Centrifuge",
   "rpc.polkadot.clover": "Clover",
   "rpc.polkadot.clover-para": "Clover",
   "rpc.polkadot.coinversation": "Coinversation",

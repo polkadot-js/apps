@@ -338,6 +338,7 @@ export const nodeLogos = Object.entries({
   'BitCountry Node': nodeBitCountry,
   'Calamari Parachain Collator': nodeCalamari,
   'Canvas Node': nodeCanvas,
+  Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
   'ChainX Node': nodeChainx,
