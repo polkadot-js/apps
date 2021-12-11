@@ -169,6 +169,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'nodle',
+        homepage: 'https://nodle.com',
+        isUnreachable: true,
+        paraId: 2026,
+        text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
+        providers: {
+          Nodle: 'wss://rpc.nodle.com'
+        }
+      },
+      {
         info: 'parallel',
         homepage: 'https://parallel.fi',
         paraId: 2012,
