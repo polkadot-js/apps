@@ -11,9 +11,8 @@ import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Mod
 import { useAccountId, useApi, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { isNull, isWasm, stringify } from '@polkadot/util';
+import { BN, isNull, isWasm, stringify } from '@polkadot/util';
 
-import { ENDOWMENT } from '../constants';
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
@@ -32,12 +31,14 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
   const [value, isValueValid, setValue] = useNonZeroBn(0);
-  const [storageDepositLimit, isStorageDepositValid, setstorageDepositLimit] = useNonZeroBn(ENDOWMENT);
+  const [storageDepositLimit, isStorageDepositValid, setstorageDepositLimit] = useNonZeroBn(1000);
   const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const weight = useWeight();
+  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
+
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
@@ -82,6 +83,18 @@ function Upload ({ onClose }: Props): React.ReactElement {
   useEffect((): void => {
     abiName && setName(abiName);
   }, [abiName, setName]);
+
+  useEffect((): void => {
+    accountId && hasStorageDeposit &&
+      api.derive.balances
+        .account(accountId)
+        .then(({ freeBalance }) => {
+          // instantiation fails when using the entire free balance
+          const limit = freeBalance.sub(freeBalance.div(new BN(10)));
+
+          setstorageDepositLimit(limit);
+        }).catch(console.error);
+  }, [accountId, api, hasStorageDeposit, setstorageDepositLimit]);
 
   useEffect((): void => {
     let contract: SubmittableExtrinsic<'promise'> | null = null;
@@ -207,16 +220,18 @@ function Upload ({ onClose }: Props): React.ReactElement {
               onChange={setValue}
               value={value}
             />
+            {hasStorageDeposit && (
+              <InputBalance
+                help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed. Defaults to 90 % of the free balance of the selected account. ')}
+                isError={!isStorageDepositValid}
+                label={t<string>('storage deposit limit')}
+                onChange={setstorageDepositLimit}
+                value={storageDepositLimit}
+              />
+            )}
             <InputMegaGas
-              help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+              help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail')}
               weight={weight}
-            />
-            <InputBalance
-              help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed')}
-              isError={!isStorageDepositValid}
-              label={t<string>('storage deposit limit')}
-              onChange={setstorageDepositLimit}
-              value={storageDepositLimit}
             />
             {error && (
               <MarkError content={error} />
