@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { ApiTypes, AugmentedConst, QueryableConsts } from '@polkadot/api/types';
-import type { u64 } from '@polkadot/types';
 import type { Time } from '@polkadot/util/types';
 
 import { useMemo } from 'react';
@@ -22,12 +20,6 @@ const DEFAULT_TIME = new BN(6_000);
 // Use a low minimum validity threshold to check these against
 const THRESHOLD = BN_THOUSAND.div(BN_TWO);
 
-function extractExpectedBlockTime (consts: QueryableConsts<ApiTypes>): u64 & AugmentedConst<ApiTypes> {
-  return Object.keys(consts)
-    .map((section) => consts[section].expectedBlockTime)
-    .find((blockTime) => blockTime || false) as u64 & AugmentedConst<ApiTypes>;
-}
-
 function useBlockTimeImpl (blocks: number | BN = BN_ONE, apiOverride?: ApiPromise | null): Result {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -35,12 +27,13 @@ function useBlockTimeImpl (blocks: number | BN = BN_ONE, apiOverride?: ApiPromis
   return useMemo(
     (): Result => {
       const a = apiOverride || api;
-      const expectedBlockTime = extractExpectedBlockTime(a.consts);
       const blockTime = (
-        // Babe, or chains using expectedBlockTime
-        expectedBlockTime ||
+        // Babe
+        a.consts.babe?.expectedBlockTime ||
         // POW, eg. Kulupu
-        a.consts.difficulty?.targetBlockTime || (
+        a.consts.difficulty?.targetBlockTime ||
+        // Subspace
+        a.consts.subspace?.expectedBlockTime || (
           // Check against threshold to determine value validity
           a.consts.timestamp?.minimumPeriod.gte(THRESHOLD)
             // Default minimum period config
