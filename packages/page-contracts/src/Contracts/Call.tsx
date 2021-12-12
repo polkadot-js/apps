@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import { ContractPromise } from '@polkadot/api-contract';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useApi, useDebounce, useFormField, useNonZeroBn, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -34,6 +34,7 @@ const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
@@ -42,9 +43,11 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<unknown[]>([]);
   const [isViaCall, toggleViaCall] = useToggle();
+  const [storageDepositLimit, isStorageDepositValid, setstorageDepositLimit] = useNonZeroBn(1000);
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
+  const hasStorageDeposit = api.tx.contracts.call.meta.args.length === 5;
 
   useEffect((): void => {
     setEstimatedWeight(null);
@@ -54,65 +57,53 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.tx[message.method]({
-          gasLimit: weight.weight,
-          value: message.isPayable
-            ? value
-            : 0
-        }, ...params);
+        return hasStorageDeposit
+          ? contract.tx[message.method]({ gasLimit: weight.weight, storageDepositLimit, value: message.isPayable ? value : 0 }, ...params)
+          : contract.tx[message.method]({ gasLimit: weight.weight, value: message.isPayable ? value : 0 }, ...params);
       } catch (error) {
         return null;
       }
     });
-  }, [accountId, contract, message, value, weight, params]);
+  }, [accountId, contract, message, value, weight, params, hasStorageDeposit, storageDepositLimit]);
 
   useEffect((): void => {
     if (!accountId || !message || !dbParams || !dbValue) return;
+    const query = hasStorageDeposit
+      ? contract.query[message.method](accountId, { gasLimit: -1, storageDepositLimit, value: message.isPayable ? dbValue : 0 }, ...dbParams)
+      : contract.query[message.method](accountId, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams);
 
-    contract
-      .query[message.method](accountId, {
-        gasLimit: -1,
-        value: message.isPayable
-          ? dbValue
-          : 0
-      }, ...dbParams)
+    query
       .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
           ? gasRequired
           : null
       ))
       .catch(() => setEstimatedWeight(null));
-  }, [accountId, contract, message, dbParams, dbValue]);
+  }, [accountId, contract, message, dbParams, dbValue, hasStorageDeposit, storageDepositLimit]);
 
   const _onSubmitRpc = useCallback(
     (): void => {
       if (!accountId || !message || !value || !weight) return;
+      const query = hasStorageDeposit
+        ? contract.query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, storageDepositLimit, value: message.isPayable ? value : 0 }, ...params)
+        : contract.query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params);
 
-      contract
-        .query[message.method](accountId, {
-          gasLimit: weight.isEmpty
-            ? -1
-            : weight.weight,
-          value: message.isPayable
-            ? value
-            : 0
-        }, ...params)
-        .then((result): void => {
-          setOutcomes([{
-            ...result,
-            from: accountId,
-            message,
-            params,
-            when: new Date()
-          }, ...outcomes]);
-          onCallResult && onCallResult(messageIndex, result);
-        })
+      query.then((result): void => {
+        setOutcomes([{
+          ...result,
+          from: accountId,
+          message,
+          params,
+          when: new Date()
+        }, ...outcomes]);
+        onCallResult && onCallResult(messageIndex, result);
+      })
         .catch((error): void => {
           console.error(error);
           onCallResult && onCallResult(messageIndex);
         });
     },
-    [accountId, contract, message, messageIndex, onCallResult, outcomes, params, value, weight]
+    [accountId, contract.query, hasStorageDeposit, message, messageIndex, onCallResult, outcomes, params, storageDepositLimit, value, weight]
   );
 
   const _onClearOutcome = useCallback(
@@ -182,6 +173,15 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             label={t<string>('value')}
             onChange={setEndowment}
             value={value}
+          />
+        )}
+        {hasStorageDeposit && (
+          <InputBalance
+            help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed. Defaults to 90 % of the free balance of the selected account. ')}
+            isError={!isStorageDepositValid}
+            label={t<string>('storage deposit limit')}
+            onChange={setstorageDepositLimit}
+            value={storageDepositLimit}
           />
         )}
         <InputMegaGas
