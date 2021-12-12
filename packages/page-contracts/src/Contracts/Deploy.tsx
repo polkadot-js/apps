@@ -176,6 +176,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         <InputBalance
           help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
           isError={!isValueValid}
+          isZeroable={hasStorageDeposit}
           label={t<string>('value')}
           onChange={setValue}
           value={value}
@@ -198,6 +199,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         {hasStorageDeposit && (
           <InputBalance
             help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed. Defaults to 90 % of the free balance of the selected account. ')}
+            isZeroable={false}
             label={t<string>('storage deposit limit')}
             onChange={setstorageDepositLimit}
             value={storageDepositLimit}

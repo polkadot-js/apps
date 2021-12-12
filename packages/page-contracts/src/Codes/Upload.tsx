@@ -215,6 +215,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
             <InputBalance
               help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
               isError={!isValueValid}
+              isZeroable={hasStorageDeposit}
               label={t<string>('value')}
               onChange={setValue}
               value={value}
