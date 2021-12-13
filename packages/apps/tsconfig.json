@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../apps-config" },
+    { "path": "../apps-routing" },
+    { "path": "../page-accounts" },
+    { "path": "../react-components" },
+    { "path": "../react-signer" }
+  ]
+}

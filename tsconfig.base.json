@@ -2,6 +2,8 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
 		"composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
 		"paths": {
       "@polkadot/apps/*": ["apps/src/*"],
       "@polkadot/apps": ["apps/src"],

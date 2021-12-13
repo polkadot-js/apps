@@ -1,11 +1,43 @@
 {
-  "extends": "./tsconfig.base.json",
-  "exclude": [
-    "build/**/*",
-    "**/build/**/*"
-  ],
   "compilerOptions": {
-    "baseUrl": "./packages",
-    "jsx": "react"
-  }
+    "composite": true
+  },
+  "files": [],
+  "references": [
+    { "path": "./packages/apps" },
+    { "path": "./packages/apps-config" },
+    { "path": "./packages/apps-electron" },
+    { "path": "./packages/apps-routing" },
+    { "path": "./packages/page-accounts" },
+    { "path": "./packages/page-addresses" },
+    { "path": "./packages/page-assets" },
+    { "path": "./packages/page-bounties" },
+    { "path": "./packages/page-calendar" },
+    { "path": "./packages/page-claims" },
+    { "path": "./packages/page-contracts" },
+    { "path": "./packages/page-council" },
+    { "path": "./packages/page-democracy" },
+    { "path": "./packages/page-explorer" },
+    { "path": "./packages/page-extrinsics" },
+    { "path": "./packages/page-gilt" },
+    { "path": "./packages/page-js" },
+    { "path": "./packages/page-membership" },
+    { "path": "./packages/page-parachains" },
+    { "path": "./packages/page-poll" },
+    { "path": "./packages/page-rpc" },
+    { "path": "./packages/page-settings" },
+    { "path": "./packages/page-signing" },
+    { "path": "./packages/page-society" },
+    { "path": "./packages/page-staking" },
+    { "path": "./packages/page-storage" },
+    { "path": "./packages/page-sudo" },
+    { "path": "./packages/page-tech-comm" },
+    { "path": "./packages/page-treasury" },
+    { "path": "./packages/react-api" },
+    { "path": "./packages/react-components" },
+    { "path": "./packages/react-hooks" },
+    { "path": "./packages/react-params" },
+    { "path": "./packages/react-query" },
+    { "path": "./packages/react-signer" }
+  ]
 }

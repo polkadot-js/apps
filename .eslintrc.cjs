@@ -7,18 +7,13 @@ const base = require('@polkadot/dev/config/eslint.cjs');
 module.exports = {
   ...base,
   ignorePatterns: [
-    '.eslintrc.cjs',
-    '.github/**',
-    '.vscode/**',
-    '.yarn/**',
-    '**/build/*',
-    '**/coverage/*',
-    '**/node_modules/*'
+    ...base.ignorePatterns,
+    'scripts/*'
   ],
   parserOptions: {
     ...base.parserOptions,
     project: [
-      './tsconfig.json'
+      './packages/**/tsconfig.json'
     ]
   },
   rules: {

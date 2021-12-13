@@ -1,0 +1,35 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../page-accounts" },
+    { "path": "../page-addresses" },
+    { "path": "../page-assets" },
+    { "path": "../page-bounties" },
+    { "path": "../page-calendar" },
+    { "path": "../page-claims" },
+    { "path": "../page-contracts" },
+    { "path": "../page-council" },
+    { "path": "../page-democracy" },
+    { "path": "../page-explorer" },
+    { "path": "../page-extrinsics" },
+    { "path": "../page-gilt" },
+    { "path": "../page-js" },
+    { "path": "../page-membership" },
+    { "path": "../page-parachains" },
+    { "path": "../page-poll" },
+    { "path": "../page-rpc" },
+    { "path": "../page-settings" },
+    { "path": "../page-signing" },
+    { "path": "../page-society" },
+    { "path": "../page-staking" },
+    { "path": "../page-storage" },
+    { "path": "../page-sudo" },
+    { "path": "../page-tech-comm" },
+    { "path": "../page-treasury" }
+  ]
+}
