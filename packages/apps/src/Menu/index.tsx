@@ -3,7 +3,7 @@
 
 import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
-import type { ApiProps } from '@polkadot/react-api/types';
+import type { ApiProps } from '@polkadot/react-api-context/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { Group, Groups, ItemRoute } from './types';
 
@@ -14,9 +14,9 @@ import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
-import { findMissingApis } from './endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
+import { findMissingApis } from './endpoint';
 import Grouping from './Grouping';
 import Item from './Item';
 import NodeInfo from './NodeInfo';

@@ -9,8 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import type { ApiProps, CallState as State, OnChangeCb, SubtractProps } from '@polkadot/react-api-context/types';
-import type { Options } from '@polkadot/react-api-context/types';
+import type { ApiProps, CallState as State, OnChangeCb, Options, SubtractProps } from '@polkadot/react-api-context/types';
 
 import React from 'react';
 
@@ -114,7 +113,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
       private nextState (state: Partial<State>): void {
         if (this.isActive) {
-          this.setState(state as State);
+          this.setState(state);
         }
       }
 

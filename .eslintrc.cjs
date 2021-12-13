@@ -13,7 +13,7 @@ module.exports = {
   parserOptions: {
     ...base.parserOptions,
     project: [
-      './packages/**/tsconfig.json'
+      './tsconfig.eslint.json'
     ]
   },
   rules: {

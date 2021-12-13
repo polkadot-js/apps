@@ -119,7 +119,7 @@ class MockAccountHooks {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       Object.entries(props.staking || staking).forEach(function ([key, value]) { (staking as any)[key] = value; });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      Object.entries(props.info || info).forEach(function ([key, value]) { (info as any)[key] = value; });
+      Object.entries(props.info || info).forEach(function ([key, value]) { (info)[key] = value; });
 
       this.accountsMap[address] = {
         balance: balance,

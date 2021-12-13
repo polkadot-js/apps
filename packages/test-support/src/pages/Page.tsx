@@ -12,7 +12,7 @@ import { ThemeProvider } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-api/types';
+import { ApiProps } from '@polkadot/react-api-context/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { lightTheme } from '@polkadot/react-components/themes';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
