@@ -1,0 +1,104 @@
+name: Deploy Aleph Wallet to Testnet
+
+on:
+  release:
+    types: [prereleased]
+
+jobs:
+  deploy-wallet:
+    name: Deploy wallet image to Testnet
+    runs-on: ubuntu-latest
+    steps:
+      - name: GIT | Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: GIT | Checkout Source code
+        uses: actions/checkout@v2
+
+      - name: GIT | Get branch info & current commit sha.
+        id: vars
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF##*/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # this region is used by all public ECR repos
+
+      - name: Login to Public Amazon ECR
+        id: login-public-ecr
+        uses: docker/login-action@v1
+        with:
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_MAINNET_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_MAINNET_SECRET_ACCESS_KEY }}
+        env:
+          AWS_REGION: us-east-1
+
+      - name: Tag and push wallet image for Testnet
+        env:
+          BASE_IMAGE: public.ecr.aws/p6e8q1z1/aleph-wallet:${{ steps.vars.outputs.sha_short }}
+          TESTNET_IMAGE: public.ecr.aws/p6e8q1z1/aleph-wallet:${{ steps.vars.outputs.branch }}
+        run: |
+          export image_not_exist=$(docker manifest inspect ${{ env.BASE_IMAGE }} &> /dev/null ; echo $?)
+
+          if [ $image_not_exist -eq 1 ]; then
+            echo "::error title=Wrong docker image tag::Docker image ${{ env.BASE_IMAGE }} doesn't exist"
+            exit 1
+          else
+            docker pull ${{ env.BASE_IMAGE }}
+            docker tag ${{ env.BASE_IMAGE }} ${{ env.TESTNET_IMAGE }}
+            docker push ${{ env.TESTNET_IMAGE }}
+          fi
+
+      - name: GIT | Checkout aleph-apps repo
+        uses: actions/checkout@master
+        with:
+          repository: Cardinal-Cryptography/aleph-apps
+          token: ${{ secrets.CI_GH_TOKEN }}
+          path: "aleph-apps"
+
+      - name: Init kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "3.8.6"
+          
+      - name: Update aleph-wallet image for testnet deployment from ArgoCD
+        env:                                                                                                          
+          TESTNET_IMAGE: public.ecr.aws/p6e8q1z1/aleph-wallet:${{ steps.vars.outputs.branch }}
+          REGIONS_AWS: 'eu-central-1,eu-west-1,eu-west-2,us-east-1,us-east-2'
+        run: |
+          IFS="," read -a region_array <<< ${{ env.REGIONS_AWS }}
+          export wallet_path=$(pwd)
+          for i in "${region_array[@]}"; do
+            # Deploy new image version for wallet
+            cd ${wallet_path}/aleph-apps/aleph-wallet/overlays/testnet/${i}
+            kustomize edit set image "aleph-wallet-image-placeholder=${{ env.TESTNET_IMAGE }}"
+          done
+      - name: GIT | Commit changes to aleph-apps repository.
+        uses: EndBug/add-and-commit@v5.1.0
+        with:
+          author_name: AlephZero Automation
+          author_email: alephzero@10clouds.com
+          message: "Updating aleph-wallet docker image tag for Testnet version deployment - pre-release: ${{ steps.vars.outputs.branch }}"
+          add: "*.yaml"
+          cwd: "aleph-apps"
+          branch: main
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_GH_TOKEN }}
+
+      - name: Send Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        continue-on-error: true
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: GithubActions
+          SLACK_TITLE: deploy-testnet job has finished
+          MSG_MINIMAL: actions url
