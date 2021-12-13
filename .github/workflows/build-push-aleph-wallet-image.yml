@@ -1,7 +1,6 @@
-name: Build, push and deploy aleph-wallet image
+name: Build and push aleph-wallet image
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - alephzero
