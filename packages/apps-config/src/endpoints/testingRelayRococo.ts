@@ -35,7 +35,7 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 100,
         text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://tick-rpc.polkadot.io'
+          Parity: 'wss://tick-rococo-rpc.polkadot.io'
         }
       },
       {

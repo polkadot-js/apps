@@ -87,6 +87,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'centrifuge',
+        homepage: 'https://centrifuge.io',
+        paraId: 2031,
+        isUnreachable: true,
+        text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
+        }
+      },
+      {
         info: 'clover',
         homepage: 'https://clover.finance',
         paraId: 2002,
@@ -166,6 +176,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
           Purestake: 'wss://wss.mainnet.moonbeam.network'
+        }
+      },
+      {
+        info: 'nodle',
+        homepage: 'https://nodle.com',
+        isUnreachable: true,
+        paraId: 2026,
+        text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
+        providers: {
+          Nodle: 'wss://rpc.nodle.com'
         }
       },
       {

@@ -19,6 +19,7 @@ import bitcountry from './bitcountry';
 import bitcountryPioneer from './bitcountry-pioneer';
 import bitcountryParachain from './bitcountry-rococo';
 import canvas from './canvas';
+import centrifuge from './centrifuge';
 import centrifugeChain from './centrifuge-chain';
 import chainx from './chainx';
 import clover from './clover';
@@ -59,6 +60,7 @@ import kilt from './kilt';
 import konomi from './konomi';
 import kpron from './kpron';
 import kulupu from './kulupu';
+import kusari from './kusari';
 import kylin from './kylin';
 import laminar from './laminar';
 import litentry from './litentry';
@@ -143,6 +145,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
   canvas,
+  centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,
   'chainx-parachain': chainx,
@@ -190,6 +193,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   konomi,
   kpron,
   kulupu,
+  kusari,
   kylin,
   laminar,
   litentry,
