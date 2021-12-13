@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
-import { findMissingApis } from '../endpoint';
+import { findMissingApis } from './endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Grouping from './Grouping';

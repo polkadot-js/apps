@@ -6,6 +6,8 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../react-components" }
+    { "path": "../page-tech-comm" },
+    { "path": "../react-components" },
+    { "path": "../react-hooks" }
   ]
 }

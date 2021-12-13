@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Environment } from '../types';
+import type { Environment } from '@polkadot/react-api-context/types';
 
 // https://github.com/electron/electron/issues/2288
 function isElectron () {

@@ -3131,6 +3131,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/react-api-context@workspace:packages/react-api-context":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/react-api-context@workspace:packages/react-api-context"
+  dependencies:
+    "@babel/runtime": ^7.16.3
+    "@polkadot/api": ^6.11.1
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/react-api@^0.98.2-143, @polkadot/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"

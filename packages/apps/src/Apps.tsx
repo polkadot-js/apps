@@ -17,8 +17,6 @@ import Content from './Content';
 import Menu from './Menu';
 import WarmUp from './WarmUp';
 
-export const PORTAL_ID = 'portals';
-
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const { isDevelopment, specName, systemChain, systemName } = useApi();
@@ -40,7 +38,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
             <Content />
           </Signer>
           <ConnectingOverlay />
-          <div id={PORTAL_ID} />
+          <div id='dragPortal' />
         </AccountSidebar>
       </div>
       <WarmUp />

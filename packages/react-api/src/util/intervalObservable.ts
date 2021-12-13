@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CallState } from '../types';
+import type { CallState } from '@polkadot/react-api-context/types';
 
 import { interval, Subscription } from 'rxjs';
 

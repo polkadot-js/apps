@@ -34,6 +34,7 @@
     { "path": "./packages/page-tech-comm" },
     { "path": "./packages/page-treasury" },
     { "path": "./packages/react-api" },
+    { "path": "./packages/react-api-context" },
     { "path": "./packages/react-components" },
     { "path": "./packages/react-hooks" },
     { "path": "./packages/react-params" },

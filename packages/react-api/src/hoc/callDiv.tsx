@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BaseProps } from '../types';
-import type { DefaultProps, Options } from './types';
+import type { BaseProps } from '@polkadot/react-api-context/types';
+import type { DefaultProps, Options } from '@polkadot/react-api-context/types';
 
 import React from 'react';
 

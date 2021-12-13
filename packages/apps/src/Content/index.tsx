@@ -11,7 +11,7 @@ import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, StatusContext, TabsContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { findMissingApis } from '../endpoint';
+import { findMissingApis } from '../Menu/endpoint';
 import { useTranslation } from '../translate';
 import NotFound from './NotFound';
 import Status from './Status';

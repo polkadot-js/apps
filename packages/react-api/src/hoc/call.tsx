@@ -9,8 +9,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import type { ApiProps, CallState as State, OnChangeCb, SubtractProps } from '../types';
-import type { Options } from './types';
+import type { ApiProps, CallState as State, OnChangeCb, SubtractProps } from '@polkadot/react-api-context/types';
+import type { Options } from '@polkadot/react-api-context/types';
 
 import React from 'react';
 

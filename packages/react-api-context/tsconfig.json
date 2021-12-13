@@ -6,7 +6,5 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../react-api-context" },
-    { "path": "../react-signer" }
   ]
 }

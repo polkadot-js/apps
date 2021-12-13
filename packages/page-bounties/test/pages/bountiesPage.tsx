@@ -12,7 +12,7 @@ import { ApiPromise } from '@polkadot/api';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import Bounties from '@polkadot/app-bounties/Bounties';
 import { BountyApi } from '@polkadot/app-bounties/hooks';
-import { lightTheme } from '@polkadot/apps/themes';
+import { lightTheme } from '@polkadot/react-components/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';

@@ -9,8 +9,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import AccountsApp from '@polkadot/app-accounts';
-import { lightTheme } from '@polkadot/apps/themes';
 import { Api } from '@polkadot/react-api';
+import { lightTheme } from '@polkadot/react-components/themes';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';

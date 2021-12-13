@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { lightTheme } from '@polkadot/apps/themes';
+import { lightTheme } from '@polkadot/react-components/themes';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Button from '../Button';

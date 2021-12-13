@@ -10,6 +10,7 @@
     { "path": "../apps-routing" },
     { "path": "../page-accounts" },
     { "path": "../react-components" },
+    { "path": "../react-hooks" },
     { "path": "../react-signer" }
   ]
 }

@@ -10,8 +10,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import BountiesApp from '@polkadot/app-bounties/index';
-import { lightTheme } from '@polkadot/apps/themes';
 import { Api } from '@polkadot/react-api';
+import { lightTheme } from '@polkadot/react-components/themes';
 import { createApi } from '@polkadot/test-support/api';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { aliceSigner } from '@polkadot/test-support/keyring/signers';
