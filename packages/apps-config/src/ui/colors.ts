@@ -45,6 +45,7 @@ const chainHanonycash = '#0099CC';
 const chainHeiko = '#42d5de';
 const chainHydrate = '#000000';
 const chainInterbtc = '#1a0a2d';
+const chainInterlay = '#3E96FF';
 const chainIpse = '#08a1e8';
 const chainKarura = '#ff4c3b';
 const chainKhala = '#03f3f3';
@@ -253,6 +254,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Idavoll: chainIdavoll,
   InterBTC: chainInterbtc,
   'InterBTC Staging': chainInterbtc,
+  Interlay: chainInterlay,
   IpseTestnet: chainIpse,
   'Jupiter A1': chainJupiter,
   'Jupiter PC1': chainJupiter,

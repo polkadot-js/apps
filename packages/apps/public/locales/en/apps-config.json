@@ -63,6 +63,7 @@
   "rpc.polkadot.crust": "Crust",
   "rpc.polkadot.darwinia": "Darwinia",
   "rpc.polkadot.efinity": "Efinity",
+  "rpc.polkadot.interlay": "Interlay",
   "rpc.polkadot.litentry": "Litentry",
   "rpc.polkadot.manta": "Manta",
   "rpc.polkadot.moonbeam": "Moonbeam",
