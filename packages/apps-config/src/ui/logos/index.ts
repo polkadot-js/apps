@@ -673,6 +673,7 @@ export const namedLogos: Record<string, unknown> = {
   'SubGame Staging': nodeSubGame,
   subsocial: nodeSubsocial,
   subspace: nodeSubspace,
+  'subspace-farmnet': nodeSubspace,
   substrate: nodeSubstrate,
   substrateContractsNode: nodeSubstrateContractsNode,
   'ternoa-testnet': nodeTernoa,

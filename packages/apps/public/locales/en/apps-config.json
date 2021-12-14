@@ -213,6 +213,7 @@
   "rpc.test.sora-substrate-staging": "SORA-staging",
   "rpc.test.subdao": "SubDAO Staging",
   "rpc.test.subgame": "SubGame Staging",
+  "rpc.test.subspace.farmnet": "Subspace Farmnet",
   "rpc.test.subspace": "Subspace Testnet",
   "rpc.test.ternoa-testnet": "Ternoa Testnet",
   "rpc.test.turbulence": "Turbulence",

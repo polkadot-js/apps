@@ -458,6 +458,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'subspace-farmnet',
+      text: t('rpc.test.subspace.farmnet', 'Subspace Farmnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://farm-rpc.subspace.network'
+      }
+    },
+    {
       info: 'subspace',
       text: t('rpc.test.subspace', 'Subspace Testnet', { ns: 'apps-config' }),
       providers: {
