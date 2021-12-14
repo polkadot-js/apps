@@ -11,7 +11,7 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, BN_THOUSAND, BN_ZERO, isHex, stringify } from '@polkadot/util';
+import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
@@ -23,7 +23,6 @@ import useWeight from '../useWeight';
 interface Props {
   codeHash: string;
   constructorIndex: number;
-  storageDepositLimit?: number;
   onClose: () => void;
   setConstructorIndex: React.Dispatch<number>;
 }
@@ -34,7 +33,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
   const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
-  const [storageDepositLimit, setstorageDepositLimit] = useState(BN_THOUSAND);
   const [params, setParams] = useState<unknown[]>([]);
   const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
@@ -96,7 +94,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
       return null;
     });
-  }, [blueprint, contractAbi, constructorIndex, value, params, salt, weight, withSalt, storageDepositLimit]);
+  }, [blueprint, contractAbi, constructorIndex, value, params, salt, weight, withSalt]);
 
   const _onSuccess = useCallback(
     (result: BlueprintSubmittableResult): void => {
