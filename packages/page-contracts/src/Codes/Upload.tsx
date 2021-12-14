@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CodePromise } from '@polkadot/api-contract';
 import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Modal, TxButton } from '@polkadot/react-components';
-import { useAccountId, useApi, useFormField, useNonEmptyString, useNonZeroBn, useStepper } from '@polkadot/react-hooks';
+import { useAccountId, useApi, useFormField, useNonEmptyString, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
@@ -31,7 +31,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [[uploadTx, error], setUploadTx] = useState<[SubmittableExtrinsic<'promise'> | null, string | null]>([null, null]);
   const [constructorIndex, setConstructorIndex] = useState<number>(0);
   const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
-  const [storageDepositLimit, isStorageDepositValid, setstorageDepositLimit] = useNonZeroBn(1000);
   const [params, setParams] = useState<unknown[]>([]);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
@@ -84,18 +83,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
   }, [abiName, setName]);
 
   useEffect((): void => {
-    accountId && hasStorageDeposit &&
-      api.derive.balances
-        .account(accountId)
-        .then(({ freeBalance }) => {
-          // instantiation fails when using the entire free balance
-          const limit = freeBalance.sub(freeBalance.div(new BN(10)));
-
-          setstorageDepositLimit(limit);
-        }).catch(console.error);
-  }, [accountId, api, hasStorageDeposit, setstorageDepositLimit]);
-
-  useEffect((): void => {
     let contract: SubmittableExtrinsic<'promise'> | null = null;
     let error: string | null = null;
 
@@ -103,7 +90,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
       contract = code && contractAbi?.constructors[constructorIndex]?.method && value
         ? code.tx[contractAbi.constructors[constructorIndex].method]({
           gasLimit: weight.weight,
-          storageDepositLimit,
+          storageDepositLimit: null,
           value
         }, ...params)
         : null;
@@ -112,7 +99,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
     }
 
     setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorIndex, value, params, storageDepositLimit, weight]);
+  }, [code, contractAbi, constructorIndex, value, params, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -220,15 +207,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
               onChange={setValue}
               value={value}
             />
-            {hasStorageDeposit && (
-              <InputBalance
-                help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed. Defaults to 90 % of the free balance of the selected account. ')}
-                isError={!isStorageDepositValid}
-                label={t<string>('storage deposit limit')}
-                onChange={setstorageDepositLimit}
-                value={storageDepositLimit}
-              />
-            )}
             <InputMegaGas
               help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail')}
               weight={weight}

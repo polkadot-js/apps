@@ -86,7 +86,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             salt: withSalt
               ? salt
               : null,
-            storageDepositLimit,
+            storageDepositLimit: null,
             value
           }, ...params);
         } catch (error) {
@@ -196,15 +196,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             value={withSalt}
           />
         </Input>
-        {hasStorageDeposit && (
-          <InputBalance
-            help={t<string>('The maximum amount of balance that can be charged/reserved from the caller to pay for the storage consumed. Defaults to 90 % of the free balance of the selected account. ')}
-            isZeroable={false}
-            label={t<string>('storage deposit limit')}
-            onChange={setstorageDepositLimit}
-            value={storageDepositLimit}
-          />
-        )}
         <InputMegaGas
           help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           weight={weight}
