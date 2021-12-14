@@ -21,6 +21,7 @@ import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
 import chainInterBTC from './chains/interbtc.png';
+import chainInterlay from './chains/interlay.svg';
 import chainKarura from './chains/karura.svg';
 import chainKintsugi from './chains/kintsugi.png';
 import chainKusama from './chains/kusama-128.gif';
@@ -211,6 +212,7 @@ export const chainLogos = Object.entries({
   Idavoll: nodeIdavoll,
   InterBTC: nodeInterBTC,
   'InterBTC Staging': nodeInterBTC,
+  Interlay: chainInterlay,
   IpseTestnet: nodeIpse,
   'Jupiter A1': nodeJupiter,
   'Jupiter PC1': nodeJupiter,
@@ -371,6 +373,7 @@ export const nodeLogos = Object.entries({
   'Idavoll Node': nodeIdavoll,
   'Integritee Collator': nodeIntegritee,
   'Integritee Node': nodeIntegritee,
+  Interlay: chainInterlay,
   IpseTestnet: nodeIpse,
   Khala: nodeKhala,
   'Khala Node': nodeKhala,
@@ -548,6 +551,7 @@ export const namedLogos: Record<string, unknown> = {
   idavoll: nodeIdavoll,
   integritee: nodeIntegritee,
   interbtc: nodeInterBTC,
+  interlay: chainInterlay,
   ipse: nodeIpse,
   jupiter: nodeJupiter,
   karura: chainKarura,
