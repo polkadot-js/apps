@@ -220,7 +220,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Development': chainCalamari,
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
-  'Canvas': chainRococoCanvas,
+  Canvas: chainRococoCanvas,
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
