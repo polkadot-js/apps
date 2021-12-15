@@ -61,7 +61,6 @@ import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
-import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
@@ -339,7 +338,6 @@ export const nodeLogos = Object.entries({
   'Bit.Country': nodeBitCountry,
   'BitCountry Node': nodeBitCountry,
   'Calamari Parachain Collator': nodeCalamari,
-  'Canvas Node': nodeCanvas,
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
@@ -515,7 +513,6 @@ export const namedLogos: Record<string, unknown> = {
   bitcountry: nodeBitCountry,
   bitcountryPioneer: nodePioneerNetwork,
   calamari: nodeCalamari,
-  canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
