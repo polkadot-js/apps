@@ -148,6 +148,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'interlay',
+        homepage: 'https://interlay.io/',
+        paraId: 2032,
+        text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
+        providers: {
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+        }
+      },
+      {
         info: 'litentry',
         homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
