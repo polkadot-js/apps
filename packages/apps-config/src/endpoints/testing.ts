@@ -75,13 +75,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'canvas',
-      text: t('rpc.test.canvas', 'Canvas', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://canvas-rpc.parity.io'
-      }
-    },
-    {
       info: 'clover',
       isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
