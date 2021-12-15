@@ -30,6 +30,7 @@ import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
+import chainRococoCanvas from './chains/rococo-canvas.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
@@ -294,6 +295,7 @@ export const chainLogos = Object.entries({
   Subsocial: nodeSubsocial,
   'Subsocial PC': nodeSubsocial,
   subspace: nodeSubspace,
+  Canvas: chainRococoCanvas,
   Tick: chainRococoTick,
   Track: chainRococoTrack,
   Trick: chainRococoTrick,
@@ -641,6 +643,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoStatemint: nodeStatemine,
   rococoSubDAO: nodeSubDAO,
   rococoSubsocial: nodeSubsocial,
+  rococoCanvas: chainRococoCanvas,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
