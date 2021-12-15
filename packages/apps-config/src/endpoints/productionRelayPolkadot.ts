@@ -35,9 +35,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'statemint',
         paraId: 1000,
-        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://statemint-shell.polkadot.io',
+          Parity: 'wss://statemint-rpc.polkadot.io',
           OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
