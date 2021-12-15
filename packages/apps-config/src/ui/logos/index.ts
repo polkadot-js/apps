@@ -14,6 +14,7 @@ import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
 import chainCoinversation from './chains/coinversation.png';
+import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEfinity from './chains/efinity.svg';
@@ -28,7 +29,6 @@ import chainKusama from './chains/kusama-128.gif';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
-import chainComposableFinance from './chains/composableFinance.png';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -522,6 +522,7 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   coinversation: chainCoinversation,
+  composableFinance: chainComposableFinance,
   crab: nodeCrab,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
@@ -590,7 +591,6 @@ export const namedLogos: Record<string, unknown> = {
   phala: nodePhala,
   phoenix: nodePhoenix,
   picasso: chainComposable,
-  composableFinance: chainComposableFinance,
   pichiu: nodePichiu,
   plasm: nodePlasm,
   polkadex: nodePolkadex,
