@@ -18,7 +18,7 @@ interface Props {
   proposal?: Proposal | null;
 }
 
-const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority'];
+const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority', 'fastTrack'];
 const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
 function ProposalCell ({ className = '', imageHash, proposal }: Props): React.ReactElement<Props> {

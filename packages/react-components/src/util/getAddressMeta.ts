@@ -5,7 +5,7 @@ import type { KeyringItemType, KeyringJson$Meta } from '@polkadot/ui-keyring/typ
 
 import { keyring } from '@polkadot/ui-keyring';
 
-export default function getAddressMeta (address: string, type: KeyringItemType | null = null): KeyringJson$Meta {
+export function getAddressMeta (address: string, type: KeyringItemType | null = null): KeyringJson$Meta {
   let meta: KeyringJson$Meta | undefined;
 
   try {

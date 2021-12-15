@@ -35,7 +35,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
       <div className={displayAsGrid ? 'addressGrid' : ''}>
         {parentAddress && (
           <div className='parentAccountName'>
-            <ParentAccount address={parentAddress}/>
+            <ParentAccount address={parentAddress} />
           </div>
         )}
         <AccountName

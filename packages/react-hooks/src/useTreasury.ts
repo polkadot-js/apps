@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
 import { BN_MILLION, BN_ZERO, u8aConcat } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
@@ -21,7 +22,7 @@ interface Result {
   treasuryAccount: Uint8Array;
 }
 
-export function useTreasury (): Result {
+function useTreasuryImpl (): Result {
   const { api } = useApi();
   const [result, setResult] = useState<Result>(() => ({
     spendPeriod: api.consts.treasury
@@ -53,3 +54,5 @@ export function useTreasury (): Result {
 
   return result;
 }
+
+export const useTreasury = createNamedHook('useTreasury', useTreasuryImpl);

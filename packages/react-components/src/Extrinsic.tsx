@@ -8,7 +8,6 @@ import type { TypeDef } from '@polkadot/types/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Params from '@polkadot/react-params';
-import { GenericCall } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
@@ -38,14 +37,20 @@ interface CallState {
 }
 
 function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
-  return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
-    name: arg.name.toString(),
-    type: getTypeDef(arg.type.toString())
+  return meta.args.map(({ name, type, typeName }): { name: string; type: TypeDef } => ({
+    name: name.toString(),
+    type: {
+      ...getTypeDef(type.toString()),
+      ...(typeName.isSome
+        ? { typeName: typeName.unwrap().toString() }
+        : {}
+      )
+    }
   }));
 }
 
 function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
-  const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
+  const [extrinsic, setCall] = useState<CallState>(() => ({ fn: defaultValue, params: getParams(defaultValue) }));
   const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {
@@ -64,9 +69,9 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
 
     if (isValid) {
       try {
-        method = extrinsic.fn(...values.map(({ value }): any => value));
+        method = extrinsic.fn(...values.map(({ value }) => value));
       } catch (error) {
-        onError && onError(error);
+        onError && onError(error as Error);
       }
     } else {
       onError && onError(null);

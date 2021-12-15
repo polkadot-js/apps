@@ -70,7 +70,7 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
 
 export default React.memo(styled(Editor)`
   .codeflask {
-    border: 1px solid rgba(34,36,38,.15);
+    border: 1px solid var(--border-input);
     background: transparent;
   }
 

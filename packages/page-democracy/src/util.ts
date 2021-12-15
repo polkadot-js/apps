@@ -88,7 +88,7 @@ export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, sta
   const isPassing = calcPassing(threshold, sqrtElectorate, state);
 
   // simple case, we have an aye > nay to determine passing
-  if (threshold.isSimplemajority) {
+  if (threshold.isSimpleMajority) {
     const change = isPassing
       ? state.votedAye.sub(state.votedNay)
       : state.votedNay.sub(state.votedAye);

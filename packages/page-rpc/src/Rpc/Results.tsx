@@ -32,7 +32,7 @@ function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
           value={
             error
               ? error.message
-              : <pre>{valueToText('', result, false)}</pre>
+              : <pre>{valueToText('', result as null, false)}</pre>
           }
         />
       ))}

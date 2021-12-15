@@ -6,6 +6,7 @@ import type { ParamDef } from '../types';
 
 import { useEffect, useState } from 'react';
 
+import { createNamedHook } from '@polkadot/react-hooks';
 import { getTypeDef } from '@polkadot/types/create';
 
 function expandDef (registry: Registry, td: TypeDef): TypeDef {
@@ -18,7 +19,7 @@ function expandDef (registry: Registry, td: TypeDef): TypeDef {
   }
 }
 
-export default function useParamDefs (registry: Registry, type: TypeDef): ParamDef[] {
+function useParamDefsImpl (registry: Registry, type: TypeDef): ParamDef[] {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
@@ -39,3 +40,5 @@ export default function useParamDefs (registry: Registry, type: TypeDef): ParamD
 
   return params;
 }
+
+export default createNamedHook('useParamDefs', useParamDefsImpl);

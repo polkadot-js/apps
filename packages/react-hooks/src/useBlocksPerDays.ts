@@ -5,11 +5,12 @@ import { useMemo } from 'react';
 
 import { BN, bnToBn } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useBlockTime } from './useBlockTime';
 
 const A_DAY = new BN(24 * 60 * 60 * 1000);
 
-export function useBlocksPerDays (days: BN | number = 1): BN {
+function useBlocksPerDaysImpl (days: BN | number = 1): BN {
   const [blockTime] = useBlockTime();
 
   return useMemo(
@@ -17,3 +18,5 @@ export function useBlocksPerDays (days: BN | number = 1): BN {
     [blockTime, days]
   );
 }
+
+export const useBlocksPerDays = createNamedHook('useBlocksPerDays', useBlocksPerDaysImpl);

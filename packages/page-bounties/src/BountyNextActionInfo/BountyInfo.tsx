@@ -21,7 +21,7 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
     <div className={className}>
       {type === 'warning' && (
         <div className='info-icon'>
-          <Icon icon={'exclamation-triangle'}/>
+          <Icon icon={'exclamation-triangle'} />
         </div>
       )}
       <div className='description'>

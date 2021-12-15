@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { isNumber } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
@@ -61,7 +62,7 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
     );
 }
 
-export function useTeleport (): Teleport {
+function useTeleportImpl (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
   const paraId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
   const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
@@ -115,3 +116,5 @@ export function useTeleport (): Teleport {
 
   return state;
 }
+
+export const useTeleport = createNamedHook('useTeleport', useTeleportImpl);

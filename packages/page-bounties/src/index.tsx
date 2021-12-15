@@ -32,7 +32,7 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Bounties/>
+      <Bounties />
     </main>
   );
 }

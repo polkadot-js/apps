@@ -7,10 +7,11 @@ import type { BareProps } from '../types';
 export type Button$Callback = () => void | Promise<void>;
 
 export interface ButtonProps {
+  activeOnEnter?: boolean;
   children?: React.ReactNode;
   className?: string;
   dataTestId?: string;
-  icon: IconName;
+  icon?: IconName;
   isBasic?: boolean;
   isBusy?: boolean;
   isCircular?: boolean;

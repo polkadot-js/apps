@@ -8,9 +8,9 @@ import styled from 'styled-components';
 
 import Button from '../Button';
 
-function Header ({ className, header, onClose }: HeaderProps) {
+function Header ({ className = '', header, onClose }: HeaderProps) {
   return (
-    <div className={className}>
+    <div className={`${className} ui--Modal__Header`}>
       {header && (
         <h1>{header}</h1>
       )}

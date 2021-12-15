@@ -33,10 +33,10 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const { api } = useApi();
   const weight = useWeight();
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [params, setParams] = useState<any[]>([]);
+  const [params, setParams] = useState<unknown[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<string | null>(null);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(ENDOWMENT);
-  const [salt, setSalt] = useState(() => randomAsHex());
+  const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
 
   useEffect((): void => {
