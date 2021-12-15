@@ -28,6 +28,7 @@ export function createRococo (t: TFunction): EndpointOption {
       // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // After reset, syncs to old chain
       // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
     },
+    teleport: [1000, 1002],
     linked: [
       // these are the base chains
       {
@@ -59,8 +60,18 @@ export function createRococo (t: TFunction): EndpointOption {
         paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://statemint-rococo-rpc.parity.io'
-        }
+          Parity: 'wss://rococo-statemint-rpc.polkadot.io'
+        },
+        teleport: [-1]
+      },
+      {
+        info: 'rococoCanvas',
+        paraId: 1002,
+        text: t('rpc.rococo.canvas', 'Canvas', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://rococo-canvas-rpc.polkadot.io'
+        },
+        teleport: [-1]
       },
       // add any additional parachains here, alphabetical
       {
