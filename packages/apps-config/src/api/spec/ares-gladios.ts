@@ -71,6 +71,11 @@ const definitions: OverrideBundleDefinition = {
           per_check_list: 'Vec<PreCheckStruct>',
           public: 'MultiSigner'
         },
+        PreCheckCompareLog: {
+          chain_avg_price_list: 'BTreeMap<Bytes, (u64, FractionLength)>',
+          validator_up_price_list: 'BTreeMap<Bytes, (u64, FractionLength)>',
+          raw_precheck_list: 'Vec<PreCheckStruct>'
+        },
         PreCheckStruct: {
           price_key: 'Vec<u8>',
           number_val: 'JsonNumberValue',
