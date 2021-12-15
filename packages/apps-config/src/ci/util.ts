@@ -36,7 +36,6 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
       name: text as string,
       ws: value
     }))
-    .filter((v) => v.ws && v.ws.includes('geometry.io'))
     .filter((v): v is Endpoint => !!v.ws)
     .forEach(({ name, ws }) =>
       it(`${name} @ ${ws}`, async (): Promise<void> => {
