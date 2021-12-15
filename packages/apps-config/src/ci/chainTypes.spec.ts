@@ -5,6 +5,6 @@ import { checkEndpoints } from './util';
 
 describe('--SLOW--: check configured chain types', (): void => {
   checkEndpoints('./.github/chain-types.md', [
-    'Cannot construct unknown type'
+    'Unknown types'
   ]);
 });
