@@ -71,7 +71,7 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
               timerId = setTimeout((): void => {
                 timerId = null;
                 reject(new Error(`Timeout connecting to ${ws}`));
-              }, 60_000);
+              }, 10_000);
             }),
             api.isReadyOrError
           ]);
