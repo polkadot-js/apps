@@ -28,6 +28,7 @@ import chainKusama from './chains/kusama-128.gif';
 import chainOpal from './chains/opal-logo.png';
 import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
+import chainComposableFinance from './chains/composableFinance.png';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -589,6 +590,7 @@ export const namedLogos: Record<string, unknown> = {
   phala: nodePhala,
   phoenix: nodePhoenix,
   picasso: chainComposable,
+  composableFinance: chainComposableFinance,
   pichiu: nodePichiu,
   plasm: nodePlasm,
   polkadex: nodePolkadex,

@@ -26,6 +26,7 @@ const chainBeastEave = '#900048';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
 const chainComposable = '#FF8500';
+const chainComposableFinance = '#861660';
 const chainCrab = '#7C30DD';
 const chainCrownSterling = '#13264b';
 const chainCrust = '#ff8812';
@@ -224,6 +225,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Clover: chainClover,
   Coinversation: chainCoinversation,
   Composable: chainComposable,
+  'Composable Finance': chainComposableFinance,
   'Crown Sterling': chainCrownSterling,
   crust: chainCrust,
   'crust maxwell': chainCrustMaxwell,

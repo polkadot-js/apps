@@ -119,6 +119,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'composableFinance',
+        homepage: 'https://composable.finance/',
+        paraId: 2087,
+        text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composable.finance'
+        }
+      },
+      {
         info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
