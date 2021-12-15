@@ -30,6 +30,7 @@ import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
+import chainRococoCanvas from './chains/rococo-canvas.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
@@ -61,7 +62,6 @@ import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
-import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
@@ -185,6 +185,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Development': nodeCalamari,
   'Calamari Parachain Local': nodeCalamari,
   'Calamari Parachain Testnet': nodeCalamari,
+  Canvas: chainRococoCanvas,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
@@ -339,7 +340,6 @@ export const nodeLogos = Object.entries({
   'Bit.Country': nodeBitCountry,
   'BitCountry Node': nodeBitCountry,
   'Calamari Parachain Collator': nodeCalamari,
-  'Canvas Node': nodeCanvas,
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
@@ -515,7 +515,6 @@ export const namedLogos: Record<string, unknown> = {
   bitcountry: nodeBitCountry,
   bitcountryPioneer: nodePioneerNetwork,
   calamari: nodeCalamari,
-  canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
@@ -609,6 +608,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
+  rococoCanvas: chainRococoCanvas,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
   rococoCrab: nodeCrab,

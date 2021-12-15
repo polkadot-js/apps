@@ -84,6 +84,7 @@ const chainRoccoMandala = '#173DC9';
 const chainRoccoAres = '#70FF8B';
 const chainAresGladios = '#1295F0';
 const chainRoccoBifrost = '#5a25f0';
+const chainRococoCanvas = '#000000';
 const chainRoccoDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainRoccoDataHighway = 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)';
 const chainRococoEave = '#900048';
@@ -125,7 +126,6 @@ const nodeAutomataContextFree = '#EC7032';
 const nodeBasilisk = '#9eec1b';
 const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
-const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeCoinversation = '#e6017a';
 const nodeCrownSterling = '#13264b';
@@ -220,6 +220,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Calamari Parachain Development': chainCalamari,
   'Calamari Parachain Local': chainCalamari,
   'Calamari Parachain Testnet': chainCalamari,
+  Canvas: chainRococoCanvas,
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
@@ -378,7 +379,6 @@ export const nodeColors = Object.entries({
   Basilisk: nodeBasilisk,
   'Bifrost Node': nodeBifrost,
   'Bit.Country Node': nodeBitCountry,
-  'Canvas Node': nodeCanvas,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
   Coinversation: nodeCoinversation,
