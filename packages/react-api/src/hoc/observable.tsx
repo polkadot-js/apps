@@ -3,8 +3,9 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
-import type { Observable } from 'rxjs';
-import type { CallState, DefaultProps, HOC, Options, RenderFn } from '@polkadot/react-hooks/types';
+import type { Observable, OperatorFunction } from 'rxjs';
+import type { CallState } from '@polkadot/react-hooks/types';
+import type { DefaultProps, HOC, Options, RenderFn } from './types';
 
 import React from 'react';
 import { catchError, map, of } from 'rxjs';
@@ -33,7 +34,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
           subscriptions: [
             observable
               .pipe(
-                map(transform),
+                map(transform) as OperatorFunction<P, any>,
                 catchError(() => of(undefined))
               )
               .subscribe((value) => this.triggerUpdate(this.props, value as T)),

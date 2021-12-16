@@ -1,7 +1,8 @@
 // Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiProps, Options, SubtractProps } from '@polkadot/react-hooks/types';
+import type { ApiProps } from '@polkadot/react-hooks/types';
+import type { Options, SubtractProps } from './types';
 
 import React from 'react';
 
