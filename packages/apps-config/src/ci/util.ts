@@ -58,13 +58,16 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
           api = new ApiPromise({
             provider,
             throwOnConnect: true,
-            throwOnUnknown: true,
+            throwOnUnknown: false,
             typesBundle,
             typesChain
           });
 
           setTimeout((): void => {
-            provider && provider.connect().catch(() => undefined);
+            provider &&
+              provider
+                .connect()
+                .catch(() => undefined);
           }, 1000);
 
           await Promise.race([
@@ -75,7 +78,9 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
                 reject(new Error(`Timeout connecting to ${ws}`));
               }, 30_000);
             }),
-            api.isReadyOrError.then((api) => api.rpc.chain.getBlock().then((b) => console.log(b.toHuman())))
+            api.isReadyOrError
+              .then((a) => a.rpc.chain.getBlock())
+              .then((b) => console.log(b.toHuman()))
           ]);
         } catch (error) {
           if (isError(error) && failures.some((f) => (error as Error).message.includes(f))) {
