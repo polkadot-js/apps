@@ -5,7 +5,6 @@
     "**/build/**/*"
   ],
   "compilerOptions": {
-    "baseUrl": "./packages",
-    "jsx": "react"
+    "baseUrl": "./packages"
   }
 }
