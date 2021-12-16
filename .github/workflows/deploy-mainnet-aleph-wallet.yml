@@ -54,6 +54,7 @@ jobs:
       - name: GIT | Checkout aleph-apps repo
         uses: actions/checkout@master
         with:
+          ref: mainnet
           repository: Cardinal-Cryptography/aleph-apps
           token: ${{ secrets.CI_GH_TOKEN }}
           path: "aleph-apps"
@@ -83,7 +84,7 @@ jobs:
           message: "Updating aleph-wallet docker image tag for Mainnet version deployment - release: ${{ steps.vars.outputs.branch }}"
           add: "*.yaml"
           cwd: "aleph-apps"
-          branch: main
+          branch: mainnet
         env:
           GITHUB_TOKEN: ${{ secrets.CI_GH_TOKEN }}
 
