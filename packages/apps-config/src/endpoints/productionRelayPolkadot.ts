@@ -119,6 +119,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'composableFinance',
+        homepage: 'https://composable.finance/',
+        paraId: 2019,
+        text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composable.finance'
+        }
+      },
+      {
         info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
@@ -202,7 +211,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
         providers: {
-          Parallel: 'wss://rpc.parallel.fi'
+          Parallel: 'wss://rpc.parallel.fi',
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
         }
       },
       {
