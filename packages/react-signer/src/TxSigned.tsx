@@ -4,18 +4,20 @@
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
+import type { AddressFlags, AddressProxy, QrState } from '@polkadot/react-api/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-hooks/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { Ledger } from '@polkadot/ui-keyring';
 import type { HexString } from '@polkadot/util/types';
-import type { AddressFlags, AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
+import { AccountSigner, LedgerSigner, QrSigner } from '@polkadot/react-api/signers';
+import { cacheUnlock, extractExternal, handleTxResults } from '@polkadot/react-api/util';
 import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
@@ -24,12 +26,10 @@ import { addressEq } from '@polkadot/util-crypto';
 
 import Address from './Address';
 import Qr from './Qr';
-import { AccountSigner, LedgerSigner, QrSigner } from './signers';
 import SignFields from './SignFields';
 import Tip from './Tip';
 import Transaction from './Transaction';
 import { useTranslation } from './translate';
-import { cacheUnlock, extractExternal, handleTxResults } from './util';
 
 interface Props {
   className?: string;

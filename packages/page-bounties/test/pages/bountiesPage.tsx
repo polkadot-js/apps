@@ -14,7 +14,7 @@ import Bounties from '@polkadot/app-bounties/Bounties';
 import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiContext } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-api-context/types';
+import { ApiProps } from '@polkadot/react-context/types';
 import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { lightTheme } from '@polkadot/react-components/themes';
 import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-hooks/types';

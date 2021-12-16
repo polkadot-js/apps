@@ -19,6 +19,7 @@
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@polkadot/keyring": "^8.1.2",
     "@polkadot/react-api": "^0.98.2-153",
+    "@polkadot/react-context": "^0.98.2-153",
     "@polkadot/react-identicon": "^0.87.5",
     "@polkadot/react-qr": "^0.87.5",
     "@polkadot/react-query": "^0.98.2-153",

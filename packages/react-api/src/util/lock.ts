@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
+import type { AddressFlags } from '@polkadot/react-api/types';
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-hooks/types';
-import type { AddressFlags } from './types';
 
 import { SubmittableResult } from '@polkadot/api';
 import { keyring } from '@polkadot/ui-keyring';

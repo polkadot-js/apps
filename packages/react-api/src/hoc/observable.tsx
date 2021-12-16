@@ -4,7 +4,7 @@
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
 import type { Observable } from 'rxjs';
-import type { CallState, DefaultProps, HOC, Options, RenderFn } from '@polkadot/react-api-context/types';
+import type { CallState, DefaultProps, HOC, Options, RenderFn } from '@polkadot/react-context/types';
 
 import React from 'react';
 import { catchError, map, of } from 'rxjs';

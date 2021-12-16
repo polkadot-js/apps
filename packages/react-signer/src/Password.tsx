@@ -6,11 +6,11 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import { UNLOCK_MINS } from '@polkadot/react-api/util';
 import { Modal, Password, Toggle } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate';
-import { UNLOCK_MINS } from './util';
 
 interface Props {
   address: string;

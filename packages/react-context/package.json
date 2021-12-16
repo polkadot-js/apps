@@ -1,11 +1,11 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-context#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/react-api-context",
+  "name": "@polkadot/react-context",
   "private": true,
   "repository": {
-    "directory": "packages/react-api-context",
+    "directory": "packages/react-context",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
@@ -14,6 +14,7 @@
   "version": "0.98.2-153",
   "dependencies": {
     "@babel/runtime": "^7.16.3",
-    "@polkadot/api": "^6.11.1"
+    "@polkadot/api": "^6.11.1",
+    "@polkadot/react-hooks": "^0.98.2-153"
   }
 }

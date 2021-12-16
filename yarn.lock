@@ -3131,15 +3131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-api-context@^0.98.2-153, @polkadot/react-api-context@workspace:packages/react-api-context":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/react-api-context@workspace:packages/react-api-context"
-  dependencies:
-    "@babel/runtime": ^7.16.3
-    "@polkadot/api": ^6.11.1
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/react-api@^0.98.2-153, @polkadot/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"
@@ -3148,7 +3139,7 @@ __metadata:
     "@polkadot/api": ^6.11.1
     "@polkadot/extension-compat-metamask": ^0.42.2
     "@polkadot/extension-dapp": ^0.42.2
-    "@polkadot/react-api-context": ^0.98.2-153
+    "@polkadot/react-context": ^0.98.2-153
     "@substrate/connect": 0.4.6
     fflate: ^0.7.1
     rxjs: ^7.4.0
@@ -3165,6 +3156,7 @@ __metadata:
     "@fortawesome/react-fontawesome": ^0.1.16
     "@polkadot/keyring": ^8.1.2
     "@polkadot/react-api": ^0.98.2-153
+    "@polkadot/react-context": ^0.98.2-153
     "@polkadot/react-identicon": ^0.87.5
     "@polkadot/react-qr": ^0.87.5
     "@polkadot/react-query": ^0.98.2-153
@@ -3195,6 +3187,16 @@ __metadata:
     semantic-ui-react: ^0.88.2
     store: ^2.0.12
     styled-theming: ^2.2.0
+  languageName: unknown
+  linkType: soft
+
+"@polkadot/react-context@^0.98.2-153, @polkadot/react-context@workspace:packages/react-context":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/react-context@workspace:packages/react-context"
+  dependencies:
+    "@babel/runtime": ^7.16.3
+    "@polkadot/api": ^6.11.1
+    "@polkadot/react-hooks": ^0.98.2-153
   languageName: unknown
   linkType: soft
 
@@ -3267,6 +3269,8 @@ __metadata:
   resolution: "@polkadot/react-query@workspace:packages/react-query"
   dependencies:
     "@babel/runtime": ^7.16.3
+    "@polkadot/react-components": ^0.98.2-153
+    "@polkadot/react-hooks": ^0.98.2-153
   languageName: unknown
   linkType: soft
 

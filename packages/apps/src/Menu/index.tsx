@@ -3,7 +3,7 @@
 
 import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
-import type { ApiProps } from '@polkadot/react-api-context/types';
+import type { ApiProps } from '@polkadot/react-context/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { Group, Groups, ItemRoute } from './types';
 

@@ -3,23 +3,23 @@
 
 import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AddressFlags, AddressProxy } from '@polkadot/react-api/types';
 import type { QueueTx } from '@polkadot/react-hooks/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, Call, Multisig } from '@polkadot/types/interfaces';
 import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
-import type { AddressFlags, AddressProxy } from './types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { extractExternal } from '@polkadot/react-api/util';
 import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import Password from './Password';
 import { useTranslation } from './translate';
-import { extractExternal } from './util';
 
 interface Props {
   className?: string;
