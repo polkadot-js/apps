@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { KeyringInstance } from '@polkadot/keyring/types';
-import type { ApiProps } from '@polkadot/react-context/types';
+import type { ApiProps } from '@polkadot/react-hooks/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { Log, LogType, Snippet } from './types';
 

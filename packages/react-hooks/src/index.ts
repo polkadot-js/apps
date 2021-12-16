@@ -1,6 +1,9 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export * from './ApiContext';
+export * from './StatusContext';
+
 export { createNamedHook } from './createNamedHook';
 export { useAccountId } from './useAccountId';
 export { useAccountInfo } from './useAccountInfo';

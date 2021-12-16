@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiProps, PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-hooks/types';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
 import { fireEvent, render, within } from '@testing-library/react';
@@ -13,11 +14,8 @@ import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import Bounties from '@polkadot/app-bounties/Bounties';
 import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiContext } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-context/types';
-import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { lightTheme } from '@polkadot/react-components/themes';
-import { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-hooks/types';
+import { ApiContext, QueueProvider } from '@polkadot/react-hooks';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { TypeRegistry } from '@polkadot/types/create';

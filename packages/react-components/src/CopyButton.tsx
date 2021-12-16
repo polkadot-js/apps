@@ -7,7 +7,8 @@ import React, { useCallback, useContext } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 
-import StatusContext from './Status/Context';
+import { StatusContext } from '@polkadot/react-hooks';
+
 import Button from './Button';
 import { useTranslation } from './translate';
 

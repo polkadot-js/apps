@@ -8,8 +8,8 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, StatusContext, TabsContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { ErrorBoundary, Spinner, TabsContext } from '@polkadot/react-components';
+import { StatusContext, useApi } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../Menu/endpoint';
 import { useTranslation } from '../translate';

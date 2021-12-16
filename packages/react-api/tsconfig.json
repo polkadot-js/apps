@@ -7,6 +7,6 @@
   },
   "references": [
     { "path": "../apps-config" },
-    { "path": "../react-context" }
+    { "path": "../react-hooks" }
   ]
 }

@@ -9,8 +9,8 @@ import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { Modal, StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { Modal } from '@polkadot/react-components';
+import { StatusContext, useApi } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
 import { useTranslation } from './translate';

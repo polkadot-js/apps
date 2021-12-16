@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OnChangeCb } from '@polkadot/react-context/types';
+import type { OnChangeCb } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 

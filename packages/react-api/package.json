@@ -17,7 +17,7 @@
     "@polkadot/api": "^6.11.1",
     "@polkadot/extension-compat-metamask": "^0.42.2",
     "@polkadot/extension-dapp": "^0.42.2",
-    "@polkadot/react-context": "^0.98.2-153",
+    "@polkadot/react-hooks": "^0.98.2-153",
     "@substrate/connect": "0.4.6",
     "fflate": "^0.7.1",
     "rxjs": "^7.4.0"

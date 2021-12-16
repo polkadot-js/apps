@@ -7,8 +7,8 @@ import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-hooks/typ
 import React, { useCallback, useContext } from 'react';
 
 import { handleTxResults } from '@polkadot/react-api/util';
-import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { Button, ErrorBoundary, Modal } from '@polkadot/react-components';
+import { StatusContext, useToggle } from '@polkadot/react-hooks';
 
 import Transaction from './Transaction';
 import { useTranslation } from './translate';

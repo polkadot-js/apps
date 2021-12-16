@@ -5,6 +5,7 @@ import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/ap
 import type { AccountId, Balance, BlockNumber, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
+export * from './api';
 export * from './identity';
 export * from './popup';
 export * from './status';

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
-import type { ApiProps, ApiState } from '@polkadot/react-context/types';
+import type { ApiProps, ApiState } from '@polkadot/react-hooks/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 
@@ -15,15 +15,14 @@ import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import ApiContext from '@polkadot/react-context/ApiContext';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
-import { StatusContext } from '@polkadot/react-components/Status';
-import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ApiContext, StatusContext } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
+import { ApiSigner } from './signers';
 import registry from './typeRegistry';
 import { decodeUrlTypes } from './urlTypes';
 

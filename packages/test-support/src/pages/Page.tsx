@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-hooks/types';
+import type { ApiProps, PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd, UseAccountInfo } from '@polkadot/react-hooks/types';
 
 import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
 import BN from 'bn.js';
@@ -11,11 +11,8 @@ import { ThemeProvider } from 'styled-components';
 
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiContext } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-context/types';
-import { QueueProvider } from '@polkadot/react-components/Status/Context';
 import { lightTheme } from '@polkadot/react-components/themes';
-import { UseAccountInfo } from '@polkadot/react-hooks/types';
+import { ApiContext, QueueProvider } from '@polkadot/react-hooks';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';

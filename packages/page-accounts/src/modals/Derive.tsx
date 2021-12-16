@@ -7,8 +7,8 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
+import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password } from '@polkadot/react-components';
+import { StatusContext, useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 

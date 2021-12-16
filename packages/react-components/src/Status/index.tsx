@@ -7,7 +7,7 @@ import type { QueueStatus, QueueTx, QueueTxStatus } from '@polkadot/react-hooks/
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import StatusContext from '@polkadot/api-context/StatusContext';
+import { StatusContext } from '@polkadot/react-hooks';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';
@@ -15,8 +15,6 @@ import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
 import { STATUS_COMPLETE } from './constants';
-
-export { StatusContext };
 
 interface Props {
   className?: string;

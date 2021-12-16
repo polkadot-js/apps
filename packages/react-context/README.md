@@ -1,3 +1,0 @@
-# @polkadot/react-context
-
-Contexts

@@ -7,7 +7,6 @@
   },
   "references": [
     { "path": "../react-api" },
-    { "path": "../react-context" },
     { "path": "../react-hooks" }
   ]
 }

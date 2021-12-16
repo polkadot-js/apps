@@ -65,7 +65,6 @@
       "@polkadot/react-api/*": [ "react-api/src/*" ],
       "@polkadot/react-components": [ "react-components/src" ],
       "@polkadot/react-components/*": [ "react-components/src/*" ],
-      "@polkadot/react-context/*": [ "react-context/src/*" ],
       "@polkadot/react-hooks": [ "react-hooks/src" ],
       "@polkadot/react-hooks/*": [ "react-hooks/src/*" ],
       "@polkadot/react-params": [ "react-params/src" ],

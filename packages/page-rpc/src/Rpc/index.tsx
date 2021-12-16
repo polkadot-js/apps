@@ -3,7 +3,7 @@
 
 import React, { useContext } from 'react';
 
-import { StatusContext } from '@polkadot/react-components';
+import { StatusContext } from '@polkadot/react-hooks';
 
 import Results from './Results';
 import Selection from './Selection';

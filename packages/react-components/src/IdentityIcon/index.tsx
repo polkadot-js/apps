@@ -9,11 +9,10 @@ import styled from 'styled-components';
 
 import { getSystemIcon } from '@polkadot/apps-config';
 import { ThemeProps } from '@polkadot/react-components/types';
-import { useApi } from '@polkadot/react-hooks';
+import { StatusContext, useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
-import StatusContext from '../Status/Context';
 import { useTranslation } from '../translate';
 import RoboHash from './RoboHash';
 

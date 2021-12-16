@@ -84,7 +84,7 @@ export { default as StakingBonded } from './StakingBonded';
 export { default as StakingRedeemable } from './StakingRedeemable';
 export { default as StakingUnbonding } from './StakingUnbonding';
 export { default as Static } from './Static';
-export { default as Status, StatusContext } from './Status';
+export { default as Status } from './Status';
 export { default as SummaryBox } from './SummaryBox';
 export { default as Table } from './Table';
 export { default as Tabs, TabsContext } from './Tabs';

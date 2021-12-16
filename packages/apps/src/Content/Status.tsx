@@ -7,8 +7,8 @@ import type { KeyringOptions } from '@polkadot/ui-keyring/options/types';
 
 import React, { useContext, useEffect } from 'react';
 
-import { Status as StatusDisplay, StatusContext } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { Status as StatusDisplay } from '@polkadot/react-components';
+import { StatusContext, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
