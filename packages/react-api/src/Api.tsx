@@ -15,7 +15,6 @@ import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { ApiContext, StatusContext } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
@@ -58,6 +57,14 @@ export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux
 let api: ApiPromise;
 
 export { api };
+
+export class TokenUnit {
+  public static abbr = 'Unit';
+
+  public static setAbbr (abbr: string = TokenUnit.abbr): void {
+    TokenUnit.abbr = abbr;
+  }
+}
 
 function isKeyringLoaded () {
   try {

@@ -9,14 +9,14 @@ function isElectron () {
     return true;
   }
 
-  if (window?.process?.type === 'renderer') {
+  if ((window?.process as unknown as Record<string, string>)?.type === 'renderer') {
     return true;
   }
 
   return navigator?.userAgent?.indexOf('Electron') >= 0;
 }
 
-export default function getEnvironment (): Environment {
+export function getEnvironment (): Environment {
   if (isElectron()) {
     return 'app';
   }
