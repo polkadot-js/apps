@@ -14,6 +14,7 @@ import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
 import chainCoinversation from './chains/coinversation.png';
+import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEfinity from './chains/efinity.svg';
@@ -520,6 +521,7 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   coinversation: chainCoinversation,
+  composableFinance: chainComposableFinance,
   crab: nodeCrab,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
