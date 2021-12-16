@@ -10,9 +10,8 @@ import { Detector } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { WsProvider } from '@polkadot/api';
-import { ApiPromise } from '@polkadot/api/promise';
-import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { deriveMapCache, setDeriveCache } from '@polkadot/api/derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';

@@ -20,7 +20,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .map((value): DropdownOption => {
       const method = section[value];
       const inputs = method.meta.args
-        .map((arg) => arg.name.toString())
+        .map(({ name }) => name.toString())
         .join(', ');
 
       return {

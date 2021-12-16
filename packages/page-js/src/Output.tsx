@@ -35,7 +35,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
     className={`js--Log ${type}`}
     key={index}
   >
-    {args.map((arg): string => format(arg)).join(' ')}
+    {args.map((a) => format(a)).join(' ')}
   </div>
 );
 

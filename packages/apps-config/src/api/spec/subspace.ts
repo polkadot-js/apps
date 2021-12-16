@@ -11,8 +11,8 @@ import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
 
 import { combineLatest, map } from 'rxjs';
 
-import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
-import { memo } from '@polkadot/api-derive/util';
+import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api/derive/chain';
+import { memo } from '@polkadot/api/derive/util';
 import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 
 interface HeaderExtended extends Header {
@@ -73,7 +73,7 @@ function subscribeNewHeads (
     (): Observable<HeaderExtended> =>
       combineLatest([api.rpc.chain.subscribeNewHeads()]).pipe(
         map(([header]): HeaderExtended => {
-          return createHeaderExtended(header.registry, header, api);
+          return createHeaderExtended(header.registry as Registry, header, api);
         })
       )
   );
@@ -88,7 +88,7 @@ function getHeader (
     (): Observable<HeaderExtended> =>
       combineLatest([api.rpc.chain.getHeader()]).pipe(
         map(([header]): HeaderExtended => {
-          return createHeaderExtended(header.registry, header, api);
+          return createHeaderExtended(header.registry as Registry, header, api);
         })
       )
   );
