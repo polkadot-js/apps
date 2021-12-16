@@ -39,6 +39,8 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
     .filter((v): v is Endpoint => !!v.ws)
     .forEach(({ name, ws }) =>
       it(`${name} @ ${ws}`, async (): Promise<void> => {
+        console.error(`>>> ${name} @ ${ws}`);
+
         const [,, hostWithPort] = ws.split('/');
         const [host] = hostWithPort.split(':');
 
@@ -71,9 +73,9 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
               timerId = setTimeout((): void => {
                 timerId = null;
                 reject(new Error(`Timeout connecting to ${ws}`));
-              }, 60_000);
+              }, 30_000);
             }),
-            api.isReadyOrError
+            api.isReadyOrError.then((api) => api.rpc.chain.getBlock().then((b) => console.log(b.toHuman())))
           ]);
         } catch (error) {
           if (isError(error) && failures.some((f) => (error as Error).message.includes(f))) {
@@ -81,6 +83,8 @@ export function checkEndpoints (issueFile: string, failures: string[]): void {
 
             throw error;
           }
+
+          console.error(JSON.stringify(error));
         } finally {
           if (timerId) {
             clearTimeout(timerId);

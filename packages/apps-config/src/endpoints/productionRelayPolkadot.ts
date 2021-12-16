@@ -35,9 +35,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'statemint',
         paraId: 1000,
-        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://statemint-shell.polkadot.io',
+          Parity: 'wss://statemint-rpc.polkadot.io',
           OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
@@ -148,6 +148,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'interlay',
+        homepage: 'https://interlay.io/',
+        paraId: 2032,
+        text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
+        providers: {
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+        }
+      },
+      {
         info: 'litentry',
         homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
@@ -170,12 +179,11 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'moonbeam',
-        homepage: 'https://moonbeam.foundation',
-        isUnreachable: true,
-        paraId: 2004,
+        homepage: 'https://moonbeam.network/networks/moonbeam/',
+        paraId: 1284,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.mainnet.moonbeam.network'
+          'Moonbeam Foundation': 'wss://wss.api.moonbeam.network'
         }
       },
       {
