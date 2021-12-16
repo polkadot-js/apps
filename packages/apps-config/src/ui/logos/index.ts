@@ -14,6 +14,7 @@ import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
 import chainCoinversation from './chains/coinversation.png';
+import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
 import chainEfinity from './chains/efinity.svg';
@@ -30,6 +31,7 @@ import chainParallel from './chains/parallel.svg';
 import chainComposable from './chains/picasso.svg';
 import chainQuartz from './chains/quartz.png';
 import chainRococo from './chains/rococo.svg';
+import chainRococoCanvas from './chains/rococo-canvas.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
@@ -61,7 +63,6 @@ import nodeBeast from './nodes/beast.svg';
 import nodeBifrost from './nodes/bifrost.svg';
 import nodeBitCountry from './nodes/bitcountry.svg';
 import nodeCalamari from './nodes/calamari.png';
-import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
@@ -185,6 +186,7 @@ export const chainLogos = Object.entries({
   'Calamari Parachain Development': nodeCalamari,
   'Calamari Parachain Local': nodeCalamari,
   'Calamari Parachain Testnet': nodeCalamari,
+  Canvas: chainRococoCanvas,
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
@@ -339,7 +341,6 @@ export const nodeLogos = Object.entries({
   'Bit.Country': nodeBitCountry,
   'BitCountry Node': nodeBitCountry,
   'Calamari Parachain Collator': nodeCalamari,
-  'Canvas Node': nodeCanvas,
   Centrifuge: nodeCentrifuge,
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
@@ -440,7 +441,7 @@ export const nodeLogos = Object.entries({
   sherpax: nodeChainx,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
-  SORA: nodeSora,
+  Sora: nodeSora,
   Stafi: nodeStafi,
   'Stafi Node': nodeStafi,
   'Statemine Collator': nodeStatemine,
@@ -515,12 +516,12 @@ export const namedLogos: Record<string, unknown> = {
   bitcountry: nodeBitCountry,
   bitcountryPioneer: nodePioneerNetwork,
   calamari: nodeCalamari,
-  canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   chainx: nodeChainx,
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   coinversation: chainCoinversation,
+  composableFinance: chainComposableFinance,
   crab: nodeCrab,
   'crown-sterling': chainCrownSterling,
   crust: nodeCrust,
@@ -609,6 +610,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoAres: nodeAres,
   rococoBifrost: nodeBifrost,
   rococoBitCountry: nodeBitCountry,
+  rococoCanvas: chainRococoCanvas,
   rococoChainX: nodeChainx,
   rococoClover: nodeClover,
   rococoCrab: nodeCrab,
@@ -661,6 +663,7 @@ export const namedLogos: Record<string, unknown> = {
   singLavender: nodeSingLavender,
   snakenet: chainSnakenet,
   sora: nodeSora,
+  'sora-substrate': nodeSora,
   spanner: chainSpanner,
   stafi: nodeStafi,
   statemine: nodeStatemine,

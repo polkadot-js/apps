@@ -35,9 +35,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'statemint',
         paraId: 1000,
-        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://statemint-shell.polkadot.io',
+          Parity: 'wss://statemint-rpc.polkadot.io',
           OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
@@ -119,6 +119,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'composableFinance',
+        homepage: 'https://composable.finance/',
+        paraId: 2019,
+        text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composable.finance'
+        }
+      },
+      {
         info: 'crustParachain',
         homepage: 'https://crust.network',
         paraId: 2008,
@@ -179,12 +188,11 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'moonbeam',
-        homepage: 'https://moonbeam.foundation',
-        isUnreachable: true,
-        paraId: 2004,
+        homepage: 'https://moonbeam.network/networks/moonbeam/',
+        paraId: 1284,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.mainnet.moonbeam.network'
+          'Moonbeam Foundation': 'wss://wss.api.moonbeam.network'
         }
       },
       {
@@ -203,7 +211,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
         providers: {
-          Parallel: 'wss://rpc.parallel.fi'
+          Parallel: 'wss://rpc.parallel.fi',
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
         }
       },
       {

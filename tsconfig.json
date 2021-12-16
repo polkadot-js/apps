@@ -6,6 +6,6 @@
   ],
   "compilerOptions": {
     "baseUrl": "./packages",
-    "jsx": "react"
+    "outDir": "./build"
   }
 }
