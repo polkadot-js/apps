@@ -5,6 +5,7 @@
     "**/build/**/*"
   ],
   "compilerOptions": {
-    "baseUrl": "./packages"
+    "baseUrl": "./packages",
+    "outDir": "./build"
   }
 }

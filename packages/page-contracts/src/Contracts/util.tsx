@@ -30,14 +30,14 @@ export function getContractForAddress (api: ApiPromise, address: string | null):
     const abi = getContractAbi(address);
 
     return abi
-      ? new Contract(api, abi, address)
+      ? new ContractPromise(api, abi, address)
       : null;
   }
 }
 
-export function getCallMessageOptions (callContract: Contract | null): unknown[] {
+export function getCallMessageOptions (callContract: ContractPromise | null): unknown[] {
   return callContract
-    ? callContract.abi.messages.map((m, index): { key: string; text: React.ReactNode; value: number } => ({
+    ? callContract.abi.messages.map((m, index) => ({
       key: m.identifier,
       text: (
         <MessageSignature message={m} />
