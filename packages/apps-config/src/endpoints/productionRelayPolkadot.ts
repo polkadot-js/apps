@@ -189,7 +189,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'moonbeam',
         homepage: 'https://moonbeam.network/networks/moonbeam/',
-        paraId: 1284,
+        paraId: 2004,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
           'Moonbeam Foundation': 'wss://wss.api.moonbeam.network'
