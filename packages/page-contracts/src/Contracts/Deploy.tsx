@@ -36,7 +36,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const [params, setParams] = useState<unknown[]>([]);
   const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
-  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
   const weight = useWeight();
 
   useEffect((): void => {

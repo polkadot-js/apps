@@ -36,7 +36,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const weight = useWeight();
-  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
