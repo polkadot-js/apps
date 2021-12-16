@@ -2592,7 +2592,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.16.3
-    "@polkadot/phishing": ^0.6.529
+    "@polkadot/phishing": ^0.6.551
     "@polkadot/react-components": ^0.98.2-153
     "@polkadot/test-support": 0.98.2-153
     "@polkadot/vanitygen": ^0.48.6
@@ -3323,12 +3323,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/ts@npm:^0.4.18":
-  version: 0.4.18
-  resolution: "@polkadot/ts@npm:0.4.18"
+"@polkadot/ts@npm:^0.4.20":
+  version: 0.4.20
+  resolution: "@polkadot/ts@npm:0.4.20"
   dependencies:
-    "@types/chrome": ^0.0.170
-  checksum: 2bb4ef94b0be9a5b3be2883c9d18d767f2a4d10fb4598f881b539382b975d03f55731ace6d2335ea59fd82cfd9518614e53216b1b0d99d3af4343a034887c77f
+    "@types/chrome": ^0.0.171
+  checksum: 07d72e24d1df54831fa9832afd2d6d2f2eba73b37a8d8906da6decf8e1a2bedd37b37ee2da78988b152adb0727428b37c230e7eb1b687d1f2d0ba49ae0839fc5
   languageName: node
   linkType: hard
 
@@ -4045,13 +4045,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.170":
-  version: 0.0.170
-  resolution: "@types/chrome@npm:0.0.170"
+"@types/chrome@npm:^0.0.171":
+  version: 0.0.171
+  resolution: "@types/chrome@npm:0.0.171"
   dependencies:
     "@types/filesystem": "*"
     "@types/har-format": "*"
-  checksum: 2399ead76a74c334473ad2d0f2b03056d21969bc0e5e0b03a04867ab9905007428664f1f0d63876c32f4e969c24a5eac8a2e8295c0d04b8e40eac0208c40db0b
+  checksum: 657bd2a82b2550bc70a24f43e15121eaf2ee56e52e7a7a904375cded6ffd2e7a1dc27f2456719f5272454a88c483727b99deec1b7244c0cab815f8946c8a3a73
   languageName: node
   linkType: hard
 
@@ -15858,7 +15858,7 @@ __metadata:
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.1.23
     "@polkadot/dev": ^0.64.3
-    "@polkadot/ts": ^0.4.18
+    "@polkadot/ts": ^0.4.20
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.34
     "@types/file-saver": ^2.0.4
