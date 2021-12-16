@@ -10,11 +10,11 @@ import type { ITuple, Registry, SignerPayloadJSON } from '@polkadot/types/types'
 import React, { useCallback, useRef, useState } from 'react';
 
 import { SubmittableResult } from '@polkadot/api';
+import { QueueProvider } from '@polkadot/react-hooks';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
 import { STATUS_COMPLETE } from './constants';
-import { QueueProvider } from './Context';
 
 export interface Props {
   children: React.ReactNode;

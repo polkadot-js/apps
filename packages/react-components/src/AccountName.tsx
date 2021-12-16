@@ -8,9 +8,8 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { AccountSidebarToggle, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
 import Badge from './Badge';

@@ -3,6 +3,8 @@
 
 import React, { useCallback, useState } from 'react';
 
+import { AccountSidebarToggle } from '@polkadot/react-hooks';
+
 import Sidebar from './Sidebar';
 
 interface Props {
@@ -10,10 +12,6 @@ interface Props {
 }
 
 type State = [string | null, (() => void) | null];
-
-type ToggleContext = undefined | (([address, onUpdateName]: State) => void);
-
-const AccountSidebarToggle: React.Context<ToggleContext> = React.createContext<ToggleContext>(undefined);
 
 function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
   const [[address, onUpdateName], setAddress] = useState<State>([null, null]);

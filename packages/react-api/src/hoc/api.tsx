@@ -22,7 +22,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
             return (
               <Inner
                 {...defaultProps}
-                {...(apiProps)}
+                {...(apiProps as any)}
                 {...this.props}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 ref={this.component}
