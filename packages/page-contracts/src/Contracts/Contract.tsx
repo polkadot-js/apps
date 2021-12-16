@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
 import type { ContractLink } from './types';

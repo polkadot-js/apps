@@ -1,18 +1,13 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ElementPosition } from './types';
+
 import React, { useEffect, useState } from 'react';
 
 import { createNamedHook } from './createNamedHook';
 import { useScroll } from './useScroll';
 import { useWindowSize } from './useWindowSize';
-
-export interface ElementPosition {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-}
 
 function useElementPositionImpl (ref: React.MutableRefObject<HTMLElement | undefined | null>): ElementPosition | undefined {
   const [elementPosition, setElementPosition] = useState<ElementPosition>();

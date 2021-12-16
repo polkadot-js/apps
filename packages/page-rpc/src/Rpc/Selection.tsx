@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
+import type { QueueTxRpcAdd } from '@polkadot/react-hooks/types';
 import type { ParamDef, RawParam } from '@polkadot/react-params/types';
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueueProps, QueueStatus, QueueTx } from './types';
+import type { QueueProps, QueueStatus, QueueTx } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 

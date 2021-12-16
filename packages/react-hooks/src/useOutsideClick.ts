@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { RefObject, useCallback, useEffect } from 'react';
@@ -7,7 +7,7 @@ function getClickedElement (refs: React.RefObject<HTMLDivElement>[], e: MouseEve
   return refs.find((ref) => ref.current && ref.current.contains(e.target as HTMLElement));
 }
 
-export const useOutsideClick = (elements: RefObject<HTMLDivElement>[], callback: () => void): void => {
+export function useOutsideClick (elements: RefObject<HTMLDivElement>[], callback: () => void): void {
   const handleClick = useCallback((e: MouseEvent) => {
     if (elements.length && !getClickedElement(elements, e)) {
       callback();
@@ -21,4 +21,4 @@ export const useOutsideClick = (elements: RefObject<HTMLDivElement>[], callback:
       document.removeEventListener('click', handleClick, true);
     };
   }, [handleClick, callback]);
-};
+}

@@ -1,8 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SortedJudgements } from '@polkadot/react-components/util/types';
-import type { Judgement, Registrar } from '../types';
+import type { Judgement, Registrar, SortedJudgements } from '../types';
 
 export function matchRegistrarAccountsWithIndexes (
   judgementsWithRegistrarIndexes: SortedJudgements,

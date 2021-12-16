@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@polkadot/react-hooks/types';
 import type { Bytes } from '@polkadot/types';
 import type { DispatchError } from '@polkadot/types/interfaces';
 import type { ITuple, Registry, SignerPayloadJSON } from '@polkadot/types/types';
-import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
 
@@ -93,12 +93,12 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
               const mod = dispatchError.asModule;
               const error = dispatchError.registry.findMetaError(mod);
 
-              message = `${error.section}.${error.name}`;
+              message = `${error.section}.${error.name}` as unknown as 'Other';
             } catch (error) {
               // swallow
             }
           } else if (dispatchError.isToken) {
-            message = `${dispatchError.type}.${dispatchError.asToken.type}`;
+            message = `${dispatchError.type}.${dispatchError.asToken.type}` as unknown as 'Other';
           }
 
           return {

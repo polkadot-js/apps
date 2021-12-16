@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';

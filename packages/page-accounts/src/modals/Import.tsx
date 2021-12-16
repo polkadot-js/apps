@@ -3,7 +3,7 @@
 
 import type { Dispatch, SetStateAction } from 'react';
 import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { ModalProps } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';

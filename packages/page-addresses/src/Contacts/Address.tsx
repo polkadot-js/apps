@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';

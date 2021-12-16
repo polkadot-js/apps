@@ -8,7 +8,9 @@ module.exports = {
   ...base,
   ignorePatterns: [
     ...base.ignorePatterns,
-    'scripts/*'
+    'jest/**/*',
+    'scripts/**/*',
+    '*.cjs',
   ],
   parserOptions: {
     ...base.parserOptions,

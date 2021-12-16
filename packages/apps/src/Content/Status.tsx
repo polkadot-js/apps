@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { KeyringOptions } from '@polkadot/ui-keyring/options/types';
 

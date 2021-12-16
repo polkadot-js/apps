@@ -1,11 +1,7 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ElementPosition } from '@polkadot/react-hooks/useElementPosition';
-
-import { WindowSize } from '@polkadot/react-hooks/useWindowSize';
-
-import { HorizontalPosition, VerticalPosition } from './types';
+import type { ElementPosition, HorizontalPosition, VerticalPosition, WindowSize } from '../types';
 
 // 0.8rem
 const POINTER_OFFSET = 14 * 0.8;

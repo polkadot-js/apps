@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { QueueTx } from '@polkadot/react-components/Status/types';
+import type { QueueTx } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';

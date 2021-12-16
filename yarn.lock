@@ -3131,7 +3131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-api-context@workspace:packages/react-api-context":
+"@polkadot/react-api-context@^0.98.2-153, @polkadot/react-api-context@workspace:packages/react-api-context":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api-context@workspace:packages/react-api-context"
   dependencies:
@@ -3148,6 +3148,7 @@ __metadata:
     "@polkadot/api": ^6.11.1
     "@polkadot/extension-compat-metamask": ^0.42.2
     "@polkadot/extension-dapp": ^0.42.2
+    "@polkadot/react-api-context": ^0.98.2-153
     "@substrate/connect": 0.4.6
     fflate: ^0.7.1
     rxjs: ^7.4.0
@@ -3311,6 +3312,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
+    "@polkadot/react-hooks": ^0.98.2-153
     "@polkadot/types-support": ^6.11.1
     "@testing-library/jest-dom": ^5.16.1
     "@testing-library/react": ^12.1.2

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
+import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useContext } from 'react';
 

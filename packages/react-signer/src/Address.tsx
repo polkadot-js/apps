@@ -3,7 +3,7 @@
 
 import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { QueueTx } from '@polkadot/react-components/Status/types';
+import type { QueueTx } from '@polkadot/react-hooks/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, Call, Multisig } from '@polkadot/types/interfaces';
 import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';

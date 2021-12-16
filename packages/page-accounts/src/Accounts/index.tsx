@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { AccountBalance, Delegation, SortedAccount } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';

@@ -6,5 +6,8 @@
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"]
-  }
+  },
+  "references": [
+    { "path": "../react-hooks" }
+  ]
 }

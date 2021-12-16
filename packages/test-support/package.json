@@ -17,6 +17,7 @@
     "testcontainers": "^7.24.0"
   },
   "devDependencies": {
+    "@polkadot/react-hooks": "^0.98.2-153",
     "@polkadot/types-support": "^6.11.1",
     "@testing-library/jest-dom": "^5.16.1",
     "tsconfig-paths": "^3.12.0"

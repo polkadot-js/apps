@@ -6,6 +6,7 @@
     "rootDir": "./src"
   },
   "references": [
+    { "path": "../react-api" },
     { "path": "../react-hooks" }
   ]
 }

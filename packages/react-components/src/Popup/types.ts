@@ -1,10 +1,9 @@
 // Copyright 2017-2021 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import type { HorizontalPosition } from '@polkadot/react-hooks/types';
 
-export type HorizontalPosition = 'left' | 'middle' | 'right'
-export type VerticalPosition = 'top' | 'bottom'
+import React from 'react';
 
 export interface PopupWindowProps {
   className?: string;

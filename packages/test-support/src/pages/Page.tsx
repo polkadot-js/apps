@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-hooks/types';
 
 import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
 import BN from 'bn.js';

@@ -4,7 +4,7 @@
 import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { TxCallback } from '@polkadot/react-components/Status/types';
+import type { TxCallback } from '@polkadot/react-hooks/types';
 import type { Option } from '@polkadot/types';
 import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 

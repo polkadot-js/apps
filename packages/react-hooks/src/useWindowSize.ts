@@ -1,14 +1,11 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { WindowSize } from './types';
+
 import { useEffect, useState } from 'react';
 
 import { createNamedHook } from './createNamedHook';
-
-export interface WindowSize {
-  width: number;
-  height: number;
-}
 
 function useWindowSizeImpl (): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>({

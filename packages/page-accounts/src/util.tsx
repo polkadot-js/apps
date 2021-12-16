@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
+import type { ActionStatus } from '@polkadot/react-hooks/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import type { CreateResult } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, SortedAccount } from './types';
