@@ -174,7 +174,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         <InputBalance
           help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
           isError={!isValueValid}
-          isZeroable={hasStorageDeposit}
+          isZeroable={contractAbi?.constructors[constructorIndex].isPayable}
           label={t<string>('value')}
           onChange={setValue}
           value={value}
