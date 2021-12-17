@@ -159,6 +159,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'equilibrium',
+        homepage: 'https://equilibrium.io/',
+        paraId: 2011,
+        text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://node.equilibrium.io'
+        }
+      },
+      {
         info: 'interlay',
         homepage: 'https://interlay.io/',
         paraId: 2032,
