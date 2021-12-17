@@ -81,10 +81,10 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'interBTC',
+        info: 'interlay',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6261
         paraId: 2094,
-        text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
+        text: t('rpc.westend.interbtc', 'Interlay', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://api-westend.interlay.io/parachain'
         }

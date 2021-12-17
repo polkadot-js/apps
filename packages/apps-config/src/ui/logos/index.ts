@@ -21,7 +21,6 @@ import chainEfinity from './chains/efinity.svg';
 import chainEquilibrium from './chains/equilibrium.svg';
 import chainGenshiro from './chains/genshiro.svg';
 import chainHydrate from './chains/hydrate.png';
-import chainInterBTC from './chains/interbtc.png';
 import chainInterlay from './chains/interlay.svg';
 import chainKarura from './chains/karura.svg';
 import chainKintsugi from './chains/kintsugi.png';
@@ -89,7 +88,7 @@ import nodeGeek from './nodes/geek.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeIdavoll from './nodes/idavoll.png';
 import nodeIntegritee from './nodes/integritee.svg';
-import nodeInterBTC from './nodes/interbtc.png';
+import nodeInterBTC from './nodes/interlay.svg';
 import nodeIpse from './nodes/ipse.png';
 import nodeJupiter from './nodes/jupiter.svg';
 import nodeKhala from './nodes/khala.svg';
@@ -623,7 +622,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoGenshiro: chainGenshiro,
   rococoHydrate: chainHydrate,
   rococoIdavoll: nodeIdavoll,
-  rococoInterBTC: chainInterBTC,
+  rococoInterBTC: chainInterlay,
   rococoJupiter: nodeJupiter,
   rococoKilt: nodeKilt,
   rococoKonomi: nodeKonomi,
