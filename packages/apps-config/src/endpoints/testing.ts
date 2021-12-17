@@ -75,13 +75,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'canvas',
-      text: t('rpc.test.canvas', 'Canvas', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://canvas-rpc.parity.io'
-      }
-    },
-    {
       info: 'clover',
       isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
@@ -214,7 +207,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'interbtc',
-      text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
+      text: t('rpc.test.interbtc', 'Interlay', { ns: 'apps-config' }),
       providers: {
         Interlay: 'wss://api.interlay.io/parachain/'
       }
@@ -455,6 +448,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.subgame', 'SubGame Staging', { ns: 'apps-config' }),
       providers: {
         SubGame: 'wss://staging.subgame.org'
+      }
+    },
+    {
+      info: 'subspace-farmnet',
+      text: t('rpc.test.subspace.farmnet', 'Subspace Farmnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://farm-rpc.subspace.network'
       }
     },
     {

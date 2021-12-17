@@ -35,9 +35,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'statemint',
         paraId: 1000,
-        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://statemint-shell.polkadot.io',
+          Parity: 'wss://statemint-rpc.polkadot.io',
           OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
@@ -73,7 +73,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
         providers: {
-          Astar: 'wss://rpc.astar.network'
+          Astar: 'wss://rpc.astar.network',
+          OnFinality: 'wss://astar.api.onfinality.io/public-ws'
         }
       },
       {
@@ -87,13 +88,24 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'centrifuge',
+        homepage: 'https://centrifuge.io',
+        paraId: 2031,
+        isUnreachable: true,
+        text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
+        }
+      },
+      {
         info: 'clover',
         homepage: 'https://clover.finance',
         paraId: 2002,
         isUnreachable: true,
         text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
         providers: {
-          Clover: 'wss://rpc-para.clover.finance'
+          Clover: 'wss://rpc-para.clover.finance',
+          OnFinality: 'wss://clover.api.onfinality.io/public-ws'
         }
       },
       {
@@ -106,6 +118,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.coinversation', 'Coinversation', { ns: 'apps-config' }),
         providers: {
           Coinversation: 'wss://rpc.coinversation.io/'
+        }
+      },
+      {
+        info: 'composableFinance',
+        homepage: 'https://composable.finance/',
+        paraId: 2019,
+        text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composable.finance'
         }
       },
       {
@@ -138,6 +159,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'interlay',
+        homepage: 'https://interlay.io/',
+        paraId: 2032,
+        text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
+        providers: {
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+        }
+      },
+      {
         info: 'litentry',
         homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
@@ -160,12 +190,22 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'moonbeam',
-        homepage: 'https://moonbeam.foundation',
-        isUnreachable: true,
+        homepage: 'https://moonbeam.network/networks/moonbeam/',
         paraId: 2004,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.mainnet.moonbeam.network'
+          'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
+          OnFinality: 'wss://moonbeam.api.onfinality/public-ws'
+        }
+      },
+      {
+        info: 'nodle',
+        homepage: 'https://nodle.com',
+        isUnreachable: true,
+        paraId: 2026,
+        text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
+        providers: {
+          Nodle: 'wss://rpc.nodle.com'
         }
       },
       {
@@ -174,7 +214,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
         providers: {
-          Parallel: 'wss://rpc.parallel.fi'
+          Parallel: 'wss://rpc.parallel.fi',
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
         }
       },
       {
