@@ -38,6 +38,12 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const [withSalt, setWithSalt] = useState(false);
   const weight = useWeight();
 
+  const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
+
+  const isConstructorPayable = (): boolean => {
+    return contractAbi?.constructors[constructorIndex].isPayable !== false;
+  };
+
   useEffect((): void => {
     setParams([]);
   }, [constructorIndex]);
@@ -170,14 +176,16 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
           </>
         )}
-        <InputBalance
-          help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
-          isError={!isValueValid}
-          isZeroable={contractAbi?.constructors[constructorIndex].isPayable}
-          label={t<string>('value')}
-          onChange={setValue}
-          value={value}
-        />
+        { isConstructorPayable() && (
+          <InputBalance
+            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+            isError={!isValueValid}
+            isZeroable={hasStorageDeposit}
+            label={t<string>('value')}
+            onChange={setValue}
+            value={value}
+          />)
+        }
         <Input
           help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}
