@@ -240,7 +240,7 @@ export function createRococo (t: TFunction): EndpointOption {
         info: 'rococoInterBTC',
         isDisabled: true, // Rococo reset
         paraId: 2088,
-        text: t('rpc.rococo.interbtc', 'InterBTC PC1', { ns: 'apps-config' }),
+        text: t('rpc.rococo.interbtc', 'Interlay PC1', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://api-rococo.interlay.io/parachain'
         }

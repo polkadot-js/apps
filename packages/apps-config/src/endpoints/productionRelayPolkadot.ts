@@ -73,7 +73,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
         providers: {
-          Astar: 'wss://rpc.astar.network'
+          Astar: 'wss://rpc.astar.network',
+          OnFinality: 'wss://astar.api.onfinality.io/public-ws'
         }
       },
       {
@@ -103,7 +104,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         isUnreachable: true,
         text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
         providers: {
-          Clover: 'wss://rpc-para.clover.finance'
+          Clover: 'wss://rpc-para.clover.finance',
+          OnFinality: 'wss://clover.api.onfinality.io/public-ws'
         }
       },
       {
@@ -189,10 +191,11 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'moonbeam',
         homepage: 'https://moonbeam.network/networks/moonbeam/',
-        paraId: 1284,
+        paraId: 2004,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
-          'Moonbeam Foundation': 'wss://wss.api.moonbeam.network'
+          'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
+          OnFinality: 'wss://moonbeam.api.onfinality/public-ws'
         }
       },
       {
