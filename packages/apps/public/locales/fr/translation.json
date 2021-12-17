@@ -1310,7 +1310,7 @@
   "rpc.header.live": "Réseau Live",
   "rpc.header.test": "Réseaux de test",
   "rpc.hosted.by": "hébergé par {{host}}",
-  "rpc.interbtc": "InterBTC",
+  "rpc.interbtc": "Interlay",
   "rpc.kilt": "KILT Protocol (KILT Mashnet, hébergé par KILT Protocol)",
   "rpc.kulupu": "Kulupu (Mainnet Kulupu, hébergé par Kulupu)",
   "rpc.kusama.ava": "Kusama (Polkadot Canary, noeud communautaire; voir https://status.cloud.ava.do/)",
