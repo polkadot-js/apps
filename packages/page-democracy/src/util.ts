@@ -5,7 +5,7 @@ import type { VoteThreshold } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
-import { calcPassing } from '@polkadot/api/derive/democracy/util';
+import { calcPassing } from '@polkadot/api-derive/democracy/util';
 import { BN_ONE, BN_TEN, BN_ZERO } from '@polkadot/util';
 
 interface Approx {

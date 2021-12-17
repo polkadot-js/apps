@@ -11,7 +11,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { deriveMapCache, setDeriveCache } from '@polkadot/api/derive/util';
+import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';

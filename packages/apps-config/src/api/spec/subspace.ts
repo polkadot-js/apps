@@ -11,8 +11,8 @@ import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
 
 import { combineLatest, map } from 'rxjs';
 
-import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api/derive/chain';
-import { memo } from '@polkadot/api/derive/util';
+import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
+import { memo } from '@polkadot/api-derive/util';
 import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 
 interface HeaderExtended extends Header {
