@@ -49,10 +49,12 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'acala',
         homepage: 'https://acala.network/',
         paraId: 2000,
-        isUnreachable: true,
         text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
+          'Acala Foundation 1': 'wss://acala-rpc-1.aca-api.network',
+          'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws',
+          'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://acala.polkawallet.io',
           OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
         }
