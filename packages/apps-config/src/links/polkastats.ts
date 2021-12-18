@@ -10,6 +10,7 @@ export default {
     Kusama: 'kusama',
     Polkadot: 'polkadot',
     Westend: 'westend'
+
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkastats.io/${path}/${data.toString()}`,
