@@ -15,7 +15,6 @@ const getNetwork = (_chain: string) => {
   }
 }
 
-
 export default {
   chains: {
     Kusama: 'kusama',
