@@ -2832,7 +2832,7 @@ __metadata:
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.6
     "@sora-substrate/type-definitions": 1.6.19
-    "@subsocial/types": 0.6.5-dev.6
+    "@subsocial/types": 0.6.5
     "@zeitgeistpm/type-defs": 0.3.5
     "@zeroio/type-definitions": 0.0.11
     i18next: ^21.4.0
@@ -3747,24 +3747,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/types@npm:0.6.5-dev.6":
-  version: 0.6.5-dev.6
-  resolution: "@subsocial/types@npm:0.6.5-dev.6"
+"@subsocial/types@npm:0.6.5":
+  version: 0.6.5
+  resolution: "@subsocial/types@npm:0.6.5"
   dependencies:
-    "@polkadot/types": 6.6.1
-    "@polkadot/types-known": 6.6.1
-    "@polkadot/types-support": 6.6.1
-    "@subsocial/utils": ^0.6.5-dev.6
+    "@polkadot/types": 6.9.2
+    "@polkadot/types-known": 6.9.2
+    "@polkadot/types-support": 6.9.2
+    "@subsocial/utils": ^0.6.5
     cids: ^0.7.1
-  checksum: 008f1a15c95ad87c71da1aa7cdedee99eb99566201a5cfc2a33bd1eec51e1acffea7840d049c1a5868efed7d37548d61fe5ca9bd50dcfa73d894938f93cb4ed5
+  checksum: 4a02a6a19c449bab19b6ecbac89359562e1461c76020d5f4b53a1dc9471f361f0f2f364ab48c3c852a1b8db3cd82cdbc0b6bbf08cbe268038907cbc7ca2697f3
   languageName: node
   linkType: hard
 
-"@subsocial/utils@npm:^0.6.5-dev.6":
-  version: 0.6.5-dev.6
-  resolution: "@subsocial/utils@npm:0.6.5-dev.6"
+"@subsocial/utils@npm:^0.6.5":
+  version: 0.6.5
+  resolution: "@subsocial/utils@npm:0.6.5"
   dependencies:
-    "@polkadot/util-crypto": 6.6.1
+    "@polkadot/util-crypto": 7.8.2
     "@sindresorhus/slugify": ^1.1.0
     bn.js: ^5.1.1
     chalk: ^3.0.0
@@ -3777,7 +3777,7 @@ __metadata:
     remark-gfm: ^1.0.0
     remark-html: ^13.0.1
     strip-markdown: ^4.0.0
-  checksum: 814102ef59c055023f4bd86e77a942aba9e9573b52a3d332a9af911ed05b97bc9e0fcc459322581cbace6916e89d26d19a9c97c666fb2d4191f4c379d04eb9c9
+  checksum: e303c6c8d5fa8ece95779800cf469084e5654c771119f049c1041a91e6a575420b885120e4e0bfea691d14919ce3dbb8e53ac612f26910cc9bc876f4ee149161
   languageName: node
   linkType: hard
 
