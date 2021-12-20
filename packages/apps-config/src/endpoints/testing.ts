@@ -232,9 +232,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phala',
-      text: t('rpc.test.phala', 'Khala (Para2)', { ns: 'apps-config' }),
+      text: t('rpc.test.phala', 'Khala (Para3)', { ns: 'apps-config' }),
       providers: {
-        'Phala Network': 'wss://para2-api.phala.network/ws/'
+        'Phala Network': 'wss://pc-test-3.phala.network/khala/ws'
       }
     },
     {

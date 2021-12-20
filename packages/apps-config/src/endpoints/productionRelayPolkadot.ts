@@ -49,10 +49,12 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'acala',
         homepage: 'https://acala.network/',
         paraId: 2000,
-        isUnreachable: true,
         text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
+          'Acala Foundation 1': 'wss://acala-rpc-1.aca-api.network',
+          'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws',
+          'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://acala.polkawallet.io',
           OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
         }
@@ -70,7 +72,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'astar',
         homepage: 'https://astar.network',
         paraId: 2006,
-        isUnreachable: true,
         text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
         providers: {
           Astar: 'wss://rpc.astar.network',
@@ -159,6 +160,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'equilibrium',
+        homepage: 'https://equilibrium.io/',
+        paraId: 2011,
+        text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://node.equilibrium.io'
+        }
+      },
+      {
         info: 'interlay',
         homepage: 'https://interlay.io/',
         paraId: 2032,
@@ -195,7 +205,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
           'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
-          OnFinality: 'wss://moonbeam.api.onfinality/public-ws'
+          OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws'
         }
       },
       {
