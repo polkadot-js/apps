@@ -37,7 +37,7 @@
     "@polymathnetwork/polymesh-types": "0.0.2",
     "@snowfork/snowbridge-types": "0.2.6",
     "@sora-substrate/type-definitions": "1.6.30",
-    "@subsocial/types": "0.6.5-dev.6",
+    "@subsocial/types": "0.6.5",
     "@unique-nft/types": "0.2.0",
     "@zeitgeistpm/type-defs": "0.3.7",
     "@zeroio/type-definitions": "0.0.14",
