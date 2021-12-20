@@ -62,7 +62,7 @@ function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominat
       let newWarning: string | null = null;
 
       if (check.gte(maxBond)) {
-        newError = t('The specified value is too large and does not allow funds to pay future transaction fees.');
+        newWarning = t('The specified value is large and may not allow enough funds to pay future transaction fees.');
       } else if (check.lt(existentialDeposit)) {
         newError = t('The bonded amount is less than the minimum bond amount of {{existentialDeposit}}', {
           replace: { existentialDeposit: formatExistential(existentialDeposit) }

@@ -46,6 +46,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'automata-contextfree',
+      text: t('rpc.test.automata-contextfree', 'Automata ContextFree', { ns: 'apps-config' }),
+      providers: {
+        'Automata Network': 'wss://cf-api.ata.network',
+        OnFinality: 'wss://contextfree.api.onfinality.io/public-ws'
+      }
+    },
+    {
       info: 'edgeware',
       text: t('rpc.test.beresheet', 'Beresheet', { ns: 'apps-config' }),
       providers: {
@@ -67,18 +75,21 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'canvas',
-      text: t('rpc.test.canvas', 'Canvas', { ns: 'apps-config' }),
-      providers: {
-        Parity: 'wss://canvas-rpc.parity.io'
-      }
-    },
-    {
       info: 'clover',
       isDisabled: true, // Cannot construct unknown type BridgeNetworks
       text: t('rpc.test.clover.finance', 'Clover', { ns: 'apps-config' }),
       providers: {
         Clover: 'wss://api.clover.finance/'
+      }
+    },
+    {
+      // this is also a duplicate as a parachain under Polkadot and live under production -
+      // it is either/or, not and
+      info: 'coinversation',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
+      text: t('rpc.test.coinversation', 'Coinversation', { ns: 'apps-config' }),
+      providers: {
+        Coinversation: 'wss://rpc.coinversation.io/'
       }
     },
     {
@@ -106,6 +117,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'dolphin',
+      text: t('rpc.dolphin', 'Dolphin Testnet', { ns: 'apps-config' }),
+      providers: {
+        'Dolphin Testnet': 'wss://trillian.dolphin.red'
+      }
+    },
+    {
       info: 'dotmog',
       text: t('rpc.test.dotmog', 'DOTMog', { ns: 'apps-config' }),
       providers: {
@@ -121,14 +139,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'encointer_cantillon',
-      text: t('rpc.test.encointer.cantillon', 'Encointer Cantillon', { ns: 'apps-config' }),
-      providers: {
-        'Encointer Association': 'wss://cantillon.encointer.org'
-      }
-    },
-    {
-      info: 'encointer_gesell',
+      info: 'encointer',
       text: t('rpc.test.encointer.gesell', 'Encointer Gesell', { ns: 'apps-config' }),
       providers: {
         'Encointer Association': 'wss://gesell.encointer.org'
@@ -196,7 +207,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'interbtc',
-      text: t('rpc.test.interbtc', 'InterBTC', { ns: 'apps-config' }),
+      text: t('rpc.test.interbtc', 'Interlay', { ns: 'apps-config' }),
       providers: {
         Interlay: 'wss://api.interlay.io/parachain/'
       }
@@ -221,9 +232,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'phala',
-      text: t('rpc.test.phala', 'Khala (Para2)', { ns: 'apps-config' }),
+      text: t('rpc.test.phala', 'Khala (Para3)', { ns: 'apps-config' }),
       providers: {
-        'Phala Network': 'wss://para2-api.phala.network/ws/'
+        'Phala Network': 'wss://pc-test-3.phala.network/khala/ws'
       }
     },
     {
@@ -249,6 +260,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'kylin',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
       text: t('testnet.kylin-node.co.uk', 'Kylin Testnet', { ns: 'apps-config' }),
       providers: {
         'Kylin Network': 'wss://testnet.kylin-node.co.uk'
@@ -307,6 +319,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
       providers: {
         'OAK Network': 'wss://rpc.testnet.oak.tech'
+      }
+    },
+    {
+      info: 'opal',
+      text: t('opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
+      providers: {
+        Unique: 'wss://opal.unique.network'
       }
     },
     {
@@ -432,6 +451,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'subspace-farmnet',
+      text: t('rpc.test.subspace.farmnet', 'Subspace Farmnet', { ns: 'apps-config' }),
+      providers: {
+        'Subspace Network': 'wss://farm-rpc.subspace.network'
+      }
+    },
+    {
       info: 'subspace',
       text: t('rpc.test.subspace', 'Subspace Testnet', { ns: 'apps-config' }),
       providers: {
@@ -483,10 +509,9 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'web3games',
-      isDisabled: true, // https://github.com/polkadot-js/apps/runs/2755409009?check_suite_focus=true
       text: t('rpc.test.web3games', 'Web3Games', { ns: 'apps-config' }),
       providers: {
-        Web3Games: 'wss://substrate.org.cn:4443'
+        Web3Games: 'wss://testnet.web3games.org'
       }
     },
     {
