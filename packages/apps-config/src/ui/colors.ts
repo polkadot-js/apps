@@ -13,6 +13,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainSherpax = '#6bbee8'
 const chainAcala = '#645AFF';
 const chainAleph = '#00CCAB';
 const chainApron = 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)';
@@ -317,7 +318,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Rococo: chainRocco,
   Sakura: chainSakura,
   Shadow: chainShadow,
-  sherpax: chainChainx,
+  sherpax: chainSherpax,
   Shiden: chainShiden,
   Spanner: chainSpanner,
   Standard: chainStandard,
