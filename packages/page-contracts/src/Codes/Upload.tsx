@@ -39,9 +39,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
 
   const hasStorageDeposit = api.tx.contracts.instantiate.meta.args.length === 6;
 
-  const isConstructorPayable = (): boolean => {
-    return contractAbi?.constructors[constructorIndex].isPayable !== false;
-  };
+  const isConstructorPayable = contractAbi?.constructors[constructorIndex].isPayable !== false;
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
@@ -204,7 +202,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
               params={contractAbi.constructors[constructorIndex].args}
               registry={contractAbi.registry}
             />
-            { isConstructorPayable() && (
+            { isConstructorPayable && (
               <InputBalance
                 help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
                 isError={!isValueValid}

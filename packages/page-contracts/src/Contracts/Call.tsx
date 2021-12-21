@@ -38,7 +38,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
-  const [value, isValueValid, setEndowment] = useFormField<BN>(BN_ZERO);
+  const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<unknown[]>([]);
@@ -170,7 +170,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
-            onChange={setEndowment}
+            onChange={setValue}
             value={value}
           />
         )}
