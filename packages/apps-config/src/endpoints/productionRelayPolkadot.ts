@@ -123,6 +123,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'composableFinance',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6721
         homepage: 'https://composable.finance/',
         paraId: 2019,
         text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
