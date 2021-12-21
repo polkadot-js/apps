@@ -239,14 +239,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'kilt',
-      text: t('rpc.test.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
+      text: t('rpc.test.kilt.mash', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
       }
     },
     {
       info: 'kilt',
-      text: t('rpc.test.kilt', 'KILT Peregrine', { ns: 'apps-config' }),
+      text: t('rpc.test.kilt.pere', 'KILT Peregrine', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://peregrine.kilt.io/'
       }
@@ -366,7 +366,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'pichiu',
-      text: t('westend.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
+      text: t('rpc.test.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
       providers: {
         'Kylin Network': 'wss://westend.kylin-node.co.uk'
       }
