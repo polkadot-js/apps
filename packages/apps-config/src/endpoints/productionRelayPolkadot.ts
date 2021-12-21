@@ -35,9 +35,9 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'statemint',
         paraId: 1000,
-        text: t('rpc.polkadot.statemint-shell', 'Statemint (Shell)', { ns: 'apps-config' }),
+        text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
-          Parity: 'wss://statemint-shell.polkadot.io',
+          Parity: 'wss://statemint-rpc.polkadot.io',
           OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
           'Patract Elara': 'wss://pub.elara.patract.io/statemint'
         }
@@ -49,10 +49,12 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'acala',
         homepage: 'https://acala.network/',
         paraId: 2000,
-        isUnreachable: true,
         text: t('rpc.polkadot.acala', 'Acala', { ns: 'apps-config' }),
         providers: {
           'Acala Foundation 0': 'wss://acala-rpc-0.aca-api.network',
+          'Acala Foundation 1': 'wss://acala-rpc-1.aca-api.network',
+          'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws',
+          'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
           'Polkawallet 0': 'wss://acala.polkawallet.io',
           OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
         }
@@ -70,10 +72,10 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'astar',
         homepage: 'https://astar.network',
         paraId: 2006,
-        isUnreachable: true,
         text: t('rpc.polkadot.astar', 'Astar', { ns: 'apps-config' }),
         providers: {
-          Astar: 'wss://rpc.astar.network'
+          Astar: 'wss://rpc.astar.network',
+          OnFinality: 'wss://astar.api.onfinality.io/public-ws'
         }
       },
       {
@@ -87,13 +89,24 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'centrifuge',
+        homepage: 'https://centrifuge.io',
+        paraId: 2031,
+        isUnreachable: true,
+        text: t('rpc.polkadot.centrifuge', 'Centrifuge', { ns: 'apps-config' }),
+        providers: {
+          Centrifuge: 'wss://fullnode.parachain.centrifuge.io'
+        }
+      },
+      {
         info: 'clover',
         homepage: 'https://clover.finance',
         paraId: 2002,
         isUnreachable: true,
         text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
         providers: {
-          Clover: 'wss://rpc-para.clover.finance'
+          Clover: 'wss://rpc-para.clover.finance',
+          OnFinality: 'wss://clover.api.onfinality.io/public-ws'
         }
       },
       {
@@ -106,6 +119,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.coinversation', 'Coinversation', { ns: 'apps-config' }),
         providers: {
           Coinversation: 'wss://rpc.coinversation.io/'
+        }
+      },
+      {
+        info: 'composableFinance',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6721
+        homepage: 'https://composable.finance/',
+        paraId: 2019,
+        text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
+        providers: {
+          Composable: 'wss://rpc.composable.finance'
         }
       },
       {
@@ -138,6 +161,24 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'equilibrium',
+        homepage: 'https://equilibrium.io/',
+        paraId: 2011,
+        text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
+        providers: {
+          Equilibrium: 'wss://node.equilibrium.io'
+        }
+      },
+      {
+        info: 'interlay',
+        homepage: 'https://interlay.io/',
+        paraId: 2032,
+        text: t('rpc.polkadot.interlay', 'Interlay', { ns: 'apps-config' }),
+        providers: {
+          'Kintsugi Labs': 'wss://api.interlay.io/parachain'
+        }
+      },
+      {
         info: 'litentry',
         homepage: 'https://crowdloan.litentry.com',
         paraId: 2013,
@@ -160,12 +201,22 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'moonbeam',
-        homepage: 'https://moonbeam.foundation',
-        isUnreachable: true,
+        homepage: 'https://moonbeam.network/networks/moonbeam/',
         paraId: 2004,
         text: t('rpc.polkadot.moonbeam', 'Moonbeam', { ns: 'apps-config' }),
         providers: {
-          Purestake: 'wss://wss.mainnet.moonbeam.network'
+          'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
+          OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws'
+        }
+      },
+      {
+        info: 'nodle',
+        homepage: 'https://nodle.com',
+        isUnreachable: true,
+        paraId: 2026,
+        text: t('rpc.polkadot.nodle', 'Nodle', { ns: 'apps-config' }),
+        providers: {
+          Nodle: 'wss://rpc.nodle.com'
         }
       },
       {
@@ -174,7 +225,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.polkadot.parallel', 'Parallel', { ns: 'apps-config' }),
         providers: {
-          Parallel: 'wss://rpc.parallel.fi'
+          Parallel: 'wss://rpc.parallel.fi',
+          OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
         }
       },
       {

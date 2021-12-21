@@ -303,7 +303,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2013,
         text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
         providers: {
-          ChainX: 'wss://sherpax.chainx.org'
+          ChainX: 'wss://sherpax-mainnet.chainx.org'
         }
       },
       {
