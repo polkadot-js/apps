@@ -21,6 +21,14 @@ const definitions: OverrideBundleDefinition = {
           estimates: 'u64',
           eth_address: 'Option<Bytes>'
         },
+        AresPriceData: {
+          price: 'u64',
+          account_id: 'AuthorityId',
+          create_bn: 'BlockNumber',
+          fraction_len: 'FractionLength',
+          raw_number: 'JsonNumberValue',
+          timestamp: 'u64',
+        },
         BalanceOf: 'Balance',
         ChooseWinnersPayload: {
           block_number: 'BlockNumber',
@@ -82,7 +90,7 @@ const definitions: OverrideBundleDefinition = {
           number_val: 'JsonNumberValue',
           max_offset: 'Percent'
         },
-        PricePayloadSubPrice: '(Bytes, u64, FractionLength, JsonNumberValue)',
+        PricePayloadSubPrice: '(Bytes, u64, FractionLength, JsonNumberValue, u64)',
         PricePayloadSubJumpBlock: '(Bytes, RequestInterval)',
         PricePayload: {
           block_number: 'BlockNumber',
@@ -90,6 +98,15 @@ const definitions: OverrideBundleDefinition = {
           jump_block: 'Vec<PricePayloadSubJumpBlock>',
           auth: 'AuthorityId',
           public: 'MultiSigner'
+        },
+        HttpErrTracePayload: {
+          trace_data: 'HttpErrTraceData<BlockNumber, AuthorityId>',
+          auth: 'AuthorityId',
+          public: 'MultiSigner'
+        },
+        HttpErrTraceData: {
+          block_number: 'BlockNumber',
+          err_auth: 'AuthorityId',
         },
         PreCheckStatus: {
           _enum: [
