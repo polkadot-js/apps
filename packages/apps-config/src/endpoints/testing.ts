@@ -18,13 +18,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
   return expandEndpoints(t, [
     // alphabetical based on chain name, e.g. Amber, Arcadia, Beresheet, ...
     {
-      info: 'sherpax',
-      text: t('rpc.test.sherpax', 'Sherpax Testnet', { ns: 'apps-config' }),
-      providers: {
-        Chainx: 'wss://sherpax-testnet.chainx.org'
-      }
-    },
-    {
       info: 'aleph',
       text: t('rpc.test.aleph', 'Aleph Zero Testnet', { ns: 'apps-config' }),
       providers: {
@@ -421,6 +414,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
+      }
+    },
+    {
+      info: 'sherpax',
+      text: t('rpc.test.sherpax', 'Sherpax Testnet', { ns: 'apps-config' }),
+      providers: {
+        Chainx: 'wss://sherpax-testnet.chainx.org'
       }
     },
     {
