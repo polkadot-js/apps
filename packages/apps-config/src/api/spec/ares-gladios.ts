@@ -59,16 +59,17 @@ const definitions: OverrideBundleDefinition = {
           is_income: 'bool'
         },
         PreCheckPayload: {
-          stash: 'AccountId',
-          auth: 'AccountId',
+          pre_check_stash: 'AccountId',
+          pre_check_auth: 'AuthorityId',
+          auth: 'AuthorityId',
           block_number: 'BlockNumber',
           public: 'MultiSigner'
         },
         PreCheckResultPayload: {
-          stash: 'AccountId',
-          auth: 'AccountId',
+          pre_check_stash: 'AccountId',
+          pre_check_auth: 'AuthorityId',
           block_number: 'BlockNumber',
-          per_check_list: 'Vec<PreCheckStruct>',
+          pre_check_list: 'Vec<PreCheckStruct>',
           public: 'MultiSigner'
         },
         PreCheckCompareLog: {
@@ -87,6 +88,7 @@ const definitions: OverrideBundleDefinition = {
           block_number: 'BlockNumber',
           price: 'Vec<PricePayloadSubPrice>',
           jump_block: 'Vec<PricePayloadSubJumpBlock>',
+          auth: 'AuthorityId',
           public: 'MultiSigner'
         },
         PreCheckStatus: {
@@ -108,6 +110,7 @@ const definitions: OverrideBundleDefinition = {
           block_number: 'BlockNumber',
           purchase_id: 'Vec<u8>',
           price: 'Vec<PricePayloadSubPrice>',
+          auth: 'AuthorityId',
           public: 'MultiSigner'
         },
         PurchasedAvgPriceData: {
@@ -124,6 +127,7 @@ const definitions: OverrideBundleDefinition = {
         PurchasedForceCleanPayload: {
           BlockNumber: 'BlockNumber',
           purchase_id_list: 'Vec<Vec<u8>>',
+          auth: 'AuthorityId',
           public: 'MultiSigner'
         },
         PurchaseId: 'Vec<u8>',
