@@ -32,30 +32,6 @@ export function createRococo (t: TFunction): EndpointOption {
     linked: [
       // these are the base chains
       {
-        info: 'rococoTick',
-        paraId: 100,
-        text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
-        providers: {
-          Parity: 'wss://tick-rococo-rpc.polkadot.io'
-        }
-      },
-      {
-        info: 'rococoTrick',
-        paraId: 110,
-        text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
-        providers: {
-          Parity: 'wss://trick-rpc.polkadot.io'
-        }
-      },
-      {
-        info: 'rococoTrack',
-        paraId: 120,
-        text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
-        providers: {
-          Parity: 'wss://track-rpc.polkadot.io'
-        }
-      },
-      {
         info: 'rococoStatemint',
         paraId: 1000,
         text: t('rpc.rococo.statemint', 'Statemint', { ns: 'apps-config' }),
@@ -351,6 +327,33 @@ export function createRococo (t: TFunction): EndpointOption {
         text: t('rpc.rococo.parami', 'Parami PC2', { ns: 'apps-config' }),
         providers: {
           Parami: 'wss://rococo.parami.io'
+        }
+      },
+      {
+        info: 'rococoTick',
+        isDisabled: true, // Rococo reset
+        paraId: 100,
+        text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://tick-rococo-rpc.polkadot.io'
+        }
+      },
+      {
+        info: 'rococoTrick',
+        isDisabled: true, // Rococo reset
+        paraId: 110,
+        text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://trick-rpc.polkadot.io'
+        }
+      },
+      {
+        info: 'rococoTrack',
+        isDisabled: true, // Rococo reset
+        paraId: 120,
+        text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
+        providers: {
+          Parity: 'wss://track-rpc.polkadot.io'
         }
       },
       {
