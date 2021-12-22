@@ -279,6 +279,7 @@ export const chainLogos = Object.entries({
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
+  Sherpax: nodeChainx,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SORA: nodeSora,
