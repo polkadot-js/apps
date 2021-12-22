@@ -1,10 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-
 import { selectableNetworks } from '@polkadot/networks';
-import { assert } from '@polkadot/util';
+import { assert, BN } from '@polkadot/util';
 
 function getGenesis (name: string): string {
   const network = selectableNetworks.find(({ network }) => network === name);
@@ -21,7 +19,7 @@ export const KUSAMA_GENESIS = getGenesis('kusama');
 export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
-export const ROCOCO_GENESIS = '0xc196f81260cf1686172b47a79cf002120735d7cb0eb1474e8adce56618456fff';
+export const ROCOCO_GENESIS = '0x037f5f3c8e67b314062025fc886fcd6238ea25a4a9b45dce8d246815c9ebe770';
 
 export const WESTEND_GENESIS = '0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e';
 

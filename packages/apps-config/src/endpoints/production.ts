@@ -45,11 +45,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.chainx', 'ChainX', { ns: 'apps-config' }),
       providers: {
         ChainX: 'wss://mainnet.chainx.org/ws'
-        // 'Patract Elara': 'wss://pub.elara.patract.io/chainx'
       }
     },
     {
+      // this is also a duplicate as a parachain under Polkadot and Testing net -
+      // it is either/or, not and
       info: 'coinversation',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6635
       text: t('rpc.prod.coinversation', 'Coinversation', { ns: 'apps-config' }),
       providers: {
         Coinversation: 'wss://rpc.coinversation.io/'
@@ -73,8 +75,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'darwinia',
       text: t('rpc.prod.darwinia', 'Darwinia', { ns: 'apps-config' }),
       providers: {
-        'Darwinia Network': 'wss://rpc.darwinia.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/darwinia'
+        'Darwinia Network': 'wss://rpc.darwinia.network'
       }
     },
     {
@@ -88,8 +89,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'dock-pos-mainnet',
       text: t('rpc.prod.dock-pos-mainnet', 'Dock', { ns: 'apps-config' }),
       providers: {
-        'Dock Association': 'wss://mainnet-node.dock.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/dock'
+        'Dock Association': 'wss://mainnet-node.dock.io'
       }
     },
     {
@@ -98,7 +98,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.edgeware', 'Edgeware', { ns: 'apps-config' }),
       providers: {
         'Commonwealth Labs': 'wss://mainnet.edgewa.re',
-        'Patract Elara': 'wss://pub.elara.patract.io/edgeware',
         OnFinality: 'wss://edgeware.api.onfinality.io/public-ws'
       }
     },
@@ -141,12 +140,25 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'integritee',
+      text: t('rpc.prod.integritee', 'Integritee Network', { ns: 'apps-config' }),
+      providers: {
+        Integritee: 'wss://api.solo.integritee.io'
+      }
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.prod.kulupu', 'Kulupu', { ns: 'apps-config' }),
       providers: {
-        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws',
-        'Patract Elara': 'wss://pub.elara.patract.io/kulupu'
+        Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
+      }
+    },
+    {
+      info: 'kusari',
+      text: t('rpc.prod.kusari', 'Kusari', { ns: 'apps-config' }),
+      providers: {
+        Swapdex: 'wss://ws.kusari.network'
       }
     },
     {
@@ -175,8 +187,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'nodle',
       text: t('rpc.prod.nodle-main', 'Nodle', { ns: 'apps-config' }),
       providers: {
-        Nodle: 'wss://main3.nodleprotocol.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/nodle'
+        Nodle: 'wss://main3.nodleprotocol.io'
         // Pinknode: 'wss://rpc.pinknode.io/nodle/explorer' // https://github.com/polkadot-js/apps/issues/5721
       }
     },
@@ -256,7 +267,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
         DappForce: 'wss://rpc.subsocial.network',
-        'Patract Elara': 'wss://pub.elara.patract.io/subsocial',
         OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
       }
     },

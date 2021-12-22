@@ -23,7 +23,7 @@ export function createWestend (t: TFunction): EndpointOption {
     text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
     providers: {
       Parity: 'wss://westend-rpc.polkadot.io',
-      // 'Patract Elara': 'wss://pub.elara.patract.io/westend', // No balances showing on Westend, runtime 9110
+      'Patract Elara': 'wss://pub.elara.patract.io/westend',
       OnFinality: 'wss://westend.api.onfinality.io/public-ws',
       Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
       'light client': 'light://substrate-connect/westend'
@@ -81,10 +81,10 @@ export function createWestend (t: TFunction): EndpointOption {
         }
       },
       {
-        info: 'interBTC',
+        info: 'interlay',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6261
         paraId: 2094,
-        text: t('rpc.westend.interbtc', 'InterBTC', { ns: 'apps-config' }),
+        text: t('rpc.westend.interbtc', 'Interlay', { ns: 'apps-config' }),
         providers: {
           Interlay: 'wss://api-westend.interlay.io/parachain'
         }
@@ -96,16 +96,6 @@ export function createWestend (t: TFunction): EndpointOption {
         text: t('rpc.westend.moonshadow', 'Moonshadow', { ns: 'apps-config' }),
         providers: {
           PureStake: 'wss://wss.moonshadow.testnet.moonbeam.network'
-        }
-      },
-      {
-        info: 'opal',
-        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6456
-        homepage: 'https://unique.network/',
-        paraId: 2096,
-        text: t('westend-opal.unique.network', 'OPAL by UNIQUE', { ns: 'apps-config' }),
-        providers: {
-          Unique: 'wss://westend-opal.unique.network'
         }
       },
       {
