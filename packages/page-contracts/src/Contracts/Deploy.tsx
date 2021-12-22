@@ -51,7 +51,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   const [name, isNameValid, setName] = useNonEmptyString(code && code.json.name);
   const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code && code.json.abi, code && code.contractAbi], codeHash, true);
-  const isConstructorPayable = contractAbi?.constructors[constructorIndex].isPayable !== false;
 
   const blueprint = useMemo(
     () => isAbiValid && codeHash && contractAbi
@@ -173,16 +172,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             />
           </>
         )}
-        { isConstructorPayable && (
-          <InputBalance
-            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
-            isError={!isValueValid}
-            isZeroable={hasStorageDeposit}
-            label={t<string>('value')}
-            onChange={setValue}
-            value={value}
-          />)
-        }
+        <InputBalance
+          help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
+          isError={!isValueValid}
+          isZeroable={hasStorageDeposit}
+          label={t<string>('value')}
+          onChange={setValue}
+          value={value}
+        />
         <Input
           help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}
