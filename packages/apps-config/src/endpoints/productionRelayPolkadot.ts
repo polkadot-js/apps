@@ -169,6 +169,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'hydra',
+        homepage: 'https://hydradx.io/',
+        paraId: 2034,
+        isUnreachable: true, // waiting for onboarding
+        text: t('rpc.polkadot.hydra', 'HydraDX', { ns: 'apps-config' }),
+        providers: {
+          'Galactic Council': 'wss://rpc-01.hydradx.io'
+        }
+      },
+      {
         info: 'interlay',
         homepage: 'https://interlay.io/',
         paraId: 2032,
