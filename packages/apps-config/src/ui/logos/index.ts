@@ -206,7 +206,7 @@ export const chainLogos = Object.entries({
   GEEK: nodeGeek,
   Genshiro: chainGenshiro,
   'Genshiro Rococo Testnet': chainEquilibrium,
-  'HydraDX': chainSnakenet,
+  HydraDX: chainSnakenet,
   'HydraDX Hydrate': chainHydrate,
   'HydraDX Snakenet': chainSnakenet,
   'HydraDX Snakenet Gen2': chainSnakenet,
