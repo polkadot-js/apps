@@ -47,6 +47,14 @@ const definitions: OverrideBundleDefinition = {
           ]
         },
         FractionLength: 'u32',
+        HttpError: {
+          _enum: [
+            'IoErr',
+            'TimeOut',
+            'StatusErr(u16)',
+            'ParseErr'
+          ]
+        },
         LookupSource: 'MultiAddress',
         RequestInterval: 'u8',
         JsonNumberValue: {
@@ -107,6 +115,8 @@ const definitions: OverrideBundleDefinition = {
         HttpErrTraceData: {
           block_number: 'BlockNumber',
           err_auth: 'AuthorityId',
+          err_status: 'HttpError',
+          tip: 'Bytes',
         },
         PreCheckStatus: {
           _enum: [
