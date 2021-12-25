@@ -239,6 +239,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'phala',
+        homepage: 'https://phala.network',
+        isUnreachable: true,
+        paraId: 2035,
+        text: t('rpc.polkadot.phala', 'Phala Network', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://api.phala.network/ws'
+        }
+      },
+      {
         info: 'subdao',
         homepage: 'https://subdao.network/',
         paraId: 2018,
