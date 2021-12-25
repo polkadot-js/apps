@@ -2518,12 +2518,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@phala/typedefs@npm:0.2.29":
-  version: 0.2.29
-  resolution: "@phala/typedefs@npm:0.2.29"
-  dependencies:
-    "@polkadot/types": ^5.7.1
-  checksum: 0e2a9865f9d300f29437e0ded13af635489d3741ede749c1c508f93f51457c4b1f995ffdad9de6cf38712dba18ddf57492afcad114c210700ec2d6cb8b6bae64
+"@phala/typedefs@npm:0.2.30":
+  version: 0.2.30
+  resolution: "@phala/typedefs@npm:0.2.30"
+  checksum: c8999c1462ab0b642123c262a00d3d96851352778c64c23d8b5a35ed18d9bf2d425541140bab8d82de0c4f02db8b837b3b0d93824b845222fcdd6a565214f0c5
   languageName: node
   linkType: hard
 
@@ -2892,7 +2890,7 @@ __metadata:
     "@laminar/type-definitions": 0.3.1
     "@metaverse-network-sdk/type-definitions": ^0.0.1-6
     "@parallel-finance/type-definitions": 1.4.4
-    "@phala/typedefs": 0.2.29
+    "@phala/typedefs": 0.2.30
     "@polkadot/api": ^7.0.3-2
     "@polkadot/api-derive": ^7.0.3-2
     "@polkadot/networks": ^8.2.2
