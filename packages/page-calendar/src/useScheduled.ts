@@ -11,7 +11,7 @@ import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 import { useEffect, useState } from 'react';
 
 import { useLeaseRangeMax } from '@polkadot/app-parachains/useLeaseRanges';
-import { useApi, useBestNumber, useBlockTime, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBestNumber, useBlockTime, useCall } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface DateExt {
@@ -196,7 +196,7 @@ function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]
 }
 
 // TODO council votes, tips closing
-export default function useScheduled (): EntryInfo[] {
+function useScheduledImpl (): EntryInfo[] {
   const { api } = useApi();
   const [blockTime] = useBlockTime();
   const bestNumber = useBestNumber();
@@ -261,3 +261,5 @@ export default function useScheduled (): EntryInfo[] {
 
   return state;
 }
+
+export default createNamedHook('useScheduled', useScheduledImpl);

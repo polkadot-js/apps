@@ -7,10 +7,10 @@ import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@po
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
 
 import { equilibrium, equilibriumNext } from '@equilab/definitions';
-import BN from 'bn.js';
 import { map } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
+import { BN } from '@polkadot/util';
 
 interface SignedBalance extends Enum {
   readonly isPositive: boolean;
@@ -149,11 +149,11 @@ const definitions: OverrideBundleDefinition = {
 
   types: [
     {
-      minmax: [0, 262],
+      minmax: [0, 263],
       types: equilibrium.types
     },
     {
-      minmax: [263, undefined],
+      minmax: [264, undefined],
       types: equilibriumNext.types
     }
   ]

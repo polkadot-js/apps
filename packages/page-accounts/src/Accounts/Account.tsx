@@ -16,7 +16,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled, { ThemeContext } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -47,7 +47,6 @@ interface Props {
   proxy?: [ProxyDefinition[], BN];
   setBalance: (address: string, value: AccountBalance) => void;
   toggleFavorite: (address: string) => void;
-  isEven: boolean;
 }
 
 interface DemocracyUnlockable {
@@ -100,10 +99,10 @@ const transformRecovery = {
   transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
 };
 
-function Account ({ account: { address, meta }, className = '', delegation, filter, isEven, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const { getLedger } = useLedger();
@@ -114,7 +113,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -269,7 +268,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       )
     ], t('Identity')),
     createMenuGroup('deriveGroup', [
-      !(isExternal || isHardware || isInjected || isMultisig) && (
+      !(isEthereum || isExternal || isHardware || isInjected || isMultisig || api.isEthereum) && (
         <Menu.Item
           icon='download'
           key='deriveAccount'
@@ -337,8 +336,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     ], t('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
-        disabled={!multiInfos || !multiInfos.length}
         icon='file-signature'
+        isDisabled={!multiInfos || !multiInfos.length}
         key='multisigApprovals'
         onClick={toggleMultisig}
       >
@@ -394,7 +393,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ])
   ].filter((i) => i),
-  [_clearDemocracyLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
+  [_clearDemocracyLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;
@@ -402,7 +401,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
         <td className='favorite'>
           <Icon
             color={isFavorite ? 'orange' : 'gray'}
@@ -411,99 +410,111 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         </td>
         <td className='together'>
-          {meta.genesisHash
-            ? <Badge color='transparent' />
-            : isDevelopment
-              ? (
+          <div className='badges'>
+            <div className='info'>
+              {meta.genesisHash
+                ? <Badge color='transparent' />
+                : isDevelopment
+                  ? (
+                    <Badge
+                      className='warning'
+                      hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                      icon='wrench'
+                    />
+                  )
+                  : (
+                    <Badge
+                      className='warning'
+                      hover={
+                        <div>
+                          <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                          <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
+                        </div>
+                      }
+                      icon='exclamation-triangle'
+                    />
+                  )
+              }
+              {recoveryInfo && (
                 <Badge
-                  className='devBadge'
-                  color='orange'
-                  hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
-                  icon='wrench'
-                />
-              )
-              : (
-                <Badge
-                  color='orange'
+                  className='recovery'
                   hover={
                     <div>
-                      <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                      <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                      <p>{t<string>('This account is recoverable, with the following friends:')}</p>
+                      <div>
+                        {recoveryInfo.friends.map((friend, index): React.ReactNode => (
+                          <AddressSmall
+                            key={index}
+                            value={friend}
+                          />
+                        ))}
+                      </div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>{t<string>('threshold')}</td>
+                            <td>{formatNumber(recoveryInfo.threshold)}</td>
+                          </tr>
+                          <tr>
+                            <td>{t<string>('delay')}</td>
+                            <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
+                          </tr>
+                          <tr>
+                            <td>{t<string>('deposit')}</td>
+                            <td>{formatBalance(recoveryInfo.deposit)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   }
-                  icon='exclamation-triangle'
+                  icon='redo'
                 />
-              )
-          }
-          {recoveryInfo && (
-            <Badge
-              color='green'
-              hover={
-                <div>
-                  <p>{t<string>('This account is recoverable, with the following friends:')}</p>
-                  <div>
-                    {recoveryInfo.friends.map((friend, index): React.ReactNode => (
-                      <IdentityIcon
-                        key={index}
-                        value={friend}
-                      />
-                    ))}
-                  </div>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>{t<string>('threshold')}</td>
-                        <td>{formatNumber(recoveryInfo.threshold)}</td>
-                      </tr>
-                      <tr>
-                        <td>{t<string>('delay')}</td>
-                        <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
-                      </tr>
-                      <tr>
-                        <td>{t<string>('deposit')}</td>
-                        <td>{formatBalance(recoveryInfo.deposit)}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              }
-              icon='shield'
-            />
-          )}
-          {multiInfos && multiInfos.length !== 0 && (
-            <Badge
-              color='red'
-              hover={t<string>('Multisig approvals pending')}
-              info={multiInfos.length}
-            />
-          )}
-          {isProxied && !proxyInfo.hasOwned && (
-            <Badge
-              color='red'
-              hover={t<string>('Proxied account has no owned proxies')}
-              info='0'
-            />
-          )}
-          {delegation?.accountDelegated && (
-            <Badge
-              color='blue'
-              hover={t<string>('This account has a governance delegation')}
-              icon='calendar-check'
-              onClick={toggleDelegate}
-            />
-          )}
-          {!!proxy?.[0].length && api.api.tx.utility && (
-            <Badge
-              color='blue'
-              hover={t<string>('This account has {{proxyNumber}} proxy set.', {
-                replace: {
-                  proxyNumber: proxy[0].length
-                }
-              })}
-              icon='arrow-right'
-              onClick={toggleProxyOverview}
-            />
-          )}
+              )}
+              {isProxied && !proxyInfo.hasOwned && (
+                <Badge
+                  className='important'
+                  hover={t<string>('Proxied account has no owned proxies')}
+                  icon='sitemap'
+                  info='0'
+                />
+              )}
+            </div>
+            <div className='action'>
+              {multiInfos && multiInfos.length !== 0 && (
+                <Badge
+                  className='important'
+                  color='purple'
+                  hover={t<string>('Multisig approvals pending')}
+                  hoverAction={t<string>('View pending approvals')}
+                  icon='file-signature'
+                  info={multiInfos.length}
+                  onClick={toggleMultisig}
+                />
+              )}
+              {delegation?.accountDelegated && (
+                <Badge
+                  className='information'
+                  hover={t<string>('This account has a governance delegation')}
+                  hoverAction={t<string>('Manage delegation')}
+                  icon='calendar-check'
+                  onClick={toggleDelegate}
+                />
+              )}
+              {!!proxy?.[0].length && api.api.tx.utility && (
+                <Badge
+                  className='information'
+                  hover={t<string>('This account has {{proxyNumber}} proxy set.', {
+                    replace: {
+                      proxyNumber: proxy[0].length
+                    }
+                  })}
+                  hoverAction={t<string>('Proxy overview')}
+                  icon='sitemap'
+                  onClick={toggleProxyOverview}
+                />
+              )}
+            </div>
+          </div>
         </td>
         <td className='address'>
           <AddressSmall
@@ -666,7 +677,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </div>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'} ${isEven ? 'isEven' : 'isOdd'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
         <td colSpan={2} />
         <td>
           <div
@@ -743,6 +754,44 @@ export default React.memo(styled(Account)`
       .send-button {
         min-width: 6.5rem;
       }
+    }
+  }
+
+  && .ui--AddressInfo .ui--FormatBalance,
+  && .ui--AddressInfo .result {
+    .ui--Icon, .icon-void {
+      margin-left: 0.7rem;
+      margin-right: 0.3rem;
+    }
+
+    .ui--Button.isIcon {
+      margin-left: 0.5rem;
+      padding: 0.15rem 0.2rem 0.05rem;
+      border: 1px solid var(--border-table);
+      border-radius: 4px;
+
+      .ui--Icon {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+
+  .together > .badges {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & > .info + .action {
+      margin-top: 0.5rem;
+
+      &:empty {
+        margin-top: 0;
+      }
+    }
+
+    & > .info:empty + .action {
+      margin-top: 0;
     }
   }
 `);

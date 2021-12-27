@@ -42,7 +42,7 @@ function Button ({ activeOnEnter, children, className = '', dataTestId = '', ico
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      <Icon icon={icon} />
+      {icon && <Icon icon={icon} />}
       {label}
       {children}
       <Spinner

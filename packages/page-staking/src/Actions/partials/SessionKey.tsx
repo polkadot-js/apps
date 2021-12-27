@@ -31,8 +31,7 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withFocu
     try {
       onChange({
         sessionTx: isHex(keys)
-          // this is weird... :(
-          ? api.tx.session.setKeys(keys as any, EMPTY_PROOF)
+          ? api.tx.session.setKeys(keys, EMPTY_PROOF)
           : null
       });
     } catch {

@@ -280,6 +280,34 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--Sort {
+    .ui--Labelled.ui--Dropdown:hover {
+     .ui.selection.dropdown {
+        border-color: ${getHighlight(uiHighlight)};
+
+       .visible.menu {
+         border: 1px solid ${getHighlight(uiHighlight)};
+        }
+      }
+    }
+
+    button:hover {
+      border-color: ${getHighlight(uiHighlight)};
+    }
+
+    button:hover,
+    .ui--Labelled.ui--Dropdown:hover {
+      &::after {
+        background-color:  ${getHighlight(uiHighlight)};
+      }
+    }
+
+    .arrow.isActive {
+      color:  ${getHighlight(uiHighlight)};
+      opacity: 1;
+    }
+  }
+
   .theme--dark,
   .theme--light {
     .ui--Tabs .tabLinkActive .tabLinkText::after{

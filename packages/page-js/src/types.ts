@@ -6,7 +6,7 @@ import type { LabelProps, SemanticShorthandItem } from 'semantic-ui-react';
 export type LogType = 'error' | 'log';
 
 export interface Log {
-  args: any[];
+  args: unknown[];
   type: LogType;
 }
 

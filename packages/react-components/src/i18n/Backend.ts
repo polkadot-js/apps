@@ -10,9 +10,9 @@ type LoadResult = [string | null, Record<string, string> | boolean];
 const loaders: Record<string, Promise<LoadResult>> = {};
 
 export default class Backend {
-  type = 'backend'
+  type = 'backend';
 
-  static type: 'backend' = 'backend'
+  static type: 'backend' = 'backend';
 
   async read (lng: string, _namespace: string, responder: Callback): Promise<void> {
     if (languageCache[lng]) {

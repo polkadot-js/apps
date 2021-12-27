@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 
+import { createNamedHook } from './createNamedHook';
 import { useApiUrl } from './useApiUrl';
 import { useIsMountedRef } from './useIsMountedRef';
 import { useParaEndpoints } from './useParaEndpoints';
@@ -35,7 +36,7 @@ function arrayShuffle (result: string[]): string[] {
   return result;
 }
 
-export function useParaApi (paraId: BN | number): Result {
+function useParaApiImpl (paraId: BN | number): Result {
   const mountedRef = useIsMountedRef();
   const endpoints = useParaEndpoints(paraId);
   const [state, setState] = useState<Result>(() => ({
@@ -63,3 +64,5 @@ export function useParaApi (paraId: BN | number): Result {
 
   return state;
 }
+
+export const useParaApi = createNamedHook('useParaApi', useParaApiImpl);

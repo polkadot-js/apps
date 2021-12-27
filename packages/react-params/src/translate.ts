@@ -5,7 +5,7 @@ import type { UseTranslationResponse } from 'react-i18next';
 
 import { useTranslation as useTranslationBase, withTranslation } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse<'react-params'> {
+export function useTranslation (): UseTranslationResponse<'react-params', undefined> {
   return useTranslationBase('react-params');
 }
 
