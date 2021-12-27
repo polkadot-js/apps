@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update types from chain teams (external dependencies)
+
+
 ## 0.100.1 Dev 27, 2021
 
 Contributed:
