@@ -91,12 +91,8 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
       meta: objectSpread({}, meta, {
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
-<<<<<<< HEAD
-      },
+      }),
       type: type || 'sr25519'
-=======
-      })
->>>>>>> master
     }));
   } catch (error) {
     console.error('web3Accounts', error);
@@ -105,14 +101,8 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
   }
 }
 
-<<<<<<< HEAD
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, isEthereum: boolean): Promise<ChainData> {
-  const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
-    api.rpc.system.properties(),
-=======
-async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
->>>>>>> master
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
@@ -138,13 +128,8 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
-<<<<<<< HEAD
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise, isEthereum);
-=======
-
-  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
->>>>>>> master
   const ss58Format = settings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : settings.prefix;
