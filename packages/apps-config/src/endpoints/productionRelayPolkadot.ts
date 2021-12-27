@@ -102,7 +102,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'clover',
         homepage: 'https://clover.finance',
         paraId: 2002,
-        isUnreachable: true,
         text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
         providers: {
           Clover: 'wss://rpc-para.clover.finance',
@@ -123,6 +122,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'composableFinance',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6721
         homepage: 'https://composable.finance/',
         paraId: 2019,
         text: t('rpc.polkadot.composable', 'Composable Finance', { ns: 'apps-config' }),
@@ -166,6 +166,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
         providers: {
           Equilibrium: 'wss://node.equilibrium.io'
+        }
+      },
+      {
+        info: 'hydra',
+        homepage: 'https://hydradx.io/',
+        paraId: 2034,
+        isUnreachable: true, // waiting for onboarding
+        text: t('rpc.polkadot.hydra', 'HydraDX', { ns: 'apps-config' }),
+        providers: {
+          'Galactic Council': 'wss://rpc-01.hydradx.io'
         }
       },
       {
@@ -226,6 +236,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           Parallel: 'wss://rpc.parallel.fi',
           OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
+        }
+      },
+      {
+        info: 'phala',
+        homepage: 'https://phala.network',
+        isUnreachable: true,
+        paraId: 2035,
+        text: t('rpc.polkadot.phala', 'Phala Network', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://api.phala.network/ws'
         }
       },
       {

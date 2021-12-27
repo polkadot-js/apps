@@ -171,6 +171,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'Galital',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6721
       text: t('rpc.test.galital', 'Galital PC2', { ns: 'apps-config' }),
       providers: {
         StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com'
@@ -239,14 +240,14 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'kilt',
-      text: t('rpc.test.kilt', 'KILT Mashnet', { ns: 'apps-config' }),
+      text: t('rpc.test.kilt.mash', 'KILT Mashnet', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
       }
     },
     {
       info: 'kilt',
-      text: t('rpc.test.kilt', 'KILT Peregrine', { ns: 'apps-config' }),
+      text: t('rpc.test.kilt.pere', 'KILT Peregrine', { ns: 'apps-config' }),
       providers: {
         'KILT Protocol': 'wss://peregrine.kilt.io/'
       }
@@ -366,7 +367,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'pichiu',
-      text: t('westend.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
+      text: t('rpc.test.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
       providers: {
         'Kylin Network': 'wss://westend.kylin-node.co.uk'
       }
@@ -413,6 +414,13 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       text: t('rpc.test.riochain', 'RioChain', { ns: 'apps-config' }),
       providers: {
         'RioChain Staging': 'wss://node.v1.staging.riochain.io'
+      }
+    },
+    {
+      info: 'sherpax',
+      text: t('rpc.test.sherpax', 'Sherpax Testnet', { ns: 'apps-config' }),
+      providers: {
+        Chainx: 'wss://sherpax-testnet.chainx.org'
       }
     },
     {

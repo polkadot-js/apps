@@ -1,6 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import '@polkadot/api-augment';
+
 import type BN from 'bn.js';
 
 import React, { useMemo, useRef } from 'react';

@@ -80,11 +80,11 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
         }
         header={headerRef.current}
       >
-        {info && balances?.map(({ accountId, balance }) => (
+        {info && balances?.map(({ account, accountId }) => (
           <Account
+            account={account}
             accountId={accountId}
             assetId={info.id}
-            balance={balance}
             key={accountId}
             minBalance={info.details.minBalance}
             siFormat={siFormat}
