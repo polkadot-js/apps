@@ -1932,10 +1932,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@interlay/interbtc-types@npm:1.3.0"
-  checksum: 824bf57853c13102d7dd1fbd23b35419f5de360cd3698a792661dd85c0061fb82023eb00923b908d68c8a5e75235129b2f0d08c4cfe6c5d49729e6e60dec8b3d
+"@interlay/interbtc-types@npm:1.5.8":
+  version: 1.5.8
+  resolution: "@interlay/interbtc-types@npm:1.5.8"
+  checksum: 5c3ce31f980e0bd51c3c207355a4acc3086e6ea9bc528ca70c9734f864a27b7e0b7a6ea6c4d43b18e467841e5b94abcf3db14ea5994ed4ab9dfcd09fae1e48b2
   languageName: node
   linkType: hard
 
@@ -2887,7 +2887,7 @@ __metadata:
     "@docknetwork/node-types": 0.6.0
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.6
-    "@interlay/interbtc-types": 1.3.0
+    "@interlay/interbtc-types": 1.5.8
     "@kiltprotocol/type-definitions": 0.1.23
     "@laminar/type-definitions": 0.3.1
     "@metaverse-network-sdk/type-definitions": ^0.0.1-6
