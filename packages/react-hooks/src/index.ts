@@ -22,6 +22,7 @@ export { useCollectiveMembers } from './useCollectiveMembers';
 export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useDelegations } from './useDelegations';
+export { useEndpoint } from './useEndpoint';
 export { useEventTrigger } from './useEventTrigger';
 export { useExtrinsicTrigger } from './useExtrinsicTrigger';
 export { useFavorites } from './useFavorites';

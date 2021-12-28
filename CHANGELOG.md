@@ -4,6 +4,7 @@
 
 Changes:
 
+- Make relay accounts visisble on common-good & system parachains
 - Update types from chain teams (external dependencies)
 
 
