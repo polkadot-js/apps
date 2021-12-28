@@ -12,7 +12,6 @@ import { isNumber } from '@polkadot/util';
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
-import { useEndpoint } from './useEndpoint';
 
 interface Teleport {
   allowTeleport: boolean;
@@ -65,7 +64,6 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
 
 function useTeleportImpl (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
-  const endpoint = useEndpoint(apiUrl);
   const paraId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
   const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
 
@@ -95,22 +93,26 @@ function useTeleportImpl (): Teleport {
   }, [api, isApiReady]);
 
   useEffect((): void => {
-    if (paraId && endpoint && endpoint.genesisHashRelay && endpoint.teleport) {
-      const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
-        endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
-      );
-      const oneWay = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId, teleport }) =>
-        !teleport.includes(isNumber(paraId) ? paraId : -1)
-      ).map(({ paraId }) => paraId || -1);
+    if (paraId) {
+      const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
-      setState({
-        allowTeleport: destinations.length !== 0,
-        destinations,
-        isParaTeleport: true,
-        oneWay
-      });
+      if (endpoint && endpoint.genesisHashRelay) {
+        const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
+          endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
+        );
+        const oneWay = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId, teleport }) =>
+          !teleport.includes(isNumber(paraId) ? paraId : -1)
+        ).map(({ paraId }) => paraId || -1);
+
+        setState({
+          allowTeleport: destinations.length !== 0,
+          destinations,
+          isParaTeleport: true,
+          oneWay
+        });
+      }
     }
-  }, [endpoint, paraId]);
+  }, [apiUrl, paraId]);
 
   return state;
 }
