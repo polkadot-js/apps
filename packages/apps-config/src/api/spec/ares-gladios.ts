@@ -48,13 +48,14 @@ const definitions: OverrideBundleDefinition = {
         },
         FractionLength: 'u32',
         HttpError: {
-          _enum: [
-            'IoErr',
-            'TimeOut',
-            'StatusErr(u16)',
-            'ParseErr'
-          ]
+          _enum: {
+            IoErr: null,
+            TimeOut: null,
+            StatusErr: 'u16' ,
+            ParseErr: null
+          }
         },
+        StatusErr: '(u16)',
         LookupSource: 'MultiAddress',
         RequestInterval: 'u8',
         JsonNumberValue: {
