@@ -49,10 +49,10 @@ const definitions: OverrideBundleDefinition = {
         FractionLength: 'u32',
         HttpError: {
           _enum: {
-            IoErr: null,
-            TimeOut: null,
-            StatusErr: 'u16' ,
-            ParseErr: null
+            IoErr: 'Bytes',
+            TimeOut: 'Bytes',
+            StatusErr: '(Bytes,u16)' ,
+            ParseErr: 'Bytes'
           }
         },
         StatusErr: '(u16)',
