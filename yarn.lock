@@ -2538,7 +2538,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-augment@npm:7.1.2-1":
+"@polkadot/api-augment@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/api-augment@npm:7.1.2-1"
   dependencies:
@@ -2553,7 +2553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-base@npm:7.1.2-1":
+"@polkadot/api-base@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/api-base@npm:7.1.2-1"
   dependencies:
@@ -2582,7 +2582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-derive@npm:7.1.2-1, @polkadot/api-derive@npm:^7.1.2-1":
+"@polkadot/api-derive@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/api-derive@npm:7.1.2-1"
   dependencies:
@@ -3331,7 +3331,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-augment@npm:7.1.2-1":
+"@polkadot/rpc-augment@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/rpc-augment@npm:7.1.2-1"
   dependencies:
@@ -3344,7 +3344,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@npm:7.1.2-1":
+"@polkadot/rpc-core@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/rpc-core@npm:7.1.2-1"
   dependencies:
@@ -3390,7 +3390,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@npm:7.1.2-1":
+"@polkadot/types-augment@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/types-augment@npm:7.1.2-1"
   dependencies:
@@ -3402,7 +3402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-codec@npm:7.1.2-1":
+"@polkadot/types-codec@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/types-codec@npm:7.1.2-1"
   dependencies:
@@ -3412,7 +3412,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-create@npm:7.1.2-1":
+"@polkadot/types-create@npm:^7.1.2-1":
   version: 7.1.2-1
   resolution: "@polkadot/types-create@npm:7.1.2-1"
   dependencies:
