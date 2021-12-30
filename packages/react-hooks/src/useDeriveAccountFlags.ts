@@ -11,7 +11,7 @@ import { useSystemApi } from './useSystemApi';
 function useDeriveAccountFlagsImpl (value?: AccountId | Address | Uint8Array | string | null): DeriveAccountFlags | undefined {
   const api = useSystemApi();
 
-  return useCall<DeriveAccountFlags>(api.derive.accounts.flags, [value]);
+  return useCall<DeriveAccountFlags>(api && api.derive.accounts.flags, [value]);
 }
 
 export const useDeriveAccountFlags = createNamedHook('useDeriveAccountFlags', useDeriveAccountFlagsImpl);
