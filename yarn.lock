@@ -2630,7 +2630,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/phishing": ^0.6.595
+    "@polkadot/phishing": ^0.6.584
     "@polkadot/react-components": ^0.100.2-7
     "@polkadot/test-support": 0.100.2-7
     "@polkadot/vanitygen": ^0.48.9
@@ -3082,41 +3082,41 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-compat-metamask@npm:^0.42.5-4":
-  version: 0.42.5-4
-  resolution: "@polkadot/extension-compat-metamask@npm:0.42.5-4"
+"@polkadot/extension-compat-metamask@npm:^0.42.5-5":
+  version: 0.42.5-5
+  resolution: "@polkadot/extension-compat-metamask@npm:0.42.5-5"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@metamask/detect-provider": ^1.2.0
-    "@polkadot/extension-inject": ^0.42.5-4
+    "@polkadot/extension-inject": ^0.42.5-5
     "@polkadot/types": ^7.1.2-1
     "@polkadot/util": ^8.2.2
     web3: ^1.6.1
   peerDependencies:
     "@polkadot/util": "*"
-  checksum: 6c1c32e37c1afaa2cf9c0552834bbfb4a6534d5329aa38fe3c79e105424c66cda310ff36a8861c85d666f6ea9fd6b706a9b7166830fc2e361d39847f13968977
+  checksum: 1df7f2cf67912b4eeeb4ef3d9ad9cf933d490db9572988811dc4dc5fdac1c5a21e2b6b9b60fb399812ccb35bb922e7b0f23e78e356b2e39ea24688ad1c0ecfba
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.42.5-4":
-  version: 0.42.5-4
-  resolution: "@polkadot/extension-dapp@npm:0.42.5-4"
+"@polkadot/extension-dapp@npm:^0.42.5-5":
+  version: 0.42.5-5
+  resolution: "@polkadot/extension-dapp@npm:0.42.5-5"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/extension-inject": ^0.42.5-4
+    "@polkadot/extension-inject": ^0.42.5-5
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 3a6bfa00e622efe0488b5a3739e667472045eff5200764aad7dcb9410c09c0a542bdc32e2ed6acd29eb5c1ef7054ae274f408e6234bf023b42da4e497077f7b5
+  checksum: 3b9829aaf43eec3c1255bf947d7b66e743a49f013b51f7d9aee8508e6e81975be3ca01c608a2567618f0c1e71596df91a8dfa7956ed63e697634f3a6337e18ee
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:^0.42.5-4":
-  version: 0.42.5-4
-  resolution: "@polkadot/extension-inject@npm:0.42.5-4"
+"@polkadot/extension-inject@npm:^0.42.5-5":
+  version: 0.42.5-5
+  resolution: "@polkadot/extension-inject@npm:0.42.5-5"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/rpc-provider": ^7.1.2-1
@@ -3125,7 +3125,7 @@ __metadata:
     "@polkadot/util-crypto": ^8.2.2
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: ebb965be587956a33fe4befb085ddf6cb73c0779d53bb6cd9bbb92f81e514c5dd41cc8e918d4d2a812460282f5fc243ffb86dd2319ffb81675c58c4f185e5ae9
+  checksum: e152c084eb364f7fb2edf826f8e6d6a3b0bccf177c0cb0b7ede016841aac9d3783a7c90e77ff652840f8771797cdc84315cd54f9542de62443ebff6ed36d80a2
   languageName: node
   linkType: hard
 
@@ -3198,8 +3198,8 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/api": ^7.1.2-1
-    "@polkadot/extension-compat-metamask": ^0.42.5-4
-    "@polkadot/extension-dapp": ^0.42.5-4
+    "@polkadot/extension-compat-metamask": ^0.42.5-5
+    "@polkadot/extension-dapp": ^0.42.5-5
     "@substrate/connect": 0.4.6
     fflate: ^0.7.2
     rxjs: ^7.5.1
@@ -3216,11 +3216,11 @@ __metadata:
     "@fortawesome/react-fontawesome": ^0.1.16
     "@polkadot/keyring": ^8.2.2
     "@polkadot/react-api": ^0.100.2-7
-    "@polkadot/react-identicon": ^0.87.8-1
-    "@polkadot/react-qr": ^0.87.8-1
+    "@polkadot/react-identicon": ^0.87.8-2
+    "@polkadot/react-qr": ^0.87.8-2
     "@polkadot/react-query": ^0.100.2-7
-    "@polkadot/ui-keyring": ^0.87.8-1
-    "@polkadot/ui-settings": ^0.87.8-1
+    "@polkadot/ui-keyring": ^0.87.8-2
+    "@polkadot/ui-settings": ^0.87.8-2
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     "@types/codeflask": ^1.4.3
@@ -3257,14 +3257,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-identicon@npm:^0.87.8-1":
-  version: 0.87.8-1
-  resolution: "@polkadot/react-identicon@npm:0.87.8-1"
+"@polkadot/react-identicon@npm:^0.87.8-2":
+  version: 0.87.8-2
+  resolution: "@polkadot/react-identicon@npm:0.87.8-2"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/keyring": ^8.2.2
-    "@polkadot/ui-settings": 0.87.8-1
-    "@polkadot/ui-shared": 0.87.8-1
+    "@polkadot/ui-settings": 0.87.8-2
+    "@polkadot/ui-shared": 0.87.8-2
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     color: ^3.2.1
@@ -3280,7 +3280,7 @@ __metadata:
     react-dom: "*"
     react-is: "*"
     styled-components: "*"
-  checksum: 416369a83165c269efbb6943937705105b6eb5cb4f689bbf0209342c1cd046850e153f4f8f3a8b71374be44fae20163841924a154072023a687717f1770e0248
+  checksum: b0443d62ae6c67e243b5b951fdd86f7ac52a05462c5c147c10d9d1121f6697c8e0c7f9598fe2c0a6a5725130c2989ea896cd03ca1618f8d039fa9c2b8a2ec850
   languageName: node
   linkType: hard
 
@@ -3293,12 +3293,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-qr@npm:^0.87.8-1":
-  version: 0.87.8-1
-  resolution: "@polkadot/react-qr@npm:0.87.8-1"
+"@polkadot/react-qr@npm:^0.87.8-2":
+  version: 0.87.8-2
+  resolution: "@polkadot/react-qr@npm:0.87.8-2"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/ui-settings": 0.87.8-1
+    "@polkadot/ui-settings": 0.87.8-2
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     qrcode-generator: ^1.4.4
@@ -3310,7 +3310,7 @@ __metadata:
     react: "*"
     react-dom: "*"
     styled-components: "*"
-  checksum: 622c055e41effba4834473c8215372657510f698f4317a260a6fd532733a97b6efe1cd023beba8c91ee95edbb72c05ba9a02b6c2618b27a4e224e13a0a62678b
+  checksum: 9c737667819f92e1977714e8d63d8aec9213cad2da559873d3f7f8e17349a09b31c8297a43091561c1e1a61402fdab92df7d1f7756eaf8d9db78d17e4453b68b
   languageName: node
   linkType: hard
 
@@ -3463,14 +3463,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ui-keyring@npm:^0.87.8-1":
-  version: 0.87.8-1
-  resolution: "@polkadot/ui-keyring@npm:0.87.8-1"
+"@polkadot/ui-keyring@npm:^0.87.8-2":
+  version: 0.87.8-2
+  resolution: "@polkadot/ui-keyring@npm:0.87.8-2"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/hw-ledger": ^8.2.2
     "@polkadot/keyring": ^8.2.2
-    "@polkadot/ui-settings": 0.87.8-1
+    "@polkadot/ui-settings": 0.87.8-2
     "@polkadot/util": ^8.2.2
     "@polkadot/util-crypto": ^8.2.2
     mkdirp: ^1.0.4
@@ -3480,13 +3480,13 @@ __metadata:
     "@polkadot/keyring": "*"
     "@polkadot/ui-settings": "*"
     "@polkadot/util": "*"
-  checksum: ab4e82032c44d9bfce03b72e09dd350e2cf75112f4db159f5cb28081699cc862a3da721a6270f1bf315a6471547c1a49807ad52e3dd04ba5bcb88abd0c033229
+  checksum: 41f93135cbe1f70bfbe739280ae7dcefe7cd096167b64feeb2fc040adb6354bbc60d94dd5567ba647a119826b2d312aab764ace654a544d47c2774e13806d71f
   languageName: node
   linkType: hard
 
-"@polkadot/ui-settings@npm:0.87.8-1, @polkadot/ui-settings@npm:^0.87.8-1":
-  version: 0.87.8-1
-  resolution: "@polkadot/ui-settings@npm:0.87.8-1"
+"@polkadot/ui-settings@npm:0.87.8-2, @polkadot/ui-settings@npm:^0.87.8-2":
+  version: 0.87.8-2
+  resolution: "@polkadot/ui-settings@npm:0.87.8-2"
   dependencies:
     "@babel/runtime": ^7.16.5
     "@polkadot/networks": ^8.2.2
@@ -3496,20 +3496,20 @@ __metadata:
   peerDependencies:
     "@polkadot/networks": "*"
     "@polkadot/util": "*"
-  checksum: 60e6976b4796714b3b72ebc7d1606d79080a514fde8b4c75691009baf454ffe0e5ee1c53fb2416e4f117a0b6470d665db4a486104aeddbab205f75458279842f
+  checksum: 2a4110870998e5c6d23b55ea5ca00b1eba13e81033aa5f27d2dcca01dedd26d36c6ec0a352f4017feccca0545cc064e3c1cef3d7c06c08e11b6ccd29d4597e53
   languageName: node
   linkType: hard
 
-"@polkadot/ui-shared@npm:0.87.8-1":
-  version: 0.87.8-1
-  resolution: "@polkadot/ui-shared@npm:0.87.8-1"
+"@polkadot/ui-shared@npm:0.87.8-2":
+  version: 0.87.8-2
+  resolution: "@polkadot/ui-shared@npm:0.87.8-2"
   dependencies:
     "@babel/runtime": ^7.16.5
     color: ^3.2.1
   peerDependencies:
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 90588a9b84a9a75464abb3b074fdf1e1352d77904996c76a91d31e8576e5f655278ba7a7ddf2b858e1c293b555e974f522be2d9dfbc7c5d92e13891f939475a6
+  checksum: 3fe9658e0c31bdd1e23e42cdb9e6c7e9e4648e3966b84590aa908bfdabf7514f35da454da9041a179af7f14974ec40b9a2f5929d06d5ad862b814669ed209948
   languageName: node
   linkType: hard
 
