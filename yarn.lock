@@ -2630,7 +2630,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.16.5
-    "@polkadot/phishing": ^0.6.584
+    "@polkadot/phishing": ^0.6.595
     "@polkadot/react-components": ^0.100.2-7
     "@polkadot/test-support": 0.100.2-7
     "@polkadot/vanitygen": ^0.48.9
@@ -2906,11 +2906,11 @@ __metadata:
     "@unique-nft/types": 0.2.0
     "@zeitgeistpm/type-defs": 0.3.10
     "@zeroio/type-definitions": 0.0.14
-    i18next: ^21.6.3
+    i18next: ^21.6.4
     lodash: ^4.17.21
     moonbeam-types-bundle: 2.0.2
     pontem-types-bundle: 1.0.15
-    rxjs: ^7.4.0
+    rxjs: ^7.5.1
   languageName: unknown
   linkType: soft
 
@@ -2926,7 +2926,7 @@ __metadata:
     "@types/tmp": ^0.2.3
     babel-loader: ^8.2.3
     copy-webpack-plugin: ^7.0.0
-    electron-log: ^4.4.3
+    electron-log: ^4.4.4
     electron-updater: ^4.6.5
     html-webpack-plugin: ^4.5.2
     react: ^17.0.2
@@ -2986,7 +2986,7 @@ __metadata:
     url-loader: ^4.1.1
     webpack: ^5.65.0
     webpack-cli: ^4.9.1
-    webpack-dev-server: ^4.7.1
+    webpack-dev-server: ^4.7.2
     webpack-merge: ^5.8.0
   languageName: unknown
   linkType: soft
@@ -3202,7 +3202,7 @@ __metadata:
     "@polkadot/extension-dapp": ^0.42.5-4
     "@substrate/connect": 0.4.6
     fflate: ^0.7.2
-    rxjs: ^7.4.0
+    rxjs: ^7.5.1
   languageName: unknown
   linkType: soft
 
@@ -3227,7 +3227,7 @@ __metadata:
     "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^2.9.4
     codeflask: ^1.4.1
-    i18next: ^21.6.3
+    i18next: ^21.6.4
     i18next-browser-languagedetector: ^6.1.2
     owasp-password-strength-test: ^1.3.0
     react: ^17.0.2
@@ -3236,7 +3236,7 @@ __metadata:
     react-copy-to-clipboard: ^5.0.4
     react-dom: ^17.0.2
     react-dropzone: ^11.4.2
-    react-i18next: ^11.15.1
+    react-i18next: ^11.15.2
     react-is: ^17.0.2
     react-markdown: ^5.0.3
     react-router: ^5.2.1
@@ -8979,10 +8979,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-log@npm:^4.4.3":
-  version: 4.4.3
-  resolution: "electron-log@npm:4.4.3"
-  checksum: 87002659df8e54ae53fe30a5885be4d7af4a0336610abad629ce4a7cdb9d2e4b088479b4ed4c8fe46579973a74dfce720d08c81ef6ed9135c73aab7eebd519c3
+"electron-log@npm:^4.4.4":
+  version: 4.4.4
+  resolution: "electron-log@npm:4.4.4"
+  checksum: b32808377214b1382842c5a7c37d6196d03b8ea093a6cd396031654ee7c674b5b61975dab2f50b64bb6204865ae9c9ea14453a7dfeace57e6b0c517f4ba44efa
   languageName: node
   linkType: hard
 
@@ -11753,12 +11753,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:*, i18next@npm:^21.6.3":
-  version: 21.6.3
-  resolution: "i18next@npm:21.6.3"
+"i18next@npm:*, i18next@npm:^21.6.4":
+  version: 21.6.4
+  resolution: "i18next@npm:21.6.4"
   dependencies:
     "@babel/runtime": ^7.12.0
-  checksum: c3de927a3aa64b9c17a5b348b7a9f30fd9c88074a0c92b1eef2a879a71398e32c9cdbf660a689fc6d04ea9d6126cb8efe1f13317172625608b0d09b53b3b35c4
+  checksum: 9f8f627abafe5b890db67f90254fb9d07c75de9914c3563e63333fb4bd5ad8ac97f717e234d5e9dd8a17bd1512d4bc8a398c094300d574cc392c8d84e5e67fe9
   languageName: node
   linkType: hard
 
@@ -16764,9 +16764,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^11.15.1":
-  version: 11.15.1
-  resolution: "react-i18next@npm:11.15.1"
+"react-i18next@npm:^11.15.2":
+  version: 11.15.2
+  resolution: "react-i18next@npm:11.15.2"
   dependencies:
     "@babel/runtime": ^7.14.5
     html-escaper: ^2.0.2
@@ -16774,7 +16774,12 @@ __metadata:
   peerDependencies:
     i18next: ">= 19.0.0"
     react: ">= 16.8.0"
-  checksum: 0cf2e475af95fa0007a026590402dc50cb325b146e5636b5d396b5381c74c9a1c34a37b24486a2d9b3a62b7c728cd3b1e7bc41c7b8a02da6b4cf8cc4a1a0a49f
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 1b8ef84ef4223bb8c92aa91f965a61f84f67d5014f6426439adc55f3f87ed531653a4d5d271a9e1fe8a0faf099f9458fbeeb9df282e45d80ab3bc8187e6b2333
   languageName: node
   linkType: hard
 
@@ -17659,7 +17664,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.4.0, rxjs@npm:^7.5.1":
+"rxjs@npm:^7.5.1":
   version: 7.5.1
   resolution: "rxjs@npm:7.5.1"
   dependencies:
@@ -20611,9 +20616,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "webpack-dev-server@npm:4.7.1"
+"webpack-dev-server@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "webpack-dev-server@npm:4.7.2"
   dependencies:
     "@types/bonjour": ^3.5.9
     "@types/connect-history-api-fallback": ^1.3.5
@@ -20651,7 +20656,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     webpack-dev-server: bin/webpack-dev-server.js
-  checksum: a47bff0f6371e63db19424831ce3804c85f7dc69b4feb3a401958fb5edfe1080d1dd8be80fb6e1960eb66b0d3b0aeeb2c92e1a49b3344c3ab14c902b2e74a5e7
+  checksum: d3dd7d61f25a2ac1ac64d4298396043b1b8b46c009afc12c7af4d7c7724b077baa84d4ea353f1956e3f591ab09cde1d15f18d94e8884c1adaa2e1d816c37f814
   languageName: node
   linkType: hard
 
