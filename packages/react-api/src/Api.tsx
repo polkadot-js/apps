@@ -17,6 +17,7 @@ import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
+import { useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
@@ -178,6 +179,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 }
 
 function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
+  const apiEndpoint = useEndpoint(apiUrl);
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -186,8 +188,8 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiUrl]
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiUrl]
   );
 
   // initial initialization

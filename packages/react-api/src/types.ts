@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
+import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 
 import { ApiPromise } from '@polkadot/api/promise';
@@ -30,6 +31,7 @@ export interface ApiState {
 
 export interface ApiProps extends ApiState {
   api: ApiPromise;
+  apiEndpoint: LinkOption | null;
   apiError: string | null;
   apiUrl?: string;
   extensions?: InjectedExtension[];

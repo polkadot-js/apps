@@ -17,6 +17,8 @@ function sortLinks (a: SortOption, b: SortOption): number {
 }
 
 function expandLinked (input: LinkOption[]): LinkOption[] {
+  const valueRelay = input.map(({ value }) => value);
+
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
     result.push(entry);
 
@@ -25,6 +27,7 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
         expandLinked(entry.linked).map((child): LinkOption => {
           child.genesisHashRelay = entry.genesisHash;
           child.isChild = true;
+          child.valueRelay = valueRelay;
 
           return child;
         })
