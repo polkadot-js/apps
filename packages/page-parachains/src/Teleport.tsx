@@ -11,7 +11,7 @@ import React, { useMemo, useState } from 'react';
 
 import { getTeleportWeight } from '@polkadot/apps-config';
 import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
-import { useApi, useApiUrl, useTeleport, useWeightFee } from '@polkadot/react-hooks';
+import { useApi, useApiUrl, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
@@ -80,7 +80,6 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   );
 
   const destApi = useApiUrl(url);
-  const weightFee = useWeightFee(destWeight, destApi);
 
   const params = useMemo(
     () => {
@@ -111,7 +110,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
     [api, amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
   );
 
-  const hasAvailable = !!amount && amount.gte(weightFee);
+  const hasAvailable = !!amount;
 
   return (
     <Modal
@@ -171,11 +170,6 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           {destApi
             ? (
               <>
-                <InputBalance
-                  defaultValue={weightFee}
-                  isDisabled
-                  label={t<string>('destination transfer fee')}
-                />
                 <InputBalance
                   defaultValue={destApi.consts.balances.existentialDeposit}
                   isDisabled

@@ -23,8 +23,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/polkadot',
-      'Geometry Labs': 'wss://polkadot.geometry.io/websockets',
-      // Dwellir: 'wss://polkadot-rpc.dwellir.com',
+      // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+      Dwellir: 'wss://polkadot-rpc.dwellir.com',
       'light client': 'light://substrate-connect/polkadot'
       // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
