@@ -14,11 +14,11 @@
   "version": "0.100.2-7",
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "@polkadot/api": "^7.1.1",
-    "@polkadot/extension-compat-metamask": "^0.42.3",
-    "@polkadot/extension-dapp": "^0.42.3",
+    "@polkadot/api": "^7.1.2-1",
+    "@polkadot/extension-compat-metamask": "^0.42.5-5",
+    "@polkadot/extension-dapp": "^0.42.5-5",
     "@substrate/connect": "0.4.6",
     "fflate": "^0.7.2",
-    "rxjs": "^7.4.0"
+    "rxjs": "^7.5.1"
   }
 }
