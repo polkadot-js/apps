@@ -22,7 +22,7 @@ export { useCollectiveMembers } from './useCollectiveMembers';
 export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useDelegations } from './useDelegations';
-export { useAccountApi } from './useAccountApi';
+export { useSystemApi } from './useSystemApi';
 export { useDeriveAccountFlags } from './useDeriveAccountFlags';
 export { useDeriveAccountInfo } from './useDeriveAccountInfo';
 export { useEventTrigger } from './useEventTrigger';

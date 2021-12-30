@@ -5,11 +5,11 @@ import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import { createNamedHook } from './createNamedHook';
-import { useAccountApi } from './useAccountApi';
+import { useSystemApi } from './useSystemApi';
 import { useCall } from './useCall';
 
 function useDeriveAccountInfoImpl (value?: AccountId | AccountIndex | Address | Uint8Array | string | null): DeriveAccountInfo | undefined {
-  const api = useAccountApi();
+  const api = useSystemApi();
 
   return useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
 }

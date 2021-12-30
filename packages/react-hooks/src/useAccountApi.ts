@@ -6,8 +6,8 @@ import type { ApiPromise } from '@polkadot/api';
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';
 
-function useAccountApiImpl (): ApiPromise {
+function useSystemApiImpl (): ApiPromise {
   return useApi().api;
 }
 
-export const useAccountApi = createNamedHook('useAccountApi', useAccountApiImpl);
+export const useSystemApi = createNamedHook('useSystemApi', useSystemApiImpl);
