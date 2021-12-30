@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useAccountApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
+import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
 import Badge from './Badge';
@@ -131,7 +131,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
 }
 
 function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
-  const api = useAccountApi();
+  const api = useSystemApi();
   const info = useDeriveAccountInfo(value);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarToggle);

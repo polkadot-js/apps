@@ -7,7 +7,7 @@ import type { AccountId, Address } from '@polkadot/types/interfaces';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useAccountApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
+import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 
 interface Props {
   children?: React.ReactNode;
@@ -24,7 +24,7 @@ function extractIndex ({ accountIndex }: Partial<DeriveAccountInfo> = {}): strin
 }
 
 function AccountIndex ({ children, className = '', defaultValue, label, value }: Props): React.ReactElement<Props> | null {
-  const api = useAccountApi();
+  const api = useSystemApi();
   const info = useDeriveAccountInfo(value);
 
   const accountIndex = useMemo(

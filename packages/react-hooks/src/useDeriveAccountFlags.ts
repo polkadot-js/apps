@@ -5,8 +5,8 @@ import type { DeriveAccountFlags } from '@polkadot/api-derive/types';
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import { createNamedHook } from './createNamedHook';
-import { useSystemApi } from './useSystemApi';
 import { useCall } from './useCall';
+import { useSystemApi } from './useSystemApi';
 
 function useDeriveAccountFlagsImpl (value?: AccountId | Address | Uint8Array | string | null): DeriveAccountFlags | undefined {
   const api = useSystemApi();
