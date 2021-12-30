@@ -124,7 +124,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, apiEndpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
@@ -167,7 +167,6 @@ async function loadOnReady (api: ApiPromise, apiEndpoint: LinkOption | null, inj
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
-    apiEndpoint,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment: isEthereum ? false : isDevelopment,
@@ -222,7 +221,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
         .then(setExtensions)
         .catch(console.error);
 
-      loadOnReady(api, apiEndpoint, injectedPromise, store, types)
+      loadOnReady(api, injectedPromise, store, types)
         .then(setState)
         .catch((error): void => {
           console.error(error);
@@ -232,7 +231,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     });
 
     setIsApiInitialized(true);
-  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
+  }, [apiUrl, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;
