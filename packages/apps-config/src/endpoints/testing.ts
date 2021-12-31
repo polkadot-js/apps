@@ -316,10 +316,10 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
-      info: 'oak-testnet',
-      text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
+      info: 'neumann',
+      text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
       providers: {
-        'OAK Network': 'wss://rpc.testnet.oak.tech'
+        'OAK Network': 'wss://node-6874600165100077056.jm.onfinality.io/ws?apikey=00e65cb5-0bcc-4dac-9a6d-08e6e111e186'
       }
     },
     {

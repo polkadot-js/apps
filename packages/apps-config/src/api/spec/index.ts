@@ -70,9 +70,9 @@ import mathchain from './mathchain';
 import moonbeam from './moonbeam';
 import mybank from './mybank';
 import neatcoin from './neatcoin';
+import neumann from './neumann';
 import nftmart from './nftmart';
 import nodle from './nodle';
-import oakTestnet from './oak-testnet';
 import opal from './opal';
 import opportunity from './opportunity';
 import origintrail from './origintrail';
@@ -209,12 +209,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   'mybank.network Testnet': mybank,
   neatcoin,
+  neumann,
   nft: unique,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
-  'oak-testnet': oakTestnet,
   opal: opal,
   opportunity,
   'origintrail-parachain': origintrail,
