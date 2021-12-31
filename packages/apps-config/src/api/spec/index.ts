@@ -25,6 +25,7 @@ import chainx from './chainx';
 import clover from './clover';
 import cloverRococo from './clover-rococo';
 import coinversation from './coinversation';
+import competitorsClub from './competitors-club';
 import crab from './crab';
 import crownSterlingChain from './crown-sterling';
 import crust from './crust';
@@ -152,6 +153,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   clover,
   'clover-rococo': cloverRococo,
   coinversation,
+  'competitors-club': competitorsClub,
   contextfree: automata,
   'crown-sterling': crownSterlingChain,
   crust,

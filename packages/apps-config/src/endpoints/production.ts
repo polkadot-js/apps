@@ -58,6 +58,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'competitors-club',
+      text: t('rpc.prod.competitors-club', 'Competitors Club', { ns: 'apps-config' }),
+      providers: {
+        'Competitors Club': 'wss://node0.competitors.club/wss'
+      }
+    },
+    {
       info: 'crown-sterling',
       text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
       providers: {
