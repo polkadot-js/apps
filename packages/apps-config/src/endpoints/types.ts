@@ -37,4 +37,5 @@ export interface LinkOption extends Option {
   teleport?: number[];
   textBy: string;
   value: string;
+  valueRelay?: string[];
 }

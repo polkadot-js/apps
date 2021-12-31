@@ -23,8 +23,8 @@ export function createPolkadot (t: TFunction): EndpointOption {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
       'Patract Elara': 'wss://pub.elara.patract.io/polkadot',
-      'Geometry Labs': 'wss://polkadot.geometry.io/websockets',
-      // Dwellir: 'wss://polkadot-rpc.dwellir.com',
+      // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+      Dwellir: 'wss://polkadot-rpc.dwellir.com',
       'light client': 'light://substrate-connect/polkadot'
       // Pinknode: 'wss://rpc.pinknode.io/polkadot/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -102,7 +102,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
         info: 'clover',
         homepage: 'https://clover.finance',
         paraId: 2002,
-        isUnreachable: true,
         text: t('rpc.polkadot.clover-para', 'Clover', { ns: 'apps-config' }),
         providers: {
           Clover: 'wss://rpc-para.clover.finance',
@@ -170,6 +169,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'hydra',
+        homepage: 'https://hydradx.io/',
+        paraId: 2034,
+        isUnreachable: true, // waiting for onboarding
+        text: t('rpc.polkadot.hydra', 'HydraDX', { ns: 'apps-config' }),
+        providers: {
+          'Galactic Council': 'wss://rpc-01.hydradx.io'
+        }
+      },
+      {
         info: 'interlay',
         homepage: 'https://interlay.io/',
         paraId: 2032,
@@ -227,6 +236,16 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           Parallel: 'wss://rpc.parallel.fi',
           OnFinality: 'wss://parallel.api.onfinality.io/public-ws'
+        }
+      },
+      {
+        info: 'phala',
+        homepage: 'https://phala.network',
+        isUnreachable: true,
+        paraId: 2035,
+        text: t('rpc.polkadot.phala', 'Phala Network', { ns: 'apps-config' }),
+        providers: {
+          Phala: 'wss://api.phala.network/ws'
         }
       },
       {

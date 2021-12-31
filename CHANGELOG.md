@@ -1,12 +1,39 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Update types from chain teams (external dependencies)
+
+
+## 0.100.1 Dev 27, 2021
+
+Contributed:
+
+- Support for contracts storage deposit (Thanks to https://github.com/statictype)
+- Remove Rococo Tick, Trick & Track (Thanks to https://github.com/BulatSaif)
+- Add HydraX Polkadot parachain (Thanks to https://github.com/lumir-mrkva)
+- Add Phala Polkadot parachain (Thanks to https://github.com/jasl)
+- Update Clover endpoints (Thanks to https://github.com/jamesbayly)
+- Add Sherpax testnet node (Thanks to https://github.com/wbh1328551759)
+- Update Opportunity/Standard types (Thanks to https://github.com/firke)
+- Staking tooltip grammar fix (Thanks to https://github.com/tarrball)
+- Support new Moonbeam author extraction (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Disable unreachable endpoints
+- Bump to latest `@polkadot/api`
+
+
 ## 0.99.1 Dec 21, 2021
 
 Contributed:
 
 - Adjust Parity Statemine endpoints (Thanks to https://github.com/PierreBesson)
 - Add Parity Statemint endpoints (Thanks to https://github.com/PierreBesson)
-- Enable Teleport on Rococo (Thganks to https://github.com/PierreBesson)
+- Enable Teleport on Rococo (Thanks to https://github.com/PierreBesson)
 - Adjust Rococo Tick endpoint (Thanks to https://github.com/BulatSaif)
 - Adjust teleport weights (Thanks to https://github.com/apopiak)
 - Styling fix for asset balance input (Thanks to https://github.com/goldsteinsveta)
