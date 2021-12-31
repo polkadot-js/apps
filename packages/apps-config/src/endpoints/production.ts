@@ -271,6 +271,21 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'subsocial',
+      text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
+      providers: {
+        DappForce: 'wss://rpc.subsocial.network',
+        OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
+      }
+    },
+    {
+      info: 'sherpax',
+      text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://sherpax-mainnet.chainx.org'
+      }
+    },
+    {
       info: 'uniarts',
       text: t('rpc.prod.uniarts', 'UniArts', { ns: 'apps-config' }),
       providers: {
