@@ -367,6 +367,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'pichiu',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.test.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
       providers: {
         'Kylin Network': 'wss://westend.kylin-node.co.uk'

@@ -73,6 +73,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'crust',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://rpc.crust.network'
@@ -110,6 +111,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'efinity',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
       providers: {
         Efinity: 'wss://rpc.efinity.io'
@@ -228,6 +230,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'robonomics',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
       providers: {
         Airalab: 'wss://kusama.rpc.robonomics.network/'

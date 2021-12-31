@@ -161,6 +161,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       },
       {
         info: 'equilibrium',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         homepage: 'https://equilibrium.io/',
         paraId: 2011,
         text: t('rpc.polkadot.equilibrium', 'Equilibrium', { ns: 'apps-config' }),
@@ -261,6 +262,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
       {
         info: 'subgame',
         homepage: 'http://subgame.org/',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         paraId: 2017,
         text: t('rpc.polkadot.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
         providers: {

@@ -60,10 +60,10 @@ describe('urls are sorted', (): void => {
 describe('urls are not duplicated', (): void => {
   let hasDevelopment = false;
   let lastHeader = '';
-  const filtered = allEndpoints.filter(({ isHeader, text }): boolean => {
+  const filtered = allEndpoints.filter(({ isDisabled, isHeader, isUnreachable, text }): boolean => {
     hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
 
-    return !hasDevelopment;
+    return !hasDevelopment && !isDisabled && !isUnreachable;
   });
   const map: Record<string, string[]> = {};
 
