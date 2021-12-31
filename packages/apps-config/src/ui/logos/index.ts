@@ -284,6 +284,7 @@ export const chainLogos = Object.entries({
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
   Sherpax: nodeChainx,
+  'Sherpax Testnet': nodeChainx,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SORA: nodeSora,

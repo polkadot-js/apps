@@ -234,6 +234,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'sherpax',
+      text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://sherpax-mainnet.chainx.org'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
