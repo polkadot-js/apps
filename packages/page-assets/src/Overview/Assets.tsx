@@ -21,9 +21,9 @@ function Assets ({ className, infos }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('assets'), 'start', 2],
     [t('owner'), 'address media--1000'],
-    [t('admin'), 'address media--1200'],
-    [t('issuer'), 'address media--1400'],
-    [t('freezer'), 'address media--1700'],
+    [t('admin'), 'address media--1300'],
+    [t('issuer'), 'address media--1600'],
+    [t('freezer'), 'address media--1900'],
     [t('supply')],
     []
   ]);
