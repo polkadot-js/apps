@@ -101,6 +101,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'crab',
+        homepage: 'https://crab.network',
+        paraId: 2006,
+        text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+        providers: {
+          Crab: 'wss://crab-rpc.darwinia.network/'
+        }
+      },
+      {
         info: 'shadow',
         homepage: 'https://crust.network/',
         paraId: 2012,
