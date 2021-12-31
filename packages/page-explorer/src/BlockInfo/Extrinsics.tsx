@@ -34,7 +34,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
   return (
     <Table
       className={className}
-      empty={t<string>('No pending extrinsics are in the queue')}
+      empty={t<string>('No extrinsics available')}
       header={header}
       isFixed
     >

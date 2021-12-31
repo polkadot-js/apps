@@ -4,17 +4,27 @@
 import type { TypeDef } from '@polkadot/types/types';
 import type { Props } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
+import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 import Param from './index';
 
-function Option ({ className = '', defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
+function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, name, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isActive, setIsActive] = useState(withOptionActive || false);
+
+  const defaultValue = useMemo(
+    () => isDisabled
+      ? _defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome
+        ? { isValid: _defaultValue.isValid, value: _defaultValue.value.unwrap() }
+        : { isValid: _defaultValue.isValid, value: undefined }
+      : _defaultValue,
+    [_defaultValue, isDisabled]
+  );
 
   useEffect((): void => {
     !isActive && onChange && onChange({
@@ -49,6 +59,6 @@ function Option ({ className = '', defaultValue, isDisabled, name, onChange, onE
   );
 }
 
-export default React.memo(styled(Option)`
+export default React.memo(styled(OptionDisplay)`
   position: relative;
 `);

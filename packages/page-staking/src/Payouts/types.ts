@@ -14,6 +14,7 @@ export interface PayoutValidator {
   available: BN;
   eras: PayoutEraValidator[];
   validatorId: string;
+  total: BN;
 }
 
 export interface PayoutStash {

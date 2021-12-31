@@ -69,7 +69,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
 
       queryLedger(api, getLedger, name, accIndex, addIndex)
         .then(() => onClose())
-        .catch((error): void => {
+        .catch((error: Error): void => {
           console.error(error);
 
           setIsBusy(false);
@@ -83,6 +83,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
     <Modal
       className={className}
       header={t<string>('Add account via Ledger')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -120,7 +121,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isBusy={isBusy}

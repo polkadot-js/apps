@@ -38,6 +38,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   return (
     <Modal
       header={t<string>('Bonding Preferences')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -77,7 +78,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           icon='sign-in-alt'

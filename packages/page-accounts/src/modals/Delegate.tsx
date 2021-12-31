@@ -48,15 +48,18 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         ? t<string>('democracy vote delegation')
         : t<string>('delegate democracy vote')
       }
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
-            <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
+              <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
+            </>
+          }
+        >
           <InputAddress
             label={t<string>('delegating account')}
             onChange={setDelegatingAccount}
@@ -100,7 +103,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {previousDelegatedAccount && (
           <TxButton
             accountId={delegatingAccount}

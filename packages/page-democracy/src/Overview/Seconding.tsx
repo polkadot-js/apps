@@ -36,6 +36,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
       {isSecondingOpen && (
         <Modal
           header={t<string>('Second proposal')}
+          onClose={toggleSeconding}
           size='large'
         >
           <Modal.Content>
@@ -62,7 +63,7 @@ function Seconding ({ deposit, depositors, image, proposalId }: Props): React.Re
               />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleSeconding}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='sign-in-alt'

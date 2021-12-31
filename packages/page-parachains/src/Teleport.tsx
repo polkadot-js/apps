@@ -2,15 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Option } from '@polkadot/apps-config/settings/types';
+import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 import React, { useMemo, useState } from 'react';
 
-import { ChainImg, Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useTeleport } from '@polkadot/react-hooks';
+import { getTeleportWeight } from '@polkadot/apps-config';
+import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
+import { useApi, useApiUrl, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -18,10 +21,11 @@ interface Props {
   onClose: () => void;
 }
 
-const DEFAULT_WEIGHT = 30_000_000; // 30_000_000 as per the code
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
+const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
+const XCM_FNS = ['limitedTeleportAssets', 'teleportAssets'];
 
-function createOption ({ info, paraId, text }: LinkOption, index: number): Option {
+function createOption ({ info, paraId, text }: LinkOption): Option {
   return {
     text: (
       <div
@@ -35,7 +39,7 @@ function createOption ({ info, paraId, text }: LinkOption, index: number): Optio
         <div className='ui--Dropdown-name'>{text}</div>
       </div>
     ),
-    value: paraId || index
+    value: paraId || -1
   };
 }
 
@@ -43,41 +47,75 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
-  const [hasAvailable] = useState(true);
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
-  const { allowTeleport, destinations, isParachain } = useTeleport();
+  const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
+
+  const [destWeight, call] = useMemo(
+    (): [number, SubmittableExtrinsicFunction<'promise'>] => {
+      const m = XCM_LOC.filter((x) => api.tx[x] && XCM_FNS.some((f) => isFunction(api.tx[x][f])))[0];
+      const f = XCM_FNS.filter((f) => isFunction(api.tx[m][f]))[0];
+
+      return [
+        getTeleportWeight(api),
+        api.tx[m][f]
+      ];
+    },
+    [api]
+  );
 
   const chainOpts = useMemo(
     () => destinations.map(createOption),
     [destinations]
   );
 
-  const params = useMemo(
-    () => isParachain
-      ? [
-        { X1: 'Parent' },
-        { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-        [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }],
-        DEFAULT_WEIGHT
-      ]
-      : [
-        { X1: { ParaChain: recipientParaId } },
-        { X1: { AccountId32: { id: recipientId, network: 'Any' } } },
-        [{ ConcreteFungible: { amount, id: 'Null' } }],
-        DEFAULT_WEIGHT
-      ],
-    [amount, isParachain, recipientId, recipientParaId]
+  const url = useMemo(
+    () => destinations.find(({ paraId }, index) =>
+      recipientParaId === -1
+        ? index === 0
+        : recipientParaId === paraId
+    )?.value as string,
+    [destinations, recipientParaId]
   );
 
-  if (!allowTeleport || !chainOpts.length) {
-    return null;
-  }
+  const destApi = useApiUrl(url);
+
+  const params = useMemo(
+    () => {
+      // From Polkadot runtime 9110 (no destination weight)
+      // Get first item, it should have V0, V1, ...
+      const firstType = api.createType<XcmVersionedMultiLocation>(call.meta.args[0].type.toString());
+      const isCurrent = firstType.defKeys.includes('V1');
+
+      const dst = isParaTeleport
+        ? { X1: 'Parent' }
+        : { X1: { ParaChain: recipientParaId } };
+      const acc = { X1: { AccountId32: { id: api.createType('AccountId32', recipientId).toHex(), network: 'Any' } } };
+      const ass = isParaTeleport
+        ? [{ ConcreteFungible: { amount, id: { X1: 'Parent' } } }]
+        // forgo id - 'Here' for 9100, 'Null' for 9110 (both is the default enum value)
+        : [{ ConcreteFungible: { amount } }];
+
+      return isCurrent
+        ? call.meta.args.length === 5
+          // with weight
+          ? call.method === 'limitedTeleportAssets'
+            ? [{ V0: dst }, { V0: acc }, { V0: ass }, 0, { Unlimited: null }]
+            : [{ V0: dst }, { V0: acc }, { V0: ass }, 0, destWeight]
+          // without weight
+          : [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
+        : [dst, acc, ass, destWeight];
+    },
+    [api, amount, call, destWeight, isParaTeleport, recipientId, recipientParaId]
+  );
+
+  const hasAvailable = !!amount;
 
   return (
     <Modal
       header={t<string>('Teleport assets')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -94,14 +132,19 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
-          <Dropdown
-            defaultValue={chainOpts[0]?.value}
-            label={t<string>('destination chain')}
-            onChange={setParaId}
-            options={chainOpts}
-          />
-        </Modal.Columns>
+        {chainOpts.length !== 0 && (
+          <Modal.Columns hint={t<string>('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
+            <Dropdown
+              defaultValue={chainOpts[0].value}
+              label={t<string>('destination chain')}
+              onChange={setParaId}
+              options={chainOpts}
+            />
+            {!isParaTeleport && oneWay.includes(recipientParaId) && (
+              <MarkWarning content={t<string>('Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.')} />
+            )}
+          </Modal.Columns>
+        )}
         <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
           <InputAddress
             label={t<string>('send to address')}
@@ -109,7 +152,14 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             type='allPlus'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}</p>
+              <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee.')}</p>
+            </>
+          }
+        >
           <InputBalance
             autoFocus
             isError={!hasAvailable}
@@ -117,21 +167,34 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
+          {destApi
+            ? (
+              <>
+                <InputBalance
+                  defaultValue={destApi.consts.balances.existentialDeposit}
+                  isDisabled
+                  label={t<string>('destination existential deposit')}
+                />
+              </>
+            )
+            : (
+              <Spinner
+                label={t<string>('Retrieving destination chain fees')}
+                variant='appPadded'
+              />
+            )
+          }
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={senderId}
           icon='share-square'
-          isDisabled={!hasAvailable || !recipientId || !amount || (!isParachain && recipientParaId === INVALID_PARAID)}
+          isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || !destApi || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
           label={t<string>('Teleport')}
           onStart={onClose}
           params={params}
-          tx={
-            (api.tx.xcm && api.tx.xcm.teleportAssets) ||
-            (api.tx.xcmPallet && api.tx.xcmPallet.teleportAssets) ||
-            (api.tx.polkadotXcm && api.tx.polkadotXcm.teleportAssets)
-          }
+          tx={call}
         />
       </Modal.Actions>
     </Modal>

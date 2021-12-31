@@ -35,12 +35,13 @@ function NewStash (): React.ReactElement {
       {isVisible && (
         <Modal
           header={t<string>('Bonding Preferences')}
+          onClose={_toggle}
           size='large'
         >
           <Modal.Content>
             <BondPartial onChange={setBondInfo} />
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <TxButton
               accountId={stashId}
               extrinsic={bondTx}

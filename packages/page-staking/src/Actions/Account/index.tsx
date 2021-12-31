@@ -23,11 +23,13 @@ import InjectKeys from './InjectKeys';
 import KickNominees from './KickNominees';
 import ListNominees from './ListNominees';
 import Nominate from './Nominate';
+import Rebond from './Rebond';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
+import WarnBond from './WarnBond';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
@@ -75,10 +77,10 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isInjectOpen, toggleInject] = useToggle();
   const [isKickOpen, toggleKick] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
+  const [isRebondOpen, toggleRebond] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
   const [isSetControllerOpen, toggleSetController] = useToggle();
   const [isSetSessionOpen, toggleSetSession] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
@@ -148,6 +150,14 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
             targets={targets}
           />
         )}
+        {isRebondOpen && (
+          <Rebond
+            controllerId={controllerId}
+            onClose={toggleRebond}
+            stakingInfo={stakingAccount}
+            stashId={stashId}
+          />
+        )}
         {isSetControllerOpen && controllerId && (
           <SetControllerAccount
             defaultControllerId={controllerId}
@@ -209,15 +219,25 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               withHexSessionId={hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
             />
+            <WarnBond
+              minBond={targets.minValidatorBond}
+              stakingInfo={stakingAccount}
+            />
           </td>
         )
         : (
           <td className='all expand left'>
             {isStashNominating && (
-              <ListNominees
-                nominating={nominating}
-                stashId={stashId}
-              />
+              <>
+                <ListNominees
+                  nominating={nominating}
+                  stashId={stashId}
+                />
+                <WarnBond
+                  minBond={targets.minNominatorBond}
+                  stakingInfo={stakingAccount}
+                />
+              </>
             )}
           </td>
         )
@@ -269,95 +289,90 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               )
             }
             <Popup
-              isOpen={isSettingsOpen}
+              isDisabled={isDisabled}
               key='settings'
-              onClose={toggleSettings}
-              trigger={
-                <Button
-                  icon='ellipsis-v'
-                  isDisabled={isDisabled}
-                  onClick={toggleSettings}
-                />
-              }
-            >
-              <Menu
-                onClick={toggleSettings}
-                text
-                vertical
-              >
-                <Menu.Item
-                  disabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
-                  onClick={toggleBondExtra}
-                >
-                  {t<string>('Bond more funds')}
-                </Menu.Item>
-                <Menu.Item
-                  disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
-                  onClick={toggleUnbond}
-                >
-                  {t<string>('Unbond funds')}
-                </Menu.Item>
-                <Menu.Item
-                  disabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
-                  onClick={withdrawFunds}
-                >
-                  {t<string>('Withdraw unbonded funds')}
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  disabled={!isOwnStash}
-                  onClick={toggleSetController}
-                >
-                  {t<string>('Change controller account')}
-                </Menu.Item>
-                <Menu.Item
-                  disabled={!isOwnController}
-                  onClick={toggleRewardDestination}
-                >
-                  {t<string>('Change reward destination')}
-                </Menu.Item>
-                {isStashValidating && (
-                  <>
-                    <Menu.Item
-                      disabled={!isOwnController}
-                      onClick={toggleValidate}
-                    >
-                      {t<string>('Change validator preferences')}
-                    </Menu.Item>
-                    {isFunction(api.tx.staking.kick) && (
+              value={
+                <Menu>
+                  <Menu.Item
+                    isDisabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
+                    onClick={toggleBondExtra}
+                  >
+                    {t<string>('Bond more funds')}
+                  </Menu.Item>
+                  <Menu.Item
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
+                    onClick={toggleUnbond}
+                  >
+                    {t<string>('Unbond funds')}
+                  </Menu.Item>
+                  <Menu.Item
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
+                    onClick={toggleRebond}
+                  >
+                    {t<string>('Rebond funds')}
+                  </Menu.Item>
+                  <Menu.Item
+                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
+                    onClick={withdrawFunds}
+                  >
+                    {t<string>('Withdraw unbonded funds')}
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item
+                    isDisabled={!isOwnStash}
+                    onClick={toggleSetController}
+                  >
+                    {t<string>('Change controller account')}
+                  </Menu.Item>
+                  <Menu.Item
+                    isDisabled={!isOwnController}
+                    onClick={toggleRewardDestination}
+                  >
+                    {t<string>('Change reward destination')}
+                  </Menu.Item>
+                  {isStashValidating && (
+                    <>
                       <Menu.Item
-                        disabled={!isOwnController}
-                        onClick={toggleKick}
+                        isDisabled={!isOwnController}
+                        onClick={toggleValidate}
                       >
-                        {t<string>('Remove nominees')}
+                        {t<string>('Change validator preferences')}
                       </Menu.Item>
-                    )}
-                  </>
-                )}
-                <Menu.Divider />
-                {!isStashNominating &&
-                  <Menu.Item
-                    disabled={!isOwnController}
-                    onClick={toggleSetSession}
-                  >
-                    {t<string>('Change session keys')}
-                  </Menu.Item>
-                }
-                {isStashNominating &&
-                  <Menu.Item
-                    disabled={!isOwnController || !targets.validators?.length}
-                    onClick={toggleNominate}
-                  >
-                    {t<string>('Set nominees')}
-                  </Menu.Item>
-                }
-                {!isStashNominating &&
-                  <Menu.Item onClick={toggleInject}>
-                    {t<string>('Inject session keys (advanced)')}
-                  </Menu.Item>
-                }
-              </Menu>
-            </Popup>
+                      {isFunction(api.tx.staking.kick) && (
+                        <Menu.Item
+                          isDisabled={!isOwnController}
+                          onClick={toggleKick}
+                        >
+                          {t<string>('Remove nominees')}
+                        </Menu.Item>
+                      )}
+                    </>
+                  )}
+                  <Menu.Divider />
+                  {!isStashNominating && (
+                    <Menu.Item
+                      isDisabled={!isOwnController}
+                      onClick={toggleSetSession}
+                    >
+                      {t<string>('Change session keys')}
+                    </Menu.Item>
+                  )}
+                  {isStashNominating && (
+                    <Menu.Item
+                      isDisabled={!isOwnController || !targets.validators?.length}
+                      onClick={toggleNominate}
+                    >
+                      {t<string>('Set nominees')}
+                    </Menu.Item>
+                  )}
+                  {!isStashNominating && (
+                    <Menu.Item onClick={toggleInject}>
+                      {t<string>('Inject session keys (advanced)')}
+                    </Menu.Item>
+                  )}
+                </Menu>
+              }
+            />
           </>
         )}
       </td>

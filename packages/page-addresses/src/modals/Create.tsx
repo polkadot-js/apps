@@ -114,7 +114,10 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   );
 
   return (
-    <Modal header={t<string>('Add an address')}>
+    <Modal
+      header={t<string>('Add an address')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -147,7 +150,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           />
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

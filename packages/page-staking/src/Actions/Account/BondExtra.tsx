@@ -55,8 +55,8 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
 
   return (
     <Modal
-      className='staking--BondExtra'
       header= {t<string>('Bond more funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -93,7 +93,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
           </Modal.Columns>
         )}
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'

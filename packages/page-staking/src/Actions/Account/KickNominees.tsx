@@ -54,6 +54,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
     <Modal
       className={className}
       header={t<string>('Remove nominees')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -76,7 +77,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
           : <Spinner label={t<string>('Retrieving active nominators')} />
         }
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           extrinsic={kickTx}

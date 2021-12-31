@@ -19,6 +19,7 @@ interface Props {
   avgStaked?: BN;
   lowStaked?: BN;
   minNominated?: BN;
+  minNominatorBond?: BN;
   numNominators?: number;
   numValidators?: number;
   stakedReturn: number;
@@ -34,7 +35,7 @@ const transformEra = {
   transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gt(BN_ZERO) ? activeEra.sub(BN_ONE) : undefined
 };
 
-function Summary ({ avgStaked, lowStaked, minNominated, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const lastEra = useCall<BN | undefined>(api.derive.session.indexes, undefined, transformEra);
@@ -107,12 +108,25 @@ function Summary ({ avgStaked, lowStaked, minNominated, stakedReturn, totalIssua
         {minNominated?.gt(BN_ZERO) && (
           <CardSummary
             className='media--1600'
-            label={t<string>('min nominated')}
+            label={
+              minNominatorBond
+                ? t<string>('min nominated / threshold')
+                : t<string>('min nominated')}
           >
             <FormatBalance
               value={minNominated}
+              withCurrency={!minNominatorBond}
               withSi
             />
+            {minNominatorBond && (
+              <>
+                &nbsp;/&nbsp;
+                <FormatBalance
+                  value={minNominatorBond}
+                  withSi
+                />
+              </>
+            )}
           </CardSummary>
         )}
       </section>

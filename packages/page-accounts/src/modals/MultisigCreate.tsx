@@ -84,15 +84,18 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
     <Modal
       className={className}
       header={t<string>('Add multisig')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={
-          <>
-            <p>{t<string>('The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.')}</p>
-            <p>{t<string>('Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.')}</p>
-          </>
-        }>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t<string>('The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.')}</p>
+              <p>{t<string>('Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.')}</p>
+            </>
+          }
+        >
           <InputAddressMulti
             available={availableSignatories}
             availableLabel={t<string>('available signatories')}
@@ -124,7 +127,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='plus'
           isDisabled={!isValid}

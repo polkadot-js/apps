@@ -58,6 +58,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
     <Modal
       className='app--accounts-Modal'
       header={t<string>('Backup account')}
+      onClose={onClose}
     >
       <Modal.Content>
         <AddressRow
@@ -80,7 +81,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           </div>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='download'
           isBusy={isBusy}

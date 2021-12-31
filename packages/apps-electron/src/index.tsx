@@ -24,6 +24,9 @@ if (!rootElement) {
 const store = new RemoteElectronStore(electronMainApi.accountStore);
 
 ReactDOM.render(
-  <Root store={store} />,
+  <Root
+    isElectron
+    store={store}
+  />,
   rootElement
 );

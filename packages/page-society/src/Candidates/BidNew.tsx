@@ -23,6 +23,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
   return (
     <Modal
       header= {t<string>('Bid to join')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -43,7 +44,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='sign-in-alt'

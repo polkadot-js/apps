@@ -9,12 +9,7 @@ import { execute } from '@polkadot/test-support/transaction';
 
 import { waitForBountyState, waitForClaim } from './bountyWaitFunctions';
 import { FUNDING_TIME, PAYOUT_TIME } from './constants';
-import { extractHashesFromProposals,
-  extractIndexesFromProposals,
-  fillTreasury,
-  multiAcceptMotion,
-  multiGetMotion,
-  multiProposeMotion } from './helpers';
+import { extractHashesFromProposals, extractIndexesFromProposals, fillTreasury, multiAcceptMotion, multiGetMotion, multiProposeMotion } from './helpers';
 
 export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number, signer: KeyringPair): Promise<number[]> {
   const initialIndex = await api.query.bounties.bountyCount();

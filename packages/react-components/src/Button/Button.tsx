@@ -3,28 +3,46 @@
 
 import type { ButtonProps } from './types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
-function Button ({ children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
     [isBusy, isDisabled, onClick]
   );
 
+  const listenKeyboard = useCallback((event: KeyboardEvent) => {
+    if (!isBusy && !isDisabled && event.key === 'Enter') {
+      onClick && onClick();
+    }
+  }, [isBusy, isDisabled, onClick]);
+
+  useEffect(() => {
+    if (activeOnEnter) {
+      window.addEventListener('keydown', listenKeyboard, true);
+    }
+
+    return () => {
+      if (activeOnEnter) {
+        window.removeEventListener('keydown', listenKeyboard, true);
+      }
+    };
+  }, [activeOnEnter, listenKeyboard]);
+
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${!onClick ? ' isReadOnly' : ''}${isSelected ? ' isSelected' : ''}${isToplevel ? ' isToplevel' : ''}${withoutLink ? ' withoutLink' : ''} ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${isReadOnly ? ' isReadOnly' : ''}${isSelected ? ' isSelected' : ''}${isToplevel ? ' isToplevel' : ''}${withoutLink ? ' withoutLink' : ''} ${className}`}
       data-testid={dataTestId}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      <Icon icon={icon} />
+      {icon && <Icon icon={icon} />}
       {label}
       {children}
       <Spinner
@@ -44,6 +62,7 @@ export default React.memo(styled(Button)`
   cursor: pointer;
   line-height: 1;
   margin: 0;
+  outline: none;
   position: relative;
   vertical-align: middle;
   text-align: center;

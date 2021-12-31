@@ -188,7 +188,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Input
           autoFocus
           className='medium'
-          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
+          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. ')}
           isDisabled={isRunning}
           isError={!isMatchValid}
           label={t<string>('Search for')}

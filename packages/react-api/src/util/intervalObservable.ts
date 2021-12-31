@@ -3,7 +3,7 @@
 
 import type { CallState } from '../types';
 
-import { interval, Subscription } from '@polkadot/x-rxjs';
+import { interval, Subscription } from 'rxjs';
 
 const interval$ = interval(500);
 

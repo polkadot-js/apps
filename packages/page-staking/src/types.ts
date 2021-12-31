@@ -72,11 +72,17 @@ export type TargetSortBy = keyof ValidatorInfoRank;
 
 export interface SortedTargets {
   avgStaked?: BN;
+  counterForNominators?: BN;
+  counterForValidators?: BN;
   electedIds?: string[];
   inflation: Inflation;
   lowStaked?: BN;
   medianComm: number;
+  maxNominatorsCount?: BN;
+  maxValidatorsCount?: BN;
   minNominated: BN;
+  minNominatorBond?: BN;
+  minValidatorBond?: BN;
   nominators?: string[];
   nominateIds?: string[];
   totalStaked?: BN;

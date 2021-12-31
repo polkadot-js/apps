@@ -101,6 +101,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     <Modal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -160,6 +161,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
+                    maxValue={maxTransfer}
                     onChange={setAmount}
                   />
                   <InputBalance
@@ -202,7 +204,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           </Modal.Columns>
         </div>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
@@ -211,10 +213,18 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           onStart={onClose}
           params={
             canToggleAll && isAll
-              ? [propRecipientId || recipientId, maxTransfer]
+              ? isFunction(api.tx.balances.transferAll)
+                ? [propRecipientId || recipientId, false]
+                : [propRecipientId || recipientId, maxTransfer]
               : [propRecipientId || recipientId, amount]
           }
-          tx={(isProtected && api.tx.balances.transferKeepAlive) || api.tx.balances.transfer}
+          tx={
+            canToggleAll && isAll && isFunction(api.tx.balances.transferAll)
+              ? api.tx.balances.transferAll
+              : isProtected
+                ? api.tx.balances.transferKeepAlive
+                : api.tx.balances.transfer
+          }
         />
       </Modal.Actions>
     </Modal>

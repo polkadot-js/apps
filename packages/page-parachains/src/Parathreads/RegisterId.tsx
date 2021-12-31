@@ -25,6 +25,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
     <Modal
       className={className}
       header={t<string>('Reserve ParaId')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
@@ -51,7 +52,7 @@ function RegisterId ({ className, nextParaId, onClose }: Props): React.ReactElem
           />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'

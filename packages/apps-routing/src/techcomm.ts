@@ -13,7 +13,8 @@ export default function create (t: TFunction): Route {
       needsAccounts: true,
       needsApi: [
         'query.technicalCommittee.members'
-      ]
+      ],
+      needsApiInstances: true
     },
     group: 'governance',
     icon: 'microchip',

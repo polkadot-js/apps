@@ -40,6 +40,7 @@ interface Props {
   onEscape?: () => void;
   placeholder?: string;
   siDecimals?: number;
+  siDefault?: SiDef;
   siSymbol?: string;
   value?: BN | null;
   withEllipsis?: boolean;
@@ -97,7 +98,7 @@ function isValidNumber (bn: BN, bitLength: BitLength, isZeroable: boolean, maxVa
     // cannot be negative
     bn.lt(BN_ZERO) ||
     // cannot be > than allowed max
-    !bn.lt(getGlobalMaxValue(bitLength)) ||
+    bn.gt(getGlobalMaxValue(bitLength)) ||
     // check if 0 and it should be a value
     (!isZeroable && bn.isZero()) ||
     // check that the bitlengths fit
@@ -173,14 +174,18 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
-  const [isPreKeyDown, setIsPreKeyDown] = useState(false);
-  const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(
+  const [si, setSi] = useState<SiDef | null>(() =>
+    isSi
+      ? siDefault || formatBalance.findSi('-')
+      : null
+  );
+  const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(() =>
     getValues(api, propsValue || defaultValue, si, bitLength, isZeroable, maxValue, siDecimals)
   );
+  const [isPreKeyDown, setIsPreKeyDown] = useState(false);
 
   const siOptions = useMemo(
     () => getSiOptions(siSymbol || TokenUnit.abbr, siDecimals),
@@ -287,10 +292,18 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
     >
       {!!si && (
         <Dropdown
-          defaultValue={si.value}
+          defaultValue={
+            isDisabled && siDefault
+              ? siDefault.value
+              : si.value
+          }
           dropdownClassName='ui--SiDropdown'
           isButton
-          onChange={_onSelectSiUnit}
+          onChange={
+            isDisabled
+              ? undefined
+              : _onSelectSiUnit
+          }
           options={siOptions}
         />
       )}
@@ -303,7 +316,7 @@ export default React.memo(styled(InputNumber)`
   &.isDisabled {
     .ui--SiDropdown {
       background: transparent;
-      border-color: rgba(34, 36, 38, .15) !important;
+      border-color: var(--border-input) !important;
       border-style: dashed;
       color: #666 !important;
       cursor: default !important;

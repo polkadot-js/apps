@@ -38,6 +38,7 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
         {isOpen && (
           <Modal
             header={`${t<string>('award bounty')} - "${truncateTitle(description, 30)}"`}
+            onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
@@ -60,7 +61,7 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
                 />
               </Modal.Columns>
             </Modal.Content>
-            <Modal.Actions onCancel={toggleOpen}>
+            <Modal.Actions>
               <TxButton
                 accountId={curatorId}
                 icon='check'

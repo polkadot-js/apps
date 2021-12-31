@@ -19,6 +19,7 @@ export interface Route {
     isModal?: boolean;
     needsAccounts?: boolean;
     needsApi?: (string | string[])[];
+    needsApiInstances?: boolean;
     needsSudo?: boolean;
     needsTeleport?: boolean;
   };

@@ -31,8 +31,7 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withFocu
     try {
       onChange({
         sessionTx: isHex(keys)
-          // this is weird... :(
-          ? api.tx.session.setKeys(keys as any, EMPTY_PROOF)
+          ? api.tx.session.setKeys(keys, EMPTY_PROOF)
           : null
       });
     } catch {
@@ -60,7 +59,7 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withFocu
       <Modal.Columns hint={t<string>('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}>
         <Input
           autoFocus={withFocus}
-          help={t<string>('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
+          help={t<string>('Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command')}
           isError={!keys}
           label={t<string>('Keys from rotateKeys')}
           onChange={setKeys}

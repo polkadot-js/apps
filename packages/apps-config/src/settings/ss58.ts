@@ -4,9 +4,9 @@
 import type { TFunction } from 'i18next';
 import type { Option } from './types';
 
-import known from '@polkadot/networks';
+import { selectableNetworks } from '@polkadot/networks';
 
-const networks = known
+const networks = selectableNetworks
   .map(({ displayName, network, prefix }) => ({
     info: network,
     text: displayName,

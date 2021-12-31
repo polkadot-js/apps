@@ -7,26 +7,28 @@ import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import React, { useState } from 'react';
 
 import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   hash: Hash | string;
+  isMember: boolean;
   members: string[];
   prime?: AccountId | null;
   proposalId: BN | number;
   type: 'membership' | 'technicalCommittee';
 }
 
-function Voting ({ hash, members, prime, proposalId, type }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, toggleVoting] = useToggle();
+  const modLocation = useCollectiveInstance(type);
 
-  if (!hasAccounts) {
+  if (!modLocation || !hasAccounts) {
     return null;
   }
 
@@ -35,6 +37,7 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
       {isVotingOpen && (
         <Modal
           header={t<string>('Vote on proposal')}
+          onClose={toggleVoting}
           size='small'
         >
           <Modal.Content>
@@ -46,14 +49,14 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
               <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVoting}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='ban'
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, proposalId, false]}
-              tx={api.tx[type].vote}
+              tx={api.tx[modLocation].vote}
             />
             <TxButton
               accountId={accountId}
@@ -61,13 +64,14 @@ function Voting ({ hash, members, prime, proposalId, type }: Props): React.React
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, proposalId, true]}
-              tx={api.tx[type].vote}
+              tx={api.tx[modLocation].vote}
             />
           </Modal.Actions>
         </Modal>
       )}
       <Button
         icon='check'
+        isDisabled={!isMember}
         label={t<string>('Vote')}
         onClick={toggleVoting}
       />

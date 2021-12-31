@@ -1,8 +1,8 @@
 // Copyright 2017-2021 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
+import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -40,7 +40,7 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
-          help={meta?.documentation.join(' ')}
+          help={meta?.docs.join(' ')}
           label={t<string>('selected constant query')}
           onChange={setValue}
         />

@@ -6,32 +6,49 @@ import type { LinkOption } from './types';
 
 import { createCustom, createDev, createOwn } from './development';
 import { createProduction } from './production';
-import { createProductionRelays } from './productionRelays';
+import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
 import { createTesting } from './testing';
-import { createTestingRelays } from './testingRelays';
+import { createRococoRelay, createWestendRelay } from './testingRelays';
 
 export { CUSTOM_ENDPOINT_KEY } from './development';
 
-export function createWsEndpoints (t: TFunction): LinkOption[] {
+export function createWsEndpoints (t: TFunction, firstOnly = false, withSort = true): LinkOption[] {
   return [
     ...createCustom(t),
     {
       isDisabled: false,
       isHeader: true,
       isSpaced: true,
-      text: t('rpc.header.live.relay', 'Live relays & parachains', { ns: 'apps-config' }),
+      text: t('rpc.header.polkadot.relay', 'Polkadot & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createProductionRelays(t),
+    ...createPolkadotRelay(t, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
-      text: t('rpc.header.test.relay', 'Test relays & parachains', { ns: 'apps-config' }),
+      text: t('rpc.header.kusama.relay', 'Kusama & parachains', { ns: 'apps-config' }),
       textBy: '',
       value: ''
     },
-    ...createTestingRelays(t),
+    ...createKusamaRelay(t, firstOnly, withSort),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc.header.westend.relay', 'Test Westend & parachains', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createWestendRelay(t, firstOnly, withSort),
+    {
+      isDisabled: false,
+      isHeader: true,
+      text: t('rpc.header.rococo.relay', 'Test Rococo & parachains', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createRococoRelay(t, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
@@ -40,7 +57,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createProduction(t),
+    ...createProduction(t, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
@@ -48,7 +65,7 @@ export function createWsEndpoints (t: TFunction): LinkOption[] {
       textBy: '',
       value: ''
     },
-    ...createTesting(t),
+    ...createTesting(t, firstOnly, withSort),
     {
       isDevelopment: true,
       isDisabled: false,

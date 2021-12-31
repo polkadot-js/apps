@@ -3,11 +3,13 @@
 
 import type { Bid } from '@polkadot/types/interfaces';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-export default function useCounter (): number {
+function useCounterImpl (): number {
   const { api } = useApi();
   const bids = useCall<Bid[]>(api.query.society?.candidates);
 
   return bids?.length || 0;
 }
+
+export default createNamedHook('useCounter', useCounterImpl);

@@ -34,4 +34,11 @@ function Url ({ apiUrl, className, label, setApiUrl, url }: Props): React.ReactE
 export default React.memo(styled(Url)`
   padding: 0.25rem;
   text-align: right;
+
+  > label {
+    max-width: 12.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `);

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AssetId } from '@polkadot/types/interfaces';
 import type { InfoState, TeamState } from './types';
 
 import React, { useMemo, useState } from 'react';
@@ -15,7 +14,7 @@ import Info from './Info';
 import Team from './Team';
 
 interface Props {
-  assetIds: AssetId[];
+  assetIds: BN[];
   className?: string;
   onClose: () => void;
   openId: BN;
@@ -64,6 +63,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
     <Modal
       className={className}
       header={t<string>('create asset {{step}}/{{steps}}', { replace: { step, steps: 2 } })}
+      onClose={onClose}
       size='large'
     >
       {step === 1 && (
@@ -81,7 +81,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
           onChange={setTeam}
         />
       )}
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {step === 1 &&
           <Button
             icon='step-forward'

@@ -22,19 +22,20 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
     [scheduled]
   );
 
-  const viewSetter = useCallback(() => (
-    <Button
-      className='all-events-button'
-      icon={'calendar'}
-      onClick={() => setView(false)}
-    />
-  ), [setView]);
+  const _setView = useCallback(
+    (): void => setView(false),
+    [setView]
+  );
 
   return (
     <div className={className}>
       <h1>
         <div>
-          {viewSetter()}
+          <Button
+            className='all-events-button'
+            icon='calendar'
+            onClick={_setView}
+          />
           Upcoming Events
         </div>
       </h1>
@@ -42,7 +43,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
         {sched.map((item, index): React.ReactNode => {
           return (
             <DayItem
-              className={'all-events-rows'}
+              className='all-events-rows'
               item={item}
               key={index}
               showAllEvents

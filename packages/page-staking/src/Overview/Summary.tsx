@@ -21,7 +21,7 @@ interface Props {
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', isVisible, stakingOverview, targets: { inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', isVisible, stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -44,10 +44,21 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
         </CardSummary>
         <CardSummary
           className='media--1000'
-          label={t<string>('nominators')}
+          label={
+            counterForNominators
+              ? t<string>('active / nominators')
+              : t<string>('nominators')
+          }
         >
           {nominators
-            ? formatNumber(nominators.length)
+            ? (
+              <>
+                {formatNumber(nominators.length)}
+                {counterForNominators && (
+                  <>&nbsp;/&nbsp;{formatNumber(counterForNominators)}</>
+                )}
+              </>
+            )
             : <Spinner noLabel />
           }
         </CardSummary>
@@ -55,7 +66,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
       <section>
         {(idealStake > 0) && Number.isFinite(idealStake) && (
           <CardSummary
-            className='media--1300'
+            className='media--1400'
             label={t<string>('ideal staked')}
           >
             <>{(idealStake * 100).toFixed(1)}%</>
@@ -63,7 +74,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
         )}
         {(stakedFraction > 0) && (
           <CardSummary
-            className='media--1200'
+            className='media--1300'
             label={t<string>('staked')}
           >
             <>{(stakedFraction * 100).toFixed(1)}%</>
@@ -71,7 +82,7 @@ function Summary ({ className = '', isVisible, stakingOverview, targets: { infla
         )}
         {(inflation > 0) && Number.isFinite(inflation) && (
           <CardSummary
-            className='media--1100'
+            className='media--1200'
             label={t<string>('inflation')}
           >
             <>{inflation.toFixed(1)}%</>

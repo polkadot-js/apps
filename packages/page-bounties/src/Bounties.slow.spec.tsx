@@ -27,8 +27,11 @@ const renderBounties = () => {
     <Suspense fallback='...'>
       <MemoryRouter>
         <ThemeProvider theme={lightTheme}>
-          <Api store={memoryStore}
-            url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+          <Api
+            apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+            isElectron={false}
+            store={memoryStore}
+          >
             <WaitForApi>
               <div>
                 <BountiesApp basePath='/bounties' />

@@ -55,7 +55,8 @@ function InputOwner ({ noCodeCheck, onChange, ownedIds }: Props): React.ReactEle
         <p>{t<string>('This account that has been used to register the parachain. This will pay all associated fees.')}</p>
         <p>{t<string>('The parachain id is associated with the selected account via parathread registration.')}</p>
       </>
-    }>
+    }
+    >
       <InputAddress
         filter={owners}
         label={t<string>('parachain owner')}
