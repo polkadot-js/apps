@@ -227,6 +227,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'sherpax',
+      text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
+      providers: {
+        ChainX: 'wss://sherpax-mainnet.chainx.org'
+      }
+    },
+    {
       info: 'sora-substrate',
       text: t('rpc.prod.sora-substrate', 'SORA', { ns: 'apps-config' }),
       providers: {
@@ -268,21 +275,6 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       providers: {
         DappForce: 'wss://rpc.subsocial.network',
         OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
-      }
-    },
-    {
-      info: 'subsocial',
-      text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
-      providers: {
-        DappForce: 'wss://rpc.subsocial.network',
-        OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
-      }
-    },
-    {
-      info: 'sherpax',
-      text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
-      providers: {
-        ChainX: 'wss://sherpax-mainnet.chainx.org'
       }
     },
     {
