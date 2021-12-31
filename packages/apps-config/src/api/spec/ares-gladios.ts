@@ -97,7 +97,8 @@ const definitions: OverrideBundleDefinition = {
         PreCheckStruct: {
           price_key: 'Vec<u8>',
           number_val: 'JsonNumberValue',
-          max_offset: 'Percent'
+          max_offset: 'Percent',
+          timestamp: 'u64'
         },
         PricePayloadSubPrice: '(Bytes, u64, FractionLength, JsonNumberValue, u64)',
         PricePayloadSubJumpBlock: '(Bytes, RequestInterval)',
