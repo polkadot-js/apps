@@ -1,111 +1,122 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OverrideBundleDefinition } from '@polkadot/types/types';
-
 // structs need to be in order
 /* eslint-disable sort-keys */
 
+import type { Observable } from 'rxjs';
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Struct, u64 } from '@polkadot/types';
+import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
+
+import { combineLatest, map } from 'rxjs';
+
+import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
+import { memo } from '@polkadot/api-derive/util';
+import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
+
+interface HeaderExtended extends Header {
+  readonly author: AccountId32 | undefined;
+}
+
+interface Solution extends Struct {
+  readonly public_key: AccountId32;
+}
+
+interface SubPreDigest extends Struct {
+  readonly slot: u64;
+  readonly solution: Solution;
+}
+
+function extractAuthor (
+  digest: Digest,
+  api: ApiInterfaceRx
+): AccountId32 | undefined {
+  const preRuntimes = digest.logs.filter(
+    (log) => log.isPreRuntime && log.asPreRuntime[0].toString() === 'SUB_'
+  );
+  const { solution }: SubPreDigest = api.registry.createType('SubPreDigest', preRuntimes[0].asPreRuntime[1]);
+
+  return solution.public_key;
+}
+
+function createHeaderExtended (
+  registry: Registry,
+  header: Header,
+  api: ApiInterfaceRx
+): HeaderExtended {
+  const HeaderBase = registry.createClass('Header');
+
+  class SubHeaderExtended extends HeaderBase implements HeaderExtended {
+    readonly #author?: AccountId32;
+
+    constructor (registry: Registry, header: Header, api: ApiInterfaceRx) {
+      super(registry, header);
+      this.#author = extractAuthor(this.digest, api);
+      this.createdAtHash = header?.createdAtHash;
+    }
+
+    public get author (): AccountId32 | undefined {
+      return this.#author;
+    }
+  }
+
+  return new SubHeaderExtended(registry, header, api);
+}
+
+function subscribeNewHeads (
+  instanceId: string,
+  api: ApiInterfaceRx
+): () => Observable<HeaderExtended> {
+  return memo(
+    instanceId,
+    (): Observable<HeaderExtended> =>
+      combineLatest([api.rpc.chain.subscribeNewHeads()]).pipe(
+        map(([header]): HeaderExtended => {
+          return createHeaderExtended(header.registry as Registry, header, api);
+        })
+      )
+  );
+}
+
+function getHeader (
+  instanceId: string,
+  api: ApiInterfaceRx
+): () => Observable<HeaderExtended> {
+  return memo(
+    instanceId,
+    (): Observable<HeaderExtended> =>
+      combineLatest([api.rpc.chain.getHeader()]).pipe(
+        map(([header]): HeaderExtended => {
+          return createHeaderExtended(header.registry as Registry, header, api);
+        })
+      )
+  );
+}
+
 const definitions: OverrideBundleDefinition = {
+  derives: {
+    chain: {
+      bestNumber,
+      bestNumberFinalized,
+      bestNumberLag,
+      getBlock,
+      getHeader,
+      subscribeNewBlocks,
+      subscribeNewHeads
+    }
+  },
   types: [
     {
-      // on all versions
       minmax: [0, undefined],
       types: {
-        PoCKind: '[u8; 16]',
-        RpcSolution: {
-          public_key: '[u8; 32]',
-          nonce: 'u64',
-          encoding: 'Vec<u8>',
-          signature: 'Vec<u8>',
-          tag: '[u8; 8]'
-        },
-        ProposedProofOfSpaceResult: {
-          slot_number: 'Slot',
-          solution: 'Option<RpcSolution>',
-          secret_key: 'Vec<u8>'
-        },
-        RpcNewSlotInfo: {
-          slot_number: 'Slot',
-          challenge: '[u8; 8]',
-          salt: '[u8; 8]',
-          next_salt: 'Option<[u8; 8]>',
-          solution_range: 'u64'
-        },
-        PoCRandomness: '[u8; 32]',
-        FarmerSignature: 'Signature',
-        FarmerId: 'AccountId',
-        PoCBlockWeight: 'u32',
-        PoCNextEpochDescriptor: {
-          randomness: 'PoCRandomness'
-        },
-        PoCNextConfigDescriptorV1: {
-          c: '(u64, u64)'
-        },
-        PoCNextConfigDescriptor: {
-          _enum: {
-            V0: 'Null',
-            V1: 'PoCNextConfigDescriptorV1'
-          }
-        },
-        SolutionRangeDescriptor: {
-          solution_range: 'u64'
-        },
-        SaltDescriptor: {
-          salt: 'u64'
-        },
-        NextSolutionRangeDescriptor: {
-          solution_range: 'u64'
-        },
-        NextSaltDescriptor: {
-          salt: 'u64'
-        },
-        PoCEpochConfiguration: {
-          c: '(u64, u64)'
-        },
-        ConsensusLog: {
-          _enum: {
-            Phantom: 'Null',
-            NextEpochData: 'PoCNextEpochDescriptor',
-            NextConfigData: 'PoCNextConfigDescriptor',
-            SolutionRangeData: 'SolutionRangeDescriptor',
-            SaltData: 'SaltDescriptor',
-            NextSolutionRangeData: 'NextSolutionRangeDescriptor',
-            NextSaltData: 'NextSaltDescriptor'
-          }
-        },
         Solution: {
-          public_key: 'FarmerId',
-          nonce: 'u64',
-          encoding: 'Vec<u8>',
-          signature: 'Vec<u8>',
-          tag: '[u8; 8]'
+          public_key: 'AccountId32'
         },
-        PreDigest: {
-          slot: 'Slot',
+        SubPreDigest: {
+          slot: 'u64',
           solution: 'Solution'
-        },
-        EquivocationProof: {
-          offender: 'FarmerId',
-          slot: 'Slot',
-          first_header: 'Header',
-          second_header: 'Header'
-        },
-        PoCEquivocationOffence: {
-          slot: 'Slot',
-          offender: 'FarmerId'
-        },
-        PoCGenesisConfiguration: {
-          slot_duration: 'u64',
-          epoch_length: 'u64',
-          c: '(u64, u64)',
-          randomness: 'PoCRandomness'
-        },
-        Kind: 'PoCKind',
-        Randomness: 'PoCRandomness',
-        NextEpochDescriptor: 'PoCNextEpochDescriptor',
-        NextConfigDescriptorV1: 'PoCNextConfigDescriptorV1',
-        NextConfigDescriptor: 'PoCNextConfigDescriptor'
+        }
       }
     }
   ]

@@ -1,6 +1,7 @@
 // Copyright 2017-2021 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+export { createNamedHook } from './createNamedHook';
 export { useAccountId } from './useAccountId';
 export { useAccountInfo } from './useAccountInfo';
 export { useAccounts } from './useAccounts';
@@ -18,12 +19,15 @@ export { useCall } from './useCall';
 export { useCallMulti } from './useCallMulti';
 export { useCollectiveInstance } from './useCollectiveInstance';
 export { useCollectiveMembers } from './useCollectiveMembers';
-export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useDelegations } from './useDelegations';
+export { useDeriveAccountFlags } from './useDeriveAccountFlags';
+export { useDeriveAccountInfo } from './useDeriveAccountInfo';
+export { useEndpoint } from './useEndpoint';
 export { useEventTrigger } from './useEventTrigger';
 export { useExtrinsicTrigger } from './useExtrinsicTrigger';
 export { useFavorites } from './useFavorites';
+export { useFormField } from './useFormField';
 export { useIncrement } from './useIncrement';
 export { useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
@@ -58,6 +62,7 @@ export { useWeight } from './useWeight';
 export { useWeightFee } from './useWeightFee';
 export { useElementPosition } from './useElementPosition';
 export { useScroll } from './useScroll';
+export { useSystemApi } from './useSystemApi';
 export { useWindowSize } from './useWindowSize';
 export { useOutsideClick } from './useOutsideClick';
 export { usePopupWindow } from './usePopupWindow';

@@ -72,7 +72,7 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
     // In order to modify the parameters which are used to render the default component, we can use this method
     refresh: (contentShorten: boolean): React.ComponentType<any> =>
       renderHelper(
-        (value: any) => <pre>{valueToText(type, value, contentShorten)}</pre>,
+        (value: unknown) => <pre>{valueToText(type, value as null, contentShorten)}</pre>,
         defaultProps
       ),
     // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
@@ -82,7 +82,7 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
 }
 
 function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstance {
-  const { id, isConst, key, params = [] } = query as StorageModuleQuery;
+  const { blockHash, id, isConst, key, params = [] } = query as StorageModuleQuery;
 
   if (!cache[id]) {
     let renderHelper;
@@ -109,13 +109,16 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
         const allCount = type.isPlain
           ? 0
           : type.asMap.hashers.length;
+        const isEntries = values.length !== allCount;
 
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
-          params: values.length === allCount
-            ? [key, ...values]
-            : [key.entries, ...values],
+          params: isEntries
+            ? [key.entries, ...values]
+            : blockHash
+              ? [key.at, blockHash, ...values]
+              : [key, ...values],
           withIndicator: true
         });
       }
@@ -128,7 +131,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: any) => <pre>{valueToText(type, value, true)}</pre>,
+      (value: unknown) => <pre>{valueToText(type, value as null, true)}</pre>,
       defaultProps
     );
 

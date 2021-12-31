@@ -36,6 +36,7 @@ function getSetters <T extends Flags> (flags: T, setFlags: React.Dispatch<React.
   }, {} as Setters<T>);
 }
 
+// TODO Uses generics, we cannot use createNameHook as of yet
 export function useSavedFlags <T extends Flags> (storageKey: string, initial: T): State<T> {
   const [flags, setFlags] = useState(() => getInitial(storageKey, initial));
   const [setters] = useState(() => getSetters(initial, setFlags));

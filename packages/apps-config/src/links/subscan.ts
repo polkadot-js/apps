@@ -1,13 +1,14 @@
 // Copyright 2017-2021 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
     'Acala Mandala TC5': 'acala-testnet',
+    'Ares Gladios': 'ares-testnet',
     Bifrost: 'bifrost',
     Calamari: 'calamari',
     'Centrifuge Mainnet': 'centrifuge',

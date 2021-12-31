@@ -18,8 +18,8 @@ export default function withCalls <P> (...calls: Call[]): (Component: React.Comp
       .reverse()
       .reduce((Component, call): React.ComponentType<any> => {
         return Array.isArray(call)
-          ? withCall(...call)(Component as any)
-          : withCall(call)(Component as any);
+          ? withCall(...call)(Component as unknown as React.ComponentType<ApiProps>)
+          : withCall(call)(Component as unknown as React.ComponentType<ApiProps>);
       }, Component);
   };
 }

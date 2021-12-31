@@ -4,7 +4,8 @@
 import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -15,12 +16,12 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-type PrevProxy = [AccountId, ProxyType];
+type PrevProxy = [AccountId, NodeRuntimeProxyType];
 
 interface Props {
   className?: string;
   onClose: () => void;
-  previousProxy?: [ProxyDefinition[], BN];
+  previousProxy?: [PalletProxyProxyDefinition[], BN];
   proxiedAccount: string;
 }
 
@@ -38,14 +39,14 @@ interface NewProxyProps extends ValueProps {
 }
 
 interface PrevProxyProps extends ValueProps {
-  onRemove: (accountId: AccountId, type: ProxyType, index: number) => void;
+  onRemove: (accountId: AccountId, type: NodeRuntimeProxyType, index: number) => void;
 }
 
 const optTxBatch = { isBatchAll: true };
 
-const EMPTY_EXISTING: [ProxyDefinition[], BN] = [[], BN_ZERO];
+const EMPTY_EXISTING: [PalletProxyProxyDefinition[], BN] = [[], BN_ZERO];
 
-function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
+function createAddProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore old version
@@ -53,7 +54,7 @@ function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, d
     : api.tx.proxy.addProxy(account, type, delay);
 }
 
-function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
+function createRmProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.removeProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore old version
@@ -146,6 +147,21 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
   );
 }
 
+function getProxyTypeInstance (api: ApiPromise, index = 0): NodeRuntimeProxyType {
+  // This is not perfect, but should work for `{Kusama, Node, Polkadot}RuntimeProxyType`
+  const proxyNames = api.registry.lookup.names.filter((name) => name.endsWith('RuntimeProxyType'));
+
+  // fallback to previous version (may be Substrate default), when not found
+  return api.createType<NodeRuntimeProxyType>(proxyNames.length ? proxyNames[0] : 'ProxyType', index);
+}
+
+function getProxyOptions (api: ApiPromise): { text: string; value: number; }[] {
+  return getProxyTypeInstance(api).defKeys
+    .map((text, value) => ({ text, value }))
+    // Filter the empty entries added in v14
+    .filter(({ text }) => !text.startsWith('__Unused'));
+}
+
 function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_EXISTING, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -163,9 +179,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
     [api, batchPrevious, batchAdded]
   );
 
-  const typeOpts = useRef(
-    api.createType('ProxyType').defKeys.map((text, value) => ({ text, value }))
-  );
+  const typeOpts = useRef(getProxyOptions(api));
 
   useEffect((): void => {
     setBatchAdded(
@@ -185,7 +199,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           : previous.length
             ? previous[previous.length - 1][0]
             : api.createType('AccountId', proxiedAccount),
-        api.createType('ProxyType', 0)
+        getProxyTypeInstance(api)
       ]]
     ),
     [api, previous, proxiedAccount]
@@ -197,7 +211,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   );
 
   const _delPrev = useCallback(
-    (accountId: AccountId, type: ProxyType, index: number): void => {
+    (accountId: AccountId, type: NodeRuntimeProxyType, index: number): void => {
       setPrevious((previous) => previous.filter((_, i) => i !== index));
       setBatchPrevious((previous) => [...previous, createRmProxy(api, accountId, type)]);
     },
@@ -220,7 +234,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
       setAdded((added) => {
         const newState = [...added];
 
-        newState[index][1] = api.createType('ProxyType', newTypeNumber);
+        newState[index][1] = getProxyTypeInstance(api, newTypeNumber);
 
         return newState;
       }),

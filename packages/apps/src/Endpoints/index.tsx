@@ -103,7 +103,7 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
 
 function loadAffinities (groups: Group[]): Record<string, string> {
   return Object
-    .entries<string>(store.get(STORAGE_AFFINITIES) || {})
+    .entries<string>(store.get(STORAGE_AFFINITIES) as Record<string, string> || {})
     .filter(([network, apiUrl]) =>
       groups.some(({ networks }) =>
         networks.some(({ name, providers }) =>

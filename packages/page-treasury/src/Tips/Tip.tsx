@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
-import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -25,7 +26,7 @@ interface Props {
   members: string[];
   onSelect: (hash: string, isSelected: boolean, value: BN) => void;
   onlyUntipped: boolean;
-  tip: OpenTip | OpenTipTo225;
+  tip: PalletTipsOpenTip | OpenTipTo225;
 }
 
 interface TipState {
@@ -38,11 +39,11 @@ interface TipState {
   median: BN;
 }
 
-function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
-  return !!(tip as OpenTip)?.findersFee;
+function isCurrentTip (tip: PalletTipsOpenTip | OpenTipTo225): tip is PalletTipsOpenTip {
+  return !!(tip as PalletTipsOpenTip)?.findersFee;
 }
 
-function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): TipState {
+function extractTipState (tip: PalletTipsOpenTip | OpenTipTo225, allAccounts: string[]): TipState {
   const closesAt = tip.closes.unwrapOr(null);
   let finder: AccountId | null = null;
   let deposit: Balance | null = null;
@@ -106,6 +107,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
   }
 
   const { reason, tips, who } = tip;
+  const recipient = who.toString();
 
   return (
     <tr className={className}>
@@ -166,6 +168,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               isTipped={isTipped}
               median={median}
               members={members}
+              recipient={recipient}
             />
           )
           : (

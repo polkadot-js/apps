@@ -1,13 +1,21 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-extrinsics#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-extrinsics",
   "private": true,
+  "repository": {
+    "directory": "packages/page-extrinsics",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "type": "module",
-  "version": "0.96.2-80",
-  "license": "Apache-2.0",
+  "version": "0.100.2-15",
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
-    "@polkadot/react-components": "^0.96.2-80",
-    "@polkadot/react-params": "^0.96.2-80",
-    "@polkadot/react-signer": "^0.96.2-80"
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/react-components": "^0.100.2-15",
+    "@polkadot/react-params": "^0.100.2-15",
+    "@polkadot/react-signer": "^0.100.2-15"
   }
 }

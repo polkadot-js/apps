@@ -4,6 +4,7 @@
 import type { AssetInfo, AssetInfoComplete } from '../types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { Dropdown, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
@@ -79,11 +80,11 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
         }
         header={headerRef.current}
       >
-        {info && balances?.map(({ accountId, balance }) => (
+        {info && balances?.map(({ account, accountId }) => (
           <Account
+            account={account}
             accountId={accountId}
             assetId={info.id}
-            balance={balance}
             key={accountId}
             minBalance={info.details.minBalance}
             siFormat={siFormat}
@@ -94,4 +95,8 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(Balances);
+export default React.memo(styled(Balances)`
+  table {
+    overflow: auto;
+  }
+`);

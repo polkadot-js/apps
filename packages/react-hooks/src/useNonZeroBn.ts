@@ -7,14 +7,17 @@ import { useMemo } from 'react';
 
 import { BN_ZERO, bnToBn } from '@polkadot/util';
 
+import { createNamedHook } from './createNamedHook';
 import { FormField, useFormField } from './useFormField';
 
 function isValid (value: BN): boolean {
   return !value.isZero();
 }
 
-export function useNonZeroBn (initialValue: BN | number = BN_ZERO): FormField<BN> {
+function useNonZeroBnImpl (initialValue: BN | number = BN_ZERO): FormField<BN> {
   const value = useMemo(() => bnToBn(initialValue), [initialValue]);
 
   return useFormField(value, isValid);
 }
+
+export const useNonZeroBn = createNamedHook('useNonZeroBn', useNonZeroBnImpl);

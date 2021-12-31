@@ -31,7 +31,7 @@ const definitions: OverrideBundleDefinition = {
           user: 'AccountId',
           game_id: 'u32',
           amount: 'u128',
-          game_mode: 'u8' // 1 = odd , 2 = even
+          game_mode: 'u8'
         },
         Template: {
           template_id: 'u32',
@@ -96,6 +96,7 @@ const definitions: OverrideBundleDefinition = {
           pallet_id: 'PalletId',
           program_id: 'ProgramId',
           stake_amount: 'Balance',
+          will_expire: 'bool',
           expires_at: 'Moment',
           nft_id: 'NftId'
         },
@@ -116,6 +117,63 @@ const definitions: OverrideBundleDefinition = {
           asset_b: 'u32',
           asset_lp: 'u32',
           swap_k: 'u128'
+        },
+        Auction: {
+          id: 'u128',
+          platform_id: 'u128',
+          nft_id: 'NftId',
+          seller: 'AccountId',
+          buyer: 'Option<AccountId>',
+          amount: 'Balance',
+          percentage_of_fee: 'u8',
+          platform_fee: 'Balance'
+        },
+        Platform: {
+          id: 'u128',
+          admin: 'AccountId',
+          percentage_of_fee: 'u8',
+          fee_account: 'AccountId'
+        },
+        Plan: {
+          amount: 'SGAssetBalance',
+          score: 'SGAssetBalance'
+        },
+        GRPlatform: {
+          id: 'u128',
+          admin: 'AccountId',
+          pool_account: 'AccountId',
+          asset_id: 'u32',
+          plan: 'Vec<Plan>'
+        },
+        AbilityOfLevel: {
+          level: 'u8',
+          ability_value_1_min: 'u32',
+          ability_value_1_max: 'u32'
+        },
+        CardType: {
+          admin: 'AccountId',
+          id: 'u128',
+          name: 'Vec<u8>',
+          desc: 'Vec<u8>',
+          fixed_ability_value_1: 'u32',
+          fixed_ability_value_2: 'u32',
+          special_attribute_1: 'Vec<u8>',
+          level_max_limit: 'u32',
+          ability_of_level: 'Vec<AbilityOfLevel>',
+          is_can_draw: 'bool'
+        },
+        CardInfo: {
+          id: 'u128',
+          name: 'Vec<u8>',
+          desc: 'Vec<u8>',
+          type_id: 'u128'
+        },
+        Card: {
+          id: 'u128',
+          card_info_id: 'u128',
+          level: 'u8',
+          ability_value_1: 'u32',
+          nft_id: 'NftId'
         }
       }
     }
