@@ -22,8 +22,8 @@ function Assets ({ className, infos }: Props): React.ReactElement<Props> {
     [t('assets'), 'start', 2],
     [t('owner'), 'address media--1000'],
     [t('admin'), 'address media--1200'],
-    [t('issuer'), 'address media--1300'],
-    [t('freezer'), 'address media--1400'],
+    [t('issuer'), 'address media--1400'],
+    [t('freezer'), 'address media--1700'],
     [t('supply')],
     []
   ]);

@@ -775,7 +775,7 @@
   "The unapplied slashed era to cancel.": "적용되지 않은 슬래시 에라 취소",
   "The unchecked weight as specified for the sudoUncheckedWeight call.": "수도 점검하지 않은 중량 콜에 따라 따른 점검하지 않은 중량",
   "The validators selected by the Phragmen algorithm to nominate for this era.": "이번 에라를 지명할 Phragmen 알고리즘에서 선택 받은 검사기",
-  "The validators that are not in the validator set because they need more nominations or because they have willingly stop validating. Any nominations made before the next election will also appear here.": "지명을 더 필요하거나 혹은 검사를 의도적으로 멈춰서 검사기 세트에 없는 검사기. 다음 선거 전에 지명들도 여기서 보입니다.",
+  "The validators that are not in the validator set because they need more nominations or because they have willingly stopped validating. Any nominations made before the next election will also appear here.": "지명을 더 필요하거나 혹은 검사를 의도적으로 멈춰서 검사기 세트에 없는 검사기. 다음 선거 전에 지명들도 여기서 보입니다.",
   "The validators that are over-subscribed, only the top 64 backing stake will be rewarded.": "초과된 검사기, 상위 64 스테이크만 보상 받을것 입니다",
   "The validators that got slashed and for which your nomination got auto-chilled. Re-nominating these will make them available to the Phragmen algorithm.": "해당 검사기가 슬래시 되고 그리고 귀하의 지명이 오토칠드됨. 재지정 해주면phragmen알고리즘에서도 사용이 가능합니다.",
   "The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.": "해당 투표에 관련 값. 금액은 잠기고 (이체 불과) 향후 선거에서 지속적으로 사용될 예정입니다.",
