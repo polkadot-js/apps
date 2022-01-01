@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import '@polkadot/api-augment';
+import '@polkadot/api-augment/substrate';
 
 import type { ParaId } from '@polkadot/types/interfaces';
 
