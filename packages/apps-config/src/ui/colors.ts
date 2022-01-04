@@ -156,7 +156,6 @@ const nodeMathChain = '#000000';
 const nodeMoonbeam = '#53cbc9';
 const nodeMoonriver = '#0E132E';
 const nodeMybank = '#282736';
-const nodeNeumann = '#E38985';
 const nodeNFTMart = '#307182';
 const nodeNodle = '#1ab394';
 const nodeOdyssey = '#1295F0';
@@ -415,7 +414,6 @@ export const nodeColors = Object.entries({
   'Manta Node': nodeManta,
   MathChain: nodeMathChain,
   'mybank.network node': nodeMybank,
-  'Neumann Network': nodeNeumann,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
   'nodle chain node': nodeNodle,
