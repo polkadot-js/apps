@@ -319,7 +319,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'neumann',
       text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
       providers: {
-        'OAK Network': 'wss://node-6874600165100077056.jm.onfinality.io/ws?apikey=00e65cb5-0bcc-4dac-9a6d-08e6e111e186'
+        'OAK Network': 'wss://neumann.api.onfinality.io/public-ws'
       }
     },
     {
