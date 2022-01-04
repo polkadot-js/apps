@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -121,6 +121,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'genshiro',
         homepage: 'https://genshiro.equilibrium.io',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {

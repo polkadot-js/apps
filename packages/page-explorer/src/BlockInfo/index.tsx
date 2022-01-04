@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';

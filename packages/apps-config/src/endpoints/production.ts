@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -58,6 +58,13 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       }
     },
     {
+      info: 'competitors-club',
+      text: t('rpc.prod.competitors-club', 'Competitors Club', { ns: 'apps-config' }),
+      providers: {
+        'Competitors Club': 'wss://node0.competitors.club/wss'
+      }
+    },
+    {
       info: 'crown-sterling',
       text: t('rpc.prod.crown-sterling', 'Crown Sterling', { ns: 'apps-config' }),
       providers: {
@@ -66,6 +73,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'crust',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.crust', 'Crust Network', { ns: 'apps-config' }),
       providers: {
         'Crust Network': 'wss://rpc.crust.network'
@@ -103,6 +111,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'efinity',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.efinity', 'Efinity', { ns: 'apps-config' }),
       providers: {
         Efinity: 'wss://rpc.efinity.io'
@@ -221,6 +230,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
     },
     {
       info: 'robonomics',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.prod.robonomics', 'Robonomics', { ns: 'apps-config' }),
       providers: {
         Airalab: 'wss://kusama.rpc.robonomics.network/'
