@@ -110,12 +110,12 @@ import moonriver from './nodes/moonriver.svg';
 import nodeMoonrock from './nodes/moonrock.png';
 import moonshadow from './nodes/moonshadow.png';
 import mybank from './nodes/mybank.png';
-import neumann from './nodes/neumann.png';
 import nodeNFTMart from './nodes/nftmart.png';
 import nodeNodle from './nodes/nodle.svg';
 import nodeUniqueWestend from './nodes/opal-logo.png';
 import nodeOpportunity from './nodes/opportunity.png';
 import nodeOriginTrail from './nodes/origintrail.png';
+import oak from './nodes/oak.png';
 import nodePangolin from './nodes/pangolin.svg';
 import nodePangoro from './nodes/pangoro.svg';
 import nodeParallel from './nodes/parallel.svg';
@@ -255,7 +255,7 @@ export const chainLogos = Object.entries({
   Moonrock: nodeMoonrock,
   Moonshadow: moonshadow,
   'mybank.network PC1': mybank,
-  'Neumann Network': neumann,
+  'Neumann Network': oak,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -403,7 +403,7 @@ export const nodeLogos = Object.entries({
   'mathChain-galois': nodeMath,
   Moonrock: nodeMoonrock,
   'mybank.network': mybank,
-  'Neumann Network': neumann,
+  'Neumann Network': oak,
   NFTMart: nodeNFTMart,
   'NFTMart Staging': nodeNFTMart,
   'NFTMart Testnet': nodeNFTMart,
@@ -585,7 +585,7 @@ export const namedLogos: Record<string, unknown> = {
   moonrock: nodeMoonrock,
   moonshadow: moonshadow,
   mybank: mybank,
-  neumann: neumann,
+  neumann: oak,
   nftmart: nodeNFTMart,
   nodle: nodeNodle,
   odyssey: nodeAresGladios,
