@@ -22,7 +22,6 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://pub.elara.patract.io/kusama',
       // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
       // Dwellir: 'wss://kusama-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/6753
       'light client': 'light://substrate-connect/kusama'
@@ -39,8 +38,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/statemine'
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
         },
         teleport: [-1]
       },

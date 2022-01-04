@@ -268,8 +268,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       isDisabled: true, // Cannot find type ChainId
       text: t('rpc.prod.stafi', 'Stafi', { ns: 'apps-config' }),
       providers: {
-        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io',
-        'Patract Elara': 'wss://pub.elara.patract.io/stafi'
+        'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
       }
     },
     {
