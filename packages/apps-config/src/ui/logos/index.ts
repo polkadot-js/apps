@@ -140,6 +140,7 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
+import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -283,8 +284,8 @@ export const chainLogos = Object.entries({
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
-  Sherpax: nodeChainx,
-  'Sherpax Testnet': nodeChainx,
+  Sherpax: nodeSherpax,
+  'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SORA: nodeSora,
@@ -444,7 +445,7 @@ export const nodeLogos = Object.entries({
   robonomics: nodeRobonomics,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
-  sherpax: nodeChainx,
+  sherpax: nodeSherpax,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
   Sora: nodeSora,
@@ -665,7 +666,7 @@ export const namedLogos: Record<string, unknown> = {
   sakura: nodeSakura,
   shadow: nodeShadow,
   shell: nodeShell,
-  sherpax: nodeChainx,
+  sherpax: nodeSherpax,
   shibuya: chainShiden,
   shiden: chainShiden,
   singLavender: nodeSingLavender,
