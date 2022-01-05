@@ -277,7 +277,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'acala',
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
+        Acala: 'wss://mandala.polkawallet.io',
         Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
