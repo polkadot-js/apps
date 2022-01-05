@@ -374,7 +374,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polkadex',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://blockchain.polkadex.trade'
