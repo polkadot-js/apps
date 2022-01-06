@@ -5,8 +5,7 @@
 
 import { detectPackage } from '@polkadot/util';
 
-import dirname from './cjs/dirname';
 import others from './detectOther';
 import { packageInfo } from './packageInfo';
 
-detectPackage(packageInfo, dirname, others);
+detectPackage(packageInfo, packageInfo.path, others);
