@@ -75,18 +75,20 @@ const definitions: OverrideBundleDefinition = {
           amount: 'BalanceOf',
           is_income: 'bool'
         },
+        PurchasedId: 'Bytes',
+        PriceKey: 'Bytes',
         PreCheckPayload: {
+          block_number: 'BlockNumber',
           pre_check_stash: 'AccountId',
           pre_check_auth: 'AuthorityId',
           auth: 'AuthorityId',
-          block_number: 'BlockNumber',
           public: 'MultiSigner'
         },
         PreCheckResultPayload: {
-          pre_check_stash: 'AccountId',
-          pre_check_auth: 'AuthorityId',
           block_number: 'BlockNumber',
           pre_check_list: 'Vec<PreCheckStruct>',
+          pre_check_stash: 'AccountId',
+          pre_check_auth: 'AuthorityId',
           public: 'MultiSigner'
         },
         PreCheckCompareLog: {
@@ -100,8 +102,8 @@ const definitions: OverrideBundleDefinition = {
           max_offset: 'Percent',
           timestamp: 'u64'
         },
-        PricePayloadSubPrice: '(Bytes, u64, FractionLength, JsonNumberValue, u64)',
-        PricePayloadSubJumpBlock: '(Bytes, RequestInterval)',
+        PricePayloadSubPrice: '(PriceKey, u64, FractionLength, JsonNumberValue, u64)',
+        PricePayloadSubJumpBlock: '(PriceKey, RequestInterval)',
         PricePayload: {
           block_number: 'BlockNumber',
           price: 'Vec<PricePayloadSubPrice>',
