@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@testing-library/react": "^12.1.2",
-    "testcontainers": "^7.24.0"
+    "testcontainers": "^8.1.2"
   }
 }
