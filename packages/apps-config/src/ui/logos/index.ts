@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
@@ -14,6 +14,7 @@ import chainAleph from './chains/aleph.svg';
 import chainAltair from './chains/altair.svg';
 import chainAstar from './chains/astar.png';
 import chainCoinversation from './chains/coinversation.png';
+import chainCompetitorsClub from './chains/competitors-club.png';
 import chainComposableFinance from './chains/composableFinance.png';
 import chainCrownSterling from './chains/crown-sterling.png';
 import chainDusty from './chains/dusty.png';
@@ -66,6 +67,7 @@ import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeChainx from './nodes/chainx.svg';
 import nodeClover from './nodes/clover.svg';
 import nodeCoinversation from './nodes/coinversation.png';
+import nodeCompetitorsClub from './nodes/competitors-club.png';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrownSterling from './nodes/crown-sterling.png';
 import nodeCrust from './nodes/crust.svg';
@@ -138,6 +140,7 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSakura from './nodes/sakura.svg';
 import nodeShadow from './nodes/shadow.svg';
 import nodeShell from './nodes/shell.svg';
+import nodeSherpax from './nodes/sherpax.png';
 import nodeSingLavender from './nodes/singlavender.svg';
 import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
@@ -189,6 +192,7 @@ export const chainLogos = Object.entries({
   ChainX: nodeChainx,
   'Charcoal Testnet': nodeCentrifuge,
   Coinversation: chainCoinversation,
+  'Competitors Club': chainCompetitorsClub,
   'Crown Sterling': chainCrownSterling,
   'Crust Maxwell': nodeCrustMaxwell,
   'Crust PC1': nodeCrust,
@@ -280,7 +284,8 @@ export const chainLogos = Object.entries({
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
   Rococo: chainRococo,
-  Sherpax: nodeChainx,
+  Sherpax: nodeSherpax,
+  'Sherpax Testnet': nodeSherpax,
   Shiden: chainShiden,
   SingLavender: nodeSingLavender,
   SORA: nodeSora,
@@ -348,6 +353,7 @@ export const nodeLogos = Object.entries({
   'ChainX Node': nodeChainx,
   'Clover Node': nodeClover,
   Coinversation: nodeCoinversation,
+  'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
   crust: nodeCrust,
   'Crust Collator': nodeCrust,
@@ -439,7 +445,7 @@ export const nodeLogos = Object.entries({
   robonomics: nodeRobonomics,
   Sakura: nodeSakura,
   Shadow: nodeShadow,
-  sherpax: nodeChainx,
+  sherpax: nodeSherpax,
   'Shiden Collator': chainShiden,
   'SingLavender Parachain Collator': nodeSingLavender,
   Sora: nodeSora,
@@ -522,6 +528,7 @@ export const namedLogos: Record<string, unknown> = {
   charcoal: nodeCentrifuge,
   clover: nodeClover,
   coinversation: chainCoinversation,
+  'competitors-club': chainCompetitorsClub,
   composableFinance: chainComposableFinance,
   crab: nodeCrab,
   'crown-sterling': chainCrownSterling,
@@ -659,7 +666,7 @@ export const namedLogos: Record<string, unknown> = {
   sakura: nodeSakura,
   shadow: nodeShadow,
   shell: nodeShell,
-  sherpax: nodeChainx,
+  sherpax: nodeSherpax,
   shibuya: chainShiden,
   shiden: chainShiden,
   singLavender: nodeSingLavender,

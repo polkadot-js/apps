@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint sort-keys: ["error", "asc", { caseSensitive: false }] */
@@ -26,6 +26,7 @@ const chainBitCountryPioneer = '#000000';
 const chainBeastEave = '#900048';
 const chainCalamari = '#000000';
 const chainCoinversation = '#e6017a';
+const chainCompetitorsClub = '#213830';
 const chainComposable = '#FF8500';
 const chainComposableFinance = '#861660';
 const chainCrab = '#7C30DD';
@@ -130,6 +131,7 @@ const nodeBitCountry = '#191a2e';
 const nodeBifrost = '#5a25f0';
 const nodeCentrifuge = '#fcc367';
 const nodeCoinversation = '#e6017a';
+const nodeCompetitorsClub = '#213830';
 const nodeCrownSterling = '#13264b';
 const nodeDotMog = '#020609';
 const nodeEdgeware = '#111111';
@@ -226,6 +228,7 @@ export const chainColors: Record<string, string> = Object.entries({
   ChainX: chainChainx,
   Clover: chainClover,
   Coinversation: chainCoinversation,
+  'Competitors Club': chainCompetitorsClub,
   Composable: chainComposable,
   'Composable Finance': chainComposableFinance,
   'Crown Sterling': chainCrownSterling,
@@ -330,7 +333,8 @@ export const chainColors: Record<string, string> = Object.entries({
   Rococo: chainRocco,
   Sakura: chainSakura,
   Shadow: chainShadow,
-  sherpax: chainSherpax,
+  Sherpax: chainSherpax,
+  'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
   Spanner: chainSpanner,
   Standard: chainStandard,
@@ -385,6 +389,7 @@ export const nodeColors = Object.entries({
   'centrifuge chain': nodeCentrifuge,
   'Centrifuge Chain Node': nodeCentrifuge,
   Coinversation: nodeCoinversation,
+  'Competitors Club': nodeCompetitorsClub,
   'Crown Sterling': nodeCrownSterling,
   'DOTMog Node': nodeDotMog,
   'edgeware node': nodeEdgeware,
