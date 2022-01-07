@@ -21,6 +21,7 @@
   "rpc.kusama.altair": "Altair",
   "rpc.kusama.basilisk": "Basilisk",
   "rpc.kusama.bifrost": "Bifrost (Kusama)",
+  "rpc.kusama.crab": "Darwinia Crab",
   "rpc.kusama.encointer": "Encointer Network",
   "rpc.kusama.genshiro": "Genshiro",
   "rpc.kusama.heiko": "Parallel Heiko",
