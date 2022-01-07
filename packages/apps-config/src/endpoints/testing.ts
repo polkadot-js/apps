@@ -307,18 +307,18 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'neumann',
+      text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
+      providers: {
+        OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
+      }
+    },
+    {
       info: 'nftmart',
       text: t('rpc.test.nftmart', 'NFTMart', { ns: 'apps-config' }),
       providers: {
         NFTMartDev: 'wss://dev-ws.nftmart.io',
         NFTMartStaging: 'wss://staging-ws.nftmart.io'
-      }
-    },
-    {
-      info: 'oak-testnet',
-      text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
-      providers: {
-        'OAK Network': 'wss://rpc.testnet.oak.tech'
       }
     },
     {
