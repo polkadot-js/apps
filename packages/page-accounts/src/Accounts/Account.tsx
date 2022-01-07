@@ -653,11 +653,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               isLogo
               type='address'
             />
-            {isFunction(api.api.tx.balances?.transfer) && (
+            {isFunction(api.api.tx.balances?.transfer) || isFunction(api.api.derive.balances?.transfer) && (
               <Button
                 className='send-button'
                 icon='paper-plane'
-                label={t<string>('send')}
+                label={t<string>('Send')}
                 onClick={toggleTransfer}
               />
             )}

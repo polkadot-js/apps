@@ -3,16 +3,16 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 
-import type { Observable } from 'rxjs';
-import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { ApiInterfaceRx, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import interbtc from '@interlay/interbtc-types';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, from, map, Observable } from 'rxjs';
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { memo } from '@polkadot/api-derive/util';
 import { TypeRegistry, U128 } from '@polkadot/types';
+import { AnyTuple } from '@polkadot/types-codec/types';
 import { BN, formatBalance } from '@polkadot/util';
 
 function balanceOf (number: number | string): U128 {
@@ -45,6 +45,8 @@ export function getBalance (
         map(([data]: [any]): DeriveBalancesAll => {
           return {
             ...defaultAccountBalance(),
+            accountId: api.registry.createType('AccountId', account),
+            availableBalance: data.free,
             freeBalance: data.free,
             lockedBalance: data.frozen,
             reservedBalance: data.reserved
@@ -54,10 +56,26 @@ export function getBalance (
   );
 }
 
+export function transferBalance (
+  instanceId: string,
+  api: ApiInterfaceRx
+): Observable<SubmittableExtrinsicFunction<'rxjs', AnyTuple>> {
+  const nativeToken = api.registry.chainTokens[0] || formatBalance.getDefaults().unit;
+
+  return memo(
+    instanceId,
+    (account: string, amount: number) =>
+      api.tx.tokens.transfer(account, { Token: nativeToken }, amount)
+  );
+}
+
 const definitions: OverrideBundleDefinition = {
   derives: {
     balances: {
-      all: getBalance
+      all: getBalance,
+      transfer: transferBalance,
+      transferAll: transferBalance,
+      transferKeepAlive: transferBalance
     }
   },
 
