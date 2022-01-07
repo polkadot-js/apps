@@ -1,11 +1,11 @@
 // Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Option } from '@polkadot/apps-config/settings/types';
 import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 

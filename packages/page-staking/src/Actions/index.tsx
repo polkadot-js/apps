@@ -4,13 +4,12 @@
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { SortedTargets } from '../types';
 
-import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';

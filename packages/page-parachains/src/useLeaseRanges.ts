@@ -3,10 +3,10 @@
 
 import type { u32 } from '@polkadot/types';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 const RANGES_DEFAULT: [number, number][] = [
   [0, 0], [0, 1], [0, 2], [0, 3],

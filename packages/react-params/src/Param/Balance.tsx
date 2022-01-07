@@ -3,10 +3,10 @@
 
 import type { Props } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 
 import { InputBalance } from '@polkadot/react-components';
+import { BN } from '@polkadot/util';
 
 import Bare from './Bare';
 

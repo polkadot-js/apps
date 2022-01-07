@@ -3,12 +3,11 @@
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { InputNumber, Modal, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
