@@ -3,12 +3,11 @@
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
-import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
 import { InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import SenderInfo from '../partials/SenderInfo';

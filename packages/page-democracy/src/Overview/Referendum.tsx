@@ -4,14 +4,13 @@
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
 import { useAccounts, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
+import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import useChangeCalc from '../useChangeCalc';

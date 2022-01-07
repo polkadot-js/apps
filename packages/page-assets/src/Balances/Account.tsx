@@ -1,9 +1,9 @@
 // Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { PalletAssetsAssetAccount } from '@polkadot/types/lookup';
 import type { bool } from '@polkadot/types-codec';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
