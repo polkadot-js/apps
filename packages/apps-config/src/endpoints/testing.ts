@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -227,7 +227,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'jupiter',
       text: t('rpc.test.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://pub.elara.patract.io/jupiter',
         Patract: 'wss://ws.jupiter-poa.patract.cn'
       }
     },
@@ -278,7 +277,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'acala',
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
+        Acala: 'wss://mandala.polkawallet.io',
         Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
@@ -375,7 +374,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polkadex',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://blockchain.polkadex.trade'

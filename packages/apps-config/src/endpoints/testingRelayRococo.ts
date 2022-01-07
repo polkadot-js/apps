@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -24,7 +24,6 @@ export function createRococo (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rococo-rpc.polkadot.io'
       // OnFinality: 'wss://rococo.api.onfinality.io/public-ws', // After reset, node misses host functions
-      // 'Patract Elara': 'wss://pub.elara.patract.io/rococo', // After reset node is not available
       // Pinknode: 'wss://rpc.pinknode.io/rococo/explorer' // After reset, syncs to old chain
       // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
     },
