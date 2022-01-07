@@ -5,7 +5,7 @@ import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 
-import { ApiPromise } from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
