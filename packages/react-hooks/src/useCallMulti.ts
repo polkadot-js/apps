@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -68,7 +68,7 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ isActive: false, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ fn: null, isActive: false, serialized: null, subscriber: null });
   const [value, setValue] = useState<T>(() => (options || {}).defaultValue || [] as unknown as T);
 
   // initial effect, we need an un-subscription

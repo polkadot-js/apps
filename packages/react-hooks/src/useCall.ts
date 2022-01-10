@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
@@ -45,6 +45,7 @@ type CallFn = (...params: unknown[]) => Promise<VoidFn>;
 export type TrackFn = PromiseResult<AnyFunction> | QueryFn;
 
 export interface Tracker {
+  fn: TrackFn | undefined | null | false;
   isActive: boolean;
   serialized: string | null;
   subscriber: TrackFnResult | null;
@@ -140,7 +141,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 // FIXME This is generic, we cannot really use createNamedHook
 export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>): T | undefined {
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ isActive: false, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ fn: null, isActive: false, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
 
   // initial effect, we need an un-subscription
@@ -154,7 +155,8 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
     if (mountedRef.current && fn) {
       const [serialized, mappedParams] = extractParams(fn, params || [], options);
 
-      if (mappedParams && serialized !== tracker.current.serialized) {
+      if (mappedParams && ((fn !== tracker.current.fn) || (serialized !== tracker.current.serialized))) {
+        tracker.current.fn = fn;
         tracker.current.serialized = serialized;
 
         subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);

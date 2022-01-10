@@ -1,13 +1,42 @@
 # CHANGELOG
 
-## master
+## 0.101.1 Jan 10, 2022
+
+Contributed:
+
+- Add derive for Interbtc native balances (Thanks to https://github.com/gregdhill)
+- Adjust transfer checks for non-available tx (Thanks to https://github.com/gregdhill)
+- Update Interbtc types (Thanks to https://github.com/nud3l)
+- Update Mandala (Thanks to https://github.com/nnnnnnnnnni)
+- Update Robonomics types (Thanks to https://github.com/akru)
+- Add RPC types of Interbtc (Thanks to https://github.com/nud3l)
+- Add Competitors Club network (Thanks to https://github.com/jesselurie)
+- Add Neumann network (Thanks to https://github.com/imstar15)
+- Add Crab parachain (Thanks to https://github.com/sxlwar)
+- Re-add Polkadex testnet (Thanks to https://github.com/simonsso)
+- Added Dwellir Polkadot endpoints (Thanks to https://github.com/Maharacha)
+- Add SherapX live network (Thanks to https://github.com/wbh1328551759)
+- Add SherpaX testnet (Thanks to https://github.com/wbh1328551759)
+- Remove all Elara endpoints (Thanks to https://github.com/zzcwoshizz)
+- Update Crust Shadow endpoint (Thanks to https://github.com/yashirooooo)
+- Adjust teleport fees message (Thanks to https://github.com/DrW3RK)
+- Enable Subscan for Polkadot parachains (Thsnks to https://github.com/niklabh)
+- Update OAK logo (Thanks to https://github.com/imstar15)
 
 Changes:
 
+- Remove inaccurate teleport destination fees
+- Show empty logo for unknown extensions (instead of broken)
+- Adjust asset table breakpoints
+- Remove all Geometry endpoints
+- Use relay identity for common good parachains
+- Extract `derive.account.*` into hooks
+- Test for duplicate endpoint URLs (& cleanup duplication)
+- Adjust Subsocial imports (remove package use duplication)
 - Update types from chain teams (external dependencies)
 
 
-## 0.100.1 Dev 27, 2021
+## 0.100.1 Dec 27, 2021
 
 Contributed:
 

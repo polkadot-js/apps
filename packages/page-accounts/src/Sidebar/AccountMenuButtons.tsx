@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
@@ -7,8 +7,9 @@ import styled from 'styled-components';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { AddressFlags } from '@polkadot/react-hooks/types';
+import { isFunction } from '@polkadot/util';
 
 interface Props {
   className?: string;
@@ -28,6 +29,7 @@ interface Props {
 function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, onCancel, onForgetAddress, onSaveName, onSaveTags, onUpdateName, recipientId, toggleIsEditingName, toggleIsEditingTags }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
+  const api = useApi();
 
   const _onForgetAddress = useCallback(
     (): void => {
@@ -85,12 +87,14 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
         )
         : (
           <Button.Group>
-            <Button
-              icon='paper-plane'
-              isDisabled={isEditing}
-              label={t<string>('Send')}
-              onClick={toggleIsTransferOpen}
-            />
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                icon='paper-plane'
+                isDisabled={isEditing}
+                label={t<string>('Send')}
+                onClick={toggleIsTransferOpen}
+              />
+            )}
             {!flags.isOwned && !flags.isInContacts && (
               <Button
                 icon='plus'

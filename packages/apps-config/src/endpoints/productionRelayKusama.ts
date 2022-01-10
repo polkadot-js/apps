@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -22,8 +22,7 @@ export function createKusama (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://pub.elara.patract.io/kusama',
-      'Geometry Labs': 'wss://kusama.geometry.io/websockets',
+      // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
       Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
@@ -39,8 +38,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.statemine', 'Statemine', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemine-rpc.polkadot.io',
-          OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/statemine'
+          OnFinality: 'wss://statemine.api.onfinality.io/public-ws'
         },
         teleport: [-1]
       },
@@ -106,7 +104,17 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
-          Crust: 'wss://shadow.crust.network/'
+          Crust: 'wss://rpc-shadow.crust.network/'
+        }
+      },
+      {
+        info: 'crab',
+        homepage: 'https://crab.network',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/issues/6794
+        paraId: 2105,
+        text: t('rpc.kusama.crab', 'Darwinia Crab', { ns: 'apps-config' }),
+        providers: {
+          Crab: 'wss://crab-parachain-rpc.darwinia.network/'
         }
       },
       {
@@ -121,6 +129,7 @@ export function createKusama (t: TFunction): EndpointOption {
       {
         info: 'genshiro',
         homepage: 'https://genshiro.equilibrium.io',
+        isUnreachable: true, // https://github.com/polkadot-js/apps/pull/6761
         paraId: 2024,
         text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
         providers: {
@@ -294,16 +303,6 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
         providers: {
           Clover: 'wss://api-sakura.clover.finance'
-        }
-      },
-      {
-        info: 'sherpax',
-        homepage: 'https://chainx.org/',
-        isUnreachable: true,
-        paraId: 2013,
-        text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
-        providers: {
-          ChainX: 'wss://sherpax-mainnet.chainx.org'
         }
       },
       {

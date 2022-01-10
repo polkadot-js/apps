@@ -1,8 +1,7 @@
-// Copyright 2017-2021 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, within } from '@testing-library/react';
-import BN from 'bn.js';
 
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import i18next from '@polkadot/react-components/i18n';
@@ -18,6 +17,7 @@ import { u32 } from '@polkadot/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
+import { BN } from '@polkadot/util';
 
 import { AccountRow } from '../../test/pageElements/AccountRow';
 import { AccountsPage } from '../../test/pages/accountsPage';

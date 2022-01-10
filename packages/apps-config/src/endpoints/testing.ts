@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -227,7 +227,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'jupiter',
       text: t('rpc.test.jupiter', 'Jupiter', { ns: 'apps-config' }),
       providers: {
-        Elara: 'wss://pub.elara.patract.io/jupiter',
         Patract: 'wss://ws.jupiter-poa.patract.cn'
       }
     },
@@ -278,7 +277,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       info: 'acala',
       text: t('rpc.test.mandala', 'Mandala', { ns: 'apps-config' }),
       providers: {
-        Acala: 'wss://acala-mandala.api.onfinality.io/public-ws',
+        Acala: 'wss://mandala.polkawallet.io',
         Pinknode: 'wss://rpc.pinknode.io/mandala/explorer'
       }
     },
@@ -308,18 +307,18 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
       }
     },
     {
+      info: 'neumann',
+      text: t('rpc.test.oak', 'Neumann Network', { ns: 'apps-config' }),
+      providers: {
+        OnFinality: 'wss://neumann.api.onfinality.io/public-ws'
+      }
+    },
+    {
       info: 'nftmart',
       text: t('rpc.test.nftmart', 'NFTMart', { ns: 'apps-config' }),
       providers: {
         NFTMartDev: 'wss://dev-ws.nftmart.io',
         NFTMartStaging: 'wss://staging-ws.nftmart.io'
-      }
-    },
-    {
-      info: 'oak-testnet',
-      text: t('rpc.test.oak', 'OAK Testnet', { ns: 'apps-config' }),
-      providers: {
-        'OAK Network': 'wss://rpc.testnet.oak.tech'
       }
     },
     {
@@ -367,6 +366,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'pichiu',
+      isDisabled: true, // https://github.com/polkadot-js/apps/pull/6761
       text: t('rpc.test.kylin-node.co.uk', 'Pichiu Testnet', { ns: 'apps-config' }),
       providers: {
         'Kylin Network': 'wss://westend.kylin-node.co.uk'
@@ -374,7 +374,6 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'polkadex',
-      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6312
       text: t('rpc.test.polkadex', 'Polkadex', { ns: 'apps-config' }),
       providers: {
         'Polkadex Team': 'wss://blockchain.polkadex.trade'

@@ -1,10 +1,9 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import BN from 'bn.js';
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
+import { BN } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useAccounts } from './useAccounts';
