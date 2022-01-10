@@ -104,7 +104,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
-          Crust: 'wss://shadow.crust.network/'
+          Crust: 'wss://rpc-shadow.crust.network/'
         }
       },
       {
