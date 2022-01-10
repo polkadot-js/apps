@@ -8,4 +8,4 @@ import { detectPackage } from '@polkadot/util';
 import others from './detectOther';
 import { packageInfo } from './packageInfo';
 
-detectPackage(packageInfo, packageInfo.path, others);
+detectPackage(packageInfo, null, others);
