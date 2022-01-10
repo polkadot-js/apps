@@ -15,7 +15,7 @@ const definitions: OverrideBundleDefinition = {
         Address: 'MultiAddress',
         AskPeriodNum: 'u64',
         AskPointNum: 'u32',
-        AuthorityAres: "AccountId",
+        AuthorityAres: 'AccountId',
         AccountParticipateEstimates: {
           account: 'AccountId',
           estimates: 'u64',
@@ -51,7 +51,7 @@ const definitions: OverrideBundleDefinition = {
           _enum: {
             IoErr: 'Bytes',
             TimeOut: 'Bytes',
-            StatusErr: '(Bytes,u16)' ,
+            StatusErr: '(Bytes,u16)',
             ParseErr: 'Bytes'
           }
         },
@@ -172,10 +172,20 @@ const definitions: OverrideBundleDefinition = {
           deviation: 'Permill',
           state: 'EstimatesState',
           total_reward: 'Balance',
-        }
+        },
+        MultiplierOption: {
+          _enum: [
+            'Base1', 'Base2', 'Base5'
+          ]
+        },
+        EstimatesType: {
+          _enum: [
+            'DEVIATION', 'RANGE'
+          ]
+        },
       }
     }
   ]
-};
+}
 
-export default definitions;
+export default definitions
