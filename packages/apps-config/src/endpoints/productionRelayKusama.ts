@@ -265,6 +265,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
         providers: {
           Unique: 'wss://quartz.unique.network',
+          OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
           'Unique Europe': 'wss://eu-ws-quartz.unique.network',
           'Unique US': 'wss://us-ws-quartz.unique.network'
         }
