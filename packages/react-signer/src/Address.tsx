@@ -1,13 +1,13 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { Option, Vec } from '@polkadot/types';
 import type { AccountId, BalanceOf, Call, Multisig } from '@polkadot/types/interfaces';
 import type { NodeRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { AddressFlags, AddressProxy } from './types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';

@@ -1,5 +1,159 @@
 # CHANGELOG
 
+## 0.101.1 Jan 10, 2022
+
+Contributed:
+
+- Add derive for Interbtc native balances (Thanks to https://github.com/gregdhill)
+- Adjust transfer checks for non-available tx (Thanks to https://github.com/gregdhill)
+- Update Interbtc types (Thanks to https://github.com/nud3l)
+- Update Mandala (Thanks to https://github.com/nnnnnnnnnni)
+- Update Robonomics types (Thanks to https://github.com/akru)
+- Add RPC types of Interbtc (Thanks to https://github.com/nud3l)
+- Add Competitors Club network (Thanks to https://github.com/jesselurie)
+- Add Neumann network (Thanks to https://github.com/imstar15)
+- Add Crab parachain (Thanks to https://github.com/sxlwar)
+- Re-add Polkadex testnet (Thanks to https://github.com/simonsso)
+- Added Dwellir Polkadot endpoints (Thanks to https://github.com/Maharacha)
+- Add SherapX live network (Thanks to https://github.com/wbh1328551759)
+- Add SherpaX testnet (Thanks to https://github.com/wbh1328551759)
+- Remove all Elara endpoints (Thanks to https://github.com/zzcwoshizz)
+- Update Crust Shadow endpoint (Thanks to https://github.com/yashirooooo)
+- Adjust teleport fees message (Thanks to https://github.com/DrW3RK)
+- Enable Subscan for Polkadot parachains (Thsnks to https://github.com/niklabh)
+- Update OAK logo (Thanks to https://github.com/imstar15)
+
+Changes:
+
+- Remove inaccurate teleport destination fees
+- Show empty logo for unknown extensions (instead of broken)
+- Adjust asset table breakpoints
+- Remove all Geometry endpoints
+- Use relay identity for common good parachains
+- Extract `derive.account.*` into hooks
+- Test for duplicate endpoint URLs (& cleanup duplication)
+- Adjust Subsocial imports (remove package use duplication)
+- Update types from chain teams (external dependencies)
+
+
+## 0.100.1 Dec 27, 2021
+
+Contributed:
+
+- Support for contracts storage deposit (Thanks to https://github.com/statictype)
+- Remove Rococo Tick, Trick & Track (Thanks to https://github.com/BulatSaif)
+- Add HydraX Polkadot parachain (Thanks to https://github.com/lumir-mrkva)
+- Add Phala Polkadot parachain (Thanks to https://github.com/jasl)
+- Update Clover endpoints (Thanks to https://github.com/jamesbayly)
+- Add Sherpax testnet node (Thanks to https://github.com/wbh1328551759)
+- Update Opportunity/Standard types (Thanks to https://github.com/firke)
+- Staking tooltip grammar fix (Thanks to https://github.com/tarrball)
+- Support new Moonbeam author extraction (Thanks to https://github.com/joelamouche)
+
+Changes:
+
+- Disable unreachable endpoints
+- Bump to latest `@polkadot/api`
+
+
+## 0.99.1 Dec 21, 2021
+
+Contributed:
+
+- Adjust Parity Statemine endpoints (Thanks to https://github.com/PierreBesson)
+- Add Parity Statemint endpoints (Thanks to https://github.com/PierreBesson)
+- Enable Teleport on Rococo (Thanks to https://github.com/PierreBesson)
+- Adjust Rococo Tick endpoint (Thanks to https://github.com/BulatSaif)
+- Adjust teleport weights (Thanks to https://github.com/apopiak)
+- Styling fix for asset balance input (Thanks to https://github.com/goldsteinsveta)
+- Adjust NFTMart staking params (Thanks to https://github.com/btwiuse)
+- Adjust Genshiro information (Thanks to https://github.com/equilibrium-de)
+- Adjust Heiko Parallel endpoints (Thanks to https://github.com/GopherJ)
+- Adjust Dock endpoints (Thanks to https://github.com/SamHellawell)
+- Add Parallel Polkadot parachain (Thanks to https://github.com/GopherJ)
+- Add Bitfrost Polkadot parachain (Thanks to https://github.com/awesomepan)
+- Add Crust Polkadot parachain (Thanks to https://github.com/mmyyrroonn)
+- Add Clover Polkadot parachain (Thanks to https://github.com/pangwa)
+- Add Moonbeam Polkadot parachain (Thanks to https://github.com/crystalin)
+- Add Manta Polkadot parachain (Thanks to https://github.com/stechu)
+- Add Acala Polkadot parachain (Thanks to https://github.com/qwer951123)
+- Add Astar Polkadot parachain (Thanks to https://github.com/sirius651)
+- Add Subsocial Polkadot parachain (Thanks to https://github.com/olehmell)
+- Add Litentry Polkadot parachain (Thanks to https://github.com/chenzongxiong)
+- Add Subgame Polkadot parachain (Thanks to https://github.com/xtony77)
+- Add Efinity Polkadot parachain (Thanks to https://github.com/coinfork)
+- Add Centrifuge Polkadot parachain (Thanks to https://github.com/mikiquantum)
+- Add Pichiu Kusama parachain (Thanks to https://github.com/samelamin)
+- Add Interlay Polkadot parachain (Thanks to https://github.com/nud3l)
+- Add Equilibrium Polkadot parachain (Thanks to https://github.com/VladSemenik)
+- Update Robonomics parachain info (Thanks to https://github.com/akru)
+- Add Nodle parachain info (Thanks to https://github.com/ETeissonniere)
+- Add Integritee mainnet (Thanks to https://github.com/brenzi)
+- Add Composable Finance network (Thanks to https://github.com/composerpeter)
+- Add Subspace Farmers network (Thanks to https://github.com/1devNdogs)
+- Update Polymesh networks (Thanks to https://github.com/adamdossa)
+- Update Bifrost types (Thanks to https://github.com/awesomepan)
+- Bump Darwinia types (Thanks to https://github.com/sxlwar)
+- Bump LBP types (Thanks to https://github.com/chenzongxiong)
+- Bump Subsocial types (Thanks to https://github.com/olehmell)
+- Bump Moonbeam types (Thanks to https://github.com/joelamouche)
+- Bump Astar types (Thanks to https://github.com/bobo-k2)
+- Bump GameDao types (Thanks to https://github.com/2075)
+- Bump Kulupu types (Thanks to https://github.com/sorpaas)
+- Bump Ternoa types (Thanks to https://github.com/markopoloparadox)
+- Opal & Quartz updates for metadata v14 (Thanks to https://github.com/gregzaitsev)
+- Adjust Encointer deployment (Thanks to https://github.com/brenzi)
+- Add Pichiu network (Thanks to https://github.com/samelamin)
+- Add Subdao networks (Thanks to https://github.com/sharkygg)
+- Add Web3Games testnet (Thanks to https://github.com/Zombieliu)
+- Add Ares Oddyssey network (Thanks to https://github.com/jiyilanzhou)
+- Add Coinversation network (Thanks to https://github.com/LaceLetho)
+- Add Automata & ContextFree testnets (Thanks to https://github.com/RyuH1)
+- Add Geometry Labs endpoints (Thanks to https://github.com/robcxyz)
+- Add Zeitgeist parachain config (Thanks to https://github.com/lsaether)
+- Add Dolphin testnet (Thanks to https://github.com/dansofter)
+- Add Kusari network (Thanks to https://github.com/masterdubs)
+- Adjust Sora logos (Thanks to https://github.com/NoodleSploder)
+- Update Acala endpoints (Thanks to https://github.com/ntduan)
+- Update Astar live endpoints (Thanks to https://github.com/akru)
+- Update Bifrost endpoints (Thanks to https://github.com/awesomepan)
+- Update Aleph Zero endpoints (Thanks to https://github.com/timorl)
+- Update ChainX endpoints (Thanks to https://github.com/icodezjb)
+- Update InterBTC naming to Interlay (Thanks to https://github.com/savudani8)
+- Updata Klaha network naming (Thanks to https://github.com/jasl)
+- OnFlinality endpoint for Acala (Thanks to https://github.com/RossAtOnfinality)
+- OnFinality endpoint for Statemint (Thanks to https://github.com/454076513)
+- OnFinality endpoint for Shiden fix (Thanks to https://github.com/alanchang124)
+- OnFinality endpoint for Bit.Country (Thanks to https://github.com/alanchang124)
+- OnFinality endpoint for Parallel (Thanks to https://github.com/RossAtOnfinality)
+- OnFinality endpoint for Moonbeam (Thanks to https://github.com/alanchang124)
+- OnFinality endpoint for Clover & Astar (Thanks to https://github.com/alanchang124)
+- Adjust Elara endpoints (Thanks to https://github.com/FreePoi)
+- Adjust Calamari endpoints (Thanks to https://github.com/grenade)
+- Adjust Moonbeam endpoints (Thanks to https://github.com/joelamouche)
+- Dwellir Kusama endpoints (Thanks to https://github.com/Maharacha)
+- Add external links to Subsquare (Thanks to https://github.com/wliyongfeng)
+- Adjust tokendecimal retrieval (Thanks to https://github.com/sxlwar)
+- Update Subspace derives (Thanks to https://github.com/1devNdogs)
+- Support Subspace blockchain calculations (Thanks to https://github.com/1devNdogs)
+
+Changes:
+
+- Allow for storage queries at a specific block
+- Add support for `limitedTeleportAssets`
+- Fix `?rpc=` param not taking effect
+- Adjust assets to cater for latest Substrate
+- Update unreachable endpoints
+- Add a rebond staking modal
+- Adjust warning on ,large bond amounts
+- Adjust parachain display (no hrmp)
+- Adjust uncaught error displays
+- Adjust hooks with named variants (error-catch related)
+- Remove derivation option for Ethereum accounts (not implemented)
+- Disable Settings -> Developer for metadata v14
+- Bump to latest `@polkadot/api` & `@polkadot/util`
+
+
 ## 0.98.1 Oct 25, 2021
 
 Contributed:

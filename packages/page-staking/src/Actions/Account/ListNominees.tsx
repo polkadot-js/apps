@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { DeriveEraExposure, DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
@@ -109,7 +109,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {renWaiting && (
         <Expander
-          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stop validating. Any nominations made before the next election will also appear here.')}
+          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stopped validating. Any nominations made before the next election will also appear here.')}
           renderChildren={renWaiting[1]}
           summary={t<string>('Waiting nominations ({{count}})', { replace: { count: renWaiting[0] } })}
         />

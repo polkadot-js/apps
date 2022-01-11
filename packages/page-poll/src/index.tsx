@@ -1,10 +1,9 @@
-// Copyright 2017-2021 @polkadot/app-poll authors & contributors
+// Copyright 2017-2022 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
-import BN from 'bn.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
@@ -12,7 +11,7 @@ import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Tabs, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCallMulti } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_MILLION, BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
+import { BN, BN_MILLION, BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 

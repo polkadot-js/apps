@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -73,7 +73,7 @@ function subscribeNewHeads (
     (): Observable<HeaderExtended> =>
       combineLatest([api.rpc.chain.subscribeNewHeads()]).pipe(
         map(([header]): HeaderExtended => {
-          return createHeaderExtended(header.registry, header, api);
+          return createHeaderExtended(header.registry as Registry, header, api);
         })
       )
   );
@@ -88,7 +88,7 @@ function getHeader (
     (): Observable<HeaderExtended> =>
       combineLatest([api.rpc.chain.getHeader()]).pipe(
         map(([header]): HeaderExtended => {
-          return createHeaderExtended(header.registry, header, api);
+          return createHeaderExtended(header.registry as Registry, header, api);
         })
       )
   );

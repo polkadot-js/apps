@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-claims authors & contributors
+// Copyright 2017-2022 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxCallback } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';

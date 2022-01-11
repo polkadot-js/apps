@@ -1,7 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 export type EntryType = 'councilElection' | 'councilMotion' | 'democracyDispatch' | 'democracyLaunch' | 'parachainAuction' | 'parachainLease' | 'referendumDispatch' | 'referendumVote' | 'scheduler' | 'societyChallenge' | 'societyRotate'| 'stakingEpoch' | 'stakingEra' | 'stakingSlash' | 'treasurySpend';
 

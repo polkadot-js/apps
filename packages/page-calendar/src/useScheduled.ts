@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { BlockNumber, EraIndex, LeasePeriodOf, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 
 import { useEffect, useState } from 'react';

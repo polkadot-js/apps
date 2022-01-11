@@ -1,11 +1,10 @@
-// Copyright 2017-2021 @polkadot/test-support authors & contributors
+// Copyright 2017-2022 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { execute } from '@polkadot/test-support/transaction';
+import { BN } from '@polkadot/util';
 
 import { waitForBountyState, waitForClaim } from './bountyWaitFunctions';
 import { FUNDING_TIME, PAYOUT_TIME } from './constants';
