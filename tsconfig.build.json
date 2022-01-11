@@ -6,6 +6,6 @@
   ],
   "compilerOptions": {
     "baseUrl": "./packages",
-    "composite": false
+    "outDir": "./build"
   }
 }
