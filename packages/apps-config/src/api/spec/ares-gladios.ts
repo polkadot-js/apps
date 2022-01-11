@@ -164,14 +164,18 @@ const definitions: OverrideBundleDefinition = {
         PurchaseId: 'Vec<u8>',
         SymbolEstimatesConfig: {
           symbol: 'Bytes',
+          estimates_type: 'EstimatesType',
           id: 'u64',
-          price: 'Balance',
+          ticket_price: 'Balance',
+          symbol_completed_price: 'u64',
+          symbol_fraction: 'FractionLength',
           start: 'BlockNumber',
-          length: 'BlockNumber',
-          delay: 'BlockNumber',
-          deviation: 'Permill',
-          state: 'EstimatesState',
+          end: 'BlockNumber',
+          distribute: 'BlockNumber',
+          deviation: 'Option<Permill>',
+          range: 'Option<Vec<u64>>',
           total_reward: 'Balance',
+          state: 'EstimatesState',
         },
         MultiplierOption: {
           _enum: [
