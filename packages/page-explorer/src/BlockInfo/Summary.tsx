@@ -1,16 +1,15 @@
-// Copyright 2017-2021 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { Balance, DispatchInfo, SignedBlock, Weight } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 

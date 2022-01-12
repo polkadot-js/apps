@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -7,7 +7,6 @@ import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 
 import { fireEvent } from '@testing-library/react';
-import BN from 'bn.js';
 
 import { ApiPromise } from '@polkadot/api';
 import i18next from '@polkadot/react-components/i18n';
@@ -19,6 +18,7 @@ import { mockHooks } from '@polkadot/test-support/hooks/mockHooks';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { alice, bob } from '@polkadot/test-support/keyring/addresses';
 import { keyring } from '@polkadot/ui-keyring';
+import { BN } from '@polkadot/util';
 
 import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
 import { BountiesPage } from '../test/pages/bountiesPage';

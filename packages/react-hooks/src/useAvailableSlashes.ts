@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-council authors & contributors
+// Copyright 2017-2022 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -6,10 +6,9 @@ import type { Option } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
-import { BN_ONE } from '@polkadot/util';
+import { BN, BN_ONE } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';

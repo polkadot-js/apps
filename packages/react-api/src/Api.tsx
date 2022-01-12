@@ -1,7 +1,6 @@
-// Copyright 2017-2021 @polkadot/react-api authors & contributors
+// Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
@@ -11,17 +10,17 @@ import { Detector } from '@substrate/connect';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { WsProvider } from '@polkadot/api';
-import { ApiPromise } from '@polkadot/api/promise';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle, typesChain } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
+import { useApiUrl, useEndpoint } from '@polkadot/react-hooks';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
-import { formatBalance, isTestChain, objectSpread } from '@polkadot/util';
+import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
@@ -99,8 +98,7 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
-    api.rpc.system.properties(),
+  const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
@@ -113,9 +111,9 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   return {
     injectedAccounts,
     properties: registry.createType('ChainProperties', {
-      ss58Format: api.consts.system?.ss58Prefix || chainProperties.ss58Format,
-      tokenDecimals: chainProperties.tokenDecimals,
-      tokenSymbol: chainProperties.tokenSymbol
+      ss58Format: api.registry.chainSS58,
+      tokenDecimals: api.registry.chainDecimals,
+      tokenSymbol: api.registry.chainTokens
     }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
@@ -136,14 +134,14 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
-  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
+  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
 
   // first setup the UI helpers
   formatBalance.setDefaults({
-    decimals: (tokenDecimals as BN[]).map((b) => b.toNumber()),
+    decimals: tokenDecimals.map((b) => b.toNumber()),
     unit: tokenSymbol[0].toString()
   });
   TokenUnit.setAbbr(tokenSymbol[0].toString());
@@ -186,10 +184,18 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
+  const apiEndpoint = useEndpoint(apiUrl);
+  const relayUrls = useMemo(
+    () => (apiEndpoint && apiEndpoint.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
+      ? apiEndpoint.valueRelay
+      : null,
+    [apiEndpoint]
+  );
+  const apiRelay = useApiUrl(relayUrls);
 
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiError, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
-    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiUrl]
+    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
   // initial initialization

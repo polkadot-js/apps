@@ -1,10 +1,10 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { AssetInfo } from './types';
 
 import { useEffect, useState } from 'react';

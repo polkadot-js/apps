@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';

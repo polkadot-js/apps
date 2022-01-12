@@ -1,15 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPrefs } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
 
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_BILLION } from '@polkadot/util';
+import { BN, BN_BILLION } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 

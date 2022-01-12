@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN } from '@polkadot/util';
 
 import { useBounties } from './hooks';
 import { useTranslation } from './translate';

@@ -1,18 +1,21 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    Acala: 'acala',
     'Acala Mandala TC5': 'acala-testnet',
     'Ares Gladios': 'ares-testnet',
+    Astar: 'astar',
     Bifrost: 'bifrost',
     Calamari: 'calamari',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
+    Clover: 'clv',
     'Crust Maxwell': 'crust',
     Darwinia: 'darwinia',
     'Darwinia Crab': 'crab',
@@ -26,7 +29,9 @@ export default {
     Kusama: 'kusama',
     'Laminar Turbulence TC2': 'laminar-testnet',
     Moonbase: 'moonbase',
+    Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
+    Parallel: 'parallel',
     'Phala PoC-4': 'phala',
     Plasm: 'plasm',
     Polkadot: 'polkadot',

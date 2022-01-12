@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -31,7 +31,9 @@ function useBlockTimeImpl (blocks: number | BN = BN_ONE, apiOverride?: ApiPromis
         // Babe
         a.consts.babe?.expectedBlockTime ||
         // POW, eg. Kulupu
-        a.consts.difficulty?.targetBlockTime || (
+        a.consts.difficulty?.targetBlockTime ||
+        // Subspace
+        a.consts.subspace?.expectedBlockTime || (
           // Check against threshold to determine value validity
           a.consts.timestamp?.minimumPeriod.gte(THRESHOLD)
             // Default minimum period config
