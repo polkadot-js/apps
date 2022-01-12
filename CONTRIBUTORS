@@ -1,4 +1,4 @@
-    3331	Jaco                          	Align tsconfig.build.json with others in polkadot-js (#6818)
+    3332	Jaco                          	Adjust ipfs pin (failure) (#6820)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       45	Antoine Estienne              	Update moonbase url (#6808)
