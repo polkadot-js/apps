@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -7,11 +7,10 @@ import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/loo
 import type { ITuple } from '@polkadot/types/types';
 import type { Campaign, Campaigns } from './types';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef, useMapKeys } from '@polkadot/react-hooks';
-import { BN_ZERO, u8aConcat } from '@polkadot/util';
+import { BN, BN_ZERO, u8aConcat } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 import { CROWD_PREFIX } from './constants';

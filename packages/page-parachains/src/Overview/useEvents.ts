@@ -1,12 +1,12 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { Event } from '@polkadot/types/interfaces';
 import type { PolkadotPrimitivesV1CandidateReceipt } from '@polkadot/types/lookup';
 import type { IEvent } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { EventMapInfo } from './types';
 
 import { useEffect, useState } from 'react';
