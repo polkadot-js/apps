@@ -4,7 +4,6 @@
 import '@polkadot/react-components/i18n';
 
 import { render } from '@testing-library/react';
-import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -17,6 +16,7 @@ import { MemoryStore } from '@polkadot/test-support/keyring';
 import { aliceSigner } from '@polkadot/test-support/keyring/signers';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { execute } from '@polkadot/test-support/transaction/execute';
+import { BN } from '@polkadot/util';
 
 const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 

@@ -3,7 +3,7 @@
 
 import '@polkadot/api-augment/substrate';
 
-import type BN from 'bn.js';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';

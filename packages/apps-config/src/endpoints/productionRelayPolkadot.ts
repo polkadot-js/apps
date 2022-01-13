@@ -22,7 +22,6 @@ export function createPolkadot (t: TFunction): EndpointOption {
     providers: {
       Parity: 'wss://rpc.polkadot.io',
       OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-      'Patract Elara': 'wss://pub.elara.patract.io/polkadot',
       // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
       Dwellir: 'wss://polkadot-rpc.dwellir.com',
       'light client': 'light://substrate-connect/polkadot'
@@ -38,8 +37,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.statemint', 'Statemint', { ns: 'apps-config' }),
         providers: {
           Parity: 'wss://statemint-rpc.polkadot.io',
-          OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-          'Patract Elara': 'wss://pub.elara.patract.io/statemint'
+          OnFinality: 'wss://statemint.api.onfinality.io/public-ws'
         }
       },
       /// (3) parachains with id, see Rococo (info here maps to the actual "named icon")

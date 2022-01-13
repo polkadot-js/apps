@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
-import BN from 'bn.js';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -18,6 +17,7 @@ import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
+import { BN } from '@polkadot/util';
 
 import { alice, bob, charlie, ferdie } from '../keyring';
 import { Table } from '../pagesElements';

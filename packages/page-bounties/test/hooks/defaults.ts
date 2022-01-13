@@ -3,11 +3,10 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
-import BN from 'bn.js';
-
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BlockNumber } from '@polkadot/types/interfaces';
+import { BN } from '@polkadot/util';
 
 import { BountyApi } from '../../src/hooks';
 
