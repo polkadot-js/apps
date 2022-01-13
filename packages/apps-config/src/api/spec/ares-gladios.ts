@@ -17,8 +17,12 @@ const definitions: OverrideBundleDefinition = {
         AuthorityAres: 'AccountId',
         AccountParticipateEstimates: {
           account: 'AccountId',
-          estimates: 'u64',
-          eth_address: 'Option<Bytes>'
+          end: 'BlockNumber',
+          estimates: 'Option<u64>',
+          range_index: 'Option<u8>',
+          eth_address: 'Option<Bytes>',
+          multiplier: 'MultiplierOption',
+          reward: 'u128'
         },
         AresPriceData: {
           price: 'u64',
@@ -76,6 +80,7 @@ const definitions: OverrideBundleDefinition = {
           fraction_length: 'u32',
           exponent: 'u32'
         },
+        Keys: 'SessionKeys3',
         LookupSource: 'MultiAddress',
         MultiplierOption: {
           _enum: [
