@@ -48,6 +48,7 @@ import externalDotScanner from './external/dotscanner.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
+import externalSingular from './external/singular.svg';
 import externalStatescan from './external/statescan.svg';
 import externalSubId from './external/subid.svg';
 import externalSubscan from './external/subscan.svg';
@@ -283,6 +284,7 @@ export const chainLogos = Object.entries({
   'ReAlis Network': nodeRealis,
   'RioChain CC-1': nodeRiochain,
   'RioChain Staging': nodeRiochain,
+  Robonomics: nodeRobonomics,
   Rococo: chainRococo,
   Sherpax: nodeSherpax,
   'Sherpax Testnet': nodeSherpax,
@@ -720,6 +722,7 @@ export const externalLogos: Record<string, unknown> = {
   polkascan: externalPolkascan,
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
+  singular: externalSingular,
   statescan: externalStatescan,
   subid: externalSubId,
   subscan: externalSubscan,
