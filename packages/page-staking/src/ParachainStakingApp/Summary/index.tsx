@@ -10,7 +10,7 @@ import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 import SummaryRound, { RoundInfo } from './SummaryRound';
 
 interface Props {
@@ -63,7 +63,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
             t<string>('active / nominators')
           }
         >
-          {activeDelegatorsCount > 0
+          {activeDelegatorsCount >= 0
             ? (
               <>
                 {formatNumber(activeDelegatorsCount)}

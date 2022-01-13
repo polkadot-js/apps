@@ -6,7 +6,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 import CollatorDetails, { CollatorInfo, CollatorState } from './CollatorDetails';
 
 interface Props {

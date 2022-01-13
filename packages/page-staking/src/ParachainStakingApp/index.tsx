@@ -3,16 +3,20 @@
 
 import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { CollatorState } from './CollatorDetails';
+import { CollatorState } from './CollatorList/CollatorDetails';
 import CollatorList from './CollatorList';
 import Summary, { OwnerAmount } from './Summary';
-import { RoundInfo } from './SummaryRound';
+import { RoundInfo } from './Summary/SummaryRound';
+import { Tabs } from '@polkadot/react-components';
+import { useTranslation } from '../translate';
+import { Route, Switch, useLocation } from 'react-router-dom';
+import UserDelegations from './UserDelegations';
 
 interface ApiResult{
   toHuman: () => string
@@ -22,8 +26,10 @@ interface CollatorStateRaw {
   unwrap: () => CollatorState
 }
 
-function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<AppProps> {
+function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.ReactElement<AppProps> {
   const { api } = useApi();
+  const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   // summary info
   const roundInfo = useCall<RoundInfo<unknown>>(api.query.parachainStaking.round);
@@ -39,8 +45,8 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
   const allCollators = useCall<[Uint8Array, CollatorStateRaw][]>((api.query.parachainStaking.candidateState).entries, []);
   // Sort them and extract nominator numbers
   const [allCollatorsSorted, setAllCollatorsSorted] = useState<CollatorState[]>([]);
-  const [activeDelegatorsCount, setActiveDelegatorsCount] = useState(0);
-  const [allDelegatorsCount, setAllDelegatorsCount] = useState(0);
+  const [activeDelegatorsCount, setActiveDelegatorsCount] = useState(-1);
+  const [allDelegatorsCount, setAllDelegatorsCount] = useState(-1);
 
   // list info
   const candidatePool = useCall<OwnerAmount[]>(api.query.parachainStaking.candidatePool);
@@ -59,6 +65,7 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
     sorted.sort((a, b) => {
       return Number(BigInt(b.totalCounted) - BigInt(a.totalCounted));
     }).forEach((collatorState, i) => {
+      // TODO: move this work to the relevant location??
       // extract relevant nominator stats
       if (selectedCandidates?.length && i < selectedCandidates?.length) { _activeDelegatorCount += collatorState.topDelegations.length; }
 
@@ -69,10 +76,83 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
     setAllDelegatorsCount(_allDelegatorCount);
   }, [allCollators, selectedCandidates]);
 
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t<string>('Overview')
+    },
+    {
+      name: 'delegations',
+      text: t<string>('Account delegations')
+    },
+    // isFunction(api.query.staking.activeEra) && hasAccounts && ownStashes && (ownStashes.length !== 0) && {
+    //   name: 'payout',
+    //   text: t<string>('Payouts')
+    // },
+    // {
+    //   alias: 'returns',
+    //   name: 'targets',
+    //   text: t<string>('Targets')
+    // },
+    // {
+    //   name: 'waiting',
+    //   text: t<string>('Waiting')
+    // },
+    // {
+    //   count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
+    //   name: 'slashes',
+    //   text: t<string>('Slashes')
+    // },
+    // {
+    //   hasParams: true,
+    //   name: 'query',
+    //   text: t<string>('Validator stats')
+    // }
+  ] //.filter((q): q is { name: string; text: string } => !!q)
+  , [t]);
+
+
   return (
     <main className={`staking--App ${className}`}>
-
-      <Summary
+      <Tabs
+        basePath={basePath}
+        // hidden={
+        //   areAccountsLoaded && !hasAccounts
+        //     ? HIDDEN_ACC
+        //     : undefined
+        // }
+        items={items}
+      />
+      <Switch>
+        <Route path={`${basePath}/delegations`}>
+          <UserDelegations
+            allCollators={allCollatorsSorted}
+          />
+        </Route>
+        <Route path={`${basePath}`}>
+          <Summary
+            bestNumberFinalized={bestNumberFinalized}
+            roundInfo={roundInfo}
+            stakingInfo={{
+              activeDelegatorsCount,
+              allDelegatorsCount,
+              collatorCommission: collatorCommission?.toHuman(),
+              inflationPrct,
+              parachainBondInfoPrct,
+              selectedCollatorCount: selectedCandidates?.length,
+              totalCollatorCount: candidatePool?.length,
+              totalSelected,
+              totalSelectedStaked
+            }}
+          />
+          <CollatorList
+            allCollatorsSorted={allCollatorsSorted}
+            collatorInfo={{ maxDelegatorsPerCandidate: (api.consts.parachainStaking.maxDelegatorsPerCandidate).toString(), minDelegation: (api.consts.parachainStaking.minDelegation).toString() }}
+          />
+        </Route>
+      </Switch>
+      {/* <Summary
         bestNumberFinalized={bestNumberFinalized}
         roundInfo={roundInfo}
         stakingInfo={{
@@ -90,7 +170,7 @@ function ParachainStakingApp ({ className = '' }: AppProps): React.ReactElement<
       <CollatorList
         allCollatorsSorted={allCollatorsSorted}
         collatorInfo={{ maxDelegatorsPerCandidate: (api.consts.parachainStaking.maxDelegatorsPerCandidate).toString(), minDelegation: (api.consts.parachainStaking.minDelegation).toString() }}
-      />
+      /> */}
     </main>
   );
 }
