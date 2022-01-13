@@ -7,6 +7,8 @@ import { externalLogos } from '../ui/logos';
 
 export default {
   chains: {
+    Acala: 'acala',
+    Bifrost: 'bifrost',
     Karura: 'karura',
     Khala: 'khala'
   },
