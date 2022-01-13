@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
@@ -11,27 +11,14 @@ import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
-import SummaryRound, { RoundInfo } from './SummaryRound';
+import { RoundInfo, StakingInfo } from '../types';
+import SummaryRound from './SummaryRound';
 
 interface Props {
   className?: string;
   roundInfo: RoundInfo<unknown>;
   stakingInfo: StakingInfo;
   bestNumberFinalized: BlockNumber|undefined
-}
-
-export interface OwnerAmount {owner: string, amount: BN}
-
-interface StakingInfo {
-  collatorCommission: string|undefined,
-  totalSelected: number,
-  totalSelectedStaked: BN,
-  totalCollatorCount: number,
-  selectedCollatorCount: number,
-  inflationPrct: string|undefined
-  parachainBondInfoPrct: string|undefined
-  activeDelegatorsCount: number
-  allDelegatorsCount: number
 }
 
 function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo: { activeDelegatorsCount, allDelegatorsCount, collatorCommission, inflationPrct, parachainBondInfoPrct, selectedCollatorCount, totalCollatorCount, totalSelected, totalSelectedStaked } }: Props): React.ReactElement<Props> {

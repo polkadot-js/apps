@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -7,7 +7,8 @@ import { Table } from '@polkadot/react-components';
 import { useLoadingDelay } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
-import CollatorDetails, { CollatorInfo, CollatorState } from './CollatorDetails';
+import { CollatorInfo, CollatorState } from '../types';
+import CollatorDetails from './CollatorDetails';
 
 interface Props {
   allCollatorsSorted: CollatorState[]

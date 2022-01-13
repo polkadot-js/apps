@@ -1,37 +1,24 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
 import { AddressSmall, Button, TxButton } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
-import { BN } from '@polkadot/util';
-import { useTranslation } from '../../translate';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
+import { BN, BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
+
+import { useTranslation } from '../../translate';
+import { CollatorInfo, CollatorState } from '../types';
 import DelegateModal from './DelegateModal';
 
-
 export const GLMR = 1_000_000_000_000_000_000n;
-export const MIN_GLMR_NOMINATOR = 5n * GLMR; //TODO fetch from api
-
-export interface CollatorInfo{minDelegation: string, maxDelegatorsPerCandidate: string}
+export const MIN_GLMR_NOMINATOR = 5n * GLMR; // TODO fetch from api
 
 interface Props {
   className?: string;
   collatorDetails: CollatorState
   collatorInfo: CollatorInfo
-}
-
-export interface CollatorState {
-  id: string;
-  bond: string;
-  delegators: string[]
-  topDelegations: {amount: string,owner: Uint8Array}[]
-  bottomDelegations: string[]
-  totalCounted: string
-  totalBacking: string
-  state: string
 }
 
 function CollatorDetails ({ className = '', collatorDetails, collatorInfo }: Props): React.ReactElement<Props> | null {
@@ -78,23 +65,23 @@ function CollatorDetails ({ className = '', collatorDetails, collatorInfo }: Pro
         )}
       </td>
       <td className='number media--1100'>
-          {isDelegateOpen && (
-            <DelegateModal
-              key='modal-transfer'
-              onClose={toggleDelegate}
-              collatorAddress={collatorDetails.id}
-              minContribution={minContribution}
-            />
-          )}
-          {isFunction(api.tx.parachainStaking?.delegate) && (
-            <Button
-              className='send-button'
-              icon='paper-plane'
-              label={t<string>('delegate')}
-              onClick={toggleDelegate}
-            />
-          )}
-      {/* <TxButton
+        {isDelegateOpen && (
+          <DelegateModal
+            collatorAddress={collatorDetails.id}
+            key='modal-transfer'
+            minContribution={minContribution}
+            onClose={toggleDelegate}
+          />
+        )}
+        {isFunction(api.tx.parachainStaking?.delegate) && (
+          <Button
+            className='send-button'
+            icon='paper-plane'
+            label={t<string>('delegate')}
+            onClick={toggleDelegate}
+          />
+        )}
+        {/* <TxButton
           accountId={collatorDetails.id}
           icon='paper-plane'
           // isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}

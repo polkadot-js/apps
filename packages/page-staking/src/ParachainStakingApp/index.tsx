@@ -1,30 +1,21 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps, ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Tabs } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { CollatorState } from './CollatorList/CollatorDetails';
-import CollatorList from './CollatorList';
-import Summary, { OwnerAmount } from './Summary';
-import { RoundInfo } from './Summary/SummaryRound';
-import { Tabs } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import CollatorList from './CollatorList';
+import Summary from './Summary';
+import { ApiResult, CollatorState, CollatorStateRaw, OwnerAmount, RoundInfo } from './types';
 import UserDelegations from './UserDelegations';
-
-interface ApiResult{
-  toHuman: () => string
-}
-
-interface CollatorStateRaw {
-  unwrap: () => CollatorState
-}
 
 function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.ReactElement<AppProps> {
   const { api } = useApi();
@@ -85,7 +76,7 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
     {
       name: 'delegations',
       text: t<string>('Account delegations')
-    },
+    }
     // isFunction(api.query.staking.activeEra) && hasAccounts && ownStashes && (ownStashes.length !== 0) && {
     //   name: 'payout',
     //   text: t<string>('Payouts')
@@ -109,9 +100,8 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
     //   name: 'query',
     //   text: t<string>('Validator stats')
     // }
-  ] //.filter((q): q is { name: string; text: string } => !!q)
+  ] // .filter((q): q is { name: string; text: string } => !!q)
   , [t]);
-
 
   return (
     <main className={`staking--App ${className}`}>

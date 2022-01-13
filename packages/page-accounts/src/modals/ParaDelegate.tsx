@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type BN from 'bn.js';
@@ -22,7 +22,7 @@ interface Props {
   recipientId?: string;
   senderId?: string;
 
-  collatorList:string[]
+  collatorList: string[]
 }
 
 function isRefcount (accountInfo: AccountInfoWithProviders | AccountInfoWithRefCount): accountInfo is AccountInfoWithRefCount {
@@ -42,7 +42,7 @@ async function checkPhishing (_senderId: string | null, recipientId: string | nu
   ];
 }
 
-function Transfer ({ className = '', onClose, recipientId: propRecipientId, senderId: propSenderId, collatorList }: Props): React.ReactElement<Props> {
+function Transfer ({ className = '', collatorList, onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
@@ -127,7 +127,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('Chose the collator you trust enough to delegate your tokens to.')}>
             <InputAddress
               defaultValue={collatorList[0]}
-              options={collatorList}
               help={t<string>('Select a collator or paste the address you want to send funds to.')}
               isDisabled={!!propRecipientId}
               label={t<string>('collator address')}
@@ -138,6 +137,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 />
               }
               onChange={setRecipientId}
+              options={collatorList}
               type='allPlus'
             />
             {recipientPhish && (

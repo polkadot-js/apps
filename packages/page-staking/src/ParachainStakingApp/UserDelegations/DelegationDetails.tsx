@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -6,16 +6,13 @@ import React from 'react';
 import { AddressSmall, Button, TxButton } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-export interface Delegation {
-    collatorAddress:string;
-    delegationAmount:string;
-}
+import { Delegation } from '../types';
 
 interface Props {
-    delegation:Delegation
+  delegation: Delegation
 }
 
-function DelegationDetails ({  delegation }: Props): React.ReactElement<Props> | null {
+function DelegationDetails ({ delegation }: Props): React.ReactElement<Props> | null {
 //   const { t } = useTranslation();
 //   const { api } = useApi();
 //   const { bond,
@@ -31,7 +28,7 @@ function DelegationDetails ({  delegation }: Props): React.ReactElement<Props> |
 //   const [isDelegateOpen, toggleDelegate] = useToggle();
 
   return (
-    <tr >
+    <tr>
       <td className='address'>
         <AddressSmall value={delegation.collatorAddress} />
       </td>
