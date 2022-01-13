@@ -19,10 +19,9 @@ import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import datahighwayParachain from './datahighway';
-import dockMainnet from './dock-mainnet';
+import dockPoSDevnet from './dock-pos-devnet';
 import dockPoSMainnet from './dock-pos-mainnet';
 import dotmog from './dotmog';
-import dockTestnet from './dock-testnet';
 import dockPoSTestnet from './dock-pos-testnet';
 import dusty from './dusty';
 import eave from './eave';
@@ -99,8 +98,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
   'dev-parachain': zenlink,
-  'dock-main-runtime': dockMainnet,
-  'dock-test-runtime': dockTestnet,
+  'dock-pos-dev-runtime': dockPoSDevnet,
   'dock-pos-main-runtime': dockPoSMainnet,
   'dock-pos-test-runtime': dockPoSTestnet,
   'dotmog-node': dotmog,

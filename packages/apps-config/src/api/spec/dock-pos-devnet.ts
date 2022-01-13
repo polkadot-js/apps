@@ -5,6 +5,6 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 const types: any = require('@docknetwork/node-types')
 
-const definitions = types.spec['dock-test-runtime'] as OverrideBundleDefinition;
+const definitions = types.spec['dock-pos-dev-runtime'] as OverrideBundleDefinition;
 
 export default definitions;
