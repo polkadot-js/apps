@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-society authors & contributors
+// Copyright 2017-2022 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Adapted (wih permission) from https://www.w3schools.com/code/tryit.asp?filename=GGIGKE2GG7N1

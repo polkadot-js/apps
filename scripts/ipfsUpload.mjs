@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import CrustPinner from '@crustio/crust-pin';
@@ -93,7 +93,7 @@ async function pin () {
 
   // 2. Decentralized pin on Crust
   if (crust) {
-    await crust.pin(result.IpfsHash);
+    await crust.pin(result.IpfsHash).catch(console.error);
   }
 
   console.log(`Pinned ${result.IpfsHash}`);

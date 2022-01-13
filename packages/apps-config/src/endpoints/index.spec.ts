@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { assert, isNumber, isString } from '@polkadot/util';
@@ -54,5 +54,38 @@ describe('urls are sorted', (): void => {
         ), `${lastHeader}:: ${text as string} needs to be before ${filtered[index - 1].text as string}`);
       });
     }
+  });
+});
+
+describe('urls are not duplicated', (): void => {
+  let hasDevelopment = false;
+  let lastHeader = '';
+  const filtered = allEndpoints.filter(({ isDisabled, isHeader, isUnreachable, text }): boolean => {
+    hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
+
+    return !hasDevelopment && !isDisabled && !isUnreachable;
+  });
+  const map: Record<string, string[]> = {};
+
+  filtered.forEach(({ isHeader, text, value }): void => {
+    if (isHeader) {
+      lastHeader = text as string;
+    } else {
+      const path = `${lastHeader} -> ${text as string}`;
+
+      if (!map[value]) {
+        map[value] = [path];
+      } else {
+        map[value].push(path);
+      }
+    }
+  });
+
+  it('has no duplicates, e.g. parachain & live', (): void => {
+    expect(
+      Object
+        .entries(map)
+        .filter(([, paths]) => paths.length !== 1)
+    ).toEqual([]);
   });
 });

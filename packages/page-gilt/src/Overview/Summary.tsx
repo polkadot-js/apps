@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2022 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActiveGiltsTotal } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
-import { BN_HUNDRED, BN_QUINTILL, formatNumber } from '@polkadot/util';
+import { BN, BN_HUNDRED, BN_QUINTILL, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 

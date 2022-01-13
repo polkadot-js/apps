@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 
 import { DeriveBounties } from '@polkadot/api-derive/types';
 import { createNamedHook, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';

@@ -1,11 +1,11 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { Option } from '@polkadot/apps-config/settings/types';
 import type { XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
@@ -155,8 +155,8 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         <Modal.Columns
           hint={
             <>
-              <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit on the recipient chain.')}</p>
-              <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee.')}</p>
+              <p>{t<string>('This is the amount to be teleported to the destination chain and does not account for the source or the destination transfer fee')}</p>
+              <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee. If the recipient address is new, the amount deposited should be greater than the Existential Deposit')}</p>
             </>
           }
         >

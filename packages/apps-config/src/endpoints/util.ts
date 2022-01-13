@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps-config authors & contributors
+// Copyright 2017-2022 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -17,7 +17,7 @@ function sortLinks (a: SortOption, b: SortOption): number {
 }
 
 function expandLinked (input: LinkOption[]): LinkOption[] {
-  const endpoints = input.map(({ value }) => value);
+  const valueRelay = input.map(({ value }) => value);
 
   return input.reduce((result: LinkOption[], entry): LinkOption[] => {
     result.push(entry);
@@ -27,7 +27,7 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
         expandLinked(entry.linked).map((child): LinkOption => {
           child.genesisHashRelay = entry.genesisHash;
           child.isChild = true;
-          child.valueRelay = endpoints;
+          child.valueRelay = valueRelay;
 
           return child;
         })

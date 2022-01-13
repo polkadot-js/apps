@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const base = require('@polkadot/dev/config/eslint.cjs');
@@ -15,7 +15,7 @@ module.exports = {
   parserOptions: {
     ...base.parserOptions,
     project: [
-      './tsconfig.json'
+      './tsconfig.eslint.json'
     ]
   },
   rules: {
