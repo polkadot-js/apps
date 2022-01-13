@@ -93,7 +93,7 @@ async function pin () {
 
   // 2. Decentralized pin on Crust
   if (crust) {
-    await crust.pin(result.IpfsHash);
+    await crust.pin(result.IpfsHash).catch(console.error);
   }
 
   console.log(`Pinned ${result.IpfsHash}`);
