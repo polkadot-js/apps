@@ -1,7 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetDetails, AssetId, AssetMetadata } from '@polkadot/types/interfaces';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
@@ -13,9 +14,9 @@ import Modal from './Mint';
 
 interface Props {
   className?: string;
-  details: AssetDetails;
-  id: AssetId;
-  metadata: AssetMetadata;
+  details: PalletAssetsAssetDetails;
+  id: BN;
+  metadata: PalletAssetsAssetMetadata;
 }
 
 function Mint ({ className, details, id, metadata }: Props): React.ReactElement<Props> {

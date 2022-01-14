@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-settings authors & contributors
+// Copyright 2017-2022 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/apps-config/settings/types';
@@ -20,11 +20,11 @@ interface Props {
   className?: string;
 }
 
-const ledgerConnOptions = settings.availableLedgerConn;
+const _ledgerConnOptions = settings.availableLedgerConn;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isApiReady } = useApi();
+  const { api, isApiReady, isElectron } = useApi();
   const { isLedgerCapable } = useLedger();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
@@ -33,6 +33,11 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
     return { ...values, uiTheme: values.uiTheme === 'dark' ? 'dark' : 'light' };
   });
+
+  const ledgerConnOptions = useMemo(
+    () => _ledgerConnOptions.filter(({ value }) => !isElectron || value !== 'webusb'),
+    [isElectron]
+  );
 
   const iconOptions = useMemo(
     () => settings.availableIcons

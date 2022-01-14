@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
@@ -57,6 +57,7 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
           <Modal.Actions>
             <TxButton
               accountId={accountId}
+              isDisabled={!hasFailed && !proposalLength}
               onStart={toggleOpen}
               params={
                 api.tx[modLocation].close.meta.args.length === 4

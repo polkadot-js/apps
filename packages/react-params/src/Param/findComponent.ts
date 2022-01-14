@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-params authors & contributors
+// Copyright 2017-2022 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -42,10 +42,10 @@ interface TypeToComponent {
   t: string[];
 }
 
-const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
+const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'Address', 'LookupSource'] },
+  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
@@ -54,7 +54,7 @@ const componentDef: TypeToComponent[] = [
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: ['DispatchError'] },
   { c: DispatchResult, t: ['DispatchResult'] },
-  { c: Raw, t: ['Raw', 'Keys'] },
+  { c: Raw, t: ['Raw', 'RuntimeSessionKeys', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['Hash', 'H256'] },
   { c: Hash160, t: ['H160'] },
@@ -86,8 +86,12 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 const warnList: string[] = [];
 
 function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string {
+  // const nameOverride = displayName || typeName;
+
   if (displayName && SPECIAL_TYPES.includes(displayName)) {
     return displayName;
+  } else if (type.endsWith('RuntimeSessionKeys')) {
+    return 'RuntimeSessionKeys';
   }
 
   switch (info) {

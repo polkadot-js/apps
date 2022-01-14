@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from './types';
@@ -18,6 +18,14 @@ interface Props extends I18nProps {
 interface State {
   error: Error | null;
   prevTrigger: string | null;
+}
+
+function formatStack (stack = '<unknown>'): React.ReactElement | null {
+  return (
+    <>{stack.split('\n').map((line, index) =>
+      <div key={index}>{line}</div>
+    )}</>
+  );
 }
 
 // NOTE: This is the only way to do an error boundary, via extend
@@ -54,9 +62,9 @@ class ErrorBoundary extends React.Component<Props> {
     return displayError
       ? (
         <article className='error extraMargin'>
-          {t<string>('Uncaught error. Something went wrong with the query and rendering of this component. {{message}}', {
-            replace: { message: displayError.message }
-          })}
+          <p>{t<string>('Uncaught error. Something went wrong with the query and rendering of this component. Please supply all the details below when logging an issue, it may help in tracing the cause.')}</p>
+          <p>{displayError.message}</p>
+          {formatStack(displayError.stack)}
         </article>
       )
       : children;

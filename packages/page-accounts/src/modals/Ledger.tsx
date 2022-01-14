@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -69,7 +69,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
 
       queryLedger(api, getLedger, name, accIndex, addIndex)
         .then(() => onClose())
-        .catch((error): void => {
+        .catch((error: Error): void => {
           console.error(error);
 
           setIsBusy(false);

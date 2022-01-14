@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useMemo, useState } from 'react';
 

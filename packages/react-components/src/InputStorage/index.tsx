@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: We have a lot shared between this and InputExtrinsic
@@ -34,7 +34,7 @@ function InputStorage ({ className = '', defaultValue, help, label, onChange, wi
 
   const _onKeyChange = useCallback(
     (newValue: QueryableStorageEntry<'promise'>): void => {
-      if (value.creator.section !== newValue.creator.section || value.creator.method !== newValue.creator.method) {
+      if (value !== newValue) {
         // set via callback
         setValue(() => newValue);
         onChange && onChange(newValue);
@@ -49,7 +49,7 @@ function InputStorage ({ className = '', defaultValue, help, label, onChange, wi
         const optionsMethod = keyOptions(api, section);
 
         setOptionsMethod(optionsMethod);
-        _onKeyChange(api.query[section][optionsMethod[0].value] as any);
+        _onKeyChange(api.query[section][optionsMethod[0].value]);
       }
     },
     [_onKeyChange, api, value]
@@ -70,6 +70,7 @@ function InputStorage ({ className = '', defaultValue, help, label, onChange, wi
       />
       <SelectKey
         className='large'
+        key={value.creator.section}
         onChange={_onKeyChange}
         options={optionsMethod}
         value={value}

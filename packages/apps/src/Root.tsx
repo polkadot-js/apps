@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -18,6 +18,7 @@ import { darkTheme, lightTheme } from './themes';
 import WindowDimensions from './WindowDimensions';
 
 interface Props {
+  isElectron: boolean;
   store?: KeyringStore;
 }
 
@@ -32,7 +33,7 @@ function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
     : lightTheme;
 }
 
-function Root ({ store }: Props): React.ReactElement<Props> {
+function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   const [theme, setTheme] = useState(() => createTheme(settings));
 
   useEffect((): void => {
@@ -45,6 +46,7 @@ function Root ({ store }: Props): React.ReactElement<Props> {
         <Queue>
           <Api
             apiUrl={settings.apiUrl}
+            isElectron={isElectron}
             store={store}
           >
             <BlockAuthors>

@@ -1,14 +1,13 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { InputNumber, Modal, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -37,12 +36,12 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
   }, [blocks, nonce, onChange]);
 
   const _setBlocks = useCallback(
-    (blocks = BN_ZERO) => setBlocks(blocks),
+    (blocks: BN = BN_ZERO) => setBlocks(blocks),
     []
   );
 
   const _setNonce = useCallback(
-    (nonce = BN_ZERO) => setNonce(nonce),
+    (nonce: BN = BN_ZERO) => setNonce(nonce),
     []
   );
 

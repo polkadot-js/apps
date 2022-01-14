@@ -1,10 +1,8 @@
-// Copyright 2017-2021 @polkadot/test-supports authors & contributors
+// Copyright 2017-2022 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-
 import { Balance } from '@polkadot/types/interfaces';
-import { formatBalance } from '@polkadot/util';
+import { BN, formatBalance } from '@polkadot/util';
 
 import { balanceOf } from '../creation/balance';
 

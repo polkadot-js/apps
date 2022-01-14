@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RawParams } from '@polkadot/react-params/types';
@@ -11,7 +11,7 @@ import UIParams from '@polkadot/react-params';
 interface Props {
   isDisabled?: boolean;
   params?: ParamDef[] | null | '';
-  onChange: (values: any[]) => void;
+  onChange: (values: unknown[]) => void;
   onEnter?: () => void;
   registry: Registry;
 }

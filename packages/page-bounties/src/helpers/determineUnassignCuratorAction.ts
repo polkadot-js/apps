@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { BountyStatus } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import { BN_ZERO } from '@polkadot/util';
 

@@ -1,13 +1,14 @@
-// Copyright 2017-2021 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
-import type { Hash, ParaId, ParaInfo } from '@polkadot/types/interfaces';
+import type { Hash, ParaId } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeCommonParasRegistrarParaInfo } from '@polkadot/types/lookup';
 import type { OwnedId, OwnedIdPartial } from './types';
 
 import { useMemo } from 'react';
 
-import { useAccounts, useApi, useCall, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
+import { createNamedHook, useAccounts, useApi, useCall, useEventTrigger, useMapEntries } from '@polkadot/react-hooks';
 
 interface CodeHash {
   hash: Hash | null;
@@ -19,7 +20,7 @@ interface Owned {
   owned: OwnedIdPartial[];
 }
 
-function extractIds (entries: [StorageKey<[ParaId]>, Option<ParaInfo>][]): Owned {
+function extractIds (entries: [StorageKey<[ParaId]>, Option<PolkadotRuntimeCommonParasRegistrarParaInfo>][]): Owned {
   const owned = entries
     .map(([{ args: [paraId] }, optInfo]): OwnedIdPartial | null => {
       if (optInfo.isNone) {
@@ -51,7 +52,7 @@ const hashesOption = {
   withParamsTransform: true
 };
 
-export default function useOwnedIds (): OwnedId[] {
+function useOwnedIdsImpl (): OwnedId[] {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const trigger = useEventTrigger([api.events.registrar.Registered, api.events.registrar.Reserved]);
@@ -64,9 +65,11 @@ export default function useOwnedIds (): OwnedId[] {
         .filter((id) => allAccounts.some((a) => a === id.manager))
         .map((data): OwnedId => ({
           ...data,
-          hasCode: hashes.some(({ hash, paraId }) => !!hash && paraId.eq(data.paraId))
+          hasCode: hashes.some((h) => !!h.hash && h.paraId.eq(data.paraId))
         }))
       : [],
     [allAccounts, hashes, unfiltered]
   );
 }
+
+export default createNamedHook('useOwnedIds', useOwnedIdsImpl);

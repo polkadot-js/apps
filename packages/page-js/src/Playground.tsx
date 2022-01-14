@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-js authors & contributors
+// Copyright 2017-2022 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -27,8 +27,8 @@ import { useTranslation } from './translate';
 interface Injected {
   api: ApiPromise;
   console: {
-    error: (...args: any[]) => void;
-    log: (...args: any[]) => void;
+    error: (...args: unknown[]) => void;
+    log: (...args: unknown[]) => void;
   };
   hashing: typeof hashing;
   keyring: KeyringInstance | null;
@@ -44,7 +44,7 @@ const DEFAULT_NULL = { Atomics: null, Bluetooth: null, Clipboard: null, Document
 const snippets = JSON.parse(JSON.stringify(allSnippets)) as Snippet[];
 let hasSnippetWrappers = false;
 
-function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
+function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: unknown[]) => void): Injected {
   return {
     ...Object
       .keys(window)
@@ -56,8 +56,8 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
       }, { ...DEFAULT_NULL }),
     api: api.clone(),
     console: {
-      error: (...args: any[]) => hookConsole('error', args),
-      log: (...args: any[]) => hookConsole('log', args)
+      error: (...args: unknown[]) => hookConsole('error', args),
+      log: (...args: unknown[]) => hookConsole('log', args)
     },
     hashing,
     keyring: isDevelopment
@@ -130,7 +130,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   const _hookConsole = useCallback(
-    (type: LogType, args: any[]): void => {
+    (type: LogType, args: unknown[]): void => {
       logs.push({ args, type });
       setLogs(logs.slice(0));
     },

@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useContext } from 'react';
@@ -57,7 +57,7 @@ function onAddTag (value: string): void {
 }
 
 function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
   return (
     <Dropdown

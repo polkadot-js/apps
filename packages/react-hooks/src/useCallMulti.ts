@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -39,11 +39,21 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
           if (mountedRef.current && tracker.current.isActive) {
             let valueIndex = -1;
 
-            mountedRef.current && tracker.current.isActive && setValue(
-              transform(
-                calls.map((_, index) => included[index] ? value[++valueIndex] : undefined)
-              )
-            );
+            if (mountedRef.current && tracker.current.isActive) {
+              try {
+                setValue(
+                  transform(
+                    calls.map((_, index) =>
+                      included[index]
+                        ? value[++valueIndex]
+                        : undefined
+                    )
+                  )
+                );
+              } catch (error) {
+                throw new Error(`useCallMulti(...):: ${(error as Error).message}:: ${(error as Error).stack || '<unknown>'}`);
+              }
+            }
           }
         });
       } else {
@@ -54,11 +64,12 @@ function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: Tracke
 }
 
 // very much copied from useCall
+// FIXME This is generic, we cannot really use createNamedHook
 export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] | null | false, options?: CallOptions<T>): T {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ isActive: false, serialized: null, subscriber: null });
-  const [value, setValue] = useState<T>((options || {}).defaultValue || [] as unknown as T);
+  const tracker = useRef<Tracker>({ fn: null, isActive: false, serialized: null, subscriber: null });
+  const [value, setValue] = useState<T>(() => (options || {}).defaultValue || [] as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

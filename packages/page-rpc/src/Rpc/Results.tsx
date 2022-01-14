@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2022 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
@@ -32,7 +32,7 @@ function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
           value={
             error
               ? error.message
-              : <pre>{valueToText('', result, false)}</pre>
+              : <pre>{valueToText('', result as null, false)}</pre>
           }
         />
       ))}

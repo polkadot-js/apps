@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
@@ -14,13 +14,16 @@ export function checkVisibility (api: ApiPromise, address: string, accountInfo: 
   if (filterLower || onlyNamed) {
     if (accountInfo) {
       const { accountId, accountIndex, identity, nickname } = accountInfo;
+      const hasAddressMatch = (!!accountId && accountId.toString().includes(filterName)) || (!!accountIndex && accountIndex.toString().includes(filterName));
 
-      if (!onlyNamed && (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName))) {
+      if (!onlyNamed && hasAddressMatch) {
         isVisible = true;
       } else if (isFunction(api.query.identity?.identityOf)) {
-        isVisible =
-          (!!identity?.display && identity.display.toLowerCase().includes(filterLower)) ||
-          (!!identity?.displayParent && identity.displayParent.toLowerCase().includes(filterLower));
+        isVisible = !!identity && (!!identity.display || !!identity.displayParent) && (
+          hasAddressMatch ||
+          (!!identity.display && identity.display.toLowerCase().includes(filterLower)) ||
+          (!!identity.displayParent && identity.displayParent.toLowerCase().includes(filterLower))
+        );
       } else if (nickname) {
         isVisible = nickname.toLowerCase().includes(filterLower);
       }

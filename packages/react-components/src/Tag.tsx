@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useContext, useState } from 'react';
@@ -19,7 +19,7 @@ interface Props {
 let tagId = 0;
 
 function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }: Props): React.ReactElement<Props> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
   const tooltipProps = hover
     ? { 'data-for': trigger, 'data-tip': true }

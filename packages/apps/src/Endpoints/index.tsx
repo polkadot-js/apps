@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/apps authors & contributors
+// Copyright 2017-2022 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -103,7 +103,7 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
 
 function loadAffinities (groups: Group[]): Record<string, string> {
   return Object
-    .entries<string>(store.get(STORAGE_AFFINITIES) || {})
+    .entries<string>(store.get(STORAGE_AFFINITIES) as Record<string, string> || {})
     .filter(([network, apiUrl]) =>
       groups.some(({ networks }) =>
         networks.some(({ name, providers }) =>

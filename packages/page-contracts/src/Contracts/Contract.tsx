@@ -1,6 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-staking authors & contributors
+// Copyright 2017-2022 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
@@ -10,7 +11,6 @@ import type { ContractLink } from './types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';

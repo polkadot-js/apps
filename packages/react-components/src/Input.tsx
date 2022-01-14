@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -75,7 +75,7 @@ const KEYS = {
   ZERO: '0'
 };
 
-const KEYS_PRE: any[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+const KEYS_PRE: unknown[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
 
 // reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
 const isCopy = (key: string, isPreKeyDown: boolean): boolean =>

@@ -1,8 +1,7 @@
-// Copyright 2017-2021 @polkadot/app-assets authors & contributors
+// Copyright 2017-2022 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
-import type { AssetId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { InfoState } from './types';
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -14,7 +13,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 
 interface Props {
-  assetIds: AssetId[];
+  assetIds: BN[];
   className?: string;
   defaultValue: InfoState | null;
   onChange: (info: InfoState | null) => void;

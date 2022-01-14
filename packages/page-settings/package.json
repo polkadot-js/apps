@@ -1,14 +1,22 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-settings#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-settings",
   "private": true,
+  "repository": {
+    "directory": "packages/page-settings",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
   "type": "module",
-  "version": "0.96.2-64",
-  "license": "Apache-2.0",
+  "version": "0.101.2-15",
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
-    "@polkadot/apps-config": "^0.96.2-64",
-    "@polkadot/react-components": "^0.96.2-64",
-    "@polkadot/react-query": "^0.96.2-64",
+    "@babel/runtime": "^7.16.7",
+    "@polkadot/apps-config": "^0.101.2-15",
+    "@polkadot/react-components": "^0.101.2-15",
+    "@polkadot/react-query": "^0.101.2-15",
     "query-string": "^7.0.1"
   }
 }

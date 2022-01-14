@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-api authors & contributors
+// Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // SInce this file is deemed deprecated (and awaiting removal), we just don't care
@@ -9,7 +9,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import type { ApiProps, CallState as State, SubtractProps } from '../types';
+import type { ApiProps, CallState as State, OnChangeCb, SubtractProps } from '../types';
 import type { Options } from './types';
 
 import React from 'react';
@@ -22,13 +22,13 @@ import withApi from './api';
 
 // FIXME This is not correct, we need some junction of derive, query & consts
 interface Method {
-  (...params: any[]): Promise<any>;
-  at: (hash: Uint8Array | string, ...params: any[]) => Promise<any>;
+  (...params: unknown[]): Promise<any>;
+  at: (hash: Uint8Array | string, ...params: unknown[]) => Promise<any>;
   meta: any;
-  multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
+  multi: (params: unknown[], cb: (value?: any) => void) => Promise<any>;
 }
 
-type ApiMethodInfo = [Method, any[], string];
+type ApiMethodInfo = [Method, unknown[], string];
 
 const NOOP = (): void => {
   // ignore
@@ -118,7 +118,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      private getParams (props: any): [boolean, any[]] {
+      private getParams (props: any): [boolean, unknown[]] {
         const paramValue = paramPick
           ? paramPick(props)
           : paramName
@@ -162,20 +162,20 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           section,
           method
         ];
-      }
+      };
 
-      private getApiMethod (newParams: any[]): ApiMethodInfo {
+      private getApiMethod (newParams: unknown[]): ApiMethodInfo {
         if (endpoint === 'subscribe') {
           const [fn, ...params] = newParams;
 
           return [
-            fn,
+            fn as Method,
             params,
             'subscribe'
           ];
         }
 
-        const endpoints: string[] = [endpoint].concat(fallbacks || []);
+        const endpoints = [endpoint].concat(fallbacks || []);
         const expanded = endpoints.map(this.constructApiSection);
         const [apiSection, area, section, method] = expanded.find(([apiSection]): boolean =>
           !!apiSection
@@ -198,7 +198,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         ];
       }
 
-      private async subscribe ([isValid, newParams]: [boolean, any[]]): Promise<void> {
+      private async subscribe ([isValid, newParams]: [boolean, unknown[]]): Promise<void> {
         if (!isValid || skipIf(this.props)) {
           return;
         }
@@ -267,7 +267,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             return;
           }
 
-          triggerChange(callResult, callOnResult, props.callOnResult);
+          triggerChange(callResult as OnChangeCb, callOnResult, props.callOnResult as OnChangeCb);
 
           this.nextState({
             callResult,

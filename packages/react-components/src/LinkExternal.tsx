@@ -1,8 +1,8 @@
-// Copyright 2017-2021 @polkadot/react-components authors & contributors
+// Copyright 2017-2022 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { LinkTypes } from '@polkadot/apps-config/links/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -93,14 +93,6 @@ export default React.memo(styled(LinkExternal)`
     text-align: center;
   }
 
-  &.isLogo {
-    line-height: 1;
-
-    .links {
-      white-space: nowrap;
-    }
-  }
-
   .links {
     img {
       border-radius: 50%;
@@ -126,6 +118,14 @@ export default React.memo(styled(LinkExternal)`
 
     span+span {
       margin-left: 0.3rem;
+    }
+  }
+
+  &.isLogo {
+    line-height: 1;
+
+    .links {
+      white-space: nowrap;
     }
   }
 `);

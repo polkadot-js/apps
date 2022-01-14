@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -11,7 +11,6 @@ import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, Delegation } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
@@ -19,7 +18,7 @@ import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
+import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
 import Backup from '../modals/Backup';
 import ChangePass from '../modals/ChangePass';
@@ -102,7 +101,7 @@ const transformRecovery = {
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const { theme } = useContext<ThemeDef>(ThemeContext);
+  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const { getLedger } = useLedger();
@@ -113,7 +112,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -268,7 +267,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       )
     ], t('Identity')),
     createMenuGroup('deriveGroup', [
-      !(isExternal || isHardware || isInjected || isMultisig) && (
+      !(isEthereum || isExternal || isHardware || isInjected || isMultisig || api.isEthereum) && (
         <Menu.Item
           icon='download'
           key='deriveAccount'
@@ -336,8 +335,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     ], t('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
-        disabled={!multiInfos || !multiInfos.length}
         icon='file-signature'
+        isDisabled={!multiInfos || !multiInfos.length}
         key='multisigApprovals'
         onClick={toggleMultisig}
       >
@@ -393,7 +392,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ])
   ].filter((i) => i),
-  [_clearDemocracyLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
+  [_clearDemocracyLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;
@@ -428,7 +427,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                       hover={
                         <div>
                           <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                          <p>{t<string>('This does not send any transaction, rather is only sets the genesis in the account JSON.')}</p>
+                          <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
                         </div>
                       }
                       icon='exclamation-triangle'
@@ -757,7 +756,8 @@ export default React.memo(styled(Account)`
     }
   }
 
-  && .ui--AddressInfo .ui--FormatBalance {
+  && .ui--AddressInfo .ui--FormatBalance,
+  && .ui--AddressInfo .result {
     .ui--Icon, .icon-void {
       margin-left: 0.7rem;
       margin-right: 0.3rem;
@@ -775,7 +775,7 @@ export default React.memo(styled(Account)`
       }
     }
   }
-  
+
   .together > .badges {
     display: flex;
     flex-direction: column;

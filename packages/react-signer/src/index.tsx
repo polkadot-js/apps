@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/react-signer authors & contributors
+// Copyright 2017-2022 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
@@ -29,7 +29,7 @@ const NOOP = () => undefined;
 
 const AVAIL_STATUS = ['queued', 'qr', 'signing'];
 
-async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
+async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt, values: unknown[]): Promise<QueueTxResult> {
   try {
     const rpc = api.rpc as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
 

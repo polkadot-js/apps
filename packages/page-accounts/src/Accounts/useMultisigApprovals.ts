@@ -1,4 +1,4 @@
-// Copyright 2017-2021 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -6,10 +6,10 @@ import type { H256, Multisig } from '@polkadot/types/interfaces';
 
 import { useContext, useEffect, useState } from 'react';
 
-import { useApi, useIncrement, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useIncrement, useIsMountedRef } from '@polkadot/react-hooks';
 import { EventsContext } from '@polkadot/react-query';
 
-export default function useMultisigApprovals (address: string): [H256, Multisig][] {
+function useMultisigApprovalsImpl (address: string): [H256, Multisig][] {
   const { events } = useContext(EventsContext);
   const { api } = useApi();
   const [multiInfos, setMultiInfos] = useState<[H256, Multisig][]>([]);
@@ -49,3 +49,5 @@ export default function useMultisigApprovals (address: string): [H256, Multisig]
 
   return multiInfos;
 }
+
+export default createNamedHook('useMultisigApprovals', useMultisigApprovalsImpl);
