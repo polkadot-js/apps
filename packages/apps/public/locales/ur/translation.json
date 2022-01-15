@@ -516,7 +516,7 @@
   "Since this transaction deals with funding, the stash account will be used.": "چونکہ یہ ٹرانزیکشن فنڈنگ سے متعلق ہے، اس لیئے اسٹیش اکاؤنٹ استعمال کیا جائے گا۔",
   "Skeptics": "شکوک و شبہات۔",
   "Slashed": "سلیشڈ",
-  "Slashed in era {{eras}}":" ایرا {{eras}} میں سلیشڈ",
+  "Slashed in era {{eras}}": " ایرا {{eras}} میں سلیشڈ",
   "Slashes": "سلیشز",
   "Slashes ({{count}})": "سلیشز ({{count}})",
   "Society": "سوسائٹی",
