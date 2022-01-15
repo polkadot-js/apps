@@ -247,6 +247,7 @@
        1	Radka Gettová                 	Make Block Hash "Hover to Copy"-able (#458)
        1	Raoul Millais                 	Upgrade @substrate/connect@0.3.16 (#5855)
        1	Raphael Flechtner             	chore: use new kilt logo (#5649)
+       1	Ravi Kumar                    	Add hi_IN translation (#5420)
        1	Raymond Zhong                 	Add types for beresheet runtime (#5576)
        1	Ricardo Rius                  	Update stable poc types (#3783)
        1	robcxyz                       	Add geometry labs endpoints for polkadot and kusama (#6477)
