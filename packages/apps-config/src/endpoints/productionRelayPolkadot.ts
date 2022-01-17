@@ -266,6 +266,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         providers: {
           SubGame: 'wss://gamma.subgame.org/'
         }
+      },
+      {
+        info: 'polkadex',
+        homepage: 'https://polkadex.trade/',
+        paraId: 2036,
+        text: t('rpc.polkadot.polkadex', 'Polkadex', { ns: 'apps-config' }),
+        providers: {
+        	'Polkadex Team': 'wss://mainnet.polkadex.trade/'
+        }
       }
     ]
   };

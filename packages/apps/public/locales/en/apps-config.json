@@ -72,6 +72,7 @@
   "rpc.polkadot.parallel": "Parallel",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.polkadot.phala": "Phala Network",
+  "rpc.polkadot.polkadex": "Polkadex",
   "rpc.polkadot.statemint": "Statemint",
   "rpc.polkadot.subdao": "SubDAO",
   "rpc.polkadot.subgame": "SubGame Gamma",
