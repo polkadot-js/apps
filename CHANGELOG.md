@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 0.102.1 Jan 17, 2022
+
+Contributed:
+
+- Reactivate Dwellir Kusama RPC (Thanks to https://github.com/Maharacha)
+- Update Robonomics color and logo (Thanks to https://github.com/vol4tim)
+- Update Moonbeam RPC (Thanks to https://github.com/joelamouche)
+- Update InterBTC with derive for balances (Thanks to https://github.com/gregdhill)
+- Add OnFinality endpoint for Quartz (Thanks to https://github.com/alanchang124)
+- Update Bifrost endpoints (Thanks to https://github.com/awesomepan)
+- Update SherpaX mainnet endpoint (Thanks to https://github.com/wbh1328551759)
+- Update Polkadot and Canvas logos (Thanks to https://github.com/cmichi)
+- Singular profiles for Kusama/Statemine/Acala/Bifrost (Thanks to https://github.com/abzen)
+- Update types for AresGladios (Thanks to https://github.com/jiyilanzhou)
+- Add hi_IN i18n (Thanks to https://github.com/itssravi)
+- Add ur_IN i18n (Thanks to https://github.com/itsonal)
+
+Changes:
+
+- Align build steps with the rest of the polkadot-js repos
+- Mark unreachable endpoints as disabled
+
+
 ## 0.101.1 Jan 10, 2022
 
 Contributed:
