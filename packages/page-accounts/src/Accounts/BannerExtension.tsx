@@ -41,7 +41,7 @@ function BannerExtension (): React.ReactElement | null {
       return (
         <Banner type='warning'>
           <p>
-            {upgradableCount===1
+            {upgradableCount === 1
               ? t<string>('You have 1 extension that needs to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.')
               : t<string>('You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.', { replace: { upgradableCount } })
             }
