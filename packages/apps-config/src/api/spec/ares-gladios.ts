@@ -26,7 +26,7 @@ const definitions: OverrideBundleDefinition = {
         },
         AresPriceData: {
           price: 'u64',
-          account_id: 'AuthorityId',
+          account_id: 'AccountId',
           create_bn: 'BlockNumber',
           fraction_len: 'FractionLength',
           raw_number: 'JsonNumberValue',
@@ -100,6 +100,7 @@ const definitions: OverrideBundleDefinition = {
         },
         PurchasedId: 'Bytes',
         PriceKey: 'Bytes',
+        PriceToken: 'Bytes',
         PreCheckPayload: {
           block_number: 'BlockNumber',
           pre_check_stash: 'AccountId',
@@ -164,8 +165,7 @@ const definitions: OverrideBundleDefinition = {
         PurchasedDefaultData: {
           submit_threshold: 'u8',
           max_duration: 'u64',
-          avg_keep_duration: 'u64',
-          unit_price: 'u64'
+          avg_keep_duration: 'u64'
         },
         PurchasedForceCleanPayload: {
           BlockNumber: 'BlockNumber',
@@ -174,6 +174,14 @@ const definitions: OverrideBundleDefinition = {
           public: 'MultiSigner'
         },
         PurchaseId: 'Vec<u8>',
+        Releases: {
+          _enum: [
+            'V1_0_0_Ancestral',
+            'V1_0_1_HttpErrUpgrade',
+            'V1_1_0_HttpErrUpgrade',
+            'V1_2_0'
+          ]
+        },
         RequestInterval: 'u8',
         StatusErr: '(u16)',
         SymbolEstimatesConfig: {
