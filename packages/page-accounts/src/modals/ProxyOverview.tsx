@@ -46,7 +46,7 @@ const optTxBatch = { isBatchAll: true };
 
 const EMPTY_EXISTING: [PalletProxyProxyDefinition[], BN] = [[], BN_ZERO];
 
-function createAddProxy(api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
+function createAddProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore old version
@@ -54,7 +54,7 @@ function createAddProxy(api: ApiPromise, account: AccountId, type: NodeRuntimePr
     : api.tx.proxy.addProxy(account, type, delay);
 }
 
-function createRmProxy(api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
+function createRmProxy (api: ApiPromise, account: AccountId, type: NodeRuntimeProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.removeProxy.meta.args.length === 2
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore old version
@@ -62,7 +62,7 @@ function createRmProxy(api: ApiPromise, account: AccountId, type: NodeRuntimePro
     : api.tx.proxy.removeProxy(account, type, delay);
 }
 
-function PrevProxy({ index, onRemove, typeOpts, value: [accountId, type] }: PrevProxyProps): React.ReactElement<PrevProxyProps> {
+function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: PrevProxyProps): React.ReactElement<PrevProxyProps> {
   const { t } = useTranslation();
 
   const _onRemove = useCallback(
@@ -96,7 +96,7 @@ function PrevProxy({ index, onRemove, typeOpts, value: [accountId, type] }: Prev
   );
 }
 
-function NewProxy({ index, onChangeAccount, onChangeType, onRemove, proxiedAccount, typeOpts, value: [accountId, type] }: NewProxyProps): React.ReactElement<NewProxyProps> {
+function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAccount, typeOpts, value: [accountId, type] }: NewProxyProps): React.ReactElement<NewProxyProps> {
   const { t } = useTranslation();
 
   const _onChangeAccount = useCallback(
@@ -147,7 +147,7 @@ function NewProxy({ index, onChangeAccount, onChangeType, onRemove, proxiedAccou
   );
 }
 
-function getProxyTypeInstance(api: ApiPromise, index = 0): NodeRuntimeProxyType {
+function getProxyTypeInstance (api: ApiPromise, index = 0): NodeRuntimeProxyType {
   // This is not perfect, but should work for `{Kusama, Node, Polkadot}RuntimeProxyType`
   const proxyNames = api.registry.lookup.names.filter((name) => name.endsWith('RuntimeProxyType'));
 
@@ -155,14 +155,14 @@ function getProxyTypeInstance(api: ApiPromise, index = 0): NodeRuntimeProxyType 
   return api.createType<NodeRuntimeProxyType>(proxyNames.length ? proxyNames[0] : 'ProxyType', index);
 }
 
-function getProxyOptions(api: ApiPromise): { text: string; value: number; }[] {
+function getProxyOptions (api: ApiPromise): { text: string; value: number; }[] {
   return getProxyTypeInstance(api).defKeys
     .map((text, value) => ({ text, value }))
     // Filter the empty entries added in v14
     .filter(({ text }) => !text.startsWith('__Unused'));
 }
 
-function ProxyOverview({ className, onClose, previousProxy: [existing] = EMPTY_EXISTING, proxiedAccount }: Props): React.ReactElement<Props> {
+function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_EXISTING, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
