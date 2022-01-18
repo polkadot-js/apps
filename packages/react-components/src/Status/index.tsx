@@ -217,6 +217,10 @@ export default React.memo(styled(Status)`
   :hover {
     transform: scale(1);
     width: 23rem;
+
+    .item .desc {
+      display: block;
+    }
   }
 
   .dismiss {
@@ -231,6 +235,10 @@ export default React.memo(styled(Status)`
 
   .item {
     display: block;
+
+    .desc {
+      display: none;
+    }
 
     > .wrapper > .container {
       align-items: top;
