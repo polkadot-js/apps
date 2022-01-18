@@ -51,6 +51,8 @@
   "rpc.kusama.zeitgeist": "Zeitgeist",
   "rpc.kylin-node.co.uk": "Kylin Network",
   "rpc.manta": "Manta Testnet",
+  "rpc.nodle-arcadia": "Arcadia",
+  "rpc.nodle-main": "Nodle",
   "rpc.polkadot.acala": "Acala",
   "rpc.polkadot.astar": "Astar",
   "rpc.polkadot.bifrost": "Bifrost",
@@ -242,6 +244,7 @@
   "rpc.westend.standard": "Standard ",
   "rpc.westend.wendala": "Wendala",
   "rpc.westend.whala": "Whala",
+  "rpc/.header.nodle": "Nodle",
   "ss58.default": "Default for the connected node",
   "testnet.kylin-node.co.uk": "Kylin Testnet",
   "westend.kylin-node.co.uk": "Pichiu"
