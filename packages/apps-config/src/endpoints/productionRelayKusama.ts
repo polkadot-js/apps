@@ -202,6 +202,16 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'litmus',
+        homepage: 'https://crowdloan.litentry.com',
+        paraId: 2106,
+        isUnreachable: true,
+        text: t('rpc.kusama.litmus', 'Litmus', { ns: 'apps-config' }),
+        providers: {
+          Litentry: 'wss://rpc.litmus-parachain.litentry.io'
+        }
+      },
+      {
         info: 'loomNetwork',
         isUnreachable: true, // https://github.com/polkadot-js/apps/issues/5888
         homepage: 'https://loomx.io/',
