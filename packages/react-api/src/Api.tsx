@@ -1,6 +1,7 @@
 // Copyright 2017-2022 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
@@ -122,7 +123,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
@@ -149,6 +150,9 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
+    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+      ? [endpoint.genesisHashRelay]
+      : [],
     isDevelopment,
     ss58Format,
     store,
@@ -226,7 +230,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
         .then(setExtensions)
         .catch(console.error);
 
-      loadOnReady(api, injectedPromise, store, types)
+      loadOnReady(api, apiEndpoint, injectedPromise, store, types)
         .then(setState)
         .catch((error): void => {
           console.error(error);
@@ -236,7 +240,7 @@ function Api ({ apiUrl, children, isElectron, store }: Props): React.ReactElemen
     });
 
     setIsApiInitialized(true);
-  }, [apiUrl, queuePayload, queueSetTxStatus, store]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
 
   if (!value.isApiInitialized) {
     return null;

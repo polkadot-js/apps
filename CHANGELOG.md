@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Make relay accounts visible on common-good & system parachains
+
+
 ## 0.102.1 Jan 17, 2022
 
 Contributed:
