@@ -1,4 +1,4 @@
-    3337	Jaco                          	Ensure non-available localStorage fails gracefully (#6837)
+    3338	Jaco                          	Prepare for selectable groups (#6842)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       45	Antoine Estienne              	Update moonbase url (#6808)
