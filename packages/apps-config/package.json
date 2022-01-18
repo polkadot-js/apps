@@ -10,7 +10,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.102.2-6",
+  "version": "0.102.2-7",
   "main": "index.js",
   "dependencies": {
     "@acala-network/type-definitions": "^3.0.2-4",
