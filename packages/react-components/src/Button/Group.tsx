@@ -34,4 +34,8 @@ export default React.memo(styled(ButtonGroup)`
   .ui--CopyButton {
     display: inline-block;
   }
+
+  .ui--ToggleGroup {
+    float: left;
+  }
 `);
