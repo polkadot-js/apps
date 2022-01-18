@@ -27,12 +27,14 @@ import society from './society';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
+import rootcomm from './rootcomm';
+import fincomm from './fincomm';
 import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
 
-export default function create (t: TFunction): Routes {
+export default function create(t: TFunction): Routes {
   return [
     accounts(t),
     addresses(t),
@@ -46,6 +48,8 @@ export default function create (t: TFunction): Routes {
     council(t),
     treasury(t),
     bounties(t),
+    fincomm(t),
+    rootcomm(t),
     techcomm(t),
     membership(t),
     parachains(t),
