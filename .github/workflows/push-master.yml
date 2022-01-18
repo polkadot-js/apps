@@ -22,29 +22,3 @@ jobs:
         build_dir: packages/apps/build
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  docker:
-    name: Push Docker image to GitHub Packages
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Push to GitHub Packages
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: nodlecode/polkadot-js-apps/web-ui
-          tag_with_ref: true
-          dockerfile: './Dockerfile'
-          cache_froms: nodlecode/polkadot-js-apps/web-ui:latest
-          add_git_labels: true
-
-  # dummy, GH actions fails outright when all steps are skipped (like it can be above)
-  dummy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: dummy
-      run: |
-        echo "Dummy skip step"
