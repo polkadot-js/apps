@@ -126,7 +126,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     () => (
       api.query.timestamp?.now ||
       api.query.system?.events ||
-      api.query[Object.keys(api.query)[0]].palletVersion
+      api.query.substrate.changesTrieConfig
     ),
     [api]
   );
