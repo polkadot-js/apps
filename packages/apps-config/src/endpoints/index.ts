@@ -5,6 +5,7 @@ import type { TFunction } from 'i18next';
 import type { LinkOption } from './types';
 
 import { createCustom, createDev, createOwn } from './development';
+import { createNodle } from './nodle';
 import { createProduction } from './production';
 import { createKusamaRelay, createPolkadotRelay } from './productionRelays';
 import { createTesting } from './testing';
@@ -15,6 +16,15 @@ export { CUSTOM_ENDPOINT_KEY } from './development';
 export function createWsEndpoints (t: TFunction, firstOnly = false, withSort = true): LinkOption[] {
   return [
     ...createCustom(t),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc/.header.nodle', 'Nodle', { ns: 'apps-config' }),
+      textBy: '',
+      value: ''
+    },
+    ...createNodle(t, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
