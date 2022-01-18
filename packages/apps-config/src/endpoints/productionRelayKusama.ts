@@ -178,7 +178,8 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('rpc.kusama.kilt', 'KILT Spiritnet', { ns: 'apps-config' }),
         providers: {
           'KILT Protocol': 'wss://spiritnet.kilt.io/',
-          OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
+          OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
+          Dwellir: 'wss://kilt-rpc.dwellir.com'
         }
       },
       {
