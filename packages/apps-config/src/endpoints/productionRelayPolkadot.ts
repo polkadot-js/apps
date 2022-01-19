@@ -248,6 +248,15 @@ export function createPolkadot (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'polkadex',
+        homepage: 'https://polkadex.trade/',
+        paraId: 2036,
+        text: t('rpc.polkadot.polkadex', 'Polkadex', { ns: 'apps-config' }),
+        providers: {
+          'Polkadex Team': 'wss://mainnet.polkadex.trade/'
+        }
+      },
+      {
         info: 'subdao',
         homepage: 'https://subdao.network/',
         paraId: 2018,
