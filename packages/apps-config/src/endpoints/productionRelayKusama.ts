@@ -203,9 +203,9 @@ export function createKusama (t: TFunction): EndpointOption {
       },
       {
         info: 'litmus',
-        homepage: 'https://crowdloan.litentry.com',
+        homepage: 'https://kusama-crowdloan.litentry.com',
         paraId: 2106,
-        isUnreachable: true,
+        isUnreachable: false,
         text: t('rpc.kusama.litmus', 'Litmus', { ns: 'apps-config' }),
         providers: {
           Litentry: 'wss://rpc.litmus-parachain.litentry.io'

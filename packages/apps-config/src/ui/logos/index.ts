@@ -103,7 +103,7 @@ import nodeKusari from './nodes/kusari.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
-import nodeLitmus from './nodes/litentry.png';
+import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
@@ -580,7 +580,7 @@ export const namedLogos: Record<string, unknown> = {
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
-  litmus: nodeLitentry,
+  litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
   mars: nodeAresMars,
@@ -643,7 +643,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
-  rococoLitentry: nodeLitentry,
+  rococoLitentry: nodeLitmus,
   rococoLoomNetwork: nodeLoomNetwork,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,
