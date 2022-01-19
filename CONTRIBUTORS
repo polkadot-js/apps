@@ -1,4 +1,4 @@
-    3343	Jaco                          	Bump API (w/ storage meta fix) (#6847)
+    3344	Jaco                          	Bump 3rd-party dependencies (#6848)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       45	Antoine Estienne              	Update moonbase url (#6808)
