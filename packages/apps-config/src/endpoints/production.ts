@@ -240,7 +240,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'sherpax',
       text: t('rpc.prod.sherpax', 'SherpaX', { ns: 'apps-config' }),
       providers: {
-        ChainX: 'wss://sherpax-mainnet.chainx.org'
+        ChainX: 'wss://mainnet.sherpax.io'
       }
     },
     {

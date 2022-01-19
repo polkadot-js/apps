@@ -4,13 +4,12 @@
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { MapMember } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN_THREE, BN_TWO } from '@polkadot/util';
+import { BN, BN_THREE, BN_TWO } from '@polkadot/util';
 
 import Candidates from './Candidates';
 import Overview from './Overview';

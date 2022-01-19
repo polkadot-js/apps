@@ -4,10 +4,9 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import { BN_BILLION, BN_ZERO, bnToBn, isUndefined } from '@polkadot/util';
+import { BN, BN_BILLION, BN_ZERO, bnToBn, isUndefined } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook';
 import { useApi } from './useApi';

@@ -23,7 +23,7 @@ export function createKusama (t: TFunction): EndpointOption {
       Parity: 'wss://kusama-rpc.polkadot.io',
       OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
       // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-      // Dwellir: 'wss://kusama-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/6753
+      Dwellir: 'wss://kusama-rpc.dwellir.com',
       'light client': 'light://substrate-connect/kusama'
       // Pinknode: 'wss://rpc.pinknode.io/kusama/explorer' // https://github.com/polkadot-js/apps/issues/5721
     },
@@ -71,7 +71,9 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2001,
         text: t('rpc.kusama.bifrost', 'Bifrost (Kusama)', { ns: 'apps-config' }),
         providers: {
-          Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+          'Liebi 0': 'wss://bifrost-rpc.liebi.com/ws',
+          'Liebi 1': 'wss://us.bifrost-rpc.liebi.com/ws',
+          'Liebi 2': 'wss://eu.bifrost-rpc.liebi.com/ws',
           OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
         }
       },
@@ -104,7 +106,7 @@ export function createKusama (t: TFunction): EndpointOption {
         paraId: 2012,
         text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
         providers: {
-          Crust: 'wss://shadow.crust.network/'
+          Crust: 'wss://rpc-shadow.crust.network/'
         }
       },
       {
@@ -274,6 +276,7 @@ export function createKusama (t: TFunction): EndpointOption {
         text: t('quartz.unique.network', 'QUARTZ by UNIQUE', { ns: 'apps-config' }),
         providers: {
           Unique: 'wss://quartz.unique.network',
+          OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
           'Unique Europe': 'wss://eu-ws-quartz.unique.network',
           'Unique US': 'wss://us-ws-quartz.unique.network'
         }

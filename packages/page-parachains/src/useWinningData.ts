@@ -5,11 +5,10 @@ import type { Option, StorageKey } from '@polkadot/types';
 import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
 import type { AuctionInfo, WinnerData, Winning } from './types';
 
-import BN from 'bn.js';
 import { useEffect, useRef, useState } from 'react';
 
 import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIsMountedRef } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
+import { BN, BN_ONE, BN_ZERO, u8aEq } from '@polkadot/util';
 
 import { CROWD_PREFIX } from './constants';
 import { useLeaseRanges } from './useLeaseRanges';

@@ -4,12 +4,11 @@
 import type { KeyedEvent } from '@polkadot/react-query/types';
 import type { BlockNumber, DispatchInfo, Extrinsic, Weight } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { BN, formatNumber } from '@polkadot/util';
 
 import Event from '../Event';
 import { useTranslation } from '../translate';

@@ -4,12 +4,11 @@
 import type { BalanceOf } from '@polkadot/types/interfaces';
 import type { OwnedId, OwnerInfo } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { compactAddLength } from '@polkadot/util';
+import { BN, compactAddLength } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
 import { useTranslation } from '../translate';

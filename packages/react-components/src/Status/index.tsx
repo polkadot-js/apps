@@ -203,26 +203,45 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
 }
 
 export default React.memo(styled(Status)`
+  bottom: 0;
   display: inline-block;
+  overflow: hidden;
   position: fixed;
   right: 0.75rem;
   top: 0.75rem;
-  width: 23rem;
+  transition-property: width;
+  transition-duration: 0.75s;
+  width: 4.5rem;
   z-index: 1001;
+
+  :hover {
+    transform: scale(1);
+    width: 23rem;
+
+    .item .desc {
+      display: block;
+    }
+  }
 
   .dismiss {
     margin-bottom: 0.25rem;
 
     .ui--Button {
       border: 1px solid white;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 
   .item {
     display: block;
 
+    .desc {
+      display: none;
+    }
+
     > .wrapper > .container {
-      align-items: center;
+      align-items: top;
       background: #00688b;
       border-radius: 0.25rem;
       color: white;
@@ -236,7 +255,8 @@ export default React.memo(styled(Status)`
       .desc {
         flex: 1;
         overflow: hidden;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1rem 0.5rem;
+        width: 19rem;
 
         .status {
           font-weight: var(--font-weight-normal);
@@ -256,6 +276,7 @@ export default React.memo(styled(Status)`
 
       .short {
         font-size: 2.5rem;
+        min-width: 3rem;
         opacity:  0.75;
         padding: 0.5rem 0 0.5rem 0.5rem;
 

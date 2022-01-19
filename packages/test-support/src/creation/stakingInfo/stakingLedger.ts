@@ -3,9 +3,8 @@
 
 import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 
-import BN from 'bn.js';
-
 import { TypeRegistry } from '@polkadot/types/create';
+import { BN } from '@polkadot/util';
 
 export function makeStakingLedger (active: BN | number | string): PalletStakingStakingLedger {
   const reg = new TypeRegistry();
