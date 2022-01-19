@@ -8,6 +8,7 @@ import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkado
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { transferBalance } from '@polkadot/apps-config/api/spec/interbtc';
 import { checkAddress } from '@polkadot/phishing';
 import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -208,7 +209,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}
+          isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish || !api}
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={
@@ -216,14 +217,24 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? isFunction(api.tx.balances?.transferAll)
                 ? [propRecipientId || recipientId, false]
                 : [propRecipientId || recipientId, maxTransfer]
-              : [propRecipientId || recipientId, amount]
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              : !!api && isFunction((api.derive.balances as any).transferAll)
+                ? [propRecipientId || recipientId, amount, api]
+                : [propRecipientId || recipientId, amount]
           }
           tx={
-            canToggleAll && isAll && isFunction(api.derive.balances?.transferAll)
-              ? api.derive.balances?.transferAll
-              : isProtected
-                ? api.derive.balances?.transferKeepAlive
-                : api.derive.balances?.transfer
+            canToggleAll && isAll
+              ? isFunction(api.tx.balances?.transferAll)
+                ? api.tx.balances?.transferAll || transferBalance
+                : isProtected
+                  ? api.tx.balances?.transferKeepAlive || transferBalance
+                  : api.tx.balances?.transfer || transferBalance
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              : !!api && isFunction((api.derive.balances as any).transferAll)
+                ? transferBalance
+                : isProtected
+                  ? transferBalance
+                  : transferBalance
           }
         />
       </Modal.Actions>

@@ -87,7 +87,8 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
         )
         : (
           <Button.Group>
-            {isFunction(api.api.tx.balances?.transfer) || isFunction(api.api.derive.balances?.transfer) && (
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+            {(isFunction(api.api.tx.balances?.transfer) || isFunction((api.api.derive.balances as any).transfer)) && (
               <Button
                 icon='paper-plane'
                 isDisabled={isEditing}

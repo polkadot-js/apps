@@ -653,7 +653,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               isLogo
               type='address'
             />
-            {isFunction(api.api.tx.balances?.transfer) || isFunction(api.api.derive.balances?.transfer) && (
+            { /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */ }
+            {(isFunction(api.api.tx.balances?.transfer) || isFunction((api.api.derive.balances as any).transfer)) && (
               <Button
                 className='send-button'
                 icon='paper-plane'
