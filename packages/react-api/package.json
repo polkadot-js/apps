@@ -14,7 +14,7 @@
   "version": "0.102.2-8",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
-    "@polkadot/api": "^7.4.2-7",
+    "@polkadot/api": "^7.4.2-9",
     "@polkadot/extension-compat-metamask": "^0.42.7-0",
     "@polkadot/extension-dapp": "^0.42.7-0",
     "@substrate/connect": "0.4.6",
