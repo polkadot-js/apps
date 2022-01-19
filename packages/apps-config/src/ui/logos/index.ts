@@ -103,6 +103,7 @@ import nodeKusari from './nodes/kusari.svg';
 import nodeKylin from './nodes/kylin.png';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodeLitentry from './nodes/litentry.png';
+import nodeLitmus from './nodes/litmus.png';
 import nodeLoomNetwork from './nodes/loom_network.png';
 import nodeManta from './nodes/manta.png';
 import nodeMath from './nodes/math.svg';
@@ -239,6 +240,7 @@ export const chainLogos = Object.entries({
   kusari: nodeKusari,
   'Kylin Testnet': nodeKylin,
   Litentry: nodeLitentry,
+  Litmus: nodeLitmus,
   'Loom Network Local': nodeLoomNetwork,
   LoomNetwork: nodeLoomNetwork,
   'Manta Parachain': nodeManta,
@@ -397,8 +399,8 @@ export const nodeLogos = Object.entries({
   kusari: nodeKusari,
   'Kylin Node': nodeKylin,
   'Laminar Node': nodeLaminar,
-  Litentry: nodeLitentry,
-  'Litentry Collator': nodeLitentry,
+  // Litentry: nodeLitentry,
+  // 'Litentry Collator': nodeLitentry,
   'mandala node': chainAcala,
   'Manta Node': nodeManta,
   'Manta Parachain Collator': nodeManta,
@@ -578,6 +580,7 @@ export const namedLogos: Record<string, unknown> = {
   kylin: nodeKylin,
   laminar: nodeLaminar,
   litentry: nodeLitentry,
+  litmus: nodeLitmus,
   loomNetwork: nodeLoomNetwork,
   manta: nodeManta,
   mars: nodeAresMars,
@@ -640,7 +643,7 @@ export const namedLogos: Record<string, unknown> = {
   rococoKonomi: nodeKonomi,
   rococoKylin: nodeKylin,
   rococoLaminar: nodeLaminar,
-  rococoLitentry: nodeLitentry,
+  rococoLitentry: nodeLitmus,
   rococoLoomNetwork: nodeLoomNetwork,
   rococoManta: nodeManta,
   rococoMathChain: nodeMath,

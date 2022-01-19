@@ -78,6 +78,7 @@ const chainKusama = '#000000';
 const chainKusari = '#b8860b';
 const chainKylin = '#ed007e';
 const chainLitentry = 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)';
+const chainLitmus = '#6822fb';
 const chainMybank = '#282736';
 const chainOpal = '#3B9C9D';
 const chainPichiu = '#ed007e';
@@ -285,6 +286,7 @@ export const chainColors: Record<string, string> = Object.entries({
   'Kylin Testnet': chainKylin,
   'laminar turbulence pc1': chainRococoLaminar,
   Litentry: chainLitentry,
+  Litmus: chainLitmus,
   'Manta Parachain': chainManta,
   'Manta Parachain Development': chainManta,
   'Manta Parachain Local': chainManta,
