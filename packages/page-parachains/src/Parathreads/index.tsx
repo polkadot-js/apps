@@ -27,7 +27,7 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: P
 
   const headerRef = useRef([
     [t('parathreads'), 'start', 2],
-    ['', 'media--1100'],
+    ['', 'media--2000'],
     [t('head'), 'start media--1500'],
     [t('lifecycle'), 'start'],
     [],
