@@ -22,8 +22,8 @@ const definitions: OverrideBundleDefinition = {
         EvmAddress: 'H160',
         EthereumTxHash: 'H256',
         BridgeNetworks: {
-          _enum: ['BSC', 'Ethereum', 'CloverPara'],
-        },
+          _enum: ['BSC', 'Ethereum', 'CloverPara']
+        }
       }
     }
   ]
