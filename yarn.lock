@@ -2902,7 +2902,7 @@ __metadata:
     "@polkadot/x-fetch": ^8.3.2
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.6
-    "@sora-substrate/type-definitions": 1.7.9
+    "@sora-substrate/type-definitions": 1.7.14
     "@subsocial/types": 0.6.5
     "@unique-nft/types": 0.2.0
     "@zeitgeistpm/type-defs": 0.3.10
@@ -3847,12 +3847,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.7.9":
-  version: 1.7.9
-  resolution: "@sora-substrate/type-definitions@npm:1.7.9"
+"@sora-substrate/type-definitions@npm:1.7.14":
+  version: 1.7.14
+  resolution: "@sora-substrate/type-definitions@npm:1.7.14"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.9.4-35
-  checksum: 338972c02d3142c699b4f990515e9a9f118e016fbedbff91f6208e861b3eee39e33d091d55305520c9b573dc94a10e053cd0093ffa19b51a09f1a1983a5b2f94
+  checksum: dfd420a81facc4789909b5a97b4ba4a4a68471316505d4269e4cb4edf9ffb2174c732d2d829ee7207864a1b23dc3b9dec0e8ca6a4cdb6b0911206faec189b93b
   languageName: node
   linkType: hard
 
