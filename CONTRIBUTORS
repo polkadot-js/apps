@@ -1,4 +1,4 @@
-    3345	Jaco                          	Initial para sizing adjustments (follow-up with multi-line) (#6853)
+    3346	Jaco                          	Don't crach Teleport when dest have no balances (#6862)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       45	Antoine Estienne              	Update moonbase url (#6808)
