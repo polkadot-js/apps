@@ -330,6 +330,15 @@ export function createKusama (t: TFunction): EndpointOption {
         }
       },
       {
+        info: 'sora_ksm',
+        homepage: 'https://sora.org/',
+        paraId: 2011,
+        text: t('rpc.kusama.sora_ksm', 'SORA Kusama Parachain', { ns: 'apps-config' }),
+        providers: {
+          Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
+        }
+      },
+      {
         info: 'subgame',
         homepage: 'http://subgame.org/',
         paraId: 2018,

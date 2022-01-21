@@ -236,6 +236,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   shiden,
   snowbridge,
   'sora-substrate': soraSubstrate,
+  sora_ksm: soraSubstrate,
   spanner,
   stafi,
   standard,

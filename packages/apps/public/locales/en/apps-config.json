@@ -44,6 +44,7 @@
   "rpc.kusama.sakura": "Sakura",
   "rpc.kusama.shadow": "Crust Shadow",
   "rpc.kusama.shiden": "Shiden",
+  "rpc.kusama.sora_ksm": "SORA Kusama Parachain",
   "rpc.kusama.standard": "Unorthodox",
   "rpc.kusama.statemine": "Statemine",
   "rpc.kusama.subgame": "SubGame Gamma",

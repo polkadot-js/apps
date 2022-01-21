@@ -101,6 +101,7 @@ const chainSakura = '#ff5995';
 const chainShadow = '#ffa940';
 const chainShiden = '#5923B2';
 const chainSnakenet = '#f653a2';
+const chainSora = '#2D2926';
 const chainSpanner = '#EC3D3D';
 const chainStandard = 'background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(42,170,244,1) 35%, rgba(10,10,10,1) 100%)';
 const chainWestend = '#da68a7';
@@ -339,6 +340,7 @@ export const chainColors: Record<string, string> = Object.entries({
   Sherpax: chainSherpax,
   'Sherpax Testnet': chainSherpax,
   Shiden: chainShiden,
+  'SORA Kusama': chainSora,
   Spanner: chainSpanner,
   Standard: chainStandard,
   'Standard Kusama Parachain': chainUnorthodox,
