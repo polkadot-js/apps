@@ -136,6 +136,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   apron,
   'ares-gladios': aresGladios,
   'ares-parachain': aresParachain,
+  'ares-protocol-mars': aresParachain,
   asgard: bifrostAsgard,
   astar,
   automata: automata,

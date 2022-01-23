@@ -99,7 +99,7 @@ const definitions: OverrideBundleDefinition = {
           is_income: 'bool'
         },
         PurchasedId: 'Bytes',
-        PriceKey: 'Bytes',
+        PriceKey: 'Vec<u8>',
         PriceToken: 'Bytes',
         PreCheckPayload: {
           block_number: 'BlockNumber',
