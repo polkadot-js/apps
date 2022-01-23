@@ -12,9 +12,9 @@
   "sideEffects": false,
   "version": "0.102.2-18",
   "dependencies": {
-    "@babel/core": "^7.16.10",
+    "@babel/core": "^7.16.12",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.65.38",
+    "@polkadot/dev": "^0.65.43",
     "@polkadot/react-components": "^0.102.2-18",
     "electron-log": "^4.4.5",
     "electron-updater": "^4.6.5"
