@@ -202,6 +202,7 @@ export function createTesting (t: TFunction, firstOnly: boolean, withSort: boole
     },
     {
       info: 'halongbay',
+      isDisabled: true, // https://github.com/polkadot-js/apps/issues/6871
       text: t('rpc.test.halongbay', 'Halongbay Testnet', { ns: 'apps-config' }),
       providers: {
         Halongbay: 'wss://halongbay.polkafoundry.com'

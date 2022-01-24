@@ -203,7 +203,7 @@ export function createPolkadot (t: TFunction): EndpointOption {
         text: t('rpc.polkadot.manta', 'Manta', { ns: 'apps-config' }),
         providers: {
           'Manta Kuhlii': 'wss://kuhlii.manta.systems',
-          'Manta Munkiana': 'wss://munkiana.manta.systems',
+          // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
           'Manta Pectinata': 'wss://pectinata.manta.systems'
         }
       },
