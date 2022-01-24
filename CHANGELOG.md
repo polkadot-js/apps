@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 0.103.1 Jan 24, 2022
 
 Contributed:
 
@@ -25,6 +25,7 @@ Changes:
 - Bump 3rd party dependencies (same version range)
 - Allow for teleport where destination has no balances pallet
 - Endpoint sorting adjustments
+- Mark unreachable endpoints as disabled
 
 
 ## 0.102.1 Jan 17, 2022
