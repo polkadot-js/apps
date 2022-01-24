@@ -283,8 +283,7 @@ export function createProduction (t: TFunction, firstOnly: boolean, withSort: bo
       info: 'subsocial',
       text: t('rpc.prod.subsocial', 'Subsocial', { ns: 'apps-config' }),
       providers: {
-        DappForce: 'wss://rpc.subsocial.network',
-        OnFinality: 'wss://subsocial.api.onfinality.io/public-ws'
+        DappForce: 'wss://rpc.subsocial.network'
       }
     },
     {
