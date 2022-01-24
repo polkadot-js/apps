@@ -2,9 +2,29 @@
 
 ## master
 
+Contributed:
+
+- Update Equilibrium version (Thanks to https://github.com/mn13)
+- Update Polish i18n (Thanks to https://github.com/jimmy-tudeski)
+- Adjust proxy usage text (Thanks to https://github.com/gilescope)
+- Adjust extension plural descriptions (Thanks to https://github.com/xnorly)
+- Add Polkadex parachain information (Thanks to https://github.com/arrudagates)
+- Add Litentry parachain info (Thanks to https://github.com/chenzongxiong)
+- OnFinality endpoint for Nodle (Thanks to https://github.com/RossAtOnfinality)
+- Update Clover types (Thanks to https://github.com/pangwa)
+- Add Sora parachain info (Thanks to https://github.com/stefashkaa)
+- Dwellir endpoint for Kilt (Thanks to https://github.com/Maharacha)
+- Update Rococo genesis hash (Thanks to https://github.com/cmichi)
+
 Changes:
 
 - Make relay accounts visible on common-good & system parachains
+- Adjust parachain display, preparing for expandable rows
+- Adjust storage app, adjustment for start values
+- Adjust status overlays (expandable content)
+- Bump 3rd party dependencies (same version range)
+- Allow for teleport where destination has no balances pallet
+- Endpoint sorting adjustments
 
 
 ## 0.102.1 Jan 17, 2022
