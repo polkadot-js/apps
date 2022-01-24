@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.102.2-19",
+  "version": "0.102.2-20",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
-    "@polkadot/react-components": "^0.102.2-19",
-    "@polkadot/react-params": "^0.102.2-19"
+    "@polkadot/react-components": "^0.102.2-20",
+    "@polkadot/react-params": "^0.102.2-20"
   }
 }
