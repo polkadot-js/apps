@@ -12,9 +12,6 @@ import { useTranslation } from '../../translate';
 import DelegateModal from '../Modals/DelegateModal';
 import { CollatorInfo, CollatorState } from '../types';
 
-export const GLMR = 1_000_000_000_000_000_000n;
-export const MIN_GLMR_NOMINATOR = 5n * GLMR; // TODO fetch from api
-
 interface Props {
   className?: string;
   collatorDetails: CollatorState
@@ -43,7 +40,7 @@ function CollatorDetails ({ className = '', collatorDetails, collatorInfo }: Pro
       </td>
       <td className='number media--1100'>
         {totalCounted && (
-          <FormatBalance value={totalCounted} /> // counted nominator stake //TODO: maybe we should subtract the "own stake" amount from this (also true for next variable) - see case for zero delegation
+          <FormatBalance value={totalCounted} /> // counted nominator stake
         )}
       </td>
       <td className='number media--1100'>

@@ -31,14 +31,12 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
   const [candidateDelegationCount, setCandidateDelegationCount] = useState<BN>(BN_ZERO);
   const [delegationCount, setDelegationCount] = useState<BN>(BN_ZERO);
   const [senderId, setSenderId] = useState<string | null>(null);
-  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
 
   useEffect((): void => {
     const fromId = propSenderId || senderId as string;
     const toId = collatorAddress;
 
-    // TODO: handle max amount correctly
     if (balances && balances.availableBalance && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
@@ -122,9 +120,6 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
               label={t<string>('delegate to collator address')}
               type='account'
             />
-            {recipientPhish && (
-              <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
-            )}
           </Modal.Columns>
           <Modal.Columns hint={t<string>('Delegate this amount to the collator')}>
             {
@@ -149,7 +144,7 @@ function DelegateModal ({ className = '', collatorAddress, minContribution, onCl
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!enoughContribution || !(collatorAddress) || !amount || !!recipientPhish}
+          isDisabled={!enoughContribution || !(collatorAddress) || !amount }
           label={t<string>('Delegate')}
           onStart={onClose}
           params={

@@ -4,9 +4,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -24,7 +24,6 @@ function UndelegateModal ({ className = '', collatorAddress, delegationAmount, o
   const { t } = useTranslation();
   const { api } = useApi();
   const [senderId, setSenderId] = useState<string | null>(null);
-  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
 
   return (
     <Modal
@@ -36,8 +35,7 @@ function UndelegateModal ({ className = '', collatorAddress, delegationAmount, o
       <Modal.Content>
         <div className={className}>
           <Modal.Columns
-          // TODO: display duration
-            hint={t<string>(`The delegating account will get their tokens back after ${Number(api.consts.parachainStaking.leaveDelegatorsDelay)} rounds (${Number(api.consts.parachainStaking.leaveDelegatorsDelay) * Number(roundDuration)} blocks).`)}
+            hint={<>{t<string>(`The delegating account will get their tokens back after ${Number(api.consts.parachainStaking.leaveDelegatorsDelay)} rounds (${Number(api.consts.parachainStaking.leaveDelegatorsDelay) * Number(roundDuration)} blocks): `)}<BlockToTime value={new BN(Number(api.consts.parachainStaking.candidateBondLessDelay) * Number(roundDuration))} /></>}
           >
             <InputAddress
               defaultValue={propSenderId}
@@ -63,9 +61,6 @@ function UndelegateModal ({ className = '', collatorAddress, delegationAmount, o
               label={t<string>('delegate to collator address')}
               type='account'
             />
-            {recipientPhish && (
-              <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
-            )}
           </Modal.Columns>
         </div>
       </Modal.Content>

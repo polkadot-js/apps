@@ -55,7 +55,6 @@ function ParachainStakingApp ({ basePath, className = '' }: AppProps): React.Rea
     sorted.sort((a, b) => {
       return Number(BigInt(b.totalCounted) - BigInt(a.totalCounted));
     }).forEach((collatorState, i) => {
-      // TODO: move this work to the relevant location??
       // extract relevant nominator stats
       if (selectedCandidates?.length && i < selectedCandidates?.length) { _activeDelegatorCount += collatorState.topDelegations.length; }
 

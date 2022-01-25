@@ -29,7 +29,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
       <section>
         <CardSummary label={t<string>('collators')}>
           {totalSelected
-            ? <>{formatNumber(selectedCollatorCount)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</> // TODO:differntiate the two
+            ? <>{formatNumber(selectedCollatorCount)}&nbsp;/&nbsp;{formatNumber(totalSelected)}</>
             : <Spinner noLabel />
           }
         </CardSummary>
@@ -84,7 +84,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
         </CardSummary>
         <CardSummary
           className='media--1200'
-          label={t<string>('% of inflation for parachain rent')} // TODO: add translation??
+          label={t<string>('% of inflation for parachain rent')}
         >
           {(parachainBondInfoPrct)
             ? (
@@ -95,7 +95,7 @@ function Summary ({ bestNumberFinalized, className = '', roundInfo, stakingInfo:
         </CardSummary>
         <CardSummary
           className='media--1200'
-          label={t<string>('% collator commission')} // TODO: add translation??
+          label={t<string>('% collator commission')}
         >
           {(collatorCommission)
             ? (

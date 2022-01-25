@@ -26,14 +26,12 @@ function BondMoreModal ({ className = '', collatorAddress, onClose, senderId: pr
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [[maxTransfer], setMaxTransfer] = useState<[BN | null]>([null]);
   const [senderId, setSenderId] = useState<string | null>(null);
-  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
 
   useEffect((): void => {
     const fromId = propSenderId || senderId as string;
     const toId = collatorAddress;
 
-    // TODO: handle max amount correctly
     if (balances && balances.accountId?.eq(fromId) && fromId && toId && isFunction(api.rpc.payment?.queryInfo)) {
       setTimeout((): void => {
         try {
@@ -91,9 +89,6 @@ function BondMoreModal ({ className = '', collatorAddress, onClose, senderId: pr
               label={t<string>('delegate to collator address')}
               type='account'
             />
-            {recipientPhish && (
-              <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
-            )}
           </Modal.Columns>
           <Modal.Columns hint={t<string>('Increase your delegation by this amount.')}>
             {
@@ -115,7 +110,7 @@ function BondMoreModal ({ className = '', collatorAddress, onClose, senderId: pr
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!(collatorAddress) || !amount || !!recipientPhish}
+          isDisabled={!(collatorAddress) || !amount }
           label={t<string>('Bond More')}
           onStart={onClose}
           params={

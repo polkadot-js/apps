@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import { InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_HUNDRED, BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -28,7 +28,6 @@ function BondLessModal ({ className = '', delegation, onClose, roundDuration, se
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [[maxTransfer], setMaxTransfer] = useState<[BN | null]>([null]);
   const [senderId, setSenderId] = useState<string | null>(null);
-  const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]); // TODO: handle phishing
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
 
   useEffect((): void => {
@@ -67,7 +66,11 @@ function BondLessModal ({ className = '', delegation, onClose, roundDuration, se
     >
       <Modal.Content>
         <div className={className}>
-          <Modal.Columns hint={t<string>(`The delegating account will get their tokens back after ${Number(api.consts.parachainStaking.leaveDelegatorsDelay)} rounds (${Number(api.consts.parachainStaking.candidateBondLessDelay) * Number(roundDuration)} blocks).`)}>
+          <Modal.Columns hint={<>
+            {t<string>(`The delegating account will get their tokens back after ${Number(api.consts.parachainStaking.leaveDelegatorsDelay)} rounds (${Number(api.consts.parachainStaking.candidateBondLessDelay) * Number(roundDuration)} blocks) : `)}
+            <BlockToTime value={new BN(Number(api.consts.parachainStaking.candidateBondLessDelay) * Number(roundDuration))} />
+          </>}
+          >
             <InputAddress
               defaultValue={propSenderId}
               help={t<string>('The account you will decrease the delegation from.')}
@@ -92,9 +95,6 @@ function BondLessModal ({ className = '', delegation, onClose, roundDuration, se
               label={t<string>('reduce delegation to collator address')}
               type='account'
             />
-            {recipientPhish && (
-              <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
-            )}
           </Modal.Columns>
           <Modal.Columns hint={t<string>('Decrease your delegation by this amount.')}>
             {
@@ -122,7 +122,7 @@ function BondLessModal ({ className = '', delegation, onClose, roundDuration, se
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!(delegation.collatorAddress) || !amount || !!recipientPhish}
+          isDisabled={!(delegation.collatorAddress) || !amount }
           label={t<string>('Bond Less')}
           onStart={onClose}
           params={
